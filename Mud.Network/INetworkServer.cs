@@ -1,5 +1,8 @@
-﻿namespace Mud.Network
+﻿using Mud.Server;
+
+namespace Mud.Network
 {
+    // TODO: should be able to tell when a client connects/disconnects
     public interface INetworkServer
     {
         int Port { get; }

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Configuration;
 using Mud.Logger;
+using Mud.Network;
 
-namespace Mud.Network.TestApplication
+namespace Mud.Server.TestApplication
 {
     class Program
     {
