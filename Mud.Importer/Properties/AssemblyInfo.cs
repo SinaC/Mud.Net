@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Mud.Network.TestApplication")]
+[assembly: AssemblyTitle("Mud.Importer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Mud.Network.TestApplication")]
+[assembly: AssemblyProduct("Mud.Importer")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("64cbf669-a7ce-4fe0-bfb5-c0c05199ead4")]
+[assembly: Guid("6c57dcc1-debe-46b1-b35b-de717c1efa81")]
 
 // Version information for an assembly consists of the following four values:
 //

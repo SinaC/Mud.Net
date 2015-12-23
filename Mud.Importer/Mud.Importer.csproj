@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EF338509-9608-4B2F-B9D1-6355A03BCC82}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{3A7F2847-D754-4EB1-AD57-805DF4F9241F}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mud.Server.TestApplication</RootNamespace>
-    <AssemblyName>Mud.Server.TestApplication</AssemblyName>
+    <RootNamespace>Mud.Importer</RootNamespace>
+    <AssemblyName>Mud.Importer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,7 +31,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,35 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="ParseException.cs" />
+    <Compile Include="TextBasedImporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Mud.Importer.Mystery\Mud.Importer.Mystery.csproj">
-      <Project>{b461b0bd-82f7-41e5-b3ba-e364a3f1f61d}</Project>
-      <Name>Mud.Importer.Mystery</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Importer\Mud.Importer.csproj">
-      <Project>{3a7f2847-d754-4eb1-ad57-805df4f9241f}</Project>
-      <Name>Mud.Importer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Network\Mud.Network.csproj">
-      <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
-      <Name>Mud.Network</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
-      <Project>{a21cb6d8-bb97-48ef-8837-a85fedaf0ccc}</Project>
-      <Name>Mud.Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

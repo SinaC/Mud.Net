@@ -1,7 +1,6 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
+using Mud.Importer.Mystery;
 using Mud.Logger;
-using Mud.Network;
 
 namespace Mud.Server.TestApplication
 {
@@ -12,15 +11,20 @@ namespace Mud.Server.TestApplication
             Log.Default.Initialize(ConfigurationManager.AppSettings["logpath"], "server.log");
 
             //TODO: int port = ConfigurationManager.AppSettings["port"]
-            CommandProcessor commandProcessor = new CommandProcessor();
-            SocketServer server = new SocketServer(() => new Client(commandProcessor));
-            server.Initialize(11000);
-            server.Start();
+            //CommandProcessor commandProcessor = new CommandProcessor();
+            //SocketServer server = new SocketServer(() => new Client(commandProcessor));
+            //server.Initialize(11000);
+            //server.Start();
 
-            Console.WriteLine("Press ENTER to continue...");
-            Console.ReadLine();
+            //Console.WriteLine("Press ENTER to continue...");
+            //Console.ReadLine();
 
-            server.Stop();
+            //server.Stop();
+
+            MysteryImporter importer = new MysteryImporter();
+            //reader.Load(@"D:\GitHub\OldMud\area\midgaard.are");
+            importer.Load(@"D:\GitHub\OldMud\area\newthalos.are");
+            importer.Parse();
         }
     }
 }
