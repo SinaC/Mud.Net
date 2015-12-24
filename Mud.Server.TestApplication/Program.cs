@@ -19,6 +19,7 @@ namespace Mud.Server.TestApplication
             //Console.ReadLine();
             //server.Stop();
 
+            DummyEntity entity = new DummyEntity();
             CommandProcessor commandProcessor = new CommandProcessor();
             Client client = new Client(commandProcessor);
             //client.ProcessCommand("test");
@@ -35,14 +36,13 @@ namespace Mud.Server.TestApplication
             //client.ProcessCommand("test '2.arg1'");
             //client.ProcessCommand("unknown"); // INVALID
             //client.ProcessCommand("/test");
-            //client.Impersonating = false; client.ProcessCommand("/shutdown");
-            //client.Impersonating = true; client.ProcessCommand("/shutdown");
-            //client.Impersonating = false; client.ProcessCommand("shutdown");
-            //client.Impersonating = true; client.ProcessCommand("shutdown"); // INVALID
-            //client.Impersonating = false; client.ProcessCommand("look");
-
-            client.Impersonating = true; Log.Default.WriteLine(LogLevels.Debug, "IG:" + String.Join("|", client.CommandList()));
-            client.Impersonating = false; Log.Default.WriteLine(LogLevels.Debug, "OOG:" + String.Join("|", client.CommandList()));
+            //client.GoOutOfGame(); client.ProcessCommand("/shutdown");
+            //client.GoInGame(entity); client.ProcessCommand("/shutdown");
+            //client.GoOutOfGame(); client.ProcessCommand("shutdown");
+            //client.GoInGame(entity); client.ProcessCommand("shutdown"); // INVALID
+            //client.GoOutOfGame(); client.ProcessCommand("look");
+            client.GoInGame(entity); Log.Default.WriteLine(LogLevels.Debug, "IG:" + String.Join("|", client.CommandList()));
+            client.GoOutOfGame(); Log.Default.WriteLine(LogLevels.Debug, "OOG:" + String.Join("|", client.CommandList()));
 
             //MysteryImporter importer = new MysteryImporter();
             //importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");

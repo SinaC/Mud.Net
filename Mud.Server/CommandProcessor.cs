@@ -27,10 +27,11 @@ namespace Mud.Server
             int spaceIndex = commandLine.IndexOf(' ');
             string commandName = spaceIndex == -1 ? commandLine : commandLine.Substring(0, spaceIndex);
 
-            bool oog = !client.Impersonating;
+            // If client is out of game or command starts with /, command is considered as out of game
+            bool isClientClientConsideredAsOutOfGame = client.Impersonating == null;
             if (commandName.StartsWith("/"))
             {
-                oog = true;
+                isClientClientConsideredAsOutOfGame = true;
                 commandName = commandName.Substring(1);
             }
 
@@ -41,12 +42,12 @@ namespace Mud.Server
             if (Commands.TryGetValue(commandName, out command))
             {
                 // Check IG/OOG
-                if (!oog && (command.Flags & CommandFlags.InGame) != CommandFlags.InGame)
+                if (!isClientClientConsideredAsOutOfGame && (command.Flags & CommandFlags.InGame) != CommandFlags.InGame)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Cannot execute OutOfGame while impersonating (or add / before command)");
                     return false;
                 }
-                else if (oog && (command.Flags & CommandFlags.OutOfGame) != CommandFlags.OutOfGame)
+                else if (isClientClientConsideredAsOutOfGame && (command.Flags & CommandFlags.OutOfGame) != CommandFlags.OutOfGame)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Cannot execute InGame command while not impersonating");
                     return false;

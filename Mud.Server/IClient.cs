@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Mud.Server
 {
@@ -9,7 +10,10 @@ namespace Mud.Server
         DateTime LastCommandTimestamp { get; }
         string LastCommand { get; }
 
-        bool Impersonating { get; } // true if Client is impersonating a mob/obj/room and is then considered as InGame, false is Client is OutOfGame
+        IEntity Impersonating { get; } // non-null if Client is impersonating an entity (and is then considered as InGame), null is Client not impersonating an entity (and is then considered OutOfGame)
+
+        void GoInGame(IEntity entity);
+        void GoOutOfGame();
 
         bool ProcessCommand(string command);
         List<string> CommandList();
