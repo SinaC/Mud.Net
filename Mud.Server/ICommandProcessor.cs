@@ -1,7 +1,10 @@
-﻿namespace Mud.Server
+﻿using System.Collections.Generic;
+
+namespace Mud.Server
 {
     public interface ICommandProcessor
     {
-        void ProcessCommand(IClient client, string commandLine);
+        bool ProcessCommand(IClient client, string commandLine);
+        List<string> CommandList(CommandFlags flags);
     }
 }

@@ -36,6 +36,8 @@
         public string Size { get; set; } // lookup table
         public string Material { get; set; }
         public string Program { get; set; } // Mob program name
+        public string Special { get; set; } // Read from #SPECIALS and not from #MOBILES
+        public ShopData Shop { get; set; }
 
         public MobileData()
         {
@@ -44,6 +46,23 @@
             Psp = new int[3];
             Damage = new int[3];
             Armor = new int[4];
+        }
+    }
+
+    public class ShopData
+    {
+        public const int MaxTrades = 5;
+
+        public int Keeper { get; set; } // mob vnum
+        public int[] BuyType { get; set; } // item type
+        public int ProfitBuy { get; set; }
+        public int ProfitSell { get; set; }
+        public int OpenHour { get; set; }
+        public int CloseHour { get; set; }
+
+        public ShopData()
+        {
+            BuyType = new int[MaxTrades];
         }
     }
 

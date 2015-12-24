@@ -5,8 +5,10 @@ using Mud.Logger;
 
 namespace Mud.Importer
 {
+    // TODO: Importer.Smaug, Importer.Rom, Importer.Merc, Importer.Classic, Importer.Circle Importer.DSA, Importer.OldMerc (see db.C)
     public abstract class TextBasedImporter
     {
+        private int _currentLine;
         private int _currentIndex;
         private string _content;
 
@@ -19,6 +21,7 @@ namespace Mud.Importer
             CurrentFilename = filename;
             using (TextReader tr = new StreamReader(filename))
             {
+                _currentLine = 1;
                 _content = tr.ReadToEnd();
                 _currentIndex = 0;
                 tr.Close();
@@ -27,13 +30,31 @@ namespace Mud.Importer
 
         public abstract void Parse();
 
-        protected char GetChar()
+        protected void Warn(string format, params object[] parameters)
         {
-            return _content[_currentIndex++];
+            string message = CurrentFilename + ":" + _currentLine + "->" + String.Format(format, parameters);
+            Log.Default.WriteLine(LogLevels.Warning, message);
         }
 
-        protected void UngetChar()
+        protected void RaiseParseException(string format, params object[] parameters)
         {
+            string message = CurrentFilename + ":" + _currentLine + "->" + String.Format(format, parameters);
+            Log.Default.WriteLine(LogLevels.Error, message);
+            throw new ParseException(message);
+        }
+
+        protected char GetChar()
+        {
+            char currentChar = _content[_currentIndex++];
+            if (currentChar == '\n')
+                _currentLine++;
+            return currentChar;
+        }
+
+        protected void UngetChar(char c)
+        {
+            if (c == '\n')
+                _currentLine--;
             _currentIndex--;
         }
 
@@ -74,10 +95,7 @@ namespace Mud.Importer
             }
 
             if (!Char.IsDigit(c))
-            {
-                Log.Default.WriteLine(LogLevels.Error, "ReadNumber: bad format");
-                throw new ParseException("ReadNumber: bad format");
-            }
+                RaiseParseException("ReadNumber: bad format");
 
             while (Char.IsDigit(c))
             {
@@ -91,7 +109,7 @@ namespace Mud.Importer
             if (c == '|')
                 number += ReadNumber();
             else if (c != ' ')
-                UngetChar();
+                UngetChar(c);
 
             return number;
         }
@@ -117,7 +135,7 @@ namespace Mud.Importer
                 if (cEnd == ' ' ? Char.IsWhiteSpace(c) : c == cEnd)
                 {
                     if (cEnd == ' ')
-                        UngetChar();
+                        UngetChar(c);
                     return sb.ToString();
                 }
                 else
@@ -149,7 +167,9 @@ namespace Mud.Importer
                     return null;
                 }
                 else if (c == '\n')
+                {
                     sb.Append(Environment.NewLine);
+                }
                 else if (c == '\r')
                     ; // nop
                 else if (c == '~') // smash tilde
@@ -167,21 +187,15 @@ namespace Mud.Importer
             do
             {
                 if (IsEof())
-                {
-                    Log.Default.WriteLine(LogLevels.Error, "ReadLine: EOF encountered on read");
-                    throw new ParseException("ReadLine: EOF encountered on read");
-                }
+                    RaiseParseException("ReadLine: EOF encountered on read");
                 c = GetChar();
             } while (Char.IsWhiteSpace(c));
-            UngetChar();
+            UngetChar(c);
 
             do
             {
                 if (IsEof())
-                {
-                    Log.Default.WriteLine(LogLevels.Error, "ReadLine: EOF encountered on read");
-                    throw new ParseException("ReadLine: EOF encountered on read");
-                }
+                    RaiseParseException("ReadLine: EOF encountered on read");
                 c = GetChar();
                 sb.Append(c);
             } while (c != '\n' && c != '\r');
@@ -191,7 +205,7 @@ namespace Mud.Importer
                 c = GetChar();
             } while (c == '\n' || c == '\r');
 
-            UngetChar();
+            UngetChar(c);
             return sb.ToString();
         }
 
@@ -240,7 +254,7 @@ namespace Mud.Importer
                 number += ReadFlags();
 
             else if (c != ' ')
-                UngetChar();
+                UngetChar(c);
 
             if (negative)
                 return -1 * number;
@@ -257,6 +271,22 @@ namespace Mud.Importer
             } while (Char.IsWhiteSpace(c));
 
             return c;
+        }
+
+        protected void ReadToEol()
+        {
+            char c;
+            do
+            {
+                c = GetChar();
+            } while (c != '\n' && c != '\r');
+
+            do
+            {
+                c = GetChar();
+            } while (c == '\n' || c == '\r');
+
+            UngetChar(c);
         }
 
         protected static string UpperCaseFirst(string s)

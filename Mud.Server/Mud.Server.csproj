@@ -40,9 +40,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
-    <Compile Include="CommandAttribute.cs" />
+    <Compile Include="CommandParameter.cs" />
     <Compile Include="CommandProcessor.cs" />
+    <Compile Include="Commands\Look.cs" />
+    <Compile Include="Commands\Scan.cs" />
+    <Compile Include="Commands\Shutdown.cs" />
+    <Compile Include="Commands\Test.cs" />
     <Compile Include="IClient.cs" />
+    <Compile Include="ICommand.cs" />
     <Compile Include="ICommandProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

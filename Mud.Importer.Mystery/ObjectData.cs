@@ -12,7 +12,7 @@ namespace Mud.Importer.Mystery
         public string ItemType { get; set; } // lookup table
         public long ExtraFlags { get; set; } // flags
         public long WearFlags { get; set; } // flags
-        public long[] Values { get; set; } // flags
+        public object[] Values { get; set; } // should be long
         public int Level { get; set; }
         public int Weight { get; set; }
         public long Cost { get; set; }
@@ -23,7 +23,7 @@ namespace Mud.Importer.Mystery
 
         public ObjectData()
         {
-            Values = new long[5];
+            Values = new object[5];
             ExtraDescr = new Dictionary<string, string>();
         }
     }

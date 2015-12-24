@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Mud.Server
 {
@@ -8,7 +9,10 @@ namespace Mud.Server
         DateTime LastCommandTimestamp { get; }
         string LastCommand { get; }
 
-        void ProcessCommand(string command);
+        bool Impersonating { get; } // true if Client is impersonating a mob/obj/room and is then considered as InGame, false is Client is OutOfGame
+
+        bool ProcessCommand(string command);
+        List<string> CommandList();
         void OnDisconnected();
     }
 }
