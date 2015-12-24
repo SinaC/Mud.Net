@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mud.Server.Commands
+﻿namespace Mud.Server.Commands.OutOfGame
 {
-    public class Impersonate : ICommand
+    public class Impersonate : IOutOfGameCommand
     {
-        public CommandFlags Flags
-        {
-            get { return CommandFlags.OutOfGame; }
-        }
-
         public string Name
         {
             get { return "impersonate"; }
@@ -20,7 +9,7 @@ namespace Mud.Server.Commands
 
         public string Help { get { return "TODO"; } }
 
-        public bool Execute(IClient actor, string raw, params CommandParameter[] parameters)
+        public bool Execute(IPlayer player, string rawParameters, params CommandParameter[] parameters)
         {
             // Usage: impersonate <vnum>: impersonate character matching vnum
             // Usage: impersonate <name>: impersonate character matching name

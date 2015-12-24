@@ -7,9 +7,9 @@ using Mud.Server.Commands;
 
 namespace Mud.Server
 {
-    public class DummyEntity : EntityBase
+    public class DummyRoom : EntityBase, IRoom
     {
-        public DummyEntity(ICommandProcessor processor)
+        public DummyRoom(ICommandProcessor processor) 
             : base(processor)
         {
         }

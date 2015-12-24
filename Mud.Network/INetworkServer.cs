@@ -11,7 +11,7 @@ namespace Mud.Network
         void Start();
         void Stop();
 
-        void Send(IClient client, string data);
+        void Send(IPlayer client, string data);
         void Broadcast(string data);
     }
 }

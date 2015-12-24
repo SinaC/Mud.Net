@@ -1,25 +1,24 @@
-﻿using System.Net.Sockets;
-using System.Text;
+﻿using System.Text;
 using Mud.Server;
 
-namespace Mud.Network
+namespace Mud.Network.Socket
 {
     // State object for reading client data asynchronously
-    internal class SocketServerStateObject
+    internal class ClientSocketStateObject
     {
         // Size of receive buffer.
         public const int BufferSize = 32;
         // Client socket.
-        public Socket ClientSocket { get; set; }
+        public System.Net.Sockets.Socket ClientSocket { get; set; }
         // Receive buffer.
         public byte[] Buffer { get; set; }
         // Received data string.
         public StringBuilder Command { get; set; }
 
         // Client
-        public IClient Client { get; set; }
+        public IPlayer Client { get; set; }
 
-        public SocketServerStateObject()
+        public ClientSocketStateObject()
         {
             Buffer = new byte[BufferSize];
             Command = new StringBuilder();

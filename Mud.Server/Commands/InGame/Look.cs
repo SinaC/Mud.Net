@@ -1,17 +1,10 @@
-﻿using Mud.Logger;
-
-namespace Mud.Server.Commands
+﻿namespace Mud.Server.Commands.InGame
 {
     // Syntax:
     //  look: look at environment
     //  look <obj>: look at object in character's inventory or environment's inventory
-    public class Look : ICommand
+    public class Look : IInGameCommand
     {
-        public CommandFlags Flags
-        {
-            get { return CommandFlags.InGame; }
-        }
-
         public string Name
         {
             get { return "look"; }
@@ -22,10 +15,8 @@ namespace Mud.Server.Commands
             get { return "TODO"; }
         }
 
-        public bool Execute(IClient actor, string raw, params CommandParameter[] parameters)
+        public bool Execute(IEntity entity, string rawParameters, params CommandParameter[] parameters)
         {
-            Log.Default.WriteLine(LogLevels.Debug, "Executing ["+Name+"]");
-
             return true;
         }
     }

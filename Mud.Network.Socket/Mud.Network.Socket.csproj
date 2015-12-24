@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C911CF12-D355-4814-91BB-A68D05ADE97C}</ProjectGuid>
+    <ProjectGuid>{724EAACF-1475-4F47-8109-4C9EBE6A72DA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mud.Network</RootNamespace>
-    <AssemblyName>Mud.Network</AssemblyName>
+    <RootNamespace>Mud.Network.Socket</RootNamespace>
+    <AssemblyName>Mud.Network.Socket</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,13 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="INetworkServer.cs" />
+    <Compile Include="ClientSocketStateObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SocketServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Network\Mud.Network.csproj">
+      <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
+      <Name>Mud.Network</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
       <Project>{a21cb6d8-bb97-48ef-8837-a85fedaf0ccc}</Project>

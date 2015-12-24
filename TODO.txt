@@ -1,0 +1,7 @@
+use CommandOutOfGameAttribute -> CommandProcessor dictionary stores <string,<Func<Type,bool>,IOutOfGameCommand>>
+store client socket in Player: use an interface or an object
+buffer in send
+paging
+real room/character/object
+partial command matching
+unit tests

@@ -64,6 +64,10 @@
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Network.Socket\Mud.Network.Socket.csproj">
+      <Project>{724eaacf-1475-4f47-8109-4c9ebe6a72da}</Project>
+      <Name>Mud.Network.Socket</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Network\Mud.Network.csproj">
       <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
       <Name>Mud.Network</Name>

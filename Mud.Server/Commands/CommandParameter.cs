@@ -1,4 +1,4 @@
-﻿namespace Mud.Server
+﻿namespace Mud.Server.Commands
 {
     // store 2.lamp into count: 2 and value: lamp
     public class CommandParameter

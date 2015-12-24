@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Mud.Logger;
 using Mud.Server;
 
-namespace Mud.Network
+namespace Mud.Network.Socket
 {
     // TODO: handling exception
     // TODO: client collection
@@ -29,25 +29,25 @@ namespace Mud.Network
 
     public class SocketServer : INetworkServer, IDisposable
     {
-        private Socket _serverSocket;
+        private System.Net.Sockets.Socket _serverSocket;
         private ManualResetEvent _listenEvent;
         private Task _listenTask;
         private CancellationTokenSource _cancellationTokenSource;
 
         private ServerStatus _status;
 
-        private readonly Func<IClient> _createClientFunc;
-        private readonly List<SocketServerStateObject> _serverStateObjects;
+        private readonly Func<IPlayer> _createClientFunc;
+        private readonly List<ClientSocketStateObject> _serverStateObjects;
 
         public int Port { get; private set; }
 
-        public SocketServer(Func<IClient> createClientFunc)
+        public SocketServer(Func<IPlayer> createClientFunc)
         {
             _status = ServerStatus.Creating;
             Log.Default.WriteLine(LogLevels.Info, "Server creating");
 
             _createClientFunc = createClientFunc;
-            _serverStateObjects = new List<SocketServerStateObject>();
+            _serverStateObjects = new List<ClientSocketStateObject>();
 
             Log.Default.WriteLine(LogLevels.Info, "Server created");
             _status = ServerStatus.Created;
@@ -67,7 +67,7 @@ namespace Mud.Network
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
 
             // Create a TCP/IP socket.
-            _serverSocket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            _serverSocket = new System.Net.Sockets.Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
             // Listen task event
             _listenEvent = new ManualResetEvent(false);
@@ -106,8 +106,8 @@ namespace Mud.Network
             try
             {
                 // Close clients socket
-                List<SocketServerStateObject> copy = _serverStateObjects.Select(x => x).ToList(); // make a copy, because CloseConnection modify collection
-                foreach (SocketServerStateObject serverStateObject in copy)
+                List<ClientSocketStateObject> copy = _serverStateObjects.Select(x => x).ToList(); // make a copy, because CloseConnection modify collection
+                foreach (ClientSocketStateObject serverStateObject in copy)
                     CloseConnection(serverStateObject);
                 
                 // Stop listen task
@@ -129,18 +129,18 @@ namespace Mud.Network
             _status = ServerStatus.Stopped;
         }
 
-        public void Send(IClient client, string data)
+        public void Send(IPlayer client, string data)
         {
             // TODO: optimize and protect this search
-            SocketServerStateObject serverStateObject = _serverStateObjects.FirstOrDefault(x => x.Client == client);
+            ClientSocketStateObject serverStateObject = _serverStateObjects.FirstOrDefault(x => x.Client == client);
             if (serverStateObject != null)
-                Send(serverStateObject.ClientSocket, data);
+                Send((System.Net.Sockets.Socket) serverStateObject.ClientSocket, data);
         }
 
         public void Broadcast(string data)
         {
-            foreach (SocketServerStateObject serverStateObject in _serverStateObjects)
-                Send(serverStateObject.ClientSocket, data);
+            foreach (ClientSocketStateObject serverStateObject in _serverStateObjects)
+                Send((System.Net.Sockets.Socket) serverStateObject.ClientSocket, data);
         }
 
         private void ListenTask()
@@ -183,13 +183,13 @@ namespace Mud.Network
                 _listenEvent.Set();
 
                 // Get the socket that handles the client request.
-                Socket listener = (Socket) ar.AsyncState;
-                Socket clientSocket = listener.EndAccept(ar);
+                System.Net.Sockets.Socket listener = (System.Net.Sockets.Socket) ar.AsyncState;
+                System.Net.Sockets.Socket clientSocket = listener.EndAccept(ar);
 
                 Log.Default.WriteLine(LogLevels.Debug, "Client connected from " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address);
 
                 // Create the state object.
-                SocketServerStateObject state = new SocketServerStateObject
+                ClientSocketStateObject state = new ClientSocketStateObject
                 {
                     ClientSocket = clientSocket,
                     Client = _createClientFunc()
@@ -197,7 +197,7 @@ namespace Mud.Network
                 // Add it to 'client' collection
                 _serverStateObjects.Add(state);
                 //
-                clientSocket.BeginReceive(state.Buffer, 0, SocketServerStateObject.BufferSize, 0, ReadCallback, state);
+                clientSocket.BeginReceive(state.Buffer, 0, ClientSocketStateObject.BufferSize, 0, ReadCallback, state);
             }
             catch (ObjectDisposedException)
             {
@@ -214,8 +214,8 @@ namespace Mud.Network
             {
                 // Retrieve the state object and the handler socket
                 // from the asynchronous state object.
-                SocketServerStateObject state = (SocketServerStateObject) ar.AsyncState;
-                Socket clientSocket = state.ClientSocket;
+                ClientSocketStateObject state = (ClientSocketStateObject) ar.AsyncState;
+                System.Net.Sockets.Socket clientSocket = state.ClientSocket;
 
                 // Read data from the client socket. 
                 int bytesRead = clientSocket.EndReceive(ar);
@@ -261,7 +261,7 @@ namespace Mud.Network
                     }
 
                     // Continue reading
-                    clientSocket.BeginReceive(state.Buffer, 0, SocketServerStateObject.BufferSize, 0, ReadCallback, state);
+                    clientSocket.BeginReceive(state.Buffer, 0, ClientSocketStateObject.BufferSize, 0, ReadCallback, state);
                 }
             }
             catch (ObjectDisposedException)
@@ -273,7 +273,7 @@ namespace Mud.Network
             }
         }
 
-        private void Send(Socket clientSocket, string data)
+        private void Send(System.Net.Sockets.Socket clientSocket, string data)
         {
             try
             {
@@ -299,7 +299,7 @@ namespace Mud.Network
             try
             {
                 // Retrieve the socket from the state object.
-                Socket clientSocket = (Socket) ar.AsyncState;
+                System.Net.Sockets.Socket clientSocket = (System.Net.Sockets.Socket) ar.AsyncState;
 
                 // Complete sending the data to the remote device.
                 int bytesSent = clientSocket.EndSend(ar);
@@ -315,14 +315,14 @@ namespace Mud.Network
             }
         }
 
-        private void CloseConnection(SocketServerStateObject state)
+        private void CloseConnection(ClientSocketStateObject state)
         {
             // Remove from 'client' collection
             _serverStateObjects.Remove(state);
 
             //
-            Socket clientSocket = state.ClientSocket;
-            IClient client = state.Client;
+            System.Net.Sockets.Socket clientSocket = state.ClientSocket;
+            IPlayer client = state.Client;
 
             Log.Default.WriteLine(LogLevels.Info, "Client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " has disconnected");
             

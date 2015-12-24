@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using Mud.Logger;
+using Mud.Server.Commands;
 
 namespace Mud.Server.TestApplication
 {
@@ -12,37 +13,38 @@ namespace Mud.Server.TestApplication
 
             //TODO: int port = ConfigurationManager.AppSettings["port"]
             //CommandProcessor commandProcessor = new CommandProcessor();
-            //SocketServer server = new SocketServer(() => new Client(commandProcessor));
+            //SocketServer server = new SocketServer(() => new Player(commandProcessor));
             //server.Initialize(11000);
             //server.Start();
             //Console.WriteLine("Press ENTER to continue...");
             //Console.ReadLine();
             //server.Stop();
 
-            DummyEntity entity = new DummyEntity();
             CommandProcessor commandProcessor = new CommandProcessor();
-            Client client = new Client(commandProcessor);
-            //client.ProcessCommand("test");
-            //client.ProcessCommand("test arg1");
-            //client.ProcessCommand("test 'arg1' 'arg2' 'arg3' 'arg4'");
-            //client.ProcessCommand("test 'arg1 arg2' 'arg3 arg4'");
-            //client.ProcessCommand("test 'arg1 arg2\" arg3 arg4");
-            //client.ProcessCommand("test 3.arg1");
-            //client.ProcessCommand("test 2.'arg1'");
-            //client.ProcessCommand("test 2'.arg1'");
-            //client.ProcessCommand("test 2.'arg1 arg2' 3.arg3 5.arg4");
-            //client.ProcessCommand("test 2."); // INVALID
-            //client.ProcessCommand("test ."); // INVALID
-            //client.ProcessCommand("test '2.arg1'");
-            //client.ProcessCommand("unknown"); // INVALID
-            //client.ProcessCommand("/test");
-            //client.GoOutOfGame(); client.ProcessCommand("/shutdown");
-            //client.GoInGame(entity); client.ProcessCommand("/shutdown");
-            //client.GoOutOfGame(); client.ProcessCommand("shutdown");
-            //client.GoInGame(entity); client.ProcessCommand("shutdown"); // INVALID
-            //client.GoOutOfGame(); client.ProcessCommand("look");
-            client.GoInGame(entity); Log.Default.WriteLine(LogLevels.Debug, "IG:" + String.Join("|", client.CommandList()));
-            client.GoOutOfGame(); Log.Default.WriteLine(LogLevels.Debug, "OOG:" + String.Join("|", client.CommandList()));
+            DummyEntity entity = new DummyEntity(commandProcessor);
+            Player player = new Player(commandProcessor);
+            //player.ProcessCommand("testoog");
+            //player.ProcessCommand("testoog arg1");
+            //player.ProcessCommand("testoog 'arg1' 'arg2' 'arg3' 'arg4'");
+            //player.ProcessCommand("testoog 'arg1 arg2' 'arg3 arg4'");
+            //player.ProcessCommand("testoog 'arg1 arg2\" arg3 arg4");
+            //player.ProcessCommand("testoog 3.arg1");
+            //player.ProcessCommand("testoog 2.'arg1'");
+            //player.ProcessCommand("testoog 2'.arg1'");
+            //player.ProcessCommand("testoog 2.'arg1 arg2' 3.arg3 5.arg4");
+            //player.ProcessCommand("testoog 2."); // INVALID
+            //player.ProcessCommand("testoog ."); // INVALID
+            //player.ProcessCommand("testoog '2.arg1'");
+            //player.ProcessCommand("unknown INVALID"); // INVALID
+            //player.ProcessCommand("/testoog");
+            //player.GoOutOfGame(); player.ProcessCommand("/testoog");
+            //player.GoInGame(entity); player.ProcessCommand("/testoog");
+            //player.GoOutOfGame(); player.ProcessCommand("testoog");
+            //player.GoInGame(entity); player.ProcessCommand("testoog INVALID"); // INVALID
+            //player.GoOutOfGame(); player.ProcessCommand("testig INVALID"); // INVALID
+            //player.GoInGame(entity); player.ProcessCommand("testig");
+            //entity.ProcessCommand("testoog INVALID"); // INVALID
+            //entity.ProcessCommand("testig");
 
             //MysteryImporter importer = new MysteryImporter();
             //importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
