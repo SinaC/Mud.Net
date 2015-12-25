@@ -6,6 +6,7 @@ namespace Mud.Server
     public interface IPlayer : IActor
     {
         Guid Id { get; }
+        Guid AvatarId { get; } // Specific ICharacter that can be impersonated by non-admin player
         string Name { get; }
         DateTime LastCommandTimestamp { get; }
         string LastCommand { get; }

@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer", "Mud.Importe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Network.Socket", "Mud.Network.Socket\Mud.Network.Socket.csproj", "{724EAACF-1475-4F47-8109-4C9EBE6A72DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.POC", "Mud.POC\Mud.POC.csproj", "{500B0C50-09F7-4A68-91C3-619E12157AAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{724EAACF-1475-4F47-8109-4C9EBE6A72DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{724EAACF-1475-4F47-8109-4C9EBE6A72DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{724EAACF-1475-4F47-8109-4C9EBE6A72DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{500B0C50-09F7-4A68-91C3-619E12157AAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{500B0C50-09F7-4A68-91C3-619E12157AAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{500B0C50-09F7-4A68-91C3-619E12157AAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{500B0C50-09F7-4A68-91C3-619E12157AAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

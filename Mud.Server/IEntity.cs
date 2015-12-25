@@ -1,8 +1,10 @@
-﻿namespace Mud.Server
+﻿using System;
+
+namespace Mud.Server
 {
     public interface IEntity : IActor
     {
-        long Id { get; }
+        Guid Id { get; }
         string Name { get; }
         string Description { get; }
         bool Impersonable { get; }

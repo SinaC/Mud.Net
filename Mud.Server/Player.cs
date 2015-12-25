@@ -19,6 +19,11 @@ namespace Mud.Server
 
         public bool ProcessCommand(string commandLine)
         {
+            LastCommand = commandLine;
+            LastCommandTimestamp = DateTime.Now;
+
+            // TODO: check spam
+
             return CommandProcessor.ProcessCommand(this, commandLine);
         }
 
@@ -30,6 +35,7 @@ namespace Mud.Server
         #endregion
 
         public Guid Id { get; private set; }
+        public Guid AvatarId { get; private set; }
         public string Name { get; private set; }
         public DateTime LastCommandTimestamp { get; private set; }
         public string LastCommand { get; private set; }
