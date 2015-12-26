@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Mud.DataStructures;
 using Mud.Logger;
 
 namespace Mud.Server
@@ -130,11 +131,14 @@ namespace Mud.Server
             return joined;
         }
 
-        public static IReadOnlyDictionary<string, MethodInfo> GetCommands(Type type)
+        public static IReadOnlyTrie<MethodInfo> GetCommands(Type type)
         {
-            return type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
-                .Where(x => x.GetCustomAttributes(typeof (CommandAttribute), false).Any())
-                .ToDictionary(x => x.GetCustomAttributes(typeof (CommandAttribute)).OfType<CommandAttribute>().First().Name);
+            var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
+                .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())
+                .Select(x => new TrieEntry<MethodInfo>(x.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().First().Name, x));
+            Trie<MethodInfo> trie = new Trie<MethodInfo>();
+            trie.AddRange(commands);
+            return trie;
         }
     }
 }

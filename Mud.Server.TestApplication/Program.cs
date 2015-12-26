@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using Mud.Logger;
+using Mud.POC;
 
 namespace Mud.Server.TestApplication
 {
@@ -18,32 +21,6 @@ namespace Mud.Server.TestApplication
             //Console.WriteLine("Press ENTER to continue...");
             //Console.ReadLine();
             //server.Stop();
-
-            //CommandProcessor commandProcessor = new CommandProcessor();
-            //DummyEntity entity = new DummyEntity(commandProcessor);
-            //Player player = new Player(commandProcessor);
-            ////player.ProcessCommand("testoog");
-            ////player.ProcessCommand("testoog arg1");
-            ////player.ProcessCommand("testoog 'arg1' 'arg2' 'arg3' 'arg4'");
-            ////player.ProcessCommand("testoog 'arg1 arg2' 'arg3 arg4'");
-            ////player.ProcessCommand("testoog 'arg1 arg2\" arg3 arg4");
-            ////player.ProcessCommand("testoog 3.arg1");
-            ////player.ProcessCommand("testoog 2.'arg1'");
-            ////player.ProcessCommand("testoog 2'.arg1'");
-            ////player.ProcessCommand("testoog 2.'arg1 arg2' 3.arg3 5.arg4");
-            ////player.ProcessCommand("testoog 2."); // INVALID
-            ////player.ProcessCommand("testoog ."); // INVALID
-            ////player.ProcessCommand("testoog '2.arg1'");
-            ////player.ProcessCommand("unknown INVALID"); // INVALID
-            ////player.ProcessCommand("/testoog");
-            ////player.GoOutOfGame(); player.ProcessCommand("/testoog");
-            ////player.GoInGame(entity); player.ProcessCommand("/testoog");
-            ////player.GoOutOfGame(); player.ProcessCommand("testoog");
-            ////player.GoInGame(entity); player.ProcessCommand("testoog INVALID"); // INVALID
-            ////player.GoOutOfGame(); player.ProcessCommand("testig INVALID"); // INVALID
-            ////player.GoInGame(entity); player.ProcessCommand("testig");
-            ////entity.ProcessCommand("testoog INVALID"); // INVALID
-            ////entity.ProcessCommand("testig");
 
             //MysteryImporter importer = new MysteryImporter();
             //importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
@@ -83,10 +60,10 @@ namespace Mud.Server.TestApplication
             player2.ProcessCommand("gossip Hellow :)");
             player2.ProcessCommand("tell player1 Tsekwa =D");
 
-            player2.ProcessCommand("impersonate mob3");
+            player2.ProcessCommand("i mob3");
             player2.ProcessCommand("charm mob2"); // not in same room
             player2.ProcessCommand("charm mob3"); // cannot charm itself (player2 is impersonated in mob3)
-            player2.ProcessCommand("charm mob4");
+            player2.ProcessCommand("ch mob4");
 
             player1.ProcessCommand("say Hello World!");
 

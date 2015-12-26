@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
+using Mud.DataStructures;
 
 namespace Mud.Server.Room
 {
     public class Room : EntityBase, IRoom
     {
-        private static readonly IReadOnlyDictionary<string, MethodInfo> RoomCommands;
+        private static readonly IReadOnlyTrie<MethodInfo> RoomCommands;
 
         private readonly List<ICharacter> _charactersInRoom;
 
@@ -26,7 +27,7 @@ namespace Mud.Server.Room
 
         #region IActor
 
-        public override IReadOnlyDictionary<string, MethodInfo> Commands
+        public override IReadOnlyTrie<MethodInfo> Commands
         {
             get { return RoomCommands; }
         }
@@ -41,13 +42,11 @@ namespace Mud.Server.Room
         public void Enter(ICharacter character)
         {
             _charactersInRoom.Add(character);
-            // send a message to every in the room
         }
 
         public void Leave(ICharacter character)
         {
             bool removed = _charactersInRoom.Remove(character);
-            // TODO: if removed, send a message to everyone in the room
         }
 
         #endregion

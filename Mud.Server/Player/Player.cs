@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
+using Mud.DataStructures;
 using Mud.Logger;
 
 namespace Mud.Server.Player
 {
     public partial class Player : ActorBase, IPlayer
     {
-        private static readonly IReadOnlyDictionary<string, MethodInfo> PlayerCommands;
+        private static readonly IReadOnlyTrie<MethodInfo> PlayerCommands;
 
         static Player()
         {
@@ -25,7 +24,7 @@ namespace Mud.Server.Player
 
         #region IActor
         
-        public override IReadOnlyDictionary<string, MethodInfo> Commands
+        public override IReadOnlyTrie<MethodInfo> Commands
         {
             get { return PlayerCommands; }
         }

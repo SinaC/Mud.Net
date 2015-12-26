@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
+using Mud.DataStructures;
 
 namespace Mud.Server.Character
 {
     public partial class Character : EntityBase, ICharacter
     {
-        private static readonly IReadOnlyDictionary<string, MethodInfo> CharacterCommands;
+        private static readonly IReadOnlyTrie<MethodInfo> CharacterCommands;
 
         static Character()
         {
@@ -22,7 +22,7 @@ namespace Mud.Server.Character
             room.Enter(this);
         }
 
-        public override IReadOnlyDictionary<string, MethodInfo> Commands
+        public override IReadOnlyTrie<MethodInfo> Commands
         {
             get { return CharacterCommands; }
         }
@@ -31,10 +31,18 @@ namespace Mud.Server.Character
         {
             base.Send(format, parameters);
             if (ImpersonatedBy != null)
-                ImpersonatedBy.Send("<IMP|"+Name+">"+format, parameters);
+            {
+                if (ServerOptions.Instance.PrefixForwardedMessages)
+                    format = "<IMP|" + Name + ">" + format;
+                ImpersonatedBy.Send(format, parameters);
+            }
             // TODO: do we really need to receive message sent to slave ?
-            //if (ControlledBy != null)
-            //    ControlledBy.Send("<CTRL|" + Name + ">" + format, parameters);
+            if (ServerOptions.Instance.ForwardSlaveMessages && ControlledBy != null)
+            {
+                if (ServerOptions.Instance.PrefixForwardedMessages)
+                    format = "<CTRL|" + Name + ">" + format;
+                ControlledBy.Send(format, parameters);
+            }
         }
 
         #endregion

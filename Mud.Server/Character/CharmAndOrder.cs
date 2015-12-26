@@ -52,7 +52,7 @@ namespace Mud.Server.Character
                 Send("You have no followers here.");
             else
             {
-                Send("Ok.");
+                Send("You order {0} to {1}.", Slave.Name, rawParameters);
                 Slave.Send("{0} orders you to '{1}'.", Name, rawParameters);
                 Slave.ProcessCommand(rawParameters);
             }

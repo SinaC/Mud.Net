@@ -2,33 +2,22 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Mud.Server
+namespace Mud.Server.Tests.Mocking
 {
-    public class WorldTest : IWorld
+    public class WorldMock : IWorld
     {
         private readonly List<IAdmin> _admins;
         private readonly List<IPlayer> _players;
         private readonly List<ICharacter> _characters;
         private readonly List<IRoom> _rooms;
 
-        #region Singleton
-
-        private static readonly Lazy<WorldTest> Lazy = new Lazy<WorldTest>(() => new WorldTest());
-
-        public static IWorld Instance
-        {
-            get { return Lazy.Value; }
-        }
-
-        private WorldTest()
+        public WorldMock()
         {
             _admins = new List<IAdmin>();
             _players = new List<IPlayer>();
             _characters = new List<ICharacter>();
             _rooms = new List<IRoom>();
         }
-
-        #endregion
 
         public IAdmin AddAdmin(Guid guid, string name)
         {
@@ -80,7 +69,6 @@ namespace Mud.Server
             return new ReadOnlyCollection<IRoom>(_rooms);
         }
 
-        // TODO: remove
         public ICharacter GetCharacter(CommandParameter parameter)
         {
             return FindHelpers.FindByName(_characters, parameter);

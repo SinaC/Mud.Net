@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
+using Mud.DataStructures;
 
 namespace Mud.Server.Admin
 {
     public class Admin : Player.Player, IAdmin
     {
-        private static readonly IReadOnlyDictionary<string, MethodInfo> AdminCommands;
+        private static readonly IReadOnlyTrie<MethodInfo> AdminCommands;
 
         static Admin()
         {
@@ -20,7 +20,7 @@ namespace Mud.Server.Admin
 
         #region IActor
 
-        public override IReadOnlyDictionary<string, MethodInfo> Commands
+        public override IReadOnlyTrie<MethodInfo> Commands
         {
             get { return AdminCommands; }
         }
