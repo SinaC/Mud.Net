@@ -1,33 +1,43 @@
-﻿namespace Mud.Server.Character
+﻿using System;
+using System.Linq;
+
+namespace Mud.Server.Character
 {
     public partial class Character
     {
         [Command("charm")]
         protected virtual bool Charm(string rawParameters, CommandParameter[] parameters)
         {
-            if (parameters.Length == 0)
+            if (ControlledBy != null)
+                Send("You feel like taking, not giving, orders.");
+            else if (parameters.Length == 0)
             {
                 if (Slave != null)
                 {
-                    Send("You stop controlling {0}", Slave.Name);
+                    Send("You stop controlling {0}.", Slave.Name);
                     Slave.ChangeController(null);
                     Slave = null;
                 }
                 else
-                    Send("Try controlling something before trying to un-control");
+                    Send("Try controlling something before trying to un-control.");
             }
             else
             {
-                //TODO: must be in same room
-                ICharacter target = WorldTest.Instance.GetCharacter(parameters[0]);
+                ICharacter target = FindHelpers.FindByName(Room.CharactersInRoom, parameters[0]);
                 if (target != null)
                 {
-                    Send("You start controlling {0}", target.Name);
-                    target.ChangeController(this);
-                    Slave = target;
+                    if (target == this)
+                        Send("You like yourself even better!");
+                    else
+                    {
+                        target.ChangeController(this);
+                        Slave = target;
+                        Send("{0} looks at you with adoring eyes.", target.Name);
+                        target.Send("Isn't {0} so nice?", Name);
+                    }
                 }
                 else
-                    Send("Target not found");
+                    Send(MessageConstants.CharacterNotFound);
             }
 
             return true;
@@ -36,23 +46,15 @@
         [Command("order")]
         protected virtual bool Order(string rawParameters, CommandParameter[] parameters)
         {
-            if (Slave == null)
-                Send("Try controlling something before giving orders");
+            if (parameters.Length == 0)
+                Send("Order what?");
+            else if (Slave == null)
+                Send("You have no followers here.");
             else
             {
-                string orderCommand;
-                string orderRawParameters;
-                CommandParameter[] orderParameters;
-                bool orderForceOutOfGame;
-
-                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(rawParameters, out orderCommand, out orderRawParameters, out orderParameters, out orderForceOutOfGame);
-                if (!extractedSuccessfully)
-                    Send("Problem order arguments");
-                else
-                {
-                    Send("You order to {0} to {1}", Slave.Name, rawParameters);
-                    Slave.ExecuteCommand(orderCommand, orderRawParameters, orderParameters);
-                }
+                Send("Ok.");
+                Slave.Send("{0} orders you to '{1}'.", Name, rawParameters);
+                Slave.ProcessCommand(rawParameters);
             }
             return true;
         }

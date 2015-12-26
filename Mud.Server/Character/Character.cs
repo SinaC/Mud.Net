@@ -19,6 +19,7 @@ namespace Mud.Server.Character
             : base(guid, name)
         {
             Room = room;
+            room.Enter(this);
         }
 
         public override IReadOnlyDictionary<string, MethodInfo> Commands
@@ -30,9 +31,10 @@ namespace Mud.Server.Character
         {
             base.Send(format, parameters);
             if (ImpersonatedBy != null)
-                ImpersonatedBy.Send(format, parameters);
-            if (ControlledBy != null)
-                ControlledBy.Send(format, parameters);
+                ImpersonatedBy.Send("<IMP|"+Name+">"+format, parameters);
+            // TODO: do we really need to receive message sent to slave ?
+            //if (ControlledBy != null)
+            //    ControlledBy.Send("<CTRL|" + Name + ">" + format, parameters);
         }
 
         #endregion
@@ -88,7 +90,7 @@ namespace Mud.Server.Character
         [Command("test")]
         protected virtual bool Test(string rawParameters, CommandParameter[] parameters)
         {
-            Send("sending test to myself [{0}]", Name);
+            Send("Sending myself [{0}] a message", Name);
 
             return true;
         }

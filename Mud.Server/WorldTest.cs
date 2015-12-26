@@ -7,8 +7,6 @@ namespace Mud.Server
 {
     public class WorldTest : IWorld
     {
-        private readonly static Func<string, string, bool> StringEquals = (s, s1) => String.Equals(s, s1, StringComparison.InvariantCultureIgnoreCase);
-        
         private readonly List<IAdmin> _admins;
         private readonly List<IPlayer> _players;
         private readonly List<ICharacter> _characters;
@@ -61,12 +59,12 @@ namespace Mud.Server
 
         public IPlayer GetPlayer(string name)
         {
-            return _players.FirstOrDefault(x => StringEquals(x.Name, name));
+            return FindHelpers.FindByName(_players, name);
         }
 
         public IPlayer GetPlayer(CommandParameter parameter)
         {
-            return _players.Where(x => StringEquals(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
+            return FindHelpers.FindByName(_players, parameter);
         }
 
         public IReadOnlyCollection<IPlayer> GetPlayers()
@@ -74,19 +72,14 @@ namespace Mud.Server
             return new ReadOnlyCollection<IPlayer>(_players);
         }
 
-        public ICharacter GetCharacter(string name)
+        public IReadOnlyCollection<IRoom> GetRooms()
         {
-            return _characters.FirstOrDefault(x => StringEquals(x.Name, name));
+            return new ReadOnlyCollection<IRoom>(_rooms);
         }
 
         public ICharacter GetCharacter(CommandParameter parameter)
         {
-            return _characters.Where(x => StringEquals(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
-        }
-
-        public IReadOnlyCollection<IRoom> GetRooms()
-        {
-            return new ReadOnlyCollection<IRoom>(_rooms);
+            return FindHelpers.FindByName(_characters, parameter);
         }
 
         #endregion

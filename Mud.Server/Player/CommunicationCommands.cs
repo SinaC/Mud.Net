@@ -14,9 +14,7 @@ namespace Mud.Server.Player
             {
                 IPlayer target = WorldTest.Instance.GetPlayer(parameters[0]);
                 if (target == null)
-                {
-                    Send("They aren't here.");
-                }
+                    Send(MessageConstants.CharacterNotFound);
                 else
                 {
                     string what = CommandHelpers.JoinParameters(parameters.Skip(1));

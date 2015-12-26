@@ -72,24 +72,28 @@ namespace Mud.Server.TestApplication
             ICharacter mob2 = world.AddCharacter(Guid.NewGuid(), "Mob2", room1);
             ICharacter mob3 = world.AddCharacter(Guid.NewGuid(), "Mob3", room2);
             ICharacter mob4 = world.AddCharacter(Guid.NewGuid(), "Mob4", room2);
+            ICharacter mob5 = world.AddCharacter(Guid.NewGuid(), "Mob5", room2);
 
             player1.ProcessCommand("impersonate mob1");
-            player1.ProcessCommand("order");
+            player1.ProcessCommand("order"); // not controlling anyone
             player1.ProcessCommand("charm mob2");
-            mob2.ProcessCommand("test");
-            mob1.ProcessCommand("test");
+            player1.ProcessCommand("test");
             player1.ProcessCommand("order test");
-            mob1.ProcessCommand("order test");
 
             player2.ProcessCommand("gossip Hellow :)");
             player2.ProcessCommand("tell player1 Tsekwa =D");
 
             player2.ProcessCommand("impersonate mob3");
+            player2.ProcessCommand("charm mob2"); // not in same room
+            player2.ProcessCommand("charm mob3"); // cannot charm itself (player2 is impersonated in mob3)
+            player2.ProcessCommand("charm mob4");
 
-            //TODO: test commands between character in different rooms
+            player1.ProcessCommand("say Hello World!");
+
+            player2.ProcessCommand("order charm mob5");
         }
 
-        private static void TestBasicCommands()
+        private static void TestCommandParsing()
         {
             WorldTest world = WorldTest.Instance as WorldTest;
             IRoom room = world.AddRoom(Guid.NewGuid(), "Room");

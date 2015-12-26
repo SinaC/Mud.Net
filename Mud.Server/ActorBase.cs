@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using System.Security.Cryptography;
 using Mud.Logger;
 
 namespace Mud.Server

@@ -48,6 +48,7 @@
     <Compile Include="CommandHelpers.cs" />
     <Compile Include="CommandParameter.cs" />
     <Compile Include="EntityBase.cs" />
+    <Compile Include="FindHelpers.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="IAdmin.cs" />
     <Compile Include="ICharacter.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="IPlayer.cs" />
     <Compile Include="IRoom.cs" />
     <Compile Include="IWorld.cs" />
+    <Compile Include="MessageConstants.cs" />
     <Compile Include="Player\Impersonate.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\CommunicationCommands.cs" />

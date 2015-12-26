@@ -9,24 +9,24 @@
             {
                 if (Impersonating != null)
                 {
-                    Send("You stop impersonating {0}", Impersonating.Name);
+                    Send("You stop impersonating {0}.", Impersonating.Name);
                     Impersonating.ChangeImpersonation(null);
                     Impersonating = null;
                 }
                 else
-                    Send("Impersonate before trying to un-impersonate");
+                    Send("Impersonate before trying to un-impersonate.");
             }
             else
             {
                 ICharacter target = WorldTest.Instance.GetCharacter(parameters[0]);
                 if (target != null)
                 {
-                    Send("You start impersonating {0}", target.Name);
+                    Send("You start impersonating {0}.", target.Name);
                     target.ChangeImpersonation(this);
                     Impersonating = target;
                 }
                 else
-                    Send("Target not found");
+                    Send(MessageConstants.CharacterNotFound);
             }
 
             return true;

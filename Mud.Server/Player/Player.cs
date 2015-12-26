@@ -52,12 +52,12 @@ namespace Mud.Server.Player
             bool executedSuccessfully;
             if (forceOutOfGame || Impersonating == null)
             {
-                Log.Default.WriteLine(LogLevels.Debug, "Executing [{0}] as IPlayer command", command);
+                Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", Name, commandLine);
                 executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
             }
             else
             {
-                Log.Default.WriteLine(LogLevels.Debug, "Executing [{0}] as impersonated(ICharacter) command", command);
+                Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", Name, Impersonating.Name, commandLine);
                 executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
             }
             if (!executedSuccessfully)
@@ -69,7 +69,7 @@ namespace Mud.Server.Player
         {
             // TODO: get Socket, push message
             string message = String.Format(format, parameters);
-            Log.Default.WriteLine(LogLevels.Info, "SENDING TO PLAYER:[[["+message+"]]]");
+            Log.Default.WriteLine(LogLevels.Info, "SENDING TO [{0}]:[[["+message+"]]]", Name);
         }
 
         #endregion

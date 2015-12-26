@@ -33,14 +33,14 @@ namespace Mud.Server
                 return false;
             }
 
-            Log.Default.WriteLine(LogLevels.Debug, "Executing [{0}] as IEntity command", command);
+            Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", Name, commandLine);
             return ExecuteCommand(command, rawParameters, parameters);
         }
 
         public override void Send(string format, params object[] parameters)
         {
             if (IncarnatedBy != null)
-                IncarnatedBy.Send(format, parameters);
+                IncarnatedBy.Send("<INC|" + Name + ">" + format, parameters);
         }
 
         #endregion
