@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mud.POC
 {
+    /*
     public interface IActor
     {
         bool ProcessCommand(string commandLine);
@@ -118,4 +119,5 @@ namespace Mud.POC
             return true;
         }
     }
+    */
 }

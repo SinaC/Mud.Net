@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Mud.Server.Commands;
 
-namespace Mud.Server.Commands.InGame
+namespace Mud.Server.Old.Commands.InGame
 {
-    [CommandOutOfGame(typeof(ICharacter))]
-    public class Kill : IInGameCommand
+    // Syntax:
+    //  look: look at environment
+    //  look <obj>: look at object in character's inventory or environment's inventory
+    public class Look : IInGameCommand
     {
         public string Name
         {
-            get { return "kill"; }
+            get { return "look"; }
         }
 
         public string Help

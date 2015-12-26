@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A21CB6D8-BB97-48EF-8837-A85FEDAF0CCC}</ProjectGuid>
+    <ProjectGuid>{500B0C50-09F7-4A68-91C3-619E12157AAD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Mud.Server</RootNamespace>
@@ -39,31 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\CommandAttribute.cs" />
-    <Compile Include="Commands\InGame\Kill.cs" />
-    <Compile Include="Commands\InGame\Order.cs" />
-    <Compile Include="Commands\OutOfGame\TestOutOfGame.cs" />
-    <Compile Include="Commands\IOutOfGameCommand.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="Commands\CommandParameter.cs" />
-    <Compile Include="Commands\CommandProcessor.cs" />
-    <Compile Include="Commands\OutOfGame\Impersonate.cs" />
-    <Compile Include="Commands\InGame\Look.cs" />
-    <Compile Include="Commands\OutOfGame\Shutdown.cs" />
-    <Compile Include="Commands\InGame\TestInGame.cs" />
-    <Compile Include="DummyCharacter.cs" />
-    <Compile Include="DummyEntity.cs" />
-    <Compile Include="DummyObject.cs" />
-    <Compile Include="DummyRoom.cs" />
-    <Compile Include="EntityBase.cs" />
+    <Compile Include="Character.cs" />
+    <Compile Include="CommandAttribute.cs" />
+    <Compile Include="CommandHelpers.cs" />
+    <Compile Include="CommandParameter.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="ICharacter.cs" />
-    <Compile Include="IPlayer.cs" />
-    <Compile Include="Commands\IInGameCommand.cs" />
-    <Compile Include="Commands\ICommandProcessor.cs" />
     <Compile Include="IEntity.cs" />
-    <Compile Include="IObject.cs" />
-    <Compile Include="IRoom.cs" />
+    <Compile Include="IPlayer.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

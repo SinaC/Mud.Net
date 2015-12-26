@@ -1,4 +1,6 @@
-﻿namespace Mud.Server.Commands.InGame
+﻿using Mud.Server.Commands;
+
+namespace Mud.Server.Old.Commands.InGame
 {
     public class Order : IInGameCommand
     {

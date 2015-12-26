@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{500B0C50-09F7-4A68-91C3-619E12157AAD}</ProjectGuid>
+    <ProjectGuid>{A21CB6D8-BB97-48EF-8837-A85FEDAF0CCC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mud.POC</RootNamespace>
-    <AssemblyName>Mud.POC</AssemblyName>
+    <RootNamespace>Mud.Server.Old</RootNamespace>
+    <AssemblyName>Mud.Server.Old</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,8 +39,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Test.cs" />
+    <Compile Include="Commands\CommandAttribute.cs" />
+    <Compile Include="Commands\InGame\Kill.cs" />
+    <Compile Include="Commands\InGame\Order.cs" />
+    <Compile Include="Commands\OutOfGame\TestOutOfGame.cs" />
+    <Compile Include="Commands\IOutOfGameCommand.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Commands\CommandParameter.cs" />
+    <Compile Include="Commands\CommandProcessor.cs" />
+    <Compile Include="Commands\OutOfGame\Impersonate.cs" />
+    <Compile Include="Commands\InGame\Look.cs" />
+    <Compile Include="Commands\OutOfGame\Shutdown.cs" />
+    <Compile Include="Commands\InGame\TestInGame.cs" />
+    <Compile Include="DummyCharacter.cs" />
+    <Compile Include="DummyEntity.cs" />
+    <Compile Include="DummyObject.cs" />
+    <Compile Include="DummyRoom.cs" />
+    <Compile Include="EntityBase.cs" />
+    <Compile Include="IActor.cs" />
+    <Compile Include="ICharacter.cs" />
+    <Compile Include="IPlayer.cs" />
+    <Compile Include="Commands\IInGameCommand.cs" />
+    <Compile Include="Commands\ICommandProcessor.cs" />
+    <Compile Include="IEntity.cs" />
+    <Compile Include="IObject.cs" />
+    <Compile Include="IRoom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
+      <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
+      <Name>Mud.Logger</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

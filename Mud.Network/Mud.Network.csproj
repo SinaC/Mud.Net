@@ -48,7 +48,7 @@
       <Name>Mud.Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
-      <Project>{a21cb6d8-bb97-48ef-8837-a85fedaf0ccc}</Project>
+      <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>
       <Name>Mud.Server</Name>
     </ProjectReference>
   </ItemGroup>

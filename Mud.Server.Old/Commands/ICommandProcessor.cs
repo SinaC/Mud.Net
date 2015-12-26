@@ -1,4 +1,4 @@
-﻿namespace Mud.Server.Commands
+﻿namespace Mud.Server.Old.Commands
 {
     public interface ICommandProcessor
     {

@@ -4,8 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Mud.Logger;
+using Mud.Server.Commands;
 
-namespace Mud.Server.Commands
+namespace Mud.Server.Old.Commands
 {
     public class CommandProcessor : ICommandProcessor
     {

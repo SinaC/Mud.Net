@@ -1,6 +1,7 @@
 ﻿using Mud.Logger;
+using Mud.Server.Commands;
 
-namespace Mud.Server.Commands.OutOfGame
+namespace Mud.Server.Old.Commands.OutOfGame
 {
     public class TestOutOfGame : IOutOfGameCommand
     {

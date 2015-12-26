@@ -1,20 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Mud.Server
 {
-    // IPlayer can impersonate
     public interface IPlayer : IActor
     {
         Guid Id { get; }
-        Guid AvatarId { get; } // Specific ICharacter that can be impersonated by non-admin player
         string Name { get; }
+
+        ICharacter Impersonating { get; }
+
         DateTime LastCommandTimestamp { get; }
         string LastCommand { get; }
 
-        IEntity Impersonating { get; } // non-null if Player is impersonating an entity (and is then considered as InGame), null is Player not impersonating an entity (and is then considered OutOfGame)
-
-        void StartImpersonating(IEntity target);
-        void StopImpersonating();
+        bool GoInGame(ICharacter character);
+        bool GoOutOfGame();
 
         void OnDisconnected();
     }

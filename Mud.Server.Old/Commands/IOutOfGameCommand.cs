@@ -1,4 +1,6 @@
-﻿namespace Mud.Server.Commands
+﻿using Mud.Server.Commands;
+
+namespace Mud.Server.Old.Commands
 {
     public interface IOutOfGameCommand
     {

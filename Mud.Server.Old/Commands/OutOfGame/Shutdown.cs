@@ -1,4 +1,6 @@
-﻿namespace Mud.Server.Commands.OutOfGame
+﻿using Mud.Server.Commands;
+
+namespace Mud.Server.Old.Commands.OutOfGame
 {
     class Shutdown : IOutOfGameCommand
     {

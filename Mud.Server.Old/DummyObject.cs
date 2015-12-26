@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mud.Server.Commands;
+﻿using Mud.Server.Old.Commands;
 
-namespace Mud.Server
+namespace Mud.Server.Old
 {
     public class DummyObject : EntityBase, IObject
     {

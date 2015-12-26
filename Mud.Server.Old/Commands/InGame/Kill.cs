@@ -1,13 +1,13 @@
-﻿namespace Mud.Server.Commands.InGame
+﻿using Mud.Server.Commands;
+
+namespace Mud.Server.Old.Commands.InGame
 {
-    // Syntax:
-    //  look: look at environment
-    //  look <obj>: look at object in character's inventory or environment's inventory
-    public class Look : IInGameCommand
+    [CommandOutOfGame(typeof(ICharacter))]
+    public class Kill : IInGameCommand
     {
         public string Name
         {
-            get { return "look"; }
+            get { return "kill"; }
         }
 
         public string Help

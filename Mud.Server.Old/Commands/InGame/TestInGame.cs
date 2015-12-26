@@ -1,6 +1,7 @@
 ﻿using Mud.Logger;
+using Mud.Server.Commands;
 
-namespace Mud.Server.Commands.InGame
+namespace Mud.Server.Old.Commands.InGame
 {
     public class TestInGame : IInGameCommand
     {

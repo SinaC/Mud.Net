@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Mud.Logger;
 
 namespace Mud.Server
 {
-    public class Player : IPlayer
+    public class Character : ICharacter
     {
         private static readonly IReadOnlyDictionary<string, MethodInfo> Commands;
 
-        static Player()
+        static Character()
         {
             Commands = typeof(Player).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
                 .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())
                 .ToDictionary(x => x.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().First().Name);
         }
-
+        
         public bool ProcessCommand(string commandLine)
         {
             string command;
@@ -35,19 +34,8 @@ namespace Mud.Server
                 return false;
             }
 
-            bool executedSuccessfully;
-            if (forceOutOfGame || Impersonating == null)
-            {
-                Log.Default.WriteLine(LogLevels.Info,  "Executing [{0}] as IPlayer command", command);
-                executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
-            }
-            else
-            {
-                Log.Default.WriteLine(LogLevels.Info, "Executing [{0}] as impersonated(ICharacter) command", command);
-                executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
-            }
-
-            return executedSuccessfully;
+            Log.Default.WriteLine(LogLevels.Info, "Executing [{0}] as ICharacter command", command);
+            return ExecuteCommand(command, rawParameters, parameters);
         }
 
         public bool ExecuteCommand(string command, string rawParameters, CommandParameter[] parameters)
@@ -75,38 +63,23 @@ namespace Mud.Server
 
         public Guid Id { get; private set; }
         public string Name { get; private set; }
+        public string Description { get; private set; }
+        public bool Impersonable { get; private set; }
 
-        public ICharacter Impersonating { get; private set; }
-
-        public DateTime LastCommandTimestamp { get; private set; }
-        public string LastCommand { get; private set; }
-
-        public bool GoInGame(ICharacter character)
-        {
-            // TODO: check validity
-            Impersonating = character;
-            return true;
-        }
-
-        public bool GoOutOfGame()
-        {
-            // TODO
-            Impersonating = null;
-            return true;
-        }
-
-        public void OnDisconnected()
-        {
-        }
-
-        [Command("tell")]
-        protected virtual bool Tell(string rawParameters, CommandParameter[] parameters)
+        [Command("look")]
+        protected virtual bool Look(string rawParameters, CommandParameter[] parameters)
         {
             return true;
         }
 
-        [Command("impersonate")]
-        protected virtual bool Impersonate(string rawParameters, CommandParameter[] parameters)
+        [Command("order")]
+        protected virtual bool Order(string rawParameters, CommandParameter[] parameters)
+        {
+            return true;
+        }
+
+        [Command("kill")]
+        protected virtual bool Kill(string rawParameters, CommandParameter[] parameters)
         {
             return true;
         }
