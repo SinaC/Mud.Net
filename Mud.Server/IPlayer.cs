@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server
 {
@@ -15,9 +11,6 @@ namespace Mud.Server
 
         DateTime LastCommandTimestamp { get; }
         string LastCommand { get; }
-
-        bool GoInGame(ICharacter character);
-        bool GoOutOfGame();
 
         void OnDisconnected();
     }

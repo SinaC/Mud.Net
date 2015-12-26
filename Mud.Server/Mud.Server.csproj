@@ -39,17 +39,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Character.cs" />
+    <Compile Include="ActorBase.cs" />
+    <Compile Include="Admin\Admin.cs" />
+    <Compile Include="Character\Character.cs" />
+    <Compile Include="Character\CharmAndOrder.cs" />
+    <Compile Include="Character\CommunicationCommands.cs" />
     <Compile Include="CommandAttribute.cs" />
     <Compile Include="CommandHelpers.cs" />
     <Compile Include="CommandParameter.cs" />
+    <Compile Include="EntityBase.cs" />
     <Compile Include="IActor.cs" />
+    <Compile Include="IAdmin.cs" />
     <Compile Include="ICharacter.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IPlayer.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="Test.cs" />
+    <Compile Include="IRoom.cs" />
+    <Compile Include="IWorld.cs" />
+    <Compile Include="Player\Impersonate.cs" />
+    <Compile Include="Player\Player.cs" />
+    <Compile Include="Player\CommunicationCommands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Room\Room.cs" />
+    <Compile Include="WorldTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">

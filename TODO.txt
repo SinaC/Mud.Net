@@ -5,3 +5,156 @@ paging
 real room/character/object
 partial command matching
 unit tests
+
+
+
+
+act function in comm.c:4161
+
+void act_new( const char *format, CHAR_DATA *ch, const void *arg1, const void *arg2, int type, int min_pos ) {
+  static char * const he_she  [] = { "it",  "he",  "she" };
+  static char * const him_her [] = { "it",  "him", "her" };
+  static char * const his_her [] = { "its", "his", "her" };
+ 
+  CHAR_DATA 		*to;
+  CHAR_DATA 		*vch = ( CHAR_DATA * ) arg2;
+  OBJ_DATA 		*obj1 = ( OBJ_DATA  * ) arg1;
+  OBJ_DATA 		*obj2 = ( OBJ_DATA  * ) arg2;
+  const 	char 	*str;
+  const char 		*i = NULL;
+  char 		*point;
+  char 		*pbuff;
+  char 		buffer[ MAX_STRING_LENGTH*2 ];
+  char 		buf[ MAX_STRING_LENGTH   ];
+  char 		fname[ MAX_INPUT_LENGTH  ];
+  bool		fColour = FALSE;
+
+  /*
+   * Discard null and zero-length messages.
+   */
+  if( !format || !*format )
+    return;
+
+  /* discard null rooms and chars */
+  if( !ch || !ch->in_room )
+    return;
+
+  to = ch->in_room->people;
+  if( type == TO_VICT ) {
+    if( !vch ) {
+      bug( "Act: null vch with TO_VICT." );
+      return;
+    }
+
+    if( !vch->in_room )
+      return;
+
+    to = vch->in_room->people;
+  }
+ 
+  for( ; to ; to = to->next_in_room ) {
+    if ( DUMP_MOB_MSG ) {
+      if ( IS_NPC(to) )
+	log_stringf("DUMP MOB [%s]: %s", to->short_descr, format );
+    }
+
+    if( !to->desc || to->position < min_pos )
+      continue;
+    /*
+      // Modified by SinaC for some test
+      if ( to->position < min_pos )
+      continue;
+    */
+    if( ( type == TO_CHAR ) && to != ch )
+      continue;
+    if( type == TO_VICT && ( to != vch || to == ch ) )
+      continue;
+    if( type == TO_ROOM && to == ch )
+      continue;
+    if( type == TO_NOTVICT && (to == ch || to == vch) )
+      continue;
+      
+    point   = buf;
+    str     = format;
+    while( *str != '\0' ) {
+      if( *str != '$' ) {
+	*point++ = *str++;
+	continue;
+      }
+	  
+      fColour = TRUE;
+      ++str;
+      i = " <@@@> ";
+      if( !arg2 && *str >= 'A' && *str <= 'Z' ) {
+	bug( "Act: missing arg2 for code %d.", *str );
+	i = " <@@@> ";
+      }
+      else {
+	switch ( *str ) {
+	default:  bug( "Act: bad code %d.", *str );
+	  i = " <@@@> ";                                break;
+	  /* Thx alex for 't' idea */
+	case 't': i = (char *) arg1;                            break;
+	case 'T': i = (char *) arg2;                            break;
+	case 'n': i = PERS( ch,  to  );                         break;
+	case 'N': i = PERS( vch, to  );                         break;
+	case 'e': i = he_she  [URANGE(0, ch  ->cstat(sex) , 2)];        break;
+	case 'E': i = he_she  [URANGE(0, vch ->cstat(sex) , 2)];        break;
+	case 'm': i = him_her [URANGE(0, ch  ->cstat(sex) , 2)];        break;
+	case 'M': i = him_her [URANGE(0, vch ->cstat(sex) , 2)];        break;
+	case 's': i = his_her [URANGE(0, ch  ->cstat(sex) , 2)];        break;
+	case 'S': i = his_her [URANGE(0, vch ->cstat(sex) , 2)];        break;
+		  
+	case 'p':
+	  i = can_see_obj( to, obj1 )
+	    ? obj1->short_descr
+	    : "something";
+	  break;
+		  
+	case 'P':
+	  i = can_see_obj( to, obj2 )
+	    ? obj2->short_descr
+	    : "something";
+	  break;
+		  
+	case 'd':
+	  if ( arg2 == NULL || ((char *) arg2)[0] == '\0' ) {
+	    i = "door";
+	  }
+	  else {
+	    one_argument( (char *) arg2, fname );
+	    i = fname;
+	  }
+	  break;
+	}
+      }
+	  
+      ++str;
+      while ( ( *point = *i ) != '\0' )
+	++point, ++i;
+    }
+      
+    *point++ = '\n';
+    *point++ = '\r';
+    *point	 = '\0';
+    buf[0]   = UPPER(buf[0]);
+    if ( TESTING_CHARMIES ) {
+      // Added by SinaC 2000 for some test
+      if ( IS_NPC(to) && to->master != NULL && IS_IMMORTAL(to->master)) {
+	char buf2[MAX_STRING_LENGTH];
+	sprintf(buf2,"{R[%s:]{x %s\n\r",to->short_descr,buf);
+	pbuff = buffer;
+	colourconv(pbuff,buf2,to->master);
+	write_to_buffer(to->master->desc,buffer,0);
+      }
+    }
+    else {
+      pbuff	 = buffer;
+      colourconv( pbuff, buf, to );
+      
+      if ( to->desc && to->desc->connected == CON_PLAYING )
+	write_to_buffer( to->desc, buffer, 0 );
+    }
+  }
+  return;
+}

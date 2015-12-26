@@ -83,7 +83,7 @@ namespace Mud.Server.Old.Commands
 
                 if (parameters.Any(x => x == CommandParameter.Invalid))
                 {
-                    Log.Default.WriteLine(LogLevels.Warning, "Invalid command parameters");
+                    player.Send("Invalid command parameters");
                     return false;
                 }
 
@@ -93,13 +93,13 @@ namespace Mud.Server.Old.Commands
 
                 if (!executed)
                 {
-                    Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
+                    Log.Default.WriteLine(LogLevels.Error, "Error while executing command");
                     return false;
                 }
             }
             else
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Command not found");
+                player.Send("Command not found");
                 return false;
             }
             return true;
@@ -117,7 +117,7 @@ namespace Mud.Server.Old.Commands
 
                 if (parameters.Any(x => x == CommandParameter.Invalid))
                 {
-                    Log.Default.WriteLine(LogLevels.Warning, "Invalid command parameters");
+                    entity.Send("Invalid command parameters");
                     return false;
                 }
 
@@ -127,13 +127,13 @@ namespace Mud.Server.Old.Commands
 
                 if (!executed)
                 {
-                    Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
+                    Log.Default.WriteLine(LogLevels.Error, "Error while executing command");
                     return false;
                 }
             }
             else
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Command not found");
+                entity.Send("Command not found");
                 return false;
             }
             return true;

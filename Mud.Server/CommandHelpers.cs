@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Mud.Logger;
 
@@ -45,6 +46,19 @@ namespace Mud.Server
                 Log.Default.WriteLine(LogLevels.Warning, "Invalid command parameters");
                 return false;
             }
+
+            return true;
+        }
+
+        public static bool ExtractCommand(string commandLine, out string command, out string rawParameters)
+        {
+            Log.Default.WriteLine(LogLevels.Debug, "Extracting command [{0}]", commandLine);
+
+            // Extract command
+            int spaceIndex = commandLine.IndexOf(' ');
+            command = spaceIndex == -1 ? commandLine : commandLine.Substring(0, spaceIndex);
+            // Extract raw parameters
+            rawParameters = spaceIndex == -1 ? String.Empty : commandLine.Substring(spaceIndex + 1);
 
             return true;
         }
@@ -104,6 +118,23 @@ namespace Mud.Server
                 Count = count,
                 Value = value
             };
+        }
+
+        public static string JoinParameters(IEnumerable<CommandParameter> parameters)
+        {
+            CommandParameter[] commandParameters = parameters as CommandParameter[] ?? parameters.ToArray();
+            if (!commandParameters.Any())
+                return String.Empty;
+
+            string joined = String.Join(" ", commandParameters.Select(x => x.Count == 1 ? x.Value : String.Format("{0}.{1}", x.Count, x.Value)));
+            return joined;
+        }
+
+        public static IReadOnlyDictionary<string, MethodInfo> GetCommands(Type type)
+        {
+            return type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
+                .Where(x => x.GetCustomAttributes(typeof (CommandAttribute), false).Any())
+                .ToDictionary(x => x.GetCustomAttributes(typeof (CommandAttribute)).OfType<CommandAttribute>().First().Name);
         }
     }
 }

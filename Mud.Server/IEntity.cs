@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server
 {
@@ -11,6 +7,12 @@ namespace Mud.Server
         Guid Id { get; }
         string Name { get; }
         string Description { get; }
-        bool Impersonable { get; }
+
+        bool Incarnatable { get; }
+        IAdmin IncarnatedBy { get; }
+
+        bool ChangeIncarnation(IAdmin admin);
+
+        void OnRemoved();
     }
 }
