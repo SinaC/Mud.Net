@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using Mud.Logger;
+using Mud.Network.Socket;
 using Mud.POC;
 
 namespace Mud.Server.TestApplication

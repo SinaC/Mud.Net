@@ -134,13 +134,13 @@ namespace Mud.Network.Socket
             // TODO: optimize and protect this search
             ClientSocketStateObject serverStateObject = _serverStateObjects.FirstOrDefault(x => x.Client == client);
             if (serverStateObject != null)
-                Send((System.Net.Sockets.Socket) serverStateObject.ClientSocket, data);
+                Send(serverStateObject.ClientSocket, data);
         }
 
         public void Broadcast(string data)
         {
             foreach (ClientSocketStateObject serverStateObject in _serverStateObjects)
-                Send((System.Net.Sockets.Socket) serverStateObject.ClientSocket, data);
+                Send(serverStateObject.ClientSocket, data);
         }
 
         private void ListenTask()
@@ -277,10 +277,13 @@ namespace Mud.Network.Socket
         {
             try
             {
-                // Convert the string data to byte data using ASCII encoding.
-                byte[] byteData = Encoding.ASCII.GetBytes(data);
+                Log.Default.WriteLine(LogLevels.Debug, "Send data to client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " : " + data);
 
-                Log.Default.WriteLine(LogLevels.Debug, "Send data to client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + " : " + data);
+                // Colorize
+                string colorizedData = AnsiHelpers.Colorize(data);
+
+                // Convert the string data to byte data using ASCII encoding.
+                byte[] byteData = Encoding.ASCII.GetBytes(colorizedData);
 
                 // Begin sending the data to the remote device.
                 clientSocket.BeginSend(byteData, 0, byteData.Length, 0, SendCallback, clientSocket);
