@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using Mud.DataStructures;
+using Mud.Logger;
 
 namespace Mud.Server.Room
 {
     public class Room : EntityBase, IRoom
     {
-        private static readonly IReadOnlyTrie<MethodInfo> RoomCommands;
+        private static readonly Trie<MethodInfo> RoomCommands;
 
         private readonly List<ICharacter> _charactersInRoom;
+        private readonly IExit[] _exits; // see ServerOptions.ExitDirections
 
         static Room()
         {
@@ -21,6 +23,7 @@ namespace Mud.Server.Room
             : base(guid, name)
         {
             _charactersInRoom = new List<ICharacter>();
+            _exits = new IExit[ServerOptions.ExitCount];
         }
 
         #region IRoom
@@ -37,6 +40,13 @@ namespace Mud.Server.Room
         public IReadOnlyCollection<ICharacter> CharactersInRoom
         {
             get { return new ReadOnlyCollection<ICharacter>(_charactersInRoom); }
+        }
+
+        public IExit[] Exits { get { return _exits; } }
+
+        public IExit Exit(ServerOptions.ExitDirections direction)
+        {
+            return _exits[(int) direction];
         }
 
         public void Enter(ICharacter character)

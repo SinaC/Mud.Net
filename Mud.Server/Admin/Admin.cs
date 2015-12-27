@@ -6,7 +6,7 @@ namespace Mud.Server.Admin
 {
     public class Admin : Player.Player, IAdmin
     {
-        private static readonly IReadOnlyTrie<MethodInfo> AdminCommands;
+        private static readonly Trie<MethodInfo> AdminCommands;
 
         static Admin()
         {

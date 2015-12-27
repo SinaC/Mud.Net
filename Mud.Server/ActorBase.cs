@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Mud.DataStructures;
 using Mud.Logger;
 
@@ -21,7 +22,7 @@ namespace Mud.Server
             if (Commands != null)
             {
                 List<TrieEntry<MethodInfo>> methodInfos = Commands.GetByPrefix(command).ToList();
-                TrieEntry<MethodInfo> entry = methodInfos.FirstOrDefault();
+                TrieEntry<MethodInfo> entry = methodInfos.FirstOrDefault(); // TODO: use command priority (when typing 'l' as command, 'look' has higher priority than 'list')
                 if (entry.Value != null)
                 {
                     MethodInfo methodInfo = entry.Value;
@@ -45,6 +46,20 @@ namespace Mud.Server
                 Send("Command not found");
                 return false;
             }
+        }
+
+
+        [Command("commands")]
+        protected virtual bool CommandsCommand(string rawParameters, CommandParameter[] parameters)
+        {
+            // TODO: group trie by value and display set of key linked to this value
+
+            Send("Available commands:");
+            StringBuilder sb = new StringBuilder();
+            foreach (string command in Commands.Keys.OrderBy(x => x))
+                Send(command); // TODO: display 6 by 6
+
+            return true;
         }
 
         #endregion

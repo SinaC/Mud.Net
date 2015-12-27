@@ -44,6 +44,7 @@ namespace Mud.Server.TestApplication
 
             IRoom room1 = world.AddRoom(Guid.NewGuid(), "Room1");
             IRoom room2 = world.AddRoom(Guid.NewGuid(), "Room2");
+            world.AddExit(room1, room2, ServerOptions.ExitDirections.North, true);
 
             ICharacter mob1 = world.AddCharacter(Guid.NewGuid(), "Mob1", room1);
             ICharacter mob2 = world.AddCharacter(Guid.NewGuid(), "Mob2", room1);
@@ -68,6 +69,13 @@ namespace Mud.Server.TestApplication
             player1.ProcessCommand("say Hello World!");
 
             player2.ProcessCommand("order charm mob5");
+
+            //player1.ProcessCommand("/commands");
+            //player1.ProcessCommand("commands");
+            //mob1.ProcessCommand("commands");
+
+            player2.ProcessCommand("north");
+            player2.ProcessCommand("south");
         }
 
         private static void TestCommandParsing()

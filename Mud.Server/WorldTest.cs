@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Mud.Server.Room;
 
 namespace Mud.Server
 {
@@ -56,6 +57,18 @@ namespace Mud.Server
             IRoom room = new Room.Room(guid, name);
             _rooms.Add(room);
             return room;
+        }
+
+        public IExit AddExit(IRoom from, IRoom to, ServerOptions.ExitDirections direction, bool bidirectional)
+        {
+            Exit from2To = new Exit(null, null, to);
+            from.Exits[(int) direction] = from2To;
+            if (bidirectional)
+            {
+                Exit to2From = new Exit(null, null, from);
+                to.Exits[(int)ServerOptions.Instance.ReverseDirection(direction)] = to2From;
+            }
+            return from2To;
         }
 
         #region IWorld

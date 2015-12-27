@@ -50,6 +50,8 @@ namespace Mud.Server.Character
                 Send("Order what?");
             else if (Slave == null)
                 Send("You have no followers here.");
+            else if (Slave.Room != Room)
+                Send(MessageConstants.CharacterNotFound);
             else
             {
                 Send("You order {0} to {1}.", Slave.Name, rawParameters);

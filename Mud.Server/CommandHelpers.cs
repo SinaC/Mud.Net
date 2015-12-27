@@ -131,11 +131,18 @@ namespace Mud.Server
             return joined;
         }
 
-        public static IReadOnlyTrie<MethodInfo> GetCommands(Type type)
+        public static Trie<MethodInfo> GetCommands(Type type)
         {
             var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
-                .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())
-                .Select(x => new TrieEntry<MethodInfo>(x.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().First().Name, x));
+                .Where(x => x.GetCustomAttributes(typeof (CommandAttribute), false).Any())
+                //.Select(x => new TrieEntry<MethodInfo>(x.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().First().Name, x));
+                .SelectMany(x => x.GetCustomAttributes(typeof (CommandAttribute)).OfType<CommandAttribute>(),
+                    (methodInfo, attribute) => new
+                    {
+                        methodInfo,
+                        name = attribute.Name
+                    })
+                .Select(x => new TrieEntry<MethodInfo>(x.name, x.methodInfo));
             Trie<MethodInfo> trie = new Trie<MethodInfo>();
             trie.AddRange(commands);
             return trie;

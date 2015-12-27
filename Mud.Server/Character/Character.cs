@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using Mud.DataStructures;
 
 namespace Mud.Server.Character
 {
     public partial class Character : EntityBase, ICharacter
     {
-        private static readonly IReadOnlyTrie<MethodInfo> CharacterCommands;
+        private static readonly Trie<MethodInfo> CharacterCommands;
 
         static Character()
         {
@@ -82,6 +84,13 @@ namespace Mud.Server.Character
         }
 
         #endregion
+
+        protected void ChangeRoom(IRoom destination)
+        {
+            Room.Leave(this);
+            Room = destination;
+            destination.Enter(this);
+        }
 
         [Command("look")]
         protected virtual bool Look(string rawParameters, CommandParameter[] parameters)

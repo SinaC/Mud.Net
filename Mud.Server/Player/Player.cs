@@ -7,7 +7,7 @@ namespace Mud.Server.Player
 {
     public partial class Player : ActorBase, IPlayer
     {
-        private static readonly IReadOnlyTrie<MethodInfo> PlayerCommands;
+        private static readonly Trie<MethodInfo> PlayerCommands;
 
         static Player()
         {
