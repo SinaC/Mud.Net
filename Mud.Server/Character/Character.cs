@@ -56,6 +56,8 @@ namespace Mud.Server.Character
 
         public IRoom Room { get; private set; }
 
+        public Sex Sex { get; private set; }
+
         public bool Impersonable { get; private set; }
         public IPlayer ImpersonatedBy { get; private set; }
 
@@ -74,6 +76,11 @@ namespace Mud.Server.Character
             // TODO: check if already slave, ...
             ControlledBy = master;
             return true;
+        }
+
+        public bool CanSee(ICharacter character)
+        {
+            return true; // TODO
         }
 
         #endregion
