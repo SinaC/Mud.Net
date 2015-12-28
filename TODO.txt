@@ -5,6 +5,7 @@ add blueprint for Room, Object, Character
 unit tests
 IReadOnlyPlayer, IReadOnlyCharacter, ...  + set private/protected to internal  this allows to remove methods like Enter/Leaves/ChangeImpersonation/ChangeController
 in addition to partial matching, command should have a priority    'look' has higher priority than 'list' even if it appears later in list
+CommandHelpers.GetCommands crash (key conflict in Trie) when overriding a command in a child class
 
 avatar creation state machine
 

@@ -13,7 +13,7 @@ namespace Mud.Server.Player
         private static readonly Trie<MethodInfo> PlayerCommands;
 
         private readonly IClient _client;
-        private readonly LoginStateMachine _loginStateMachine; // TODO: multiple PlayerStateMachine
+        private readonly IInputTrap<IPlayer> _currentStateMachine; // TODO: state machine for avatar creation
 
         static Player()
         {
@@ -28,7 +28,7 @@ namespace Mud.Server.Player
             client.DataReceived += ClientOnDataReceived;
             client.Disconnected += OnDisconnected;
 
-            _loginStateMachine = new LoginStateMachine();
+            _currentStateMachine = new LoginStateMachine();
 
             PlayerState = PlayerStates.Connecting;
         }
@@ -60,8 +60,9 @@ namespace Mud.Server.Player
             LastCommand = commandLine;
             LastCommandTimestamp = DateTime.Now;
 
-            if (_loginStateMachine != null && _loginStateMachine.IsRunning) {
-                _loginStateMachine.ProcessStage(this, commandLine);
+            if (_currentStateMachine != null && !_currentStateMachine.IsFinalStateReached)
+            {
+                _currentStateMachine.ProcessInput(this, commandLine);
                 return true;
             }
             else

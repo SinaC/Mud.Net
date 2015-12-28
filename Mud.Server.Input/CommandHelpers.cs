@@ -136,7 +136,7 @@ namespace Mud.Server.Input
         {
             var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
                 .Where(x => x.GetCustomAttributes(typeof (CommandAttribute), false).Any())
-                //.Select(x => new TrieEntry<MethodInfo>(x.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().First().Name, x));
+                //TODO: should be get 'most' inherited method .Where(x => x.GetBaseDefinition() == x) // http://stackoverflow.com/questions/2932421/detect-if-a-method-was-overridden-using-reflection-c
                 .SelectMany(x => x.GetCustomAttributes(typeof (CommandAttribute)).OfType<CommandAttribute>(),
                     (methodInfo, attribute) => new
                     {

@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="Trie\IReadOnlyTrie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StateMachine.cs" />
     <Compile Include="Trie\Trie.cs" />
     <Compile Include="Trie\TrieEntry.cs" />
   </ItemGroup>

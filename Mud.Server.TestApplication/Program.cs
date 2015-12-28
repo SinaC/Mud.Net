@@ -27,6 +27,7 @@ namespace Mud.Server.TestApplication
 
             IPlayer player1 = world.AddPlayer(new ConsoleClient("Player1"), Guid.NewGuid(), "Player1");
             IPlayer player2 = world.AddPlayer(new ConsoleClient("Player2"), Guid.NewGuid(), "Player2");
+            IAdmin admin = world.AddAdmin(new ConsoleClient("Admin1"), Guid.NewGuid(), "Admin1");
 
             IRoom room1 = world.AddRoom(Guid.NewGuid(), "Room1");
             IRoom room2 = world.AddRoom(Guid.NewGuid(), "Room2");
@@ -56,14 +57,17 @@ namespace Mud.Server.TestApplication
 
             player2.ProcessCommand("order charm mob5");
 
-            //player1.ProcessCommand("/commands");
-            //player1.ProcessCommand("commands");
-            //mob1.ProcessCommand("commands");
-
             player2.ProcessCommand("north");
             player2.ProcessCommand("south");
 
             player1.ProcessCommand("/who");
+
+            admin.ProcessCommand("who");
+
+            player1.ProcessCommand("/commands");
+            player1.ProcessCommand("commands");
+            mob1.ProcessCommand("commands");
+            admin.ProcessCommand("commands");
         }
 
         private static void TestCommandParsing()

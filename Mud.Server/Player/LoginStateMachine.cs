@@ -18,19 +18,14 @@ namespace Mud.Server.Player
     public class LoginStateMachine : InputTrapBase<IPlayer, LoginStates>
     {
         public const int MaxPasswordTries = 3;
-        private int _invalidPasswordTries = 0;
+        private int _invalidPasswordTries;
 
         private string _username;
         private string _password; // todo: encryption
 
-        public bool IsRunning // true is not in final state
+        public override bool IsFinalStateReached // true is not in final state
         {
-            get { return State != LoginStates.Connected && State != LoginStates.Disconnect; }
-        }
-
-        public bool IsLoginSuccessfull
-        {
-            get { return State == LoginStates.Connected; }
+            get { return State == LoginStates.Connected || State == LoginStates.Disconnect; }
         }
 
         public LoginStateMachine()
