@@ -13,7 +13,7 @@ namespace Mud.Server.Player
                 Send("Tell whom what ?");
             else
             {
-                IPlayer target = WorldTest.Instance.GetPlayer(parameters[0]);
+                IPlayer target = World.Instance.GetPlayer(parameters[0]);
                 if (target == null)
                     Send(StringHelpers.CharacterNotFound);
                 else
@@ -33,7 +33,7 @@ namespace Mud.Server.Player
         {
             Send("You gossip '{0}'", rawParameters);
             string other = String.Format("{0} gossips '{1}'", DisplayName, rawParameters);
-            foreach(IPlayer player in WorldTest.Instance.GetPlayers().Where(x => x != this))
+            foreach(IPlayer player in World.Instance.GetPlayers().Where(x => x != this))
                 player.Send(other);
 
             return true;

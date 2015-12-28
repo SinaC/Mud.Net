@@ -4,7 +4,6 @@ using Mud.Importer.Mystery;
 using Mud.Logger;
 using Mud.Network;
 using Mud.Network.Socket;
-using Mud.Server.Player;
 
 namespace Mud.Server.TestApplication
 {
@@ -19,11 +18,12 @@ namespace Mud.Server.TestApplication
             //TestSocketServer();
             //TestSocketServerLogin();
             //TestLoginStateMachine();
+            //TestToString();
         }
 
         private static void TestBasicCommands()
         {
-            WorldTest world = WorldTest.Instance as WorldTest;
+            World world = World.Instance as World;
 
             IPlayer player1 = world.AddPlayer(new ConsoleClient("Player1"), Guid.NewGuid(), "Player1");
             IPlayer player2 = world.AddPlayer(new ConsoleClient("Player2"), Guid.NewGuid(), "Player2");
@@ -57,22 +57,23 @@ namespace Mud.Server.TestApplication
 
             player2.ProcessCommand("order charm mob5");
 
-            player2.ProcessCommand("north");
+            player2.ProcessCommand("north"); // no exit on north
             player2.ProcessCommand("south");
+            player1.ProcessCommand("south"); // no exit on south
 
             player1.ProcessCommand("/who");
 
             admin.ProcessCommand("who");
 
-            player1.ProcessCommand("/commands");
-            player1.ProcessCommand("commands");
-            mob1.ProcessCommand("commands");
-            admin.ProcessCommand("commands");
+            //player1.ProcessCommand("/commands");
+            //player1.ProcessCommand("commands");
+            //mob1.ProcessCommand("commands");
+            //admin.ProcessCommand("commands");
         }
 
         private static void TestCommandParsing()
         {
-            WorldTest world = WorldTest.Instance as WorldTest;
+            World world = World.Instance as World;
             IRoom room = world.AddRoom(Guid.NewGuid(), "Room");
 
             IPlayer player = world.AddPlayer(new ConsoleClient("Player"), Guid.NewGuid(), "Player");
@@ -115,7 +116,7 @@ namespace Mud.Server.TestApplication
 
         private static void TestSocketServer()
         {
-            WorldTest world = WorldTest.Instance as WorldTest;
+            World world = World.Instance as World;
 
             INetworkServer server = new SocketServer(11000);
             int i = 1;
@@ -133,7 +134,7 @@ namespace Mud.Server.TestApplication
 
         private static void TestSocketServerLogin()
         {
-            WorldTest world = WorldTest.Instance as WorldTest;
+            World world = World.Instance as World;
 
             INetworkServer server = new SocketServer(11000);
             int i = 1;
@@ -176,6 +177,20 @@ namespace Mud.Server.TestApplication
                 string command = Console.ReadLine();
                 player.ProcessCommand(command);
             }
+        }
+
+        private static void TestToString()
+        {
+            World world = World.Instance as World;
+            IRoom room = world.AddRoom(Guid.NewGuid(), "Room");
+            ICharacter character = world.AddCharacter(Guid.NewGuid(), "Mob1", room);
+
+            //string test = String.Format("n:{0:n} e:{0:n}", character);
+            //Console.WriteLine(test);
+
+            IPlayer player1 = world.AddPlayer(new ConsoleClient("Player1"), Guid.NewGuid(), "Player1");
+            player1.ProcessCommand("im mob1");
+            (character as Character.Character).Act(Character.Character.ActOptions.ToAll, "test {0:n} {1} {2:dd/MM/yyyy} {3:0.00}", character, "param_2", DateTime.Now, 123.4567);
         }
     }
 }

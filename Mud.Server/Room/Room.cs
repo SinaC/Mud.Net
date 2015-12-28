@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
-using Mud.DataStructures;
 using Mud.DataStructures.Trie;
 using Mud.Server.Blueprints;
 using Mud.Server.Input;

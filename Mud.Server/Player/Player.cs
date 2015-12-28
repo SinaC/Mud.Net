@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using Mud.DataStructures;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Network;

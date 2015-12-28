@@ -180,7 +180,7 @@ namespace Mud.Server.Player
             // Load player
             player.Load(_username);
             // Add player to world
-            WorldTest.Instance.AddPlayer(player);
+            World.Instance.AddPlayer(player);
             //
             State = LoginStates.Connected;
         }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Mud.Server.Input;
+﻿using Mud.Server.Input;
 
 namespace Mud.Server.Character
 {
@@ -22,22 +20,16 @@ namespace Mud.Server.Character
             else if (exit == null || toRoom == null) // Check if existing exit
             {
                 Send("You almost goes {0}, but suddenly realize that there's no exit there.", direction);
-                string message = String.Format("{0} looks like {1}'s about to go {2}, but suddenly stops short and looks confused.", Name, "he" /*TODO: sex*/, direction);
-                foreach (ICharacter character in Room.CharactersInRoom.Where(x => x != this))
-                    character.Send(message);
+                Act(ActOptions.ToRoom, "{0} looks like {0:e}'s about to go {1}, but suddenly stops short and looks confused.", this, direction );
             }
             else
             {
-                string leaveMessage = String.Format("{0} leaves {1}.", Name, direction);
-                foreach (ICharacter character in Room.CharactersInRoom.Where(x => x != this))
-                    character.Send(leaveMessage);
+                Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction);
 
                 ChangeRoom(toRoom);
                 // TODO: autolook ?
 
-                string enterMessage = String.Format("{0} has arrived", Name);
-                foreach (ICharacter character in Room.CharactersInRoom.Where(x => x != this))
-                    character.Send(enterMessage);
+                Act(ActOptions.ToRoom, "{0} has arrived", this);
 
                 // Followers: no circular follows
                 if (fromRoom != toRoom)

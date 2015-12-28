@@ -67,7 +67,7 @@
     <Compile Include="Room\Exit.cs" />
     <Compile Include="Room\Room.cs" />
     <Compile Include="ServerOptions.cs" />
-    <Compile Include="WorldTest.cs" />
+    <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">

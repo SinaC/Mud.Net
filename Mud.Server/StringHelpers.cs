@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Mud.Server
 {
@@ -46,5 +47,27 @@ namespace Mud.Server
 
             return text.ToUpper();
         }
+
+        //https://genderneutralpronoun.wordpress.com/tag/ze-and-zir/
+        public static readonly IDictionary<Sex, string> Subjects = new Dictionary<Sex, string>
+        {
+            { Sex.Neutral, "it" },
+            { Sex.Male, "he"},
+            { Sex.Female, "she"},
+        };
+
+        public static readonly IDictionary<Sex, string> Objectives = new Dictionary<Sex, string>
+        {
+            { Sex.Neutral, "it" },
+            { Sex.Male, "him"},
+            { Sex.Female, "her"},
+        };
+
+        public static readonly IDictionary<Sex, string> Possessives = new Dictionary<Sex, string>
+        {
+            { Sex.Neutral, "its" },
+            { Sex.Male, "his"},
+            { Sex.Female, "her"},
+        };
     }
 }

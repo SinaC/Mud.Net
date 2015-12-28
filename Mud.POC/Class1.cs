@@ -1,31 +1,22 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Mud.Logger;
 using Mud.Server;
-using Mud.Server.Player;
 
 namespace Mud.POC
 {
     public class Class1
     {
-        // TO_ROOM: everyone in the room except origin
-        // TO_NOTVICT: everyone on in the room except origin and target
-        // TO_VICT: only to target
-        // TO_CHAR: only to origin
-        // TO_ALL: everyone in the room
-
         public enum ActOptions
         {
             ToRoom, // everyone in the room except origin
             ToNotVictim, // everyone on in the room except Character and Target
             ToVictim, // only to Target
-            ToCharacter, // only to Origin
+            ToCharacter, // only to Character
             ToAll // everyone in the room
         }
 
-        public void Act(ActOptions options, string format, ICharacter character, object param1, object param2, params object[] parameters)
+        public static void Act(ActOptions options, string format, ICharacter character, object param1, object param2, params object[] parameters)
         {
             if (character == null || character.Room == null)
             {
@@ -35,14 +26,14 @@ namespace Mud.POC
 
             // Firstly, apply .net formatting
             string rawPhrase = String.Format(format, parameters);
-            
+
             // Secondly, apply Mud formatting
             if (options == ActOptions.ToAll || options == ActOptions.ToRoom || options == ActOptions.ToNotVictim)
                 foreach (ICharacter to in character.Room.CharactersInRoom)
                 {
                     if (options == ActOptions.ToAll
                         || (options == ActOptions.ToRoom && to != character)
-                        || (options == ActOptions.ToNotVictim && to != (ICharacter)param1))
+                        || (options == ActOptions.ToNotVictim && to != (ICharacter) param1))
                     {
                         string phrase = Format(rawPhrase, to, character, param1, param2);
                         to.Send(phrase);
@@ -55,15 +46,15 @@ namespace Mud.POC
             }
             else if (options == ActOptions.ToVictim)
             {
-                string phrase = Format(rawPhrase, (ICharacter)param1, character, param1, param2);
-                ((ICharacter)param1).Send(phrase);
+                string phrase = Format(rawPhrase, (ICharacter) param1, character, param1, param2);
+                ((ICharacter) param1).Send(phrase);
             }
         }
 
         // TODO: use regex or manual parsing
         // $n and $N must check if target can see character (someone if not)
         // $e, $E, $m, $M, $s and $S must use sex mapping table
-        private string Format(string phrase, ICharacter target, ICharacter character, object param1, object param2)
+        private static string Format(string phrase, ICharacter target, ICharacter character, object param1, object param2)
         {
             //phrase = phrase.Replace("$t", (string) param1); // useless
             //phrase = phrase.Replace("$T", (string) param2); // useless
@@ -88,25 +79,25 @@ namespace Mud.POC
 //                : (ch)->name ) : "someone" )
 
         //https://genderneutralpronoun.wordpress.com/tag/ze-and-zir/
-        private static readonly IDictionary<Sex,string> _subjects = new Dictionary<Sex, string>
+        private static readonly IDictionary<Sex, string> _subjects = new Dictionary<Sex, string>
         {
-            { Sex.Neutral, "it" },
-            { Sex.Male, "he"},
-            { Sex.Female, "she"},
+            {Sex.Neutral, "it"},
+            {Sex.Male, "he"},
+            {Sex.Female, "she"},
         };
 
         private static readonly IDictionary<Sex, string> _objectives = new Dictionary<Sex, string>
         {
-            { Sex.Neutral, "it" },
-            { Sex.Male, "him"},
-            { Sex.Female, "her"},
+            {Sex.Neutral, "it"},
+            {Sex.Male, "him"},
+            {Sex.Female, "her"},
         };
 
         private static readonly IDictionary<Sex, string> _possessives = new Dictionary<Sex, string>
         {
-            { Sex.Neutral, "its" },
-            { Sex.Male, "his"},
-            { Sex.Female, "her"},
+            {Sex.Neutral, "its"},
+            {Sex.Male, "his"},
+            {Sex.Female, "her"},
         };
 
         public static void Act(string format, ICharacter character, ICharacter victim, ActOptions option)

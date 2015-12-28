@@ -1,5 +1,4 @@
-﻿using System;
-using Mud.Server.Input;
+﻿using Mud.Server.Input;
 
 namespace Mud.Server.Player
 {
@@ -9,7 +8,7 @@ namespace Mud.Server.Player
         protected virtual bool DoWho(string rawParameters, CommandParameter[] parameters)
         {
             Send("Who:");
-            foreach (IPlayer player in WorldTest.Instance.GetPlayers())
+            foreach (IPlayer player in World.Instance.GetPlayers())
             {
                 switch (player.PlayerState)
                 {

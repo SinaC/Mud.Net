@@ -21,7 +21,7 @@ namespace Mud.Server.Player
             }
             else
             {
-                ICharacter target = WorldTest.Instance.GetCharacter(parameters[0]);
+                ICharacter target = World.Instance.GetCharacter(parameters[0]);
                 if (target != null)
                 {
                     Send("You start impersonating {0}.", target.Name);

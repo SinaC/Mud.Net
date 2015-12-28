@@ -7,7 +7,7 @@ using Mud.Server.Room;
 
 namespace Mud.Server
 {
-    public class WorldTest : IWorld
+    public class World : IWorld
     {
         private readonly List<IAdmin> _admins;
         private readonly List<IPlayer> _players;
@@ -16,14 +16,14 @@ namespace Mud.Server
 
         #region Singleton
 
-        private static readonly Lazy<WorldTest> Lazy = new Lazy<WorldTest>(() => new WorldTest());
+        private static readonly Lazy<World> Lazy = new Lazy<World>(() => new World());
 
         public static IWorld Instance
         {
             get { return Lazy.Value; }
         }
 
-        private WorldTest()
+        private World()
         {
             _admins = new List<IAdmin>();
             _players = new List<IPlayer>();
@@ -33,6 +33,7 @@ namespace Mud.Server
 
         #endregion
 
+        // TODO: remove following methods
         public IAdmin AddAdmin(IClient client, Guid guid, string name)
         {
             IAdmin admin = new Admin.Admin(client, guid, name);
