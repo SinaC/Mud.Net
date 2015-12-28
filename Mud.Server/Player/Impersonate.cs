@@ -26,7 +26,7 @@
                     Impersonating = target;
                 }
                 else
-                    Send(MessageConstants.CharacterNotFound);
+                    Send(StringConstants.CharacterNotFound);
             }
 
             return true;

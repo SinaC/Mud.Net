@@ -53,10 +53,6 @@
       <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
       <Name>Mud.Network</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
-      <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>
-      <Name>Mud.Server</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

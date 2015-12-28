@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ClientMock.cs" />
     <Compile Include="CommandParsingTests.cs" />
     <Compile Include="Mocking\LogMock.cs" />
     <Compile Include="Mocking\WorldMock.cs" />
@@ -60,6 +61,10 @@
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Network\Mud.Network.csproj">
+      <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
+      <Name>Mud.Network</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
       <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>

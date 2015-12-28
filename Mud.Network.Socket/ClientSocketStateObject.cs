@@ -1,10 +1,9 @@
 ﻿using System.Text;
-using Mud.Server;
 
 namespace Mud.Network.Socket
 {
     // State object for reading client data asynchronously
-    internal class ClientSocketStateObject
+    internal class ClientSocketStateObject : IClient
     {
         // Size of receive buffer.
         public const int BufferSize = 32;
@@ -15,15 +14,39 @@ namespace Mud.Network.Socket
         // Received data string.
         public StringBuilder Command { get; set; }
 
-        // Client
-        public IPlayer Client { get; set; }
+        public SocketServer Server { get; private set; }
 
-        public ClientSocketStateObject()
+        public ClientSocketStateObject(SocketServer server)
         {
+            Server = server;
             Buffer = new byte[BufferSize];
             Command = new StringBuilder();
             ClientSocket = null;
-            Client = null;
+        }
+
+        public event DataReceivedEventHandler DataReceived;
+        public event DisconnectedEventHandler Disconnected;
+
+        public void WriteData(string data)
+        {
+            Server.Send(ClientSocket, data);
+        }
+
+        public void Disconnect()
+        {
+            Server.CloseConnection(this);
+        }
+
+        public void OnDataReceived(string data)
+        {
+            if (DataReceived != null)
+                DataReceived(data);
+        }
+
+        public void OnDisconnected()
+        {
+            if (Disconnected != null)
+                Disconnected();
         }
     }
 }

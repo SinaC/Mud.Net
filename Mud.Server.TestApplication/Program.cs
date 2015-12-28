@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
+using Mud.Importer.Mystery;
 using Mud.Logger;
+using Mud.Network;
 using Mud.Network.Socket;
-using Mud.POC;
 
 namespace Mud.Server.TestApplication
 {
@@ -14,34 +13,17 @@ namespace Mud.Server.TestApplication
         {
             Log.Default.Initialize(ConfigurationManager.AppSettings["logpath"], "server.log");
 
-            //TODO: int port = ConfigurationManager.AppSettings["port"]
-            //CommandProcessor commandProcessor = new CommandProcessor();
-            //SocketServer server = new SocketServer(() => new Player(commandProcessor));
-            //server.Initialize(11000);
-            //server.Start();
-            //Console.WriteLine("Press ENTER to continue...");
-            //Console.ReadLine();
-            //server.Stop();
+            //TestCommandParsing();
+            TestBasicCommands();
+            //TestSocketServer();
+        }
 
-            //MysteryImporter importer = new MysteryImporter();
-            //importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
-            //importer.Parse();
-
-            //string path = @"D:\GitHub\OldMud\area";
-            //string fileList = Path.Combine(path, "area.lst");
-            //string[] areaFilenames = File.ReadAllLines(fileList);
-            //foreach (string areaFilename in areaFilenames)
-            //{
-            //    string areaFullName = Path.Combine(path, areaFilename);
-            //    MysteryImporter importer = new MysteryImporter();
-            //    importer.Load(areaFullName);
-            //    importer.Parse();
-            //}
-
+        private static void TestBasicCommands()
+        {
             WorldTest world = WorldTest.Instance as WorldTest;
-            
-            IPlayer player1 = world.AddPlayer(Guid.NewGuid(), "Player1");
-            IPlayer player2 = world.AddPlayer(Guid.NewGuid(), "Player2");
+
+            IPlayer player1 = world.AddPlayer(new ConsoleClient("Player1"), Guid.NewGuid(), "Player1");
+            IPlayer player2 = world.AddPlayer(new ConsoleClient("Player2"), Guid.NewGuid(), "Player2");
 
             IRoom room1 = world.AddRoom(Guid.NewGuid(), "Room1");
             IRoom room2 = world.AddRoom(Guid.NewGuid(), "Room2");
@@ -84,7 +66,7 @@ namespace Mud.Server.TestApplication
             WorldTest world = WorldTest.Instance as WorldTest;
             IRoom room = world.AddRoom(Guid.NewGuid(), "Room");
 
-            IPlayer player = world.AddPlayer(Guid.NewGuid(), "Player");
+            IPlayer player = world.AddPlayer(new ConsoleClient("Player"), Guid.NewGuid(), "Player");
             player.ProcessCommand("test");
             player.ProcessCommand("test arg1");
             player.ProcessCommand("test 'arg1' 'arg2' 'arg3' 'arg4'");
@@ -117,9 +99,53 @@ namespace Mud.Server.TestApplication
             player.ProcessCommand("tell");
             player.ProcessCommand("look"); // INVALID because Character commands are not accessible by Player unless if impersonating
 
-            IAdmin admin = world.AddAdmin(Guid.NewGuid(), "Admin");
+            IAdmin admin = world.AddAdmin(new ConsoleClient("Admin"), Guid.NewGuid(), "Admin");
             admin.ProcessCommand("incarnate");
             admin.ProcessCommand("unknown"); // INVALID
+        }
+
+        private static void TestSocketServer()
+        {
+            //TODO: int port = ConfigurationManager.AppSettings["port"]
+            //CommandProcessor commandProcessor = new CommandProcessor();
+            //SocketServer server = new SocketServer(() => new Player(commandProcessor), 11000);
+            //server.Initialize();
+            //server.Start();
+            //Console.WriteLine("Press ENTER to continue...");
+            //Console.ReadLine();
+            //server.Stop();
+            WorldTest world = WorldTest.Instance as WorldTest;
+
+            INetworkServer server = new SocketServer(11000);
+            int i = 1;
+            server.NewClientConnected += client =>
+            {
+                // TODO
+                IPlayer player = world.AddPlayer(client, Guid.NewGuid(), "player" + (i++));
+            };
+            server.Initialize();
+            server.Start();
+            Console.WriteLine("Press ENTER to continue...");
+            Console.ReadLine();
+            server.Stop();
+        }
+
+        private static void TestImport()
+        {
+            MysteryImporter importer = new MysteryImporter();
+            importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
+            importer.Parse();
+
+            //string path = @"D:\GitHub\OldMud\area";
+            //string fileList = Path.Combine(path, "area.lst");
+            //string[] areaFilenames = File.ReadAllLines(fileList);
+            //foreach (string areaFilename in areaFilenames)
+            //{
+            //    string areaFullName = Path.Combine(path, areaFilename);
+            //    MysteryImporter importer = new MysteryImporter();
+            //    importer.Load(areaFullName);
+            //    importer.Parse();
+            //}
         }
     }
 }

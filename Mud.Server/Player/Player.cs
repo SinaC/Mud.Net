@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime.Remoting.Channels;
 using Mud.DataStructures;
 using Mud.Logger;
+using Mud.Network;
 
 namespace Mud.Server.Player
 {
@@ -9,15 +11,21 @@ namespace Mud.Server.Player
     {
         private static readonly Trie<MethodInfo> PlayerCommands;
 
+        private readonly IClient _client;
+
         static Player()
         {
             PlayerCommands = CommandHelpers.GetCommands(typeof(Player));
         }
 
-        public Player(Guid id, string name)
+        public Player(IClient client, Guid id, string name)
         {
+            _client = client;
             Id = id;
             Name = name;
+
+            client.DataReceived += ClientOnDataReceived;
+            client.Disconnected += OnDisconnected;
         }
 
         #region IPlayer
@@ -66,9 +74,8 @@ namespace Mud.Server.Player
 
         public override void Send(string format, params object[] parameters)
         {
-            // TODO: get Socket, push message
-            string message = String.Format(format, parameters);
-            Log.Default.WriteLine(LogLevels.Info, "SENDING TO [{0}]:[[["+message+"]]]", Name);
+            string message = String.Format(format+Environment.NewLine, parameters);
+            _client.WriteData(message);
         }
 
         #endregion
@@ -89,6 +96,15 @@ namespace Mud.Server.Player
                 Impersonating.ChangeImpersonation(null);
                 Impersonating = null;
             }
+        }
+
+        #endregion
+
+        #region IClient event handlers
+
+        private void ClientOnDataReceived(string data)
+        {
+            ProcessCommand(data);
         }
 
         #endregion

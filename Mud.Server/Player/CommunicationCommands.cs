@@ -14,12 +14,13 @@ namespace Mud.Server.Player
             {
                 IPlayer target = WorldTest.Instance.GetPlayer(parameters[0]);
                 if (target == null)
-                    Send(MessageConstants.CharacterNotFound);
+                    Send(StringConstants.CharacterNotFound);
                 else
                 {
                     string what = CommandHelpers.JoinParameters(parameters.Skip(1));
                     Send("You tell {0}: '{1}\'", target.Name, what);
-                    target.Send("{0} tells you '{1}'", Name, what);
+                    //target.Send("{0} tells you '" + StringConstants.Blue + "{1}" + StringConstants.Reset + "'", Name, what);
+                    target.Send("{0} tells you '%^blue%^{1}%^reset%^'", Name, what);
                 }
             }
 

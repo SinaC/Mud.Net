@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Mud.DataStructures;
+using Mud.Network;
 
 namespace Mud.Server.Admin
 {
@@ -13,8 +14,8 @@ namespace Mud.Server.Admin
             AdminCommands = CommandHelpers.GetCommands(typeof(Admin));
         }
 
-        public Admin(Guid id, string name) 
-            : base(id, name)
+        public Admin(IClient client, Guid id, string name) 
+            : base(client, id, name)
         {
         }
 

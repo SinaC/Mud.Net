@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Mud.Network;
 
 namespace Mud.Server.Tests.Mocking
 {
@@ -19,16 +20,16 @@ namespace Mud.Server.Tests.Mocking
             _rooms = new List<IRoom>();
         }
 
-        public IAdmin AddAdmin(Guid guid, string name)
+        public IAdmin AddAdmin(IClient client, Guid guid, string name)
         {
-            IAdmin admin = new Admin.Admin(guid, name);
+            IAdmin admin = new Admin.Admin(client, guid, name);
             _admins.Add(admin);
             return admin;
         }
 
-        public IPlayer AddPlayer(Guid guid, string name)
+        public IPlayer AddPlayer(IClient client, Guid guid, string name)
         {
-            IPlayer player = new Player.Player(guid, name);
+            IPlayer player = new Player.Player(client, guid, name);
             _players.Add(player);
             return player;
         }

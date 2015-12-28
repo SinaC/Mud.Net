@@ -7,13 +7,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Mud.Logger;
-using Mud.Server;
 
 namespace Mud.Network.Socket
 {
     // TODO: handling exception
-    // TODO: client collection
-    // TODO: forbid start/stop/... depending on server state
+    // TODO: forbidding start/stop/... depending on server state
 
     internal enum ServerStatus
     {
@@ -35,30 +33,31 @@ namespace Mud.Network.Socket
         private CancellationTokenSource _cancellationTokenSource;
 
         private ServerStatus _status;
-
-        private readonly Func<IPlayer> _createClientFunc;
-        private readonly List<ClientSocketStateObject> _serverStateObjects;
+        private List<ClientSocketStateObject> _clients;
 
         public int Port { get; private set; }
 
-        public SocketServer(Func<IPlayer> createClientFunc)
+        public SocketServer(int port)
         {
             _status = ServerStatus.Creating;
             Log.Default.WriteLine(LogLevels.Info, "Server creating");
 
-            _createClientFunc = createClientFunc;
-            _serverStateObjects = new List<ClientSocketStateObject>();
+            Port = port;
+
+            _clients = new List<ClientSocketStateObject>();
 
             Log.Default.WriteLine(LogLevels.Info, "Server created");
             _status = ServerStatus.Created;
         }
 
-        public void Initialize(int port)
+        #region INetworkServer
+
+        public event NewClientConnectedEventHandler NewClientConnected;
+
+        public void Initialize()
         {
             Log.Default.WriteLine(LogLevels.Info, "Server initializing");
             _status = ServerStatus.Initializing;
-
-            Port = port;
 
             // Establish the local endpoint for the socket.
             string hostName = Dns.GetHostName();
@@ -106,9 +105,9 @@ namespace Mud.Network.Socket
             try
             {
                 // Close clients socket
-                List<ClientSocketStateObject> copy = _serverStateObjects.Select(x => x).ToList(); // make a copy, because CloseConnection modify collection
-                foreach (ClientSocketStateObject serverStateObject in copy)
-                    CloseConnection(serverStateObject);
+                List<ClientSocketStateObject> copy = _clients.Select(x => x).ToList(); // make a copy, because CloseConnection modify collection
+                foreach (ClientSocketStateObject client in copy)
+                    CloseConnection(client);
                 
                 // Stop listen task
                 _cancellationTokenSource.Cancel();
@@ -129,19 +128,13 @@ namespace Mud.Network.Socket
             _status = ServerStatus.Stopped;
         }
 
-        public void Send(IPlayer client, string data)
-        {
-            // TODO: optimize and protect this search
-            ClientSocketStateObject serverStateObject = _serverStateObjects.FirstOrDefault(x => x.Client == client);
-            if (serverStateObject != null)
-                Send(serverStateObject.ClientSocket, data);
-        }
-
         public void Broadcast(string data)
         {
-            foreach (ClientSocketStateObject serverStateObject in _serverStateObjects)
-                Send(serverStateObject.ClientSocket, data);
+            foreach(ClientSocketStateObject client in _clients)
+                Send(client.ClientSocket, data);
         }
+
+        #endregion
 
         private void ListenTask()
         {
@@ -189,15 +182,16 @@ namespace Mud.Network.Socket
                 Log.Default.WriteLine(LogLevels.Debug, "Client connected from " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address);
 
                 // Create the state object.
-                ClientSocketStateObject state = new ClientSocketStateObject
+                ClientSocketStateObject client = new ClientSocketStateObject(this)
                 {
                     ClientSocket = clientSocket,
-                    Client = _createClientFunc()
                 };
-                // Add it to 'client' collection
-                _serverStateObjects.Add(state);
+                _clients.Add(client);
+                // Warn listener
+                if (NewClientConnected != null)
+                    NewClientConnected(client);
                 //
-                clientSocket.BeginReceive(state.Buffer, 0, ClientSocketStateObject.BufferSize, 0, ReadCallback, state);
+                clientSocket.BeginReceive(client.Buffer, 0, ClientSocketStateObject.BufferSize, 0, ReadCallback, client);
             }
             catch (ObjectDisposedException)
             {
@@ -214,8 +208,8 @@ namespace Mud.Network.Socket
             {
                 // Retrieve the state object and the handler socket
                 // from the asynchronous state object.
-                ClientSocketStateObject state = (ClientSocketStateObject) ar.AsyncState;
-                System.Net.Sockets.Socket clientSocket = state.ClientSocket;
+                ClientSocketStateObject client = (ClientSocketStateObject) ar.AsyncState;
+                System.Net.Sockets.Socket clientSocket = client.ClientSocket;
 
                 // Read data from the client socket. 
                 int bytesRead = clientSocket.EndReceive(ar);
@@ -225,12 +219,12 @@ namespace Mud.Network.Socket
                 if (bytesRead == 0)
                 {
                     // Something goes wrong, close connection
-                    CloseConnection(state);
+                    CloseConnection(client);
                 }
                 else
                 {
                     // TODO: remove first data received if it starts with cumbersome characters
-                    string dataReceived = Encoding.ASCII.GetString(state.Buffer, 0, bytesRead);
+                    string dataReceived = Encoding.ASCII.GetString(client.Buffer, 0, bytesRead);
 
                     // If data ends with CRLF, remove them and consider command as complete
                     bool commandComplete = false;
@@ -241,27 +235,27 @@ namespace Mud.Network.Socket
                     }
 
                     // Append data in command
-                    state.Command.Append(dataReceived);
+                    client.Command.Append(dataReceived);
 
                     // Command is complete, send it to command processor and start a new one
                     if (commandComplete)
                     {
                         // Get command
-                        string command = state.Command.ToString();
+                        string command = client.Command.ToString();
                         Log.Default.WriteLine(LogLevels.Info, "Command received from client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + " : " + command);
 
                         // Reset command
-                        state.Command = new StringBuilder();
+                        client.Command = new StringBuilder();
 
-                        // Test mode: send command back to client
-                        Send(clientSocket, command);
+                        //// Test mode: send command back to client
+                        //Send(clientSocket, command);
 
                         // Process command
-                        state.Client.ProcessCommand(command);
+                        client.OnDataReceived(command);
                     }
 
                     // Continue reading
-                    clientSocket.BeginReceive(state.Buffer, 0, ClientSocketStateObject.BufferSize, 0, ReadCallback, state);
+                    clientSocket.BeginReceive(client.Buffer, 0, ClientSocketStateObject.BufferSize, 0, ReadCallback, client);
                 }
             }
             catch (ObjectDisposedException)
@@ -273,7 +267,7 @@ namespace Mud.Network.Socket
             }
         }
 
-        private void Send(System.Net.Sockets.Socket clientSocket, string data)
+        internal void Send(System.Net.Sockets.Socket clientSocket, string data)
         {
             try
             {
@@ -286,7 +280,7 @@ namespace Mud.Network.Socket
                 byte[] byteData = Encoding.ASCII.GetBytes(colorizedData);
 
                 // Begin sending the data to the remote device.
-                clientSocket.BeginSend(byteData, 0, byteData.Length, 0, SendCallback, clientSocket);
+                clientSocket.BeginSend(byteData, 0, byteData.Length, 0, SendCallback, clientSocket); // TODO: pass ClientSocketStateObject instead of socket
             }
             catch (ObjectDisposedException)
             {
@@ -302,7 +296,7 @@ namespace Mud.Network.Socket
             try
             {
                 // Retrieve the socket from the state object.
-                System.Net.Sockets.Socket clientSocket = (System.Net.Sockets.Socket) ar.AsyncState;
+                System.Net.Sockets.Socket clientSocket = (System.Net.Sockets.Socket)ar.AsyncState; // TODO: retrieve ClientSocketStateObject instead of socket
 
                 // Complete sending the data to the remote device.
                 int bytesSent = clientSocket.EndSend(ar);
@@ -318,19 +312,19 @@ namespace Mud.Network.Socket
             }
         }
 
-        private void CloseConnection(ClientSocketStateObject state)
+        internal void CloseConnection(ClientSocketStateObject client)
         {
             // Remove from 'client' collection
-            _serverStateObjects.Remove(state);
+            _clients.Remove(client);
 
             //
-            System.Net.Sockets.Socket clientSocket = state.ClientSocket;
-            IPlayer client = state.Client;
+            System.Net.Sockets.Socket clientSocket = client.ClientSocket;
 
             Log.Default.WriteLine(LogLevels.Info, "Client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " has disconnected");
             
             // Close socket
             clientSocket.Shutdown(SocketShutdown.Both);
+            clientSocket.Close();
             client.OnDisconnected();
         }
 

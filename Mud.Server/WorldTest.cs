@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Mud.Network;
 using Mud.Server.Room;
 
 namespace Mud.Server
@@ -31,16 +32,16 @@ namespace Mud.Server
 
         #endregion
 
-        public IAdmin AddAdmin(Guid guid, string name)
+        public IAdmin AddAdmin(IClient client, Guid guid, string name)
         {
-            IAdmin admin = new Admin.Admin(guid, name);
+            IAdmin admin = new Admin.Admin(client, guid, name);
             _admins.Add(admin);
             return admin;
         }
 
-        public IPlayer AddPlayer(Guid guid, string name)
+        public IPlayer AddPlayer(IClient client, Guid guid, string name)
         {
-            IPlayer player = new Player.Player(guid, name);
+            IPlayer player = new Player.Player(client, guid, name);
             _players.Add(player);
             return player;
         }

@@ -1,17 +1,16 @@
-﻿using Mud.Server;
-
-namespace Mud.Network
+﻿namespace Mud.Network
 {
     // TODO: should be able to tell when a client connects/disconnects
+    public delegate void NewClientConnectedEventHandler(IClient client);
+
     public interface INetworkServer
     {
-        int Port { get; }
+        event NewClientConnectedEventHandler NewClientConnected;
 
-        void Initialize(int port);
+        void Initialize();
         void Start();
         void Stop();
 
-        void Send(IPlayer client, string data);
         void Broadcast(string data);
     }
 }
