@@ -4,6 +4,7 @@ using Mud.Importer.Mystery;
 using Mud.Logger;
 using Mud.Network;
 using Mud.Network.Socket;
+using Mud.Server.Player;
 
 namespace Mud.Server.TestApplication
 {
@@ -16,6 +17,8 @@ namespace Mud.Server.TestApplication
             //TestCommandParsing();
             TestBasicCommands();
             //TestSocketServer();
+            //TestSocketServerLogin();
+            //TestLoginStateMachine();
         }
 
         private static void TestBasicCommands()
@@ -59,6 +62,8 @@ namespace Mud.Server.TestApplication
 
             player2.ProcessCommand("north");
             player2.ProcessCommand("south");
+
+            player1.ProcessCommand("/who");
         }
 
         private static void TestCommandParsing()
@@ -106,14 +111,6 @@ namespace Mud.Server.TestApplication
 
         private static void TestSocketServer()
         {
-            //TODO: int port = ConfigurationManager.AppSettings["port"]
-            //CommandProcessor commandProcessor = new CommandProcessor();
-            //SocketServer server = new SocketServer(() => new Player(commandProcessor), 11000);
-            //server.Initialize();
-            //server.Start();
-            //Console.WriteLine("Press ENTER to continue...");
-            //Console.ReadLine();
-            //server.Stop();
             WorldTest world = WorldTest.Instance as WorldTest;
 
             INetworkServer server = new SocketServer(11000);
@@ -122,6 +119,25 @@ namespace Mud.Server.TestApplication
             {
                 // TODO
                 IPlayer player = world.AddPlayer(client, Guid.NewGuid(), "player" + (i++));
+            };
+            server.Initialize();
+            server.Start();
+            Console.WriteLine("Press ENTER to continue...");
+            Console.ReadLine();
+            server.Stop();
+        }
+
+        private static void TestSocketServerLogin()
+        {
+            WorldTest world = WorldTest.Instance as WorldTest;
+
+            INetworkServer server = new SocketServer(11000);
+            int i = 1;
+            server.NewClientConnected += client =>
+            {
+                // TODO
+                IPlayer player = new Player.Player(client, Guid.NewGuid());
+                player.Send("Why don't you login or tell us the name you wish to be known by?");
             };
             server.Initialize();
             server.Start();
@@ -146,6 +162,16 @@ namespace Mud.Server.TestApplication
             //    importer.Load(areaFullName);
             //    importer.Parse();
             //}
+        }
+
+        private static void TestLoginStateMachine()
+        {
+            IPlayer player = new Player.Player(new ConsoleClient("Player"), Guid.NewGuid());
+            while (true)
+            {
+                string command = Console.ReadLine();
+                player.ProcessCommand(command);
+            }
         }
     }
 }

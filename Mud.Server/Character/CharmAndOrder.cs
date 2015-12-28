@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using Mud.Server.Input;
 
 namespace Mud.Server.Character
 {
     public partial class Character
     {
         [Command("charm")]
-        protected virtual bool Charm(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoCharm(string rawParameters, CommandParameter[] parameters)
         {
             if (ControlledBy != null)
                 Send("You feel like taking, not giving, orders.");
@@ -37,21 +36,21 @@ namespace Mud.Server.Character
                     }
                 }
                 else
-                    Send(StringConstants.CharacterNotFound);
+                    Send(StringHelpers.CharacterNotFound);
             }
 
             return true;
         }
 
         [Command("order")]
-        protected virtual bool Order(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoOrder(string rawParameters, CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 Send("Order what?");
             else if (Slave == null)
                 Send("You have no followers here.");
             else if (Slave.Room != Room)
-                Send(StringConstants.CharacterNotFound);
+                Send(StringHelpers.CharacterNotFound);
             else
             {
                 Send("You order {0} to {1}.", Slave.Name, rawParameters);

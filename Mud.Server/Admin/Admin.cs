@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Reflection;
 using Mud.DataStructures;
+using Mud.DataStructures.Trie;
 using Mud.Network;
+using Mud.Server.Input;
 
 namespace Mud.Server.Admin
 {
@@ -51,7 +53,7 @@ namespace Mud.Server.Admin
         #endregion
 
         [Command("incarnate")]
-        protected virtual bool Incarnate(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoIncarnate(string rawParameters, CommandParameter[] parameters)
         {
             return true;
         }

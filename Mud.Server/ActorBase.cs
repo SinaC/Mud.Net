@@ -3,7 +3,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Mud.DataStructures;
+using Mud.DataStructures.Trie;
 using Mud.Logger;
+using Mud.Server.Input;
 
 namespace Mud.Server
 {
@@ -50,7 +52,7 @@ namespace Mud.Server
 
 
         [Command("commands")]
-        protected virtual bool CommandsCommand(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoCommands(string rawParameters, CommandParameter[] parameters)
         {
             // TODO: group trie by value and display set of key linked to this value
 

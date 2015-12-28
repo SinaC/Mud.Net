@@ -1,11 +1,12 @@
 buffer in send
 paging
 add Object
-add pattern for Room, Object, Character
+add blueprint for Room, Object, Character
 unit tests
 IReadOnlyPlayer, IReadOnlyCharacter, ...  + set private/protected to internal  this allows to remove methods like Enter/Leaves/ChangeImpersonation/ChangeController
 in addition to partial matching, command should have a priority    'look' has higher priority than 'list' even if it appears later in list
 
+avatar creation state machine
 
 add function similar to act function in comm.c:4161
 

@@ -1,6 +1,8 @@
-﻿namespace Mud.Server
+﻿using System;
+
+namespace Mud.Server
 {
-    public static class StringConstants
+    public static class StringHelpers
     {
         public static string CharacterNotFound = "They aren't here.";
 
@@ -33,5 +35,16 @@
         public static string DefaultBack = "%^defaultback%^";
 
         #endregion
+
+        public static string UpperFirstLetter(string text, string ifNull = "???")
+        {
+            if (text == null)
+                return ifNull;
+
+            if (text.Length > 1)
+                return Char.ToUpper(text[0]) + text.Substring(1);
+
+            return text.ToUpper();
+        }
     }
 }

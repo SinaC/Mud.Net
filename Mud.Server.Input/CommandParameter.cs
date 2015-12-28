@@ -1,4 +1,4 @@
-﻿namespace Mud.Server
+﻿namespace Mud.Server.Input
 {
     public class CommandParameter
     {

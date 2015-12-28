@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{628AEB23-CBE8-4B89-A1B6-AB6B1C22D0FC}</ProjectGuid>
+    <ProjectGuid>{3E2BD396-17B9-423E-9114-9E215B468267}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mud.POC</RootNamespace>
-    <AssemblyName>Mud.POC</AssemblyName>
+    <RootNamespace>Mud.Server.Input</RootNamespace>
+    <AssemblyName>Mud.Server.Input</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,21 +39,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="CommandAttribute.cs" />
+    <Compile Include="CommandHelpers.cs" />
+    <Compile Include="CommandParameter.cs" />
+    <Compile Include="InputTrapBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
+      <Project>{00b458af-c87b-4558-8ba7-b21d9626621e}</Project>
+      <Name>Mud.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
-      <Project>{3e2bd396-17b9-423e-9114-9e215b468267}</Project>
-      <Name>Mud.Server.Input</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
-      <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>
-      <Name>Mud.Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

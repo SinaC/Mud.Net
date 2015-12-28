@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Mud.Network;
+using Mud.Server.Input;
 using Mud.Server.Room;
 
 namespace Mud.Server
@@ -62,11 +63,11 @@ namespace Mud.Server
 
         public IExit AddExit(IRoom from, IRoom to, ServerOptions.ExitDirections direction, bool bidirectional)
         {
-            Exit from2To = new Exit(null, null, to);
+            Exit from2To = new Exit("door", to);
             from.Exits[(int) direction] = from2To;
             if (bidirectional)
             {
-                Exit to2From = new Exit(null, null, from);
+                Exit to2From = new Exit("door", from);
                 to.Exits[(int)ServerOptions.Instance.ReverseDirection(direction)] = to2From;
             }
             return from2To;
@@ -92,6 +93,14 @@ namespace Mud.Server
         public IReadOnlyCollection<IRoom> GetRooms()
         {
             return new ReadOnlyCollection<IRoom>(_rooms);
+        }
+
+        public bool AddPlayer(IPlayer player)
+        {
+            if (_players.Contains(player))
+                return false;
+            _players.Add(player);
+            return true;
         }
 
         // TODO: remove

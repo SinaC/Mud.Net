@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using Mud.Server.Blueprints;
 
 namespace Mud.Server
 {
     public interface IRoom : IEntity
     {
+        RoomBlueprint Blueprint { get; }
+
         // TODO: exits, objects
         IReadOnlyCollection<ICharacter> CharactersInRoom { get; }
         IExit[] Exits { get; } // fixed length
@@ -12,14 +15,5 @@ namespace Mud.Server
 
         void Enter(ICharacter character);
         void Leave(ICharacter character);
-    }
-
-    public interface IExit
-    {
-        string Keyword { get; }
-        string Description { get; }
-        // TODO: key pattern id or key pattern
-        // TODO: flags
-        IRoom Destination { get; }
     }
 }

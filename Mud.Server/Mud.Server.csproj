@@ -45,19 +45,21 @@
     <Compile Include="Character\CharmAndOrder.cs" />
     <Compile Include="Character\CommunicationCommands.cs" />
     <Compile Include="Character\Movement.cs" />
-    <Compile Include="CommandAttribute.cs" />
-    <Compile Include="CommandHelpers.cs" />
-    <Compile Include="CommandParameter.cs" />
     <Compile Include="EntityBase.cs" />
     <Compile Include="FindHelpers.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="IAdmin.cs" />
     <Compile Include="ICharacter.cs" />
     <Compile Include="IEntity.cs" />
+    <Compile Include="IExit.cs" />
+    <Compile Include="IObject.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="IRoom.cs" />
     <Compile Include="IWorld.cs" />
-    <Compile Include="StringConstants.cs" />
+    <Compile Include="Object\Object.cs" />
+    <Compile Include="Player\LoginStateMachine.cs" />
+    <Compile Include="Player\MiscCommands.cs" />
+    <Compile Include="StringHelpers.cs" />
     <Compile Include="Player\Impersonate.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\CommunicationCommands.cs" />
@@ -79,6 +81,14 @@
     <ProjectReference Include="..\Mud.Network\Mud.Network.csproj">
       <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
       <Name>Mud.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
+      <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
+      <Name>Mud.Server.Blueprints</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
+      <Project>{3e2bd396-17b9-423e-9114-9e215b468267}</Project>
+      <Name>Mud.Server.Input</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

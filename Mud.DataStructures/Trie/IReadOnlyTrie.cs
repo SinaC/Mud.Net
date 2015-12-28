@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mud.DataStructures
+namespace Mud.DataStructures.Trie
 {
     public interface IReadOnlyTrie<TValue>
     {

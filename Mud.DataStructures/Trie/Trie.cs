@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mud.DataStructures
+namespace Mud.DataStructures.Trie
 {
     //https://github.com/kpol/trie
     // IReadOnlyTrie was not in original code

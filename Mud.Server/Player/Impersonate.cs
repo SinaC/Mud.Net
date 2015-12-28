@@ -1,9 +1,11 @@
-﻿namespace Mud.Server.Player
+﻿using Mud.Server.Input;
+
+namespace Mud.Server.Player
 {
     public partial class Player
     {
         [Command("impersonate")]
-        protected virtual bool Impersonate(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoImpersonate(string rawParameters, CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -12,6 +14,7 @@
                     Send("You stop impersonating {0}.", Impersonating.Name);
                     Impersonating.ChangeImpersonation(null);
                     Impersonating = null;
+                    PlayerState = PlayerStates.Connected;
                 }
                 else
                     Send("Impersonate before trying to un-impersonate.");
@@ -24,9 +27,10 @@
                     Send("You start impersonating {0}.", target.Name);
                     target.ChangeImpersonation(this);
                     Impersonating = target;
+                    PlayerState = PlayerStates.Playing;
                 }
                 else
-                    Send(StringConstants.CharacterNotFound);
+                    Send(StringHelpers.CharacterNotFound);
             }
 
             return true;

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using Mud.Server.Input;
 
 namespace Mud.Server
 {
@@ -9,6 +11,8 @@ namespace Mud.Server
         IReadOnlyCollection<IPlayer> GetPlayers();
             
         IReadOnlyCollection<IRoom> GetRooms();
+
+        bool AddPlayer(IPlayer player);
 
         // TODO: remove
         ICharacter GetCharacter(CommandParameter parameter);

@@ -13,8 +13,10 @@ namespace Mud.Network.Socket
         public byte[] Buffer { get; set; }
         // Received data string.
         public StringBuilder Command { get; set; }
-
+        // Server
         public SocketServer Server { get; private set; }
+        // First must be eaten
+        public bool FirstInput { get; set; }
 
         public ClientSocketStateObject(SocketServer server)
         {
@@ -22,6 +24,7 @@ namespace Mud.Network.Socket
             Buffer = new byte[BufferSize];
             Command = new StringBuilder();
             ClientSocket = null;
+            FirstInput = true;
         }
 
         public event DataReceivedEventHandler DataReceived;

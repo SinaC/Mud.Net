@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using Mud.Network;
 
 namespace Mud.Server.TestApplication

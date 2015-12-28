@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Mud.Network;
+using Mud.Server.Input;
 
 namespace Mud.Server.Tests.Mocking
 {
@@ -68,6 +69,12 @@ namespace Mud.Server.Tests.Mocking
         public IReadOnlyCollection<IRoom> GetRooms()
         {
             return new ReadOnlyCollection<IRoom>(_rooms);
+        }
+
+        public bool AddPlayer(IPlayer player)
+        {
+            _players.Add(player);
+            return true;
         }
 
         public ICharacter GetCharacter(CommandParameter parameter)

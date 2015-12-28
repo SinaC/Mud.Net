@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using Mud.Logger;
+using Mud.Server.Input;
 
 namespace Mud.Server.Character
 {
@@ -57,65 +53,65 @@ namespace Mud.Server.Character
         }
 
         [Command("north")]
-        protected virtual bool North(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoNorth(string rawParameters, CommandParameter[] parameters)
         {
             return Move(ServerOptions.ExitDirections.North);
         }
 
         [Command("east")]
-        protected virtual bool East(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoEast(string rawParameters, CommandParameter[] parameters)
         {
             return Move(ServerOptions.ExitDirections.East);
         }
 
         [Command("south")]
-        protected virtual bool South(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoSouth(string rawParameters, CommandParameter[] parameters)
         {
             return Move(ServerOptions.ExitDirections.South);
         }
 
         [Command("west")]
-        protected virtual bool West(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoWest(string rawParameters, CommandParameter[] parameters)
         {
             return Move(ServerOptions.ExitDirections.West);
         }
 
         [Command("up")]
-        protected virtual bool Up(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoUp(string rawParameters, CommandParameter[] parameters)
         {
             return Move(ServerOptions.ExitDirections.Up);
         }
 
         [Command("down")]
-        protected virtual bool Down(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoDown(string rawParameters, CommandParameter[] parameters)
         {
             return Move(ServerOptions.ExitDirections.Down);
         }
 
         [Command("northeast")]
         [Command("ne")]
-        protected virtual bool NorthEast(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoNorthEast(string rawParameters, CommandParameter[] parameters)
         {
             return Move(ServerOptions.ExitDirections.North);
         }
 
         [Command("northwest")]
         [Command("nw")]
-        protected virtual bool NorthWest(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoNorthWest(string rawParameters, CommandParameter[] parameters)
         {
             return Move(ServerOptions.ExitDirections.NorthWest);
         }
 
         [Command("southeast")]
         [Command("se")]
-        protected virtual bool SouthEast(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoSouthEast(string rawParameters, CommandParameter[] parameters)
         {
             return Move(ServerOptions.ExitDirections.SouthEast);
         }
 
         [Command("southwest")]
         [Command("sw")]
-        protected virtual bool SouthWest(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoSouthWest(string rawParameters, CommandParameter[] parameters)
         {
             return Move(ServerOptions.ExitDirections.SouthWest);
         }

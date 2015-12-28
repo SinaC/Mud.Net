@@ -1,5 +1,6 @@
 ﻿using System;
 using Mud.Logger;
+using Mud.Server.Input;
 
 namespace Mud.Server
 {
@@ -60,6 +61,7 @@ namespace Mud.Server
             return true;
         }
 
+        // TODO: override in inherited class
         public virtual void OnRemoved()
         {
             // TODO: warn IncarnatedBy about removing

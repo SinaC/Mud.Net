@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mud.Server
+namespace Mud.Server.Input
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class CommandAttribute : Attribute

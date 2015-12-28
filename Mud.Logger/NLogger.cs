@@ -1,17 +1,20 @@
 ﻿using System;
+using System.IO;
+using NLog;
+using NLog.Targets;
 
 namespace Mud.Logger
 {
     public class NLogger : ILog
     {
-        private readonly NLog.Logger _logger = NLog.LogManager.GetLogger("Mud.Net");
+        private readonly NLog.Logger _logger = LogManager.GetLogger("Mud.Net");
 
         #region ILog
 
         public void Initialize(string path, string file, string fileTarget = "logfile")
         {
-            string logfile = System.IO.Path.Combine(path, file);
-            NLog.Targets.FileTarget target = NLog.LogManager.Configuration.FindTargetByName(fileTarget) as NLog.Targets.FileTarget;
+            string logfile = Path.Combine(path, file);
+            FileTarget target = LogManager.Configuration.FindTargetByName(fileTarget) as FileTarget;
             if (target == null)
                 throw new ApplicationException(String.Format("Couldn't find target {0} in NLog config", fileTarget));
             target.FileName = logfile;

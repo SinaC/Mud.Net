@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using Mud.DataStructures;
-using Mud.Logger;
+using Mud.DataStructures.Trie;
+using Mud.Server.Blueprints;
+using Mud.Server.Input;
 
 namespace Mud.Server.Room
 {
@@ -36,6 +38,8 @@ namespace Mud.Server.Room
         }
 
         #endregion
+
+        public RoomBlueprint Blueprint { get; private set; } // TODO: 1st parameter in ctor
 
         public IReadOnlyCollection<ICharacter> CharactersInRoom
         {

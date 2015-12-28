@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using Mud.DataStructures;
+using Mud.DataStructures.Trie;
+using Mud.Server.Blueprints;
+using Mud.Server.Input;
 
 namespace Mud.Server.Character
 {
@@ -49,17 +50,9 @@ namespace Mud.Server.Character
 
         #endregion
 
-        #region IEntity
-
-        public override void OnRemoved()
-        {
-            base.OnRemoved();
-            // TODO: warn ImpersonatedBy about removing
-        }
-
-        #endregion
-
         #region ICharacter
+
+        public CharacterBlueprint Blueprint { get; private set; } // TODO: 1st parameter in ctor
 
         public IRoom Room { get; private set; }
 
@@ -93,19 +86,19 @@ namespace Mud.Server.Character
         }
 
         [Command("look")]
-        protected virtual bool Look(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoLook(string rawParameters, CommandParameter[] parameters)
         {
             return true;
         }
 
         [Command("kill")]
-        protected virtual bool Kill(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoKill(string rawParameters, CommandParameter[] parameters)
         {
             return true;
         }
 
         [Command("test")]
-        protected virtual bool Test(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoTest(string rawParameters, CommandParameter[] parameters)
         {
             Send("Sending myself [{0}] a message", Name);
 

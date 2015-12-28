@@ -1,7 +1,11 @@
-﻿namespace Mud.Server
+﻿using Mud.Server.Blueprints;
+
+namespace Mud.Server
 {
     public interface ICharacter : IEntity
     {
+        CharacterBlueprint Blueprint { get; }
+
         IRoom Room { get; }
 
         bool Impersonable { get; }

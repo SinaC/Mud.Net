@@ -4,9 +4,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Mud.DataStructures;
+using Mud.DataStructures.Trie;
 using Mud.Logger;
 
-namespace Mud.Server
+namespace Mud.Server.Input
 {
     public static class CommandHelpers
     {

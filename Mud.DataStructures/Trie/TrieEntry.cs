@@ -1,4 +1,4 @@
-﻿namespace Mud.DataStructures
+﻿namespace Mud.DataStructures.Trie
 {
     //https://github.com/kpol/trie
 

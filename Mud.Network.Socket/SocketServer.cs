@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Mud.Logger;
@@ -27,6 +28,9 @@ namespace Mud.Network.Socket
 
     public class SocketServer : INetworkServer, IDisposable
     {
+        //Regex.Replace(s, @"[^\u0000-\u007F]", string.Empty);
+        private static readonly Regex AsciiRegEx = new Regex(@"[^\u0020-\u007E]", RegexOptions.Compiled);
+
         private System.Net.Sockets.Socket _serverSocket;
         private ManualResetEvent _listenEvent;
         private Task _listenTask;
@@ -223,35 +227,49 @@ namespace Mud.Network.Socket
                 }
                 else
                 {
-                    // TODO: remove first data received if it starts with cumbersome characters
-                    string dataReceived = Encoding.ASCII.GetString(client.Buffer, 0, bytesRead);
-
-                    // If data ends with CRLF, remove them and consider command as complete
-                    bool commandComplete = false;
-                    if (dataReceived.EndsWith("\n") || dataReceived.EndsWith("\r"))
+                    // First data received is filled with cumbersome characters
+                    if (client.FirstInput)
                     {
-                        commandComplete = true;
-                        dataReceived = dataReceived.TrimEnd('\r', '\n');
+                        string dataReceived = Encoding.ASCII.GetString(client.Buffer, 0, bytesRead);
+                        Log.Default.WriteLine(LogLevels.Info, "Discarding first input received from client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + " : " + dataReceived);
+                        client.FirstInput = false;
                     }
-
-                    // Append data in command
-                    client.Command.Append(dataReceived);
-
-                    // Command is complete, send it to command processor and start a new one
-                    if (commandComplete)
+                    else
                     {
-                        // Get command
-                        string command = client.Command.ToString();
-                        Log.Default.WriteLine(LogLevels.Info, "Command received from client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + " : " + command);
+                        string dataReceived = Encoding.ASCII.GetString(client.Buffer, 0, bytesRead);
 
-                        // Reset command
-                        client.Command = new StringBuilder();
+                        Log.Default.WriteLine(LogLevels.Info, "Data received from client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + " : " + dataReceived);
 
-                        //// Test mode: send command back to client
-                        //Send(clientSocket, command);
+                        // If data ends with CRLF, remove them and consider command as complete
+                        bool commandComplete = false;
+                        if (dataReceived.EndsWith("\n") || dataReceived.EndsWith("\r"))
+                        {
+                            commandComplete = true;
+                            dataReceived = dataReceived.TrimEnd('\r', '\n');
+                        }
 
-                        // Process command
-                        client.OnDataReceived(command);
+                        // Remove non-printable char
+                        dataReceived = AsciiRegEx.Replace(dataReceived, String.Empty);
+
+                        // Append data in command
+                        client.Command.Append(dataReceived);
+
+                        // Command is complete, send it to command processor and start a new one
+                        if (commandComplete)
+                        {
+                            // Get command
+                            string command = client.Command.ToString();
+                            Log.Default.WriteLine(LogLevels.Info, "Command received from client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + " : " + command);
+
+                            // Reset command
+                            client.Command = new StringBuilder();
+
+                            //// Test mode: send command back to client
+                            //Send(clientSocket, command);
+
+                            // Process command
+                            client.OnDataReceived(command);
+                        }
                     }
 
                     // Continue reading
