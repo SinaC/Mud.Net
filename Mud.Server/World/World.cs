@@ -66,17 +66,17 @@ namespace Mud.Server.World
 
         public IExit AddExit(IRoom from, IRoom to, ServerOptions.ExitDirections direction, bool bidirectional)
         {
-            Exit from2To = new Exit("door", to);
+            Exit from2To = new Exit(String.Format("door[{0}->{1}]", from.Name, to.Name), to);
             from.Exits[(int) direction] = from2To;
             if (bidirectional)
             {
-                Exit to2From = new Exit("door", from);
+                Exit to2From = new Exit(String.Format("door[{0}->{1}]", to.Name, from.Name), from);
                 to.Exits[(int)ServerOptions.Instance.ReverseDirection(direction)] = to2From;
             }
             return from2To;
         }
 
-        public IItem AddItem(Guid guid, string name, IContainer container)
+        public IItem AddItemContainer(Guid guid, string name, IContainer container)
         {
             IItem item = new Item.Container(guid, name, container);
             _items.Add(item);

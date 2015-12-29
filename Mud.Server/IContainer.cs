@@ -2,7 +2,7 @@
 
 namespace Mud.Server
 {
-    public interface IContainer
+    public interface IContainer// : IEntity TODO: is this true ?
     {
         IReadOnlyCollection<IItem> Inside { get; }
 

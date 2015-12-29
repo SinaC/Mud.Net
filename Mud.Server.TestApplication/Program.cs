@@ -23,7 +23,7 @@ namespace Mud.Server.TestApplication
             TestWorldOffline();
         }
 
-        private static void CreateWorld()
+        private static void CreateDummyWorld()
         {
             World.World world = World.World.Instance as World.World;
 
@@ -37,9 +37,17 @@ namespace Mud.Server.TestApplication
             ICharacter mob4 = world.AddCharacter(Guid.NewGuid(), "Mob4", room2);
             ICharacter mob5 = world.AddCharacter(Guid.NewGuid(), "Mob5", room2);
 
-            IItem item1 = world.AddItem(Guid.NewGuid(), "Item1", room1);
-            IItem item1Dup = world.AddItem(Guid.NewGuid(), "Item1", room1);
-            IItem item2 = world.AddItem(Guid.NewGuid(), "Item2", mob2);
+            // Item1*2 in Room1
+            // Item2 in Mob2
+            // Item3 in 2.Item1
+            // Item4 in Mob1
+            // Item1 in Mob1
+            IItem item1 = world.AddItemContainer(Guid.NewGuid(), "Item1", room1);
+            IItem item1Dup1 = world.AddItemContainer(Guid.NewGuid(), "Item1", room1);
+            IItem item2 = world.AddItemContainer(Guid.NewGuid(), "Item2", mob2);
+            IItem item3 = world.AddItemContainer(Guid.NewGuid(), "Item3", item1Dup1 as IContainer);
+            IItem item4 = world.AddItemContainer(Guid.NewGuid(), "Item4", mob1);
+            IItem item1Dup2 = world.AddItemContainer(Guid.NewGuid(), "Item1", mob1);
         }
 
         private static void TestBasicCommands()
@@ -50,7 +58,7 @@ namespace Mud.Server.TestApplication
             IPlayer player2 = world.AddPlayer(new ConsoleClient("Player2"), Guid.NewGuid(), "Player2");
             IAdmin admin = world.AddAdmin(new ConsoleClient("Admin1"), Guid.NewGuid(), "Admin1");
 
-            CreateWorld();
+            CreateDummyWorld();
 
             player1.ProcessCommand("impersonate mob1");
             player1.ProcessCommand("order"); // not controlling anyone
@@ -266,7 +274,7 @@ namespace Mud.Server.TestApplication
 
             ServerOptions.Instance.PrefixForwardedMessages = false;
 
-            CreateWorld();
+            CreateDummyWorld();
 
             INetworkServer server = new SocketServer(11000);
             server.NewClientConnected += client =>
@@ -286,7 +294,7 @@ namespace Mud.Server.TestApplication
 
             ServerOptions.Instance.PrefixForwardedMessages = false;
 
-            CreateWorld();
+            CreateDummyWorld();
 
             World.World world = World.World.Instance as World.World;
             IPlayer player = world.AddPlayer(

@@ -1,4 +1,5 @@
-﻿using Mud.Server.Helpers;
+﻿using System;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Player
@@ -25,10 +26,12 @@ namespace Mud.Server.Player
                 ICharacter target = World.World.Instance.GetCharacter(parameters[0]);
                 if (target != null)
                 {
-                    Send("You start impersonating {0}.", target.Name);
+                    Send("%M%You start impersonating %C%{0}.%x%", target.Name);
                     target.ChangeImpersonation(this);
                     Impersonating = target;
                     PlayerState = PlayerStates.Playing;
+                    // TODO: if autolook
+                    target.ExecuteCommand("look", String.Empty, CommandParameter.Empty);
                 }
                 else
                     Send(StringHelpers.CharacterNotFound);

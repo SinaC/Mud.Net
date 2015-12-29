@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mud.Logger;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -9,27 +10,36 @@ namespace Mud.Server.Character
 {
     public partial class Character
     {
-        // if no parameter, look in room
-        // else if 1st parameter is 'in' or 'on', search item (matching 2nd parameter) in the room and display its content
-        // else if a character can be found with 1st parameter, display character info
-        // else search item in inventory and display info
+        // 1/ if no parameter, look in room
+        // 2/ else if 1st parameter is 'in' or 'on', search item (matching 2nd parameter) in the room, then inventory, then equipment, and display its content
+        // 3/ else if a character can be found in room (matching 1st parameter), display character info
+        // 4/ else if an item can be found in inventory+room (matching 1st parameter), display item description or extra description
+        // 5/ else, if an extra description can be found in room (matching 1st parameter), display it
+        // 6/ else, if 1st parameter is a direction, display if there is an exit/door
         [Command("look")]
         protected virtual bool DoLook(string rawParameters, params CommandParameter[] parameters)
         {
-            // If no parameter or auto, display room + chars in room + items in room
+            // 1: room+exits+chars+items
             if (String.IsNullOrWhiteSpace(rawParameters))
-                DisplayRoom();
-            else if (parameters[0].Value == "in" || parameters[0].Value == "on")
             {
+                Log.Default.WriteLine(LogLevels.Debug, "DoLook(1): room");
+                DisplayRoom();
+                return true;
+            }
+            // 2: container in room then inventory then equipment
+            if (parameters[0].Value == "in" || parameters[0].Value == "on")
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): container in room, inventory, equipment");
                 // look in container
                 if (parameters.Length == 1)
                     Send("Look in what?");
                 else
                 {
-                    // search in room for parameters[1]
-                    IItem obj = FindHelpers.FindByName(Room.Inside.Where(CanSee), parameters[1]);
+                    // TODO: following code is stupid if room contains 2 identical items and inventory one, and we use look in item -> we'll never see item in inventory (look 3.item should display it <-- same case as look(4))
+                    // search in room, then in inventory(unequiped), then in equipement
+                    IItem obj = FindHelpers.FindByName(Room.Inside.Where(CanSee), parameters[1]) ?? FindHelpers.FindByName(Inside.Where(CanSee), parameters[1]); // TODO: filter on unequiped + equipment
                     if (obj == null)
-                        Send("You do not see that here.");
+                        Send(StringHelpers.ItemNotFound);
                     else
                     {
                         IContainer container = obj as IContainer;
@@ -47,14 +57,45 @@ namespace Mud.Server.Character
                             Send("This is not a container.");
                     }
                 }
+                return true;
+            }
+            // 3: character in room
+            ICharacter character = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
+            if (character != null)
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "DoLook(3): character in room");
+                // TODO: peek ability check ???
+                DisplayCharacter(character, true);
+                return true;
+            }
+            // 4: search n'th item in inventory+room
+            IItem item = FindHelpers.FindByName(Inside.Concat(Room.Inside), parameters[0]); // Concat preserves order!!!
+            if (item != null)
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "DoLook(4+5): item in {0}", item.ContainedInto);
+                Send("{0}", item.Description);
+                return true;
+            }
+            // 6: extra description in room  TODO
+            // 7: direction
+            ServerOptions.ExitDirections direction;
+            if (EnumHelpers.TryFindByName(parameters[0].Value, out direction))
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "DoLook(7): direction");
+                IExit exit = Room.Exit(direction);
+                if (exit == null || exit.Destination == null)
+                    Send("Nothing special there.");
+                else
+                {
+                    if (exit.Description != null)
+                        Send(exit.Description);
+                    else
+                        Send("Nothing special there.");
+                    // TODO: check if door + flags CLOSED/BASHED/HIDDEN
+                }
             }
             else
-            {
-                ICharacter character = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
-                if (character == null)
-                    ; // TODO
-            }
-
+                Send(StringHelpers.ItemNotFound);
             return true;
         }
 
@@ -65,7 +106,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        //
+        // Helpers
         private void DisplayRoom()
         {
             // Room name
@@ -77,6 +118,29 @@ namespace Mud.Server.Character
             DisplayItems(Room.Inside);
             foreach (ICharacter character in Room.People.Where(x => x != this))
                 Send(character.Name); // TODO: Characters in room (see act_info.C:714 show_list_to_char)
+        }
+
+        private void DisplayCharacter(ICharacter character, bool peekInventory)
+        {
+            if (this == character)
+                Act(ActOptions.ToRoom, "{0} looks at {0:m}self.", this);
+            else
+            {
+                Act(ActOptions.ToVictim, character, "{0} looks at you.", this);
+                Act(ActOptions.ToNotVictim, character, "{0} looks at {1}.", this, character);
+            }
+            Send("{0} is here.", character.Name);
+            // TODO: health (instead of is here.), equipment  (see act_info.C:629 show_char_to_char_1)
+            //Send("{0} is using:", character) if equipment not empty
+
+            if (peekInventory)
+            {
+                Send("You peek at the inventory:");
+                if (character.Inside.Count == 0)
+                    Send("Nothing.");
+                else
+                    DisplayItems(character.Inside);
+            }
         }
 
         private void DisplayItems(IEnumerable<IItem> items)

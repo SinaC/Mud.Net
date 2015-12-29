@@ -15,6 +15,7 @@ namespace Mud.Server.Room
         public ExitBlueprint Blueprint { get; private set; } // TODO: 1st parameter in ctor
 
         public string Name { get; private set; }
+        public string Keywords { get; private set; }
         public string Description { get; private set; }
         public IRoom Destination { get; private set; }
         
