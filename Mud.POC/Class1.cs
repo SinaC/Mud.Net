@@ -29,7 +29,7 @@ namespace Mud.POC
 
             // Secondly, apply Mud formatting
             if (options == ActOptions.ToAll || options == ActOptions.ToRoom || options == ActOptions.ToNotVictim)
-                foreach (ICharacter to in character.Room.CharactersInRoom)
+                foreach (ICharacter to in character.Room.People)
                 {
                     if (options == ActOptions.ToAll
                         || (options == ActOptions.ToRoom && to != character)
@@ -66,8 +66,8 @@ namespace Mud.POC
             phrase = phrase.Replace("$M", "him"); // him or her (target.sex)
             phrase = phrase.Replace("$s", "his"); // his or her (character.sex)
             phrase = phrase.Replace("$S", "his"); // his or her (target.sex)
-            phrase = phrase.Replace("$p", ((IObject) param1).Name); //TODO: short description
-            phrase = phrase.Replace("$P", ((IObject) param2).Name); //TODO: short description
+            phrase = phrase.Replace("$p", ((IItem) param1).Name); //TODO: short description
+            phrase = phrase.Replace("$P", ((IItem) param2).Name); //TODO: short description
             phrase = phrase.Replace("$d", param2 == null ? "door" : ((IExit) param2).Name);
 
             return phrase;
@@ -122,7 +122,7 @@ namespace Mud.POC
         private static void GenericAct(ActOptions option, ICharacter character, ICharacter victim, Func<ICharacter, string> createPhraseFunc)
         {
             if (option == ActOptions.ToAll || option == ActOptions.ToRoom || option == ActOptions.ToNotVictim)
-                foreach (ICharacter to in character.Room.CharactersInRoom)
+                foreach (ICharacter to in character.Room.People)
                 {
                     if (option == ActOptions.ToAll
                         || (option == ActOptions.ToRoom && to != character)

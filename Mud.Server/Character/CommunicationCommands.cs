@@ -15,7 +15,7 @@ namespace Mud.Server.Character
             {
                 Send("%g%You say '%x%{0}%g%'%x%", rawParameters);
                 string message = String.Format("%g%{0} says '%x%{1}%g%'%x%", Name, rawParameters);
-                foreach (ICharacter character in Room.CharactersInRoom.Where(x => x != this))
+                foreach (ICharacter character in Room.People.Where(x => x != this))
                     character.Send(message);
             }
             return true;

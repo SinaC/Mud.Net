@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.Server.Input;
@@ -7,14 +8,51 @@ namespace Mud.Server.Character
 {
     public partial class Character
     {
+        // if no parameter, look in room
+        // else if 1st parameter is 'in' or 'on', search item (matching 2nd parameter) in the room and display its content
+        // else if a character can be found with 1st parameter, display character info
+        // else search item in inventory and display info
         [Command("look")]
         protected virtual bool DoLook(string rawParameters, params CommandParameter[] parameters)
         {
-            // If no parameter or auto, display room + char in room + object in room
+            // If no parameter or auto, display room + chars in room + items in room
             if (String.IsNullOrWhiteSpace(rawParameters))
                 DisplayRoom();
+            else if (parameters[0].Value == "in" || parameters[0].Value == "on")
+            {
+                // look in container
+                if (parameters.Length == 1)
+                    Send("Look in what?");
+                else
+                {
+                    // search in room for parameters[1]
+                    IItem obj = FindHelpers.FindByName(Room.Inside.Where(CanSee), parameters[1]);
+                    if (obj == null)
+                        Send("You do not see that here.");
+                    else
+                    {
+                        IContainer container = obj as IContainer;
+                        if (container != null)
+                        {
+                            // TODO: check if closed
+                            Send("{0} holds:", obj.Name);
+                            if (container.Inside.Count == 0)
+                                Send("Nothing");
+                            else
+                                DisplayItems(container.Inside);
+                        }
+                            // TODO: drink container
+                        else
+                            Send("This is not a container.");
+                    }
+                }
+            }
             else
-                Send("NOT YET IMPLEMENTED");
+            {
+                ICharacter character = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
+                if (character == null)
+                    ; // TODO
+            }
 
             return true;
         }
@@ -35,10 +73,15 @@ namespace Mud.Server.Character
             Send(Room.Description);
             // Exits
             DisplayExits(true);
-            foreach (IObject obj in Room.ObjectsInContainer) // TODO: compact mode (group by Blueprint)
-                Send(obj.Name); // TODO: Objects in room  (see act_info.C:275 show_list_to_char)
-            foreach (ICharacter character in Room.CharactersInRoom.Where(x => x != this))
+            DisplayItems(Room.Inside);
+            foreach (ICharacter character in Room.People.Where(x => x != this))
                 Send(character.Name); // TODO: Characters in room (see act_info.C:714 show_list_to_char)
+        }
+
+        private void DisplayItems(IEnumerable<IItem> items)
+        {
+            foreach (IItem item in items) // TODO: compact mode (group by Blueprint)
+                Send(item.Name); // TODO: Items in room  (see act_info.C:275 show_list_to_char)
         }
 
         private void DisplayExits(bool auto)

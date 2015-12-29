@@ -9,7 +9,7 @@ namespace Mud.Server
         Female
     }
 
-    public interface ICharacter : IEntity//, IFormattable
+    public interface ICharacter : IEntity, IContainer
     {
         CharacterBlueprint Blueprint { get; }
 
@@ -27,6 +27,6 @@ namespace Mud.Server
         bool ChangeController(ICharacter master); // if non-null, start slavery, else, stop slavery
 
         bool CanSee(ICharacter character);
-        bool CanSee(IObject obj);
+        bool CanSee(IItem obj);
     }
 }

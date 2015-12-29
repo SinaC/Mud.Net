@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Mud.Network;
 using Mud.Server.Input;
 using Mud.Server.Room;
@@ -13,7 +12,7 @@ namespace Mud.Server
         private readonly List<IPlayer> _players;
         private readonly List<ICharacter> _characters;
         private readonly List<IRoom> _rooms;
-        private readonly List<IObject> _objects;
+        private readonly List<IItem> _items;
 
         #region Singleton
 
@@ -30,7 +29,7 @@ namespace Mud.Server
             _players = new List<IPlayer>();
             _characters = new List<ICharacter>();
             _rooms = new List<IRoom>();
-            _objects = new List<IObject>();
+            _items = new List<IItem>();
         }
 
         #endregion
@@ -76,11 +75,11 @@ namespace Mud.Server
             return from2To;
         }
 
-        public IObject AddObject(Guid guid, string name, IContainer container)
+        public IItem AddItem(Guid guid, string name, IContainer container)
         {
-            IObject obj = new Object.Object(guid, name, container);
-            _objects.Add(obj);
-            return obj;
+            IItem item = new Item.Container(guid, name, container);
+            _items.Add(item);
+            return item;
         }
 
         #region IWorld
@@ -97,22 +96,22 @@ namespace Mud.Server
 
         public IReadOnlyCollection<IPlayer> GetPlayers()
         {
-            return new ReadOnlyCollection<IPlayer>(_players);
+            return _players.AsReadOnly();
         }
 
         public IReadOnlyCollection<IAdmin> GetAdmins()
         {
-            return new ReadOnlyCollection<IAdmin>(_admins);
+            return _admins.AsReadOnly();
         }
 
         public IReadOnlyCollection<IRoom> GetRooms()
         {
-            return new ReadOnlyCollection<IRoom>(_rooms);
+            return _rooms.AsReadOnly();
         }
 
-        public IReadOnlyCollection<IObject> GetObjects()
+        public IReadOnlyCollection<IItem> GetItems()
         {
-            return new ReadOnlyCollection<IObject>(_objects);
+            return _items.AsReadOnly();
         }
 
         public bool AddPlayer(IPlayer player)

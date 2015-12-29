@@ -55,11 +55,12 @@
     <Compile Include="IContainer.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IExit.cs" />
-    <Compile Include="IObject.cs" />
+    <Compile Include="IItem.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="IRoom.cs" />
     <Compile Include="IWorld.cs" />
-    <Compile Include="Object\Object.cs" />
+    <Compile Include="Item\Container.cs" />
+    <Compile Include="Item\ItemBase.cs" />
     <Compile Include="Player\LoginStateMachine.cs" />
     <Compile Include="Player\MiscCommands.cs" />
     <Compile Include="StringHelpers.cs" />

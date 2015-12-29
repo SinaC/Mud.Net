@@ -3,38 +3,38 @@ using Mud.DataStructures.Trie;
 using Mud.Server.Blueprints;
 using Mud.Server.Input;
 
-namespace Mud.Server.Object
+namespace Mud.Server.Item
 {
-    public class Object : EntityBase, IObject
+    public abstract class ItemBase : EntityBase, IItem
     {
-        private static readonly IReadOnlyTrie<CommandMethodInfo> ObjectCommands;
+        private static readonly IReadOnlyTrie<CommandMethodInfo> ItemCommands;
 
-        static Object()
+        static ItemBase()
         {
-            ObjectCommands = CommandHelpers.GetCommands(typeof (Object));
+            ItemCommands = CommandHelpers.GetCommands(typeof (ItemBase));
         }
 
-        public Object(Guid guid, string name, IContainer container)
+        protected ItemBase(Guid guid, string name, IContainer containedInto)
             : base(guid, name)
         {
-            ContainedInto = container;
-            container.Put(this);
+            ContainedInto = containedInto;
+            containedInto.Put(this);
         }
 
-        #region IObject
+        #region IItem
 
         #region IActor
 
         public override IReadOnlyTrie<CommandMethodInfo> Commands
         {
-            get { return ObjectCommands; }
+            get { return ItemCommands; }
         }
 
         #endregion
 
         public IContainer ContainedInto { get; private set; }
 
-        public ObjectBlueprint Blueprint { get; private set; } // TODO: 1st parameter in ctor
+        public ItemBlueprint Blueprint { get; private set; } // TODO: 1st parameter in ctor
 
         public bool ChangeContainer(IContainer container)
         {

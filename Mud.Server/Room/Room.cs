@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Mud.DataStructures.Trie;
 using Mud.Server.Blueprints;
 using Mud.Server.Input;
@@ -11,7 +10,8 @@ namespace Mud.Server.Room
     {
         private static readonly IReadOnlyTrie<CommandMethodInfo> RoomCommands;
 
-        private readonly List<ICharacter> _charactersInRoom;
+        private readonly List<ICharacter> _people;
+        private readonly List<IItem> _inside;
         private readonly IExit[] _exits; // see ServerOptions.ExitDirections
 
         static Room()
@@ -22,7 +22,8 @@ namespace Mud.Server.Room
         public Room(Guid guid, string name)
             : base(guid, name)
         {
-            _charactersInRoom = new List<ICharacter>();
+            _people = new List<ICharacter>();
+            _inside = new List<IItem>();
             _exits = new IExit[ServerOptions.ExitCount];
         }
 
@@ -37,11 +38,33 @@ namespace Mud.Server.Room
 
         #endregion
 
+        #region IContainer
+
+        public IReadOnlyCollection<IItem> Inside
+        {
+            get { return _inside.AsReadOnly(); }
+        }
+
+        public bool Put(IItem obj)
+        {
+            // TODO: check if already in a container
+            _inside.Add(obj);
+            return true;
+        }
+
+        public bool Get(IItem obj)
+        {
+            bool removed = _inside.Remove(obj);
+            return removed;
+        }
+
+        #endregion
+
         public RoomBlueprint Blueprint { get; private set; } // TODO: 1st parameter in ctor
 
-        public IReadOnlyCollection<ICharacter> CharactersInRoom
+        public IReadOnlyCollection<ICharacter> People
         {
-            get { return new ReadOnlyCollection<ICharacter>(_charactersInRoom); }
+            get { return _people.AsReadOnly(); }
         }
         
         public IExit[] Exits { get { return _exits; } }
@@ -54,13 +77,13 @@ namespace Mud.Server.Room
         public void Enter(ICharacter character)
         {
             // TODO: check if not already in room
-            _charactersInRoom.Add(character);
+            _people.Add(character);
         }
 
         public void Leave(ICharacter character)
         {
             // TODO: check if in room
-            bool removed = _charactersInRoom.Remove(character);
+            bool removed = _people.Remove(character);
         }
 
         #endregion

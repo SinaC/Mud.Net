@@ -24,22 +24,22 @@ namespace Mud.Importer.Mystery
 
         public IReadOnlyCollection<AreaData> Areas
         {
-            get { return new ReadOnlyCollection<AreaData>(_areas); }
+            get { return _areas.AsReadOnly(); }
         }
 
         public IReadOnlyCollection<MobileData> Mobiles
         {
-            get { return new ReadOnlyCollection<MobileData>(_mobiles); }
+            get { return _mobiles.AsReadOnly(); }
         }
 
         public IReadOnlyCollection<ObjectData> Objects
         {
-            get { return new ReadOnlyCollection<ObjectData>(_objects); }
+            get { return _objects.AsReadOnly(); }
         }
 
         public IReadOnlyCollection<RoomData> Rooms
         {
-            get { return new ReadOnlyCollection<RoomData>(_rooms); }
+            get { return _rooms.AsReadOnly(); }
         }
 
         public MysteryImporter()

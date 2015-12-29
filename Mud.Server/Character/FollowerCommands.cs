@@ -22,7 +22,7 @@ namespace Mud.Server.Character
             }
             else
             {
-                ICharacter target = FindHelpers.FindByName(Room.CharactersInRoom, parameters[0]);
+                ICharacter target = FindHelpers.FindByName(Room.People, parameters[0]);
                 if (target != null)
                 {
                     if (target == this)

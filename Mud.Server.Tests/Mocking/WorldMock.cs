@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Mud.Network;
 using Mud.Server.Input;
 
@@ -12,7 +11,7 @@ namespace Mud.Server.Tests.Mocking
         private readonly List<IPlayer> _players;
         private readonly List<ICharacter> _characters;
         private readonly List<IRoom> _rooms;
-        private readonly List<IObject> _objects;
+        private readonly List<IItem> _items;
 
         public WorldMock()
         {
@@ -20,7 +19,7 @@ namespace Mud.Server.Tests.Mocking
             _players = new List<IPlayer>();
             _characters = new List<ICharacter>();
             _rooms = new List<IRoom>();
-            _objects = new List<IObject>();
+            _items = new List<IItem>();
         }
 
         public IAdmin AddAdmin(IClient client, Guid guid, string name)
@@ -65,22 +64,22 @@ namespace Mud.Server.Tests.Mocking
 
         public IReadOnlyCollection<IPlayer> GetPlayers()
         {
-            return new ReadOnlyCollection<IPlayer>(_players);
+            return _players.AsReadOnly();
         }
 
         public IReadOnlyCollection<IAdmin> GetAdmins()
         {
-            return new ReadOnlyCollection<IAdmin>(_admins);
+            return _admins.AsReadOnly();
         }
 
         public IReadOnlyCollection<IRoom> GetRooms()
         {
-            return new ReadOnlyCollection<IRoom>(_rooms);
+            return _rooms.AsReadOnly();
         }
 
-        public IReadOnlyCollection<IObject> GetObjects()
+        public IReadOnlyCollection<IItem> GetItems()
         {
-            return new ReadOnlyCollection<IObject>(_objects);
+            return _items.AsReadOnly();
         }
 
         public bool AddPlayer(IPlayer player)

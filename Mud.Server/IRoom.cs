@@ -3,11 +3,11 @@ using Mud.Server.Blueprints;
 
 namespace Mud.Server
 {
-    public interface IRoom : IEntity
+    public interface IRoom : IEntity, IContainer
     {
         RoomBlueprint Blueprint { get; }
 
-        IReadOnlyCollection<ICharacter> CharactersInRoom { get; }
+        IReadOnlyCollection<ICharacter> People { get; }
         IExit[] Exits { get; } // fixed length
 
         IExit Exit(ServerOptions.ExitDirections direction);

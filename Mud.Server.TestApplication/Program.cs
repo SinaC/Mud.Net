@@ -37,9 +37,9 @@ namespace Mud.Server.TestApplication
             ICharacter mob4 = world.AddCharacter(Guid.NewGuid(), "Mob4", room2);
             ICharacter mob5 = world.AddCharacter(Guid.NewGuid(), "Mob5", room2);
 
-            IObject obj1 = world.AddObject(Guid.NewGuid(), "Object1", room1);
-            IObject obj1Dup = world.AddObject(Guid.NewGuid(), "Object1", room1);
-            IObject obj2 = world.AddObject(Guid.NewGuid(), "Object2", mob2);
+            IItem item1 = world.AddItem(Guid.NewGuid(), "Item1", room1);
+            IItem item1Dup = world.AddItem(Guid.NewGuid(), "Item1", room1);
+            IItem item2 = world.AddItem(Guid.NewGuid(), "Item2", mob2);
         }
 
         private static void TestBasicCommands()
@@ -194,7 +194,7 @@ namespace Mud.Server.TestApplication
                             foreach (IPlayer p in World.Instance.GetPlayers())
                                 Console.WriteLine(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.Name : ""));
                         }
-                        // TODO: characters/rooms/objects
+                        // TODO: characters/rooms/items
                     }
                     // client commands
                     else

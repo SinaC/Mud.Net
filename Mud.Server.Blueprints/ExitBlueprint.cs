@@ -15,7 +15,7 @@ namespace Mud.Server.Blueprints
         //public long ExitInfo { get; set; } // flags
 
         [DataMember]
-        public int Key { get; set; } // key object id
+        public int Key { get; set; } // key item id
 
         [DataMember]
         public int Destination { get; set; } // destination room id

@@ -10,7 +10,7 @@ namespace Mud.Server
         IReadOnlyCollection<IPlayer> GetPlayers();
         IReadOnlyCollection<IAdmin> GetAdmins();
         IReadOnlyCollection<IRoom> GetRooms();
-        IReadOnlyCollection<IObject> GetObjects();
+        IReadOnlyCollection<IItem> GetItems();
 
         bool AddPlayer(IPlayer player);
 

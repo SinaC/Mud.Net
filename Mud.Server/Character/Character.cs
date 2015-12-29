@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
@@ -11,6 +12,8 @@ namespace Mud.Server.Character
     {
         private static readonly IReadOnlyTrie<CommandMethodInfo> CharacterCommands;
 
+        private readonly List<IItem> _inventory;
+
         static Character()
         {
             CharacterCommands = CommandHelpers.GetCommands(typeof (Character));
@@ -19,9 +22,13 @@ namespace Mud.Server.Character
         public Character(Guid guid, string name, IRoom room)
             : base(guid, name)
         {
+            _inventory = new List<IItem>();
+
             Room = room;
             room.Enter(this);
         }
+
+        #region ICharacter
 
         #region IActor
 
@@ -50,7 +57,27 @@ namespace Mud.Server.Character
 
         #endregion
 
-        #region ICharacter
+        #region IContainer
+
+        public IReadOnlyCollection<IItem> Inside
+        {
+            get { return _inventory.AsReadOnly(); }
+        }
+
+        public bool Put(IItem obj)
+        {
+            // TODO: check if already in a container
+            _inventory.Add(obj);
+            return true;
+        }
+
+        public bool Get(IItem obj)
+        {
+            bool removed = _inventory.Remove(obj);
+            return removed;
+        }
+
+        #endregion
 
         public CharacterBlueprint Blueprint { get; private set; } // TODO: 1st parameter in ctor
 
@@ -83,7 +110,7 @@ namespace Mud.Server.Character
             return true; // TODO
         }
 
-        public bool CanSee(IObject obj)
+        public bool CanSee(IItem obj)
         {
             return true; // TODO
         }
@@ -114,7 +141,7 @@ namespace Mud.Server.Character
             if (options == ActOptions.ToNotVictim || options == ActOptions.ToVictim) // TODO: exception ???
                 Log.Default.WriteLine(LogLevels.Error, "Act: victim must be specified to use ToNotVictim or ToVictim");
             else if (options == ActOptions.ToAll || options == ActOptions.ToRoom)
-                foreach (ICharacter to in Room.CharactersInRoom)
+                foreach (ICharacter to in Room.People)
                 {
                     if (options == ActOptions.ToAll
                         || (options == ActOptions.ToRoom && to != this))
@@ -133,7 +160,7 @@ namespace Mud.Server.Character
         public void Act(ActOptions options, ICharacter victim, string format, params object[] arguments)
         {
             if (options == ActOptions.ToAll || options == ActOptions.ToRoom || options == ActOptions.ToNotVictim)
-                foreach (ICharacter to in Room.CharactersInRoom)
+                foreach (ICharacter to in Room.People)
                 {
                     if (options == ActOptions.ToAll
                         || (options == ActOptions.ToRoom && to != this)
@@ -156,7 +183,7 @@ namespace Mud.Server.Character
         }
 
         // Recreate behaviour of String.Format with maximum 10 arguments
-        // If an argument is ICharacter, IObject, IExit special formatting is applied (depending on who'll receive the message)
+        // If an argument is ICharacter, IItem, IExit special formatting is applied (depending on who'll receive the message)
         private enum ActParsingStates
         {
             Normal,
@@ -240,15 +267,15 @@ namespace Mud.Server.Character
         //      s, S: his/her/its, depending on argument.sex
         ////      r, R: you or argument.name if visible by target, someone otherwise
         ////      v, V: add 's' at the end of a verb if argument is different than target
-        // IObject
+        // IItem
         //      argument.Name if visible by target, something otherwhise
         // IExit
         //      exit name
         private static void FormatOneArgument(ICharacter target, StringBuilder result, string format, object argument)
         {
-            if (argument is ICharacter)
+            ICharacter character = argument as ICharacter;
+            if (character != null)
             {
-                ICharacter character = argument as ICharacter;
                 char letter = format == null ? 'n' : format[0]; // if no format, n
                 switch (letter)
                 {
@@ -271,52 +298,57 @@ namespace Mud.Server.Character
                         result.Append(StringHelpers.Possessives[character.Sex]);
                         break;
                         // TODO:
-                    //case 'r':
-                    //case 'R': // transforms '$r' into 'you' or '<name>' depending if target is the same as argument
-                    //    if (character == target)
-                    //        result.Append("you");
-                    //    else
-                    //        result.Append(target.CanSee(character)
-                    //            ? character.Name // TODO: short description
-                    //            : "someone");
-                    //    break;
-                    //case 'v':
-                    //case 'V': // transforms 'look$s' into 'look' and 'looks' depending if target is the same as argument
-                    //    if (character != target)
-                    //        result.Append('s');
-                    //    break;
+                        //case 'r':
+                        //case 'R': // transforms '$r' into 'you' or '<name>' depending if target is the same as argument
+                        //    if (character == target)
+                        //        result.Append("you");
+                        //    else
+                        //        result.Append(target.CanSee(character)
+                        //            ? character.Name // TODO: short description
+                        //            : "someone");
+                        //    break;
+                        //case 'v':
+                        //case 'V': // transforms 'look$s' into 'look' and 'looks' depending if target is the same as argument
+                        //    if (character != target)
+                        //        result.Append('s');
+                        //    break;
                     default:
                         Log.Default.WriteLine(LogLevels.Error, "Act: invalid format {0} for ICharacter", format);
                         result.Append("<???>");
                         break;
                 }
             }
-            else if (argument is IObject)
-            {
-                IObject obj = argument as IObject;
-                // no specific format
-                result.Append(target.CanSee(obj)
-                    ? obj.Name // TODO: short description
-                    : "something");
-            }
-            else if (argument is IExit)
-            {
-                IExit exit = argument as IExit;
-                result.Append(exit.Name);
-            }
             else
             {
-                if (format == null)
-                    result.Append(argument);
-                else if (argument is IFormattable)
+                IItem item = argument as IItem;
+                if (item != null)
                 {
-                    IFormattable formattable = argument as IFormattable;
-                    result.Append(formattable.ToString(format, null));
+                    // no specific format
+                    result.Append(target.CanSee(item)
+                        ? item.Name // TODO: short description
+                        : "something");
                 }
                 else
-                    result.Append(argument);
+                {
+                    IExit exit = argument as IExit;
+                    if (exit != null)
+                        result.Append(exit.Name);
+                    else
+                    {
+                        if (format == null)
+                            result.Append(argument);
+                        else if (argument is IFormattable)
+                        {
+                            IFormattable formattable = argument as IFormattable;
+                            result.Append(formattable.ToString(format, null));
+                        }
+                        else
+                            result.Append(argument);
+                    }
+                }
             }
         }
+
         #endregion
 
         [Command("kill")]

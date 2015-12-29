@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Mud.Server.Blueprints
 {
     [DataContract]
-    public class ObjectBlueprint
+    public class ItemBlueprint
     {
         [DataMember]
         public int Id { get; set; }

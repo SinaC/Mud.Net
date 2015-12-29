@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Mud.Logger;
 using Mud.Server.Input;
 
@@ -8,12 +6,8 @@ namespace Mud.Server
 {
     public abstract class EntityBase : ActorBase, IEntity
     {
-        private readonly List<IObject> _objectsInContainer;
-
         protected EntityBase(Guid guid, string name)
         {
-            _objectsInContainer = new List<IObject>();
-
             if (guid == Guid.Empty)
                 guid = Guid.NewGuid();
             Id = guid;
@@ -53,28 +47,6 @@ namespace Mud.Server
         {
             if (IncarnatedBy != null)
                 IncarnatedBy.Send("<INC|" + Name + ">" + format, parameters);
-        }
-
-        #endregion
-
-        #region IContainer
-
-        public IReadOnlyCollection<IObject> ObjectsInContainer
-        {
-            get { return new ReadOnlyCollection<IObject>(_objectsInContainer); }
-        }
-
-        public bool Put(IObject obj)
-        {
-            // TODO: check if already in a container
-            _objectsInContainer.Add(obj);
-            return true;
-        }
-
-        public bool Get(IObject obj)
-        {
-            bool removed = _objectsInContainer.Remove(obj);
-            return removed;
         }
 
         #endregion

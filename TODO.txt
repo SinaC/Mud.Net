@@ -7,6 +7,9 @@ IReadOnlyPlayer, IReadOnlyCharacter, ...  + set private/protected to internal  t
 prompt
 do_reply
 
+add CanSee test where it's needed
+use ShortDescription where it's needed
+
 avatar creation state machine
 
 include command priority in Trie (probably a new data structure)

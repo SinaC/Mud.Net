@@ -2,11 +2,11 @@
 
 namespace Mud.Server
 {
-    public interface IObject : IEntity
+    public interface IItem : IEntity
     {
         IContainer ContainedInto { get; }
 
-        ObjectBlueprint Blueprint { get; }
+        ItemBlueprint Blueprint { get; }
 
         bool ChangeContainer(IContainer container);
     }
