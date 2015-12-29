@@ -61,7 +61,7 @@ namespace Mud.Server.Character
 
         #region IContainer
 
-        public IReadOnlyCollection<IItem> Inside
+        public IReadOnlyCollection<IItem> Content
         {
             get { return _inventory.AsReadOnly(); }
         }

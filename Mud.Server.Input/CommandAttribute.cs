@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Mud.Server.Input
 {
+    // TODO: category
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class CommandAttribute : Attribute
     {

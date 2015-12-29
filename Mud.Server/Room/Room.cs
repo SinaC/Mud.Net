@@ -12,7 +12,7 @@ namespace Mud.Server.Room
         private static readonly IReadOnlyTrie<CommandMethodInfo> RoomCommands;
 
         private readonly List<ICharacter> _people;
-        private readonly List<IItem> _inside;
+        private readonly List<IItem> _content;
         private readonly IExit[] _exits; // see ServerOptions.ExitDirections
 
         static Room()
@@ -24,7 +24,7 @@ namespace Mud.Server.Room
             : base(guid, name)
         {
             _people = new List<ICharacter>();
-            _inside = new List<IItem>();
+            _content = new List<IItem>();
             _exits = new IExit[ServerOptions.ExitCount];
         }
 
@@ -41,21 +41,21 @@ namespace Mud.Server.Room
 
         #region IContainer
 
-        public IReadOnlyCollection<IItem> Inside
+        public IReadOnlyCollection<IItem> Content
         {
-            get { return _inside.AsReadOnly(); }
+            get { return _content.AsReadOnly(); }
         }
 
         public bool Put(IItem obj)
         {
             // TODO: check if already in a container
-            _inside.Add(obj);
+            _content.Add(obj);
             return true;
         }
 
         public bool Get(IItem obj)
         {
-            bool removed = _inside.Remove(obj);
+            bool removed = _content.Remove(obj);
             return removed;
         }
 

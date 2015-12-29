@@ -1,6 +1,5 @@
 buffer in send/receive
 main loop handling combat
-look command
 paging
 unit tests
 IReadOnlyPlayer, IReadOnlyCharacter, ...  + set private/protected to internal  this allows to remove methods like Enter/Leaves/ChangeImpersonation/ChangeController
@@ -13,3 +12,10 @@ use ShortDescription where it's needed
 avatar creation state machine
 
 include command priority in Trie (probably a new data structure)
+
+
+MCCP  mud compression protocol
+https://en.wikipedia.org/wiki/MCCP
+http://tintin.sourceforge.net/mccp/
+http://www.jacko.demon.co.uk/aardwolf/aardmccpfaq.txt
+http://www.jacko.demon.co.uk/aardwolf/vismccp

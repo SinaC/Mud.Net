@@ -290,8 +290,6 @@ namespace Mud.Server.TestApplication
 
         private static void TestWorldOffline()
         {
-            Console.WriteLine("Let's go");
-
             ServerOptions.Instance.PrefixForwardedMessages = false;
 
             CreateDummyWorld();
@@ -305,6 +303,7 @@ namespace Mud.Server.TestApplication
                 },
                 Guid.NewGuid(),
                 "Player1"); //!!! no login state machine -> direct login
+            player.Send("Let's go");
             HandleUserInput(player);
         }
     }

@@ -37,20 +37,22 @@ namespace Mud.Server.Character
                 {
                     // TODO: following code is stupid if room contains 2 identical items and inventory one, and we use look in item -> we'll never see item in inventory (look 3.item should display it <-- same case as look(4))
                     // search in room, then in inventory(unequiped), then in equipement
-                    IItem obj = FindHelpers.FindByName(Room.Inside.Where(CanSee), parameters[1]) ?? FindHelpers.FindByName(Inside.Where(CanSee), parameters[1]); // TODO: filter on unequiped + equipment
-                    if (obj == null)
+                    //IItem item = FindHelpers.FindByName(Room.Content.Where(CanSee), parameters[1]) ?? FindHelpers.FindByName(Content.Where(CanSee), parameters[1]); // TODO: filter on unequiped + equipment
+                    IItem containerItem = FindHelpers.FindByName(Room.Content.Where(CanSee).Concat(Content.Where(CanSee)), parameters[1]); // TODO: filter on unequiped + equipment
+                    if (containerItem == null)
                         Send(StringHelpers.ItemNotFound);
                     else
                     {
-                        IContainer container = obj as IContainer;
+                        Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): found in {0}", containerItem.ContainedInto.Name);
+                        IContainer container = containerItem as IContainer;
                         if (container != null)
                         {
                             // TODO: check if closed
-                            Send("{0} holds:", obj.Name);
-                            if (container.Inside.Count == 0)
+                            Send("{0} holds:", containerItem.Name);
+                            if (container.Content.Count == 0)
                                 Send("Nothing");
                             else
-                                DisplayItems(container.Inside);
+                                DisplayItems(container.Content);
                         }
                             // TODO: drink container
                         else
@@ -69,10 +71,10 @@ namespace Mud.Server.Character
                 return true;
             }
             // 4: search n'th item in inventory+room
-            IItem item = FindHelpers.FindByName(Inside.Concat(Room.Inside), parameters[0]); // Concat preserves order!!!
+            IItem item = FindHelpers.FindByName(Content.Concat(Room.Content), parameters[0]); // Concat preserves order!!!
             if (item != null)
             {
-                Log.Default.WriteLine(LogLevels.Debug, "DoLook(4+5): item in {0}", item.ContainedInto);
+                Log.Default.WriteLine(LogLevels.Debug, "DoLook(4+5): item in inventory+room -> {0}", item.ContainedInto.Name);
                 Send("{0}", item.Description);
                 return true;
             }
@@ -115,7 +117,7 @@ namespace Mud.Server.Character
             Send(Room.Description);
             // Exits
             DisplayExits(true);
-            DisplayItems(Room.Inside);
+            DisplayItems(Room.Content);
             foreach (ICharacter character in Room.People.Where(x => x != this))
                 Send(character.Name); // TODO: Characters in room (see act_info.C:714 show_list_to_char)
         }
@@ -136,10 +138,10 @@ namespace Mud.Server.Character
             if (peekInventory)
             {
                 Send("You peek at the inventory:");
-                if (character.Inside.Count == 0)
+                if (character.Content.Count == 0)
                     Send("Nothing.");
                 else
-                    DisplayItems(character.Inside);
+                    DisplayItems(character.Content);
             }
         }
 

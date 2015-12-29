@@ -59,7 +59,7 @@
     <Compile Include="IPlayer.cs" />
     <Compile Include="IRoom.cs" />
     <Compile Include="IWorld.cs" />
-    <Compile Include="Item\Container.cs" />
+    <Compile Include="Item\ItemContainer.cs" />
     <Compile Include="Item\ItemBase.cs" />
     <Compile Include="Player\LoginStateMachine.cs" />
     <Compile Include="Player\MiscCommands.cs" />
@@ -70,6 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room\Exit.cs" />
     <Compile Include="Room\Room.cs" />
+    <Compile Include="Server.cs" />
     <Compile Include="ServerOptions.cs" />
     <Compile Include="World\World.cs" />
   </ItemGroup>

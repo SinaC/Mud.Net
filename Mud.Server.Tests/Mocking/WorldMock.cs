@@ -94,6 +94,11 @@ namespace Mud.Server.Tests.Mocking
             return FindHelpers.FindByName(_characters, parameter);
         }
 
+        public void Update()
+        {
+            // TODO
+        }
+
         #endregion
     }
 }

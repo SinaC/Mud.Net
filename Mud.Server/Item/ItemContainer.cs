@@ -3,33 +3,33 @@ using System.Collections.Generic;
 
 namespace Mud.Server.Item
 {
-    public class Container : ItemBase, IContainer
+    public class ItemContainer : ItemBase, IContainer
     {
-        private readonly List<IItem> _inside;
+        private readonly List<IItem> _content;
 
-        public Container(Guid guid, string name, IContainer containedInto)
+        public ItemContainer(Guid guid, string name, IContainer containedInto)
             : base(guid, name, containedInto)
         {
-            _inside = new List<IItem>();
+            _content = new List<IItem>();
         }
 
         #region IContainer
 
-        public IReadOnlyCollection<IItem> Inside
+        public IReadOnlyCollection<IItem> Content
         {
-            get { return _inside.AsReadOnly(); }
+            get { return _content.AsReadOnly(); }
         }
 
         public bool Put(IItem obj)
         {
             // TODO: check if already in a container
-            _inside.Add(obj);
+            _content.Add(obj);
             return true;
         }
 
         public bool Get(IItem obj)
         {
-            bool removed = _inside.Remove(obj);
+            bool removed = _content.Remove(obj);
             return removed;
         }
 

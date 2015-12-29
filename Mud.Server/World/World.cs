@@ -78,7 +78,7 @@ namespace Mud.Server.World
 
         public IItem AddItemContainer(Guid guid, string name, IContainer container)
         {
-            IItem item = new Item.Container(guid, name, container);
+            IItem item = new Item.ItemContainer(guid, name, container);
             _items.Add(item);
             return item;
         }
@@ -127,6 +127,11 @@ namespace Mud.Server.World
         public ICharacter GetCharacter(CommandParameter parameter, bool perfectMatch = false)
         {
             return FindHelpers.FindByName(_characters, parameter, perfectMatch);
+        }
+
+        public void Update() // called every pulse (every 1/4 seconds)
+        {
+            // TODO: see update.C:2332
         }
 
         #endregion
