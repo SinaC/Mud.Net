@@ -1,8 +1,9 @@
 ﻿using System;
 using Mud.Logger;
+using Mud.Server.Actor;
 using Mud.Server.Input;
 
-namespace Mud.Server
+namespace Mud.Server.Entity
 {
     public abstract class EntityBase : ActorBase, IEntity
     {

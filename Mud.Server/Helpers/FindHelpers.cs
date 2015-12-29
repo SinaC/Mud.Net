@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mud.Server.Input;
 
-namespace Mud.Server
+namespace Mud.Server.Helpers
 {
     public static class FindHelpers
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Mud.Server
+namespace Mud.Server.Helpers
 {
     public static class StringHelpers
     {

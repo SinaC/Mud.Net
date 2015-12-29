@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Player
@@ -180,7 +181,7 @@ namespace Mud.Server.Player
             // Load player
             player.Load(_username);
             // Add player to world
-            World.Instance.AddPlayer(player);
+            World.World.Instance.AddPlayer(player);
             //
             State = LoginStates.Connected;
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mud.Server
+namespace Mud.Server.Helpers
 {
     public static class EnumHelpers
     {

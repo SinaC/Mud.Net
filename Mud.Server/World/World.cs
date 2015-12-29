@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mud.Network;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Room;
 
-namespace Mud.Server
+namespace Mud.Server.World
 {
     public class World : IWorld
     {

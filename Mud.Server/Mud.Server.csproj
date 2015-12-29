@@ -39,16 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorBase.cs" />
+    <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Admin\Admin.cs" />
     <Compile Include="Character\Character.cs" />
     <Compile Include="Character\FollowerCommands.cs" />
     <Compile Include="Character\CommunicationCommands.cs" />
     <Compile Include="Character\InfoCommands.cs" />
     <Compile Include="Character\MovementCommands.cs" />
-    <Compile Include="EntityBase.cs" />
-    <Compile Include="EnumHelpers.cs" />
-    <Compile Include="FindHelpers.cs" />
+    <Compile Include="Entity\EntityBase.cs" />
+    <Compile Include="Helpers\EnumHelpers.cs" />
+    <Compile Include="Helpers\FindHelpers.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="IAdmin.cs" />
     <Compile Include="ICharacter.cs" />
@@ -63,7 +63,7 @@
     <Compile Include="Item\ItemBase.cs" />
     <Compile Include="Player\LoginStateMachine.cs" />
     <Compile Include="Player\MiscCommands.cs" />
-    <Compile Include="StringHelpers.cs" />
+    <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Player\ImpersonateCommand.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\CommunicationCommands.cs" />
@@ -71,7 +71,7 @@
     <Compile Include="Room\Exit.cs" />
     <Compile Include="Room\Room.cs" />
     <Compile Include="ServerOptions.cs" />
-    <Compile Include="World.cs" />
+    <Compile Include="World\World.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">

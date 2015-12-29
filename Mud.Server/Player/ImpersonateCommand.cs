@@ -1,4 +1,5 @@
-﻿using Mud.Server.Input;
+﻿using Mud.Server.Helpers;
+using Mud.Server.Input;
 
 namespace Mud.Server.Player
 {
@@ -21,7 +22,7 @@ namespace Mud.Server.Player
             }
             else
             {
-                ICharacter target = World.Instance.GetCharacter(parameters[0]);
+                ICharacter target = World.World.Instance.GetCharacter(parameters[0]);
                 if (target != null)
                 {
                     Send("You start impersonating {0}.", target.Name);

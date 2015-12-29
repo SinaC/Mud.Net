@@ -4,6 +4,8 @@ using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Blueprints;
+using Mud.Server.Entity;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Character

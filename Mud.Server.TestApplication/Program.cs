@@ -25,7 +25,7 @@ namespace Mud.Server.TestApplication
 
         private static void CreateWorld()
         {
-            World world = World.Instance as World;
+            World.World world = World.World.Instance as World.World;
 
             IRoom room1 = world.AddRoom(Guid.NewGuid(), "Room1");
             IRoom room2 = world.AddRoom(Guid.NewGuid(), "Room2");
@@ -44,7 +44,7 @@ namespace Mud.Server.TestApplication
 
         private static void TestBasicCommands()
         {
-            World world = World.Instance as World;
+            World.World world = World.World.Instance as World.World;
 
             IPlayer player1 = world.AddPlayer(new ConsoleClient("Player1"), Guid.NewGuid(), "Player1");
             IPlayer player2 = world.AddPlayer(new ConsoleClient("Player2"), Guid.NewGuid(), "Player2");
@@ -91,7 +91,7 @@ namespace Mud.Server.TestApplication
 
         private static void TestCommandParsing()
         {
-            World world = World.Instance as World;
+            World.World world = World.World.Instance as World.World;
             IRoom room = world.AddRoom(Guid.NewGuid(), "Room");
 
             IPlayer player = world.AddPlayer(new ConsoleClient("Player"), Guid.NewGuid(), "Player");
@@ -134,7 +134,7 @@ namespace Mud.Server.TestApplication
 
         private static void TestSocketServer()
         {
-            World world = World.Instance as World;
+            World.World world = World.World.Instance as World.World;
 
             INetworkServer server = new SocketServer(11000);
             int i = 1;
@@ -185,13 +185,13 @@ namespace Mud.Server.TestApplication
                         else if (line == "alist")
                         {
                             Console.WriteLine("Admins:");
-                            foreach (IAdmin a in World.Instance.GetAdmins())
+                            foreach (IAdmin a in World.World.Instance.GetAdmins())
                                 Console.WriteLine(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.Name : "") + " " + (a.Incarnating != null ? a.Incarnating.Name : ""));
                         }
                         else if (line == "plist")
                         {
                             Console.WriteLine("players:");
-                            foreach (IPlayer p in World.Instance.GetPlayers())
+                            foreach (IPlayer p in World.World.Instance.GetPlayers())
                                 Console.WriteLine(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.Name : ""));
                         }
                         // TODO: characters/rooms/items
@@ -239,7 +239,7 @@ namespace Mud.Server.TestApplication
 
         private static void TestAct()
         {
-            World world = World.Instance as World;
+            World.World world = World.World.Instance as World.World;
             IRoom room = world.AddRoom(Guid.NewGuid(), "Room");
             ICharacter character1 = world.AddCharacter(Guid.NewGuid(), "Mob1", room);
             ICharacter character2 = world.AddCharacter(Guid.NewGuid(), "Mob2", room);
@@ -288,7 +288,7 @@ namespace Mud.Server.TestApplication
 
             CreateWorld();
 
-            World world = World.Instance as World;
+            World.World world = World.World.Instance as World.World;
             IPlayer player = world.AddPlayer(
                 new ConsoleClient("Player1")
                 {

@@ -6,7 +6,7 @@ using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Input;
 
-namespace Mud.Server
+namespace Mud.Server.Actor
 {
     public abstract class ActorBase : IActor
     {

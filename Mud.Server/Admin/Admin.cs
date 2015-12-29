@@ -63,7 +63,7 @@ namespace Mud.Server.Admin
         protected override bool DoWho(string rawParameters, params CommandParameter[] parameters)
         {
             Send("Players:");
-            foreach (IPlayer player in World.Instance.GetPlayers())
+            foreach (IPlayer player in World.World.Instance.GetPlayers())
             {
                 StringBuilder sb = new StringBuilder();
                 switch (player.PlayerState)
@@ -83,7 +83,7 @@ namespace Mud.Server.Admin
                 Send(sb.ToString());
             }
             Send("Admins");
-            foreach (IAdmin admin in World.Instance.GetAdmins())
+            foreach (IAdmin admin in World.World.Instance.GetAdmins())
             {
                 StringBuilder sb = new StringBuilder();
                 switch (admin.PlayerState)

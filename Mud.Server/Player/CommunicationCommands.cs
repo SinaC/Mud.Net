@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Player
@@ -13,7 +14,7 @@ namespace Mud.Server.Player
                 Send("Tell whom what ?");
             else
             {
-                IPlayer target = World.Instance.GetPlayer(parameters[0], true);
+                IPlayer target = World.World.Instance.GetPlayer(parameters[0], true);
                 if (target == null)
                     Send(StringHelpers.CharacterNotFound);
                 else
@@ -33,7 +34,7 @@ namespace Mud.Server.Player
         {
             Send("%m%You gossip '%M%{0}%m%'%x%", rawParameters);
             string other = String.Format("%m%{0} gossips '%M%{1}%m%'%x%", DisplayName, rawParameters);
-            foreach(IPlayer player in World.Instance.GetPlayers().Where(x => x != this))
+            foreach(IPlayer player in World.World.Instance.GetPlayers().Where(x => x != this))
                 player.Send(other);
 
             return true;

@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="CharacterBlueprint.cs" />
     <Compile Include="ExitBlueprint.cs" />
-    <Compile Include="ObjectBlueprint.cs" />
+    <Compile Include="ItemBlueprint.cs" />
     <Compile Include="RoomBlueprint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

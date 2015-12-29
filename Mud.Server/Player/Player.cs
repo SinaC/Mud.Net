@@ -2,6 +2,8 @@
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Network;
+using Mud.Server.Actor;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Player
