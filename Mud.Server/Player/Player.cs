@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Network;
@@ -9,7 +8,7 @@ namespace Mud.Server.Player
 {
     public partial class Player : ActorBase, IPlayer
     {
-        private static readonly Trie<MethodInfo> PlayerCommands;
+        private static readonly IReadOnlyTrie<CommandMethodInfo> PlayerCommands;
 
         private readonly IClient _client;
         private readonly IInputTrap<IPlayer> _currentStateMachine; // TODO: state machine for avatar creation
@@ -48,16 +47,25 @@ namespace Mud.Server.Player
         #region IPlayer
 
         #region IActor
-        
-        public override IReadOnlyTrie<MethodInfo> Commands
+
+        public override IReadOnlyTrie<CommandMethodInfo> Commands
         {
             get { return PlayerCommands; }
         }
 
         public override bool ProcessCommand(string commandLine)
         {
-            LastCommand = commandLine;
-            LastCommandTimestamp = DateTime.Now;
+            // ! means repeat last command
+            if (commandLine != null && commandLine.Length >= 1 && commandLine[0] == '!')
+            {
+                commandLine = LastCommand;
+                LastCommandTimestamp = DateTime.Now;
+            }
+            else
+            {
+                LastCommand = commandLine;
+                LastCommandTimestamp = DateTime.Now;
+            }
 
             if (_currentStateMachine != null && !_currentStateMachine.IsFinalStateReached)
             {
@@ -151,8 +159,9 @@ namespace Mud.Server.Player
         #endregion
 
         [Command("test")]
-        protected virtual bool DoTest(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
+            Send("Player test");
             return true;
         }
     }

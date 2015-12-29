@@ -12,7 +12,7 @@ namespace Mud.Server
     {
         #region IActor
 
-        public abstract IReadOnlyTrie<MethodInfo> Commands { get; }
+        public abstract IReadOnlyTrie<CommandMethodInfo> Commands { get; }
 
         public abstract bool ProcessCommand(string commandLine);
         public abstract void Send(string format, params object[] parameters);
@@ -22,11 +22,11 @@ namespace Mud.Server
             // Search for command and invoke it
             if (Commands != null)
             {
-                List<TrieEntry<MethodInfo>> methodInfos = Commands.GetByPrefix(command).ToList();
-                TrieEntry<MethodInfo> entry = methodInfos.FirstOrDefault(); // TODO: use command priority (when typing 'l' as command, 'look' has higher priority than 'list')
-                if (entry.Value != null)
+                List<TrieEntry<CommandMethodInfo>> methodInfos = Commands.GetByPrefix(command).ToList();
+                TrieEntry<CommandMethodInfo> entry = methodInfos.OrderBy(x => x.Value.Attribute.Priority).FirstOrDefault(); // use priority to choose between conflicting commands
+                if (entry.Value != null && entry.Value.MethodInfo != null)
                 {
-                    MethodInfo methodInfo = entry.Value;
+                    MethodInfo methodInfo = entry.Value.MethodInfo;
                     bool executedSuccessfully = (bool) methodInfo.Invoke(this, new object[] {rawParameters, parameters});
                     if (!executedSuccessfully)
                     {
@@ -49,16 +49,28 @@ namespace Mud.Server
             }
         }
 
-
         [Command("commands")]
-        protected virtual bool DoCommands(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoCommands(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: group trie by value and display set of key linked to this value
 
             Send("Available commands:");
             StringBuilder sb = new StringBuilder();
+            int index = 0;
             foreach (string command in Commands.Keys.OrderBy(x => x))
-                Send(command); // TODO: display 6 by 6
+            {
+                //Send(command); // TODO: display 6 by 6
+                if ((++index%6) == 0)
+                {
+                    sb.AppendFormat("{0,-13}", command);
+                    Send(sb.ToString());
+                    sb = new StringBuilder();
+                }
+                else
+                    sb.AppendFormat("{0,-13}", command);
+            }
+            if (sb.Length > 0)
+                Send(sb.ToString());
 
             return true;
         }

@@ -1,10 +1,12 @@
-buffer in send
+buffer in send/receive
+main loop handling combat
+look command
 paging
-add Object
-add blueprint for Room, Object, Character
 unit tests
 IReadOnlyPlayer, IReadOnlyCharacter, ...  + set private/protected to internal  this allows to remove methods like Enter/Leaves/ChangeImpersonation/ChangeController
-in addition to partial matching, command should have a priority    'look' has higher priority than 'list' even if it appears later in list
-CommandHelpers.GetCommands crash (key conflict in Trie) when overriding a command in a child class
+prompt
+do_reply
 
 avatar creation state machine
+
+include command priority in Trie (probably a new data structure)

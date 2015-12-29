@@ -28,8 +28,7 @@ namespace Mud.Network.Socket
 
     public class SocketServer : INetworkServer, IDisposable
     {
-        //Regex.Replace(s, @"[^\u0000-\u007F]", string.Empty);
-        private static readonly Regex AsciiRegEx = new Regex(@"[^\u0020-\u007E]", RegexOptions.Compiled);
+        private static readonly Regex AsciiRegEx = new Regex(@"[^\u0020-\u007E]", RegexOptions.Compiled); // match ascii-only char
 
         private System.Net.Sockets.Socket _serverSocket;
         private ManualResetEvent _listenEvent;
@@ -37,7 +36,7 @@ namespace Mud.Network.Socket
         private CancellationTokenSource _cancellationTokenSource;
 
         private ServerStatus _status;
-        private List<ClientSocketStateObject> _clients;
+        private readonly List<ClientSocketStateObject> _clients;
 
         public int Port { get; private set; }
 
@@ -135,7 +134,7 @@ namespace Mud.Network.Socket
         public void Broadcast(string data)
         {
             foreach(ClientSocketStateObject client in _clients)
-                Send(client.ClientSocket, data);
+                Send(client, data);
         }
 
         #endregion
@@ -248,7 +247,7 @@ namespace Mud.Network.Socket
                             dataReceived = dataReceived.TrimEnd('\r', '\n');
                         }
 
-                        // Remove non-printable char
+                        // Remove non-ascii char
                         dataReceived = AsciiRegEx.Replace(dataReceived, String.Empty);
 
                         // Append data in command
@@ -285,20 +284,24 @@ namespace Mud.Network.Socket
             }
         }
 
-        internal void Send(System.Net.Sockets.Socket clientSocket, string data)
+        internal void Send(ClientSocketStateObject client, string data)
         {
             try
             {
+                System.Net.Sockets.Socket clientSocket = client.ClientSocket;
+
                 Log.Default.WriteLine(LogLevels.Debug, "Send data to client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " : " + data);
 
-                // Colorize
-                string colorizedData = AnsiHelpers.Colorize(data);
+                // Colorize or strip color
+                string colorizedData = client.ColorAccepted 
+                    ? AnsiHelpers.Colorize(data) 
+                    : AnsiHelpers.StripColor(data);
 
                 // Convert the string data to byte data using ASCII encoding.
                 byte[] byteData = Encoding.ASCII.GetBytes(colorizedData);
 
                 // Begin sending the data to the remote device.
-                clientSocket.BeginSend(byteData, 0, byteData.Length, 0, SendCallback, clientSocket); // TODO: pass ClientSocketStateObject instead of socket
+                clientSocket.BeginSend(byteData, 0, byteData.Length, 0, SendCallback, client);
             }
             catch (ObjectDisposedException)
             {
@@ -314,7 +317,8 @@ namespace Mud.Network.Socket
             try
             {
                 // Retrieve the socket from the state object.
-                System.Net.Sockets.Socket clientSocket = (System.Net.Sockets.Socket)ar.AsyncState; // TODO: retrieve ClientSocketStateObject instead of socket
+                ClientSocketStateObject client = (ClientSocketStateObject)ar.AsyncState;
+                System.Net.Sockets.Socket clientSocket = client.ClientSocket;
 
                 // Complete sending the data to the remote device.
                 int bytesSent = clientSocket.EndSend(ar);

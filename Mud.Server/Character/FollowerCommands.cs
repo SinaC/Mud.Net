@@ -5,7 +5,7 @@ namespace Mud.Server.Character
     public partial class Character
     {
         [Command("charm")]
-        protected virtual bool DoCharm(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoCharm(string rawParameters, params CommandParameter[] parameters)
         {
             if (ControlledBy != null)
                 Send("You feel like taking, not giving, orders.");
@@ -43,7 +43,7 @@ namespace Mud.Server.Character
         }
 
         [Command("order")]
-        protected virtual bool DoOrder(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoOrder(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 Send("Order what?");

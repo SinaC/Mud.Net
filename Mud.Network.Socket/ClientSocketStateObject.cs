@@ -25,14 +25,17 @@ namespace Mud.Network.Socket
             Command = new StringBuilder();
             ClientSocket = null;
             FirstInput = true;
+            ColorAccepted = true; // by default
         }
 
         public event DataReceivedEventHandler DataReceived;
         public event DisconnectedEventHandler Disconnected;
 
+        public bool ColorAccepted { get; set; }
+
         public void WriteData(string data)
         {
-            Server.Send(ClientSocket, data);
+            Server.Send(this, data);
         }
 
         public void Disconnect()

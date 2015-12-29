@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Reflection;
 using Mud.DataStructures.Trie;
 using Mud.Server.Blueprints;
 using Mud.Server.Input;
@@ -10,7 +9,7 @@ namespace Mud.Server.Room
 {
     public class Room : EntityBase, IRoom
     {
-        private static readonly Trie<MethodInfo> RoomCommands;
+        private static readonly IReadOnlyTrie<CommandMethodInfo> RoomCommands;
 
         private readonly List<ICharacter> _charactersInRoom;
         private readonly IExit[] _exits; // see ServerOptions.ExitDirections
@@ -31,7 +30,7 @@ namespace Mud.Server.Room
 
         #region IActor
 
-        public override IReadOnlyTrie<MethodInfo> Commands
+        public override IReadOnlyTrie<CommandMethodInfo> Commands
         {
             get { return RoomCommands; }
         }
@@ -44,7 +43,7 @@ namespace Mud.Server.Room
         {
             get { return new ReadOnlyCollection<ICharacter>(_charactersInRoom); }
         }
-
+        
         public IExit[] Exits { get { return _exits; } }
 
         public IExit Exit(ServerOptions.ExitDirections direction)
@@ -54,11 +53,13 @@ namespace Mud.Server.Room
 
         public void Enter(ICharacter character)
         {
+            // TODO: check if not already in room
             _charactersInRoom.Add(character);
         }
 
         public void Leave(ICharacter character)
         {
+            // TODO: check if in room
             bool removed = _charactersInRoom.Remove(character);
         }
 

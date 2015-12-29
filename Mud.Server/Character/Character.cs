@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
@@ -10,23 +9,23 @@ namespace Mud.Server.Character
 {
     public partial class Character : EntityBase, ICharacter
     {
-        private static readonly Trie<MethodInfo> CharacterCommands;
+        private static readonly IReadOnlyTrie<CommandMethodInfo> CharacterCommands;
 
         static Character()
         {
             CharacterCommands = CommandHelpers.GetCommands(typeof (Character));
         }
 
-        #region IActor
-
-        public Character(Guid guid, string name, IRoom room) 
+        public Character(Guid guid, string name, IRoom room)
             : base(guid, name)
         {
             Room = room;
             room.Enter(this);
         }
 
-        public override IReadOnlyTrie<MethodInfo> Commands
+        #region IActor
+
+        public override IReadOnlyTrie<CommandMethodInfo> Commands
         {
             get { return CharacterCommands; }
         }
@@ -109,14 +108,6 @@ namespace Mud.Server.Character
             ToAll // everyone in the room
         }
 
-        private enum ActParsingStates
-        {
-            Normal,
-            OpeningBracketFound,
-            ArgumentFound,
-            FormatSeparatorFound,
-        }
-
         // IFormattable cannot be used because formatting depends on who'll receive the message (CanSee check)
         public void Act(ActOptions options, string format, params object[] arguments)
         {
@@ -165,7 +156,14 @@ namespace Mud.Server.Character
         }
 
         // Recreate behaviour of String.Format with maximum 10 arguments
-        // If one argument is ICharacter, IObject, IExit special formatting is applied (depending on who'll receive the message)
+        // If an argument is ICharacter, IObject, IExit special formatting is applied (depending on who'll receive the message)
+        private enum ActParsingStates
+        {
+            Normal,
+            OpeningBracketFound,
+            ArgumentFound,
+            FormatSeparatorFound,
+        }
         private static string FormatOneLine(ICharacter target, string format, params object[] arguments)
         {
             StringBuilder result = new StringBuilder();
@@ -233,6 +231,19 @@ namespace Mud.Server.Character
             return result.ToString();
         }
 
+        // Formatting
+        //  ICharacter
+        //      default: same as n, N
+        //      n, N: argument.name if visible by target, someone otherwise
+        //      e, E: he/she/it, depending on argument.sex
+        //      m, M: him/her/it, depending on argument.sex
+        //      s, S: his/her/its, depending on argument.sex
+        ////      r, R: you or argument.name if visible by target, someone otherwise
+        ////      v, V: add 's' at the end of a verb if argument is different than target
+        // IObject
+        //      argument.Name if visible by target, something otherwhise
+        // IExit
+        //      exit name
         private static void FormatOneArgument(ICharacter target, StringBuilder result, string format, object argument)
         {
             if (argument is ICharacter)
@@ -259,6 +270,21 @@ namespace Mud.Server.Character
                     case 'S':
                         result.Append(StringHelpers.Possessives[character.Sex]);
                         break;
+                        // TODO:
+                    //case 'r':
+                    //case 'R': // transforms '$r' into 'you' or '<name>' depending if target is the same as argument
+                    //    if (character == target)
+                    //        result.Append("you");
+                    //    else
+                    //        result.Append(target.CanSee(character)
+                    //            ? character.Name // TODO: short description
+                    //            : "someone");
+                    //    break;
+                    //case 'v':
+                    //case 'V': // transforms 'look$s' into 'look' and 'looks' depending if target is the same as argument
+                    //    if (character != target)
+                    //        result.Append('s');
+                    //    break;
                     default:
                         Log.Default.WriteLine(LogLevels.Error, "Act: invalid format {0} for ICharacter", format);
                         result.Append("<???>");
@@ -293,23 +319,16 @@ namespace Mud.Server.Character
         }
         #endregion
 
-        [Command("look")]
-        protected virtual bool DoLook(string rawParameters, CommandParameter[] parameters)
-        {
-            return true;
-        }
-
         [Command("kill")]
-        protected virtual bool DoKill(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoKill(string rawParameters, params CommandParameter[] parameters)
         {
             return true;
         }
 
         [Command("test")]
-        protected virtual bool DoTest(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("Sending myself [{0}] a message", Name);
-
+            Send("Character test");
             return true;
         }
     }

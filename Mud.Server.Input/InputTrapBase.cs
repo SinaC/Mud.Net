@@ -4,25 +4,6 @@ using System.Globalization;
 
 namespace Mud.Server.Input
 {
-    // TODO:
-    //public struct InputTrapState<TState>
-    //{
-    //    public bool PreserveInput { get; set; } // if true, input is not trimmed/lowered
-    //    TState State { get; set; }
-    //}
-
-    //public abstract class InputTrapBase<TActor, TState> : StateMachineBase<TActor, string, InputTrapState<TState>>
-    //{
-    //    public override void ReceiveInput(TActor actor, string input)
-    //    {
-    //        if (!State.PreserveInput && input != null)
-    //            input = input.Trim().ToLower(CultureInfo.InvariantCulture);
-    //        Func<TActor, string, InputTrapState<TState>> func = StateMachine[State];
-    //        InputTrapState<TState> newState = func(actor, input);
-    //        State = newState;
-    //    }
-    //}
-
     public interface IInputTrap<in TActor>
     {
         bool IsFinalStateReached { get; }

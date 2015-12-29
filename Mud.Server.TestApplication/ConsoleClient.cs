@@ -8,40 +8,48 @@ namespace Mud.Server.TestApplication
     {
         public event DataReceivedEventHandler DataReceived;
         public event DisconnectedEventHandler Disconnected;
+        
+        public bool ColorAccepted { get; set; }
+        public bool DisplayPlayerName { get; set; }
 
         public string Name { get; set; }
 
         public ConsoleClient(string name)
         {
             Name = name;
+            ColorAccepted = true;
+            DisplayPlayerName = true;
         }
 
         public void WriteData(string data)
         {
             string remaining = data;
 
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(Name+" <= ");
-            Console.ResetColor();
+            if (DisplayPlayerName)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(Name + " <= ");
+                Console.ResetColor();
+            }
 
-            // Parse color code
+            // Parse color code  TODO buggy if only one %
             while (true)
             {
-                int startIndex = remaining.IndexOf("%^", StringComparison.OrdinalIgnoreCase);
+                int startIndex = remaining.IndexOf("%", StringComparison.OrdinalIgnoreCase);
                 if (startIndex >= 0)
                 {
                     string preceding = remaining.Substring(0, startIndex);
-                    remaining = remaining.Substring(startIndex + 2);
+                    remaining = remaining.Substring(startIndex + 1);
                     Console.Write(preceding);
-                    int endIndex = remaining.IndexOf("%^", StringComparison.OrdinalIgnoreCase);
+                    int endIndex = remaining.IndexOf("%", StringComparison.OrdinalIgnoreCase);
                     if (endIndex >= 0)
                     {
-                        string colorCode = remaining.Substring(0, endIndex).ToLower();
+                        string colorCode = remaining.Substring(0, endIndex);
                         SwitchColor(colorCode);
-                        remaining = remaining.Substring(endIndex + 2);
+                        remaining = remaining.Substring(endIndex + 1);
                     }
                     else
-                        remaining = remaining.Remove(startIndex, 2);
+                        remaining = remaining.Remove(startIndex, 1);
                 }
                 else
                 {
@@ -59,46 +67,40 @@ namespace Mud.Server.TestApplication
 
         private void SwitchColor(string colorCode)
         {
-            if (colorCode == "reset") 
+            if (!ColorAccepted)
+                return;
+            if (colorCode == "x") 
                 Console.ResetColor();
-            else if (colorCode == "default") 
-                Console.ResetColor();
-            else if (colorCode == "defaultback")
-                Console.ResetColor();
-            // Foreground
-            else if (colorCode == "black")
-                Console.ForegroundColor = ConsoleColor.Black;
-            else if (colorCode == "red")
-                Console.ForegroundColor = ConsoleColor.Red;
-            else if (colorCode == "green")
-                Console.ForegroundColor = ConsoleColor.Green;
-            else if (colorCode == "yellow")
-                Console.ForegroundColor = ConsoleColor.Yellow;
-            else if (colorCode == "blue")
-                Console.ForegroundColor = ConsoleColor.Blue;
-            else if (colorCode == "magenta")
-                Console.ForegroundColor = ConsoleColor.Magenta;
-            else if (colorCode == "cyan")
-                Console.ForegroundColor = ConsoleColor.Cyan;
-            else if (colorCode == "white")
+            // Normal
+            else if (colorCode == "r")
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+            else if (colorCode == "g")
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+            else if (colorCode == "y")
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+            else if (colorCode == "b")
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+            else if (colorCode == "m")
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            else if (colorCode == "c")
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+            else if (colorCode == "w")
                 Console.ForegroundColor = ConsoleColor.White;
-            // Background
-            else if (colorCode == "blackback")
-                Console.BackgroundColor = ConsoleColor.Black;
-            else if (colorCode == "redback")
-                Console.BackgroundColor = ConsoleColor.Red;
-            else if (colorCode == "greenback")
-                Console.BackgroundColor = ConsoleColor.Green;
-            else if (colorCode == "yellowback")
-                Console.BackgroundColor = ConsoleColor.Yellow;
-            else if (colorCode == "blueback")
-                Console.BackgroundColor = ConsoleColor.Blue;
-            else if (colorCode == "magentaback")
-                Console.BackgroundColor = ConsoleColor.Magenta;
-            else if (colorCode == "cyanback")
-                Console.BackgroundColor = ConsoleColor.Cyan;
-            else if (colorCode == "whiteback")
-                Console.BackgroundColor = ConsoleColor.White;
+            // Light
+            else if (colorCode == "R")
+                Console.ForegroundColor = ConsoleColor.Red;
+            else if (colorCode == "G")
+                Console.ForegroundColor = ConsoleColor.Green;
+            else if (colorCode == "Y")
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            else if (colorCode == "B")
+                Console.ForegroundColor = ConsoleColor.Blue;
+            else if (colorCode == "M")
+                Console.ForegroundColor = ConsoleColor.Magenta;
+            else if (colorCode == "C")
+                Console.ForegroundColor = ConsoleColor.Cyan;
+            else if (colorCode == "D")
+                Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 }

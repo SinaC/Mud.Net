@@ -35,6 +35,17 @@ namespace Mud.DataStructures.Trie
         {
         }
 
+        public Trie(IEnumerable<TrieEntry<TValue>> collection, IEqualityComparer<char> comparer)
+            :this(comparer)
+        {
+            AddRange(collection);
+        }
+
+        public Trie(IEnumerable<TrieEntry<TValue>> collection)
+            : this(collection, EqualityComparer<char>.Default)
+        {
+        }
+
         /// <summary>
         /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
         /// </summary>

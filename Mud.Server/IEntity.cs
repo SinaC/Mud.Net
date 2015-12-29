@@ -2,7 +2,7 @@
 
 namespace Mud.Server
 {
-    public interface IEntity : IActor
+    public interface IEntity : IActor, IContainer
     {
         Guid Id { get; }
         string Name { get; }

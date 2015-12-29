@@ -4,8 +4,10 @@ namespace Mud.Server
 {
     public interface IObject : IEntity
     {
+        IContainer ContainedInto { get; }
+
         ObjectBlueprint Blueprint { get; }
 
-        // TODO
+        bool ChangeContainer(IContainer container);
     }
 }

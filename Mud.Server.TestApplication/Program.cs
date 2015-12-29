@@ -7,27 +7,25 @@ using Mud.Network.Socket;
 
 namespace Mud.Server.TestApplication
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Log.Default.Initialize(ConfigurationManager.AppSettings["logpath"], "server.log");
 
             //TestCommandParsing();
-            TestBasicCommands();
+            //TestBasicCommands();
             //TestSocketServer();
             //TestSocketServerLogin();
             //TestLoginStateMachine();
-            //TestToString();
+            //TestAct();
+            //TestWorldOnline();
+            TestWorldOffline();
         }
 
-        private static void TestBasicCommands()
+        private static void CreateWorld()
         {
             World world = World.Instance as World;
-
-            IPlayer player1 = world.AddPlayer(new ConsoleClient("Player1"), Guid.NewGuid(), "Player1");
-            IPlayer player2 = world.AddPlayer(new ConsoleClient("Player2"), Guid.NewGuid(), "Player2");
-            IAdmin admin = world.AddAdmin(new ConsoleClient("Admin1"), Guid.NewGuid(), "Admin1");
 
             IRoom room1 = world.AddRoom(Guid.NewGuid(), "Room1");
             IRoom room2 = world.AddRoom(Guid.NewGuid(), "Room2");
@@ -39,11 +37,28 @@ namespace Mud.Server.TestApplication
             ICharacter mob4 = world.AddCharacter(Guid.NewGuid(), "Mob4", room2);
             ICharacter mob5 = world.AddCharacter(Guid.NewGuid(), "Mob5", room2);
 
+            IObject obj1 = world.AddObject(Guid.NewGuid(), "Object1", room1);
+            IObject obj1Dup = world.AddObject(Guid.NewGuid(), "Object1", room1);
+            IObject obj2 = world.AddObject(Guid.NewGuid(), "Object2", mob2);
+        }
+
+        private static void TestBasicCommands()
+        {
+            World world = World.Instance as World;
+
+            IPlayer player1 = world.AddPlayer(new ConsoleClient("Player1"), Guid.NewGuid(), "Player1");
+            IPlayer player2 = world.AddPlayer(new ConsoleClient("Player2"), Guid.NewGuid(), "Player2");
+            IAdmin admin = world.AddAdmin(new ConsoleClient("Admin1"), Guid.NewGuid(), "Admin1");
+
+            CreateWorld();
+
             player1.ProcessCommand("impersonate mob1");
             player1.ProcessCommand("order"); // not controlling anyone
             player1.ProcessCommand("charm mob2");
             player1.ProcessCommand("test");
             player1.ProcessCommand("order test");
+
+            player1.ProcessCommand("look");
 
             player2.ProcessCommand("gossip Hellow :)");
             player2.ProcessCommand("tell player1 Tsekwa =D");
@@ -53,6 +68,8 @@ namespace Mud.Server.TestApplication
             player2.ProcessCommand("charm mob3"); // cannot charm itself (player2 is impersonated in mob3)
             player2.ProcessCommand("ch mob4");
 
+            player2.ProcessCommand("look");
+
             player1.ProcessCommand("say Hello World!");
 
             player2.ProcessCommand("order charm mob5");
@@ -61,8 +78,9 @@ namespace Mud.Server.TestApplication
             player2.ProcessCommand("south");
             player1.ProcessCommand("south"); // no exit on south
 
-            player1.ProcessCommand("/who");
+            player1.ProcessCommand("say Hello World!");
 
+            player1.ProcessCommand("/who");
             admin.ProcessCommand("who");
 
             //player1.ProcessCommand("/commands");
@@ -127,15 +145,12 @@ namespace Mud.Server.TestApplication
             };
             server.Initialize();
             server.Start();
-            Console.WriteLine("Press ENTER to continue...");
-            Console.ReadLine();
+            HandleUserInput();
             server.Stop();
         }
 
         private static void TestSocketServerLogin()
         {
-            World world = World.Instance as World;
-
             INetworkServer server = new SocketServer(11000);
             int i = 1;
             server.NewClientConnected += client =>
@@ -146,9 +161,46 @@ namespace Mud.Server.TestApplication
             };
             server.Initialize();
             server.Start();
-            Console.WriteLine("Press ENTER to continue...");
-            Console.ReadLine();
+            HandleUserInput();
             server.Stop();
+        }
+
+        private static void HandleUserInput(IPlayer player = null)
+        {
+            bool stopped = false;
+            while (!stopped)
+            {
+                string line = Console.ReadLine();
+                if (!String.IsNullOrWhiteSpace(line))
+                {
+                    // server commands
+                    if (player == null || line.StartsWith("#"))
+                    {
+                        line = line.Replace("#", String.Empty).ToLower();
+                        if (line == "exit" || line == "quit")
+                        {
+                            stopped = true;
+                            break;
+                        }
+                        else if (line == "alist")
+                        {
+                            Console.WriteLine("Admins:");
+                            foreach (IAdmin a in World.Instance.GetAdmins())
+                                Console.WriteLine(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.Name : "") + " " + (a.Incarnating != null ? a.Incarnating.Name : ""));
+                        }
+                        else if (line == "plist")
+                        {
+                            Console.WriteLine("players:");
+                            foreach (IPlayer p in World.Instance.GetPlayers())
+                                Console.WriteLine(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.Name : ""));
+                        }
+                        // TODO: characters/rooms/objects
+                    }
+                    // client commands
+                    else
+                        player.ProcessCommand(line);
+                }
+            }
         }
 
         private static void TestImport()
@@ -171,7 +223,13 @@ namespace Mud.Server.TestApplication
 
         private static void TestLoginStateMachine()
         {
-            IPlayer player = new Player.Player(new ConsoleClient("Player"), Guid.NewGuid());
+            IPlayer player = new Player.Player(
+                new ConsoleClient("Player")
+                {
+                    DisplayPlayerName = false,
+                    ColorAccepted = true
+                }, 
+                Guid.NewGuid());
             while (true)
             {
                 string command = Console.ReadLine();
@@ -179,18 +237,67 @@ namespace Mud.Server.TestApplication
             }
         }
 
-        private static void TestToString()
+        private static void TestAct()
         {
             World world = World.Instance as World;
             IRoom room = world.AddRoom(Guid.NewGuid(), "Room");
-            ICharacter character = world.AddCharacter(Guid.NewGuid(), "Mob1", room);
+            ICharacter character1 = world.AddCharacter(Guid.NewGuid(), "Mob1", room);
+            ICharacter character2 = world.AddCharacter(Guid.NewGuid(), "Mob2", room);
 
             //string test = String.Format("n:{0:n} e:{0:n}", character);
             //Console.WriteLine(test);
 
-            IPlayer player1 = world.AddPlayer(new ConsoleClient("Player1"), Guid.NewGuid(), "Player1");
+            IPlayer player1 = world.AddPlayer(
+                new ConsoleClient("Player1")
+                {
+                    DisplayPlayerName = false,
+                    ColorAccepted = true
+                }, 
+                Guid.NewGuid(), 
+                "Player1");
             player1.ProcessCommand("im mob1");
-            (character as Character.Character).Act(Character.Character.ActOptions.ToAll, "test {0:n} {1} {2:dd/MM/yyyy} {3:0.00}", character, "param_2", DateTime.Now, 123.4567);
+            //(character1 as Character.Character).Act(Character.Character.ActOptions.ToAll, "test {0:n} {1} {2:dd/MM/yyyy} {3:0.00}", character2, "param_2", DateTime.Now, 123.4567);
+            (character2 as Character.Character).Act(Character.Character.ActOptions.ToVictim, character1, "{0:r} examine{0:v} {0:r}", character1);
+        }
+
+        private static void TestWorldOnline()
+        {
+            Console.WriteLine("Let's go");
+
+            ServerOptions.Instance.PrefixForwardedMessages = false;
+
+            CreateWorld();
+
+            INetworkServer server = new SocketServer(11000);
+            server.NewClientConnected += client =>
+            {
+                IPlayer player = new Player.Player(client, Guid.NewGuid());
+                player.Send("Why don't you login or tell us the name you wish to be known by?");
+            };
+            server.Initialize();
+            server.Start();
+            HandleUserInput();
+            server.Stop();
+        }
+
+        private static void TestWorldOffline()
+        {
+            Console.WriteLine("Let's go");
+
+            ServerOptions.Instance.PrefixForwardedMessages = false;
+
+            CreateWorld();
+
+            World world = World.Instance as World;
+            IPlayer player = world.AddPlayer(
+                new ConsoleClient("Player1")
+                {
+                    DisplayPlayerName = false,
+                    ColorAccepted = true
+                },
+                Guid.NewGuid(),
+                "Player1"); //!!! no login state machine -> direct login
+            HandleUserInput(player);
         }
     }
 }

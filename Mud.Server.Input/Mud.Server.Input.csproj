@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="CommandAttribute.cs" />
     <Compile Include="CommandHelpers.cs" />
+    <Compile Include="CommandMethodInfo.cs" />
     <Compile Include="CommandParameter.cs" />
     <Compile Include="InputTrapBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

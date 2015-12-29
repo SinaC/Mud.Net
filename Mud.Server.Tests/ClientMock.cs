@@ -12,7 +12,8 @@ namespace Mud.Server.Tests
         public event DataReceivedEventHandler DataReceived;
         public event DisconnectedEventHandler Disconnected;
         
-        
+        public bool ColorAccepted { get; set; }
+
         public void WriteData(string data)
         {
             WrittenData.Add(data);

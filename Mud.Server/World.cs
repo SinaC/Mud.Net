@@ -13,6 +13,7 @@ namespace Mud.Server
         private readonly List<IPlayer> _players;
         private readonly List<ICharacter> _characters;
         private readonly List<IRoom> _rooms;
+        private readonly List<IObject> _objects;
 
         #region Singleton
 
@@ -29,6 +30,7 @@ namespace Mud.Server
             _players = new List<IPlayer>();
             _characters = new List<ICharacter>();
             _rooms = new List<IRoom>();
+            _objects = new List<IObject>();
         }
 
         #endregion
@@ -74,16 +76,23 @@ namespace Mud.Server
             return from2To;
         }
 
-        #region IWorld
-
-        public IPlayer GetPlayer(string name)
+        public IObject AddObject(Guid guid, string name, IContainer container)
         {
-            return FindHelpers.FindByName(_players, name);
+            IObject obj = new Object.Object(guid, name, container);
+            _objects.Add(obj);
+            return obj;
         }
 
-        public IPlayer GetPlayer(CommandParameter parameter)
+        #region IWorld
+
+        public IPlayer GetPlayer(string name, bool perfectMatch = false)
         {
-            return FindHelpers.FindByName(_players, parameter);
+            return FindHelpers.FindByName(_players, name, perfectMatch);
+        }
+
+        public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch = false)
+        {
+            return FindHelpers.FindByName(_players, parameter, perfectMatch);
         }
 
         public IReadOnlyCollection<IPlayer> GetPlayers()
@@ -91,9 +100,19 @@ namespace Mud.Server
             return new ReadOnlyCollection<IPlayer>(_players);
         }
 
+        public IReadOnlyCollection<IAdmin> GetAdmins()
+        {
+            return new ReadOnlyCollection<IAdmin>(_admins);
+        }
+
         public IReadOnlyCollection<IRoom> GetRooms()
         {
             return new ReadOnlyCollection<IRoom>(_rooms);
+        }
+
+        public IReadOnlyCollection<IObject> GetObjects()
+        {
+            return new ReadOnlyCollection<IObject>(_objects);
         }
 
         public bool AddPlayer(IPlayer player)
@@ -105,9 +124,9 @@ namespace Mud.Server
         }
 
         // TODO: remove
-        public ICharacter GetCharacter(CommandParameter parameter)
+        public ICharacter GetCharacter(CommandParameter parameter, bool perfectMatch = false)
         {
-            return FindHelpers.FindByName(_characters, parameter);
+            return FindHelpers.FindByName(_characters, parameter, perfectMatch);
         }
 
         #endregion

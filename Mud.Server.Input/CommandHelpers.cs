@@ -131,20 +131,23 @@ namespace Mud.Server.Input
             return joined;
         }
 
-        public static Trie<MethodInfo> GetCommands(Type type)
+        public static IReadOnlyTrie<MethodInfo> GetCommandsOld(Type type)
+        {
+            IEnumerable<TrieEntry<MethodInfo>> commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
+                .Where(x => x.GetCustomAttributes(typeof (CommandAttribute), false).Any())
+                .SelectMany(x => x.GetCustomAttributes(typeof (CommandAttribute)).OfType<CommandAttribute>().Select(attr => attr.Name).Distinct(), // when overriding a command (attribute is declared twice) -> cause 2 entries with the same method and same name
+                    (methodInfo, commandName) => new TrieEntry<MethodInfo>(commandName, methodInfo));
+            Trie<MethodInfo> trie = new Trie<MethodInfo>(commands);
+            return trie;
+        }
+
+        public static IReadOnlyTrie<CommandMethodInfo> GetCommands(Type type)
         {
             var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
-                .Where(x => x.GetCustomAttributes(typeof (CommandAttribute), false).Any())
-                //TODO: should be get 'most' inherited method .Where(x => x.GetBaseDefinition() == x) // http://stackoverflow.com/questions/2932421/detect-if-a-method-was-overridden-using-reflection-c
-                .SelectMany(x => x.GetCustomAttributes(typeof (CommandAttribute)).OfType<CommandAttribute>(),
-                    (methodInfo, attribute) => new
-                    {
-                        methodInfo,
-                        name = attribute.Name
-                    })
-                .Select(x => new TrieEntry<MethodInfo>(x.name, x.methodInfo));
-            Trie<MethodInfo> trie = new Trie<MethodInfo>();
-            trie.AddRange(commands);
+                .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())
+                .SelectMany(x => x.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().Distinct(new CommandAttributeEqualityComparer()),
+                    (methodInfo, attribute) => new TrieEntry<CommandMethodInfo>(attribute.Name, new CommandMethodInfo(attribute, methodInfo)));
+            Trie<CommandMethodInfo> trie = new Trie<CommandMethodInfo>(commands);
             return trie;
         }
     }

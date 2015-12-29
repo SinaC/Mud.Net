@@ -5,27 +5,20 @@ namespace Mud.Server.Player
     public partial class Player
     {
         [Command("who")]
-        protected virtual bool DoWho(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoWho(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("Who:");
+            Send("Players:");
             foreach (IPlayer player in World.Instance.GetPlayers())
             {
                 switch (player.PlayerState)
                 {
                     case PlayerStates.Connecting:
-                        Send("[OOG] {0} connecting", player.DisplayName);
-                        break;
                     case PlayerStates.Connected:
+                    case PlayerStates.CreatingAvatar:
                         Send("[OOG] {0}", player.DisplayName);
                         break;
-                    case PlayerStates.CreatingAvatar:
-                        Send("[OOG] {0} creating an avatar", player.DisplayName);
-                        break;
                     case PlayerStates.Playing:
-                        if (player.Impersonating != null)
-                            Send("[ IG] {0} playing {1}", player.DisplayName, player.Impersonating.Name);
-                        else
-                            Send("[ IG] {0} playing ???", player.DisplayName);
+                        Send("[ IG] {0}", player.DisplayName);
                         break;
                 }
             }

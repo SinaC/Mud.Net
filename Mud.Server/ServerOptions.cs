@@ -22,7 +22,7 @@ namespace Mud.Server
 
         #endregion
 
-        public enum ExitDirections
+        public enum ExitDirections // MUST contains 'ExitCount' entries
         {
             North,
             East,

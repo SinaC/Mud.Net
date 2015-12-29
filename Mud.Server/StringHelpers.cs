@@ -11,29 +11,21 @@ namespace Mud.Server
 
         // TODO: better tags such as <r> or #r for red
 
-        public static string Reset = "%^reset%^";
-        public static string Bold = "%^bold%^";
-        public static string Italics = "%^italics%^";
-        public static string Underline = "%^underline%^";
-        public static string NoBold = "%^nobold%^";
-        public static string Black = "%^black%^";
-        public static string Red = "%^red%^";
-        public static string Green = "%^green%^";
-        public static string Yellow = "%^yellow%^";
-        public static string Blue = "%^blue%^";
-        public static string Magenta = "%^magenta%^";
-        public static string Cyan = "%^cyan%^";
-        public static string White = "%^white%^";
-        public static string Default = "%^default%^";
-        public static string BlackBack = "%^blackback%^";
-        public static string RedBack = "%^redback%^";
-        public static string GreenBack = "%^greenback%^";
-        public static string YellowBack = "%^yellowback%^";
-        public static string BlueBack = "%^blueback%^";
-        public static string MagentaBack = "%^magentaback%^";
-        public static string CyanBack = "%^cyanback%^";
-        public static string WhiteBack = "%^whiteback%^";
-        public static string DefaultBack = "%^defaultback%^";
+        public static string Reset = "%x%";
+        public static string Red = "%r%";
+        public static string Green = "%g%";
+        public static string Yellow = "%y%";
+        public static string Blue = "%b%";
+        public static string Magenta = "%m%";
+        public static string Cyan = "%c%";
+        public static string White = "%w%";
+        public static string LightRed = "%R%";
+        public static string LightGreen = "%G%";
+        public static string LightYellow = "%Y%";
+        public static string LightBlue = "%B%";
+        public static string LightMagenta = "%M%";
+        public static string LightCyan = "%C%";
+        public static string Grey = "%W%";
 
         #endregion
 

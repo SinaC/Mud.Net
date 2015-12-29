@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Reflection;
+using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Network;
 using Mud.Server.Input;
@@ -8,7 +8,7 @@ namespace Mud.Server.Admin
 {
     public class Admin : Player.Player, IAdmin
     {
-        private static readonly Trie<MethodInfo> AdminCommands;
+        private static readonly IReadOnlyTrie<CommandMethodInfo> AdminCommands;
 
         static Admin()
         {
@@ -27,7 +27,7 @@ namespace Mud.Server.Admin
 
         #region IActor
 
-        public override IReadOnlyTrie<MethodInfo> Commands
+        public override IReadOnlyTrie<CommandMethodInfo> Commands
         {
             get { return AdminCommands; }
         }
@@ -53,18 +53,59 @@ namespace Mud.Server.Admin
         #endregion
 
         [Command("incarnate")]
-        protected virtual bool DoIncarnate(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoIncarnate(string rawParameters, params CommandParameter[] parameters)
         {
             return true;
         }
 
         // TODO: cause a crash in CommandHelpers.GetCommands
-        //[Command("who")]
-        //protected override bool DoWho(string rawParameters, CommandParameter[] parameters)
-        //{
-        //    Send("Admin who");
-        //    return true;
-        //}
+        [Command("who")]
+        protected override bool DoWho(string rawParameters, params CommandParameter[] parameters)
+        {
+            Send("Players:");
+            foreach (IPlayer player in World.Instance.GetPlayers())
+            {
+                StringBuilder sb = new StringBuilder();
+                switch (player.PlayerState)
+                {
+                    case PlayerStates.Connecting:
+                    case PlayerStates.Connected:
+                    case PlayerStates.CreatingAvatar:
+                        sb.AppendFormat("[OOG] {0} {1}", player.DisplayName, player.PlayerState);
+                        break;
+                    case PlayerStates.Playing:
+                        if (player.Impersonating != null)
+                            sb.AppendFormat("[ IG] {0} playing {1}", player.DisplayName, player.Impersonating.Name);
+                        else
+                            sb.AppendFormat("[ IG] {0} playing ???", player.DisplayName);
+                        break;
+                }
+                Send(sb.ToString());
+            }
+            Send("Admins");
+            foreach (IAdmin admin in World.Instance.GetAdmins())
+            {
+                StringBuilder sb = new StringBuilder();
+                switch (admin.PlayerState)
+                {
+                    case PlayerStates.Connecting:
+                    case PlayerStates.Connected:
+                    case PlayerStates.CreatingAvatar:
+                        sb.AppendFormat("[OOG] {0} {1}", admin.DisplayName, admin.PlayerState);
+                        break;
+                    case PlayerStates.Playing:
+                        if (admin.Impersonating != null)
+                            sb.AppendFormat("[ IG] {0} impersonating {1}", admin.DisplayName, admin.Impersonating.Name);
+                        else if (admin.Incarnating != null)
+                            sb.AppendFormat("[ IG] {0} incarnating {1}", admin.DisplayName, admin.Incarnating.Name);
+                        else
+                            sb.AppendFormat("[ IG] {0} nor playing nor incarnating !!!", admin.DisplayName);
+                        break;
+                }
+                Send(sb.ToString());
+            }
+            return true;
+        }
     }
 
     // TODO: remove

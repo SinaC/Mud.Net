@@ -12,6 +12,7 @@ namespace Mud.Server.Tests.Mocking
         private readonly List<IPlayer> _players;
         private readonly List<ICharacter> _characters;
         private readonly List<IRoom> _rooms;
+        private readonly List<IObject> _objects;
 
         public WorldMock()
         {
@@ -19,6 +20,7 @@ namespace Mud.Server.Tests.Mocking
             _players = new List<IPlayer>();
             _characters = new List<ICharacter>();
             _rooms = new List<IRoom>();
+            _objects = new List<IObject>();
         }
 
         public IAdmin AddAdmin(IClient client, Guid guid, string name)
@@ -51,12 +53,12 @@ namespace Mud.Server.Tests.Mocking
 
         #region IWorld
 
-        public IPlayer GetPlayer(string name)
+        public IPlayer GetPlayer(string name, bool perfectMatch = false)
         {
             return FindHelpers.FindByName(_players, name);
         }
 
-        public IPlayer GetPlayer(CommandParameter parameter)
+        public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch = false)
         {
             return FindHelpers.FindByName(_players, parameter);
         }
@@ -66,9 +68,19 @@ namespace Mud.Server.Tests.Mocking
             return new ReadOnlyCollection<IPlayer>(_players);
         }
 
+        public IReadOnlyCollection<IAdmin> GetAdmins()
+        {
+            return new ReadOnlyCollection<IAdmin>(_admins);
+        }
+
         public IReadOnlyCollection<IRoom> GetRooms()
         {
             return new ReadOnlyCollection<IRoom>(_rooms);
+        }
+
+        public IReadOnlyCollection<IObject> GetObjects()
+        {
+            return new ReadOnlyCollection<IObject>(_objects);
         }
 
         public bool AddPlayer(IPlayer player)
@@ -77,7 +89,7 @@ namespace Mud.Server.Tests.Mocking
             return true;
         }
 
-        public ICharacter GetCharacter(CommandParameter parameter)
+        public ICharacter GetCharacter(CommandParameter parameter, bool perfectMatch = false)
         {
             return FindHelpers.FindByName(_characters, parameter);
         }

@@ -5,7 +5,7 @@ namespace Mud.Server.Player
     public partial class Player
     {
         [Command("impersonate")]
-        protected virtual bool DoImpersonate(string rawParameters, CommandParameter[] parameters)
+        protected virtual bool DoImpersonate(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {

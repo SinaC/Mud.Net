@@ -5,15 +5,16 @@ namespace Mud.Server
 {
     public interface IWorld
     {
-        IPlayer GetPlayer(string name);
-        IPlayer GetPlayer(CommandParameter parameter);
+        IPlayer GetPlayer(string name, bool perfectMatch = false);
+        IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch = false);
         IReadOnlyCollection<IPlayer> GetPlayers();
-            
+        IReadOnlyCollection<IAdmin> GetAdmins();
         IReadOnlyCollection<IRoom> GetRooms();
+        IReadOnlyCollection<IObject> GetObjects();
 
         bool AddPlayer(IPlayer player);
 
         // TODO: remove
-        ICharacter GetCharacter(CommandParameter parameter);
+        ICharacter GetCharacter(CommandParameter parameter, bool perfectMatch = false);
     }
 }

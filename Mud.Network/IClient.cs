@@ -8,6 +8,8 @@
         event DataReceivedEventHandler DataReceived;
         event DisconnectedEventHandler Disconnected;
 
+        bool ColorAccepted { get; set; }
+
         void WriteData(string data);
         void Disconnect();
     }
