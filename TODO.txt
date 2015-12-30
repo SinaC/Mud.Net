@@ -1,4 +1,5 @@
-buffer in send/receive
+admin/player creation in login state machine in function of name
+
 main loop handling combat
 paging
 unit tests
@@ -6,12 +7,17 @@ IReadOnlyPlayer, IReadOnlyCharacter, ...  + set private/protected to internal  t
 prompt
 do_reply
 
+dummy network server to simulate console server
+
+check http://www.albahari.com/threading/part3.aspx#_Safe_Cancellation
+
 add CanSee test where it's needed
 use ShortDescription where it's needed
 
 avatar creation state machine
 
 include command priority in Trie (probably a new data structure)
++ option in CommandAttribute to force full command name to be typed
 
 
 MCCP  mud compression protocol

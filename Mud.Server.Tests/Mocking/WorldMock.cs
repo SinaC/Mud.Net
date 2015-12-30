@@ -89,6 +89,12 @@ namespace Mud.Server.Tests.Mocking
             return true;
         }
 
+        public bool AddAdmin(IAdmin admin)
+        {
+            _admins.Add(admin);
+            return true;
+        }
+
         public ICharacter GetCharacter(CommandParameter parameter, bool perfectMatch = false)
         {
             return FindHelpers.FindByName(_characters, parameter);

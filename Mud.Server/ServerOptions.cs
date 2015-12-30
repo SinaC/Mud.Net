@@ -22,6 +22,8 @@ namespace Mud.Server
 
         #endregion
 
+        public const int ExitCount = 10;
+
         public enum ExitDirections // MUST contains 'ExitCount' entries
         {
             North,
@@ -36,11 +38,11 @@ namespace Mud.Server
             SouthWest,
         }
 
-        public const int ExitCount = 10;
+        public const bool AsynchronousSend = false;
+        public const bool AsynchronousReceive = false;
 
         public bool PrefixForwardedMessages { get; set; } // Add <IMP> or <CTRL> before forwarding a message
         public bool ForwardSlaveMessages { get; set; } // Forward messages received by a slaved character
-
 
         public ExitDirections ReverseDirection(ExitDirections direction)
         {

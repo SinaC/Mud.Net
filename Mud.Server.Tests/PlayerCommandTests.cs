@@ -13,7 +13,7 @@ namespace Mud.Server.Tests
 
         private Tuple<IPlayer,IRoom,ICharacter> CreatePlayerRoomCharacter(string playerName, string roomName, string characterName)
         {
-            IPlayer player = _world.AddPlayer(new ClientMock(), Guid.NewGuid(), playerName);
+            IPlayer player = _world.AddPlayer(new ClientMock(true), Guid.NewGuid(), playerName);
             IRoom room = _world.AddRoom(Guid.NewGuid(), roomName);
             ICharacter character = _world.AddCharacter(Guid.NewGuid(), characterName, room);
             return new Tuple<IPlayer, IRoom, ICharacter>(player, room, character);

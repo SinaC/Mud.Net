@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using Mud.Server.Input;
 
 namespace Mud.Server
@@ -14,8 +13,10 @@ namespace Mud.Server
         IReadOnlyCollection<IItem> GetItems();
 
         bool AddPlayer(IPlayer player);
+        bool AddAdmin(IAdmin admin);
 
         // TODO: remove
+        // TEST PURPOSE
         ICharacter GetCharacter(CommandParameter parameter, bool perfectMatch = false);
 
         void Update(); // called every pulse

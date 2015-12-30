@@ -38,12 +38,14 @@ namespace Mud.Server.Actor
                 }
                 else
                 {
+                    Log.Default.WriteLine(LogLevels.Warning, "Command not found");
                     Send("Command not found");
                     return false;
                 }
             }
             else
             {
+                Log.Default.WriteLine(LogLevels.Warning, "Command not found");
                 Send("Command not found");
                 return false;
             }

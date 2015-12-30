@@ -7,33 +7,45 @@ namespace Mud.Server.TestApplication
     // Simple client dumping message to console
     internal class ConsoleClient : IClient
     {
-        private readonly BlockingCollection<string> _receiveQueue; // TODO: not used   console client calls directly command
+        private readonly ConcurrentQueue<string> _receiveQueue;
 
-        //public event DataReceivedEventHandler DataReceived;
-        public event DisconnectedEventHandler Disconnected;
-        
-        public bool ColorAccepted { get; set; }
         public bool DisplayPlayerName { get; set; }
-
         public string Name { get; set; }
 
-        public ConsoleClient(string name)
+        public ConsoleClient(string name, bool asynchronousReceive)
         {
+            AsynchronousReceive = asynchronousReceive;
             Name = name;
             ColorAccepted = true;
             DisplayPlayerName = true;
-            _receiveQueue = new BlockingCollection<string>(new ConcurrentQueue<string>());
+            _receiveQueue = new ConcurrentQueue<string>();
         }
 
         public void OnDataReceived(string data)
         {
-            _receiveQueue.Add(data);
+            if (AsynchronousReceive)
+            {
+                if (DataReceived != null)
+                    DataReceived(data);
+            }
+            else
+                _receiveQueue.Enqueue(data);
         }
+
+        #region IClient
+
+        public event DataReceivedEventHandler DataReceived;
+        public event DisconnectedEventHandler Disconnected;
+
+        public bool ColorAccepted { get; set; }
+        public bool AsynchronousReceive { get; private set; }
 
         public string ReadData()
         {
+            if (AsynchronousReceive)
+                return null;
             string data;
-            bool taken = _receiveQueue.TryTake(out data, 10);
+            bool taken = _receiveQueue.TryDequeue(out data);
             return taken ? data : null;
         }
 
@@ -80,6 +92,8 @@ namespace Mud.Server.TestApplication
         {
             // NOP
         }
+
+        #endregion
 
         private void SwitchColor(string colorCode)
         {

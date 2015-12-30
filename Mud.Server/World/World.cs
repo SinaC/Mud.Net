@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mud.Network;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Room;
@@ -36,19 +35,19 @@ namespace Mud.Server.World
         #endregion
 
         // TODO: remove following methods
-        public IAdmin AddAdmin(IClient client, Guid guid, string name)
-        {
-            IAdmin admin = new Admin.Admin(client, guid, name);
-            _admins.Add(admin);
-            return admin;
-        }
+        //public IAdmin AddAdmin(IClient client, Guid guid, string name)
+        //{
+        //    IAdmin admin = new Admin.Admin(client, guid, name);
+        //    _admins.Add(admin);
+        //    return admin;
+        //}
 
-        public IPlayer AddPlayer(IClient client, Guid guid, string name)
-        {
-            IPlayer player = new Player.Player(client, guid, name);
-            _players.Add(player);
-            return player;
-        }
+        //public IPlayer AddPlayer(IClient client, Guid guid, string name)
+        //{
+        //    IPlayer player = new Player.Player(client, guid, name);
+        //    _players.Add(player);
+        //    return player;
+        //}
 
         public ICharacter AddCharacter(Guid guid, string name, IRoom room)
         {
@@ -120,6 +119,14 @@ namespace Mud.Server.World
             if (_players.Contains(player))
                 return false;
             _players.Add(player);
+            return true;
+        }
+
+        public bool AddAdmin(IAdmin admin)
+        {
+            if (_admins.Contains(admin))
+                return false;
+            _admins.Add(admin);
             return true;
         }
 

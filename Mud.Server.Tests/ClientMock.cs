@@ -9,8 +9,10 @@ namespace Mud.Server.Tests
         public List<string> ReceivedData { get; set; }
         private readonly Queue<string> _pendingData;
 
-        public ClientMock()
+        public ClientMock(bool asynchronousReceive)
         {
+            AsynchronousReceive = asynchronousReceive;
+
             WrittenData = new List<string>();
             ReceivedData = new List<string>();
             _pendingData = new Queue<string>();
@@ -19,7 +21,13 @@ namespace Mud.Server.Tests
         public void OnDataReceived(string data)
         {
             ReceivedData.Add(data);
-            _pendingData.Enqueue(data);
+            if (AsynchronousReceive)
+            {
+                if (DataReceived != null)
+                    DataReceived(data);
+            }
+            else
+                _pendingData.Enqueue(data);
         }
 
         public void Reset()
@@ -31,13 +39,17 @@ namespace Mud.Server.Tests
 
         #region IClient
 
-        //public event DataReceivedEventHandler DataReceived;
+        public event DataReceivedEventHandler DataReceived;
         public event DisconnectedEventHandler Disconnected;
         
         public bool ColorAccepted { get; set; }
 
+        public bool AsynchronousReceive { get; private set; }
+
         public string ReadData()
         {
+            if (AsynchronousReceive)
+                return null;
             if (_pendingData.Count > 0)
                 return _pendingData.Dequeue();
             return null;

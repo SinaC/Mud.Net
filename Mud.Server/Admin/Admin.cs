@@ -55,10 +55,30 @@ namespace Mud.Server.Admin
         [Command("incarnate")]
         protected virtual bool DoIncarnate(string rawParameters, params CommandParameter[] parameters)
         {
+            Send("NOT YET IMPLEMENTED");
             return true;
         }
 
-        // TODO: cause a crash in CommandHelpers.GetCommands
+        [Command("shutdow")] // TODO: add an option in CommandAttribute to force full command to be type
+        protected virtual bool DoShutdow(string rawParameters, params CommandParameter[] parameters)
+        {
+            Send("If you want to SHUTDOWN, spell it out.");
+            return true;
+        }
+
+        [Command("shutdown")]
+        protected virtual bool DoShutdown(string rawParameters, params CommandParameter[] parameters)
+        {
+            int seconds = 0;
+            if (parameters.Length == 0 || !int.TryParse(parameters[0].Value, out seconds))
+                Send("Syntax: shutdown xxx  where xxx is a delay in seconds");
+            else
+            {
+                Server.Instance.Shutdown(seconds);
+            }
+            return true;
+        }
+
         [Command("who")]
         protected override bool DoWho(string rawParameters, params CommandParameter[] parameters)
         {

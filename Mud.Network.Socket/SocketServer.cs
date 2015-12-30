@@ -40,16 +40,17 @@ namespace Mud.Network.Socket
 
         public int Port { get; private set; }
 
-        public SocketServer(int port)
+        public SocketServer(int port, bool asynchronousReceive)
         {
             _status = ServerStatus.Creating;
-            Log.Default.WriteLine(LogLevels.Info, "Server creating");
+            Log.Default.WriteLine(LogLevels.Info, "Socket server creating");
 
             Port = port;
+            AsynchronousReceive = asynchronousReceive;
 
             _clients = new List<ClientSocketStateObject>();
 
-            Log.Default.WriteLine(LogLevels.Info, "Server created");
+            Log.Default.WriteLine(LogLevels.Info, "Socket server created");
             _status = ServerStatus.Created;
         }
 
@@ -57,9 +58,11 @@ namespace Mud.Network.Socket
 
         public event NewClientConnectedEventHandler NewClientConnected;
 
+        public bool AsynchronousReceive { get; private set; }
+
         public void Initialize()
         {
-            Log.Default.WriteLine(LogLevels.Info, "Server initializing");
+            Log.Default.WriteLine(LogLevels.Info, "Socket server initializing");
             _status = ServerStatus.Initializing;
 
             // Establish the local endpoint for the socket.
@@ -76,15 +79,15 @@ namespace Mud.Network.Socket
 
             // Bind the socket to the local endpoint and listen for incoming connections.
             _serverSocket.Bind(localEndPoint);
-            Log.Default.WriteLine(LogLevels.Info, "Server bound to " + hostName + " on port " + localEndPoint.Port);
+            Log.Default.WriteLine(LogLevels.Info, "Socket server bound to " + hostName + " on port " + localEndPoint.Port);
 
             _status = ServerStatus.Initialized;
-            Log.Default.WriteLine(LogLevels.Info, "Server initialized");
+            Log.Default.WriteLine(LogLevels.Info, "Socket server initialized");
         }
 
         public void Start()
         {
-            Log.Default.WriteLine(LogLevels.Info, "Server starting");
+            Log.Default.WriteLine(LogLevels.Info, "Socket server starting");
 
             _status = ServerStatus.Starting;
 
@@ -94,12 +97,12 @@ namespace Mud.Network.Socket
 
             _status = ServerStatus.Started;
 
-            Log.Default.WriteLine(LogLevels.Info, "Server started");
+            Log.Default.WriteLine(LogLevels.Info, "Socket server started");
         }
 
         public void Stop()
         {
-            Log.Default.WriteLine(LogLevels.Info, "Server stopping");
+            Log.Default.WriteLine(LogLevels.Info, "Socket server stopping");
 
             _status = ServerStatus.Stopping;
 
@@ -121,12 +124,16 @@ namespace Mud.Network.Socket
                 //_serverSocket.Shutdown(SocketShutdown.Both); // TODO: exception on this line when closing application
                 _serverSocket.Close();
             }
+            catch (OperationCanceledException ex)
+            {
+                Log.Default.WriteLine(LogLevels.Warning, "Operation canceled exception while stopping. Exception: {0}", ex);
+            }
             catch (AggregateException ex)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Aggregate exception while stopping. Exception: {0}", ex.Flatten());
             }
 
-            Log.Default.WriteLine(LogLevels.Info, "Server stopped");
+            Log.Default.WriteLine(LogLevels.Info, "Socket server stopped");
 
             _status = ServerStatus.Stopped;
         }
@@ -185,7 +192,7 @@ namespace Mud.Network.Socket
                 Log.Default.WriteLine(LogLevels.Debug, "Client connected from " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address);
 
                 // Create the state object.
-                ClientSocketStateObject client = new ClientSocketStateObject(this, _cancellationTokenSource)
+                ClientSocketStateObject client = new ClientSocketStateObject(this, AsynchronousReceive)
                 {
                     ClientSocket = clientSocket,
                 };

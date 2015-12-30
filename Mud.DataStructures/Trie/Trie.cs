@@ -255,11 +255,6 @@ namespace Mud.DataStructures.Trie
             return node.GetByPrefix();
         }
 
-        IEnumerable<string> IReadOnlyTrie<TValue>.Keys
-        {
-            get { return Keys; }
-        }
-
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>

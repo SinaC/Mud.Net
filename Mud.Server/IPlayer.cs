@@ -26,5 +26,7 @@ namespace Mud.Server
         bool Load(string name);
 
         void OnDisconnected();
+
+        string DataToSend();
     }
 }

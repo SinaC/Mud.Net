@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Network;
@@ -12,6 +14,8 @@ namespace Mud.Server.Player
     {
         private static readonly IReadOnlyTrie<CommandMethodInfo> PlayerCommands;
 
+        //private readonly ConcurrentQueue<string> _sendQueue; // when using this, Server.ProcessOutput must loop until DataToSend returns null
+        private readonly StringBuilder _sendBuffer;
         private readonly IClient _client;
         private readonly IInputTrap<IPlayer> _currentStateMachine; // TODO: state machine for avatar creation
 
@@ -20,12 +24,19 @@ namespace Mud.Server.Player
             PlayerCommands = CommandHelpers.GetCommands(typeof(Player));
         }
 
+        protected Player()
+        {
+            //_sendQueue = new ConcurrentQueue<string>();
+            _sendBuffer = new StringBuilder();
+        }
+
         public Player(IClient client, Guid id)
+            :this()
         {
             _client = client;
             Id = id;
 
-            //client.DataReceived += ClientOnDataReceived;
+            client.DataReceived += ClientOnDataReceived;
             client.Disconnected += OnDisconnected;
 
             _currentStateMachine = new LoginStateMachine();
@@ -35,12 +46,13 @@ namespace Mud.Server.Player
 
         // TODO: remove  method is for test purpose  (no login state machine and name directly specified)
         public Player(IClient client, Guid id, string name)
+            : this()
         {
             _client = client;
             Id = id;
             Name = name;
 
-            //client.DataReceived += ClientOnDataReceived;
+            client.DataReceived += ClientOnDataReceived;
             client.Disconnected += OnDisconnected;
 
             PlayerState = PlayerStates.Connected;
@@ -109,8 +121,18 @@ namespace Mud.Server.Player
 
         public override void Send(string format, params object[] parameters)
         {
-            string message = String.Format(format+Environment.NewLine, parameters);
-            _client.WriteData(message);
+            if (ServerOptions.AsynchronousSend)
+            {
+                string message = String.Format(format + Environment.NewLine, parameters);
+                _client.WriteData(message);
+            }
+            else
+            {
+                string message = String.Format(format, parameters);
+                //_sendQueue.Enqueue(message);
+                lock (_sendBuffer)
+                    _sendBuffer.AppendLine(message);
+            }
         }
 
         #endregion
@@ -130,6 +152,15 @@ namespace Mud.Server.Player
         public DateTime LastCommandTimestamp { get; private set; }
         public string LastCommand { get; private set; }
 
+        public bool Load(string name)
+        {
+            Name = name;
+            // TODO: load player file
+
+            PlayerState = PlayerStates.Connected;
+            return true;
+        }
+
         public virtual void OnDisconnected()
         {
             // Stop impersonation if any
@@ -140,25 +171,29 @@ namespace Mud.Server.Player
             }
         }
 
-        public bool Load(string name)
+        public string DataToSend()
         {
-            Name = name;
-            // TODO: load player file
-
-            PlayerState = PlayerStates.Connected;
-            return true;
+            //string data;
+            //bool taken = _sendQueue.TryDequeue(out data);
+            //return taken ? data : null;
+            lock (_sendBuffer)
+            {
+                string data = _sendBuffer.ToString();
+                _sendBuffer.Clear();
+                return data;
+            }
         }
 
         #endregion
 
-        //#region IClient event handlers
+        #region IClient event handlers
 
-        //private void ClientOnDataReceived(string data)
-        //{
-        //    ProcessCommand(data);
-        //}
+        private void ClientOnDataReceived(string data)
+        {
+            ProcessCommand(data);
+        }
 
-        //#endregion
+        #endregion
 
         [Command("test")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)

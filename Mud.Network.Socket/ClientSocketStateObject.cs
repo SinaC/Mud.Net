@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using System.Text;
-using System.Threading;
 
 namespace Mud.Network.Socket
 {
@@ -20,10 +19,9 @@ namespace Mud.Network.Socket
         // First must be eaten
         public bool FirstInput { get; set; }
 
-        private readonly CancellationTokenSource _cancellationTokenSource;
-        private readonly BlockingCollection<string> _receiveQueue;
+        private readonly ConcurrentQueue<string> _receiveQueue;
 
-        public ClientSocketStateObject(SocketServer server, CancellationTokenSource cancellationTokenSource)
+        public ClientSocketStateObject(SocketServer server, bool asynchronousReceive)
         {
             Server = server;
             Buffer = new byte[BufferSize];
@@ -31,19 +29,39 @@ namespace Mud.Network.Socket
             ClientSocket = null;
             FirstInput = true;
             ColorAccepted = true; // by default
-            _cancellationTokenSource = cancellationTokenSource;
-            _receiveQueue = new BlockingCollection<string>(new ConcurrentQueue<string>());
+            AsynchronousReceive = asynchronousReceive;
+            _receiveQueue = new ConcurrentQueue<string>();
         }
 
-        //public event DataReceivedEventHandler DataReceived;
+        public void OnDataReceived(string data)
+        {
+            if (AsynchronousReceive)
+            {
+                if (DataReceived != null)
+                    DataReceived(data);
+            }
+            _receiveQueue.Enqueue(data);
+        }
+
+        public void OnDisconnected()
+        {
+            if (Disconnected != null)
+                Disconnected();
+        }
+
+        #region IClient
+
+        public event DataReceivedEventHandler DataReceived;
         public event DisconnectedEventHandler Disconnected;
 
         public bool ColorAccepted { get; set; }
 
+        public bool AsynchronousReceive { get; private set; }
+
         public string ReadData()
         {
             string data;
-            bool taken = _receiveQueue.TryTake(out data, 10, _cancellationTokenSource.Token);
+            bool taken = _receiveQueue.TryDequeue(out data);
             return taken ? data : null;
         }
 
@@ -57,17 +75,6 @@ namespace Mud.Network.Socket
             Server.CloseConnection(this);
         }
 
-        public void OnDataReceived(string data)
-        {
-            //if (DataReceived != null)
-            //    DataReceived(data);
-            _receiveQueue.Add(data);
-        }
-
-        public void OnDisconnected()
-        {
-            if (Disconnected != null)
-                Disconnected();
-        }
+        #endregion
     }
 }

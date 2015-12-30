@@ -13,7 +13,7 @@ namespace Mud.Server.Tests
 
         private IPlayer CreatePlayer(string playerName)
         {
-            IPlayer player = _world.AddPlayer(new ClientMock(), Guid.NewGuid(), playerName);
+            IPlayer player = _world.AddPlayer(new ClientMock(true), Guid.NewGuid(), playerName);
             return player;
         }
         

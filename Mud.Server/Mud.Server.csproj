@@ -58,6 +58,7 @@
     <Compile Include="IItem.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="IRoom.cs" />
+    <Compile Include="IServer.cs" />
     <Compile Include="IWorld.cs" />
     <Compile Include="Item\ItemContainer.cs" />
     <Compile Include="Item\ItemBase.cs" />
