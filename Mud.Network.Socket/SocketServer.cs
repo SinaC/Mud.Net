@@ -185,7 +185,7 @@ namespace Mud.Network.Socket
                 Log.Default.WriteLine(LogLevels.Debug, "Client connected from " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address);
 
                 // Create the state object.
-                ClientSocketStateObject client = new ClientSocketStateObject(this)
+                ClientSocketStateObject client = new ClientSocketStateObject(this, _cancellationTokenSource)
                 {
                     ClientSocket = clientSocket,
                 };

@@ -19,7 +19,7 @@ namespace Mud.Server.Player
                     PlayerState = PlayerStates.Connected;
                 }
                 else
-                    Send("Impersonate before trying to un-impersonate.");
+                    Send("Impersonate whom?");
             }
             else
             {

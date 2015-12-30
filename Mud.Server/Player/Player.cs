@@ -25,7 +25,7 @@ namespace Mud.Server.Player
             _client = client;
             Id = id;
 
-            client.DataReceived += ClientOnDataReceived;
+            //client.DataReceived += ClientOnDataReceived;
             client.Disconnected += OnDisconnected;
 
             _currentStateMachine = new LoginStateMachine();
@@ -40,7 +40,7 @@ namespace Mud.Server.Player
             Id = id;
             Name = name;
 
-            client.DataReceived += ClientOnDataReceived;
+            //client.DataReceived += ClientOnDataReceived;
             client.Disconnected += OnDisconnected;
 
             PlayerState = PlayerStates.Connected;
@@ -151,14 +151,14 @@ namespace Mud.Server.Player
 
         #endregion
 
-        #region IClient event handlers
+        //#region IClient event handlers
 
-        private void ClientOnDataReceived(string data)
-        {
-            ProcessCommand(data);
-        }
+        //private void ClientOnDataReceived(string data)
+        //{
+        //    ProcessCommand(data);
+        //}
 
-        #endregion
+        //#endregion
 
         [Command("test")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)

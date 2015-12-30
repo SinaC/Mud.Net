@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using Mud.Network;
 
 namespace Mud.Server.TestApplication
@@ -6,7 +7,9 @@ namespace Mud.Server.TestApplication
     // Simple client dumping message to console
     internal class ConsoleClient : IClient
     {
-        public event DataReceivedEventHandler DataReceived;
+        private readonly BlockingCollection<string> _receiveQueue; // TODO: not used   console client calls directly command
+
+        //public event DataReceivedEventHandler DataReceived;
         public event DisconnectedEventHandler Disconnected;
         
         public bool ColorAccepted { get; set; }
@@ -19,6 +22,19 @@ namespace Mud.Server.TestApplication
             Name = name;
             ColorAccepted = true;
             DisplayPlayerName = true;
+            _receiveQueue = new BlockingCollection<string>(new ConcurrentQueue<string>());
+        }
+
+        public void OnDataReceived(string data)
+        {
+            _receiveQueue.Add(data);
+        }
+
+        public string ReadData()
+        {
+            string data;
+            bool taken = _receiveQueue.TryTake(out data, 10);
+            return taken ? data : null;
         }
 
         public void WriteData(string data)
