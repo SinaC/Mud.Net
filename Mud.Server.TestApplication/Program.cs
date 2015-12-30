@@ -13,6 +13,9 @@ namespace Mud.Server.TestApplication
         {
             Log.Default.Initialize(ConfigurationManager.AppSettings["logpath"], "server.log");
 
+            ServerSleepUntilDelayElapsed server = new ServerSleepUntilDelayElapsed();
+            server.Start();
+
             //TestCommandParsing();
             //TestBasicCommands();
             //TestSocketServer();
@@ -21,6 +24,8 @@ namespace Mud.Server.TestApplication
             //TestAct();
             //TestWorldOnline();
             TestWorldOffline();
+
+            server.Stop();
         }
 
         private static void CreateDummyWorld()

@@ -10,7 +10,8 @@ namespace Mud.Server.Character
 {
     public partial class Character
     {
-        // 1/ if no parameter, look in room
+        // 0/ if sleeping/blind/room is dark
+        // 1/ else if no parameter, look in room
         // 2/ else if 1st parameter is 'in' or 'on', search item (matching 2nd parameter) in the room, then inventory, then equipment, and display its content
         // 3/ else if a character can be found in room (matching 1st parameter), display character info
         // 4/ else if an item can be found in inventory+room (matching 1st parameter), display item description or extra description
@@ -19,6 +20,8 @@ namespace Mud.Server.Character
         [Command("look")]
         protected virtual bool DoLook(string rawParameters, params CommandParameter[] parameters)
         {
+            // TODO: 0/ sleeping/blind/dark room (see act_info.C:1413 -> 1436)
+
             // 1: room+exits+chars+items
             if (String.IsNullOrWhiteSpace(rawParameters))
             {
@@ -109,7 +112,7 @@ namespace Mud.Server.Character
         }
 
         // Helpers
-        private void DisplayRoom()
+        private void DisplayRoom() // equivalent to do_look("auto")
         {
             // Room name
             Send("%c%{0}%x%", Room.Name);
@@ -119,10 +122,21 @@ namespace Mud.Server.Character
             DisplayExits(true);
             DisplayItems(Room.Content);
             foreach (ICharacter character in Room.People.Where(x => x != this))
-                Send(character.Name); // TODO: Characters in room (see act_info.C:714 show_list_to_char)
+                //Send(character.Name); // TODO: Characters in room (see act_info.C:714 show_list_to_char)
+            {
+                if (CanSee(character))
+                {
+                    // TODO: display flags (see act_info.C:387 -> 478)
+                    // TODO: display long description and stop
+                    // TODO: display position (see act_info.C:505 -> 612)
+                    Send("{0} is here.", character.Name); // last case of POS_STANDING
+                }
+                else
+                    ; // TODO: INFRARED (see act_info.C:728)
+            }
         }
 
-        private void DisplayCharacter(ICharacter character, bool peekInventory)
+        private void DisplayCharacter(ICharacter character, bool peekInventory) // equivalent to act_info.C:show_char_to_char_1
         {
             if (this == character)
                 Act(ActOptions.ToRoom, "{0} looks at {0:m}self.", this);
@@ -132,7 +146,7 @@ namespace Mud.Server.Character
                 Act(ActOptions.ToNotVictim, character, "{0} looks at {1}.", this, character);
             }
             Send("{0} is here.", character.Name);
-            // TODO: health (instead of is here.), equipment  (see act_info.C:629 show_char_to_char_1)
+            // TODO: health (instead of is here.), equipments  (see act_info.C:629 show_char_to_char_1)
             //Send("{0} is using:", character) if equipment not empty
 
             if (peekInventory)
@@ -145,7 +159,7 @@ namespace Mud.Server.Character
             }
         }
 
-        private void DisplayItems(IEnumerable<IItem> items)
+        private void DisplayItems(IEnumerable<IItem> items) // equivalent to act_info.C:show_list_to_char
         {
             foreach (IItem item in items) // TODO: compact mode (group by Blueprint)
                 Send(item.Name); // TODO: Items in room  (see act_info.C:275 show_list_to_char)

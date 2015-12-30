@@ -7,6 +7,7 @@ namespace Mud.Server.Player
         [Command("who")]
         protected virtual bool DoWho(string rawParameters, params CommandParameter[] parameters)
         {
+            // TODO: title, additional informations
             Send("Players:");
             foreach (IPlayer player in World.World.Instance.GetPlayers())
             {
