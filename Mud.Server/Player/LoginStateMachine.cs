@@ -92,7 +92,7 @@ namespace Mud.Server.Player
             bool passwordCorrect = input == "password"; // TODO: check password + encryption
             if (passwordCorrect)
             {
-                player.Send("Password correct.");
+                player.Send("Password correct." + Environment.NewLine);
                 PreserveInput = false;
                 LoginSuccessfull(player);
                 return LoginStates.Connected;
@@ -150,7 +150,7 @@ namespace Mud.Server.Player
             // TODO: encryption
             if (input == _password)
             {
-                player.Send("Your new account with username {0} has been created", _username);
+                player.Send("Your new account with username {0} has been created" + Environment.NewLine, _username);
                 LoginSuccessfull(player);
                 return LoginStates.Connected;
             }
@@ -176,12 +176,10 @@ namespace Mud.Server.Player
 
         private void LoginSuccessfull(IPlayer player)
         {
-            player.Send("Welcome to Mud.Net!!");
+            player.Send("Welcome to Mud.Net!!" + Environment.NewLine);
 
             // Load player
             player.Load(_username);
-            // Add player to world
-            World.World.Instance.AddPlayer(player);
             //
             State = LoginStates.Connected;
         }

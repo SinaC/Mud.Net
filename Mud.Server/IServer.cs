@@ -1,4 +1,6 @@
-﻿using Mud.Network;
+﻿using System.Collections.Generic;
+using Mud.Network;
+using Mud.Server.Input;
 
 namespace Mud.Server
 {
@@ -6,11 +8,16 @@ namespace Mud.Server
     {
         bool IsAsynchronous { get; }
 
-        void Initialize(bool asynchronous, INetworkServer networkServer);
+        void Initialize(INetworkServer networkServer, bool asynchronous);
         void Start();
         void Stop();
 
         void Shutdown(int seconds);
+
+        IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch);
+        IReadOnlyCollection<IPlayer> GetPlayers();
+        IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch);
+        IReadOnlyCollection<IAdmin> GetAdmins();
 
         // TODO: remove
         // TEST PURPOSE

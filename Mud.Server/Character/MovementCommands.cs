@@ -1,10 +1,11 @@
-﻿using Mud.Server.Input;
+﻿using System;
+using Mud.Server.Input;
 
 namespace Mud.Server.Character
 {
     public partial class Character
     {
-        protected virtual bool Move(ServerOptions.ExitDirections direction, bool follow = false) // if follow is true, 'this' is not responsible for the move
+        protected virtual bool Move(ICharacter character, ServerOptions.ExitDirections direction, bool follow = false) // if follow is true, 'this' is not responsible for the move
         {
             IRoom fromRoom = Room;
             IExit exit = fromRoom.Exit(direction);
@@ -16,30 +17,30 @@ namespace Mud.Server.Character
             // private room, size, swim room, guild room
 
             if (ControlledBy != null && ControlledBy.Room == Room) // Slave cannot leave a room without Master
-                Send("What?  And leave your beloved master?");
+                Send("What?  And leave your beloved master?" + Environment.NewLine);
             else if (exit == null || toRoom == null) // Check if existing exit
             {
-                Send("You almost goes {0}, but suddenly realize that there's no exit there.", direction);
-                Act(ActOptions.ToRoom, "{0} looks like {0:e}'s about to go {1}, but suddenly stops short and looks confused.", this, direction );
+                Send("You almost goes {0}, but suddenly realize that there's no exit there." + Environment.NewLine, direction);
+                Act(ActOptions.ToRoom, "{0} looks like {0:e}'s about to go {1}, but suddenly stops short and looks confused." + Environment.NewLine, this, direction);
             }
             else
             {
-                Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction);
+                Act(ActOptions.ToRoom, "{0} leaves {1}." + Environment.NewLine, this, direction);
 
                 ChangeRoom(toRoom);
                 // Autolook if impersonated/incarnated
                 if (ImpersonatedBy != null || IncarnatedBy != null)
                     DisplayRoom();
 
-                Act(ActOptions.ToRoom, "{0} has arrived", this);
+                Act(ActOptions.ToRoom, "{0} has arrived" + Environment.NewLine, this);
 
                 // Followers: no circular follows
                 if (fromRoom != toRoom)
                 {
                     if (Slave != null)
                     {
-                        Slave.Send("You follow {0}", Name);
-                        (Slave as Character).Move(direction, true); // TODO: awful hack
+                        Slave.Send("You follow {0}" + Environment.NewLine, Name);
+                        Move(Slave, direction, true); // TODO: !!!!!!!!!!!!!!!!!!!! awful hack
                     }
                 }
             }
@@ -49,65 +50,65 @@ namespace Mud.Server.Character
         [Command("north", Priority = 0)]
         protected virtual bool DoNorth(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ServerOptions.ExitDirections.North);
+            return Move(this, ServerOptions.ExitDirections.North);
         }
 
         [Command("east", Priority = 0)]
         protected virtual bool DoEast(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ServerOptions.ExitDirections.East);
+            return Move(this, ServerOptions.ExitDirections.East);
         }
 
         [Command("south", Priority = 0)]
         protected virtual bool DoSouth(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ServerOptions.ExitDirections.South);
+            return Move(this, ServerOptions.ExitDirections.South);
         }
 
         [Command("west", Priority = 0)]
         protected virtual bool DoWest(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ServerOptions.ExitDirections.West);
+            return Move(this, ServerOptions.ExitDirections.West);
         }
 
         [Command("up", Priority = 0)]
         protected virtual bool DoUp(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ServerOptions.ExitDirections.Up);
+            return Move(this, ServerOptions.ExitDirections.Up);
         }
 
         [Command("down", Priority = 0)]
         protected virtual bool DoDown(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ServerOptions.ExitDirections.Down);
+            return Move(this, ServerOptions.ExitDirections.Down);
         }
 
         [Command("northeast", Priority = 0)]
         [Command("ne", Priority = 0)]
         protected virtual bool DoNorthEast(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ServerOptions.ExitDirections.NorthEast);
+            return Move(this, ServerOptions.ExitDirections.NorthEast);
         }
 
         [Command("northwest", Priority = 0)]
         [Command("nw", Priority = 0)]
         protected virtual bool DoNorthWest(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ServerOptions.ExitDirections.NorthWest);
+            return Move(this, ServerOptions.ExitDirections.NorthWest);
         }
 
         [Command("southeast", Priority = 0)]
         [Command("se", Priority = 0)]
         protected virtual bool DoSouthEast(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ServerOptions.ExitDirections.SouthEast);
+            return Move(this, ServerOptions.ExitDirections.SouthEast);
         }
 
         [Command("southwest", Priority = 0)]
         [Command("sw", Priority = 0)]
         protected virtual bool DoSouthWest(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ServerOptions.ExitDirections.SouthWest);
+            return Move(this, ServerOptions.ExitDirections.SouthWest);
         }
     }
 }

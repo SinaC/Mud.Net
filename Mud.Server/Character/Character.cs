@@ -39,21 +39,22 @@ namespace Mud.Server.Character
             get { return CharacterCommands; }
         }
 
-        public override void Send(string format, params object[] parameters)
+        public override void Send(string message)
         {
-            base.Send(format, parameters);
+            // TODO: use Act formatter ?
+            base.Send(message);
             if (ImpersonatedBy != null)
             {
                 if (ServerOptions.PrefixForwardedMessages)
-                    format = "<IMP|" + Name + ">" + format;
-                ImpersonatedBy.Send(format, parameters);
+                    message= "<IMP|" + Name + ">" + message;
+                ImpersonatedBy.Send(message);
             }
             // TODO: do we really need to receive message sent to slave ?
             if (ServerOptions.ForwardSlaveMessages && ControlledBy != null)
             {
                 if (ServerOptions.PrefixForwardedMessages)
-                    format = "<CTRL|" + Name + ">" + format;
-                ControlledBy.Send(format, parameters);
+                    message = "<CTRL|" + Name + ">" + message;
+                ControlledBy.Send(message);
             }
         }
 
@@ -356,13 +357,14 @@ namespace Mud.Server.Character
         [Command("kill")]
         protected virtual bool DoKill(string rawParameters, params CommandParameter[] parameters)
         {
+            Send("DoKill: NOT YET IMPLEMENTED" + Environment.NewLine);
             return true;
         }
 
         [Command("test")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("Character test");
+            Send("Character: DoTest" + Environment.NewLine);
             return true;
         }
     }

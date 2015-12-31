@@ -8,6 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mud.Logger;
 using Mud.Network;
+using Mud.Server.Helpers;
+using Mud.Server.Input;
 
 namespace Mud.Server
 {
@@ -65,7 +67,10 @@ namespace Mud.Server
             }
         }
 
-        private readonly List<PlayerClient> _playerClients;
+        // This allows fast lookup with client or player BUT both structures must be modified at the same time
+        private readonly ConcurrentDictionary<IClient, PlayerClient> _clients;
+        private readonly ConcurrentDictionary<IPlayer, PlayerClient> _players;
+        //private readonly List<PlayerClient> _playerClients;
 
         private INetworkServer _networkServer;
         private CancellationTokenSource _cancellationTokenSource;
@@ -84,14 +89,18 @@ namespace Mud.Server
 
         private Server()
         {
-            _playerClients = new List<PlayerClient>();
+            //_playerClients = new List<PlayerClient>();
+            _clients = new ConcurrentDictionary<IClient, PlayerClient>();
+            _players = new ConcurrentDictionary<IPlayer, PlayerClient>();
         }
 
         #endregion
 
+        #region IServer
+
         public bool IsAsynchronous { get; private set; }
 
-        public void Initialize(bool asynchronous, INetworkServer networkServer)
+        public void Initialize(INetworkServer networkServer, bool asynchronous)
         {
             IsAsynchronous = asynchronous;
             _networkServer = networkServer;
@@ -144,6 +153,28 @@ namespace Mud.Server
             _pulseBeforeShutdown = seconds*PulsePerSeconds;
         }
 
+        public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch)
+        {
+            //return FindHelpers.FindByName(_playerClients.Select(x => x.Player), parameter, perfectMatch);
+            return FindHelpers.FindByName(_players.Keys, parameter, perfectMatch);
+        }
+
+        public IReadOnlyCollection<IPlayer> GetPlayers()
+        {
+            //return _playerClients.Select(x => x.Player).ToList().AsReadOnly();
+            return _players.Keys.ToList().AsReadOnly();
+        }
+
+        public IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch)
+        {
+            return null; // TODO
+        }
+
+        public IReadOnlyCollection<IAdmin> GetAdmins()
+        {
+            return null; // TODO
+        }
+
         // TODO: remove
         // TEST PURPOSE
         public IPlayer AddPlayer(IClient client, string name)
@@ -157,10 +188,11 @@ namespace Mud.Server
                 Client = client,
                 Player = player
             };
-            _playerClients.Add(playerClient);
-            World.World.Instance.AddPlayer(player);
+            //_playerClients.Add(playerClient);
+            _players.AddOrUpdate(player, playerClient, (player1, client1) => client1); // TODO: updateValueFactory
+            _clients.AddOrUpdate(client, playerClient, (player1, client1) => client1); // TODO: updateValueFactory
 
-            player.Send("Welcome {0}", name);
+            player.Send("Welcome {0}" + Environment.NewLine, name);
 
             return player;
         }
@@ -176,13 +208,16 @@ namespace Mud.Server
                 Client = client,
                 Player = admin
             };
-            _playerClients.Add(playerClient);
-            World.World.Instance.AddAdmin(admin);
+            //_playerClients.Add(playerClient);
+            _players.AddOrUpdate(admin, playerClient, (player1, client1) => client1); // TODO: updateValueFactory
+            _clients.AddOrUpdate(client, playerClient, (player1, client1) => client1); // TODO: updateValueFactory
 
-            admin.Send("Welcome master {0}", name);
+            admin.Send("Welcome master {0}" + Environment.NewLine, name);
 
             return admin;
         }
+
+        #endregion
 
         #region Event handlers
 
@@ -198,15 +233,23 @@ namespace Mud.Server
                 Client = client,
                 Player = player
             };
-            _playerClients.Add(playerClient);
+            //_playerClients.Add(playerClient);
+            // TODO: lock
+            _players.AddOrUpdate(player, playerClient, (player1, client1) => client1); // TODO: updateValueFactory
+            _clients.AddOrUpdate(client, playerClient, (player1, client1) => client1); // TODO: updateValueFactory
 
             player.Send("Why don't you login or tell us the name you wish to be known by?");
         }
 
         private void ClientOnDisconnected(IClient client)
         {
-            PlayerClient playerClient = _playerClients.FirstOrDefault(x => x.Client == client);
-            if (playerClient == null)
+            //PlayerClient playerClient = _playerClients.FirstOrDefault(x => x.Client == client);
+            // TOOD: lock
+            PlayerClient playerClient;
+            bool removed = _clients.TryRemove(client, out playerClient);
+
+            //if (playerClient == null)
+            if (removed)
                 Log.Default.WriteLine(LogLevels.Error, "ClientOnDisconnected: null client");
             else
             {
@@ -214,13 +257,15 @@ namespace Mud.Server
                 client.DataReceived -= ClientOnDataReceived;
                 client.Disconnected -= ClientOnDisconnected;
                 playerClient.Player.SendData -= PlayerOnSendData;
-                _playerClients.Remove(playerClient);
+                //_playerClients.Remove(playerClient);
+                _players.TryRemove(playerClient.Player, out playerClient);
             }
         }
 
         private void ClientOnDataReceived(IClient client, string data)
         {
-            PlayerClient playerClient = _playerClients.FirstOrDefault(x => x.Client == client);
+            PlayerClient playerClient;
+            bool found = _clients.TryGetValue(client, out playerClient);
             if (playerClient == null)
                 Log.Default.WriteLine(LogLevels.Error, "ClientOnDataReceived: null client");
             else
@@ -234,7 +279,9 @@ namespace Mud.Server
 
         private void PlayerOnSendData(IPlayer player, string data)
         {
-            PlayerClient playerClient = _playerClients.FirstOrDefault(x => x.Player == player);
+            PlayerClient playerClient;
+            bool found = _players.TryGetValue(player, out playerClient);
+            //PlayerClient playerClient = _playerClients.FirstOrDefault(x => x.Player == player);
             if (playerClient == null)
                 Log.Default.WriteLine(LogLevels.Error, "PlayerOnSendData: null client");
             else
@@ -252,8 +299,10 @@ namespace Mud.Server
         {
             message = message + Environment.NewLine;
             // By-pass asynchronous/synchronous send
-            foreach (PlayerClient playerClient in _playerClients)
-                playerClient.Client.WriteData(message);
+            //foreach (PlayerClient playerClient in _playerClients)
+            //  playerClient.Client.WriteData(message);
+            foreach (IClient client in _clients.Keys)
+                client.WriteData(message);
         }
 
         private void ProcessInput()
@@ -261,7 +310,13 @@ namespace Mud.Server
             // Read one command from each client and process it
             if (!IsAsynchronous)
             {
-                foreach (PlayerClient playerClient in _playerClients) // TODO: first connected player will be processed before other, try a randomize
+                //foreach (PlayerClient playerClient in _playerClients) // TODO: first connected player will be processed before other, try a randomize
+                //{
+                //    string data = playerClient.DequeueReceivedData(); // process one command at a time
+                //    if (!String.IsNullOrWhiteSpace(data))
+                //        playerClient.Player.ProcessCommand(data);
+                //}
+                foreach(IPlayer player in _players.Keys)
                 {
                     string data = playerClient.DequeueReceivedData(); // process one command at a time
                     if (!String.IsNullOrWhiteSpace(data))
@@ -286,8 +341,13 @@ namespace Mud.Server
                     //        break;
                     //}
                     string data = playerClient.DequeueDataToSend();
-                    if (!String.IsNullOrWhiteSpace(data))
+                    if (!String.IsNullOrWhiteSpace(data)) // TODO use stringbuilder
+                    {
+                        // Bust a prompt ?
+                        if (playerClient.Player.PlayerState == PlayerStates.Connected || playerClient.Player.PlayerState == PlayerStates.Playing)
+                            data += ">"; // TODO: complex prompt
                         playerClient.Client.WriteData(data);
+                    }
                 }
             }
         }

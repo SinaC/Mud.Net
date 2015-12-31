@@ -45,7 +45,7 @@ namespace Mud.Server.Entity
             if (!extractedSuccessfully)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
-                Send("Invalid command or parameters");
+                Send("Invalid command or parameters" + Environment.NewLine);
                 return false;
             }
 
@@ -53,10 +53,10 @@ namespace Mud.Server.Entity
             return ExecuteCommand(command, rawParameters, parameters);
         }
 
-        public override void Send(string format, params object[] parameters)
+        public override void Send(string message)
         {
             if (IncarnatedBy != null)
-                IncarnatedBy.Send("<INC|" + Name + ">" + format, parameters);
+                IncarnatedBy.Send("<INC|" + Name + ">" + message);
         }
 
         #endregion

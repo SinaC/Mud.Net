@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.Logger;
 using Mud.Server.Tests.Mocking;
 
@@ -13,8 +12,9 @@ namespace Mud.Server.Tests
 
         private IPlayer CreatePlayer(string playerName)
         {
-            IPlayer player = _world.AddPlayer(new ClientMock(), Guid.NewGuid(), playerName);
-            return player;
+            //IPlayer player = _world.AddPlayer(new ClientMock(), Guid.NewGuid(), playerName);
+            //return player;
+            return null;
         }
         
         /*

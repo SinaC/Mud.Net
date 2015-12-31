@@ -83,6 +83,12 @@ namespace Mud.Server.Room
             return _exits[(int) direction];
         }
 
+        public IRoom GetRoom(ServerOptions.ExitDirections direction)
+        {
+            IExit exit = Exit(direction);
+            return exit != null ? exit.Destination : null;
+        }
+
         public void Enter(ICharacter character)
         {
             // TODO: check if not already in room

@@ -11,6 +11,8 @@ namespace Mud.Server
         IExit[] Exits { get; } // fixed length
 
         IExit Exit(ServerOptions.ExitDirections direction);
+        IRoom GetRoom(ServerOptions.ExitDirections direction);
+
         void Enter(ICharacter character);
         void Leave(ICharacter character);
     }

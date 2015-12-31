@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Item;
 using Mud.Server.Room;
 
 namespace Mud.Server.World
@@ -84,57 +85,26 @@ namespace Mud.Server.World
 
         public IItem AddItemContainer(Guid guid, string name, IContainer container)
         {
-            IItem item = new Item.ItemContainer(guid, name, container);
+            IItem item = new ItemContainer(guid, name, container);
             _items.Add(item);
             return item;
         }
 
         #region IWorld
 
-        public IPlayer GetPlayer(string name, bool perfectMatch = false)
-        {
-            return FindHelpers.FindByName(_players, name, perfectMatch);
-        }
-
-        public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch = false)
-        {
-            return FindHelpers.FindByName(_players, parameter, perfectMatch);
-        }
-
-        public IReadOnlyCollection<IPlayer> GetPlayers()
-        {
-            return _players.AsReadOnly();
-        }
-
-        public IReadOnlyCollection<IAdmin> GetAdmins()
-        {
-            return _admins.AsReadOnly();
-        }
-
         public IReadOnlyCollection<IRoom> GetRooms()
         {
             return _rooms.AsReadOnly();
         }
 
+        public IReadOnlyCollection<ICharacter> GetCharacters()
+        {
+            return _characters.AsReadOnly();
+        }
+
         public IReadOnlyCollection<IItem> GetItems()
         {
             return _items.AsReadOnly();
-        }
-
-        public bool AddPlayer(IPlayer player)
-        {
-            if (_players.Contains(player))
-                return false;
-            _players.Add(player);
-            return true;
-        }
-
-        public bool AddAdmin(IAdmin admin)
-        {
-            if (_admins.Contains(admin))
-                return false;
-            _admins.Add(admin);
-            return true;
         }
 
         // TODO: remove

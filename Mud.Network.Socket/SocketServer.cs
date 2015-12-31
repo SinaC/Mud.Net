@@ -26,6 +26,7 @@ namespace Mud.Network.Socket
         Stopped
     }
 
+    // TODO: problem with simple telnet terminal without handshake
     public class SocketServer : INetworkServer, IDisposable
     {
         private static readonly Regex AsciiRegEx = new Regex(@"[^\u0020-\u007E]", RegexOptions.Compiled); // match ascii-only char
@@ -139,7 +140,7 @@ namespace Mud.Network.Socket
         public void Broadcast(string data)
         {
             foreach(ClientSocketStateObject client in _clients)
-                Send(client, data);
+                SendData(client, data);
         }
 
         #endregion
@@ -195,7 +196,9 @@ namespace Mud.Network.Socket
                     ClientSocket = clientSocket,
                 };
                 _clients.Add(client);
-                // Warn listener
+                // TODO: NewClientConnected will be called once protocol handshake is done
+                //
+                client.State = ClientStates.Connected;
                 if (NewClientConnected != null)
                     NewClientConnected(client);
                 //
@@ -231,20 +234,38 @@ namespace Mud.Network.Socket
                 }
                 else
                 {
-                    // First data received is filled with cumbersome characters
-                    if (client.FirstInput)
+                    //// First data received is filled with cumbersome characters
+                    //if (client.State == ClientStates.Handshaking)
+                    //{
+                    //    Log.Default.WriteLine(LogLevels.Info, "Handshake received from client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " : " + ByteArrayToString(client.Buffer, bytesRead));
+                    //    client.State = ClientStates.Connected;
+
+                    //    // Putty handshake is 
+                    //    //FF FB 1F window size
+                    //    //FF FB 20 terminal speed
+                    //    //FF FB 18 terminal type
+                    //    //FF FB 27 Telnet Environment Option
+                    //    //FF FD 01 echo
+                    //    //FF FB 03 suppress go ahead
+                    //    //FF FD 03 suppress go ahead
+
+                    //    if (NewClientConnected != null)
+                    //        NewClientConnected(client);
+                    //}
+                    //else if (client.State == ClientStates.Connected)
+
+                    // Remove protocol character
+                    if (bytesRead%3 == 0 && client.Buffer[0] == 0xFF && client.Buffer[1] == 0xFB)
                     {
-                        string dataReceived = Encoding.ASCII.GetString(client.Buffer, 0, bytesRead);
-                        Log.Default.WriteLine(LogLevels.Info, "Discarding first input received from client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + " : " + dataReceived);
-                        client.FirstInput = false;
+                        Log.Default.WriteLine(LogLevels.Info, "Handshake received from client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " : " + ByteArrayToString(client.Buffer, bytesRead));
                     }
-                    else
+                    else if (client.State == ClientStates.Connected)
                     {
                         string dataReceived = Encoding.ASCII.GetString(client.Buffer, 0, bytesRead);
 
                         Log.Default.WriteLine(LogLevels.Info, "Data received from client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + " : " + dataReceived);
 
-                        // If data ends with CRLF, remove them and consider command as complete
+                        // If data ends with CRLF, remove CRLF and consider command as complete
                         bool commandComplete = false;
                         if (dataReceived.EndsWith("\n") || dataReceived.EndsWith("\r"))
                         {
@@ -266,15 +287,16 @@ namespace Mud.Network.Socket
                             Log.Default.WriteLine(LogLevels.Info, "Command received from client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + " : " + command);
 
                             // Reset command
-                            client.Command = new StringBuilder();
+                            client.Command.Clear();
 
-                            //// Test mode: send command back to client
-                            //Send(clientSocket, command);
-
-                            // Process command
-                            client.OnDataReceived(command);
+                            if (!String.IsNullOrWhiteSpace(command))
+                            {
+                                // Process command
+                                client.OnDataReceived(command);
+                            }
                         }
                     }
+                    // TODO: other state ?
 
                     // Continue reading
                     clientSocket.BeginReceive(client.Buffer, 0, ClientSocketStateObject.BufferSize, 0, ReadCallback, client);
@@ -289,7 +311,7 @@ namespace Mud.Network.Socket
             }
         }
 
-        internal void Send(ClientSocketStateObject client, string data)
+        internal void SendData(ClientSocketStateObject client, string data)
         {
             try
             {
@@ -355,6 +377,16 @@ namespace Mud.Network.Socket
             client.OnDisconnected();
         }
 
+        private static string ByteArrayToString(byte[] ba, int length)
+        {
+            StringBuilder hex = new StringBuilder(length * 3);
+            for(int i = 0; i < length; i++)
+                hex.AppendFormat("{0:X2} ", ba[i]);
+            return hex.ToString();
+        }
+
+        #region IDisposable
+
         public void Dispose()
         {
             _listenTask = null;
@@ -367,5 +399,7 @@ namespace Mud.Network.Socket
             _serverSocket.Close();
             _serverSocket = null;
         }
+
+        #endregion
     }
 }

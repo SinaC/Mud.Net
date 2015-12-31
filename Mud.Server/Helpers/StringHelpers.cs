@@ -5,8 +5,8 @@ namespace Mud.Server.Helpers
 {
     public static class StringHelpers
     {
-        public static string CharacterNotFound = "They aren't here.";
-        public static string ItemNotFound = "You do not see that here.";
+        public static string CharacterNotFound = "They aren't here." + Environment.NewLine;
+        public static string ItemNotFound = "You do not see that here." + Environment.NewLine;
 
         #region Color tags
 

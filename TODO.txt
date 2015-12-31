@@ -1,26 +1,27 @@
 admin/player creation in login state machine in function of name -> !!! a player is immediately created at connection
-
 in asynchronous mode, when do we send prompt ?
-
 paging
 unit tests
 IReadOnlyPlayer, IReadOnlyCharacter, ...  + set private/protected to internal  this allows to remove methods like Enter/Leaves/ChangeImpersonation/ChangeController
-prompt
 do_reply
-
-check http://www.albahari.com/threading/part3.aspx#_Safe_Cancellation
-
 add CanSee test where it's needed
 use ShortDescription where it's needed
-
 avatar creation state machine
+
+Use more StringBuilder
 
 include command priority in Trie (probably a new data structure)
 + option in CommandAttribute to force full command name to be typed
 
+'Random' characters when putty connects
+https://forums.ni.com/t5/facebookforums/facebooksingletopicpage/facebook-app/417075545007603/message-uid/3125842/tab/board
+https://tools.ietf.org/html/rfc2877
 
 MCCP  mud compression protocol
 https://en.wikipedia.org/wiki/MCCP
 http://tintin.sourceforge.net/mccp/
 http://www.jacko.demon.co.uk/aardwolf/aardmccpfaq.txt
 http://www.jacko.demon.co.uk/aardwolf/vismccp
+http://www.gammon.com.au/mushclient/mccp.htm
+
+check http://www.albahari.com/threading/part3.aspx#_Safe_Cancellation

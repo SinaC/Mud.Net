@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading;
 using Mud.Importer.Mystery;
 using Mud.Logger;
 using Mud.Network;
@@ -203,49 +204,6 @@ namespace Mud.Server.TestApplication
             admin.ProcessCommand("unknown"); // INVALID
         }
 
-        private static void HandleUserInput(IPlayer player = null)
-        {
-            bool stopped = false;
-            while (!stopped)
-            {
-                if (Console.KeyAvailable)
-                {
-                    string line = Console.ReadLine();
-                    if (!String.IsNullOrWhiteSpace(line))
-                    {
-                        // server commands
-                        if (player == null || line.StartsWith("#"))
-                        {
-                            line = line.Replace("#", String.Empty).ToLower();
-                            if (line == "exit" || line == "quit")
-                            {
-                                stopped = true;
-                                break;
-                            }
-                            else if (line == "alist")
-                            {
-                                Console.WriteLine("Admins:");
-                                foreach (IAdmin a in World.World.Instance.GetAdmins())
-                                    Console.WriteLine(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.Name : "") + " " + (a.Incarnating != null ? a.Incarnating.Name : ""));
-                            }
-                            else if (line == "plist")
-                            {
-                                Console.WriteLine("players:");
-                                foreach (IPlayer p in World.World.Instance.GetPlayers())
-                                    Console.WriteLine(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.Name : ""));
-                            }
-                            // TODO: characters/rooms/items
-                        }
-                        // client commands
-                        else
-                            player.ProcessCommand(line);
-                    }
-                }
-                else
-                    System.Threading.Thread.Sleep(100);
-            }
-        }
-
         private static void TestImport()
         {
             MysteryImporter importer = new MysteryImporter();
@@ -270,46 +228,67 @@ namespace Mud.Server.TestApplication
 
             ServerOptions.PrefixForwardedMessages = false;
 
-            CreateDummyWorld();
+            //CreateDummyWorld();
+            CreateMidgaard();
 
             INetworkServer socketServer = new SocketServer(11000);
-            Server.Instance.Initialize(true, socketServer);
+            Server.Instance.Initialize(socketServer, false);
             Server.Instance.Start();
-            //socketServer.Initialize();
-            //socketServer.Start();
-            HandleUserInput();
-            //socketServer.Stop();
+
+            bool stopped = false;
+            while (!stopped)
+            {
+                if (Console.KeyAvailable)
+                {
+                    string line = Console.ReadLine();
+                    if (!String.IsNullOrWhiteSpace(line))
+                    {
+                        // server commands
+                        if (line.StartsWith("#"))
+                        {
+                            line = line.Replace("#", String.Empty).ToLower();
+                            if (line == "exit" || line == "quit")
+                            {
+                                stopped = true;
+                                break;
+                            }
+                            else if (line == "alist")
+                            {
+                                Console.WriteLine("Admins:");
+                                foreach (IAdmin a in Server.Instance.GetAdmins())
+                                    Console.WriteLine(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.Name : "") + " " + (a.Incarnating != null ? a.Incarnating.Name : ""));
+                            }
+                            else if (line == "plist")
+                            {
+                                Console.WriteLine("players:");
+                                foreach (IPlayer p in Server.Instance.GetPlayers())
+                                    Console.WriteLine(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.Name : ""));
+                            }
+                            // TODO: characters/rooms/items
+                        }
+                    }
+                }
+                else
+                    Thread.Sleep(100);
+            }
+            
             Server.Instance.Stop();
         }
 
         private static void TestWorldOffline()
         {
             ServerOptions.PrefixForwardedMessages = false;
+            //ServerOptions.PrefixForwardedMessages = true;
+            //ServerOptions.ForwardSlaveMessages = true;
 
             //CreateDummyWorld();
             CreateMidgaard();
 
             ConsoleNetworkServer consoleNetworkServer = new ConsoleNetworkServer();
-            Server.Instance.Initialize(true, consoleNetworkServer);
+            Server.Instance.Initialize(consoleNetworkServer, false);
             consoleNetworkServer.AddClient("Player1", false, true);
-            Server.Instance.Start(); // this call will block application because consoleNetworkServer.Start will be called which is blocking
+            Server.Instance.Start(); // this call is blocking because consoleNetworkServer.Start is blocking
 
-            //IPlayer player = Server.Instance.AddPlayer(
-            //    new ConsoleClient("Player1")
-            //    {
-            //        DisplayPlayerName = false,
-            //        ColorAccepted = true
-            //    },
-            //    "Player1"); //!!! no login state machine -> direct login
-            //HandleUserInput(player);
-            //IAdmin admin = Server.Instance.AddAdmin(
-            //    new ConsoleClient("Admin1")
-            //    {
-            //        DisplayPlayerName = false,
-            //        ColorAccepted = true
-            //    },
-            //    "Admin1"); //!!! no login state machine -> direct login
-            //HandleUserInput(admin);
             Server.Instance.Stop();
         }
     }

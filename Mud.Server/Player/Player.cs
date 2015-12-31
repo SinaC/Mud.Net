@@ -41,7 +41,7 @@ namespace Mud.Server.Player
 
             PlayerState = PlayerStates.Connected;
         }
-
+        
         #region IPlayer
 
         #region IActor
@@ -82,7 +82,7 @@ namespace Mud.Server.Player
                 if (!extractedSuccessfully)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
-                    Send("Invalid command or parameters");
+                    Send("Invalid command or parameters" + Environment.NewLine);
                     return false;
                 }
 
@@ -103,13 +103,10 @@ namespace Mud.Server.Player
             }
         }
 
-        public override void Send(string format, params object[] parameters)
+        public override void Send(string message)
         {
             if (SendData != null)
-            {
-                string message = String.Format(format + Environment.NewLine, parameters);
                 SendData(this, message);
-            }
         }
 
         #endregion
@@ -154,7 +151,7 @@ namespace Mud.Server.Player
         [Command("test")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("Player test");
+            Send("Player: Dotest" + Environment.NewLine);
             return true;
         }
     }

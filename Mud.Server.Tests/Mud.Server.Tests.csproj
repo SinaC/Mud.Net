@@ -53,6 +53,7 @@
     <Compile Include="ClientMock.cs" />
     <Compile Include="CommandParsingTests.cs" />
     <Compile Include="Mocking\LogMock.cs" />
+    <Compile Include="Mocking\ServerMock.cs" />
     <Compile Include="Mocking\WorldMock.cs" />
     <Compile Include="PlayerCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

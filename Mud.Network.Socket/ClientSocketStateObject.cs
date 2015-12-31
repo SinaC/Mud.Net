@@ -2,11 +2,17 @@
 
 namespace Mud.Network.Socket
 {
+    internal enum ClientStates
+    {
+        Handshaking,
+        Connected,
+    }
+
     // State object for reading client data asynchronously
     internal class ClientSocketStateObject : IClient
     {
         // Size of receive buffer.
-        public const int BufferSize = 32;
+        public const int BufferSize = 256;
         // Client socket.
         public System.Net.Sockets.Socket ClientSocket { get; set; }
         // Receive buffer.
@@ -15,8 +21,8 @@ namespace Mud.Network.Socket
         public StringBuilder Command { get; set; }
         // Server
         public SocketServer Server { get; private set; }
-        // First must be eaten
-        public bool FirstInput { get; set; }   
+        // State
+        public ClientStates State { get; set; }
 
         public ClientSocketStateObject(SocketServer server)
         {
@@ -24,8 +30,8 @@ namespace Mud.Network.Socket
             Buffer = new byte[BufferSize];
             Command = new StringBuilder();
             ClientSocket = null;
-            FirstInput = true;
             ColorAccepted = true; // by default
+            State = ClientStates.Handshaking;
         }
 
         public void OnDataReceived(string data)
@@ -49,7 +55,7 @@ namespace Mud.Network.Socket
 
         public void WriteData(string data)
         {
-            Server.Send(this, data);
+            Server.SendData(this, data);
         }
 
         public void Disconnect()

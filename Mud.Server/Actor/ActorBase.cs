@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -15,7 +16,7 @@ namespace Mud.Server.Actor
         public abstract IReadOnlyTrie<CommandMethodInfo> Commands { get; }
 
         public abstract bool ProcessCommand(string commandLine);
-        public abstract void Send(string format, params object[] parameters);
+        public abstract void Send(string message);
 
         public bool ExecuteCommand(string command, string rawParameters, CommandParameter[] parameters)
         {
@@ -39,16 +40,26 @@ namespace Mud.Server.Actor
                 else
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command not found");
-                    Send("Command not found");
+                    Send("Command not found"+Environment.NewLine);
                     return false;
                 }
             }
             else
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Command not found");
-                Send("Command not found");
+                Send("Command not found" + Environment.NewLine);
                 return false;
             }
+        }
+
+        public void Send(string format, params object[] parameters)
+        {
+            Send(String.Format(format, parameters));
+        }
+
+        public void Send(StringBuilder sb)
+        {
+            Send(sb.ToString());
         }
 
         [Command("commands")]
@@ -56,23 +67,26 @@ namespace Mud.Server.Actor
         {
             // TODO: group trie by value and display set of key linked to this value
 
-            Send("Available commands:");
+            Send("Available commands:" + Environment.NewLine);
             StringBuilder sb = new StringBuilder();
             int index = 0;
             foreach (string command in Commands.Keys.OrderBy(x => x))
             {
-                //Send(command); // TODO: display 6 by 6
                 if ((++index%6) == 0)
                 {
                     sb.AppendFormat("{0,-13}", command);
-                    Send(sb.ToString());
+                    sb.AppendLine();
+                    Send(sb);
                     sb = new StringBuilder();
                 }
                 else
                     sb.AppendFormat("{0,-13}", command);
             }
             if (sb.Length > 0)
-                Send(sb.ToString());
+            {
+                sb.AppendLine();
+                Send(sb);
+            }
 
             return true;
         }

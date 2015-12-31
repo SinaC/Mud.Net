@@ -35,7 +35,7 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): container in room, inventory, equipment");
                 // look in container
                 if (parameters.Length == 1)
-                    Send("Look in what?");
+                    Send("Look in what?" + Environment.NewLine);
                 else
                 {
                     // search in room, then in inventory(unequiped), then in equipement
@@ -51,12 +51,12 @@ namespace Mud.Server.Character
                         if (container != null)
                         {
                             // TODO: check if closed
-                            Send("{0} holds:", containerItem.Name);
+                            Send("{0} holds:" + Environment.NewLine, containerItem.Name);
                             DisplayItems(container.Content, true);
                         }
                             // TODO: drink container
                         else
-                            Send("This is not a container.");
+                            Send("This is not a container." + Environment.NewLine);
                     }
                 }
                 return true;
@@ -75,7 +75,7 @@ namespace Mud.Server.Character
             if (item != null)
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(4+5): item in inventory+room -> {0}", item.ContainedInto.Name);
-                Send("{0}", item.Description);
+                Send("{0}" + Environment.NewLine, item.Description); // TODO: formatting
                 return true;
             }
             // 6: extra description in room  TODO
@@ -86,13 +86,13 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(7): direction");
                 IExit exit = Room.Exit(direction);
                 if (exit == null || exit.Destination == null)
-                    Send("Nothing special there.");
+                    Send("Nothing special there." + Environment.NewLine);
                 else
                 {
                     if (exit.Description != null)
                         Send(exit.Description);
                     else
-                        Send("Nothing special there.");
+                        Send("Nothing special there." + Environment.NewLine);
                     // TODO: check if door + flags CLOSED/BASHED/HIDDEN
                 }
             }
@@ -111,16 +111,50 @@ namespace Mud.Server.Character
         [Command("inventory")]
         protected virtual bool DoInventory(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("You are carrying:");
+            Send("You are carrying:" + Environment.NewLine);
             DisplayItems(Content, true);
             return true;
         }
 
+        [Command("scan")]
+        protected virtual bool DoScan(string rawParameters, params CommandParameter[] parameters)
+        {
+            // Current room
+            Send("Right here you see:" + Environment.NewLine);
+            StringBuilder currentScan = ScanRoom(Room);
+            if (currentScan.Length == 0)
+                Send("Noone" + Environment.NewLine); // should never happen, 'this' is in the room
+            else
+                Send(currentScan); // no need to add CRLF
+            // Scan in one direction for each distance, then starts with another direction
+            foreach (ServerOptions.ExitDirections direction in EnumHelpers.GetValues<ServerOptions.ExitDirections>())
+            {
+                IRoom currentRoom = Room; // starting point
+                for (int distance = 1; distance < 4; distance++)
+                {
+                    IRoom destination = currentRoom.GetRoom(direction);
+                    if (destination == null)
+                        break; // stop in that direction if no exit found
+                    StringBuilder roomScan = ScanRoom(destination);
+                    if (roomScan.Length > 0)
+                    {
+                        Send("%c%{0} %r%{1}%x% from here you see:" + Environment.NewLine, distance, direction);
+                        Send(roomScan); // no need to add CRLF
+                        currentRoom = destination;
+                    }
+                }
+            }
+            // TODO: there is one too many CRLF
+            return true;
+        }
+
+        //********************************************************************
         // Helpers
+        //********************************************************************
         private void DisplayRoom() // equivalent to act_info.C:do_look("auto")
         {
             // Room name
-            Send("%c%{0}%x%", Room.Name);
+            Send("%c%{0}%x%" + Environment.NewLine, Room.Name);
             // Room description
             Send(Room.Description);
             // Exits
@@ -134,7 +168,7 @@ namespace Mud.Server.Character
                     // TODO: display flags (see act_info.C:387 -> 478)
                     // TODO: display long description and stop
                     // TODO: display position (see act_info.C:505 -> 612)
-                    Send("{0} is here.", character.Name); // last case of POS_STANDING
+                    Send("{0} is here." + Environment.NewLine, character.Name); // last case of POS_STANDING
                 }
                 else
                     ; // TODO: INFRARED (see act_info.C:728)
@@ -144,19 +178,19 @@ namespace Mud.Server.Character
         private void DisplayCharacter(ICharacter character, bool peekInventory) // equivalent to act_info.C:show_char_to_char_1
         {
             if (this == character)
-                Act(ActOptions.ToRoom, "{0} looks at {0:m}self.", this);
+                Act(ActOptions.ToRoom, "{0} looks at {0:m}self." + Environment.NewLine, this);
             else
             {
-                Act(ActOptions.ToVictim, character, "{0} looks at you.", this);
-                Act(ActOptions.ToNotVictim, character, "{0} looks at {1}.", this, character);
+                Act(ActOptions.ToVictim, character, "{0} looks at you." + Environment.NewLine, this);
+                Act(ActOptions.ToNotVictim, character, "{0} looks at {1}." + Environment.NewLine, this, character);
             }
-            Send("{0} is here.", character.Name);
+            Send("{0} is here." + Environment.NewLine, character.Name);
             // TODO: health (instead of is here.), equipments  (see act_info.C:629 show_char_to_char_1)
             //Send("{0} is using:", character) if equipment not empty
 
             if (peekInventory)
             {
-                Send("You peek at the inventory:");
+                Send("You peek at the inventory:" + Environment.NewLine);
                 DisplayItems(character.Content, true);
             }
         }
@@ -165,11 +199,11 @@ namespace Mud.Server.Character
         {
             IEnumerable<IItem> enumerable = items as IItem[] ?? items.ToArray();
             if (displayNothing && !enumerable.Any())
-                Send("Nothing.");
+                Send("Nothing." + Environment.NewLine);
             else
             {
                 foreach (IItem item in enumerable) // TODO: compact mode (group by Blueprint)
-                    Send(item.Name); // TODO: (see act_info.C:275 show_list_to_char)
+                    Send(item.Name + Environment.NewLine); // TODO: (see act_info.C:275 show_list_to_char)
             }
         }
 
@@ -212,11 +246,20 @@ namespace Mud.Server.Character
                 if (auto)
                     message.Append(" none");
                 else
-                    message.AppendLine("None.");
+                    message.Append("None.");
             }
             if (auto)
                 message.Append("]");
-            Send(message.ToString());
+            message.AppendLine();
+            Send(message);
+        }
+
+        private StringBuilder ScanRoom(IRoom room)
+        {
+            StringBuilder peopleInRoom = new StringBuilder();
+            foreach (ICharacter character in room.People.Where(CanSee))
+                peopleInRoom.AppendFormat(" - {0}" + Environment.NewLine, character.Name); // TODO: short descr
+            return peopleInRoom;
         }
     }
 }

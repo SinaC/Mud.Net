@@ -54,14 +54,14 @@ namespace Mud.Server.Admin
         [Command("incarnate")]
         protected virtual bool DoIncarnate(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("DoIncarnate: NOT YET IMPLEMENTED");
+            Send("DoIncarnate: NOT YET IMPLEMENTED" + Environment.NewLine);
             return true;
         }
 
         [Command("shutdow")] // TODO: add an option in CommandAttribute to force full command to be type
         protected virtual bool DoShutdow(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("If you want to SHUTDOWN, spell it out.");
+            Send("If you want to SHUTDOWN, spell it out." + Environment.NewLine);
             return true;
         }
 
@@ -70,9 +70,9 @@ namespace Mud.Server.Admin
         {
             int seconds = 0;
             if (parameters.Length == 0 || !int.TryParse(parameters[0].Value, out seconds))
-                Send("Syntax: shutdown xxx  where xxx is a delay in seconds.");
+                Send("Syntax: shutdown xxx  where xxx is a delay in seconds." + Environment.NewLine);
             else if (seconds < 30)
-                Send("You cannot shutdown that fast.");
+                Send("You cannot shutdown that fast." + Environment.NewLine);
             else
                 Server.Instance.Shutdown(seconds);
             return true;
@@ -81,8 +81,8 @@ namespace Mud.Server.Admin
         [Command("who")]
         protected override bool DoWho(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("Players:");
-            foreach (IPlayer player in World.World.Instance.GetPlayers())
+            Send("Players:" + Environment.NewLine);
+            foreach (IPlayer player in Server.Instance.GetPlayers())
             {
                 StringBuilder sb = new StringBuilder();
                 switch (player.PlayerState)
@@ -99,10 +99,11 @@ namespace Mud.Server.Admin
                             sb.AppendFormat("[ IG] {0} playing ???", player.DisplayName);
                         break;
                 }
-                Send(sb.ToString());
+                sb.AppendLine();
+                Send(sb);
             }
-            Send("Admins");
-            foreach (IAdmin admin in World.World.Instance.GetAdmins())
+            Send("Admins" + Environment.NewLine);
+            foreach (IAdmin admin in Server.Instance.GetAdmins())
             {
                 StringBuilder sb = new StringBuilder();
                 switch (admin.PlayerState)
@@ -121,7 +122,8 @@ namespace Mud.Server.Admin
                             sb.AppendFormat("[ IG] {0} nor playing nor incarnating !!!", admin.DisplayName);
                         break;
                 }
-                Send(sb.ToString());
+                sb.AppendLine();
+                Send(sb);
             }
             return true;
         }

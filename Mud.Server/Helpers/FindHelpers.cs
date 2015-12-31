@@ -24,6 +24,20 @@ namespace Mud.Server.Helpers
                 : list.Where(x => StringStartWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
         }
 
+        public static IAdmin FindByName(IEnumerable<IAdmin> list, string name, bool perfectMatch = false)
+        {
+            return perfectMatch
+                ? list.FirstOrDefault(x => StringEquals(x.Name, name))
+                : list.FirstOrDefault(x => StringStartWith(x.Name, name));
+        }
+
+        public static IAdmin FindByName(IEnumerable<IAdmin> list, CommandParameter parameter, bool perfectMatch = false)
+        {
+            return perfectMatch
+                ? list.Where(x => StringEquals(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1)
+                : list.Where(x => StringStartWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
+        }
+
         public static T FindByName<T>(IEnumerable<T> list, string name, bool perfectMatch = false)
             where T : IEntity
         {
