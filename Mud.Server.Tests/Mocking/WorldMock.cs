@@ -25,14 +25,14 @@ namespace Mud.Server.Tests.Mocking
 
         public IAdmin AddAdmin(IClient client, Guid guid, string name)
         {
-            IAdmin admin = new Admin.Admin(client, guid, name);
+            IAdmin admin = new Admin.Admin(guid, name);
             _admins.Add(admin);
             return admin;
         }
 
         public IPlayer AddPlayer(IClient client, Guid guid, string name)
         {
-            IPlayer player = new Player.Player(client, guid, name);
+            IPlayer player = new Player.Player(guid, name);
             _players.Add(player);
             return player;
         }

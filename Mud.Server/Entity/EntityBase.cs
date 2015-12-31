@@ -20,6 +20,15 @@ namespace Mud.Server.Entity
                           + "over multiple lines";
         }
 
+        protected EntityBase(Guid guid, string name, string description)
+        {
+            if (guid == Guid.Empty)
+                guid = Guid.NewGuid();
+            Id = guid;
+            Name = name;
+            Description = description;
+        }
+
         #region IEntity
 
         #region IActor

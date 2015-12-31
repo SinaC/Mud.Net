@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using Mud.Network;
 
 namespace Mud.Server.TestApplication
@@ -7,29 +6,20 @@ namespace Mud.Server.TestApplication
     // Simple client dumping message to console
     internal class ConsoleClient : IClient
     {
-        private readonly ConcurrentQueue<string> _receiveQueue;
-
         public bool DisplayPlayerName { get; set; }
         public string Name { get; set; }
 
-        public ConsoleClient(string name, bool asynchronousReceive)
+        public ConsoleClient(string name)
         {
-            AsynchronousReceive = asynchronousReceive;
             Name = name;
             ColorAccepted = true;
             DisplayPlayerName = true;
-            _receiveQueue = new ConcurrentQueue<string>();
         }
 
         public void OnDataReceived(string data)
         {
-            if (AsynchronousReceive)
-            {
-                if (DataReceived != null)
-                    DataReceived(data);
-            }
-            else
-                _receiveQueue.Enqueue(data);
+            if (DataReceived != null)
+                DataReceived(this, data);
         }
 
         #region IClient
@@ -38,16 +28,6 @@ namespace Mud.Server.TestApplication
         public event DisconnectedEventHandler Disconnected;
 
         public bool ColorAccepted { get; set; }
-        public bool AsynchronousReceive { get; private set; }
-
-        public string ReadData()
-        {
-            if (AsynchronousReceive)
-                return null;
-            string data;
-            bool taken = _receiveQueue.TryDequeue(out data);
-            return taken ? data : null;
-        }
 
         public void WriteData(string data)
         {

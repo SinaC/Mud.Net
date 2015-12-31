@@ -7,12 +7,8 @@
     {
         event NewClientConnectedEventHandler NewClientConnected;
 
-        bool AsynchronousReceive { get; }
-
         void Initialize();
         void Start();
         void Stop();
-
-        void Broadcast(string data);
     }
 }

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Mud.Logger;
@@ -10,13 +13,56 @@ namespace Mud.Server
 {
     public class Server : IServer
     {
-        private const int PulsePerSeconds = 4;
-        private const int PulseDelay = 1000 / PulsePerSeconds;
+        private const int PulsePerSeconds = 8;
+        private const int PulseDelay = 1000/PulsePerSeconds;
 
         private class PlayerClient
         {
             public IClient Client { get; set; }
             public IPlayer Player { get; set; }
+
+            private readonly ConcurrentQueue<string> _receiveQueue;
+            //private readonly ConcurrentQueue<string> _sendQueue; // when using this, ProcessOutput must loop until DataToSend returns null
+            private readonly StringBuilder _sendBuffer;
+
+            public PlayerClient()
+            {
+                _receiveQueue = new ConcurrentQueue<string>();
+                _sendBuffer = new StringBuilder();
+            }
+
+            // Used in synchronous mode
+            public void EnqueueReceivedData(string data)
+            {
+                _receiveQueue.Enqueue(data);
+            }
+
+            public string DequeueReceivedData()
+            {
+                string data;
+                bool dequeued = _receiveQueue.TryDequeue(out data);
+                return dequeued ? data : null;
+            }
+
+            public void EnqueueDataToSend(string data)
+            {
+                //_sendQueue.Enqueue(message);
+                lock (_sendBuffer)
+                    _sendBuffer.Append(data);
+            }
+
+            public string DequeueDataToSend()
+            {
+                //string data;
+                //bool taken = _sendQueue.TryDequeue(out data);
+                //return taken ? data : null;
+                lock (_sendBuffer)
+                {
+                    string data = _sendBuffer.ToString();
+                    _sendBuffer.Clear();
+                    return data;
+                }
+            }
         }
 
         private readonly List<PlayerClient> _playerClients;
@@ -43,10 +89,14 @@ namespace Mud.Server
 
         #endregion
 
-        public void Initialize(INetworkServer networkServer)
+        public bool IsAsynchronous { get; private set; }
+
+        public void Initialize(bool asynchronous, INetworkServer networkServer)
         {
+            IsAsynchronous = asynchronous;
             _networkServer = networkServer;
-            _networkServer.NewClientConnected += NetworkServerOnNewClientConnected;
+            if (networkServer != null) // TODO: remove  network server must be mandatory
+                _networkServer.NewClientConnected += NetworkServerOnNewClientConnected;
         }
 
         public void Start()
@@ -59,7 +109,6 @@ namespace Mud.Server
                 _networkServer.Initialize();
                 _networkServer.Start();
             }
-
         }
 
         public void Stop()
@@ -84,14 +133,25 @@ namespace Mud.Server
 
         public void Shutdown(int seconds)
         {
+            int minutes = seconds/60;
+            int remaining = seconds%60;
+            if (minutes > 0 && remaining != 0)
+                Broadcast(String.Format("%R%Shutdown in {0} minute{1} and {2} second{3}%x%", minutes, minutes > 1 ? "s" : String.Empty, remaining, remaining > 1 ? "s" : String.Empty));
+            else if (minutes > 0 && remaining == 0)
+                Broadcast(String.Format("%R%Shutdown in {0} minute{1}%x%", minutes, minutes > 1 ? "s" : String.Empty));
+            else
+                Broadcast(String.Format("%R%Shutdown in {0} second{1}%x%", seconds, seconds > 1 ? "s" : String.Empty));
             _pulseBeforeShutdown = seconds*PulsePerSeconds;
         }
 
         // TODO: remove
         // TEST PURPOSE
-        public IPlayer AddClient(IClient client, string name)
+        public IPlayer AddPlayer(IClient client, string name)
         {
-            IPlayer player = new Player.Player(client, Guid.NewGuid(), name);
+            IPlayer player = new Player.Player(Guid.NewGuid(), name);
+            player.SendData += PlayerOnSendData;
+            client.DataReceived += ClientOnDataReceived;
+            client.Disconnected += ClientOnDisconnected;
             PlayerClient playerClient = new PlayerClient
             {
                 Client = client,
@@ -100,14 +160,17 @@ namespace Mud.Server
             _playerClients.Add(playerClient);
             World.World.Instance.AddPlayer(player);
 
-            player.Send("Let's go");
+            player.Send("Welcome {0}", name);
 
             return player;
         }
 
         public IAdmin AddAdmin(IClient client, string name)
         {
-            IAdmin admin = new Admin.Admin(client, Guid.NewGuid(), name);
+            IAdmin admin = new Admin.Admin(Guid.NewGuid(), name);
+            admin.SendData += PlayerOnSendData;
+            client.DataReceived += ClientOnDataReceived;
+            client.Disconnected += ClientOnDisconnected;
             PlayerClient playerClient = new PlayerClient
             {
                 Client = client,
@@ -116,16 +179,20 @@ namespace Mud.Server
             _playerClients.Add(playerClient);
             World.World.Instance.AddAdmin(admin);
 
-            admin.Send("Let's go");
-            
+            admin.Send("Welcome master {0}", name);
+
             return admin;
         }
 
-        #region INetworkServer events handler
-        
+        #region Event handlers
+
         private void NetworkServerOnNewClientConnected(IClient client)
         {
-            IPlayer player = new Player.Player(client, Guid.NewGuid());
+            // TODO: how can we determine if admin or player ?
+            IPlayer player = new Player.Player(Guid.NewGuid());
+            client.DataReceived += ClientOnDataReceived;
+            client.Disconnected += ClientOnDisconnected;
+            player.SendData += PlayerOnSendData;
             PlayerClient playerClient = new PlayerClient
             {
                 Client = client,
@@ -136,10 +203,54 @@ namespace Mud.Server
             player.Send("Why don't you login or tell us the name you wish to be known by?");
         }
 
+        private void ClientOnDisconnected(IClient client)
+        {
+            PlayerClient playerClient = _playerClients.FirstOrDefault(x => x.Client == client);
+            if (playerClient == null)
+                Log.Default.WriteLine(LogLevels.Error, "ClientOnDisconnected: null client");
+            else
+            {
+                playerClient.Player.OnDisconnected();
+                client.DataReceived -= ClientOnDataReceived;
+                client.Disconnected -= ClientOnDisconnected;
+                playerClient.Player.SendData -= PlayerOnSendData;
+                _playerClients.Remove(playerClient);
+            }
+        }
+
+        private void ClientOnDataReceived(IClient client, string data)
+        {
+            PlayerClient playerClient = _playerClients.FirstOrDefault(x => x.Client == client);
+            if (playerClient == null)
+                Log.Default.WriteLine(LogLevels.Error, "ClientOnDataReceived: null client");
+            else
+            {
+                if (IsAsynchronous)
+                    playerClient.Player.ProcessCommand(data);
+                else
+                    playerClient.EnqueueReceivedData(data);
+            }
+        }
+
+        private void PlayerOnSendData(IPlayer player, string data)
+        {
+            PlayerClient playerClient = _playerClients.FirstOrDefault(x => x.Player == player);
+            if (playerClient == null)
+                Log.Default.WriteLine(LogLevels.Error, "PlayerOnSendData: null client");
+            else
+            {
+                if (IsAsynchronous)
+                    playerClient.Client.WriteData(data);
+                else
+                    playerClient.EnqueueDataToSend(data);
+            }
+        }
+
         #endregion
 
         private void Broadcast(string message)
         {
+            message = message + Environment.NewLine;
             // By-pass asynchronous/synchronous send
             foreach (PlayerClient playerClient in _playerClients)
                 playerClient.Client.WriteData(message);
@@ -148,11 +259,11 @@ namespace Mud.Server
         private void ProcessInput()
         {
             // Read one command from each client and process it
-            if (!ServerOptions.AsynchronousReceive)
+            if (!IsAsynchronous)
             {
                 foreach (PlayerClient playerClient in _playerClients) // TODO: first connected player will be processed before other, try a randomize
                 {
-                    string data = playerClient.Client.ReadData(); // process one command at a time
+                    string data = playerClient.DequeueReceivedData(); // process one command at a time
                     if (!String.IsNullOrWhiteSpace(data))
                         playerClient.Player.ProcessCommand(data);
                 }
@@ -161,7 +272,7 @@ namespace Mud.Server
 
         private void ProcessOutput()
         {
-            if (!ServerOptions.AsynchronousSend)
+            if (!IsAsynchronous)
             {
                 foreach (PlayerClient playerClient in _playerClients)
                 {
@@ -174,9 +285,46 @@ namespace Mud.Server
                     //    else
                     //        break;
                     //}
-                    string data = playerClient.Player.DataToSend();
+                    string data = playerClient.DequeueDataToSend();
                     if (!String.IsNullOrWhiteSpace(data))
                         playerClient.Client.WriteData(data);
+                }
+            }
+        }
+
+        private void PulseShutdown()
+        {
+            if (_pulseBeforeShutdown >= 0)
+            {
+                _pulseBeforeShutdown--;
+                if (_pulseBeforeShutdown == PulsePerSeconds * 60 * 15)
+                    Broadcast("%R%Shutdown in 15 minutes%x%");
+                if (_pulseBeforeShutdown == PulsePerSeconds * 60 * 10)
+                    Broadcast("%R%Shutdown in 10 minutes%x%");
+                if (_pulseBeforeShutdown == PulsePerSeconds * 60 * 5)
+                    Broadcast("%R%Shutdown in 5 minutes%x%");
+                if (_pulseBeforeShutdown == PulsePerSeconds * 60)
+                    Broadcast("%R%Shutdown in 1 minute%x%");
+                if (_pulseBeforeShutdown == PulsePerSeconds * 30)
+                    Broadcast("%R%Shutdown in 30 seconds%x%");
+                if (_pulseBeforeShutdown == PulsePerSeconds * 15)
+                    Broadcast("%R%Shutdown in 15 seconds%x%");
+                if (_pulseBeforeShutdown == PulsePerSeconds * 10)
+                    Broadcast("%R%Shutdown in 10 seconds%x%");
+                if (_pulseBeforeShutdown == PulsePerSeconds * 5)
+                    Broadcast("%R%Shutdown in 5%x%");
+                if (_pulseBeforeShutdown == PulsePerSeconds * 4)
+                    Broadcast("%R%Shutdown in 4%x%");
+                if (_pulseBeforeShutdown == PulsePerSeconds * 3)
+                    Broadcast("%R%Shutdown in 3%x%");
+                if (_pulseBeforeShutdown == PulsePerSeconds * 2)
+                    Broadcast("%R%Shutdown in 2%x%");
+                if (_pulseBeforeShutdown == PulsePerSeconds * 1)
+                    Broadcast("%R%Shutdown in 1%x%");
+                if (_pulseBeforeShutdown == 0)
+                {
+                    Broadcast("%R%Shutdown NOW!!!%x%");
+                    Stop();
                 }
             }
         }
@@ -186,25 +334,7 @@ namespace Mud.Server
             // TODO:  (see handler.c)
             //Log.Default.WriteLine(LogLevels.Debug, "PULSE: {0:HH:mm:ss.ffffff}", DateTime.Now);
 
-            if (_pulseBeforeShutdown >= 0)
-            {
-                _pulseBeforeShutdown--;
-                if (_pulseBeforeShutdown == PulsePerSeconds * 5)
-                    Broadcast("Shutdown in 5");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 4)
-                    Broadcast("Shutdown in 4");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 3)
-                    Broadcast("Shutdown in 3");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 2)
-                    Broadcast("Shutdown in 2");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 1)
-                    Broadcast("Shutdown in 1");
-                if (_pulseBeforeShutdown == 0)
-                {
-                    Broadcast("Shutdown NOW!!!");
-                    Stop();
-                }
-            }
+            PulseShutdown();
         }
 
         private void GameLoopTask()
@@ -236,7 +366,7 @@ namespace Mud.Server
                         //long elapsedNs = sw.Elapsed.Ticks; // 1 tick = 1 nanosecond
                         //Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}Ms {1}Ticks {2}Ns", elapsedMs, elapsedTick, elapsedNs);
                         //Thread.Sleep(250 - (int) elapsedMs);
-                        int sleepTime = PulseDelay - (int)elapsedMs;
+                        int sleepTime = PulseDelay - (int) elapsedMs;
                         _cancellationTokenSource.Token.WaitHandle.WaitOne(sleepTime);
                     }
                     else

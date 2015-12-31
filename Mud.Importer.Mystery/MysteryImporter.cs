@@ -82,7 +82,7 @@ namespace Mud.Importer.Mystery
 
         private void ParseArea()
         {
-            Log.Default.WriteLine(LogLevels.Debug, "Area section");
+            Log.Default.WriteLine(LogLevels.Trace, "Area section");
 
             AreaData area = new AreaData();
             while (true)
@@ -108,7 +108,7 @@ namespace Mud.Importer.Mystery
                 else if (word == "End") // done
                     break;
             }
-            Log.Default.WriteLine(LogLevels.Debug, "Area [{0}] parsed", area.Name);
+            Log.Default.WriteLine(LogLevels.Trace, "Area [{0}] parsed", area.Name);
 
             // Set unique number and filename
             area.VNum = _areas.Count;
@@ -119,7 +119,7 @@ namespace Mud.Importer.Mystery
 
         private void ParseMobiles()
         {
-            Log.Default.WriteLine(LogLevels.Debug, "Mobiles section");
+            Log.Default.WriteLine(LogLevels.Trace, "Mobiles section");
 
             while (true)
             {
@@ -225,7 +225,7 @@ namespace Mud.Importer.Mystery
                 // TODO: convert act flags (see db.C:626)
                 // TODO: fix parts (see db.C:520)
 
-                Log.Default.WriteLine(LogLevels.Debug, "Mobile [{0}] parsed", vnum);
+                Log.Default.WriteLine(LogLevels.Trace, "Mobile [{0}] parsed", vnum);
 
                 // Save mobile data
                 _mobiles.Add(mobileData);
@@ -234,7 +234,7 @@ namespace Mud.Importer.Mystery
 
         private void ParseObjects()
         {
-            Log.Default.WriteLine(LogLevels.Debug, "Objects section");
+            Log.Default.WriteLine(LogLevels.Trace, "Objects section");
 
             while (true)
             {
@@ -389,7 +389,7 @@ namespace Mud.Importer.Mystery
                     }
                 }
 
-                Log.Default.WriteLine(LogLevels.Debug, "Object [{0}] parsed", vnum);
+                Log.Default.WriteLine(LogLevels.Trace, "Object [{0}] parsed", vnum);
 
                 // Save object data
                 _objects.Add(objectData);
@@ -398,7 +398,7 @@ namespace Mud.Importer.Mystery
 
         private void ParseResets()
         {
-            Log.Default.WriteLine(LogLevels.Debug, "Resets section");
+            Log.Default.WriteLine(LogLevels.Trace, "Resets section");
 
             int iLastObj = 0; // TODO: replace with RoomData
             int iLastRoom = 0; // TODO: replace with RoomData
@@ -547,7 +547,7 @@ namespace Mud.Importer.Mystery
 
         private void ParseRooms()
         {
-            Log.Default.WriteLine(LogLevels.Debug, "Rooms section");
+            Log.Default.WriteLine(LogLevels.Trace, "Rooms section");
 
             while (true)
             {
@@ -596,7 +596,7 @@ namespace Mud.Importer.Mystery
                             Keyword = ReadString(),
                             ExitInfo = ReadFlags(),
                             Key = (int) ReadNumber(),
-                            Destination = (int) ReadNumber()
+                            DestinationVNum = (int) ReadNumber()
                         };
                         roomData.Exits[door] = exitData;
                     }
@@ -639,7 +639,7 @@ namespace Mud.Importer.Mystery
                     else
                         RaiseParseException("ParseRooms: vnum {0} has unknown flag", vnum);
                 }
-                Log.Default.WriteLine(LogLevels.Debug, "Room [{0}] parsed", vnum);
+                Log.Default.WriteLine(LogLevels.Trace, "Room [{0}] parsed", vnum);
 
                 // Save room data
                 _rooms.Add(roomData);
@@ -648,7 +648,7 @@ namespace Mud.Importer.Mystery
 
         private void ParseShops()
         {
-            Log.Default.WriteLine(LogLevels.Debug, "Shops section");
+            Log.Default.WriteLine(LogLevels.Trace, "Shops section");
 
             while (true)
             {
@@ -669,6 +669,8 @@ namespace Mud.Importer.Mystery
                     shopData.OpenHour = (int) ReadNumber();
                     shopData.CloseHour = (int) ReadNumber();
                     mobileData.Shop = shopData;
+
+                    Log.Default.WriteLine(LogLevels.Trace, "Shop [{0}] parsed", keeper);
                 }
                 ReadToEol();
             }
@@ -676,7 +678,7 @@ namespace Mud.Importer.Mystery
 
         private void ParseSpecials()
         {
-            Log.Default.WriteLine(LogLevels.Debug, "Specials section");
+            Log.Default.WriteLine(LogLevels.Trace, "Specials section");
 
             while (true)
             {
@@ -695,11 +697,13 @@ namespace Mud.Importer.Mystery
                         mobileData.Special = special;
                     else
                         Warn("ParseSpecials: 'M' unknown mobile vnum {0}", vnum);
+                    Log.Default.WriteLine(LogLevels.Trace, "Specials [{0}] parsed", vnum);
                 }
                 else
                     RaiseParseException("ParseSpecials: letter {0} not *MS", letter);
                 ReadToEol();
             }
+
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
-using Mud.Network;
 using Mud.Server.Actor;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -14,9 +11,6 @@ namespace Mud.Server.Player
     {
         private static readonly IReadOnlyTrie<CommandMethodInfo> PlayerCommands;
 
-        //private readonly ConcurrentQueue<string> _sendQueue; // when using this, Server.ProcessOutput must loop until DataToSend returns null
-        private readonly StringBuilder _sendBuffer;
-        private readonly IClient _client;
         private readonly IInputTrap<IPlayer> _currentStateMachine; // TODO: state machine for avatar creation
 
         static Player()
@@ -26,18 +20,12 @@ namespace Mud.Server.Player
 
         protected Player()
         {
-            //_sendQueue = new ConcurrentQueue<string>();
-            _sendBuffer = new StringBuilder();
         }
 
-        public Player(IClient client, Guid id)
+        public Player(Guid id)
             :this()
         {
-            _client = client;
             Id = id;
-
-            client.DataReceived += ClientOnDataReceived;
-            client.Disconnected += OnDisconnected;
 
             _currentStateMachine = new LoginStateMachine();
 
@@ -45,15 +33,11 @@ namespace Mud.Server.Player
         }
 
         // TODO: remove  method is for test purpose  (no login state machine and name directly specified)
-        public Player(IClient client, Guid id, string name)
+        public Player(Guid id, string name)
             : this()
         {
-            _client = client;
             Id = id;
             Name = name;
-
-            client.DataReceived += ClientOnDataReceived;
-            client.Disconnected += OnDisconnected;
 
             PlayerState = PlayerStates.Connected;
         }
@@ -121,22 +105,16 @@ namespace Mud.Server.Player
 
         public override void Send(string format, params object[] parameters)
         {
-            if (ServerOptions.AsynchronousSend)
+            if (SendData != null)
             {
                 string message = String.Format(format + Environment.NewLine, parameters);
-                _client.WriteData(message);
-            }
-            else
-            {
-                string message = String.Format(format, parameters);
-                //_sendQueue.Enqueue(message);
-                lock (_sendBuffer)
-                    _sendBuffer.AppendLine(message);
+                SendData(this, message);
             }
         }
 
         #endregion
 
+        public event SendDataEventHandler SendData;
         public Guid Id { get; private set; }
         public string Name { get; private set; }
 
@@ -169,28 +147,6 @@ namespace Mud.Server.Player
                 Impersonating.ChangeImpersonation(null);
                 Impersonating = null;
             }
-        }
-
-        public string DataToSend()
-        {
-            //string data;
-            //bool taken = _sendQueue.TryDequeue(out data);
-            //return taken ? data : null;
-            lock (_sendBuffer)
-            {
-                string data = _sendBuffer.ToString();
-                _sendBuffer.Clear();
-                return data;
-            }
-        }
-
-        #endregion
-
-        #region IClient event handlers
-
-        private void ClientOnDataReceived(string data)
-        {
-            ProcessCommand(data);
         }
 
         #endregion

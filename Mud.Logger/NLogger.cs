@@ -24,6 +24,9 @@ namespace Mud.Logger
         {
             switch (level)
             {
+                case LogLevels.Trace:
+                    _logger.Trace(format, args);
+                    break;
                 case LogLevels.Debug:
                     _logger.Debug(format, args);
                     break;

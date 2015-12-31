@@ -40,13 +40,12 @@ namespace Mud.Network.Socket
 
         public int Port { get; private set; }
 
-        public SocketServer(int port, bool asynchronousReceive)
+        public SocketServer(int port)
         {
             _status = ServerStatus.Creating;
             Log.Default.WriteLine(LogLevels.Info, "Socket server creating");
 
             Port = port;
-            AsynchronousReceive = asynchronousReceive;
 
             _clients = new List<ClientSocketStateObject>();
 
@@ -57,8 +56,6 @@ namespace Mud.Network.Socket
         #region INetworkServer
 
         public event NewClientConnectedEventHandler NewClientConnected;
-
-        public bool AsynchronousReceive { get; private set; }
 
         public void Initialize()
         {
@@ -114,6 +111,7 @@ namespace Mud.Network.Socket
                 List<ClientSocketStateObject> copy = _clients.Select(x => x).ToList(); // make a copy, because CloseConnection modify collection
                 foreach (ClientSocketStateObject client in copy)
                     CloseConnection(client);
+                _clients.Clear();
                 
                 // Stop listen task
                 _cancellationTokenSource.Cancel();
@@ -192,7 +190,7 @@ namespace Mud.Network.Socket
                 Log.Default.WriteLine(LogLevels.Debug, "Client connected from " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address);
 
                 // Create the state object.
-                ClientSocketStateObject client = new ClientSocketStateObject(this, AsynchronousReceive)
+                ClientSocketStateObject client = new ClientSocketStateObject(this)
                 {
                     ClientSocket = clientSocket,
                 };

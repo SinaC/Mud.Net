@@ -1,27 +1,9 @@
-﻿using System;
-using Mud.Logger;
+﻿using Mud.Logger;
 
 namespace Mud.Server
 {
-    public class ServerOptions
+    public static class ServerOptions
     {
-        #region Singleton
-
-        private static readonly Lazy<ServerOptions> Lazy = new Lazy<ServerOptions>(() => new ServerOptions());
-
-        public static ServerOptions Instance
-        {
-            get { return Lazy.Value; }
-        }
-
-        private ServerOptions()
-        {
-            PrefixForwardedMessages = true;
-            ForwardSlaveMessages = false;
-        }
-
-        #endregion
-
         public const int ExitCount = 10;
 
         public enum ExitDirections // MUST contains 'ExitCount' entries
@@ -38,13 +20,10 @@ namespace Mud.Server
             SouthWest,
         }
 
-        public const bool AsynchronousSend = false;
-        public const bool AsynchronousReceive = false;
+        public static bool PrefixForwardedMessages { get; set; } // Add <IMP> or <CTRL> before forwarding a message
+        public static bool ForwardSlaveMessages { get; set; } // Forward messages received by a slaved character
 
-        public bool PrefixForwardedMessages { get; set; } // Add <IMP> or <CTRL> before forwarding a message
-        public bool ForwardSlaveMessages { get; set; } // Forward messages received by a slaved character
-
-        public ExitDirections ReverseDirection(ExitDirections direction)
+        public static ExitDirections ReverseDirection(ExitDirections direction)
         {
             switch (direction)
             {

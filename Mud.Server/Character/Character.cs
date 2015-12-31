@@ -44,14 +44,14 @@ namespace Mud.Server.Character
             base.Send(format, parameters);
             if (ImpersonatedBy != null)
             {
-                if (ServerOptions.Instance.PrefixForwardedMessages)
+                if (ServerOptions.PrefixForwardedMessages)
                     format = "<IMP|" + Name + ">" + format;
                 ImpersonatedBy.Send(format, parameters);
             }
             // TODO: do we really need to receive message sent to slave ?
-            if (ServerOptions.Instance.ForwardSlaveMessages && ControlledBy != null)
+            if (ServerOptions.ForwardSlaveMessages && ControlledBy != null)
             {
-                if (ServerOptions.Instance.PrefixForwardedMessages)
+                if (ServerOptions.PrefixForwardedMessages)
                     format = "<CTRL|" + Name + ">" + format;
                 ControlledBy.Send(format, parameters);
             }

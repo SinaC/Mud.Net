@@ -30,7 +30,7 @@ namespace Mud.Server.Character
                 return true;
             }
             // 2: container in room then inventory then equipment
-            if (parameters[0].Value == "in" || parameters[0].Value == "on")
+            if (parameters[0].Value == "in" || parameters[0].Value == "on" || parameters[0].Value == "into")
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): container in room, inventory, equipment");
                 // look in container
@@ -38,8 +38,8 @@ namespace Mud.Server.Character
                     Send("Look in what?");
                 else
                 {
-                    // TODO: following code is stupid if room contains 2 identical items and inventory one, and we use look in item -> we'll never see item in inventory (look 3.item should display it <-- same case as look(4))
                     // search in room, then in inventory(unequiped), then in equipement
+                    //// TODO: following code is stupid if room contains 2 identical items and inventory one, and we use look in item -> we'll never see item in inventory (look 3.item should display it <-- same case as look(4))
                     //IItem item = FindHelpers.FindByName(Room.Content.Where(CanSee), parameters[1]) ?? FindHelpers.FindByName(Content.Where(CanSee), parameters[1]); // TODO: filter on unequiped + equipment
                     IItem containerItem = FindHelpers.FindByName(Room.Content.Where(CanSee).Concat(Content.Where(CanSee)), parameters[1]); // TODO: filter on unequiped + equipment
                     if (containerItem == null)
@@ -52,10 +52,7 @@ namespace Mud.Server.Character
                         {
                             // TODO: check if closed
                             Send("{0} holds:", containerItem.Name);
-                            if (container.Content.Count == 0)
-                                Send("Nothing");
-                            else
-                                DisplayItems(container.Content);
+                            DisplayItems(container.Content, true);
                         }
                             // TODO: drink container
                         else
@@ -111,8 +108,16 @@ namespace Mud.Server.Character
             return true;
         }
 
+        [Command("inventory")]
+        protected virtual bool DoInventory(string rawParameters, params CommandParameter[] parameters)
+        {
+            Send("You are carrying:");
+            DisplayItems(Content, true);
+            return true;
+        }
+
         // Helpers
-        private void DisplayRoom() // equivalent to do_look("auto")
+        private void DisplayRoom() // equivalent to act_info.C:do_look("auto")
         {
             // Room name
             Send("%c%{0}%x%", Room.Name);
@@ -120,7 +125,7 @@ namespace Mud.Server.Character
             Send(Room.Description);
             // Exits
             DisplayExits(true);
-            DisplayItems(Room.Content);
+            DisplayItems(Room.Content, false);
             foreach (ICharacter character in Room.People.Where(x => x != this))
                 //Send(character.Name); // TODO: Characters in room (see act_info.C:714 show_list_to_char)
             {
@@ -152,17 +157,20 @@ namespace Mud.Server.Character
             if (peekInventory)
             {
                 Send("You peek at the inventory:");
-                if (character.Content.Count == 0)
-                    Send("Nothing.");
-                else
-                    DisplayItems(character.Content);
+                DisplayItems(character.Content, true);
             }
         }
 
-        private void DisplayItems(IEnumerable<IItem> items) // equivalent to act_info.C:show_list_to_char
+        private void DisplayItems(IEnumerable<IItem> items, bool displayNothing) // equivalent to act_info.C:show_list_to_char
         {
-            foreach (IItem item in items) // TODO: compact mode (group by Blueprint)
-                Send(item.Name); // TODO: Items in room  (see act_info.C:275 show_list_to_char)
+            IEnumerable<IItem> enumerable = items as IItem[] ?? items.ToArray();
+            if (displayNothing && !enumerable.Any())
+                Send("Nothing.");
+            else
+            {
+                foreach (IItem item in enumerable) // TODO: compact mode (group by Blueprint)
+                    Send(item.Name); // TODO: (see act_info.C:275 show_list_to_char)
+            }
         }
 
         private void DisplayExits(bool auto)

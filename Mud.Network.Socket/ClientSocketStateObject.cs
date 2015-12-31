@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Text;
+﻿using System.Text;
 
 namespace Mud.Network.Socket
 {
@@ -17,11 +16,9 @@ namespace Mud.Network.Socket
         // Server
         public SocketServer Server { get; private set; }
         // First must be eaten
-        public bool FirstInput { get; set; }
+        public bool FirstInput { get; set; }   
 
-        private readonly ConcurrentQueue<string> _receiveQueue;
-
-        public ClientSocketStateObject(SocketServer server, bool asynchronousReceive)
+        public ClientSocketStateObject(SocketServer server)
         {
             Server = server;
             Buffer = new byte[BufferSize];
@@ -29,24 +26,18 @@ namespace Mud.Network.Socket
             ClientSocket = null;
             FirstInput = true;
             ColorAccepted = true; // by default
-            AsynchronousReceive = asynchronousReceive;
-            _receiveQueue = new ConcurrentQueue<string>();
         }
 
         public void OnDataReceived(string data)
         {
-            if (AsynchronousReceive)
-            {
-                if (DataReceived != null)
-                    DataReceived(data);
-            }
-            _receiveQueue.Enqueue(data);
+            if (DataReceived != null)
+                DataReceived(this, data);
         }
 
         public void OnDisconnected()
         {
             if (Disconnected != null)
-                Disconnected();
+                Disconnected(this);
         }
 
         #region IClient
@@ -55,15 +46,6 @@ namespace Mud.Network.Socket
         public event DisconnectedEventHandler Disconnected;
 
         public bool ColorAccepted { get; set; }
-
-        public bool AsynchronousReceive { get; private set; }
-
-        public string ReadData()
-        {
-            string data;
-            bool taken = _receiveQueue.TryDequeue(out data);
-            return taken ? data : null;
-        }
 
         public void WriteData(string data)
         {

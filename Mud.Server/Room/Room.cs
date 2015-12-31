@@ -28,6 +28,14 @@ namespace Mud.Server.Room
             _exits = new IExit[ServerOptions.ExitCount];
         }
 
+        public Room(Guid guid, string name, string description)
+            :base(guid, name, description)
+        {
+            _people = new List<ICharacter>();
+            _content = new List<IItem>();
+            _exits = new IExit[ServerOptions.ExitCount];
+        }
+
         #region IRoom
 
         #region IActor

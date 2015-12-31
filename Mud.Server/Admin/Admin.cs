@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using Mud.DataStructures.Trie;
-using Mud.Network;
 using Mud.Server.Input;
 
 namespace Mud.Server.Admin
@@ -15,8 +14,8 @@ namespace Mud.Server.Admin
             AdminCommands = CommandHelpers.GetCommands(typeof(Admin));
         }
 
-        public Admin(IClient client, Guid id, string name) 
-            : base(client, id, name)
+        public Admin(Guid id, string name) 
+            : base(id, name)
         {
             //TODO: _currentStateMachine = new TestAdminStateMachine();
         }
@@ -55,7 +54,7 @@ namespace Mud.Server.Admin
         [Command("incarnate")]
         protected virtual bool DoIncarnate(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("NOT YET IMPLEMENTED");
+            Send("DoIncarnate: NOT YET IMPLEMENTED");
             return true;
         }
 
@@ -71,11 +70,11 @@ namespace Mud.Server.Admin
         {
             int seconds = 0;
             if (parameters.Length == 0 || !int.TryParse(parameters[0].Value, out seconds))
-                Send("Syntax: shutdown xxx  where xxx is a delay in seconds");
+                Send("Syntax: shutdown xxx  where xxx is a delay in seconds.");
+            else if (seconds < 30)
+                Send("You cannot shutdown that fast.");
             else
-            {
                 Server.Instance.Shutdown(seconds);
-            }
             return true;
         }
 

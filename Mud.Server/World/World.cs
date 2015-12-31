@@ -63,6 +63,13 @@ namespace Mud.Server.World
             return room;
         }
 
+        public IRoom AddRoom(string name, string description)
+        {
+            IRoom room = new Room.Room(Guid.NewGuid(), name, description);
+            _rooms.Add(room);
+            return room;
+        }
+
         public IExit AddExit(IRoom from, IRoom to, ServerOptions.ExitDirections direction, bool bidirectional)
         {
             Exit from2To = new Exit(String.Format("door[{0}->{1}]", from.Name, to.Name), to);
@@ -70,7 +77,7 @@ namespace Mud.Server.World
             if (bidirectional)
             {
                 Exit to2From = new Exit(String.Format("door[{0}->{1}]", to.Name, from.Name), from);
-                to.Exits[(int)ServerOptions.Instance.ReverseDirection(direction)] = to2From;
+                to.Exits[(int)ServerOptions.ReverseDirection(direction)] = to2From;
             }
             return from2To;
         }

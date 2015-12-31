@@ -10,8 +10,12 @@ namespace Mud.Server
         Playing, // playing avatar
     }
 
+    public delegate void SendDataEventHandler(IPlayer player, string data);
+
     public interface IPlayer : IActor
     {
+        event SendDataEventHandler SendData;
+
         Guid Id { get; }
         string Name { get; }
         string DisplayName { get; } // First letter is in upper-case
@@ -26,7 +30,5 @@ namespace Mud.Server
         bool Load(string name);
 
         void OnDisconnected();
-
-        string DataToSend();
     }
 }

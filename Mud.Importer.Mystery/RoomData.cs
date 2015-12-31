@@ -55,7 +55,7 @@ namespace Mud.Importer.Mystery
         public string Keyword { get; set; }
         public long ExitInfo { get; set; }
         public int Key { get; set; } // key object vnum
-        public int Destination { get; set; } // destination room vnum  (u1.vnum in original code)
+        public int DestinationVNum { get; set; } // destination room vnum  (u1.vnum in original code)
     }
 
     public class ResetData

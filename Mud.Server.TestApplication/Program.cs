@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using Mud.Importer.Mystery;
 using Mud.Logger;
 using Mud.Network;
@@ -46,13 +48,74 @@ namespace Mud.Server.TestApplication
             IItem item1Dup2 = world.AddItemContainer(Guid.NewGuid(), "Item1", mob1);
         }
 
+        private static void CreateMidgaard()
+        {
+            MysteryImporter importer = new MysteryImporter();
+            importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
+            importer.Parse();
+
+            World.World world = World.World.Instance as World.World;
+
+            Dictionary<int, IRoom> roomsByVNums = new Dictionary<int, IRoom>();
+
+            // Create Rooms
+            foreach (RoomData importedRoom in importer.Rooms)
+            {
+                IRoom room = world.AddRoom(importedRoom.Name, importedRoom.Description);
+                roomsByVNums.Add(importedRoom.VNum, room);
+            }
+            // Create Exits
+            foreach (RoomData room in importer.Rooms)
+                //foreach (ExitData exit in room.Exits.Where(x => x != null))
+                for(int i = 0; i < RoomData.MaxExits-1; i++)
+                {
+                    ExitData exit = room.Exits[i];
+                    if (exit != null)
+                    {
+                        IRoom from; 
+                        roomsByVNums.TryGetValue(room.VNum, out from);
+                        IRoom to; 
+                        roomsByVNums.TryGetValue(exit.DestinationVNum, out to);
+                        if (from == null)
+                            Log.Default.WriteLine(LogLevels.Error, "Origin room not found for vnum {0}", room.VNum);
+                        else if (to == null)
+                            Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", room.VNum);
+                        else
+                        {
+                            world.AddExit(from, to, (ServerOptions.ExitDirections)i, false);
+                        }
+                    }
+                }
+            // Add dummy mobs and items to allow impersonate :)
+            IRoom templeOfMota = world.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
+            IRoom templeSquare = world.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");
+            
+            ICharacter mob1 = world.AddCharacter(Guid.NewGuid(), "Mob1", templeOfMota);
+            ICharacter mob2 = world.AddCharacter(Guid.NewGuid(), "Mob2", templeOfMota);
+            ICharacter mob3 = world.AddCharacter(Guid.NewGuid(), "Mob3", templeSquare);
+            ICharacter mob4 = world.AddCharacter(Guid.NewGuid(), "Mob4", templeSquare);
+            ICharacter mob5 = world.AddCharacter(Guid.NewGuid(), "Mob5", templeSquare);
+
+            // Item1*2 in Room1
+            // Item2 in Mob2
+            // Item3 in 2.Item1
+            // Item4 in Mob1
+            // Item1 in Mob1
+            IItem item1 = world.AddItemContainer(Guid.NewGuid(), "Item1", templeOfMota);
+            IItem item1Dup1 = world.AddItemContainer(Guid.NewGuid(), "Item1", templeOfMota);
+            IItem item2 = world.AddItemContainer(Guid.NewGuid(), "Item2", mob2);
+            IItem item3 = world.AddItemContainer(Guid.NewGuid(), "Item3", item1Dup1 as IContainer);
+            IItem item4 = world.AddItemContainer(Guid.NewGuid(), "Item4", mob1);
+            IItem item1Dup2 = world.AddItemContainer(Guid.NewGuid(), "Item1", mob1);
+        }
+
         private static void TestBasicCommands()
         {
             //Server.Instance.Start();
             // !!!! Must be used with ServerOptions.AsynchronousXXX set to true
-            IPlayer player1 = Server.Instance.AddClient(new ConsoleClient("Player1", true), "Player1");
-            IPlayer player2 = Server.Instance.AddClient(new ConsoleClient("Player2", true), "Player2");
-            IAdmin admin = Server.Instance.AddAdmin(new ConsoleClient("Admin1", true), "Admin1");
+            IPlayer player1 = Server.Instance.AddPlayer(new ConsoleClient("Player1"), "Player1");
+            IPlayer player2 = Server.Instance.AddPlayer(new ConsoleClient("Player2"), "Player2");
+            IAdmin admin = Server.Instance.AddAdmin(new ConsoleClient("Admin1"), "Admin1");
 
             CreateDummyWorld();
 
@@ -102,7 +165,7 @@ namespace Mud.Server.TestApplication
             World.World world = World.World.Instance as World.World;
             IRoom room = world.AddRoom(Guid.NewGuid(), "Room");
 
-            IPlayer player = Server.Instance.AddClient(new ConsoleClient("Player", true), "Player");
+            IPlayer player = Server.Instance.AddPlayer(new ConsoleClient("Player"), "Player");
             player.ProcessCommand("test");
             player.ProcessCommand("test arg1");
             player.ProcessCommand("test 'arg1' 'arg2' 'arg3' 'arg4'");
@@ -135,7 +198,7 @@ namespace Mud.Server.TestApplication
             player.ProcessCommand("tell");
             player.ProcessCommand("look"); // INVALID because Character commands are not accessible by Player unless if impersonating
 
-            IAdmin admin = Server.Instance.AddAdmin(new ConsoleClient("Admin", ServerOptions.AsynchronousReceive), "Admin");
+            IAdmin admin = Server.Instance.AddAdmin(new ConsoleClient("Admin"), "Admin");
             admin.ProcessCommand("incarnate");
             admin.ProcessCommand("unknown"); // INVALID
         }
@@ -173,7 +236,7 @@ namespace Mud.Server.TestApplication
                             }
                             // TODO: characters/rooms/items
                         }
-                            // client commands
+                        // client commands
                         else
                             player.ProcessCommand(line);
                     }
@@ -205,12 +268,12 @@ namespace Mud.Server.TestApplication
         {
             Console.WriteLine("Let's go");
 
-            ServerOptions.Instance.PrefixForwardedMessages = false;
+            ServerOptions.PrefixForwardedMessages = false;
 
             CreateDummyWorld();
 
-            INetworkServer socketServer = new SocketServer(11000, ServerOptions.AsynchronousReceive);
-            Server.Instance.Initialize(socketServer);
+            INetworkServer socketServer = new SocketServer(11000);
+            Server.Instance.Initialize(true, socketServer);
             Server.Instance.Start();
             //socketServer.Initialize();
             //socketServer.Start();
@@ -221,19 +284,32 @@ namespace Mud.Server.TestApplication
 
         private static void TestWorldOffline()
         {
-            ServerOptions.Instance.PrefixForwardedMessages = false;
+            ServerOptions.PrefixForwardedMessages = false;
 
-            CreateDummyWorld();
+            //CreateDummyWorld();
+            CreateMidgaard();
 
-            Server.Instance.Start();
-            IPlayer player = Server.Instance.AddClient(
-                new ConsoleClient("Player1", ServerOptions.AsynchronousReceive)
-                {
-                    DisplayPlayerName = false,
-                    ColorAccepted = true
-                },
-                "Player1"); //!!! no login state machine -> direct login
-            HandleUserInput(player);
+            ConsoleNetworkServer consoleNetworkServer = new ConsoleNetworkServer();
+            Server.Instance.Initialize(true, consoleNetworkServer);
+            consoleNetworkServer.AddClient("Player1", false, true);
+            Server.Instance.Start(); // this call will block application because consoleNetworkServer.Start will be called which is blocking
+
+            //IPlayer player = Server.Instance.AddPlayer(
+            //    new ConsoleClient("Player1")
+            //    {
+            //        DisplayPlayerName = false,
+            //        ColorAccepted = true
+            //    },
+            //    "Player1"); //!!! no login state machine -> direct login
+            //HandleUserInput(player);
+            //IAdmin admin = Server.Instance.AddAdmin(
+            //    new ConsoleClient("Admin1")
+            //    {
+            //        DisplayPlayerName = false,
+            //        ColorAccepted = true
+            //    },
+            //    "Admin1"); //!!! no login state machine -> direct login
+            //HandleUserInput(admin);
             Server.Instance.Stop();
         }
     }
