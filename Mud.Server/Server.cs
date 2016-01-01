@@ -18,6 +18,49 @@ namespace Mud.Server
         private const int PulsePerSeconds = 8;
         private const int PulseDelay = 1000/PulsePerSeconds;
 
+        private class Paging
+        {
+            private string[] _lines;
+            private int _currentLine;
+
+            public Paging()
+            {
+                _lines = null;
+                _currentLine = 0;
+            }
+
+            public bool HasPageLeft
+            {
+                get { return _lines != null && _currentLine < _lines.Length; }
+            }
+
+            public void Clear()
+            {
+                _currentLine = 0;
+                _lines = null;
+            }
+
+            public void SetData(StringBuilder data)
+            {
+                _currentLine = 0;
+                _lines = data.ToString().Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+            }
+
+            public string GetNextPage(int lineCount)
+            {
+                string lines = String.Join(Environment.NewLine, _lines.Skip(_currentLine).TakeWhile((n, i) => i < lineCount && i < _lines.Length)) + Environment.NewLine;
+                _currentLine = Math.Min(_currentLine + lineCount, _lines.Length);
+                return lines;
+            }
+
+            public string GetRemaining()
+            {
+                string lines = String.Join(Environment.NewLine, _lines);
+                Clear();
+                return lines;
+            }
+        }
+
         private class PlayerClient
         {
             public IClient Client { get; set; }
@@ -27,10 +70,18 @@ namespace Mud.Server
             //private readonly ConcurrentQueue<string> _sendQueue; // when using this, ProcessOutput must loop until DataToSend returns null
             private readonly StringBuilder _sendBuffer;
 
+            private readonly Paging _paging;
+
+            public Paging Paging
+            {
+                get { return _paging; }
+            }
+
             public PlayerClient()
             {
                 _receiveQueue = new ConcurrentQueue<string>();
                 _sendBuffer = new StringBuilder();
+                _paging = new Paging();
             }
 
             // Used in synchronous mode
@@ -181,6 +232,7 @@ namespace Mud.Server
         {
             IPlayer player = new Player.Player(Guid.NewGuid(), name);
             player.SendData += PlayerOnSendData;
+            player.PageData += PlayerOnPageData;
             client.DataReceived += ClientOnDataReceived;
             client.Disconnected += ClientOnDisconnected;
             PlayerClient playerClient = new PlayerClient
@@ -201,6 +253,7 @@ namespace Mud.Server
         {
             IAdmin admin = new Admin.Admin(Guid.NewGuid(), name);
             admin.SendData += PlayerOnSendData;
+            admin.PageData += PlayerOnPageData;
             client.DataReceived += ClientOnDataReceived;
             client.Disconnected += ClientOnDisconnected;
             PlayerClient playerClient = new PlayerClient
@@ -228,6 +281,7 @@ namespace Mud.Server
             client.DataReceived += ClientOnDataReceived;
             client.Disconnected += ClientOnDisconnected;
             player.SendData += PlayerOnSendData;
+            player.PageData += PlayerOnPageData;
             PlayerClient playerClient = new PlayerClient
             {
                 Client = client,
@@ -257,23 +311,29 @@ namespace Mud.Server
                 client.DataReceived -= ClientOnDataReceived;
                 client.Disconnected -= ClientOnDisconnected;
                 playerClient.Player.SendData -= PlayerOnSendData;
+                playerClient.Player.PageData -= PlayerOnPageData;
                 //_playerClients.Remove(playerClient);
                 _players.TryRemove(playerClient.Player, out playerClient);
             }
         }
 
-        private void ClientOnDataReceived(IClient client, string data)
+        private void ClientOnDataReceived(IClient client, string command)
         {
             PlayerClient playerClient;
             bool found = _clients.TryGetValue(client, out playerClient);
             if (playerClient == null)
                 Log.Default.WriteLine(LogLevels.Error, "ClientOnDataReceived: null client");
-            else
+            else if (command != null)
             {
                 if (IsAsynchronous)
-                    playerClient.Player.ProcessCommand(data);
+                {
+                    if (playerClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
+                        HandlePaging(playerClient, command);
+                    else
+                        playerClient.Player.ProcessCommand(command);
+                }
                 else
-                    playerClient.EnqueueReceivedData(data);
+                    playerClient.EnqueueReceivedData(command);
             }
         }
 
@@ -293,7 +353,70 @@ namespace Mud.Server
             }
         }
 
+        private void PlayerOnPageData(IPlayer player, StringBuilder data)
+        {
+            PlayerClient playerClient;
+            bool found = _players.TryGetValue(player, out playerClient);
+            //PlayerClient playerClient = _playerClients.FirstOrDefault(x => x.Player == player);
+            if (playerClient == null)
+                Log.Default.WriteLine(LogLevels.Error, "PlayerOnPageData: null client");
+            else if (data.Length > 0)
+            {
+                // Save data to page
+                playerClient.Paging.SetData(data); // doesn't depend on asynchronous or synchronous
+                // Send first page
+                HandlePaging(playerClient, String.Empty);
+            }
+        }
+
         #endregion
+
+        private void HandlePaging(PlayerClient playerClient, string command)
+        {
+            if (command == String.Empty) // <Enter> -> send next page
+            {
+                string nextPage = playerClient.Paging.GetNextPage(5); // TODO: configurable line count
+                playerClient.Client.WriteData(nextPage); // TODO: use PlayerOnSendData ???
+                if (playerClient.Paging.HasPageLeft) // page left, send page instructions
+                {
+                    const string pagingInstructions = "[Paging : (Enter), (Q)uit, (A)ll]";
+                    if (IsAsynchronous)
+                        playerClient.Client.WriteData(pagingInstructions);
+                    else
+                        playerClient.EnqueueDataToSend(pagingInstructions);
+                }
+                else // no more page -> normal mode
+                {
+                    // TODO: problem in synchronous mode, 2 prompts are displayed
+                    const string prompt = ">"; // TODO: complex prompt
+                    if (IsAsynchronous)
+                        playerClient.Client.WriteData(prompt);
+                    else
+                        playerClient.EnqueueDataToSend(prompt);
+                }
+            }
+            else if ("quit".StartsWith(command.ToLower()))
+            {
+                playerClient.Paging.Clear();
+                const string prompt = ">"; // TODO: complex prompt
+                if (IsAsynchronous)
+                    playerClient.Client.WriteData(prompt);
+                else
+                    playerClient.EnqueueDataToSend(prompt);
+            }
+            else if ("all".StartsWith(command.ToLower()))
+            {
+                string remaining = playerClient.Paging.GetRemaining();
+                if (IsAsynchronous)
+                {
+                    const string prompt = ">"; // TODO: complex prompt
+                    playerClient.Client.WriteData(remaining);
+                    playerClient.Client.WriteData(prompt);
+                }
+                else
+                    playerClient.EnqueueDataToSend(remaining); // no need to bust a prompt because ProcessOutput will do it
+            }
+        }
 
         private void Broadcast(string message)
         {
@@ -307,6 +430,8 @@ namespace Mud.Server
 
         private void ProcessInput()
         {
+            // TODO: if paging
+
             // Read one command from each client and process it
             if (!IsAsynchronous)
             {
@@ -316,20 +441,28 @@ namespace Mud.Server
                 //    if (!String.IsNullOrWhiteSpace(data))
                 //        playerClient.Player.ProcessCommand(data);
                 //}
-                foreach(IPlayer player in _players.Keys)
+                foreach (PlayerClient playerClient in _players.Values)
                 {
-                    string data = playerClient.DequeueReceivedData(); // process one command at a time
-                    if (!String.IsNullOrWhiteSpace(data))
-                        playerClient.Player.ProcessCommand(data);
+                    string command = playerClient.DequeueReceivedData(); // process one command at a time
+                    if (command != null)
+                    {
+                        if (playerClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
+                            HandlePaging(playerClient, command);
+                        else if (!String.IsNullOrWhiteSpace(command))
+                            playerClient.Player.ProcessCommand(command);
+                    }
                 }
             }
         }
 
         private void ProcessOutput()
         {
+            // TODO: if paging
+
             if (!IsAsynchronous)
             {
-                foreach (PlayerClient playerClient in _playerClients)
+                //foreach (PlayerClient playerClient in _playerClients)
+                foreach (PlayerClient playerClient in _players.Values)
                 {
                     // This code must be uncommented if Queue is used in Player
                     //while (true) // process all current output for one player
@@ -341,7 +474,7 @@ namespace Mud.Server
                     //        break;
                     //}
                     string data = playerClient.DequeueDataToSend();
-                    if (!String.IsNullOrWhiteSpace(data)) // TODO use stringbuilder
+                    if (!String.IsNullOrWhiteSpace(data)) // TODO use stringbuilder to append prompt
                     {
                         // Bust a prompt ?
                         if (playerClient.Player.PlayerState == PlayerStates.Connected || playerClient.Player.PlayerState == PlayerStates.Playing)

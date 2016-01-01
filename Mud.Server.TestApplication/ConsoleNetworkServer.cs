@@ -39,7 +39,7 @@ namespace Mud.Server.TestApplication
                 if (Console.KeyAvailable)
                 {
                     string line = Console.ReadLine();
-                    if (!String.IsNullOrWhiteSpace(line))
+                    if (line != null)
                     {
                         // server commands
                         if (line.StartsWith("#"))

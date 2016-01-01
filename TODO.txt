@@ -13,7 +13,7 @@ Use more StringBuilder
 include command priority in Trie (probably a new data structure)
 + option in CommandAttribute to force full command name to be typed
 
-'Random' characters when putty connects
+'Random' characters when putty connects - telnet protocol
 https://forums.ni.com/t5/facebookforums/facebooksingletopicpage/facebook-app/417075545007603/message-uid/3125842/tab/board
 https://tools.ietf.org/html/rfc2877
 

@@ -58,6 +58,15 @@ namespace Mud.Server.Character
             }
         }
 
+        public override void Page(StringBuilder text)
+        {
+            base.Page(text);
+            if (ImpersonatedBy != null)
+                ImpersonatedBy.Page(text);
+            if (ServerOptions.ForwardSlaveMessages && ControlledBy != null)
+                ControlledBy.Page(text);
+        }
+
         #endregion
 
         #region IContainer

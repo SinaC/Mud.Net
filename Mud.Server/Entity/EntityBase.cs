@@ -56,7 +56,17 @@ namespace Mud.Server.Entity
         public override void Send(string message)
         {
             if (IncarnatedBy != null)
-                IncarnatedBy.Send("<INC|" + Name + ">" + message);
+            {
+                if (ServerOptions.PrefixForwardedMessages)
+                    message = "<INC|" + Name + ">" + message;
+                IncarnatedBy.Send(message);
+            }
+        }
+
+        public override void Page(System.Text.StringBuilder text)
+        {
+            if (IncarnatedBy != null)
+                IncarnatedBy.Page(text);
         }
 
         #endregion

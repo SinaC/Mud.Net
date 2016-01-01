@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Mud.Server
 {
@@ -11,10 +12,12 @@ namespace Mud.Server
     }
 
     public delegate void SendDataEventHandler(IPlayer player, string data);
+    public delegate void PageDataEventHandler(IPlayer player, StringBuilder data);
 
     public interface IPlayer : IActor
     {
         event SendDataEventHandler SendData;
+        event PageDataEventHandler PageData;
 
         Guid Id { get; }
         string Name { get; }

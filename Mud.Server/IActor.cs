@@ -15,6 +15,6 @@ namespace Mud.Server
         void Send(string format, params object[] parameters); // Send overload
         void Send(StringBuilder sb); // Send overload
 
-        // TODO: Page(StringBuilder textToPage) // TODO
+        void Page(StringBuilder text);
     }
 }

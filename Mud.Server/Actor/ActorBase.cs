@@ -17,6 +17,7 @@ namespace Mud.Server.Actor
 
         public abstract bool ProcessCommand(string commandLine);
         public abstract void Send(string message);
+        public abstract void Page(StringBuilder text);
 
         public bool ExecuteCommand(string command, string rawParameters, CommandParameter[] parameters)
         {

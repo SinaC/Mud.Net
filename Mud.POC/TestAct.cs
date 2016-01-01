@@ -5,7 +5,7 @@ using Mud.Server;
 
 namespace Mud.POC
 {
-    public class Class1
+    public class TestAct
     {
         public enum ActOptions
         {
