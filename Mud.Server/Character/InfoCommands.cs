@@ -5,6 +5,7 @@ using System.Text;
 using Mud.Logger;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Server;
 
 namespace Mud.Server.Character
 {
@@ -231,12 +232,12 @@ namespace Mud.Server.Character
                     else
                     {
                         string destination = exit.Destination.Name; // TODO: 'room name' or 'too dark to tell' or 'closed door'
-                        message.AppendLine(String.Format("{0} - {1} {2}{3}{4}",
+                        message.AppendFormatLine("{0} - {1} {2}{3}{4}",
                             StringHelpers.UpperFirstLetter(direction.ToString()),
                             destination,
                             String.Empty, // TODO: closed (DOOR)
                             String.Empty, // TODO: hidden [HIDDEN]
-                            String.Empty)); // TODO: {{BASHED}}
+                            String.Empty); // TODO: {{BASHED}}
                     }
                     exitFound = true;
                 }
@@ -258,7 +259,7 @@ namespace Mud.Server.Character
         {
             StringBuilder peopleInRoom = new StringBuilder();
             foreach (ICharacter character in room.People.Where(CanSee))
-                peopleInRoom.AppendFormat(" - {0}" + Environment.NewLine, character.Name); // TODO: short descr
+                peopleInRoom.AppendFormatLine(" - {0}", character.Name); // TODO: short descr
             return peopleInRoom;
         }
     }

@@ -4,6 +4,7 @@ using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
 using Mud.Server.Room;
+using Mud.Server.Server;
 
 namespace Mud.Server.World
 {

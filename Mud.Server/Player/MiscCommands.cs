@@ -10,17 +10,15 @@ namespace Mud.Server.Player
         {
             // TODO: title, additional informations
             Send("Players:" + Environment.NewLine);
-            foreach (IPlayer player in Server.Instance.GetPlayers())
+            foreach (IPlayer player in Server.Server.Instance.GetPlayers())
             {
                 switch (player.PlayerState)
                 {
-                    case PlayerStates.Connecting:
-                    case PlayerStates.Connected:
-                    case PlayerStates.CreatingAvatar:
-                        Send("[OOG] {0}" + Environment.NewLine, player.DisplayName);
-                        break;
-                    case PlayerStates.Playing:
+                    case PlayerStates.Impersonating:
                         Send("[ IG] {0}" + Environment.NewLine, player.DisplayName);
+                        break;
+                    default:
+                        Send("[OOG] {0}" + Environment.NewLine, player.DisplayName);
                         break;
                 }
             }

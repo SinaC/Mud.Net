@@ -5,10 +5,10 @@ namespace Mud.Server
 {
     public enum PlayerStates
     {
-        Connecting, // before login successfull
-        Connected, // if not playing and not creating avatar
+        Loading,
+        Playing, // if not impersonating and not creating avatar
         CreatingAvatar, // creating avatar
-        Playing, // playing avatar
+        Impersonating, // playing avatar
     }
 
     public delegate void SendDataEventHandler(IPlayer player, string data);

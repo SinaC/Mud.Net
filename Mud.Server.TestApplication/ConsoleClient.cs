@@ -7,6 +7,8 @@ namespace Mud.Server.TestApplication
     internal class ConsoleClient : IClient
     {
         public bool DisplayPlayerName { get; set; }
+        public bool IsEchoOff { get; private set; }
+        
         public string Name { get; set; }
 
         public ConsoleClient(string name)
@@ -28,6 +30,18 @@ namespace Mud.Server.TestApplication
         public event DisconnectedEventHandler Disconnected;
 
         public bool ColorAccepted { get; set; }
+
+        public void EchoOff()
+        {
+            //Console.ForegroundColor = Console.BackgroundColor;
+            IsEchoOff = true;
+        }
+
+        public void EchoOn()
+        {
+            //Console.ResetColor();
+            IsEchoOff = false;
+        }
 
         public void WriteData(string data)
         {

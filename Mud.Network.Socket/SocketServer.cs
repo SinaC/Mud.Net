@@ -289,14 +289,11 @@ namespace Mud.Network.Socket
                             // Reset command
                             client.Command.Clear();
 
-                            if (!String.IsNullOrWhiteSpace(command))
-                            {
-                                // Process command
-                                client.OnDataReceived(command);
-                            }
+                            // Process command
+                            client.OnDataReceived(command);
                         }
                     }
-                    // TODO: other state ?
+                    // TODO: other states ?
 
                     // Continue reading
                     clientSocket.BeginReceive(client.Buffer, 0, ClientSocketStateObject.BufferSize, 0, ReadCallback, client);
@@ -326,6 +323,26 @@ namespace Mud.Network.Socket
 
                 // Convert the string data to byte data using ASCII encoding.
                 byte[] byteData = Encoding.ASCII.GetBytes(colorizedData);
+
+                // Begin sending the data to the remote device.
+                clientSocket.BeginSend(byteData, 0, byteData.Length, 0, SendCallback, client);
+            }
+            catch (ObjectDisposedException)
+            {
+                // If server status is stopping/stopped: ok
+                // else, throw
+                if (_status != ServerStatus.Stopping && _status != ServerStatus.Stopped)
+                    throw;
+            }
+        }
+
+        internal void SendData(ClientSocketStateObject client, byte[] byteData)
+        {
+            try
+            {
+                System.Net.Sockets.Socket clientSocket = client.ClientSocket;
+
+                Log.Default.WriteLine(LogLevels.Debug, "Send data to client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " : " + ByteArrayToString(byteData, byteData.Length));
 
                 // Begin sending the data to the remote device.
                 clientSocket.BeginSend(byteData, 0, byteData.Length, 0, SendCallback, client);

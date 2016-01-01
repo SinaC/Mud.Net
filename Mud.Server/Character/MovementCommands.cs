@@ -1,5 +1,6 @@
 ﻿using System;
 using Mud.Server.Input;
+using Mud.Server.Server;
 
 namespace Mud.Server.Character
 {

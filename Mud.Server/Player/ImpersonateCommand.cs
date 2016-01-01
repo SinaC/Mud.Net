@@ -16,7 +16,7 @@ namespace Mud.Server.Player
                     Send("You stop impersonating {0}." + Environment.NewLine, Impersonating.Name);
                     Impersonating.ChangeImpersonation(null);
                     Impersonating = null;
-                    PlayerState = PlayerStates.Connected;
+                    PlayerState = PlayerStates.Playing;
                 }
                 else
                     Send("Impersonate whom?" + Environment.NewLine);
@@ -29,7 +29,7 @@ namespace Mud.Server.Player
                     Send("%M%You start impersonating %C%{0}%x%." + Environment.NewLine, target.Name);
                     target.ChangeImpersonation(this);
                     Impersonating = target;
-                    PlayerState = PlayerStates.Playing;
+                    PlayerState = PlayerStates.Impersonating;
                     // TODO: if autolook
                     target.ExecuteCommand("look", String.Empty, CommandParameter.Empty); // TODO: target.DoLook(String.Empty, CommandParameter.Empty)
                 }

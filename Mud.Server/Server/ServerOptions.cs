@@ -1,6 +1,6 @@
 ﻿using Mud.Logger;
 
-namespace Mud.Server
+namespace Mud.Server.Server
 {
     public static class ServerOptions
     {

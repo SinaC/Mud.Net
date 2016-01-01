@@ -71,17 +71,20 @@ namespace Mud.Server.Actor
             Send("Available commands:" + Environment.NewLine);
             StringBuilder sb = new StringBuilder();
             int index = 0;
-            foreach (string command in Commands.Keys.OrderBy(x => x))
+            foreach (KeyValuePair<string, CommandMethodInfo> kv in Commands
+                .Where(x => !x.Value.Attribute.Hidden)
+                .OrderBy(x => x.Value.Attribute.Priority)
+                .ThenBy(x => x.Key))
             {
                 if ((++index%6) == 0)
                 {
-                    sb.AppendFormat("{0,-13}", command);
+                    sb.AppendFormat("{0,-13}", kv.Key);
                     sb.AppendLine();
                     Send(sb);
                     sb = new StringBuilder();
                 }
                 else
-                    sb.AppendFormat("{0,-13}", command);
+                    sb.AppendFormat("{0,-13}", kv.Key);
             }
             if (sb.Length > 0)
             {

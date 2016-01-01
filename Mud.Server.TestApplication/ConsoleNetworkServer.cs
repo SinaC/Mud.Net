@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
 using Mud.Network;
 
 namespace Mud.Server.TestApplication
@@ -10,11 +10,11 @@ namespace Mud.Server.TestApplication
         public event NewClientConnectedEventHandler NewClientConnected;
 
         private ConsoleClient _client;
-        private Task _inputTask;
         private bool _stopped;
 
         public IClient AddClient(string name, bool displayPlayerName, bool colorAccepted)
         {
+            Debug.Assert(_client == null, "Client already added");
             ConsoleClient client = new ConsoleClient(name)
             {
                 DisplayPlayerName = displayPlayerName,
@@ -28,7 +28,6 @@ namespace Mud.Server.TestApplication
 
         public void Initialize()
         {
-            // NOP
             _stopped = false;
         }
 
@@ -38,7 +37,33 @@ namespace Mud.Server.TestApplication
             {
                 if (Console.KeyAvailable)
                 {
-                    string line = Console.ReadLine();
+                    string line;
+                    bool isEchoOff = _client != null && _client.IsEchoOff;
+                    if (isEchoOff)
+                    {
+                        line = String.Empty;
+                        while (true) // http://stackoverflow.com/questions/3404421/password-masking-console-application
+                        {
+                            ConsoleKeyInfo key = Console.ReadKey(true);
+                            if (key.Key == ConsoleKey.Enter)
+                            {
+                                Console.WriteLine();
+                                break;
+                            }
+                            if (key.Key != ConsoleKey.Backspace)
+                            {
+                                Console.Write("*");
+                                line += key.KeyChar;
+                            }
+                            else if (line.Length > 0)
+                            {
+                                line = line.Substring(0, line.Length - 1);
+                                Console.Write("\b \b");
+                            }
+                        }
+                    }
+                    else
+                        line = Console.ReadLine();
                     if (line != null)
                     {
                         // server commands
@@ -53,13 +78,13 @@ namespace Mud.Server.TestApplication
                             else if (line == "alist")
                             {
                                 Console.WriteLine("Admins:");
-                                foreach (IAdmin a in Server.Instance.GetAdmins())
+                                foreach (IAdmin a in Server.Server.Instance.GetAdmins())
                                     Console.WriteLine(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.Name : "") + " " + (a.Incarnating != null ? a.Incarnating.Name : ""));
                             }
                             else if (line == "plist")
                             {
                                 Console.WriteLine("players:");
-                                foreach (IPlayer p in Server.Instance.GetPlayers())
+                                foreach (IPlayer p in Server.Server.Instance.GetPlayers())
                                     Console.WriteLine(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.Name : ""));
                             }
                             // TODO: characters/rooms/items

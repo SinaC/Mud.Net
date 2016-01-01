@@ -11,14 +11,26 @@ using Mud.Network;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
-namespace Mud.Server
+namespace Mud.Server.Server
 {
+    // Player lifecycle:
+    //  when INetworkServer detects a new connection, NewClientConnected is raised
+    //  a new login state machine is created/started and associated to client, client inputs/outputs are handled by login state machine instead if ProcessInput (via ClientLoginOnDataReceived)
+    //      --> client is considered as connecting
+    //  if login is failed, client is disconnected
+    //  if login is successful, login state machine is discarded, player/admin is created and client input/outputs are handled with ProcessInput/ProcessOutput (or immediately in Asynchronous mode)
+    //      --> client is considered as playing
+
+    // Once playing,
+    //  in asynchronous mode, input and output are handled immediately
+    //  in synchronous mode, input and output are 'queued' and handled by ProcessorInput/ProcessOutput
+
     public class Server : IServer
     {
-        private const int PulsePerSeconds = 8;
+        private const int PulsePerSeconds = 4;
         private const int PulseDelay = 1000/PulsePerSeconds;
 
-        private class Paging
+        internal class Paging
         {
             private string[] _lines;
             private int _currentLine;
@@ -42,8 +54,9 @@ namespace Mud.Server
 
             public void SetData(StringBuilder data)
             {
+                // if unread lines, they will be overridden by new ones
                 _currentLine = 0;
-                _lines = data.ToString().Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+                _lines = data.ToString().Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
             }
 
             public string GetNextPage(int lineCount)
@@ -55,13 +68,12 @@ namespace Mud.Server
 
             public string GetRemaining()
             {
-                string lines = String.Join(Environment.NewLine, _lines);
-                Clear();
+                string lines = String.Join(Environment.NewLine, _lines) + Environment.NewLine;
                 return lines;
             }
         }
 
-        private class PlayerClient
+        internal class PlayingClient
         {
             public IClient Client { get; set; }
             public IPlayer Player { get; set; }
@@ -77,7 +89,7 @@ namespace Mud.Server
                 get { return _paging; }
             }
 
-            public PlayerClient()
+            public PlayingClient()
             {
                 _receiveQueue = new ConcurrentQueue<string>();
                 _sendBuffer = new StringBuilder();
@@ -119,9 +131,12 @@ namespace Mud.Server
         }
 
         // This allows fast lookup with client or player BUT both structures must be modified at the same time
-        private readonly ConcurrentDictionary<IClient, PlayerClient> _clients;
-        private readonly ConcurrentDictionary<IPlayer, PlayerClient> _players;
-        //private readonly List<PlayerClient> _playerClients;
+        private readonly object _playingClientLockObject = new object();
+        private readonly ConcurrentDictionary<IClient, PlayingClient> _clients;
+        private readonly ConcurrentDictionary<IPlayer, PlayingClient> _players;
+
+        // Client in login process are not yet considered as player, they are stored in a seperate stucture
+        private readonly ConcurrentDictionary<IClient, LoginStateMachine> _loginInClients;
 
         private INetworkServer _networkServer;
         private CancellationTokenSource _cancellationTokenSource;
@@ -140,9 +155,9 @@ namespace Mud.Server
 
         private Server()
         {
-            //_playerClients = new List<PlayerClient>();
-            _clients = new ConcurrentDictionary<IClient, PlayerClient>();
-            _players = new ConcurrentDictionary<IPlayer, PlayerClient>();
+            _clients = new ConcurrentDictionary<IClient, PlayingClient>();
+            _players = new ConcurrentDictionary<IPlayer, PlayingClient>();
+            _loginInClients = new ConcurrentDictionary<IClient, LoginStateMachine>();
         }
 
         #endregion
@@ -155,8 +170,7 @@ namespace Mud.Server
         {
             IsAsynchronous = asynchronous;
             _networkServer = networkServer;
-            if (networkServer != null) // TODO: remove  network server must be mandatory
-                _networkServer.NewClientConnected += NetworkServerOnNewClientConnected;
+            _networkServer.NewClientConnected += NetworkServerOnNewClientConnected;
         }
 
         public void Start()
@@ -206,24 +220,22 @@ namespace Mud.Server
 
         public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch)
         {
-            //return FindHelpers.FindByName(_playerClients.Select(x => x.Player), parameter, perfectMatch);
             return FindHelpers.FindByName(_players.Keys, parameter, perfectMatch);
         }
 
         public IReadOnlyCollection<IPlayer> GetPlayers()
         {
-            //return _playerClients.Select(x => x.Player).ToList().AsReadOnly();
             return _players.Keys.ToList().AsReadOnly();
         }
 
         public IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch)
         {
-            return null; // TODO
+            return FindHelpers.FindByName(_players.Keys.OfType<IAdmin>(), parameter, perfectMatch);
         }
 
         public IReadOnlyCollection<IAdmin> GetAdmins()
         {
-            return null; // TODO
+            return _players.Keys.OfType<IAdmin>().ToList().AsReadOnly();
         }
 
         // TODO: remove
@@ -233,16 +245,18 @@ namespace Mud.Server
             IPlayer player = new Player.Player(Guid.NewGuid(), name);
             player.SendData += PlayerOnSendData;
             player.PageData += PlayerOnPageData;
-            client.DataReceived += ClientOnDataReceived;
-            client.Disconnected += ClientOnDisconnected;
-            PlayerClient playerClient = new PlayerClient
+            client.DataReceived += ClientPlayingOnDataReceived;
+            client.Disconnected += ClientPlayingOnDisconnected;
+            PlayingClient playingClient = new PlayingClient
             {
                 Client = client,
                 Player = player
             };
-            //_playerClients.Add(playerClient);
-            _players.AddOrUpdate(player, playerClient, (player1, client1) => client1); // TODO: updateValueFactory
-            _clients.AddOrUpdate(client, playerClient, (player1, client1) => client1); // TODO: updateValueFactory
+            lock (_playingClientLockObject)
+            {
+                _players.TryAdd(player, playingClient);
+                _clients.TryAdd(client, playingClient);
+            }
 
             player.Send("Welcome {0}" + Environment.NewLine, name);
 
@@ -254,16 +268,18 @@ namespace Mud.Server
             IAdmin admin = new Admin.Admin(Guid.NewGuid(), name);
             admin.SendData += PlayerOnSendData;
             admin.PageData += PlayerOnPageData;
-            client.DataReceived += ClientOnDataReceived;
-            client.Disconnected += ClientOnDisconnected;
-            PlayerClient playerClient = new PlayerClient
+            client.DataReceived += ClientPlayingOnDataReceived;
+            client.Disconnected += ClientPlayingOnDisconnected;
+            PlayingClient playingClient = new PlayingClient
             {
                 Client = client,
                 Player = admin
             };
-            //_playerClients.Add(playerClient);
-            _players.AddOrUpdate(admin, playerClient, (player1, client1) => client1); // TODO: updateValueFactory
-            _clients.AddOrUpdate(client, playerClient, (player1, client1) => client1); // TODO: updateValueFactory
+            lock (_playingClientLockObject)
+            {
+                _players.TryAdd(admin, playingClient);
+                _clients.TryAdd(client, playingClient);
+            }
 
             admin.Send("Welcome master {0}" + Environment.NewLine, name);
 
@@ -276,145 +292,205 @@ namespace Mud.Server
 
         private void NetworkServerOnNewClientConnected(IClient client)
         {
-            // TODO: how can we determine if admin or player ?
-            IPlayer player = new Player.Player(Guid.NewGuid());
-            client.DataReceived += ClientOnDataReceived;
-            client.Disconnected += ClientOnDisconnected;
-            player.SendData += PlayerOnSendData;
-            player.PageData += PlayerOnPageData;
-            PlayerClient playerClient = new PlayerClient
-            {
-                Client = client,
-                Player = player
-            };
-            //_playerClients.Add(playerClient);
-            // TODO: lock
-            _players.AddOrUpdate(player, playerClient, (player1, client1) => client1); // TODO: updateValueFactory
-            _clients.AddOrUpdate(client, playerClient, (player1, client1) => client1); // TODO: updateValueFactory
-
-            player.Send("Why don't you login or tell us the name you wish to be known by?");
+            // Create/store a login state machine and starts it
+            LoginStateMachine loginStateMachine = new LoginStateMachine();
+            _loginInClients.TryAdd(client, loginStateMachine);
+            // Add login handlers
+            loginStateMachine.LoginFailed += LoginStateMachineOnLoginFailed;
+            loginStateMachine.LoginSuccessful += LoginStateMachineOnLoginSuccessful;
+            client.DataReceived += ClientLoginOnDataReceived;
+            client.Disconnected += ClientLoginOnDisconnected;
+            // Send greetings
+            client.WriteData("Why don't you login or tell us the name you wish to be known by?");
         }
 
-        private void ClientOnDisconnected(IClient client)
+        private void ClientLoginOnDataReceived(IClient client, string command)
         {
-            //PlayerClient playerClient = _playerClients.FirstOrDefault(x => x.Client == client);
-            // TOOD: lock
-            PlayerClient playerClient;
-            bool removed = _clients.TryRemove(client, out playerClient);
+            LoginStateMachine loginStateMachine;
+            _loginInClients.TryGetValue(client, out loginStateMachine);
+            if (loginStateMachine != null)
+                loginStateMachine.ProcessInput(client, command);
+            else
+                Log.Default.WriteLine(LogLevels.Error, "ClientLoginOnDataReceived: LoginStateMachine not found for a client!!!");
+        }
 
-            //if (playerClient == null)
-            if (removed)
-                Log.Default.WriteLine(LogLevels.Error, "ClientOnDisconnected: null client");
+        private void ClientLoginOnDisconnected(IClient client)
+        {
+            LoginStateMachine loginStateMachine;
+            _loginInClients.TryRemove(client, out loginStateMachine);
+            if (loginStateMachine != null)
+            {
+                loginStateMachine.LoginFailed -= LoginStateMachineOnLoginFailed;
+                loginStateMachine.LoginSuccessful -= LoginStateMachineOnLoginSuccessful;
+            }
+            else
+                Log.Default.WriteLine(LogLevels.Error, "ClientLoginOnDisconnected: LoginStateMachine not found for a client!!!");
+        }
+
+        private void LoginStateMachineOnLoginSuccessful(IClient client, string username, bool isAdmin, bool isNewPlayer)
+        {
+            client.WriteData("Welcome to Mud.Net!!" + Environment.NewLine);
+            client.WriteData(">"); // TODO: complex prompt
+
+            // Remove login state machine
+            LoginStateMachine loginStateMachine;
+            _loginInClients.TryRemove(client, out loginStateMachine);
+            if (loginStateMachine != null)
+            {
+                loginStateMachine.LoginFailed -= LoginStateMachineOnLoginFailed;
+                loginStateMachine.LoginSuccessful -= LoginStateMachineOnLoginSuccessful;
+            }
+            else
+                Log.Default.WriteLine(LogLevels.Error, "LoginStateMachineOnLoginSuccessful: LoginStateMachine not found for a client!!!");
+
+            IPlayer playerOrAdmin;
+            if (isAdmin)
+                playerOrAdmin = new Admin.Admin(Guid.NewGuid(), username);
             else
             {
-                playerClient.Player.OnDisconnected();
-                client.DataReceived -= ClientOnDataReceived;
-                client.Disconnected -= ClientOnDisconnected;
-                playerClient.Player.SendData -= PlayerOnSendData;
-                playerClient.Player.PageData -= PlayerOnPageData;
-                //_playerClients.Remove(playerClient);
-                _players.TryRemove(playerClient.Player, out playerClient);
+                playerOrAdmin = new Player.Player(Guid.NewGuid(), username);
             }
+            // Remove login handlers
+            client.DataReceived -= ClientLoginOnDataReceived;
+            client.Disconnected -= ClientLoginOnDisconnected;
+            // Add playing handlers
+            client.DataReceived += ClientPlayingOnDataReceived;
+            client.Disconnected += ClientPlayingOnDisconnected;
+            //
+            playerOrAdmin.SendData += PlayerOnSendData;
+            playerOrAdmin.PageData += PlayerOnPageData;
+            PlayingClient playingClient = new PlayingClient
+            {
+                Client = client,
+                Player = playerOrAdmin
+            };
+            lock (_playingClientLockObject)
+            {
+                _players.TryAdd(playerOrAdmin, playingClient);
+                _clients.TryAdd(client, playingClient);
+            }
+
+            // Load player
+            playerOrAdmin.Load(username);
         }
 
-        private void ClientOnDataReceived(IClient client, string command)
+        public void LoginStateMachineOnLoginFailed(IClient client)
         {
-            PlayerClient playerClient;
-            bool found = _clients.TryGetValue(client, out playerClient);
-            if (playerClient == null)
-                Log.Default.WriteLine(LogLevels.Error, "ClientOnDataReceived: null client");
+            // TODO: remove login state machine and disconnect client
+        }
+
+        private void ClientPlayingOnDataReceived(IClient client, string command)
+        {
+            PlayingClient playingClient;
+            _clients.TryGetValue(client, out playingClient);
+            if (playingClient == null)
+                Log.Default.WriteLine(LogLevels.Error, "ClientPlayingOnDataReceived: null client");
             else if (command != null)
             {
                 if (IsAsynchronous)
                 {
-                    if (playerClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
-                        HandlePaging(playerClient, command);
+                    if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
+                        HandlePaging(playingClient, command);
                     else
-                        playerClient.Player.ProcessCommand(command);
+                        playingClient.Player.ProcessCommand(command);
                 }
                 else
-                    playerClient.EnqueueReceivedData(command);
+                    playingClient.EnqueueReceivedData(command);
+            }
+        }
+
+        private void ClientPlayingOnDisconnected(IClient client)
+        {
+            PlayingClient playingClient;
+            bool removed;
+            lock (_playingClientLockObject)
+            {
+                removed = _clients.TryRemove(client, out playingClient);
+                if (removed)
+                    _players.TryRemove(playingClient.Player, out playingClient);
+                // !!! PlayingClient removed from both collection must be equal
+            }
+
+            if (!removed)
+                Log.Default.WriteLine(LogLevels.Error, "ClientPlayingOnDisconnected: client not found!!!");
+            else
+            {
+                playingClient.Player.OnDisconnected();
+                client.DataReceived -= ClientPlayingOnDataReceived;
+                client.Disconnected -= ClientPlayingOnDisconnected;
+                playingClient.Player.SendData -= PlayerOnSendData;
+                playingClient.Player.PageData -= PlayerOnPageData;
             }
         }
 
         private void PlayerOnSendData(IPlayer player, string data)
         {
-            PlayerClient playerClient;
-            bool found = _players.TryGetValue(player, out playerClient);
-            //PlayerClient playerClient = _playerClients.FirstOrDefault(x => x.Player == player);
-            if (playerClient == null)
+            PlayingClient playingClient;
+            _players.TryGetValue(player, out playingClient);
+            if (playingClient == null)
                 Log.Default.WriteLine(LogLevels.Error, "PlayerOnSendData: null client");
             else
             {
                 if (IsAsynchronous)
-                    playerClient.Client.WriteData(data);
+                    playingClient.Client.WriteData(data);
                 else
-                    playerClient.EnqueueDataToSend(data);
+                    playingClient.EnqueueDataToSend(data);
             }
         }
 
         private void PlayerOnPageData(IPlayer player, StringBuilder data)
         {
-            PlayerClient playerClient;
-            bool found = _players.TryGetValue(player, out playerClient);
-            //PlayerClient playerClient = _playerClients.FirstOrDefault(x => x.Player == player);
-            if (playerClient == null)
+            PlayingClient playingClient;
+            bool found = _players.TryGetValue(player, out playingClient);
+            if (playingClient == null)
                 Log.Default.WriteLine(LogLevels.Error, "PlayerOnPageData: null client");
             else if (data.Length > 0)
             {
                 // Save data to page
-                playerClient.Paging.SetData(data); // doesn't depend on asynchronous or synchronous
+                playingClient.Paging.SetData(data); // doesn't depend on asynchronous or synchronous
                 // Send first page
-                HandlePaging(playerClient, String.Empty);
+                HandlePaging(playingClient, String.Empty);
             }
         }
 
         #endregion
 
-        private void HandlePaging(PlayerClient playerClient, string command)
+        // Once paging is active, classic commands are processed anymore
+        // Valid commands are (Enter), (Q)uit, (A)ll
+        // TODO: (N)ext same as Enter  (P)revious
+        private void HandlePaging(PlayingClient playingClient, string command)
         {
             if (command == String.Empty) // <Enter> -> send next page
             {
-                string nextPage = playerClient.Paging.GetNextPage(5); // TODO: configurable line count
-                playerClient.Client.WriteData(nextPage); // TODO: use PlayerOnSendData ???
-                if (playerClient.Paging.HasPageLeft) // page left, send page instructions
+                // Paging doesn't use async/sync differentiation. 
+                // Pages are always sent immediately asynchronously, don't use ProcessOutput even if in synchronous mode
+                string nextPage = playingClient.Paging.GetNextPage(5); // TODO: configurable line count
+                playingClient.Client.WriteData(nextPage);
+                if (playingClient.Paging.HasPageLeft) // page left, send page instructions
                 {
                     const string pagingInstructions = "[Paging : (Enter), (Q)uit, (A)ll]";
-                    if (IsAsynchronous)
-                        playerClient.Client.WriteData(pagingInstructions);
-                    else
-                        playerClient.EnqueueDataToSend(pagingInstructions);
+                    playingClient.Client.WriteData(pagingInstructions);
                 }
                 else // no more page -> normal mode
                 {
-                    // TODO: problem in synchronous mode, 2 prompts are displayed
+                    playingClient.Paging.Clear();
                     const string prompt = ">"; // TODO: complex prompt
-                    if (IsAsynchronous)
-                        playerClient.Client.WriteData(prompt);
-                    else
-                        playerClient.EnqueueDataToSend(prompt);
+                    playingClient.Client.WriteData(prompt);
                 }
             }
             else if ("quit".StartsWith(command.ToLower()))
             {
-                playerClient.Paging.Clear();
+                playingClient.Paging.Clear();
                 const string prompt = ">"; // TODO: complex prompt
-                if (IsAsynchronous)
-                    playerClient.Client.WriteData(prompt);
-                else
-                    playerClient.EnqueueDataToSend(prompt);
+                playingClient.Client.WriteData(prompt);
             }
             else if ("all".StartsWith(command.ToLower()))
             {
-                string remaining = playerClient.Paging.GetRemaining();
-                if (IsAsynchronous)
-                {
-                    const string prompt = ">"; // TODO: complex prompt
-                    playerClient.Client.WriteData(remaining);
-                    playerClient.Client.WriteData(prompt);
-                }
-                else
-                    playerClient.EnqueueDataToSend(remaining); // no need to bust a prompt because ProcessOutput will do it
+                string remaining = playingClient.Paging.GetRemaining();
+                playingClient.Paging.Clear();
+                const string prompt = ">"; // TODO: complex prompt
+                playingClient.Client.WriteData(remaining);
+                playingClient.Client.WriteData(prompt);
             }
         }
 
@@ -422,34 +498,24 @@ namespace Mud.Server
         {
             message = message + Environment.NewLine;
             // By-pass asynchronous/synchronous send
-            //foreach (PlayerClient playerClient in _playerClients)
-            //  playerClient.Client.WriteData(message);
             foreach (IClient client in _clients.Keys)
                 client.WriteData(message);
         }
 
         private void ProcessInput()
         {
-            // TODO: if paging
-
             // Read one command from each client and process it
             if (!IsAsynchronous)
             {
-                //foreach (PlayerClient playerClient in _playerClients) // TODO: first connected player will be processed before other, try a randomize
-                //{
-                //    string data = playerClient.DequeueReceivedData(); // process one command at a time
-                //    if (!String.IsNullOrWhiteSpace(data))
-                //        playerClient.Player.ProcessCommand(data);
-                //}
-                foreach (PlayerClient playerClient in _players.Values)
+                foreach (PlayingClient playingClient in _players.Values) // TODO: first connected player will be processed before other, try a randomize
                 {
-                    string command = playerClient.DequeueReceivedData(); // process one command at a time
+                    string command = playingClient.DequeueReceivedData(); // process one command at a time
                     if (command != null)
                     {
-                        if (playerClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
-                            HandlePaging(playerClient, command);
+                        if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
+                            HandlePaging(playingClient, command);
                         else if (!String.IsNullOrWhiteSpace(command))
-                            playerClient.Player.ProcessCommand(command);
+                            playingClient.Player.ProcessCommand(command);
                     }
                 }
             }
@@ -457,29 +523,26 @@ namespace Mud.Server
 
         private void ProcessOutput()
         {
-            // TODO: if paging
-
             if (!IsAsynchronous)
             {
-                //foreach (PlayerClient playerClient in _playerClients)
-                foreach (PlayerClient playerClient in _players.Values)
+                foreach (PlayingClient playingClient in _players.Values)
                 {
                     // This code must be uncommented if Queue is used in Player
                     //while (true) // process all current output for one player
                     //{
-                    //    string data = playerClient.Player.DataToSend();
+                    //    string data = playingClient.Player.DataToSend();
                     //    if (!String.IsNullOrWhiteSpace(data))
-                    //        playerClient.Client.WriteData(data);
+                    //        playingClient.Client.WriteData(data);
                     //    else
                     //        break;
                     //}
-                    string data = playerClient.DequeueDataToSend();
+                    string data = playingClient.DequeueDataToSend();
                     if (!String.IsNullOrWhiteSpace(data)) // TODO use stringbuilder to append prompt
                     {
                         // Bust a prompt ?
-                        if (playerClient.Player.PlayerState == PlayerStates.Connected || playerClient.Player.PlayerState == PlayerStates.Playing)
+                        if (playingClient.Player.PlayerState == PlayerStates.Playing || playingClient.Player.PlayerState == PlayerStates.Impersonating)
                             data += ">"; // TODO: complex prompt
-                        playerClient.Client.WriteData(data);
+                        playingClient.Client.WriteData(data);
                     }
                 }
             }
@@ -532,7 +595,6 @@ namespace Mud.Server
 
         private void GameLoopTask()
         {
-            // TODO:  (see comm.C:881)
             try
             {
                 Stopwatch sw = new Stopwatch();

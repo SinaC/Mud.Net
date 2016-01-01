@@ -11,6 +11,9 @@ namespace Mud.Network.Socket
     // State object for reading client data asynchronously
     internal class ClientSocketStateObject : IClient
     {
+        private static byte[] EchoOffData = new[] { (byte)0xFF, (byte)0xFB, (byte)0x01 };
+        private static byte[] EchoOnData = new[] { (byte)0xFF, (byte)0xFC, (byte)0x01 };
+
         // Size of receive buffer.
         public const int BufferSize = 256;
         // Client socket.
@@ -52,6 +55,16 @@ namespace Mud.Network.Socket
         public event DisconnectedEventHandler Disconnected;
 
         public bool ColorAccepted { get; set; }
+
+        public void EchoOff() // http://stackoverflow.com/questions/6380257/how-can-i-mask-user-input-when-telneting
+        {
+            Server.SendData(this, EchoOffData);
+        }
+
+        public void EchoOn() // http://stackoverflow.com/questions/6380257/how-can-i-mask-user-input-when-telneting
+        {
+            Server.SendData(this, EchoOnData);
+        }
 
         public void WriteData(string data)
         {

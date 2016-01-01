@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -9,6 +11,7 @@ using Mud.Logger;
 using Mud.Network;
 using Mud.Network.Socket;
 using Mud.POC;
+using Mud.Server.Server;
 
 namespace Mud.Server.TestApplication
 {
@@ -18,12 +21,34 @@ namespace Mud.Server.TestApplication
         {
             Log.Default.Initialize(ConfigurationManager.AppSettings["logpath"], "server.log");
 
+            //TestSecondWindow();
             //TestPaging();
             //TestCommandParsing();
             //TestBasicCommands();
             //TestWorldOnline();
             TestWorldOffline();
         }
+
+        //private static void TestSecondWindow()
+        //{
+        //    ProcessStartInfo psi = new ProcessStartInfo("cmd.exe")
+        //    {
+        //        RedirectStandardError = true,
+        //        RedirectStandardInput = true,
+        //        RedirectStandardOutput = true,
+        //        UseShellExecute = false,
+        //        CreateNoWindow = true,
+        //        WindowStyle = ProcessWindowStyle.Normal
+        //    };
+
+        //    Process p = Process.Start(psi);
+
+        //    StreamWriter sw = p.StandardInput;
+        //    StreamReader sr = p.StandardOutput;
+
+        //    sw.WriteLine("Hello world!");
+        //    sr.Close();
+        //}
 
         private static void CreateDummyWorld()
         {
@@ -146,9 +171,9 @@ namespace Mud.Server.TestApplication
         {
             //Server.Instance.Start();
             // !!!! Must be used with ServerOptions.AsynchronousXXX set to true
-            IPlayer player1 = Server.Instance.AddPlayer(new ConsoleClient("Player1"), "Player1");
-            IPlayer player2 = Server.Instance.AddPlayer(new ConsoleClient("Player2"), "Player2");
-            IAdmin admin = Server.Instance.AddAdmin(new ConsoleClient("Admin1"), "Admin1");
+            IPlayer player1 = Server.Server.Instance.AddPlayer(new ConsoleClient("Player1"), "Player1");
+            IPlayer player2 = Server.Server.Instance.AddPlayer(new ConsoleClient("Player2"), "Player2");
+            IAdmin admin = Server.Server.Instance.AddAdmin(new ConsoleClient("Admin1"), "Admin1");
 
             CreateDummyWorld();
 
@@ -198,7 +223,7 @@ namespace Mud.Server.TestApplication
             World.World world = World.World.Instance as World.World;
             IRoom room = world.AddRoom(Guid.NewGuid(), "Room");
 
-            IPlayer player = Server.Instance.AddPlayer(new ConsoleClient("Player"), "Player");
+            IPlayer player = Server.Server.Instance.AddPlayer(new ConsoleClient("Player"), "Player");
             player.ProcessCommand("test");
             player.ProcessCommand("test arg1");
             player.ProcessCommand("test 'arg1' 'arg2' 'arg3' 'arg4'");
@@ -231,7 +256,7 @@ namespace Mud.Server.TestApplication
             player.ProcessCommand("tell");
             player.ProcessCommand("look"); // INVALID because Character commands are not accessible by Player unless if impersonating
 
-            IAdmin admin = Server.Instance.AddAdmin(new ConsoleClient("Admin"), "Admin");
+            IAdmin admin = Server.Server.Instance.AddAdmin(new ConsoleClient("Admin"), "Admin");
             admin.ProcessCommand("incarnate");
             admin.ProcessCommand("unknown"); // INVALID
         }
@@ -264,8 +289,8 @@ namespace Mud.Server.TestApplication
             CreateMidgaard();
 
             INetworkServer socketServer = new SocketServer(11000);
-            Server.Instance.Initialize(socketServer, false);
-            Server.Instance.Start();
+            Server.Server.Instance.Initialize(socketServer, false);
+            Server.Server.Instance.Start();
 
             bool stopped = false;
             while (!stopped)
@@ -287,13 +312,13 @@ namespace Mud.Server.TestApplication
                             else if (line == "alist")
                             {
                                 Console.WriteLine("Admins:");
-                                foreach (IAdmin a in Server.Instance.GetAdmins())
+                                foreach (IAdmin a in Server.Server.Instance.GetAdmins())
                                     Console.WriteLine(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.Name : "") + " " + (a.Incarnating != null ? a.Incarnating.Name : ""));
                             }
                             else if (line == "plist")
                             {
                                 Console.WriteLine("players:");
-                                foreach (IPlayer p in Server.Instance.GetPlayers())
+                                foreach (IPlayer p in Server.Server.Instance.GetPlayers())
                                     Console.WriteLine(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.Name : ""));
                             }
                             // TODO: characters/rooms/items
@@ -304,11 +329,13 @@ namespace Mud.Server.TestApplication
                     Thread.Sleep(100);
             }
             
-            Server.Instance.Stop();
+            Server.Server.Instance.Stop();
         }
 
         private static void TestWorldOffline()
         {
+            Console.WriteLine("Let's go");
+
             ServerOptions.PrefixForwardedMessages = false;
             //ServerOptions.PrefixForwardedMessages = true;
             //ServerOptions.ForwardSlaveMessages = true;
@@ -317,11 +344,11 @@ namespace Mud.Server.TestApplication
             CreateMidgaard();
 
             ConsoleNetworkServer consoleNetworkServer = new ConsoleNetworkServer();
-            Server.Instance.Initialize(consoleNetworkServer, false);
+            Server.Server.Instance.Initialize(consoleNetworkServer, false);
             consoleNetworkServer.AddClient("Player1", false, true);
-            Server.Instance.Start(); // this call is blocking because consoleNetworkServer.Start is blocking
+            Server.Server.Instance.Start(); // this call is blocking because consoleNetworkServer.Start is blocking
 
-            Server.Instance.Stop();
+            Server.Server.Instance.Stop();
         }
     }
 }

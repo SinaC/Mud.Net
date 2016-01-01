@@ -34,6 +34,16 @@ namespace Mud.Server.Tests
         
         public bool ColorAccepted { get; set; }
 
+        public void EchoOff()
+        {
+            // NOP
+        }
+
+        public void EchoOn()
+        {
+            // NOP
+        }
+
         public void WriteData(string data)
         {
             WrittenData.Add(data);

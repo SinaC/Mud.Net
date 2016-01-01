@@ -17,7 +17,6 @@ namespace Mud.Server.Admin
         public Admin(Guid id, string name) 
             : base(id, name)
         {
-            //TODO: _currentStateMachine = new TestAdminStateMachine();
         }
 
         #region IAdmin
@@ -58,7 +57,7 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [Command("shutdow")] // TODO: add an option in CommandAttribute to force full command to be type
+        [Command("shutdow", Hidden = true)] // TODO: add an option in CommandAttribute to force full command to be type
         protected virtual bool DoShutdow(string rawParameters, params CommandParameter[] parameters)
         {
             Send("If you want to SHUTDOWN, spell it out." + Environment.NewLine);
@@ -74,7 +73,7 @@ namespace Mud.Server.Admin
             else if (seconds < 30)
                 Send("You cannot shutdown that fast." + Environment.NewLine);
             else
-                Server.Instance.Shutdown(seconds);
+                Server.Server.Instance.Shutdown(seconds);
             return true;
         }
 
@@ -82,38 +81,31 @@ namespace Mud.Server.Admin
         protected override bool DoWho(string rawParameters, params CommandParameter[] parameters)
         {
             Send("Players:" + Environment.NewLine);
-            foreach (IPlayer player in Server.Instance.GetPlayers())
+            foreach (IPlayer player in Server.Server.Instance.GetPlayers())
             {
                 StringBuilder sb = new StringBuilder();
                 switch (player.PlayerState)
                 {
-                    case PlayerStates.Connecting:
-                    case PlayerStates.Connected:
-                    case PlayerStates.CreatingAvatar:
-                        sb.AppendFormat("[OOG] {0} {1}", player.DisplayName, player.PlayerState);
-                        break;
-                    case PlayerStates.Playing:
+                    case PlayerStates.Impersonating:
                         if (player.Impersonating != null)
                             sb.AppendFormat("[ IG] {0} playing {1}", player.DisplayName, player.Impersonating.Name);
                         else
                             sb.AppendFormat("[ IG] {0} playing ???", player.DisplayName);
+                        break;
+                    default:
+                        sb.AppendFormat("[OOG] {0} {1}", player.DisplayName, player.PlayerState);
                         break;
                 }
                 sb.AppendLine();
                 Send(sb);
             }
             Send("Admins" + Environment.NewLine);
-            foreach (IAdmin admin in Server.Instance.GetAdmins())
+            foreach (IAdmin admin in Server.Server.Instance.GetAdmins())
             {
                 StringBuilder sb = new StringBuilder();
                 switch (admin.PlayerState)
                 {
-                    case PlayerStates.Connecting:
-                    case PlayerStates.Connected:
-                    case PlayerStates.CreatingAvatar:
-                        sb.AppendFormat("[OOG] {0} {1}", admin.DisplayName, admin.PlayerState);
-                        break;
-                    case PlayerStates.Playing:
+                    case PlayerStates.Impersonating:
                         if (admin.Impersonating != null)
                             sb.AppendFormat("[ IG] {0} impersonating {1}", admin.DisplayName, admin.Impersonating.Name);
                         else if (admin.Incarnating != null)
@@ -121,26 +113,14 @@ namespace Mud.Server.Admin
                         else
                             sb.AppendFormat("[ IG] {0} nor playing nor incarnating !!!", admin.DisplayName);
                         break;
+                    default:
+                        sb.AppendFormat("[OOG] {0} {1}", admin.DisplayName, admin.PlayerState);
+                        break;
                 }
                 sb.AppendLine();
                 Send(sb);
             }
             return true;
-        }
-    }
-
-    // TODO: remove
-    internal class TestAdminStateMachine : IInputTrap<IAdmin>
-    {
-        public bool IsFinalStateReached
-        {
-            get { return false; }
-            
-        }
-        
-        public void ProcessInput(IAdmin actor, string input)
-        {
-            // NOP
         }
     }
 }

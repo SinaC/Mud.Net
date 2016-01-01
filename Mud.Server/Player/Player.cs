@@ -23,24 +23,15 @@ namespace Mud.Server.Player
         {
         }
 
-        public Player(Guid id)
-            :this()
-        {
-            Id = id;
-
-            _currentStateMachine = new LoginStateMachine();
-
-            PlayerState = PlayerStates.Connecting;
-        }
-
-        // TODO: remove  method is for test purpose  (no login state machine and name directly specified)
         public Player(Guid id, string name)
             : this()
         {
             Id = id;
             Name = name;
 
-            PlayerState = PlayerStates.Connected;
+            _currentStateMachine = null;
+
+            PlayerState = PlayerStates.Loading;
         }
         
         #region IPlayer
@@ -142,7 +133,7 @@ namespace Mud.Server.Player
             Name = name;
             // TODO: load player file
 
-            PlayerState = PlayerStates.Connected;
+            PlayerState = PlayerStates.Playing;
             return true;
         }
 
@@ -161,7 +152,7 @@ namespace Mud.Server.Player
         [Command("test")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("Player: DoTest" + Environment.NewLine);
+            //Send("Player: DoTest" + Environment.NewLine);
             StringBuilder lorem = new StringBuilder("1/Lorem ipsum dolor sit amet, " + Environment.NewLine +
                                                     "2/consectetur adipiscing elit, " + Environment.NewLine +
                                                     "3/sed do eiusmod tempor incididunt " + Environment.NewLine +
@@ -176,8 +167,9 @@ namespace Mud.Server.Player
                                                     "12/nulla pariatur. " + Environment.NewLine +
                                                     "13/Excepteur sint occaecat " + Environment.NewLine +
                                                     "14/cupidatat non proident, " + Environment.NewLine +
-                                                    "15/sunt in culpa qui officia deserunt " + Environment.NewLine +
-                                                    "16/mollit anim id est laborum." + Environment.NewLine);
+                                                    "15/sunt in culpa qui officia deserunt " + Environment.NewLine //+
+                                                    //"16/mollit anim id est laborum." + Environment.NewLine
+                                                    );
             Page(lorem);
             return true;
         }

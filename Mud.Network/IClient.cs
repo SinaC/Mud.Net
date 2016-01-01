@@ -9,7 +9,10 @@
         event DisconnectedEventHandler Disconnected;
 
         bool ColorAccepted { get; set; }
-        
+
+        void EchoOff();
+        void EchoOn();
+
         void WriteData(string data);
         void Disconnect();
     }

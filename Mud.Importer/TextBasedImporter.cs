@@ -168,7 +168,7 @@ namespace Mud.Importer
                 }
                 else if (c == '\n')
                 {
-                    sb.Append(Environment.NewLine);
+                    sb.AppendLine();
                 }
                 else if (c == '\r')
                     ; // nop

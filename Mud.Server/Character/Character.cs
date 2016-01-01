@@ -7,6 +7,7 @@ using Mud.Server.Blueprints;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Server;
 
 namespace Mud.Server.Character
 {

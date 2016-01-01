@@ -9,6 +9,8 @@ namespace Mud.Server.Input
     {
         public string Name { get; private set; }
         public int Priority { get; set; } // Lower value means higher priority
+        public bool Hidden { get; set; } // Not displayed in command list
+        public string Category { get; set; } // TODO: use category: Info/Communication/Movement/...
 
         public CommandAttribute(string name)
         {
