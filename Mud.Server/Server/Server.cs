@@ -218,6 +218,16 @@ namespace Mud.Server.Server
             _pulseBeforeShutdown = seconds*PulsePerSeconds;
         }
 
+        public void Quit(IPlayer player)
+        {
+            PlayingClient playingClient;
+            _players.TryGetValue(player, out playingClient);
+            if (playingClient == null)
+                Log.Default.WriteLine(LogLevels.Error, "Quit: client not found");
+            else
+                ClientPlayingOnDisconnected(playingClient.Client);
+        }
+
         public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch)
         {
             return FindHelpers.FindByName(_players.Keys, parameter, perfectMatch);
@@ -329,6 +339,8 @@ namespace Mud.Server.Server
 
         private void LoginStateMachineOnLoginSuccessful(IClient client, string username, bool isAdmin, bool isNewPlayer)
         {
+            // TODO: if new player, avatar creation state machine
+            
             client.WriteData("Welcome to Mud.Net!!" + Environment.NewLine);
             client.WriteData(">"); // TODO: complex prompt
 

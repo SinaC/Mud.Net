@@ -39,6 +39,7 @@
     <Compile Include="Character\Character.cs" />
     <Compile Include="Character\FollowerCommands.cs" />
     <Compile Include="Character\CommunicationCommands.cs" />
+    <Compile Include="Character\Immunities.cs" />
     <Compile Include="Character\InfoCommands.cs" />
     <Compile Include="Character\MovementCommands.cs" />
     <Compile Include="Entity\EntityBase.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="IWorld.cs" />
     <Compile Include="Item\ItemContainer.cs" />
     <Compile Include="Item\ItemBase.cs" />
+    <Compile Include="Player\AvatarCreationStateMachine.cs" />
     <Compile Include="Player\MiscCommands.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Player\ImpersonateCommand.cs" />

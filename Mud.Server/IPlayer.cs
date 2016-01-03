@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Mud.Server
@@ -22,7 +23,8 @@ namespace Mud.Server
         Guid Id { get; }
         string Name { get; }
         string DisplayName { get; } // First letter is in upper-case
-        
+        List<ICharacter> Avatars { get; } // List of character a player can impersonate
+
         PlayerStates PlayerState { get; }
 
         ICharacter Impersonating { get; }

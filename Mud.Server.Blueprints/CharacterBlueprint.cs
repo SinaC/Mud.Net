@@ -3,6 +3,17 @@
 namespace Mud.Server.Blueprints
 {
     [DataContract]
+    public enum Sex
+    {
+        [EnumMember]
+        Neutral,
+        [EnumMember]
+        Male,
+        [EnumMember]
+        Female
+    }
+
+    [DataContract]
     public class CharacterBlueprint
     {
         [DataMember]

@@ -97,6 +97,7 @@ namespace Mud.Server.Character
         public IRoom Room { get; private set; }
 
         public Sex Sex { get; private set; }
+        public long MaxHit { get; private set; }
 
         public bool Impersonable { get; private set; }
         public IPlayer ImpersonatedBy { get; private set; }

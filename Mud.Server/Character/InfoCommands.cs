@@ -204,7 +204,7 @@ namespace Mud.Server.Character
             else
             {
                 foreach (IItem item in enumerable) // TODO: compact mode (group by Blueprint)
-                    Send(item.Name + Environment.NewLine); // TODO: (see act_info.C:275 show_list_to_char)
+                    Send("  "+item.Name + Environment.NewLine); // TODO: (see act_info.C:275 show_list_to_char)
             }
         }
 

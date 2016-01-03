@@ -24,5 +24,20 @@ namespace Mud.Server.Player
             }
             return true;
         }
+
+        [Command("qui", Hidden = true)] // TODO: full match
+        protected virtual bool DoQui(string rawParameters, params CommandParameter[] parameters)
+        {
+            Send("If you want to QUIT, spell it out." + Environment.NewLine);
+            return true;
+        }
+
+        [Command("quit")]
+        protected virtual bool DoQuit(string rawParameters, params CommandParameter[] parameters)
+        {
+            // TODO: in combat check, ...
+            Server.Server.Instance.Quit(this);
+            return true;
+        }
     }
 }

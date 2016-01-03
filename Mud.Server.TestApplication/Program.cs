@@ -115,27 +115,51 @@ namespace Mud.Server.TestApplication
                         }
                     }
                 }
-            // Add dummy mobs and items to allow impersonate :)
-            IRoom templeOfMota = world.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
-            IRoom templeSquare = world.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");
-            
-            ICharacter mob1 = world.AddCharacter(Guid.NewGuid(), "Mob1", templeOfMota);
-            ICharacter mob2 = world.AddCharacter(Guid.NewGuid(), "Mob2", templeOfMota);
-            ICharacter mob3 = world.AddCharacter(Guid.NewGuid(), "Mob3", templeSquare);
-            ICharacter mob4 = world.AddCharacter(Guid.NewGuid(), "Mob4", templeSquare);
-            ICharacter mob5 = world.AddCharacter(Guid.NewGuid(), "Mob5", templeSquare);
+            // Handle resets
+            foreach (RoomData importedRoom in importer.Rooms.Where(x => x.Resets.Any()))
+            {
+                IRoom room;
+                roomsByVNums.TryGetValue(importedRoom.VNum, out room);
+                foreach (ResetData reset in importedRoom.Resets)
+                {
+                    switch (reset.Command)
+                    {
+                        case 'M':
+                            MobileData mob = importer.Mobiles.FirstOrDefault(x => x.VNum == reset.Arg1);
+                            if (mob != null)
+                                world.AddCharacter(Guid.NewGuid(), mob.Name, room);
+                            break;
+                        case 'O':
+                            ObjectData obj = importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1);
+                            if (obj != null) // TODO: itemType
+                                world.AddItemContainer(Guid.NewGuid(), obj.Name, room);
+                            break;
+                            // TODO: other command  P, E, G, D, R, Z
+                    }
+                }
+            }
 
-            // Item1*2 in Room1
-            // Item2 in Mob2
-            // Item3 in 2.Item1
-            // Item4 in Mob1
-            // Item1 in Mob1
-            IItem item1 = world.AddItemContainer(Guid.NewGuid(), "Item1", templeOfMota);
-            IItem item1Dup1 = world.AddItemContainer(Guid.NewGuid(), "Item1", templeOfMota);
-            IItem item2 = world.AddItemContainer(Guid.NewGuid(), "Item2", mob2);
-            IItem item3 = world.AddItemContainer(Guid.NewGuid(), "Item3", item1Dup1 as IContainer);
-            IItem item4 = world.AddItemContainer(Guid.NewGuid(), "Item4", mob1);
-            IItem item1Dup2 = world.AddItemContainer(Guid.NewGuid(), "Item1", mob1);
+            //// Add dummy mobs and items to allow impersonate :)
+            //IRoom templeOfMota = world.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
+            //IRoom templeSquare = world.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");
+            
+            //ICharacter mob1 = world.AddCharacter(Guid.NewGuid(), "Mob1", templeOfMota);
+            //ICharacter mob2 = world.AddCharacter(Guid.NewGuid(), "Mob2", templeOfMota);
+            //ICharacter mob3 = world.AddCharacter(Guid.NewGuid(), "Mob3", templeSquare);
+            //ICharacter mob4 = world.AddCharacter(Guid.NewGuid(), "Mob4", templeSquare);
+            //ICharacter mob5 = world.AddCharacter(Guid.NewGuid(), "Mob5", templeSquare);
+
+            //// Item1*2 in Room1
+            //// Item2 in Mob2
+            //// Item3 in 2.Item1
+            //// Item4 in Mob1
+            //// Item1 in Mob1
+            //IItem item1 = world.AddItemContainer(Guid.NewGuid(), "Item1", templeOfMota);
+            //IItem item1Dup1 = world.AddItemContainer(Guid.NewGuid(), "Item1", templeOfMota);
+            //IItem item2 = world.AddItemContainer(Guid.NewGuid(), "Item2", mob2);
+            //IItem item3 = world.AddItemContainer(Guid.NewGuid(), "Item3", item1Dup1 as IContainer);
+            //IItem item4 = world.AddItemContainer(Guid.NewGuid(), "Item4", mob1);
+            //IItem item1Dup2 = world.AddItemContainer(Guid.NewGuid(), "Item1", mob1);
         }
 
         private static void TestPaging()

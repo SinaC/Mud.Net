@@ -15,8 +15,12 @@ namespace Mud.Server
 
         IRoom Room { get; }
 
+        // Attributes
         Sex Sex { get; }
+        // TODO: race, classes, ...
+        long MaxHit { get; }
 
+        //
         bool Impersonable { get; }
         IPlayer ImpersonatedBy { get; }
 

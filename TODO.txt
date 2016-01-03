@@ -5,6 +5,8 @@ do_reply
 add CanSee test where it's needed
 use ShortDescription where it's needed
 avatar creation state machine
+combat
+abilities, GCD, CD
 
 use more StringBuilder
 

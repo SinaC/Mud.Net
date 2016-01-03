@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
@@ -120,6 +121,8 @@ namespace Mud.Server.Player
         {
             get { return StringHelpers.UpperFirstLetter(Name); } // TODO: store another string or perform transformation on-the-fly ???
         }
+
+        public List<ICharacter> Avatars { get; protected set; } // List of character a player can impersonate
 
         public PlayerStates PlayerState { get; protected set; }
 

@@ -30,6 +30,11 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
+        public void Quit(IPlayer player)
+        {
+            throw new NotImplementedException();
+        }
+
         public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch)
         {
             throw new NotImplementedException();

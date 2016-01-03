@@ -13,6 +13,7 @@ namespace Mud.Server
         void Stop();
 
         void Shutdown(int seconds);
+        void Quit(IPlayer player);
 
         IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch);
         IReadOnlyCollection<IPlayer> GetPlayers();
