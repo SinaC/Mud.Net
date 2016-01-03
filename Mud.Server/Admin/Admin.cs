@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Text;
 using Mud.DataStructures.Trie;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Admin
 {
+    // TODO: override ProcessCommand  if Incarnating, process command by Incarnation instead of this
     public class Admin : Player.Player, IAdmin
     {
         private static readonly IReadOnlyTrie<CommandMethodInfo> AdminCommands;
@@ -53,7 +55,43 @@ namespace Mud.Server.Admin
         [Command("incarnate")]
         protected virtual bool DoIncarnate(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("DoIncarnate: NOT YET IMPLEMENTED" + Environment.NewLine);
+            if (parameters.Length == 0)
+            {
+                if (Incarnating != null)
+                {
+                    Send("You stop incarnating {0}." + Environment.NewLine, Incarnating.DisplayName);
+                    Incarnating.ChangeIncarnation(null);
+                }
+                else
+                    Send("Syntax: Incarnate <kind> <name|id>"+Environment.NewLine);
+            }
+            else if (parameters.Length == 1)
+                Send("Syntax: Incarnate <kind> <name|id>" + Environment.NewLine);
+            else if (parameters.Length == 2)
+            {
+                IEntity incarnateTarget = null;
+                string kind = parameters[0].Value;
+                if ("room".StartsWith(kind))
+                    incarnateTarget = FindHelpers.FindByName(World.World.Instance.GetRooms(), parameters[1]);
+                else if ("item".StartsWith(kind))
+                    incarnateTarget = FindHelpers.FindByName(World.World.Instance.GetItems(), parameters[1]);
+                else if ("mob".StartsWith(kind))
+                    incarnateTarget = FindHelpers.FindByName(World.World.Instance.GetCharacters(), parameters[1]);
+                if (incarnateTarget == null)
+                    Send("Target not found");
+                else
+                {
+                    if (Incarnating != null)
+                    {
+                        Send("You stop incarnating {0}." + Environment.NewLine, Incarnating.DisplayName);
+                        Incarnating.ChangeIncarnation(null);
+                    }
+                    Send("%M%You start incarnating %C%{0}%x%." + Environment.NewLine, incarnateTarget.DisplayName);
+                    incarnateTarget.ChangeIncarnation(this);
+                    Incarnating = incarnateTarget;
+                    PlayerState = PlayerStates.Impersonating;
+                }
+            }
             return true;
         }
 

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using Mud.DataStructures.Trie;
 using Mud.Server.Blueprints;
 using Mud.Server.Entity;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Item
@@ -10,19 +12,27 @@ namespace Mud.Server.Item
     {
         private static readonly IReadOnlyTrie<CommandMethodInfo> ItemCommands;
 
+        private int _weight;
+        private int _cost;
+
         static ItemBase()
         {
             ItemCommands = CommandHelpers.GetCommands(typeof (ItemBase));
         }
 
-        protected ItemBase(Guid guid, string name, IContainer containedInto)
-            : base(guid, name)
+        protected ItemBase(Guid guid, ItemBlueprint blueprint, IContainer containedInto)
+            : base(guid, blueprint.Name, blueprint.Description)
         {
+            Blueprint = blueprint;
             ContainedInto = containedInto;
             containedInto.Put(this);
+            _weight = blueprint.Weight;
+            IsWearable = true; // TODO
         }
 
         #region IItem
+
+        #region IEntity
 
         #region IActor
 
@@ -33,13 +43,37 @@ namespace Mud.Server.Item
 
         #endregion
 
+        public override string DisplayName
+        {
+            get { return Blueprint == null ? StringHelpers.UpperFirstLetter(Name) : Blueprint.ShortDescription; }
+        }
+
+        #endregion
+
         public IContainer ContainedInto { get; private set; }
 
-        public ItemBlueprint Blueprint { get; private set; } // TODO: 1st parameter in ctor
+        public ItemBlueprint Blueprint { get; private set; }
+
+        public bool IsWearable { get; private set; } // TODO:
+
+        public virtual int Weight
+        {
+            get { return _weight; }
+        }
+
+        public virtual int Cost
+        {
+            get { return _cost; }
+        }
 
         public bool ChangeContainer(IContainer container)
         {
             // TODO: check if can be put in a container
+            if (ContainedInto != null)
+                ContainedInto.Get(this);
+            Debug.Assert(container != null, "ChangeContainer: an item cannot be outside a container");
+            //if (container != null) // Cannot be null
+            container.Put(this);
             ContainedInto = container;
             return true;
         }

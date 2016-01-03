@@ -7,5 +7,12 @@
 
         public int Count { get; set; }
         public string Value { get; set; }
+
+        public override string ToString()
+        {
+            return Count <= 1
+                ? Value
+                : Count + "." + Value;
+        }
     }
 }

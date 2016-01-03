@@ -13,7 +13,7 @@ namespace Mud.Server.Player
             {
                 if (Impersonating != null)
                 {
-                    Send("You stop impersonating {0}." + Environment.NewLine, Impersonating.Name);
+                    Send("You stop impersonating {0}." + Environment.NewLine, Impersonating.DisplayName);
                     Impersonating.ChangeImpersonation(null);
                     Impersonating = null;
                     PlayerState = PlayerStates.Playing;
@@ -26,7 +26,12 @@ namespace Mud.Server.Player
                 ICharacter target = World.World.Instance.GetCharacter(parameters[0]);
                 if (target != null)
                 {
-                    Send("%M%You start impersonating %C%{0}%x%." + Environment.NewLine, target.Name);
+                    if (Impersonating != null)
+                    {
+                        Send("You stop impersonating {0}." + Environment.NewLine, Impersonating.DisplayName);
+                        Impersonating.ChangeImpersonation(null);
+                    }
+                    Send("%M%You start impersonating %C%{0}%x%." + Environment.NewLine, target.DisplayName);
                     target.ChangeImpersonation(this);
                     Impersonating = target;
                     PlayerState = PlayerStates.Impersonating;

@@ -67,6 +67,10 @@
       <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
       <Name>Mud.Network</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
+      <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
+      <Name>Mud.Server.Blueprints</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
       <Project>{3E2BD396-17B9-423E-9114-9E215B468267}</Project>
       <Name>Mud.Server.Input</Name>

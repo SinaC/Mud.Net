@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Mud.Server.Blueprints
 {
+    // TODO: sub item type
     [DataContract]
     public class ItemBlueprint
     {
@@ -25,8 +26,14 @@ namespace Mud.Server.Blueprints
         public int Cost { get; set; }
 
         [DataMember]
-        public Dictionary<string, string> ExtraDescriptions; // keyword -> description
+        public Dictionary<string, string> ExtraDescriptions { get; set; } // keyword -> description
 
         // TODO: flags, level, ...
+
+        [DataMember]
+        public int WearLocation { get; set; }
+
+        [DataMember]
+        public int[] Values { get; set; } // 5 entries
     }
 }

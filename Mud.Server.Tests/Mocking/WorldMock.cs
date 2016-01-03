@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mud.Server.Blueprints;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Server;
 
 namespace Mud.Server.Tests.Mocking
 {
@@ -18,6 +20,34 @@ namespace Mud.Server.Tests.Mocking
             _items = new List<IItem>();
         }
 
+        #region IWorld
+        
+        public IReadOnlyCollection<IRoom> GetRooms()
+        {
+            return _rooms.AsReadOnly();
+        }
+
+        public IReadOnlyCollection<ICharacter> GetCharacters()
+        {
+            return _characters.AsReadOnly();
+        }
+
+        public IReadOnlyCollection<IItem> GetItems()
+        {
+            return _items.AsReadOnly();
+        }
+
+        public ICharacter AddCharacter(Guid guid, CharacterBlueprint blueprint, IRoom room)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public IExit AddExit(IRoom @from, IRoom to, ServerOptions.ExitDirections direction, bool bidirectional)
+        {
+            throw new NotImplementedException();
+        }
+
         public ICharacter AddCharacter(Guid guid, string name, IRoom room)
         {
             ICharacter character = new Character.Character(guid, name, room);
@@ -32,22 +62,30 @@ namespace Mud.Server.Tests.Mocking
             return room;
         }
 
-        #region IWorld
 
-
-        public IReadOnlyCollection<IRoom> GetRooms()
+        public IRoom AddRoom(Guid guid, RoomBlueprint blueprint)
         {
-            return _rooms.AsReadOnly();
+            throw new NotImplementedException();
         }
 
-        public IReadOnlyCollection<ICharacter> GetCharacters()
+        public IItem AddItemContainer(Guid guid, ItemBlueprint blueprint, IContainer container)
         {
-            return _characters.AsReadOnly();
+            throw new NotImplementedException();
         }
 
-        public IReadOnlyCollection<IItem> GetItems()
+        public IItem AddItemArmor(Guid guid, ItemBlueprint blueprint, IContainer container)
         {
-            return _items.AsReadOnly();
+            throw new NotImplementedException();
+        }
+
+        public IItem AddItemWeapon(Guid guid, ItemBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IItem AddItemLight(Guid guid, ItemBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
         }
 
         public ICharacter GetCharacter(CommandParameter parameter, bool perfectMatch = false)

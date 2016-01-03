@@ -8,6 +8,10 @@ namespace Mud.Server
 
         ItemBlueprint Blueprint { get; }
 
+        bool IsWearable { get; }
+        int Weight { get; }
+        int Cost { get; }
+
         bool ChangeContainer(IContainer container);
     }
 }

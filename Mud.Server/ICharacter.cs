@@ -1,24 +1,19 @@
-﻿using Mud.Server.Blueprints;
+﻿using System.Collections.Generic;
+using Mud.Server.Blueprints;
 
 namespace Mud.Server
 {
-    public enum Sex
-    {
-        Neutral,
-        Male,
-        Female
-    }
-
     public interface ICharacter : IEntity, IContainer
     {
         CharacterBlueprint Blueprint { get; }
 
         IRoom Room { get; }
 
+        IReadOnlyList<EquipmentSlot> Equipments { get; }
+
         // Attributes
         Sex Sex { get; }
         // TODO: race, classes, ...
-        long MaxHit { get; }
 
         //
         bool Impersonable { get; }
@@ -32,5 +27,16 @@ namespace Mud.Server
 
         bool CanSee(ICharacter character);
         bool CanSee(IItem obj);
+    }
+
+    public class EquipmentSlot
+    {
+        public WearLocations WearLocation { get; private set; }
+        public IItem Item { get; set; }
+
+        public EquipmentSlot(WearLocations wearLocation)
+        {
+            WearLocation = wearLocation;
+        }
     }
 }

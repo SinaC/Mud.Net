@@ -66,8 +66,8 @@ namespace Mud.POC
             phrase = phrase.Replace("$M", "him"); // him or her (target.sex)
             phrase = phrase.Replace("$s", "his"); // his or her (character.sex)
             phrase = phrase.Replace("$S", "his"); // his or her (target.sex)
-            phrase = phrase.Replace("$p", ((IItem) param1).Name); //TODO: short description
-            phrase = phrase.Replace("$P", ((IItem) param2).Name); //TODO: short description
+            phrase = phrase.Replace("$p", ((IItem) param1).DisplayName);
+            phrase = phrase.Replace("$P", ((IItem)param2).DisplayName);
             phrase = phrase.Replace("$d", param2 == null ? "door" : ((IExit) param2).Name);
 
             return phrase;

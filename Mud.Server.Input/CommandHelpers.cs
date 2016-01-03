@@ -106,12 +106,16 @@ namespace Mud.Server.Input
                     Value = parameter
                 };
             if (dotIndex == 0)
-                return CommandParameter.Invalid; // only a . is invalid
+                return CommandParameter.Invalid; // only . is invalid
             string countAsString = parameter.Substring(0, dotIndex);
             string value = parameter.Substring(dotIndex + 1);
             int count;
-            if (!int.TryParse(countAsString, out count))
-                count = 1;
+            if (!int.TryParse(countAsString, out count)) // string.string is not splitted
+                return new CommandParameter
+                {
+                    Count = 1,
+                    Value = parameter
+                };
             if (count <= 0 || String.IsNullOrWhiteSpace(value)) // negative count or empty value is invalid
                 return CommandParameter.Invalid;
             return new CommandParameter

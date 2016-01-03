@@ -22,18 +22,18 @@ namespace Mud.Server.Character
             else if (exit == null || toRoom == null) // Check if existing exit
             {
                 Send("You almost goes {0}, but suddenly realize that there's no exit there." + Environment.NewLine, direction);
-                Act(ActOptions.ToRoom, "{0} looks like {0:e}'s about to go {1}, but suddenly stops short and looks confused." + Environment.NewLine, this, direction);
+                Act(ActOptions.ToRoom, "{0} looks like {0:e}'s about to go {1}, but suddenly stops short and looks confused.", this, direction);
             }
             else
             {
-                Act(ActOptions.ToRoom, "{0} leaves {1}." + Environment.NewLine, this, direction);
+                Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction);
 
                 ChangeRoom(toRoom);
                 // Autolook if impersonated/incarnated
                 if (ImpersonatedBy != null || IncarnatedBy != null)
                     DisplayRoom();
 
-                Act(ActOptions.ToRoom, "{0} has arrived" + Environment.NewLine, this);
+                Act(ActOptions.ToRoom, "{0} has arrived", this);
 
                 // Followers: no circular follows
                 if (fromRoom != toRoom)

@@ -6,6 +6,7 @@ namespace Mud.Server
     {
         Guid Id { get; }
         string Name { get; }
+        string DisplayName { get; }
         string Description { get; }
 
         bool Incarnatable { get; }

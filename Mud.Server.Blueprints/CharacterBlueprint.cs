@@ -3,7 +3,7 @@
 namespace Mud.Server.Blueprints
 {
     [DataContract]
-    public enum Sex
+    public enum BlueprintSex
     {
         [EnumMember]
         Neutral,
@@ -30,6 +30,9 @@ namespace Mud.Server.Blueprints
 
         [DataMember]
         public string Description { get; set; }
+
+        [DataMember]
+        public BlueprintSex Sex { get; set; }
 
         // TODO: flags, level, armor, damage, ...
     }

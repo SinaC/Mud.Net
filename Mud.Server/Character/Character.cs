@@ -16,22 +16,40 @@ namespace Mud.Server.Character
         private static readonly IReadOnlyTrie<CommandMethodInfo> CharacterCommands;
 
         private readonly List<IItem> _inventory;
+        private readonly List<EquipmentSlot> _equipments;
 
         static Character()
         {
             CharacterCommands = CommandHelpers.GetCommands(typeof (Character));
         }
 
-        public Character(Guid guid, string name, IRoom room)
+        public Character(Guid guid, string name, IRoom room) // playable
             : base(guid, name)
         {
             _inventory = new List<IItem>();
+            _equipments = new List<EquipmentSlot>();
+            BuildEquipmentLocation();
+            Impersonable = true;
+            Room = room;
+            room.Enter(this);
+        }
 
+        public Character(Guid guid, CharacterBlueprint blueprint, IRoom room) // non-playable
+            :base(guid, blueprint.Name, blueprint.Description)
+        {
+            Blueprint = blueprint;
+            _inventory = new List<IItem>();
+            _equipments = new List<EquipmentSlot>();
+            BuildEquipmentLocation();
+            Sex = (Sex)(int)blueprint.Sex; // TODO: better conversion
+            Impersonable = false;
             Room = room;
             room.Enter(this);
         }
 
         #region ICharacter
+
+        #region IEntity
 
         #region IActor
 
@@ -70,6 +88,13 @@ namespace Mud.Server.Character
 
         #endregion
 
+        public override string DisplayName
+        {
+            get { return Blueprint == null ? StringHelpers.UpperFirstLetter(Name) : Blueprint.ShortDescription; }
+        }
+
+        #endregion
+
         #region IContainer
 
         public IReadOnlyCollection<IItem> Content
@@ -96,8 +121,15 @@ namespace Mud.Server.Character
 
         public IRoom Room { get; private set; }
 
+        public IReadOnlyList<EquipmentSlot> Equipments
+        {
+            get
+            {
+                return _equipments.AsReadOnly();
+            }
+        }
+
         public Sex Sex { get; private set; }
-        public long MaxHit { get; private set; }
 
         public bool Impersonable { get; private set; }
         public IPlayer ImpersonatedBy { get; private set; }
@@ -131,6 +163,30 @@ namespace Mud.Server.Character
 
         #endregion
 
+        protected void BuildEquipmentLocation()
+        {
+            // TODO: depend on race+affects+...
+            _equipments.Add(new EquipmentSlot(WearLocations.Light));
+            _equipments.Add(new EquipmentSlot(WearLocations.Head));
+            _equipments.Add(new EquipmentSlot(WearLocations.Eyes));
+            _equipments.Add(new EquipmentSlot(WearLocations.Ear));
+            _equipments.Add(new EquipmentSlot(WearLocations.Ear));
+            _equipments.Add(new EquipmentSlot(WearLocations.Neck));
+            _equipments.Add(new EquipmentSlot(WearLocations.Arms));
+            _equipments.Add(new EquipmentSlot(WearLocations.Wrist));
+            _equipments.Add(new EquipmentSlot(WearLocations.Wrist));
+            _equipments.Add(new EquipmentSlot(WearLocations.Finger));
+            _equipments.Add(new EquipmentSlot(WearLocations.Finger));
+            _equipments.Add(new EquipmentSlot(WearLocations.Wield));
+            _equipments.Add(new EquipmentSlot(WearLocations.Offhand));
+            _equipments.Add(new EquipmentSlot(WearLocations.Body));
+            _equipments.Add(new EquipmentSlot(WearLocations.About));
+            _equipments.Add(new EquipmentSlot(WearLocations.Waist));
+            _equipments.Add(new EquipmentSlot(WearLocations.Legs));
+            _equipments.Add(new EquipmentSlot(WearLocations.Feet));
+            _equipments.Add(new EquipmentSlot(WearLocations.Float));
+        }
+
         protected void ChangeRoom(IRoom destination)
         {
             Room.Leave(this);
@@ -160,13 +216,13 @@ namespace Mud.Server.Character
                     if (options == ActOptions.ToAll
                         || (options == ActOptions.ToRoom && to != this))
                     {
-                        string phrase = FormatOneLine(to, format, arguments);
+                        string phrase = FormatActOneLine(to, format, arguments);
                         to.Send(phrase);
                     }
                 }
             else if (options == ActOptions.ToCharacter)
             {
-                string phrase = FormatOneLine(this, format, arguments);
+                string phrase = FormatActOneLine(this, format, arguments);
                 Send(phrase);
             }
         }
@@ -178,20 +234,20 @@ namespace Mud.Server.Character
                 {
                     if (options == ActOptions.ToAll
                         || (options == ActOptions.ToRoom && to != this)
-                        || (options == ActOptions.ToNotVictim && to != victim))
+                        || (options == ActOptions.ToNotVictim && to != victim && to != this))
                     {
-                        string phrase = FormatOneLine(to, format, arguments);
+                        string phrase = FormatActOneLine(to, format, arguments);
                         to.Send(phrase);
                     }
                 }
             else if (options == ActOptions.ToCharacter)
             {
-                string phrase = FormatOneLine(this, format, arguments);
+                string phrase = FormatActOneLine(this, format, arguments);
                 Send(phrase);
             }
             else if (options == ActOptions.ToVictim)
             {
-                string phrase = FormatOneLine(victim, format, arguments);
+                string phrase = FormatActOneLine(victim, format, arguments);
                 victim.Send(phrase);
             }
         }
@@ -205,7 +261,7 @@ namespace Mud.Server.Character
             ArgumentFound,
             FormatSeparatorFound,
         }
-        private static string FormatOneLine(ICharacter target, string format, params object[] arguments)
+        private static string FormatActOneLine(ICharacter target, string format, params object[] arguments)
         {
             StringBuilder result = new StringBuilder();
 
@@ -247,7 +303,7 @@ namespace Mud.Server.Character
                     case ActParsingStates.ArgumentFound: // searching for } or :
                         if (c == '}')
                         {
-                            FormatOneArgument(target, result, null, currentArgument);
+                            FormatActOneArgument(target, result, null, currentArgument);
                             state = ActParsingStates.Normal;
                         }
                         else if (c == ':')
@@ -256,7 +312,7 @@ namespace Mud.Server.Character
                     case ActParsingStates.FormatSeparatorFound: // searching for }
                         if (c == '}')
                         {
-                            FormatOneArgument(target, result, argumentFormat.ToString(), currentArgument);
+                            FormatActOneArgument(target, result, argumentFormat.ToString(), currentArgument);
                             state = ActParsingStates.Normal;
                         }
                         else
@@ -269,6 +325,7 @@ namespace Mud.Server.Character
             }
             if (result.Length > 0)
                 result[0] = Char.ToUpperInvariant(result[0]);
+            result.AppendLine();
             return result.ToString();
         }
 
@@ -285,7 +342,7 @@ namespace Mud.Server.Character
         //      argument.Name if visible by target, something otherwhise
         // IExit
         //      exit name
-        private static void FormatOneArgument(ICharacter target, StringBuilder result, string format, object argument)
+        private static void FormatActOneArgument(ICharacter target, StringBuilder result, string format, object argument)
         {
             ICharacter character = argument as ICharacter;
             if (character != null)
@@ -296,7 +353,7 @@ namespace Mud.Server.Character
                     case 'n':
                     case 'N':
                         result.Append(target.CanSee(character)
-                            ? character.Name // TODO: short description
+                            ? character.DisplayName
                             : "someone");
                         break;
                     case 'e':
@@ -318,7 +375,7 @@ namespace Mud.Server.Character
                         //        result.Append("you");
                         //    else
                         //        result.Append(target.CanSee(character)
-                        //            ? character.Name // TODO: short description
+                    //            ? character.DisplayName
                         //            : "someone");
                         //    break;
                         //case 'v':
@@ -339,7 +396,7 @@ namespace Mud.Server.Character
                 {
                     // no specific format
                     result.Append(target.CanSee(item)
-                        ? item.Name // TODO: short description
+                        ? item.DisplayName
                         : "something");
                 }
                 else
@@ -408,7 +465,7 @@ namespace Mud.Server.Character
     //        switch (format[sourceIndex])
     //        {
     //            case 'n': case 'N':
-    //                sb.Append(Name); // TODO: short description
+    //                sb.Append(DisplayName); // TODO: short description
     //                break;
     //            case 'e': case 'E':
     //                sb.Append(StringHelpers.Subjects[Sex]);

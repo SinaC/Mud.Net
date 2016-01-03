@@ -42,7 +42,9 @@
     <Compile Include="Character\Immunities.cs" />
     <Compile Include="Character\InfoCommands.cs" />
     <Compile Include="Character\MovementCommands.cs" />
+    <Compile Include="Character\ItemCommands.cs" />
     <Compile Include="Entity\EntityBase.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Helpers\EnumHelpers.cs" />
     <Compile Include="Helpers\FindHelpers.cs" />
     <Compile Include="Helpers\StringBuilderExtensions.cs" />
@@ -56,6 +58,9 @@
     <Compile Include="IPlayer.cs" />
     <Compile Include="IRoom.cs" />
     <Compile Include="IServer.cs" />
+    <Compile Include="Item\ItemArmor.cs" />
+    <Compile Include="Item\ItemLight.cs" />
+    <Compile Include="Item\ItemWeapon.cs" />
     <Compile Include="IWorld.cs" />
     <Compile Include="Item\ItemContainer.cs" />
     <Compile Include="Item\ItemBase.cs" />

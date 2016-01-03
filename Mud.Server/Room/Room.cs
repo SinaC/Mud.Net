@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Mud.DataStructures.Trie;
 using Mud.Server.Blueprints;
 using Mud.Server.Entity;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Server;
 
@@ -37,13 +38,30 @@ namespace Mud.Server.Room
             _exits = new IExit[ServerOptions.ExitCount];
         }
 
+        public Room(Guid guid, RoomBlueprint blueprint)
+            : base(guid, blueprint.Name, blueprint.Description)
+        {
+            _people = new List<ICharacter>();
+            _content = new List<IItem>();
+            _exits = new IExit[ServerOptions.ExitCount];
+        }
+
         #region IRoom
+
+        #region IEntity
 
         #region IActor
 
         public override IReadOnlyTrie<CommandMethodInfo> Commands
         {
             get { return RoomCommands; }
+        }
+
+        #endregion
+
+        public override string DisplayName
+        {
+            get { return StringHelpers.UpperFirstLetter(Name); }
         }
 
         #endregion

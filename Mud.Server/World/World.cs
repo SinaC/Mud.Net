@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mud.Server.Blueprints;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
@@ -51,45 +52,27 @@ namespace Mud.Server.World
         //    return player;
         //}
 
-        public ICharacter AddCharacter(Guid guid, string name, IRoom room)
-        {
-            ICharacter character = new Character.Character(guid, name, room);
-            _characters.Add(character);
-            return character;
-        }
+        
+        //public IRoom AddRoom(Guid guid, string name)
+        //{
+        //    IRoom room = new Room.Room(guid, name);
+        //    _rooms.Add(room);
+        //    return room;
+        //}
 
-        public IRoom AddRoom(Guid guid, string name)
-        {
-            IRoom room = new Room.Room(guid, name);
-            _rooms.Add(room);
-            return room;
-        }
+        //public IRoom AddRoom(string name, string description)
+        //{
+        //    IRoom room = new Room.Room(Guid.NewGuid(), name, description);
+        //    _rooms.Add(room);
+        //    return room;
+        //}
 
-        public IRoom AddRoom(string name, string description)
-        {
-            IRoom room = new Room.Room(Guid.NewGuid(), name, description);
-            _rooms.Add(room);
-            return room;
-        }
-
-        public IExit AddExit(IRoom from, IRoom to, ServerOptions.ExitDirections direction, bool bidirectional)
-        {
-            Exit from2To = new Exit(String.Format("door[{0}->{1}]", from.Name, to.Name), to);
-            from.Exits[(int) direction] = from2To;
-            if (bidirectional)
-            {
-                Exit to2From = new Exit(String.Format("door[{0}->{1}]", to.Name, from.Name), from);
-                to.Exits[(int)ServerOptions.ReverseDirection(direction)] = to2From;
-            }
-            return from2To;
-        }
-
-        public IItem AddItemContainer(Guid guid, string name, IContainer container)
-        {
-            IItem item = new ItemContainer(guid, name, container);
-            _items.Add(item);
-            return item;
-        }
+        //public IItem AddItemContainer(Guid guid, string name, IContainer container)
+        //{
+        //    IItem item = new ItemContainer(guid, name, container);
+        //    _items.Add(item);
+        //    return item;
+        //}
 
         #region IWorld
 
@@ -106,6 +89,67 @@ namespace Mud.Server.World
         public IReadOnlyCollection<IItem> GetItems()
         {
             return _items.AsReadOnly();
+        }
+
+        public IRoom AddRoom(Guid guid, RoomBlueprint blueprint)
+        {
+            IRoom room = new Room.Room(Guid.NewGuid(), blueprint);
+            _rooms.Add(room);
+            return room;
+        }
+
+        public IExit AddExit(IRoom from, IRoom to, ServerOptions.ExitDirections direction, bool bidirectional)
+        {
+            Exit from2To = new Exit(String.Format("door[{0}->{1}]", from.Name, to.Name), to);
+            from.Exits[(int)direction] = from2To;
+            if (bidirectional)
+            {
+                Exit to2From = new Exit(String.Format("door[{0}->{1}]", to.Name, from.Name), from);
+                to.Exits[(int)ServerOptions.ReverseDirection(direction)] = to2From;
+            }
+            return from2To;
+        }
+
+        public ICharacter AddCharacter(Guid guid, string name, IRoom room) // Impersonated
+        {
+            ICharacter character = new Character.Character(guid, name, room);
+            _characters.Add(character);
+            return character;
+        }
+
+        public ICharacter AddCharacter(Guid guid, CharacterBlueprint blueprint, IRoom room) // Non-impersonated
+        {
+            ICharacter character = new Character.Character(guid, blueprint, room);
+            _characters.Add(character);
+            return character;
+        }
+
+        public IItem AddItemContainer(Guid guid, ItemBlueprint blueprint, IContainer container)
+        {
+            IItem item = new ItemContainer(guid, blueprint, container);
+            _items.Add(item);
+            return item;
+        }
+
+        public IItem AddItemArmor(Guid guid, ItemBlueprint blueprint, IContainer container)
+        {
+            IItem item = new ItemArmor(guid, blueprint, container);
+            _items.Add(item);
+            return item;
+        }
+
+        public IItem AddItemWeapon(Guid guid, ItemBlueprint blueprint, IContainer container)
+        {
+            IItem item = new ItemWeapon(guid, blueprint, container);
+            _items.Add(item);
+            return item;
+        }
+
+        public IItem AddItemLight(Guid guid, ItemBlueprint blueprint, IContainer container)
+        {
+            IItem item = new ItemLight(guid, blueprint, container);
+            _items.Add(item);
+            return item;
         }
 
         // TODO: remove

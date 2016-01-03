@@ -11,6 +11,7 @@ using Mud.Logger;
 using Mud.Network;
 using Mud.Network.Socket;
 using Mud.POC;
+using Mud.Server.Blueprints;
 using Mud.Server.Server;
 
 namespace Mud.Server.TestApplication
@@ -52,29 +53,104 @@ namespace Mud.Server.TestApplication
 
         private static void CreateDummyWorld()
         {
-            World.World world = World.World.Instance as World.World;
+            // Blueprints
+            // Rooms
+            RoomBlueprint room1Blueprint = new RoomBlueprint
+            {
+                Id = 1,
+                Name = "room1",
+                Description = "My first room"
+            };
+            RoomBlueprint room2Blueprint = new RoomBlueprint
+            {
+                Id = 2,
+                Name = "room2",
+                Description = "My second room"
+            };
+            // Characters
+            CharacterBlueprint mob2Blueprint = new CharacterBlueprint
+            {
+                Id = 2,
+                Name = "mob2",
+                ShortDescription = "Second mob",
+                Description = "Second mob is here"
+            };
+            CharacterBlueprint mob3Blueprint = new CharacterBlueprint
+            {
+                Id = 3,
+                Name = "mob3",
+                ShortDescription = "Third mob",
+                Description = "Third mob is here"
+            };
+            CharacterBlueprint mob4Blueprint = new CharacterBlueprint
+            {
+                Id = 4,
+                Name = "mob4",
+                ShortDescription = "Fourth mob",
+                Description = "Fourth mob is here"
+            };
+            CharacterBlueprint mob5Blueprint = new CharacterBlueprint
+            {
+                Id = 5,
+                Name = "mob5",
+                ShortDescription = "Fifth mob",
+                Description = "Fifth mob is here"
+            };
+            ItemBlueprint item1Blueprint = new ItemBlueprint
+            {
+                Id = 1,
+                Name = "item1",
+                ShortDescription = "First item",
+                Description = "The first item (container) has been left here.",
+                Values = new[] { 0, 0, 0, 10, 100 }
+            };
+            ItemBlueprint item2Blueprint = new ItemBlueprint
+            {
+                Id = 2,
+                Name = "item2",
+                ShortDescription = "Second item",
+                Description = "The second item (weapon) has been left here.",
+                Values = new[] { 5/*axe*/, 10, 20, 3/*fire*/, 0 }
+            };
+            ItemBlueprint item3Blueprint = new ItemBlueprint
+            {
+                Id = 3,
+                Name = "item3",
+                ShortDescription = "Third item",
+                Description = "The third item (armor) has been left here.",
+                Values = new[] { 100, 200, 300, 400, 0 }
+            };
+            ItemBlueprint item4Blueprint = new ItemBlueprint
+            {
+                Id = 4,
+                Name = "item4",
+                ShortDescription = "Fourth item",
+                Description = "The fourth item (light) has been left here.",
+                Values = new[] { 0, 0, -1, 0, 0 }
+            };
 
-            IRoom room1 = world.AddRoom(Guid.NewGuid(), "Room1");
-            IRoom room2 = world.AddRoom(Guid.NewGuid(), "Room2");
-            world.AddExit(room1, room2, ServerOptions.ExitDirections.North, true);
+            // World
+            IRoom room1 = World.World.Instance.AddRoom(Guid.NewGuid(), room1Blueprint);
+            IRoom room2 = World.World.Instance.AddRoom(Guid.NewGuid(), room2Blueprint);
+            World.World.Instance.AddExit(room1, room2, ServerOptions.ExitDirections.North, true);
 
-            ICharacter mob1 = world.AddCharacter(Guid.NewGuid(), "Mob1", room1);
-            ICharacter mob2 = world.AddCharacter(Guid.NewGuid(), "Mob2", room1);
-            ICharacter mob3 = world.AddCharacter(Guid.NewGuid(), "Mob3", room2);
-            ICharacter mob4 = world.AddCharacter(Guid.NewGuid(), "Mob4", room2);
-            ICharacter mob5 = world.AddCharacter(Guid.NewGuid(), "Mob5", room2);
+            ICharacter mob1 = World.World.Instance.AddCharacter(Guid.NewGuid(), "Mob1", room1);
+            ICharacter mob2 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob2Blueprint, room1);
+            ICharacter mob3 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob3Blueprint, room2);
+            ICharacter mob4 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob4Blueprint, room2);
+            ICharacter mob5 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob5Blueprint, room2);
 
             // Item1*2 in Room1
             // Item2 in Mob2
             // Item3 in 2.Item1
             // Item4 in Mob1
             // Item1 in Mob1
-            IItem item1 = world.AddItemContainer(Guid.NewGuid(), "Item1", room1);
-            IItem item1Dup1 = world.AddItemContainer(Guid.NewGuid(), "Item1", room1);
-            IItem item2 = world.AddItemContainer(Guid.NewGuid(), "Item2", mob2);
-            IItem item3 = world.AddItemContainer(Guid.NewGuid(), "Item3", item1Dup1 as IContainer);
-            IItem item4 = world.AddItemContainer(Guid.NewGuid(), "Item4", mob1);
-            IItem item1Dup2 = world.AddItemContainer(Guid.NewGuid(), "Item1", mob1);
+            IItem item1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, room1);
+            IItem item1Dup1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, room1);
+            IItem item2 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item2Blueprint, mob2);
+            IItem item3 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item3Blueprint, item1Dup1 as IContainer);
+            IItem item4 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item3Blueprint, mob1);
+            IItem item1Dup2 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
         }
 
         private static void CreateMidgaard()
@@ -83,27 +159,31 @@ namespace Mud.Server.TestApplication
             importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
             importer.Parse();
 
-            World.World world = World.World.Instance as World.World;
-
             Dictionary<int, IRoom> roomsByVNums = new Dictionary<int, IRoom>();
 
             // Create Rooms
             foreach (RoomData importedRoom in importer.Rooms)
             {
-                IRoom room = world.AddRoom(importedRoom.Name, importedRoom.Description);
+                RoomBlueprint roomBlueprint = new RoomBlueprint
+                {
+                    Id = importedRoom.VNum,
+                    Name = importedRoom.Name,
+                    Description = importedRoom.Description,
+                };
+                IRoom room = World.World.Instance.AddRoom(Guid.NewGuid(), roomBlueprint);
                 roomsByVNums.Add(importedRoom.VNum, room);
             }
             // Create Exits
             foreach (RoomData room in importer.Rooms)
-                //foreach (ExitData exit in room.Exits.Where(x => x != null))
-                for(int i = 0; i < RoomData.MaxExits-1; i++)
+            {
+                for (int i = 0; i < RoomData.MaxExits - 1; i++)
                 {
                     ExitData exit = room.Exits[i];
                     if (exit != null)
                     {
-                        IRoom from; 
+                        IRoom from;
                         roomsByVNums.TryGetValue(room.VNum, out from);
-                        IRoom to; 
+                        IRoom to;
                         roomsByVNums.TryGetValue(exit.DestinationVNum, out to);
                         if (from == null)
                             Log.Default.WriteLine(LogLevels.Error, "Origin room not found for vnum {0}", room.VNum);
@@ -111,60 +191,120 @@ namespace Mud.Server.TestApplication
                             Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", room.VNum);
                         else
                         {
-                            world.AddExit(from, to, (ServerOptions.ExitDirections)i, false);
+                            World.World.Instance.AddExit(from, to, (ServerOptions.ExitDirections) i, false);
                         }
                     }
                 }
-            // Handle resets
-            foreach (RoomData importedRoom in importer.Rooms.Where(x => x.Resets.Any()))
-            {
-                IRoom room;
-                roomsByVNums.TryGetValue(importedRoom.VNum, out room);
-                foreach (ResetData reset in importedRoom.Resets)
-                {
-                    switch (reset.Command)
-                    {
-                        case 'M':
-                            MobileData mob = importer.Mobiles.FirstOrDefault(x => x.VNum == reset.Arg1);
-                            if (mob != null)
-                                world.AddCharacter(Guid.NewGuid(), mob.Name, room);
-                            break;
-                        case 'O':
-                            ObjectData obj = importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1);
-                            if (obj != null) // TODO: itemType
-                                world.AddItemContainer(Guid.NewGuid(), obj.Name, room);
-                            break;
-                            // TODO: other command  P, E, G, D, R, Z
-                    }
-                }
             }
+            //// Handle resets
+            //foreach (RoomData importedRoom in importer.Rooms.Where(x => x.Resets.Any()))
+            //{
+            //    IRoom room;
+            //    roomsByVNums.TryGetValue(importedRoom.VNum, out room);
+            //    foreach (ResetData reset in importedRoom.Resets)
+            //    {
+            //        switch (reset.Command)
+            //        {
+            //            case 'M':
+            //                MobileData mob = importer.Mobiles.FirstOrDefault(x => x.VNum == reset.Arg1);
+            //                if (mob != null)
+            //                    World.World.Instance.AddCharacter(Guid.NewGuid(), mob.Name, room);
+            //                break;
+            //            case 'O':
+            //                ObjectData obj = importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1);
+            //                if (obj != null) // TODO: itemType
+            //                    World.World.Instance.AddItemContainer(Guid.NewGuid(), obj.Name, room);
+            //                break;
+            //            // TODO: other command  P, E, G, D, R, Z
+            //        }
+            //    }
+            //}
 
-            //// Add dummy mobs and items to allow impersonate :)
-            //IRoom templeOfMota = world.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
-            //IRoom templeSquare = world.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");
-            
-            //ICharacter mob1 = world.AddCharacter(Guid.NewGuid(), "Mob1", templeOfMota);
-            //ICharacter mob2 = world.AddCharacter(Guid.NewGuid(), "Mob2", templeOfMota);
-            //ICharacter mob3 = world.AddCharacter(Guid.NewGuid(), "Mob3", templeSquare);
-            //ICharacter mob4 = world.AddCharacter(Guid.NewGuid(), "Mob4", templeSquare);
-            //ICharacter mob5 = world.AddCharacter(Guid.NewGuid(), "Mob5", templeSquare);
+            CharacterBlueprint mob2Blueprint = new CharacterBlueprint
+            {
+                Id = 2,
+                Name = "mob2",
+                ShortDescription = "Second mob",
+                Description = "Second mob is here"
+            };
+            CharacterBlueprint mob3Blueprint = new CharacterBlueprint
+            {
+                Id = 3,
+                Name = "mob3",
+                ShortDescription = "Third mob",
+                Description = "Third mob is here"
+            };
+            CharacterBlueprint mob4Blueprint = new CharacterBlueprint
+            {
+                Id = 4,
+                Name = "mob4",
+                ShortDescription = "Fourth mob",
+                Description = "Fourth mob is here"
+            };
+            CharacterBlueprint mob5Blueprint = new CharacterBlueprint
+            {
+                Id = 5,
+                Name = "mob5",
+                ShortDescription = "Fifth mob",
+                Description = "Fifth mob is here"
+            };
+            ItemBlueprint item1Blueprint = new ItemBlueprint
+            {
+                Id = 1,
+                Name = "item1",
+                ShortDescription = "First item (container)",
+                Description = "The first item (container) has been left here.",
+                Values = new []{0, 0, 0, 10, 100}
+            };
+            ItemBlueprint item2Blueprint = new ItemBlueprint
+            {
+                Id = 2,
+                Name = "item2",
+                ShortDescription = "Second item (weapon)",
+                Description = "The second item (weapon) has been left here.",
+                Values = new[] { 5/*axe*/, 10, 20, 3/*fire*/, 0 }
+            };
+            ItemBlueprint item3Blueprint = new ItemBlueprint
+            {
+                Id = 3,
+                Name = "item3",
+                ShortDescription = "Third item (armor)",
+                Description = "The third item (armor) has been left here.",
+                Values = new []{100, 200, 300, 400, 0}
+            };
+            ItemBlueprint item4Blueprint = new ItemBlueprint
+            {
+                Id = 4,
+                Name = "item4",
+                ShortDescription = "Fourth item (light)",
+                Description = "The fourth item (light) has been left here.",
+                Values = new []{0, 0, -1, 0, 0}
+            };
+            // Add dummy mobs and items to allow impersonate :)
+            IRoom templeOfMota = World.World.Instance.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
+            IRoom templeSquare = World.World.Instance.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
-            //// Item1*2 in Room1
-            //// Item2 in Mob2
-            //// Item3 in 2.Item1
-            //// Item4 in Mob1
-            //// Item1 in Mob1
-            //IItem item1 = world.AddItemContainer(Guid.NewGuid(), "Item1", templeOfMota);
-            //IItem item1Dup1 = world.AddItemContainer(Guid.NewGuid(), "Item1", templeOfMota);
-            //IItem item2 = world.AddItemContainer(Guid.NewGuid(), "Item2", mob2);
-            //IItem item3 = world.AddItemContainer(Guid.NewGuid(), "Item3", item1Dup1 as IContainer);
-            //IItem item4 = world.AddItemContainer(Guid.NewGuid(), "Item4", mob1);
-            //IItem item1Dup2 = world.AddItemContainer(Guid.NewGuid(), "Item1", mob1);
+            ICharacter mob1 = World.World.Instance.AddCharacter(Guid.NewGuid(), "mob1", templeOfMota);
+            ICharacter mob2 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
+            ICharacter mob3 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
+            ICharacter mob4 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
+            ICharacter mob5 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
+
+            // Item1*2 in Room1
+            // Item2 in Mob2
+            // Item3 in 2.Item1
+            // Item4 in Mob1
+            // Item1 in Mob1
+            IItem item1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItem item1Dup1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItem item2 = World.World.Instance.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
+            IItem item3 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1 as IContainer);
+            IItem item4 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
+            IItem item1Dup2 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
         }
 
         private static void TestPaging()
         {
-
             TestPaging paging = new TestPaging();
             paging.SetData(new StringBuilder("1/Lorem ipsum dolor sit amet, " + Environment.NewLine +
                                              "2/consectetur adipiscing elit, " + Environment.NewLine +
@@ -243,9 +383,15 @@ namespace Mud.Server.TestApplication
         private static void TestCommandParsing()
         {
             // server doesn't need to be started, we are not testing real runtime but basic commands
-
-            World.World world = World.World.Instance as World.World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), "Room");
+            // Blueprints
+            RoomBlueprint room1Blueprint = new RoomBlueprint
+            {
+                Id = 1,
+                Name = "room1",
+                Description = "My first room"
+            };
+            // World
+            IRoom room = World.World.Instance.AddRoom(Guid.NewGuid(), room1Blueprint);
 
             IPlayer player = Server.Server.Instance.AddPlayer(new ConsoleClient("Player"), "Player");
             player.ProcessCommand("test");
@@ -263,7 +409,7 @@ namespace Mud.Server.TestApplication
             player.ProcessCommand("unknown"); // INVALID
             player.ProcessCommand("/test");
 
-            ICharacter character = world.AddCharacter(Guid.NewGuid(), "Character", room);
+            ICharacter character = World.World.Instance.AddCharacter(Guid.NewGuid(), "Character", room);
             character.ProcessCommand("look");
             character.ProcessCommand("tell"); // INVALID because Player commands are not accessible by Character
             character.ProcessCommand("unknown"); // INVALID

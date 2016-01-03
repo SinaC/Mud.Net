@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Mud.Server.Blueprints;
 using Mud.Server.Input;
+using Mud.Server.Server;
 
 namespace Mud.Server
 {
@@ -8,6 +11,15 @@ namespace Mud.Server
         IReadOnlyCollection<IRoom> GetRooms();
         IReadOnlyCollection<ICharacter> GetCharacters();
         IReadOnlyCollection<IItem> GetItems();
+
+        IRoom AddRoom(Guid guid, RoomBlueprint blueprint);
+        IExit AddExit(IRoom from, IRoom to, ServerOptions.ExitDirections direction, bool bidirectional);
+        ICharacter AddCharacter(Guid guid, string name, IRoom room); // Impersonated
+        ICharacter AddCharacter(Guid guid, CharacterBlueprint blueprint, IRoom room); // Non-impersonated
+        IItem AddItemContainer(Guid guid, ItemBlueprint blueprint, IContainer container);
+        IItem AddItemArmor(Guid guid, ItemBlueprint blueprint, IContainer container);
+        IItem AddItemWeapon(Guid guid, ItemBlueprint blueprint, IContainer container);
+        IItem AddItemLight(Guid guid, ItemBlueprint blueprint, IContainer container);
 
         // TODO: remove
         // TEST PURPOSE
