@@ -31,6 +31,8 @@ namespace Mud.Server
         bool CanSee(ICharacter character);
         bool CanSee(IItem obj);
 
+        void ChangeRoom(IRoom destination);
+
         //
         bool MultiHit(ICharacter enemy, DamageTypes damageType);
         bool StartFighting(ICharacter enemy);

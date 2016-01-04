@@ -4,14 +4,8 @@ using Mud.Server.Constants;
 
 namespace Mud.Server.Item
 {
-    public class ItemWeapon : ItemBase
+    public class ItemWeapon : ItemBase, IItemWeapon
     {
-        public WeaponTypes Type { get; set; }
-        public int DiceCount { get; private set; }
-        public int DiceValue { get; private set; }
-        public DamageTypes DamageType { get; private set; }
-        // TODO: special type, damage string (see 2nd col  in const.C:208), proc
-
         public ItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)
         {
@@ -20,5 +14,15 @@ namespace Mud.Server.Item
             DiceValue = blueprint.DiceValue;
             DamageType = blueprint.DamageType;
         }
+
+        #region IItemWeapon
+
+        public WeaponTypes Type { get; set; }
+        public int DiceCount { get; private set; }
+        public int DiceValue { get; private set; }
+        public DamageTypes DamageType { get; private set; }
+        // TODO: special type, damage string (see 2nd col  in const.C:208), proc
+
+        #endregion
     }
 }

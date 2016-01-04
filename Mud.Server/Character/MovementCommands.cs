@@ -84,29 +84,29 @@ namespace Mud.Server.Character
             return Move(this, ServerOptions.ExitDirections.Down);
         }
 
-        [Command("northeast", Priority = 0)]
-        [Command("ne", Priority = 0)]
+        [Command("northeast", Priority = 1)]
+        [Command("ne", Priority = 1)]
         protected virtual bool DoNorthEast(string rawParameters, params CommandParameter[] parameters)
         {
             return Move(this, ServerOptions.ExitDirections.NorthEast);
         }
 
-        [Command("northwest", Priority = 0)]
-        [Command("nw", Priority = 0)]
+        [Command("northwest", Priority = 1)]
+        [Command("nw", Priority = 1)]
         protected virtual bool DoNorthWest(string rawParameters, params CommandParameter[] parameters)
         {
             return Move(this, ServerOptions.ExitDirections.NorthWest);
         }
 
-        [Command("southeast", Priority = 0)]
-        [Command("se", Priority = 0)]
+        [Command("southeast", Priority = 1)]
+        [Command("se", Priority = 1)]
         protected virtual bool DoSouthEast(string rawParameters, params CommandParameter[] parameters)
         {
             return Move(this, ServerOptions.ExitDirections.SouthEast);
         }
 
-        [Command("southwest", Priority = 0)]
-        [Command("sw", Priority = 0)]
+        [Command("southwest", Priority = 1)]
+        [Command("sw", Priority = 1)]
         protected virtual bool DoSouthWest(string rawParameters, params CommandParameter[] parameters)
         {
             return Move(this, ServerOptions.ExitDirections.SouthWest);

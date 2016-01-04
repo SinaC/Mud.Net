@@ -25,7 +25,7 @@ namespace Mud.Server.Item
         {
             Blueprint = blueprint;
             ContainedInto = containedInto;
-            containedInto.Put(this);
+            containedInto.PutInContainer(this);
             _weight = blueprint.Weight;
             _cost = blueprint.Cost;
             IsWearable = true; // TODO
@@ -53,7 +53,7 @@ namespace Mud.Server.Item
         {
             base.OnRemoved();
             if (ContainedInto != null)
-                ContainedInto.Get(this);
+                ContainedInto.GetFromContainer(this);
             ContainedInto = null;
             Blueprint = null;
         }
@@ -79,9 +79,9 @@ namespace Mud.Server.Item
         public bool ChangeContainer(IContainer container)
         {
             if (ContainedInto != null)
-                ContainedInto.Get(this);
+                ContainedInto.GetFromContainer(this);
             Debug.Assert(container != null, "ChangeContainer: an item cannot be outside a container");
-            container.Put(this);
+            container.PutInContainer(this);
             ContainedInto = container;
             return true;
         }

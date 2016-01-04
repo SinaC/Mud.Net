@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Security.Cryptography.X509Certificates;
 using Mud.Server.Blueprints;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -86,30 +84,37 @@ namespace Mud.Server.World
             return character;
         }
 
-        public IItem AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container)
+        public IItemContainer AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container)
         {
-            IItem item = new ItemContainer(guid, blueprint, container);
+            IItemContainer item = new ItemContainer(guid, blueprint, container);
             _items.Add(item);
             return item;
         }
 
-        public IItem AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container)
+        public IItemArmor AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container)
         {
-            IItem item = new ItemArmor(guid, blueprint, container);
+            IItemArmor item = new ItemArmor(guid, blueprint, container);
             _items.Add(item);
             return item;
         }
 
-        public IItem AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container)
+        public IItemWeapon AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container)
         {
-            IItem item = new ItemWeapon(guid, blueprint, container);
+            IItemWeapon item = new ItemWeapon(guid, blueprint, container);
             _items.Add(item);
             return item;
         }
 
-        public IItem AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container)
+        public IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container)
         {
-            IItem item = new ItemLight(guid, blueprint, container);
+            IItemLight item = new ItemLight(guid, blueprint, container);
+            _items.Add(item);
+            return item;
+        }
+
+        public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim)
+        {
+            IItemCorpse item = new ItemCorpse(guid, blueprint, container, victim);
             _items.Add(item);
             return item;
         }

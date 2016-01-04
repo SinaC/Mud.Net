@@ -42,6 +42,7 @@
     <Compile Include="TestAct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestPaging.cs" />
+    <Compile Include="TestReadonly.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">

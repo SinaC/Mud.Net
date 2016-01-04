@@ -129,59 +129,60 @@ namespace Mud.Server.Character
                     string where = String.Empty;
                     switch (equipmentSlot.WearLocation)
                     {
-                        case WearLocations.Light:
-                            where = "%C%<used as light>      %x%";
-                            break;
-                        case WearLocations.Finger:
-                            where = "%C%<worn on finger>     %x%";
-                            break;
-                        case WearLocations.Neck:
-                            where = "%C%<worn on neck>       %x%";
-                            break;
-                        case WearLocations.Body:
-                            where = "%C%<worn on torso>      %x%";
-                            break;
                         case WearLocations.Head:
-                            where = "%C%<worn on head>       %x%";
+                            where = "%C%<worn on head>          %x%";
                             break;
-                        case WearLocations.Legs:
-                            where = "%C%<worn on legs>       %x%";
+                        case WearLocations.Amulet:
+                            where = "%C%<worn on neck>          %x%";
                             break;
-                        case WearLocations.Feet:
-                            where = "%C%<worn on feet>       %x%";
+                        case WearLocations.Shoulders:
+                            where = "%C%<worn around shoulders> %x%";
                             break;
-                        case WearLocations.Hands:
-                            where = "%C%<worn on hands>      %x%";
+                        case WearLocations.Chest:
+                            where = "%C%<worn on chest>         %x%";
                             break;
-                        case WearLocations.Arms:
-                            where = "%C%<worn on arms>       %x%";
-                            break;
-                        case WearLocations.About:
-                            where = "%C%<worn about body>    %x%";
+                        case WearLocations.Cloak:
+                            where = "%C%<worn about body>       %x%";
                             break;
                         case WearLocations.Waist:
-                            where = "%C%<worn about waist>   %x%";
+                            where = "%C%<worn about waist>      %x%";
                             break;
-                        case WearLocations.Wrist:
-                            where = "%C%<worn around wrist>  %x%";
+                        case WearLocations.Wrists:
+                            where = "%C%<worn around wrists>    %x%";
                             break;
-                        case WearLocations.Ear:
-                            where = "%C%<worn on ear>        %x%";
+                        case WearLocations.Hands:
+                            where = "%C%<worn on hands>         %x%";
                             break;
-                        case WearLocations.Eyes:
-                            where = "%C%<worn on eyes>       %x%";
+                        case WearLocations.RingLeft:
+                            where = "%C%<worn on left finger>   %x%";
                             break;
-                        case WearLocations.Float:
-                            where = "%C%<floating nearby>    %x%";
+                        case WearLocations.RingRight:
+                            where = "%C%<worn on right finger>   %x%";
                             break;
-                        //"{C<worn as shield>        {x",
-                        //"{c<wielded>		{x",
-                        //"{C<held>			{x",
-                        //"{c<secondary weapon>	{x",
-                        //"{C<floating nearby>	{x",
-                        //  "{B<brand mark>            {x"
-                        //"{c<third weapon>          {x",
-                        //"{c<fourth weapon>         {x",
+                        case WearLocations.Legs:
+                            where = "%C%<worn on legs>          %x%";
+                            break;
+                        case WearLocations.Feet:
+                            where = "%C%<worn on feet>          %x%";
+                            break;
+                        case WearLocations.Trinket1:
+                            where = "%C%<worn as 1st trinket>   %x%";
+                            break;
+                        case WearLocations.Trinket2:
+                            where = "%C%<worn as 2nd trinket>   %x%";
+                            break;
+                        case WearLocations.Wield:
+                            where = "%C%<wielded>               %x%";
+                            break;
+                        case WearLocations.Wield2:
+                            where = "%c%<offhand>               %x%";
+                            break;
+                        case WearLocations.Hold:
+                            where = "%C%<held>                  %x%";
+                            break;
+                        case WearLocations.Shield:
+                            where = "%C%<worn as shield>        %x%";
+                            break;
                     }
                     StringBuilder sb = new StringBuilder(where);
                     if (CanSee(equipmentSlot.Item))

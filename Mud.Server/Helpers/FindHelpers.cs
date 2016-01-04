@@ -5,7 +5,7 @@ using Mud.Server.Input;
 
 namespace Mud.Server.Helpers
 {
-    public static class FindHelpers
+    public static class FindHelpers // TODO: check if a keyword contains parameter instead of name == parameter  ???
     {
         public readonly static Func<string, string, bool> StringEquals = (s, s1) => String.Equals(s, s1, StringComparison.InvariantCultureIgnoreCase);
         public readonly static Func<string, string, bool> StringStartWith = (s, s1) => s.StartsWith(s1, StringComparison.InvariantCultureIgnoreCase);

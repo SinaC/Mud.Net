@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Mud.Server.Blueprints;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Item;
 using Mud.Server.Server;
 
 namespace Mud.Server.Tests.Mocking
@@ -42,22 +43,27 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IItem AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container)
+        public IItemContainer AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container)
         {
             throw new NotImplementedException();
         }
 
-        public IItem AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container)
+        public IItemArmor AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container)
         {
             throw new NotImplementedException();
         }
 
-        public IItem AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container)
+        public IItemWeapon AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container)
         {
             throw new NotImplementedException();
         }
 
-        public IItem AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container)
+        public IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim)
         {
             throw new NotImplementedException();
         }

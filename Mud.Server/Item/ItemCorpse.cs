@@ -5,7 +5,7 @@ using Mud.Server.Blueprints;
 
 namespace Mud.Server.Item
 {
-    public class ItemCorpse : ItemBase, IContainer
+    public class ItemCorpse : ItemBase, IItemCorpse
     {
         private readonly string _corpseName;
         private readonly List<IItem> _content;
@@ -45,14 +45,14 @@ namespace Mud.Server.Item
             get { return _content; }
         }
 
-        public bool Put(IItem obj)
+        public bool PutInContainer(IItem obj)
         {
             //return false; // cannot put anything in a corpse, puttin something is done thru constructor
             _content.Add(obj);
             return true;
         }
 
-        public bool Get(IItem obj)
+        public bool GetFromContainer(IItem obj)
         {
             return _content.Remove(obj);
         }

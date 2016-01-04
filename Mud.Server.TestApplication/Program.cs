@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -112,7 +110,7 @@ namespace Mud.Server.TestApplication
                 Name = "item2",
                 ShortDescription = "Second item (weapon)",
                 Description = "The second item (weapon) has been left here.",
-                Type = WeaponTypes.Axe,
+                Type = WeaponTypes.Axe1H,
                 DiceCount = 10,
                 DiceValue = 20,
                 DamageType = DamageTypes.Fire
@@ -121,12 +119,11 @@ namespace Mud.Server.TestApplication
             {
                 Id = 3,
                 Name = "item3",
-                ShortDescription = "Third item (armor)",
-                Description = "The third item (armor) has been left here.",
-                Pierce = 100,
-                Bash = 200,
-                Slash = 300,
-                Exotic = 400
+                ShortDescription = "Third item (armor|feet)",
+                Description = "The third item (armor|feet) has been left here.",
+                Armor = 100,
+                ArmorKind = ArmorKinds.Mail,
+                WearLocation = WearLocations.Feet
             };
             ItemLightBlueprint item4Blueprint = new ItemLightBlueprint
             {
@@ -161,6 +158,8 @@ namespace Mud.Server.TestApplication
             IItem item3 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1 as IContainer);
             IItem item4 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
             IItem item1Dup2 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
+            IItem item3Dup1 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
+            IItem item4Dup1 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
         }
 
         private static void CreateMidgaard()
@@ -285,7 +284,7 @@ namespace Mud.Server.TestApplication
                 Name = "item2",
                 ShortDescription = "Second item (weapon)",
                 Description = "The second item (weapon) has been left here.",
-                Type = WeaponTypes.Axe,
+                Type = WeaponTypes.Axe1H,
                 DiceCount = 10,
                 DiceValue = 20,
                 DamageType = DamageTypes.Fire
@@ -294,12 +293,11 @@ namespace Mud.Server.TestApplication
             {
                 Id = 3,
                 Name = "item3",
-                ShortDescription = "Third item (armor)",
-                Description = "The third item (armor) has been left here.",
-                Pierce= 100,
-                Bash = 200,
-                Slash= 300,
-                Exotic = 400
+                ShortDescription = "Third item (armor|feet)",
+                Description = "The third item (armor|feet) has been left here.",
+                Armor = 100,
+                ArmorKind = ArmorKinds.Mail,
+                WearLocation = WearLocations.Feet
             };
             ItemLightBlueprint item4Blueprint = new ItemLightBlueprint
             {
@@ -334,6 +332,8 @@ namespace Mud.Server.TestApplication
             IItem item3 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1 as IContainer);
             IItem item4 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
             IItem item1Dup2 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
+            IItem item3Dup1 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
+            IItem item4Dup1 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
         }
 
         private static void TestPaging()

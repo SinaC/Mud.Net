@@ -83,14 +83,14 @@ namespace Mud.Server.Room
             get { return _content.AsReadOnly(); }
         }
 
-        public bool Put(IItem obj)
+        public bool PutInContainer(IItem obj)
         {
             // TODO: check if already in a container
             _content.Add(obj);
             return true;
         }
 
-        public bool Get(IItem obj)
+        public bool GetFromContainer(IItem obj)
         {
             bool removed = _content.Remove(obj);
             return removed;

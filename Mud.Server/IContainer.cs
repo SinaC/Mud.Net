@@ -6,7 +6,7 @@ namespace Mud.Server
     {
         IReadOnlyCollection<IItem> Content { get; }
 
-        bool Put(IItem obj);
-        bool Get(IItem obj);
+        bool PutInContainer(IItem obj);
+        bool GetFromContainer(IItem obj);
     }
 }

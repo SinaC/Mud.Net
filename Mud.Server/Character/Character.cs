@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
@@ -131,14 +130,14 @@ namespace Mud.Server.Character
             get { return _inventory.AsReadOnly(); }
         }
 
-        public bool Put(IItem obj)
+        public bool PutInContainer(IItem obj)
         {
             // TODO: check if already in a container
             _inventory.Add(obj);
             return true;
         }
 
-        public bool Get(IItem obj)
+        public bool GetFromContainer(IItem obj)
         {
             bool removed = _inventory.Remove(obj);
             return removed;
@@ -181,7 +180,7 @@ namespace Mud.Server.Character
         {
             Log.Default.WriteLine(LogLevels.Debug, "ChangeController: {0} master: old: {1}; new {2}", Name, ControlledBy == null ? "<<none>>" : ControlledBy.Name, master == null ? "<<none>>" : master.Name);
             // TODO: check if already slave, ...
-            if (master == null)
+            if (master == null) // TODO: remove display ???
             {
                 if (ControlledBy != null)
                 {
@@ -208,6 +207,16 @@ namespace Mud.Server.Character
             return true; // TODO
         }
 
+        public void ChangeRoom(IRoom destination)
+        {
+            Log.Default.WriteLine(LogLevels.Debug, "ChangeRoom: {0} from: {1} to {2}", Name, Room == null ? "<<no room>>" : Room.Name, destination == null ? "<<no room>>" : destination.Name);
+            if (Room != null)
+                Room.Leave(this);
+            Room = destination;
+            if (destination != null)
+                destination.Enter(this);
+        }
+
         public bool MultiHit(ICharacter enemy, DamageTypes damageType)
         {
             Log.Default.WriteLine(LogLevels.Debug, "MultiHit: {0} -> {1}", Name, enemy.Name);
@@ -217,7 +226,8 @@ namespace Mud.Server.Character
 
             // TODO: check if wielding a weapon, ...
             // TODO: secondary, haste, ...
-            OneHit(enemy, damageType);
+            IItemWeapon wielded = (Equipments.FirstOrDefault(x => x.WearLocation == WearLocations.Wield) ?? EquipmentSlot.NullObject).Item as IItemWeapon;
+            OneHit(enemy, wielded, damageType);
             //
             if (Fighting != enemy)
                 return true;
@@ -267,64 +277,41 @@ namespace Mud.Server.Character
             // TODO: depend on race+affects+...
             _equipments.Add(new EquipmentSlot(WearLocations.Light));
             _equipments.Add(new EquipmentSlot(WearLocations.Head));
-            _equipments.Add(new EquipmentSlot(WearLocations.Eyes));
-            _equipments.Add(new EquipmentSlot(WearLocations.Ear));
-            _equipments.Add(new EquipmentSlot(WearLocations.Ear));
-            _equipments.Add(new EquipmentSlot(WearLocations.Neck));
-            _equipments.Add(new EquipmentSlot(WearLocations.Arms));
-            _equipments.Add(new EquipmentSlot(WearLocations.Wrist));
-            _equipments.Add(new EquipmentSlot(WearLocations.Wrist));
-            _equipments.Add(new EquipmentSlot(WearLocations.Finger));
-            _equipments.Add(new EquipmentSlot(WearLocations.Finger));
-            _equipments.Add(new EquipmentSlot(WearLocations.Wield));
-            _equipments.Add(new EquipmentSlot(WearLocations.Offhand));
-            _equipments.Add(new EquipmentSlot(WearLocations.Body));
-            _equipments.Add(new EquipmentSlot(WearLocations.About));
+            _equipments.Add(new EquipmentSlot(WearLocations.Amulet));
+            _equipments.Add(new EquipmentSlot(WearLocations.Shoulders));
+            _equipments.Add(new EquipmentSlot(WearLocations.Chest));
+            _equipments.Add(new EquipmentSlot(WearLocations.Cloak));
             _equipments.Add(new EquipmentSlot(WearLocations.Waist));
+            _equipments.Add(new EquipmentSlot(WearLocations.Wrists));
+            _equipments.Add(new EquipmentSlot(WearLocations.Hands));
+            _equipments.Add(new EquipmentSlot(WearLocations.RingLeft));
+            _equipments.Add(new EquipmentSlot(WearLocations.RingRight));
             _equipments.Add(new EquipmentSlot(WearLocations.Legs));
             _equipments.Add(new EquipmentSlot(WearLocations.Feet));
-            _equipments.Add(new EquipmentSlot(WearLocations.Float));
+            _equipments.Add(new EquipmentSlot(WearLocations.Trinket1));
+            _equipments.Add(new EquipmentSlot(WearLocations.Trinket2));
+            _equipments.Add(new EquipmentSlot(WearLocations.Wield));
+            _equipments.Add(new EquipmentSlot(WearLocations.Shield));
+            _equipments.Add(new EquipmentSlot(WearLocations.Hold));
         }
 
-        protected void ChangeRoom(IRoom destination)
-        {
-            Room.Leave(this);
-            Room = destination;
-            destination.Enter(this);
-        }
-
-        private bool OneHit(ICharacter victim, DamageTypes damageType) // TODO: skill    check fight.C:1394
+        private bool OneHit(ICharacter victim, IItemWeapon weapon, DamageTypes damageType) // TODO: skill    check fight.C:1394
         {
             if (this == victim || Room != victim.Room)
                 return false;
-            // TODO: get damage phrase: wounds, scratches, ...
             // TODO: skill percentage
-            //TODO http://dungeons.wikia.com/wiki/THAC0
-            //int thac0_0 = 20;
-            //int thac0_32 = -4;
-            // TODO: interpolation in function of level
-            int thac0 = 20;
-            if (thac0 < 0)
-                thac0 /= 2;
-            if (thac0 < -5)
-                thac0 = -5 + (thac0 + 5)/2;
-            //TODO: continue thac0 computation
-            int armor = 1000; // TODO: armor
-            //
-            int diceRoll = RandomizeHelpers.Instance.Randomizer.Next(20);
-            if (diceRoll == 0 || diceRoll < thac0 - armor)
-            {
-                // TODO: miss   0 damage
-                CombatDamage(victim, 0, damageType, true);
-                return true;
-            }
             // TODO: check wield  fight.C:1595
-            int damage = RandomizeHelpers.Instance.Dice(5, 10);
+
+            int damage = 0;
+
+            if (weapon != null)
+                damage = RandomizeHelpers.Instance.Dice(weapon.DiceCount, weapon.DiceValue);
+            else
+                damage = 100; // TODO
             // TODO: damage modifier  fight.C:1693
 
             damage = 100000;
 
-            // TODO: call CombatDamage
             CombatDamage(victim, damage, damageType, true);
 
             return true;
@@ -350,7 +337,7 @@ namespace Mud.Server.Character
             // TODO: check parry, dodge, shield block, ...
             // TODO: check immunity/resist/vuln
 
-            if (visible) // equivalent to dam_message
+            if (visible) // equivalent to dam_message in fight.C:4381
             {
                 string damagePhrase1 = "damage";
                 string damagePhrase2 = "damages";
@@ -379,6 +366,8 @@ namespace Mud.Server.Character
             bool dead = victim.ApplyDamage(damage);
             if (dead) // TODO: fight.C:2246
             {
+                Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", victim.Name, Name);
+
                 victim.StopFighting(false);
                 KillingPayoff(victim);
                 return true;
@@ -391,19 +380,18 @@ namespace Mud.Server.Character
 
         private void KillingPayoff(ICharacter victim)
         {
-            Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", victim.Name, Name);
-
             // TODO: gain/lose xp   damage.C:32
             RawKill(victim);
             // TODO: autoloot, autosac  damage.C:96
         }
 
-        private IItem RawKill(ICharacter victim) // returns ItemCorpse
+        private IItemCorpse RawKill(ICharacter victim) // returns ItemCorpse
         {
             victim.StopFighting(true);
             // TODO: update reputation
             // TODO: death cry
-            ItemCorpse corpse = new ItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
+            //IItemCorpse corpse = new ItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
+            IItemCorpse corpse = World.World.Instance.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
 
             if (victim.ImpersonatedBy != null)
             {

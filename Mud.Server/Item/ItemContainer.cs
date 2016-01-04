@@ -5,12 +5,9 @@ using Mud.Server.Blueprints;
 
 namespace Mud.Server.Item
 {
-    public class ItemContainer : ItemBase, IContainer
+    public class ItemContainer : ItemBase, IItemContainer
     {
         private readonly List<IItem> _content;
-
-        public int ItemCount { get; private set; } // maximum number of items
-        public int WeightMultiplier { get; private set; } // percentage
 
         public ItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint, containedInto)
@@ -35,6 +32,11 @@ namespace Mud.Server.Item
 
         #endregion
 
+        #region IItemContainer
+
+        public int ItemCount { get; private set; } // maximum number of items
+        public int WeightMultiplier { get; private set; } // percentage
+
         #region IContainer
 
         public IReadOnlyCollection<IItem> Content
@@ -42,18 +44,20 @@ namespace Mud.Server.Item
             get { return _content.AsReadOnly(); }
         }
 
-        public bool Put(IItem obj)
+        public bool PutInContainer(IItem obj)
         {
             // TODO: check if already in a container, check max items
             _content.Add(obj);
             return true;
         }
 
-        public bool Get(IItem obj)
+        public bool GetFromContainer(IItem obj)
         {
             bool removed = _content.Remove(obj);
             return removed;
         }
+
+        #endregion
 
         #endregion
     }

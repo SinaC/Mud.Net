@@ -1,3 +1,7 @@
+crash when wearing an item -> because of assert in ItemBase.ChangeContainer
+  --> should equiped item be in inventory
+4 bag slots instead of inventory + 1 dummy bag slot with inventory ?
+
 in asynchronous mode, when do we send prompt ?
 unit tests
 IReadOnlyPlayer, IReadOnlyCharacter, ...  + set private/protected to internal  this allows to remove methods like Enter/Leaves/ChangeImpersonation/ChangeController

@@ -39,23 +39,102 @@ namespace Mud.Server.Character
         [Command("get")]
         // Get item
         // Get item [from] container
+        // Get all
+        // Get all.item
         // Get all [from] container
         // Get all.item [from] container
         protected virtual bool DoGet(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 Send("Get what?" + Environment.NewLine);
-            else if (parameters.Length == 1) // Get item
+            else if (parameters.Length == 1) // get item, get all, get all.
             {
-                IItem item = FindHelpers.FindByName(Room.Content, parameters[0]);
-                if (item == null)
-                    Send("I see no {0} here", parameters[0]);
-                else
-                    GetItem(item);
+                if (parameters[0].Value == "all" || parameters[0].Value.StartsWith("all.")) // get all or get all.
+                {
+                    // TODO: same code as below (***) except source collection (Room.Content)
+                    IReadOnlyCollection<IItem> list;
+                    bool allDot = false;
+                    if (parameters[0].Value.Contains("."))
+                    {
+                        string what = parameters[0].Value.Substring(4);
+                        list = !String.IsNullOrWhiteSpace(what)
+                            ? new ReadOnlyCollection<IItem>(Room.Content.Where(x => CanSee(x) && FindHelpers.StringStartWith(x.Name, what)).ToList())
+                            : new ReadOnlyCollection<IItem>(Room.Content.Where(CanSee).ToList());
+                        allDot = true;
+                    }
+                    else
+                        list = new ReadOnlyCollection<IItem>(Room.Content.Where(CanSee).ToList());
+                    if (list.Any())
+                    {
+                        foreach (IItem item in list)
+                            GetItem(item);
+                    }
+                    else if (allDot)
+                        Send("I see nothing like that here."+Environment.NewLine);
+                    else
+                        Send("I see nothing here."+Environment.NewLine);
+                }
+                else // get item
+                {
+                    IItem item = FindHelpers.FindByName(Room.Content.Where(CanSee), parameters[0]);
+                    if (item == null)
+                        Send("I see no {0} here." + Environment.NewLine, parameters[0]);
+                    else
+                        GetItem(item);
+                }
             }
-            else
-                // TODO: other cases
-                ;
+            else // get item [from] container, get all [from] container, get all.item [from] container
+            {
+                CommandParameter whatParameter = parameters[0];
+                CommandParameter whereParameter = parameters[1].Value == "from" ? parameters[2] : parameters[1];
+                // search container
+                IItem containerItem = FindHelpers.FindByName(Room.Content.Where(CanSee), whereParameter);
+                if (containerItem == null)
+                    Send("I see no {0} here." + Environment.NewLine, whereParameter);
+                else
+                {
+                    IContainer container = containerItem as IContainer;
+                    if (container == null)
+                        Send("That's not a container." + Environment.NewLine);
+                    else
+                    {
+                        // TODO: check if closed
+                        if (whatParameter.Value == "all" || whatParameter.Value.StartsWith("all.")) // get all [from] container, get all.item [from] container
+                        {
+                            // TODO: same code as above (***) except source collection (container.Content)
+                            IReadOnlyCollection<IItem> list;
+                            bool allDot = false;
+                            if (parameters[0].Value.Contains("."))
+                            {
+                                string what = parameters[0].Value.Substring(4);
+                                list = !String.IsNullOrWhiteSpace(what)
+                                    ? new ReadOnlyCollection<IItem>(container.Content.Where(x => CanSee(x) && FindHelpers.StringStartWith(x.Name, what)).ToList())
+                                    : new ReadOnlyCollection<IItem>(container.Content.Where(CanSee).ToList());
+                                allDot = true;
+                            }
+                            else
+                                list = new ReadOnlyCollection<IItem>(container.Content.Where(CanSee).ToList());
+                            if (list.Any())
+                            {
+                                foreach (IItem item in list)
+                                    GetItem(item, container);
+                            }
+                            else if (allDot)
+                                Send("I see nothing like that in the {0}." + Environment.NewLine, whereParameter);
+                            else
+                                Send("I see nothing in the {0}." + Environment.NewLine, whereParameter);
+                        }
+                        else // get item [from] container
+                        {
+                            IItem item = FindHelpers.FindByName(container.Content.Where(CanSee), whatParameter);
+                            if (item == null)
+                                Send("I see nothing like that in the {0}" + Environment.NewLine, whereParameter);
+                            else
+                                GetItem(item, container);
+                        }
+                    }
+                }
+            }
             return true;
         }
 
@@ -71,7 +150,7 @@ namespace Mud.Server.Character
                 ; // TODO
             else
             {
-                IItem item = FindHelpers.FindByName(Content, parameters[0]);
+                IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
                 if (item == null)
                     Send(StringHelpers.ItemInventoryNotFound);
                 else
@@ -92,7 +171,7 @@ namespace Mud.Server.Character
                 Send("Remove what?" + Environment.NewLine);
             else
             {
-                EquipmentSlot equipmentSlot = FindHelpers.FindByName(Equipments.Where(x => x.Item != null), x => x.Item, parameters[0]);
+                EquipmentSlot equipmentSlot = FindHelpers.FindByName(Equipments.Where(x => x.Item != null && CanSee(x.Item)), x => x.Item, parameters[0]);
                 if (equipmentSlot.Item == null)
                     Send(StringHelpers.ItemInventoryNotFound);
                 else
@@ -140,12 +219,12 @@ namespace Mud.Server.Character
         {
             // TODO: check weight + item count
             Act(ActOptions.ToCharacter, "You get {0}.", item);
-            Act(ActOptions.ToRoom, "$n gets $p.", this, item);
+            Act(ActOptions.ToRoom, "{0} gets {1}.", this, item);
             item.ChangeContainer(this);
             return true;
         }
 
-        private bool GetItem(IItem item, ItemContainer container)
+        private bool GetItem(IItem item, IContainer container)
         {
             // TODO: check weight + item count
             Act(ActOptions.ToCharacter, "You get {0} from {1}.", item, container);

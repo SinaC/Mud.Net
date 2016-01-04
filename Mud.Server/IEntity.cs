@@ -6,6 +6,7 @@ namespace Mud.Server
     {
         Guid Id { get; }
         string Name { get; }
+        // TODO: keywords: List<string> = Name.Split(' ')
         string DisplayName { get; }
         string Description { get; }
 

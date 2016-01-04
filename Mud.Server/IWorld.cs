@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mud.Server.Blueprints;
 using Mud.Server.Input;
+using Mud.Server.Item;
 using Mud.Server.Server;
 
 namespace Mud.Server
@@ -19,10 +20,11 @@ namespace Mud.Server
         ICharacter AddCharacter(Guid guid, string name, IRoom room); // Impersonated
         ICharacter AddCharacter(Guid guid, CharacterBlueprint blueprint, IRoom room); // Non-impersonated
         
-        IItem AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container);
-        IItem AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container);
-        IItem AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container);
-        IItem AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container);
+        IItemContainer AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container);
+        IItemArmor AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container);
+        IItemWeapon AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container);
+        IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container);
+        IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim);
 
         void RemoveCharacter(ICharacter character);
         void RemoveItem(IItem item);
