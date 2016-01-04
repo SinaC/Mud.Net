@@ -136,6 +136,8 @@ namespace Mud.Server.TestApplication
                 Description = "The fourth item (light) has been left here.",
                 DurationHours = -1
             };
+            //
+            ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint();
 
             // World
             IRoom room1 = World.World.Instance.AddRoom(Guid.NewGuid(), room1Blueprint);
@@ -307,6 +309,10 @@ namespace Mud.Server.TestApplication
                 Description = "The fourth item (light) has been left here.",
                 DurationHours = -1
             };
+
+            //
+            ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint();
+
             // Add dummy mobs and items to allow impersonate :)
             IRoom templeOfMota = World.World.Instance.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
             IRoom templeSquare = World.World.Instance.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");

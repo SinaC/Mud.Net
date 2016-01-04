@@ -100,6 +100,28 @@ namespace Mud.Server.Character
             get { return Blueprint == null ? StringHelpers.UpperFirstLetter(Name) : Blueprint.ShortDescription; }
         }
 
+        public override void OnRemoved() // called before removing an item from the game
+        {
+            base.OnRemoved();
+            StopFighting(true);
+            if (Slave != null)
+                Slave.ChangeController(null);
+            if (ImpersonatedBy != null)
+            {
+                // TODO: warn ImpersonatedBy
+                ImpersonatedBy = null;
+            }
+            if (ControlledBy != null)
+            {
+                // TODO: warn ControlledBy
+                ControlledBy = null;
+            }
+            _inventory.Clear();
+            _equipments.Clear();
+            Blueprint = null;
+            Room = null;
+        }
+
         #endregion
 
         #region IContainer
@@ -300,6 +322,8 @@ namespace Mud.Server.Character
             int damage = RandomizeHelpers.Instance.Dice(5, 10);
             // TODO: damage modifier  fight.C:1693
 
+            damage = 100000;
+
             // TODO: call CombatDamage
             CombatDamage(victim, damage, damageType, true);
 
@@ -381,15 +405,14 @@ namespace Mud.Server.Character
             // TODO: death cry
             ItemCorpse corpse = new ItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
 
-            if (ImpersonatedBy != null)
+            if (victim.ImpersonatedBy != null)
             {
-                //World.World.Instance.RemoveCharacter(victim, false);  NOT REALLY NEEDED
                 // TODO: reset hit/mana/...
                 // TODO: teleport player to hall room/graveyard  see fight.C:3952
             }
             else
             {
-                World.World.Instance.RemoveCharacter(victim, true);
+                World.World.Instance.RemoveCharacter(victim);
             }
             return corpse;
         }

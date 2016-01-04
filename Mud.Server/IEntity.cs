@@ -14,6 +14,6 @@ namespace Mud.Server
 
         bool ChangeIncarnation(IAdmin admin);
 
-        void OnRemoved();
+        void OnRemoved(); // called before removing an item from the game
     }
 }

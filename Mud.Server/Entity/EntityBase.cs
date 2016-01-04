@@ -90,8 +90,8 @@ namespace Mud.Server.Entity
             return true;
         }
 
-        // TODO: override in inherited class
-        public virtual void OnRemoved()
+        // Overriden in inherited class
+        public virtual void OnRemoved() // called before removing an item from the game
         {
             // TODO: warn IncarnatedBy about removing
         }

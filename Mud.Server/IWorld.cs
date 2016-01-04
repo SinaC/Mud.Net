@@ -24,7 +24,9 @@ namespace Mud.Server
         IItem AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container);
         IItem AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container);
 
-        void RemoveCharacter(ICharacter character, bool pull/*TODO better name*/);
+        void RemoveCharacter(ICharacter character);
+        void RemoveItem(IItem item);
+        void RemoveRoom(IRoom room);
 
         // TODO: remove
         // TEST PURPOSE

@@ -64,6 +64,16 @@ namespace Mud.Server.Room
             get { return StringHelpers.UpperFirstLetter(Name); }
         }
 
+        public override void OnRemoved()
+        {
+            base.OnRemoved();
+            Blueprint = null;
+            _people.Clear();
+            for (int i = 0; i < _exits.Length; i++)
+                _exits[i] = null;
+            _content.Clear();
+        }
+
         #endregion
 
         #region IContainer
@@ -108,16 +118,18 @@ namespace Mud.Server.Room
             return exit != null ? exit.Destination : null;
         }
 
-        public void Enter(ICharacter character)
+        public bool Enter(ICharacter character)
         {
             // TODO: check if not already in room
             _people.Add(character);
+            return true;
         }
 
-        public void Leave(ICharacter character)
+        public bool Leave(ICharacter character)
         {
             // TODO: check if in room
             bool removed = _people.Remove(character);
+            return removed;
         }
 
         #endregion

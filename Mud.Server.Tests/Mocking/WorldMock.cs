@@ -62,11 +62,20 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public void RemoveCharacter(ICharacter character, bool pull)
+        public void RemoveCharacter(ICharacter character)
         {
             throw new NotImplementedException();
         }
 
+        public void RemoveItem(IItem item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveRoom(IRoom room)
+        {
+            throw new NotImplementedException();
+        }
 
         public IExit AddExit(IRoom @from, IRoom to, ServerOptions.ExitDirections direction, bool bidirectional)
         {

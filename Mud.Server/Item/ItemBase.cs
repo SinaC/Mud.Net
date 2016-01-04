@@ -27,6 +27,7 @@ namespace Mud.Server.Item
             ContainedInto = containedInto;
             containedInto.Put(this);
             _weight = blueprint.Weight;
+            _cost = blueprint.Cost;
             IsWearable = true; // TODO
         }
 
@@ -46,6 +47,15 @@ namespace Mud.Server.Item
         public override string DisplayName
         {
             get { return Blueprint == null ? StringHelpers.UpperFirstLetter(Name) : Blueprint.ShortDescription; }
+        }
+
+        public override void OnRemoved() // called before removing an item from the game
+        {
+            base.OnRemoved();
+            if (ContainedInto != null)
+                ContainedInto.Get(this);
+            ContainedInto = null;
+            Blueprint = null;
         }
 
         #endregion
@@ -68,11 +78,9 @@ namespace Mud.Server.Item
 
         public bool ChangeContainer(IContainer container)
         {
-            // TODO: check if can be put in a container
             if (ContainedInto != null)
                 ContainedInto.Get(this);
             Debug.Assert(container != null, "ChangeContainer: an item cannot be outside a container");
-            //if (container != null) // Cannot be null
             container.Put(this);
             ContainedInto = container;
             return true;

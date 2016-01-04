@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
+using System.Security.Cryptography.X509Certificates;
 using Mud.Server.Blueprints;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -11,8 +14,6 @@ namespace Mud.Server.World
 {
     public class World : IWorld
     {
-        private readonly List<IAdmin> _admins;
-        private readonly List<IPlayer> _players;
         private readonly List<ICharacter> _characters;
         private readonly List<IRoom> _rooms;
         private readonly List<IItem> _items;
@@ -28,51 +29,12 @@ namespace Mud.Server.World
 
         private World()
         {
-            _admins = new List<IAdmin>();
-            _players = new List<IPlayer>();
             _characters = new List<ICharacter>();
             _rooms = new List<IRoom>();
             _items = new List<IItem>();
         }
 
         #endregion
-
-        // TODO: remove following methods
-        //public IAdmin AddAdmin(IClient client, Guid guid, string name)
-        //{
-        //    IAdmin admin = new Admin.Admin(client, guid, name);
-        //    _admins.Add(admin);
-        //    return admin;
-        //}
-
-        //public IPlayer AddPlayer(IClient client, Guid guid, string name)
-        //{
-        //    IPlayer player = new Player.Player(client, guid, name);
-        //    _players.Add(player);
-        //    return player;
-        //}
-
-        
-        //public IRoom AddRoom(Guid guid, string name)
-        //{
-        //    IRoom room = new Room.Room(guid, name);
-        //    _rooms.Add(room);
-        //    return room;
-        //}
-
-        //public IRoom AddRoom(string name, string description)
-        //{
-        //    IRoom room = new Room.Room(Guid.NewGuid(), name, description);
-        //    _rooms.Add(room);
-        //    return room;
-        //}
-
-        //public IItem AddItemContainer(Guid guid, string name, IContainer container)
-        //{
-        //    IItem item = new ItemContainer(guid, name, container);
-        //    _items.Add(item);
-        //    return item;
-        //}
 
         #region IWorld
 
@@ -152,20 +114,43 @@ namespace Mud.Server.World
             return item;
         }
 
-        public void RemoveCharacter(ICharacter character, bool pull/*TODO better name*/) // see handler.C:3336
+        public void RemoveCharacter(ICharacter character)
         {
-            // TODO: nuke pets
-            if (pull)
-                ; // die_follower
             character.StopFighting(true);
             // TODO: extract all object in ICharacter
             // TODO: remove character from room
-            if (!pull)
-                ; // move character to hall room/graveyard
-            else
+            if (character.Content.Any())
             {
-                _characters.Remove(character);
+                List<IItem> inventory = new List<IItem>(character.Content); // clone to be sure
+                foreach(IItem item in inventory)
+                    RemoveItem(item);
+                List<IItem> equipment = new List<IItem>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item));
+                foreach (IItem item in equipment)
+                    RemoveItem(item);
             }
+            if (character.Room != null)
+                character.Room.Leave(character);
+            character.OnRemoved();
+            _characters.Remove(character);
+        }
+
+        public void RemoveItem(IItem item)
+        {
+            item.OnRemoved();
+            _items.Remove(item);
+            // If container, remove content
+            IContainer container = item as IContainer;
+            if (container != null)
+            {
+                List<IItem> content = new List<IItem>(container.Content); // clone to be sure
+                foreach (IItem itemInContainer in content)
+                    RemoveItem(itemInContainer);
+            }
+        }
+
+        public void RemoveRoom(IRoom room)
+        {
+            // TODO
         }
 
         // TODO: remove

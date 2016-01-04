@@ -28,6 +28,11 @@ namespace Mud.Server.Item
             get { return base.Weight + _content.Sum(x => x.Weight)*WeightMultiplier; }
         }
 
+        void IEntity.OnRemoved()
+        {
+            _content.Clear();
+        }
+
         #endregion
 
         #region IContainer

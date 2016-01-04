@@ -12,5 +12,7 @@ namespace Mud.Server
         // TODO: key blueprint id or key blueprint
         // TODO: flags
         IRoom Destination { get; }
+
+        void OnRemoved();
     }
 }

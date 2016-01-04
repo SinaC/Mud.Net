@@ -18,7 +18,13 @@ namespace Mud.Server.Room
         public string Keywords { get; private set; }
         public string Description { get; private set; }
         public IRoom Destination { get; private set; }
-        
+
+        public void OnRemoved()
+        {
+            Destination = null;
+            Blueprint = null;
+        }
+
         #endregion
     }
 }

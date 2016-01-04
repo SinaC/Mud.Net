@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mud.Server.Blueprints;
 
 namespace Mud.Server.Item
@@ -22,11 +23,27 @@ namespace Mud.Server.Item
             // TODO: custom short description
             Description = "The corpse of " + _corpseName + " is laying here.";
             _content = new List<IItem>();
-            foreach (IItem item in character.Content) // TODO: check stay death flag
+            List<IItem> inventory = new List<IItem>(character.Content); // clone
+            foreach (IItem item in inventory) // TODO: check stay death flag
                 item.ChangeContainer(this);
+            foreach (IItem item in character.Equipments.Where(x => x.Item != null).Select(x => x.Item))
+                item.ChangeContainer(this); // TODO: remove from equipment structure
         }
 
-        public IReadOnlyCollection<IItem> Content { get { return _content; } }
+        public override int Weight
+        {
+            get
+            {
+                return base.Weight + _content.Sum(x => x.Weight);
+            }
+        }
+
+        #region IContainer
+
+        public IReadOnlyCollection<IItem> Content
+        {
+            get { return _content; }
+        }
 
         public bool Put(IItem obj)
         {
@@ -39,5 +56,7 @@ namespace Mud.Server.Item
         {
             return _content.Remove(obj);
         }
+
+        #endregion
     }
 }
