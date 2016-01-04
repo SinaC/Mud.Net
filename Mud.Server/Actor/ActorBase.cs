@@ -58,9 +58,9 @@ namespace Mud.Server.Actor
             Send(String.Format(format, parameters));
         }
 
-        public void Send(StringBuilder sb)
+        public void Send(StringBuilder text)
         {
-            Send(sb.ToString());
+            Send(text.ToString());
         }
 
         [Command("commands")]

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.Logger;
+using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Server;
@@ -40,9 +41,7 @@ namespace Mud.Server.Character
                 else
                 {
                     // search in room, then in inventory(unequiped), then in equipement
-                    //// TODO: following code is stupid if room contains 2 identical items and inventory one, and we use look in item -> we'll never see item in inventory (look 3.item should display it <-- same case as look(4))
-                    //IItem item = FindHelpers.FindByName(Room.Content.Where(CanSee), parameters[1]) ?? FindHelpers.FindByName(Content.Where(CanSee), parameters[1]); // TODO: filter on unequiped + equipment
-                    IItem containerItem = FindHelpers.FindByName(Room.Content.Where(CanSee).Concat(Content.Where(CanSee)), parameters[1]); // TODO: filter on unequiped + equipment
+                    IItem containerItem = FindHelpers.FindItemByName(this, parameters[1]); // TODO: filter on unequiped + equipment
                     if (containerItem == null)
                         Send(StringHelpers.ItemNotFound);
                     else
@@ -55,7 +54,7 @@ namespace Mud.Server.Character
                             Send("{0} holds:" + Environment.NewLine, containerItem.DisplayName);
                             DisplayItems(container.Content, true, true);
                         }
-                            // TODO: drink container
+                        // TODO: drink container
                         else
                             Send("This is not a container." + Environment.NewLine);
                     }
@@ -72,7 +71,8 @@ namespace Mud.Server.Character
                 return true;
             }
             // 4: search n'th item in inventory+room
-            IItem item = FindHelpers.FindByName(Content.Concat(Room.Content), parameters[0]); // Concat preserves order!!!
+            //IItem item = FindHelpers.FindByName(Content.Concat(Room.Content), parameters[0]); // Concat preserves order!!!
+            IItem item = FindHelpers.FindItemByName(this, parameters[0]);
             if (item != null)
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(4+5): item in inventory+room -> {0}", item.ContainedInto.Name);
@@ -174,14 +174,14 @@ namespace Mud.Server.Character
                         case WearLocations.Float:
                             where = "%C%<floating nearby>    %x%";
                             break;
-                            //"{C<worn as shield>        {x",
-                            //"{c<wielded>		{x",
-                            //"{C<held>			{x",
-                            //"{c<secondary weapon>	{x",
-                            //"{C<floating nearby>	{x",
-                            //  "{B<brand mark>            {x"
-                            //"{c<third weapon>          {x",
-                            //"{c<fourth weapon>         {x",
+                        //"{C<worn as shield>        {x",
+                        //"{c<wielded>		{x",
+                        //"{C<held>			{x",
+                        //"{c<secondary weapon>	{x",
+                        //"{C<floating nearby>	{x",
+                        //  "{B<brand mark>            {x"
+                        //"{c<third weapon>          {x",
+                        //"{c<fourth weapon>         {x",
                     }
                     StringBuilder sb = new StringBuilder(where);
                     if (CanSee(equipmentSlot.Item))
@@ -190,6 +190,49 @@ namespace Mud.Server.Character
                         sb.AppendLine("something.");
                     Send(sb);
                 }
+            return true;
+        }
+
+        [Command("examine")]
+        protected virtual bool DoExamine(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+                Send("Examine what or whom?" + Environment.NewLine);
+            else
+            {
+                ICharacter character = FindHelpers.FindByName(Room.People, parameters[0]);
+                if (character != null)
+                {
+                    Act(ActOptions.ToCharacter, "You examine {0}.", character);
+                    Act(ActOptions.ToVictim, this, "{0} examines you.", character);
+                    Act(ActOptions.ToNotVictim, this, "{0} examines {1}.", character);
+                    DoLook(rawParameters, parameters); // TODO: call immediately sub-function
+                    // TODO: display race and size
+                }
+                else
+                {
+                    IItem item = FindHelpers.FindItemByName(this, parameters[0]);
+                    if (item != null)
+                    {
+                        Act(ActOptions.ToCharacter, "You examine {0}.", item);
+                        Act(ActOptions.ToRoom, "{0} examines {1}.", this, item);
+                        DoLook(rawParameters, parameters); // TODO: call immediately sub-function
+                        IContainer container = item as IContainer;
+                        if (container != null) // if container, display content
+                        {
+                            List<CommandParameter> newParameters = new List<CommandParameter>(parameters);
+                            newParameters.Insert(0, new CommandParameter
+                            {
+                                Count = 1,
+                                Value = "in"
+                            });
+                            DoLook("in " + rawParameters, newParameters.ToArray()); // TODO: call immediately sub-function
+                        }
+                    }
+                    else
+                        Send("You don't see any {0}." + Environment.NewLine, parameters[0]);
+                }
+            }
             return true;
         }
 
@@ -283,10 +326,10 @@ namespace Mud.Server.Character
             }
         }
 
-        private void DisplayExits(bool auto)
+        private void DisplayExits(bool compact)
         {
             StringBuilder message = new StringBuilder();
-            if (auto)
+            if (compact)
                 message.Append("[Exits:");
             else
                 message.AppendLine("Obvious exits:");
@@ -296,7 +339,7 @@ namespace Mud.Server.Character
                 IExit exit = Room.Exit(direction);
                 if (exit != null && exit.Destination != null) // TODO: test if destination room is visible, if exit is visible, ...
                 {
-                    if (auto)
+                    if (compact)
                     {
                         // TODO: 
                         // hidden+not bashed: [xxx]
@@ -319,14 +362,13 @@ namespace Mud.Server.Character
             }
             if (!exitFound)
             {
-                if (auto)
-                    message.Append(" none");
+                if (compact)
+                    message.AppendLine(" none");
                 else
-                    message.Append("None.");
+                    message.AppendLine("None.");
             }
-            if (auto)
-                message.Append("]");
-            message.AppendLine();
+            if (compact)
+                message.AppendLine("]");
             Send(message);
         }
 

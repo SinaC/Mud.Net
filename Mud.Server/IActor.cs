@@ -13,7 +13,7 @@ namespace Mud.Server
         
         void Send(string message); // Send message to Actor
         void Send(string format, params object[] parameters); // Send overload
-        void Send(StringBuilder sb); // Send overload
+        void Send(StringBuilder text); // Send overload
 
         void Page(StringBuilder text);
     }

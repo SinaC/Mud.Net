@@ -36,17 +36,18 @@
   <ItemGroup>
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Admin\Admin.cs" />
+    <Compile Include="Admin\ImpersonateCommand.cs" />
+    <Compile Include="Admin\IncarnateCommand.cs" />
     <Compile Include="Character\Character.cs" />
     <Compile Include="Character\FollowerCommands.cs" />
     <Compile Include="Character\CommunicationCommands.cs" />
-    <Compile Include="Character\Immunities.cs" />
     <Compile Include="Character\InfoCommands.cs" />
     <Compile Include="Character\MovementCommands.cs" />
     <Compile Include="Character\ItemCommands.cs" />
     <Compile Include="Entity\EntityBase.cs" />
-    <Compile Include="Enums.cs" />
     <Compile Include="Helpers\EnumHelpers.cs" />
     <Compile Include="Helpers\FindHelpers.cs" />
+    <Compile Include="Helpers\RandomizeHelpers.cs" />
     <Compile Include="Helpers\StringBuilderExtensions.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="IAdmin.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="IRoom.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="Item\ItemArmor.cs" />
+    <Compile Include="Item\ItemCorpse.cs" />
     <Compile Include="Item\ItemLight.cs" />
     <Compile Include="Item\ItemWeapon.cs" />
     <Compile Include="IWorld.cs" />
@@ -94,6 +96,10 @@
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Constants\Mud.Server.Constants.csproj">
+      <Project>{3c334a4d-ed18-4eb4-ac7b-2b03bb849d47}</Project>
+      <Name>Mud.Server.Constants</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
       <Project>{3e2bd396-17b9-423e-9114-9e215b468267}</Project>

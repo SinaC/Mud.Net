@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using Mud.Server.Blueprints;
 
 namespace Mud.Server.Item
@@ -13,23 +12,20 @@ namespace Mud.Server.Item
         public int ItemCount { get; private set; } // maximum number of items
         public int WeightMultiplier { get; private set; } // percentage
 
-        public ItemContainer(Guid guid, ItemBlueprint blueprint, IContainer containedInto)
+        public ItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint, containedInto)
         {
             _content = new List<IItem>();
             // TODO: key, flags
-            ItemCount = blueprint.Values[3];
-            WeightMultiplier = blueprint.Values[4];
+            ItemCount = blueprint.ItemCount;
+            WeightMultiplier = blueprint.WeightMultiplier;
         }
 
         #region IItem
 
         public override int Weight
         {
-            get
-            {
-                return base.Weight + _content.Sum(x => x.Weight)*WeightMultiplier;
-            }
+            get { return base.Weight + _content.Sum(x => x.Weight)*WeightMultiplier; }
         }
 
         #endregion

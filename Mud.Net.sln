@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Input", "Mud.Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Blueprints", "Mud.Server.Blueprints\Mud.Server.Blueprints.csproj", "{B85FDC6F-9D3F-4B24-AF53-AA30B6244BAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Constants", "Mud.Server.Constants\Mud.Server.Constants.csproj", "{3C334A4D-ED18-4EB4-AC7B-2B03BB849D47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{B85FDC6F-9D3F-4B24-AF53-AA30B6244BAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B85FDC6F-9D3F-4B24-AF53-AA30B6244BAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B85FDC6F-9D3F-4B24-AF53-AA30B6244BAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C334A4D-ED18-4EB4-AC7B-2B03BB849D47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C334A4D-ED18-4EB4-AC7B-2B03BB849D47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C334A4D-ED18-4EB4-AC7B-2B03BB849D47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C334A4D-ED18-4EB4-AC7B-2B03BB849D47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

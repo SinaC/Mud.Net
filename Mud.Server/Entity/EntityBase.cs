@@ -56,6 +56,8 @@ namespace Mud.Server.Entity
 
         public override void Send(string message)
         {
+            Log.Default.WriteLine(LogLevels.Debug, "SEND[{0}]: {1}", Name, message);
+
             if (IncarnatedBy != null)
             {
                 if (ServerOptions.PrefixForwardedMessages)
@@ -73,10 +75,10 @@ namespace Mud.Server.Entity
         #endregion
 
         public Guid Id { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; protected set; }
         public abstract string DisplayName { get; }
         //TODO: ??? public string Keyword { get; private set; }
-        public string Description { get; private set; }
+        public string Description { get; protected set; }
 
         public bool Incarnatable { get; private set; }
         public IAdmin IncarnatedBy { get; private set; }

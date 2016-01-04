@@ -12,6 +12,7 @@ using Mud.Network;
 using Mud.Network.Socket;
 using Mud.POC;
 using Mud.Server.Blueprints;
+using Mud.Server.Constants;
 using Mud.Server.Server;
 
 namespace Mud.Server.TestApplication
@@ -96,37 +97,44 @@ namespace Mud.Server.TestApplication
                 ShortDescription = "Fifth mob",
                 Description = "Fifth mob is here"
             };
-            ItemBlueprint item1Blueprint = new ItemBlueprint
+            ItemContainerBlueprint item1Blueprint = new ItemContainerBlueprint
             {
                 Id = 1,
                 Name = "item1",
-                ShortDescription = "First item",
+                ShortDescription = "First item (container)",
                 Description = "The first item (container) has been left here.",
-                Values = new[] { 0, 0, 0, 10, 100 }
+                ItemCount = 10,
+                WeightMultiplier = 100
             };
-            ItemBlueprint item2Blueprint = new ItemBlueprint
+            ItemWeaponBlueprint item2Blueprint = new ItemWeaponBlueprint
             {
                 Id = 2,
                 Name = "item2",
-                ShortDescription = "Second item",
+                ShortDescription = "Second item (weapon)",
                 Description = "The second item (weapon) has been left here.",
-                Values = new[] { 5/*axe*/, 10, 20, 3/*fire*/, 0 }
+                Type = WeaponTypes.Axe,
+                DiceCount = 10,
+                DiceValue = 20,
+                DamageType = DamageTypes.Fire
             };
-            ItemBlueprint item3Blueprint = new ItemBlueprint
+            ItemArmorBlueprint item3Blueprint = new ItemArmorBlueprint
             {
                 Id = 3,
                 Name = "item3",
-                ShortDescription = "Third item",
+                ShortDescription = "Third item (armor)",
                 Description = "The third item (armor) has been left here.",
-                Values = new[] { 100, 200, 300, 400, 0 }
+                Pierce = 100,
+                Bash = 200,
+                Slash = 300,
+                Exotic = 400
             };
-            ItemBlueprint item4Blueprint = new ItemBlueprint
+            ItemLightBlueprint item4Blueprint = new ItemLightBlueprint
             {
                 Id = 4,
                 Name = "item4",
-                ShortDescription = "Fourth item",
+                ShortDescription = "Fourth item (light)",
                 Description = "The fourth item (light) has been left here.",
-                Values = new[] { 0, 0, -1, 0, 0 }
+                DurationHours = -1
             };
 
             // World
@@ -146,10 +154,10 @@ namespace Mud.Server.TestApplication
             // Item4 in Mob1
             // Item1 in Mob1
             IItem item1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, room1);
-            IItem item1Dup1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, room1);
-            IItem item2 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item2Blueprint, mob2);
-            IItem item3 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item3Blueprint, item1Dup1 as IContainer);
-            IItem item4 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item3Blueprint, mob1);
+            IItem item1Dup1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, room2);
+            IItem item2 = World.World.Instance.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
+            IItem item3 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1 as IContainer);
+            IItem item4 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
             IItem item1Dup2 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
         }
 
@@ -158,6 +166,18 @@ namespace Mud.Server.TestApplication
             MysteryImporter importer = new MysteryImporter();
             importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
             importer.Parse();
+            //MysteryImporter importer = new MysteryImporter();
+            //string path = @"D:\GitHub\OldMud\area";
+            //string fileList = Path.Combine(path, "area.lst");
+            //string[] areaFilenames = File.ReadAllLines(fileList);
+            //foreach (string areaFilename in areaFilenames)
+            //{
+            //    if (areaFilename.Contains("$"))
+            //        break;
+            //    string areaFullName = Path.Combine(path, areaFilename);
+            //    importer.Load(areaFullName);
+            //    importer.Parse();
+            //}
 
             Dictionary<int, IRoom> roomsByVNums = new Dictionary<int, IRoom>();
 
@@ -248,37 +268,44 @@ namespace Mud.Server.TestApplication
                 ShortDescription = "Fifth mob",
                 Description = "Fifth mob is here"
             };
-            ItemBlueprint item1Blueprint = new ItemBlueprint
+            ItemContainerBlueprint item1Blueprint = new ItemContainerBlueprint
             {
                 Id = 1,
                 Name = "item1",
                 ShortDescription = "First item (container)",
                 Description = "The first item (container) has been left here.",
-                Values = new []{0, 0, 0, 10, 100}
+                ItemCount = 10,
+                WeightMultiplier = 100
             };
-            ItemBlueprint item2Blueprint = new ItemBlueprint
+            ItemWeaponBlueprint item2Blueprint = new ItemWeaponBlueprint
             {
                 Id = 2,
                 Name = "item2",
                 ShortDescription = "Second item (weapon)",
                 Description = "The second item (weapon) has been left here.",
-                Values = new[] { 5/*axe*/, 10, 20, 3/*fire*/, 0 }
+                Type = WeaponTypes.Axe,
+                DiceCount = 10,
+                DiceValue = 20,
+                DamageType = DamageTypes.Fire
             };
-            ItemBlueprint item3Blueprint = new ItemBlueprint
+            ItemArmorBlueprint item3Blueprint = new ItemArmorBlueprint
             {
                 Id = 3,
                 Name = "item3",
                 ShortDescription = "Third item (armor)",
                 Description = "The third item (armor) has been left here.",
-                Values = new []{100, 200, 300, 400, 0}
+                Pierce= 100,
+                Bash = 200,
+                Slash= 300,
+                Exotic = 400
             };
-            ItemBlueprint item4Blueprint = new ItemBlueprint
+            ItemLightBlueprint item4Blueprint = new ItemLightBlueprint
             {
                 Id = 4,
                 Name = "item4",
                 ShortDescription = "Fourth item (light)",
                 Description = "The fourth item (light) has been left here.",
-                Values = new []{0, 0, -1, 0, 0}
+                DurationHours = -1
             };
             // Add dummy mobs and items to allow impersonate :)
             IRoom templeOfMota = World.World.Instance.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
@@ -437,13 +464,15 @@ namespace Mud.Server.TestApplication
             importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
             importer.Parse();
 
+            //MysteryImporter importer = new MysteryImporter();
             //string path = @"D:\GitHub\OldMud\area";
             //string fileList = Path.Combine(path, "area.lst");
             //string[] areaFilenames = File.ReadAllLines(fileList);
             //foreach (string areaFilename in areaFilenames)
             //{
+            //    if (areaFilename.Contains("$"))
+            //        break;
             //    string areaFullName = Path.Combine(path, areaFilename);
-            //    MysteryImporter importer = new MysteryImporter();
             //    importer.Load(areaFullName);
             //    importer.Parse();
             //}

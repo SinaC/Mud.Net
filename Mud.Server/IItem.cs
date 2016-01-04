@@ -6,7 +6,7 @@ namespace Mud.Server
     {
         IContainer ContainedInto { get; }
 
-        ItemBlueprint Blueprint { get; }
+        ItemBlueprintBase Blueprint { get; }
 
         bool IsWearable { get; }
         int Weight { get; }

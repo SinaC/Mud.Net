@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Mud.Server.Blueprints;
+using Mud.Server.Constants;
 
 namespace Mud.Server.Item
 {
@@ -16,15 +13,15 @@ namespace Mud.Server.Item
         public int Slash { get; private set; }
         public int Exotic { get; private set; }
 
-        public ItemArmor(Guid guid, ItemBlueprint blueprint, IContainer containedInto) 
+        public ItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)
         {
-            WearLocation = (WearLocations)blueprint.WearLocation;
+            WearLocation = blueprint.WearLocation;
 
-            Pierce = blueprint.Values[0]; // TODO: sub blueprint
-            Bash = blueprint.Values[1];
-            Slash = blueprint.Values[2];
-            Exotic = blueprint.Values[3];
+            Pierce = blueprint.Pierce;
+            Bash = blueprint.Bash;
+            Slash = blueprint.Slash;
+            Exotic = blueprint.Exotic;
         }
     }
 }

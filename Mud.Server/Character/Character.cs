@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Blueprints;
+using Mud.Server.Constants;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Item;
 using Mud.Server.Server;
 
 namespace Mud.Server.Character
@@ -29,6 +33,8 @@ namespace Mud.Server.Character
             _inventory = new List<IItem>();
             _equipments = new List<EquipmentSlot>();
             BuildEquipmentLocation();
+            Sex = Sex.Neutral;
+            HitPoints = 1000; // TODO:
             Impersonable = true;
             Room = room;
             room.Enter(this);
@@ -41,7 +47,8 @@ namespace Mud.Server.Character
             _inventory = new List<IItem>();
             _equipments = new List<EquipmentSlot>();
             BuildEquipmentLocation();
-            Sex = (Sex)(int)blueprint.Sex; // TODO: better conversion
+            Sex = blueprint.Sex;
+            HitPoints = 1000; // TODO:
             Impersonable = false;
             Room = room;
             room.Enter(this);
@@ -117,9 +124,11 @@ namespace Mud.Server.Character
 
         #endregion
 
-        public CharacterBlueprint Blueprint { get; private set; } // TODO: 1st parameter in ctor
+        public CharacterBlueprint Blueprint { get; private set; }
 
         public IRoom Room { get; private set; }
+        
+        public ICharacter Fighting { get; private set; }
 
         public IReadOnlyList<EquipmentSlot> Equipments
         {
@@ -130,6 +139,7 @@ namespace Mud.Server.Character
         }
 
         public Sex Sex { get; private set; }
+        public int HitPoints { get; private set; }
 
         public bool Impersonable { get; private set; }
         public IPlayer ImpersonatedBy { get; private set; }
@@ -139,6 +149,7 @@ namespace Mud.Server.Character
 
         public bool ChangeImpersonation(IPlayer player) // if non-null, start impersonation, else, stop impersonation
         {
+            Log.Default.WriteLine(LogLevels.Debug, "ChangeImpersonation: {0} old: {1}; new {2}", Name, ImpersonatedBy == null ? "<<none>>" : ImpersonatedBy.Name, player == null ? "<<none>>" : player.Name);
             // TODO: check if not already impersonated, if impersonable, ...
             ImpersonatedBy = player;
             return true;
@@ -146,7 +157,21 @@ namespace Mud.Server.Character
 
         public bool ChangeController(ICharacter master) // if non-null, start slavery, else, stop slavery
         {
+            Log.Default.WriteLine(LogLevels.Debug, "ChangeController: {0} master: old: {1}; new {2}", Name, ControlledBy == null ? "<<none>>" : ControlledBy.Name, master == null ? "<<none>>" : master.Name);
             // TODO: check if already slave, ...
+            if (master == null)
+            {
+                if (ControlledBy != null)
+                {
+                    Act(ActOptions.ToCharacter, "You stop following {0}.", ControlledBy);
+                    Act(ActOptions.ToVictim, ControlledBy, "{0} stops following you.", this);
+                }
+            }
+            else
+            {
+                Act(ActOptions.ToCharacter, "You now follow {0}.", master);
+                Act(ActOptions.ToVictim, master, "{0} now follows you.", this);
+            }
             ControlledBy = master;
             return true;
         }
@@ -159,6 +184,58 @@ namespace Mud.Server.Character
         public bool CanSee(IItem obj)
         {
             return true; // TODO
+        }
+
+        public bool MultiHit(ICharacter enemy, DamageTypes damageType)
+        {
+            Log.Default.WriteLine(LogLevels.Debug, "MultiHit: {0} -> {1}", Name, enemy.Name);
+
+            if (this == enemy || Room != enemy.Room)
+                return false;
+
+            // TODO: check if wielding a weapon, ...
+            // TODO: secondary, haste, ...
+            OneHit(enemy, damageType);
+            //
+            if (Fighting != enemy)
+                return true;
+
+            return true;
+        }
+
+        public bool StartFighting(ICharacter enemy) // equivalent to set_fighting in fight.C:3441
+        {
+            Log.Default.WriteLine(LogLevels.Debug, "{0} starts fighting {1}", Name, enemy.Name);
+
+            Fighting = enemy;
+            return true;
+        }
+
+        public bool StopFighting(bool both) // equivalent to stop_fighting in fight.C:3441
+        {
+            Log.Default.WriteLine(LogLevels.Debug, "{0} stops fighting {1}", Name, Fighting == null ? "<<no enemy>>" : Fighting.Name);
+
+            Fighting = null;
+            // TODO: change/update pos
+            if (both)
+                foreach (ICharacter enemy in World.World.Instance.GetCharacters().Where(x => x.Fighting == this))
+                {
+                    enemy.StopFighting(false);
+                    // TODO: change/update pos
+                }
+            return true;
+        }
+
+        public bool ApplyDamage(int damage)
+        {
+            bool dead = false;
+            HitPoints -= damage;
+            if (HitPoints < 1)
+            {
+                dead = true;
+                HitPoints = 1;
+            }
+            return dead;
         }
 
         #endregion
@@ -194,9 +271,132 @@ namespace Mud.Server.Character
             destination.Enter(this);
         }
 
+        private bool OneHit(ICharacter victim, DamageTypes damageType) // TODO: skill    check fight.C:1394
+        {
+            if (this == victim || Room != victim.Room)
+                return false;
+            // TODO: get damage phrase: wounds, scratches, ...
+            // TODO: skill percentage
+            //TODO http://dungeons.wikia.com/wiki/THAC0
+            //int thac0_0 = 20;
+            //int thac0_32 = -4;
+            // TODO: interpolation in function of level
+            int thac0 = 20;
+            if (thac0 < 0)
+                thac0 /= 2;
+            if (thac0 < -5)
+                thac0 = -5 + (thac0 + 5)/2;
+            //TODO: continue thac0 computation
+            int armor = 1000; // TODO: armor
+            //
+            int diceRoll = RandomizeHelpers.Instance.Randomizer.Next(20);
+            if (diceRoll == 0 || diceRoll < thac0 - armor)
+            {
+                // TODO: miss   0 damage
+                CombatDamage(victim, 0, damageType, true);
+                return true;
+            }
+            // TODO: check wield  fight.C:1595
+            int damage = RandomizeHelpers.Instance.Dice(5, 10);
+            // TODO: damage modifier  fight.C:1693
+
+            // TODO: call CombatDamage
+            CombatDamage(victim, damage, damageType, true);
+
+            return true;
+        }
+
+        private bool CombatDamage(ICharacter victim, int damage, DamageTypes damageType, bool visible) // TODO:    check combat_damage in fight.C:1940
+        {
+            // TODO: damage reduction
+
+            // Starts fight if needed (if A attacks B, A fights B and B fights A)
+            if (this != victim)
+            {
+                if (Fighting == null)
+                    StartFighting(victim);
+                if (victim.Fighting == null)
+                    victim.StartFighting(this);
+                // Cannot attack slave without breaking slavery
+                if (victim.ControlledBy == this)
+                    victim.ChangeController(null);
+            }
+            // TODO: if invisible, remove invisibility
+            // TODO: damage modifier
+            // TODO: check parry, dodge, shield block, ...
+            // TODO: check immunity/resist/vuln
+
+            if (visible) // equivalent to dam_message
+            {
+                string damagePhrase1 = "damage";
+                string damagePhrase2 = "damages";
+                if (damage == 0)
+                {
+                    damagePhrase1 = "miss";
+                    damagePhrase2 = "misses";
+                }
+                else // TODO: other flavor messages (see fight.C:4429)
+                {
+                    damagePhrase1 = "%b%--*-- --*-- RUPTURE --*-- --*--%x%";
+                    damagePhrase2 = "%b%--*-- --*-- RUPTURES --*-- --*--%x%";
+                }
+
+                Act(ActOptions.ToCharacter, "You {0} {1}.", damagePhrase1, victim);
+                Act(ActOptions.ToNotVictim, victim, "{0} {1} {2}.", this, damagePhrase2, victim);
+                if (victim != this)
+                    Act(ActOptions.ToVictim, victim, "{0} {1} you.", this, damagePhrase2);
+            }
+
+            if (damage == 0)
+                return false;
+
+            Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", Name, damage, victim.Name);
+
+            bool dead = victim.ApplyDamage(damage);
+            if (dead) // TODO: fight.C:2246
+            {
+                victim.StopFighting(false);
+                KillingPayoff(victim);
+                return true;
+            }
+
+            // TODO: wimpy, ... // fight.C:2264
+
+            return true;
+        }
+
+        private void KillingPayoff(ICharacter victim)
+        {
+            Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", victim.Name, Name);
+
+            // TODO: gain/lose xp   damage.C:32
+            RawKill(victim);
+            // TODO: autoloot, autosac  damage.C:96
+        }
+
+        private IItem RawKill(ICharacter victim) // returns ItemCorpse
+        {
+            victim.StopFighting(true);
+            // TODO: update reputation
+            // TODO: death cry
+            ItemCorpse corpse = new ItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
+
+            if (ImpersonatedBy != null)
+            {
+                //World.World.Instance.RemoveCharacter(victim, false);  NOT REALLY NEEDED
+                // TODO: reset hit/mana/...
+                // TODO: teleport player to hall room/graveyard  see fight.C:3952
+            }
+            else
+            {
+                World.World.Instance.RemoveCharacter(victim, true);
+            }
+            return corpse;
+        }
+
         #region Act  TODO in EntityBase ???
 
-        public enum ActOptions
+        protected enum ActOptions
         {
             ToRoom, // everyone in the room except origin
             ToNotVictim, // everyone on in the room except Character and Target
@@ -206,7 +406,7 @@ namespace Mud.Server.Character
         }
 
         // IFormattable cannot be used because formatting depends on who'll receive the message (CanSee check)
-        public void Act(ActOptions options, string format, params object[] arguments)
+        protected void Act(ActOptions options, string format, params object[] arguments)
         {
             if (options == ActOptions.ToNotVictim || options == ActOptions.ToVictim) // TODO: exception ???
                 Log.Default.WriteLine(LogLevels.Error, "Act: victim must be specified to use ToNotVictim or ToVictim");
@@ -227,7 +427,7 @@ namespace Mud.Server.Character
             }
         }
 
-        public void Act(ActOptions options, ICharacter victim, string format, params object[] arguments)
+        protected void Act(ActOptions options, ICharacter victim, string format, params object[] arguments)
         {
             if (options == ActOptions.ToAll || options == ActOptions.ToRoom || options == ActOptions.ToNotVictim)
                 foreach (ICharacter to in Room.People)
@@ -426,6 +626,15 @@ namespace Mud.Server.Character
         protected virtual bool DoKill(string rawParameters, params CommandParameter[] parameters)
         {
             Send("DoKill: NOT YET IMPLEMENTED" + Environment.NewLine);
+            Send("==> TESTING MULTIHIT"+Environment.NewLine);
+
+            if (parameters.Length > 0)
+            {
+                ICharacter target = FindHelpers.FindByName(Room.People, parameters[0]);
+
+                if (target != null)
+                    MultiHit(target, DamageTypes.Fire);
+            }
             return true;
         }
 

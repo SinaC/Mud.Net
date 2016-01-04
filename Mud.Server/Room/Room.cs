@@ -121,5 +121,12 @@ namespace Mud.Server.Room
         }
 
         #endregion
+
+        [Command("test")]
+        protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
+        {
+            Send("Room: DoTest" + Environment.NewLine);
+            return true;
+        }
     }
 }

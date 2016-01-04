@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Text;
 using Mud.DataStructures.Trie;
+using Mud.Logger;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Admin
 {
-    // TODO: override ProcessCommand  if Incarnating, process command by Incarnation instead of this
-    public class Admin : Player.Player, IAdmin
+    // TODO: cannot impersonate while already incarnated, cannot incarnate while already impersonated
+    public partial class Admin : Player.Player, IAdmin
     {
         private static readonly IReadOnlyTrie<CommandMethodInfo> AdminCommands;
 
@@ -32,6 +33,64 @@ namespace Mud.Server.Admin
             get { return AdminCommands; }
         }
 
+        public override bool ProcessCommand(string commandLine) // TODO: refactoring needed: almost same code in Player
+        {
+            // ! means repeat last command
+            if (commandLine != null && commandLine.Length >= 1 && commandLine[0] == '!')
+            {
+                commandLine = LastCommand;
+                LastCommandTimestamp = DateTime.Now;
+            }
+            else
+            {
+                LastCommand = commandLine;
+                LastCommandTimestamp = DateTime.Now;
+            }
+
+            // If an input state machine is running, send commandLine to machine
+            if (_currentStateMachine != null && !_currentStateMachine.IsFinalStateReached)
+            {
+                _currentStateMachine.ProcessInput(this, commandLine);
+                return true;
+            }
+            else
+            {
+                string command;
+                string rawParameters;
+                CommandParameter[] parameters;
+                bool forceOutOfGame;
+
+                // Extract command and parameters
+                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(commandLine, out command, out rawParameters, out parameters, out forceOutOfGame);
+                if (!extractedSuccessfully)
+                {
+                    Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
+                    Send("Invalid command or parameters" + Environment.NewLine);
+                    return false;
+                }
+
+                bool executedSuccessfully;
+                if (forceOutOfGame || (Impersonating == null && Incarnating == null))
+                {
+                    Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", Name, commandLine);
+                    executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
+                }
+                else if (Incarnating != null)
+                {
+                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", Name, Incarnating.Name, commandLine);
+                    executedSuccessfully = Incarnating.ExecuteCommand(command, rawParameters, parameters);
+                }
+                else
+                {
+                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", Name, Impersonating.Name, commandLine);
+                    executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
+                }
+                if (!executedSuccessfully)
+                    Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
+                return executedSuccessfully;
+            }
+        }
+
         #endregion
 
         public override void OnDisconnected()
@@ -52,49 +111,6 @@ namespace Mud.Server.Admin
 
         #endregion
 
-        [Command("incarnate")]
-        protected virtual bool DoIncarnate(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (parameters.Length == 0)
-            {
-                if (Incarnating != null)
-                {
-                    Send("You stop incarnating {0}." + Environment.NewLine, Incarnating.DisplayName);
-                    Incarnating.ChangeIncarnation(null);
-                }
-                else
-                    Send("Syntax: Incarnate <kind> <name|id>"+Environment.NewLine);
-            }
-            else if (parameters.Length == 1)
-                Send("Syntax: Incarnate <kind> <name|id>" + Environment.NewLine);
-            else if (parameters.Length == 2)
-            {
-                IEntity incarnateTarget = null;
-                string kind = parameters[0].Value;
-                if ("room".StartsWith(kind))
-                    incarnateTarget = FindHelpers.FindByName(World.World.Instance.GetRooms(), parameters[1]);
-                else if ("item".StartsWith(kind))
-                    incarnateTarget = FindHelpers.FindByName(World.World.Instance.GetItems(), parameters[1]);
-                else if ("mob".StartsWith(kind))
-                    incarnateTarget = FindHelpers.FindByName(World.World.Instance.GetCharacters(), parameters[1]);
-                if (incarnateTarget == null)
-                    Send("Target not found");
-                else
-                {
-                    if (Incarnating != null)
-                    {
-                        Send("You stop incarnating {0}." + Environment.NewLine, Incarnating.DisplayName);
-                        Incarnating.ChangeIncarnation(null);
-                    }
-                    Send("%M%You start incarnating %C%{0}%x%." + Environment.NewLine, incarnateTarget.DisplayName);
-                    incarnateTarget.ChangeIncarnation(this);
-                    Incarnating = incarnateTarget;
-                    PlayerState = PlayerStates.Impersonating;
-                }
-            }
-            return true;
-        }
-
         [Command("shutdow", Hidden = true)] // TODO: add an option in CommandAttribute to force full command to be type
         protected virtual bool DoShutdow(string rawParameters, params CommandParameter[] parameters)
         {
@@ -105,7 +121,7 @@ namespace Mud.Server.Admin
         [Command("shutdown")]
         protected virtual bool DoShutdown(string rawParameters, params CommandParameter[] parameters)
         {
-            int seconds = 0;
+            int seconds;
             if (parameters.Length == 0 || !int.TryParse(parameters[0].Value, out seconds))
                 Send("Syntax: shutdown xxx  where xxx is a delay in seconds." + Environment.NewLine);
             else if (seconds < 30)

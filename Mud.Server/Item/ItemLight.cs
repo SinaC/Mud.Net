@@ -8,10 +8,10 @@ namespace Mud.Server.Item
         // -1: infinite
         public int TimeLeft { get; private set; }
 
-        public ItemLight(Guid guid, ItemBlueprint blueprint, IContainer containedInto) 
+        public ItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)
         {
-            TimeLeft = blueprint.Values[2];
+            TimeLeft = blueprint.DurationHours;
         }
 
         public void Consume()

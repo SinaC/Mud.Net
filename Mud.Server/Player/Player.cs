@@ -13,7 +13,7 @@ namespace Mud.Server.Player
     {
         private static readonly IReadOnlyTrie<CommandMethodInfo> PlayerCommands;
 
-        private readonly IInputTrap<IPlayer> _currentStateMachine; // TODO: state machine for avatar creation
+        protected IInputTrap<IPlayer> _currentStateMachine; // TODO: state machine for avatar creation
 
         static Player()
         {
@@ -128,8 +128,8 @@ namespace Mud.Server.Player
 
         public ICharacter Impersonating { get; private set; }
 
-        public DateTime LastCommandTimestamp { get; private set; }
-        public string LastCommand { get; private set; }
+        public DateTime LastCommandTimestamp { get; protected set; }
+        public string LastCommand { get; protected set; }
 
         public bool Load(string name)
         {

@@ -42,6 +42,31 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
+        public IItem AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IItem AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IItem AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IItem AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveCharacter(ICharacter character, bool pull)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public IExit AddExit(IRoom @from, IRoom to, ServerOptions.ExitDirections direction, bool bidirectional)
         {
@@ -68,22 +93,22 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IItem AddItemContainer(Guid guid, ItemBlueprint blueprint, IContainer container)
+        public IItem AddItemContainer(Guid guid, ItemBlueprintBase blueprint, IContainer container)
         {
             throw new NotImplementedException();
         }
 
-        public IItem AddItemArmor(Guid guid, ItemBlueprint blueprint, IContainer container)
+        public IItem AddItemArmor(Guid guid, ItemBlueprintBase blueprint, IContainer container)
         {
             throw new NotImplementedException();
         }
 
-        public IItem AddItemWeapon(Guid guid, ItemBlueprint blueprint, IContainer container)
+        public IItem AddItemWeapon(Guid guid, ItemBlueprintBase blueprint, IContainer container)
         {
             throw new NotImplementedException();
         }
 
-        public IItem AddItemLight(Guid guid, ItemBlueprint blueprint, IContainer container)
+        public IItem AddItemLight(Guid guid, ItemBlueprintBase blueprint, IContainer container)
         {
             throw new NotImplementedException();
         }

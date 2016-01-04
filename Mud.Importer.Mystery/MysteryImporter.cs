@@ -75,6 +75,11 @@ namespace Mud.Importer.Mystery
                     ParseShops();
                 else if (word == SpecialsHeader)
                     ParseSpecials();
+                else if (word.ToUpper() == "STYLE")
+                {
+                    Log.Default.WriteLine(LogLevels.Warning, "Specific area file Style not yet available");
+                    return;
+                }
                 else
                     RaiseParseException("Bad section name: {0}", word);
             }
@@ -368,7 +373,10 @@ namespace Mud.Importer.Mystery
                     {
                         string keyword = ReadString();
                         string description = ReadString();
-                        objectData.ExtraDescr.Add(keyword, description);
+                        if (objectData.ExtraDescr.ContainsKey(keyword))
+                            Log.Default.WriteLine(LogLevels.Error, "ParseObjects: item [vnum:{0}] Extra desc already exists", vnum);
+                        else
+                            objectData.ExtraDescr.Add(keyword, description);
                     }
                     else if (letter == 'Y')
                     {

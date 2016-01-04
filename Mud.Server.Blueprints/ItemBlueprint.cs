@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Mud.Server.Constants;
 
 namespace Mud.Server.Blueprints
 {
-    // TODO: sub item type
     [DataContract]
-    public class ItemBlueprint
+    public abstract class ItemBlueprintBase
     {
         [DataMember]
         public int Id { get; set; }
@@ -31,9 +31,6 @@ namespace Mud.Server.Blueprints
         // TODO: flags, level, ...
 
         [DataMember]
-        public int WearLocation { get; set; }
-
-        [DataMember]
-        public int[] Values { get; set; } // 5 entries
+        public WearLocations WearLocation { get; set; }
     }
 }

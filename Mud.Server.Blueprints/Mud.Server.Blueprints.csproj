@@ -37,9 +37,20 @@
   <ItemGroup>
     <Compile Include="CharacterBlueprint.cs" />
     <Compile Include="ExitBlueprint.cs" />
+    <Compile Include="ItemArmorBlueprint.cs" />
     <Compile Include="ItemBlueprint.cs" />
+    <Compile Include="ItemContainerBlueprint.cs" />
+    <Compile Include="ItemCorpseBlueprint.cs" />
+    <Compile Include="ItemLightBlueprint.cs" />
+    <Compile Include="ItemWeaponBlueprint.cs" />
     <Compile Include="RoomBlueprint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mud.Server.Constants\Mud.Server.Constants.csproj">
+      <Project>{3c334a4d-ed18-4eb4-ac7b-2b03bb849d47}</Project>
+      <Name>Mud.Server.Constants</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -124,32 +124,48 @@ namespace Mud.Server.World
             return character;
         }
 
-        public IItem AddItemContainer(Guid guid, ItemBlueprint blueprint, IContainer container)
+        public IItem AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container)
         {
             IItem item = new ItemContainer(guid, blueprint, container);
             _items.Add(item);
             return item;
         }
 
-        public IItem AddItemArmor(Guid guid, ItemBlueprint blueprint, IContainer container)
+        public IItem AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container)
         {
             IItem item = new ItemArmor(guid, blueprint, container);
             _items.Add(item);
             return item;
         }
 
-        public IItem AddItemWeapon(Guid guid, ItemBlueprint blueprint, IContainer container)
+        public IItem AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container)
         {
             IItem item = new ItemWeapon(guid, blueprint, container);
             _items.Add(item);
             return item;
         }
 
-        public IItem AddItemLight(Guid guid, ItemBlueprint blueprint, IContainer container)
+        public IItem AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container)
         {
             IItem item = new ItemLight(guid, blueprint, container);
             _items.Add(item);
             return item;
+        }
+
+        public void RemoveCharacter(ICharacter character, bool pull/*TODO better name*/) // see handler.C:3336
+        {
+            // TODO: nuke pets
+            if (pull)
+                ; // die_follower
+            character.StopFighting(true);
+            // TODO: extract all object in ICharacter
+            // TODO: remove character from room
+            if (!pull)
+                ; // move character to hall room/graveyard
+            else
+            {
+                _characters.Remove(character);
+            }
         }
 
         // TODO: remove

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mud.Server.Blueprints;
+using Mud.Server.Constants;
 
 namespace Mud.Server
 {
@@ -8,11 +9,13 @@ namespace Mud.Server
         CharacterBlueprint Blueprint { get; }
 
         IRoom Room { get; }
+        ICharacter Fighting { get; }
 
         IReadOnlyList<EquipmentSlot> Equipments { get; }
 
         // Attributes
         Sex Sex { get; }
+        int HitPoints { get; }
         // TODO: race, classes, ...
 
         //
@@ -27,10 +30,18 @@ namespace Mud.Server
 
         bool CanSee(ICharacter character);
         bool CanSee(IItem obj);
+
+        //
+        bool MultiHit(ICharacter enemy, DamageTypes damageType);
+        bool StartFighting(ICharacter enemy);
+        bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
+        bool ApplyDamage(int damage); // Simple remove damage from HitPoints, return true if damage killed the target
     }
 
     public class EquipmentSlot
     {
+        public static readonly EquipmentSlot NullObject = new EquipmentSlot(WearLocations.None);
+
         public WearLocations WearLocation { get; private set; }
         public IItem Item { get; set; }
 

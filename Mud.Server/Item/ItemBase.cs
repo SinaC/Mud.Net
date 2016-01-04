@@ -20,7 +20,7 @@ namespace Mud.Server.Item
             ItemCommands = CommandHelpers.GetCommands(typeof (ItemBase));
         }
 
-        protected ItemBase(Guid guid, ItemBlueprint blueprint, IContainer containedInto)
+        protected ItemBase(Guid guid, ItemBlueprintBase blueprint, IContainer containedInto)
             : base(guid, blueprint.Name, blueprint.Description)
         {
             Blueprint = blueprint;
@@ -52,7 +52,7 @@ namespace Mud.Server.Item
 
         public IContainer ContainedInto { get; private set; }
 
-        public ItemBlueprint Blueprint { get; private set; }
+        public ItemBlueprintBase Blueprint { get; private set; }
 
         public bool IsWearable { get; private set; } // TODO:
 

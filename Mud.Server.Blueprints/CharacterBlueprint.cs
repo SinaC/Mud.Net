@@ -1,18 +1,8 @@
 ﻿using System.Runtime.Serialization;
+using Mud.Server.Constants;
 
 namespace Mud.Server.Blueprints
 {
-    [DataContract]
-    public enum BlueprintSex
-    {
-        [EnumMember]
-        Neutral,
-        [EnumMember]
-        Male,
-        [EnumMember]
-        Female
-    }
-
     [DataContract]
     public class CharacterBlueprint
     {
@@ -32,7 +22,7 @@ namespace Mud.Server.Blueprints
         public string Description { get; set; }
 
         [DataMember]
-        public BlueprintSex Sex { get; set; }
+        public Sex Sex { get; set; }
 
         // TODO: flags, level, armor, damage, ...
     }

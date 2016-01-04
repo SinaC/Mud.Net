@@ -1,4 +1,5 @@
 ﻿using Mud.Logger;
+using Mud.Server.Blueprints;
 
 namespace Mud.Server.Server
 {
@@ -22,6 +23,8 @@ namespace Mud.Server.Server
 
         public static bool PrefixForwardedMessages { get; set; } // Add <IMP> or <CTRL> before forwarding a message
         public static bool ForwardSlaveMessages { get; set; } // Forward messages received by a slaved character
+
+        public static ItemCorpseBlueprint CorpseBlueprint { get; set; }
 
         public static ExitDirections ReverseDirection(ExitDirections direction)
         {
