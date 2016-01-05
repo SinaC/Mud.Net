@@ -12,6 +12,28 @@ avatar creation state machine
 combat
 abilities, GCD, CD
 
+min pos to initiate command  see interp.C:935
+
+ability:
+http://www.wowhead.com/spell=106832/thrash
+http://www.wowhead.com/spell=589/shadow-word-pain
+http://www.wowhead.com/spell=585/smite
+http://www.wowhead.com/spell=17/power-word-shield
+http://www.wowhead.com/spell=5176/wrath
+http://www.wowhead.com/spell=33917/mangle
+http://www.wowhead.com/spell=3127/parry
+http://www.wowhead.com/spell=78/heroic-strike
+
+cost: % or fixed amount of resource (mana/rage/energy)
+range: not used
+cast time: not used ( ??? transformed in wait time before next command)
+gcd: wait time before next command
+duration: in seconds for dot/hot
+school: see DamageTypes
+dispel type: ?
+effects: list of effect such as weapon damage %, school damage % spellpower, apply aura absorb damage, apply aura periodic damage % spellpower tick seconds, apply aura periodic heal % spellpower tick seconds
+flags: require main hand, not shapeshifted, passive
+
 use more StringBuilder
 
 include command priority in Trie (probably a new data structure)

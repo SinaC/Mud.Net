@@ -227,7 +227,7 @@ namespace Mud.Server.Character
             // TODO: check if wielding a weapon, ...
             // TODO: secondary, haste, ...
             IItemWeapon wielded = (Equipments.FirstOrDefault(x => x.WearLocation == WearLocations.Wield) ?? EquipmentSlot.NullObject).Item as IItemWeapon;
-            DamageTypes damageType = DamageTypes.Arcane; // TODO
+            DamageTypes damageType = DamageTypes.Physical; // TODO
             if (ImpersonatedBy == null)
             {
                 OneHit(enemy, wielded, damageType);

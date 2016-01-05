@@ -13,7 +13,7 @@ namespace Mud.Server.Player
     {
         private static readonly IReadOnlyTrie<CommandMethodInfo> PlayerCommands;
 
-        protected IInputTrap<IPlayer> _currentStateMachine; // TODO: state machine for avatar creation
+        protected IInputTrap<IPlayer> CurrentStateMachine; // TODO: state machine for avatar creation
 
         static Player()
         {
@@ -30,7 +30,7 @@ namespace Mud.Server.Player
             Id = id;
             Name = name;
 
-            _currentStateMachine = null;
+            CurrentStateMachine = null;
 
             PlayerState = PlayerStates.Loading;
         }
@@ -59,9 +59,9 @@ namespace Mud.Server.Player
             }
 
             // If an input state machine is running, send commandLine to machine
-            if (_currentStateMachine != null && !_currentStateMachine.IsFinalStateReached)
+            if (CurrentStateMachine != null && !CurrentStateMachine.IsFinalStateReached)
             {
-                _currentStateMachine.ProcessInput(this, commandLine);
+                CurrentStateMachine.ProcessInput(this, commandLine);
                 return true;
             }
             else
