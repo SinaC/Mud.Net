@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
+using Mud.Server.Item;
 
 namespace Mud.Server
 {
@@ -34,10 +35,12 @@ namespace Mud.Server
         void ChangeRoom(IRoom destination);
 
         //
-        bool MultiHit(ICharacter enemy, DamageTypes damageType);
+        bool MultiHit(ICharacter enemy);
         bool StartFighting(ICharacter enemy);
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
-        bool ApplyDamage(int damage); // Simple remove damage from HitPoints, return true if damage killed the target
+        bool TakeCombatDamage(ICharacter damager, int damage, DamageTypes damageType, bool visible);
+        bool KillingPayoff(ICharacter victim); // to be called only if victim is dead   TODO: don't make this accessible in interface
+        IItemCorpse RawKill(ICharacter victim); // kill victim without any xp gain/loss + create corpse
     }
 
     public class EquipmentSlot

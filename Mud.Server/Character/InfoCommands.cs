@@ -129,6 +129,9 @@ namespace Mud.Server.Character
                     string where = String.Empty;
                     switch (equipmentSlot.WearLocation)
                     {
+                        case WearLocations.Light:
+                            where = "%C%<used as light>         %x%";
+                            break;
                         case WearLocations.Head:
                             where = "%C%<worn on head>          %x%";
                             break;
@@ -182,6 +185,9 @@ namespace Mud.Server.Character
                             break;
                         case WearLocations.Shield:
                             where = "%C%<worn as shield>        %x%";
+                            break;
+                        default:
+                            Log.Default.WriteLine(LogLevels.Error, "DoEquipment: missing WearLocation {0}", equipmentSlot.WearLocation);
                             break;
                     }
                     StringBuilder sb = new StringBuilder(where);

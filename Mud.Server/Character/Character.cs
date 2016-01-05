@@ -217,7 +217,7 @@ namespace Mud.Server.Character
                 destination.Enter(this);
         }
 
-        public bool MultiHit(ICharacter enemy, DamageTypes damageType)
+        public bool MultiHit(ICharacter enemy)
         {
             Log.Default.WriteLine(LogLevels.Debug, "MultiHit: {0} -> {1}", Name, enemy.Name);
 
@@ -227,10 +227,24 @@ namespace Mud.Server.Character
             // TODO: check if wielding a weapon, ...
             // TODO: secondary, haste, ...
             IItemWeapon wielded = (Equipments.FirstOrDefault(x => x.WearLocation == WearLocations.Wield) ?? EquipmentSlot.NullObject).Item as IItemWeapon;
-            OneHit(enemy, wielded, damageType);
-            //
-            if (Fighting != enemy)
-                return true;
+            DamageTypes damageType = DamageTypes.Arcane; // TODO
+            if (ImpersonatedBy == null)
+            {
+                OneHit(enemy, wielded, damageType);
+                //
+                if (Fighting != enemy)
+                    return true;
+            }
+            else
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    OneHit(enemy, wielded, damageType);
+                    //
+                    if (Fighting != enemy)
+                        return true;
+                }
+            }
 
             return true;
         }
@@ -258,16 +272,112 @@ namespace Mud.Server.Character
             return true;
         }
 
-        public bool ApplyDamage(int damage)
+        public bool TakeCombatDamage(ICharacter damager, int damage, DamageTypes damageType, bool visible) // TODO:    check combat_damage in fight.C:1940
         {
+            // TODO: damage reduction
+
+            // Starts fight if needed (if A attacks B, A fights B and B fights A)
+            if (this != damager)
+            {
+                if (Fighting == null)
+                    StartFighting(damager);
+                if (damager.Fighting == null)
+                    damager.StartFighting(this);
+                // TODO: Cannot attack slave without breaking slavery
+            }
+            // TODO: if invisible, remove invisibility
+            // TODO: damage modifier
+            // TODO: check parry, dodge, shield block, ...
+            // TODO: check immunity/resist/vuln
+
+            if (visible) // equivalent to dam_message in fight.C:4381
+            {
+                string damagePhrase1 = "damage";
+                string damagePhrase2 = "damages";
+                if (damage == 0)
+                {
+                    damagePhrase1 = "miss";
+                    damagePhrase2 = "misses";
+                }
+                else // TODO: other flavor messages (see fight.C:4429)
+                {
+                    damagePhrase1 = "%b%--*-- --*-- RUPTURE --*-- --*--%x%";
+                    damagePhrase2 = "%b%--*-- --*-- RUPTURES --*-- --*--%x%";
+                }
+
+                Act(ActOptions.ToVictim, damager, "You {0} {1}.", damagePhrase1, this);
+                Act(ActOptions.ToNotVictim, damager, "{0} {1} {2}.", this, damagePhrase2, this);
+                if (damager != this)
+                    Act(ActOptions.ToCharacter, "{0} {1} you.", damager, damagePhrase2);
+            }
+            // No damage -> stop here
+            if (damage == 0)
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "{0} does no damage to {1}", damager.Name, Name);
+
+                return false;
+            }
+
+            Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", damager.Name, damage, Name);
+
+            // Apply damage
             bool dead = false;
             HitPoints -= damage;
             if (HitPoints < 1)
             {
-                dead = true;
                 HitPoints = 1;
+                dead = true;
             }
-            return dead;
+
+            Log.Default.WriteLine(LogLevels.Debug, "{0} HP: {1}", Name, HitPoints);
+
+            //update_pos(victim);
+            //position_msg(victim, dam);
+            // If dead, create corpse, xp gain/loss, remove character from world if needed
+            if (dead) // TODO: fight.C:2246
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", Name, damager.Name);
+
+                Act(ActOptions.ToCharacter, "{0} is dead.", this);
+                Act(ActOptions.ToNotVictim, this, "{0} is dead.", this);
+                Send("You have been KILLED!!"+Environment.NewLine);
+
+                StopFighting(false);
+                damager.KillingPayoff(this);
+                return true;
+            }
+
+            // TODO: wimpy, ... // fight.C:2264
+
+            return true;
+        }
+
+        public bool KillingPayoff(ICharacter victim)
+        {
+            // TODO: gain/lose xp/reputation   damage.C:32
+            IItemCorpse corpse = RawKill(victim);
+            // TODO: autoloot, autosac  damage.C:96
+            return true;
+        }
+
+        public IItemCorpse RawKill(ICharacter victim) // returns ItemCorpse
+        {
+            victim.StopFighting(true);
+            // Death cry
+            //we should not hear our death cry Act(ActOptions.ToCharacter, "You hear {0}'s death cry.", victim);
+            Act(ActOptions.ToNotVictim, this, "You hear {0}'s death cry.", victim);
+            // Create corpse
+            IItemCorpse corpse = World.World.Instance.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
+            if (victim.ImpersonatedBy != null) // If impersonated, no real death
+            {
+                // TODO: reset hit/mana/...
+                // TODO: teleport player to hall room/graveyard  see fight.C:3952
+            }
+            else // If not impersonated, remove from game
+            {
+                World.World.Instance.RemoveCharacter(victim);
+            }
+            return corpse;
         }
 
         #endregion
@@ -307,102 +417,18 @@ namespace Mud.Server.Character
             if (weapon != null)
                 damage = RandomizeHelpers.Instance.Dice(weapon.DiceCount, weapon.DiceValue);
             else
-                damage = 100; // TODO
+            {
+                // TEST
+                if (ImpersonatedBy != null)
+                    damage = 75;
+                else
+                    damage = 10000;
+            }
             // TODO: damage modifier  fight.C:1693
 
-            damage = 100000;
-
-            CombatDamage(victim, damage, damageType, true);
+            victim.TakeCombatDamage(this, damage, damageType, true);
 
             return true;
-        }
-
-        private bool CombatDamage(ICharacter victim, int damage, DamageTypes damageType, bool visible) // TODO:    check combat_damage in fight.C:1940
-        {
-            // TODO: damage reduction
-
-            // Starts fight if needed (if A attacks B, A fights B and B fights A)
-            if (this != victim)
-            {
-                if (Fighting == null)
-                    StartFighting(victim);
-                if (victim.Fighting == null)
-                    victim.StartFighting(this);
-                // Cannot attack slave without breaking slavery
-                if (victim.ControlledBy == this)
-                    victim.ChangeController(null);
-            }
-            // TODO: if invisible, remove invisibility
-            // TODO: damage modifier
-            // TODO: check parry, dodge, shield block, ...
-            // TODO: check immunity/resist/vuln
-
-            if (visible) // equivalent to dam_message in fight.C:4381
-            {
-                string damagePhrase1 = "damage";
-                string damagePhrase2 = "damages";
-                if (damage == 0)
-                {
-                    damagePhrase1 = "miss";
-                    damagePhrase2 = "misses";
-                }
-                else // TODO: other flavor messages (see fight.C:4429)
-                {
-                    damagePhrase1 = "%b%--*-- --*-- RUPTURE --*-- --*--%x%";
-                    damagePhrase2 = "%b%--*-- --*-- RUPTURES --*-- --*--%x%";
-                }
-
-                Act(ActOptions.ToCharacter, "You {0} {1}.", damagePhrase1, victim);
-                Act(ActOptions.ToNotVictim, victim, "{0} {1} {2}.", this, damagePhrase2, victim);
-                if (victim != this)
-                    Act(ActOptions.ToVictim, victim, "{0} {1} you.", this, damagePhrase2);
-            }
-
-            if (damage == 0)
-                return false;
-
-            Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", Name, damage, victim.Name);
-
-            bool dead = victim.ApplyDamage(damage);
-            if (dead) // TODO: fight.C:2246
-            {
-                Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", victim.Name, Name);
-
-                victim.StopFighting(false);
-                KillingPayoff(victim);
-                return true;
-            }
-
-            // TODO: wimpy, ... // fight.C:2264
-
-            return true;
-        }
-
-        private void KillingPayoff(ICharacter victim)
-        {
-            // TODO: gain/lose xp   damage.C:32
-            RawKill(victim);
-            // TODO: autoloot, autosac  damage.C:96
-        }
-
-        private IItemCorpse RawKill(ICharacter victim) // returns ItemCorpse
-        {
-            victim.StopFighting(true);
-            // TODO: update reputation
-            // TODO: death cry
-            //IItemCorpse corpse = new ItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
-            IItemCorpse corpse = World.World.Instance.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
-
-            if (victim.ImpersonatedBy != null)
-            {
-                // TODO: reset hit/mana/...
-                // TODO: teleport player to hall room/graveyard  see fight.C:3952
-            }
-            else
-            {
-                World.World.Instance.RemoveCharacter(victim);
-            }
-            return corpse;
         }
 
         #region Act  TODO in EntityBase ???
@@ -644,7 +670,7 @@ namespace Mud.Server.Character
                 ICharacter target = FindHelpers.FindByName(Room.People, parameters[0]);
 
                 if (target != null)
-                    MultiHit(target, DamageTypes.Fire);
+                    MultiHit(target);
             }
             return true;
         }

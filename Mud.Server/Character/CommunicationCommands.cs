@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Character
@@ -29,6 +30,7 @@ namespace Mud.Server.Character
             else
             {
                 // TODO: say to everyone in area (or in specific range)
+                Send(StringHelpers.NotYetImplemented);
             }
             return true;
         }

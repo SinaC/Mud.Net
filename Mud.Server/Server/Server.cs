@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -24,111 +25,10 @@ namespace Mud.Server.Server
     // Once playing,
     //  in asynchronous mode, input and output are handled immediately
     //  in synchronous mode, input and output are 'queued' and handled by ProcessorInput/ProcessOutput
-
     public class Server : IServer
     {
         private const int PulsePerSeconds = 4;
         private const int PulseDelay = 1000/PulsePerSeconds;
-
-        internal class Paging
-        {
-            private string[] _lines;
-            private int _currentLine;
-
-            public Paging()
-            {
-                _lines = null;
-                _currentLine = 0;
-            }
-
-            public bool HasPageLeft
-            {
-                get { return _lines != null && _currentLine < _lines.Length; }
-            }
-
-            public void Clear()
-            {
-                _currentLine = 0;
-                _lines = null;
-            }
-
-            public void SetData(StringBuilder data)
-            {
-                // if unread lines, they will be overridden by new ones
-                _currentLine = 0;
-                _lines = data.ToString().Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
-            }
-
-            public string GetNextPage(int lineCount)
-            {
-                string lines = String.Join(Environment.NewLine, _lines.Skip(_currentLine).TakeWhile((n, i) => i < lineCount && i < _lines.Length)) + Environment.NewLine;
-                _currentLine = Math.Min(_currentLine + lineCount, _lines.Length);
-                return lines;
-            }
-
-            public string GetRemaining()
-            {
-                string lines = String.Join(Environment.NewLine, _lines) + Environment.NewLine;
-                return lines;
-            }
-        }
-
-        internal class PlayingClient
-        {
-            public IClient Client { get; set; }
-            public IPlayer Player { get; set; }
-
-            private readonly ConcurrentQueue<string> _receiveQueue;
-            //private readonly ConcurrentQueue<string> _sendQueue; // when using this, ProcessOutput must loop until DataToSend returns null
-            private readonly StringBuilder _sendBuffer;
-
-            private readonly Paging _paging;
-
-            public Paging Paging
-            {
-                get { return _paging; }
-            }
-
-            public PlayingClient()
-            {
-                _receiveQueue = new ConcurrentQueue<string>();
-                _sendBuffer = new StringBuilder();
-                _paging = new Paging();
-            }
-
-            // Used in synchronous mode
-            public void EnqueueReceivedData(string data)
-            {
-                _receiveQueue.Enqueue(data);
-            }
-
-            public string DequeueReceivedData()
-            {
-                string data;
-                bool dequeued = _receiveQueue.TryDequeue(out data);
-                return dequeued ? data : null;
-            }
-
-            public void EnqueueDataToSend(string data)
-            {
-                //_sendQueue.Enqueue(message);
-                lock (_sendBuffer)
-                    _sendBuffer.Append(data);
-            }
-
-            public string DequeueDataToSend()
-            {
-                //string data;
-                //bool taken = _sendQueue.TryDequeue(out data);
-                //return taken ? data : null;
-                lock (_sendBuffer)
-                {
-                    string data = _sendBuffer.ToString();
-                    _sendBuffer.Clear();
-                    return data;
-                }
-            }
-        }
 
         // This allows fast lookup with client or player BUT both structures must be modified at the same time
         private readonly object _playingClientLockObject = new object();
@@ -143,6 +43,7 @@ namespace Mud.Server.Server
         private Task _gameLoopTask;
 
         private volatile int _pulseBeforeShutdown; // pulse count before shutdown
+        private int _pulseViolence;
 
         #region Singleton
 
@@ -589,10 +490,41 @@ namespace Mud.Server.Server
                     Broadcast("%R%Shutdown in 2%x%");
                 if (_pulseBeforeShutdown == PulsePerSeconds * 1)
                     Broadcast("%R%Shutdown in 1%x%");
-                if (_pulseBeforeShutdown == 0)
+                else if (_pulseBeforeShutdown == 0)
                 {
                     Broadcast("%R%Shutdown NOW!!!%x%");
                     Stop();
+                }
+            }
+        }
+
+        private void PulseViolence()
+        {
+            if (_pulseViolence > 0)
+            {
+                _pulseViolence--;
+                return;
+            }
+            _pulseViolence = PulsePerSeconds*3;
+
+            Log.Default.WriteLine(LogLevels.Debug, "PulseViolence");
+
+            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().ToList());
+            foreach (ICharacter character in clone)
+            {
+                ICharacter victim = character.Fighting;
+                if (victim != null)
+                {
+                    if (victim.Room == character.Room)
+                    {
+                        Log.Default.WriteLine(LogLevels.Debug, "Continue fight between {0} and {1}", character.Name, victim.Name);
+                        character.MultiHit(victim);
+                    }
+                    else
+                    {
+                        Log.Default.WriteLine(LogLevels.Debug, "Stop fighting between {0} and {1}, because not in same room", character.Name, victim.Name);
+                        character.StopFighting(false);
+                    }
                 }
             }
         }
@@ -603,6 +535,7 @@ namespace Mud.Server.Server
             //Log.Default.WriteLine(LogLevels.Debug, "PULSE: {0:HH:mm:ss.ffffff}", DateTime.Now);
 
             PulseShutdown();
+            PulseViolence();
         }
 
         private void GameLoopTask()

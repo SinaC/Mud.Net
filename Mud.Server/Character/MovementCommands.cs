@@ -13,6 +13,7 @@ namespace Mud.Server.Character
             IRoom toRoom = exit == null ? null : exit.Destination;
 
             // TODO: act_move.C:133
+            // cannot move while in combat
             // drunk
             // exit flags such as climb, door closed, ...
             // private room, size, swim room, guild room
