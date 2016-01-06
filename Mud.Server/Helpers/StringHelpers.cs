@@ -6,7 +6,7 @@ namespace Mud.Server.Helpers
 {
     public static class StringHelpers
     {
-        public static string NotYetImplemented = "NOT YET IMPLEMENTED";
+        public static string NotYetImplemented = "NOT YET IMPLEMENTED!!" + Environment.NewLine;
         public static string CharacterNotFound = "They aren't here." + Environment.NewLine;
         public static string ItemNotFound = "You do not see that here." + Environment.NewLine;
         public static string ItemInventoryNotFound = "You do not have that item." + Environment.NewLine;
@@ -32,6 +32,19 @@ namespace Mud.Server.Helpers
         public static string Grey = "%W%";
 
         #endregion
+
+        // TODO: other flavor messages (see fight.C:4429)
+        public static string DamagePhraseSelf(int damage)
+        {
+            if (damage <= 0) return "miss";
+            else return "%b%--*-- --*-- RUPTURE --*-- --*--%x%";
+        }
+
+        public static string DamagePhraseOther(int damage)
+        {
+            if (damage == 0) return "misses";
+            else return "%b%--*-- --*-- RUPTURES --*-- --*--%x%";
+        }
 
         public static string UpperFirstLetter(string text, string ifNull = "???")
         {

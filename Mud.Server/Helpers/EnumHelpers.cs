@@ -19,5 +19,11 @@ namespace Mud.Server.Helpers
         {
             return Enum.TryParse(name, true, out value);
         }
+
+        public static int GetCount<T>()
+            where T : struct
+        {
+            return Enum.GetValues(typeof(T)).Length;
+        }
     }
 }

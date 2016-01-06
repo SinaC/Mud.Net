@@ -34,10 +34,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abilities\PeriodicEffect.cs" />
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Admin\Admin.cs" />
     <Compile Include="Admin\ImpersonateCommand.cs" />
     <Compile Include="Admin\IncarnateCommand.cs" />
+    <Compile Include="Admin\InfoCommands.cs" />
     <Compile Include="Character\Character.cs" />
     <Compile Include="Character\FollowerCommands.cs" />
     <Compile Include="Character\CommunicationCommands.cs" />
@@ -49,6 +51,7 @@
     <Compile Include="Helpers\FindHelpers.cs" />
     <Compile Include="Helpers\RandomizeHelpers.cs" />
     <Compile Include="Helpers\StringBuilderExtensions.cs" />
+    <Compile Include="IAbility.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="IAdmin.cs" />
     <Compile Include="ICharacter.cs" />
@@ -56,6 +59,7 @@
     <Compile Include="IEntity.cs" />
     <Compile Include="IExit.cs" />
     <Compile Include="IItem.cs" />
+    <Compile Include="IPeriodicEffect.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="IRoom.cs" />
     <Compile Include="IServer.cs" />
@@ -113,6 +117,7 @@
       <Name>Mud.Server.Input</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

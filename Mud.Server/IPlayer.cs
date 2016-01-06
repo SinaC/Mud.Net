@@ -25,6 +25,8 @@ namespace Mud.Server
         string DisplayName { get; } // First letter is in upper-case
         List<ICharacter> Avatars { get; } // List of character a player can impersonate
 
+        int GlobalCooldown { get; } // delay (in Pulse) before next action    check WAIT_STATE
+
         PlayerStates PlayerState { get; }
 
         ICharacter Impersonating { get; }

@@ -71,29 +71,37 @@ namespace Mud.Server.TestApplication
             {
                 Id = 2,
                 Name = "mob2",
-                ShortDescription = "Second mob",
-                Description = "Second mob is here"
+                ShortDescription = "Second mob (female)",
+                Description = "Second mob (female) is here",
+                Sex = Sex.Female,
+                Level = 10
             };
             CharacterBlueprint mob3Blueprint = new CharacterBlueprint
             {
                 Id = 3,
                 Name = "mob3",
-                ShortDescription = "Third mob",
-                Description = "Third mob is here"
+                ShortDescription = "Third mob (male)",
+                Description = "Third mob (male) is here",
+                Sex = Sex.Male,
+                Level = 10
             };
             CharacterBlueprint mob4Blueprint = new CharacterBlueprint
             {
                 Id = 4,
                 Name = "mob4",
-                ShortDescription = "Fourth mob",
-                Description = "Fourth mob is here"
+                ShortDescription = "Fourth mob (neutral)",
+                Description = "Fourth mob (neutral) is here",
+                Sex = Sex.Neutral,
+                Level = 10
             };
             CharacterBlueprint mob5Blueprint = new CharacterBlueprint
             {
                 Id = 5,
                 Name = "mob5",
-                ShortDescription = "Fifth mob",
-                Description = "Fifth mob is here"
+                ShortDescription = "Fifth mob (female)",
+                Description = "Fifth mob (female) is here",
+                Sex = Sex.Female,
+                Level = 10
             };
             ItemContainerBlueprint item1Blueprint = new ItemContainerBlueprint
             {
@@ -141,7 +149,7 @@ namespace Mud.Server.TestApplication
             IRoom room2 = World.World.Instance.AddRoom(Guid.NewGuid(), room2Blueprint);
             World.World.Instance.AddExit(room1, room2, ServerOptions.ExitDirections.North, true);
 
-            ICharacter mob1 = World.World.Instance.AddCharacter(Guid.NewGuid(), "Mob1", room1);
+            ICharacter mob1 = World.World.Instance.AddCharacter(Guid.NewGuid(), "Mob1", room1); // playable
             ICharacter mob2 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob2Blueprint, room1);
             ICharacter mob3 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob3Blueprint, room2);
             ICharacter mob4 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob4Blueprint, room2);
@@ -245,29 +253,37 @@ namespace Mud.Server.TestApplication
             {
                 Id = 2,
                 Name = "mob2",
-                ShortDescription = "Second mob",
-                Description = "Second mob is here"
+                ShortDescription = "Second mob (female)",
+                Description = "Second mob (female) is here",
+                Sex = Sex.Female,
+                Level = 10
             };
             CharacterBlueprint mob3Blueprint = new CharacterBlueprint
             {
                 Id = 3,
                 Name = "mob3",
-                ShortDescription = "Third mob",
-                Description = "Third mob is here"
+                ShortDescription = "Third mob (male)",
+                Description = "Third mob (male) is here",
+                Sex = Sex.Male,
+                Level = 10
             };
             CharacterBlueprint mob4Blueprint = new CharacterBlueprint
             {
                 Id = 4,
                 Name = "mob4",
-                ShortDescription = "Fourth mob",
-                Description = "Fourth mob is here"
+                ShortDescription = "Fourth mob (neutral)",
+                Description = "Fourth mob (neutral) is here",
+                Sex = Sex.Neutral,
+                Level = 10
             };
             CharacterBlueprint mob5Blueprint = new CharacterBlueprint
             {
                 Id = 5,
                 Name = "mob5",
-                ShortDescription = "Fifth mob",
-                Description = "Fifth mob is here"
+                ShortDescription = "Fifth mob (female)",
+                Description = "Fifth mob (female) is here",
+                Sex = Sex.Female,
+                Level = 10
             };
             ItemContainerBlueprint item1Blueprint = new ItemContainerBlueprint
             {
@@ -315,7 +331,7 @@ namespace Mud.Server.TestApplication
             IRoom templeOfMota = World.World.Instance.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
             IRoom templeSquare = World.World.Instance.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
-            ICharacter mob1 = World.World.Instance.AddCharacter(Guid.NewGuid(), "mob1", templeOfMota);
+            ICharacter mob1 = World.World.Instance.AddCharacter(Guid.NewGuid(), "mob1", templeOfMota); // playable
             ICharacter mob2 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
             ICharacter mob3 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
             ICharacter mob4 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);

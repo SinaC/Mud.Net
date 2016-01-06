@@ -38,17 +38,17 @@ namespace Mud.Server.World
 
         public IReadOnlyCollection<IRoom> GetRooms()
         {
-            return _rooms.AsReadOnly();
+            return _rooms.Where(x =>x.Valid).ToList().AsReadOnly();
         }
 
         public IReadOnlyCollection<ICharacter> GetCharacters()
         {
-            return _characters.AsReadOnly();
+            return _characters.Where(x =>x.Valid).ToList().AsReadOnly();
         }
 
         public IReadOnlyCollection<IItem> GetItems()
         {
-            return _items.AsReadOnly();
+            return _items.Where(x =>x.Valid).ToList().AsReadOnly();
         }
 
         public IRoom AddRoom(Guid guid, RoomBlueprint blueprint)
@@ -122,6 +122,7 @@ namespace Mud.Server.World
         public void RemoveCharacter(ICharacter character)
         {
             character.StopFighting(true);
+            // TODO: search IPeriodicEffect with character as Source and delete them (or nullify Source)
             // TODO: extract all object in ICharacter
             // TODO: remove character from room
             if (character.Content.Any())

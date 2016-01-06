@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
+using Mud.Server.Abilities;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
 using Mud.Server.Entity;
@@ -20,6 +21,9 @@ namespace Mud.Server.Character
 
         private readonly List<IItem> _inventory;
         private readonly List<EquipmentSlot> _equipments;
+        private readonly List<IPeriodicEffect> _periodicEffects;
+        private readonly int[] _baseAttributes; // modified when levelling
+        private readonly int[] _currentAttributes; // = base attribute + buff
 
         static Character()
         {
@@ -31,23 +35,39 @@ namespace Mud.Server.Character
         {
             _inventory = new List<IItem>();
             _equipments = new List<EquipmentSlot>();
+            _periodicEffects = new List<IPeriodicEffect>();
+            _baseAttributes = new int[EnumHelpers.GetCount<AttributeTypes>()]; // TODO: parameter
+            _currentAttributes = new int[EnumHelpers.GetCount<AttributeTypes>()]; // TODO: parameter
+
             BuildEquipmentLocation();
-            Sex = Sex.Neutral;
-            HitPoints = 1000; // TODO:
+
+            Sex = Sex.Neutral; // TODO: parameter
+            Level = 1; // TODO: parameter
+            HitPoints = 1000; // TODO: parameter
+            MaxHitPoints = 1000; // TODO: parameter
+
             Impersonable = true;
             Room = room;
             room.Enter(this);
         }
 
         public Character(Guid guid, CharacterBlueprint blueprint, IRoom room) // non-playable
-            :base(guid, blueprint.Name, blueprint.Description)
+            : base(guid, blueprint.Name, blueprint.Description)
         {
-            Blueprint = blueprint;
             _inventory = new List<IItem>();
             _equipments = new List<EquipmentSlot>();
+            _periodicEffects = new List<IPeriodicEffect>();
+            _baseAttributes = new int[EnumHelpers.GetCount<AttributeTypes>()]; // TODO: blueprint
+            _currentAttributes = new int[EnumHelpers.GetCount<AttributeTypes>()]; // TODO: blueprint
+
+            Blueprint = blueprint;
             BuildEquipmentLocation();
+            
             Sex = blueprint.Sex;
-            HitPoints = 1000; // TODO:
+            Level = blueprint.Level;
+            MaxHitPoints = 1000; // TODO: blueprint
+            HitPoints = MaxHitPoints;
+            
             Impersonable = false;
             Room = room;
             room.Enter(this);
@@ -71,7 +91,7 @@ namespace Mud.Server.Character
             if (ImpersonatedBy != null)
             {
                 if (ServerOptions.PrefixForwardedMessages)
-                    message= "<IMP|" + Name + ">" + message;
+                    message = "<IMP|" + Name + ">" + message;
                 ImpersonatedBy.Send(message);
             }
             // TODO: do we really need to receive message sent to slave ?
@@ -148,20 +168,27 @@ namespace Mud.Server.Character
         public CharacterBlueprint Blueprint { get; private set; }
 
         public IRoom Room { get; private set; }
-        
+
         public ICharacter Fighting { get; private set; }
 
-        public IReadOnlyList<EquipmentSlot> Equipments
+        public IReadOnlyCollection<EquipmentSlot> Equipments
         {
-            get
-            {
-                return _equipments.AsReadOnly();
-            }
+            get { return _equipments.AsReadOnly(); }
         }
 
+        // Attributes
         public Sex Sex { get; private set; }
+        public int Level { get; private set; }
         public int HitPoints { get; private set; }
+        public int MaxHitPoints { get; private set; }
 
+        // Periodic Effects
+        public IReadOnlyCollection<IPeriodicEffect> PeriodicEffects
+        {
+            get { return _periodicEffects.AsReadOnly(); }
+        }
+
+        // Impersonation/Controller
         public bool Impersonable { get; private set; }
         public IPlayer ImpersonatedBy { get; private set; }
 
@@ -197,6 +224,7 @@ namespace Mud.Server.Character
             return true;
         }
 
+        // Visibility
         public bool CanSee(ICharacter character)
         {
             return true; // TODO
@@ -207,9 +235,41 @@ namespace Mud.Server.Character
             return true; // TODO
         }
 
+        // Attributes
+        public int BaseAttribute(AttributeTypes attribute)
+        {
+            return _baseAttributes[(int)attribute];
+        }
+
+        public int CurrentAttribute(AttributeTypes attribute)
+        {
+            return _currentAttributes[(int)attribute];
+        }
+
+        public void ModifyAttribute(AttributeTypes attribute, int value)
+        {
+            _currentAttributes[(int)attribute] -= value;
+        }
+
+        // Periodic Effects
+        public void AddPeriodicEffect(IPeriodicEffect effect)
+        {
+            _periodicEffects.Add(effect);
+            // TODO: send something ???
+            Send("You are now affected by {0}."+Environment.NewLine, effect.Name);
+        }
+
+        public void RemovePeriodicEffect(IPeriodicEffect effect)
+        {
+            _periodicEffects.Remove(effect);
+            // TODO: send something ???
+            Send("{0} vanishes." + Environment.NewLine, effect.Name);
+        }
+
+        // Move
         public void ChangeRoom(IRoom destination)
         {
-            Log.Default.WriteLine(LogLevels.Debug, "ChangeRoom: {0} from: {1} to {2}", Name, Room == null ? "<<no room>>" : Room.Name, destination == null ? "<<no room>>" : destination.Name);
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeRoom: {0} from: {1} to {2}", Name, Room == null ? "<<no room>>" : Room.Name, destination == null ? "<<no room>>" : destination.Name);
             if (Room != null)
                 Room.Leave(this);
             Room = destination;
@@ -217,9 +277,32 @@ namespace Mud.Server.Character
                 destination.Enter(this);
         }
 
+        // Combat
+        public bool Heal(ICharacter source, string ability, int amount, bool visible)
+        {
+            Log.Default.WriteLine(LogLevels.Info, "{0} healed by {1} {2} for {3}", Name, source == null ? "<<??>>" : source.Name, ability ?? "<<??>>", amount);
+            if (amount <= 0)
+            {
+                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.Heal: invalid amount {0} on {1}", amount, Name);
+                return false;
+            }
+            HitPoints = Math.Min(HitPoints + amount, MaxHitPoints);
+
+            Log.Default.WriteLine(LogLevels.Debug, "{0} HP left: {1}", Name, HitPoints);
+
+            // TODO: send message to this and source
+            //if (!String.IsNullOrWhiteSpace(ability))
+            //    Send("You are %w%healed%x% for {0} by {1} from {2}"+Environment.NewLine, amount, ability, source == null ? "(none)" : source.DisplayName);
+            //else
+            //    Send("You are %w%healed%x% for {0} from {2}" + Environment.NewLine, amount, source == null ? "(none)" : source.DisplayName);
+            if (visible)
+                DisplayHealPhrase(ability, source);
+            return true;
+        }
+
         public bool MultiHit(ICharacter enemy)
         {
-            Log.Default.WriteLine(LogLevels.Debug, "MultiHit: {0} -> {1}", Name, enemy.Name);
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.MultiHit: {0} -> {1}", Name, enemy.Name);
 
             if (this == enemy || Room != enemy.Room)
                 return false;
@@ -227,25 +310,24 @@ namespace Mud.Server.Character
             // TODO: check if wielding a weapon, ...
             // TODO: secondary, haste, ...
             IItemWeapon wielded = (Equipments.FirstOrDefault(x => x.WearLocation == WearLocations.Wield) ?? EquipmentSlot.NullObject).Item as IItemWeapon;
-            DamageTypes damageType = DamageTypes.Physical; // TODO
+            DamageTypes damageType = DamageTypes.Physical;
             if (ImpersonatedBy == null)
             {
-                OneHit(enemy, wielded, damageType);
+                OneHit(enemy, "claws", wielded, damageType);
                 //
-                if (Fighting != enemy)
+                if (Fighting != enemy) // stop multihit if different enemy or no enemy
                     return true;
             }
             else
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    OneHit(enemy, wielded, damageType);
+                    OneHit(enemy, i%2 == 0 ? null : "second attack", wielded, damageType);
                     //
-                    if (Fighting != enemy)
+                    if (Fighting != enemy) // stop multihit if different enemy or no enemy
                         return true;
                 }
             }
-
             return true;
         }
 
@@ -272,53 +354,36 @@ namespace Mud.Server.Character
             return true;
         }
 
-        public bool TakeCombatDamage(ICharacter damager, int damage, DamageTypes damageType, bool visible) // TODO:    check combat_damage in fight.C:1940
+        public bool CombatDamage(ICharacter source, string ability, int damage, DamageTypes damageType, bool visible) // damage with known source
         {
+            // TODO: check combat_damage in fight.C:1940
             // TODO: damage reduction
 
             // Starts fight if needed (if A attacks B, A fights B and B fights A)
-            if (this != damager)
+            if (this != source)
             {
                 if (Fighting == null)
-                    StartFighting(damager);
-                if (damager.Fighting == null)
-                    damager.StartFighting(this);
+                    StartFighting(source);
+                if (source.Fighting == null)
+                    source.StartFighting(this);
                 // TODO: Cannot attack slave without breaking slavery
             }
             // TODO: if invisible, remove invisibility
             // TODO: damage modifier
-            // TODO: check parry, dodge, shield block, ...
             // TODO: check immunity/resist/vuln
 
             if (visible) // equivalent to dam_message in fight.C:4381
-            {
-                string damagePhrase1 = "damage";
-                string damagePhrase2 = "damages";
-                if (damage == 0)
-                {
-                    damagePhrase1 = "miss";
-                    damagePhrase2 = "misses";
-                }
-                else // TODO: other flavor messages (see fight.C:4429)
-                {
-                    damagePhrase1 = "%b%--*-- --*-- RUPTURE --*-- --*--%x%";
-                    damagePhrase2 = "%b%--*-- --*-- RUPTURES --*-- --*--%x%";
-                }
+                DisplayCombatDamagePhrase(ability, damage, source);
 
-                Act(ActOptions.ToVictim, damager, "You {0} {1}.", damagePhrase1, this);
-                Act(ActOptions.ToNotVictim, damager, "{0} {1} {2}.", this, damagePhrase2, this);
-                if (damager != this)
-                    Act(ActOptions.ToCharacter, "{0} {1} you.", damager, damagePhrase2);
-            }
             // No damage -> stop here
             if (damage == 0)
             {
-                Log.Default.WriteLine(LogLevels.Debug, "{0} does no damage to {1}", damager.Name, Name);
+                Log.Default.WriteLine(LogLevels.Debug, "{0} does no damage to {1}", source.Name, Name);
 
                 return false;
             }
 
-            Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", damager.Name, damage, Name);
+            Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", source.Name, damage, Name);
 
             // Apply damage
             bool dead = false;
@@ -333,22 +398,68 @@ namespace Mud.Server.Character
 
             //update_pos(victim);
             //position_msg(victim, dam);
+
             // If dead, create corpse, xp gain/loss, remove character from world if needed
             if (dead) // TODO: fight.C:2246
             {
-                Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", Name, damager.Name);
+                Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", Name, source.Name);
 
-                Act(ActOptions.ToCharacter, "{0} is dead.", this);
-                Act(ActOptions.ToNotVictim, this, "{0} is dead.", this);
-                Send("You have been KILLED!!"+Environment.NewLine);
+                Act(ActOptions.ToRoom, "{0} is dead.", this);
+                Send("You have been KILLED!!" + Environment.NewLine);
 
                 StopFighting(false);
-                damager.KillingPayoff(this);
+                source.KillingPayoff(this);
                 return true;
             }
 
             // TODO: wimpy, ... // fight.C:2264
 
+            return true;
+        }
+
+        public bool UnknownSourceDamage(string ability, int damage, DamageTypes damageType, bool visible) // damage with unknown source or no source
+        {
+            if (visible) // equivalent to dam_message in fight.C:4381
+                DisplayUnknownSourceDamagePhrase(ability, damage);
+            // No damage -> stop here
+            if (damage == 0)
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "{0} does no damage to {1}", ability, Name);
+
+                return false;
+            }
+
+            Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", ability, damage, Name);
+
+            // Apply damage
+            bool dead = false;
+            HitPoints -= damage;
+            if (HitPoints < 1)
+            {
+                if (ImpersonatedBy != null)
+                    HitPoints = 1;
+                else
+                    HitPoints = 0;
+                dead = true;
+            }
+
+            Log.Default.WriteLine(LogLevels.Debug, "{0} HP left: {1}", Name, HitPoints);
+
+            //update_pos(victim);
+            //position_msg(victim, dam);
+
+            // If dead, create corpse, xp gain/loss, remove character from world if needed
+            if (dead) // TODO: fight.C:2246
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", Name, ability);
+
+                Act(ActOptions.ToRoom, "{0} is dead.", this);
+                Send("You have been KILLED!!" + Environment.NewLine);
+
+                StopFighting(false);
+                IItemCorpse corpse = RawKill(this);
+                return true;
+            }
             return true;
         }
 
@@ -364,14 +475,16 @@ namespace Mud.Server.Character
         {
             victim.StopFighting(true);
             // Death cry
-            //we should not hear our death cry Act(ActOptions.ToCharacter, "You hear {0}'s death cry.", victim);
-            Act(ActOptions.ToNotVictim, this, "You hear {0}'s death cry.", victim);
+            if (this != victim)
+                Act(ActOptions.ToCharacter, "You hear {0}'s death cry.", victim);
+            Act(ActOptions.ToNotVictim, victim, "You hear {0}'s death cry.", victim);
             // Create corpse
             IItemCorpse corpse = World.World.Instance.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
             if (victim.ImpersonatedBy != null) // If impersonated, no real death
             {
                 // TODO: reset hit/mana/...
                 // TODO: teleport player to hall room/graveyard  see fight.C:3952
+                HitPoints = MaxHitPoints;
             }
             else // If not impersonated, remove from game
             {
@@ -405,12 +518,13 @@ namespace Mud.Server.Character
             _equipments.Add(new EquipmentSlot(WearLocations.Hold));
         }
 
-        private bool OneHit(ICharacter victim, IItemWeapon weapon, DamageTypes damageType) // TODO: skill    check fight.C:1394
+        private bool OneHit(ICharacter victim, string ability, IItemWeapon weapon, DamageTypes damageType) // TODO: skill    check fight.C:1394
         {
             if (this == victim || Room != victim.Room)
                 return false;
             // TODO: skill percentage
             // TODO: check wield  fight.C:1595
+            // TODO: check parry, dodge, shield block, ...
 
             int damage = 0;
 
@@ -422,13 +536,96 @@ namespace Mud.Server.Character
                 if (ImpersonatedBy != null)
                     damage = 75;
                 else
-                    damage = 10000;
+                    damage = 100;
             }
             // TODO: damage modifier  fight.C:1693
 
-            victim.TakeCombatDamage(this, damage, damageType, true);
+            return victim.CombatDamage(this, ability, damage, damageType, true);
+        }
 
-            return true;
+        private void DisplayCombatDamagePhrase(string ability, int damage, ICharacter source)
+        {
+            string damagePhraseSelf = StringHelpers.DamagePhraseSelf(damage);
+            string damagePhraseOther = StringHelpers.DamagePhraseOther(damage);
+
+            if (!String.IsNullOrWhiteSpace(ability))
+            {
+                if (this == source)
+                {
+                    Act(ActOptions.ToCharacter, "Your {0} {1} yourself.", ability, damagePhraseOther);
+                    Act(ActOptions.ToRoom, "{0} {1} {2} {0:m}self.", source, ability, damagePhraseOther);
+                }
+                else
+                {
+                    Act(ActOptions.ToCharacter, "{0}'s {1} {2} you.", source, ability, damagePhraseOther);
+                    Act(ActOptions.ToVictim, source, "Your {0} {1} {2}.", ability, damagePhraseOther, this);
+                    Act(ActOptions.ToNotVictim, source, "{0}'s {1} {2} {3}.", source, ability, damagePhraseOther, this);
+                }
+            }
+            else
+            {
+                if (this == source)
+                {
+                    Act(ActOptions.ToCharacter, "You {0} yourself.", damagePhraseSelf);
+                    Act(ActOptions.ToRoom, "{0} {1} {0:m}self.", source, damagePhraseOther);
+                }
+                else
+                {
+                    Act(ActOptions.ToCharacter, "{0} {1} you.", source, damagePhraseOther);
+                    Act(ActOptions.ToVictim, source, "You {0} {1}.", damagePhraseSelf, this);
+                    Act(ActOptions.ToNotVictim, source, "{0} {1} {2}.", source, damagePhraseOther, this);
+                }
+            }
+        }
+
+        private void DisplayUnknownSourceDamagePhrase(string ability, int damage)
+        {
+            string damagePhraseSelf = StringHelpers.DamagePhraseSelf(damage);
+            string damagePhraseOther = StringHelpers.DamagePhraseOther(damage);
+
+            if (!String.IsNullOrWhiteSpace(ability))
+            {
+                Act(ActOptions.ToCharacter, "{0} {1} you.", ability, damagePhraseSelf);
+                Act(ActOptions.ToRoom, "{0} {1} {2}.", ability, damagePhraseOther, this);
+            }
+            else
+            {
+                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.NonCombatDamage: no ability");
+                Act(ActOptions.ToCharacter, "Something {0} you.", damagePhraseOther);
+                Act(ActOptions.ToRoom, "Something {0} {1}.", damagePhraseOther, this);
+            }
+        }
+
+        private void DisplayHealPhrase(string ability, ICharacter victim)
+        {
+            if (!String.IsNullOrWhiteSpace(ability))
+            {
+                if (this == victim)
+                {
+                    Act(ActOptions.ToCharacter, "Your {0} %w%heals%x% yourself.", ability);
+                    Act(ActOptions.ToRoom, "{0} {1} %w%heals%x% {0:m}self.", this, ability);
+                }
+                else
+                {
+                    Act(ActOptions.ToCharacter, "{0}'s {1} %w%heals%x% you.", victim, ability);
+                    Act(ActOptions.ToVictim, victim, "Your {0} %w%heals%x% {2}.", ability, this);
+                    Act(ActOptions.ToNotVictim, victim, "{0}'s {1} %w%heals%x% {2}.", victim, ability, this);
+                }
+            }
+            else
+            {
+                if (this == victim)
+                {
+                    Act(ActOptions.ToCharacter, "You %w%heal%x% yourself.");
+                    Act(ActOptions.ToRoom, "{0} %w%heals%x% {0:m}self.", this);
+                }
+                else
+                {
+                    Act(ActOptions.ToCharacter, "{0} heals you.", victim);
+                    Act(ActOptions.ToVictim, victim, "You heal {0}.", this);
+                    Act(ActOptions.ToNotVictim, victim, "{0} heals {1}.", victim, this);
+                }
+            }
         }
 
         #region Act  TODO in EntityBase ???
@@ -498,6 +695,7 @@ namespace Mud.Server.Character
             ArgumentFound,
             FormatSeparatorFound,
         }
+
         private static string FormatActOneLine(ICharacter target, string format, params object[] arguments)
         {
             StringBuilder result = new StringBuilder();
@@ -605,21 +803,21 @@ namespace Mud.Server.Character
                     case 'S':
                         result.Append(StringHelpers.Possessives[character.Sex]);
                         break;
-                        // TODO:
-                        //case 'r':
-                        //case 'R': // transforms '$r' into 'you' or '<name>' depending if target is the same as argument
-                        //    if (character == target)
-                        //        result.Append("you");
-                        //    else
-                        //        result.Append(target.CanSee(character)
+                    // TODO:
+                    //case 'r':
+                    //case 'R': // transforms '$r' into 'you' or '<name>' depending if target is the same as argument
+                    //    if (character == target)
+                    //        result.Append("you");
+                    //    else
+                    //        result.Append(target.CanSee(character)
                     //            ? character.DisplayName
-                        //            : "someone");
-                        //    break;
-                        //case 'v':
-                        //case 'V': // transforms 'look$s' into 'look' and 'looks' depending if target is the same as argument
-                        //    if (character != target)
-                        //        result.Append('s');
-                        //    break;
+                    //            : "someone");
+                    //    break;
+                    //case 'v':
+                    //case 'V': // transforms 'look$s' into 'look' and 'looks' depending if target is the same as argument
+                    //    if (character != target)
+                    //        result.Append('s');
+                    //    break;
                     default:
                         Log.Default.WriteLine(LogLevels.Error, "Act: invalid format {0} for ICharacter", format);
                         result.Append("<???>");
@@ -663,8 +861,8 @@ namespace Mud.Server.Character
         protected virtual bool DoKill(string rawParameters, params CommandParameter[] parameters)
         {
             Send("DoKill: NOT YET IMPLEMENTED" + Environment.NewLine);
-            Send("==> TESTING MULTIHIT"+Environment.NewLine);
-
+            
+            Send("==> TESTING MULTIHIT" + Environment.NewLine);
             if (parameters.Length > 0)
             {
                 ICharacter target = FindHelpers.FindByName(Room.People, parameters[0]);
@@ -679,57 +877,19 @@ namespace Mud.Server.Character
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
             Send("Character: DoTest" + Environment.NewLine);
+
+            Send("==> TESTING DAMAGE/PERIODIC EFFECT" + Environment.NewLine);
+            if (parameters.Length == 0)
+                CombatDamage(this, "STUPIDITY", 100, DamageTypes.Fire, true);
+            else if (parameters[0].Value == "1")
+                UnknownSourceDamage("STUPIDITY2", 100, DamageTypes.Frost, true);
+            else if (parameters[0].Value == "2")
+                UnknownSourceDamage(null, 100, DamageTypes.Frost, true);
+            else if (parameters[0].Value == "3")
+                AddPeriodicEffect(new PeriodicEffect("DoT", EffectTypes.Damage, this, DamageTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8));
+            else if (parameters[0].Value == "4")
+                AddPeriodicEffect(new PeriodicEffect("HoT", EffectTypes.Heal, this, 10, AmountOperators.Percentage, true, 3, 8));
             return true;
         }
     }
-
-
-    //#region IFormattable
-
-    ////http://www.informit.com/articles/article.aspx?p=1567486
-    //public string ToString(string format, IFormatProvider formatProvider)
-    //{
-    //    //"G" is .Net's standard for general formatting--all
-    //    //types should support it
-    //    if (format == null) 
-    //        format = "G";
-
-    //    // is the user providing their own format provider?
-    //    if (formatProvider != null)
-    //    {
-    //        ICustomFormatter formatter = formatProvider.GetFormat(this.GetType()) as ICustomFormatter;
-    //        if (formatter != null)
-    //            return formatter.Format(format, this, formatProvider);
-    //    }
-
-    //    if (format == "G")
-    //        return Name;
-    //    StringBuilder sb = new StringBuilder();
-    //    int sourceIndex = 0;
-    //    while (sourceIndex < format.Length)
-    //    {
-    //        switch (format[sourceIndex])
-    //        {
-    //            case 'n': case 'N':
-    //                sb.Append(DisplayName); // TODO: short description
-    //                break;
-    //            case 'e': case 'E':
-    //                sb.Append(StringHelpers.Subjects[Sex]);
-    //                break;
-    //            case 'm': case 'M':
-    //                sb.Append(StringHelpers.Objectives[Sex]);
-    //                break;
-    //            case 's': case 'S':
-    //                sb.Append(StringHelpers.Possessives[Sex]);
-    //                break;
-    //            default:
-    //                sb.Append(format[sourceIndex]);
-    //                break;
-    //        }
-    //        sourceIndex++;
-    //    }
-    //    return sb.ToString();
-    //}
-
-    //#endregion
 }

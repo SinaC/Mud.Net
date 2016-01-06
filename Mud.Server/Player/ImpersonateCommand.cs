@@ -26,17 +26,22 @@ namespace Mud.Server.Player
                 ICharacter target = World.World.Instance.GetCharacter(parameters[0]);
                 if (target != null)
                 {
-                    if (Impersonating != null)
+                    if (target.Impersonable)
                     {
-                        Send("You stop impersonating {0}." + Environment.NewLine, Impersonating.DisplayName);
-                        Impersonating.ChangeImpersonation(null);
+                        if (Impersonating != null)
+                        {
+                            Send("You stop impersonating {0}." + Environment.NewLine, Impersonating.DisplayName);
+                            Impersonating.ChangeImpersonation(null);
+                        }
+                        Send("%M%You start impersonating %C%{0}%x%." + Environment.NewLine, target.DisplayName);
+                        target.ChangeImpersonation(this);
+                        Impersonating = target;
+                        PlayerState = PlayerStates.Impersonating;
+                        // TODO: if autolook
+                        target.ExecuteCommand("look", String.Empty, CommandParameter.Empty); // TODO: target.DoLook(String.Empty, CommandParameter.Empty)
                     }
-                    Send("%M%You start impersonating %C%{0}%x%." + Environment.NewLine, target.DisplayName);
-                    target.ChangeImpersonation(this);
-                    Impersonating = target;
-                    PlayerState = PlayerStates.Impersonating;
-                    // TODO: if autolook
-                    target.ExecuteCommand("look", String.Empty, CommandParameter.Empty); // TODO: target.DoLook(String.Empty, CommandParameter.Empty)
+                    else
+                        Send("{0} cannot be impersonated." + Environment.NewLine, target.DisplayName);
                 }
                 else
                     Send(StringHelpers.CharacterNotFound);

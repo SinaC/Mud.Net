@@ -92,4 +92,26 @@
         Shadow,
         Holy,
     }
+
+    public enum AttributeTypes
+    {
+        Strength,
+        Agility,
+        Stamina,
+        Intellect,
+        Spirit
+    }
+
+    public enum ResourceKinds
+    {
+        Mana,
+        Energy,
+        Rage
+    }
+
+    public enum AmountOperators
+    {
+        Fixed,
+        Percentage
+    }
 }

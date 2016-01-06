@@ -54,7 +54,7 @@ namespace Mud.Server.TestApplication
                 Console.ResetColor();
             }
 
-            // Parse color code  TODO buggy if only one %
+            // Parse color code
             while (true)
             {
                 int startIndex = remaining.IndexOf("%", StringComparison.OrdinalIgnoreCase);
@@ -71,7 +71,7 @@ namespace Mud.Server.TestApplication
                         remaining = remaining.Substring(endIndex + 1);
                     }
                     else
-                        remaining = remaining.Remove(startIndex, 1);
+                        Console.Write("%");
                 }
                 else
                 {

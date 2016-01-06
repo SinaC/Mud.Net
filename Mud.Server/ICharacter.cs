@@ -12,14 +12,20 @@ namespace Mud.Server
         IRoom Room { get; }
         ICharacter Fighting { get; }
 
-        IReadOnlyList<EquipmentSlot> Equipments { get; }
+        IReadOnlyCollection<EquipmentSlot> Equipments { get; }
 
         // Attributes
         Sex Sex { get; }
+        int Level { get; }
         int HitPoints { get; }
+        int MaxHitPoints { get; }
+
+        // Periodic Effects
+        IReadOnlyCollection<IPeriodicEffect> PeriodicEffects { get; }
+
         // TODO: race, classes, ...
 
-        //
+        // Impersonation/Controller
         bool Impersonable { get; }
         IPlayer ImpersonatedBy { get; }
 
@@ -29,16 +35,29 @@ namespace Mud.Server
         bool ChangeImpersonation(IPlayer player); // if non-null, start impersonation, else, stop impersonation
         bool ChangeController(ICharacter master); // if non-null, start slavery, else, stop slavery
 
+        // Visibility
         bool CanSee(ICharacter character);
         bool CanSee(IItem obj);
 
+        // Attributes
+        int BaseAttribute(AttributeTypes attribute);
+        int CurrentAttribute(AttributeTypes attribute);
+        void ModifyAttribute(AttributeTypes attribute, int value);
+
+        // Periodic Effects
+        void AddPeriodicEffect(IPeriodicEffect effect);
+        void RemovePeriodicEffect(IPeriodicEffect effect);
+
+        // Move
         void ChangeRoom(IRoom destination);
 
-        //
+        // Combat
+        bool Heal(ICharacter source, string ability, int amount, bool visible);
         bool MultiHit(ICharacter enemy);
         bool StartFighting(ICharacter enemy);
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
-        bool TakeCombatDamage(ICharacter damager, int damage, DamageTypes damageType, bool visible);
+        bool CombatDamage(ICharacter source, string ability, int damage, DamageTypes damageType, bool visible); // damage with known damager
+        bool UnknownSourceDamage(string ability, int damage, DamageTypes damageType, bool visible); // damage with unknown damager or no damager
         bool KillingPayoff(ICharacter victim); // to be called only if victim is dead   TODO: don't make this accessible in interface
         IItemCorpse RawKill(ICharacter victim); // kill victim without any xp gain/loss + create corpse
     }

@@ -5,6 +5,7 @@ namespace Mud.Server
     public interface IEntity : IActor
     {
         Guid Id { get; }
+        bool Valid { get; }
         string Name { get; }
         // TODO: keywords: List<string> = Name.Split(' ')
         string DisplayName { get; }

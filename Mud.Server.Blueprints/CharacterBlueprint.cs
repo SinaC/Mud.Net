@@ -24,6 +24,9 @@ namespace Mud.Server.Blueprints
         [DataMember]
         public Sex Sex { get; set; }
 
-        // TODO: flags, level, armor, damage, ...
+        [DataMember]
+        public int Level { get; set; }
+
+        // TODO: flags, armor, damage, ...
     }
 }

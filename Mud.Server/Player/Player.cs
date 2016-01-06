@@ -124,6 +124,8 @@ namespace Mud.Server.Player
 
         public List<ICharacter> Avatars { get; protected set; } // List of character a player can impersonate
 
+        public int GlobalCooldown { get; protected set; } // delay (in Pulse) before next action
+
         public PlayerStates PlayerState { get; protected set; }
 
         public ICharacter Impersonating { get; private set; }

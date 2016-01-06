@@ -422,14 +422,25 @@ namespace Mud.Server.Server
             {
                 foreach (PlayingClient playingClient in _players.Values) // TODO: first connected player will be processed before other, try a randomize
                 {
-                    string command = playingClient.DequeueReceivedData(); // process one command at a time
-                    if (command != null)
+                    if (playingClient.Player != null)
                     {
-                        if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
-                            HandlePaging(playingClient, command);
-                        else if (!String.IsNullOrWhiteSpace(command))
-                            playingClient.Player.ProcessCommand(command);
+                        //if (playingClient.Player.GlobalCooldown > 0)
+                        //    playingClient.Player.GlobalCooldown--;
+                        //else
+                        //{
+                        // TODO: global cooldown
+                            string command = playingClient.DequeueReceivedData(); // process one command at a time
+                            if (command != null)
+                            {
+                                if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
+                                    HandlePaging(playingClient, command);
+                                else if (!String.IsNullOrWhiteSpace(command))
+                                    playingClient.Player.ProcessCommand(command);
+                            }
+                        //}
                     }
+                    else
+                        Log.Default.WriteLine(LogLevels.Error, "Playing client without Player");
                 }
             }
         }
@@ -454,14 +465,23 @@ namespace Mud.Server.Server
                     {
                         // Bust a prompt ?
                         if (playingClient.Player.PlayerState == PlayerStates.Playing || playingClient.Player.PlayerState == PlayerStates.Impersonating)
-                            data += ">"; // TODO: complex prompt
+                        {
+                            //data += ">"; // TODO: complex prompt
+                            // bust a prompt
+                            if (playingClient.Player.Impersonating != null)
+                                data += String.Format("<{0}/{1}HP>", playingClient.Player.Impersonating.HitPoints, playingClient.Player.Impersonating.MaxHitPoints);
+                            else
+                                data += ">";
+                        }
+                        else
+                            data += ">";
                         playingClient.Client.WriteData(data);
                     }
                 }
             }
         }
 
-        private void PulseShutdown()
+        private void HandleShutdown()
         {
             if (_pulseBeforeShutdown >= 0)
             {
@@ -498,7 +518,23 @@ namespace Mud.Server.Server
             }
         }
 
-        private void PulseViolence()
+        private void HandlePeriodicEffects() // TODO: specific pulse ? 1/2 seconds
+        {
+            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.PeriodicEffects.Any()).ToList());
+            foreach (ICharacter character in clone)
+            {
+                IReadOnlyCollection<IPeriodicEffect> periodicEffects = new ReadOnlyCollection<IPeriodicEffect>(character.PeriodicEffects.ToList());
+                foreach (IPeriodicEffect pe in periodicEffects)
+                {
+                    if (pe.PeriodsLeft > 0)
+                        pe.Process(character);
+                    if (pe.PeriodsLeft == 0) // no else, because Process decrease PeriodsLeft
+                        character.RemovePeriodicEffect(pe);
+                }
+            }
+        }
+
+        private void HandleViolence()
         {
             if (_pulseViolence > 0)
             {
@@ -507,15 +543,15 @@ namespace Mud.Server.Server
             }
             _pulseViolence = PulsePerSeconds*3;
 
-            Log.Default.WriteLine(LogLevels.Debug, "PulseViolence");
+            Log.Default.WriteLine(LogLevels.Trace, "PulseViolence");
 
-            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().ToList());
+            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.Fighting != null).ToList());
             foreach (ICharacter character in clone)
             {
                 ICharacter victim = character.Fighting;
                 if (victim != null)
                 {
-                    if (victim.Room == character.Room)
+                    if (victim.Room == character.Room) // fight continue only if in the same room
                     {
                         Log.Default.WriteLine(LogLevels.Debug, "Continue fight between {0} and {1}", character.Name, victim.Name);
                         character.MultiHit(victim);
@@ -534,8 +570,9 @@ namespace Mud.Server.Server
             // TODO:  (see handler.c)
             //Log.Default.WriteLine(LogLevels.Debug, "PULSE: {0:HH:mm:ss.ffffff}", DateTime.Now);
 
-            PulseShutdown();
-            PulseViolence();
+            HandleShutdown();
+            HandlePeriodicEffects();
+            HandleViolence();
         }
 
         private void GameLoopTask()

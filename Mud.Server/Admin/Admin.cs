@@ -47,9 +47,9 @@ namespace Mud.Server.Admin
             }
 
             // If an input state machine is running, send commandLine to machine
-            if (_currentStateMachine != null && !_currentStateMachine.IsFinalStateReached)
+            if (CurrentStateMachine != null && !CurrentStateMachine.IsFinalStateReached)
             {
-                _currentStateMachine.ProcessInput(this, commandLine);
+                CurrentStateMachine.ProcessInput(this, commandLine);
                 return true;
             }
             else
@@ -69,20 +69,25 @@ namespace Mud.Server.Admin
                 }
 
                 bool executedSuccessfully;
-                if (forceOutOfGame || (Impersonating == null && Incarnating == null))
+                if (forceOutOfGame || (Impersonating == null && Incarnating == null)) // neither incarnating nor impersonating
                 {
                     Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", Name, commandLine);
                     executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
                 }
-                else if (Incarnating != null)
+                else if (Incarnating != null) // incarnating
                 {
                     Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", Name, Incarnating.Name, commandLine);
                     executedSuccessfully = Incarnating.ExecuteCommand(command, rawParameters, parameters);
                 }
-                else
+                else if (Impersonating != null) // impersonating
                 {
                     Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", Name, Impersonating.Name, commandLine);
                     executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
+                }
+                else
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "[{0}] is neither out of game, nor impersonating, nor incarnating");
+                    executedSuccessfully = false;
                 }
                 if (!executedSuccessfully)
                     Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
@@ -164,7 +169,7 @@ namespace Mud.Server.Admin
                         else if (admin.Incarnating != null)
                             sb.AppendFormat("[ IG] {0} incarnating {1}", admin.DisplayName, admin.Incarnating.Name);
                         else
-                            sb.AppendFormat("[ IG] {0} nor playing nor incarnating !!!", admin.DisplayName);
+                            sb.AppendFormat("[ IG] {0} neither playing nor incarnating !!!", admin.DisplayName);
                         break;
                     default:
                         sb.AppendFormat("[OOG] {0} {1}", admin.DisplayName, admin.PlayerState);

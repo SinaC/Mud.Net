@@ -275,6 +275,42 @@ namespace Mud.Server.Character
             return true;
         }
 
+        [Command("affects")]
+        protected virtual bool DoAffects(string rawParameters, params CommandParameter[] parameters)
+        {
+            // TODO: better UI
+            // Effects
+            // TODO
+            // Periodic effects
+            if (_periodicEffects.Any())
+            {
+                Send("Periodic effects:"+Environment.NewLine);
+                foreach (IPeriodicEffect pe in _periodicEffects)
+                {
+                    if (pe.EffectType == EffectTypes.Damage) // TODO: operator
+                        Send("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds" + Environment.NewLine,
+                            pe.Name,
+                            pe.Source == null ? "(none)" : pe.Source.DisplayName,
+                            pe.Amount,
+                            pe.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                            pe.DamageType,
+                            pe.PeriodInSeconds,
+                            pe.PeriodsLeft*pe.PeriodInSeconds);
+                    else
+                        Send("{0} from {1}: {2}{3} heal every {4} seconds for {5} seconds" + Environment.NewLine,
+                            pe.Name,
+                            pe.Source == null ? "(none)" : pe.Source.DisplayName,
+                            pe.Amount,
+                            pe.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                            pe.PeriodInSeconds,
+                            pe.PeriodsLeft * pe.PeriodInSeconds);
+                }
+            }
+            else
+                Send("No periodic effect." + Environment.NewLine);
+            return true;
+        }
+
         //********************************************************************
         // Helpers
         //********************************************************************

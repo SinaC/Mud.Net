@@ -10,6 +10,7 @@ namespace Mud.Server.Entity
     {
         protected EntityBase(Guid guid, string name)
         {
+            Valid = true;
             if (guid == Guid.Empty)
                 guid = Guid.NewGuid();
             Id = guid;
@@ -23,6 +24,7 @@ namespace Mud.Server.Entity
 
         protected EntityBase(Guid guid, string name, string description)
         {
+            Valid = true;
             if (guid == Guid.Empty)
                 guid = Guid.NewGuid();
             Id = guid;
@@ -75,6 +77,7 @@ namespace Mud.Server.Entity
         #endregion
 
         public Guid Id { get; private set; }
+        public bool Valid { get; protected set; }
         public string Name { get; protected set; }
         public abstract string DisplayName { get; }
         //TODO: ??? public string Keyword { get; private set; }
@@ -93,6 +96,7 @@ namespace Mud.Server.Entity
         // Overriden in inherited class
         public virtual void OnRemoved() // called before removing an item from the game
         {
+            Valid = false;
             // TODO: warn IncarnatedBy about removing
         }
 

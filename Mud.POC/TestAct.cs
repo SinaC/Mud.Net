@@ -6,6 +6,55 @@ using Mud.Server.Constants;
 
 namespace Mud.POC
 {
+    //#region IFormattable
+
+    ////http://www.informit.com/articles/article.aspx?p=1567486
+    //public string ToString(string format, IFormatProvider formatProvider)
+    //{
+    //    //"G" is .Net's standard for general formatting--all
+    //    //types should support it
+    //    if (format == null) 
+    //        format = "G";
+
+    //    // is the user providing their own format provider?
+    //    if (formatProvider != null)
+    //    {
+    //        ICustomFormatter formatter = formatProvider.GetFormat(this.GetType()) as ICustomFormatter;
+    //        if (formatter != null)
+    //            return formatter.Format(format, this, formatProvider);
+    //    }
+
+    //    if (format == "G")
+    //        return Name;
+    //    StringBuilder sb = new StringBuilder();
+    //    int sourceIndex = 0;
+    //    while (sourceIndex < format.Length)
+    //    {
+    //        switch (format[sourceIndex])
+    //        {
+    //            case 'n': case 'N':
+    //                sb.Append(DisplayName); // TODO: short description
+    //                break;
+    //            case 'e': case 'E':
+    //                sb.Append(StringHelpers.Subjects[Sex]);
+    //                break;
+    //            case 'm': case 'M':
+    //                sb.Append(StringHelpers.Objectives[Sex]);
+    //                break;
+    //            case 's': case 'S':
+    //                sb.Append(StringHelpers.Possessives[Sex]);
+    //                break;
+    //            default:
+    //                sb.Append(format[sourceIndex]);
+    //                break;
+    //        }
+    //        sourceIndex++;
+    //    }
+    //    return sb.ToString();
+    //}
+
+    //#endregion
+
     public class TestAct
     {
         public enum ActOptions
