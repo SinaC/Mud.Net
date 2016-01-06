@@ -21,13 +21,13 @@ namespace Mud.Server.Character
             else if (rawParameters == "all")
             {
                 // We have to clone list, because it'll be modified when wearing an item
-                IReadOnlyCollection<IItem> clone = new ReadOnlyCollection<IItem>(Content.Where(x => CanSee(x) && x.IsWearable).ToList());
-                foreach (IItem item in clone)
+                IReadOnlyCollection<IEquipable> clone = new ReadOnlyCollection<IEquipable>(Content.Where(CanSee).OfType<IEquipable>().ToList());
+                foreach (IEquipable item in clone)
                     WearItem(item, false);
             }
             else
             {
-                IItem item = FindHelpers.FindByName(Content, parameters[0]);
+                IEquipable item = FindHelpers.FindByName(Content.Where(CanSee).OfType<IEquipable>(), parameters[0]);
                 if (item == null)
                     Send(StringHelpers.ItemInventoryNotFound);
                 else
@@ -58,7 +58,7 @@ namespace Mud.Server.Character
                     {
                         string what = parameters[0].Value.Substring(4);
                         list = !String.IsNullOrWhiteSpace(what)
-                            ? new ReadOnlyCollection<IItem>(Room.Content.Where(x => CanSee(x) && FindHelpers.StringStartWith(x.Name, what)).ToList())
+                            ? new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Room.Content.Where(CanSee), what).ToList())
                             : new ReadOnlyCollection<IItem>(Room.Content.Where(CanSee).ToList());
                         allDot = true;
                     }
@@ -108,7 +108,7 @@ namespace Mud.Server.Character
                             {
                                 string what = parameters[0].Value.Substring(4);
                                 list = !String.IsNullOrWhiteSpace(what)
-                                    ? new ReadOnlyCollection<IItem>(container.Content.Where(x => CanSee(x) && FindHelpers.StringStartWith(x.Name, what)).ToList())
+                                    ? new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(container.Content.Where(CanSee), what).ToList())
                                     : new ReadOnlyCollection<IItem>(container.Content.Where(CanSee).ToList());
                                 allDot = true;
                             }
@@ -172,7 +172,7 @@ namespace Mud.Server.Character
             else
             {
                 EquipmentSlot equipmentSlot = FindHelpers.FindByName(Equipments.Where(x => x.Item != null && CanSee(x.Item)), x => x.Item, parameters[0]);
-                if (equipmentSlot.Item == null)
+                if (equipmentSlot == null || equipmentSlot.Item == null)
                     Send(StringHelpers.ItemInventoryNotFound);
                 else
                     RemoveItem(equipmentSlot);
@@ -183,7 +183,7 @@ namespace Mud.Server.Character
         //********************************************************************
         // Helpers
         //********************************************************************
-        private bool WearItem(IItem item, bool replace) // equivalent to wear_obj in act_obj.C:1467
+        private bool WearItem(IEquipable item, bool replace) // equivalent to wear_obj in act_obj.C:1467
         {
             // TODO: check level
             WearLocations wearLocation = WearLocations.None;
@@ -212,6 +212,7 @@ namespace Mud.Server.Character
             Act(ActOptions.ToRoom, "{0} wears {1}.", this, item);
             equipmentSlot.Item = item; // equip
             item.ChangeContainer(null); // remove from inventory
+            item.ChangeEquipedBy(this); // set as equiped by this
             return true;
         }
 
@@ -239,6 +240,7 @@ namespace Mud.Server.Character
             Act(ActOptions.ToCharacter, "You stop using {0}.", equipmentSlot.Item);
             Act(ActOptions.ToRoom, "{0} stops using {1}.", this, equipmentSlot.Item);
             equipmentSlot.Item.ChangeContainer(this); // add in inventory
+            equipmentSlot.Item.ChangeEquipedBy(null); // clear equiped by
             equipmentSlot.Item = null; // unequip
             return true;
         }

@@ -28,11 +28,17 @@ namespace Mud.Server
         // Is damage phrase visible
         bool Visible { get; }
 
-        // Period
-        int PeriodInSeconds { get; }
+        // Seconds left
+        int SecondsLeft { get; }
 
-        // Periods left
-        int PeriodsLeft { get; }
+        // Total ticks
+        int TotalTicks { get; }
+
+        // Delay between 2 ticks
+        int TickDelay { get; }
+
+        // Ticks left
+        int TicksLeft { get; }
 
         // Reset source
         void ResetSource();

@@ -6,7 +6,7 @@ namespace Mud.Server.Character
 {
     public partial class Character
     {
-        [Command("charm")]
+        [Command("charm")] // TODO: remove   test commands
         protected virtual bool DoCharm(string rawParameters, params CommandParameter[] parameters)
         {
             if (ControlledBy != null)
@@ -55,9 +55,11 @@ namespace Mud.Server.Character
                 Send(StringHelpers.CharacterNotFound);
             else
             {
-                Send("You order {0} to {1}." + Environment.NewLine, Slave.Name, rawParameters);
                 Slave.Send("{0} orders you to '{1}'." + Environment.NewLine, Name, rawParameters);
                 Slave.ProcessCommand(rawParameters);
+                SetGlobalCooldown(3);
+                //Send("You order {0} to {1}." + Environment.NewLine, Slave.Name, rawParameters);
+                Send("Ok."+Environment.NewLine);
             }
             return true;
         }

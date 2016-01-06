@@ -26,8 +26,11 @@ namespace Mud.Server.Item
             List<IItem> inventory = new List<IItem>(character.Content); // clone
             foreach (IItem item in inventory) // TODO: check stay death flag
                 item.ChangeContainer(this);
-            foreach (IItem item in character.Equipments.Where(x => x.Item != null).Select(x => x.Item))
-                item.ChangeContainer(this); // TODO: remove from equipment structure
+            foreach (IEquipable item in character.Equipments.Where(x => x.Item != null).Select(x => x.Item))
+            {
+                item.ChangeContainer(this);
+                item.ChangeEquipedBy(null);
+            }
         }
 
         public override int Weight

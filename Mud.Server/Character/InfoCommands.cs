@@ -294,16 +294,16 @@ namespace Mud.Server.Character
                             pe.Amount,
                             pe.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
                             pe.DamageType,
-                            pe.PeriodInSeconds,
-                            pe.PeriodsLeft*pe.PeriodInSeconds);
+                            pe.TickDelay,
+                            pe.SecondsLeft);
                     else
                         Send("{0} from {1}: {2}{3} heal every {4} seconds for {5} seconds" + Environment.NewLine,
                             pe.Name,
                             pe.Source == null ? "(none)" : pe.Source.DisplayName,
                             pe.Amount,
                             pe.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
-                            pe.PeriodInSeconds,
-                            pe.PeriodsLeft * pe.PeriodInSeconds);
+                            pe.TickDelay,
+                            pe.SecondsLeft);
                 }
             }
             else

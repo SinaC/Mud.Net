@@ -4,7 +4,7 @@ using Mud.Server.Constants;
 
 namespace Mud.Server.Item
 {
-    public class ItemWeapon : ItemBase, IItemWeapon
+    public class ItemWeapon : ItemEquipableBase, IItemWeapon
     {
         public ItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)

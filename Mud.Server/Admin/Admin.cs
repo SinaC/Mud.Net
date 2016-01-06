@@ -2,6 +2,7 @@
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Admin
@@ -132,6 +133,36 @@ namespace Mud.Server.Admin
                 Send("You cannot shutdown that fast." + Environment.NewLine);
             else
                 Server.Server.Instance.Shutdown(seconds);
+            return true;
+        }
+
+        [Command("addlag")]
+        protected virtual bool DoAddLag(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+                Send("Add lag to whom?" + Environment.NewLine);
+            else if (parameters.Length == 1)
+                Send("Add how many lag ?" + Environment.NewLine);
+            else
+            {
+                int count;
+                int.TryParse(parameters[1].Value, out count);
+                if (count <= 0)
+                    Send("That makes a LOT of sense." + Environment.NewLine);
+                else if (count > 100)
+                    Send("There's a limit to cruel and unusual punishment."+Environment.NewLine);
+                else
+                {
+                    IPlayer victim = Server.Server.Instance.GetPlayer(parameters[0], true);
+                    if (victim == null)
+                        Send(StringHelpers.CharacterNotFound);
+                    else
+                    {
+                        Send("Adding lag now"+Environment.NewLine);
+                        victim.SetGlobalCooldown(count);
+                    }
+                }
+            }
             return true;
         }
 

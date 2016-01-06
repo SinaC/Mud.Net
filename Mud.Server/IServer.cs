@@ -8,7 +8,7 @@ namespace Mud.Server
     {
         bool IsAsynchronous { get; }
 
-        void Initialize(INetworkServer networkServer, bool asynchronous);
+        void Initialize(bool asynchronous, List<INetworkServer> networkServers);
         void Start();
         void Stop();
 

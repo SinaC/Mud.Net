@@ -38,7 +38,7 @@ namespace Mud.Server.Server
         // Client in login process are not yet considered as player, they are stored in a seperate stucture
         private readonly ConcurrentDictionary<IClient, LoginStateMachine> _loginInClients;
 
-        private INetworkServer _networkServer;
+        private List<INetworkServer> _networkServers;
         private CancellationTokenSource _cancellationTokenSource;
         private Task _gameLoopTask;
 
@@ -67,11 +67,12 @@ namespace Mud.Server.Server
 
         public bool IsAsynchronous { get; private set; }
 
-        public void Initialize(INetworkServer networkServer, bool asynchronous)
+        public void Initialize(bool asynchronous, List<INetworkServer> networkServers)
         {
             IsAsynchronous = asynchronous;
-            _networkServer = networkServer;
-            _networkServer.NewClientConnected += NetworkServerOnNewClientConnected;
+            _networkServers = networkServers;
+            foreach(INetworkServer networkServer in _networkServers)
+                networkServer.NewClientConnected += NetworkServerOnNewClientConnected;
         }
 
         public void Start()
@@ -79,10 +80,10 @@ namespace Mud.Server.Server
             _cancellationTokenSource = new CancellationTokenSource();
             _gameLoopTask = Task.Factory.StartNew(GameLoopTask, _cancellationTokenSource.Token);
 
-            if (_networkServer != null)
+            foreach(INetworkServer networkServer in _networkServers)
             {
-                _networkServer.Initialize();
-                _networkServer.Start();
+                networkServer.Initialize();
+                networkServer.Start();
             }
         }
 
@@ -90,8 +91,11 @@ namespace Mud.Server.Server
         {
             try
             {
-                if (_networkServer != null)
-                    _networkServer.Stop();
+                foreach (INetworkServer networkServer in _networkServers)
+                {
+                    networkServer.Stop();
+                    networkServer.NewClientConnected -= NetworkServerOnNewClientConnected;
+                }
 
                 _cancellationTokenSource.Cancel();
                 _gameLoopTask.Wait(2000, _cancellationTokenSource.Token);
@@ -424,11 +428,10 @@ namespace Mud.Server.Server
                 {
                     if (playingClient.Player != null)
                     {
-                        //if (playingClient.Player.GlobalCooldown > 0)
-                        //    playingClient.Player.GlobalCooldown--;
-                        //else
-                        //{
-                        // TODO: global cooldown
+                        if (playingClient.Player.GlobalCooldown > 0) // if player is on GCD, decrease it
+                            playingClient.Player.DecreaseGlobalCooldown();
+                        else
+                        {
                             string command = playingClient.DequeueReceivedData(); // process one command at a time
                             if (command != null)
                             {
@@ -437,7 +440,7 @@ namespace Mud.Server.Server
                                 else if (!String.IsNullOrWhiteSpace(command))
                                     playingClient.Player.ProcessCommand(command);
                             }
-                        //}
+                        }
                     }
                     else
                         Log.Default.WriteLine(LogLevels.Error, "Playing client without Player");
@@ -526,9 +529,9 @@ namespace Mud.Server.Server
                 IReadOnlyCollection<IPeriodicEffect> periodicEffects = new ReadOnlyCollection<IPeriodicEffect>(character.PeriodicEffects.ToList());
                 foreach (IPeriodicEffect pe in periodicEffects)
                 {
-                    if (pe.PeriodsLeft > 0)
+                    if (pe.TicksLeft > 0)
                         pe.Process(character);
-                    if (pe.PeriodsLeft == 0) // no else, because Process decrease PeriodsLeft
+                    if (pe.TicksLeft == 0) // no else, because Process decrease PeriodsLeft
                         character.RemovePeriodicEffect(pe);
                 }
             }

@@ -38,17 +38,17 @@ namespace Mud.Server.World
 
         public IReadOnlyCollection<IRoom> GetRooms()
         {
-            return _rooms.Where(x =>x.Valid).ToList().AsReadOnly();
+            return _rooms.Where(x =>x.IsValid).ToList().AsReadOnly();
         }
 
         public IReadOnlyCollection<ICharacter> GetCharacters()
         {
-            return _characters.Where(x =>x.Valid).ToList().AsReadOnly();
+            return _characters.Where(x =>x.IsValid).ToList().AsReadOnly();
         }
 
         public IReadOnlyCollection<IItem> GetItems()
         {
-            return _items.Where(x =>x.Valid).ToList().AsReadOnly();
+            return _items.Where(x =>x.IsValid).ToList().AsReadOnly();
         }
 
         public IRoom AddRoom(Guid guid, RoomBlueprint blueprint)
@@ -123,6 +123,12 @@ namespace Mud.Server.World
         {
             character.StopFighting(true);
             // TODO: search IPeriodicEffect with character as Source and delete them (or nullify Source)
+            List<IPeriodicEffect> periodicEffects = new List<IPeriodicEffect>(character.PeriodicEffects); // clone
+            foreach (IPeriodicEffect pe in periodicEffects)
+            {
+                pe.ResetSource();
+                character.RemovePeriodicEffect(pe);
+            }
             // TODO: extract all object in ICharacter
             // TODO: remove character from room
             if (character.Content.Any())
@@ -130,8 +136,8 @@ namespace Mud.Server.World
                 List<IItem> inventory = new List<IItem>(character.Content); // clone to be sure
                 foreach(IItem item in inventory)
                     RemoveItem(item);
-                List<IItem> equipment = new List<IItem>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item));
-                foreach (IItem item in equipment)
+                List<IEquipable> equipment = new List<IEquipable>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item));
+                foreach (IEquipable item in equipment)
                     RemoveItem(item);
             }
             if (character.Room != null)
@@ -143,6 +149,11 @@ namespace Mud.Server.World
         public void RemoveItem(IItem item)
         {
             item.OnRemoved();
+            if (item.ContainedInto != null)
+                item.ContainedInto.GetFromContainer(item);
+            IEquipable equipable = item as IEquipable;
+            if (equipable != null)
+                equipable.ChangeEquipedBy(null);
             _items.Remove(item);
             // If container, remove content
             IContainer container = item as IContainer;

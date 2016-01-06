@@ -133,6 +133,16 @@ namespace Mud.Server.Player
         public DateTime LastCommandTimestamp { get; protected set; }
         public string LastCommand { get; protected set; }
 
+        public void DecreaseGlobalCooldown() // decrease one by one
+        {
+            GlobalCooldown = Math.Max(GlobalCooldown - 1, 0);
+        }
+
+        public void SetGlobalCooldown(int pulseCount) // set global cooldown delay (in pulse)
+        {
+            GlobalCooldown = pulseCount;
+        }
+
         public bool Load(string name)
         {
             Name = name;

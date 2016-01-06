@@ -1,6 +1,6 @@
-crash when wearing an item -> because of assert in ItemBase.ChangeContainer
-  --> should equiped item be in inventory ?
-4 bag slots instead of inventory + 1 dummy bag slot with inventory ?
+force command (see order) ==> to test a mob putting a hot/dot on ourself then mob killed
+
+should equiped item be in inventory ? 4 bag slots instead of inventory + 1 dummy bag slot with inventory ?
 
 in asynchronous mode, when do we send prompt ?
 unit tests
@@ -13,6 +13,8 @@ combat
 abilities, GCD, CD
 
 min pos to initiate command  see interp.C:935
+
+spam, linkdead, ...
 
 ability:
 http://www.wowhead.com/spell=106832/thrash

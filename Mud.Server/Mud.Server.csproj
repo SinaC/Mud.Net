@@ -34,7 +34,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abilities\PeriodicEffect.cs" />
+    <Compile Include="Effects\PeriodicEffect.cs" />
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Admin\Admin.cs" />
     <Compile Include="Admin\ImpersonateCommand.cs" />
@@ -57,6 +57,7 @@
     <Compile Include="ICharacter.cs" />
     <Compile Include="IContainer.cs" />
     <Compile Include="IEntity.cs" />
+    <Compile Include="IEquipable.cs" />
     <Compile Include="IExit.cs" />
     <Compile Include="IItem.cs" />
     <Compile Include="IPeriodicEffect.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Item\IItemWeapon.cs" />
     <Compile Include="Item\ItemArmor.cs" />
     <Compile Include="Item\ItemCorpse.cs" />
+    <Compile Include="Item\ItemEquipableBase.cs" />
     <Compile Include="Item\ItemLight.cs" />
     <Compile Include="Item\ItemWeapon.cs" />
     <Compile Include="IWorld.cs" />
@@ -117,7 +119,9 @@
       <Name>Mud.Server.Input</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Abilities\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

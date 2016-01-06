@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
-using Mud.Server.Abilities;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
+using Mud.Server.Effects;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -221,6 +222,14 @@ namespace Mud.Server.Character
                 Act(ActOptions.ToVictim, master, "{0} now follows you.", this);
             }
             ControlledBy = master;
+            return true;
+        }
+
+        // Equipments
+        public bool RemoveEquipment(IEquipable item)
+        {
+            foreach (EquipmentSlot equipmentSlot in _equipments.Where(x => x.Item == item))
+                equipmentSlot.Item = null;
             return true;
         }
 
@@ -482,6 +491,13 @@ namespace Mud.Server.Character
             IItemCorpse corpse = World.World.Instance.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
             if (victim.ImpersonatedBy != null) // If impersonated, no real death
             {
+                List<IPeriodicEffect> periodicEffects = new List<IPeriodicEffect>(PeriodicEffects); // clone
+                foreach (IPeriodicEffect pe in periodicEffects)
+                {
+                    pe.ResetSource();
+                    RemovePeriodicEffect(pe);
+                }
+                // TODO: remove periodic effects / affects
                 // TODO: reset hit/mana/...
                 // TODO: teleport player to hall room/graveyard  see fight.C:3952
                 HitPoints = MaxHitPoints;
@@ -516,6 +532,12 @@ namespace Mud.Server.Character
             _equipments.Add(new EquipmentSlot(WearLocations.Wield));
             _equipments.Add(new EquipmentSlot(WearLocations.Shield));
             _equipments.Add(new EquipmentSlot(WearLocations.Hold));
+        }
+
+        protected void SetGlobalCooldown(int pulseCount) // set GCD (in pulse) if impersonated by
+        {
+            if (ImpersonatedBy != null)
+                ImpersonatedBy.SetGlobalCooldown(pulseCount);
         }
 
         private bool OneHit(ICharacter victim, string ability, IItemWeapon weapon, DamageTypes damageType) // TODO: skill    check fight.C:1394

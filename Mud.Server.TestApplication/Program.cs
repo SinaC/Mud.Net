@@ -510,7 +510,7 @@ namespace Mud.Server.TestApplication
             CreateMidgaard();
 
             INetworkServer socketServer = new SocketServer(11000);
-            Server.Server.Instance.Initialize(socketServer, false);
+            Server.Server.Instance.Initialize(false, new List<INetworkServer> { socketServer});
             Server.Server.Instance.Start();
 
             bool stopped = false;
@@ -565,7 +565,7 @@ namespace Mud.Server.TestApplication
             CreateMidgaard();
 
             ConsoleNetworkServer consoleNetworkServer = new ConsoleNetworkServer();
-            Server.Server.Instance.Initialize(consoleNetworkServer, false);
+            Server.Server.Instance.Initialize(false, new List<INetworkServer> { consoleNetworkServer});
             consoleNetworkServer.AddClient("Player1", false, true);
             Server.Server.Instance.Start(); // this call is blocking because consoleNetworkServer.Start is blocking
 

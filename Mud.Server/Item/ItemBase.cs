@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Mud.DataStructures.Trie;
+using Mud.Logger;
 using Mud.Server.Blueprints;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
@@ -78,6 +79,8 @@ namespace Mud.Server.Item
 
         public bool ChangeContainer(IContainer container)
         {
+            Log.Default.WriteLine(LogLevels.Info, "ChangeContainer: {0} : {1} -> {2}", Name, ContainedInto == null ? "<<??>>" : ContainedInto.Name, container == null ? "<<??>>" : container.Name);
+
             if (ContainedInto != null)
                 ContainedInto.GetFromContainer(this);
             //Debug.Assert(container != null, "ChangeContainer: an item cannot be outside a container"); // False, equipment are not stored in any container

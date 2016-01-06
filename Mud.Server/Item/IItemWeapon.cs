@@ -2,7 +2,7 @@
 
 namespace Mud.Server.Item
 {
-    public interface IItemWeapon : IItem
+    public interface IItemWeapon : IItem, IEquipable
     {
         WeaponTypes Type { get; }
         int DiceCount { get; }

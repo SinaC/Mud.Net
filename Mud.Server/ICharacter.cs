@@ -35,6 +35,9 @@ namespace Mud.Server
         bool ChangeImpersonation(IPlayer player); // if non-null, start impersonation, else, stop impersonation
         bool ChangeController(ICharacter master); // if non-null, start slavery, else, stop slavery
 
+        // Equipments
+        bool RemoveEquipment(IEquipable item);
+
         // Visibility
         bool CanSee(ICharacter character);
         bool CanSee(IItem obj);
@@ -67,7 +70,7 @@ namespace Mud.Server
         public static readonly EquipmentSlot NullObject = new EquipmentSlot(WearLocations.None);
 
         public WearLocations WearLocation { get; private set; }
-        public IItem Item { get; set; }
+        public IEquipable Item { get; set; }
 
         public EquipmentSlot(WearLocations wearLocation)
         {

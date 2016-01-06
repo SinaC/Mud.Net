@@ -28,8 +28,10 @@ namespace Mud.Server.Character
             else
             {
                 Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction);
-
+                
+                SetGlobalCooldown(1);
                 ChangeRoom(toRoom);
+
                 // Autolook if impersonated/incarnated
                 if (ImpersonatedBy != null || IncarnatedBy != null)
                     DisplayRoom();

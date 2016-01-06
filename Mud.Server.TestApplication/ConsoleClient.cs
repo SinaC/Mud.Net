@@ -45,8 +45,6 @@ namespace Mud.Server.TestApplication
 
         public void WriteData(string data)
         {
-            string remaining = data;
-
             if (DisplayPlayerName)
             {
                 Console.ForegroundColor = ConsoleColor.White;
@@ -55,6 +53,7 @@ namespace Mud.Server.TestApplication
             }
 
             // Parse color code
+            string remaining = data;
             while (true)
             {
                 int startIndex = remaining.IndexOf("%", StringComparison.OrdinalIgnoreCase);

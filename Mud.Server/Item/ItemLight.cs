@@ -3,7 +3,7 @@ using Mud.Server.Blueprints;
 
 namespace Mud.Server.Item
 {
-    public class ItemLight : ItemBase, IItemLight
+    public class ItemLight : ItemEquipableBase, IItemLight
     {
         public ItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)

@@ -5,7 +5,7 @@ namespace Mud.Server
     public interface IEntity : IActor
     {
         Guid Id { get; }
-        bool Valid { get; }
+        bool IsValid { get; } // always true unless entity has been removed from the game
         string Name { get; }
         // TODO: keywords: List<string> = Name.Split(' ')
         string DisplayName { get; }
