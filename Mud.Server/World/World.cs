@@ -122,7 +122,14 @@ namespace Mud.Server.World
         public void RemoveCharacter(ICharacter character)
         {
             character.StopFighting(true);
-            // TODO: search IPeriodicEffect with character as Source and delete them (or nullify Source)
+
+            // Search IPeriodicEffect with character as Source and delete them (or nullify Source)
+            List<ICharacter> charactersWithPeriodicEffects = _characters.Where(x => x.PeriodicEffects.Any(pe => pe.Source == character)).ToList();
+            foreach(ICharacter characterWithPeriodicEffects in charactersWithPeriodicEffects)
+                foreach(IPeriodicEffect effect in characterWithPeriodicEffects.PeriodicEffects.Where(x => x.Source == character))
+                    effect.ResetSource();
+
+            // Remove periodic effects
             List<IPeriodicEffect> periodicEffects = new List<IPeriodicEffect>(character.PeriodicEffects); // clone
             foreach (IPeriodicEffect pe in periodicEffects)
             {
@@ -131,6 +138,7 @@ namespace Mud.Server.World
             }
             // TODO: extract all object in ICharacter
             // TODO: remove character from room
+            // Remove content
             if (character.Content.Any())
             {
                 List<IItem> inventory = new List<IItem>(character.Content); // clone to be sure
@@ -140,8 +148,10 @@ namespace Mud.Server.World
                 foreach (IEquipable item in equipment)
                     RemoveItem(item);
             }
+            // Remove from room
             if (character.Room != null)
                 character.Room.Leave(character);
+            //
             character.OnRemoved();
             _characters.Remove(character);
         }

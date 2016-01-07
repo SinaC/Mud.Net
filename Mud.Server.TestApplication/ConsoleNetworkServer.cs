@@ -8,6 +8,7 @@ namespace Mud.Server.TestApplication
     public class ConsoleNetworkServer : INetworkServer
     {
         public event NewClientConnectedEventHandler NewClientConnected;
+        public event ClientDisconnectedEventHandler ClientDisconnected;
 
         private ConsoleClient _client;
         private bool _stopped;
@@ -70,9 +71,11 @@ namespace Mud.Server.TestApplication
                         if (line.StartsWith("#"))
                         {
                             line = line.Replace("#", String.Empty).ToLower();
-                            if (line == "exit" || line == "quit")
+                            if (line == "quit")
                             {
                                 _stopped = true;
+                                if (ClientDisconnected != null)
+                                    ClientDisconnected(_client);
                                 break;
                             }
                             else if (line == "alist")

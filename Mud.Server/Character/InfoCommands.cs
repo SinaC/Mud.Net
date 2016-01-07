@@ -41,7 +41,7 @@ namespace Mud.Server.Character
                 else
                 {
                     // search in room, then in inventory(unequiped), then in equipement
-                    IItem containerItem = FindHelpers.FindItemByName(this, parameters[1]); // TODO: filter on unequiped + equipment
+                    IItem containerItem = FindHelpers.FindCharacterItemByName(this, parameters[1]); // TODO: filter on unequiped + equipment
                     if (containerItem == null)
                         Send(StringHelpers.ItemNotFound);
                     else
@@ -72,7 +72,7 @@ namespace Mud.Server.Character
             }
             // 4: search n'th item in inventory+room
             //IItem item = FindHelpers.FindByName(Content.Concat(Room.Content), parameters[0]); // Concat preserves order!!!
-            IItem item = FindHelpers.FindItemByName(this, parameters[0]);
+            IItem item = FindHelpers.FindCharacterItemByName(this, parameters[0]);
             if (item != null)
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(4+5): item in inventory+room -> {0}", item.ContainedInto.Name);
@@ -218,7 +218,7 @@ namespace Mud.Server.Character
                 }
                 else
                 {
-                    IItem item = FindHelpers.FindItemByName(this, parameters[0]);
+                    IItem item = FindHelpers.FindCharacterItemByName(this, parameters[0]);
                     if (item != null)
                     {
                         Act(ActOptions.ToCharacter, "You examine {0}.", item);
@@ -293,7 +293,7 @@ namespace Mud.Server.Character
                             pe.Source == null ? "(none)" : pe.Source.DisplayName,
                             pe.Amount,
                             pe.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
-                            pe.DamageType,
+                            pe.SchoolType,
                             pe.TickDelay,
                             pe.SecondsLeft);
                     else

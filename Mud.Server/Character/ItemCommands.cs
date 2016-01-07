@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Mud.Logger;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Item;
 
 namespace Mud.Server.Character
 {
@@ -20,18 +20,29 @@ namespace Mud.Server.Character
                 Send("Wear, wield, or hold what?" + Environment.NewLine);
             else if (rawParameters == "all")
             {
+                bool found = false;
                 // We have to clone list, because it'll be modified when wearing an item
                 IReadOnlyCollection<IEquipable> clone = new ReadOnlyCollection<IEquipable>(Content.Where(CanSee).OfType<IEquipable>().ToList());
                 foreach (IEquipable item in clone)
+                {
                     WearItem(item, false);
+                    found = true;
+                }
+                // TODO: use found ?
             }
             else
             {
-                IEquipable item = FindHelpers.FindByName(Content.Where(CanSee).OfType<IEquipable>(), parameters[0]);
+                IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
                 if (item == null)
                     Send(StringHelpers.ItemInventoryNotFound);
                 else
-                    WearItem(item, true);
+                {
+                    IEquipable equipable = item as IEquipable;
+                    if (equipable == null)
+                        Send("It cannot be equiped." + Environment.NewLine);
+                    else
+                        WearItem(equipable, true);
+                }
             }
             return true;
         }
@@ -186,16 +197,13 @@ namespace Mud.Server.Character
         private bool WearItem(IEquipable item, bool replace) // equivalent to wear_obj in act_obj.C:1467
         {
             // TODO: check level
-            WearLocations wearLocation = WearLocations.None;
-            if (item is ItemLight)
-                wearLocation = WearLocations.Light;
-            else if (item is ItemWeapon)
-                wearLocation = WearLocations.Wield;
-            else if (item is ItemArmor)
-                wearLocation = (item as ItemArmor).WearLocation;
-            // TODO: other item type
+            WearLocations wearLocation = item.WearLocation;
+
+            // TODO: if wield, can be equiped as wield2 if dual wield
+
             if (wearLocation == WearLocations.None)
             {
+                Log.Default.WriteLine(LogLevels.Warning, "Item {0} cannot be equiped", item.Name);
                 if (replace) // replace means, only item is trying to be worn
                     Act(ActOptions.ToCharacter, "{0} cannot be worn.", item);
                 return false;

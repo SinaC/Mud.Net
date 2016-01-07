@@ -12,7 +12,7 @@
                       Grid.Row="0" 
                       VerticalScrollBarVisibility="Auto">
             <RichTextBox x:Name="OutputRichTextBox" 
-                         Foreground="White" Background="Black" FontSize="9">
+                         Foreground="LightGray" Background="Black" FontSize="9" FontFamily="Courrier">
                 <RichTextBox.Resources>
                     <Style TargetType="{x:Type Paragraph}">
                         <Setter Property="Margin" Value="0"/>

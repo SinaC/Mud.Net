@@ -20,7 +20,7 @@ namespace Mud.Server.Item
         public WeaponTypes Type { get; set; }
         public int DiceCount { get; private set; }
         public int DiceValue { get; private set; }
-        public DamageTypes DamageType { get; private set; }
+        public SchoolTypes DamageType { get; private set; }
         // TODO: special type, damage string (see 2nd col  in const.C:208), proc
 
         #endregion

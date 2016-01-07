@@ -1,14 +1,16 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography;
+using System.Text;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Item;
 
 namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [Command("cstat")]
-        protected virtual bool DoStat(string rawParameters, params CommandParameter[] parameters)
+        [Command("mstat")]
+        protected virtual bool DoMstat(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 Send("mstat whom?");
@@ -16,7 +18,7 @@ namespace Mud.Server.Admin
             {
                 ICharacter character = FindHelpers.FindByName(World.World.Instance.GetCharacters(), parameters[0]);
                 if (character == null)
-                    Send(StringHelpers.CharacterNotFound);
+                    Send(StringHelpers.NotFound);
                 else
                 {
                     StringBuilder sb = new StringBuilder();
@@ -41,6 +43,70 @@ namespace Mud.Server.Admin
                     sb.AppendLine("Attributes:");
                     foreach (AttributeTypes attributeType in EnumHelpers.GetValues<AttributeTypes>())
                         sb.AppendFormatLine("{0}: Current: {1} Base: {2}", attributeType, character.CurrentAttribute(attributeType), character.BaseAttribute(attributeType));
+                    Send(sb);
+                }
+            }
+            return true;
+        }
+
+        [Command("ostat")]
+        protected virtual bool DoOstat(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+                Send("ostat what?");
+            else
+            {
+                IItem item = FindHelpers.FindByName(World.World.Instance.GetItems(), parameters[0]);
+                if (item == null)
+                    Send(StringHelpers.NotFound);
+                else
+                {
+                    StringBuilder sb = new StringBuilder();
+                    if (item.Blueprint != null)
+                        sb.AppendFormatLine("Blueprint: {0}", item.Blueprint.Id);
+                    // TODO: display blueprint
+                    else
+                        sb.AppendLine("No blueprint");
+                    sb.AppendFormatLine("Name: {0}", item.Name);
+                    sb.AppendFormatLine("DisplayName: {0}", item.DisplayName);
+                    if (item.ContainedInto != null)
+                        sb.AppendFormatLine("Contained in {0}", item.ContainedInto.Name);
+                    IEquipable equipable = item as IEquipable;
+                    if (equipable != null)
+                        sb.AppendFormatLine("Equiped by {0}", equipable.EquipedBy == null ? "(none)" : equipable.EquipedBy.Name);
+                    else
+                        sb.AppendLine("Cannot be equiped");
+                    sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
+                    sb.AppendFormatLine("Type: {0}", item.GetType().Name);
+                    IItemArmor armor = item as IItemArmor;
+                    if (armor != null)
+                        sb.AppendFormatLine("Armor type: {0} Armor value: {1}", armor.ArmorKind, armor.Armor);
+                    else
+                    {
+                        IItemContainer container = item as IItemContainer;
+                        if (container != null)
+                            sb.AppendFormatLine("Item count: {0} Weight multiplier: {1}", container.ItemCount, container.WeightMultiplier);
+                        else
+                        {
+                            IItemCorpse corpse = item as IItemCorpse;
+                            if (corpse != null)
+                                ; // TODO: additional info for IItemCorpse
+                            else
+                            {
+                                IItemLight light = item as IItemLight;
+                                if (light != null)
+                                    sb.AppendFormatLine("Time left: {0}", light.TimeLeft);
+                                else
+                                {
+                                    IItemWeapon weapon = item as IItemWeapon;
+                                    if (weapon != null)
+                                        sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3}", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType);
+                                    else
+                                        sb.AppendLine("UNHANDLED ITEM TYPE");
+                                }
+                            }
+                        }
+                    }
                     Send(sb);
                 }
             }

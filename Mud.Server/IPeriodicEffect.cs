@@ -19,7 +19,7 @@ namespace Mud.Server
         ICharacter Source { get; } // TODO: entity
 
         // Damage type (if EffectType is damage)
-        DamageTypes DamageType { get; }
+        SchoolTypes SchoolType { get; }
 
         // Amount + %/fixed
         int Amount { get; }
@@ -34,7 +34,7 @@ namespace Mud.Server
         // Total ticks
         int TotalTicks { get; }
 
-        // Delay between 2 ticks
+        // Delay between 2 ticks (in seconds)
         int TickDelay { get; }
 
         // Ticks left

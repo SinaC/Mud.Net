@@ -59,8 +59,8 @@ namespace Mud.Server
         bool MultiHit(ICharacter enemy);
         bool StartFighting(ICharacter enemy);
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
-        bool CombatDamage(ICharacter source, string ability, int damage, DamageTypes damageType, bool visible); // damage with known damager
-        bool UnknownSourceDamage(string ability, int damage, DamageTypes damageType, bool visible); // damage with unknown damager or no damager
+        bool CombatDamage(ICharacter source, string ability, int damage, SchoolTypes damageType, bool visible); // damage with known damager
+        bool UnknownSourceDamage(string ability, int damage, SchoolTypes damageType, bool visible); // damage with unknown damager or no damager
         bool KillingPayoff(ICharacter victim); // to be called only if victim is dead   TODO: don't make this accessible in interface
         IItemCorpse RawKill(ICharacter victim); // kill victim without any xp gain/loss + create corpse
     }

@@ -12,13 +12,33 @@ namespace Mud.Server.Input
     {
         public static bool ExtractCommandAndParameters(string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame)
         {
+            return ExtractCommandAndParameters(null, commandLine, out command, out rawParameters, out parameters, out forceOutOfGame);
+        }
+
+        public static bool ExtractCommandAndParameters(IReadOnlyDictionary<string,string> aliases, string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame)
+        {
             Log.Default.WriteLine(LogLevels.Debug, "Extracting command and parameters [{0}]", commandLine);
 
-            // Extract command
-            int spaceIndex = commandLine.IndexOf(' ');
-            command = spaceIndex == -1 ? commandLine : commandLine.Substring(0, spaceIndex);
-            // Extract raw parameters
-            rawParameters = spaceIndex == -1 ? String.Empty : commandLine.Substring(spaceIndex + 1);
+            //// Extract command
+            //int spaceIndex = commandLine.IndexOf(' ');
+            //command = spaceIndex == -1 ? commandLine : commandLine.Substring(0, spaceIndex);
+            //// Extract raw parameters
+            //rawParameters = spaceIndex == -1 ? String.Empty : commandLine.Substring(spaceIndex + 1);
+            // Extract command and raw parameters
+            ExtractCommand(commandLine, out command, out rawParameters);
+
+            // Substitute by alias if found
+            if (aliases != null)
+            {
+                string alias;
+                if (aliases.TryGetValue(command, out alias))
+                {
+                    Log.Default.WriteLine(LogLevels.Info, "Alias found : {0} -> {1}", command, alias);
+                    commandLine = alias;
+                    // Extract command and raw parameters
+                    ExtractCommand(commandLine, out command, out rawParameters);
+                }
+            }
 
             if (String.IsNullOrWhiteSpace(commandLine))
             {

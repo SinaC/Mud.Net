@@ -22,8 +22,8 @@ namespace Mud.Server
         int GlobalCooldown { get; }
         int Cooldown { get; }
 
-        // Damage type
-        DamageTypes DamageType { get; }
+        // School
+        SchoolTypes School { get; }
 
         // Effects list
         // TODO

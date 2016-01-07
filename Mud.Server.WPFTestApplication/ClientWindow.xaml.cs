@@ -11,7 +11,7 @@ namespace Mud.Server.WPFTestApplication
     /// <summary>
     /// Interaction logic for ClientWindow.xaml
     /// </summary>
-    public partial class ClientWindow : Window, IClient, INetworkServer
+    public partial class ClientWindow : Window, IClient
     {
         public ClientWindow()
         {
@@ -43,7 +43,6 @@ namespace Mud.Server.WPFTestApplication
         }
 
         public event DataReceivedEventHandler DataReceived;
-        public event DisconnectedEventHandler Disconnected;
         public bool ColorAccepted { get; set; }
 
         public void EchoOff()
@@ -62,12 +61,14 @@ namespace Mud.Server.WPFTestApplication
             //paragraph.Inlines.Add(data);
             //OutputRichTextBox.Document.Blocks.Add(paragraph);
 
+            data = DateTime.Now.ToString("hh:mm:ss.ffffff") + data;
+
             Dispatcher.Invoke(() =>
             {
                 Paragraph paragraph = new Paragraph();
 
                 // Parse color code
-                Brush currentColor = Brushes.White;
+                Brush currentColor = Brushes.LightGray;
                 string remaining = data;
                 while (true)
                 {
@@ -109,62 +110,43 @@ namespace Mud.Server.WPFTestApplication
         private Brush GetColor(string colorCode)
         {
             if (!ColorAccepted)
-                return Brushes.White;
+                return Brushes.LightGray;
             if (colorCode == "x")
-                return Brushes.White;
-                // Normal
-            else if (colorCode == "r")
+                return Brushes.LightGray;
+            // Normal
+            if (colorCode == "r")
                 return Brushes.DarkRed;
-            else if (colorCode == "g")
+            if (colorCode == "g")
                 return Brushes.DarkGreen;
-            else if (colorCode == "y")
+            if (colorCode == "y")
                 return Brushes.Yellow;
-            else if (colorCode == "b")
+            if (colorCode == "b")
                 return Brushes.DarkBlue;
-            else if (colorCode == "m")
+            if (colorCode == "m")
                 return Brushes.DarkMagenta;
-            else if (colorCode == "c")
+            if (colorCode == "c")
                 return Brushes.DarkCyan;
-            else if (colorCode == "w")
+            if (colorCode == "w")
                 return Brushes.White;
-                // Light
-            else if (colorCode == "R")
+            // Light
+            if (colorCode == "R")
                 return Brushes.Red;
-            else if (colorCode == "G")
+            if (colorCode == "G")
                 return Brushes.Green;
-            else if (colorCode == "Y")
+            if (colorCode == "Y")
                 return Brushes.LightYellow;
-            else if (colorCode == "B")
+            if (colorCode == "B")
                 return Brushes.Blue;
-            else if (colorCode == "M")
+            if (colorCode == "M")
                 return Brushes.Magenta;
-            else if (colorCode == "C")
+            if (colorCode == "C")
                 return Brushes.Cyan;
-            else if (colorCode == "D")
+            if (colorCode == "D")
                 return Brushes.Gray;
-            return Brushes.White;
+            return Brushes.LightGray;
         }
 
         public void Disconnect()
-        {
-            // NOP
-        }
-
-        public event NewClientConnectedEventHandler NewClientConnected;
-
-        public void Initialize()
-        {
-            // NOP
-            if (NewClientConnected != null)
-                NewClientConnected(this);
-        }
-
-        public void Start()
-        {
-            // NOP
-        }
-
-        public void Stop()
         {
             // NOP
         }

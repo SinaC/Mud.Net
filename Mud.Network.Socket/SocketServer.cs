@@ -57,6 +57,7 @@ namespace Mud.Network.Socket
         #region INetworkServer
 
         public event NewClientConnectedEventHandler NewClientConnected;
+        public event ClientDisconnectedEventHandler ClientDisconnected;
 
         public void Initialize()
         {
@@ -391,7 +392,8 @@ namespace Mud.Network.Socket
             // Close socket
             clientSocket.Shutdown(SocketShutdown.Both);
             clientSocket.Close();
-            client.OnDisconnected();
+            if (ClientDisconnected != null)
+                ClientDisconnected(client);
         }
 
         private static string ByteArrayToString(byte[] ba, int length)

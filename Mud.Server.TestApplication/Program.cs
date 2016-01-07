@@ -121,7 +121,7 @@ namespace Mud.Server.TestApplication
                 Type = WeaponTypes.Axe1H,
                 DiceCount = 10,
                 DiceValue = 20,
-                DamageType = DamageTypes.Fire
+                DamageType = SchoolTypes.Fire
             };
             ItemArmorBlueprint item3Blueprint = new ItemArmorBlueprint
             {
@@ -303,7 +303,7 @@ namespace Mud.Server.TestApplication
                 Type = WeaponTypes.Axe1H,
                 DiceCount = 10,
                 DiceValue = 20,
-                DamageType = DamageTypes.Fire
+                DamageType = SchoolTypes.Fire
             };
             ItemArmorBlueprint item3Blueprint = new ItemArmorBlueprint
             {

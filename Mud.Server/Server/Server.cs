@@ -71,8 +71,11 @@ namespace Mud.Server.Server
         {
             IsAsynchronous = asynchronous;
             _networkServers = networkServers;
-            foreach(INetworkServer networkServer in _networkServers)
+            foreach (INetworkServer networkServer in _networkServers)
+            {
                 networkServer.NewClientConnected += NetworkServerOnNewClientConnected;
+                networkServer.ClientDisconnected += NetworkServerOnClientDisconnected;
+            }
         }
 
         public void Start()
@@ -95,6 +98,7 @@ namespace Mud.Server.Server
                 {
                     networkServer.Stop();
                     networkServer.NewClientConnected -= NetworkServerOnNewClientConnected;
+                    networkServer.ClientDisconnected -= NetworkServerOnClientDisconnected;
                 }
 
                 _cancellationTokenSource.Cancel();
@@ -161,7 +165,6 @@ namespace Mud.Server.Server
             player.SendData += PlayerOnSendData;
             player.PageData += PlayerOnPageData;
             client.DataReceived += ClientPlayingOnDataReceived;
-            client.Disconnected += ClientPlayingOnDisconnected;
             PlayingClient playingClient = new PlayingClient
             {
                 Client = client,
@@ -184,7 +187,6 @@ namespace Mud.Server.Server
             admin.SendData += PlayerOnSendData;
             admin.PageData += PlayerOnPageData;
             client.DataReceived += ClientPlayingOnDataReceived;
-            client.Disconnected += ClientPlayingOnDisconnected;
             PlayingClient playingClient = new PlayingClient
             {
                 Client = client,
@@ -207,6 +209,7 @@ namespace Mud.Server.Server
 
         private void NetworkServerOnNewClientConnected(IClient client)
         {
+            Log.Default.WriteLine(LogLevels.Info, "NetworkServerOnNewClientConnected");
             // Create/store a login state machine and starts it
             LoginStateMachine loginStateMachine = new LoginStateMachine();
             _loginInClients.TryAdd(client, loginStateMachine);
@@ -214,9 +217,26 @@ namespace Mud.Server.Server
             loginStateMachine.LoginFailed += LoginStateMachineOnLoginFailed;
             loginStateMachine.LoginSuccessful += LoginStateMachineOnLoginSuccessful;
             client.DataReceived += ClientLoginOnDataReceived;
-            client.Disconnected += ClientLoginOnDisconnected;
             // Send greetings
             client.WriteData("Why don't you login or tell us the name you wish to be known by?");
+        }
+
+        private void NetworkServerOnClientDisconnected(IClient client)
+        {
+            Log.Default.WriteLine(LogLevels.Info, "NetworkServerOnClientDisconnected");
+            LoginStateMachine loginStateMachine;
+            _loginInClients.TryRemove(client, out loginStateMachine);
+            if (loginStateMachine != null) // no player yet, disconnected while log in
+            {
+                loginStateMachine.LoginFailed -= LoginStateMachineOnLoginFailed;
+                loginStateMachine.LoginSuccessful -= LoginStateMachineOnLoginSuccessful;
+                client.DataReceived -= ClientLoginOnDataReceived;
+            }
+            else // log in passed, player exists
+            {
+                client.DataReceived -= ClientPlayingOnDataReceived;
+                ClientPlayingOnDisconnected(client);
+            }
         }
 
         private void ClientLoginOnDataReceived(IClient client, string command)
@@ -229,21 +249,10 @@ namespace Mud.Server.Server
                 Log.Default.WriteLine(LogLevels.Error, "ClientLoginOnDataReceived: LoginStateMachine not found for a client!!!");
         }
 
-        private void ClientLoginOnDisconnected(IClient client)
-        {
-            LoginStateMachine loginStateMachine;
-            _loginInClients.TryRemove(client, out loginStateMachine);
-            if (loginStateMachine != null)
-            {
-                loginStateMachine.LoginFailed -= LoginStateMachineOnLoginFailed;
-                loginStateMachine.LoginSuccessful -= LoginStateMachineOnLoginSuccessful;
-            }
-            else
-                Log.Default.WriteLine(LogLevels.Error, "ClientLoginOnDisconnected: LoginStateMachine not found for a client!!!");
-        }
-
         private void LoginStateMachineOnLoginSuccessful(IClient client, string username, bool isAdmin, bool isNewPlayer)
         {
+            Log.Default.WriteLine(LogLevels.Info, "LoginStateMachineOnLoginSuccessful");
+
             // TODO: if new player, avatar creation state machine
             
             client.WriteData("Welcome to Mud.Net!!" + Environment.NewLine);
@@ -269,10 +278,8 @@ namespace Mud.Server.Server
             }
             // Remove login handlers
             client.DataReceived -= ClientLoginOnDataReceived;
-            client.Disconnected -= ClientLoginOnDisconnected;
             // Add playing handlers
             client.DataReceived += ClientPlayingOnDataReceived;
-            client.Disconnected += ClientPlayingOnDisconnected;
             //
             playerOrAdmin.SendData += PlayerOnSendData;
             playerOrAdmin.PageData += PlayerOnPageData;
@@ -299,7 +306,8 @@ namespace Mud.Server.Server
         private void ClientPlayingOnDataReceived(IClient client, string command)
         {
             PlayingClient playingClient;
-            _clients.TryGetValue(client, out playingClient);
+            lock(_playingClientLockObject)
+                _clients.TryGetValue(client, out playingClient);
             if (playingClient == null)
                 Log.Default.WriteLine(LogLevels.Error, "ClientPlayingOnDataReceived: null client");
             else if (command != null)
@@ -318,6 +326,8 @@ namespace Mud.Server.Server
 
         private void ClientPlayingOnDisconnected(IClient client)
         {
+            Log.Default.WriteLine(LogLevels.Info, "ClientPlayingOnDisconnected");
+
             PlayingClient playingClient;
             bool removed;
             lock (_playingClientLockObject)
@@ -329,12 +339,11 @@ namespace Mud.Server.Server
             }
 
             if (!removed)
-                Log.Default.WriteLine(LogLevels.Error, "ClientPlayingOnDisconnected: client not found!!!");
+                Log.Default.WriteLine(LogLevels.Error, "ClientPlayingOnDisconnected: playingClient not found!!!");
             else
             {
                 playingClient.Player.OnDisconnected();
                 client.DataReceived -= ClientPlayingOnDataReceived;
-                client.Disconnected -= ClientPlayingOnDisconnected;
                 playingClient.Player.SendData -= PlayerOnSendData;
                 playingClient.Player.PageData -= PlayerOnPageData;
             }
@@ -345,7 +354,7 @@ namespace Mud.Server.Server
             PlayingClient playingClient;
             _players.TryGetValue(player, out playingClient);
             if (playingClient == null)
-                Log.Default.WriteLine(LogLevels.Error, "PlayerOnSendData: null client");
+                Log.Default.WriteLine(LogLevels.Error, "PlayerOnSendData: playingClient not found!!!");
             else
             {
                 if (IsAsynchronous)
@@ -360,7 +369,7 @@ namespace Mud.Server.Server
             PlayingClient playingClient;
             bool found = _players.TryGetValue(player, out playingClient);
             if (playingClient == null)
-                Log.Default.WriteLine(LogLevels.Error, "PlayerOnPageData: null client");
+                Log.Default.WriteLine(LogLevels.Error, "PlayerOnPageData: playingClient not found!!!");
             else if (data.Length > 0)
             {
                 // Save data to page
@@ -415,8 +424,9 @@ namespace Mud.Server.Server
         {
             message = message + Environment.NewLine;
             // By-pass asynchronous/synchronous send
-            foreach (IClient client in _clients.Keys)
-                client.WriteData(message);
+            lock(_playingClientLockObject)
+                foreach (IClient client in _clients.Keys)
+                    client.WriteData(message);
         }
 
         private void ProcessInput()
@@ -438,12 +448,21 @@ namespace Mud.Server.Server
                                 if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
                                     HandlePaging(playingClient, command);
                                 else if (!String.IsNullOrWhiteSpace(command))
-                                    playingClient.Player.ProcessCommand(command);
+                                {
+                                    try
+                                    {
+                                        playingClient.Player.ProcessCommand(command);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Log.Default.WriteLine(LogLevels.Error, "Exception while processing input of {0}. Exception: {1}", playingClient.Player.Name, ex);
+                                    }
+                                }
                             }
                         }
                     }
                     else
-                        Log.Default.WriteLine(LogLevels.Error, "Playing client without Player");
+                        Log.Default.WriteLine(LogLevels.Error, "ProcessInput: playing client without Player");
                 }
             }
         }
@@ -463,23 +482,35 @@ namespace Mud.Server.Server
                     //    else
                     //        break;
                     //}
-                    string data = playingClient.DequeueDataToSend();
-                    if (!String.IsNullOrWhiteSpace(data)) // TODO use stringbuilder to append prompt
+                    if (playingClient.Player != null)
                     {
-                        // Bust a prompt ?
-                        if (playingClient.Player.PlayerState == PlayerStates.Playing || playingClient.Player.PlayerState == PlayerStates.Impersonating)
+                        string data = playingClient.DequeueDataToSend();
+                        try
                         {
-                            //data += ">"; // TODO: complex prompt
-                            // bust a prompt
-                            if (playingClient.Player.Impersonating != null)
-                                data += String.Format("<{0}/{1}HP>", playingClient.Player.Impersonating.HitPoints, playingClient.Player.Impersonating.MaxHitPoints);
-                            else
-                                data += ">";
+                            if (!String.IsNullOrWhiteSpace(data)) // TODO use stringbuilder to append prompt
+                            {
+                                // Bust a prompt ?
+                                if (playingClient.Player.PlayerState == PlayerStates.Playing || playingClient.Player.PlayerState == PlayerStates.Impersonating)
+                                {
+                                    //data += ">"; // TODO: complex prompt
+                                    // bust a prompt
+                                    if (playingClient.Player.Impersonating != null)
+                                        data += String.Format("<{0}/{1}HP>", playingClient.Player.Impersonating.HitPoints, playingClient.Player.Impersonating.MaxHitPoints);
+                                    else
+                                        data += ">";
+                                }
+                                else
+                                    data += ">";
+                                playingClient.Client.WriteData(data);
+                            }
                         }
-                        else
-                            data += ">";
-                        playingClient.Client.WriteData(data);
+                        catch (Exception ex)
+                        {
+                            Log.Default.WriteLine(LogLevels.Error, "Exception while processing output of {0}. Exception: {1}", playingClient.Player.Name, ex);
+                        }
                     }
+                    else
+                        Log.Default.WriteLine(LogLevels.Error, "ProcessOutput: playing client without Player");
                 }
             }
         }
@@ -526,13 +557,20 @@ namespace Mud.Server.Server
             IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.PeriodicEffects.Any()).ToList());
             foreach (ICharacter character in clone)
             {
-                IReadOnlyCollection<IPeriodicEffect> periodicEffects = new ReadOnlyCollection<IPeriodicEffect>(character.PeriodicEffects.ToList());
-                foreach (IPeriodicEffect pe in periodicEffects)
+                try
                 {
-                    if (pe.TicksLeft > 0)
-                        pe.Process(character);
-                    if (pe.TicksLeft == 0) // no else, because Process decrease PeriodsLeft
-                        character.RemovePeriodicEffect(pe);
+                    IReadOnlyCollection<IPeriodicEffect> periodicEffects = new ReadOnlyCollection<IPeriodicEffect>(character.PeriodicEffects.ToList());
+                    foreach (IPeriodicEffect pe in periodicEffects)
+                    {
+                        if (pe.TicksLeft > 0)
+                            pe.Process(character);
+                        if (pe.TicksLeft == 0) // no else, because Process decrease PeriodsLeft
+                            character.RemovePeriodicEffect(pe);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling periodic effects of {0}. Exception: {1}", character.Name, ex);
                 }
             }
         }
@@ -554,15 +592,22 @@ namespace Mud.Server.Server
                 ICharacter victim = character.Fighting;
                 if (victim != null)
                 {
-                    if (victim.Room == character.Room) // fight continue only if in the same room
+                    try
                     {
-                        Log.Default.WriteLine(LogLevels.Debug, "Continue fight between {0} and {1}", character.Name, victim.Name);
-                        character.MultiHit(victim);
+                        if (victim.Room == character.Room) // fight continue only if in the same room
+                        {
+                            Log.Default.WriteLine(LogLevels.Debug, "Continue fight between {0} and {1}", character.Name, victim.Name);
+                            character.MultiHit(victim);
+                        }
+                        else
+                        {
+                            Log.Default.WriteLine(LogLevels.Debug, "Stop fighting between {0} and {1}, because not in same room", character.Name, victim.Name);
+                            character.StopFighting(false);
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        Log.Default.WriteLine(LogLevels.Debug, "Stop fighting between {0} and {1}, because not in same room", character.Name, victim.Name);
-                        character.StopFighting(false);
+                        Log.Default.WriteLine(LogLevels.Error, "Exception while handling violence of {0}. Exception: {1}", character.Name, ex);
                     }
                 }
             }

@@ -11,7 +11,7 @@ namespace Mud.Server.Helpers
         private static readonly Func<string, string, bool> StringStartWith = (s, s1) => s.StartsWith(s1, StringComparison.InvariantCultureIgnoreCase);
 
         // Search in room content, then in inventory, then in equipment
-        public static IItem FindItemByName2(ICharacter character, CommandParameter parameter, bool perfectMatch = false) // equivalent do get_obj_here in handler.C:3680
+        public static IItem FindCharacterItemByName2(ICharacter character, CommandParameter parameter, bool perfectMatch = false) // equivalent do get_obj_here in handler.C:3680
         {
             return FindByName(character.Room.Content.Where(character.CanSee), parameter, perfectMatch)
                    ?? FindByName(character.Content.Where(character.CanSee), parameter, perfectMatch)
@@ -19,7 +19,7 @@ namespace Mud.Server.Helpers
         }
 
         // Concat room content, inventory and equipment, then search
-        public static IItem FindItemByName(ICharacter character, CommandParameter parameter, bool perfectMatch = false) // equivalent do get_obj_here in handler.C:3680
+        public static IItem FindCharacterItemByName(ICharacter character, CommandParameter parameter, bool perfectMatch = false) // equivalent do get_obj_here in handler.C:3680
         {
             return FindByName(
                 character.Room.Content.Where(character.CanSee)

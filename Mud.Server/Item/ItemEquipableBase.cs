@@ -1,6 +1,7 @@
 ﻿using System;
 using Mud.Logger;
 using Mud.Server.Blueprints;
+using Mud.Server.Constants;
 
 namespace Mud.Server.Item
 {
@@ -9,7 +10,10 @@ namespace Mud.Server.Item
         public ItemEquipableBase(Guid guid, ItemBlueprintBase blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)
         {
+            WearLocation = blueprint.WearLocation;
         }
+
+        public WearLocations WearLocation { get; private set; }
 
         public ICharacter EquipedBy { get; private set; }
 

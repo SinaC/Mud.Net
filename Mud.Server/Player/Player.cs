@@ -13,6 +13,8 @@ namespace Mud.Server.Player
     {
         private static readonly IReadOnlyTrie<CommandMethodInfo> PlayerCommands;
 
+        protected readonly Dictionary<string, string> Aliases; // TODO: init in load
+
         protected IInputTrap<IPlayer> CurrentStateMachine; // TODO: state machine for avatar creation
 
         static Player()
@@ -22,6 +24,10 @@ namespace Mud.Server.Player
 
         protected Player()
         {
+            Aliases = new Dictionary<string, string>();
+
+            PlayerState = PlayerStates.Loading;
+            CurrentStateMachine = null;
         }
 
         public Player(Guid id, string name)
@@ -29,10 +35,6 @@ namespace Mud.Server.Player
         {
             Id = id;
             Name = name;
-
-            CurrentStateMachine = null;
-
-            PlayerState = PlayerStates.Loading;
         }
         
         #region IPlayer
@@ -72,7 +74,7 @@ namespace Mud.Server.Player
                 bool forceOutOfGame;
 
                 // Extract command and parameters
-                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(commandLine, out command, out rawParameters, out parameters, out forceOutOfGame);
+                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(Aliases, commandLine, out command, out rawParameters, out parameters, out forceOutOfGame);
                 if (!extractedSuccessfully)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
@@ -80,6 +82,7 @@ namespace Mud.Server.Player
                     return false;
                 }
 
+                // Execute command
                 bool executedSuccessfully;
                 if (forceOutOfGame || Impersonating == null)
                 {
@@ -148,6 +151,12 @@ namespace Mud.Server.Player
             Name = name;
             // TODO: load player file
 
+            // Aliases
+            Aliases.Add("i1", "/impersonate mob1");
+            Aliases.Add("t1", "/force mob2 test 3 mob1");
+            Aliases.Add("t2", "/force mob4 test 4 mob1");
+
+            //
             PlayerState = PlayerStates.Playing;
             return true;
         }

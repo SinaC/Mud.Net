@@ -43,16 +43,9 @@ namespace Mud.Network.Socket
                 DataReceived(this, data);
         }
 
-        public void OnDisconnected()
-        {
-            if (Disconnected != null)
-                Disconnected(this);
-        }
-
         #region IClient
 
         public event DataReceivedEventHandler DataReceived;
-        public event DisconnectedEventHandler Disconnected;
 
         public bool ColorAccepted { get; set; }
 

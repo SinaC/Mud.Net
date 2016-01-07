@@ -7,6 +7,6 @@ namespace Mud.Server.Blueprints
         public WeaponTypes Type {get; set; }
         public int DiceCount { get; set; }
         public int DiceValue { get; set; }
-        public DamageTypes DamageType { get; set; }
+        public SchoolTypes DamageType { get; set; }
     }
 }

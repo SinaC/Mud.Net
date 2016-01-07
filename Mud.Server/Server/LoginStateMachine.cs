@@ -222,8 +222,8 @@ namespace Mud.Server.Server
         // TODO: remove fake client
         private readonly Dictionary<string, Tuple<string, bool>> _fakeUsernameTable = new Dictionary<string, Tuple<string, bool>>
         {
-            {"sinac", new Tuple<string, bool>("password", false)},
-            {"admin", new Tuple<string, bool>("password", true)}
+            {"sinac", new Tuple<string, bool>("password", true)},
+            {"player", new Tuple<string, bool>("password", false)}
         };
 
         private bool CheckUsername(string username, out bool isAdmin)

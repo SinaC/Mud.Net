@@ -7,6 +7,6 @@ namespace Mud.Server.Item
         WeaponTypes Type { get; }
         int DiceCount { get; }
         int DiceValue { get; }
-        DamageTypes DamageType { get; }
+        SchoolTypes DamageType { get; }
     }
 }

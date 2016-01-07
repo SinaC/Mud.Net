@@ -27,7 +27,6 @@ namespace Mud.Server.TestApplication
         #region IClient
 
         public event DataReceivedEventHandler DataReceived;
-        public event DisconnectedEventHandler Disconnected;
 
         public bool ColorAccepted { get; set; }
 

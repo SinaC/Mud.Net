@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
@@ -61,7 +62,7 @@ namespace Mud.Server.Admin
                 bool forceOutOfGame;
 
                 // Extract command and parameters
-                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(commandLine, out command, out rawParameters, out parameters, out forceOutOfGame);
+                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(Aliases, commandLine, out command, out rawParameters, out parameters, out forceOutOfGame);
                 if (!extractedSuccessfully)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
@@ -69,6 +70,7 @@ namespace Mud.Server.Admin
                     return false;
                 }
 
+                // Execute command
                 bool executedSuccessfully;
                 if (forceOutOfGame || (Impersonating == null && Incarnating == null)) // neither incarnating nor impersonating
                 {
@@ -133,6 +135,27 @@ namespace Mud.Server.Admin
                 Send("You cannot shutdown that fast." + Environment.NewLine);
             else
                 Server.Server.Instance.Shutdown(seconds);
+            return true;
+        }
+
+        [Command("force")]
+        protected virtual bool DoForce(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length < 2)
+                Send("Force whom what?" + Environment.NewLine);
+            else
+            {
+                ICharacter victim = FindHelpers.FindByName(World.World.Instance.GetCharacters(), parameters[0]);
+                if (victim == null)
+                    Send("Target not found.");
+                else
+                {
+                    string command = CommandHelpers.JoinParameters(parameters.Skip(1));
+                    victim.Send("{0} forces you to '{1}'." + Environment.NewLine, Name, command);
+                    victim.ProcessCommand(command);
+                    Send("Ok." + Environment.NewLine);
+                }
+            }
             return true;
         }
 

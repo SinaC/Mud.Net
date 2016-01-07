@@ -82,8 +82,9 @@
         Sword2H
     }
 
-    public enum DamageTypes
+    public enum SchoolTypes
     {
+        None,
         Physical,
         Arcane,
         Fire,
@@ -104,6 +105,7 @@
 
     public enum ResourceKinds
     {
+        None,
         Mana,
         Energy,
         Rage
@@ -111,6 +113,7 @@
 
     public enum AmountOperators
     {
+        None,
         Fixed,
         Percentage
     }

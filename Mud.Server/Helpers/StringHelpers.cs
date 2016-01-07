@@ -7,6 +7,7 @@ namespace Mud.Server.Helpers
     public static class StringHelpers
     {
         public static string NotYetImplemented = "NOT YET IMPLEMENTED!!" + Environment.NewLine;
+        public static string NotFound = "No found." + Environment.NewLine;
         public static string CharacterNotFound = "They aren't here." + Environment.NewLine;
         public static string ItemNotFound = "You do not see that here." + Environment.NewLine;
         public static string ItemInventoryNotFound = "You do not have that item." + Environment.NewLine;

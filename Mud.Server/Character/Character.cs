@@ -266,11 +266,22 @@ namespace Mud.Server.Character
             _periodicEffects.Add(effect);
             // TODO: send something ???
             Send("You are now affected by {0}."+Environment.NewLine, effect.Name);
+            if (effect.EffectType == EffectTypes.Damage && effect.Source != null && effect.Source != this)
+            {
+                if (Fighting == null)
+                    StartFighting(effect.Source);
+                if (effect.Source.Fighting == null)
+                    effect.Source.StartFighting(this);
+            }
         }
 
         public void RemovePeriodicEffect(IPeriodicEffect effect)
         {
-            _periodicEffects.Remove(effect);
+            Log.Default.WriteLine(LogLevels.Info, "ICharacter.RemovePeriodicEffect: {0}   {1}", Name, effect.Name);
+            effect.ResetSource();
+            bool removed = _periodicEffects.Remove(effect);
+            if (!removed)
+                Log.Default.WriteLine(LogLevels.Warning, "Trying to remove unknown PeriodicEffect");
             // TODO: send something ???
             Send("{0} vanishes." + Environment.NewLine, effect.Name);
         }
@@ -319,7 +330,7 @@ namespace Mud.Server.Character
             // TODO: check if wielding a weapon, ...
             // TODO: secondary, haste, ...
             IItemWeapon wielded = (Equipments.FirstOrDefault(x => x.WearLocation == WearLocations.Wield) ?? EquipmentSlot.NullObject).Item as IItemWeapon;
-            DamageTypes damageType = DamageTypes.Physical;
+            SchoolTypes damageType = SchoolTypes.Physical;
             if (ImpersonatedBy == null)
             {
                 OneHit(enemy, "claws", wielded, damageType);
@@ -363,7 +374,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        public bool CombatDamage(ICharacter source, string ability, int damage, DamageTypes damageType, bool visible) // damage with known source
+        public bool CombatDamage(ICharacter source, string ability, int damage, SchoolTypes damageType, bool visible) // damage with known source
         {
             // TODO: check combat_damage in fight.C:1940
             // TODO: damage reduction
@@ -395,26 +406,14 @@ namespace Mud.Server.Character
             Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", source.Name, damage, Name);
 
             // Apply damage
-            bool dead = false;
-            HitPoints -= damage;
-            if (HitPoints < 1)
-            {
-                HitPoints = 1;
-                dead = true;
-            }
+            bool dead = ApplyDamageAndDisplayStatus(damage);
 
             Log.Default.WriteLine(LogLevels.Debug, "{0} HP: {1}", Name, HitPoints);
-
-            //update_pos(victim);
-            //position_msg(victim, dam);
 
             // If dead, create corpse, xp gain/loss, remove character from world if needed
             if (dead) // TODO: fight.C:2246
             {
                 Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", Name, source.Name);
-
-                Act(ActOptions.ToRoom, "{0} is dead.", this);
-                Send("You have been KILLED!!" + Environment.NewLine);
 
                 StopFighting(false);
                 source.KillingPayoff(this);
@@ -426,7 +425,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        public bool UnknownSourceDamage(string ability, int damage, DamageTypes damageType, bool visible) // damage with unknown source or no source
+        public bool UnknownSourceDamage(string ability, int damage, SchoolTypes damageType, bool visible) // damage with unknown source or no source
         {
             if (visible) // equivalent to dam_message in fight.C:4381
                 DisplayUnknownSourceDamagePhrase(ability, damage);
@@ -440,30 +439,14 @@ namespace Mud.Server.Character
 
             Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", ability, damage, Name);
 
-            // Apply damage
-            bool dead = false;
-            HitPoints -= damage;
-            if (HitPoints < 1)
-            {
-                if (ImpersonatedBy != null)
-                    HitPoints = 1;
-                else
-                    HitPoints = 0;
-                dead = true;
-            }
+            bool dead = ApplyDamageAndDisplayStatus(damage);
 
             Log.Default.WriteLine(LogLevels.Debug, "{0} HP left: {1}", Name, HitPoints);
-
-            //update_pos(victim);
-            //position_msg(victim, dam);
 
             // If dead, create corpse, xp gain/loss, remove character from world if needed
             if (dead) // TODO: fight.C:2246
             {
                 Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", Name, ability);
-
-                Act(ActOptions.ToRoom, "{0} is dead.", this);
-                Send("You have been KILLED!!" + Environment.NewLine);
 
                 StopFighting(false);
                 IItemCorpse corpse = RawKill(this);
@@ -483,6 +466,11 @@ namespace Mud.Server.Character
         public IItemCorpse RawKill(ICharacter victim) // returns ItemCorpse
         {
             victim.StopFighting(true);
+            // Remove periodic effects on victim
+            List<IPeriodicEffect> periodicEffects = new List<IPeriodicEffect>(victim.PeriodicEffects); // clone
+            foreach (IPeriodicEffect pe in periodicEffects)
+                victim.RemovePeriodicEffect(pe);
+
             // Death cry
             if (this != victim)
                 Act(ActOptions.ToCharacter, "You hear {0}'s death cry.", victim);
@@ -491,16 +479,11 @@ namespace Mud.Server.Character
             IItemCorpse corpse = World.World.Instance.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
             if (victim.ImpersonatedBy != null) // If impersonated, no real death
             {
-                List<IPeriodicEffect> periodicEffects = new List<IPeriodicEffect>(PeriodicEffects); // clone
-                foreach (IPeriodicEffect pe in periodicEffects)
-                {
-                    pe.ResetSource();
-                    RemovePeriodicEffect(pe);
-                }
                 // TODO: remove periodic effects / affects
                 // TODO: reset hit/mana/...
                 // TODO: teleport player to hall room/graveyard  see fight.C:3952
-                HitPoints = MaxHitPoints;
+                //victim.HitPoints = MaxHitPoints;
+                victim.Heal(victim, null, victim.MaxHitPoints, false);
             }
             else // If not impersonated, remove from game
             {
@@ -540,7 +523,38 @@ namespace Mud.Server.Character
                 ImpersonatedBy.SetGlobalCooldown(pulseCount);
         }
 
-        private bool OneHit(ICharacter victim, string ability, IItemWeapon weapon, DamageTypes damageType) // TODO: skill    check fight.C:1394
+        protected bool ApplyDamageAndDisplayStatus(int damage)
+        {
+            // Apply damage
+            bool dead = false;
+            HitPoints -= damage;
+            if (HitPoints < 1)
+            {
+                if (ImpersonatedBy != null)
+                    HitPoints = 1;
+                else
+                    HitPoints = 0;
+                dead = true;
+            }
+
+            //update_pos(victim);
+            //position_msg(victim, dam);
+
+            // position_msg
+            if (damage > MaxHitPoints / 4)
+                Send("That really did HURT!" + Environment.NewLine);
+            if (!dead && HitPoints < MaxHitPoints / 4)
+                Send("You sure are BLEEDING!" + Environment.NewLine);
+            if (dead)
+            {
+                Act(ActOptions.ToRoom, "{0} is dead.", this);
+                Send("You have been KILLED!!" + Environment.NewLine);
+            }
+
+            return dead;
+        }
+
+        private bool OneHit(ICharacter victim, string ability, IItemWeapon weapon, SchoolTypes damageType) // TODO: skill    check fight.C:1394
         {
             if (this == victim || Room != victim.Room)
                 return false;
@@ -630,7 +644,7 @@ namespace Mud.Server.Character
                 else
                 {
                     Act(ActOptions.ToCharacter, "{0}'s {1} %w%heals%x% you.", victim, ability);
-                    Act(ActOptions.ToVictim, victim, "Your {0} %w%heals%x% {2}.", ability, this);
+                    Act(ActOptions.ToVictim, victim, "Your {0} %w%heals%x% {1}.", ability, this);
                     Act(ActOptions.ToNotVictim, victim, "{0}'s {1} %w%heals%x% {2}.", victim, ability, this);
                 }
             }
@@ -902,15 +916,22 @@ namespace Mud.Server.Character
 
             Send("==> TESTING DAMAGE/PERIODIC EFFECT" + Environment.NewLine);
             if (parameters.Length == 0)
-                CombatDamage(this, "STUPIDITY", 100, DamageTypes.Fire, true);
-            else if (parameters[0].Value == "1")
-                UnknownSourceDamage("STUPIDITY2", 100, DamageTypes.Frost, true);
-            else if (parameters[0].Value == "2")
-                UnknownSourceDamage(null, 100, DamageTypes.Frost, true);
-            else if (parameters[0].Value == "3")
-                AddPeriodicEffect(new PeriodicEffect("DoT", EffectTypes.Damage, this, DamageTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8));
-            else if (parameters[0].Value == "4")
-                AddPeriodicEffect(new PeriodicEffect("HoT", EffectTypes.Heal, this, 10, AmountOperators.Percentage, true, 3, 8));
+                CombatDamage(this, "STUPIDITY", 500, SchoolTypes.Fire, true);
+            else
+            {
+                ICharacter victim = null;
+                if (parameters.Length > 1)
+                    victim = FindHelpers.FindByName(Room.People, parameters[1]);
+                victim = victim ?? this;
+                if (parameters[0].Value == "1")
+                    victim.UnknownSourceDamage("STUPIDITY2", 100, SchoolTypes.Frost, true);
+                else if (parameters[0].Value == "2")
+                    victim.UnknownSourceDamage(null, 100, SchoolTypes.Frost, true);
+                else if (parameters[0].Value == "3")
+                    victim.AddPeriodicEffect(new PeriodicEffect("DoT", EffectTypes.Damage, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8));
+                else if (parameters[0].Value == "4")
+                    victim.AddPeriodicEffect(new PeriodicEffect("HoT", EffectTypes.Heal, this, 10, AmountOperators.Percentage, true, 3, 8));
+            }
             return true;
         }
     }

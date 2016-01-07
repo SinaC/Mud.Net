@@ -20,7 +20,7 @@ namespace Mud.Server.WPFTestApplication
     /// <summary>
     /// Interaction logic for ServerWindow.xaml
     /// </summary>
-    public partial class ServerWindow : Window
+    public partial class ServerWindow : Window, INetworkServer
     {
         private static ServerWindow _serverWindowInstance;
 
@@ -41,23 +41,20 @@ namespace Mud.Server.WPFTestApplication
 
             CreateMidgaard();
 
-            ClientWindow window = new ClientWindow
-            {
-                ColorAccepted = true
-            };
             //
             INetworkServer socketServer = new SocketServer(11000);
-            Server.Server.Instance.Initialize(false, new List<INetworkServer> { socketServer, window });
+            Server.Server.Instance.Initialize(false, new List<INetworkServer> { socketServer, this });
             Server.Server.Instance.Start();
 
-            // Display client window
-            window.Show();
+            //CreateNewClientWindow();
         }
 
         private void InputTextBox_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
                 SendButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); // http://stackoverflow.com/questions/728432/how-to-programmatically-click-a-button-in-wpf
+            else if (e.Key == Key.N && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                CreateNewClientWindow();
         }
 
         private void SendButton_OnClick(object sender, RoutedEventArgs e)
@@ -84,6 +81,46 @@ namespace Mud.Server.WPFTestApplication
             InputTextBox.SelectAll();
         }
 
+        private void NewClientButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            CreateNewClientWindow();
+        }
+
+        private void CreateNewClientWindow()
+        {
+            ClientWindow window = new ClientWindow
+            {
+                ColorAccepted = true
+            };
+            if (NewClientConnected != null)
+                NewClientConnected(window);
+            window.Closed += (sender, args) =>
+            {
+                if (ClientDisconnected != null)
+                    ClientDisconnected(window);
+            };
+            // Display client window
+            window.Show();
+        }
+
+        public event NewClientConnectedEventHandler NewClientConnected;
+        public event ClientDisconnectedEventHandler ClientDisconnected;
+
+        public void Initialize()
+        {
+            // NOP
+        }
+
+        public void Start()
+        {
+            // NOP
+        }
+
+        public void Stop()
+        {
+            // NOP
+        }
+
         public static void LogMethod(string level, string message)
         {
             _serverWindowInstance.Dispatcher.Invoke(() =>
@@ -93,12 +130,14 @@ namespace Mud.Server.WPFTestApplication
                 Brush color;
                 if (level == "Error")
                     color = Brushes.Red;
-                else if (level == "Warning")
+                else if (level == "Warn")
                     color = Brushes.Yellow;
-                else if (level == "Debug")
+                else if (level == "Info")
                     color = Brushes.White;
-                else if (level == "Trace")
+                else if (level == "Debug")
                     color = Brushes.LightGray;
+                else if (level == "Trace")
+                    color = Brushes.DarkGray;
                 else
                     color = Brushes.Orchid; // should never happen
                 paragraph.Inlines.Add(new Bold(new Run(level + ": "))
@@ -251,7 +290,8 @@ namespace Mud.Server.WPFTestApplication
                 Type = WeaponTypes.Axe1H,
                 DiceCount = 10,
                 DiceValue = 20,
-                DamageType = DamageTypes.Fire
+                DamageType = SchoolTypes.Fire,
+                WearLocation = WearLocations.Wield
             };
             ItemArmorBlueprint item3Blueprint = new ItemArmorBlueprint
             {
@@ -269,7 +309,8 @@ namespace Mud.Server.WPFTestApplication
                 Name = "item4",
                 ShortDescription = "Fourth item (light)",
                 Description = "The fourth item (light) has been left here.",
-                DurationHours = -1
+                DurationHours = -1,
+                WearLocation = WearLocations.Light
             };
 
             //
