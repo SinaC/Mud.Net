@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
@@ -172,6 +173,25 @@ namespace Mud.Server.Player
         }
 
         #endregion
+
+        [Command("alias")]
+        protected virtual bool DoAlias(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                if (Aliases.Any())
+                {
+                    Send("Your current aliases are:"+Environment.NewLine);
+                    foreach(KeyValuePair<string, string> alias in Aliases.OrderBy(x => x.Key))
+                        Send("     {0}: {1}"+Environment.NewLine, alias.Key, alias.Value);
+                }
+                else
+                    Send("You have no aliases defined." + Environment.NewLine);
+            }
+            // TODO: else add alias (!!! cannot set an alias on alias/delete :p)
+            return true;
+        }
+
 
         [Command("test")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)

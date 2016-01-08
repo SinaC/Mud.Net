@@ -44,7 +44,7 @@ namespace Mud.Server.WPFTestApplication
 
             //
             INetworkServer socketServer = new SocketServer(11000);
-            Server.Server.Instance.Initialize(false, new List<INetworkServer> { socketServer, this });
+            Server.Server.Instance.Initialize(new List<INetworkServer> { socketServer, this });
             Server.Server.Instance.Start();
 
             //CreateNewClientWindow();

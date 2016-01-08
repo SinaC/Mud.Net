@@ -648,7 +648,8 @@ namespace Mud.Server.Character
                 else
                 {
                     Act(ActOptions.ToCharacter, "{0}'s {1} {2} you.[{3}]", source, ability, damagePhraseOther, damage);
-                    Act(ActOptions.ToVictim, source, "Your {0} {1} {2}.[{3}]", ability, damagePhraseOther, this, damage);
+                    if (Room == source.Room)
+                        Act(ActOptions.ToVictim, source, "Your {0} {1} {2}.[{3}]", ability, damagePhraseOther, this, damage);
                     Act(ActOptions.ToNotVictim, source, "{0}'s {1} {2} {3}.[{4}]", source, ability, damagePhraseOther, this, damage);
                 }
             }
@@ -662,7 +663,8 @@ namespace Mud.Server.Character
                 else
                 {
                     Act(ActOptions.ToCharacter, "{0} {1} you.[{2}]", source, damagePhraseOther, damage);
-                    Act(ActOptions.ToVictim, source, "You {0} {1}.[{2}]", damagePhraseSelf, this, damage);
+                    if (Room == source.Room)
+                        Act(ActOptions.ToVictim, source, "You {0} {1}.[{2}]", damagePhraseSelf, this, damage);
                     Act(ActOptions.ToNotVictim, source, "{0} {1} {2}.[{3}]", source, damagePhraseOther, this, damage);
                 }
             }
@@ -686,34 +688,36 @@ namespace Mud.Server.Character
             }
         }
 
-        private void DisplayHealPhrase(string ability, int amount, ICharacter victim)
+        private void DisplayHealPhrase(string ability, int amount, ICharacter source)
         {
             if (!String.IsNullOrWhiteSpace(ability))
             {
-                if (this == victim)
+                if (this == source)
                 {
                     Act(ActOptions.ToCharacter, "Your {0} %w%heals%x% yourself.[{1}]", ability, amount);
                     Act(ActOptions.ToRoom, "{0} {1} %w%heals%x% {0:m}self.[{2}]", this, ability, amount);
                 }
                 else
                 {
-                    Act(ActOptions.ToCharacter, "{0}'s {1} %w%heals%x% you.[{2}]", victim, ability, amount);
-                    Act(ActOptions.ToVictim, victim, "Your {0} %w%heals%x% {1}.[{2}]", ability, this, amount);
-                    Act(ActOptions.ToNotVictim, victim, "{0}'s {1} %w%heals%x% {2}.[{3}]", victim, ability, this, amount);
+                    Act(ActOptions.ToCharacter, "{0}'s {1} %w%heals%x% you.[{2}]", source, ability, amount);
+                    if (Room == source.Room)
+                        Act(ActOptions.ToVictim, source, "Your {0} %w%heals%x% {1}.[{2}]", ability, this, amount);
+                    Act(ActOptions.ToNotVictim, source, "{0}'s {1} %w%heals%x% {2}.[{3}]", source, ability, this, amount);
                 }
             }
             else
             {
-                if (this == victim)
+                if (this == source)
                 {
                     Act(ActOptions.ToCharacter, "You %w%heal%x% yourself.[{0}]", amount);
                     Act(ActOptions.ToRoom, "{0} %w%heals%x% {0:m}self.[{1}]", this, amount);
                 }
                 else
                 {
-                    Act(ActOptions.ToCharacter, "{0} heals you.[{1}]", victim, amount);
-                    Act(ActOptions.ToVictim, victim, "You heal {0}.[{1}]", this, amount);
-                    Act(ActOptions.ToNotVictim, victim, "{0} heals {1}.[{2}]", victim, this, amount);
+                    Act(ActOptions.ToCharacter, "{0} heals you.[{1}]", source, amount);
+                    if (Room == source.Room)
+                        Act(ActOptions.ToVictim, source, "You heal {0}.[{1}]", this, amount);
+                    Act(ActOptions.ToNotVictim, source, "{0} heals {1}.[{2}]", source, this, amount);
                 }
             }
         }
@@ -987,6 +991,15 @@ namespace Mud.Server.Character
                     victim.AddPeriodicEffect(new PeriodicEffect("HoT", EffectTypes.Heal, this, 10, AmountOperators.Percentage, true, 3, 8));
                 else if (parameters[0].Value == "5")
                     victim.AddBuffDebuff(new BuffDebuff("Buff", AttributeTypes.Stamina, 15, AmountOperators.Percentage, 600));
+                else if (parameters[0].Value == "6")
+                {
+                    victim.AddPeriodicEffect(new PeriodicEffect("DoT", EffectTypes.Damage, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8));
+                    victim.AddPeriodicEffect(new PeriodicEffect("DoT", EffectTypes.Damage, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8));
+                    victim.AddPeriodicEffect(new PeriodicEffect("DoT", EffectTypes.Damage, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8));
+                    victim.AddPeriodicEffect(new PeriodicEffect("HoT", EffectTypes.Heal, this, 10, AmountOperators.Percentage, true, 3, 8));
+                    victim.AddPeriodicEffect(new PeriodicEffect("HoT", EffectTypes.Heal, this, 10, AmountOperators.Percentage, true, 3, 8));
+                    victim.AddPeriodicEffect(new PeriodicEffect("HoT", EffectTypes.Heal, this, 10, AmountOperators.Percentage, true, 3, 8));
+                }
             }
             return true;
         }

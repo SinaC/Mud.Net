@@ -1,5 +1,4 @@
 should equiped item be in inventory ? 4 bag slots instead of inventory + 1 dummy bag slot with inventory ?
-add Time class updated at each pulse (use uniform time slot in whole application)
 
 remove asynchronous mode, in asynchronous mode, when do we send prompt ?
 unit tests

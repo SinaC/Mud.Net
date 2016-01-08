@@ -20,5 +20,8 @@ namespace Mud.Server
 
         // Total left
         int TotalSeconds { get; }
+
+        // Seconds left
+        int SecondsLeft { get; }
     }
 }

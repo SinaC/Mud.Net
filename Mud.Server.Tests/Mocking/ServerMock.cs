@@ -9,9 +9,9 @@ namespace Mud.Server.Tests.Mocking
 
     public class ServerMock : IServer
     {
-        public bool IsAsynchronous { get; private set; }
+        public DateTime CurrentTime { get; private set; }
 
-        public void Initialize(bool asynchronous, List<INetworkServer> networkServers)
+        public void Initialize(List<INetworkServer> networkServers)
         {
             throw new NotImplementedException();
         }

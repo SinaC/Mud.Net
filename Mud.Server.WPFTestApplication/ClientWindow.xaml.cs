@@ -79,7 +79,7 @@ namespace Mud.Server.WPFTestApplication
                         remaining = remaining.Substring(startIndex + 1);
                         AddColoredTextToParagraph(paragraph, currentColor, preceding);
                         int endIndex = remaining.IndexOf("%", StringComparison.OrdinalIgnoreCase);
-                        if (endIndex >= 0)
+                        if (endIndex == 1) // %c%
                         {
                             string colorCode = remaining.Substring(0, endIndex);
                             currentColor = GetColor(colorCode);

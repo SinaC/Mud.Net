@@ -25,14 +25,14 @@ namespace Mud.Server.Effects
         {
             get
             {
-                TimeSpan ts = DateTime.Now - _startTime;
+                TimeSpan ts = Server.Server.Instance.CurrentTime - _startTime;
                 return TotalTicks*TickDelay - (int) Math.Ceiling(ts.TotalSeconds);
             }
         }
 
         public PeriodicEffect(string name, EffectTypes effectType, ICharacter source, int amount, AmountOperators amountOperator, bool visible, int tickDelay, int ticksLeft)
         {
-            _lastTickElapsed = DateTime.Now;
+            _lastTickElapsed = Server.Server.Instance.CurrentTime;
 
             Name = name;
             EffectType = effectType;
@@ -66,7 +66,7 @@ namespace Mud.Server.Effects
             }
 
             // Set start time on first tick
-            DateTime now = DateTime.Now;
+            DateTime now = Server.Server.Instance.CurrentTime;
             if (TicksLeft == TotalTicks) // first tick
                 _startTime = now;
 

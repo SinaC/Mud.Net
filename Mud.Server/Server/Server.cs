@@ -65,11 +65,10 @@ namespace Mud.Server.Server
 
         #region IServer
 
-        public bool IsAsynchronous { get; private set; }
+        public DateTime CurrentTime { get; private set; }
 
-        public void Initialize(bool asynchronous, List<INetworkServer> networkServers)
+        public void Initialize(List<INetworkServer> networkServers)
         {
-            IsAsynchronous = asynchronous;
             _networkServers = networkServers;
             foreach (INetworkServer networkServer in _networkServers)
             {
@@ -312,14 +311,14 @@ namespace Mud.Server.Server
                 Log.Default.WriteLine(LogLevels.Error, "ClientPlayingOnDataReceived: null client");
             else if (command != null)
             {
-                if (IsAsynchronous)
-                {
-                    if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
-                        HandlePaging(playingClient, command);
-                    else
-                        playingClient.Player.ProcessCommand(command);
-                }
-                else
+                //if (IsAsynchronous)
+                //{
+                //    if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
+                //        HandlePaging(playingClient, command);
+                //    else
+                //        playingClient.Player.ProcessCommand(command);
+                //}
+                //else
                     playingClient.EnqueueReceivedData(command);
             }
         }
@@ -357,9 +356,9 @@ namespace Mud.Server.Server
                 Log.Default.WriteLine(LogLevels.Error, "PlayerOnSendData: playingClient not found!!!");
             else
             {
-                if (IsAsynchronous)
-                    playingClient.Client.WriteData(data);
-                else
+                //if (IsAsynchronous)
+                //    playingClient.Client.WriteData(data);
+                //else
                     playingClient.EnqueueDataToSend(data);
             }
         }
@@ -432,7 +431,7 @@ namespace Mud.Server.Server
         private void ProcessInput()
         {
             // Read one command from each client and process it
-            if (!IsAsynchronous)
+            //if (!IsAsynchronous)
             {
                 foreach (PlayingClient playingClient in _players.Values) // TODO: first connected player will be processed before other, try a randomize
                 {
@@ -469,7 +468,7 @@ namespace Mud.Server.Server
 
         private void ProcessOutput()
         {
-            if (!IsAsynchronous)
+            //if (!IsAsynchronous)
             {
                 foreach (PlayingClient playingClient in _players.Values)
                 {
@@ -556,6 +555,7 @@ namespace Mud.Server.Server
 
         private void HandlePeriodicEffects() // TODO: specific pulse ? 1/2 seconds
         {
+            // TODO: remove dot/hot on non-impersonated if source is not the in same room
             // TODO: take periodic effect that will be processed
             IReadOnlyCollection<ICharacter> clonePeriodicEffects = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.PeriodicEffects.Any()).ToList());
             foreach (ICharacter character in clonePeriodicEffects)
@@ -578,10 +578,10 @@ namespace Mud.Server.Server
             }
         }
 
-        private void HandleBuffDebuffs()
+        private void HandleBuffDebuffs() // TODO: specific pulse ? 1/2 seconds
         {
-            // TODO: take buff/debuff that will expired
-            IReadOnlyCollection<ICharacter> cloneBuffDebuffs = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.BuffDebuffs.Any()).ToList());
+            // Take buff/debuff that will expired
+            IReadOnlyCollection<ICharacter> cloneBuffDebuffs = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.BuffDebuffs.Any(b => (CurrentTime - b.StartTime).TotalSeconds > b.TotalSeconds)).ToList());
             foreach (ICharacter character in cloneBuffDebuffs)
             {
                 try
@@ -589,7 +589,7 @@ namespace Mud.Server.Server
                     IReadOnlyCollection<IBuffDebuff> buffDebuffs = new ReadOnlyCollection<IBuffDebuff>(character.BuffDebuffs.ToList());
                     foreach (IBuffDebuff buffDebuff in buffDebuffs)
                     {
-                        TimeSpan elapsed = DateTime.Now - buffDebuff.StartTime;
+                        TimeSpan elapsed = CurrentTime - buffDebuff.StartTime;
                         if (elapsed.TotalSeconds > buffDebuff.TotalSeconds)
                             character.RemoveBuffDebuff(buffDebuff);
                     }
@@ -646,6 +646,7 @@ namespace Mud.Server.Server
 
             HandleShutdown();
             HandlePeriodicEffects();
+            HandleBuffDebuffs();
             HandleViolence();
         }
 
@@ -662,6 +663,8 @@ namespace Mud.Server.Server
                         Log.Default.WriteLine(LogLevels.Info, "Stop GameLoopTask requested");
                         break;
                     }
+
+                    CurrentTime = DateTime.Now;
 
                     ProcessInput();
 

@@ -13,7 +13,7 @@ namespace Mud.Server.Character
             IRoom toRoom = exit == null ? null : exit.Destination;
 
             // TODO: act_move.C:133
-            // cannot move while in combat
+            // cannot move while in combat -> should be handled by POSITION in command
             // drunk
             // exit flags such as climb, door closed, ...
             // private room, size, swim room, guild room
@@ -27,7 +27,7 @@ namespace Mud.Server.Character
             }
             else
             {
-                Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction);
+                Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction); // TODO: sneak
                 
                 SetGlobalCooldown(1);
                 ChangeRoom(toRoom);
@@ -36,7 +36,7 @@ namespace Mud.Server.Character
                 if (ImpersonatedBy != null || IncarnatedBy != null)
                     DisplayRoom();
 
-                Act(ActOptions.ToRoom, "{0} has arrived", this);
+                Act(ActOptions.ToRoom, "{0} has arrived", this); // TODO: sneak
 
                 // Followers: no circular follows
                 if (fromRoom != toRoom)
@@ -44,7 +44,7 @@ namespace Mud.Server.Character
                     if (Slave != null)
                     {
                         Slave.Send("You follow {0}" + Environment.NewLine, Name);
-                        Move(Slave, direction, true); // TODO: !!!!!!!!!!!!!!!!!!!! awful hack
+                        Move(Slave, direction, true);
                     }
                 }
             }

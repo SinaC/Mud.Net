@@ -41,7 +41,7 @@ namespace Mud.Server.Character
                 else
                 {
                     // search in room, then in inventory(unequiped), then in equipement
-                    IItem containerItem = FindHelpers.FindCharacterItemByName(this, parameters[1]); // TODO: filter on unequiped + equipment
+                    IItem containerItem = FindHelpers.FindCharacterItemByName(this, parameters[1]);
                     if (containerItem == null)
                         Send(StringHelpers.ItemNotFound);
                     else
@@ -150,7 +150,8 @@ namespace Mud.Server.Character
                     Act(ActOptions.ToCharacter, "You examine {0}.", victim);
                     Act(ActOptions.ToVictim, this, "{0} examines you.", victim);
                     Act(ActOptions.ToNotVictim, this, "{0} examines {1}.", victim);
-                    DoLook(rawParameters, parameters); // TODO: call immediately sub-function
+                    //DoLook(rawParameters, parameters); // call immediately helpers function (DoLook: case 3)
+                    DisplayCharacter(victim, true);
                     // TODO: display race and size
                 }
                 else
@@ -216,28 +217,29 @@ namespace Mud.Server.Character
         protected virtual bool DoAffects(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: better UI
+            StringBuilder sb = new StringBuilder();
             // Buff/Debuffs
             if (_buffDebuffs.Any())
             {
-                Send("Buff/debuffs:"+Environment.NewLine);
+                sb.AppendLine("Buff/debuffs:");
                 foreach (IBuffDebuff buffDebuff in _buffDebuffs)
-                    Send("{0} modifies {1} by {2}{3} for {4} seconds.", 
+                    sb.AppendFormatLine("{0} modifies {1} by {2}{3} for {4} seconds.", 
                         buffDebuff.Name, 
                         buffDebuff.AttributeType, 
                         buffDebuff.Amount, 
                         buffDebuff.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
-                        (int)Math.Ceiling(buffDebuff.TotalSeconds-(DateTime.Now - buffDebuff.StartTime).TotalSeconds)); // TODO: method in IBuffDebuff for seconds left, use global time class
+                        buffDebuff.SecondsLeft); // TODO: method in IBuffDebuff for seconds left, use global time class
             }
             else
-                Send("No buff/debuffs." + Environment.NewLine);
+                sb.AppendLine("No buff/debuffs.");
             // Periodic effects
             if (_periodicEffects.Any())
             {
-                Send("Periodic effects:" + Environment.NewLine);
+                sb.AppendLine("Periodic effects:");
                 foreach (IPeriodicEffect pe in _periodicEffects)
                 {
                     if (pe.EffectType == EffectTypes.Damage) // TODO: operator
-                        Send("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds." + Environment.NewLine,
+                        sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds.",
                             pe.Name,
                             pe.Source == null ? "(none)" : pe.Source.DisplayName,
                             pe.Amount,
@@ -246,7 +248,7 @@ namespace Mud.Server.Character
                             pe.TickDelay,
                             pe.SecondsLeft);
                     else
-                        Send("{0} from {1}: {2}{3} heal every {4} seconds for {5} seconds." + Environment.NewLine,
+                        sb.AppendFormatLine("{0} from {1}: {2}{3} heal every {4} seconds for {5} seconds.",
                             pe.Name,
                             pe.Source == null ? "(none)" : pe.Source.DisplayName,
                             pe.Amount,
@@ -256,7 +258,8 @@ namespace Mud.Server.Character
                 }
             }
             else
-                Send("No periodic effect." + Environment.NewLine);
+                sb.AppendLine("No periodic effect.");
+            Send(sb);
             return true;
         }
 

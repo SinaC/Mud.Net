@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mud.Network;
 using Mud.Server.Input;
 
@@ -6,9 +7,9 @@ namespace Mud.Server
 {
     public interface IServer
     {
-        bool IsAsynchronous { get; }
+        DateTime CurrentTime { get; } // Centralized time synchronized on server's pulse
 
-        void Initialize(bool asynchronous, List<INetworkServer> networkServers);
+        void Initialize(List<INetworkServer> networkServers);
         void Start();
         void Stop();
 

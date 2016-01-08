@@ -12,9 +12,18 @@ namespace Mud.Server.Effects
         public DateTime StartTime { get; private set; }
         public int TotalSeconds { get; private set; }
 
+        public int SecondsLeft
+        {
+            get
+            {
+                TimeSpan ts = Server.Server.Instance.CurrentTime - StartTime;
+                return TotalSeconds - (int)Math.Ceiling(ts.TotalSeconds);
+            }
+        }
+
         public BuffDebuff(string name, AttributeTypes attributeType, int amount, AmountOperators amountOperator, int totalSeconds)
         {
-            StartTime = DateTime.Now;
+            StartTime = Server.Server.Instance.CurrentTime;
 
             Name = name;
             AttributeType = attributeType;
