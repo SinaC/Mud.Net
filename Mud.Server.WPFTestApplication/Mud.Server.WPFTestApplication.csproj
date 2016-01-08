@@ -36,12 +36,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -106,10 +102,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
-      <Project>{00b458af-c87b-4558-8ba7-b21d9626621e}</Project>
-      <Name>Mud.DataStructures</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mud.Importer.Mystery\Mud.Importer.Mystery.csproj">
       <Project>{b461b0bd-82f7-41e5-b3ba-e364a3f1f61d}</Project>
       <Name>Mud.Importer.Mystery</Name>
@@ -137,10 +129,6 @@
     <ProjectReference Include="..\Mud.Server.Constants\Mud.Server.Constants.csproj">
       <Project>{3c334a4d-ed18-4eb4-ac7b-2b03bb849d47}</Project>
       <Name>Mud.Server.Constants</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
-      <Project>{3e2bd396-17b9-423e-9114-9e215b468267}</Project>
-      <Name>Mud.Server.Input</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
       <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>

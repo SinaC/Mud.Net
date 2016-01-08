@@ -182,7 +182,7 @@ namespace Mud.Server.Character
                 Send("Remove what?" + Environment.NewLine);
             else
             {
-                EquipmentSlot equipmentSlot = FindHelpers.FindByName(Equipments.Where(x => x.Item != null && CanSee(x.Item)), x => x.Item, parameters[0]);
+                EquipedItem equipmentSlot = FindHelpers.FindByName(Equipments.Where(x => x.Item != null && CanSee(x.Item)), x => x.Item, parameters[0]);
                 if (equipmentSlot == null || equipmentSlot.Item == null)
                     Send(StringHelpers.ItemInventoryNotFound);
                 else
@@ -194,12 +194,69 @@ namespace Mud.Server.Character
         //********************************************************************
         // Helpers
         //********************************************************************
+        private EquipedItem SearchEquipmentSlot(IEquipable item, bool replace)
+        {
+            // TODO: if wield, can be equiped as wield2 if dual wield
+            // TODO: if wield2H, can be equiped as wield+hold or wield+shield
+            // TODO: if hold (or shield), can be equiped as hold (or shield) and no wield2H on wield+hold (or +shield)
+            switch (item.WearLocation)
+            {
+                case WearLocations.None:
+                    return null;
+                case WearLocations.Light:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Light && (replace || x.Item == null));
+                case WearLocations.Head:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Head && (replace || x.Item == null));
+                case WearLocations.Amulet:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Amulet && (replace || x.Item == null));
+                case WearLocations.Shoulders:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Shoulders && (replace || x.Item == null));
+                case WearLocations.Chest:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Chest && (replace || x.Item == null));
+                case WearLocations.Cloak:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Cloak && (replace || x.Item == null));
+                case WearLocations.Waist:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Waist && (replace || x.Item == null));
+                case WearLocations.Wrists:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wrists && (replace || x.Item == null));
+                case WearLocations.Hands:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Hands && (replace || x.Item == null));
+                case WearLocations.Ring:
+                    // Search an empty slot, if no empty slot take first non-empty if replace is true
+                    return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.RingLeft || x.Slot == EquipmentSlots.RingRight) && x.Item == null)
+                           ?? (replace ?
+                               Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.RingLeft || x.Slot == EquipmentSlots.RingRight))
+                               : null);
+                case WearLocations.Legs:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Legs && (replace || x.Item == null));
+                case WearLocations.Feet:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Feet && (replace || x.Item == null));
+                case WearLocations.Trinket:
+                    // Search an empty slot, if no empty slot take first non-empty if replace is true
+                    return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Trinket1 || x.Slot == EquipmentSlots.Trinket2) && x.Item == null)
+                           ?? (replace ?
+                               Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Trinket1 || x.Slot == EquipmentSlots.Trinket2))
+                               : null);
+                case WearLocations.Wield:
+                    // TODO
+                    return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Wield || x.Slot == EquipmentSlots.Wield2) && (replace || x.Item == null));
+                case WearLocations.Hold:
+                    // TODO
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Hold && (replace || x.Item == null));
+                case WearLocations.Shield:
+                    // TODO
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Shield && (replace || x.Item == null));
+                case WearLocations.Wield2H:
+                    // TODO
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2H && (replace || x.Item == null));
+            }
+            return null;
+        }
+
         private bool WearItem(IEquipable item, bool replace) // equivalent to wear_obj in act_obj.C:1467
         {
             // TODO: check level
             WearLocations wearLocation = item.WearLocation;
-
-            // TODO: if wield, can be equiped as wield2 if dual wield
 
             if (wearLocation == WearLocations.None)
             {
@@ -208,12 +265,21 @@ namespace Mud.Server.Character
                     Act(ActOptions.ToCharacter, "{0} cannot be worn.", item);
                 return false;
             }
-            EquipmentSlot equipmentSlot = Equipments.FirstOrDefault(x => x.WearLocation == wearLocation && (replace || x.Item == null));
+            EquipedItem equipmentSlot = SearchEquipmentSlot(item, replace);
             if (equipmentSlot == null)
             {
-                if (replace) // replace means, only item is trying to be worn
+                if (replace) // we dont' want to spam if character is trying to wear all, replace is set to true only when wearing one item
                     Act(ActOptions.ToCharacter, "You cannot wear {0}.", item);
                 return false;
+            }
+            if (replace && equipmentSlot.Item != null)
+            {
+                IEquipable removeItem = equipmentSlot.Item;
+                Act(ActOptions.ToCharacter, "You remove {0}.", removeItem);
+                Act(ActOptions.ToRoom, "{0} removes {1}.", this, removeItem);
+                //equipmentSlot.Item = null  already done by ChangeEquipedBy
+                removeItem.ChangeEquipedBy(null);
+                removeItem.ChangeContainer(this);
             }
             // TODO: different phrase depending on wear location
             Act(ActOptions.ToCharacter, "You wear {0}.", item);
@@ -242,7 +308,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        private bool RemoveItem(EquipmentSlot equipmentSlot)
+        private bool RemoveItem(EquipedItem equipmentSlot)
         {
             // TODO: check weight + item count
             Act(ActOptions.ToCharacter, "You stop using {0}.", equipmentSlot.Item);

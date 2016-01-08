@@ -62,12 +62,12 @@ namespace Mud.Server.Character
                 return true;
             }
             // 3: character in room
-            ICharacter character = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
-            if (character != null)
+            ICharacter victim = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
+            if (victim != null)
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(3): character in room");
                 // TODO: peek ability check ???
-                DisplayCharacter(character, true);
+                DisplayCharacter(victim, true);
                 return true;
             }
             // 4: search n'th item in inventory+room
@@ -124,75 +124,12 @@ namespace Mud.Server.Character
             if (Equipments.All(x => x.Item == null))
                 Send("Nothing" + Environment.NewLine);
             else
-                foreach (EquipmentSlot equipmentSlot in Equipments.Where(x => x.Item != null))
+                foreach (EquipedItem equipedItem in Equipments.Where(x => x.Item != null))
                 {
-                    string where = String.Empty;
-                    switch (equipmentSlot.WearLocation)
-                    {
-                        case WearLocations.Light:
-                            where = "%C%<used as light>         %x%";
-                            break;
-                        case WearLocations.Head:
-                            where = "%C%<worn on head>          %x%";
-                            break;
-                        case WearLocations.Amulet:
-                            where = "%C%<worn on neck>          %x%";
-                            break;
-                        case WearLocations.Shoulders:
-                            where = "%C%<worn around shoulders> %x%";
-                            break;
-                        case WearLocations.Chest:
-                            where = "%C%<worn on chest>         %x%";
-                            break;
-                        case WearLocations.Cloak:
-                            where = "%C%<worn about body>       %x%";
-                            break;
-                        case WearLocations.Waist:
-                            where = "%C%<worn about waist>      %x%";
-                            break;
-                        case WearLocations.Wrists:
-                            where = "%C%<worn around wrists>    %x%";
-                            break;
-                        case WearLocations.Hands:
-                            where = "%C%<worn on hands>         %x%";
-                            break;
-                        case WearLocations.RingLeft:
-                            where = "%C%<worn on left finger>   %x%";
-                            break;
-                        case WearLocations.RingRight:
-                            where = "%C%<worn on right finger>   %x%";
-                            break;
-                        case WearLocations.Legs:
-                            where = "%C%<worn on legs>          %x%";
-                            break;
-                        case WearLocations.Feet:
-                            where = "%C%<worn on feet>          %x%";
-                            break;
-                        case WearLocations.Trinket1:
-                            where = "%C%<worn as 1st trinket>   %x%";
-                            break;
-                        case WearLocations.Trinket2:
-                            where = "%C%<worn as 2nd trinket>   %x%";
-                            break;
-                        case WearLocations.Wield:
-                            where = "%C%<wielded>               %x%";
-                            break;
-                        case WearLocations.Wield2:
-                            where = "%c%<offhand>               %x%";
-                            break;
-                        case WearLocations.Hold:
-                            where = "%C%<held>                  %x%";
-                            break;
-                        case WearLocations.Shield:
-                            where = "%C%<worn as shield>        %x%";
-                            break;
-                        default:
-                            Log.Default.WriteLine(LogLevels.Error, "DoEquipment: missing WearLocation {0}", equipmentSlot.WearLocation);
-                            break;
-                    }
+                    string where = EquipmentSlotsToString(equipedItem.Slot);
                     StringBuilder sb = new StringBuilder(where);
-                    if (CanSee(equipmentSlot.Item))
-                        sb.AppendLine(FormatItem(equipmentSlot.Item, true).ToString());
+                    if (CanSee(equipedItem.Item))
+                        sb.AppendLine(FormatItem(equipedItem.Item, true));
                     else
                         sb.AppendLine("something.");
                     Send(sb);
@@ -207,12 +144,12 @@ namespace Mud.Server.Character
                 Send("Examine what or whom?" + Environment.NewLine);
             else
             {
-                ICharacter character = FindHelpers.FindByName(Room.People, parameters[0]);
-                if (character != null)
+                ICharacter victim = FindHelpers.FindByName(Room.People, parameters[0]);
+                if (victim != null)
                 {
-                    Act(ActOptions.ToCharacter, "You examine {0}.", character);
-                    Act(ActOptions.ToVictim, this, "{0} examines you.", character);
-                    Act(ActOptions.ToNotVictim, this, "{0} examines {1}.", character);
+                    Act(ActOptions.ToCharacter, "You examine {0}.", victim);
+                    Act(ActOptions.ToVictim, this, "{0} examines you.", victim);
+                    Act(ActOptions.ToNotVictim, this, "{0} examines {1}.", victim);
                     DoLook(rawParameters, parameters); // TODO: call immediately sub-function
                     // TODO: display race and size
                 }
@@ -279,16 +216,28 @@ namespace Mud.Server.Character
         protected virtual bool DoAffects(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: better UI
-            // Effects
-            // TODO
+            // Buff/Debuffs
+            if (_buffDebuffs.Any())
+            {
+                Send("Buff/debuffs:"+Environment.NewLine);
+                foreach (IBuffDebuff buffDebuff in _buffDebuffs)
+                    Send("{0} modifies {1} by {2}{3} for {4} seconds.", 
+                        buffDebuff.Name, 
+                        buffDebuff.AttributeType, 
+                        buffDebuff.Amount, 
+                        buffDebuff.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                        (int)Math.Ceiling(buffDebuff.TotalSeconds-(DateTime.Now - buffDebuff.StartTime).TotalSeconds)); // TODO: method in IBuffDebuff for seconds left, use global time class
+            }
+            else
+                Send("No buff/debuffs." + Environment.NewLine);
             // Periodic effects
             if (_periodicEffects.Any())
             {
-                Send("Periodic effects:"+Environment.NewLine);
+                Send("Periodic effects:" + Environment.NewLine);
                 foreach (IPeriodicEffect pe in _periodicEffects)
                 {
                     if (pe.EffectType == EffectTypes.Damage) // TODO: operator
-                        Send("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds" + Environment.NewLine,
+                        Send("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds." + Environment.NewLine,
                             pe.Name,
                             pe.Source == null ? "(none)" : pe.Source.DisplayName,
                             pe.Amount,
@@ -297,7 +246,7 @@ namespace Mud.Server.Character
                             pe.TickDelay,
                             pe.SecondsLeft);
                     else
-                        Send("{0} from {1}: {2}{3} heal every {4} seconds for {5} seconds" + Environment.NewLine,
+                        Send("{0} from {1}: {2}{3} heal every {4} seconds for {5} seconds." + Environment.NewLine,
                             pe.Name,
                             pe.Source == null ? "(none)" : pe.Source.DisplayName,
                             pe.Amount,
@@ -323,37 +272,48 @@ namespace Mud.Server.Character
             // Exits
             DisplayExits(true);
             DisplayItems(Room.Content, false, false);
-            foreach (ICharacter character in Room.People.Where(x => x != this))
+            foreach (ICharacter victim in Room.People.Where(x => x != this))
             { //  (see act_info.C:714 show_char_to_char)
-                if (CanSee(character)) // see act_info.C:375 show_char_to_char_0)
+                if (CanSee(victim)) // see act_info.C:375 show_char_to_char_0)
                 {
                     // TODO: display flags (see act_info.C:387 -> 478)
                     // TODO: display long description and stop
                     // TODO: display position (see act_info.C:505 -> 612)
-                    Send("{0} is here." + Environment.NewLine, character.DisplayName); // last case of POS_STANDING
+                    Send("{0} is here." + Environment.NewLine, victim.DisplayName); // last case of POS_STANDING
                 }
                 else
                     ; // TODO: INFRARED (see act_info.C:728)
             }
         }
 
-        private void DisplayCharacter(ICharacter character, bool peekInventory) // equivalent to act_info.C:show_char_to_char_1
+        private void DisplayCharacter(ICharacter victim, bool peekInventory) // equivalent to act_info.C:show_char_to_char_1
         {
-            if (this == character)
+            if (this == victim)
                 Act(ActOptions.ToRoom, "{0} looks at {0:m}self.", this);
             else
             {
-                Act(ActOptions.ToVictim, character, "{0} looks at you.", this);
-                Act(ActOptions.ToNotVictim, character, "{0} looks at {1}.", this, character);
+                Act(ActOptions.ToVictim, victim, "{0} looks at you.", this);
+                Act(ActOptions.ToNotVictim, victim, "{0} looks at {1}.", this, victim);
             }
-            Send("{0} is here." + Environment.NewLine, character.DisplayName);
-            // TODO: health (instead of is here.), equipments  (see act_info.C:629 show_char_to_char_1)
-            //Send("{0} is using:", character) if equipment not empty
+            Send("{0} is here." + Environment.NewLine, victim.DisplayName);
+            // TODO: health (instead of is here.) (see act_info.C:629 show_char_to_char_1)
+            if (victim.Equipments.Any(x => x.Item != null))
+            {
+                Act(ActOptions.ToCharacter, "{0} is using:", victim);
+                foreach (EquipedItem equipedItem in victim.Equipments.Where(x => x.Item != null && CanSee(x.Item)))
+                {
+                    string where = EquipmentSlotsToString(equipedItem.Slot);
+                    StringBuilder sb = new StringBuilder(where);
+                    sb.AppendLine(FormatItem(equipedItem.Item, true));
+                    Send(sb);
+                }
+            }
+            
 
             if (peekInventory)
             {
                 Send("You peek at the inventory:" + Environment.NewLine);
-                DisplayItems(character.Content, true, true);
+                DisplayItems(victim.Content, true, true);
             }
         }
 
@@ -418,19 +378,70 @@ namespace Mud.Server.Character
         private StringBuilder ScanRoom(IRoom room)
         {
             StringBuilder peopleInRoom = new StringBuilder();
-            foreach (ICharacter character in room.People.Where(CanSee))
-                peopleInRoom.AppendFormatLine(" - {0}", character.DisplayName);
+            foreach (ICharacter victim in room.People.Where(CanSee))
+                peopleInRoom.AppendFormatLine(" - {0}", victim.DisplayName);
             return peopleInRoom;
         }
 
-        private StringBuilder FormatItem(IItem item, bool shortDisplay)
+        private static string EquipmentSlotsToString(EquipmentSlots slot)
+        {
+            switch (slot)
+            {
+                case EquipmentSlots.Light:
+                    return "%C%<used as light>         %x%";
+                case EquipmentSlots.Head:
+                    return "%C%<worn on head>          %x%";
+                case EquipmentSlots.Amulet:
+                    return "%C%<worn on neck>          %x%";
+                case EquipmentSlots.Shoulders:
+                    return "%C%<worn around shoulders> %x%";
+                case EquipmentSlots.Chest:
+                    return "%C%<worn on chest>         %x%";
+                case EquipmentSlots.Cloak:
+                    return "%C%<worn about body>       %x%";
+                case EquipmentSlots.Waist:
+                    return "%C%<worn about waist>      %x%";
+                case EquipmentSlots.Wrists:
+                    return "%C%<worn around wrists>    %x%";
+                case EquipmentSlots.Hands:
+                    return "%C%<worn on hands>         %x%";
+                case EquipmentSlots.RingLeft:
+                    return "%C%<worn on left finger>   %x%";
+                case EquipmentSlots.RingRight:
+                    return "%C%<worn on right finger>   %x%";
+                case EquipmentSlots.Legs:
+                    return "%C%<worn on legs>          %x%";
+                case EquipmentSlots.Feet:
+                    return "%C%<worn on feet>          %x%";
+                case EquipmentSlots.Trinket1:
+                    return "%C%<worn as 1st trinket>   %x%";
+                case EquipmentSlots.Trinket2:
+                    return "%C%<worn as 2nd trinket>   %x%";
+                case EquipmentSlots.Wield:
+                    return "%C%<wielded>               %x%";
+                case EquipmentSlots.Wield2:
+                    return "%c%<offhand>               %x%";
+                case EquipmentSlots.Hold:
+                    return "%C%<held>                  %x%";
+                case EquipmentSlots.Shield:
+                    return "%C%<worn as shield>        %x%";
+                case EquipmentSlots.Wield2H:
+                    return "%C%<wielded 2-handed>      %x%";
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, "DoEquipment: missing WearLocation {0}", slot);
+                    break;
+            }
+            return "%C%<unknown>               %x%";
+        }
+
+        private static string FormatItem(IItem item, bool shortDisplay)
         {
             StringBuilder sb = new StringBuilder();
             // TODO: affects
             sb.Append(shortDisplay
                 ? item.DisplayName
                 : item.Description);
-            return sb;
+            return sb.ToString();
         }
     }
 }

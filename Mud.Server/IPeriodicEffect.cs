@@ -10,6 +10,7 @@ namespace Mud.Server
 
     public interface IPeriodicEffect
     {
+        // Name
         string Name { get; }
 
         // Heal/damage

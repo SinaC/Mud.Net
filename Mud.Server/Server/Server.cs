@@ -552,10 +552,13 @@ namespace Mud.Server.Server
             }
         }
 
+        // TODO: add Time class updated at each pulse (use uniform time slot in whole application)
+
         private void HandlePeriodicEffects() // TODO: specific pulse ? 1/2 seconds
         {
-            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.PeriodicEffects.Any()).ToList());
-            foreach (ICharacter character in clone)
+            // TODO: take periodic effect that will be processed
+            IReadOnlyCollection<ICharacter> clonePeriodicEffects = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.PeriodicEffects.Any()).ToList());
+            foreach (ICharacter character in clonePeriodicEffects)
             {
                 try
                 {
@@ -571,6 +574,29 @@ namespace Mud.Server.Server
                 catch (Exception ex)
                 {
                     Log.Default.WriteLine(LogLevels.Error, "Exception while handling periodic effects of {0}. Exception: {1}", character.Name, ex);
+                }
+            }
+        }
+
+        private void HandleBuffDebuffs()
+        {
+            // TODO: take buff/debuff that will expired
+            IReadOnlyCollection<ICharacter> cloneBuffDebuffs = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.BuffDebuffs.Any()).ToList());
+            foreach (ICharacter character in cloneBuffDebuffs)
+            {
+                try
+                {
+                    IReadOnlyCollection<IBuffDebuff> buffDebuffs = new ReadOnlyCollection<IBuffDebuff>(character.BuffDebuffs.ToList());
+                    foreach (IBuffDebuff buffDebuff in buffDebuffs)
+                    {
+                        TimeSpan elapsed = DateTime.Now - buffDebuff.StartTime;
+                        if (elapsed.TotalSeconds > buffDebuff.TotalSeconds)
+                            character.RemoveBuffDebuff(buffDebuff);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling buffs/debuffs of {0}. Exception: {1}", character.Name, ex);
                 }
             }
         }

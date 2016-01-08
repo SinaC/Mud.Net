@@ -20,9 +20,10 @@ namespace Mud.Server.Item
         public bool ChangeEquipedBy(ICharacter character)
         {
             if (EquipedBy != null)
-                EquipedBy.RemoveEquipment(this);
+                EquipedBy.Unequip(this);
             Log.Default.WriteLine(LogLevels.Info, "ChangeEquipedBy: {0} : {1} -> {2}", Name, EquipedBy == null ? "<<??>>" : EquipedBy.Name, character == null ? "<<??>>" : character.Name);
             EquipedBy = character;
+            // TODO: call something like character.Equip ? (additional parameter EquipmentSlot)
             return true;
         }
     }

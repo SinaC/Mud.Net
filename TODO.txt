@@ -1,18 +1,18 @@
 should equiped item be in inventory ? 4 bag slots instead of inventory + 1 dummy bag slot with inventory ?
+add Time class updated at each pulse (use uniform time slot in whole application)
 
-in asynchronous mode, when do we send prompt ?
+remove asynchronous mode, in asynchronous mode, when do we send prompt ?
 unit tests
 IReadOnlyPlayer, IReadOnlyCharacter, ...  + set private/protected to internal  this allows to remove methods like Enter/Leaves/ChangeImpersonation/ChangeController
 do_reply
 add CanSee test where it's needed
 use ShortDescription where it's needed
 avatar creation state machine
-combat
 abilities, GCD, CD
 
 min pos to initiate command  see interp.C:935
 
-remove !IsValid entity
+remove !IsValid entity after ProcessOutput
 spam, linkdead, ...
 
 ability:

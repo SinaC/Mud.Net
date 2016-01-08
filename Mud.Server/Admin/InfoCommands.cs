@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using System.Text;
+﻿using System.Text;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;

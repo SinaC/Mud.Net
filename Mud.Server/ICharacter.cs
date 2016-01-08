@@ -12,7 +12,7 @@ namespace Mud.Server
         IRoom Room { get; }
         ICharacter Fighting { get; }
 
-        IReadOnlyCollection<EquipmentSlot> Equipments { get; }
+        IReadOnlyCollection<EquipedItem> Equipments { get; }
 
         // Attributes
         Sex Sex { get; }
@@ -20,8 +20,9 @@ namespace Mud.Server
         int HitPoints { get; }
         int MaxHitPoints { get; }
 
-        // Periodic Effects
+        // Effects
         IReadOnlyCollection<IPeriodicEffect> PeriodicEffects { get; }
+        IReadOnlyCollection<IBuffDebuff> BuffDebuffs { get; }
 
         // TODO: race, classes, ...
 
@@ -36,7 +37,7 @@ namespace Mud.Server
         bool ChangeController(ICharacter master); // if non-null, start slavery, else, stop slavery
 
         // Equipments
-        bool RemoveEquipment(IEquipable item);
+        bool Unequip(IEquipable item);
 
         // Visibility
         bool CanSee(ICharacter character);
@@ -45,11 +46,13 @@ namespace Mud.Server
         // Attributes
         int BaseAttribute(AttributeTypes attribute);
         int CurrentAttribute(AttributeTypes attribute);
-        void ModifyAttribute(AttributeTypes attribute, int value);
+        //void ModifyAttribute(AttributeTypes attribute, int value);
 
-        // Periodic Effects
+        // Effects
         void AddPeriodicEffect(IPeriodicEffect effect);
         void RemovePeriodicEffect(IPeriodicEffect effect);
+        void AddBuffDebuff(IBuffDebuff buffDebuff);
+        void RemoveBuffDebuff(IBuffDebuff buffDebuff);
 
         // Move
         void ChangeRoom(IRoom destination);
@@ -61,20 +64,20 @@ namespace Mud.Server
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
         bool CombatDamage(ICharacter source, string ability, int damage, SchoolTypes damageType, bool visible); // damage with known damager
         bool UnknownSourceDamage(string ability, int damage, SchoolTypes damageType, bool visible); // damage with unknown damager or no damager
-        bool KillingPayoff(ICharacter victim); // to be called only if victim is dead   TODO: don't make this accessible in interface
-        IItemCorpse RawKill(ICharacter victim); // kill victim without any xp gain/loss + create corpse
+        bool RawKill(ICharacter victim, bool killingPayoff); // kill victim + create corpse (if killingPayoff is true, xp gain/loss)
+        void ResetAttributes();
     }
 
-    public class EquipmentSlot
+    public class EquipedItem
     {
-        public static readonly EquipmentSlot NullObject = new EquipmentSlot(WearLocations.None);
+        public static readonly EquipedItem NullObject = new EquipedItem(EquipmentSlots.None);
 
-        public WearLocations WearLocation { get; private set; }
+        public EquipmentSlots Slot { get; private set; }
         public IEquipable Item { get; set; }
 
-        public EquipmentSlot(WearLocations wearLocation)
+        public EquipedItem(EquipmentSlots slot)
         {
-            WearLocation = wearLocation;
+            Slot = slot;
         }
     }
 }

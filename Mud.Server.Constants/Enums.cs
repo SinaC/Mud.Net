@@ -46,6 +46,28 @@
         Waist,
         Wrists,
         Hands,
+        Ring,
+        Legs,
+        Feet,
+        Trinket,
+        Wield,
+        Hold,
+        Shield,
+        Wield2H
+    }
+
+    public enum EquipmentSlots
+    {
+        None,
+        Light,
+        Head,
+        Amulet,
+        Shoulders,
+        Chest,
+        Cloak,
+        Waist,
+        Wrists,
+        Hands,
         RingLeft,
         RingRight,
         Legs,
@@ -53,9 +75,10 @@
         Trinket1,
         Trinket2,
         Wield,
-        Wield2, // mutually exclusive with Hold, Shield
+        Wield2,  // mutually exclusive with Hold, Shield
         Hold, // mutually exclusive with Wield2, Shield
-        Shield // mutually exclusive with Wield2, Hold
+        Shield, // mutually exclusive with Wield2, Hold
+        Wield2H // wield 2-handed
     }
 
     public enum ArmorKinds

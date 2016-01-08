@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
@@ -21,8 +20,9 @@ namespace Mud.Server.Character
         private static readonly IReadOnlyTrie<CommandMethodInfo> CharacterCommands;
 
         private readonly List<IItem> _inventory;
-        private readonly List<EquipmentSlot> _equipments;
+        private readonly List<EquipedItem> _equipments;
         private readonly List<IPeriodicEffect> _periodicEffects;
+        private readonly List<IBuffDebuff> _buffDebuffs;
         private readonly int[] _baseAttributes; // modified when levelling
         private readonly int[] _currentAttributes; // = base attribute + buff
 
@@ -35,43 +35,51 @@ namespace Mud.Server.Character
             : base(guid, name)
         {
             _inventory = new List<IItem>();
-            _equipments = new List<EquipmentSlot>();
+            _equipments = new List<EquipedItem>();
             _periodicEffects = new List<IPeriodicEffect>();
+            _buffDebuffs = new List<IBuffDebuff>();
             _baseAttributes = new int[EnumHelpers.GetCount<AttributeTypes>()]; // TODO: parameter
             _currentAttributes = new int[EnumHelpers.GetCount<AttributeTypes>()]; // TODO: parameter
 
-            BuildEquipmentLocation();
+            BuildEquipmentSlots();
 
             Sex = Sex.Neutral; // TODO: parameter
             Level = 1; // TODO: parameter
             HitPoints = 1000; // TODO: parameter
             MaxHitPoints = 1000; // TODO: parameter
+            for (int i = 0; i < _baseAttributes.Length; i++)
+                _baseAttributes[i] = 50;
 
             Impersonable = true;
             Room = room;
             room.Enter(this);
+            ResetAttributes();
         }
 
         public Character(Guid guid, CharacterBlueprint blueprint, IRoom room) // non-playable
             : base(guid, blueprint.Name, blueprint.Description)
         {
             _inventory = new List<IItem>();
-            _equipments = new List<EquipmentSlot>();
+            _equipments = new List<EquipedItem>();
             _periodicEffects = new List<IPeriodicEffect>();
+            _buffDebuffs = new List<IBuffDebuff>();
             _baseAttributes = new int[EnumHelpers.GetCount<AttributeTypes>()]; // TODO: blueprint
             _currentAttributes = new int[EnumHelpers.GetCount<AttributeTypes>()]; // TODO: blueprint
 
             Blueprint = blueprint;
-            BuildEquipmentLocation();
+            BuildEquipmentSlots();
             
             Sex = blueprint.Sex;
             Level = blueprint.Level;
             MaxHitPoints = 1000; // TODO: blueprint
             HitPoints = MaxHitPoints;
+            for (int i = 0; i < _baseAttributes.Length; i++)
+                _baseAttributes[i] = 50;
             
             Impersonable = false;
             Room = room;
             room.Enter(this);
+            ResetAttributes();
         }
 
         #region ICharacter
@@ -172,7 +180,7 @@ namespace Mud.Server.Character
 
         public ICharacter Fighting { get; private set; }
 
-        public IReadOnlyCollection<EquipmentSlot> Equipments
+        public IReadOnlyCollection<EquipedItem> Equipments
         {
             get { return _equipments.AsReadOnly(); }
         }
@@ -187,6 +195,11 @@ namespace Mud.Server.Character
         public IReadOnlyCollection<IPeriodicEffect> PeriodicEffects
         {
             get { return _periodicEffects.AsReadOnly(); }
+        }
+
+        public IReadOnlyCollection<IBuffDebuff> BuffDebuffs
+        {
+            get { return _buffDebuffs.AsReadOnly(); }
         }
 
         // Impersonation/Controller
@@ -226,9 +239,9 @@ namespace Mud.Server.Character
         }
 
         // Equipments
-        public bool RemoveEquipment(IEquipable item)
+        public bool Unequip(IEquipable item)
         {
-            foreach (EquipmentSlot equipmentSlot in _equipments.Where(x => x.Item == item))
+            foreach (EquipedItem equipmentSlot in _equipments.Where(x => x.Item == item))
                 equipmentSlot.Item = null;
             return true;
         }
@@ -255,35 +268,58 @@ namespace Mud.Server.Character
             return _currentAttributes[(int)attribute];
         }
 
-        public void ModifyAttribute(AttributeTypes attribute, int value)
-        {
-            _currentAttributes[(int)attribute] -= value;
-        }
+        //public void ModifyAttribute(AttributeTypes attribute, int value)
+        //{
+        //    _currentAttributes[(int)attribute] -= value;
+        //}
 
         // Periodic Effects
         public void AddPeriodicEffect(IPeriodicEffect effect)
         {
+            Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddPeriodicEffect: {0} {1}", Name, effect.Name);
             _periodicEffects.Add(effect);
-            // TODO: send something ???
             Send("You are now affected by {0}."+Environment.NewLine, effect.Name);
-            if (effect.EffectType == EffectTypes.Damage && effect.Source != null && effect.Source != this)
+            if (effect.Source != null && effect.Source != this)
             {
-                if (Fighting == null)
-                    StartFighting(effect.Source);
-                if (effect.Source.Fighting == null)
-                    effect.Source.StartFighting(this);
+                Act(ActOptions.ToVictim, effect.Source, "{0} is now affected by {1}", this, effect.Name);
+                if (effect.EffectType == EffectTypes.Damage)
+                {
+                    if (Fighting == null)
+                        StartFighting(effect.Source);
+                    if (effect.Source.Fighting == null)
+                        effect.Source.StartFighting(this);
+                }
             }
         }
 
         public void RemovePeriodicEffect(IPeriodicEffect effect)
         {
-            Log.Default.WriteLine(LogLevels.Info, "ICharacter.RemovePeriodicEffect: {0}   {1}", Name, effect.Name);
+            Log.Default.WriteLine(LogLevels.Info, "ICharacter.RemovePeriodicEffect: {0} {1}", Name, effect.Name);
             effect.ResetSource();
             bool removed = _periodicEffects.Remove(effect);
             if (!removed)
                 Log.Default.WriteLine(LogLevels.Warning, "Trying to remove unknown PeriodicEffect");
-            // TODO: send something ???
-            Send("{0} vanishes." + Environment.NewLine, effect.Name);
+            else
+                Send("{0} vanishes." + Environment.NewLine, effect.Name);
+        }
+
+        public void AddBuffDebuff(IBuffDebuff buffDebuff)
+        {
+            Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddBuffDebuff: {0} {1}", Name, buffDebuff.Name);
+            _buffDebuffs.Add(buffDebuff);
+            Send("You are now affected by {0}."+Environment.NewLine, buffDebuff.Name);
+            Recompute();
+        }
+
+        public void RemoveBuffDebuff(IBuffDebuff buffDebuff)
+        {
+            Log.Default.WriteLine(LogLevels.Info, "ICharacter.RemoveBuffDebuff: {0} {1}", Name, buffDebuff.Name);
+            bool removed = _buffDebuffs.Remove(buffDebuff);
+            if (!removed)
+                Log.Default.WriteLine(LogLevels.Warning, "Trying to remove unknown buffDebuff");
+            else
+                Send("{0} vanishes." + Environment.NewLine, buffDebuff.Name);
+            Recompute();
         }
 
         // Move
@@ -316,7 +352,7 @@ namespace Mud.Server.Character
             //else
             //    Send("You are %w%healed%x% for {0} from {2}" + Environment.NewLine, amount, source == null ? "(none)" : source.DisplayName);
             if (visible)
-                DisplayHealPhrase(ability, source);
+                DisplayHealPhrase(ability, amount, source);
             return true;
         }
 
@@ -327,27 +363,19 @@ namespace Mud.Server.Character
             if (this == enemy || Room != enemy.Room)
                 return false;
 
-            // TODO: check if wielding a weapon, ...
             // TODO: secondary, haste, ...
-            IItemWeapon wielded = (Equipments.FirstOrDefault(x => x.WearLocation == WearLocations.Wield) ?? EquipmentSlot.NullObject).Item as IItemWeapon;
-            SchoolTypes damageType = SchoolTypes.Physical;
-            if (ImpersonatedBy == null)
-            {
-                OneHit(enemy, "claws", wielded, damageType);
-                //
-                if (Fighting != enemy) // stop multihit if different enemy or no enemy
-                    return true;
-            }
+            IItemWeapon wielded = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2H) ?? EquipedItem.NullObject).Item as IItemWeapon;
+            IItemWeapon wielded2 = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2) ?? EquipedItem.NullObject).Item as IItemWeapon;
+            if (wielded != null)
+                OneHit(enemy, wielded.Name, wielded, wielded.DamageType);
             else
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    OneHit(enemy, i%2 == 0 ? null : "second attack", wielded, damageType);
-                    //
-                    if (Fighting != enemy) // stop multihit if different enemy or no enemy
-                        return true;
-                }
-            }
+                OneHit(enemy, "claws", null, SchoolTypes.Physical);
+            
+            if (Fighting != enemy) // stop multihit if different enemy or no enemy
+                return true;
+
+            if (wielded2 != null)
+                OneHit(enemy, wielded2.Name, wielded2, wielded2.DamageType);
             return true;
         }
 
@@ -416,7 +444,7 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", Name, source.Name);
 
                 StopFighting(false);
-                source.KillingPayoff(this);
+                RawKill(this, true);
                 return true;
             }
 
@@ -449,72 +477,98 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", Name, ability);
 
                 StopFighting(false);
-                IItemCorpse corpse = RawKill(this);
+                RawKill(this, true);
                 return true;
             }
             return true;
         }
 
-        public bool KillingPayoff(ICharacter victim)
-        {
-            // TODO: gain/lose xp/reputation   damage.C:32
-            IItemCorpse corpse = RawKill(victim);
-            // TODO: autoloot, autosac  damage.C:96
-            return true;
-        }
-
-        public IItemCorpse RawKill(ICharacter victim) // returns ItemCorpse
+        public bool RawKill(ICharacter victim, bool killingPayoff) // returns ItemCorpse
         {
             victim.StopFighting(true);
             // Remove periodic effects on victim
             List<IPeriodicEffect> periodicEffects = new List<IPeriodicEffect>(victim.PeriodicEffects); // clone
             foreach (IPeriodicEffect pe in periodicEffects)
                 victim.RemovePeriodicEffect(pe);
+            // Remove buff/debuffs on victim
+            List<IBuffDebuff> buffDebuffs = new List<IBuffDebuff>(victim.BuffDebuffs); // clone
+            foreach(IBuffDebuff buffDebuff in buffDebuffs)
+                victim.RemoveBuffDebuff(buffDebuff);
 
             // Death cry
             if (this != victim)
                 Act(ActOptions.ToCharacter, "You hear {0}'s death cry.", victim);
             Act(ActOptions.ToNotVictim, victim, "You hear {0}'s death cry.", victim);
+
+            // TODO: gain/lose xp/reputation   damage.C:32
+
             // Create corpse
             IItemCorpse corpse = World.World.Instance.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
             if (victim.ImpersonatedBy != null) // If impersonated, no real death
             {
-                // TODO: remove periodic effects / affects
-                // TODO: reset hit/mana/...
                 // TODO: teleport player to hall room/graveyard  see fight.C:3952
-                //victim.HitPoints = MaxHitPoints;
-                victim.Heal(victim, null, victim.MaxHitPoints, false);
+                victim.ResetAttributes();
             }
             else // If not impersonated, remove from game
             {
                 World.World.Instance.RemoveCharacter(victim);
             }
-            return corpse;
+
+            // TODO: autoloot, autosac  damage.C:96
+            return true;
+        }
+
+        public void ResetAttributes()
+        {
+            Recompute();
+
+            HitPoints = MaxHitPoints;
+            // TODO: mana, ...
         }
 
         #endregion
 
-        protected void BuildEquipmentLocation()
+        protected void Recompute()
+        {
+            // Reset current attributes
+            for (int i = 0; i < _currentAttributes.Length; i++)
+                _currentAttributes[i] = _baseAttributes[i];
+            // Apply buff/debuff
+            // TODO: buff/debuff on equipment/inventory/room/group
+            foreach (IBuffDebuff buffDebuff in BuffDebuffs)
+            {
+                int amount = buffDebuff.Amount;
+                if (buffDebuff.AmountOperator == AmountOperators.Percentage)
+                    amount = _baseAttributes[(int)buffDebuff.AttributeType] * buffDebuff.Amount / 100; // percentage of max hit points
+                _currentAttributes[(int)buffDebuff.AttributeType] += amount;
+            }
+            // TODO: recompute datas depending on attributes (such as MaxHitPoints)
+            MaxHitPoints = _currentAttributes[(int) AttributeTypes.Stamina]*20 + 1000;
+            HitPoints = Math.Min(HitPoints, MaxHitPoints);
+        }
+
+        protected void BuildEquipmentSlots()
         {
             // TODO: depend on race+affects+...
-            _equipments.Add(new EquipmentSlot(WearLocations.Light));
-            _equipments.Add(new EquipmentSlot(WearLocations.Head));
-            _equipments.Add(new EquipmentSlot(WearLocations.Amulet));
-            _equipments.Add(new EquipmentSlot(WearLocations.Shoulders));
-            _equipments.Add(new EquipmentSlot(WearLocations.Chest));
-            _equipments.Add(new EquipmentSlot(WearLocations.Cloak));
-            _equipments.Add(new EquipmentSlot(WearLocations.Waist));
-            _equipments.Add(new EquipmentSlot(WearLocations.Wrists));
-            _equipments.Add(new EquipmentSlot(WearLocations.Hands));
-            _equipments.Add(new EquipmentSlot(WearLocations.RingLeft));
-            _equipments.Add(new EquipmentSlot(WearLocations.RingRight));
-            _equipments.Add(new EquipmentSlot(WearLocations.Legs));
-            _equipments.Add(new EquipmentSlot(WearLocations.Feet));
-            _equipments.Add(new EquipmentSlot(WearLocations.Trinket1));
-            _equipments.Add(new EquipmentSlot(WearLocations.Trinket2));
-            _equipments.Add(new EquipmentSlot(WearLocations.Wield));
-            _equipments.Add(new EquipmentSlot(WearLocations.Shield));
-            _equipments.Add(new EquipmentSlot(WearLocations.Hold));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Light));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Head));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Amulet));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Shoulders));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Chest));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Cloak));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Waist));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Wrists));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Hands));
+            _equipments.Add(new EquipedItem(EquipmentSlots.RingLeft));
+            _equipments.Add(new EquipedItem(EquipmentSlots.RingRight));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Legs));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Feet));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Trinket1));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Trinket2));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Wield));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Wield2));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Shield));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Hold));
         }
 
         protected void SetGlobalCooldown(int pulseCount) // set GCD (in pulse) if impersonated by
@@ -588,28 +642,28 @@ namespace Mud.Server.Character
             {
                 if (this == source)
                 {
-                    Act(ActOptions.ToCharacter, "Your {0} {1} yourself.", ability, damagePhraseOther);
-                    Act(ActOptions.ToRoom, "{0} {1} {2} {0:m}self.", source, ability, damagePhraseOther);
+                    Act(ActOptions.ToCharacter, "Your {0} {1} yourself.[{2}]", ability, damagePhraseOther, damage);
+                    Act(ActOptions.ToRoom, "{0} {1} {2} {0:m}self.[{3}]", source, ability, damagePhraseOther, damage);
                 }
                 else
                 {
-                    Act(ActOptions.ToCharacter, "{0}'s {1} {2} you.", source, ability, damagePhraseOther);
-                    Act(ActOptions.ToVictim, source, "Your {0} {1} {2}.", ability, damagePhraseOther, this);
-                    Act(ActOptions.ToNotVictim, source, "{0}'s {1} {2} {3}.", source, ability, damagePhraseOther, this);
+                    Act(ActOptions.ToCharacter, "{0}'s {1} {2} you.[{3}]", source, ability, damagePhraseOther, damage);
+                    Act(ActOptions.ToVictim, source, "Your {0} {1} {2}.[{3}]", ability, damagePhraseOther, this, damage);
+                    Act(ActOptions.ToNotVictim, source, "{0}'s {1} {2} {3}.[{4}]", source, ability, damagePhraseOther, this, damage);
                 }
             }
             else
             {
                 if (this == source)
                 {
-                    Act(ActOptions.ToCharacter, "You {0} yourself.", damagePhraseSelf);
-                    Act(ActOptions.ToRoom, "{0} {1} {0:m}self.", source, damagePhraseOther);
+                    Act(ActOptions.ToCharacter, "You {0} yourself.[{1}]", damagePhraseSelf, damage);
+                    Act(ActOptions.ToRoom, "{0} {1} {0:m}self.[{2}]", source, damagePhraseOther, damage);
                 }
                 else
                 {
-                    Act(ActOptions.ToCharacter, "{0} {1} you.", source, damagePhraseOther);
-                    Act(ActOptions.ToVictim, source, "You {0} {1}.", damagePhraseSelf, this);
-                    Act(ActOptions.ToNotVictim, source, "{0} {1} {2}.", source, damagePhraseOther, this);
+                    Act(ActOptions.ToCharacter, "{0} {1} you.[{2}]", source, damagePhraseOther, damage);
+                    Act(ActOptions.ToVictim, source, "You {0} {1}.[{2}]", damagePhraseSelf, this, damage);
+                    Act(ActOptions.ToNotVictim, source, "{0} {1} {2}.[{3}]", source, damagePhraseOther, this, damage);
                 }
             }
         }
@@ -621,45 +675,45 @@ namespace Mud.Server.Character
 
             if (!String.IsNullOrWhiteSpace(ability))
             {
-                Act(ActOptions.ToCharacter, "{0} {1} you.", ability, damagePhraseSelf);
-                Act(ActOptions.ToRoom, "{0} {1} {2}.", ability, damagePhraseOther, this);
+                Act(ActOptions.ToCharacter, "{0} {1} you.[{2}]", ability, damagePhraseSelf, damage);
+                Act(ActOptions.ToRoom, "{0} {1} {2}.[{3}]", ability, damagePhraseOther, this, damage);
             }
             else
             {
                 Log.Default.WriteLine(LogLevels.Warning, "ICharacter.NonCombatDamage: no ability");
-                Act(ActOptions.ToCharacter, "Something {0} you.", damagePhraseOther);
-                Act(ActOptions.ToRoom, "Something {0} {1}.", damagePhraseOther, this);
+                Act(ActOptions.ToCharacter, "Something {0} you.[{1}]", damagePhraseOther, damage);
+                Act(ActOptions.ToRoom, "Something {0} {1}.[{2}]", damagePhraseOther, this, damage);
             }
         }
 
-        private void DisplayHealPhrase(string ability, ICharacter victim)
+        private void DisplayHealPhrase(string ability, int amount, ICharacter victim)
         {
             if (!String.IsNullOrWhiteSpace(ability))
             {
                 if (this == victim)
                 {
-                    Act(ActOptions.ToCharacter, "Your {0} %w%heals%x% yourself.", ability);
-                    Act(ActOptions.ToRoom, "{0} {1} %w%heals%x% {0:m}self.", this, ability);
+                    Act(ActOptions.ToCharacter, "Your {0} %w%heals%x% yourself.[{1}]", ability, amount);
+                    Act(ActOptions.ToRoom, "{0} {1} %w%heals%x% {0:m}self.[{2}]", this, ability, amount);
                 }
                 else
                 {
-                    Act(ActOptions.ToCharacter, "{0}'s {1} %w%heals%x% you.", victim, ability);
-                    Act(ActOptions.ToVictim, victim, "Your {0} %w%heals%x% {1}.", ability, this);
-                    Act(ActOptions.ToNotVictim, victim, "{0}'s {1} %w%heals%x% {2}.", victim, ability, this);
+                    Act(ActOptions.ToCharacter, "{0}'s {1} %w%heals%x% you.[{2}]", victim, ability, amount);
+                    Act(ActOptions.ToVictim, victim, "Your {0} %w%heals%x% {1}.[{2}]", ability, this, amount);
+                    Act(ActOptions.ToNotVictim, victim, "{0}'s {1} %w%heals%x% {2}.[{3}]", victim, ability, this, amount);
                 }
             }
             else
             {
                 if (this == victim)
                 {
-                    Act(ActOptions.ToCharacter, "You %w%heal%x% yourself.");
-                    Act(ActOptions.ToRoom, "{0} %w%heals%x% {0:m}self.", this);
+                    Act(ActOptions.ToCharacter, "You %w%heal%x% yourself.[{0}]", amount);
+                    Act(ActOptions.ToRoom, "{0} %w%heals%x% {0:m}self.[{1}]", this, amount);
                 }
                 else
                 {
-                    Act(ActOptions.ToCharacter, "{0} heals you.", victim);
-                    Act(ActOptions.ToVictim, victim, "You heal {0}.", this);
-                    Act(ActOptions.ToNotVictim, victim, "{0} heals {1}.", victim, this);
+                    Act(ActOptions.ToCharacter, "{0} heals you.[{1}]", victim, amount);
+                    Act(ActOptions.ToVictim, victim, "You heal {0}.[{1}]", this, amount);
+                    Act(ActOptions.ToNotVictim, victim, "{0} heals {1}.[{2}]", victim, this, amount);
                 }
             }
         }
@@ -931,6 +985,8 @@ namespace Mud.Server.Character
                     victim.AddPeriodicEffect(new PeriodicEffect("DoT", EffectTypes.Damage, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8));
                 else if (parameters[0].Value == "4")
                     victim.AddPeriodicEffect(new PeriodicEffect("HoT", EffectTypes.Heal, this, 10, AmountOperators.Percentage, true, 3, 8));
+                else if (parameters[0].Value == "5")
+                    victim.AddBuffDebuff(new BuffDebuff("Buff", AttributeTypes.Stamina, 15, AmountOperators.Percentage, 600));
             }
             return true;
         }

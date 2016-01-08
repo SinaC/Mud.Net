@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Mud.Logger;
 using Mud.Server.Actor;
 using Mud.Server.Input;
@@ -68,7 +69,7 @@ namespace Mud.Server.Entity
             }
         }
 
-        public override void Page(System.Text.StringBuilder text)
+        public override void Page(StringBuilder text)
         {
             if (IncarnatedBy != null)
                 IncarnatedBy.Page(text);
