@@ -117,7 +117,16 @@
         Holy,
     }
 
-    public enum AttributeTypes
+    public enum DispelTypes
+    {
+        None,
+        Magic,
+        Poison,
+        Disease,
+        Curse,
+    }
+
+    public enum PrimaryAttributeTypes
     {
         Strength,
         Agility,
@@ -131,7 +140,11 @@
         None,
         Mana,
         Energy,
-        Rage
+        Rage,
+        Blood,
+        Frost,
+        Unholy,
+        Runic,
     }
 
     public enum AmountOperators
@@ -139,5 +152,19 @@
         None,
         Fixed,
         Percentage
+    }
+
+    public enum AuraModifiers
+    {
+        Strength,
+        Agility,
+        Stamina,
+        Intellect,
+        Spirit,
+        Characteristics,
+        AttackSpeed,
+        AttackPower,
+        SpellPower,
+        MaxHitPoints,
     }
 }

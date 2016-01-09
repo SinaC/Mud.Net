@@ -1,3 +1,18 @@
+group
+add in Trie available abilities for an ICharacter
+   public class AbilityInstance
+   {
+		public IAbility Instance { get; set; }
+		public DateTime LastUse { get; set; } // used for CD
+   }
+for simple ability (aka simple damage/heal/hot/dot) don't create a class: use generic effect (damage, heal, hot, dot)
+
+each time operator IS or AS is used, this should be replaced with a overridable method
+DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
+IItem: Display(short/long) (used instead of FormatItem in InfoCommands.cs)
+EquipedItem should be responsible for displaying itself
+EquipedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
+
 should equiped item be in inventory ? 4 bag slots instead of inventory + 1 dummy bag slot with inventory ?
 
 remove asynchronous mode, in asynchronous mode, when do we send prompt ?

@@ -3,13 +3,13 @@ using Mud.Server.Constants;
 
 namespace Mud.Server
 {
-    public interface IBuffDebuff
+    public interface IAura
     {
         // Name
         string Name { get; }
 
-        // Attributes
-        AttributeTypes AttributeType { get; }
+        // Modifier
+        AuraModifiers Modifier { get; }
 
         // Amount + %/fixed
         int Amount { get; }

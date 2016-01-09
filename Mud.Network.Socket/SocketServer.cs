@@ -235,12 +235,6 @@ namespace Mud.Network.Socket
                 }
                 else
                 {
-                    //// First data received is filled with cumbersome characters
-                    //if (client.State == ClientStates.Handshaking)
-                    //{
-                    //    Log.Default.WriteLine(LogLevels.Info, "Handshake received from client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " : " + ByteArrayToString(client.Buffer, bytesRead));
-                    //    client.State = ClientStates.Connected;
-
                     //    // Putty handshake is 
                     //    //FF FB 1F window size
                     //    //FF FB 20 terminal speed
@@ -250,21 +244,20 @@ namespace Mud.Network.Socket
                     //    //FF FB 03 suppress go ahead
                     //    //FF FD 03 suppress go ahead
 
-                    //    if (NewClientConnected != null)
-                    //        NewClientConnected(client);
-                    //}
-                    //else if (client.State == ClientStates.Connected)
+                    //    //FF FE 01 received after echo on
+
+                    //Log.Default.WriteLine(LogLevels.Debug, "Data received from client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " : " + ByteArrayToString(client.Buffer, bytesRead));
 
                     // Remove protocol character
-                    if (bytesRead%3 == 0 && client.Buffer[0] == 0xFF && client.Buffer[1] == 0xFB)
+                    if (bytesRead % 3 == 0 && client.Buffer[0] == 0xFF)// && client.Buffer[1] == 0xFB)
                     {
-                        Log.Default.WriteLine(LogLevels.Info, "Handshake received from client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " : " + ByteArrayToString(client.Buffer, bytesRead));
+                        Log.Default.WriteLine(LogLevels.Info, "Protocol received from client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " : " + ByteArrayToString(client.Buffer, bytesRead));
                     }
                     else if (client.State == ClientStates.Connected)
                     {
                         string dataReceived = Encoding.ASCII.GetString(client.Buffer, 0, bytesRead);
 
-                        Log.Default.WriteLine(LogLevels.Info, "Data received from client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + " : " + dataReceived);
+                        Log.Default.WriteLine(LogLevels.Debug, "Data received from client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + " : " + dataReceived);
 
                         // If data ends with CRLF, remove CRLF and consider command as complete
                         bool commandComplete = false;

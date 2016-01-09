@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
-using Mud.Server.Item;
 
 namespace Mud.Server
 {
@@ -18,11 +17,15 @@ namespace Mud.Server
         Sex Sex { get; }
         int Level { get; }
         int HitPoints { get; }
+        // Computed attributes (depending on primary attributes)
         int MaxHitPoints { get; }
+        int AttackPower { get; }
+        int SpellPower { get; }
+        int AttackSpeed { get; }
 
-        // Effects
-        IReadOnlyCollection<IPeriodicEffect> PeriodicEffects { get; }
-        IReadOnlyCollection<IBuffDebuff> BuffDebuffs { get; }
+        // Auras
+        IReadOnlyCollection<IPeriodicAura> PeriodicAuras { get; }
+        IReadOnlyCollection<IAura> Auras { get; }
 
         // TODO: race, classes, ...
 
@@ -44,15 +47,14 @@ namespace Mud.Server
         bool CanSee(IItem obj);
 
         // Attributes
-        int BaseAttribute(AttributeTypes attribute);
-        int CurrentAttribute(AttributeTypes attribute);
-        //void ModifyAttribute(AttributeTypes attribute, int value);
+        int BasePrimaryAttribute(PrimaryAttributeTypes attribute);
+        int CurrentPrimaryAttribute(PrimaryAttributeTypes attribute);
 
-        // Effects
-        void AddPeriodicEffect(IPeriodicEffect effect);
-        void RemovePeriodicEffect(IPeriodicEffect effect);
-        void AddBuffDebuff(IBuffDebuff buffDebuff);
-        void RemoveBuffDebuff(IBuffDebuff buffDebuff);
+        // Auras
+        void AddPeriodicAura(IPeriodicAura aura);
+        void RemovePeriodicAura(IPeriodicAura aura);
+        void AddAura(IAura aura);
+        void RemoveAura(IAura aura);
 
         // Move
         void ChangeRoom(IRoom destination);

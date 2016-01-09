@@ -27,9 +27,6 @@ namespace Mud.Server.Server
     //  in synchronous mode, input and output are 'queued' and handled by ProcessorInput/ProcessOutput
     public class Server : IServer
     {
-        private const int PulsePerSeconds = 4;
-        private const int PulseDelay = 1000/PulsePerSeconds;
-
         // This allows fast lookup with client or player BUT both structures must be modified at the same time
         private readonly object _playingClientLockObject = new object();
         private readonly ConcurrentDictionary<IClient, PlayingClient> _clients;
@@ -123,7 +120,7 @@ namespace Mud.Server.Server
                 Broadcast(String.Format("%R%Shutdown in {0} minute{1}%x%", minutes, minutes > 1 ? "s" : String.Empty));
             else
                 Broadcast(String.Format("%R%Shutdown in {0} second{1}%x%", seconds, seconds > 1 ? "s" : String.Empty));
-            _pulseBeforeShutdown = seconds*PulsePerSeconds;
+            _pulseBeforeShutdown = seconds * ServerOptions.PulsePerSeconds;
         }
 
         public void Quit(IPlayer player)
@@ -519,29 +516,29 @@ namespace Mud.Server.Server
             if (_pulseBeforeShutdown >= 0)
             {
                 _pulseBeforeShutdown--;
-                if (_pulseBeforeShutdown == PulsePerSeconds * 60 * 15)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 60 * 15)
                     Broadcast("%R%Shutdown in 15 minutes%x%");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 60 * 10)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 60 * 10)
                     Broadcast("%R%Shutdown in 10 minutes%x%");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 60 * 5)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 60 * 5)
                     Broadcast("%R%Shutdown in 5 minutes%x%");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 60)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 60)
                     Broadcast("%R%Shutdown in 1 minute%x%");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 30)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 30)
                     Broadcast("%R%Shutdown in 30 seconds%x%");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 15)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 15)
                     Broadcast("%R%Shutdown in 15 seconds%x%");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 10)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 10)
                     Broadcast("%R%Shutdown in 10 seconds%x%");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 5)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 5)
                     Broadcast("%R%Shutdown in 5%x%");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 4)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 4)
                     Broadcast("%R%Shutdown in 4%x%");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 3)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 3)
                     Broadcast("%R%Shutdown in 3%x%");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 2)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 2)
                     Broadcast("%R%Shutdown in 2%x%");
-                if (_pulseBeforeShutdown == PulsePerSeconds * 1)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 1)
                     Broadcast("%R%Shutdown in 1%x%");
                 else if (_pulseBeforeShutdown == 0)
                 {
@@ -551,52 +548,52 @@ namespace Mud.Server.Server
             }
         }
 
-        // TODO: add Time class updated at each pulse (use uniform time slot in whole application)
-
-        private void HandlePeriodicEffects() // TODO: specific pulse ? 1/2 seconds
+        private void HandlePeriodicAuras() // TODO: specific pulse ? 1/2 seconds
         {
-            // TODO: remove dot/hot on non-impersonated if source is not the in same room
-            // TODO: take periodic effect that will be processed
-            IReadOnlyCollection<ICharacter> clonePeriodicEffects = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.PeriodicEffects.Any()).ToList());
-            foreach (ICharacter character in clonePeriodicEffects)
+            // Remove dot/hot on non-impersonated if source is not the in same room (or source is inexistant)
+            // TODO: take periodic aura that will be processed
+            IReadOnlyCollection<ICharacter> clonePeriodicAuras = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.PeriodicAuras.Any()).ToList());
+            foreach (ICharacter character in clonePeriodicAuras)
             {
                 try
                 {
-                    IReadOnlyCollection<IPeriodicEffect> periodicEffects = new ReadOnlyCollection<IPeriodicEffect>(character.PeriodicEffects.ToList());
-                    foreach (IPeriodicEffect pe in periodicEffects)
+                    IReadOnlyCollection<IPeriodicAura> periodicAuras = new ReadOnlyCollection<IPeriodicAura>(character.PeriodicAuras.ToList());
+                    foreach (IPeriodicAura pa in periodicAuras)
                     {
-                        if (pe.TicksLeft > 0)
-                            pe.Process(character);
-                        if (pe.TicksLeft == 0) // no else, because Process decrease PeriodsLeft
-                            character.RemovePeriodicEffect(pe);
+                        // On NPC, remove hot/dot from unknown source or source not in the same room
+                        if (character.ImpersonatedBy == null && (pa.Source == null || pa.Source.Room != character.Room))
+                            character.RemovePeriodicAura(pa);
+                        else // Otherwise, process normally
+                        {
+                            if (pa.TicksLeft > 0)
+                                pa.Process(character);
+                            if (pa.TicksLeft == 0) // no else, because Process decrease PeriodsLeft
+                                character.RemovePeriodicAura(pa);
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling periodic effects of {0}. Exception: {1}", character.Name, ex);
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling periodic auras of {0}. Exception: {1}", character.Name, ex);
                 }
             }
         }
 
-        private void HandleBuffDebuffs() // TODO: specific pulse ? 1/2 seconds
+        private void HandleAuras() // TODO: specific pulse ? 1/2 seconds
         {
-            // Take buff/debuff that will expired
-            IReadOnlyCollection<ICharacter> cloneBuffDebuffs = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.BuffDebuffs.Any(b => (CurrentTime - b.StartTime).TotalSeconds > b.TotalSeconds)).ToList());
-            foreach (ICharacter character in cloneBuffDebuffs)
+            // Take aura that will expired
+            IReadOnlyCollection<ICharacter> cloneAuras = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)).ToList());
+            foreach (ICharacter character in cloneAuras)
             {
                 try
                 {
-                    IReadOnlyCollection<IBuffDebuff> buffDebuffs = new ReadOnlyCollection<IBuffDebuff>(character.BuffDebuffs.ToList());
-                    foreach (IBuffDebuff buffDebuff in buffDebuffs)
-                    {
-                        TimeSpan elapsed = CurrentTime - buffDebuff.StartTime;
-                        if (elapsed.TotalSeconds > buffDebuff.TotalSeconds)
-                            character.RemoveBuffDebuff(buffDebuff);
-                    }
+                    IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(character.Auras.ToList());
+                    foreach (IAura aura in auras.Where(x => x.SecondsLeft <= 0))
+                        character.RemoveAura(aura);
                 }
                 catch (Exception ex)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling buffs/debuffs of {0}. Exception: {1}", character.Name, ex);
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of {0}. Exception: {1}", character.Name, ex);
                 }
             }
         }
@@ -608,7 +605,7 @@ namespace Mud.Server.Server
                 _pulseViolence--;
                 return;
             }
-            _pulseViolence = PulsePerSeconds*3;
+            _pulseViolence = ServerOptions.PulseViolence;
 
             Log.Default.WriteLine(LogLevels.Trace, "PulseViolence");
 
@@ -645,13 +642,15 @@ namespace Mud.Server.Server
             //Log.Default.WriteLine(LogLevels.Debug, "PULSE: {0:HH:mm:ss.ffffff}", DateTime.Now);
 
             HandleShutdown();
-            HandlePeriodicEffects();
-            HandleBuffDebuffs();
+            HandlePeriodicAuras();
+            HandleAuras();
             HandleViolence();
         }
 
         private void GameLoopTask()
         {
+            _pulseViolence = ServerOptions.PulseViolence;
+
             try
             {
                 Stopwatch sw = new Stopwatch();
@@ -674,13 +673,13 @@ namespace Mud.Server.Server
 
                     sw.Stop();
                     long elapsedMs = sw.ElapsedMilliseconds; // in milliseconds
-                    if (elapsedMs < PulseDelay)
+                    if (elapsedMs < ServerOptions.PulseDelay)
                     {
                         //long elapsedTick = sw.ElapsedTicks; // 1 tick = 1 second/Stopwatch.Frequency
                         //long elapsedNs = sw.Elapsed.Ticks; // 1 tick = 1 nanosecond
                         //Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}Ms {1}Ticks {2}Ns", elapsedMs, elapsedTick, elapsedNs);
                         //Thread.Sleep(250 - (int) elapsedMs);
-                        int sleepTime = PulseDelay - (int) elapsedMs;
+                        int sleepTime = ServerOptions.PulseDelay - (int)elapsedMs;
                         _cancellationTokenSource.Token.WaitHandle.WaitOne(sleepTime);
                     }
                     else

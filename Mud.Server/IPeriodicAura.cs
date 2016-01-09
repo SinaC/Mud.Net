@@ -2,32 +2,32 @@
 
 namespace Mud.Server
 {
-    public enum EffectTypes
+    public enum PeriodicAuraTypes
     {
         Heal,
         Damage
     }
 
-    public interface IPeriodicEffect
+    public interface IPeriodicAura
     {
         // Name
         string Name { get; }
 
         // Heal/damage
-        EffectTypes EffectType { get; }
+        PeriodicAuraTypes AuraType { get; }
 
-        // Source of effect
+        // Source of Aura
         ICharacter Source { get; } // TODO: entity
 
-        // Damage type (if EffectType is damage)
+        // Damage type (if AuraType is damage)
         SchoolTypes SchoolType { get; }
 
         // Amount + %/fixed
         int Amount { get; }
         AmountOperators AmountOperator { get; }
 
-        // Is damage phrase visible
-        bool Visible { get; }
+        // Is damage/heal phrase visible
+        bool TickVisible { get; }
 
         // Seconds left
         int SecondsLeft { get; }
@@ -44,7 +44,7 @@ namespace Mud.Server
         // Reset source
         void ResetSource();
 
-        // Process periodic effect (return true if effect is finished)
+        // Process periodic aura (return true if aura is elapsed)
         bool Process(ICharacter victim);
     }
 }

@@ -326,7 +326,7 @@ namespace Mud.Server.WPFTestApplication
             };
 
             //
-            ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint();
+            ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint(); // this is mandatory
 
             // Add dummy mobs and items to allow impersonate :)
             IRoom templeOfMota = World.World.Instance.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");

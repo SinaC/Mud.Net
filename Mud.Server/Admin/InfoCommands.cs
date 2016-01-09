@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -15,33 +16,59 @@ namespace Mud.Server.Admin
                 Send("mstat whom?");
             else
             {
-                ICharacter character = FindHelpers.FindByName(World.World.Instance.GetCharacters(), parameters[0]);
-                if (character == null)
+                ICharacter victim = FindHelpers.FindByName(World.World.Instance.GetCharacters(), parameters[0]);
+                if (victim == null)
                     Send(StringHelpers.NotFound);
                 else
                 {
                     StringBuilder sb = new StringBuilder();
-                    if (character.Blueprint != null)
-                        sb.AppendFormatLine("Blueprint: {0}", character.Blueprint.Id);
+                    if (victim.Blueprint != null)
+                        sb.AppendFormatLine("Blueprint: {0}", victim.Blueprint.Id);
                         // TODO: display blueprint
                     else
                         sb.AppendLine("No blueprint");
-                    sb.AppendFormatLine("Name: {0}", character.Name);
-                    sb.AppendFormatLine("DisplayName: {0}", character.DisplayName);
-                    if (character.Slave != null)
-                        sb.AppendFormatLine("Slave: {0}", character.Slave.Name);
-                    if (character.ImpersonatedBy != null)
-                        sb.AppendFormatLine("Impersonated by {0}", character.ImpersonatedBy.Name);
-                    if (character.ControlledBy != null)
-                        sb.AppendFormatLine("Controlled by {0}", character.ControlledBy.Name);
-                    if (character.Fighting != null)
-                        sb.AppendFormatLine("Fighting: {0}", character.Fighting.Name);
-                    sb.AppendFormatLine("Room: {0} [vnum: {1}]", character.Room.Name, character.Room.Blueprint == null ? -1 : character.Room.Blueprint.Id);
-                    sb.AppendFormatLine("Level: {0} Sex: {1}", character.Level, character.Sex);
-                    sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", character.HitPoints, character.MaxHitPoints);
+                    sb.AppendFormatLine("Name: {0}", victim.Name);
+                    sb.AppendFormatLine("DisplayName: {0}", victim.DisplayName);
+                    if (victim.Slave != null)
+                        sb.AppendFormatLine("Slave: {0}", victim.Slave.Name);
+                    if (victim.ImpersonatedBy != null)
+                        sb.AppendFormatLine("Impersonated by {0}", victim.ImpersonatedBy.Name);
+                    if (victim.ControlledBy != null)
+                        sb.AppendFormatLine("Controlled by {0}", victim.ControlledBy.Name);
+                    if (victim.Fighting != null)
+                        sb.AppendFormatLine("Fighting: {0}", victim.Fighting.Name);
+                    sb.AppendFormatLine("Room: {0} [vnum: {1}]", victim.Room.Name, victim.Room.Blueprint == null ? -1 : victim.Room.Blueprint.Id);
+                    sb.AppendFormatLine("Level: {0} Sex: {1}", victim.Level, victim.Sex);
+                    sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim.MaxHitPoints);
                     sb.AppendLine("Attributes:");
-                    foreach (AttributeTypes attributeType in EnumHelpers.GetValues<AttributeTypes>())
-                        sb.AppendFormatLine("{0}: Current: {1} Base: {2}", attributeType, character.CurrentAttribute(attributeType), character.BaseAttribute(attributeType));
+                    foreach (PrimaryAttributeTypes attributeType in EnumHelpers.GetValues<PrimaryAttributeTypes>())
+                        sb.AppendFormatLine("{0}: Current: {1} Base: {2}", attributeType, victim.CurrentPrimaryAttribute(attributeType), victim.BasePrimaryAttribute(attributeType));
+                    sb.AppendFormatLine("AttackPower: {0}   SpellPower: {1}   AttackSpeed: {2}", victim.AttackPower, victim.SpellPower, victim.AttackSpeed);
+                    foreach(IPeriodicAura pe in victim.PeriodicAuras)
+                        if (pe.AuraType == PeriodicAuraTypes.Damage) // TODO: operator
+                            sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds.",
+                                pe.Name,
+                                pe.Source == null ? "(none)" : pe.Source.DisplayName,
+                                pe.Amount,
+                                pe.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                                pe.SchoolType,
+                                pe.TickDelay,
+                                pe.SecondsLeft);
+                        else
+                            sb.AppendFormatLine("{0} from {1}: {2}{3} heal every {4} seconds for {5} seconds.",
+                                pe.Name,
+                                pe.Source == null ? "(none)" : pe.Source.DisplayName,
+                                pe.Amount,
+                                pe.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                                pe.TickDelay,
+                                pe.SecondsLeft);
+                    foreach (IAura aura in victim.Auras)
+                        sb.AppendFormatLine("{0} modifies {1} by {2}{3} for {4} seconds.",
+                            aura.Name,
+                            aura.Modifier,
+                            aura.Amount,
+                            aura.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                            aura.SecondsLeft);
                     Send(sb);
                 }
             }

@@ -11,6 +11,7 @@ using Mud.Network.Socket;
 using Mud.POC;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
+using Mud.Server.Item;
 using Mud.Server.Server;
 
 namespace Mud.Server.TestApplication
@@ -121,7 +122,8 @@ namespace Mud.Server.TestApplication
                 Type = WeaponTypes.Axe1H,
                 DiceCount = 10,
                 DiceValue = 20,
-                DamageType = SchoolTypes.Fire
+                DamageType = SchoolTypes.Fire,
+                WearLocation = WearLocations.Wield
             };
             ItemArmorBlueprint item3Blueprint = new ItemArmorBlueprint
             {
@@ -139,7 +141,20 @@ namespace Mud.Server.TestApplication
                 Name = "item4",
                 ShortDescription = "Fourth item (light)",
                 Description = "The fourth item (light) has been left here.",
-                DurationHours = -1
+                DurationHours = -1,
+                WearLocation = WearLocations.Light
+            };
+            ItemWeaponBlueprint item5Blueprint = new ItemWeaponBlueprint
+            {
+                Id = 5,
+                Name = "item5",
+                ShortDescription = "Fifth item (weapon)",
+                Description = "The fifth item (weapon) has been left here.",
+                Type = WeaponTypes.Sword1H,
+                DiceCount = 5,
+                DiceValue = 40,
+                DamageType = SchoolTypes.Physical,
+                WearLocation = WearLocations.Wield
             };
             //
             ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint();
@@ -155,19 +170,19 @@ namespace Mud.Server.TestApplication
             ICharacter mob4 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob4Blueprint, room2);
             ICharacter mob5 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob5Blueprint, room2);
 
-            // Item1*2 in Room1
-            // Item2 in Mob2
-            // Item3 in 2.Item1
-            // Item4 in Mob1
-            // Item1 in Mob1
-            IItem item1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, room1);
-            IItem item1Dup1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, room2);
-            IItem item2 = World.World.Instance.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
-            IItem item3 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1 as IContainer);
-            IItem item4 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
-            IItem item1Dup2 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
-            IItem item3Dup1 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
-            IItem item4Dup1 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            IItemContainer item1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, room1);
+            IItemContainer item1Dup1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, room2);
+            IItemWeapon item2 = World.World.Instance.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
+            IItemArmor item3 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
+            IItemLight item4 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
+            IItemWeapon item5 = World.World.Instance.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
+            IItemContainer item1Dup2 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
+            IItemArmor item3Dup1 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
+            IItemLight item4Dup1 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            // Equip weapon on mob2
+            mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield).Item = item2;
+            item2.ChangeContainer(null);
+            item2.ChangeEquipedBy(mob2);
         }
 
         private static void CreateMidgaard()
@@ -303,7 +318,8 @@ namespace Mud.Server.TestApplication
                 Type = WeaponTypes.Axe1H,
                 DiceCount = 10,
                 DiceValue = 20,
-                DamageType = SchoolTypes.Fire
+                DamageType = SchoolTypes.Fire,
+                WearLocation = WearLocations.Wield
             };
             ItemArmorBlueprint item3Blueprint = new ItemArmorBlueprint
             {
@@ -321,7 +337,20 @@ namespace Mud.Server.TestApplication
                 Name = "item4",
                 ShortDescription = "Fourth item (light)",
                 Description = "The fourth item (light) has been left here.",
-                DurationHours = -1
+                DurationHours = -1,
+                WearLocation = WearLocations.Light
+            };
+            ItemWeaponBlueprint item5Blueprint = new ItemWeaponBlueprint
+            {
+                Id = 5,
+                Name = "item5",
+                ShortDescription = "Fifth item (weapon)",
+                Description = "The fifth item (weapon) has been left here.",
+                Type = WeaponTypes.Sword1H,
+                DiceCount = 5,
+                DiceValue = 40,
+                DamageType = SchoolTypes.Physical,
+                WearLocation = WearLocations.Wield
             };
 
             //
@@ -337,19 +366,19 @@ namespace Mud.Server.TestApplication
             ICharacter mob4 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
             ICharacter mob5 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
-            // Item1*2 in Room1
-            // Item2 in Mob2
-            // Item3 in 2.Item1
-            // Item4 in Mob1
-            // Item1 in Mob1
-            IItem item1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItem item1Dup1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItem item2 = World.World.Instance.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
-            IItem item3 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1 as IContainer);
-            IItem item4 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
-            IItem item1Dup2 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
-            IItem item3Dup1 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
-            IItem item4Dup1 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            IItemContainer item1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItemContainer item1Dup1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItemWeapon item2 = World.World.Instance.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
+            IItemArmor item3 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
+            IItemLight item4 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
+            IItemWeapon item5 = World.World.Instance.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
+            IItemContainer item1Dup2 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
+            IItemArmor item3Dup1 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
+            IItemLight item4Dup1 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            // Equip weapon on mob2
+            mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield).Item = item2;
+            item2.ChangeContainer(null);
+            item2.ChangeEquipedBy(mob2);
         }
 
         private static void TestPaging()
@@ -504,8 +533,6 @@ namespace Mud.Server.TestApplication
         {
             Console.WriteLine("Let's go");
 
-            ServerOptions.PrefixForwardedMessages = false;
-
             //CreateDummyWorld();
             CreateMidgaard();
 
@@ -556,10 +583,6 @@ namespace Mud.Server.TestApplication
         private static void TestWorldOffline()
         {
             Console.WriteLine("Let's go");
-
-            ServerOptions.PrefixForwardedMessages = false;
-            //ServerOptions.PrefixForwardedMessages = true;
-            //ServerOptions.ForwardSlaveMessages = true;
 
             //CreateDummyWorld();
             CreateMidgaard();

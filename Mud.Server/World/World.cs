@@ -123,19 +123,26 @@ namespace Mud.Server.World
         {
             character.StopFighting(true);
 
-            // Search IPeriodicEffect with character as Source and delete them (or nullify Source)
-            List<ICharacter> charactersWithPeriodicEffects = _characters.Where(x => x.PeriodicEffects.Any(pe => pe.Source == character)).ToList();
-            foreach(ICharacter characterWithPeriodicEffects in charactersWithPeriodicEffects)
-                foreach(IPeriodicEffect effect in characterWithPeriodicEffects.PeriodicEffects.Where(x => x.Source == character))
-                    effect.ResetSource();
+            // Search IPeriodicAura with character as Source and delete them (or nullify Source)
+            List<ICharacter> charactersWithPeriodicAuras = _characters.Where(x => x.PeriodicAuras.Any(pe => pe.Source == character)).ToList(); // clone
+            foreach(ICharacter characterWithPeriodicAuras in charactersWithPeriodicAuras)
+                foreach(IPeriodicAura pa in characterWithPeriodicAuras.PeriodicAuras.Where(x => x.Source == character))
+                    pa.ResetSource();
 
-            // Remove periodic effects
-            List<IPeriodicEffect> periodicEffects = new List<IPeriodicEffect>(character.PeriodicEffects); // clone
-            foreach (IPeriodicEffect pe in periodicEffects)
+            // Remove periodic auras on character
+            List<IPeriodicAura> periodicAuras = new List<IPeriodicAura>(character.PeriodicAuras); // clone
+            foreach (IPeriodicAura pa in periodicAuras)
             {
-                pe.ResetSource();
-                character.RemovePeriodicEffect(pe);
+                pa.ResetSource();
+                character.RemovePeriodicAura(pa);
             }
+
+            // Remove auras
+            List<IAura> auras = new List<IAura>(character.Auras); // clone
+            foreach(IAura aura in auras)
+                character.RemoveAura(aura);
+
+            // TODO: remove aura
             // TODO: extract all object in ICharacter
             // TODO: remove character from room
             // Remove content

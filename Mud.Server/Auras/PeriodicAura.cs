@@ -2,21 +2,21 @@
 using Mud.Logger;
 using Mud.Server.Constants;
 
-namespace Mud.Server.Effects
+namespace Mud.Server.Auras
 {
-    // TODO: time computation are totally wrong (it's possible to get -2 seconds left)
-    public class PeriodicEffect : IPeriodicEffect
+    // TODO: linked to an ability
+    public class PeriodicAura : IPeriodicAura
     {
         private DateTime _startTime;
         private DateTime _lastTickElapsed;
 
         public string Name { get; private set; }
-        public EffectTypes EffectType { get; private set; }
+        public PeriodicAuraTypes AuraType { get; private set; }
         public ICharacter Source { get; private set; }
         public SchoolTypes SchoolType { get; private set; }
         public int Amount { get; private set; }
         public AmountOperators AmountOperator { get; private set; }
-        public bool Visible { get; private set; }
+        public bool TickVisible { get; private set; }
         public int TotalTicks { get; private set; }
         public int TickDelay { get; private set; }
         public int TicksLeft { get; private set; }
@@ -30,23 +30,23 @@ namespace Mud.Server.Effects
             }
         }
 
-        public PeriodicEffect(string name, EffectTypes effectType, ICharacter source, int amount, AmountOperators amountOperator, bool visible, int tickDelay, int ticksLeft)
+        public PeriodicAura(string name, PeriodicAuraTypes auraType, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int ticksLeft)
         {
             _lastTickElapsed = Server.Server.Instance.CurrentTime;
 
             Name = name;
-            EffectType = effectType;
+            AuraType = auraType;
             Source = source;
             Amount = amount;
             AmountOperator = amountOperator;
-            Visible = visible;
+            TickVisible = tickVisible;
             TickDelay = tickDelay;
             TicksLeft = ticksLeft;
             TotalTicks = ticksLeft;
         }
 
-        public PeriodicEffect(string name, EffectTypes effectType, ICharacter source, SchoolTypes schoolType, int amount, AmountOperators amountOperator, bool visible, int tickDelay, int ticksLeft)
-            : this(name, effectType, source, amount, amountOperator, visible, tickDelay, ticksLeft)
+        public PeriodicAura(string name, PeriodicAuraTypes auraType, ICharacter source, SchoolTypes schoolType, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int ticksLeft)
+            : this(name, auraType, source, amount, amountOperator, tickVisible, tickDelay, ticksLeft)
         {
             SchoolType = schoolType;
         }
@@ -61,7 +61,7 @@ namespace Mud.Server.Effects
         {
             if (TicksLeft <= 0)
             {
-                Log.Default.WriteLine(LogLevels.Error, "PeriodicEffect.Process: no period left");
+                Log.Default.WriteLine(LogLevels.Error, "PeriodicAura.Process: no tick left");
                 return true;
             }
 
@@ -75,7 +75,7 @@ namespace Mud.Server.Effects
             // If TickDelay in seconds elapsed, perform heal/damage
             if (diff.TotalSeconds > TickDelay)
             {
-                Log.Default.WriteLine(LogLevels.Debug, "Processing periodic effect {0} on {1} from {2} tick left {3} delay {4}", Name, victim.Name, Source == null ? "<<??>>" : Source.Name, TicksLeft, TickDelay);
+                Log.Default.WriteLine(LogLevels.Debug, "Processing periodic aura {0} on {1} from {2} tick left {3} delay {4}", Name, victim.Name, Source == null ? "<<??>>" : Source.Name, TicksLeft, TickDelay);
 
                 _lastTickElapsed = now;
                 TicksLeft--;
@@ -83,14 +83,14 @@ namespace Mud.Server.Effects
                 int amount = Amount;
                 if (AmountOperator == AmountOperators.Percentage)
                     amount = victim.MaxHitPoints * Amount / 100; // percentage of max hit points
-                if (EffectType == EffectTypes.Heal)
-                    victim.Heal(Source, Name, amount, Visible);
-                else if (EffectType == EffectTypes.Damage)
+                if (AuraType == PeriodicAuraTypes.Heal)
+                    victim.Heal(Source, Name, amount, TickVisible);
+                else if (AuraType == PeriodicAuraTypes.Damage)
                 {
                     if (Source == null)
-                        victim.UnknownSourceDamage(Name, amount, SchoolType, Visible);
+                        victim.UnknownSourceDamage(Name, amount, SchoolType, TickVisible);
                     else
-                        victim.CombatDamage(Source, Name, amount, SchoolType, Visible);
+                        victim.CombatDamage(Source, Name, amount, SchoolType, TickVisible);
                 }
             }
             return TicksLeft == 0;

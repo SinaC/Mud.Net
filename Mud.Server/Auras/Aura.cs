@@ -1,12 +1,13 @@
 ﻿using System;
 using Mud.Server.Constants;
 
-namespace Mud.Server.Effects
+namespace Mud.Server.Auras
 {
-    public class BuffDebuff : IBuffDebuff
+    // TODO: linked to an ability
+    public class Aura : IAura
     {
         public string Name { get; private set; }
-        public AttributeTypes AttributeType { get; private set; }
+        public AuraModifiers Modifier { get; private set; }
         public int Amount { get; private set; }
         public AmountOperators AmountOperator { get; private set; }
         public DateTime StartTime { get; private set; }
@@ -21,12 +22,12 @@ namespace Mud.Server.Effects
             }
         }
 
-        public BuffDebuff(string name, AttributeTypes attributeType, int amount, AmountOperators amountOperator, int totalSeconds)
+        public Aura(string name, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds)
         {
             StartTime = Server.Server.Instance.CurrentTime;
 
             Name = name;
-            AttributeType = attributeType;
+            Modifier = modifier;
             Amount = amount;
             AmountOperator = amountOperator;
             TotalSeconds = totalSeconds;

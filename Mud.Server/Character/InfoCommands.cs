@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Mud.Logger;
@@ -148,8 +149,8 @@ namespace Mud.Server.Character
                 if (victim != null)
                 {
                     Act(ActOptions.ToCharacter, "You examine {0}.", victim);
-                    Act(ActOptions.ToVictim, this, "{0} examines you.", victim);
-                    Act(ActOptions.ToNotVictim, this, "{0} examines {1}.", victim);
+                    Act(ActOptions.ToVictim, victim, "{0} examines you.", this);
+                    Act(ActOptions.ToNotVictim, victim, "{0} examines {1}.", this, victim);
                     //DoLook(rawParameters, parameters); // call immediately helpers function (DoLook: case 3)
                     DisplayCharacter(victim, true);
                     // TODO: display race and size
@@ -188,7 +189,7 @@ namespace Mud.Server.Character
             Send("Right here you see:" + Environment.NewLine);
             StringBuilder currentScan = ScanRoom(Room);
             if (currentScan.Length == 0)
-                Send("Noone" + Environment.NewLine); // should never happen, 'this' is in the room
+                Send("None" + Environment.NewLine); // should never happen, 'this' is in the room
             else
                 Send(currentScan); // no need to add CRLF
             // Scan in one direction for each distance, then starts with another direction
@@ -209,7 +210,6 @@ namespace Mud.Server.Character
                     }
                 }
             }
-            // TODO: there is one too many CRLF
             return true;
         }
 
@@ -218,47 +218,47 @@ namespace Mud.Server.Character
         {
             // TODO: better UI
             StringBuilder sb = new StringBuilder();
-            // Buff/Debuffs
-            if (_buffDebuffs.Any())
+            // Auras
+            if (_auras.Any())
             {
-                sb.AppendLine("Buff/debuffs:");
-                foreach (IBuffDebuff buffDebuff in _buffDebuffs)
-                    sb.AppendFormatLine("{0} modifies {1} by {2}{3} for {4} seconds.", 
-                        buffDebuff.Name, 
-                        buffDebuff.AttributeType, 
-                        buffDebuff.Amount, 
-                        buffDebuff.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
-                        buffDebuff.SecondsLeft); // TODO: method in IBuffDebuff for seconds left, use global time class
+                sb.AppendLine("Auras:");
+                foreach (IAura aura in _auras)
+                    sb.AppendFormatLine("{0} modifies {1} by {2}{3} for {4}.", 
+                        aura.Name, 
+                        aura.Modifier, 
+                        aura.Amount, 
+                        aura.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                        StringHelpers.FormatDelay(aura.SecondsLeft));
             }
             else
-                sb.AppendLine("No buff/debuffs.");
-            // Periodic effects
-            if (_periodicEffects.Any())
+                sb.AppendLine("No aura.");
+            // Periodic auras
+            if (_periodicAuras.Any())
             {
-                sb.AppendLine("Periodic effects:");
-                foreach (IPeriodicEffect pe in _periodicEffects)
+                sb.AppendLine("Periodic auras:");
+                foreach (IPeriodicAura pa in _periodicAuras)
                 {
-                    if (pe.EffectType == EffectTypes.Damage) // TODO: operator
-                        sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds.",
-                            pe.Name,
-                            pe.Source == null ? "(none)" : pe.Source.DisplayName,
-                            pe.Amount,
-                            pe.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
-                            pe.SchoolType,
-                            pe.TickDelay,
-                            pe.SecondsLeft);
+                    if (pa.AuraType == PeriodicAuraTypes.Damage) // TODO: operator
+                        sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} for {6}.",
+                            pa.Name,
+                            pa.Source == null ? "(none)" : pa.Source.DisplayName,
+                            pa.Amount,
+                            pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                            pa.SchoolType,
+                            StringHelpers.FormatDelay(pa.TickDelay),
+                            StringHelpers.FormatDelay(pa.SecondsLeft));
                     else
-                        sb.AppendFormatLine("{0} from {1}: {2}{3} heal every {4} seconds for {5} seconds.",
-                            pe.Name,
-                            pe.Source == null ? "(none)" : pe.Source.DisplayName,
-                            pe.Amount,
-                            pe.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
-                            pe.TickDelay,
-                            pe.SecondsLeft);
+                        sb.AppendFormatLine("{0} from {1}: {2}{3} heal every {4} for {5}.",
+                            pa.Name,
+                            pa.Source == null ? "(none)" : pa.Source.DisplayName,
+                            pa.Amount,
+                            pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                            StringHelpers.FormatDelay(pa.TickDelay),
+                            StringHelpers.FormatDelay(pa.SecondsLeft));
                 }
             }
             else
-                sb.AppendLine("No periodic effect.");
+                sb.AppendLine("No periodic aura.");
             Send(sb);
             return true;
         }
@@ -320,14 +320,13 @@ namespace Mud.Server.Character
             }
         }
 
-        private void DisplayItems(IEnumerable<IItem> items, bool shortDisplay, bool displayNothing) // equivalent to act_info.C:show_list_to_char
+        private void DisplayItems(IReadOnlyCollection<IItem> items, bool shortDisplay, bool displayNothing) // equivalent to act_info.C:show_list_to_char
         {
-            IEnumerable<IItem> enumerable = items as IItem[] ?? items.ToArray();
-            if (displayNothing && !enumerable.Any())
+            if (displayNothing && !items.Any())
                 Send("Nothing." + Environment.NewLine);
             else
             {
-                foreach (IItem item in enumerable) // TODO: compact mode (grouped by Blueprint)
+                foreach (IItem item in items) // TODO: compact mode (grouped by Blueprint)
                     Send(FormatItem(item, shortDisplay) + Environment.NewLine); // TODO: (see act_info.C:170 format_obj_to_char)
             }
         }
@@ -437,7 +436,7 @@ namespace Mud.Server.Character
             return "%C%<unknown>               %x%";
         }
 
-        private static string FormatItem(IItem item, bool shortDisplay)
+        private static string FormatItem(IItem item, bool shortDisplay) // TODO: (see act_info.C:170 format_obj_to_char)
         {
             StringBuilder sb = new StringBuilder();
             // TODO: affects

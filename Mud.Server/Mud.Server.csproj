@@ -34,9 +34,21 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abilities\SecondAttack.cs" />
-    <Compile Include="Effects\BuffDebuff.cs" />
-    <Compile Include="Effects\PeriodicEffect.cs" />
+    <Compile Include="Abilities\Abilities.cs" />
+    <Compile Include="Abilities\AbilityBase.cs" />
+    <Compile Include="Abilities\AllAbilityBase.cs" />
+    <Compile Include="Abilities\Renew.cs" />
+    <Compile Include="Abilities\Rupture.cs" />
+    <Compile Include="Abilities\ShadowWordPain.cs" />
+    <Compile Include="Abilities\SingleTargetAbilityBase.cs" />
+    <Compile Include="Abilities\SingleTargetEnergyBase.cs" />
+    <Compile Include="Abilities\SingleTargetManaBase.cs" />
+    <Compile Include="Abilities\ToRemoveAbilities.cs" />
+    <Compile Include="Abilities\IAbility.cs" />
+    <Compile Include="Abilities\Trash.cs" />
+    <Compile Include="Abilities\Wrath.cs" />
+    <Compile Include="Auras\Aura.cs" />
+    <Compile Include="Auras\PeriodicAura.cs" />
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Admin\Admin.cs" />
     <Compile Include="Admin\ImpersonateCommand.cs" />
@@ -53,17 +65,17 @@
     <Compile Include="Helpers\FindHelpers.cs" />
     <Compile Include="Helpers\RandomizeHelpers.cs" />
     <Compile Include="Helpers\StringBuilderExtensions.cs" />
-    <Compile Include="IAbility.cs" />
+    <Compile Include="Abilities\ToRemoveAbility.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="IAdmin.cs" />
     <Compile Include="ICharacter.cs" />
     <Compile Include="IContainer.cs" />
-    <Compile Include="IBuffDebuff.cs" />
+    <Compile Include="IAura.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IEquipable.cs" />
     <Compile Include="IExit.cs" />
     <Compile Include="IItem.cs" />
-    <Compile Include="IPeriodicEffect.cs" />
+    <Compile Include="IPeriodicAura.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="IRoom.cs" />
     <Compile Include="IServer.cs" />
