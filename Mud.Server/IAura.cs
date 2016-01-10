@@ -3,6 +3,7 @@ using Mud.Server.Constants;
 
 namespace Mud.Server
 {
+    // TODO: single target or group
     public interface IAura
     {
         // Name
@@ -23,5 +24,8 @@ namespace Mud.Server
 
         // Seconds left
         int SecondsLeft { get; }
+
+        // Change amount, return true if amount <= 0
+        bool ChangeAmount(int delta);
     }
 }

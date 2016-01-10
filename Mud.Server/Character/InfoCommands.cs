@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using Mud.Logger;
@@ -149,8 +148,8 @@ namespace Mud.Server.Character
                 if (victim != null)
                 {
                     Act(ActOptions.ToCharacter, "You examine {0}.", victim);
-                    Act(ActOptions.ToVictim, victim, "{0} examines you.", this);
-                    Act(ActOptions.ToNotVictim, victim, "{0} examines {1}.", this, victim);
+                    victim.Act(ActOptions.ToCharacter, "{0} examines you.", this);
+                    ActToNotVictim(victim, "{0} examines {1}.", this, victim);
                     //DoLook(rawParameters, parameters); // call immediately helpers function (DoLook: case 3)
                     DisplayCharacter(victim, true);
                     // TODO: display race and size
@@ -244,7 +243,7 @@ namespace Mud.Server.Character
                             pa.Source == null ? "(none)" : pa.Source.DisplayName,
                             pa.Amount,
                             pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
-                            pa.SchoolType,
+                            pa.School,
                             StringHelpers.FormatDelay(pa.TickDelay),
                             StringHelpers.FormatDelay(pa.SecondsLeft));
                     else
@@ -295,8 +294,8 @@ namespace Mud.Server.Character
                 Act(ActOptions.ToRoom, "{0} looks at {0:m}self.", this);
             else
             {
-                Act(ActOptions.ToVictim, victim, "{0} looks at you.", this);
-                Act(ActOptions.ToNotVictim, victim, "{0} looks at {1}.", this, victim);
+                victim.Act(ActOptions.ToCharacter, "{0} looks at you.", this);
+                ActToNotVictim(victim, "{0} looks at {1}.", this, victim);
             }
             Send("{0} is here." + Environment.NewLine, victim.DisplayName);
             // TODO: health (instead of is here.) (see act_info.C:629 show_char_to_char_1)

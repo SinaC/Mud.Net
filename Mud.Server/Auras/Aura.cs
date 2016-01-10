@@ -32,5 +32,12 @@ namespace Mud.Server.Auras
             AmountOperator = amountOperator;
             TotalSeconds = totalSeconds;
         }
+
+        // Change amount, return true if amount <= 0
+        public bool ChangeAmount(int delta)
+        {
+            Amount = Math.Max(0, Amount+delta);
+            return Amount == 0;
+        }
     }
 }

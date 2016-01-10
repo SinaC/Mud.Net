@@ -140,7 +140,8 @@ namespace Mud.Server.World
             // Remove auras
             List<IAura> auras = new List<IAura>(character.Auras); // clone
             foreach(IAura aura in auras)
-                character.RemoveAura(aura);
+                character.RemoveAura(aura, false);
+            // no need to recompute
 
             // TODO: remove aura
             // TODO: extract all object in ICharacter

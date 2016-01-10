@@ -4,6 +4,13 @@ using Mud.Server.Constants;
 
 namespace Mud.Server
 {
+    public enum ActOptions
+    {
+        ToRoom, // everyone in the room except Character
+        ToCharacter, // only to Character
+        ToAll // everyone in the room
+    }
+
     public interface ICharacter : IEntity, IContainer
     {
         CharacterBlueprint Blueprint { get; }
@@ -17,17 +24,16 @@ namespace Mud.Server
         Sex Sex { get; }
         int Level { get; }
         int HitPoints { get; }
-        // Computed attributes (depending on primary attributes)
-        int MaxHitPoints { get; }
-        int AttackPower { get; }
-        int SpellPower { get; }
-        int AttackSpeed { get; }
 
         // Auras
         IReadOnlyCollection<IPeriodicAura> PeriodicAuras { get; }
         IReadOnlyCollection<IAura> Auras { get; }
 
         // TODO: race, classes, ...
+
+        // TODO
+        //// Group
+        //ICharacter Leader { get; }
 
         // Impersonation/Controller
         bool Impersonable { get; }
@@ -39,6 +45,10 @@ namespace Mud.Server
         bool ChangeImpersonation(IPlayer player); // if non-null, start impersonation, else, stop impersonation
         bool ChangeController(ICharacter master); // if non-null, start slavery, else, stop slavery
 
+        // Act
+        void Act(ActOptions options, string format, params object[] arguments);
+        void ActToNotVictim(ICharacter victim, string format, params object[] arguments); // to everyone except this and victim
+
         // Equipments
         bool Unequip(IEquipable item);
 
@@ -47,14 +57,19 @@ namespace Mud.Server
         bool CanSee(IItem obj);
 
         // Attributes
-        int BasePrimaryAttribute(PrimaryAttributeTypes attribute);
-        int CurrentPrimaryAttribute(PrimaryAttributeTypes attribute);
+        int GetBasePrimaryAttribute(PrimaryAttributeTypes attribute);
+        int GetCurrentPrimaryAttribute(PrimaryAttributeTypes attribute);
+        int GetComputedAttribute(ComputedAttributeTypes attribute);
 
         // Auras
         void AddPeriodicAura(IPeriodicAura aura);
         void RemovePeriodicAura(IPeriodicAura aura);
-        void AddAura(IAura aura);
-        void RemoveAura(IAura aura);
+        void AddAura(IAura aura, bool recompute);
+        void RemoveAura(IAura aura, bool recompute);
+
+        // Recompute
+        void ResetAttributes();
+        void RecomputeAttributes();
 
         // Move
         void ChangeRoom(IRoom destination);
@@ -67,7 +82,6 @@ namespace Mud.Server
         bool CombatDamage(ICharacter source, string ability, int damage, SchoolTypes damageType, bool visible); // damage with known damager
         bool UnknownSourceDamage(string ability, int damage, SchoolTypes damageType, bool visible); // damage with unknown damager or no damager
         bool RawKill(ICharacter victim, bool killingPayoff); // kill victim + create corpse (if killingPayoff is true, xp gain/loss)
-        void ResetAttributes();
     }
 
     public class EquipedItem

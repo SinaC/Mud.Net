@@ -6,6 +6,9 @@ add in Trie available abilities for an ICharacter
 		public DateTime LastUse { get; set; } // used for CD
    }
 for simple ability (aka simple damage/heal/hot/dot) don't create a class: use generic effect (damage, heal, hot, dot)
+ => something like: id, name (+ every info in IAbility), target (single/multi), effects list (aura/periodic aura/direct damage, direct heal), optional process function
+
+add id to ability
 
 each time operator IS or AS is used, this should be replaced with a overridable method
 DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)

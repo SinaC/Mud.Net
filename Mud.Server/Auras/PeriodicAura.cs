@@ -13,7 +13,7 @@ namespace Mud.Server.Auras
         public string Name { get; private set; }
         public PeriodicAuraTypes AuraType { get; private set; }
         public ICharacter Source { get; private set; }
-        public SchoolTypes SchoolType { get; private set; }
+        public SchoolTypes School { get; private set; }
         public int Amount { get; private set; }
         public AmountOperators AmountOperator { get; private set; }
         public bool TickVisible { get; private set; }
@@ -30,7 +30,7 @@ namespace Mud.Server.Auras
             }
         }
 
-        public PeriodicAura(string name, PeriodicAuraTypes auraType, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int ticksLeft)
+        public PeriodicAura(string name, PeriodicAuraTypes auraType, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
         {
             _lastTickElapsed = Server.Server.Instance.CurrentTime;
 
@@ -41,14 +41,14 @@ namespace Mud.Server.Auras
             AmountOperator = amountOperator;
             TickVisible = tickVisible;
             TickDelay = tickDelay;
-            TicksLeft = ticksLeft;
-            TotalTicks = ticksLeft;
+            TicksLeft = totalTicks;
+            TotalTicks = totalTicks;
         }
 
-        public PeriodicAura(string name, PeriodicAuraTypes auraType, ICharacter source, SchoolTypes schoolType, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int ticksLeft)
-            : this(name, auraType, source, amount, amountOperator, tickVisible, tickDelay, ticksLeft)
+        public PeriodicAura(string name, PeriodicAuraTypes auraType, ICharacter source, SchoolTypes school, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
+            : this(name, auraType, source, amount, amountOperator, tickVisible, tickDelay, totalTicks)
         {
-            SchoolType = schoolType;
+            School = school;
         }
 
         // Reset source
@@ -82,15 +82,15 @@ namespace Mud.Server.Auras
 
                 int amount = Amount;
                 if (AmountOperator == AmountOperators.Percentage)
-                    amount = victim.MaxHitPoints * Amount / 100; // percentage of max hit points
+                    amount = victim.GetComputedAttribute(ComputedAttributeTypes.MaxHitPoints) * Amount / 100; // percentage of max hit points
                 if (AuraType == PeriodicAuraTypes.Heal)
                     victim.Heal(Source, Name, amount, TickVisible);
                 else if (AuraType == PeriodicAuraTypes.Damage)
                 {
                     if (Source == null)
-                        victim.UnknownSourceDamage(Name, amount, SchoolType, TickVisible);
+                        victim.UnknownSourceDamage(Name, amount, School, TickVisible);
                     else
-                        victim.CombatDamage(Source, Name, amount, SchoolType, TickVisible);
+                        victim.CombatDamage(Source, Name, amount, School, TickVisible);
                 }
             }
             return TicksLeft == 0;

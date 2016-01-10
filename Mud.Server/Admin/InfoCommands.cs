@@ -39,11 +39,12 @@ namespace Mud.Server.Admin
                         sb.AppendFormatLine("Fighting: {0}", victim.Fighting.Name);
                     sb.AppendFormatLine("Room: {0} [vnum: {1}]", victim.Room.Name, victim.Room.Blueprint == null ? -1 : victim.Room.Blueprint.Id);
                     sb.AppendFormatLine("Level: {0} Sex: {1}", victim.Level, victim.Sex);
-                    sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim.MaxHitPoints);
+                    sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim.GetComputedAttribute(ComputedAttributeTypes.MaxHitPoints));
                     sb.AppendLine("Attributes:");
-                    foreach (PrimaryAttributeTypes attributeType in EnumHelpers.GetValues<PrimaryAttributeTypes>())
-                        sb.AppendFormatLine("{0}: Current: {1} Base: {2}", attributeType, victim.CurrentPrimaryAttribute(attributeType), victim.BasePrimaryAttribute(attributeType));
-                    sb.AppendFormatLine("AttackPower: {0}   SpellPower: {1}   AttackSpeed: {2}", victim.AttackPower, victim.SpellPower, victim.AttackSpeed);
+                    foreach (PrimaryAttributeTypes primaryAttribute in EnumHelpers.GetValues<PrimaryAttributeTypes>())
+                        sb.AppendFormatLine("{0}: Current: {1} Base: {2}", primaryAttribute, victim.GetCurrentPrimaryAttribute(primaryAttribute), victim.GetBasePrimaryAttribute(primaryAttribute));
+                    foreach (ComputedAttributeTypes computedAttribute in EnumHelpers.GetValues<ComputedAttributeTypes>())
+                        sb.AppendFormatLine("{0}: {1}", computedAttribute, victim.GetComputedAttribute(computedAttribute));
                     foreach(IPeriodicAura pe in victim.PeriodicAuras)
                         if (pe.AuraType == PeriodicAuraTypes.Damage) // TODO: operator
                             sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds.",
@@ -51,7 +52,7 @@ namespace Mud.Server.Admin
                                 pe.Source == null ? "(none)" : pe.Source.DisplayName,
                                 pe.Amount,
                                 pe.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
-                                pe.SchoolType,
+                                pe.School,
                                 pe.TickDelay,
                                 pe.SecondsLeft);
                         else

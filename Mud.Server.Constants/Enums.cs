@@ -135,6 +135,14 @@
         Spirit
     }
 
+    public enum ComputedAttributeTypes // dependent on primary attribute (computed in Recompute)
+    {
+        MaxHitPoints,
+        AttackSpeed,
+        AttackPower,
+        SpellPower,
+    }
+
     public enum ResourceKinds
     {
         None,
@@ -156,6 +164,7 @@
 
     public enum AuraModifiers
     {
+        None,
         Strength,
         Agility,
         Stamina,
@@ -166,5 +175,6 @@
         AttackPower,
         SpellPower,
         MaxHitPoints,
+        Shield,
     }
 }

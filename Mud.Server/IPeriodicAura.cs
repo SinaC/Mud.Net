@@ -20,7 +20,7 @@ namespace Mud.Server
         ICharacter Source { get; } // TODO: entity
 
         // Damage type (if AuraType is damage)
-        SchoolTypes SchoolType { get; }
+        SchoolTypes School { get; }
 
         // Amount + %/fixed
         int Amount { get; }

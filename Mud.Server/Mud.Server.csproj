@@ -34,19 +34,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abilities\Abilities.cs" />
-    <Compile Include="Abilities\AbilityBase.cs" />
-    <Compile Include="Abilities\AllAbilityBase.cs" />
-    <Compile Include="Abilities\Renew.cs" />
-    <Compile Include="Abilities\Rupture.cs" />
-    <Compile Include="Abilities\ShadowWordPain.cs" />
-    <Compile Include="Abilities\SingleTargetAbilityBase.cs" />
-    <Compile Include="Abilities\SingleTargetEnergyBase.cs" />
-    <Compile Include="Abilities\SingleTargetManaBase.cs" />
+    <Compile Include="Abilities\AbilityEffects.cs" />
+    <Compile Include="Abilities\AbilityManager.cs" />
+    <Compile Include="Abilities\Ability.cs" />
     <Compile Include="Abilities\ToRemoveAbilities.cs" />
-    <Compile Include="Abilities\IAbility.cs" />
-    <Compile Include="Abilities\Trash.cs" />
-    <Compile Include="Abilities\Wrath.cs" />
     <Compile Include="Auras\Aura.cs" />
     <Compile Include="Auras\PeriodicAura.cs" />
     <Compile Include="Actor\ActorBase.cs" />
@@ -65,7 +56,6 @@
     <Compile Include="Helpers\FindHelpers.cs" />
     <Compile Include="Helpers\RandomizeHelpers.cs" />
     <Compile Include="Helpers\StringBuilderExtensions.cs" />
-    <Compile Include="Abilities\ToRemoveAbility.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="IAdmin.cs" />
     <Compile Include="ICharacter.cs" />

@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mud.Logger;
 using Mud.Network;
+using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -491,7 +492,7 @@ namespace Mud.Server.Server
                                     //data += ">"; // TODO: complex prompt
                                     // bust a prompt
                                     if (playingClient.Player.Impersonating != null)
-                                        data += String.Format("<{0}/{1}HP>", playingClient.Player.Impersonating.HitPoints, playingClient.Player.Impersonating.MaxHitPoints);
+                                        data += String.Format("<{0}/{1}HP>", playingClient.Player.Impersonating.HitPoints, playingClient.Player.Impersonating.GetComputedAttribute(ComputedAttributeTypes.MaxHitPoints));
                                     else
                                         data += ">";
                                 }
@@ -550,8 +551,9 @@ namespace Mud.Server.Server
 
         private void HandlePeriodicAuras() // TODO: specific pulse ? 1/2 seconds
         {
+            // TODO: remove aura with amount == 0 ?
             // Remove dot/hot on non-impersonated if source is not the in same room (or source is inexistant)
-            // TODO: take periodic aura that will be processed
+            // TODO: take periodic aura that will be processed/removed
             IReadOnlyCollection<ICharacter> clonePeriodicAuras = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.PeriodicAuras.Any()).ToList());
             foreach (ICharacter character in clonePeriodicAuras)
             {
@@ -581,6 +583,7 @@ namespace Mud.Server.Server
 
         private void HandleAuras() // TODO: specific pulse ? 1/2 seconds
         {
+            // TODO: remove aura with amount == 0 ?
             // Take aura that will expired
             IReadOnlyCollection<ICharacter> cloneAuras = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)).ToList());
             foreach (ICharacter character in cloneAuras)
@@ -588,8 +591,14 @@ namespace Mud.Server.Server
                 try
                 {
                     IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(character.Auras.ToList());
+                    bool needsRecompute = false;
                     foreach (IAura aura in auras.Where(x => x.SecondsLeft <= 0))
-                        character.RemoveAura(aura);
+                    {
+                        character.RemoveAura(aura, false); // recompute once each aura has been processed
+                        needsRecompute = true;
+                    }
+                    if (needsRecompute)
+                        character.RecomputeAttributes();
                 }
                 catch (Exception ex)
                 {
