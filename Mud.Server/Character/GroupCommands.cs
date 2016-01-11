@@ -18,33 +18,30 @@ namespace Mud.Server.Character
                 Send("Follow whom?"+Environment.NewLine);
                 return true;
             }
-            ICharacter victim = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
-            if (victim == null)
+            ICharacter newLeader = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
+            if (newLeader == null)
             {
                 Send(StringHelpers.CharacterNotFound);
                 return true;
             }
             // TODO: charmed ?
-            if (victim == this)
+            if (newLeader == this)
             {
                 if (Leader == null)
                 {
                     Send("You already follow yourself."+Environment.NewLine);
                     return true;
                 }
-                //TODO: StopFollower();
+                Leader.StopFollower(this);
                 return true;
             }
 
             if (Leader != null)
-                //StopFollower(); TODO
-                ;
-            //TODO: AddFollower(victim);
+                Leader.StopFollower(this);
+            newLeader.AddFollower(this);
             return true;
         }
 
-        // TODO: we should not be able to group someone who doesn't want to be grouped
-        //  solution: 2 commands: follow + group (can only group someone following)
         [Command("group")]
         protected virtual bool DoGroup(string rawParameters, params CommandParameter[] parameters)
         {
@@ -72,7 +69,7 @@ namespace Mud.Server.Character
                     RemoveGroupMember(oldMember); // TODO: what if leader leaves group!!!
                     return true;
                 }
-                // Search new member to add
+                // Search in room a new member to add
                 ICharacter newMember = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
                 if (newMember == null) // not found
                 {
@@ -84,9 +81,14 @@ namespace Mud.Server.Character
                     Send("You cannot group yourself."+Environment.NewLine);
                     return true;
                 }
-                if (newMember.Leader != null) // already in a group
+                if (newMember.Leader != this)
                 {
-                    Send("But {0} is following someone else." + Environment.NewLine, newMember.DisplayName);
+                    Act(ActOptions.ToCharacter, "{0} is not following you.", newMember);
+                    return true;
+                }
+                if (GroupMembers.Any(x => x == newMember))
+                {
+                    Act(ActOptions.ToCharacter, "{0} is already in your group.", newMember);
                     return true;
                 }
                 AddGroupMember(newMember);
@@ -107,6 +109,64 @@ namespace Mud.Server.Character
             IReadOnlyCollection<ICharacter> members = Leader == null ? GroupMembers : Leader.GroupMembers;
             foreach (ICharacter member in members)
                 member.Act(ActOptions.ToCharacter, "%g%{0} says the group'%w%{1}%g%'%x%", this, rawParameters);
+            return true;
+        }
+
+        [Command("charm")] // TODO: remove   test commands
+        protected virtual bool DoCharm(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (ControlledBy != null)
+                Send("You feel like taking, not giving, orders." + Environment.NewLine);
+            else if (parameters.Length == 0)
+            {
+                if (Slave != null)
+                {
+                    Send("You stop controlling {0}." + Environment.NewLine, Slave.Name);
+                    Slave.ChangeController(null);
+                    Slave = null;
+                }
+                else
+                    Send("Try controlling something before trying to un-control." + Environment.NewLine);
+            }
+            else
+            {
+                ICharacter target = FindHelpers.FindByName(Room.People, parameters[0]);
+                if (target != null)
+                {
+                    if (target == this)
+                        Send("You like yourself even better!" + Environment.NewLine);
+                    else
+                    {
+                        target.ChangeController(this);
+                        Slave = target;
+                        Send("{0} looks at you with adoring eyes." + Environment.NewLine, target.Name);
+                        target.Send("Isn't {0} so nice?" + Environment.NewLine, Name);
+                    }
+                }
+                else
+                    Send(StringHelpers.CharacterNotFound);
+            }
+
+            return true;
+        }
+
+        [Command("order")]
+        protected virtual bool DoOrder(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+                Send("Order what?" + Environment.NewLine);
+            else if (Slave == null)
+                Send("You have no followers here." + Environment.NewLine);
+            else if (Slave.Room != Room)
+                Send(StringHelpers.CharacterNotFound);
+            else
+            {
+                Slave.Send("{0} orders you to '{1}'." + Environment.NewLine, Name, rawParameters);
+                Slave.ProcessCommand(rawParameters);
+                SetGlobalCooldown(3);
+                //Send("You order {0} to {1}." + Environment.NewLine, Slave.Name, rawParameters);
+                Send("Ok." + Environment.NewLine);
+            }
             return true;
         }
 

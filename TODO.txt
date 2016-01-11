@@ -1,12 +1,10 @@
+!! World.cs:154 crash !!
+add Slay command
+check if shield is added in unknownSourceDamage
+
 when char1 follows char2, char1.Leader = char2 [TODO]
 when char2 groups char1, char2.GroupMembers.Add(char1) [can only group if char1.Leader == char2]
 when char1 charms char2, char1.Slave = char2 + char2.Master = char1
-
-
-in old mud
-when char1 follows char2, char1.master = char2
-when char2 groups char1, char1.leader = char2
-when char1 charms char2, char2.master = char1 + char2.leader = char1
 
 ability CD
 add in Trie available abilities for an ICharacter

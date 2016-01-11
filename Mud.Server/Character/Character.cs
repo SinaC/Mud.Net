@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
@@ -142,19 +143,13 @@ namespace Mud.Server.Character
         public override void OnRemoved() // called before removing an item from the game
         {
             base.OnRemoved();
+
             StopFighting(true);
             if (Slave != null)
                 Slave.ChangeController(null);
-            if (ImpersonatedBy != null)
-            {
-                // TODO: warn ImpersonatedBy
-                ImpersonatedBy = null;
-            }
-            if (ControlledBy != null)
-            {
-                // TODO: warn ControlledBy
-                ControlledBy = null;
-            }
+            ImpersonatedBy = null; // TODO: warn ImpersonatedBy ?
+            ControlledBy = null; // TODO: warn ControlledBy ?
+            Leader = null; // TODO: warn Leader
             _inventory.Clear();
             _equipments.Clear();
             Blueprint = null;
@@ -269,7 +264,7 @@ namespace Mud.Server.Character
             Log.Default.WriteLine(LogLevels.Debug, "ICharacter.AddGroupMember: {0} joined by {1}", Name, newMember.Name);
             // TODO: act to warn room ?
             Send("{0} joins group." + Environment.NewLine, newMember.DisplayName);
-            newMember.ChangeLeader(this);
+            newMember.ChangeLeader(this); // this is not mandatory (should be done by caller)
             foreach(ICharacter member in _groupMembers)
                 member.Send("{0} joins group." + Environment.NewLine, newMember.DisplayName);
             _groupMembers.Add(newMember);
@@ -284,12 +279,40 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Debug, "ICharacter.RemoveGroupMember: {0} not in group of {1}", oldMember.Name, Name);
             else
             {
-                oldMember.ChangeLeader(null);
+                oldMember.ChangeLeader(null); // this is not mandatory (should be done by caller)
                 Send("{0} leaves group." + Environment.NewLine, oldMember.DisplayName);
                 // TODO: act to warn room ?
                 foreach (ICharacter member in _groupMembers)
                     member.Send("{0} leaves group." + Environment.NewLine, member.DisplayName);
             }
+            return true;
+        }
+
+        public bool AddFollower(ICharacter follower)
+        {
+            follower.ChangeLeader(this);
+            if (CanSee(follower))
+                Act(ActOptions.ToCharacter, "{0} now follows you.", follower);
+            follower.Act(ActOptions.ToCharacter, "You now follow {0}.", this);
+            return true;
+        }
+
+        public bool StopFollower(ICharacter follower)
+        {
+            if (follower.Leader == null)
+            {
+                Log.Default.WriteLine(LogLevels.Warning, "ICharacter:StopFollower: {0} is not following anyone", follower.DisplayName);
+                return false;
+            }
+            if (follower.Leader != this)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter:StopFollower: {0} is not following {1} but {2}", follower.DisplayName, DisplayName, follower.Leader == null ? "<<none>>" : follower.Leader.DisplayName);
+                return false;
+            }
+            follower.ChangeLeader(null);
+            if (CanSee(follower))
+                Act(ActOptions.ToCharacter, "{0} stops following you.", follower);
+            follower.Act(ActOptions.ToCharacter, "You stop following {0}.", this);
             return true;
         }
 
@@ -468,6 +491,57 @@ namespace Mud.Server.Character
         }
 
         // Move
+        public bool Move(ServerOptions.ExitDirections direction, bool follow = false)
+        {
+            IRoom fromRoom = Room;
+            IExit exit = fromRoom.Exit(direction);
+            IRoom toRoom = exit == null ? null : exit.Destination;
+
+            // TODO: act_move.C:133
+            // cannot move while in combat -> should be handled by POSITION in command
+            // drunk
+            // exit flags such as climb, door closed, ...
+            // private room, size, swim room, guild room
+
+            if (ControlledBy != null && ControlledBy.Room == Room) // Slave cannot leave a room without Master
+                Send("What?  And leave your beloved master?" + Environment.NewLine);
+            else if (exit == null || toRoom == null) // Check if existing exit
+            {
+                Send("You almost goes {0}, but suddenly realize that there's no exit there." + Environment.NewLine, direction);
+                Act(ActOptions.ToRoom, "{0} looks like {0:e}'s about to go {1}, but suddenly stops short and looks confused.", this, direction);
+            }
+            else
+            {
+                Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction); // TODO: sneak
+
+                SetGlobalCooldown(1);
+                ChangeRoom(toRoom);
+
+                // Autolook if impersonated/incarnated
+                if (ImpersonatedBy != null || IncarnatedBy != null)
+                    DisplayRoom();
+
+                Act(ActOptions.ToRoom, "{0} has arrived", this); // TODO: sneak
+
+                // Followers: no circular follows
+                if (fromRoom != toRoom)
+                {
+                    if (Slave != null)
+                    {
+                        Slave.Send("You follow {0}" + Environment.NewLine, DisplayName);
+                        Slave.Move(direction, true);
+                    }
+                    IReadOnlyCollection<ICharacter> followers = new ReadOnlyCollection<ICharacter>(fromRoom.People.Where(x => x.Leader == this).ToList());
+                    foreach (ICharacter follower in followers)
+                    {
+                        follower.Send("You follow {0}" + Environment.NewLine, DisplayName);
+                        follower.Move(direction, true);
+                    }
+                }
+            }
+            return true;
+        }
+
         public void ChangeRoom(IRoom destination)
         {
             if (!IsValid)

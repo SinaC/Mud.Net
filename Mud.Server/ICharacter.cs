@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
+using Mud.Server.Server;
 
 namespace Mud.Server
 {
@@ -31,7 +32,7 @@ namespace Mud.Server
 
         // TODO: race, classes, ...
 
-        // Group
+        // Group/Follower
         ICharacter Leader { get; }
         IReadOnlyCollection<ICharacter> GroupMembers { get; }
 
@@ -42,10 +43,12 @@ namespace Mud.Server
         ICharacter Slave { get; } // who is our slave (related to charm command/spell)
         ICharacter ControlledBy { get; } // who is our master (related to charm command/spell)
 
-        // Group
+        // Group/Follower
         bool ChangeLeader(ICharacter leader);
         bool AddGroupMember(ICharacter member);
         bool RemoveGroupMember(ICharacter member);
+        bool AddFollower(ICharacter follower);
+        bool StopFollower(ICharacter follower);
 
         // Impersonation/Controller
         bool ChangeImpersonation(IPlayer player); // if non-null, start impersonation, else, stop impersonation
@@ -78,6 +81,7 @@ namespace Mud.Server
         void RecomputeAttributes();
 
         // Move
+        bool Move(ServerOptions.ExitDirections direction, bool follow = false);
         void ChangeRoom(IRoom destination);
 
         // Combat

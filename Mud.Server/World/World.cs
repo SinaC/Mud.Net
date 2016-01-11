@@ -148,7 +148,11 @@ namespace Mud.Server.World
 
             // Remove from group if in a group
             if (character.Leader != null)
+            {
+                character.Leader.StopFollower(character);
+                // TODO: CRASH !!! StopFollow reset Leader !!!
                 character.Leader.RemoveGroupMember(character);
+            }
 
             // Search IPeriodicAura with character as Source and delete them (or nullify Source)
             List<ICharacter> charactersWithPeriodicAuras = _characters.Where(x => x.PeriodicAuras.Any(pe => pe.Source == character)).ToList(); // clone
