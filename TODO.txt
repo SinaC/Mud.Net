@@ -1,31 +1,36 @@
-group
+when char1 follows char2, char1.Leader = char2 [TODO]
+when char2 groups char1, char2.GroupMembers.Add(char1) [can only group if char1.Leader == char2]
+when char1 charms char2, char1.Slave = char2 + char2.Master = char1
+
+
+in old mud
+when char1 follows char2, char1.master = char2
+when char2 groups char1, char1.leader = char2
+when char1 charms char2, char2.master = char1 + char2.leader = char1
+
+ability CD
 add in Trie available abilities for an ICharacter
    public class AbilityInstance
    {
 		public IAbility Instance { get; set; }
 		public DateTime LastUse { get; set; } // used for CD
    }
-for simple ability (aka simple damage/heal/hot/dot) don't create a class: use generic effect (damage, heal, hot, dot)
- => something like: id, name (+ every info in IAbility), target (single/multi), effects list (aura/periodic aura/direct damage, direct heal), optional process function
+or a list of running cooldown
 
-add id to ability
-
-each time operator IS or AS is used, this should be replaced with a overridable method
+each time operator IS or AS is used, this should be replaced with an overridable method
 DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
 IItem: Display(short/long) (used instead of FormatItem in InfoCommands.cs)
 EquipedItem should be responsible for displaying itself
 EquipedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
 
-should equiped item be in inventory ? 4 bag slots instead of inventory + 1 dummy bag slot with inventory ?
+should equiped items be in inventory ? 4 bag slots instead of inventory + 1 dummy bag slot with inventory ?
 
-remove asynchronous mode, in asynchronous mode, when do we send prompt ?
 unit tests
 IReadOnlyPlayer, IReadOnlyCharacter, ...  + set private/protected to internal  this allows to remove methods like Enter/Leaves/ChangeImpersonation/ChangeController
 do_reply
 add CanSee test where it's needed
 use ShortDescription where it's needed
 avatar creation state machine
-abilities, GCD, CD
 
 min pos to initiate command  see interp.C:935
 

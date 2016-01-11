@@ -1,7 +1,7 @@
 ﻿using System;
 using Mud.Server.Constants;
 
-namespace Mud.Server.Auras
+namespace Mud.Server.Aura
 {
     // TODO: linked to an ability
     public class Aura : IAura
@@ -33,11 +33,20 @@ namespace Mud.Server.Auras
             TotalSeconds = totalSeconds;
         }
 
-        // Change amount, return true if amount <= 0
-        public bool ChangeAmount(int delta)
+        // Absorb
+        public int Absorb(int damage)
         {
-            Amount = Math.Max(0, Amount+delta);
-            return Amount == 0;
+            if (damage <= Amount) // Full absorb
+            {
+                Amount -= damage;
+                return 0;
+            }
+            else // Partial absorb
+            {
+                int remaining = damage - Amount;
+                Amount = 0;
+                return remaining;
+            }
         }
     }
 }

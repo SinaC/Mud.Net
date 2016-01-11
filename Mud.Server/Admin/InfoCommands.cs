@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
@@ -29,6 +30,11 @@ namespace Mud.Server.Admin
                         sb.AppendLine("No blueprint");
                     sb.AppendFormatLine("Name: {0}", victim.Name);
                     sb.AppendFormatLine("DisplayName: {0}", victim.DisplayName);
+                    if (victim.Leader != null)
+                        sb.AppendFormatLine("Leader: {0}", victim.Leader.Name);
+                    if (victim.GroupMembers.Any())
+                        foreach (ICharacter member in victim.GroupMembers)
+                            sb.AppendFormatLine("Group member: {0}", member.Name);
                     if (victim.Slave != null)
                         sb.AppendFormatLine("Slave: {0}", victim.Slave.Name);
                     if (victim.ImpersonatedBy != null)

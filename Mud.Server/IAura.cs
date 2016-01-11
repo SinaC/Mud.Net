@@ -25,7 +25,7 @@ namespace Mud.Server
         // Seconds left
         int SecondsLeft { get; }
 
-        // Change amount, return true if amount <= 0
-        bool ChangeAmount(int delta);
+        // Absorb, returns remaining damage
+        int Absorb(int damage);
     }
 }

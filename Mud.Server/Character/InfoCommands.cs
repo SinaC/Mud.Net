@@ -222,12 +222,17 @@ namespace Mud.Server.Character
             {
                 sb.AppendLine("Auras:");
                 foreach (IAura aura in _auras)
-                    sb.AppendFormatLine("{0} modifies {1} by {2}{3} for {4}.", 
-                        aura.Name, 
-                        aura.Modifier, 
-                        aura.Amount, 
-                        aura.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                    if (aura.Modifier == AuraModifiers.None)
+                        sb.AppendFormatLine("{0} for {1}.",
+                        aura.Name,
                         StringHelpers.FormatDelay(aura.SecondsLeft));
+                    else
+                        sb.AppendFormatLine("{0} modifies {1} by {2}{3} for {4}.", 
+                            aura.Name, 
+                            aura.Modifier, 
+                            aura.Amount, 
+                            aura.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                            StringHelpers.FormatDelay(aura.SecondsLeft));
             }
             else
                 sb.AppendLine("No aura.");

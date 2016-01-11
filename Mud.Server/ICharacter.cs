@@ -31,9 +31,9 @@ namespace Mud.Server
 
         // TODO: race, classes, ...
 
-        // TODO
-        //// Group
-        //ICharacter Leader { get; }
+        // Group
+        ICharacter Leader { get; }
+        IReadOnlyCollection<ICharacter> GroupMembers { get; }
 
         // Impersonation/Controller
         bool Impersonable { get; }
@@ -42,6 +42,12 @@ namespace Mud.Server
         ICharacter Slave { get; } // who is our slave (related to charm command/spell)
         ICharacter ControlledBy { get; } // who is our master (related to charm command/spell)
 
+        // Group
+        bool ChangeLeader(ICharacter leader);
+        bool AddGroupMember(ICharacter member);
+        bool RemoveGroupMember(ICharacter member);
+
+        // Impersonation/Controller
         bool ChangeImpersonation(IPlayer player); // if non-null, start impersonation, else, stop impersonation
         bool ChangeController(ICharacter master); // if non-null, start slavery, else, stop slavery
 

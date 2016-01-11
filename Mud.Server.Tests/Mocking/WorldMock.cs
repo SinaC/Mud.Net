@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mud.Server.Blueprints;
+using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
@@ -64,6 +65,21 @@ namespace Mud.Server.Tests.Mocking
         }
 
         public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPeriodicAura AddPeriodicAura(ICharacter victim, string name, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAura AddAura(ICharacter victim, string name, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPeriodicAura AddPeriodicAura(ICharacter victim, string name, ICharacter source, SchoolTypes school, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
         {
             throw new NotImplementedException();
         }

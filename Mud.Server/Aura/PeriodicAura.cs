@@ -2,7 +2,7 @@
 using Mud.Logger;
 using Mud.Server.Constants;
 
-namespace Mud.Server.Auras
+namespace Mud.Server.Aura
 {
     // TODO: linked to an ability
     public class PeriodicAura : IPeriodicAura

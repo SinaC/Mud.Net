@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mud.Server.Blueprints;
+using Mud.Server.Constants;
 using Mud.Server.Input;
 using Mud.Server.Item;
 using Mud.Server.Server;
@@ -25,6 +26,10 @@ namespace Mud.Server
         IItemWeapon AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container);
         IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container);
         IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim);
+
+        IAura AddAura(ICharacter victim, string name, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible);
+        IPeriodicAura AddPeriodicAura(ICharacter victim, string name, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks); // Hot
+        IPeriodicAura AddPeriodicAura(ICharacter victim, string name, ICharacter source, SchoolTypes school, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks); // Dot
 
         void RemoveCharacter(ICharacter character);
         void RemoveItem(IItem item);

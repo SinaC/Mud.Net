@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Server.Aura;
 using Mud.Server.Blueprints;
+using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
@@ -119,9 +121,34 @@ namespace Mud.Server.World
             return item;
         }
 
+        public IAura AddAura(ICharacter victim, string name, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible)
+        {
+            IAura aura = new Aura.Aura(name, modifier, amount, amountOperator, totalSeconds);
+            victim.AddAura(aura, visible);
+            return aura;
+        }
+
+        public IPeriodicAura AddPeriodicAura(ICharacter victim, string name, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
+        {
+            IPeriodicAura periodicAura = new PeriodicAura(name, PeriodicAuraTypes.Heal, source, amount, amountOperator, tickVisible, tickDelay, totalTicks);
+            victim.AddPeriodicAura(periodicAura);
+            return periodicAura;
+        }
+
+        public IPeriodicAura AddPeriodicAura(ICharacter victim, string name, ICharacter source, SchoolTypes school, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
+        {
+            IPeriodicAura periodicAura = new PeriodicAura(name, PeriodicAuraTypes.Damage, source, school, amount, amountOperator, tickVisible, tickDelay, totalTicks);
+            victim.AddPeriodicAura(periodicAura);
+            return periodicAura;
+        }
+        
         public void RemoveCharacter(ICharacter character)
         {
             character.StopFighting(true);
+
+            // Remove from group if in a group
+            if (character.Leader != null)
+                character.Leader.RemoveGroupMember(character);
 
             // Search IPeriodicAura with character as Source and delete them (or nullify Source)
             List<ICharacter> charactersWithPeriodicAuras = _characters.Where(x => x.PeriodicAuras.Any(pe => pe.Source == character)).ToList(); // clone
@@ -143,9 +170,6 @@ namespace Mud.Server.World
                 character.RemoveAura(aura, false);
             // no need to recompute
 
-            // TODO: remove aura
-            // TODO: extract all object in ICharacter
-            // TODO: remove character from room
             // Remove content
             if (character.Content.Any())
             {

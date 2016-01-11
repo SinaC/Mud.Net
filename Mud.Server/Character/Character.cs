@@ -6,7 +6,7 @@ using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Abilities;
-using Mud.Server.Auras;
+using Mud.Server.Aura;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
 using Mud.Server.Entity;
@@ -28,6 +28,7 @@ namespace Mud.Server.Character
         private readonly int[] _basePrimaryAttributes; // modified when levelling
         private readonly int[] _currentPrimaryAttributes; // = base attribute + buff
         private readonly int[] _computedAttributes; // computed attributes (in recompute)
+        private readonly List<ICharacter> _groupMembers;
 
         protected int MaxHitPoints
         {
@@ -49,6 +50,7 @@ namespace Mud.Server.Character
             _basePrimaryAttributes = new int[EnumHelpers.GetCount<PrimaryAttributeTypes>()];
             _currentPrimaryAttributes = new int[EnumHelpers.GetCount<PrimaryAttributeTypes>()];
             _computedAttributes = new int[EnumHelpers.GetCount<ComputedAttributeTypes>()];
+            _groupMembers = new List<ICharacter>();
 
             BuildEquipmentSlots();
 
@@ -57,7 +59,7 @@ namespace Mud.Server.Character
             for (int i = 0; i < _basePrimaryAttributes.Length; i++)
                 _basePrimaryAttributes[i] = 150;
 
-            Impersonable = true;
+            Impersonable = true; // Playable
             Room = room;
             room.Enter(this);
 
@@ -74,6 +76,7 @@ namespace Mud.Server.Character
             _basePrimaryAttributes = new int[EnumHelpers.GetCount<PrimaryAttributeTypes>()]; // TODO: blueprint
             _currentPrimaryAttributes = new int[EnumHelpers.GetCount<PrimaryAttributeTypes>()]; // TODO: blueprint
             _computedAttributes = new int[EnumHelpers.GetCount<ComputedAttributeTypes>()];
+            _groupMembers = new List<ICharacter>();
 
             Blueprint = blueprint;
             BuildEquipmentSlots();
@@ -83,7 +86,7 @@ namespace Mud.Server.Character
             for (int i = 0; i < _basePrimaryAttributes.Length; i++)
                 _basePrimaryAttributes[i] = 150;
 
-            Impersonable = false;
+            Impersonable = false; // Non-playable
             Room = room;
             room.Enter(this);
 
@@ -209,6 +212,13 @@ namespace Mud.Server.Character
             get { return _auras.AsReadOnly(); }
         }
 
+        public ICharacter Leader { get; private set; }
+
+        public IReadOnlyCollection<ICharacter> GroupMembers
+        {
+            get { return _groupMembers.AsReadOnly(); }
+        }
+
         // Impersonation/Controller
         public bool Impersonable { get; private set; }
         public IPlayer ImpersonatedBy { get; private set; }
@@ -216,15 +226,83 @@ namespace Mud.Server.Character
         public ICharacter Slave { get; private set; } // who is our slave (related to charm command/spell)
         public ICharacter ControlledBy { get; private set; } // who is our master (related to charm command/spell)
 
+        // Group
+        public bool ChangeLeader(ICharacter newLeader)
+        {
+            if (!IsValid)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeLeader: {0} is not valid anymore", Name);
+                return false;
+            }
+            if (newLeader != null && !newLeader.IsValid)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeLeader: {0} is not valid anymore", newLeader.Name);
+                return false;
+            }
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeLeader: {0} old= {1}; new {2}", Name, Leader == null ? "<<none>>" : Leader.Name, newLeader == null ? "<<none>>" : newLeader.Name);
+            Leader = newLeader;
+            return true;
+        }
+
+        public bool AddGroupMember(ICharacter newMember)
+        {
+            if (!IsValid)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddGroupMember: {0} is not valid anymore", Name);
+                return false;
+            }
+            if (Leader != null)
+            {
+                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.AddGroupMember: {0} cannot add member because leader is not null", Name);
+                return false;
+            }
+            if (!newMember.IsValid)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddGroupMember: new member {0} is not valid anymore");
+                return false;
+            }
+            if (_groupMembers.Any(x => x == newMember))
+            {
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddGroupMember: {0} already in group of {1}", newMember.Name, Name);
+                return false;
+            }
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.AddGroupMember: {0} joined by {1}", Name, newMember.Name);
+            // TODO: act to warn room ?
+            Send("{0} joins group." + Environment.NewLine, newMember.DisplayName);
+            newMember.ChangeLeader(this);
+            foreach(ICharacter member in _groupMembers)
+                member.Send("{0} joins group." + Environment.NewLine, newMember.DisplayName);
+            _groupMembers.Add(newMember);
+            return true;
+        }
+
+        public bool RemoveGroupMember(ICharacter oldMember)  // TODO: what if leader leaves group!!!
+        {
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.RemoveGroupMember: {0} leaves {1}", oldMember.Name, Name);
+            bool removed = _groupMembers.Remove(oldMember);
+            if (!removed)
+                Log.Default.WriteLine(LogLevels.Debug, "ICharacter.RemoveGroupMember: {0} not in group of {1}", oldMember.Name, Name);
+            else
+            {
+                oldMember.ChangeLeader(null);
+                Send("{0} leaves group." + Environment.NewLine, oldMember.DisplayName);
+                // TODO: act to warn room ?
+                foreach (ICharacter member in _groupMembers)
+                    member.Send("{0} leaves group." + Environment.NewLine, member.DisplayName);
+            }
+            return true;
+        }
+
+        // Impersonation/Controller
         public bool ChangeImpersonation(IPlayer player) // if non-null, start impersonation, else, stop impersonation
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ChangeImpersonation: {0} is not valid anymore", Name);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeImpersonation: {0} is not valid anymore", Name);
                 return false;
             }
 
-            Log.Default.WriteLine(LogLevels.Debug, "ChangeImpersonation: {0} old: {1}; new {2}", Name, ImpersonatedBy == null ? "<<none>>" : ImpersonatedBy.Name, player == null ? "<<none>>" : player.Name);
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeImpersonation: {0} old: {1}; new {2}", Name, ImpersonatedBy == null ? "<<none>>" : ImpersonatedBy.Name, player == null ? "<<none>>" : player.Name);
             // TODO: check if not already impersonated, if impersonable, ...
             ImpersonatedBy = player;
             return true;
@@ -234,11 +312,11 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ChangeController: {0} is not valid anymore", Name);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeController: {0} is not valid anymore", Name);
                 return false;
             }
 
-            Log.Default.WriteLine(LogLevels.Debug, "ChangeController: {0} master: old: {1}; new {2}", Name, ControlledBy == null ? "<<none>>" : ControlledBy.Name, master == null ? "<<none>>" : master.Name);
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeController: {0} master: old: {1}; new {2}", Name, ControlledBy == null ? "<<none>>" : ControlledBy.Name, master == null ? "<<none>>" : master.Name);
             // TODO: check if already slave, ...
             if (master == null) // TODO: remove display ???
             {
@@ -290,12 +368,6 @@ namespace Mud.Server.Character
         // Equipments
         public bool Unequip(IEquipable item)
         {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "Unequip: {0} is not valid anymore", Name);
-                return false;
-            }
-
             foreach (EquipedItem equipmentSlot in _equipments.Where(x => x.Item == item))
                 equipmentSlot.Item = null;
             return true;
@@ -333,7 +405,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "AddPeriodicAura: {0} is not valid anymore", Name);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddPeriodicAura: {0} is not valid anymore", Name);
                 return;
             }
 
@@ -355,22 +427,16 @@ namespace Mud.Server.Character
 
         public void RemovePeriodicAura(IPeriodicAura aura)
         {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "RemovePeriodicAura: {0} is not valid anymore", Name);
-                return;
-            }
-
             Log.Default.WriteLine(LogLevels.Info, "ICharacter.RemovePeriodicAura: {0} {1}", Name, aura.Name);
-            aura.ResetSource();
             bool removed = _periodicAuras.Remove(aura);
             if (!removed)
-                Log.Default.WriteLine(LogLevels.Warning, "Trying to remove unknown PeriodicAura");
+                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.RemovePeriodicAura: Trying to remove unknown PeriodicAura");
             else
             {
                 Send("{0} vanishes." + Environment.NewLine, aura.Name);
                 if (aura.Source != null && aura.Source != this)
                     aura.Source.Act(ActOptions.ToCharacter, "{0} vanishes on {1}.", aura.Name, this);
+                aura.ResetSource();
             }
         }
 
@@ -378,7 +444,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "AddAura: {0} is not valid anymore", Name);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddAura: {0} is not valid anymore", Name);
                 return;
             }
 
@@ -391,18 +457,13 @@ namespace Mud.Server.Character
 
         public void RemoveAura(IAura aura, bool recompute)
         {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "RemoveAura: {0} is not valid anymore", Name);
-                return;
-            }
             Log.Default.WriteLine(LogLevels.Info, "ICharacter.RemoveAura: {0} {1} | recompute: {2}", Name, aura.Name, recompute);
             bool removed = _auras.Remove(aura);
             if (!removed)
-                Log.Default.WriteLine(LogLevels.Warning, "Trying to remove unknown aura");
+                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.RemoveAura: Trying to remove unknown aura");
             else
                 Send("{0} vanishes." + Environment.NewLine, aura.Name);
-            if (recompute)
+            if (recompute && removed)
                 RecomputeAttributes();
         }
 
@@ -411,7 +472,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ChangeRoom: {0} is not valid anymore", Name);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeRoom: {0} is not valid anymore", Name);
                 return;
             }
 
@@ -428,7 +489,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Heal: {0} is not valid anymore", Name);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.Heal: {0} is not valid anymore", Name);
                 return false;
             }
 
@@ -456,7 +517,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "MultiHit: {0} is not valid anymore", Name);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.MultiHit: {0} is not valid anymore", Name);
                 return false;
             }
 
@@ -544,6 +605,7 @@ namespace Mud.Server.Character
             // TODO: check immunity/resist/vuln
 
             // Check shield
+            bool fullyAbsorbed = false;
             if (_auras.Any(x => x.Modifier == AuraModifiers.Shield))
             {
                 bool needsRecompute = false;
@@ -551,26 +613,20 @@ namespace Mud.Server.Character
                 IReadOnlyCollection<IAura> shields = new ReadOnlyCollection<IAura>(_auras.Where(x => x.Modifier == AuraModifiers.Shield).ToList());
                 foreach (IAura shield in shields)
                 {
-                    bool isShieldEmpty;
-                    if (shield.Amount >= damage) // full absorb
+                    // Process absorb
+                    damage = shield.Absorb(damage);
+                    if (damage == 0) // full absorb
                     {
+                        fullyAbsorbed = true;
                         Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] totally absorbed by shield {1}", damage, shield.Name);
-                        isShieldEmpty = shield.ChangeAmount(damage);
-                        damage = 0;
+                        break; // no need to check other shield
                     }
-                    else // not enough absorb
+                    else // partial absorb
                     {
                         Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] partially absorbed [{1}] by shield {2}", damage, shield.Amount, shield.Name);
-                        damage -= shield.Amount;
-                        isShieldEmpty = true;
-                    }
-                    if (isShieldEmpty)
-                    {
                         needsRecompute = true;
                         RemoveAura(shield, false); // recompute when everything is done
                     }
-                    if (damage == 0) // no more damage to absorb
-                        break;
                 }
                 if (needsRecompute)
                     RecomputeAttributes();
@@ -578,7 +634,12 @@ namespace Mud.Server.Character
 
 
             if (visible) // equivalent to dam_message in fight.C:4381
-                DisplayCombatDamagePhrase(ability, damage, source);
+            {
+                if (fullyAbsorbed)
+                    DisplayAbsorbPhrase(ability, source);
+                else
+                    DisplayCombatDamagePhrase(ability, damage, source);
+            }
 
             // No damage -> stop here
             if (damage == 0)
@@ -874,6 +935,40 @@ namespace Mud.Server.Character
             // TODO: damage modifier  fight.C:1693
 
             return victim.CombatDamage(this, ability, damage, damageType, true);
+        }
+
+        protected void DisplayAbsorbPhrase(string ability, ICharacter source)
+        {
+            if (!String.IsNullOrWhiteSpace(ability))
+            {
+                if (this == source)
+                {
+                    Act(ActOptions.ToCharacter, "Your {0} is absorbed.", ability);
+                    Act(ActOptions.ToRoom, "{0} {1} is absorbed.", source, ability);
+                }
+                else
+                {
+                    Act(ActOptions.ToCharacter, "{0}'s {1} is absorbed.", source, ability);
+                    if (Room == source.Room)
+                        source.Act(ActOptions.ToCharacter, "Your {0} is absorbed.", ability);
+                    ActToNotVictim(source, "{0}'s {1} is absorbed by {2}.", source, ability, this);
+                }
+            }
+            else
+            {
+                if (this == source)
+                {
+                    Act(ActOptions.ToCharacter, "You absorb some damage.");
+                    Act(ActOptions.ToRoom, "{0} absorbs some damage.", source);
+                }
+                else
+                {
+                    Act(ActOptions.ToCharacter, "You absorb damage from {0}.", source);
+                    if (Room == source.Room)
+                        source.Act(ActOptions.ToCharacter, "{0} absorbs your damage.", this);
+                    ActToNotVictim(source, "{0} absorbs damage from {0}.", this, source);
+                }
+            }
         }
 
         protected void DisplayCombatDamagePhrase(string ability, int damage, ICharacter source)
@@ -1180,13 +1275,13 @@ namespace Mud.Server.Character
                 if (parameters.Length > 1)
                     victim = FindHelpers.FindByName(Room.People, parameters[1]);
                 victim = victim ?? this;
-                CommandParameter abilityTarget = victim == this
-                    ? new CommandParameter
-                    {
-                        Count = 1,
-                        Value = Name
-                    }
-                    : parameters[1];
+                //CommandParameter abilityTarget = victim == this
+                //    ? new CommandParameter
+                //    {
+                //        Count = 1,
+                //        Value = Name
+                //    }
+                //    : parameters[1];
                 if (parameters[0].Value == "a")
                 {
                     AbilityManager abilityManager = new AbilityManager();
@@ -1206,26 +1301,26 @@ namespace Mud.Server.Character
                 }
                 else if (parameters[0].Value == "0")
                 {
-                    victim.AddPeriodicAura(new PeriodicAura("DoT", PeriodicAuraTypes.Damage, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8));
-                    victim.AddPeriodicAura(new PeriodicAura("DoT", PeriodicAuraTypes.Damage, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8));
-                    victim.AddPeriodicAura(new PeriodicAura("DoT", PeriodicAuraTypes.Damage, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8));
-                    victim.AddPeriodicAura(new PeriodicAura("HoT", PeriodicAuraTypes.Heal, this, 10, AmountOperators.Percentage, true, 3, 8));
-                    victim.AddPeriodicAura(new PeriodicAura("HoT", PeriodicAuraTypes.Heal, this, 10, AmountOperators.Percentage, true, 3, 8));
-                    victim.AddPeriodicAura(new PeriodicAura("HoT", PeriodicAuraTypes.Heal, this, 10, AmountOperators.Percentage, true, 3, 8));
+                    World.World.Instance.AddPeriodicAura(victim, "DoT", this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    World.World.Instance.AddPeriodicAura(victim, "DoT", this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    World.World.Instance.AddPeriodicAura(victim, "DoT", this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    World.World.Instance.AddPeriodicAura(victim, "HoT", this, 10, AmountOperators.Percentage, true, 3, 8);
+                    World.World.Instance.AddPeriodicAura(victim, "HoT", this, 10, AmountOperators.Percentage, true, 3, 8);
+                    World.World.Instance.AddPeriodicAura(victim, "HoT", this, 10, AmountOperators.Percentage, true, 3, 8);
                 }
                 else if (parameters[0].Value == "1")
                     victim.UnknownSourceDamage("STUPIDITY2", 100, SchoolTypes.Frost, true);
                 else if (parameters[0].Value == "2")
                     victim.UnknownSourceDamage(null, 100, SchoolTypes.Frost, true);
                 else if (parameters[0].Value == "3")
-                    victim.AddPeriodicAura(new PeriodicAura("DoT", PeriodicAuraTypes.Damage, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8));
+                    World.World.Instance.AddPeriodicAura(victim, "DoT", this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
                 else if (parameters[0].Value == "4")
-                    victim.AddPeriodicAura(new PeriodicAura("HoT", PeriodicAuraTypes.Heal, this, 10, AmountOperators.Percentage, true, 3, 8));
+                    World.World.Instance.AddPeriodicAura(victim, "HoT", this, 10, AmountOperators.Percentage, true, 3, 8);
                 else if (parameters[0].Value == "5")
                 {
-                    victim.AddAura(new Aura("BuffSta", AuraModifiers.Stamina, 15, AmountOperators.Percentage, 70), true);
-                    victim.AddAura(new Aura("DebuffCarac", AuraModifiers.Characteristics, -10, AmountOperators.Fixed, 30), true);
-                    victim.AddAura(new Aura("BuffAP", AuraModifiers.AttackPower, 150, AmountOperators.Fixed, 90), true);
+                    World.World.Instance.AddAura(victim, "BuffSta", AuraModifiers.Stamina, 15, AmountOperators.Percentage, 70, true);
+                    World.World.Instance.AddAura(victim, "DebuffCarac", AuraModifiers.Characteristics, -10, AmountOperators.Fixed, 30, true);
+                    World.World.Instance.AddAura(victim, "BuffAP", AuraModifiers.AttackPower, 150, AmountOperators.Fixed, 90, true);
                 }
                 else if (parameters[0].Value == "6")
                 {

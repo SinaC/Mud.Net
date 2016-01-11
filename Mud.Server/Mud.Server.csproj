@@ -38,8 +38,8 @@
     <Compile Include="Abilities\AbilityManager.cs" />
     <Compile Include="Abilities\Ability.cs" />
     <Compile Include="Abilities\ToRemoveAbilities.cs" />
-    <Compile Include="Auras\Aura.cs" />
-    <Compile Include="Auras\PeriodicAura.cs" />
+    <Compile Include="Aura\Aura.cs" />
+    <Compile Include="Aura\PeriodicAura.cs" />
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Admin\Admin.cs" />
     <Compile Include="Admin\ImpersonateCommand.cs" />
@@ -48,6 +48,7 @@
     <Compile Include="Character\Character.cs" />
     <Compile Include="Character\FollowerCommands.cs" />
     <Compile Include="Character\CommunicationCommands.cs" />
+    <Compile Include="Character\GroupCommands.cs" />
     <Compile Include="Character\InfoCommands.cs" />
     <Compile Include="Character\MovementCommands.cs" />
     <Compile Include="Character\ItemCommands.cs" />

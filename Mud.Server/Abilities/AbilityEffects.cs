@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Mud.Server.Auras;
 using Mud.Server.Constants;
 
 namespace Mud.Server.Abilities
@@ -70,7 +69,7 @@ namespace Mud.Server.Abilities
 
         public override bool Process(ICharacter source, ICharacter victim, Ability ability)
         {
-            victim.AddAura(new Aura(ability.Name, Modifier, Amount, AmountOperator, ability.Duration), true);
+            World.World.Instance.AddAura(victim, ability.Name, Modifier, Amount, AmountOperator, ability.Duration, true);
             return true;
         }
     }
@@ -94,7 +93,7 @@ namespace Mud.Server.Abilities
         {
             int amount = ComputeAmount(source, Attribute, Factor);
             int totalTicks = ability.Duration / TickDelay;
-            victim.AddPeriodicAura(new PeriodicAura(ability.Name, PeriodicAuraTypes.Damage, source, School, amount, AmountOperators.Fixed, true, TickDelay, totalTicks));
+            World.World.Instance.AddPeriodicAura(victim, ability.Name, source, School, amount, AmountOperators.Fixed, true, TickDelay, totalTicks);
             return true;
         }
     }
@@ -116,7 +115,7 @@ namespace Mud.Server.Abilities
         {
             int amount = ComputeAmount(source, Attribute, Factor);
             int totalTicks = ability.Duration / TickDelay;
-            victim.AddPeriodicAura(new PeriodicAura(ability.Name, PeriodicAuraTypes.Heal, source, amount, AmountOperators.Fixed, true, TickDelay, totalTicks));
+            World.World.Instance.AddPeriodicAura(victim, ability.Name, source, amount, AmountOperators.Fixed, true, TickDelay, totalTicks);
             return true;
         }
     }
@@ -163,8 +162,9 @@ namespace Mud.Server.Abilities
                 source.Act(ActOptions.ToCharacter, "{0} cannot be targetted by {1}.", victim, ability.Name);
                 return false;
             }
-            victim.AddAura(new Aura(ability.Name, AuraModifiers.Shield, 459 * source.GetComputedAttribute(ComputedAttributeTypes.SpellPower) / 1000, AmountOperators.Fixed, ability.Duration), true);
-            victim.AddAura(new Aura(WeakenedSoulDebuff, AuraModifiers.None, 0, AmountOperators.None, 15), true);
+            int amount = ComputeAmount(source, ComputedAttributeTypes.SpellPower, 45.9f);
+            World.World.Instance.AddAura(victim, ability.Name, AuraModifiers.Shield, amount, AmountOperators.Fixed, ability.Duration, true);
+            World.World.Instance.AddAura(victim, WeakenedSoulDebuff, AuraModifiers.None, 0, AmountOperators.None, 15, true);
             return true;
         }
     }

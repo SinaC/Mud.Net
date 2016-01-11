@@ -492,7 +492,7 @@ namespace Mud.Server.Server
                                     //data += ">"; // TODO: complex prompt
                                     // bust a prompt
                                     if (playingClient.Player.Impersonating != null)
-                                        data += String.Format("<{0}/{1}HP>", playingClient.Player.Impersonating.HitPoints, playingClient.Player.Impersonating.GetComputedAttribute(ComputedAttributeTypes.MaxHitPoints));
+                                        data += String.Format("<{0}/{1}hp>", playingClient.Player.Impersonating.HitPoints, playingClient.Player.Impersonating.GetComputedAttribute(ComputedAttributeTypes.MaxHitPoints));
                                     else
                                         data += ">";
                                 }
@@ -679,6 +679,8 @@ namespace Mud.Server.Server
                     DoPulse();
 
                     ProcessOutput();
+
+                    // TODO: remove !IsValid entity
 
                     sw.Stop();
                     long elapsedMs = sw.ElapsedMilliseconds; // in milliseconds
