@@ -85,7 +85,7 @@ namespace Mud.Server.Character
             Sex = blueprint.Sex;
             Level = blueprint.Level;
             for (int i = 0; i < _basePrimaryAttributes.Length; i++)
-                _basePrimaryAttributes[i] = 150;
+                _basePrimaryAttributes[i] = 10;
 
             Impersonable = false; // Non-playable
             Room = room;
