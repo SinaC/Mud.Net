@@ -700,7 +700,6 @@ namespace Mud.Server.Character
                     RecomputeAttributes();
             }
 
-
             if (visible) // equivalent to dam_message in fight.C:4381
             {
                 if (fullyAbsorbed)
@@ -747,8 +746,46 @@ namespace Mud.Server.Character
                 return false;
             }
 
+            // TODO: if invisible, remove invisibility
+            // TODO: damage modifier
+            // TODO: check immunity/resist/vuln
+
+            // Check shield
+            bool fullyAbsorbed = false;
+            if (_auras.Any(x => x.Modifier == AuraModifiers.Shield))
+            {
+                bool needsRecompute = false;
+                // Process every shield aura until 0 damage left or 0 shield aura left
+                IReadOnlyCollection<IAura> shields = new ReadOnlyCollection<IAura>(_auras.Where(x => x.Modifier == AuraModifiers.Shield).ToList());
+                foreach (IAura shield in shields)
+                {
+                    // Process absorb
+                    damage = shield.Absorb(damage);
+                    if (damage == 0) // full absorb
+                    {
+                        fullyAbsorbed = true;
+                        Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] totally absorbed by shield {1}", damage, shield.Name);
+                        break; // no need to check other shield
+                    }
+                    else // partial absorb
+                    {
+                        Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] partially absorbed [{1}] by shield {2}", damage, shield.Amount, shield.Name);
+                        needsRecompute = true;
+                        RemoveAura(shield, false); // recompute when everything is done
+                    }
+                }
+                if (needsRecompute)
+                    RecomputeAttributes();
+            }
+
             if (visible) // equivalent to dam_message in fight.C:4381
-                DisplayUnknownSourceDamagePhrase(ability, damage);
+            {
+                if (fullyAbsorbed)
+                    DisplayUnknownSourceAbsorbPhrase(ability);
+                else
+                    DisplayUnknownSourceDamagePhrase(ability, damage);
+            }
+
             // No damage -> stop here
             if (damage == 0)
             {
@@ -1036,6 +1073,20 @@ namespace Mud.Server.Character
                         source.Act(ActOptions.ToCharacter, "{0} absorbs your damage.", this);
                     ActToNotVictim(source, "{0} absorbs damage from {0}.", this, source);
                 }
+            }
+        }
+
+        protected void DisplayUnknownSourceAbsorbPhrase(string ability)
+        {
+            if (!String.IsNullOrWhiteSpace(ability))
+            {
+                Act(ActOptions.ToCharacter, "{0} is absorbed.", ability);
+                Act(ActOptions.ToRoom, "{0} is absorbed by {1}.", ability, this);
+            }
+            else
+            {
+                Act(ActOptions.ToCharacter, "You absorb damage.");
+                Act(ActOptions.ToRoom, "{0} absorbs damage.", this);
             }
         }
 

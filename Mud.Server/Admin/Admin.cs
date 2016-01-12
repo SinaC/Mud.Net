@@ -138,6 +138,39 @@ namespace Mud.Server.Admin
             return true;
         }
 
+        [Command("slay")]
+        protected virtual bool DoSlay(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Send("Slay whom?"+Environment.NewLine);
+                return true;
+            }
+            if (Impersonating == null)
+            {
+                Send("Slay can only be used when impersonating."+Environment.NewLine);
+                return true;
+            }
+            ICharacter victim = FindHelpers.FindByName(Impersonating.Room.People, parameters[0]);
+            if (victim == null)
+            {
+                Send(StringHelpers.CharacterNotFound);
+                return true;
+            }
+            if (victim == Impersonating)
+            {
+                Send("Suicide is a mortal sin."+Environment.NewLine);
+                return true;
+            }
+            Impersonating.Act(ActOptions.ToCharacter, "You slay {0:m} in cold blood!", victim);
+            victim.Act(ActOptions.ToCharacter, "{0} slays you in cold blood!", Impersonating);
+            Impersonating.ActToNotVictim(victim, "{0} slays {1} in cold blood!", Impersonating, victim);
+
+            Impersonating.RawKill(victim, false);
+
+            return true;
+        }
+
         [Command("force")]
         protected virtual bool DoForce(string rawParameters, params CommandParameter[] parameters)
         {

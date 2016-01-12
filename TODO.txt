@@ -1,9 +1,4 @@
-add Slay command
-check if shield is added in unknownSourceDamage
-
-when char1 follows char2, char1.Leader = char2 [TODO]
-when char2 groups char1, char2.GroupMembers.Add(char1) [can only group if char1.Leader == char2]
-when char1 charms char2, char1.Slave = char2 + char2.Master = char1
+Mystery to new format converter  (see olc_act.C:2578 for obj values  L4571 for mob values)
 
 ability CD
 add in Trie available abilities for an ICharacter
@@ -31,7 +26,7 @@ avatar creation state machine
 
 min pos to initiate command  see interp.C:935
 
-remove !IsValid entity after ProcessOutput
+remove !IsValid entities after ProcessOutput
 spam, linkdead, ...
 
 ability:

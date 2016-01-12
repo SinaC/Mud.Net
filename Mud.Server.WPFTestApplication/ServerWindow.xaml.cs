@@ -48,6 +48,7 @@ namespace Mud.Server.WPFTestApplication
             Server.Server.Instance.Start();
 
             //CreateNewClientWindow();
+            InputTextBox.Focus();
         }
 
         private void InputTextBox_OnKeyDown(object sender, KeyEventArgs e)
@@ -207,12 +208,13 @@ namespace Mud.Server.WPFTestApplication
                             Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", room.VNum);
                         else
                         {
-                            World.World.Instance.AddExit(from, to, (ServerOptions.ExitDirections)i, false);
+                            World.World.Instance.AddExit(from, to, null, (ServerOptions.ExitDirections)i);
                         }
                     }
                 }
             }
             //// Handle resets
+            //Dictionary<string, int> itemTypes = new Dictionary<string, int>();
             //foreach (RoomData importedRoom in importer.Rooms.Where(x => x.Resets.Any()))
             //{
             //    IRoom room;
@@ -228,13 +230,51 @@ namespace Mud.Server.WPFTestApplication
             //                break;
             //            case 'O':
             //                ObjectData obj = importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1);
-            //                if (obj != null) // TODO: itemType
-            //                    World.World.Instance.AddItemContainer(Guid.NewGuid(), obj.Name, room);
+            //                if (obj != null)
+            //                {
+            //                    if (obj.ItemType == "weapon")
+            //                    {
+            //                        ItemWeaponBlueprint blueprint = new ItemWeaponBlueprint
+            //                        {
+            //                            Name = obj.Name,
+            //                            ShortDescription = obj.ShortDescr,
+            //                            Description = obj.Description,
+            //                            Cost = Convert.ToInt32(obj.Cost),
+            //                            Weight = obj.Weight,
+            //                            // TODO: weapon type Values[0]
+            //                            DiceCount = Convert.ToInt32(obj.Values[1]),
+            //                            DiceValue = Convert.ToInt32(obj.Values[2]),
+            //                            // TODO: damage type Values[3]
+            //                        };
+            //                        World.World.Instance.AddItemWeapon(Guid.NewGuid(), blueprint, room);
+            //                    }
+            //                    else if (obj.ItemType == "container")
+            //                    {
+            //                        ItemContainerBlueprint blueprint = new ItemContainerBlueprint
+            //                        {
+            //                            Name = obj.Name,
+            //                            ShortDescription = obj.ShortDescr,
+            //                            Description = obj.Description,
+            //                            Cost = Convert.ToInt32(obj.Cost),
+            //                            Weight = obj.Weight,
+            //                            ItemCount = Convert.ToInt32(obj.Values[3]),
+            //                            WeightMultiplier = Convert.ToInt32(obj.Values[4]),
+            //                        };
+            //                        World.World.Instance.AddItemContainer(Guid.NewGuid(), blueprint, room);
+            //                    }
+
+            //                    if (!itemTypes.ContainsKey(obj.ItemType))
+            //                        itemTypes.Add(obj.ItemType, 1);
+            //                    else
+            //                        itemTypes[obj.ItemType]++;
+            //                }
             //                break;
             //            // TODO: other command  P, E, G, D, R, Z
             //        }
             //    }
             //}
+            //foreach(KeyValuePair<string, int> kv in itemTypes)
+            //    Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", kv.Key, kv.Value);
 
             CharacterBlueprint mob2Blueprint = new CharacterBlueprint
             {

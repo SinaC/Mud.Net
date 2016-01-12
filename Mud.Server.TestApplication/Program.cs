@@ -162,7 +162,8 @@ namespace Mud.Server.TestApplication
             // World
             IRoom room1 = World.World.Instance.AddRoom(Guid.NewGuid(), room1Blueprint);
             IRoom room2 = World.World.Instance.AddRoom(Guid.NewGuid(), room2Blueprint);
-            World.World.Instance.AddExit(room1, room2, ServerOptions.ExitDirections.North, true);
+            World.World.Instance.AddExit(room1, room2, null, ServerOptions.ExitDirections.North);
+            World.World.Instance.AddExit(room2, room1, null, ServerOptions.ExitDirections.North);
 
             ICharacter mob1 = World.World.Instance.AddCharacter(Guid.NewGuid(), "Mob1", room1); // playable
             ICharacter mob2 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob2Blueprint, room1);
@@ -235,7 +236,7 @@ namespace Mud.Server.TestApplication
                             Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", room.VNum);
                         else
                         {
-                            World.World.Instance.AddExit(from, to, (ServerOptions.ExitDirections) i, false);
+                            World.World.Instance.AddExit(from, to, null, (ServerOptions.ExitDirections) i);
                         }
                     }
                 }

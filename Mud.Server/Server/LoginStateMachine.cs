@@ -99,7 +99,7 @@ namespace Mud.Server.Server
             // Else, 
             //      If too many try, disconnect
             //      Else, retry password
-            bool passwordCorrect = input == "password"; // TODO: check password + encryption
+            bool passwordCorrect = input != "test"; // TODO: check password + encryption
             if (passwordCorrect)
             {
                 Send(client, "Password correct." + Environment.NewLine);

@@ -4,10 +4,11 @@ namespace Mud.Server.Room
 {
     public class Exit : IExit
     {
-        public Exit(string description, IRoom destination)
+        public Exit(string description, ExitBlueprint blueprint, IRoom destination)
         {
             Description = description;
             Destination = destination;
+            Blueprint = blueprint;
         }
 
         #region IExit

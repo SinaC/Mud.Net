@@ -153,7 +153,7 @@ namespace Mud.Server.Player
             // TODO: load player file
 
             // Aliases
-            Aliases.Add("i1", "/impersonate mob1");
+            Aliases.Add("i", "/impersonate mob1");
             Aliases.Add("t1", "/force mob2 test 3 mob1");
             Aliases.Add("t2", "/force mob4 test 4 mob1");
             Aliases.Add("sh", "test 'power word: shield'");
@@ -176,6 +176,7 @@ namespace Mud.Server.Player
 
         #endregion
 
+        [Command("macro")]
         [Command("alias")]
         protected virtual bool DoAlias(string rawParameters, params CommandParameter[] parameters)
         {

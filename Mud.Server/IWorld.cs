@@ -15,8 +15,8 @@ namespace Mud.Server
         IReadOnlyCollection<IItem> GetItems();
 
         IRoom AddRoom(Guid guid, RoomBlueprint blueprint);
-        
-        IExit AddExit(IRoom from, IRoom to, ServerOptions.ExitDirections direction, bool bidirectional);
+
+        IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ServerOptions.ExitDirections direction);
         
         ICharacter AddCharacter(Guid guid, string name, IRoom room); // Impersonated
         ICharacter AddCharacter(Guid guid, CharacterBlueprint blueprint, IRoom room); // Non-impersonated

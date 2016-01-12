@@ -99,7 +99,7 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IExit AddExit(IRoom @from, IRoom to, ServerOptions.ExitDirections direction, bool bidirectional)
+        public IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ServerOptions.ExitDirections direction)
         {
             throw new NotImplementedException();
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Mud.Server.Helpers
 {
@@ -25,7 +24,8 @@ namespace Mud.Server.Helpers
 
         public int Dice(int count, int value)
         {
-            return Enumerable.Range(0, count).Sum(x => Randomizer.Next(value)+1);
+            //return Enumerable.Range(0, count).Sum(x => Randomizer.Next(value)+1);
+            return Randomizer.Next(count, count*value + 1); // faster :)
         }
     }
 }
