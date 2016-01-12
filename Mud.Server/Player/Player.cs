@@ -157,6 +157,7 @@ namespace Mud.Server.Player
             Aliases.Add("t1", "/force mob2 test 3 mob1");
             Aliases.Add("t2", "/force mob4 test 4 mob1");
             Aliases.Add("sh", "test 'power word: shield'");
+            Aliases.Add("fo", "/force mob2 follow mob1");
 
             //
             PlayerState = PlayerStates.Playing;

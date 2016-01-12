@@ -10,6 +10,7 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
+        // TODO: display groups
         [Command("mstat")]
         protected virtual bool DoMstat(string rawParameters, params CommandParameter[] parameters)
         {

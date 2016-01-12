@@ -146,19 +146,22 @@ namespace Mud.Server.World
         {
             character.StopFighting(true);
 
-            // Remove from group if in a group
+            // Remove from group if in a group + stop following
             if (character.Leader != null)
             {
                 ICharacter leader = character.Leader;
                 leader.StopFollower(character);
-                leader.RemoveGroupMember(character);
+                if (leader.GroupMembers.Any(x => x == character))
+                    leader.RemoveGroupMember(character);
             }
 
-            // Search IPeriodicAura with character as Source and delete them (or nullify Source)
+            // Search IPeriodicAura with character as Source and nullify Source
             List<ICharacter> charactersWithPeriodicAuras = _characters.Where(x => x.PeriodicAuras.Any(pe => pe.Source == character)).ToList(); // clone
-            foreach(ICharacter characterWithPeriodicAuras in charactersWithPeriodicAuras)
-                foreach(IPeriodicAura pa in characterWithPeriodicAuras.PeriodicAuras.Where(x => x.Source == character))
+            foreach (ICharacter characterWithPeriodicAuras in charactersWithPeriodicAuras)
+            {
+                foreach (IPeriodicAura pa in characterWithPeriodicAuras.PeriodicAuras.Where(x => x.Source == character))
                     pa.ResetSource();
+            }
 
             // Remove periodic auras on character
             List<IPeriodicAura> periodicAuras = new List<IPeriodicAura>(character.PeriodicAuras); // clone
@@ -189,6 +192,7 @@ namespace Mud.Server.World
                 character.Room.Leave(character);
             //
             character.OnRemoved();
+            //
             _characters.Remove(character);
         }
 

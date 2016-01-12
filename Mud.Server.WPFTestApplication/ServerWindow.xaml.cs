@@ -254,15 +254,15 @@ namespace Mud.Server.WPFTestApplication
                 Sex = Sex.Male,
                 Level = 10
             };
-            CharacterBlueprint mob4Blueprint = new CharacterBlueprint
-            {
-                Id = 4,
-                Name = "mob4",
-                ShortDescription = "Fourth mob (neutral)",
-                Description = "Fourth mob (neutral) is here",
-                Sex = Sex.Neutral,
-                Level = 10
-            };
+            //CharacterBlueprint mob4Blueprint = new CharacterBlueprint
+            //{
+            //    Id = 4,
+            //    Name = "mob4",
+            //    ShortDescription = "Fourth mob (neutral)",
+            //    Description = "Fourth mob (neutral) is here",
+            //    Sex = Sex.Neutral,
+            //    Level = 10
+            //};
             CharacterBlueprint mob5Blueprint = new CharacterBlueprint
             {
                 Id = 5,
@@ -335,7 +335,8 @@ namespace Mud.Server.WPFTestApplication
             ICharacter mob1 = World.World.Instance.AddCharacter(Guid.NewGuid(), "mob1", templeOfMota); // playable
             ICharacter mob2 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
             ICharacter mob3 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
-            ICharacter mob4 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
+            //ICharacter mob4 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
+            ICharacter mob4 = World.World.Instance.AddCharacter(Guid.NewGuid(), "mob4", templeSquare); // playable
             ICharacter mob5 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
             IItemContainer item1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);

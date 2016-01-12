@@ -1,4 +1,3 @@
-!! World.cs:154 crash !!
 add Slay command
 check if shield is added in unknownSourceDamage
 

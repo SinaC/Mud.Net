@@ -635,12 +635,6 @@ namespace Mud.Server.Character
 
         public bool StopFighting(bool both) // equivalent to stop_fighting in fight.C:3441
         {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "StopFighting: {0} is not valid anymore", Name);
-                return false;
-            }
-
             Log.Default.WriteLine(LogLevels.Debug, "{0} stops fighting {1}", Name, Fighting == null ? "<<no enemy>>" : Fighting.Name);
 
             Fighting = null;
