@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
+using Mud.Server.Item;
 using Mud.Server.Server;
+using Mud.Server.World;
 
 namespace Mud.Server
 {
@@ -25,6 +27,9 @@ namespace Mud.Server
         Sex Sex { get; }
         int Level { get; }
         int HitPoints { get; }
+        int this[ResourceKinds resource] { get; }
+        int this[PrimaryAttributeTypes attribute] { get; }
+        int this[ComputedAttributeTypes attribute] { get; }
 
         // Auras
         IReadOnlyCollection<IPeriodicAura> PeriodicAuras { get; }
@@ -67,8 +72,7 @@ namespace Mud.Server
 
         // Attributes
         int GetBasePrimaryAttribute(PrimaryAttributeTypes attribute);
-        int GetCurrentPrimaryAttribute(PrimaryAttributeTypes attribute);
-        int GetComputedAttribute(ComputedAttributeTypes attribute);
+        int GetMaxResource(ResourceKinds resource);
 
         // Auras
         void AddPeriodicAura(IPeriodicAura aura);
@@ -85,12 +89,13 @@ namespace Mud.Server
         void ChangeRoom(IRoom destination);
 
         // Combat
-        bool Heal(ICharacter source, string ability, int amount, bool visible);
+        bool Heal(ICharacter source, IAbility ability, int amount, bool visible);
         bool MultiHit(ICharacter enemy);
         bool StartFighting(ICharacter enemy);
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
-        bool CombatDamage(ICharacter source, string ability, int damage, SchoolTypes damageType, bool visible); // damage with known damager
-        bool UnknownSourceDamage(string ability, int damage, SchoolTypes damageType, bool visible); // damage with unknown damager or no damager
+        bool WeaponDamage(ICharacter source, IItemWeapon weapon, int damage, SchoolTypes damageType, bool visible); // damage from weapon(or bare hands) of known source
+        bool Damage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage from known source
+        bool UnknownSourceDamage(IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage from unknown source
         bool RawKill(ICharacter victim, bool killingPayoff); // kill victim + create corpse (if killingPayoff is true, xp gain/loss)
     }
 

@@ -54,7 +54,7 @@ namespace Mud.Server.Character
                             Send("{0} holds:" + Environment.NewLine, containerItem.DisplayName);
                             DisplayItems(container.Content, true, true);
                         }
-                        // TODO: drink container
+                            // TODO: drink container
                         else
                             Send("This is not a container." + Environment.NewLine);
                     }
@@ -224,13 +224,13 @@ namespace Mud.Server.Character
                 foreach (IAura aura in _auras)
                     if (aura.Modifier == AuraModifiers.None)
                         sb.AppendFormatLine("{0} for {1}.",
-                        aura.Name,
-                        StringHelpers.FormatDelay(aura.SecondsLeft));
+                            aura.Ability == null ? "Unknown" : aura.Ability.Name,
+                            StringHelpers.FormatDelay(aura.SecondsLeft));
                     else
-                        sb.AppendFormatLine("{0} modifies {1} by {2}{3} for {4}.", 
-                            aura.Name, 
-                            aura.Modifier, 
-                            aura.Amount, 
+                        sb.AppendFormatLine("{0} modifies {1} by {2}{3} for {4}.",
+                            aura.Ability == null ? "Unknown" : aura.Ability.Name,
+                            aura.Modifier,
+                            aura.Amount,
                             aura.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
                             StringHelpers.FormatDelay(aura.SecondsLeft));
             }
@@ -244,7 +244,7 @@ namespace Mud.Server.Character
                 {
                     if (pa.AuraType == PeriodicAuraTypes.Damage) // TODO: operator
                         sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} for {6}.",
-                            pa.Name,
+                            pa.Ability == null ? "Unknown" : pa.Ability.Name,
                             pa.Source == null ? "(none)" : pa.Source.DisplayName,
                             pa.Amount,
                             pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
@@ -253,7 +253,7 @@ namespace Mud.Server.Character
                             StringHelpers.FormatDelay(pa.SecondsLeft));
                     else
                         sb.AppendFormatLine("{0} from {1}: {2}{3} heal every {4} for {5}.",
-                            pa.Name,
+                            pa.Ability == null ? "Unknown" : pa.Ability.Name,
                             pa.Source == null ? "(none)" : pa.Source.DisplayName,
                             pa.Amount,
                             pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
@@ -263,6 +263,37 @@ namespace Mud.Server.Character
             }
             else
                 sb.AppendLine("No periodic aura.");
+            Send(sb);
+            return true;
+        }
+
+        [Command("score", Priority = 10)]
+        protected virtual bool DoScore(string rawParameters, params CommandParameter[] parameters)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine();
+            sb.AppendLine("+---------------------------------------------------+"); // length = 51
+            if (ImpersonatedBy != null)
+                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + " (" + ImpersonatedBy.DisplayName+")", 51) + "|");
+            else
+                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName, 51) + "|");
+            sb.AppendLine("+-----------------------+---------------------------+");
+            sb.AppendFormatLine("| %c%Strength  : %W%[{0,3}/{1,3}]%x% | %c%Race  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Strength], GetBasePrimaryAttribute(PrimaryAttributeTypes.Strength), "TODO");
+            sb.AppendFormatLine("| %c%Agility   : %W%[{0,3}/{1,3}]%x% | %c%Class : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Agility], GetBasePrimaryAttribute(PrimaryAttributeTypes.Agility), "TODO");
+            sb.AppendFormatLine("| %c%Stamina   : %W%[{0,3}/{1,3}]%x% | %c%Sex   : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Stamina], GetBasePrimaryAttribute(PrimaryAttributeTypes.Stamina), Sex);
+            sb.AppendFormatLine("| %c%Intellect : %W%[{0,3}/{1,3}]%x% | %c%Level : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Intellect], GetBasePrimaryAttribute(PrimaryAttributeTypes.Intellect), Level);
+            sb.AppendFormatLine("| %c%Spirit    : %W%[{0,3}/{1,3}]%x% |                           |", this[PrimaryAttributeTypes.Spirit], GetBasePrimaryAttribute(PrimaryAttributeTypes.Spirit));
+            sb.AppendLine("+-----------------------+--+------------------------+");
+            // TODO: resource if character can use them
+            sb.AppendFormatLine("| %g%Hit    : %W%[{0,6}/{1,6}]%x% | %g%Attack Power : %W%[{0,6}]%x%|", HitPoints, this[ComputedAttributeTypes.MaxHitPoints], this[ComputedAttributeTypes.AttackPower]);
+            sb.AppendFormatLine("| %g%Mana   : %W%[{0,6}/{1,6}]%x% | %g%Spell Power  : %W%[{0,6}]%x%|", this[ResourceKinds.Mana], GetMaxResource(ResourceKinds.Mana), this[ComputedAttributeTypes.SpellPower]);
+            sb.AppendFormatLine("| %g%Energy :       %W%[{0,3}/{1,3}]%x% | %g%Attack Speed : %W%[{0,6}]%x%|", this[ResourceKinds.Energy], GetMaxResource(ResourceKinds.Energy), this[ComputedAttributeTypes.AttackSpeed]);
+            sb.AppendFormatLine("| %g%Rage   :       %W%[{0,3}/{1,3}]%x% |                        |", this[ResourceKinds.Rage], GetMaxResource(ResourceKinds.Rage));
+            sb.AppendFormatLine("| %g%Runic  :       %W%[{0,3}/{1,3}]%x% |                        |", this[ResourceKinds.Runic], GetMaxResource(ResourceKinds.Runic));
+            // TODO: runes  sb.AppendFormatLine("| Runes  : BBUUFFDD");
+            // TODO: gold, xp to level, item, weight
+            // TODO: armor/resistances
+            sb.AppendLine("+--------------------------+------------------------+");
             Send(sb);
             return true;
         }
@@ -280,7 +311,8 @@ namespace Mud.Server.Character
             DisplayExits(true);
             DisplayItems(Room.Content, false, false);
             foreach (ICharacter victim in Room.People.Where(x => x != this))
-            { //  (see act_info.C:714 show_char_to_char)
+            {
+                //  (see act_info.C:714 show_char_to_char)
                 if (CanSee(victim)) // see act_info.C:375 show_char_to_char_0)
                 {
                     // TODO: display flags (see act_info.C:387 -> 478)
@@ -315,7 +347,7 @@ namespace Mud.Server.Character
                     Send(sb);
                 }
             }
-            
+
 
             if (peekInventory)
             {

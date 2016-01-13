@@ -1,4 +1,5 @@
 ﻿using Mud.Server.Constants;
+using Mud.Server.World;
 
 namespace Mud.Server
 {
@@ -10,8 +11,8 @@ namespace Mud.Server
 
     public interface IPeriodicAura
     {
-        // Name
-        string Name { get; }
+        // Ability
+        IAbility Ability { get; }
 
         // Heal/damage
         PeriodicAuraTypes AuraType { get; }

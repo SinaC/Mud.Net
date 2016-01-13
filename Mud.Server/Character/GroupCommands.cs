@@ -174,7 +174,7 @@ namespace Mud.Server.Character
         private void AppendCharacterGroupMemberInfo(StringBuilder sb, ICharacter member)
         {
             // TODO: add class, mana, xp, ...
-            sb.AppendFormatLine("[{0,3}] {1,-16} {2,5}/{3,5}hp", member.Level, member.DisplayName, member.HitPoints, member.GetComputedAttribute(ComputedAttributeTypes.MaxHitPoints));
+            sb.AppendFormatLine("[{0,3}] {1,-16} {2,5}/{3,5}hp", member.Level, member.DisplayName, member.HitPoints, member[ComputedAttributeTypes.MaxHitPoints]);
         }
     }
 }

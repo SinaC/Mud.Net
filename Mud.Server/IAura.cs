@@ -1,13 +1,13 @@
 ﻿using System;
 using Mud.Server.Constants;
+using Mud.Server.World;
 
 namespace Mud.Server
 {
-    // TODO: single target or group
     public interface IAura
     {
-        // Name
-        string Name { get; }
+        // Ability
+        IAbility Ability { get; }
 
         // Modifier
         AuraModifiers Modifier { get; }

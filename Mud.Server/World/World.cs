@@ -117,23 +117,23 @@ namespace Mud.Server.World
             return item;
         }
 
-        public IAura AddAura(ICharacter victim, string name, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible)
+        public IAura AddAura(ICharacter victim, IAbility ability, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible)
         {
-            IAura aura = new Aura.Aura(name, modifier, amount, amountOperator, totalSeconds);
+            IAura aura = new Aura.Aura(ability, modifier, amount, amountOperator, totalSeconds);
             victim.AddAura(aura, visible);
             return aura;
         }
 
-        public IPeriodicAura AddPeriodicAura(ICharacter victim, string name, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
+        public IPeriodicAura AddPeriodicAura(ICharacter victim, IAbility ability, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
         {
-            IPeriodicAura periodicAura = new PeriodicAura(name, PeriodicAuraTypes.Heal, source, amount, amountOperator, tickVisible, tickDelay, totalTicks);
+            IPeriodicAura periodicAura = new PeriodicAura(ability, PeriodicAuraTypes.Heal, source, amount, amountOperator, tickVisible, tickDelay, totalTicks);
             victim.AddPeriodicAura(periodicAura);
             return periodicAura;
         }
 
-        public IPeriodicAura AddPeriodicAura(ICharacter victim, string name, ICharacter source, SchoolTypes school, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
+        public IPeriodicAura AddPeriodicAura(ICharacter victim, IAbility ability, ICharacter source, SchoolTypes school, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
         {
-            IPeriodicAura periodicAura = new PeriodicAura(name, PeriodicAuraTypes.Damage, source, school, amount, amountOperator, tickVisible, tickDelay, totalTicks);
+            IPeriodicAura periodicAura = new PeriodicAura(ability, PeriodicAuraTypes.Damage, source, school, amount, amountOperator, tickVisible, tickDelay, totalTicks);
             victim.AddPeriodicAura(periodicAura);
             return periodicAura;
         }
@@ -152,7 +152,7 @@ namespace Mud.Server.World
             }
 
             // Search IPeriodicAura with character as Source and nullify Source
-            List<ICharacter> charactersWithPeriodicAuras = _characters.Where(x => x.PeriodicAuras.Any(pe => pe.Source == character)).ToList(); // clone
+            List<ICharacter> charactersWithPeriodicAuras = _characters.Where(x => x.PeriodicAuras.Any(pa => pa.Source == character)).ToList(); // clone
             foreach (ICharacter characterWithPeriodicAuras in charactersWithPeriodicAuras)
             {
                 foreach (IPeriodicAura pa in characterWithPeriodicAuras.PeriodicAuras.Where(x => x.Source == character))

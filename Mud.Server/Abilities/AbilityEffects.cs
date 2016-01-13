@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Mud.Server.Constants;
+using Mud.Server.World;
 
 namespace Mud.Server.Abilities
 {
@@ -8,10 +9,10 @@ namespace Mud.Server.Abilities
     {
         public int ComputeAmount(ICharacter source, ComputedAttributeTypes attribute, float factor)
         {
-            return (int)Math.Ceiling(factor * source.GetComputedAttribute(attribute) / 100.0f);
+            return (int)Math.Ceiling(factor * source[attribute] / 100.0f);
         }
 
-        public abstract bool Process(ICharacter source, ICharacter victim, Ability ability);
+        public abstract bool Process(ICharacter source, ICharacter victim, IAbility ability);
     }
 
     public class DamageAbilityEffect : AbilityEffect
@@ -27,10 +28,10 @@ namespace Mud.Server.Abilities
             School = school;
         }
 
-        public override bool Process(ICharacter source, ICharacter victim, Ability ability)
+        public override bool Process(ICharacter source, ICharacter victim, IAbility ability)
         {
             int amount = ComputeAmount(source, Attribute, Factor);
-            victim.CombatDamage(source, ability.Name, amount, School, true);
+            victim.Damage(source, ability, amount, School, true);
             return true;
         }
     }
@@ -46,10 +47,10 @@ namespace Mud.Server.Abilities
             Attribute = attribute;
         }
 
-        public override bool Process(ICharacter source, ICharacter victim, Ability ability)
+        public override bool Process(ICharacter source, ICharacter victim, IAbility ability)
         {
             int amount = ComputeAmount(source, Attribute, Factor);
-            victim.Heal(source, ability.Name, amount, true);
+            victim.Heal(source, ability, amount, true);
             return true;
         }
     }
@@ -67,9 +68,9 @@ namespace Mud.Server.Abilities
             AmountOperator = op;
         }
 
-        public override bool Process(ICharacter source, ICharacter victim, Ability ability)
+        public override bool Process(ICharacter source, ICharacter victim, IAbility ability)
         {
-            World.World.Instance.AddAura(victim, ability.Name, Modifier, Amount, AmountOperator, ability.Duration, true);
+            World.World.Instance.AddAura(victim, ability, Modifier, Amount, AmountOperator, ability.Duration, true);
             return true;
         }
     }
@@ -89,11 +90,11 @@ namespace Mud.Server.Abilities
             TickDelay = tickDelay;
         }
 
-        public override bool Process(ICharacter source, ICharacter victim, Ability ability)
+        public override bool Process(ICharacter source, ICharacter victim, IAbility ability)
         {
             int amount = ComputeAmount(source, Attribute, Factor);
             int totalTicks = ability.Duration / TickDelay;
-            World.World.Instance.AddPeriodicAura(victim, ability.Name, source, School, amount, AmountOperators.Fixed, true, TickDelay, totalTicks);
+            World.World.Instance.AddPeriodicAura(victim, ability, source, School, amount, AmountOperators.Fixed, true, TickDelay, totalTicks);
             return true;
         }
     }
@@ -111,11 +112,11 @@ namespace Mud.Server.Abilities
             TickDelay = tickDelay;
         }
 
-        public override bool Process(ICharacter source, ICharacter victim, Ability ability)
+        public override bool Process(ICharacter source, ICharacter victim, IAbility ability)
         {
             int amount = ComputeAmount(source, Attribute, Factor);
             int totalTicks = ability.Duration / TickDelay;
-            World.World.Instance.AddPeriodicAura(victim, ability.Name, source, amount, AmountOperators.Fixed, true, TickDelay, totalTicks);
+            World.World.Instance.AddPeriodicAura(victim, ability, source, amount, AmountOperators.Fixed, true, TickDelay, totalTicks);
             return true;
         }
     }
@@ -135,17 +136,51 @@ namespace Mud.Server.Abilities
             School = school;
         }
 
-        public override bool Process(ICharacter source, ICharacter victim, Ability ability)
+        public override bool Process(ICharacter source, ICharacter victim, IAbility ability)
         {
             if (source == victim)
             {
                 int amount = ComputeAmount(source, Attribute, HealFactor);
-                victim.Heal(source, ability.Name, amount, true);
+                victim.Heal(source, ability, amount, true);
             }
             else
             {
                 int amount = ComputeAmount(source, Attribute, DamageFactor);
-                victim.CombatDamage(source, ability.Name, amount, School, true);
+                victim.Damage(source, ability, amount, School, true);
+            }
+            return true;
+        }
+    }
+
+    public class DispelEffect : AbilityEffect
+    {
+        public DispelTypes DispelType { get; private set; }
+        public bool Offensive { get; private set; } // if true, remove a buff, else remove a debuff
+
+        public DispelEffect(DispelTypes dispelType, bool offensive)
+        {
+            DispelType = dispelType;
+            Offensive = offensive;
+        }
+
+        public override bool Process(ICharacter source, ICharacter victim, IAbility ability)
+        {
+            // TODO: difference between buff/debuff to handle Offensive flag
+
+            // Check periodic aura
+            IPeriodicAura periodicAura = victim.PeriodicAuras.FirstOrDefault(x => x.Ability != null && x.Ability.DispelType == DispelType);
+            if (periodicAura != null)
+            {
+                victim.RemovePeriodicAura(periodicAura);
+                return true;
+            }
+
+            // Check aura
+            IAura aura = victim.Auras.FirstOrDefault(x => x.Ability != null && x.Ability.DispelType == DispelType);
+            if (aura != null)
+            {
+                victim.RemoveAura(aura, true);
+                return true;
             }
             return true;
         }
@@ -153,18 +188,16 @@ namespace Mud.Server.Abilities
 
     public class PowerWordShieldEffect : AbilityEffect
     {
-        public const string WeakenedSoulDebuff = "Weakened Soul";
-
-        public override bool Process(ICharacter source, ICharacter victim, Ability ability)
+        public override bool Process(ICharacter source, ICharacter victim, IAbility ability)
         {
-            if (victim.Auras.Any(x => x.Name == WeakenedSoulDebuff))
+            if (victim.Auras.Any(x => x.Ability == AbilityManager.WeakenedSoulAbility))
             {
                 source.Act(ActOptions.ToCharacter, "{0} cannot be targetted by {1}.", victim, ability.Name);
                 return false;
             }
             int amount = ComputeAmount(source, ComputedAttributeTypes.SpellPower, 45.9f);
-            World.World.Instance.AddAura(victim, ability.Name, AuraModifiers.Shield, amount, AmountOperators.Fixed, ability.Duration, true);
-            World.World.Instance.AddAura(victim, WeakenedSoulDebuff, AuraModifiers.None, 0, AmountOperators.None, 15, true);
+            World.World.Instance.AddAura(victim, ability, AuraModifiers.Shield, amount, AmountOperators.Fixed, ability.Duration, true);
+            World.World.Instance.AddAura(victim, AbilityManager.WeakenedSoulAbility, AuraModifiers.None, 0, AmountOperators.None, 15, true);
             return true;
         }
     }

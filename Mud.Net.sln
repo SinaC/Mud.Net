@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer.Mystery", "Mud
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer", "Mud.Importer\Mud.Importer.csproj", "{3A7F2847-D754-4EB1-AD57-805DF4F9241F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Network.Socket", "Mud.Network.Socket\Mud.Network.Socket.csproj", "{724EAACF-1475-4F47-8109-4C9EBE6A72DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Network.Telnet", "Mud.Network.Telnet\Mud.Network.Telnet.csproj", "{724EAACF-1475-4F47-8109-4C9EBE6A72DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server", "Mud.Server\Mud.Server.csproj", "{500B0C50-09F7-4A68-91C3-619E12157AAD}"
 EndProject

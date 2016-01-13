@@ -1,12 +1,15 @@
 ﻿using System;
 using Mud.Server.Constants;
+using Mud.Server.World;
 
 namespace Mud.Server.Aura
 {
     // TODO: linked to an ability
     public class Aura : IAura
     {
-        public string Name { get; private set; }
+        #region IAura
+
+        public IAbility Ability { get; private set; }
         public AuraModifiers Modifier { get; private set; }
         public int Amount { get; private set; }
         public AmountOperators AmountOperator { get; private set; }
@@ -22,11 +25,13 @@ namespace Mud.Server.Aura
             }
         }
 
-        public Aura(string name, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds)
+        #endregion
+
+        public Aura(IAbility ability, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds)
         {
             StartTime = Server.Server.Instance.CurrentTime;
 
-            Name = name;
+            Ability = ability;
             Modifier = modifier;
             Amount = amount;
             AmountOperator = amountOperator;

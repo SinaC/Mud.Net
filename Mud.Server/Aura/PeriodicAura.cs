@@ -1,6 +1,7 @@
 ﻿using System;
 using Mud.Logger;
 using Mud.Server.Constants;
+using Mud.Server.World;
 
 namespace Mud.Server.Aura
 {
@@ -10,7 +11,9 @@ namespace Mud.Server.Aura
         private DateTime _startTime;
         private DateTime _lastTickElapsed;
 
-        public string Name { get; private set; }
+        #region IPeriodicAura
+
+        public IAbility Ability { get; private set; }
         public PeriodicAuraTypes AuraType { get; private set; }
         public ICharacter Source { get; private set; }
         public SchoolTypes School { get; private set; }
@@ -30,11 +33,13 @@ namespace Mud.Server.Aura
             }
         }
 
-        public PeriodicAura(string name, PeriodicAuraTypes auraType, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
+        #endregion
+
+        public PeriodicAura(IAbility ability, PeriodicAuraTypes auraType, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
         {
             _lastTickElapsed = Server.Server.Instance.CurrentTime;
 
-            Name = name;
+            Ability = ability;
             AuraType = auraType;
             Source = source;
             Amount = amount;
@@ -45,8 +50,8 @@ namespace Mud.Server.Aura
             TotalTicks = totalTicks;
         }
 
-        public PeriodicAura(string name, PeriodicAuraTypes auraType, ICharacter source, SchoolTypes school, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
-            : this(name, auraType, source, amount, amountOperator, tickVisible, tickDelay, totalTicks)
+        public PeriodicAura(IAbility ability, PeriodicAuraTypes auraType, ICharacter source, SchoolTypes school, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
+            : this(ability, auraType, source, amount, amountOperator, tickVisible, tickDelay, totalTicks)
         {
             School = school;
         }
@@ -75,22 +80,22 @@ namespace Mud.Server.Aura
             // If TickDelay in seconds elapsed, perform heal/damage
             if (diff.TotalSeconds > TickDelay)
             {
-                Log.Default.WriteLine(LogLevels.Debug, "Processing periodic aura {0} on {1} from {2} tick left {3} delay {4}", Name, victim.Name, Source == null ? "<<??>>" : Source.Name, TicksLeft, TickDelay);
+                Log.Default.WriteLine(LogLevels.Debug, "Processing periodic aura {0} on {1} from {2} tick left {3} delay {4}", Ability == null ? "<<??>>" : Ability.Name, victim.Name, Source == null ? "<<??>>" : Source.Name, TicksLeft, TickDelay);
 
                 _lastTickElapsed = now;
                 TicksLeft--;
 
                 int amount = Amount;
                 if (AmountOperator == AmountOperators.Percentage)
-                    amount = victim.GetComputedAttribute(ComputedAttributeTypes.MaxHitPoints) * Amount / 100; // percentage of max hit points
+                    amount = victim[ComputedAttributeTypes.MaxHitPoints] * Amount / 100; // percentage of max hit points
                 if (AuraType == PeriodicAuraTypes.Heal)
-                    victim.Heal(Source, Name, amount, TickVisible);
+                    victim.Heal(Source, Ability, amount, TickVisible);
                 else if (AuraType == PeriodicAuraTypes.Damage)
                 {
                     if (Source == null)
-                        victim.UnknownSourceDamage(Name, amount, School, TickVisible);
+                        victim.UnknownSourceDamage(Ability, amount, School, TickVisible);
                     else
-                        victim.CombatDamage(Source, Name, amount, School, TickVisible);
+                        victim.Damage(Source, Ability, amount, School, TickVisible);
                 }
             }
             return TicksLeft == 0;

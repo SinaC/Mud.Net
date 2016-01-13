@@ -22,22 +22,6 @@ namespace Mud.Server.Room
             RoomCommands = CommandHelpers.GetCommands(typeof (Room));
         }
 
-        public Room(Guid guid, string name)
-            : base(guid, name)
-        {
-            _people = new List<ICharacter>();
-            _content = new List<IItem>();
-            _exits = new IExit[ServerOptions.ExitCount];
-        }
-
-        public Room(Guid guid, string name, string description)
-            :base(guid, name, description)
-        {
-            _people = new List<ICharacter>();
-            _content = new List<IItem>();
-            _exits = new IExit[ServerOptions.ExitCount];
-        }
-
         public Room(Guid guid, RoomBlueprint blueprint)
             : base(guid, blueprint.Name, blueprint.Description)
         {

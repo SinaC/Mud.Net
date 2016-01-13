@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Mud.Logger;
 
-namespace Mud.Network.Socket
+namespace Mud.Network.Telnet
 {
     // Convert %c% into ansi color
     public static class AnsiHelpers
@@ -33,7 +33,9 @@ namespace Mud.Network.Socket
             {"B", String.Format(LightColorTag, 34)},
             {"M", String.Format(LightColorTag, 35)},
             {"C", String.Format(LightColorTag, 36)},
-            {"D", String.Format(LightColorTag, 37)},
+            {"W", String.Format(LightColorTag, 37)},
+
+            {"D", String.Format(LightColorTag, 30)},
 
             //{"bold", String.Format(NormalColorTag, 1)},
             //{"italics", String.Format(NormalColorTag, 3)},

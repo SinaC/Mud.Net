@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Abilities;
-using Mud.Server.Aura;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
 using Mud.Server.Entity;
@@ -15,6 +13,7 @@ using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
 using Mud.Server.Server;
+using Mud.Server.World;
 
 namespace Mud.Server.Character
 {
@@ -29,6 +28,8 @@ namespace Mud.Server.Character
         private readonly int[] _basePrimaryAttributes; // modified when levelling
         private readonly int[] _currentPrimaryAttributes; // = base attribute + buff
         private readonly int[] _computedAttributes; // computed attributes (in recompute)
+        private readonly int[] _maxResources;
+        private readonly int[] _currentResources;
         private readonly List<ICharacter> _groupMembers;
 
         protected int MaxHitPoints
@@ -51,14 +52,16 @@ namespace Mud.Server.Character
             _basePrimaryAttributes = new int[EnumHelpers.GetCount<PrimaryAttributeTypes>()];
             _currentPrimaryAttributes = new int[EnumHelpers.GetCount<PrimaryAttributeTypes>()];
             _computedAttributes = new int[EnumHelpers.GetCount<ComputedAttributeTypes>()];
+            _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
+            _currentResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _groupMembers = new List<ICharacter>();
 
             BuildEquipmentSlots();
 
             Sex = Sex.Neutral; // TODO: parameter
-            Level = 1; // TODO: parameter
+            Level = 30 + RandomizeHelpers.Instance.Randomizer.Next(-10, 10); // TODO: parameter
             for (int i = 0; i < _basePrimaryAttributes.Length; i++)
-                _basePrimaryAttributes[i] = 150;
+                _basePrimaryAttributes[i] = 150 + RandomizeHelpers.Instance.Randomizer.Next(-20,20);
 
             Impersonable = true; // Playable
             Room = room;
@@ -77,6 +80,8 @@ namespace Mud.Server.Character
             _basePrimaryAttributes = new int[EnumHelpers.GetCount<PrimaryAttributeTypes>()]; // TODO: blueprint
             _currentPrimaryAttributes = new int[EnumHelpers.GetCount<PrimaryAttributeTypes>()]; // TODO: blueprint
             _computedAttributes = new int[EnumHelpers.GetCount<ComputedAttributeTypes>()];
+            _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
+            _currentResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _groupMembers = new List<ICharacter>();
 
             Blueprint = blueprint;
@@ -195,6 +200,33 @@ namespace Mud.Server.Character
         public Sex Sex { get; private set; }
         public int Level { get; private set; }
         public int HitPoints { get; private set; }
+
+        public int this[ResourceKinds resource]
+        {
+            get { return _currentResources[(int) resource]; }
+            private set
+            {
+                _currentResources[(int) resource] = value;
+            }
+        }
+
+        public int this[PrimaryAttributeTypes attribute]
+        {
+            get { return _currentPrimaryAttributes[(int) attribute]; }
+            private set
+            {
+                _currentPrimaryAttributes[(int) attribute] = value;
+            }
+        }
+
+        public int this[ComputedAttributeTypes attribute]
+        {
+            get { return _computedAttributes[(int) attribute]; }
+            private set
+            {
+                _computedAttributes[(int) attribute] = value;
+            }
+        }
 
         // Periodic Auras
         public IReadOnlyCollection<IPeriodicAura> PeriodicAuras
@@ -413,14 +445,9 @@ namespace Mud.Server.Character
             return _basePrimaryAttributes[(int) attribute];
         }
 
-        public int GetCurrentPrimaryAttribute(PrimaryAttributeTypes attribute)
+        public int GetMaxResource(ResourceKinds resource)
         {
-            return _currentPrimaryAttributes[(int) attribute];
-        }
-
-        public int GetComputedAttribute(ComputedAttributeTypes attribute)
-        {
-            return _computedAttributes[(int) attribute];
+            return _maxResources[(int) resource];
         }
 
         // Auras
@@ -432,12 +459,12 @@ namespace Mud.Server.Character
                 return;
             }
 
-            Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddPeriodicAura: {0} {1}", Name, aura.Name);
+            Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddPeriodicAura: {0} {1}", Name, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
             _periodicAuras.Add(aura);
-            Send("You are now affected by {0}." + Environment.NewLine, aura.Name);
+            Send("You are now affected by {0}."+Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
             if (aura.Source != null && aura.Source != this)
             {
-                aura.Source.Act(ActOptions.ToCharacter, "{0} is now affected by {1}", this, aura.Name);
+                aura.Source.Act(ActOptions.ToCharacter, "{0} is now affected by {1}", this, aura.Ability == null ? "Something" : aura.Ability.Name);
                 if (aura.AuraType == PeriodicAuraTypes.Damage)
                 {
                     if (Fighting == null)
@@ -450,15 +477,15 @@ namespace Mud.Server.Character
 
         public void RemovePeriodicAura(IPeriodicAura aura)
         {
-            Log.Default.WriteLine(LogLevels.Info, "ICharacter.RemovePeriodicAura: {0} {1}", Name, aura.Name);
+            Log.Default.WriteLine(LogLevels.Info, "ICharacter.RemovePeriodicAura: {0} {1}", Name, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
             bool removed = _periodicAuras.Remove(aura);
             if (!removed)
                 Log.Default.WriteLine(LogLevels.Warning, "ICharacter.RemovePeriodicAura: Trying to remove unknown PeriodicAura");
             else
             {
-                Send("{0} vanishes." + Environment.NewLine, aura.Name);
+                Send("{0} vanishes." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
                 if (aura.Source != null && aura.Source != this)
-                    aura.Source.Act(ActOptions.ToCharacter, "{0} vanishes on {1}.", aura.Name, this);
+                    aura.Source.Act(ActOptions.ToCharacter, "{0} vanishes on {1}.", aura.Ability == null ? "Something" : aura.Ability.Name, this);
                 aura.ResetSource();
             }
         }
@@ -471,21 +498,21 @@ namespace Mud.Server.Character
                 return;
             }
 
-            Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddAura: {0} {1}| recompute: {2}", Name, aura.Name, recompute);
+            Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddAura: {0} {1}| recompute: {2}", Name, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
             _auras.Add(aura);
-            Send("You are now affected by {0}." + Environment.NewLine, aura.Name);
+            Send("You are now affected by {0}." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
             if (recompute)
                 RecomputeAttributes();
         }
 
         public void RemoveAura(IAura aura, bool recompute)
         {
-            Log.Default.WriteLine(LogLevels.Info, "ICharacter.RemoveAura: {0} {1} | recompute: {2}", Name, aura.Name, recompute);
+            Log.Default.WriteLine(LogLevels.Info, "ICharacter.RemoveAura: {0} {1} | recompute: {2}", Name, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
             bool removed = _auras.Remove(aura);
             if (!removed)
                 Log.Default.WriteLine(LogLevels.Warning, "ICharacter.RemoveAura: Trying to remove unknown aura");
             else
-                Send("{0} vanishes." + Environment.NewLine, aura.Name);
+                Send("{0} vanishes." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
             if (recompute && removed)
                 RecomputeAttributes();
         }
@@ -559,7 +586,7 @@ namespace Mud.Server.Character
         }
 
         // Combat
-        public bool Heal(ICharacter source, string ability, int amount, bool visible)
+        public bool Heal(ICharacter source, IAbility ability, int amount, bool visible)
         {
             if (!IsValid)
             {
@@ -567,7 +594,7 @@ namespace Mud.Server.Character
                 return false;
             }
 
-            Log.Default.WriteLine(LogLevels.Info, "{0} healed by {1} {2} for {3}", Name, source == null ? "<<??>>" : source.Name, ability ?? "<<??>>", amount);
+            Log.Default.WriteLine(LogLevels.Info, "{0} healed by {1} {2} for {3}", Name, source == null ? "<<??>>" : source.Name, ability == null ? "<<??>>" : ability.Name, amount);
             if (amount <= 0)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "ICharacter.Heal: invalid amount {0} on {1}", amount, Name);
@@ -603,19 +630,34 @@ namespace Mud.Server.Character
             if (this == enemy || Room != enemy.Room)
                 return false;
 
-            // TODO: secondary, haste, ...
-            IItemWeapon wielded = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2H) ?? EquipedItem.NullObject).Item as IItemWeapon;
-            IItemWeapon wielded2 = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2) ?? EquipedItem.NullObject).Item as IItemWeapon;
-            if (wielded != null)
-                OneHit(enemy, wielded.Name, wielded, wielded.DamageType);
-            else
-                OneHit(enemy, "claws", null, SchoolTypes.Physical);
+            // TODO: more haste -> more attacks (should depend on weapon speed, attack speed, server speed[PulseViolence])
 
-            if (Fighting != enemy) // stop multihit if different enemy or no enemy
-                return true;
+            // TEST purpose
+            int attackCount = Math.Max(1, 1 + this[ComputedAttributeTypes.AttackSpeed] / 21);
 
-            if (wielded2 != null)
-                OneHit(enemy, wielded2.Name, wielded2, wielded2.DamageType);
+            // Main hand
+            for (int i = 0; i < attackCount; i++)
+            {
+                // Cannot store wielded between hit (disarm anyone ?)
+                IItemWeapon wielded = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2H) ?? EquipedItem.NullObject).Item as IItemWeapon;
+                SchoolTypes damageType = wielded == null ? SchoolTypes.Physical : wielded.DamageType;
+                OneHit(enemy, wielded, damageType);
+
+                if (Fighting != enemy) // stop multihit if different enemy or no enemy
+                    return true;
+            }
+
+            // Off hand (if off-hand, loop is exited)
+            for (int i = 0; i < attackCount; i++)
+            {
+                IItemWeapon wielded2 = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2) ?? EquipedItem.NullObject).Item as IItemWeapon; 
+                if (wielded2 == null)
+                    break;
+                OneHit(enemy, wielded2, wielded2.DamageType);
+
+                if (Fighting != enemy) // stop multihit if different enemy or no enemy
+                    return true;
+            }
             return true;
         }
 
@@ -648,16 +690,13 @@ namespace Mud.Server.Character
             return true;
         }
 
-        public bool CombatDamage(ICharacter source, string ability, int damage, SchoolTypes damageType, bool visible) // damage with known source
+        public bool WeaponDamage(ICharacter source, IItemWeapon weapon, int damage, SchoolTypes damageType, bool visible) // damage from weapon(or bare hands) of known source
         {
             if (!IsValid)
             {
                 Log.Default.WriteLine(LogLevels.Error, "CombatDamage: {0} is not valid anymore", Name);
                 return false;
             }
-
-            // TODO: check combat_damage in fight.C:1940
-            // TODO: damage reduction
 
             // Starts fight if needed (if A attacks B, A fights B and B fights A)
             if (this != source)
@@ -668,44 +707,18 @@ namespace Mud.Server.Character
                     source.StartFighting(this);
                 // TODO: Cannot attack slave without breaking slavery
             }
-            // TODO: if invisible, remove invisibility
-            // TODO: damage modifier
-            // TODO: check immunity/resist/vuln
 
-            // Check shield
-            bool fullyAbsorbed = false;
-            if (_auras.Any(x => x.Modifier == AuraModifiers.Shield))
-            {
-                bool needsRecompute = false;
-                // Process every shield aura until 0 damage left or 0 shield aura left
-                IReadOnlyCollection<IAura> shields = new ReadOnlyCollection<IAura>(_auras.Where(x => x.Modifier == AuraModifiers.Shield).ToList());
-                foreach (IAura shield in shields)
-                {
-                    // Process absorb
-                    damage = shield.Absorb(damage);
-                    if (damage == 0) // full absorb
-                    {
-                        fullyAbsorbed = true;
-                        Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] totally absorbed by shield {1}", damage, shield.Name);
-                        break; // no need to check other shield
-                    }
-                    else // partial absorb
-                    {
-                        Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] partially absorbed [{1}] by shield {2}", damage, shield.Amount, shield.Name);
-                        needsRecompute = true;
-                        RemoveAura(shield, false); // recompute when everything is done
-                    }
-                }
-                if (needsRecompute)
-                    RecomputeAttributes();
-            }
+            // Modify damage (resist, vuln, invul, absorb)
+            bool fullyAbsorbed;
+            damage = ModifyDamage(damage, damageType, out fullyAbsorbed);
 
+            // Display damage
             if (visible) // equivalent to dam_message in fight.C:4381
             {
                 if (fullyAbsorbed)
-                    DisplayAbsorbPhrase(ability, source);
+                    DisplayAbsorbPhrase(weapon == null ? null : weapon.DisplayName, source);
                 else
-                    DisplayCombatDamagePhrase(ability, damage, source);
+                    DisplayDamagePhrase(weapon == null ? null : weapon.DisplayName, damage, source);
             }
 
             // No damage -> stop here
@@ -738,7 +751,69 @@ namespace Mud.Server.Character
             return true;
         }
 
-        public bool UnknownSourceDamage(string ability, int damage, SchoolTypes damageType, bool visible) // damage with unknown source or no source
+        public bool Damage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool visible) // damage with known source
+        {
+            if (!IsValid)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "CombatDamage: {0} is not valid anymore", Name);
+                return false;
+            }
+
+            // Starts fight if needed (if A attacks B, A fights B and B fights A)
+            if (this != source)
+            {
+                if (Fighting == null)
+                    StartFighting(source);
+                if (source.Fighting == null)
+                    source.StartFighting(this);
+                // TODO: Cannot attack slave without breaking slavery
+            }
+
+            // Modify damage (resist, vuln, invul, absorb)
+            bool fullyAbsorbed;
+            damage = ModifyDamage(damage, damageType, out fullyAbsorbed);
+
+            // Display damage
+            if (visible) // equivalent to dam_message in fight.C:4381
+            {
+                if (fullyAbsorbed)
+                    DisplayAbsorbPhrase(ability == null ? null : ability.Name, source);
+                else
+                    DisplayDamagePhrase(ability == null ? null : ability.Name, damage, source);
+            }
+
+            // No damage -> stop here
+            if (damage == 0)
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "{0} does no damage to {1}", source.Name, Name);
+
+                return false;
+            }
+
+            Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", source.Name, damage, Name);
+
+            // Apply damage
+            bool dead = ApplyDamageAndDisplayStatus(damage);
+
+            Log.Default.WriteLine(LogLevels.Debug, "{0} HP: {1}", Name, HitPoints);
+
+            // If dead, create corpse, xp gain/loss, remove character from world if needed
+            if (dead) // TODO: fight.C:2246
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", Name, source.Name);
+
+                StopFighting(false);
+                RawKill(this, true);
+                return true;
+            }
+
+            // TODO: wimpy, ... // fight.C:2264
+
+            return true;
+        }
+
+        // TODO: damage reduction, damage modifier, immunity, absorb should be in a seperate method (same code un CombatSourceDamage)
+        public bool UnknownSourceDamage(IAbility ability, int damage, SchoolTypes damageType, bool visible) // damage with unknown source or no source
         {
             if (!IsValid)
             {
@@ -746,44 +821,17 @@ namespace Mud.Server.Character
                 return false;
             }
 
-            // TODO: if invisible, remove invisibility
-            // TODO: damage modifier
-            // TODO: check immunity/resist/vuln
+            // Modify damage (resist, vuln, invul, absorb)
+            bool fullyAbsorbed;
+            damage = ModifyDamage(damage, damageType, out fullyAbsorbed);
 
-            // Check shield
-            bool fullyAbsorbed = false;
-            if (_auras.Any(x => x.Modifier == AuraModifiers.Shield))
-            {
-                bool needsRecompute = false;
-                // Process every shield aura until 0 damage left or 0 shield aura left
-                IReadOnlyCollection<IAura> shields = new ReadOnlyCollection<IAura>(_auras.Where(x => x.Modifier == AuraModifiers.Shield).ToList());
-                foreach (IAura shield in shields)
-                {
-                    // Process absorb
-                    damage = shield.Absorb(damage);
-                    if (damage == 0) // full absorb
-                    {
-                        fullyAbsorbed = true;
-                        Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] totally absorbed by shield {1}", damage, shield.Name);
-                        break; // no need to check other shield
-                    }
-                    else // partial absorb
-                    {
-                        Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] partially absorbed [{1}] by shield {2}", damage, shield.Amount, shield.Name);
-                        needsRecompute = true;
-                        RemoveAura(shield, false); // recompute when everything is done
-                    }
-                }
-                if (needsRecompute)
-                    RecomputeAttributes();
-            }
-
+            // Display damage
             if (visible) // equivalent to dam_message in fight.C:4381
             {
                 if (fullyAbsorbed)
-                    DisplayUnknownSourceAbsorbPhrase(ability);
+                    DisplayUnknownSourceAbsorbPhrase(ability == null ? null : ability.Name);
                 else
-                    DisplayUnknownSourceDamagePhrase(ability, damage);
+                    DisplayUnknownSourceDamagePhrase(ability == null ? null : ability.Name, damage);
             }
 
             // No damage -> stop here
@@ -865,7 +913,8 @@ namespace Mud.Server.Character
             RecomputeAttributes();
 
             HitPoints = MaxHitPoints;
-            // TODO: mana, ...
+            foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
+                this[resource] = _maxResources[(int) resource];
         }
 
         public void RecomputeAttributes()
@@ -906,10 +955,18 @@ namespace Mud.Server.Character
             }
             // Recompute datas depending on attributes
             // TODO: correct formulas
-            _computedAttributes[(int)ComputedAttributeTypes.MaxHitPoints] = _currentPrimaryAttributes[(int)PrimaryAttributeTypes.Stamina] * 50 + 1000;
-            _computedAttributes[(int)ComputedAttributeTypes.AttackPower] = _currentPrimaryAttributes[(int)PrimaryAttributeTypes.Strength] * 2 + 50;
-            _computedAttributes[(int)ComputedAttributeTypes.SpellPower] = _currentPrimaryAttributes[(int)PrimaryAttributeTypes.Intellect] + 50;
-            _computedAttributes[(int)ComputedAttributeTypes.AttackSpeed] = 20;
+            this[ComputedAttributeTypes.MaxHitPoints] = this[PrimaryAttributeTypes.Stamina] * 50 + 1000;
+            this[ComputedAttributeTypes.AttackPower] = this[PrimaryAttributeTypes.Strength] * 2 + 50;
+            this[ComputedAttributeTypes.SpellPower] = this[PrimaryAttributeTypes.Intellect] + 50;
+            this[ComputedAttributeTypes.AttackSpeed] = 20;
+            //
+            // Recompute max resources
+            // TODO: correct values
+            _maxResources[(int) ResourceKinds.Mana] = Level*100;
+            _maxResources[(int) ResourceKinds.Energy] = 100;
+            _maxResources[(int) ResourceKinds.Rage] = 120;
+            _maxResources[(int)ResourceKinds.Runic] = 130;
+            // TODO: runes
             // Apply aura on compute attributes
             foreach (IAura aura in Auras)
             {
@@ -939,14 +996,14 @@ namespace Mud.Server.Character
         {
             if (op == AmountOperators.Percentage)
                 amount = _basePrimaryAttributes[(int) attribute]*amount/100;
-            _currentPrimaryAttributes[(int) attribute] += amount;
+            this[attribute] += amount;
         }
 
         protected void ModifyComputedAttribute(ComputedAttributeTypes attribute, AmountOperators op, int amount)
         {
             if (op == AmountOperators.Percentage)
                 amount = _computedAttributes[(int)attribute] * amount / 100;
-            _computedAttributes[(int)attribute] += amount;
+            this[attribute] += amount;
         }
 
         protected int ModifyAttribute(int baseValue, AmountOperators op, int amount)
@@ -993,7 +1050,7 @@ namespace Mud.Server.Character
             HitPoints -= damage;
             if (HitPoints < 1)
             {
-                if (ImpersonatedBy != null)
+                if (ImpersonatedBy != null) // Impersonated character cannot be totally killed
                     HitPoints = 1;
                 else
                     HitPoints = 0;
@@ -1017,7 +1074,46 @@ namespace Mud.Server.Character
             return dead;
         }
 
-        protected bool OneHit(ICharacter victim, string ability, IItemWeapon weapon, SchoolTypes damageType) // TODO: skill    check fight.C:1394
+        protected int ModifyDamage(int damage, SchoolTypes damageTypes, out bool fullyAbsorbed)
+        {
+            // TODO: check combat_damage in fight.C:1940
+            // TODO: damage reduction
+
+            // TODO: if invisible, remove invisibility
+            // TODO: damage modifier
+            // TODO: check immunity/resist/vuln
+
+            // Check shield
+            fullyAbsorbed = false;
+            if (damage > 0 && _auras.Any(x => x.Modifier == AuraModifiers.Shield))
+            {
+                bool needsRecompute = false;
+                // Process every shield aura until 0 damage left or 0 shield aura left
+                IReadOnlyCollection<IAura> shields = new ReadOnlyCollection<IAura>(_auras.Where(x => x.Modifier == AuraModifiers.Shield).ToList());
+                foreach (IAura shield in shields)
+                {
+                    // Process absorb
+                    damage = shield.Absorb(damage);
+                    if (damage == 0) // full absorb
+                    {
+                        fullyAbsorbed = true;
+                        Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] totally absorbed by shield {1}", damage, shield.Ability == null ? "<<??>>" : shield.Ability.Name);
+                        break; // no need to check other shield
+                    }
+                    else // partial absorb
+                    {
+                        Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] partially absorbed [{1}] by shield {2}", damage, shield.Amount, shield.Ability == null ? "<<??>>" : shield.Ability.Name);
+                        needsRecompute = true;
+                        RemoveAura(shield, false); // recompute when everything is done
+                    }
+                }
+                if (needsRecompute)
+                    RecomputeAttributes();
+            }
+            return damage;
+        }
+
+        protected bool OneHit(ICharacter victim, IItemWeapon weapon, SchoolTypes damageType) // TODO: check fight.C:1394
         {
             if (this == victim || Room != victim.Room)
                 return false;
@@ -1025,7 +1121,7 @@ namespace Mud.Server.Character
             // TODO: check wield  fight.C:1595
             // TODO: check parry, dodge, shield block, ...
 
-            int damage = 0;
+            int damage;
 
             if (weapon != null)
                 damage = RandomizeHelpers.Instance.Dice(weapon.DiceCount, weapon.DiceValue);
@@ -1039,24 +1135,24 @@ namespace Mud.Server.Character
             }
             // TODO: damage modifier  fight.C:1693
 
-            return victim.CombatDamage(this, ability, damage, damageType, true);
+            return victim.WeaponDamage(this, weapon, damage, damageType, true);
         }
 
-        protected void DisplayAbsorbPhrase(string ability, ICharacter source)
+        protected void DisplayAbsorbPhrase(string name, ICharacter source)
         {
-            if (!String.IsNullOrWhiteSpace(ability))
+            if (!String.IsNullOrWhiteSpace(name))
             {
                 if (this == source)
                 {
-                    Act(ActOptions.ToCharacter, "Your {0} is absorbed.", ability);
-                    Act(ActOptions.ToRoom, "{0} {1} is absorbed.", source, ability);
+                    Act(ActOptions.ToCharacter, "Your {0} is absorbed.", name);
+                    Act(ActOptions.ToRoom, "{0} {1} is absorbed.", source, name);
                 }
                 else
                 {
-                    Act(ActOptions.ToCharacter, "{0}'s {1} is absorbed.", source, ability);
+                    Act(ActOptions.ToCharacter, "{0}'s {1} is absorbed.", source, name);
                     if (Room == source.Room)
-                        source.Act(ActOptions.ToCharacter, "Your {0} is absorbed.", ability);
-                    ActToNotVictim(source, "{0}'s {1} is absorbed by {2}.", source, ability, this);
+                        source.Act(ActOptions.ToCharacter, "Your {0} is absorbed.", name);
+                    ActToNotVictim(source, "{0}'s {1} is absorbed by {2}.", source, name, this);
                 }
             }
             else
@@ -1076,12 +1172,12 @@ namespace Mud.Server.Character
             }
         }
 
-        protected void DisplayUnknownSourceAbsorbPhrase(string ability)
+        protected void DisplayUnknownSourceAbsorbPhrase(string name)
         {
-            if (!String.IsNullOrWhiteSpace(ability))
+            if (!String.IsNullOrWhiteSpace(name))
             {
-                Act(ActOptions.ToCharacter, "{0} is absorbed.", ability);
-                Act(ActOptions.ToRoom, "{0} is absorbed by {1}.", ability, this);
+                Act(ActOptions.ToCharacter, "{0} is absorbed.", name);
+                Act(ActOptions.ToRoom, "{0} is absorbed by {1}.", name, this);
             }
             else
             {
@@ -1090,24 +1186,24 @@ namespace Mud.Server.Character
             }
         }
 
-        protected void DisplayCombatDamagePhrase(string ability, int damage, ICharacter source)
+        protected void DisplayDamagePhrase(string name, int damage, ICharacter source)
         {
             string damagePhraseSelf = StringHelpers.DamagePhraseSelf(damage);
             string damagePhraseOther = StringHelpers.DamagePhraseOther(damage);
 
-            if (!String.IsNullOrWhiteSpace(ability))
+            if (!String.IsNullOrWhiteSpace(name))
             {
                 if (this == source)
                 {
-                    Act(ActOptions.ToCharacter, "Your {0} {1} yourself.[{2}]", ability, damagePhraseOther, damage);
-                    Act(ActOptions.ToRoom, "{0} {1} {2} {0:m}self.[{3}]", source, ability, damagePhraseOther, damage);
+                    Act(ActOptions.ToCharacter, "Your {0} {1} yourself.[{2}]", name, damagePhraseOther, damage);
+                    Act(ActOptions.ToRoom, "{0} {1} {2} {0:m}self.[{3}]", source, name, damagePhraseOther, damage);
                 }
                 else
                 {
-                    Act(ActOptions.ToCharacter, "{0}'s {1} {2} you.[{3}]", source, ability, damagePhraseOther, damage);
+                    Act(ActOptions.ToCharacter, "{0}'s {1} {2} you.[{3}]", source, name, damagePhraseOther, damage);
                     if (Room == source.Room)
-                        source.Act(ActOptions.ToCharacter, "Your {0} {1} {2}.[{3}]", ability, damagePhraseOther, this, damage);
-                    ActToNotVictim(source, "{0}'s {1} {2} {3}.[{4}]", source, ability, damagePhraseOther, this, damage);
+                        source.Act(ActOptions.ToCharacter, "Your {0} {1} {2}.[{3}]", name, damagePhraseOther, this, damage);
+                    ActToNotVictim(source, "{0}'s {1} {2} {3}.[{4}]", source, name, damagePhraseOther, this, damage);
                 }
             }
             else
@@ -1127,15 +1223,15 @@ namespace Mud.Server.Character
             }
         }
 
-        protected void DisplayUnknownSourceDamagePhrase(string ability, int damage)
+        protected void DisplayUnknownSourceDamagePhrase(string name, int damage)
         {
             string damagePhraseSelf = StringHelpers.DamagePhraseSelf(damage);
             string damagePhraseOther = StringHelpers.DamagePhraseOther(damage);
 
-            if (!String.IsNullOrWhiteSpace(ability))
+            if (!String.IsNullOrWhiteSpace(name))
             {
-                Act(ActOptions.ToCharacter, "{0} {1} you.[{2}]", ability, damagePhraseSelf, damage);
-                Act(ActOptions.ToRoom, "{0} {1} {2}.[{3}]", ability, damagePhraseOther, this, damage);
+                Act(ActOptions.ToCharacter, "{0} {1} you.[{2}]", name, damagePhraseSelf, damage);
+                Act(ActOptions.ToRoom, "{0} {1} {2}.[{3}]", name, damagePhraseOther, this, damage);
             }
             else
             {
@@ -1145,9 +1241,9 @@ namespace Mud.Server.Character
             }
         }
 
-        protected void DisplayHealPhrase(string ability, int amount, ICharacter source)
+        protected void DisplayHealPhrase(IAbility ability, int amount, ICharacter source)
         {
-            if (!String.IsNullOrWhiteSpace(ability))
+            if (ability != null)
             {
                 if (this == source)
                 {
@@ -1272,8 +1368,11 @@ namespace Mud.Server.Character
         //      argument.Name if visible by target, something otherwhise
         // IExit
         //      exit name
+        // IAbility
+        //      ability name
         private static void FormatActOneArgument(ICharacter target, StringBuilder result, string format, object argument)
         {
+            // Character ?
             ICharacter character = argument as ICharacter;
             if (character != null)
             {
@@ -1330,36 +1429,42 @@ namespace Mud.Server.Character
                         result.Append("<???>");
                         break;
                 }
+                return;
+            }
+            // Item ?
+            IItem item = argument as IItem;
+            if (item != null)
+            {
+                // no specific format
+                result.Append(target.CanSee(item)
+                    ? item.DisplayName
+                    : "something");
+                return;
+            }
+            // Exit ?
+            IExit exit = argument as IExit;
+            if (exit != null)
+            {
+                result.Append(exit.Name);
+                return;
+            }
+            // Ability ?
+            IAbility ability = argument as IAbility;
+            if (ability != null)
+            {
+                result.Append(ability.Name);
+                return;
+            }
+            // Other (int, string, ...)
+            if (format == null)
+                result.Append(argument);
+            else if (argument is IFormattable)
+            {
+                IFormattable formattable = argument as IFormattable;
+                result.Append(formattable.ToString(format, null));
             }
             else
-            {
-                IItem item = argument as IItem;
-                if (item != null)
-                {
-                    // no specific format
-                    result.Append(target.CanSee(item)
-                        ? item.DisplayName
-                        : "something");
-                }
-                else
-                {
-                    IExit exit = argument as IExit;
-                    if (exit != null)
-                        result.Append(exit.Name);
-                    else
-                    {
-                        if (format == null)
-                            result.Append(argument);
-                        else if (argument is IFormattable)
-                        {
-                            IFormattable formattable = argument as IFormattable;
-                            result.Append(formattable.ToString(format, null));
-                        }
-                        else
-                            result.Append(argument);
-                    }
-                }
-            }
+                result.Append(argument);
         }
 
         #endregion
@@ -1387,7 +1492,7 @@ namespace Mud.Server.Character
 
             Send("==> TESTING DAMAGE/PERIODIC AURAS/AURAS/ABILITIES" + Environment.NewLine);
             if (parameters.Length == 0)
-                CombatDamage(this, "STUPIDITY", 500, SchoolTypes.Fire, true);
+                Damage(this, null, 500, SchoolTypes.Fire, true);
             else
             {
                 ICharacter victim = null;
@@ -1420,41 +1525,41 @@ namespace Mud.Server.Character
                 }
                 else if (parameters[0].Value == "0")
                 {
-                    World.World.Instance.AddPeriodicAura(victim, "DoT", this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
-                    World.World.Instance.AddPeriodicAura(victim, "DoT", this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
-                    World.World.Instance.AddPeriodicAura(victim, "DoT", this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
-                    World.World.Instance.AddPeriodicAura(victim, "HoT", this, 10, AmountOperators.Percentage, true, 3, 8);
-                    World.World.Instance.AddPeriodicAura(victim, "HoT", this, 10, AmountOperators.Percentage, true, 3, 8);
-                    World.World.Instance.AddPeriodicAura(victim, "HoT", this, 10, AmountOperators.Percentage, true, 3, 8);
+                    World.World.Instance.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    World.World.Instance.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    World.World.Instance.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    World.World.Instance.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
+                    World.World.Instance.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
+                    World.World.Instance.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
                 }
                 else if (parameters[0].Value == "1")
-                    victim.UnknownSourceDamage("STUPIDITY2", 100, SchoolTypes.Frost, true);
+                    victim.UnknownSourceDamage(null, 100, SchoolTypes.Frost, true);
                 else if (parameters[0].Value == "2")
                     victim.UnknownSourceDamage(null, 100, SchoolTypes.Frost, true);
                 else if (parameters[0].Value == "3")
-                    World.World.Instance.AddPeriodicAura(victim, "DoT", this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    World.World.Instance.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
                 else if (parameters[0].Value == "4")
-                    World.World.Instance.AddPeriodicAura(victim, "HoT", this, 10, AmountOperators.Percentage, true, 3, 8);
+                    World.World.Instance.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
                 else if (parameters[0].Value == "5")
                 {
-                    World.World.Instance.AddAura(victim, "BuffSta", AuraModifiers.Stamina, 15, AmountOperators.Percentage, 70, true);
-                    World.World.Instance.AddAura(victim, "DebuffCarac", AuraModifiers.Characteristics, -10, AmountOperators.Fixed, 30, true);
-                    World.World.Instance.AddAura(victim, "BuffAP", AuraModifiers.AttackPower, 150, AmountOperators.Fixed, 90, true);
+                    World.World.Instance.AddAura(victim, null, AuraModifiers.Stamina, 15, AmountOperators.Percentage, 70, true);
+                    World.World.Instance.AddAura(victim, null, AuraModifiers.Characteristics, -10, AmountOperators.Fixed, 30, true);
+                    World.World.Instance.AddAura(victim, null, AuraModifiers.AttackPower, 150, AmountOperators.Fixed, 90, true);
                 }
                 else if (parameters[0].Value == "6")
                 {
                     AbilityManager abilityManager = new AbilityManager();
-                    abilityManager.Process(this, victim, abilityManager.Abilities.First(x => x.Name == "Shadow Word: Pain"));
+                    abilityManager.Process(this, victim, abilityManager["Shadow Word: Pain"]);
                 }
                 else if (parameters[0].Value == "7")
                 {
                     AbilityManager abilityManager = new AbilityManager();
-                    abilityManager.Process(this, victim, abilityManager.Abilities.First(x => x.Name == "Rupture"));
+                    abilityManager.Process(this, victim, abilityManager["Rupture"]);
                 }
                 else if (parameters[0].Value == "8")
                 {
                     AbilityManager abilityManager = new AbilityManager();
-                    abilityManager.Process(this, victim, abilityManager.Abilities.First(x => x.Name == "Trash"));
+                    abilityManager.Process(this, victim, abilityManager["Trash"]);
                 }
                 else
                 {

@@ -12,10 +12,11 @@
                       Grid.Row="0" 
                       VerticalScrollBarVisibility="Auto">
             <RichTextBox x:Name="OutputRichTextBox" 
-                         Foreground="LightGray" Background="Black" FontSize="9" FontFamily="Courrier">
+                         Foreground="LightGray" Background="Black" FontSize="9" FontFamily="Courier New">
                 <RichTextBox.Resources>
                     <Style TargetType="{x:Type Paragraph}">
                         <Setter Property="Margin" Value="0"/>
+                        <Setter Property="Padding" Value="0"></Setter>
                     </Style>
                 </RichTextBox.Resources>
             </RichTextBox>

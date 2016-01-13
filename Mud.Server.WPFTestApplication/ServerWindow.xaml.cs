@@ -10,7 +10,7 @@ using System.Windows.Media;
 using Mud.Importer.Mystery;
 using Mud.Logger;
 using Mud.Network;
-using Mud.Network.Socket;
+using Mud.Network.Telnet;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
 using Mud.Server.Item;
@@ -43,8 +43,8 @@ namespace Mud.Server.WPFTestApplication
             CreateMidgaard();
 
             //
-            INetworkServer socketServer = new SocketServer(11000);
-            Server.Server.Instance.Initialize(new List<INetworkServer> { socketServer, this });
+            INetworkServer telnetServer = new TelnetServer(11000);
+            Server.Server.Instance.Initialize(new List<INetworkServer> { telnetServer, this });
             Server.Server.Instance.Start();
 
             //CreateNewClientWindow();

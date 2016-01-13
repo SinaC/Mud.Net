@@ -2,42 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mud.Server.Constants;
+using Mud.Server.World;
 
 namespace Mud.Server.Abilities
 {
-    [Flags]
-    public enum AbilityFlags
+    public class Ability : IAbility
     {
-        None = 0,
-        Passive = 1,
-        RequiresMainHand = 2,
-        CannotBeUsedWhileShapeshifted = 4,
-        CannotBeDodgedParriedBlocked = 8,
-        CannotMiss = 16,
-        CannotBeReflected = 32,
-        RequiresComboPoints = 64
-    }
+        #region IAbility
 
-    public enum AbilityMechanics
-    {
-        None,
-        Bleeding,
-        Silenced,
-        Shielded,
-    }
-
-    public enum AbilityTargets
-    {
-        Self, // caster
-        Target, // target in room
-        TargetOrSelf, // target in room, if not target self
-        Group, // everyone in group
-        Room, // every enemy in room
-        Distant, // target in any room (search in current, then anywhere)
-    }
-
-    public class Ability
-    {
         // Unique Id
         public int Id { get; private set; }
 
@@ -65,7 +37,10 @@ namespace Mud.Server.Abilities
         // Flags
         public AbilityFlags Flags { get; private set; }
 
+        // Effect list
         public List<AbilityEffect> Effects { get; private set; }
+
+        #endregion
 
         public Ability(int id, string name, AbilityTargets target, ResourceKinds resourceKind, AmountOperators costType, int costAmount, int globalCooldown, int cooldown, int duration, SchoolTypes school, AbilityMechanics mechanic, DispelTypes dispelType, AbilityFlags flags, params AbilityEffect[] effects)
         {

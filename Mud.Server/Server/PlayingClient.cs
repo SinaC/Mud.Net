@@ -10,7 +10,6 @@ namespace Mud.Server.Server
         public IPlayer Player { get; set; }
 
         private readonly ConcurrentQueue<string> _receiveQueue;
-        //private readonly ConcurrentQueue<string> _sendQueue; // when using this, ProcessOutput must loop until DataToSend returns null
         private readonly StringBuilder _sendBuffer;
 
         private readonly Paging _paging;
@@ -27,7 +26,6 @@ namespace Mud.Server.Server
             _paging = new Paging();
         }
 
-        // Used in synchronous mode
         public void EnqueueReceivedData(string data)
         {
             _receiveQueue.Enqueue(data);
@@ -42,16 +40,12 @@ namespace Mud.Server.Server
 
         public void EnqueueDataToSend(string data)
         {
-            //_sendQueue.Enqueue(message);
             lock (_sendBuffer)
                 _sendBuffer.Append(data);
         }
 
         public string DequeueDataToSend()
         {
-            //string data;
-            //bool taken = _sendQueue.TryDequeue(out data);
-            //return taken ? data : null;
             lock (_sendBuffer)
             {
                 string data = _sendBuffer.ToString();

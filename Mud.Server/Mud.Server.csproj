@@ -96,6 +96,7 @@
     <Compile Include="Server\PlayingClient.cs" />
     <Compile Include="Server\Server.cs" />
     <Compile Include="Server\ServerOptions.cs" />
+    <Compile Include="World\IAbility.cs" />
     <Compile Include="World\World.cs" />
   </ItemGroup>
   <ItemGroup>

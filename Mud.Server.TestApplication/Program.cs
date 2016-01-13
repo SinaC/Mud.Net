@@ -7,7 +7,7 @@ using System.Threading;
 using Mud.Importer.Mystery;
 using Mud.Logger;
 using Mud.Network;
-using Mud.Network.Socket;
+using Mud.Network.Telnet;
 using Mud.POC;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
@@ -412,8 +412,6 @@ namespace Mud.Server.TestApplication
 
         private static void TestBasicCommands()
         {
-            //Server.Instance.Start();
-            // !!!! Must be used with ServerOptions.AsynchronousXXX set to true
             IPlayer player1 = Server.Server.Instance.AddPlayer(new ConsoleClient("Player1"), "Player1");
             IPlayer player2 = Server.Server.Instance.AddPlayer(new ConsoleClient("Player2"), "Player2");
             IAdmin admin = Server.Server.Instance.AddAdmin(new ConsoleClient("Admin1"), "Admin1");
@@ -456,7 +454,6 @@ namespace Mud.Server.TestApplication
             //mob1.ProcessCommand("commands");
             //admin.ProcessCommand("commands");
             //Console.ReadLine();
-            //Server.Instance.Stop();
         }
 
         private static void TestCommandParsing()
@@ -537,8 +534,8 @@ namespace Mud.Server.TestApplication
             //CreateDummyWorld();
             CreateMidgaard();
 
-            INetworkServer socketServer = new SocketServer(11000);
-            Server.Server.Instance.Initialize(new List<INetworkServer> { socketServer});
+            INetworkServer telnetServer = new TelnetServer(11000);
+            Server.Server.Instance.Initialize(new List<INetworkServer> { telnetServer});
             Server.Server.Instance.Start();
 
             bool stopped = false;

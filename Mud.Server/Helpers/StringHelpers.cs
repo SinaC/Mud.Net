@@ -129,5 +129,15 @@ namespace Mud.Server.Helpers
             int minutes = (delay + 60 - 1)/60; // -> ceil(x/60)
             return minutes + " minute" + (minutes != 1 ? "s" : String.Empty); // + "[" + delay + "sec.]";
         }
+
+        public static string CenterText(string text, int length)
+        {
+            if (text.Length >= length)
+                return text;
+            int space = length - text.Length;
+            int left = space/2;
+            //int right = space/2 + (space%2);
+            return text.PadLeft(left + text.Length).PadRight(length);
+        }
     }
 }

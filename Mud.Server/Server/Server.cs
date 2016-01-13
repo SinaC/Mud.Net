@@ -20,11 +20,10 @@ namespace Mud.Server.Server
     //  a new login state machine is created/started and associated to client, client inputs/outputs are handled by login state machine instead if ProcessInput (via ClientLoginOnDataReceived)
     //      --> client is considered as connecting
     //  if login is failed, client is disconnected
-    //  if login is successful, login state machine is discarded, player/admin is created and client input/outputs are handled with ProcessInput/ProcessOutput (or immediately in Asynchronous mode)
+    //  if login is successful, login state machine is discarded, player/admin is created and client input/outputs are handled with ProcessInput/ProcessOutput
     //      --> client is considered as playing
 
     // Once playing,
-    //  in asynchronous mode, input and output are handled immediately
     //  in synchronous mode, input and output are 'queued' and handled by ProcessorInput/ProcessOutput
     public class Server : IServer
     {
@@ -308,17 +307,7 @@ namespace Mud.Server.Server
             if (playingClient == null)
                 Log.Default.WriteLine(LogLevels.Error, "ClientPlayingOnDataReceived: null client");
             else if (command != null)
-            {
-                //if (IsAsynchronous)
-                //{
-                //    if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
-                //        HandlePaging(playingClient, command);
-                //    else
-                //        playingClient.Player.ProcessCommand(command);
-                //}
-                //else
-                    playingClient.EnqueueReceivedData(command);
-            }
+                playingClient.EnqueueReceivedData(command);
         }
 
         private void ClientPlayingOnDisconnected(IClient client)
@@ -353,12 +342,7 @@ namespace Mud.Server.Server
             if (playingClient == null)
                 Log.Default.WriteLine(LogLevels.Error, "PlayerOnSendData: playingClient not found!!!");
             else
-            {
-                //if (IsAsynchronous)
-                //    playingClient.Client.WriteData(data);
-                //else
-                    playingClient.EnqueueDataToSend(data);
-            }
+                playingClient.EnqueueDataToSend(data);
         }
 
         private void PlayerOnPageData(IPlayer player, StringBuilder data)
@@ -370,7 +354,7 @@ namespace Mud.Server.Server
             else if (data.Length > 0)
             {
                 // Save data to page
-                playingClient.Paging.SetData(data); // doesn't depend on asynchronous or synchronous
+                playingClient.Paging.SetData(data);
                 // Send first page
                 HandlePaging(playingClient, String.Empty);
             }
@@ -385,7 +369,6 @@ namespace Mud.Server.Server
         {
             if (command == String.Empty) // <Enter> -> send next page
             {
-                // Paging doesn't use async/sync differentiation. 
                 // Pages are always sent immediately asynchronously, don't use ProcessOutput even if in synchronous mode
                 string nextPage = playingClient.Paging.GetNextPage(5); // TODO: configurable line count
                 playingClient.Client.WriteData(nextPage);
@@ -420,7 +403,7 @@ namespace Mud.Server.Server
         private void Broadcast(string message)
         {
             message = message + Environment.NewLine;
-            // By-pass asynchronous/synchronous send
+            // By-pass process output
             lock(_playingClientLockObject)
                 foreach (IClient client in _clients.Keys)
                     client.WriteData(message);
@@ -429,86 +412,70 @@ namespace Mud.Server.Server
         private void ProcessInput()
         {
             // Read one command from each client and process it
-            //if (!IsAsynchronous)
+            foreach (PlayingClient playingClient in _players.Values) // TODO: first connected player will be processed before other, try a randomize
             {
-                foreach (PlayingClient playingClient in _players.Values) // TODO: first connected player will be processed before other, try a randomize
+                if (playingClient.Player != null)
                 {
-                    if (playingClient.Player != null)
+                    if (playingClient.Player.GlobalCooldown > 0) // if player is on GCD, decrease it
+                        playingClient.Player.DecreaseGlobalCooldown();
+                    else
                     {
-                        if (playingClient.Player.GlobalCooldown > 0) // if player is on GCD, decrease it
-                            playingClient.Player.DecreaseGlobalCooldown();
-                        else
+                        string command = playingClient.DequeueReceivedData(); // process one command at a time
+                        if (command != null)
                         {
-                            string command = playingClient.DequeueReceivedData(); // process one command at a time
-                            if (command != null)
+                            if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
+                                HandlePaging(playingClient, command);
+                            else if (!String.IsNullOrWhiteSpace(command))
                             {
-                                if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
-                                    HandlePaging(playingClient, command);
-                                else if (!String.IsNullOrWhiteSpace(command))
+                                try
                                 {
-                                    try
-                                    {
-                                        playingClient.Player.ProcessCommand(command);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Log.Default.WriteLine(LogLevels.Error, "Exception while processing input of {0}. Exception: {1}", playingClient.Player.Name, ex);
-                                    }
+                                    playingClient.Player.ProcessCommand(command);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Log.Default.WriteLine(LogLevels.Error, "Exception while processing input of {0}. Exception: {1}", playingClient.Player.Name, ex);
                                 }
                             }
                         }
                     }
-                    else
-                        Log.Default.WriteLine(LogLevels.Error, "ProcessInput: playing client without Player");
                 }
+                else
+                    Log.Default.WriteLine(LogLevels.Error, "ProcessInput: playing client without Player");
             }
         }
 
         private void ProcessOutput()
         {
-            //if (!IsAsynchronous)
+            foreach (PlayingClient playingClient in _players.Values)
             {
-                foreach (PlayingClient playingClient in _players.Values)
+                if (playingClient.Player != null)
                 {
-                    // This code must be uncommented if Queue is used in Player
-                    //while (true) // process all current output for one player
-                    //{
-                    //    string data = playingClient.Player.DataToSend();
-                    //    if (!String.IsNullOrWhiteSpace(data))
-                    //        playingClient.Client.WriteData(data);
-                    //    else
-                    //        break;
-                    //}
-                    if (playingClient.Player != null)
+                    string data = playingClient.DequeueDataToSend();
+                    try
                     {
-                        string data = playingClient.DequeueDataToSend();
-                        try
+                        if (!String.IsNullOrWhiteSpace(data)) // TODO use stringbuilder to append prompt
                         {
-                            if (!String.IsNullOrWhiteSpace(data)) // TODO use stringbuilder to append prompt
+                            // Bust a prompt ?
+                            if (playingClient.Player.PlayerState == PlayerStates.Playing || playingClient.Player.PlayerState == PlayerStates.Impersonating)
                             {
-                                // Bust a prompt ?
-                                if (playingClient.Player.PlayerState == PlayerStates.Playing || playingClient.Player.PlayerState == PlayerStates.Impersonating)
-                                {
-                                    //data += ">"; // TODO: complex prompt
-                                    // bust a prompt
-                                    if (playingClient.Player.Impersonating != null)
-                                        data += String.Format("<{0}/{1}hp>", playingClient.Player.Impersonating.HitPoints, playingClient.Player.Impersonating.GetComputedAttribute(ComputedAttributeTypes.MaxHitPoints));
-                                    else
-                                        data += ">";
-                                }
+                                // bust a prompt // TODO: complex prompt
+                                if (playingClient.Player.Impersonating != null)
+                                    data += String.Format("<{0}/{1}hp>", playingClient.Player.Impersonating.HitPoints, playingClient.Player.Impersonating[ComputedAttributeTypes.MaxHitPoints]);
                                 else
                                     data += ">";
-                                playingClient.Client.WriteData(data);
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.Default.WriteLine(LogLevels.Error, "Exception while processing output of {0}. Exception: {1}", playingClient.Player.Name, ex);
+                            else
+                                data += ">";
+                            playingClient.Client.WriteData(data);
                         }
                     }
-                    else
-                        Log.Default.WriteLine(LogLevels.Error, "ProcessOutput: playing client without Player");
+                    catch (Exception ex)
+                    {
+                        Log.Default.WriteLine(LogLevels.Error, "Exception while processing output of {0}. Exception: {1}", playingClient.Player.Name, ex);
+                    }
                 }
+                else
+                    Log.Default.WriteLine(LogLevels.Error, "ProcessOutput: playing client without Player");
             }
         }
 

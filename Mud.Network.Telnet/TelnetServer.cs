@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mud.Logger;
 
-namespace Mud.Network.Socket
+namespace Mud.Network.Telnet
 {
     // TODO: handling exception
     // TODO: forbidding start/stop/... depending on server state
@@ -27,28 +27,28 @@ namespace Mud.Network.Socket
     }
 
     // TODO: problem with simple telnet terminal without handshake
-    public class SocketServer : INetworkServer, IDisposable
+    public class TelnetServer : INetworkServer, IDisposable
     {
         private static readonly Regex AsciiRegEx = new Regex(@"[^\u0020-\u007E]", RegexOptions.Compiled); // match ascii-only char
 
-        private System.Net.Sockets.Socket _serverSocket;
+        private Socket _serverSocket;
         private ManualResetEvent _listenEvent;
         private Task _listenTask;
         private CancellationTokenSource _cancellationTokenSource;
 
         private ServerStatus _status;
-        private readonly List<ClientSocketStateObject> _clients;
+        private readonly List<ClientTelnetStateObject> _clients;
 
         public int Port { get; private set; }
 
-        public SocketServer(int port)
+        public TelnetServer(int port)
         {
             _status = ServerStatus.Creating;
             Log.Default.WriteLine(LogLevels.Info, "Socket server creating");
 
             Port = port;
 
-            _clients = new List<ClientSocketStateObject>();
+            _clients = new List<ClientTelnetStateObject>();
 
             Log.Default.WriteLine(LogLevels.Info, "Socket server created");
             _status = ServerStatus.Created;
@@ -71,7 +71,7 @@ namespace Mud.Network.Socket
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
 
             // Create a TCP/IP socket.
-            _serverSocket = new System.Net.Sockets.Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            _serverSocket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
             // Listen task event
             _listenEvent = new ManualResetEvent(false);
@@ -110,8 +110,8 @@ namespace Mud.Network.Socket
             try
             {
                 // Close clients socket
-                List<ClientSocketStateObject> copy = _clients.Select(x => x).ToList(); // make a copy, because CloseConnection modify collection
-                foreach (ClientSocketStateObject client in copy)
+                List<ClientTelnetStateObject> copy = _clients.Select(x => x).ToList(); // make a copy, because CloseConnection modify collection
+                foreach (ClientTelnetStateObject client in copy)
                     CloseConnection(client);
                 _clients.Clear();
                 
@@ -140,7 +140,7 @@ namespace Mud.Network.Socket
 
         public void Broadcast(string data)
         {
-            foreach(ClientSocketStateObject client in _clients)
+            foreach(ClientTelnetStateObject client in _clients)
                 SendData(client, data);
         }
 
@@ -186,13 +186,13 @@ namespace Mud.Network.Socket
                 _listenEvent.Set();
 
                 // Get the socket that handles the client request.
-                System.Net.Sockets.Socket listener = (System.Net.Sockets.Socket) ar.AsyncState;
-                System.Net.Sockets.Socket clientSocket = listener.EndAccept(ar);
+                Socket listener = (Socket) ar.AsyncState;
+                Socket clientSocket = listener.EndAccept(ar);
 
                 Log.Default.WriteLine(LogLevels.Debug, "Client connected from " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address);
 
                 // Create the state object.
-                ClientSocketStateObject client = new ClientSocketStateObject(this)
+                ClientTelnetStateObject client = new ClientTelnetStateObject(this)
                 {
                     ClientSocket = clientSocket,
                 };
@@ -203,7 +203,7 @@ namespace Mud.Network.Socket
                 if (NewClientConnected != null)
                     NewClientConnected(client);
                 //
-                clientSocket.BeginReceive(client.Buffer, 0, ClientSocketStateObject.BufferSize, 0, ReadCallback, client);
+                clientSocket.BeginReceive(client.Buffer, 0, ClientTelnetStateObject.BufferSize, 0, ReadCallback, client);
             }
             catch (ObjectDisposedException)
             {
@@ -220,8 +220,8 @@ namespace Mud.Network.Socket
             {
                 // Retrieve the state object and the handler socket
                 // from the asynchronous state object.
-                ClientSocketStateObject client = (ClientSocketStateObject) ar.AsyncState;
-                System.Net.Sockets.Socket clientSocket = client.ClientSocket;
+                ClientTelnetStateObject client = (ClientTelnetStateObject) ar.AsyncState;
+                Socket clientSocket = client.ClientSocket;
 
                 // Read data from the client socket. 
                 int bytesRead = clientSocket.EndReceive(ar);
@@ -290,7 +290,7 @@ namespace Mud.Network.Socket
                     // TODO: other states ?
 
                     // Continue reading
-                    clientSocket.BeginReceive(client.Buffer, 0, ClientSocketStateObject.BufferSize, 0, ReadCallback, client);
+                    clientSocket.BeginReceive(client.Buffer, 0, ClientTelnetStateObject.BufferSize, 0, ReadCallback, client);
                 }
             }
             catch (ObjectDisposedException)
@@ -302,11 +302,11 @@ namespace Mud.Network.Socket
             }
         }
 
-        internal void SendData(ClientSocketStateObject client, string data)
+        internal void SendData(ClientTelnetStateObject client, string data)
         {
             try
             {
-                System.Net.Sockets.Socket clientSocket = client.ClientSocket;
+                Socket clientSocket = client.ClientSocket;
 
                 Log.Default.WriteLine(LogLevels.Debug, "Send data to client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " : " + data);
 
@@ -330,11 +330,11 @@ namespace Mud.Network.Socket
             }
         }
 
-        internal void SendData(ClientSocketStateObject client, byte[] byteData)
+        internal void SendData(ClientTelnetStateObject client, byte[] byteData)
         {
             try
             {
-                System.Net.Sockets.Socket clientSocket = client.ClientSocket;
+                Socket clientSocket = client.ClientSocket;
 
                 Log.Default.WriteLine(LogLevels.Debug, "Send data to client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " : " + ByteArrayToString(byteData, byteData.Length));
 
@@ -355,8 +355,8 @@ namespace Mud.Network.Socket
             try
             {
                 // Retrieve the socket from the state object.
-                ClientSocketStateObject client = (ClientSocketStateObject)ar.AsyncState;
-                System.Net.Sockets.Socket clientSocket = client.ClientSocket;
+                ClientTelnetStateObject client = (ClientTelnetStateObject)ar.AsyncState;
+                Socket clientSocket = client.ClientSocket;
 
                 // Complete sending the data to the remote device.
                 int bytesSent = clientSocket.EndSend(ar);
@@ -372,13 +372,13 @@ namespace Mud.Network.Socket
             }
         }
 
-        internal void CloseConnection(ClientSocketStateObject client)
+        internal void CloseConnection(ClientTelnetStateObject client)
         {
             // Remove from 'client' collection
             _clients.Remove(client);
 
             //
-            System.Net.Sockets.Socket clientSocket = client.ClientSocket;
+            Socket clientSocket = client.ClientSocket;
 
             Log.Default.WriteLine(LogLevels.Info, "Client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " has disconnected");
             

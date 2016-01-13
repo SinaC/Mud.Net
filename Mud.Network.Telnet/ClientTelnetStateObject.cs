@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Mud.Network.Socket
+namespace Mud.Network.Telnet
 {
     internal enum ClientStates
     {
@@ -9,7 +9,7 @@ namespace Mud.Network.Socket
     }
 
     // State object for reading client data asynchronously
-    internal class ClientSocketStateObject : IClient
+    internal class ClientTelnetStateObject : IClient
     {
         private static byte[] EchoOffData = new[] { (byte)0xFF, (byte)0xFB, (byte)0x01 };
         private static byte[] EchoOnData = new[] { (byte)0xFF, (byte)0xFC, (byte)0x01 };
@@ -23,11 +23,11 @@ namespace Mud.Network.Socket
         // Received data string.
         public StringBuilder Command { get; set; }
         // Server
-        public SocketServer Server { get; private set; }
+        public TelnetServer Server { get; private set; }
         // State
         public ClientStates State { get; set; }
 
-        public ClientSocketStateObject(SocketServer server)
+        public ClientTelnetStateObject(TelnetServer server)
         {
             Server = server;
             Buffer = new byte[BufferSize];

@@ -149,10 +149,11 @@
         Mana,
         Energy,
         Rage,
-        Blood,
-        Frost,
-        Unholy,
         Runic,
+        BloodRune,
+        FrostRune,
+        UnholyRune,
+        DeathRune
     }
 
     public enum AmountOperators

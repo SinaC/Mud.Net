@@ -46,33 +46,33 @@ namespace Mud.Server.Admin
                         sb.AppendFormatLine("Fighting: {0}", victim.Fighting.Name);
                     sb.AppendFormatLine("Room: {0} [vnum: {1}]", victim.Room.Name, victim.Room.Blueprint == null ? -1 : victim.Room.Blueprint.Id);
                     sb.AppendFormatLine("Level: {0} Sex: {1}", victim.Level, victim.Sex);
-                    sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim.GetComputedAttribute(ComputedAttributeTypes.MaxHitPoints));
+                    sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim[ComputedAttributeTypes.MaxHitPoints]);
                     sb.AppendLine("Attributes:");
                     foreach (PrimaryAttributeTypes primaryAttribute in EnumHelpers.GetValues<PrimaryAttributeTypes>())
-                        sb.AppendFormatLine("{0}: Current: {1} Base: {2}", primaryAttribute, victim.GetCurrentPrimaryAttribute(primaryAttribute), victim.GetBasePrimaryAttribute(primaryAttribute));
+                        sb.AppendFormatLine("{0}: Current: {1} Base: {2}", primaryAttribute, victim[primaryAttribute], victim.GetBasePrimaryAttribute(primaryAttribute));
                     foreach (ComputedAttributeTypes computedAttribute in EnumHelpers.GetValues<ComputedAttributeTypes>())
-                        sb.AppendFormatLine("{0}: {1}", computedAttribute, victim.GetComputedAttribute(computedAttribute));
-                    foreach(IPeriodicAura pe in victim.PeriodicAuras)
-                        if (pe.AuraType == PeriodicAuraTypes.Damage) // TODO: operator
+                        sb.AppendFormatLine("{0}: {1}", computedAttribute, victim[computedAttribute]);
+                    foreach(IPeriodicAura pa in victim.PeriodicAuras)
+                        if (pa.AuraType == PeriodicAuraTypes.Damage) // TODO: operator
                             sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds.",
-                                pe.Name,
-                                pe.Source == null ? "(none)" : pe.Source.DisplayName,
-                                pe.Amount,
-                                pe.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
-                                pe.School,
-                                pe.TickDelay,
-                                pe.SecondsLeft);
+                                pa.Ability == null ? "(none)" : pa.Ability.Name,
+                                pa.Source == null ? "(none)" : pa.Source.DisplayName,
+                                pa.Amount,
+                                pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                                pa.School,
+                                pa.TickDelay,
+                                pa.SecondsLeft);
                         else
                             sb.AppendFormatLine("{0} from {1}: {2}{3} heal every {4} seconds for {5} seconds.",
-                                pe.Name,
-                                pe.Source == null ? "(none)" : pe.Source.DisplayName,
-                                pe.Amount,
-                                pe.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
-                                pe.TickDelay,
-                                pe.SecondsLeft);
+                                pa.Ability == null ? "(none)" : pa.Ability.Name,
+                                pa.Source == null ? "(none)" : pa.Source.DisplayName,
+                                pa.Amount,
+                                pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                                pa.TickDelay,
+                                pa.SecondsLeft);
                     foreach (IAura aura in victim.Auras)
                         sb.AppendFormatLine("{0} modifies {1} by {2}{3} for {4} seconds.",
-                            aura.Name,
+                            aura.Ability == null ? "(none)" : aura.Ability.Name,
                             aura.Modifier,
                             aura.Amount,
                             aura.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
