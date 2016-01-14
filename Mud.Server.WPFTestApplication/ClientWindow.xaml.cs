@@ -61,7 +61,7 @@ namespace Mud.Server.WPFTestApplication
             //paragraph.Inlines.Add(data);
             //OutputRichTextBox.Document.Blocks.Add(paragraph);
 
-            data = DateTime.Now.ToString("hh:mm:ss.ffffff") + data;
+            data = DateTime.Now.ToString("HH:mm:ss.ffffff") + data;
 
             Dispatcher.Invoke(() =>
             {

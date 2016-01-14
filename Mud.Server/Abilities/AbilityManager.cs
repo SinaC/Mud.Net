@@ -16,7 +16,7 @@ namespace Mud.Server.Abilities
 
         public static IAbility WeakenedSoulAbility { get; private set; }
 
-        public List<Ability> Abilities = new List<Ability> // TODO: dictionary on id + Trie on name
+        public List<IAbility> Abilities = new List<IAbility> // TODO: dictionary on id + Trie on name
         {
             // Linked to Power Word: Shield (cannot be used/casted)
             new Ability(WeakenedSoulSpellId, "Weakened Soul", AbilityTargets.Target, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.CannotBeUsed),
