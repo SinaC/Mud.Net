@@ -31,6 +31,7 @@ namespace Mud.Server.Character
         private readonly int[] _maxResources;
         private readonly int[] _currentResources;
         private readonly List<ICharacter> _groupMembers;
+        private readonly Dictionary<IAbility, DateTime> _cooldowns; // Key: ability.Id, Value: Next ability availability
 
         protected int MaxHitPoints
         {
@@ -55,6 +56,7 @@ namespace Mud.Server.Character
             _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _currentResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _groupMembers = new List<ICharacter>();
+            _cooldowns = new Dictionary<IAbility, DateTime>(new CompareIAbility());
 
             BuildEquipmentSlots();
 
@@ -83,6 +85,7 @@ namespace Mud.Server.Character
             _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _currentResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _groupMembers = new List<ICharacter>();
+            _cooldowns = new Dictionary<IAbility, DateTime>(new CompareIAbility());
 
             Blueprint = blueprint;
             BuildEquipmentSlots();
@@ -517,6 +520,96 @@ namespace Mud.Server.Character
                 RecomputeAttributes();
         }
 
+        // Recompute
+        public void ResetAttributes()
+        {
+            if (!IsValid)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "ResetAttributes: {0} is not valid anymore", Name);
+                return;
+            }
+
+            RecomputeAttributes();
+
+            HitPoints = MaxHitPoints;
+            foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
+                //this[resource] = _maxResources[(int)resource];
+                this[resource] = 10; // TEST
+        }
+
+        public void RecomputeAttributes()
+        {
+            // Reset current attributes
+            for (int i = 0; i < _currentPrimaryAttributes.Length; i++)
+                _currentPrimaryAttributes[i] = _basePrimaryAttributes[i];
+            // Apply auras on primary attributes
+            // TODO: aura from equipment/room/group
+            foreach (IAura aura in Auras)
+            {
+                switch (aura.Modifier)
+                {
+                    case AuraModifiers.Strength:
+                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Strength, aura.AmountOperator, aura.Amount);
+                        break;
+                    case AuraModifiers.Agility:
+                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Agility, aura.AmountOperator, aura.Amount);
+                        break;
+                    case AuraModifiers.Stamina:
+                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Stamina, aura.AmountOperator, aura.Amount);
+                        break;
+                    case AuraModifiers.Intellect:
+                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Intellect, aura.AmountOperator, aura.Amount);
+                        break;
+                    case AuraModifiers.Spirit:
+                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Spirit, aura.AmountOperator, aura.Amount);
+                        break;
+                    case AuraModifiers.Characteristics:
+                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Strength, aura.AmountOperator, aura.Amount);
+                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Agility, aura.AmountOperator, aura.Amount);
+                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Stamina, aura.AmountOperator, aura.Amount);
+                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Intellect, aura.AmountOperator, aura.Amount);
+                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Spirit, aura.AmountOperator, aura.Amount);
+                        break;
+                }
+
+            }
+            // Recompute datas depending on attributes
+            // TODO: correct formulas
+            this[ComputedAttributeTypes.MaxHitPoints] = this[PrimaryAttributeTypes.Stamina] * 50 + 1000;
+            this[ComputedAttributeTypes.AttackPower] = this[PrimaryAttributeTypes.Strength] * 2 + 50;
+            this[ComputedAttributeTypes.SpellPower] = this[PrimaryAttributeTypes.Intellect] + 50;
+            this[ComputedAttributeTypes.AttackSpeed] = 20;
+            //
+            // Recompute max resources
+            // TODO: correct values
+            _maxResources[(int)ResourceKinds.Mana] = Level * 100;
+            _maxResources[(int)ResourceKinds.Energy] = 100;
+            _maxResources[(int)ResourceKinds.Rage] = 120;
+            _maxResources[(int)ResourceKinds.Runic] = 130;
+            // TODO: runes
+            // Apply aura on compute attributes
+            foreach (IAura aura in Auras)
+            {
+                switch (aura.Modifier)
+                {
+                    case AuraModifiers.MaxHitPoints:
+                        ModifyComputedAttribute(ComputedAttributeTypes.MaxHitPoints, aura.AmountOperator, aura.Amount);
+                        break;
+                    case AuraModifiers.AttackPower:
+                        ModifyComputedAttribute(ComputedAttributeTypes.AttackPower, aura.AmountOperator, aura.Amount);
+                        break;
+                    case AuraModifiers.SpellPower:
+                        ModifyComputedAttribute(ComputedAttributeTypes.SpellPower, aura.AmountOperator, aura.Amount);
+                        break;
+                    case AuraModifiers.AttackSpeed:
+                        ModifyComputedAttribute(ComputedAttributeTypes.AttackSpeed, aura.AmountOperator, aura.Amount);
+                        break;
+                }
+            }
+            // Keep attributes in valid range
+            HitPoints = Math.Min(HitPoints, MaxHitPoints);
+        }
+
         // Move
         public bool Move(ServerOptions.ExitDirections direction, bool follow = false)
         {
@@ -902,92 +995,33 @@ namespace Mud.Server.Character
             return true;
         }
 
-        public void ResetAttributes()
+        // Ability
+        public IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> AbilitiesInCooldown
         {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "ResetAttributes: {0} is not valid anymore", Name);
-                return;
-            }
-
-            RecomputeAttributes();
-
-            HitPoints = MaxHitPoints;
-            foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
-                this[resource] = _maxResources[(int) resource];
+            get { return _cooldowns.ToList().AsReadOnly(); }
         }
 
-        public void RecomputeAttributes()
+        public int CooldownSecondsLeft(IAbility ability)
         {
-            // Reset current attributes
-            for (int i = 0; i < _currentPrimaryAttributes.Length; i++)
-                _currentPrimaryAttributes[i] = _basePrimaryAttributes[i];
-            // Apply auras on primary attributes
-            // TODO: aura from equipment/room/group
-            foreach (IAura aura in Auras)
+            DateTime nextAvailability;
+            if (_cooldowns.TryGetValue(ability, out nextAvailability))
             {
-                switch (aura.Modifier)
-                {
-                    case AuraModifiers.Strength:
-                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Strength, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Agility:
-                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Agility, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Stamina:
-                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Stamina, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Intellect:
-                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Intellect, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Spirit:
-                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Spirit, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Characteristics:
-                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Strength, aura.AmountOperator, aura.Amount);
-                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Agility, aura.AmountOperator, aura.Amount);
-                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Stamina, aura.AmountOperator, aura.Amount);
-                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Intellect, aura.AmountOperator, aura.Amount);
-                        ModifyPrimaryAttribute(PrimaryAttributeTypes.Spirit, aura.AmountOperator, aura.Amount);
-                        break;
-                }
+                TimeSpan diff = nextAvailability - Server.Server.Instance.CurrentTime;
+                int secondsLeft = (int) Math.Ceiling(diff.TotalSeconds);
+                return secondsLeft;
+            }
+            return Int32.MinValue;
+        }
 
-            }
-            // Recompute datas depending on attributes
-            // TODO: correct formulas
-            this[ComputedAttributeTypes.MaxHitPoints] = this[PrimaryAttributeTypes.Stamina] * 50 + 1000;
-            this[ComputedAttributeTypes.AttackPower] = this[PrimaryAttributeTypes.Strength] * 2 + 50;
-            this[ComputedAttributeTypes.SpellPower] = this[PrimaryAttributeTypes.Intellect] + 50;
-            this[ComputedAttributeTypes.AttackSpeed] = 20;
-            //
-            // Recompute max resources
-            // TODO: correct values
-            _maxResources[(int) ResourceKinds.Mana] = Level*100;
-            _maxResources[(int) ResourceKinds.Energy] = 100;
-            _maxResources[(int) ResourceKinds.Rage] = 120;
-            _maxResources[(int)ResourceKinds.Runic] = 130;
-            // TODO: runes
-            // Apply aura on compute attributes
-            foreach (IAura aura in Auras)
-            {
-                switch (aura.Modifier)
-                {
-                    case AuraModifiers.MaxHitPoints:
-                        ModifyComputedAttribute(ComputedAttributeTypes.MaxHitPoints, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.AttackPower:
-                        ModifyComputedAttribute(ComputedAttributeTypes.AttackPower, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.SpellPower:
-                        ModifyComputedAttribute(ComputedAttributeTypes.SpellPower, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.AttackSpeed:
-                        ModifyComputedAttribute(ComputedAttributeTypes.AttackSpeed, aura.AmountOperator, aura.Amount);
-                        break;
-                }
-            }
-            // Keep attributes in valid range
-            HitPoints = Math.Min(HitPoints, MaxHitPoints);
+        public void SetCooldown(IAbility ability)
+        {
+            DateTime nextAvailability = Server.Server.Instance.CurrentTime.AddSeconds(ability.Cooldown);
+            _cooldowns[ability] = nextAvailability;
+        }
+
+        public void ResetCooldown(IAbility ability)
+        {
+            _cooldowns.Remove(ability);
         }
 
         #endregion
@@ -1469,6 +1503,26 @@ namespace Mud.Server.Character
 
         #endregion
 
+        private class CompareIAbility : IEqualityComparer<IAbility>
+        {
+            public bool Equals(IAbility x, IAbility y)
+            {
+                if (x == null && y == null)
+                    return true;
+                if (x == null || y == null)
+                    return false;
+                return x.Id == y.Id;
+            }
+
+            public int GetHashCode(IAbility obj)
+            {
+                if (obj == null)
+                    return -1;
+                else
+                    return obj.Id;
+            }
+        }
+
         [Command("kill")]
         protected virtual bool DoKill(string rawParameters, params CommandParameter[] parameters)
         {
@@ -1511,7 +1565,7 @@ namespace Mud.Server.Character
                     AbilityManager abilityManager = new AbilityManager();
                     foreach (Ability ability in abilityManager.Abilities)
                     {
-                        Send("[{0}]{1} {2} [{3}|{4}|{5}] [{6}|{7}|{8}] [{9}|{10}|{11}] {12} {13}" + Environment.NewLine,
+                        Send("[{0}]{1} [{2}] [{3}|{4}|{5}] [{6}|{7}|{8}] [{9}|{10}|{11}] {12} {13}" + Environment.NewLine,
                             ability.Id, ability.Name,
                             ability.Target,
                             ability.ResourceKind, ability.CostType, ability.CostAmount,

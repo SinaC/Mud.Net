@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
 using Mud.Server.Item;
@@ -97,6 +98,12 @@ namespace Mud.Server
         bool Damage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage from known source
         bool UnknownSourceDamage(IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage from unknown source
         bool RawKill(ICharacter victim, bool killingPayoff); // kill victim + create corpse (if killingPayoff is true, xp gain/loss)
+
+        // Ability
+        IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> AbilitiesInCooldown { get; }
+        int CooldownSecondsLeft(IAbility ability); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)
+        void SetCooldown(IAbility ability);
+        void ResetCooldown(IAbility ability);
     }
 
     public class EquipedItem

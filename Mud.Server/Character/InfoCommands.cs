@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.Logger;
+using Mud.Server.Abilities;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Server;
+using Mud.Server.World;
 
 namespace Mud.Server.Character
 {
@@ -267,7 +269,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("score", Priority = 10)]
+        [Command("score", Priority = 2)]
         protected virtual bool DoScore(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -295,6 +297,47 @@ namespace Mud.Server.Character
             // TODO: armor/resistances
             sb.AppendLine("+--------------------------+------------------------+");
             Send(sb);
+            return true;
+        }
+
+        [Command("cd")]
+        [Command("cooldowns")]
+        protected virtual bool DoCooldowns(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                //IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> abilitiesInCooldown = AbilitiesInCooldown;
+                if (AbilitiesInCooldown.Any())
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine("Cooldowns:");
+                    foreach (var cooldown in AbilitiesInCooldown
+                        .Select(x => new { Ability = x.Key, SecondsLeft = (x.Value - Server.Server.Instance.CurrentTime).TotalSeconds })
+                        .OrderBy(x => x.SecondsLeft))
+                    {
+                        int secondsLeft = (int) Math.Ceiling(cooldown.SecondsLeft);
+                        sb.AppendFormatLine("{0} is in cooldown for {1}.", cooldown.Ability.Name, StringHelpers.FormatDelay(secondsLeft));
+                    }
+                    Send(sb);
+                }
+                else
+                    Send("No abilities in cooldown." + Environment.NewLine);
+            }
+            else
+            {
+                AbilityManager manager = new AbilityManager();
+                IAbility ability = manager.SearchByName(parameters[0]);
+                if (ability == null)
+                {
+                    Send("You don't know any abilities of that name." + Environment.NewLine);
+                    return true;
+                }
+                int cooldownSecondsLeft = CooldownSecondsLeft(ability);
+                if (cooldownSecondsLeft <= 0)
+                    Send("{0} is not in cooldown." + Environment.NewLine, ability.Name);
+                else
+                    Send("{0} is in cooldown for {1}." + Environment.NewLine, ability.Name, StringHelpers.FormatDelay(cooldownSecondsLeft));
+            }
             return true;
         }
 

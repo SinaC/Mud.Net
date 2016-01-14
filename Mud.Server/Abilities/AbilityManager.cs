@@ -47,63 +47,90 @@ namespace Mud.Server.Abilities
             get { return Abilities.FirstOrDefault(x => x.Name == name); }
         }
 
+        public IAbility SearchByName(CommandParameter parameter)
+        {
+            return Abilities.Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed && FindHelpers.StringStartWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count-1);
+        }
+
         public bool Process(ICharacter source, params CommandParameter[] parameters)
         {
             //0/ Search ability
             if (parameters.Length == 0)
             {
-                source.Send("Cast/use what ?" + Environment.NewLine);
+                source.Send("Cast/Use what ?" + Environment.NewLine);
                 return false;
             }
-            Ability ability = Abilities.FirstOrDefault(x =>
-                (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed
-                && x.Name.StartsWith(parameters[0].Value, StringComparison.InvariantCultureIgnoreCase));
+            IAbility ability = SearchByName(parameters[0]);
             if (ability == null)
             {
-                source.Send("Unknown/not usable ability." + Environment.NewLine);
+                source.Send("You don't know any abilities of that name" + Environment.NewLine);
                 return false;
             }
-            // TODO: //1/ check cooldown
-            // TODO: //2/ check resource
+            //1/ check cooldown
+            int cooldownSecondsLeft = source.CooldownSecondsLeft(ability);
+            if (cooldownSecondsLeft > 0)
+            {
+                source.Send("{0} is in cooldown for {1}." + Environment.NewLine, ability.Name, StringHelpers.FormatDelay(cooldownSecondsLeft));
+                return false;
+            }
+            //2/ check resource
+            if (ability.ResourceKind != ResourceKinds.None && ability.CostAmount > 0 && ability.CostType != AmountOperators.None)
+            {
+                int cost;
+                int resourceLeft = source[ability.ResourceKind];
+                if (ability.CostType == AmountOperators.Fixed)
+                    cost = ability.CostAmount;
+                else //ability.CostType == AmountOperators.Percentage
+                {
+                    int maxResource = source.GetMaxResource(ability.ResourceKind);
+                    cost = maxResource*ability.CostAmount/100;
+                }
+                bool enoughResource = cost <= resourceLeft;
+                if (!enoughResource)
+                {
+                    source.Send("You don't have enough {0}."+Environment.NewLine, ability.ResourceKind);
+                    return false;
+                }
+            }
             //3/ Check target(s)
             List<ICharacter> targets;
             switch (ability.Target)
             {
                 case AbilityTargets.Self:
-                    targets = new List<ICharacter> { source };
+                    targets = new List<ICharacter> {source};
                     break;
                 case AbilityTargets.Target:
+                {
+                    if (parameters.Length == 1)
                     {
-                        if (parameters.Length == 1)
-                        {
-                            source.Send("{0} on whom ?" + Environment.NewLine, ability.Name);
-                            return false;
-                        }
+                        source.Send("{0} on whom ?" + Environment.NewLine, ability.Name);
+                        return false;
+                    }
+                    ICharacter target = FindHelpers.FindByName(source.Room.People, parameters[1]);
+                    if (target == null)
+                    {
+                        source.Send(StringHelpers.CharacterNotFound);
+                        return false;
+                    }
+                    targets = new List<ICharacter> {target};
+                    break;
+                }
+                case AbilityTargets.TargetOrSelf:
+                {
+                    if (parameters.Length == 1)
+                        targets = new List<ICharacter> {source};
+                    else
+                    {
                         ICharacter target = FindHelpers.FindByName(source.Room.People, parameters[1]);
                         if (target == null)
                         {
                             source.Send(StringHelpers.CharacterNotFound);
                             return false;
                         }
-                        targets = new List<ICharacter> { target };
-                        break;
+                        targets = new List<ICharacter> {target};
                     }
-                case AbilityTargets.TargetOrSelf:
-                    {
-                        if (parameters.Length == 1)
-                            targets = new List<ICharacter> { source };
-                        else
-                        {
-                            ICharacter target = FindHelpers.FindByName(source.Room.People, parameters[1]);
-                            if (target == null)
-                            {
-                                source.Send(StringHelpers.CharacterNotFound);
-                                return false;
-                            }
-                            targets = new List<ICharacter> { target };
-                        }
-                        break;
-                    }
+                    break;
+                }
                 case AbilityTargets.Group:
                 {
                     // Source + group members
@@ -124,20 +151,22 @@ namespace Mud.Server.Abilities
                     break;
             }
             //4/ Say ability
-            source.Send("You use '{0}'."+Environment.NewLine, ability.Name);
+            source.Send("You cast/use '{0}'." + Environment.NewLine, ability.Name); // TODO: better wording
             // TODO //5/ Pay resource cost
             //6/ Perform effect(s) on target(s)
             IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(targets);
             foreach (ICharacter target in clone)
             {
                 if (source != target)
-                    target.Act(ActOptions.ToCharacter, "{0} uses '{1}' on you.", source, ability.Name);
+                    target.Act(ActOptions.ToCharacter, "{0} casts/uses '{1}' on you.", source, ability.Name); // TODO: better wording
                 ProcessOnOneTarget(source, target, ability);
             }
             //7/ Set global cooldown
             if (source.ImpersonatedBy != null)
                 source.ImpersonatedBy.SetGlobalCooldown(ability.GlobalCooldown);
-            // TODO //8/ Set cooldown
+            //8/ Set cooldown
+            if (ability.Cooldown > 0)
+                source.SetCooldown(ability);
             return true;
         }
 

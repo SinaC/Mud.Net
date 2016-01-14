@@ -128,7 +128,6 @@ namespace Mud.Server.WPFTestApplication
             _serverWindowInstance.Dispatcher.Invoke(() =>
             {
                 //_serverWindowInstance.OutputRichTextBox.AppendText(message+Environment.NewLine);
-                Paragraph paragraph = new Paragraph();
                 Brush color;
                 if (level == "Error")
                     color = Brushes.Red;
@@ -142,7 +141,8 @@ namespace Mud.Server.WPFTestApplication
                     color = Brushes.DarkGray;
                 else
                     color = Brushes.Orchid; // should never happen
-                paragraph.Inlines.Add(new Bold(new Run(level + ": " + message))
+                Paragraph paragraph = new Paragraph();
+                paragraph.Inlines.Add(new Run(level + ": " + message)
                 {
                     Foreground = color
                 });

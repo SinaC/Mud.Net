@@ -127,7 +127,13 @@ namespace Mud.Server.Helpers
             if (delay < 60)
                 return delay + " second" + (delay != 1 ? "s" : String.Empty);
             int minutes = (delay + 60 - 1)/60; // -> ceil(x/60)
-            return minutes + " minute" + (minutes != 1 ? "s" : String.Empty); // + "[" + delay + "sec.]";
+            if (minutes < 60)
+                return minutes + " minute" + (minutes != 1 ? "s" : String.Empty);
+            int hours = (minutes + 60 - 1)/60; // -> ceil(x/60)
+            if (hours < 24)
+                return hours + " hour" + (hours != 1 ? "s" : String.Empty);
+            int days = (hours + 24 - 1)/24;
+            return days + " day" + (days != 1 ? "s" : String.Empty);
         }
 
         public static string CenterText(string text, int length)

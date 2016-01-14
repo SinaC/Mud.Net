@@ -45,6 +45,7 @@
     <Compile Include="Admin\ImpersonateCommand.cs" />
     <Compile Include="Admin\IncarnateCommand.cs" />
     <Compile Include="Admin\InfoCommands.cs" />
+    <Compile Include="Character\AbilityCommands.cs" />
     <Compile Include="Character\Character.cs" />
     <Compile Include="Character\CommunicationCommands.cs" />
     <Compile Include="Character\GroupCommands.cs" />

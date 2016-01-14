@@ -7,8 +7,8 @@ namespace Mud.Server.Helpers
 {
     public static class FindHelpers // TODO: check if a keyword contains parameter instead of name == parameter  ???
     {
-        private static readonly Func<string, string, bool> StringEquals = (s, s1) => String.Equals(s, s1, StringComparison.InvariantCultureIgnoreCase);
-        private static readonly Func<string, string, bool> StringStartWith = (s, s1) => s.StartsWith(s1, StringComparison.InvariantCultureIgnoreCase);
+        public static readonly Func<string, string, bool> StringEquals = (s, s1) => String.Equals(s, s1, StringComparison.InvariantCultureIgnoreCase);
+        public static readonly Func<string, string, bool> StringStartWith = (s, s1) => s.StartsWith(s1, StringComparison.InvariantCultureIgnoreCase);
 
         // Search in room content, then in inventory, then in equipment
         public static IItem FindCharacterItemByName2(ICharacter character, CommandParameter parameter, bool perfectMatch = false) // equivalent do get_obj_here in handler.C:3680
