@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Mud.Server.Abilities;
 using Mud.Server.Constants;
 
-namespace Mud.Server.World
+namespace Mud.Server
 {
     [Flags]
     public enum AbilityFlags

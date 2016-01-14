@@ -8,7 +8,6 @@ using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
 using Mud.Server.Room;
-using Mud.Server.Server;
 
 namespace Mud.Server.World
 {
@@ -60,7 +59,7 @@ namespace Mud.Server.World
             return room;
         }
 
-        public IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ServerOptions.ExitDirections direction)
+        public IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction)
         {
             string description = blueprint == null ? String.Format("door[{0}->{1}]", from.Name, to.Name) : blueprint.Description;
             Exit from2To = new Exit(description, blueprint, to);
@@ -117,9 +116,9 @@ namespace Mud.Server.World
             return item;
         }
 
-        public IAura AddAura(ICharacter victim, IAbility ability, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible)
+        public IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible)
         {
-            IAura aura = new Aura.Aura(ability, modifier, amount, amountOperator, totalSeconds);
+            IAura aura = new Aura.Aura(ability, source, modifier, amount, amountOperator, totalSeconds);
             victim.AddAura(aura, visible);
             return aura;
         }
@@ -159,6 +158,14 @@ namespace Mud.Server.World
                     pa.ResetSource();
             }
 
+            // Search IAura with character as Source and nullify Source
+            List<ICharacter> charactersWithAuras = _characters.Where(x => x.Auras.Any(a => a.Source == character)).ToList(); // clone
+            foreach (ICharacter characterWithAuras in charactersWithAuras)
+            {
+                foreach (IAura aura in characterWithAuras.Auras.Where(x => x.Source == character))
+                    aura.ResetSource();
+            }
+
             // Remove periodic auras on character
             List<IPeriodicAura> periodicAuras = new List<IPeriodicAura>(character.PeriodicAuras); // clone
             foreach (IPeriodicAura pa in periodicAuras)
@@ -169,8 +176,11 @@ namespace Mud.Server.World
 
             // Remove auras
             List<IAura> auras = new List<IAura>(character.Auras); // clone
-            foreach(IAura aura in auras)
+            foreach (IAura aura in auras)
+            {
+                aura.ResetSource();
                 character.RemoveAura(aura, false);
+            }
             // no need to recompute
 
             // Remove content

@@ -160,26 +160,26 @@ namespace Mud.Server.TestApplication
             ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint();
 
             // World
-            IRoom room1 = World.World.Instance.AddRoom(Guid.NewGuid(), room1Blueprint);
-            IRoom room2 = World.World.Instance.AddRoom(Guid.NewGuid(), room2Blueprint);
-            World.World.Instance.AddExit(room1, room2, null, ServerOptions.ExitDirections.North);
-            World.World.Instance.AddExit(room2, room1, null, ServerOptions.ExitDirections.North);
+            IRoom room1 = Repository.World.AddRoom(Guid.NewGuid(), room1Blueprint);
+            IRoom room2 = Repository.World.AddRoom(Guid.NewGuid(), room2Blueprint);
+            Repository.World.AddExit(room1, room2, null, ExitDirections.North);
+            Repository.World.AddExit(room2, room1, null, ExitDirections.North);
 
-            ICharacter mob1 = World.World.Instance.AddCharacter(Guid.NewGuid(), "Mob1", room1); // playable
-            ICharacter mob2 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob2Blueprint, room1);
-            ICharacter mob3 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob3Blueprint, room2);
-            ICharacter mob4 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob4Blueprint, room2);
-            ICharacter mob5 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob5Blueprint, room2);
+            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "Mob1", room1); // playable
+            ICharacter mob2 = Repository.World.AddCharacter(Guid.NewGuid(), mob2Blueprint, room1);
+            ICharacter mob3 = Repository.World.AddCharacter(Guid.NewGuid(), mob3Blueprint, room2);
+            ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), mob4Blueprint, room2);
+            ICharacter mob5 = Repository.World.AddCharacter(Guid.NewGuid(), mob5Blueprint, room2);
 
-            IItemContainer item1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, room1);
-            IItemContainer item1Dup1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, room2);
-            IItemWeapon item2 = World.World.Instance.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
-            IItemArmor item3 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
-            IItemLight item4 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
-            IItemWeapon item5 = World.World.Instance.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
-            IItemContainer item1Dup2 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
-            IItemArmor item3Dup1 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
-            IItemLight item4Dup1 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            IItemContainer item1 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, room1);
+            IItemContainer item1Dup1 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, room2);
+            IItemWeapon item2 = Repository.World.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
+            IItemArmor item3 = Repository.World.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
+            IItemLight item4 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
+            IItemWeapon item5 = Repository.World.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
+            IItemContainer item1Dup2 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
+            IItemArmor item3Dup1 = Repository.World.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
+            IItemLight item4Dup1 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             // Equip weapon on mob2
             mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield).Item = item2;
             item2.ChangeContainer(null);
@@ -215,7 +215,7 @@ namespace Mud.Server.TestApplication
                     Name = importedRoom.Name,
                     Description = importedRoom.Description,
                 };
-                IRoom room = World.World.Instance.AddRoom(Guid.NewGuid(), roomBlueprint);
+                IRoom room = Repository.World.AddRoom(Guid.NewGuid(), roomBlueprint);
                 roomsByVNums.Add(importedRoom.VNum, room);
             }
             // Create Exits
@@ -236,7 +236,7 @@ namespace Mud.Server.TestApplication
                             Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", room.VNum);
                         else
                         {
-                            World.World.Instance.AddExit(from, to, null, (ServerOptions.ExitDirections) i);
+                            Repository.World.AddExit(from, to, null, (ExitDirections) i);
                         }
                     }
                 }
@@ -253,12 +253,12 @@ namespace Mud.Server.TestApplication
             //            case 'M':
             //                MobileData mob = importer.Mobiles.FirstOrDefault(x => x.VNum == reset.Arg1);
             //                if (mob != null)
-            //                    World.World.Instance.AddCharacter(Guid.NewGuid(), mob.Name, room);
+            //                    Repository.World.AddCharacter(Guid.NewGuid(), mob.Name, room);
             //                break;
             //            case 'O':
             //                ObjectData obj = importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1);
             //                if (obj != null) // TODO: itemType
-            //                    World.World.Instance.AddItemContainer(Guid.NewGuid(), obj.Name, room);
+            //                    Repository.World.AddItemContainer(Guid.NewGuid(), obj.Name, room);
             //                break;
             //            // TODO: other command  P, E, G, D, R, Z
             //        }
@@ -358,24 +358,24 @@ namespace Mud.Server.TestApplication
             ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint();
 
             // Add dummy mobs and items to allow impersonate :)
-            IRoom templeOfMota = World.World.Instance.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
-            IRoom templeSquare = World.World.Instance.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");
+            IRoom templeOfMota = Repository.World.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
+            IRoom templeSquare = Repository.World.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
-            ICharacter mob1 = World.World.Instance.AddCharacter(Guid.NewGuid(), "mob1", templeOfMota); // playable
-            ICharacter mob2 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
-            ICharacter mob3 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
-            ICharacter mob4 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
-            ICharacter mob5 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
+            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", templeOfMota); // playable
+            ICharacter mob2 = Repository.World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
+            ICharacter mob3 = Repository.World.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
+            ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
+            ICharacter mob5 = Repository.World.AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
-            IItemContainer item1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemContainer item1Dup1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemWeapon item2 = World.World.Instance.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
-            IItemArmor item3 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
-            IItemLight item4 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
-            IItemWeapon item5 = World.World.Instance.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
-            IItemContainer item1Dup2 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
-            IItemArmor item3Dup1 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
-            IItemLight item4Dup1 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            IItemContainer item1 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItemContainer item1Dup1 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItemWeapon item2 = Repository.World.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
+            IItemArmor item3 = Repository.World.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
+            IItemLight item4 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
+            IItemWeapon item5 = Repository.World.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
+            IItemContainer item1Dup2 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
+            IItemArmor item3Dup1 = Repository.World.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
+            IItemLight item4Dup1 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             // Equip weapon on mob2
             mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield).Item = item2;
             item2.ChangeContainer(null);
@@ -412,9 +412,9 @@ namespace Mud.Server.TestApplication
 
         private static void TestBasicCommands()
         {
-            IPlayer player1 = Server.Server.Instance.AddPlayer(new ConsoleClient("Player1"), "Player1");
-            IPlayer player2 = Server.Server.Instance.AddPlayer(new ConsoleClient("Player2"), "Player2");
-            IAdmin admin = Server.Server.Instance.AddAdmin(new ConsoleClient("Admin1"), "Admin1");
+            IPlayer player1 = Repository.Server.AddPlayer(new ConsoleClient("Player1"), "Player1");
+            IPlayer player2 = Repository.Server.AddPlayer(new ConsoleClient("Player2"), "Player2");
+            IAdmin admin = Repository.Server.AddAdmin(new ConsoleClient("Admin1"), "Admin1");
 
             CreateDummyWorld();
 
@@ -467,9 +467,9 @@ namespace Mud.Server.TestApplication
                 Description = "My first room"
             };
             // World
-            IRoom room = World.World.Instance.AddRoom(Guid.NewGuid(), room1Blueprint);
+            IRoom room = Repository.World.AddRoom(Guid.NewGuid(), room1Blueprint);
 
-            IPlayer player = Server.Server.Instance.AddPlayer(new ConsoleClient("Player"), "Player");
+            IPlayer player = Repository.Server.AddPlayer(new ConsoleClient("Player"), "Player");
             player.ProcessCommand("test");
             player.ProcessCommand("test arg1");
             player.ProcessCommand("test 'arg1' 'arg2' 'arg3' 'arg4'");
@@ -485,7 +485,7 @@ namespace Mud.Server.TestApplication
             player.ProcessCommand("unknown"); // INVALID
             player.ProcessCommand("/test");
 
-            ICharacter character = World.World.Instance.AddCharacter(Guid.NewGuid(), "Character", room);
+            ICharacter character = Repository.World.AddCharacter(Guid.NewGuid(), "Character", room);
             character.ProcessCommand("look");
             character.ProcessCommand("tell"); // INVALID because Player commands are not accessible by Character
             character.ProcessCommand("unknown"); // INVALID
@@ -502,7 +502,7 @@ namespace Mud.Server.TestApplication
             player.ProcessCommand("tell");
             player.ProcessCommand("look"); // INVALID because Character commands are not accessible by Player unless if impersonating
 
-            IAdmin admin = Server.Server.Instance.AddAdmin(new ConsoleClient("Admin"), "Admin");
+            IAdmin admin = Repository.Server.AddAdmin(new ConsoleClient("Admin"), "Admin");
             admin.ProcessCommand("incarnate");
             admin.ProcessCommand("unknown"); // INVALID
         }
@@ -535,8 +535,8 @@ namespace Mud.Server.TestApplication
             CreateMidgaard();
 
             INetworkServer telnetServer = new TelnetServer(11000);
-            Server.Server.Instance.Initialize(new List<INetworkServer> { telnetServer});
-            Server.Server.Instance.Start();
+            Repository.Server.Initialize(new List<INetworkServer> { telnetServer});
+            Repository.Server.Start();
 
             bool stopped = false;
             while (!stopped)
@@ -558,13 +558,13 @@ namespace Mud.Server.TestApplication
                             else if (line == "alist")
                             {
                                 Console.WriteLine("Admins:");
-                                foreach (IAdmin a in Server.Server.Instance.GetAdmins())
+                                foreach (IAdmin a in Repository.Server.GetAdmins())
                                     Console.WriteLine(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.Name : "") + " " + (a.Incarnating != null ? a.Incarnating.Name : ""));
                             }
                             else if (line == "plist")
                             {
                                 Console.WriteLine("players:");
-                                foreach (IPlayer p in Server.Server.Instance.GetPlayers())
+                                foreach (IPlayer p in Repository.Server.GetPlayers())
                                     Console.WriteLine(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.Name : ""));
                             }
                             // TODO: characters/rooms/items
@@ -575,7 +575,7 @@ namespace Mud.Server.TestApplication
                     Thread.Sleep(100);
             }
             
-            Server.Server.Instance.Stop();
+            Repository.Server.Stop();
         }
 
         private static void TestWorldOffline()
@@ -586,11 +586,11 @@ namespace Mud.Server.TestApplication
             CreateMidgaard();
 
             ConsoleNetworkServer consoleNetworkServer = new ConsoleNetworkServer();
-            Server.Server.Instance.Initialize(new List<INetworkServer> { consoleNetworkServer});
+            Repository.Server.Initialize(new List<INetworkServer> { consoleNetworkServer});
             consoleNetworkServer.AddClient("Player1", false, true);
-            Server.Server.Instance.Start(); // this call is blocking because consoleNetworkServer.Start is blocking
+            Repository.Server.Start(); // this call is blocking because consoleNetworkServer.Start is blocking
 
-            Server.Server.Instance.Stop();
+            Repository.Server.Stop();
         }
     }
 }

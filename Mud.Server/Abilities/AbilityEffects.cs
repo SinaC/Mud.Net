@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Mud.Server.Constants;
-using Mud.Server.World;
 
 namespace Mud.Server.Abilities
 {
@@ -70,7 +69,7 @@ namespace Mud.Server.Abilities
 
         public override bool Process(ICharacter source, ICharacter victim, IAbility ability)
         {
-            World.World.Instance.AddAura(victim, ability, Modifier, Amount, AmountOperator, ability.Duration, true);
+            Repository.World.AddAura(victim, ability, source, Modifier, Amount, AmountOperator, ability.Duration, true);
             return true;
         }
     }
@@ -94,7 +93,7 @@ namespace Mud.Server.Abilities
         {
             int amount = ComputeAmount(source, Attribute, Factor);
             int totalTicks = ability.Duration / TickDelay;
-            World.World.Instance.AddPeriodicAura(victim, ability, source, School, amount, AmountOperators.Fixed, true, TickDelay, totalTicks);
+            Repository.World.AddPeriodicAura(victim, ability, source, School, amount, AmountOperators.Fixed, true, TickDelay, totalTicks);
             return true;
         }
     }
@@ -116,7 +115,7 @@ namespace Mud.Server.Abilities
         {
             int amount = ComputeAmount(source, Attribute, Factor);
             int totalTicks = ability.Duration / TickDelay;
-            World.World.Instance.AddPeriodicAura(victim, ability, source, amount, AmountOperators.Fixed, true, TickDelay, totalTicks);
+            Repository.World.AddPeriodicAura(victim, ability, source, amount, AmountOperators.Fixed, true, TickDelay, totalTicks);
             return true;
         }
     }
@@ -190,14 +189,14 @@ namespace Mud.Server.Abilities
     {
         public override bool Process(ICharacter source, ICharacter victim, IAbility ability)
         {
-            if (victim.Auras.Any(x => x.Ability == AbilityManager.WeakenedSoulAbility))
+            if (victim.Auras.Any(x => x.Ability != null && x.Ability.Id == AbilityManager.WeakenedSoulSpellId))
             {
                 source.Act(ActOptions.ToCharacter, "{0} cannot be targetted by {1}.", victim, ability.Name);
                 return false;
             }
             int amount = ComputeAmount(source, ComputedAttributeTypes.SpellPower, 45.9f);
-            World.World.Instance.AddAura(victim, ability, AuraModifiers.Shield, amount, AmountOperators.Fixed, ability.Duration, true);
-            World.World.Instance.AddAura(victim, AbilityManager.WeakenedSoulAbility, AuraModifiers.None, 0, AmountOperators.None, 15, true);
+            Repository.World.AddAura(victim, ability, source, AuraModifiers.Shield, amount, AmountOperators.Fixed, ability.Duration, true);
+            Repository.World.AddAura(victim, AbilityManager.WeakenedSoulAbility, source, AuraModifiers.None, 0, AmountOperators.None, 15, true);
             return true;
         }
     }

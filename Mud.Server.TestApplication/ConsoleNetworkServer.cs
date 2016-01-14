@@ -81,13 +81,13 @@ namespace Mud.Server.TestApplication
                             else if (line == "alist")
                             {
                                 Console.WriteLine("Admins:");
-                                foreach (IAdmin a in Server.Server.Instance.GetAdmins())
+                                foreach (IAdmin a in Repository.Server.GetAdmins())
                                     Console.WriteLine(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.Name : "") + " " + (a.Incarnating != null ? a.Incarnating.Name : ""));
                             }
                             else if (line == "plist")
                             {
                                 Console.WriteLine("players:");
-                                foreach (IPlayer p in Server.Server.Instance.GetPlayers())
+                                foreach (IPlayer p in Repository.Server.GetPlayers())
                                     Console.WriteLine(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.Name : ""));
                             }
                             // TODO: characters/rooms/items

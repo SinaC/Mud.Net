@@ -1,6 +1,5 @@
 ﻿using System;
 using Mud.Server.Constants;
-using Mud.Server.World;
 
 namespace Mud.Server
 {
@@ -8,6 +7,9 @@ namespace Mud.Server
     {
         // Ability
         IAbility Ability { get; }
+
+        // Source of Aura
+        ICharacter Source { get; } // TODO: entity
 
         // Modifier
         AuraModifiers Modifier { get; }
@@ -25,7 +27,20 @@ namespace Mud.Server
         // Seconds left
         int SecondsLeft { get; }
 
-        // Absorb, returns remaining damage
+        // Reset source
+        void ResetSource();
+
+        // Absorb, returns remaining damage (only for absorb Aura)
         int Absorb(int damage);
+
+        // Refresh with a new aura
+        void Refresh(IAura aura);
     }
+
+    // TODO ???
+    //public interface IAbsorbAura : IAura
+    //{
+    //    // Absorb, returns remaining damage (only for absorb Aura)
+    //    int Absorb(int damage);
+    //}
 }

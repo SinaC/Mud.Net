@@ -28,11 +28,11 @@ namespace Mud.Server.Admin
                 IEntity incarnateTarget = null;
                 string kind = parameters[0].Value;
                 if ("room".StartsWith(kind))
-                    incarnateTarget = FindHelpers.FindByName(World.World.Instance.GetRooms(), parameters[1]);
+                    incarnateTarget = FindHelpers.FindByName(Repository.World.GetRooms(), parameters[1]);
                 else if ("item".StartsWith(kind))
-                    incarnateTarget = FindHelpers.FindByName(World.World.Instance.GetItems(), parameters[1]);
+                    incarnateTarget = FindHelpers.FindByName(Repository.World.GetItems(), parameters[1]);
                 else if ("mob".StartsWith(kind))
-                    incarnateTarget = FindHelpers.FindByName(World.World.Instance.GetCharacters(), parameters[1]);
+                    incarnateTarget = FindHelpers.FindByName(Repository.World.GetCharacters(), parameters[1]);
                 if (incarnateTarget == null)
                     Send("Target not found");
                 else

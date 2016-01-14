@@ -18,7 +18,7 @@ namespace Mud.Server.Admin
                 Send("mstat whom?");
             else
             {
-                ICharacter victim = FindHelpers.FindByName(World.World.Instance.GetCharacters(), parameters[0]);
+                ICharacter victim = FindHelpers.FindByName(Repository.World.GetCharacters(), parameters[0]);
                 if (victim == null)
                     Send(StringHelpers.NotFound);
                 else
@@ -71,8 +71,9 @@ namespace Mud.Server.Admin
                                 pa.TickDelay,
                                 pa.SecondsLeft);
                     foreach (IAura aura in victim.Auras)
-                        sb.AppendFormatLine("{0} modifies {1} by {2}{3} for {4} seconds.",
+                        sb.AppendFormatLine("{0} from {1} modifies {2} by {3}{4} for {5} seconds.",
                             aura.Ability == null ? "(none)" : aura.Ability.Name,
+                            aura.Source == null ? "(none)" : aura.Source.DisplayName,
                             aura.Modifier,
                             aura.Amount,
                             aura.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
@@ -90,7 +91,7 @@ namespace Mud.Server.Admin
                 Send("ostat what?");
             else
             {
-                IItem item = FindHelpers.FindByName(World.World.Instance.GetItems(), parameters[0]);
+                IItem item = FindHelpers.FindByName(Repository.World.GetItems(), parameters[0]);
                 if (item == null)
                     Send(StringHelpers.NotFound);
                 else
@@ -145,6 +146,77 @@ namespace Mud.Server.Admin
                 }
             }
             return true;
+        }
+
+        // TODO: redo from scratch
+        [Command("map")]
+        protected virtual bool DoMap(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (Impersonating == null)
+            {
+                Send("Map can only be used when impersonating." + Environment.NewLine);
+                return true;
+            }
+
+            const int halfSize = 5;
+            int[,] map = new int[halfSize * 2 + 1, halfSize * 2 + 1];
+            MapArea(map, Impersonating.Room, halfSize, halfSize, 1, halfSize*2-1);
+            map[halfSize, halfSize] = 3;
+
+            StringBuilder sb = new StringBuilder();
+            const int size = halfSize*2 + 1;
+            for (int x = 0; x < size; x++)
+            {
+                for (int y = 0; y < size; y++)
+                    sb.Append(map[x, y]);
+                sb.AppendLine();
+            }
+            Send(sb);
+
+            return true;
+        }
+
+        //*********************** Helpers ***************************
+        // Map values: 0: not visited | 1: empty | 2: one way/maze
+        private void MapArea(int[,] map, IRoom room, int x, int y, int min, int max)
+        {
+            map[x, y] = 1; // mark as visited
+            for (int i = 0; i < 4; i++)
+            {
+                IExit exit = room.Exits[i];
+                if (exit != null && exit.Destination != null && x >= min && y >= min && x <= max && y <= max)
+                {
+                    IRoom prospectRoom = exit.Destination;
+                    ExitDirections reverse = ExitHelpers.ReverseDirection((ExitDirections)i);
+                    IExit reverseExit = prospectRoom.Exit(reverse);
+                    if (reverseExit.Destination != room)
+                        map[x, y] = 2; // one way/maze
+                    int offsetX = 0;
+                    int offsetY = 0;
+                    if (i == 0)
+                    {
+                        offsetX = -1;
+                        offsetY = 0;
+                    }
+                    else if (i == 1)
+                    {
+                        offsetX = 0;
+                        offsetY = 1;
+                    }
+                    else if (i == 2)
+                    {
+                        offsetX = 1;
+                        offsetY = 0;
+                    }
+                    else if (i == 3)
+                    {
+                        offsetX = 0;
+                        offsetY = -1;
+                    }
+                    if (map[x+offsetX,y+offsetY] == 0)
+                        MapArea(map, prospectRoom, x+offsetX, y+offsetY, min, max);
+                }
+            }
         }
     }
 }

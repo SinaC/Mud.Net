@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using Mud.DataStructures.Trie;
 using Mud.Server.Blueprints;
+using Mud.Server.Constants;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Server;
 
 namespace Mud.Server.Room
 {
@@ -27,7 +27,7 @@ namespace Mud.Server.Room
         {
             _people = new List<ICharacter>();
             _content = new List<IItem>();
-            _exits = new IExit[ServerOptions.ExitCount];
+            _exits = new IExit[ExitHelpers.ExitCount];
         }
 
         #region IRoom
@@ -91,12 +91,12 @@ namespace Mud.Server.Room
         
         public IExit[] Exits { get { return _exits; } }
 
-        public IExit Exit(ServerOptions.ExitDirections direction)
+        public IExit Exit(ExitDirections direction)
         {
             return _exits[(int) direction];
         }
 
-        public IRoom GetRoom(ServerOptions.ExitDirections direction)
+        public IRoom GetRoom(ExitDirections direction)
         {
             IExit exit = Exit(direction);
             return exit != null ? exit.Destination : null;

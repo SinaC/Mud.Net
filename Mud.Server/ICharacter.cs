@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
 using Mud.Server.Item;
-using Mud.Server.Server;
-using Mud.Server.World;
 
 namespace Mud.Server
 {
@@ -74,6 +72,7 @@ namespace Mud.Server
         // Attributes
         int GetBasePrimaryAttribute(PrimaryAttributeTypes attribute);
         int GetMaxResource(ResourceKinds resource);
+        void SpendResource(ResourceKinds resource, int amount);
 
         // Auras
         void AddPeriodicAura(IPeriodicAura aura);
@@ -86,7 +85,7 @@ namespace Mud.Server
         void RecomputeAttributes();
 
         // Move
-        bool Move(ServerOptions.ExitDirections direction, bool follow = false);
+        bool Move(ExitDirections direction, bool follow = false);
         void ChangeRoom(IRoom destination);
 
         // Combat
@@ -101,6 +100,7 @@ namespace Mud.Server
 
         // Ability
         IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> AbilitiesInCooldown { get; }
+        bool HasAbilitiesInCooldown { get; }
         int CooldownSecondsLeft(IAbility ability); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)
         void SetCooldown(IAbility ability);
         void ResetCooldown(IAbility ability);

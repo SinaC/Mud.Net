@@ -44,8 +44,8 @@ namespace Mud.Server.WPFTestApplication
 
             //
             INetworkServer telnetServer = new TelnetServer(11000);
-            Server.Server.Instance.Initialize(new List<INetworkServer> { telnetServer, this });
-            Server.Server.Instance.Start();
+            Repository.Server.Initialize(new List<INetworkServer> { telnetServer, this });
+            Repository.Server.Start();
 
             //CreateNewClientWindow();
             InputTextBox.Focus();
@@ -64,19 +64,19 @@ namespace Mud.Server.WPFTestApplication
             string input = InputTextBox.Text.ToLower();
             if (input == "exit" || input == "quit")
             {
-                Server.Server.Instance.Stop();
+                Repository.Server.Stop();
                 Application.Current.Shutdown();
             }
             else if (input == "alist")
             {
                 OutputText("Admins:");
-                foreach (IAdmin a in Server.Server.Instance.GetAdmins())
+                foreach (IAdmin a in Repository.Server.GetAdmins())
                     OutputText(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.Name : "") + " " + (a.Incarnating != null ? a.Incarnating.Name : ""));
             }
             else if (input == "plist")
             {
                 OutputText("players:");
-                foreach (IPlayer p in Server.Server.Instance.GetPlayers())
+                foreach (IPlayer p in Repository.Server.GetPlayers())
                     OutputText(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.Name : ""));
             }
             InputTextBox.Focus();
@@ -187,7 +187,7 @@ namespace Mud.Server.WPFTestApplication
                     Name = importedRoom.Name,
                     Description = importedRoom.Description,
                 };
-                IRoom room = World.World.Instance.AddRoom(Guid.NewGuid(), roomBlueprint);
+                IRoom room = Repository.World.AddRoom(Guid.NewGuid(), roomBlueprint);
                 roomsByVNums.Add(importedRoom.VNum, room);
             }
             // Create Exits
@@ -208,7 +208,7 @@ namespace Mud.Server.WPFTestApplication
                             Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", room.VNum);
                         else
                         {
-                            World.World.Instance.AddExit(from, to, null, (ServerOptions.ExitDirections)i);
+                            Repository.World.AddExit(from, to, null, (ExitDirections)i);
                         }
                     }
                 }
@@ -226,7 +226,7 @@ namespace Mud.Server.WPFTestApplication
             //            case 'M':
             //                MobileData mob = importer.Mobiles.FirstOrDefault(x => x.VNum == reset.Arg1);
             //                if (mob != null)
-            //                    World.World.Instance.AddCharacter(Guid.NewGuid(), mob.Name, room);
+            //                    Repository.World.AddCharacter(Guid.NewGuid(), mob.Name, room);
             //                break;
             //            case 'O':
             //                ObjectData obj = importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1);
@@ -246,7 +246,7 @@ namespace Mud.Server.WPFTestApplication
             //                            DiceValue = Convert.ToInt32(obj.Values[2]),
             //                            // TODO: damage type Values[3]
             //                        };
-            //                        World.World.Instance.AddItemWeapon(Guid.NewGuid(), blueprint, room);
+            //                        Repository.World.AddItemWeapon(Guid.NewGuid(), blueprint, room);
             //                    }
             //                    else if (obj.ItemType == "container")
             //                    {
@@ -260,7 +260,7 @@ namespace Mud.Server.WPFTestApplication
             //                            ItemCount = Convert.ToInt32(obj.Values[3]),
             //                            WeightMultiplier = Convert.ToInt32(obj.Values[4]),
             //                        };
-            //                        World.World.Instance.AddItemContainer(Guid.NewGuid(), blueprint, room);
+            //                        Repository.World.AddItemContainer(Guid.NewGuid(), blueprint, room);
             //                    }
 
             //                    if (!itemTypes.ContainsKey(obj.ItemType))
@@ -369,25 +369,25 @@ namespace Mud.Server.WPFTestApplication
             ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint(); // this is mandatory
 
             // Add dummy mobs and items to allow impersonate :)
-            IRoom templeOfMota = World.World.Instance.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
-            IRoom templeSquare = World.World.Instance.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");
+            IRoom templeOfMota = Repository.World.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
+            IRoom templeSquare = Repository.World.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
-            ICharacter mob1 = World.World.Instance.AddCharacter(Guid.NewGuid(), "mob1", templeOfMota); // playable
-            ICharacter mob2 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
-            ICharacter mob3 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
-            //ICharacter mob4 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
-            ICharacter mob4 = World.World.Instance.AddCharacter(Guid.NewGuid(), "mob4", templeSquare); // playable
-            ICharacter mob5 = World.World.Instance.AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
+            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", templeOfMota); // playable
+            ICharacter mob2 = Repository.World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
+            ICharacter mob3 = Repository.World.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
+            //ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
+            ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), "mob4", templeSquare); // playable
+            ICharacter mob5 = Repository.World.AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
-            IItemContainer item1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemContainer item1Dup1 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemWeapon item2 = World.World.Instance.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
-            IItemArmor item3 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
-            IItemLight item4 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
-            IItemWeapon item5 = World.World.Instance.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
-            IItemContainer item1Dup2 = World.World.Instance.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
-            IItemArmor item3Dup1 = World.World.Instance.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
-            IItemLight item4Dup1 = World.World.Instance.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            IItemContainer item1 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItemContainer item1Dup1 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItemWeapon item2 = Repository.World.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
+            IItemArmor item3 = Repository.World.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
+            IItemLight item4 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
+            IItemWeapon item5 = Repository.World.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
+            IItemContainer item1Dup2 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
+            IItemArmor item3Dup1 = Repository.World.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
+            IItemLight item4Dup1 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             // Equip weapon on mob2
             mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield).Item = item2;
             item2.ChangeContainer(null);

@@ -6,17 +6,16 @@ using Mud.Logger;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.World;
 
 namespace Mud.Server.Abilities
 {
-    public class AbilityManager
+    public class AbilityManager : IAbilityManager
     {
         public const int WeakenedSoulSpellId = 999;
 
         public static IAbility WeakenedSoulAbility { get; private set; }
 
-        public List<IAbility> Abilities = new List<IAbility> // TODO: dictionary on id + Trie on name
+        private readonly List<IAbility> _abilities = new List<IAbility> // TODO: dictionary on id + Trie on name
         {
             // Linked to Power Word: Shield (cannot be used/casted)
             new Ability(WeakenedSoulSpellId, "Weakened Soul", AbilityTargets.Target, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.CannotBeUsed),
@@ -32,24 +31,42 @@ namespace Mud.Server.Abilities
             new Ability(108, "Battle Shout", AbilityTargets.Group, ResourceKinds.None, AmountOperators.None, 0, 1, 0, 1*60*60, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackPower, 10, AmountOperators.Percentage))
         };
 
-        public AbilityManager()
+        #region Singleton
+
+        private static readonly Lazy<AbilityManager> Lazy = new Lazy<AbilityManager>(() => new AbilityManager());
+
+        public static IAbilityManager Instance
         {
-           WeakenedSoulAbility = this[WeakenedSoulSpellId];
+            get { return Lazy.Value; }
+        }
+
+        private AbilityManager()
+        {
+            WeakenedSoulAbility = this[WeakenedSoulSpellId];
+        }
+
+        #endregion
+
+        #region IAbilityManager
+
+        public IReadOnlyCollection<IAbility> Abilities
+        {
+            get { return _abilities.AsReadOnly(); }
         }
 
         public IAbility this[int id]
         {
-            get { return Abilities.FirstOrDefault(x => x.Id == id); }
+            get { return _abilities.FirstOrDefault(x => x.Id == id); }
         }
 
         public IAbility this[string name]
         {
-            get { return Abilities.FirstOrDefault(x => x.Name == name); }
+            get { return _abilities.FirstOrDefault(x => x.Name == name); }
         }
 
-        public IAbility SearchByName(CommandParameter parameter)
+        public IAbility Search(CommandParameter parameter)
         {
-            return Abilities.Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed && FindHelpers.StringStartWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count-1);
+            return _abilities.Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed && FindHelpers.StringStartWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count-1);
         }
 
         public bool Process(ICharacter source, params CommandParameter[] parameters)
@@ -60,23 +77,23 @@ namespace Mud.Server.Abilities
                 source.Send("Cast/Use what ?" + Environment.NewLine);
                 return false;
             }
-            IAbility ability = SearchByName(parameters[0]);
+            IAbility ability = Search(parameters[0]);
             if (ability == null)
             {
                 source.Send("You don't know any abilities of that name" + Environment.NewLine);
                 return false;
             }
-            //1/ check cooldown
+            //1/ Check cooldown
             int cooldownSecondsLeft = source.CooldownSecondsLeft(ability);
             if (cooldownSecondsLeft > 0)
             {
                 source.Send("{0} is in cooldown for {1}." + Environment.NewLine, ability.Name, StringHelpers.FormatDelay(cooldownSecondsLeft));
                 return false;
             }
-            //2/ check resource
+            //2/ Check resource
+            int cost = ability.CostAmount; // default value (always overwritten if significant)
             if (ability.ResourceKind != ResourceKinds.None && ability.CostAmount > 0 && ability.CostType != AmountOperators.None)
             {
-                int cost;
                 int resourceLeft = source[ability.ResourceKind];
                 if (ability.CostType == AmountOperators.Fixed)
                     cost = ability.CostAmount;
@@ -152,7 +169,9 @@ namespace Mud.Server.Abilities
             }
             //4/ Say ability
             source.Send("You cast/use '{0}'." + Environment.NewLine, ability.Name); // TODO: better wording
-            // TODO //5/ Pay resource cost
+            //5/ Pay resource cost
+            if (ability.ResourceKind != ResourceKinds.None && ability.CostAmount > 0 && ability.CostType != AmountOperators.None)
+                source.SpendResource(ability.ResourceKind, cost);
             //6/ Perform effect(s) on target(s)
             IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(targets);
             foreach (ICharacter target in clone)
@@ -170,6 +189,8 @@ namespace Mud.Server.Abilities
             return true;
         }
 
+        #endregion
+
         // TEST: TO REMOVE
         public bool Process(ICharacter source, ICharacter target, IAbility ability)
         {
@@ -177,7 +198,7 @@ namespace Mud.Server.Abilities
             return true;
         }
 
-        private void ProcessOnOneTarget(ICharacter source, ICharacter victim, IAbility ability)
+        private static void ProcessOnOneTarget(ICharacter source, ICharacter victim, IAbility ability)
         {
             if (ability == null || ability.Effects == null || ability.Effects.Count == 0
                 || !source.IsValid || !victim.IsValid)

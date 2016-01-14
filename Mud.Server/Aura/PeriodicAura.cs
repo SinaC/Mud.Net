@@ -1,7 +1,6 @@
 ﻿using System;
 using Mud.Logger;
 using Mud.Server.Constants;
-using Mud.Server.World;
 
 namespace Mud.Server.Aura
 {
@@ -28,7 +27,7 @@ namespace Mud.Server.Aura
         {
             get
             {
-                TimeSpan ts = Server.Server.Instance.CurrentTime - _startTime;
+                TimeSpan ts = Repository.Server.CurrentTime - _startTime;
                 return TotalTicks*TickDelay - (int) Math.Ceiling(ts.TotalSeconds);
             }
         }
@@ -37,7 +36,8 @@ namespace Mud.Server.Aura
 
         public PeriodicAura(IAbility ability, PeriodicAuraTypes auraType, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
         {
-            _lastTickElapsed = Server.Server.Instance.CurrentTime;
+            _startTime = Repository.Server.CurrentTime;
+            _lastTickElapsed = Repository.Server.CurrentTime;
 
             Ability = ability;
             AuraType = auraType;
@@ -62,6 +62,7 @@ namespace Mud.Server.Aura
             Source = null;
         }
 
+        // Process periodic aura (return true if aura is elapsed)
         public bool Process(ICharacter victim)
         {
             if (TicksLeft <= 0)
@@ -70,8 +71,8 @@ namespace Mud.Server.Aura
                 return true;
             }
 
-            // Set start time on first tick
-            DateTime now = Server.Server.Instance.CurrentTime;
+            // Set/Reset start time on first tick
+            DateTime now = Repository.Server.CurrentTime;
             if (TicksLeft == TotalTicks) // first tick
                 _startTime = now;
 
@@ -99,6 +100,16 @@ namespace Mud.Server.Aura
                 }
             }
             return TicksLeft == 0;
+        }
+
+        // Refresh with a new aura
+        public void Refresh(IPeriodicAura aura)
+        {
+            _startTime = Repository.Server.CurrentTime;
+            // Refresh aura values
+            TicksLeft = aura.TotalTicks;
+            TickDelay = aura.TickDelay;
+            Amount = aura.Amount;
         }
     }
 }

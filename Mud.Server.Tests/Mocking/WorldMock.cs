@@ -5,8 +5,6 @@ using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
-using Mud.Server.Server;
-using Mud.Server.World;
 
 namespace Mud.Server.Tests.Mocking
 {
@@ -75,7 +73,7 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IAura AddAura(ICharacter victim, IAbility ability, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible)
+        public IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible)
         {
             throw new NotImplementedException();
         }
@@ -105,7 +103,7 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ServerOptions.ExitDirections direction)
+        public IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction)
         {
             throw new NotImplementedException();
         }

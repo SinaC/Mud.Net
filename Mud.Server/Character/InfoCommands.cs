@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.Logger;
-using Mud.Server.Abilities;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Server;
-using Mud.Server.World;
 
 namespace Mud.Server.Character
 {
@@ -83,7 +80,7 @@ namespace Mud.Server.Character
             }
             // 6: extra description in room  TODO
             // 7: direction
-            ServerOptions.ExitDirections direction;
+            ExitDirections direction;
             if (EnumHelpers.TryFindByName(parameters[0].Value, out direction))
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(7): direction");
@@ -194,7 +191,7 @@ namespace Mud.Server.Character
             else
                 Send(currentScan); // no need to add CRLF
             // Scan in one direction for each distance, then starts with another direction
-            foreach (ServerOptions.ExitDirections direction in EnumHelpers.GetValues<ServerOptions.ExitDirections>())
+            foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
             {
                 IRoom currentRoom = Room; // starting point
                 for (int distance = 1; distance < 4; distance++)
@@ -225,12 +222,14 @@ namespace Mud.Server.Character
                 sb.AppendLine("Auras:");
                 foreach (IAura aura in _auras)
                     if (aura.Modifier == AuraModifiers.None)
-                        sb.AppendFormatLine("{0} for {1}.",
+                        sb.AppendFormatLine("{0} from {1} for {2}.",
                             aura.Ability == null ? "Unknown" : aura.Ability.Name,
+                            aura.Source == null ? "(none)" : aura.Source.DisplayName,
                             StringHelpers.FormatDelay(aura.SecondsLeft));
                     else
-                        sb.AppendFormatLine("{0} modifies {1} by {2}{3} for {4}.",
+                        sb.AppendFormatLine("{0} from {1} modifies {2} by {3}{4} for {5}.",
                             aura.Ability == null ? "Unknown" : aura.Ability.Name,
+                            aura.Source == null ? "(none)" : aura.Source.DisplayName,
                             aura.Modifier,
                             aura.Amount,
                             aura.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
@@ -312,7 +311,7 @@ namespace Mud.Server.Character
                     StringBuilder sb = new StringBuilder();
                     sb.AppendLine("Cooldowns:");
                     foreach (var cooldown in AbilitiesInCooldown
-                        .Select(x => new { Ability = x.Key, SecondsLeft = (x.Value - Server.Server.Instance.CurrentTime).TotalSeconds })
+                        .Select(x => new { Ability = x.Key, SecondsLeft = (x.Value - Repository.Server.CurrentTime).TotalSeconds })
                         .OrderBy(x => x.SecondsLeft))
                     {
                         int secondsLeft = (int) Math.Ceiling(cooldown.SecondsLeft);
@@ -325,8 +324,7 @@ namespace Mud.Server.Character
             }
             else
             {
-                AbilityManager manager = new AbilityManager();
-                IAbility ability = manager.SearchByName(parameters[0]);
+                IAbility ability = Repository.AbilityManager.Search(parameters[0]);
                 if (ability == null)
                 {
                     Send("You don't know any abilities of that name." + Environment.NewLine);
@@ -418,7 +416,7 @@ namespace Mud.Server.Character
             else
                 message.AppendLine("Obvious exits:");
             bool exitFound = false;
-            foreach (ServerOptions.ExitDirections direction in EnumHelpers.GetValues<ServerOptions.ExitDirections>())
+            foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
             {
                 IExit exit = Room.Exit(direction);
                 if (exit != null && exit.Destination != null) // TODO: test if destination room is visible, if exit is visible, ...

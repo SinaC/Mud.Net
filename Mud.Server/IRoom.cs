@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mud.Server.Blueprints;
-using Mud.Server.Server;
+using Mud.Server.Constants;
 
 namespace Mud.Server
 {
@@ -11,8 +11,8 @@ namespace Mud.Server
         IReadOnlyCollection<ICharacter> People { get; }
         IExit[] Exits { get; } // fixed length
 
-        IExit Exit(ServerOptions.ExitDirections direction);
-        IRoom GetRoom(ServerOptions.ExitDirections direction);
+        IExit Exit(ExitDirections direction);
+        IRoom GetRoom(ExitDirections direction);
 
         bool Enter(ICharacter character);
         bool Leave(ICharacter character);

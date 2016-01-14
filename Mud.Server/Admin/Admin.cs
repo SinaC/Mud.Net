@@ -134,7 +134,7 @@ namespace Mud.Server.Admin
             else if (seconds < 30)
                 Send("You cannot shutdown that fast." + Environment.NewLine);
             else
-                Server.Server.Instance.Shutdown(seconds);
+                Repository.Server.Shutdown(seconds);
             return true;
         }
 
@@ -178,7 +178,7 @@ namespace Mud.Server.Admin
                 Send("Force whom what?" + Environment.NewLine);
             else
             {
-                ICharacter victim = FindHelpers.FindByName(World.World.Instance.GetCharacters(), parameters[0]);
+                ICharacter victim = FindHelpers.FindByName(Repository.World.GetCharacters(), parameters[0]);
                 if (victim == null)
                     Send("Target not found.");
                 else
@@ -209,7 +209,7 @@ namespace Mud.Server.Admin
                     Send("There's a limit to cruel and unusual punishment."+Environment.NewLine);
                 else
                 {
-                    IPlayer victim = Server.Server.Instance.GetPlayer(parameters[0], true);
+                    IPlayer victim = Repository.Server.GetPlayer(parameters[0], true);
                     if (victim == null)
                         Send(StringHelpers.CharacterNotFound);
                     else
@@ -226,7 +226,7 @@ namespace Mud.Server.Admin
         protected override bool DoWho(string rawParameters, params CommandParameter[] parameters)
         {
             Send("Players:" + Environment.NewLine);
-            foreach (IPlayer player in Server.Server.Instance.GetPlayers())
+            foreach (IPlayer player in Repository.Server.GetPlayers())
             {
                 StringBuilder sb = new StringBuilder();
                 switch (player.PlayerState)
@@ -245,7 +245,7 @@ namespace Mud.Server.Admin
                 Send(sb);
             }
             Send("Admins" + Environment.NewLine);
-            foreach (IAdmin admin in Server.Server.Instance.GetAdmins())
+            foreach (IAdmin admin in Repository.Server.GetAdmins())
             {
                 StringBuilder sb = new StringBuilder();
                 switch (admin.PlayerState)

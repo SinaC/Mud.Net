@@ -150,10 +150,11 @@
         Energy,
         Rage,
         Runic,
-        BloodRune,
-        FrostRune,
-        UnholyRune,
-        DeathRune
+        // TODO: runes
+        //BloodRune,
+        //FrostRune,
+        //UnholyRune,
+        //DeathRune
     }
 
     public enum AmountOperators

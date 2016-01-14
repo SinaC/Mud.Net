@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
-using Mud.Server.Abilities;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
 using Mud.Server.Entity;
@@ -13,7 +12,6 @@ using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
 using Mud.Server.Server;
-using Mud.Server.World;
 
 namespace Mud.Server.Character
 {
@@ -453,6 +451,11 @@ namespace Mud.Server.Character
             return _maxResources[(int) resource];
         }
 
+        public void SpendResource(ResourceKinds resource, int amount)
+        {
+            this[resource] = Math.Max(0, this[resource] - amount);
+        }
+
         // Auras
         public void AddPeriodicAura(IPeriodicAura aura)
         {
@@ -461,19 +464,29 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddPeriodicAura: {0} is not valid anymore", Name);
                 return;
             }
-
-            Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddPeriodicAura: {0} {1}", Name, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
-            _periodicAuras.Add(aura);
-            Send("You are now affected by {0}."+Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
-            if (aura.Source != null && aura.Source != this)
+            // TODO: x.Ability == aura.Ability is always false even if abilities are the same
+            //IPeriodicAura same = _periodicAuras.FirstOrDefault(x => x.Ability == aura.Ability && x.AuraType == aura.AuraType && x.School == aura.School && x.Source == aura.Source);
+            IPeriodicAura same = _periodicAuras.FirstOrDefault(x => (x.Ability == null || aura.Ability == null || x.Ability.Id == aura.Ability.Id) && x.AuraType == aura.AuraType && x.School == aura.School && x.Source == aura.Source);
+            if (same != null)
             {
-                aura.Source.Act(ActOptions.ToCharacter, "{0} is now affected by {1}", this, aura.Ability == null ? "Something" : aura.Ability.Name);
-                if (aura.AuraType == PeriodicAuraTypes.Damage)
+                Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddPeriodicAura: Refresh: {0} {1}", Name, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
+                same.Refresh(aura);
+            }
+            else
+            {
+                Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddPeriodicAura: Add: {0} {1}", Name, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
+                _periodicAuras.Add(aura);
+                Send("You are now affected by {0}." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
+                if (aura.Source != null && aura.Source != this)
                 {
-                    if (Fighting == null)
-                        StartFighting(aura.Source);
-                    if (aura.Source.Fighting == null)
-                        aura.Source.StartFighting(this);
+                    aura.Source.Act(ActOptions.ToCharacter, "{0} is now affected by {1}", this, aura.Ability == null ? "Something" : aura.Ability.Name);
+                    if (aura.AuraType == PeriodicAuraTypes.Damage)
+                    {
+                        if (Fighting == null)
+                            StartFighting(aura.Source);
+                        if (aura.Source.Fighting == null)
+                            aura.Source.StartFighting(this);
+                    }
                 }
             }
         }
@@ -500,10 +513,20 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddAura: {0} is not valid anymore", Name);
                 return;
             }
-
-            Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddAura: {0} {1}| recompute: {2}", Name, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
-            _auras.Add(aura);
-            Send("You are now affected by {0}." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
+            // TODO: x.Ability == aura.Ability is always false even if abilities are the same
+            //IAura same = _auras.FirstOrDefault(x => x.Ability == aura.Ability && x.Modifier == aura.Modifier && x.Source == aura.Source);
+            IAura same = _auras.FirstOrDefault(x => (x.Ability == null || aura.Ability == null || x.Ability.Id == aura.Ability.Id) && x.Modifier == aura.Modifier && x.Source == aura.Source);
+            if (same != null)
+            {
+                Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddAura: Refresh: {0} {1}| recompute: {2}", Name, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
+                same.Refresh(aura);
+            }
+            else
+            {
+                Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddAura: Add: {0} {1}| recompute: {2}", Name, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
+                _auras.Add(aura);
+                Send("You are now affected by {0}." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
+            }
             if (recompute)
                 RecomputeAttributes();
         }
@@ -533,8 +556,8 @@ namespace Mud.Server.Character
 
             HitPoints = MaxHitPoints;
             foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
-                //this[resource] = _maxResources[(int)resource];
-                this[resource] = 10; // TEST
+                this[resource] = _maxResources[(int)resource];
+                //this[resource] = 10; // TEST
         }
 
         public void RecomputeAttributes()
@@ -611,7 +634,7 @@ namespace Mud.Server.Character
         }
 
         // Move
-        public bool Move(ServerOptions.ExitDirections direction, bool follow = false)
+        public bool Move(ExitDirections direction, bool follow = false)
         {
             IRoom fromRoom = Room;
             IExit exit = fromRoom.Exit(direction);
@@ -775,7 +798,7 @@ namespace Mud.Server.Character
             Fighting = null;
             // TODO: change/update pos
             if (both)
-                foreach (ICharacter enemy in World.World.Instance.GetCharacters().Where(x => x.Fighting == this))
+                foreach (ICharacter enemy in Repository.World.GetCharacters().Where(x => x.Fighting == this))
                 {
                     enemy.StopFighting(false);
                     // TODO: change/update pos
@@ -980,7 +1003,7 @@ namespace Mud.Server.Character
             // TODO: gain/lose xp/reputation   damage.C:32
 
             // Create corpse
-            IItemCorpse corpse = World.World.Instance.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
+            IItemCorpse corpse = Repository.World.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
             if (victim.ImpersonatedBy != null) // If impersonated, no real death
             {
                 // TODO: teleport player to hall room/graveyard  see fight.C:3952
@@ -988,7 +1011,7 @@ namespace Mud.Server.Character
             }
             else // If not impersonated, remove from game
             {
-                World.World.Instance.RemoveCharacter(victim);
+                Repository.World.RemoveCharacter(victim);
             }
 
             // TODO: autoloot, autosac  damage.C:96
@@ -1001,12 +1024,17 @@ namespace Mud.Server.Character
             get { return _cooldowns.ToList().AsReadOnly(); }
         }
 
+        public bool HasAbilitiesInCooldown
+        {
+            get { return _cooldowns.Any(); }
+        }
+
         public int CooldownSecondsLeft(IAbility ability)
         {
             DateTime nextAvailability;
             if (_cooldowns.TryGetValue(ability, out nextAvailability))
             {
-                TimeSpan diff = nextAvailability - Server.Server.Instance.CurrentTime;
+                TimeSpan diff = nextAvailability - Repository.Server.CurrentTime;
                 int secondsLeft = (int) Math.Ceiling(diff.TotalSeconds);
                 return secondsLeft;
             }
@@ -1015,13 +1043,14 @@ namespace Mud.Server.Character
 
         public void SetCooldown(IAbility ability)
         {
-            DateTime nextAvailability = Server.Server.Instance.CurrentTime.AddSeconds(ability.Cooldown);
+            DateTime nextAvailability = Repository.Server.CurrentTime.AddSeconds(ability.Cooldown);
             _cooldowns[ability] = nextAvailability;
         }
 
         public void ResetCooldown(IAbility ability)
         {
             _cooldowns.Remove(ability);
+            Send("{0} is available again.", ability.Name);
         }
 
         #endregion
@@ -1562,8 +1591,7 @@ namespace Mud.Server.Character
                 //    : parameters[1];
                 if (parameters[0].Value == "a")
                 {
-                    AbilityManager abilityManager = new AbilityManager();
-                    foreach (Ability ability in abilityManager.Abilities)
+                    foreach (IAbility ability in Repository.AbilityManager.Abilities)
                     {
                         Send("[{0}]{1} [{2}] [{3}|{4}|{5}] [{6}|{7}|{8}] [{9}|{10}|{11}] {12} {13}" + Environment.NewLine,
                             ability.Id, ability.Name,
@@ -1579,46 +1607,42 @@ namespace Mud.Server.Character
                 }
                 else if (parameters[0].Value == "0")
                 {
-                    World.World.Instance.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
-                    World.World.Instance.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
-                    World.World.Instance.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
-                    World.World.Instance.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
-                    World.World.Instance.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
-                    World.World.Instance.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
+                    Repository.World.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    Repository.World.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    Repository.World.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    Repository.World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
+                    Repository.World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
+                    Repository.World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
                 }
                 else if (parameters[0].Value == "1")
                     victim.UnknownSourceDamage(null, 100, SchoolTypes.Frost, true);
                 else if (parameters[0].Value == "2")
                     victim.UnknownSourceDamage(null, 100, SchoolTypes.Frost, true);
                 else if (parameters[0].Value == "3")
-                    World.World.Instance.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    Repository.World.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
                 else if (parameters[0].Value == "4")
-                    World.World.Instance.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
+                    Repository.World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
                 else if (parameters[0].Value == "5")
                 {
-                    World.World.Instance.AddAura(victim, null, AuraModifiers.Stamina, 15, AmountOperators.Percentage, 70, true);
-                    World.World.Instance.AddAura(victim, null, AuraModifiers.Characteristics, -10, AmountOperators.Fixed, 30, true);
-                    World.World.Instance.AddAura(victim, null, AuraModifiers.AttackPower, 150, AmountOperators.Fixed, 90, true);
+                    Repository.World.AddAura(victim, null, this, AuraModifiers.Stamina, 15, AmountOperators.Percentage, 70, true);
+                    Repository.World.AddAura(victim, null, this, AuraModifiers.Characteristics, -10, AmountOperators.Fixed, 30, true);
+                    Repository.World.AddAura(victim, null, this, AuraModifiers.AttackPower, 150, AmountOperators.Fixed, 90, true);
                 }
                 else if (parameters[0].Value == "6")
                 {
-                    AbilityManager abilityManager = new AbilityManager();
-                    abilityManager.Process(this, victim, abilityManager["Shadow Word: Pain"]);
+                    Repository.AbilityManager.Process(this, victim, Repository.AbilityManager["Shadow Word: Pain"]);
                 }
                 else if (parameters[0].Value == "7")
                 {
-                    AbilityManager abilityManager = new AbilityManager();
-                    abilityManager.Process(this, victim, abilityManager["Rupture"]);
+                    Repository.AbilityManager.Process(this, victim, Repository.AbilityManager["Rupture"]);
                 }
                 else if (parameters[0].Value == "8")
                 {
-                    AbilityManager abilityManager = new AbilityManager();
-                    abilityManager.Process(this, victim, abilityManager["Trash"]);
+                    Repository.AbilityManager.Process(this, victim, Repository.AbilityManager["Trash"]);
                 }
                 else
                 {
-                    AbilityManager abilityManager = new AbilityManager();
-                    abilityManager.Process(this, parameters);
+                    Repository.AbilityManager.Process(this, parameters);
                 }
             }
             return true;

@@ -14,7 +14,7 @@ namespace Mud.Server.Player
                 Send("Tell whom what ?" + Environment.NewLine);
             else
             {
-                IPlayer target = Server.Server.Instance.GetPlayer(parameters[0], true);
+                IPlayer target = Repository.Server.GetPlayer(parameters[0], true);
                 if (target == null)
                     Send(StringHelpers.CharacterNotFound);
                 else
@@ -34,7 +34,7 @@ namespace Mud.Server.Player
         {
             Send("%m%You gossip '%M%{0}%m%'%x%" + Environment.NewLine, rawParameters);
             string other = String.Format("%m%{0} gossips '%M%{1}%m%'%x%" + Environment.NewLine, DisplayName, rawParameters);
-            foreach(IPlayer player in Server.Server.Instance.GetPlayers().Where(x => x != this))
+            foreach(IPlayer player in Repository.Server.GetPlayers().Where(x => x != this))
                 player.Send(other);
 
             return true;

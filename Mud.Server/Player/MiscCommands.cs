@@ -10,7 +10,7 @@ namespace Mud.Server.Player
         {
             // TODO: title, additional informations
             Send("Players:" + Environment.NewLine);
-            foreach (IPlayer player in Server.Server.Instance.GetPlayers())
+            foreach (IPlayer player in Repository.Server.GetPlayers())
             {
                 switch (player.PlayerState)
                 {
@@ -36,7 +36,7 @@ namespace Mud.Server.Player
         protected virtual bool DoQuit(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: in combat check, ...
-            Server.Server.Instance.Quit(this);
+            Repository.Server.Quit(this);
             return true;
         }
     }

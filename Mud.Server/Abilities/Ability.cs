@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Mud.Server.Constants;
-using Mud.Server.World;
 
 namespace Mud.Server.Abilities
 {
@@ -38,7 +36,7 @@ namespace Mud.Server.Abilities
         public AbilityFlags Flags { get; private set; }
 
         // Effect list
-        public List<AbilityEffect> Effects { get; private set; }
+        public List<AbilityEffect> Effects { get; private set; } // IReadOnlyCollection
 
         #endregion
 

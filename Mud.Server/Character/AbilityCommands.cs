@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Mud.Server.Abilities;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.World;
 
 namespace Mud.Server.Character
 {
@@ -16,8 +13,7 @@ namespace Mud.Server.Character
         [Command("cast", Priority = 2)]
         protected virtual bool DoCast(string rawParameters, params CommandParameter[] parameters)
         {
-            AbilityManager manager = new AbilityManager();
-            manager.Process(this, parameters);
+            Repository.AbilityManager.Process(this, parameters);
             return true;
         }
 
@@ -34,8 +30,7 @@ namespace Mud.Server.Character
             sb.AppendLine("+-----------------------+----------+--------+");
             sb.AppendLine("| Name                  | Resource | Cost   |");
             sb.AppendLine("+-----------------------+----------+--------+");
-            AbilityManager manager = new AbilityManager();
-            List<IAbility> abilities = manager.Abilities.Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed).ToList();
+            List<IAbility> abilities = Repository.AbilityManager.Abilities.Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed).ToList();
             foreach (IAbility ability in abilities)
                 if (ability.CostType == AmountOperators.Percentage)
                     sb.AppendFormatLine("| {0,21} | {3}{1,8}%x% | {2,5}% |", ability.Name, ability.ResourceKind, ability.CostAmount, ResourceColor(ability.ResourceKind));

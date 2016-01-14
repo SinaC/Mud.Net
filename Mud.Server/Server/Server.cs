@@ -521,7 +521,7 @@ namespace Mud.Server.Server
             // TODO: remove aura with amount == 0 ?
             // Remove dot/hot on non-impersonated if source is not the in same room (or source is inexistant)
             // TODO: take periodic aura that will be processed/removed
-            IReadOnlyCollection<ICharacter> clonePeriodicAuras = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.PeriodicAuras.Any()).ToList());
+            IReadOnlyCollection<ICharacter> clonePeriodicAuras = new ReadOnlyCollection<ICharacter>(Repository.World.GetCharacters().Where(x => x.PeriodicAuras.Any()).ToList());
             foreach (ICharacter character in clonePeriodicAuras)
             {
                 try
@@ -552,12 +552,12 @@ namespace Mud.Server.Server
         {
             // TODO: remove aura with amount == 0 ?
             // Take aura that will expired
-            IReadOnlyCollection<ICharacter> cloneAuras = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)).ToList());
+            IReadOnlyCollection<ICharacter> cloneAuras = new ReadOnlyCollection<ICharacter>(Repository.World.GetCharacters().Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)).ToList());
             foreach (ICharacter character in cloneAuras)
             {
                 try
                 {
-                    IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(character.Auras.ToList());
+                    IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // clone
                     bool needsRecompute = false;
                     foreach (IAura aura in auras.Where(x => x.SecondsLeft <= 0))
                     {
@@ -574,6 +574,24 @@ namespace Mud.Server.Server
             }
         }
 
+        private void HandleCooldowns() // TODO: specific pulse ? 1/2 seconds
+        {
+            // TODO: filter on character with expired cooldowns
+            foreach (ICharacter character in Repository.World.GetCharacters().Where(x => x.HasAbilitiesInCooldown))
+            {
+                try
+                {
+                    IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> cooldowns = new ReadOnlyCollection<KeyValuePair<IAbility, DateTime>>(character.AbilitiesInCooldown.ToList()); // clone
+                    foreach(IAbility ability in cooldowns.Where(x => (x.Value - CurrentTime).TotalSeconds <= 0).Select(x => x.Key))
+                        character.ResetCooldown(ability);
+                }
+                catch (Exception ex)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling cooldowns of {0}. Exception: {1}", character.Name, ex);
+                }
+            }
+        }
+
         private void HandleViolence()
         {
             if (_pulseViolence > 0)
@@ -585,7 +603,7 @@ namespace Mud.Server.Server
 
             Log.Default.WriteLine(LogLevels.Trace, "PulseViolence");
 
-            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(World.World.Instance.GetCharacters().Where(x => x.Fighting != null).ToList());
+            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Repository.World.GetCharacters().Where(x => x.Fighting != null).ToList());
             foreach (ICharacter character in clone)
             {
                 ICharacter victim = character.Fighting;
@@ -620,6 +638,7 @@ namespace Mud.Server.Server
             HandleShutdown();
             HandlePeriodicAuras();
             HandleAuras();
+            HandleCooldowns();
             HandleViolence();
         }
 

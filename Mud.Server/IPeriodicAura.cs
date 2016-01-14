@@ -1,5 +1,4 @@
 ﻿using Mud.Server.Constants;
-using Mud.Server.World;
 
 namespace Mud.Server
 {
@@ -47,5 +46,8 @@ namespace Mud.Server
 
         // Process periodic aura (return true if aura is elapsed)
         bool Process(ICharacter victim);
+
+        // Refresh with a new aura
+        void Refresh(IPeriodicAura aura);
     }
 }

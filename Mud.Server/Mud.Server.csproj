@@ -57,6 +57,7 @@
     <Compile Include="Helpers\FindHelpers.cs" />
     <Compile Include="Helpers\RandomizeHelpers.cs" />
     <Compile Include="Helpers\StringBuilderExtensions.cs" />
+    <Compile Include="IAbilityManager.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="IAdmin.cs" />
     <Compile Include="ICharacter.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\CommunicationCommands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="Room\Exit.cs" />
     <Compile Include="Room\Room.cs" />
     <Compile Include="Server\LoginStateMachine.cs" />
@@ -97,7 +99,7 @@
     <Compile Include="Server\PlayingClient.cs" />
     <Compile Include="Server\Server.cs" />
     <Compile Include="Server\ServerOptions.cs" />
-    <Compile Include="World\IAbility.cs" />
+    <Compile Include="IAbility.cs" />
     <Compile Include="World\World.cs" />
   </ItemGroup>
   <ItemGroup>

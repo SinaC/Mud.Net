@@ -5,15 +5,9 @@ http://wow.gamepedia.com/Attack_table
 http://wow.gamepedia.com/Dual_wield
 http://wow.gamepedia.com/Crushing_blow
 
+Ability cannot be compared (== always return false)
+
 loot table instead of resets
-ability CD
-add in Trie available abilities for an ICharacter
-   public class AbilityInstance
-   {
-		public IAbility Instance { get; set; }
-		public DateTime LastUse { get; set; } // used for CD
-   }
-or a list of running cooldown
 
 each time operator IS or AS is used, this should be replaced with an overridable method
 DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
