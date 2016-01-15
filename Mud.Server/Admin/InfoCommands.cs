@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mud.DataStructures.HeapPriorityQueue;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -148,6 +150,38 @@ namespace Mud.Server.Admin
             return true;
         }
 
+        [Command("path")]
+        protected virtual bool DoPath(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (Impersonating == null)
+            {
+                Send("Map can only be used when impersonating." + Environment.NewLine);
+                return true;
+            }
+
+            if (parameters.Length == 0)
+            {
+                Send("Path to where ?"+Environment.NewLine);
+                return true;
+            }
+
+            // TODO: destination to mob or room id
+            //IRoom destination = Impersonating.Room.GetRoom(ExitDirections.South).GetRoom(ExitDirections.South).GetRoom(ExitDirections.South).GetRoom(ExitDirections.East).GetRoom(ExitDirections.East).GetRoom(ExitDirections.South).GetRoom(ExitDirections.South).GetRoom(ExitDirections.West).GetRoom(ExitDirections.West);
+            IRoom destination = FindHelpers.FindByName(Repository.World.GetRooms(), parameters[0]);
+
+            if (destination == null)
+            {
+                Send("Destination not found." + Environment.NewLine);
+                return true;
+            }
+
+            string path = BuildPath(Impersonating.Room, destination);
+
+            Send("Following path will lead to {0}:" + Environment.NewLine + "%c%" + path + "%x%" + Environment.NewLine, destination.DisplayName);
+
+            return true;
+        }
+
         // TODO: redo from scratch
         [Command("map")]
         protected virtual bool DoMap(string rawParameters, params CommandParameter[] parameters)
@@ -178,6 +212,80 @@ namespace Mud.Server.Admin
 
         //*********************** Helpers ***************************
         // Map values: 0: not visited | 1: empty | 2: one way/maze
+        private string BuildPath(IRoom origin, IRoom destination)
+        {
+            Dictionary<IRoom, int> distance = new Dictionary<IRoom, int>(500);
+            Dictionary<IRoom, Tuple<IRoom, ExitDirections>> previousRoom = new Dictionary<IRoom, Tuple<IRoom, ExitDirections>>(500);
+            HeapPriorityQueue<IRoom> pQueue = new HeapPriorityQueue<IRoom>(500);
+
+            // Search path
+            distance[origin] = 0;
+            pQueue.Enqueue(origin, 0);
+
+            while (!pQueue.IsEmpty())
+            {
+                IRoom nearest = pQueue.Dequeue();
+                if (nearest == destination)
+                    break;
+                foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
+                {
+                    IRoom neighbour = nearest.GetRoom(direction);
+                    if (neighbour != null && !distance.ContainsKey(neighbour))
+                    {
+                        int neighbourDist = distance[nearest] + 1;
+                        int bestNeighbourDist;
+                        if (!distance.TryGetValue(neighbour, out bestNeighbourDist))
+                            bestNeighbourDist = Int32.MaxValue;
+                        if (neighbourDist < bestNeighbourDist)
+                        {
+                            distance[neighbour] = neighbourDist;
+                            pQueue.Enqueue(neighbour, neighbourDist);
+                            previousRoom[neighbour] = new Tuple<IRoom, ExitDirections>(nearest, direction);
+                        }
+                    }
+                }
+            }
+
+            // Build path
+            Tuple<IRoom, ExitDirections> previous;
+            if (previousRoom.TryGetValue(destination, out previous))
+            {
+                StringBuilder sb = new StringBuilder(500);
+                while (true)
+                {
+                    sb.Insert(0, StringHelpers.ShortExitDirections(previous.Item2));
+                    if (previous.Item1 == origin)
+                        break;
+                    if (!previousRoom.TryGetValue(previous.Item1, out previous))
+                    {
+                        sb.Insert(0, "???");
+                        break;
+                    }
+                }
+                // compress path:  ssswwwwnn -> 3s4w2n
+                return Compress(sb.ToString());
+            }
+            else
+                return "Path not found.";
+        }
+
+        public static string Compress(string str) //http://codereview.stackexchange.com/questions/64929/string-compression-implementation-in-c
+        {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 1, cnt = 1; i <= str.Length; i++, cnt++)
+            {
+                if (i == str.Length || str[i] != str[i - 1])
+                {
+                    if (cnt == 1)
+                        builder.Append(str[i - 1]);
+                    else
+                        builder.Append(cnt).Append(str[i - 1]);
+                    cnt = 0;
+                }
+            }
+            return builder.ToString();
+        }
+
         private void MapArea(int[,] map, IRoom room, int x, int y, int min, int max)
         {
             map[x, y] = 1; // mark as visited

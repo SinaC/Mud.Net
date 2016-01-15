@@ -56,6 +56,35 @@ namespace Mud.Server.Helpers
             {Sex.Female, "her"},
         };
 
+        public static string ShortExitDirections(ExitDirections exitDirections)
+        {
+            switch (exitDirections)
+            {
+                case ExitDirections.North:
+                    return "N";
+                case ExitDirections.East:
+                    return "E";
+                case ExitDirections.South:
+                    return "S";
+                case ExitDirections.West:
+                    return "W";
+                case ExitDirections.Up:
+                    return "U";
+                case ExitDirections.Down:
+                    return "D";
+                case ExitDirections.NorthEast:
+                    return "ne";
+                case ExitDirections.NorthWest:
+                    return "nw";
+                case ExitDirections.SouthEast:
+                    return "se";
+                case ExitDirections.SouthWest:
+                    return "sw";
+                default:
+                    return "?";
+            }
+        }
+
         // TODO: other flavor messages (see fight.C:4429)
         public static string DamagePhraseSelf(int damage)
         {
