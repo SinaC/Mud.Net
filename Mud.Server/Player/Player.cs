@@ -164,6 +164,11 @@ namespace Mud.Server.Player
             return true;
         }
 
+        public bool Save()
+        {
+            return true;
+        }
+
         public virtual void OnDisconnected()
         {
             // Stop impersonation if any

@@ -17,6 +17,7 @@ namespace Mud.Server
         CannotBeReflected = 32,
         RequiresComboPoints = 64,
         CannotBeUsed = 128,
+        AuraIsHidden = 256,
     }
 
     public enum AbilityMechanics

@@ -5,7 +5,7 @@ http://wow.gamepedia.com/Attack_table
 http://wow.gamepedia.com/Dual_wield
 http://wow.gamepedia.com/Crushing_blow
 
-Ability cannot be compared (== always return false)
+!!! Ability cannot be compared (== always return false)
 
 loot table instead of resets
 
@@ -28,6 +28,11 @@ min pos to initiate command  see interp.C:935
 
 remove !IsValid entities after ProcessOutput
 spam, linkdead, ...
+
+impersonable list
+player/admin load/save
+
+mongo DB to store pfile
 
 ability:
 http://www.wowhead.com/spell=106832/thrash

@@ -63,6 +63,7 @@ namespace Mud.Server.Actor
             Send(text.ToString());
         }
 
+        [Command("cmd")]
         [Command("commands")]
         protected virtual bool DoCommands(string rawParameters, params CommandParameter[] parameters)
         {

@@ -18,6 +18,7 @@ namespace Mud.Server.Server
     }
 
     internal delegate void LoginSuccessfulEventHandler(IClient client, string username, bool isAdmin, bool isNewPlayer);
+
     internal delegate void LoginFailedEventHandler(IClient client);
 
     internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
@@ -43,13 +44,13 @@ namespace Mud.Server.Server
             PreserveInput = false;
             StateMachine = new Dictionary<LoginStates, Func<IClient, string, LoginStates>>
             {
-                { LoginStates.Username, ProcessUsername },
-                { LoginStates.Password, ProcessPassword },
-                { LoginStates.UsernameConfirm, ProcessUsernameConfirm },
-                { LoginStates.NewPassword1, ProcessNewPassword1 },
-                { LoginStates.NewPassword2, ProcessNewPassword2 },
-                { LoginStates.LoggedIn, ProcessConnected },
-                { LoginStates.Disconnected, ProcessDisconnect }
+                {LoginStates.Username, ProcessUsername},
+                {LoginStates.Password, ProcessPassword},
+                {LoginStates.UsernameConfirm, ProcessUsernameConfirm},
+                {LoginStates.NewPassword1, ProcessNewPassword1},
+                {LoginStates.NewPassword2, ProcessNewPassword2},
+                {LoginStates.LoggedIn, ProcessConnected},
+                {LoginStates.Disconnected, ProcessDisconnect}
             };
             State = LoginStates.Username;
         }
@@ -63,34 +64,30 @@ namespace Mud.Server.Server
             {
                 _username = input;
                 bool isAdmin;
-                bool known = CheckUsername(input, out isAdmin);
+                bool known = Repository.LoginManager.CheckUsername(input, out isAdmin);
 
                 // If known, greets and asks for password
                 // Else, name confirmation
                 if (known)
                 {
-                    Send(client,"Welcome back, {0}! Please enter your password:", StringHelpers.UpperFirstLetter(_username));
+                    Send(client, "Welcome back, {0}! Please enter your password:", StringHelpers.UpperFirstLetter(_username));
                     _isAdmin = isAdmin;
                     _isNewPlayer = false;
                     EchoOff(client);
                     PreserveInput = true;
                     return LoginStates.Password;
                 }
-                else
-                {
-                    Send(client, "Are you sure this is the account name you wish to use? (y/n)");
-                    _isAdmin = false;
-                    _isNewPlayer = true;
-                    PreserveInput = false;
-                    return LoginStates.UsernameConfirm;
-                }
-            }
-            else
-            {
-                Send(client, "Please enter a name:");
+                // TODO: check name validity
+                Send(client, "Are you sure this is the account name you wish to use? (y/n)");
+                _isAdmin = false;
+                _isNewPlayer = true;
                 PreserveInput = false;
-                return LoginStates.Username;
+                return LoginStates.UsernameConfirm;
             }
+            //
+            Send(client, "Please enter a name:");
+            PreserveInput = false;
+            return LoginStates.Username;
         }
 
         private LoginStates ProcessPassword(IClient client, string input)
@@ -99,7 +96,7 @@ namespace Mud.Server.Server
             // Else, 
             //      If too many try, disconnect
             //      Else, retry password
-            bool passwordCorrect = input != "test"; // TODO: check password + encryption
+            bool passwordCorrect = Repository.LoginManager.CheckPassword(_username, input);
             if (passwordCorrect)
             {
                 Send(client, "Password correct." + Environment.NewLine);
@@ -108,22 +105,18 @@ namespace Mud.Server.Server
                 PreserveInput = false;
                 return LoginStates.LoggedIn;
             }
-            else
+            //
+            _invalidPasswordTries++;
+            if (_invalidPasswordTries < MaxPasswordTries)
             {
-                _invalidPasswordTries++;
-                if (_invalidPasswordTries < MaxPasswordTries)
-                {
-                    Send(client, "Password invalid, please try again:");
-                    PreserveInput = true;
-                    return LoginStates.Password;
-                }
-                else
-                {
-                    Send(client, "Maximum login attempts reached, disconnecting.");
-                    Disconnect(client);
-                    return LoginStates.Disconnected;
-                }
+                Send(client, "Password invalid, please try again:");
+                PreserveInput = true;
+                return LoginStates.Password;
             }
+            //
+            Send(client, "Maximum login attempts reached, disconnecting.");
+            Disconnect(client);
+            return LoginStates.Disconnected;
         }
 
         private LoginStates ProcessUsernameConfirm(IClient client, string input)
@@ -137,12 +130,10 @@ namespace Mud.Server.Server
                 PreserveInput = true;
                 return LoginStates.NewPassword1;
             }
-            else
-            {
-                Send(client, "Ok, what name would you like to use?");
-                PreserveInput = false;
-                return LoginStates.Username;
-            }
+            //
+            Send(client, "Ok, what name would you like to use?");
+            PreserveInput = false;
+            return LoginStates.Username;
         }
 
         private LoginStates ProcessNewPassword1(IClient client, string input)
@@ -163,16 +154,15 @@ namespace Mud.Server.Server
             if (input == _password)
             {
                 Send(client, "Your new account with username {0} has been created" + Environment.NewLine, _username);
+                Repository.LoginManager.InsertLogin(_username, _password); // add login in DB
                 EchoOn(client);
                 LoginSuccessfull(client);
                 return LoginStates.LoggedIn;
             }
-            else
-            {
-                Send(client, "Passwords do not match, please choose a password:");
-                PreserveInput = true;
-                return LoginStates.NewPassword1;
-            }
+            //
+            Send(client, "Passwords do not match, please choose a password:");
+            PreserveInput = true;
+            return LoginStates.NewPassword1;
         }
 
         private static LoginStates ProcessConnected(IClient client, string input)
@@ -217,30 +207,6 @@ namespace Mud.Server.Server
         private static void EchoOn(IClient client)
         {
             client.EchoOn();
-        }
-
-        // TODO: remove fake client
-        private readonly Dictionary<string, Tuple<string, bool>> _fakeUsernameTable = new Dictionary<string, Tuple<string, bool>>
-        {
-            {"sinac", new Tuple<string, bool>("password", true)},
-            {"player", new Tuple<string, bool>("password", false)}
-        };
-
-        private bool CheckUsername(string username, out bool isAdmin)
-        {
-            isAdmin = false;
-            Tuple<string, bool> passwordInDb;
-            bool found = _fakeUsernameTable.TryGetValue(username, out passwordInDb);
-            if (found)
-                isAdmin = passwordInDb.Item2;
-            return found;
-        }
-
-        private bool CheckPassword(string name, string password)
-        {
-            Tuple<string, bool> passwordInDb;
-            _fakeUsernameTable.TryGetValue(name, out passwordInDb);
-            return passwordInDb != null && password == passwordInDb.Item1;
         }
     }
 }

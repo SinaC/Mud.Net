@@ -30,14 +30,17 @@ namespace Mud.Server.Character
             sb.AppendLine("+-----------------------+----------+--------+");
             sb.AppendLine("| Name                  | Resource | Cost   |");
             sb.AppendLine("+-----------------------+----------+--------+");
+            // TODO: how to display passive
             List<IAbility> abilities = Repository.AbilityManager.Abilities.Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed).ToList();
             foreach (IAbility ability in abilities)
-                if (ability.CostType == AmountOperators.Percentage)
+                if ((ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
+                    sb.AppendFormatLine("| {0,21} |  passive ability  |", ability.Name, ability.ResourceKind, ability.CostAmount, ResourceColor(ability.ResourceKind));
+                else if (ability.CostType == AmountOperators.Percentage)
                     sb.AppendFormatLine("| {0,21} | {3}{1,8}%x% | {2,5}% |", ability.Name, ability.ResourceKind, ability.CostAmount, ResourceColor(ability.ResourceKind));
                 else if (ability.CostType == AmountOperators.Fixed)
                     sb.AppendFormatLine("| {0,21} | {3}{1,8}%x% | {2,6} |", ability.Name, ability.ResourceKind, ability.CostAmount, ResourceColor(ability.ResourceKind));
                 else
-                    sb.AppendFormatLine("| {0,21} |  ------  |  ----  |", ability.Name, ability.ResourceKind, ability.CostAmount, ability.CostType == AmountOperators.Percentage ? "%" : " ");
+                    sb.AppendFormatLine("| {0,21} | free cost ability |", ability.Name, ability.ResourceKind, ability.CostAmount, ability.CostType == AmountOperators.Percentage ? "%" : " ");
             sb.AppendLine("+-----------------------+----------+--------+");
             Page(sb);
             return true;

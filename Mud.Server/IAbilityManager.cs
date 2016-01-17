@@ -5,12 +5,17 @@ namespace Mud.Server
 {
     public interface IAbilityManager
     {
+        IAbility WeakenedSoulAbility { get; }
+        IAbility ParryAbility { get; }
+        IAbility DodgerAbility { get; }
+        IAbility ShieldBlockAbility { get; }
+
         IReadOnlyCollection<IAbility> Abilities { get; }
         
         IAbility this[int id] { get; }
         IAbility this[string name] { get; }
 
-        IAbility Search(CommandParameter parameter);
+        IAbility Search(CommandParameter parameter, bool includePassive = false);
 
         bool Process(ICharacter source, params CommandParameter[] parameters);
 

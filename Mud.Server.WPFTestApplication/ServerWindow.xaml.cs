@@ -364,6 +364,18 @@ namespace Mud.Server.WPFTestApplication
                 DamageType = SchoolTypes.Physical,
                 WearLocation = WearLocations.Wield
             };
+            ItemWeaponBlueprint item6Blueprint = new ItemWeaponBlueprint
+            {
+                Id = 6,
+                Name = "item6",
+                ShortDescription = "Sixth item (weapon)",
+                Description = "The sixth item (weapon) has been left here.",
+                Type = WeaponTypes.Mace2H,
+                DiceCount = 10,
+                DiceValue = 20,
+                DamageType = SchoolTypes.Holy,
+                WearLocation = WearLocations.Wield
+            };
 
             //
             ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint(); // this is mandatory
@@ -388,6 +400,7 @@ namespace Mud.Server.WPFTestApplication
             IItemContainer item1Dup2 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
             IItemArmor item3Dup1 = Repository.World.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
             IItemLight item4Dup1 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            IItemWeapon item6 = Repository.World.AddItemWeapon(Guid.NewGuid(), item6Blueprint, templeSquare);
             // Equip weapon on mob2
             mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield).Item = item2;
             item2.ChangeContainer(null);

@@ -476,10 +476,12 @@ namespace Mud.Server.Character
             {
                 Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddPeriodicAura: Add: {0} {1}", Name, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
                 _periodicAuras.Add(aura);
-                Send("You are now affected by {0}." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
+                if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
+                    Send("You are now affected by {0}." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
                 if (aura.Source != null && aura.Source != this)
                 {
-                    aura.Source.Act(ActOptions.ToCharacter, "{0} is now affected by {1}", this, aura.Ability == null ? "Something" : aura.Ability.Name);
+                    if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
+                        aura.Source.Act(ActOptions.ToCharacter, "{0} is now affected by {1}", this, aura.Ability == null ? "Something" : aura.Ability.Name);
                     if (aura.AuraType == PeriodicAuraTypes.Damage)
                     {
                         if (Fighting == null)
@@ -499,9 +501,12 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Warning, "ICharacter.RemovePeriodicAura: Trying to remove unknown PeriodicAura");
             else
             {
-                Send("{0} vanishes." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
-                if (aura.Source != null && aura.Source != this)
-                    aura.Source.Act(ActOptions.ToCharacter, "{0} vanishes on {1}.", aura.Ability == null ? "Something" : aura.Ability.Name, this);
+                if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
+                {
+                    Send("{0} vanishes." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
+                    if (aura.Source != null && aura.Source != this)
+                        aura.Source.Act(ActOptions.ToCharacter, "{0} vanishes on {1}.", aura.Ability == null ? "Something" : aura.Ability.Name, this);
+                }
                 aura.ResetSource();
             }
         }
@@ -525,7 +530,8 @@ namespace Mud.Server.Character
             {
                 Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddAura: Add: {0} {1}| recompute: {2}", Name, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
                 _auras.Add(aura);
-                Send("You are now affected by {0}." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
+                if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
+                    Send("You are now affected by {0}." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
             }
             if (recompute)
                 RecomputeAttributes();
@@ -537,7 +543,7 @@ namespace Mud.Server.Character
             bool removed = _auras.Remove(aura);
             if (!removed)
                 Log.Default.WriteLine(LogLevels.Warning, "ICharacter.RemoveAura: Trying to remove unknown aura");
-            else
+            else if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
                 Send("{0} vanishes." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
             if (recompute && removed)
                 RecomputeAttributes();
@@ -1050,7 +1056,7 @@ namespace Mud.Server.Character
         public void ResetCooldown(IAbility ability)
         {
             _cooldowns.Remove(ability);
-            Send("{0} is available again.", ability.Name);
+            Send("{0} is available again."+Environment.NewLine, ability.Name);
         }
 
         #endregion

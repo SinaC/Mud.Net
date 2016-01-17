@@ -220,7 +220,7 @@ namespace Mud.Server.Character
             if (_auras.Any())
             {
                 sb.AppendLine("Auras:");
-                foreach (IAura aura in _auras)
+                foreach (IAura aura in _auras.Where(x => (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
                     if (aura.Modifier == AuraModifiers.None)
                         sb.AppendFormatLine("{0} from {1} for {2}.",
                             aura.Ability == null ? "Unknown" : aura.Ability.Name,
@@ -241,7 +241,7 @@ namespace Mud.Server.Character
             if (_periodicAuras.Any())
             {
                 sb.AppendLine("Periodic auras:");
-                foreach (IPeriodicAura pa in _periodicAuras)
+                foreach (IPeriodicAura pa in _periodicAuras.Where(x => (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
                 {
                     if (pa.AuraType == PeriodicAuraTypes.Damage) // TODO: operator
                         sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} for {6}.",

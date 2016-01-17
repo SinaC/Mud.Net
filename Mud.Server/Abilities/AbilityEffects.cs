@@ -189,14 +189,14 @@ namespace Mud.Server.Abilities
     {
         public override bool Process(ICharacter source, ICharacter victim, IAbility ability)
         {
-            if (victim.Auras.Any(x => x.Ability != null && x.Ability.Id == AbilityManager.WeakenedSoulSpellId))
+            if (victim.Auras.Any(x => x.Ability != null && x.Ability.Id == Repository.AbilityManager.WeakenedSoulAbility.Id))
             {
                 source.Act(ActOptions.ToCharacter, "{0} cannot be targetted by {1}.", victim, ability.Name);
                 return false;
             }
             int amount = ComputeAmount(source, ComputedAttributeTypes.SpellPower, 45.9f);
             Repository.World.AddAura(victim, ability, source, AuraModifiers.Shield, amount, AmountOperators.Fixed, ability.Duration, true);
-            Repository.World.AddAura(victim, AbilityManager.WeakenedSoulAbility, source, AuraModifiers.None, 0, AmountOperators.None, 15, true);
+            Repository.World.AddAura(victim, Repository.AbilityManager.WeakenedSoulAbility, source, AuraModifiers.None, 0, AmountOperators.None, 15, true);
             return true;
         }
     }

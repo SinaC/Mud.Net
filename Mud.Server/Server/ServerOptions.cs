@@ -12,6 +12,8 @@ namespace Mud.Server.Server
         public const int PulseDelay = 1000 / PulsePerSeconds;
         public const int PulseViolence = 3 * PulsePerSeconds; // automatic combat (in pulse per seconds)
 
+        public const bool CheckLoginPassword = false;
+
         public static ItemCorpseBlueprint CorpseBlueprint { get; set; }
     }
 }

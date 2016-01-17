@@ -1,4 +1,6 @@
-﻿namespace Mud.Server
+﻿using Mud.Datas;
+
+namespace Mud.Server
 {
     public static class Repository
     {
@@ -15,6 +17,11 @@
         public static IAbilityManager AbilityManager
         {
             get { return Mud.Server.Abilities.AbilityManager.Instance; }
+        }
+
+        public static ILoginManager LoginManager
+        {
+            get { return Datas.Filesystem.LoginManager.Instance; }
         }
     }
 }

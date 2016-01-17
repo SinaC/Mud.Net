@@ -11,9 +11,10 @@ namespace Mud.Server.Abilities
 {
     public class AbilityManager : IAbilityManager
     {
-        public const int WeakenedSoulSpellId = 999;
-
-        public static IAbility WeakenedSoulAbility { get; private set; }
+        private const int WeakenedSoulSpellId = 999;
+        private const int ParrySpellId = 1000;
+        private const int DodgeSpellId = 1001;
+        private const int ShieldBlockSpellId = 1002;
 
         private readonly List<IAbility> _abilities = new List<IAbility> // TODO: dictionary on id + Trie on name
         {
@@ -28,7 +29,11 @@ namespace Mud.Server.Abilities
             new Ability(105, "Power Word: Shield", AbilityTargets.TargetOrSelf, ResourceKinds.Mana, AmountOperators.Percentage, 2, 1, 6, 15, SchoolTypes.Holy, AbilityMechanics.Shielded, DispelTypes.Magic, AbilityFlags.None, new PowerWordShieldEffect()),
             new Ability(106, "Death Coil", AbilityTargets.TargetOrSelf, ResourceKinds.Runic, AmountOperators.Fixed, 30, 1, 0, 30, SchoolTypes.Shadow, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new DamageOrHealEffect(0.88f, 0.88f*5, ComputedAttributeTypes.AttackPower, SchoolTypes.Shadow), new AuraAbilityEffect(AuraModifiers.MaxHitPoints, 3, AmountOperators.Percentage)),
             new Ability(107, "Berserking", AbilityTargets.Self, ResourceKinds.None, AmountOperators.None, 0, 1, 3*60, 10, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackSpeed, 15, AmountOperators.Percentage)),
-            new Ability(108, "Battle Shout", AbilityTargets.Group, ResourceKinds.None, AmountOperators.None, 0, 1, 0, 1*60*60, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackPower, 10, AmountOperators.Percentage))
+            new Ability(108, "Battle Shout", AbilityTargets.Group, ResourceKinds.None, AmountOperators.None, 0, 1, 0, 1*60*60, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackPower, 10, AmountOperators.Percentage)),
+
+            new Ability(ParrySpellId, "Parry", AbilityTargets.Self, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
+            new Ability(DodgeSpellId, "Dodge", AbilityTargets.Self, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
+            new Ability(ShieldBlockSpellId, "Shield Block", AbilityTargets.Self, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
         };
 
         #region Singleton
@@ -43,11 +48,19 @@ namespace Mud.Server.Abilities
         private AbilityManager()
         {
             WeakenedSoulAbility = this[WeakenedSoulSpellId];
+            ParryAbility = this[ParrySpellId];
+            DodgerAbility = this[DodgeSpellId];
+            ShieldBlockAbility = this[ShieldBlockSpellId];
         }
 
         #endregion
 
         #region IAbilityManager
+
+        public IAbility WeakenedSoulAbility { get; private set; }
+        public IAbility ParryAbility { get; private set; }
+        public IAbility DodgerAbility { get; private set; }
+        public IAbility ShieldBlockAbility { get; private set; }
 
         public IReadOnlyCollection<IAbility> Abilities
         {
@@ -64,9 +77,12 @@ namespace Mud.Server.Abilities
             get { return _abilities.FirstOrDefault(x => x.Name == name); }
         }
 
-        public IAbility Search(CommandParameter parameter)
+        public IAbility Search(CommandParameter parameter, bool includePassive = false)
         {
-            return _abilities.Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed && FindHelpers.StringStartWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count-1);
+            return _abilities.Where(x =>
+                (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed
+                && (!includePassive || (x.Flags & AbilityFlags.Passive) != AbilityFlags.Passive)
+                && FindHelpers.StringStartWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
         }
 
         public bool Process(ICharacter source, params CommandParameter[] parameters)
@@ -77,7 +93,7 @@ namespace Mud.Server.Abilities
                 source.Send("Cast/Use what ?" + Environment.NewLine);
                 return false;
             }
-            IAbility ability = Search(parameters[0]);
+            IAbility ability = Search(parameters[0], true);
             if (ability == null)
             {
                 source.Send("You don't know any abilities of that name" + Environment.NewLine);

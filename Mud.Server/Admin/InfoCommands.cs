@@ -12,6 +12,52 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
+        [Command("who")]
+        protected override bool DoWho(string rawParameters, params CommandParameter[] parameters)
+        {
+            Send("Players:" + Environment.NewLine);
+            foreach (IPlayer player in Repository.Server.GetPlayers())
+            {
+                StringBuilder sb = new StringBuilder();
+                switch (player.PlayerState)
+                {
+                    case PlayerStates.Impersonating:
+                        if (player.Impersonating != null)
+                            sb.AppendFormat("[ IG] {0} playing {1}", player.DisplayName, player.Impersonating.Name);
+                        else
+                            sb.AppendFormat("[ IG] {0} playing ???", player.DisplayName);
+                        break;
+                    default:
+                        sb.AppendFormat("[OOG] {0} {1}", player.DisplayName, player.PlayerState);
+                        break;
+                }
+                sb.AppendLine();
+                Send(sb);
+            }
+            Send("Admins" + Environment.NewLine);
+            foreach (IAdmin admin in Repository.Server.GetAdmins())
+            {
+                StringBuilder sb = new StringBuilder();
+                switch (admin.PlayerState)
+                {
+                    case PlayerStates.Impersonating:
+                        if (admin.Impersonating != null)
+                            sb.AppendFormat("[ IG] {0} impersonating {1}", admin.DisplayName, admin.Impersonating.Name);
+                        else if (admin.Incarnating != null)
+                            sb.AppendFormat("[ IG] {0} incarnating {1}", admin.DisplayName, admin.Incarnating.Name);
+                        else
+                            sb.AppendFormat("[ IG] {0} neither playing nor incarnating !!!", admin.DisplayName);
+                        break;
+                    default:
+                        sb.AppendFormat("[OOG] {0} {1}", admin.DisplayName, admin.PlayerState);
+                        break;
+                }
+                sb.AppendLine();
+                Send(sb);
+            }
+            return true;
+        }
+
         // TODO: display groups
         [Command("mstat")]
         protected virtual bool DoMstat(string rawParameters, params CommandParameter[] parameters)
@@ -54,7 +100,7 @@ namespace Mud.Server.Admin
                         sb.AppendFormatLine("{0}: Current: {1} Base: {2}", primaryAttribute, victim[primaryAttribute], victim.GetBasePrimaryAttribute(primaryAttribute));
                     foreach (ComputedAttributeTypes computedAttribute in EnumHelpers.GetValues<ComputedAttributeTypes>())
                         sb.AppendFormatLine("{0}: {1}", computedAttribute, victim[computedAttribute]);
-                    foreach(IPeriodicAura pa in victim.PeriodicAuras)
+                    foreach (IPeriodicAura pa in victim.PeriodicAuras)
                         if (pa.AuraType == PeriodicAuraTypes.Damage) // TODO: operator
                             sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds.",
                                 pa.Ability == null ? "(none)" : pa.Ability.Name,
@@ -101,7 +147,7 @@ namespace Mud.Server.Admin
                     StringBuilder sb = new StringBuilder();
                     if (item.Blueprint != null)
                         sb.AppendFormatLine("Blueprint: {0}", item.Blueprint.Id);
-                    // TODO: display blueprint
+                        // TODO: display blueprint
                     else
                         sb.AppendLine("No blueprint");
                     sb.AppendFormatLine("Name: {0}", item.Name);
@@ -161,7 +207,7 @@ namespace Mud.Server.Admin
 
             if (parameters.Length == 0)
             {
-                Send("Path to where ?"+Environment.NewLine);
+                Send("Path to where ?" + Environment.NewLine);
                 return true;
             }
 
@@ -182,36 +228,7 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        // TODO: redo from scratch
-        [Command("map")]
-        protected virtual bool DoMap(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (Impersonating == null)
-            {
-                Send("Map can only be used when impersonating." + Environment.NewLine);
-                return true;
-            }
-
-            const int halfSize = 5;
-            int[,] map = new int[halfSize * 2 + 1, halfSize * 2 + 1];
-            MapArea(map, Impersonating.Room, halfSize, halfSize, 1, halfSize*2-1);
-            map[halfSize, halfSize] = 3;
-
-            StringBuilder sb = new StringBuilder();
-            const int size = halfSize*2 + 1;
-            for (int x = 0; x < size; x++)
-            {
-                for (int y = 0; y < size; y++)
-                    sb.Append(map[x, y]);
-                sb.AppendLine();
-            }
-            Send(sb);
-
-            return true;
-        }
-
         //*********************** Helpers ***************************
-        // Map values: 0: not visited | 1: empty | 2: one way/maze
         private string BuildPath(IRoom origin, IRoom destination)
         {
             Dictionary<IRoom, int> distance = new Dictionary<IRoom, int>(500);
@@ -284,47 +301,6 @@ namespace Mud.Server.Admin
                 }
             }
             return builder.ToString();
-        }
-
-        private void MapArea(int[,] map, IRoom room, int x, int y, int min, int max)
-        {
-            map[x, y] = 1; // mark as visited
-            for (int i = 0; i < 4; i++)
-            {
-                IExit exit = room.Exits[i];
-                if (exit != null && exit.Destination != null && x >= min && y >= min && x <= max && y <= max)
-                {
-                    IRoom prospectRoom = exit.Destination;
-                    ExitDirections reverse = ExitHelpers.ReverseDirection((ExitDirections)i);
-                    IExit reverseExit = prospectRoom.Exit(reverse);
-                    if (reverseExit.Destination != room)
-                        map[x, y] = 2; // one way/maze
-                    int offsetX = 0;
-                    int offsetY = 0;
-                    if (i == 0)
-                    {
-                        offsetX = -1;
-                        offsetY = 0;
-                    }
-                    else if (i == 1)
-                    {
-                        offsetX = 0;
-                        offsetY = 1;
-                    }
-                    else if (i == 2)
-                    {
-                        offsetX = 1;
-                        offsetY = 0;
-                    }
-                    else if (i == 3)
-                    {
-                        offsetX = 0;
-                        offsetY = -1;
-                    }
-                    if (map[x+offsetX,y+offsetY] == 0)
-                        MapArea(map, prospectRoom, x+offsetX, y+offsetY, min, max);
-                }
-            }
         }
     }
 }

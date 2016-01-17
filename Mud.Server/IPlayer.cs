@@ -38,6 +38,7 @@ namespace Mud.Server
         void SetGlobalCooldown(int pulseCount); // set global cooldown delay (in pulse)
 
         bool Load(string name);
+        bool Save();
 
         void OnDisconnected();
     }
