@@ -108,6 +108,10 @@
       <Project>{520950bd-51eb-4c0e-aea4-a6cec62b23fc}</Project>
       <Name>Mud.Datas.Filesystem</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Datas.Mongo\Mud.Datas.Mongo.csproj">
+      <Project>{e493e419-b6ab-4ee0-bd8b-0b2ea775849f}</Project>
+      <Name>Mud.Datas.Mongo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
       <Project>{00b458af-c87b-4558-8ba7-b21d9626621e}</Project>
       <Name>Mud.DataStructures</Name>

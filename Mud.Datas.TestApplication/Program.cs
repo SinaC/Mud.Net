@@ -13,7 +13,7 @@ namespace Mud.Datas.TestApplication
         {
             LoginManager manager = new LoginManager();
             bool isAdmin;
-            manager.CheckUsername("sinac", out isAdmin);
+            bool found = manager.CheckUsername("sinac", out isAdmin);
         }
     }
 }

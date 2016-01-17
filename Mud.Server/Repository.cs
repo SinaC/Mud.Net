@@ -22,6 +22,7 @@ namespace Mud.Server
         public static ILoginManager LoginManager
         {
             get { return Datas.Filesystem.LoginManager.Instance; }
+            //get { return new Mud.Datas.Mongo.LoginManager(); }
         }
     }
 }

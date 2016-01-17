@@ -1,3 +1,7 @@
+race/class
+impersonable list
+use more StringBuilder
+
 Mystery to new format converter  (see olc_act.C:2578 for obj values  L4571 for mob values)
 
 combat table: 
@@ -29,9 +33,6 @@ min pos to initiate command  see interp.C:935
 remove !IsValid entities after ProcessOutput
 spam, linkdead, ...
 
-impersonable list
-player/admin load/save
-
 mongo DB to store pfile
 
 ability:
@@ -53,8 +54,6 @@ school: see DamageTypes
 dispel type: ?
 effects: list of effect such as weapon damage %, school damage % spellpower, apply aura absorb damage, apply aura periodic damage % spellpower tick seconds, apply aura periodic heal % spellpower tick seconds
 flags: require main hand, not shapeshifted, passive
-
-use more StringBuilder
 
 include command priority in Trie (probably a new data structure)
 + option in CommandAttribute to force full command name to be typed

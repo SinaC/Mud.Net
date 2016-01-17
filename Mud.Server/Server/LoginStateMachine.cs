@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using Mud.Network;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -207,6 +209,12 @@ namespace Mud.Server.Server
         private static void EchoOn(IClient client)
         {
             client.EchoOn();
+        }
+
+        private static string CryptPassword(string password)
+        {
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            return BitConverter.ToString(md5.ComputeHash(Encoding.ASCII.GetBytes(password)));
         }
     }
 }
