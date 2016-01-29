@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mud.Server.Abilities;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
 using Mud.Server.Item;
@@ -22,6 +23,10 @@ namespace Mud.Server
 
         IReadOnlyCollection<EquipedItem> Equipments { get; }
 
+        // Class/Race
+        IClass Class { get; }
+        IRace Race { get; }
+
         // Attributes
         Sex Sex { get; }
         int Level { get; }
@@ -30,11 +35,12 @@ namespace Mud.Server
         int this[PrimaryAttributeTypes attribute] { get; }
         int this[ComputedAttributeTypes attribute] { get; }
 
+        // Abilities
+        IReadOnlyCollection<AbilityAndLevel> KnownAbilities { get; }
+
         // Auras
         IReadOnlyCollection<IPeriodicAura> PeriodicAuras { get; }
         IReadOnlyCollection<IAura> Auras { get; }
-
-        // TODO: race, classes, ...
 
         // Group/Follower
         ICharacter Leader { get; }

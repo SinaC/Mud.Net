@@ -177,6 +177,6 @@
         AttackPower,
         SpellPower,
         MaxHitPoints,
-        Shield,
+        Absorb,
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Sockets;
+using System.Text;
 
 namespace Mud.Network.Telnet
 {
@@ -17,7 +18,7 @@ namespace Mud.Network.Telnet
         // Size of receive buffer.
         public const int BufferSize = 256;
         // Client socket.
-        public System.Net.Sockets.Socket ClientSocket { get; set; }
+        public Socket ClientSocket { get; set; }
         // Receive buffer.
         public byte[] Buffer { get; set; }
         // Received data string.

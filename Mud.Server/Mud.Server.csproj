@@ -34,6 +34,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abilities\AbilityAndLevel.cs" />
     <Compile Include="Abilities\AbilityEffects.cs" />
     <Compile Include="Abilities\AbilityManager.cs" />
     <Compile Include="Abilities\Ability.cs" />
@@ -53,6 +54,13 @@
     <Compile Include="Character\InfoCommands.cs" />
     <Compile Include="Character\MovementCommands.cs" />
     <Compile Include="Character\ItemCommands.cs" />
+    <Compile Include="Classes\ClassBase.cs" />
+    <Compile Include="Classes\ClassManager.cs" />
+    <Compile Include="Classes\Cleric.cs" />
+    <Compile Include="Classes\Mage.cs" />
+    <Compile Include="Classes\Thief.cs" />
+    <Compile Include="Classes\Warrior.cs" />
+    <Compile Include="IClass.cs" />
     <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Helpers\EnumHelpers.cs" />
     <Compile Include="Helpers\FindHelpers.cs" />
@@ -62,6 +70,7 @@
     <Compile Include="IActor.cs" />
     <Compile Include="IAdmin.cs" />
     <Compile Include="ICharacter.cs" />
+    <Compile Include="IClassManager.cs" />
     <Compile Include="IContainer.cs" />
     <Compile Include="IAura.cs" />
     <Compile Include="IEntity.cs" />
@@ -70,6 +79,8 @@
     <Compile Include="IItem.cs" />
     <Compile Include="IPeriodicAura.cs" />
     <Compile Include="IPlayer.cs" />
+    <Compile Include="IRace.cs" />
+    <Compile Include="IRaceManager.cs" />
     <Compile Include="IRoom.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="Item\IItemArmor.cs" />
@@ -86,12 +97,19 @@
     <Compile Include="Item\ItemContainer.cs" />
     <Compile Include="Item\ItemBase.cs" />
     <Compile Include="Player\AvatarCreationStateMachine.cs" />
-    <Compile Include="Player\MiscCommands.cs" />
+    <Compile Include="Player\InfoCommands.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Player\ImpersonateCommand.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\CommunicationCommands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Races\Dwarf.cs" />
+    <Compile Include="Races\Elf.cs" />
+    <Compile Include="Races\Gnome.cs" />
+    <Compile Include="Races\Human.cs" />
+    <Compile Include="Races\RaceBase.cs" />
+    <Compile Include="Races\RaceManager.cs" />
+    <Compile Include="Races\Troll.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="Room\Exit.cs" />
     <Compile Include="Room\Room.cs" />

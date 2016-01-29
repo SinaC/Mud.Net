@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Player
@@ -9,19 +11,31 @@ namespace Mud.Server.Player
         protected virtual bool DoWho(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: title, additional informations
-            Send("Players:" + Environment.NewLine);
+            StringBuilder sb = new StringBuilder();
+            //
+            sb.AppendFormatLine("Players:");
             foreach (IPlayer player in Repository.Server.GetPlayers())
             {
                 switch (player.PlayerState)
                 {
                     case PlayerStates.Impersonating:
-                        Send("[ IG] {0}" + Environment.NewLine, player.DisplayName);
+                        if (player.Impersonating != null)
+                            sb.AppendFormatLine("[ IG] {0} playing {1} [lvl: {2} Class: {3} Race: {4}]",
+                                player.DisplayName,
+                                player.Impersonating.DisplayName,
+                                player.Impersonating.Level,
+                                player.Impersonating.Class == null ? "(none)" : player.Impersonating.Class.DisplayName,
+                                player.Impersonating.Race == null ? "(none)" : player.Impersonating.Race.DisplayName);
+                        else
+                            sb.AppendFormatLine("[ IG] {0} playing something", player.DisplayName);
                         break;
                     default:
-                        Send("[OOG] {0}" + Environment.NewLine, player.DisplayName);
+                        sb.AppendFormatLine("[OOG] {0}", player.DisplayName);
                         break;
                 }
             }
+            //
+            Page(sb);
             return true;
         }
 

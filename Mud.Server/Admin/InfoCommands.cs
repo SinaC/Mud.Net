@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.DataStructures.HeapPriorityQueue;
+using Mud.Server.Abilities;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -10,55 +11,93 @@ using Mud.Server.Item;
 
 namespace Mud.Server.Admin
 {
+    // TODO: command to display races, classes
     public partial class Admin
     {
         [Command("who")]
         protected override bool DoWho(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("Players:" + Environment.NewLine);
+            StringBuilder sb = new StringBuilder();
+            //
+            sb.AppendFormatLine("Players:");
             foreach (IPlayer player in Repository.Server.GetPlayers())
             {
-                StringBuilder sb = new StringBuilder();
                 switch (player.PlayerState)
                 {
                     case PlayerStates.Impersonating:
                         if (player.Impersonating != null)
-                            sb.AppendFormat("[ IG] {0} playing {1}", player.DisplayName, player.Impersonating.Name);
+                            sb.AppendFormatLine("[ IG] {0} playing {1} [lvl: {2} Class: {3} Race: {4}]",
+                                player.DisplayName,
+                                player.Impersonating.DisplayName,
+                                player.Impersonating.Level,
+                                player.Impersonating.Class == null ? "(none)" : player.Impersonating.Class.DisplayName,
+                                player.Impersonating.Race == null ? "(none)" : player.Impersonating.Race.DisplayName);
                         else
-                            sb.AppendFormat("[ IG] {0} playing ???", player.DisplayName);
+                            sb.AppendFormatLine("[ IG] {0} playing something", player.DisplayName);
                         break;
                     default:
-                        sb.AppendFormat("[OOG] {0} {1}", player.DisplayName, player.PlayerState);
+                        sb.AppendFormatLine("[OOG] {0}", player.DisplayName);
                         break;
                 }
-                sb.AppendLine();
-                Send(sb);
             }
-            Send("Admins" + Environment.NewLine);
+            //
+            sb.AppendFormatLine("Admins:");
             foreach (IAdmin admin in Repository.Server.GetAdmins())
             {
-                StringBuilder sb = new StringBuilder();
                 switch (admin.PlayerState)
                 {
                     case PlayerStates.Impersonating:
                         if (admin.Impersonating != null)
-                            sb.AppendFormat("[ IG] {0} impersonating {1}", admin.DisplayName, admin.Impersonating.Name);
+                            sb.AppendFormatLine("[ IG] {0} impersonating {1}", admin.DisplayName, admin.Impersonating.Name);
                         else if (admin.Incarnating != null)
-                            sb.AppendFormat("[ IG] {0} incarnating {1}", admin.DisplayName, admin.Incarnating.Name);
+                            sb.AppendFormatLine("[ IG] {0} incarnating {1}", admin.DisplayName, admin.Incarnating.Name);
                         else
-                            sb.AppendFormat("[ IG] {0} neither playing nor incarnating !!!", admin.DisplayName);
+                            sb.AppendFormatLine("[ IG] {0} neither playing nor incarnating !!!", admin.DisplayName);
                         break;
                     default:
-                        sb.AppendFormat("[OOG] {0} {1}", admin.DisplayName, admin.PlayerState);
+                        sb.AppendFormatLine("[OOG] {0} {1}", admin.DisplayName, admin.PlayerState);
                         break;
                 }
-                sb.AppendLine();
-                Send(sb);
             }
+            //
+            Page(sb);
             return true;
         }
 
-        // TODO: display groups
+        [Command("spells")]
+        [Command("skills")]
+        [Command("abilities")]
+        protected virtual bool DoAbilities(string rawParameters, params CommandParameter[] parameters)
+        {
+            // TODO: 1st parameter is class or race
+            // TODO: color
+            // TODO: split into spells/skills
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("+-------------------------------------------+");
+            sb.AppendLine("| Abilities                                 |");
+            sb.AppendLine("+-----------------------+----------+--------+");
+            sb.AppendLine("| Name                  | Resource | Cost   |");
+            sb.AppendLine("+-----------------------+----------+--------+");
+            List<IAbility> abilities = Repository.AbilityManager.Abilities
+                .Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed)
+                .OrderBy(x => x.Name)
+                .ToList();
+            foreach (IAbility ability in abilities)
+            {
+                if ((ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
+                    sb.AppendFormatLine("| {0,21} |  passive ability  |", ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
+                else if (ability.CostType == AmountOperators.Percentage)
+                    sb.AppendFormatLine("| {0,21} | {1,14} | {2,5}% |", ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
+                else if (ability.CostType == AmountOperators.Fixed)
+                    sb.AppendFormatLine("| {0,21} | {1,14} | {2,6} |", ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
+                else
+                    sb.AppendFormatLine("| {0,21} | free cost ability |", ability.Name, ability.ResourceKind, ability.CostAmount, ability.CostType == AmountOperators.Percentage ? "%" : " ");
+            }
+            sb.AppendLine("+-----------------------+----------+--------+");
+            Page(sb);
+            return true;
+        }
+
         [Command("mstat")]
         protected virtual bool DoMstat(string rawParameters, params CommandParameter[] parameters)
         {
@@ -77,22 +116,25 @@ namespace Mud.Server.Admin
                         // TODO: display blueprint
                     else
                         sb.AppendLine("No blueprint");
-                    sb.AppendFormatLine("Name: {0}", victim.Name);
+                    sb.AppendFormatLine("Name: {0}", victim.DisplayName);
                     sb.AppendFormatLine("DisplayName: {0}", victim.DisplayName);
                     if (victim.Leader != null)
-                        sb.AppendFormatLine("Leader: {0}", victim.Leader.Name);
+                        sb.AppendFormatLine("Leader: {0}", victim.Leader.DisplayName);
                     if (victim.GroupMembers.Any())
                         foreach (ICharacter member in victim.GroupMembers)
-                            sb.AppendFormatLine("Group member: {0}", member.Name);
+                            sb.AppendFormatLine("Group member: {0}", member.DisplayName);
                     if (victim.Slave != null)
-                        sb.AppendFormatLine("Slave: {0}", victim.Slave.Name);
+                        sb.AppendFormatLine("Slave: {0}", victim.Slave.DisplayName);
                     if (victim.ImpersonatedBy != null)
-                        sb.AppendFormatLine("Impersonated by {0}", victim.ImpersonatedBy.Name);
+                        sb.AppendFormatLine("Impersonated by {0}", victim.ImpersonatedBy.DisplayName);
+                    else
+                        sb.AppendFormatLine("Impersonable: {0}", victim.Impersonable);
                     if (victim.ControlledBy != null)
-                        sb.AppendFormatLine("Controlled by {0}", victim.ControlledBy.Name);
+                        sb.AppendFormatLine("Controlled by {0}", victim.ControlledBy.DisplayName);
                     if (victim.Fighting != null)
-                        sb.AppendFormatLine("Fighting: {0}", victim.Fighting.Name);
-                    sb.AppendFormatLine("Room: {0} [vnum: {1}]", victim.Room.Name, victim.Room.Blueprint == null ? -1 : victim.Room.Blueprint.Id);
+                        sb.AppendFormatLine("Fighting: {0}", victim.Fighting.DisplayName);
+                    sb.AppendFormatLine("Room: {0} [vnum: {1}]", victim.Room.DisplayName, victim.Room.Blueprint == null ? -1 : victim.Room.Blueprint.Id);
+                    sb.AppendFormatLine("Race: {0} Class: {1}", victim.Race == null ? "(none)" : victim.Race.DisplayName, victim.Class == null ? "(none)" : victim.Class.DisplayName);
                     sb.AppendFormatLine("Level: {0} Sex: {1}", victim.Level, victim.Sex);
                     sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim[ComputedAttributeTypes.MaxHitPoints]);
                     sb.AppendLine("Attributes:");
@@ -100,6 +142,8 @@ namespace Mud.Server.Admin
                         sb.AppendFormatLine("{0}: Current: {1} Base: {2}", primaryAttribute, victim[primaryAttribute], victim.GetBasePrimaryAttribute(primaryAttribute));
                     foreach (ComputedAttributeTypes computedAttribute in EnumHelpers.GetValues<ComputedAttributeTypes>())
                         sb.AppendFormatLine("{0}: {1}", computedAttribute, victim[computedAttribute]);
+                    foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>().Where(x => x != ResourceKinds.None))
+                        sb.AppendFormatLine("{0}: {1}", resourceKind, victim[resourceKind]);
                     foreach (IPeriodicAura pa in victim.PeriodicAuras)
                         if (pa.AuraType == PeriodicAuraTypes.Damage) // TODO: operator
                             sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds.",

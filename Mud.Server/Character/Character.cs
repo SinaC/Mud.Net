@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
+using Mud.Server.Abilities;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
 using Mud.Server.Entity;
@@ -30,6 +31,7 @@ namespace Mud.Server.Character
         private readonly int[] _currentResources;
         private readonly List<ICharacter> _groupMembers;
         private readonly Dictionary<IAbility, DateTime> _cooldowns; // Key: ability.Id, Value: Next ability availability
+        private readonly List<AbilityAndLevel> _knownAbilities;
 
         protected int MaxHitPoints
         {
@@ -41,7 +43,7 @@ namespace Mud.Server.Character
             CharacterCommands = CommandHelpers.GetCommands(typeof (Character));
         }
 
-        public Character(Guid guid, string name, IRoom room) // playable
+        public Character(Guid guid, string name, IRoom room) // PC
             : base(guid, name)
         {
             _inventory = new List<IItem>();
@@ -58,19 +60,23 @@ namespace Mud.Server.Character
 
             BuildEquipmentSlots();
 
+            Class = Repository.ClassManager["Warrior"];
+            Race = Repository.RaceManager["Troll"];
             Sex = Sex.Neutral; // TODO: parameter
             Level = 30 + RandomizeHelpers.Instance.Randomizer.Next(-10, 10); // TODO: parameter
             for (int i = 0; i < _basePrimaryAttributes.Length; i++)
                 _basePrimaryAttributes[i] = 150 + RandomizeHelpers.Instance.Randomizer.Next(-20,20);
+            _knownAbilities = new List<AbilityAndLevel>(); // handled by RecomputeKnownAbilities
 
             Impersonable = true; // Playable
             Room = room;
             room.Enter(this);
 
             ResetAttributes();
+            RecomputeKnownAbilities();
         }
 
-        public Character(Guid guid, CharacterBlueprint blueprint, IRoom room) // non-playable
+        public Character(Guid guid, CharacterBlueprint blueprint, IRoom room) // NPC
             : base(guid, blueprint.Name, blueprint.Description)
         {
             _inventory = new List<IItem>();
@@ -88,16 +94,19 @@ namespace Mud.Server.Character
             Blueprint = blueprint;
             BuildEquipmentSlots();
 
+            // TODO: mob class/race ???
             Sex = blueprint.Sex;
             Level = blueprint.Level;
             for (int i = 0; i < _basePrimaryAttributes.Length; i++)
                 _basePrimaryAttributes[i] = 10;
+            _knownAbilities = new List<AbilityAndLevel>(); // handled by RecomputeKnownAbilities
 
             Impersonable = false; // Non-playable
             Room = room;
             room.Enter(this);
 
             ResetAttributes();
+            RecomputeKnownAbilities();
         }
 
         #region ICharacter
@@ -197,6 +206,10 @@ namespace Mud.Server.Character
             get { return _equipments.AsReadOnly(); }
         }
 
+        // Class/Race
+        public IClass Class { get; private set; }
+        public IRace Race { get; private set; }
+
         // Attributes
         public Sex Sex { get; private set; }
         public int Level { get; private set; }
@@ -227,6 +240,11 @@ namespace Mud.Server.Character
             {
                 _computedAttributes[(int) attribute] = value;
             }
+        }
+
+        public IReadOnlyCollection<AbilityAndLevel> KnownAbilities
+        {
+            get { return _knownAbilities.AsReadOnly(); }
         }
 
         // Periodic Auras
@@ -464,9 +482,8 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddPeriodicAura: {0} is not valid anymore", Name);
                 return;
             }
-            // TODO: x.Ability == aura.Ability is always false even if abilities are the same
-            //IPeriodicAura same = _periodicAuras.FirstOrDefault(x => x.Ability == aura.Ability && x.AuraType == aura.AuraType && x.School == aura.School && x.Source == aura.Source);
-            IPeriodicAura same = _periodicAuras.FirstOrDefault(x => (x.Ability == null || aura.Ability == null || x.Ability.Id == aura.Ability.Id) && x.AuraType == aura.AuraType && x.School == aura.School && x.Source == aura.Source);
+            //IPeriodicAura same = _periodicAuras.FirstOrDefault(x => ReferenceEquals(x.Ability, aura.Ability) && x.AuraType == aura.AuraType && x.School == aura.School && x.Source == aura.Source);
+            IPeriodicAura same = _periodicAuras.FirstOrDefault(x => x.Ability == aura.Ability && x.AuraType == aura.AuraType && x.School == aura.School && x.Source == aura.Source);
             if (same != null)
             {
                 Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddPeriodicAura: Refresh: {0} {1}", Name, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
@@ -518,9 +535,8 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddAura: {0} is not valid anymore", Name);
                 return;
             }
-            // TODO: x.Ability == aura.Ability is always false even if abilities are the same
-            //IAura same = _auras.FirstOrDefault(x => x.Ability == aura.Ability && x.Modifier == aura.Modifier && x.Source == aura.Source);
-            IAura same = _auras.FirstOrDefault(x => (x.Ability == null || aura.Ability == null || x.Ability.Id == aura.Ability.Id) && x.Modifier == aura.Modifier && x.Source == aura.Source);
+            //IAura same = _auras.FirstOrDefault(x => ReferenceEquals(x.Ability, aura.Ability) && x.Modifier == aura.Modifier && x.Source == aura.Source);
+            IAura same = _auras.FirstOrDefault(x => x.Ability == aura.Ability && x.Modifier == aura.Modifier && x.Source == aura.Source);
             if (same != null)
             {
                 Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddAura: Refresh: {0} {1}| recompute: {2}", Name, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
@@ -1152,28 +1168,28 @@ namespace Mud.Server.Character
             // TODO: damage modifier
             // TODO: check immunity/resist/vuln
 
-            // Check shield
+            // Check absorb
             fullyAbsorbed = false;
-            if (damage > 0 && _auras.Any(x => x.Modifier == AuraModifiers.Shield))
+            if (damage > 0 && _auras.Any(x => x.Modifier == AuraModifiers.Absorb))
             {
                 bool needsRecompute = false;
-                // Process every shield aura until 0 damage left or 0 shield aura left
-                IReadOnlyCollection<IAura> shields = new ReadOnlyCollection<IAura>(_auras.Where(x => x.Modifier == AuraModifiers.Shield).ToList());
-                foreach (IAura shield in shields)
+                // Process every absorb aura until 0 damage left or 0 absorb aura left
+                IReadOnlyCollection<IAura> absorbs = new ReadOnlyCollection<IAura>(_auras.Where(x => x.Modifier == AuraModifiers.Absorb).ToList());
+                foreach (IAura absorb in absorbs)
                 {
                     // Process absorb
-                    damage = shield.Absorb(damage);
+                    damage = absorb.Absorb(damage);
                     if (damage == 0) // full absorb
                     {
                         fullyAbsorbed = true;
-                        Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] totally absorbed by shield {1}", damage, shield.Ability == null ? "<<??>>" : shield.Ability.Name);
-                        break; // no need to check other shield
+                        Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] totally absorbed by {1}", damage, absorb.Ability == null ? "<<??>>" : absorb.Ability.Name);
+                        break; // no need to check other absorb
                     }
                     else // partial absorb
                     {
-                        Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] partially absorbed [{1}] by shield {2}", damage, shield.Amount, shield.Ability == null ? "<<??>>" : shield.Ability.Name);
+                        Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] partially absorbed [{1}] by {2}", damage, absorb.Amount, absorb.Ability == null ? "<<??>>" : absorb.Ability.Name);
                         needsRecompute = true;
-                        RemoveAura(shield, false); // recompute when everything is done
+                        RemoveAura(absorb, false); // recompute when everything is done
                     }
                 }
                 if (needsRecompute)
@@ -1344,6 +1360,17 @@ namespace Mud.Server.Character
             }
         }
 
+        protected void RecomputeKnownAbilities()
+        {
+            // Add abilities from Class/Race/...
+            _knownAbilities.Clear();
+
+            if (Class != null)
+                _knownAbilities.AddRange(Class.Abilities);
+            if (Race != null)
+                _knownAbilities.AddRange(Race.Abilities);
+        }
+
         #region Act
 
         // Recreate behaviour of String.Format with maximum 10 arguments
@@ -1363,10 +1390,8 @@ namespace Mud.Server.Character
             ActParsingStates state = ActParsingStates.Normal;
             object currentArgument = null;
             StringBuilder argumentFormat = null;
-            for (int i = 0; i < format.Length; i++)
+            foreach (char c in format)
             {
-                char c = format[i];
-
                 switch (state)
                 {
                     case ActParsingStates.Normal: // searching for {

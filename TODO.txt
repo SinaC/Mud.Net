@@ -2,14 +2,14 @@ race/class
 impersonable list
 use more StringBuilder
 
+aura/periodic aura can have multiply affects/effects
+
 Mystery to new format converter  (see olc_act.C:2578 for obj values  L4571 for mob values)
 
 combat table: 
 http://wow.gamepedia.com/Attack_table
 http://wow.gamepedia.com/Dual_wield
 http://wow.gamepedia.com/Crushing_blow
-
-!!! Ability cannot be compared (== always return false)
 
 loot table instead of resets
 

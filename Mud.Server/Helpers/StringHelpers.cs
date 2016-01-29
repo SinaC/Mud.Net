@@ -174,5 +174,45 @@ namespace Mud.Server.Helpers
             //int right = space/2 + (space%2);
             return text.PadLeft(left + text.Length).PadRight(length);
         }
+
+        public static string ResourceColor(ResourceKinds resource)
+        {
+            switch (resource)
+            {
+                case ResourceKinds.Mana:
+                    return "%B%Mana%x%";
+                case ResourceKinds.Energy:
+                    return "%y%Energy%x%";
+                case ResourceKinds.Rage:
+                    return "%r%Rage%x%";
+                case ResourceKinds.Runic:
+                    return "%c%Runic%x%";
+                default:
+                    return String.Empty;
+            }
+        }
+
+        public static string SchoolTypeColor(SchoolTypes schoolType)
+        {
+            switch (schoolType)
+            {
+                case SchoolTypes.Arcane:
+                    return "%B%Arcane%x%";
+                case SchoolTypes.Fire:
+                    return "%R%Fire%x%";
+                case SchoolTypes.Frost:
+                    return "%C%Frost%x%";
+                case SchoolTypes.Holy:
+                    return "%Y%Holy%x%";
+                case SchoolTypes.Nature:
+                    return "%G%Nature%x%";
+                case SchoolTypes.Physical:
+                    return "%W%Physical%x%";
+                case SchoolTypes.Shadow:
+                    return "%M%Shadow%x%";
+                default:
+                    return "(none)";
+            }
+        }
     }
 }

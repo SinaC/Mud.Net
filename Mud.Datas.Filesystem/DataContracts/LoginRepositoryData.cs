@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Mud.Datas.DataContracts;
 
 namespace Mud.Datas.Filesystem.DataContracts
 {

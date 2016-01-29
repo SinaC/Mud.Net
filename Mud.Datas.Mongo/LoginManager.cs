@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using MongoDB.Bson.Serialization.IdGenerators;
+﻿using System.Linq;
 using MongoDB.Driver;
+using Mud.Datas.Mongo.DataContracts;
 
 namespace Mud.Datas.Mongo
 {
+    //http://mongodb.github.io/mongo-csharp-driver/2.0/getting_started/quick_tour/
+    //http://stackoverflow.com/questions/26573668/set-mongodb-to-serialize-a-class-as-bsondocument
     public class LoginManager : ILoginManager
     {
         #region ILoginManager
@@ -47,31 +43,13 @@ namespace Mud.Datas.Mongo
             return loginData != null && loginData.Password == password;
         }
 
+        public bool ChangePassword(string username, string password)
+        {
+            // TODO
+            return true;
+        }
+
         #endregion
-
-        ////http://mongodb.github.io/mongo-csharp-driver/2.0/getting_started/quick_tour/
-        ////http://stackoverflow.com/questions/26573668/set-mongodb-to-serialize-a-class-as-bsondocument
-        //private void TestClient()
-        //{
-        //    MongoClient client = new MongoClient();
-        //    IMongoDatabase db = client.GetDatabase("Mud");
-        //    //db.CreateCollection("Logins");
-        //    IMongoCollection<MultipleStringTest> collection = db.GetCollection<MultipleStringTest>("Test");
-        //    collection.DeleteMany(test => true);
-        //    MultipleStringTest doc1 = new MultipleStringTest
-        //    {
-        //        Title = "titre1",
-        //        Name = "nom1"
-        //    };
-        //    collection.InsertOne(doc1);
-        //    collection.AsQueryable().Where(x => x.Name.StartsWith("nom"));
-        //}
-
-        //public class MultipleStringTest
-        //{
-        //    public string Title { get; set; }
-        //    public string Name { get; set; }
-        //}
 
         private IMongoCollection<LoginData> LoginCollection
         {

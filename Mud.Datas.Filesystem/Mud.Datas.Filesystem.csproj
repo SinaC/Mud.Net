@@ -37,8 +37,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoginManager.cs" />
-    <Compile Include="DataContracts\LoginData.cs" />
     <Compile Include="DataContracts\LoginRepositoryData.cs" />
+    <Compile Include="PlayerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

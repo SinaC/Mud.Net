@@ -127,7 +127,7 @@ namespace Mud.Server.WPFTestApplication
             if (colorCode == "c")
                 return Brushes.DarkCyan;
             if (colorCode == "w")
-                return Brushes.White;
+                return Brushes.DarkGray;
             // Light
             if (colorCode == "R")
                 return Brushes.Red;
@@ -141,6 +141,8 @@ namespace Mud.Server.WPFTestApplication
                 return Brushes.Magenta;
             if (colorCode == "C")
                 return Brushes.Cyan;
+            if (colorCode == "W")
+                return Brushes.White;
             if (colorCode == "D")
                 return Brushes.Gray;
             return Brushes.LightGray;

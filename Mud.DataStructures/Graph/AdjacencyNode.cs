@@ -13,6 +13,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
+using System;
 using System.Collections.Generic;
 
 namespace Mud.DataStructures.Graph
@@ -79,7 +80,7 @@ namespace Mud.DataStructures.Graph
             return _adjacentNodes.ContainsKey(node.Value);
         }
 
-        public override bool Equals(System.Object obj)
+        public override bool Equals(Object obj)
         {
             AdjacencyNode<T> f = obj as AdjacencyNode<T>;
             if (f == null)

@@ -16,7 +16,17 @@ namespace Mud.Server
 
         public static IAbilityManager AbilityManager
         {
-            get { return Mud.Server.Abilities.AbilityManager.Instance; }
+            get { return Abilities.AbilityManager.Instance; }
+        }
+
+        public static IClassManager ClassManager
+        {
+            get { return Classes.ClassManager.Instance; }
+        }
+
+        public static IRaceManager RaceManager
+        {
+            get { return Races.RaceManager.Instance; }
         }
 
         public static ILoginManager LoginManager

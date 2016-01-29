@@ -11,15 +11,15 @@ namespace Mud.Server.Abilities
 {
     public class AbilityManager : IAbilityManager
     {
-        private const int WeakenedSoulSpellId = 999;
-        private const int ParrySpellId = 1000;
-        private const int DodgeSpellId = 1001;
-        private const int ShieldBlockSpellId = 1002;
+        private const int WeakenedSoulAbilityId = 999;
+        private const int ParryAbilityId = 1000;
+        private const int DodgeAbilityId = 1001;
+        private const int ShieldBlockAbilityId = 1002;
 
         private readonly List<IAbility> _abilities = new List<IAbility> // TODO: dictionary on id + Trie on name
         {
             // Linked to Power Word: Shield (cannot be used/casted)
-            new Ability(WeakenedSoulSpellId, "Weakened Soul", AbilityTargets.Target, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.CannotBeUsed),
+            new Ability(WeakenedSoulAbilityId, "Weakened Soul", AbilityTargets.Target, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.CannotBeUsed),
             //
             new Ability(100, "Wrath", AbilityTargets.Target, ResourceKinds.Mana, AmountOperators.Percentage, 4, 1, 0, 0, SchoolTypes.Nature, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new DamageAbilityEffect(149, ComputedAttributeTypes.SpellPower, SchoolTypes.Nature)),
             new Ability(101, "Trash", AbilityTargets.Room, ResourceKinds.Energy, AmountOperators.Fixed, 50, 1, 0, 15, SchoolTypes.Physical, AbilityMechanics.Bleeding, DispelTypes.None, AbilityFlags.None, new DamageAbilityEffect(513, ComputedAttributeTypes.AttackPower, SchoolTypes.Physical), new DotAbilityEffect(365, ComputedAttributeTypes.SpellPower, SchoolTypes.Physical, 3)),
@@ -31,9 +31,9 @@ namespace Mud.Server.Abilities
             new Ability(107, "Berserking", AbilityTargets.Self, ResourceKinds.None, AmountOperators.None, 0, 1, 3*60, 10, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackSpeed, 15, AmountOperators.Percentage)),
             new Ability(108, "Battle Shout", AbilityTargets.Group, ResourceKinds.None, AmountOperators.None, 0, 1, 0, 1*60*60, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackPower, 10, AmountOperators.Percentage)),
 
-            new Ability(ParrySpellId, "Parry", AbilityTargets.Self, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
-            new Ability(DodgeSpellId, "Dodge", AbilityTargets.Self, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
-            new Ability(ShieldBlockSpellId, "Shield Block", AbilityTargets.Self, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
+            new Ability(ParryAbilityId, "Parry", AbilityTargets.Self, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
+            new Ability(DodgeAbilityId, "Dodge", AbilityTargets.Self, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
+            new Ability(ShieldBlockAbilityId, "Shield Block", AbilityTargets.Self, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
         };
 
         #region Singleton
@@ -47,10 +47,10 @@ namespace Mud.Server.Abilities
 
         private AbilityManager()
         {
-            WeakenedSoulAbility = this[WeakenedSoulSpellId];
-            ParryAbility = this[ParrySpellId];
-            DodgerAbility = this[DodgeSpellId];
-            ShieldBlockAbility = this[ShieldBlockSpellId];
+            WeakenedSoulAbility = this[WeakenedSoulAbilityId];
+            ParryAbility = this[ParryAbilityId];
+            DodgerAbility = this[DodgeAbilityId];
+            ShieldBlockAbility = this[ShieldBlockAbilityId];
         }
 
         #endregion
@@ -74,7 +74,7 @@ namespace Mud.Server.Abilities
 
         public IAbility this[string name]
         {
-            get { return _abilities.FirstOrDefault(x => x.Name == name); }
+            get { return _abilities.FirstOrDefault(x => FindHelpers.StringEquals(x.Name,name)); }
         }
 
         public IAbility Search(CommandParameter parameter, bool includePassive = false)
@@ -87,13 +87,13 @@ namespace Mud.Server.Abilities
 
         public bool Process(ICharacter source, params CommandParameter[] parameters)
         {
-            //0/ Search ability
+            //0/ Search ability (in known abilities)
             if (parameters.Length == 0)
             {
                 source.Send("Cast/Use what ?" + Environment.NewLine);
                 return false;
             }
-            IAbility ability = Search(parameters[0], true);
+            IAbility ability = Search(source.KnownAbilities, source.Level, parameters[0]);
             if (ability == null)
             {
                 source.Send("You don't know any abilities of that name" + Environment.NewLine);
@@ -199,6 +199,7 @@ namespace Mud.Server.Abilities
             //7/ Set global cooldown
             if (source.ImpersonatedBy != null)
                 source.ImpersonatedBy.SetGlobalCooldown(ability.GlobalCooldown);
+            // TODO: if ability cannot be used because an effect cannot be casted (ex. power word: shield with weakened soul is still affecting)
             //8/ Set cooldown
             if (ability.Cooldown > 0)
                 source.SetCooldown(ability);
@@ -222,5 +223,17 @@ namespace Mud.Server.Abilities
             foreach (AbilityEffect effect in ability.Effects)
                 effect.Process(source, victim, ability);
         }
+
+        public IAbility Search(IEnumerable<AbilityAndLevel> abilities, int level, CommandParameter parameter)
+        {
+            return abilities.Where(x =>
+                (x.Ability.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed
+                && (x.Ability.Flags & AbilityFlags.Passive) != AbilityFlags.Passive
+                && x.Level <= level
+                && FindHelpers.StringStartWith(x.Ability.Name, parameter.Value))
+                .Select(x => x.Ability)
+                .ElementAtOrDefault(parameter.Count - 1);
+        }
+
     }
 }

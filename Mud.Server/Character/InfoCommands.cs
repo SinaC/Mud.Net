@@ -214,48 +214,69 @@ namespace Mud.Server.Character
         [Command("affects")]
         protected virtual bool DoAffects(string rawParameters, params CommandParameter[] parameters)
         {
-            // TODO: better UI
             StringBuilder sb = new StringBuilder();
-            // Auras
-            if (_auras.Any())
+            if (_auras.Any() || _periodicAuras.Any())
             {
-                sb.AppendLine("Auras:");
+                sb.AppendLine("%c%You are affected by the following spells:%x%");
+                // Auras
                 foreach (IAura aura in _auras.Where(x => (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
+                {
+                    //if (aura.Modifier == AuraModifiers.None)
+                    //    sb.AppendFormatLine("{0} from {1} for {2}.",
+                    //        aura.Ability == null ? "Unknown" : aura.Ability.Name,
+                    //        aura.Source == null ? "(none)" : aura.Source.DisplayName,
+                    //        StringHelpers.FormatDelay(aura.SecondsLeft));
+                    //else
+                    //    sb.AppendFormatLine("{0} from {1} modifies {2} by {3}{4} for {5}.",
+                    //        aura.Ability == null ? "Unknown" : aura.Ability.Name,
+                    //        aura.Source == null ? "(none)" : aura.Source.DisplayName,
+                    //        aura.Modifier,
+                    //        aura.Amount,
+                    //        aura.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                    //        StringHelpers.FormatDelay(aura.SecondsLeft));
                     if (aura.Modifier == AuraModifiers.None)
-                        sb.AppendFormatLine("{0} from {1} for {2}.",
+                        sb.AppendFormatLine("%B%{0}%x% for %c%{1}%x%",
                             aura.Ability == null ? "Unknown" : aura.Ability.Name,
-                            aura.Source == null ? "(none)" : aura.Source.DisplayName,
                             StringHelpers.FormatDelay(aura.SecondsLeft));
                     else
-                        sb.AppendFormatLine("{0} from {1} modifies {2} by {3}{4} for {5}.",
+                        sb.AppendFormatLine("%B%{0}%x% modifies %W%{1}%x% by %m%{2}{3}%x% for %c%{4}%x%",
                             aura.Ability == null ? "Unknown" : aura.Ability.Name,
-                            aura.Source == null ? "(none)" : aura.Source.DisplayName,
                             aura.Modifier,
                             aura.Amount,
                             aura.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
                             StringHelpers.FormatDelay(aura.SecondsLeft));
-            }
-            else
-                sb.AppendLine("No aura.");
-            // Periodic auras
-            if (_periodicAuras.Any())
-            {
-                sb.AppendLine("Periodic auras:");
+                }
+                // Periodic auras
                 foreach (IPeriodicAura pa in _periodicAuras.Where(x => (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
                 {
-                    if (pa.AuraType == PeriodicAuraTypes.Damage) // TODO: operator
-                        sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} for {6}.",
+                    //if (pa.AuraType == PeriodicAuraTypes.Damage)
+                    //    sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} for {6}.",
+                    //        pa.Ability == null ? "Unknown" : pa.Ability.Name,
+                    //        pa.Source == null ? "(none)" : pa.Source.DisplayName,
+                    //        pa.Amount,
+                    //        pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                    //        pa.School,
+                    //        StringHelpers.FormatDelay(pa.TickDelay),
+                    //        StringHelpers.FormatDelay(pa.SecondsLeft));
+                    //else
+                    //    sb.AppendFormatLine("{0} from {1}: {2}{3} heal every {4} for {5}.",
+                    //        pa.Ability == null ? "Unknown" : pa.Ability.Name,
+                    //        pa.Source == null ? "(none)" : pa.Source.DisplayName,
+                    //        pa.Amount,
+                    //        pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                    //        StringHelpers.FormatDelay(pa.TickDelay),
+                    //        StringHelpers.FormatDelay(pa.SecondsLeft));
+                    if (pa.AuraType == PeriodicAuraTypes.Damage)
+                        sb.AppendFormatLine("%B%{0}%x% %W%deals {1}{2}%x% {3} damage every %g%{4}%x% for %c%{5}%x%",
                             pa.Ability == null ? "Unknown" : pa.Ability.Name,
-                            pa.Source == null ? "(none)" : pa.Source.DisplayName,
                             pa.Amount,
                             pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
-                            pa.School,
+                            StringHelpers.SchoolTypeColor(pa.School),
                             StringHelpers.FormatDelay(pa.TickDelay),
                             StringHelpers.FormatDelay(pa.SecondsLeft));
                     else
-                        sb.AppendFormatLine("{0} from {1}: {2}{3} heal every {4} for {5}.",
+                        sb.AppendFormatLine("%B%{0}%x% %W%heals {1}{2}%x% hp every %g%{3}%x% for %c%{4}%x%",
                             pa.Ability == null ? "Unknown" : pa.Ability.Name,
-                            pa.Source == null ? "(none)" : pa.Source.DisplayName,
                             pa.Amount,
                             pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
                             StringHelpers.FormatDelay(pa.TickDelay),
@@ -263,7 +284,7 @@ namespace Mud.Server.Character
                 }
             }
             else
-                sb.AppendLine("No periodic aura.");
+                sb.AppendLine("%c%You are not affected by any spells.%x%");
             Send(sb);
             return true;
         }
@@ -279,13 +300,13 @@ namespace Mud.Server.Character
             else
                 sb.AppendLine("|" + StringHelpers.CenterText(DisplayName, 51) + "|");
             sb.AppendLine("+-----------------------+---------------------------+");
-            sb.AppendFormatLine("| %c%Strength  : %W%[{0,3}/{1,3}]%x% | %c%Race  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Strength], GetBasePrimaryAttribute(PrimaryAttributeTypes.Strength), "TODO");
-            sb.AppendFormatLine("| %c%Agility   : %W%[{0,3}/{1,3}]%x% | %c%Class : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Agility], GetBasePrimaryAttribute(PrimaryAttributeTypes.Agility), "TODO");
+            sb.AppendFormatLine("| %c%Strength  : %W%[{0,3}/{1,3}]%x% | %c%Race  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Strength], GetBasePrimaryAttribute(PrimaryAttributeTypes.Strength), Race == null ? "(none)" : Race.DisplayName);
+            sb.AppendFormatLine("| %c%Agility   : %W%[{0,3}/{1,3}]%x% | %c%Class : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Agility], GetBasePrimaryAttribute(PrimaryAttributeTypes.Agility), Class == null ? "(none)" : Class.DisplayName);
             sb.AppendFormatLine("| %c%Stamina   : %W%[{0,3}/{1,3}]%x% | %c%Sex   : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Stamina], GetBasePrimaryAttribute(PrimaryAttributeTypes.Stamina), Sex);
             sb.AppendFormatLine("| %c%Intellect : %W%[{0,3}/{1,3}]%x% | %c%Level : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Intellect], GetBasePrimaryAttribute(PrimaryAttributeTypes.Intellect), Level);
             sb.AppendFormatLine("| %c%Spirit    : %W%[{0,3}/{1,3}]%x% |                           |", this[PrimaryAttributeTypes.Spirit], GetBasePrimaryAttribute(PrimaryAttributeTypes.Spirit));
             sb.AppendLine("+-----------------------+--+------------------------+");
-            // TODO: resource if character can use them
+            // TODO: resource only if character can use them
             sb.AppendFormatLine("| %g%Hit    : %W%[{0,6}/{1,6}]%x% | %g%Attack Power : %W%[{2,6}]%x%|", HitPoints, this[ComputedAttributeTypes.MaxHitPoints], this[ComputedAttributeTypes.AttackPower]);
             sb.AppendFormatLine("| %g%Mana   : %W%[{0,6}/{1,6}]%x% | %g%Spell Power  : %W%[{2,6}]%x%|", this[ResourceKinds.Mana], GetMaxResource(ResourceKinds.Mana), this[ComputedAttributeTypes.SpellPower]);
             sb.AppendFormatLine("| %g%Energy :       %W%[{0,3}/{1,3}]%x% | %g%Attack Speed : %W%[{2,6}]%x%|", this[ResourceKinds.Energy], GetMaxResource(ResourceKinds.Energy), this[ComputedAttributeTypes.AttackSpeed]);
@@ -309,7 +330,7 @@ namespace Mud.Server.Character
                 if (AbilitiesInCooldown.Any())
                 {
                     StringBuilder sb = new StringBuilder();
-                    sb.AppendLine("Cooldowns:");
+                    sb.AppendLine("%c%Following abilities are in cooldown:%x%");
                     foreach (var cooldown in AbilitiesInCooldown
                         .Select(x => new { Ability = x.Key, SecondsLeft = (x.Value - Repository.Server.CurrentTime).TotalSeconds })
                         .OrderBy(x => x.SecondsLeft))
@@ -320,7 +341,7 @@ namespace Mud.Server.Character
                     Send(sb);
                 }
                 else
-                    Send("No abilities in cooldown." + Environment.NewLine);
+                    Send("%c%No abilities in cooldown.%x%" + Environment.NewLine);
             }
             else
             {

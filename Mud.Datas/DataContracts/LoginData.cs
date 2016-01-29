@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Mud.Datas.Filesystem.DataContracts
+namespace Mud.Datas.DataContracts
 {
     [DataContract]
     public class LoginData

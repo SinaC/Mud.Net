@@ -32,10 +32,21 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContracts\CharacterData.cs" />
+    <Compile Include="DataContracts\LoginData.cs" />
     <Compile Include="ILoginManager.cs" />
+    <Compile Include="IPlayerManager.cs" />
+    <Compile Include="DataContracts\PlayerData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mud.Server.Constants\Mud.Server.Constants.csproj">
+      <Project>{3c334a4d-ed18-4eb4-ac7b-2b03bb849d47}</Project>
+      <Name>Mud.Server.Constants</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

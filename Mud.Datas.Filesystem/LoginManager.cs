@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using Mud.Datas.DataContracts;
 using Mud.Datas.Filesystem.DataContracts;
 using Mud.Logger;
 
@@ -72,6 +73,19 @@ namespace Mud.Datas.Filesystem
             else
                 return password != "test";
 
+        }
+
+        public bool ChangePassword(string username, string password)
+        {
+            LoginData loginData;
+            bool found = _table.TryGetValue(username, out loginData);
+            if (found)
+            {
+                loginData.Password = password;
+                Save();
+                return true;
+            }
+            return false;
         }
 
         #endregion
