@@ -20,15 +20,16 @@ namespace Mud.Server.Character
                 Send("Wear, wield, or hold what?" + Environment.NewLine);
             else if (rawParameters == "all")
             {
-                bool found = false;
+                bool atLeastOneEquiped = false;
                 // We have to clone list, because it'll be modified when wearing an item
                 IReadOnlyCollection<IEquipable> clone = new ReadOnlyCollection<IEquipable>(Content.Where(CanSee).OfType<IEquipable>().ToList());
                 foreach (IEquipable item in clone)
                 {
                     WearItem(item, false);
-                    found = true;
+                    atLeastOneEquiped = true;
                 }
-                // TODO: use found ?
+                if (atLeastOneEquiped)
+                    RecomputeAttributes();
             }
             else
             {
@@ -41,7 +42,10 @@ namespace Mud.Server.Character
                     if (equipable == null)
                         Send("It cannot be equiped." + Environment.NewLine);
                     else
+                    {
                         WearItem(equipable, true);
+                        RecomputeAttributes();
+                    }
                 }
             }
             return true;

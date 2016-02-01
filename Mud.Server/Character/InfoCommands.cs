@@ -310,7 +310,7 @@ namespace Mud.Server.Character
             sb.AppendFormatLine("| %g%Hit    : %W%[{0,6}/{1,6}]%x% | %g%Attack Power : %W%[{2,6}]%x%|", HitPoints, this[ComputedAttributeTypes.MaxHitPoints], this[ComputedAttributeTypes.AttackPower]);
             sb.AppendFormatLine("| %g%Mana   : %W%[{0,6}/{1,6}]%x% | %g%Spell Power  : %W%[{2,6}]%x%|", this[ResourceKinds.Mana], GetMaxResource(ResourceKinds.Mana), this[ComputedAttributeTypes.SpellPower]);
             sb.AppendFormatLine("| %g%Energy :       %W%[{0,3}/{1,3}]%x% | %g%Attack Speed : %W%[{2,6}]%x%|", this[ResourceKinds.Energy], GetMaxResource(ResourceKinds.Energy), this[ComputedAttributeTypes.AttackSpeed]);
-            sb.AppendFormatLine("| %g%Rage   :       %W%[{0,3}/{1,3}]%x% |                        |", this[ResourceKinds.Rage], GetMaxResource(ResourceKinds.Rage));
+            sb.AppendFormatLine("| %g%Rage   :       %W%[{0,3}/{1,3}]%x% | %g%Armor:         %W%[{2,6}]%x%|", this[ResourceKinds.Rage], GetMaxResource(ResourceKinds.Rage), this[ComputedAttributeTypes.Armor]);
             sb.AppendFormatLine("| %g%Runic  :       %W%[{0,3}/{1,3}]%x% |                        |", this[ResourceKinds.Runic], GetMaxResource(ResourceKinds.Runic));
             // TODO: runes  sb.AppendFormatLine("| Runes  : BBUUFFDD");
             // TODO: gold, xp to level, item, weight

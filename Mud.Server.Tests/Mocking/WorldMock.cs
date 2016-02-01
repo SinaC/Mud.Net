@@ -73,6 +73,11 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
+        public IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
         public IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible)
         {
             throw new NotImplementedException();

@@ -23,14 +23,14 @@ namespace Mud.Server.Helpers
         public static string Blue = "%b%";
         public static string Magenta = "%m%";
         public static string Cyan = "%c%";
-        public static string White = "%w%";
+        public static string Gray = "%w%";
         public static string LightRed = "%R%";
         public static string LightGreen = "%G%";
         public static string LightYellow = "%Y%";
         public static string LightBlue = "%B%";
         public static string LightMagenta = "%M%";
         public static string LightCyan = "%C%";
-        public static string Grey = "%W%";
+        public static string White = "%W%";
 
         #endregion
 
@@ -99,12 +99,12 @@ namespace Mud.Server.Helpers
             if (damage <= 32) return "devastate";
             if (damage <= 36) return "maim";
             if (damage <= 40) return "%b%MUTILATE%x%";
-            if (damage <= 44) return "%w%DISEMBOWEL%x%";
+            if (damage <= 44) return "%W%DISEMBOWEL%x%";
             if (damage <= 48) return "%r%DISMEMBER%x%";
             if (damage <= 52) return "%m%MASSACRE%x%";
             if (damage <= 56) return "%g%MANGLE%x%";
             if (damage <= 60) return "%c%*** DEMOLISH ***%x%";
-            if (damage <= 75) return "%w%**** %m%DEVASTATE%w% ****%x%";
+            if (damage <= 75) return "%W%**** %m%DEVASTATE%W% ****%x%";
             if (damage <= 100) return "%b%=== %c%OBLITERATE%b% ===%x%";
             if (damage <= 150) return "%g%>>> %y%ANNIHILATE%g% <<<%x%";
             if (damage <= 200) return "%r%-=<*>=- %b%ERADICATE%r% -=<*>=-%x%";
@@ -126,12 +126,12 @@ namespace Mud.Server.Helpers
             if (damage <= 32) return "devastates";
             if (damage <= 36) return "maims";
             if (damage <= 40) return "%b%MUTILATES%x%";
-            if (damage <= 44) return "%w%DISEMBOWELS%x%";
+            if (damage <= 44) return "%W%DISEMBOWELS%x%";
             if (damage <= 48) return "%r%DISMEMBERS%x%";
             if (damage <= 52) return "%m%MASSACRES%x%";
             if (damage <= 56) return "%g%MANGLES%x%";
             if (damage <= 60) return "%c%*** DEMOLISHES ***%x%";
-            if (damage <= 75) return "%w%**** %m%DEVASTATES%w% ****%x%";
+            if (damage <= 75) return "%W%**** %m%DEVASTATES%W% ****%x%";
             if (damage <= 100) return "%b%=== %c%OBLITERATES%b% ===%x%";
             if (damage <= 150) return "%g%>>> %y%ANNIHILATES%g% <<<%x%";
             if (damage <= 200) return "%r%-=<*>=- %b%ERADICATES%r% -=<*>=-%x%";

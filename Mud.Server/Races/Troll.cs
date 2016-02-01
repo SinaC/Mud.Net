@@ -14,7 +14,7 @@
 
         public Troll()
         {
-            AddAbility(35, "berserking");
+            AddAbility(1, "berserking");
         }
     }
 }

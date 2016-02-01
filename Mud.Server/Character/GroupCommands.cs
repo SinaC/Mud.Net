@@ -105,10 +105,10 @@ namespace Mud.Server.Character
                 Send("Say your group what?" + Environment.NewLine);
                 return true;
             }
-            Send("%g%You say the group '%w%{0}%g%'%x%", rawParameters);
+            Send("%g%You say the group '%W%{0}%g%'%x%", rawParameters);
             IReadOnlyCollection<ICharacter> members = Leader == null ? GroupMembers : Leader.GroupMembers;
             foreach (ICharacter member in members)
-                member.Act(ActOptions.ToCharacter, "%g%{0} says the group'%w%{1}%g%'%x%", this, rawParameters);
+                member.Act(ActOptions.ToCharacter, "%g%{0} says the group'%W%{1}%g%'%x%", this, rawParameters);
             return true;
         }
 

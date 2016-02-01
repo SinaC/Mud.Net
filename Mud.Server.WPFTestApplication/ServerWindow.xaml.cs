@@ -376,6 +376,15 @@ namespace Mud.Server.WPFTestApplication
                 DamageType = SchoolTypes.Holy,
                 WearLocation = WearLocations.Wield
             };
+            ItemShieldBlueprint item7Blueprint = new ItemShieldBlueprint
+            {
+                Id = 7,
+                Name = "item7",
+                ShortDescription = "Seventh item (shield)",
+                Description = "The seventh item (shield) has been left here.",
+                Armor = 1000,
+                WearLocation = WearLocations.Shield
+            };
 
             //
             ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint(); // this is mandatory
@@ -401,6 +410,7 @@ namespace Mud.Server.WPFTestApplication
             IItemArmor item3Dup1 = Repository.World.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
             IItemLight item4Dup1 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             IItemWeapon item6 = Repository.World.AddItemWeapon(Guid.NewGuid(), item6Blueprint, templeSquare);
+            IItemShield item7 = Repository.World.AddItemShield(Guid.NewGuid(), item7Blueprint, templeOfMota);
             // Equip weapon on mob2
             mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield).Item = item2;
             item2.ChangeContainer(null);

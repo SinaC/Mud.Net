@@ -116,6 +116,13 @@ namespace Mud.Server.World
             return item;
         }
 
+        public IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container)
+        {
+            IItemShield item = new ItemShield(guid, blueprint, container);
+            _items.Add(item);
+            return item;
+        }
+
         public IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible)
         {
             IAura aura = new Aura.Aura(ability, source, modifier, amount, amountOperator, totalSeconds);

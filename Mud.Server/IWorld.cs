@@ -25,6 +25,7 @@ namespace Mud.Server
         IItemWeapon AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container);
         IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container);
         IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim);
+        IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container);
 
         IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible);
         IPeriodicAura AddPeriodicAura(ICharacter victim, IAbility ability, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks); // Hot

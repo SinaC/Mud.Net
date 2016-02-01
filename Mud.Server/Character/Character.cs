@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
@@ -444,6 +445,7 @@ namespace Mud.Server.Character
         {
             foreach (EquipedItem equipmentSlot in _equipments.Where(x => x.Item == item))
                 equipmentSlot.Item = null;
+            RecomputeAttributes();
             return true;
         }
 
@@ -624,6 +626,7 @@ namespace Mud.Server.Character
             this[ComputedAttributeTypes.AttackPower] = this[PrimaryAttributeTypes.Strength] * 2 + 50;
             this[ComputedAttributeTypes.SpellPower] = this[PrimaryAttributeTypes.Intellect] + 50;
             this[ComputedAttributeTypes.AttackSpeed] = 20;
+            this[ComputedAttributeTypes.Armor] = ComputeArmorFromEquipments();
             //
             // Recompute max resources
             // TODO: correct values
@@ -648,6 +651,9 @@ namespace Mud.Server.Character
                         break;
                     case AuraModifiers.AttackSpeed:
                         ModifyComputedAttribute(ComputedAttributeTypes.AttackSpeed, aura.AmountOperator, aura.Amount);
+                        break;
+                    case AuraModifiers.Armor:
+                        ModifyComputedAttribute(ComputedAttributeTypes.Armor, aura.AmountOperator, aura.Amount);
                         break;
                 }
             }
@@ -779,7 +785,7 @@ namespace Mud.Server.Character
                 // Cannot store wielded between hit (disarm anyone ?)
                 IItemWeapon wielded = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2H) ?? EquipedItem.NullObject).Item as IItemWeapon;
                 SchoolTypes damageType = wielded == null ? SchoolTypes.Physical : wielded.DamageType;
-                OneHit(enemy, wielded, damageType);
+                OneHit(enemy, wielded, damageType, false);
 
                 if (Fighting != enemy) // stop multihit if different enemy or no enemy
                     return true;
@@ -791,7 +797,7 @@ namespace Mud.Server.Character
                 IItemWeapon wielded2 = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2) ?? EquipedItem.NullObject).Item as IItemWeapon; 
                 if (wielded2 == null)
                     break;
-                OneHit(enemy, wielded2, wielded2.DamageType);
+                OneHit(enemy, wielded2, wielded2.DamageType, true);
 
                 if (Fighting != enemy) // stop multihit if different enemy or no enemy
                     return true;
@@ -848,7 +854,7 @@ namespace Mud.Server.Character
 
             // Modify damage (resist, vuln, invul, absorb)
             bool fullyAbsorbed;
-            damage = ModifyDamage(damage, damageType, out fullyAbsorbed);
+            damage = ModifyDamage(damage, source.Level, damageType, out fullyAbsorbed);
 
             // Display damage
             if (visible) // equivalent to dam_message in fight.C:4381
@@ -909,7 +915,7 @@ namespace Mud.Server.Character
 
             // Modify damage (resist, vuln, invul, absorb)
             bool fullyAbsorbed;
-            damage = ModifyDamage(damage, damageType, out fullyAbsorbed);
+            damage = ModifyDamage(damage, source.Level, damageType, out fullyAbsorbed);
 
             // Display damage
             if (visible) // equivalent to dam_message in fight.C:4381
@@ -961,7 +967,7 @@ namespace Mud.Server.Character
 
             // Modify damage (resist, vuln, invul, absorb)
             bool fullyAbsorbed;
-            damage = ModifyDamage(damage, damageType, out fullyAbsorbed);
+            damage = ModifyDamage(damage, int.MaxValue, damageType, out fullyAbsorbed);
 
             // Display damage
             if (visible) // equivalent to dam_message in fight.C:4381
@@ -1159,7 +1165,7 @@ namespace Mud.Server.Character
             return dead;
         }
 
-        protected int ModifyDamage(int damage, SchoolTypes damageTypes, out bool fullyAbsorbed)
+        protected int ModifyDamage(int damage, int sourceLevel, SchoolTypes damageTypes, out bool fullyAbsorbed)
         {
             // TODO: check combat_damage in fight.C:1940
             // TODO: damage reduction
@@ -1195,19 +1201,48 @@ namespace Mud.Server.Character
                 if (needsRecompute)
                     RecomputeAttributes();
             }
+
+            // Armor reduce physical damage (http://wow.gamepedia.com/Armor#Armor_damage_reduction_formula)
+            if (damageTypes == SchoolTypes.Physical)
+            {
+                // 1 -> 59
+                //double damageReduction = (double)this[ComputedAttributeTypes.Armor] / (this[ComputedAttributeTypes.Armor] + 400 + 85 * sourceLevel);
+                double denominator = this[ComputedAttributeTypes.Armor] + 400 + 85*sourceLevel;
+                if (sourceLevel >= 60)
+                    denominator += 4.5*(sourceLevel - 59);
+                if (sourceLevel >= 80)
+                    denominator += 20 * (sourceLevel - 80);
+                if (sourceLevel >= 85)
+                    denominator += 22 * (sourceLevel - 85);
+                double damageReduction = this[ComputedAttributeTypes.Armor]/denominator;
+                if (damageReduction > 0)
+                {
+                    //double damageAbsorption = HitPoints/(1.0 - damageReduction);
+                    damage = damage - (int)(damage*damageReduction);
+                }
+            }
+
+            // TODO: resistances (see http://wow.gamepedia.com/Resistance/
+
             return damage;
         }
 
-        protected bool OneHit(ICharacter victim, IItemWeapon weapon, SchoolTypes damageType) // TODO: check fight.C:1394
+        protected bool OneHit(ICharacter victim, IItemWeapon weapon, SchoolTypes damageType, bool dualWield) // TODO: check fight.C:1394
         {
             if (this == victim || Room != victim.Room)
                 return false;
-            // TODO: skill percentage
-            // TODO: check wield  fight.C:1595
-            // TODO: check parry, dodge, shield block, ...
+
+            // Starts fight if needed (if A attacks B, A fights B and B fights A)
+            if (this != victim)
+            {
+                if (Fighting == null)
+                    StartFighting(victim);
+                if (victim.Fighting == null)
+                    victim.StartFighting(this);
+                // TODO: Cannot attack slave without breaking slavery
+            }
 
             int damage;
-
             if (weapon != null)
                 damage = RandomizeHelpers.Instance.Dice(weapon.DiceCount, weapon.DiceValue);
             else
@@ -1219,6 +1254,48 @@ namespace Mud.Server.Character
                     damage = 100;
             }
             // TODO: damage modifier  fight.C:1693
+
+            // Miss, dodge, parry, ...
+            CombatHelpers.AttackResults attackResult = CombatHelpers.MeleeAttack(this, victim, dualWield);
+            switch (attackResult)
+            {
+                case CombatHelpers.AttackResults.Miss:
+                    victim.Act(ActOptions.ToCharacter, "{0} misses you.", this);
+                    Act(ActOptions.ToCharacter, "You miss {0}.", victim);
+                    return false;
+                case CombatHelpers.AttackResults.Dodge:
+                    victim.Act(ActOptions.ToCharacter, "You dodge {0}'s attack.", this);
+                    Act(ActOptions.ToCharacter, "{0} dodges your attack.", victim);
+                    return false;
+                case CombatHelpers.AttackResults.Parry:
+                    victim.Act(ActOptions.ToCharacter, "You parry {0}'s attack.", this);
+                    Act(ActOptions.ToCharacter, "{0} parries your attack.", victim);
+                    return false;
+                case CombatHelpers.AttackResults.GlancingBlow:
+                    damage = (damage*80)/100; // TODO: http://wow.gamepedia.com/Glancing_Blow
+                    break;
+                case CombatHelpers.AttackResults.Block:
+                    EquipedItem victimShield = victim.Equipments.FirstOrDefault(x => x.Item != null && x.Slot == EquipmentSlots.Shield);
+                    if (victimShield != null) // will never be null because MeleeAttack will not return Block if no shield
+                    {
+                        victim.Act(ActOptions.ToCharacter, "You block {0}'s attack with {1}.", this, victimShield.Item);
+                        Act(ActOptions.ToCharacter, "{0} blocks your attack with {1}.", victim, victimShield.Item);
+                    }
+                    damage = (damage*7)/10;
+                    break;
+                case CombatHelpers.AttackResults.Critical:
+                    damage *= 2; // TODO: http://wow.gamepedia.com/Critical_strike
+                    break;
+                case CombatHelpers.AttackResults.CrushingBlow:
+                    damage = (damage*150)/200; // TODO: http://wow.gamepedia.com/Crushing_Blow
+                    break;
+                case CombatHelpers.AttackResults.Hit:
+                    // NOP
+                    break;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, "Unknown MeleeAttack result: {0}", attackResult);
+                    break;
+            }
 
             return victim.WeaponDamage(this, weapon, damage, damageType, true);
         }
@@ -1332,23 +1409,23 @@ namespace Mud.Server.Character
             {
                 if (this == source)
                 {
-                    Act(ActOptions.ToCharacter, "Your {0} %w%heals%x% yourself.[{1}]", ability, amount);
-                    Act(ActOptions.ToRoom, "{0} {1} %w%heals%x% {0:m}self.[{2}]", this, ability, amount);
+                    Act(ActOptions.ToCharacter, "Your {0} %W%heals%x% yourself.[{1}]", ability, amount);
+                    Act(ActOptions.ToRoom, "{0} {1} %W%heals%x% {0:m}self.[{2}]", this, ability, amount);
                 }
                 else
                 {
-                    Act(ActOptions.ToCharacter, "{0}'s {1} %w%heals%x% you.[{2}]", source, ability, amount);
+                    Act(ActOptions.ToCharacter, "{0}'s {1} %W%heals%x% you.[{2}]", source, ability, amount);
                     if (Room == source.Room)
-                        source.Act(ActOptions.ToCharacter, "Your {0} %w%heals%x% {1}.[{2}]", ability, this, amount);
-                    ActToNotVictim(source, "{0}'s {1} %w%heals%x% {2}.[{3}]", source, ability, this, amount);
+                        source.Act(ActOptions.ToCharacter, "Your {0} %W%heals%x% {1}.[{2}]", ability, this, amount);
+                    ActToNotVictim(source, "{0}'s {1} %W%heals%x% {2}.[{3}]", source, ability, this, amount);
                 }
             }
             else
             {
                 if (this == source)
                 {
-                    Act(ActOptions.ToCharacter, "You %w%heal%x% yourself.[{0}]", amount);
-                    Act(ActOptions.ToRoom, "{0} %w%heals%x% {0:m}self.[{1}]", this, amount);
+                    Act(ActOptions.ToCharacter, "You %W%heal%x% yourself.[{0}]", amount);
+                    Act(ActOptions.ToRoom, "{0} %W%heals%x% {0:m}self.[{1}]", this, amount);
                 }
                 else
                 {
@@ -1369,6 +1446,24 @@ namespace Mud.Server.Character
                 _knownAbilities.AddRange(Class.Abilities);
             if (Race != null)
                 _knownAbilities.AddRange(Race.Abilities);
+        }
+
+        protected int ComputeArmorFromEquipments()
+        {
+            int armorValue = 0;
+            foreach (EquipedItem equipedItem in Equipments.Where(x => x.Item != null))
+            {
+                IItemArmor armor = equipedItem.Item as IItemArmor;
+                if (armor != null)
+                    armorValue += armor.Armor;
+                else
+                {
+                    IItemShield shield = equipedItem.Item as IItemShield;
+                    if (shield != null)
+                        armorValue += shield.Armor;
+                }
+            }
+            return armorValue;
         }
 
         #region Act

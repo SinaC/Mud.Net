@@ -47,13 +47,13 @@ namespace Mud.Server.Character
                 int level = abilityAndLevel.Level;
                 IAbility ability = abilityAndLevel.Ability;
                 if ((ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
-                    sb.AppendFormatLine("| {0,3} | {1,21} |  passive ability  |", level, ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
+                    sb.AppendFormatLine("| {0,3} | {1,21} |  %m%passive ability%x%  |", level, ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
                 else if (ability.CostType == AmountOperators.Percentage)
                     sb.AppendFormatLine("| {0,3} | {1,21} | {2,14} | {3,5}% |", level, ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
                 else if (ability.CostType == AmountOperators.Fixed)
                     sb.AppendFormatLine("| {0,3} | {1,21} | {2,14} | {3,6} |", level, ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
                 else
-                    sb.AppendFormatLine("| {0,3} | {1,21} | free cost ability |", level, ability.Name, ability.ResourceKind, ability.CostAmount, ability.CostType == AmountOperators.Percentage ? "%" : " ");
+                    sb.AppendFormatLine("| {0,3} | {1,21} | %W%free cost ability%x% |", level, ability.Name, ability.ResourceKind, ability.CostAmount, ability.CostType == AmountOperators.Percentage ? "%" : " ");
             }
             sb.AppendLine("+-----+-----------------------+----------+--------+");
             Page(sb);

@@ -60,6 +60,7 @@
     <Compile Include="Classes\Mage.cs" />
     <Compile Include="Classes\Thief.cs" />
     <Compile Include="Classes\Warrior.cs" />
+    <Compile Include="Helpers\CombatHelpers.cs" />
     <Compile Include="IClass.cs" />
     <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Helpers\EnumHelpers.cs" />
@@ -87,11 +88,13 @@
     <Compile Include="Item\IItemContainer.cs" />
     <Compile Include="Item\IItemCorpse.cs" />
     <Compile Include="Item\IItemLight.cs" />
+    <Compile Include="Item\IItemShield.cs" />
     <Compile Include="Item\IItemWeapon.cs" />
     <Compile Include="Item\ItemArmor.cs" />
     <Compile Include="Item\ItemCorpse.cs" />
     <Compile Include="Item\ItemEquipableBase.cs" />
     <Compile Include="Item\ItemLight.cs" />
+    <Compile Include="Item\ItemShield.cs" />
     <Compile Include="Item\ItemWeapon.cs" />
     <Compile Include="IWorld.cs" />
     <Compile Include="Item\ItemContainer.cs" />
