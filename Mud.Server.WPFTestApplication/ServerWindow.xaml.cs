@@ -393,11 +393,11 @@ namespace Mud.Server.WPFTestApplication
             IRoom templeOfMota = Repository.World.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
             IRoom templeSquare = Repository.World.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
-            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", templeOfMota); // playable
+            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
             ICharacter mob2 = Repository.World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
             ICharacter mob3 = Repository.World.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
             //ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
-            ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), "mob4", templeSquare); // playable
+            ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), "mob4", Repository.ClassManager["Warrior"], Repository.RaceManager["Dwarf"], Sex.Female, templeSquare); // playable
             ICharacter mob5 = Repository.World.AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
             IItemContainer item1 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);

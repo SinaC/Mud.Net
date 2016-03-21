@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -9,7 +10,8 @@ namespace Mud.Server.Player
     public enum AvatarCreationStates
     {
         NameChoice, // -> NameConfirmation | NameChoice
-        NameConfirmation, // -> NameChoice | RaceChoice
+        NameConfirmation, // -> NameChoice | SexChoice
+        SexChoice, // -> SexChoice | RaceChoice
         RaceChoice, // -> RaceChoice | ClassChoice
         ClassChoice, // -> ClassChoice | AvatarCreated | ImmediateImpersonate
         ImmediateImpersonate, // -> CreationComplete
@@ -18,6 +20,7 @@ namespace Mud.Server.Player
     public class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreationStates>
     {
         private string _name;
+        private Sex _sex;
         private IRace _race;
         private IClass _class;
 
@@ -33,6 +36,7 @@ namespace Mud.Server.Player
             {
                 {AvatarCreationStates.NameChoice, ProcessNameChoice},
                 {AvatarCreationStates.NameConfirmation, ProcessNameConfirmation},
+                {AvatarCreationStates.SexChoice, ProcessSexChoice},
                 {AvatarCreationStates.RaceChoice, ProcessRaceChoice},
                 {AvatarCreationStates.ClassChoice, ProcessClassChoice},
                 {AvatarCreationStates.ImmediateImpersonate, ProcessImmediateImpersonate},
@@ -58,12 +62,25 @@ namespace Mud.Server.Player
         {
             if (input == "y" || input == "yes")
             {
-                player.Send("Great! Please choose a race."+Environment.NewLine);
-                DisplayRaceList(player, false);
-                return AvatarCreationStates.RaceChoice;
+                player.Send("Nice! Please choose a sex."+Environment.NewLine);
+                DisplaySexList(player);
+                return AvatarCreationStates.SexChoice;
             }
             player.Send("Ok, what name would you give to your avatar?");
             return AvatarCreationStates.NameChoice;
+        }
+
+        private AvatarCreationStates ProcessSexChoice(IPlayer player, string input)
+        {
+            bool found = EnumHelpers.TryFindByPrefix(input, out _sex);
+            if (found)
+            {
+                player.Send("Great! Please choose a race." + Environment.NewLine);
+                DisplayRaceList(player, false);
+                return AvatarCreationStates.RaceChoice;
+            }
+            DisplaySexList(player);
+            return AvatarCreationStates.SexChoice;
         }
 
         private AvatarCreationStates ProcessRaceChoice(IPlayer player, string input)
@@ -89,7 +106,7 @@ namespace Mud.Server.Player
                 // TODO: Add character to impersonate list
                 player.Save();
                 // TODO: better wording
-                player.Send("Your avatar is created. Name: {0} Race: {1} Class: {2}."+Environment.NewLine, StringHelpers.UpperFirstLetter(_name), _race.DisplayName, _class.DisplayName);
+                player.Send("Your avatar is created. Name: {0} Sex: {1} Race: {2} Class: {3}."+Environment.NewLine, StringHelpers.UpperFirstLetter(_name), _sex, _race.DisplayName, _class.DisplayName);
                 player.Send("Would you like to impersonate it now? (y/n)"+Environment.NewLine);
                 return AvatarCreationStates.ImmediateImpersonate;
             }
@@ -101,8 +118,12 @@ namespace Mud.Server.Player
         {
             if (input == "y" || input == "yes")
             {
-                // TODO: impersonate character
-                // TODO: return AvatarCreationStates.CreationComplete;
+                // Create character + add in world
+                IRoom startingRoom = Repository.World.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota"); // todo: mud school
+                ICharacter avatar = Repository.World.AddCharacter(Guid.NewGuid(), _name, _class, _race, _sex, startingRoom);
+                // TODO: impersonate character with an internal command
+                State = AvatarCreationStates.CreationComplete; player.ProcessCommand("/impersonate " + avatar.Name);
+                return AvatarCreationStates.CreationComplete;
             }
             player.Send("Avatar {0} created but not impersonated. Use /impersonate {0} to enter game or use /list to see your avatar list."+Environment.NewLine, StringHelpers.UpperFirstLetter(_name));
             // else, NOP
@@ -113,6 +134,14 @@ namespace Mud.Server.Player
         {
             // fall-thru
             return AvatarCreationStates.CreationComplete;
+        }
+
+        private void DisplaySexList(IPlayer player, bool displayHeader = true)
+        {
+            if (displayHeader)
+                player.Send("Please choose a sex." + Environment.NewLine);
+            string sex = String.Join(" | ", Enum.GetNames(typeof(Sex)));
+            player.Send(sex+Environment.NewLine);
         }
 
         private void DisplayRaceList(IPlayer player, bool displayHeader = true)

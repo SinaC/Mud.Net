@@ -59,13 +59,13 @@ namespace Mud.Server.Player
         protected virtual bool DoList(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: display impersonation list
+            Send("Not yet implemented");
             return true;
         }
 
         [Command("create")]
         protected virtual bool DoCreate(string rawParameters, params CommandParameter[] parameters)
         {
-            // TODO: create a new impersonable character
             if (Impersonating != null)
             {
                 Send("You cannot create a new avatar while impersonating." + Environment.NewLine);

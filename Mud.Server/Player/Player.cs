@@ -37,7 +37,7 @@ namespace Mud.Server.Player
             Id = id;
             Name = name;
         }
-        
+
         #region IPlayer
 
         #region IActor
@@ -151,6 +151,8 @@ namespace Mud.Server.Player
         {
             Name = name;
             // TODO: load player file
+            // TODO: load impersonation list
+            // TODO: load aliases
 
             // Aliases
             Aliases.Add("i", "/impersonate mob1");
@@ -166,6 +168,10 @@ namespace Mud.Server.Player
 
         public bool Save()
         {
+            // TODO: save player file
+            // TODO: save impersonation list
+            // TODO: save aliases
+
             return true;
         }
 

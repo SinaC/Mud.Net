@@ -20,6 +20,16 @@ namespace Mud.Server.Helpers
             return Enum.TryParse(name, true, out value);
         }
 
+        public static bool TryFindByPrefix<T>(string prefix, out T value)
+            where T : struct
+        {
+            string name = Enum.GetNames(typeof (T)).FirstOrDefault(x => FindHelpers.StringStartWith(x, prefix));
+            if (!String.IsNullOrWhiteSpace(name))
+                return Enum.TryParse(name, true, out value);
+            value = default(T);
+            return false;
+        }
+
         public static int GetCount<T>()
             where T : struct
         {

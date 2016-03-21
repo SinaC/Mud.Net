@@ -38,7 +38,7 @@ namespace Mud.Server.Tests.Mocking
             return _items.AsReadOnly();
         }
 
-        public ICharacter AddCharacter(Guid guid, string name, IRoom room)
+        public ICharacter AddCharacter(Guid guid, string name, IClass pcClass, IRace pcRace, Sex pcSex, IRoom room)
         {
             throw new NotImplementedException();
         }

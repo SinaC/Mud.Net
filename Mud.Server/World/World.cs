@@ -67,9 +67,9 @@ namespace Mud.Server.World
             return from2To;
         }
 
-        public ICharacter AddCharacter(Guid guid, string name, IRoom room) // PC
+        public ICharacter AddCharacter(Guid guid, string name, IClass pcClass, IRace pcRace, Sex pcSex, IRoom room) // PC
         {
-            ICharacter character = new Character.Character(guid, name, room);
+            ICharacter character = new Character.Character(guid, name, pcClass, pcRace, pcSex, room);
             _characters.Add(character);
             return character;
         }

@@ -165,7 +165,7 @@ namespace Mud.Server.TestApplication
             Repository.World.AddExit(room1, room2, null, ExitDirections.North);
             Repository.World.AddExit(room2, room1, null, ExitDirections.North);
 
-            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "Mob1", room1); // playable
+            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "Mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, room1); // playable
             ICharacter mob2 = Repository.World.AddCharacter(Guid.NewGuid(), mob2Blueprint, room1);
             ICharacter mob3 = Repository.World.AddCharacter(Guid.NewGuid(), mob3Blueprint, room2);
             ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), mob4Blueprint, room2);
@@ -361,7 +361,7 @@ namespace Mud.Server.TestApplication
             IRoom templeOfMota = Repository.World.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
             IRoom templeSquare = Repository.World.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
-            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", templeOfMota); // playable
+            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
             ICharacter mob2 = Repository.World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
             ICharacter mob3 = Repository.World.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
             ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
@@ -485,7 +485,7 @@ namespace Mud.Server.TestApplication
             player.ProcessCommand("unknown"); // INVALID
             player.ProcessCommand("/test");
 
-            ICharacter character = Repository.World.AddCharacter(Guid.NewGuid(), "Character", room);
+            ICharacter character = Repository.World.AddCharacter(Guid.NewGuid(), "Character", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, room);
             character.ProcessCommand("look");
             character.ProcessCommand("tell"); // INVALID because Player commands are not accessible by Character
             character.ProcessCommand("unknown"); // INVALID

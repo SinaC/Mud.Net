@@ -44,7 +44,7 @@ namespace Mud.Server.Character
             CharacterCommands = CommandHelpers.GetCommands(typeof (Character));
         }
 
-        public Character(Guid guid, string name, IRoom room) // PC
+        public Character(Guid guid, string name, IClass pcClass, IRace pcRace, Sex pcSex, IRoom room) // PC
             : base(guid, name)
         {
             _inventory = new List<IItem>();
@@ -61,9 +61,9 @@ namespace Mud.Server.Character
 
             BuildEquipmentSlots();
 
-            Class = Repository.ClassManager["Warrior"];
-            Race = Repository.RaceManager["Troll"];
-            Sex = Sex.Neutral; // TODO: parameter
+            Class = pcClass;
+            Race = pcRace;
+            Sex = pcSex;
             Level = 30 + RandomizeHelpers.Instance.Randomizer.Next(-10, 10); // TODO: parameter
             for (int i = 0; i < _basePrimaryAttributes.Length; i++)
                 _basePrimaryAttributes[i] = 150 + RandomizeHelpers.Instance.Randomizer.Next(-20,20);
