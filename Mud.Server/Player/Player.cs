@@ -169,9 +169,10 @@ namespace Mud.Server.Player
 
         public virtual void OnDisconnected()
         {
-            // Stop impersonation if any
+            // Stop impersonation if any + stop fights
             if (Impersonating != null)
             {
+                Impersonating.StopFighting(true);
                 Impersonating.ChangeImpersonation(null);
                 Impersonating = null;
             }

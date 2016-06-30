@@ -7,7 +7,7 @@ namespace Mud.Server.Character
 {
     public partial class Character
     {
-        [Command("say")]
+        [Command("say", Category = "Communication")]
         protected virtual bool DoSay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -22,7 +22,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("yell")]
+        [Command("yell", Category = "Communication")]
         protected virtual bool DoYell(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

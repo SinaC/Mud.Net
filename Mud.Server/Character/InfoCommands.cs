@@ -18,7 +18,7 @@ namespace Mud.Server.Character
         // 4/ else if an item can be found in inventory+room (matching 1st parameter), display item description or extra description
         // 5/ else, if an extra description can be found in room (matching 1st parameter), display it
         // 6/ else, if 1st parameter is a direction, display if there is an exit/door
-        [Command("look")]
+        [Command("look", Category = "Information")]
         protected virtual bool DoLook(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: 0/ sleeping/blind/dark room (see act_info.C:1413 -> 1436)
@@ -101,14 +101,14 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("exits")]
+        [Command("exits", Category = "Information")]
         protected virtual bool DoExits(string rawParameters, params CommandParameter[] parameters)
         {
             DisplayExits(false);
             return true;
         }
 
-        [Command("inventory")]
+        [Command("inventory", Category = "Information")]
         protected virtual bool DoInventory(string rawParameters, params CommandParameter[] parameters)
         {
             Send("You are carrying:" + Environment.NewLine);
@@ -116,7 +116,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("equipment")]
+        [Command("equipment", Category = "Information")]
         protected virtual bool DoEquipment(string rawParameters, params CommandParameter[] parameters)
         {
             Send("You are using:" + Environment.NewLine);
@@ -136,7 +136,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("examine")]
+        [Command("examine", Category = "Information")]
         protected virtual bool DoExamine(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -180,7 +180,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("scan")]
+        [Command("scan", Category = "Information")]
         protected virtual bool DoScan(string rawParameters, params CommandParameter[] parameters)
         {
             // Current room
@@ -211,7 +211,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("affects")]
+        [Command("affects", Category = "Information")]
         protected virtual bool DoAffects(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -320,8 +320,8 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("cd")]
-        [Command("cooldowns")]
+        [Command("cd", Category = "Information")]
+        [Command("cooldowns", Category = "Information")]
         protected virtual bool DoCooldowns(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

@@ -1639,7 +1639,7 @@ namespace Mud.Server.Character
             }
         }
 
-        [Command("kill")]
+        [Command("kill", Category = "Combat")]
         protected virtual bool DoKill(string rawParameters, params CommandParameter[] parameters)
         {
             Send("DoKill: NOT YET IMPLEMENTED" + Environment.NewLine);

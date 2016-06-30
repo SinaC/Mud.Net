@@ -63,8 +63,8 @@ namespace Mud.Server.Player
             return true;
         }
 
-        [Command("create")]
-        protected virtual bool DoCreate(string rawParameters, params CommandParameter[] parameters)
+        [Command("createavatar")]
+        protected virtual bool DoCreateAvatar(string rawParameters, params CommandParameter[] parameters)
         {
             if (Impersonating != null)
             {

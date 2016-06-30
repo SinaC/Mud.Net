@@ -20,6 +20,8 @@ namespace Mud.Server.WPFTestApplication
             Loaded += OnLoaded;
 
             InputTextBox.Focus();
+
+            IsConnected = true;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -42,6 +44,9 @@ namespace Mud.Server.WPFTestApplication
         }
 
         public event DataReceivedEventHandler DataReceived;
+
+        public bool IsConnected { get; private set; }
+
         public bool ColorAccepted { get; set; }
 
         public void EchoOff()
@@ -149,7 +154,9 @@ namespace Mud.Server.WPFTestApplication
 
         public void Disconnect()
         {
-            // NOP
+            WriteData("Disconnected");
+            //
+            IsConnected = false;
         }
     }
 }

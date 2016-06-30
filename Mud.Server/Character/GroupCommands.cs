@@ -10,7 +10,7 @@ namespace Mud.Server.Character
 {
     public partial class Character
     {
-        [Command("follow")]
+        [Command("follow", Category = "Group")]
         protected virtual bool DoFollow(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -41,7 +41,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("group")]
+        [Command("group", Category = "Group")]
         protected virtual bool DoGroup(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -95,8 +95,8 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("gtell")]
-        [Command("gsay")]
+        [Command("gtell", Category = "Group")] // TODO: multiple category +Communication
+        [Command("gsay", Category = "Group")] // TODO: multiple category +Communication
         protected virtual bool DoGroupSay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -149,7 +149,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("order")]
+        [Command("order", Category = "Group")]
         protected virtual bool DoOrder(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

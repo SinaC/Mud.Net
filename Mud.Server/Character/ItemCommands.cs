@@ -11,9 +11,9 @@ namespace Mud.Server.Character
 {
     public partial class Character
     {
-        [Command("wear")]
-        [Command("wield")]
-        [Command("hold")]
+        [Command("wear", Category = "Item")]
+        [Command("wield", Category = "Item")]
+        [Command("hold", Category = "Item")]
         protected virtual bool DoWear(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -51,7 +51,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("get")]
+        [Command("get", Category = "Item")]
         // Get item
         // Get item [from] container
         // Get all
@@ -153,7 +153,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("drop")]
+        [Command("drop", Category = "Item")]
         // Drop item
         // Drop all
         // Drop all.item
@@ -178,7 +178,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("remove")]
+        [Command("remove", Category = "Item")]
         // Remove item
         protected virtual bool DoRemove(string rawParameters, params CommandParameter[] parameters)
         {

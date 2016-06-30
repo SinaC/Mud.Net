@@ -1,6 +1,8 @@
 impersonable list
 use more StringBuilder
 
+reconnect while fighting (via telnet) doesn't work -> Disposed Object Exception
+
 aura/periodic aura can have multiply affects/effects
 
 Mystery to new format converter  (see olc_act.C:2578 for obj values  L4571 for mob values)

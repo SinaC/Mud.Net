@@ -215,11 +215,11 @@ namespace Mud.Network.Telnet
 
         private void ReadCallback(IAsyncResult ar)
         {
+            // Retrieve the state object and the handler socket
+            // from the asynchronous state object.
+            ClientTelnetStateObject client = (ClientTelnetStateObject)ar.AsyncState;
             try
             {
-                // Retrieve the state object and the handler socket
-                // from the asynchronous state object.
-                ClientTelnetStateObject client = (ClientTelnetStateObject) ar.AsyncState;
                 Socket clientSocket = client.ClientSocket;
 
                 // Read data from the client socket. 
@@ -296,7 +296,7 @@ namespace Mud.Network.Telnet
             {
                 // If server status is stopping/stopped: ok
                 // else, throw
-                if (_status != ServerStatus.Stopping && _status != ServerStatus.Stopped)
+                if (_status != ServerStatus.Stopping && _status != ServerStatus.Stopped && client.State != ClientStates.Disconnected)
                     throw;
             }
         }
@@ -324,7 +324,7 @@ namespace Mud.Network.Telnet
             {
                 // If server status is stopping/stopped: ok
                 // else, throw
-                if (_status != ServerStatus.Stopping && _status != ServerStatus.Stopped)
+                if (_status != ServerStatus.Stopping && _status != ServerStatus.Stopped && client.State != ClientStates.Disconnected)
                     throw;
             }
         }
@@ -344,7 +344,7 @@ namespace Mud.Network.Telnet
             {
                 // If server status is stopping/stopped: ok
                 // else, throw
-                if (_status != ServerStatus.Stopping && _status != ServerStatus.Stopped)
+                if (_status != ServerStatus.Stopping && _status != ServerStatus.Stopped && client.State != ClientStates.Disconnected)
                     throw;
             }
         }

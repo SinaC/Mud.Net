@@ -7,6 +7,7 @@ namespace Mud.Network.Telnet
     {
         Handshaking,
         Connected,
+        Disconnected
     }
 
     // State object for reading client data asynchronously
@@ -47,6 +48,8 @@ namespace Mud.Network.Telnet
 
         public event DataReceivedEventHandler DataReceived;
 
+        public bool IsConnected => State == ClientStates.Connected;
+
         public bool ColorAccepted { get; set; }
 
         public void EchoOff() // http://stackoverflow.com/questions/6380257/how-can-i-mask-user-input-when-telneting
@@ -66,6 +69,7 @@ namespace Mud.Network.Telnet
 
         public void Disconnect()
         {
+            State = ClientStates.Disconnected;
             Server.CloseConnection(this);
         }
 

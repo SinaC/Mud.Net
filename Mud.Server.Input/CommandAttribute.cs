@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace Mud.Server.Input
 {
-    // TODO: category
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)] // TODO: multiple category
     public class CommandAttribute : Attribute
     {
         public string Name { get; }

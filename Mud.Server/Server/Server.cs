@@ -228,7 +228,8 @@ namespace Mud.Server.Server
             else // log in passed, player exists
             {
                 client.DataReceived -= ClientPlayingOnDataReceived;
-                ClientPlayingOnDisconnected(client);
+                if (client.IsConnected)
+                    ClientPlayingOnDisconnected(client);
             }
         }
 
@@ -246,10 +247,45 @@ namespace Mud.Server.Server
         {
             Log.Default.WriteLine(LogLevels.Info, "LoginStateMachineOnLoginSuccessful");
 
+            IPlayer playerOrAdmin = null;
+            // if same user is already connected, remove old client and link new client to old player
+            KeyValuePair<IPlayer, PlayingClient> previousPlayerPair;
+            lock (_playingClientLockObject)
+            {
+                previousPlayerPair = _players.FirstOrDefault(x => x.Key.Name == username);
+            }
+            if (previousPlayerPair.Key != null)
+            {
+                Log.Default.WriteLine(LogLevels.Info, "Player was already connected, disconnect previous client and reuse player");
+
+                // Save player
+                playerOrAdmin = previousPlayerPair.Key; // TODO: pause client ????
+                // Remove client and player from players/clients
+                lock (_playingClientLockObject)
+                {
+                    PlayingClient oldPlayingClient;
+                    bool removed = _players.TryRemove(playerOrAdmin, out oldPlayingClient);
+                    if (removed)
+                        _clients.TryRemove(oldPlayingClient.Client, out oldPlayingClient);
+                    // !!! PlayingClient removed from both collection must be equal
+                }
+
+                // Disconnect previous client
+                previousPlayerPair.Value.Client.WriteData("Reconnecting on another client!!");
+                previousPlayerPair.Value.Client.DataReceived -= ClientPlayingOnDataReceived;
+                previousPlayerPair.Value.Client.Disconnect();
+
+                // Welcome
+                client.WriteData("Reconnecting to Mud.Net!!" + Environment.NewLine);
+                client.WriteData(">"); // TODO: complex prompt
+            }
+            else
+            {
+                // Welcome
+                client.WriteData("Welcome to Mud.Net!!" + Environment.NewLine);
+                client.WriteData(">"); // TODO: complex prompt
+            }
             // TODO: if new player, avatar creation state machine
-            
-            client.WriteData("Welcome to Mud.Net!!" + Environment.NewLine);
-            client.WriteData(">"); // TODO: complex prompt
 
             // Remove login state machine
             LoginStateMachine loginStateMachine;
@@ -262,31 +298,39 @@ namespace Mud.Server.Server
             else
                 Log.Default.WriteLine(LogLevels.Error, "LoginStateMachineOnLoginSuccessful: LoginStateMachine not found for a client!!!");
 
-            IPlayer playerOrAdmin;
-            if (isAdmin)
-                playerOrAdmin = new Admin.Admin(Guid.NewGuid(), username);
-            else
-                playerOrAdmin = new Player.Player(Guid.NewGuid(), username);
             // Remove login handlers
             client.DataReceived -= ClientLoginOnDataReceived;
             // Add playing handlers
             client.DataReceived += ClientPlayingOnDataReceived;
+
+            bool loadPlayerOrAdmin = false;
+            // Create a new player/admin only if not reconnecting
+            if (playerOrAdmin == null)
+            {
+                if (isAdmin)
+                    playerOrAdmin = new Admin.Admin(Guid.NewGuid(), username);
+                else
+                    playerOrAdmin = new Player.Player(Guid.NewGuid(), username);
+                //
+                playerOrAdmin.SendData += PlayerOnSendData;
+                playerOrAdmin.PageData += PlayerOnPageData;
+                loadPlayerOrAdmin = true;
+            }
             //
-            playerOrAdmin.SendData += PlayerOnSendData;
-            playerOrAdmin.PageData += PlayerOnPageData;
-            PlayingClient playingClient = new PlayingClient
+            PlayingClient newPlayingClient = new PlayingClient
             {
                 Client = client,
                 Player = playerOrAdmin
             };
             lock (_playingClientLockObject)
             {
-                _players.TryAdd(playerOrAdmin, playingClient);
-                _clients.TryAdd(client, playingClient);
+                _players.TryAdd(playerOrAdmin, newPlayingClient);
+                _clients.TryAdd(client, newPlayingClient);
             }
 
-            // Load player
-            playerOrAdmin.Load(username);
+            // Load player/admin (if needed)
+            if (loadPlayerOrAdmin)
+                playerOrAdmin.Load(username);
         }
 
         public void LoginStateMachineOnLoginFailed(IClient client)
@@ -324,6 +368,7 @@ namespace Mud.Server.Server
             else
             {
                 playingClient.Player.OnDisconnected();
+                playingClient.Client.Disconnect();
                 client.DataReceived -= ClientPlayingOnDataReceived;
                 playingClient.Player.SendData -= PlayerOnSendData;
                 playingClient.Player.PageData -= PlayerOnPageData;

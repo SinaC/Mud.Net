@@ -6,6 +6,7 @@
     {
         event DataReceivedEventHandler DataReceived;
 
+        bool IsConnected { get; }
         bool ColorAccepted { get; set; }
 
         void EchoOff();

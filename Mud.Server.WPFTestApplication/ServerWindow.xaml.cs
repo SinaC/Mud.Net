@@ -97,7 +97,8 @@ namespace Mud.Server.WPFTestApplication
             NewClientConnected?.Invoke(window);
             window.Closed += (sender, args) =>
             {
-                ClientDisconnected?.Invoke(window);
+                if (window.IsConnected)
+                    ClientDisconnected?.Invoke(window);
             };
             // Display client window
             window.Show();

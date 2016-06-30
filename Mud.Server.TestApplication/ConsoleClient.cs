@@ -6,6 +6,7 @@ namespace Mud.Server.TestApplication
     // Simple client dumping message to console
     internal class ConsoleClient : IClient
     {
+        public bool IsConnected { get; private set; }
         public bool DisplayPlayerName { get; set; }
         public bool IsEchoOff { get; private set; }
         
@@ -82,6 +83,7 @@ namespace Mud.Server.TestApplication
         public void Disconnect()
         {
             // NOP
+            IsConnected = false;
         }
 
         #endregion

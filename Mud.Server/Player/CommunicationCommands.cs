@@ -7,7 +7,7 @@ namespace Mud.Server.Player
 {
     public partial class Player
     {
-        [Command("tell")]
+        [Command("tell", Category = "Communication")]
         protected virtual bool DoTell(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length < 2)
@@ -29,7 +29,7 @@ namespace Mud.Server.Player
             return true;
         }
 
-        [Command("gossip")]
+        [Command("gossip", Category = "Communication")]
         protected virtual bool DoGossip(string rawParameters, params CommandParameter[] parameters)
         {
             Send("%m%You gossip '%M%{0}%m%'%x%" + Environment.NewLine, rawParameters);

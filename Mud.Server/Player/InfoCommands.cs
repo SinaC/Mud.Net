@@ -7,7 +7,7 @@ namespace Mud.Server.Player
 {
     public partial class Player
     {
-        [Command("who")]
+        [Command("who", Category = "Information")]
         protected virtual bool DoWho(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: title, additional informations

@@ -29,7 +29,9 @@ namespace Mud.Server.Tests
         #region IClient
 
         public event DataReceivedEventHandler DataReceived;
-        
+
+        public bool IsConnected { get; private set; }
+
         public bool ColorAccepted { get; set; }
 
         public void EchoOff()
@@ -49,6 +51,7 @@ namespace Mud.Server.Tests
 
         public void Disconnect()
         {
+            IsConnected = false;
         }
 
         #endregion

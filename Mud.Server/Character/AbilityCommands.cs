@@ -10,17 +10,17 @@ namespace Mud.Server.Character
 {
     public partial class Character
     {
-        [Command("use", Priority = 2)]
-        [Command("cast", Priority = 2)]
+        [Command("use", Category = "Ability", Priority = 2)]
+        [Command("cast", Category = "Ability", Priority = 2)]
         protected virtual bool DoCast(string rawParameters, params CommandParameter[] parameters)
         {
             Repository.AbilityManager.Process(this, parameters);
             return true;
         }
 
-        [Command("spells")]
-        [Command("skills")]
-        [Command("abilities")]
+        [Command("spells", Category = "Ability")]
+        [Command("skills", Category = "Ability")]
+        [Command("abilities", Category = "Ability")]
         protected virtual bool DoAbilities(string rawParameters, params CommandParameter[] parameters)
         {
             bool displayAll = parameters.Length > 0 && parameters[0].Value == "all"; // Display spells below level or all ?
