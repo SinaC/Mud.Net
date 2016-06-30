@@ -8,11 +8,11 @@ namespace Mud.Server.Aura
     {
         #region IAura
 
-        public IAbility Ability { get; private set; }
+        public IAbility Ability { get; }
         public ICharacter Source { get; private set; }
-        public AuraModifiers Modifier { get; private set; }
+        public AuraModifiers Modifier { get; }
         public int Amount { get; private set; }
-        public AmountOperators AmountOperator { get; private set; }
+        public AmountOperators AmountOperator { get; }
         public DateTime StartTime { get; private set; }
         public int TotalSeconds { get; private set; }
 

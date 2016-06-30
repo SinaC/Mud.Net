@@ -17,7 +17,7 @@ namespace Mud.Server.Room
 
         public string Name { get; private set; }
         public string Keywords { get; private set; }
-        public string Description { get; private set; }
+        public string Description { get; }
         public IRoom Destination { get; private set; }
 
         public void OnRemoved()

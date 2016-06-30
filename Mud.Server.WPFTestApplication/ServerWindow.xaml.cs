@@ -94,12 +94,10 @@ namespace Mud.Server.WPFTestApplication
             {
                 ColorAccepted = true
             };
-            if (NewClientConnected != null)
-                NewClientConnected(window);
+            NewClientConnected?.Invoke(window);
             window.Closed += (sender, args) =>
             {
-                if (ClientDisconnected != null)
-                    ClientDisconnected(window);
+                ClientDisconnected?.Invoke(window);
             };
             // Display client window
             window.Show();
@@ -412,7 +410,7 @@ namespace Mud.Server.WPFTestApplication
             IItemWeapon item6 = Repository.World.AddItemWeapon(Guid.NewGuid(), item6Blueprint, templeSquare);
             IItemShield item7 = Repository.World.AddItemShield(Guid.NewGuid(), item7Blueprint, templeOfMota);
             // Equip weapon on mob2
-            mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield).Item = item2;
+            mob2.Equipments.First(x => x.Slot == EquipmentSlots.Wield).Item = item2;
             item2.ChangeContainer(null);
             item2.ChangeEquipedBy(mob2);
         }

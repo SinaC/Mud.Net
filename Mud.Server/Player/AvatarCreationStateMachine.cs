@@ -24,10 +24,7 @@ namespace Mud.Server.Player
         private IRace _race;
         private IClass _class;
 
-        public override bool IsFinalStateReached
-        {
-            get { return State == AvatarCreationStates.CreationComplete; }
-        }
+        public override bool IsFinalStateReached => State == AvatarCreationStates.CreationComplete;
 
         public AvatarCreationStateMachine()
         {

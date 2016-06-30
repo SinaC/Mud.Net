@@ -4,16 +4,13 @@ namespace Mud.Server.Helpers
 {
     public class RandomizeHelpers
     {
-        public Random Randomizer { get; private set; }
+        public Random Randomizer { get; }
 
         #region Singleton
 
         private static readonly Lazy<RandomizeHelpers> Lazy = new Lazy<RandomizeHelpers>(() => new RandomizeHelpers());
 
-        public static RandomizeHelpers Instance
-        {
-            get { return Lazy.Value; }
-        }
+        public static RandomizeHelpers Instance => Lazy.Value;
 
         private RandomizeHelpers()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
@@ -15,7 +16,6 @@ namespace Mud.Server.Room
 
         private readonly List<ICharacter> _people;
         private readonly List<IItem> _content;
-        private readonly IExit[] _exits; // see ServerOptions.ExitDirections
 
         static Room()
         {
@@ -27,7 +27,7 @@ namespace Mud.Server.Room
         {
             _people = new List<ICharacter>();
             _content = new List<IItem>();
-            _exits = new IExit[ExitHelpers.ExitCount];
+            Exits = new IExit[ExitHelpers.ExitCount];
         }
 
         #region IRoom
@@ -36,25 +36,19 @@ namespace Mud.Server.Room
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands
-        {
-            get { return RoomCommands; }
-        }
+        public override IReadOnlyTrie<CommandMethodInfo> Commands => RoomCommands;
 
         #endregion
 
-        public override string DisplayName
-        {
-            get { return StringHelpers.UpperFirstLetter(Name); }
-        }
+        public override string DisplayName => StringHelpers.UpperFirstLetter(Name);
 
         public override void OnRemoved()
         {
             base.OnRemoved();
             Blueprint = null;
             _people.Clear();
-            for (int i = 0; i < _exits.Length; i++)
-                _exits[i] = null;
+            for (int i = 0; i < Exits.Length; i++)
+                Exits[i] = null;
             _content.Clear();
         }
 
@@ -62,10 +56,7 @@ namespace Mud.Server.Room
 
         #region IContainer
 
-        public IReadOnlyCollection<IItem> Content
-        {
-            get { return _content.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<IItem> Content => _content.AsReadOnly();
 
         public bool PutInContainer(IItem obj)
         {
@@ -84,16 +75,13 @@ namespace Mud.Server.Room
 
         public RoomBlueprint Blueprint { get; private set; } // TODO: 1st parameter in ctor
 
-        public IReadOnlyCollection<ICharacter> People
-        {
-            get { return _people.AsReadOnly(); }
-        }
-        
-        public IExit[] Exits { get { return _exits; } }
+        public IReadOnlyCollection<ICharacter> People => _people.AsReadOnly();
+
+        public IExit[] Exits { get; }
 
         public IExit Exit(ExitDirections direction)
         {
-            return _exits[(int) direction];
+            return Exits[(int) direction];
         }
 
         public IRoom GetRoom(ExitDirections direction)
@@ -122,6 +110,22 @@ namespace Mud.Server.Room
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
             Send("Room: DoTest" + Environment.NewLine);
+            return true;
+        }
+
+        [Command("look")]
+        protected virtual bool DoLook(string rawParameters, params CommandParameter[] parameters)
+        {
+            //TODO: better 'UI'
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("People:");
+            foreach (ICharacter character in _people)
+                sb.AppendFormatLine($"{character.DisplayName}");
+            sb.AppendLine("Items:");
+            foreach (IItem item in _content)
+                sb.AppendFormatLine($"{item.DisplayName}");
+            //
+            Send(sb);
             return true;
         }
     }

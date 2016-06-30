@@ -46,10 +46,7 @@ namespace Mud.Server.Server
 
         private static readonly Lazy<Server> Lazy = new Lazy<Server>(() => new Server());
 
-        public static IServer Instance
-        {
-            get { return Lazy.Value; }
-        }
+        public static IServer Instance => Lazy.Value;
 
         private Server()
         {
@@ -115,11 +112,11 @@ namespace Mud.Server.Server
             int minutes = seconds/60;
             int remaining = seconds%60;
             if (minutes > 0 && remaining != 0)
-                Broadcast(String.Format("%R%Shutdown in {0} minute{1} and {2} second{3}%x%", minutes, minutes > 1 ? "s" : String.Empty, remaining, remaining > 1 ? "s" : String.Empty));
+                Broadcast($"%R%Shutdown in {minutes} minute{(minutes > 1 ? "s" : String.Empty)} and {remaining} second{(remaining > 1 ? "s" : String.Empty)}%x%");
             else if (minutes > 0 && remaining == 0)
-                Broadcast(String.Format("%R%Shutdown in {0} minute{1}%x%", minutes, minutes > 1 ? "s" : String.Empty));
+                Broadcast($"%R%Shutdown in {minutes} minute{(minutes > 1 ? "s" : String.Empty)}%x%");
             else
-                Broadcast(String.Format("%R%Shutdown in {0} second{1}%x%", seconds, seconds > 1 ? "s" : String.Empty));
+                Broadcast($"%R%Shutdown in {seconds} second{(seconds > 1 ? "s" : String.Empty)}%x%");
             _pulseBeforeShutdown = seconds * ServerOptions.PulsePerSeconds;
         }
 
@@ -269,9 +266,7 @@ namespace Mud.Server.Server
             if (isAdmin)
                 playerOrAdmin = new Admin.Admin(Guid.NewGuid(), username);
             else
-            {
                 playerOrAdmin = new Player.Player(Guid.NewGuid(), username);
-            }
             // Remove login handlers
             client.DataReceived -= ClientLoginOnDataReceived;
             // Add playing handlers
@@ -460,7 +455,7 @@ namespace Mud.Server.Server
                             {
                                 // bust a prompt // TODO: complex prompt
                                 if (playingClient.Player.Impersonating != null)
-                                    data += String.Format("<{0}/{1}hp>", playingClient.Player.Impersonating.HitPoints, playingClient.Player.Impersonating[ComputedAttributeTypes.MaxHitPoints]);
+                                    data += $"<{playingClient.Player.Impersonating.HitPoints}/{playingClient.Player.Impersonating[ComputedAttributeTypes.MaxHitPoints]}hp>";
                                 else
                                     data += ">";
                             }

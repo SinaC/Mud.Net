@@ -42,10 +42,7 @@ namespace Mud.Server.Player
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands
-        {
-            get { return PlayerCommands; }
-        }
+        public override IReadOnlyTrie<CommandMethodInfo> Commands => PlayerCommands;
 
         public override bool ProcessCommand(string commandLine)
         {
@@ -103,14 +100,12 @@ namespace Mud.Server.Player
 
         public override void Send(string message)
         {
-            if (SendData != null)
-                SendData(this, message);
+            SendData?.Invoke(this, message);
         }
 
         public override void Page(StringBuilder text)
         {
-            if (PageData != null)
-                PageData(this, text);
+            PageData?.Invoke(this, text);
         }
 
         #endregion
@@ -118,13 +113,10 @@ namespace Mud.Server.Player
         public event SendDataEventHandler SendData;
         public event PageDataEventHandler PageData;
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; }
         public string Name { get; private set; }
 
-        public string DisplayName
-        {
-            get { return StringHelpers.UpperFirstLetter(Name); } // TODO: store another string or perform transformation on-the-fly ???
-        }
+        public string DisplayName => StringHelpers.UpperFirstLetter(Name);
 
         public List<ICharacter> Avatars { get; protected set; } // List of character a player can impersonate
 

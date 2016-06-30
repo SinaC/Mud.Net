@@ -13,14 +13,13 @@ namespace Mud.Server.Item
             WearLocation = blueprint.WearLocation;
         }
 
-        public WearLocations WearLocation { get; private set; }
+        public WearLocations WearLocation { get; }
 
         public ICharacter EquipedBy { get; private set; }
 
         public bool ChangeEquipedBy(ICharacter character)
         {
-            if (EquipedBy != null)
-                EquipedBy.Unequip(this);
+            EquipedBy?.Unequip(this);
             Log.Default.WriteLine(LogLevels.Info, "ChangeEquipedBy: {0} : {1} -> {2}", Name, EquipedBy == null ? "<<??>>" : EquipedBy.Name, character == null ? "<<??>>" : character.Name);
             EquipedBy = character;
             // TODO: call something like character.Equip ? (additional parameter EquipmentSlot)

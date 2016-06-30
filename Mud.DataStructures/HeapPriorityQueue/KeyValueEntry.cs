@@ -14,21 +14,21 @@
 //    limitations under the License.
 namespace Mud.DataStructures.HeapPriorityQueue
 {
-    public class KeyValueEntry<K, V>
+    public class KeyValueEntry<TKey, TValue>
     {
-        public K Key
+        public TKey Key
         {
             get;
             set;
         }
 
-        public V Value
+        public TValue Value
         {
             get;
             set;
         }
 
-        public KeyValueEntry(K key, V value)
+        public KeyValueEntry(TKey key, TValue value)
         {
             Key = key;
             Value = value;

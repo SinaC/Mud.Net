@@ -10,10 +10,7 @@ namespace Mud.Server.Item
         private readonly string _corpseName;
         private readonly List<IItem> _content;
 
-        public override string DisplayName
-        {
-            get { return "The corpse of " + _corpseName; }
-        }
+        public override string DisplayName => "The corpse of " + _corpseName;
 
         public ItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IContainer containedInto, ICharacter character)
             : base(guid, blueprint, containedInto)
@@ -43,10 +40,7 @@ namespace Mud.Server.Item
 
         #region IContainer
 
-        public IReadOnlyCollection<IItem> Content
-        {
-            get { return _content; }
-        }
+        public IReadOnlyCollection<IItem> Content => _content;
 
         public bool PutInContainer(IItem obj)
         {

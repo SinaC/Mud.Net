@@ -2,15 +2,9 @@
 {
     public class Troll : RaceBase
     {
-        public override string Name
-        {
-            get { return "Troll"; }
-        }
+        public override string Name => "Troll";
 
-        public override string ShortName
-        {
-            get { return "Tro"; }
-        }
+        public override string ShortName => "Tro";
 
         public Troll()
         {

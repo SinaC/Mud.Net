@@ -36,8 +36,7 @@ namespace Mud.Server.Character
                 return true;
             }
 
-            if (Leader != null)
-                Leader.StopFollower(this);
+            Leader?.StopFollower(this);
             newLeader.AddFollower(this);
             return true;
         }

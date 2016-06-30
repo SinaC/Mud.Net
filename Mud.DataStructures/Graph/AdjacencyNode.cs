@@ -33,25 +33,11 @@ namespace Mud.DataStructures.Graph
 
         public T Value
         {
-            get;
-            private set;
-        }
+            get; }
 
-        public int EdgeCount
-        {
-            get
-            {
-                return _adjacentNodes.Count;
-            }
-        }
+        public int EdgeCount => _adjacentNodes.Count;
 
-        public IEnumerable<AdjacencyNode<T>> AdjacentNodes
-        {
-            get
-            {
-                return _adjacentNodes.Values;
-            }
-        }
+        public IEnumerable<AdjacencyNode<T>> AdjacentNodes => _adjacentNodes.Values;
 
         /// <summary>
         /// Operation: O(1)

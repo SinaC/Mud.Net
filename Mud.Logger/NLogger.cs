@@ -16,7 +16,7 @@ namespace Mud.Logger
             string logfile = Path.Combine(path, file);
             FileTarget target = LogManager.Configuration.FindTargetByName(fileTarget) as FileTarget;
             if (target == null)
-                throw new ApplicationException(String.Format("Couldn't find target {0} in NLog config", fileTarget));
+                throw new ApplicationException($"Couldn't find target {fileTarget} in NLog config");
             target.FileName = logfile;
         }
 

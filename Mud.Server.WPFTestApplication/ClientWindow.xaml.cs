@@ -30,8 +30,7 @@ namespace Mud.Server.WPFTestApplication
         private void SendButton_OnClick(object sender, RoutedEventArgs e)
         {
             string input = InputTextBox.Text.ToLower();
-            if (DataReceived != null)
-                DataReceived(this, input);
+            DataReceived?.Invoke(this, input);
             InputTextBox.Focus();
             InputTextBox.SelectAll();
         }

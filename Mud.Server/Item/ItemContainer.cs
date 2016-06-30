@@ -34,15 +34,12 @@ namespace Mud.Server.Item
 
         #region IItemContainer
 
-        public int ItemCount { get; private set; } // maximum number of items
-        public int WeightMultiplier { get; private set; } // percentage
+        public int ItemCount { get; } // maximum number of items
+        public int WeightMultiplier { get; } // percentage
 
         #region IContainer
 
-        public IReadOnlyCollection<IItem> Content
-        {
-            get { return _content.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<IItem> Content => _content.AsReadOnly();
 
         public bool PutInContainer(IItem obj)
         {

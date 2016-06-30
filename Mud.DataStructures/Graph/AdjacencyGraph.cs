@@ -28,21 +28,9 @@ namespace Mud.DataStructures.Graph
     {
         private readonly Dictionary<T, AdjacencyNode<T>> _nodes = new Dictionary<T, AdjacencyNode<T>>();
 
-        public int NodeCount
-        {
-            get
-            {
-                return _nodes.Count;
-            }
-        }
+        public int NodeCount => _nodes.Count;
 
-        public IEnumerable<AdjacencyNode<T>> Nodes
-        {
-            get
-            {
-                return _nodes.Values;
-            }
-        }
+        public IEnumerable<AdjacencyNode<T>> Nodes => _nodes.Values;
 
         /// <summary>
         /// If we add an edge it checks if the node as already there, otherwise it adds the node.

@@ -5,25 +5,14 @@ namespace Mud.Server.Classes
 {
     public class Warrior : ClassBase
     {
-        private readonly List<ResourceKinds> _resourceKinds = new List<ResourceKinds>
+        public override string Name => "warrior";
+
+        public override string ShortName => "War";
+
+        public override List<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
         {
             Constants.ResourceKinds.Energy
         };
-
-        public override string Name
-        {
-            get { return "warrior"; }
-        }
-
-        public override string ShortName
-        {
-            get { return "War"; }
-        }
-
-        public override List<ResourceKinds> ResourceKinds
-        {
-            get { return _resourceKinds; }
-        }
 
         public Warrior()
         {

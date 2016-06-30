@@ -30,8 +30,6 @@ namespace Mud.DataStructures.HeapPriorityQueue
 
         private readonly Dictionary<T, int> _entryToPos;
 
-        private int _count;
-
         public HeapPriorityQueue()
             : this(DEFAULTCAPACITY)
         {
@@ -43,13 +41,7 @@ namespace Mud.DataStructures.HeapPriorityQueue
             _entryToPos = new Dictionary<T, int>(capacity);
         }
 
-        public int Count
-        {
-            get
-            {
-                return _count;
-            }
-        }
+        public int Count { get; private set; }
 
         public Boolean IsEmpty()
         {
@@ -61,7 +53,7 @@ namespace Mud.DataStructures.HeapPriorityQueue
         /// </summary>
         public void Clear()
         {
-            _count = 0;
+            Count = 0;
             _queue = new KeyValueEntry<int, T>[DEFAULTCAPACITY];
             _entryToPos.Clear();
         }
@@ -114,11 +106,11 @@ namespace Mud.DataStructures.HeapPriorityQueue
 
             KeyValueEntry<int, T> result = _queue[0];
 
-            _queue[0] = _queue[_count - 1];
+            _queue[0] = _queue[Count - 1];
             RemovePosition(result.Value);
             UpdatePosition(_queue[0].Value, 0);
-            _queue[_count - 1] = null;
-            _count--;
+            _queue[Count - 1] = null;
+            Count--;
             BubbleDown(0);
 
             return result.Value;
@@ -136,18 +128,18 @@ namespace Mud.DataStructures.HeapPriorityQueue
                 throw new InvalidOperationException("Cannot add an element which is already in the queue");
             }
 
-            if (_count == _queue.Length)
+            if (Count == _queue.Length)
             {
                 KeyValueEntry<int, T>[] oldQueue = _queue;
                 _queue = new KeyValueEntry<int, T>[oldQueue.Length * 3 / 2 + 1];
                 Array.Copy(oldQueue, _queue, oldQueue.Length);
             }
 
-            _queue[_count] = new KeyValueEntry<int, T>(priority, element);
-            UpdatePosition(element, _count);
-            _count++;
+            _queue[Count] = new KeyValueEntry<int, T>(priority, element);
+            UpdatePosition(element, Count);
+            Count++;
 
-            BubbleUp(_count - 1);
+            BubbleUp(Count - 1);
         }
 
         /// <summary>
@@ -187,25 +179,20 @@ namespace Mud.DataStructures.HeapPriorityQueue
         /// </summary>
         private void BubbleDown(int i)
         {
-            int minPos;
-            KeyValueEntry<int, T> min;
-            int left;
-            int right;
-
             while (true)
             {
-                minPos = i;
-                min = _queue[i];
-                left = 2 * i + 1;
-                right = 2 * i + 2;
+                var minPos = i;
+                var min = _queue[i];
+                var left = 2 * i + 1;
+                var right = 2 * i + 2;
 
-                if (left < _count && _queue[left].Key < min.Key)
+                if (left < Count && _queue[left].Key < min.Key)
                 {
                     minPos = left;
                     min = _queue[left];
                 }
 
-                if (right < _count && _queue[right].Key < min.Key)
+                if (right < Count && _queue[right].Key < min.Key)
                 {
                     minPos = right;
                     min = _queue[right];

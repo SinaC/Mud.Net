@@ -200,8 +200,7 @@ namespace Mud.Network.Telnet
                 // TODO: NewClientConnected will be called once protocol handshake is done
                 //
                 client.State = ClientStates.Connected;
-                if (NewClientConnected != null)
-                    NewClientConnected(client);
+                NewClientConnected?.Invoke(client);
                 //
                 clientSocket.BeginReceive(client.Buffer, 0, ClientTelnetStateObject.BufferSize, 0, ReadCallback, client);
             }
@@ -385,15 +384,14 @@ namespace Mud.Network.Telnet
             // Close socket
             clientSocket.Shutdown(SocketShutdown.Both);
             clientSocket.Close();
-            if (ClientDisconnected != null)
-                ClientDisconnected(client);
+            ClientDisconnected?.Invoke(client);
         }
 
         private static string ByteArrayToString(byte[] ba, int length)
         {
             StringBuilder hex = new StringBuilder(length * 3);
             for(int i = 0; i < length; i++)
-                hex.AppendFormat("{0:X2} ", ba[i]);
+                hex.Append($"{ba[i]:X2} ");
             return hex.ToString();
         }
 

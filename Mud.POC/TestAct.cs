@@ -68,7 +68,7 @@ namespace Mud.POC
 
         public static void Act(ActOptions options, string format, ICharacter character, object param1, object param2, params object[] parameters)
         {
-            if (character == null || character.Room == null)
+            if (character?.Room == null)
             {
                 Log.Default.WriteLine(LogLevels.Error, "Act with null ICharacter or null room");
                 return;

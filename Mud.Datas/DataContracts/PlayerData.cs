@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Mud.Datas
+namespace Mud.Datas.DataContracts
 {
     [DataContract]
     public class PlayerData

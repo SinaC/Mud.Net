@@ -14,10 +14,7 @@ namespace Mud.Server.Classes
 
         private static readonly Lazy<ClassManager> Lazy = new Lazy<ClassManager>(() => new ClassManager());
 
-        public static IClassManager Instance
-        {
-            get { return Lazy.Value; }
-        }
+        public static IClassManager Instance => Lazy.Value;
 
         private ClassManager()
         {
@@ -34,10 +31,7 @@ namespace Mud.Server.Classes
 
         #region IClassManager
 
-        public IReadOnlyCollection<IClass> Classes
-        {
-            get { return _classes.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<IClass> Classes => _classes.AsReadOnly();
 
         public IClass this[string name]
         {

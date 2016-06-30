@@ -151,7 +151,7 @@ namespace Mud.Server.Input
             if (!commandParameters.Any())
                 return String.Empty;
 
-            string joined = String.Join(" ", commandParameters.Select(x => x.Count == 1 ? x.Value : String.Format("{0}.{1}", x.Count, x.Value)));
+            string joined = String.Join(" ", commandParameters.Select(x => x.Count == 1 ? x.Value : $"{x.Count}.{x.Value}"));
             return joined;
         }
 

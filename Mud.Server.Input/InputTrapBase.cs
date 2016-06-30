@@ -35,8 +35,8 @@ namespace Mud.Server.Input
         public virtual void ProcessInput(TActor actor, string input)
         {
             // Lower and trim if needed
-            if (!PreserveInput && input != null)
-                input = input.Trim().ToLower(CultureInfo.InvariantCulture);
+            if (!PreserveInput)
+                input = input?.Trim().ToLower(CultureInfo.InvariantCulture);
             Func<TActor, string, TState> func = StateMachine[State];
             TState newState = func(actor, input);
             State = newState;

@@ -36,10 +36,7 @@ namespace Mud.Server.Server
         public event LoginSuccessfulEventHandler LoginSuccessful;
         public event LoginFailedEventHandler LoginFailed;
 
-        public override bool IsFinalStateReached
-        {
-            get { return State == LoginStates.LoggedIn || State == LoginStates.Disconnected; }
-        }
+        public override bool IsFinalStateReached => State == LoginStates.LoggedIn || State == LoginStates.Disconnected;
 
         public LoginStateMachine()
         {
@@ -162,7 +159,7 @@ namespace Mud.Server.Server
                 return LoginStates.LoggedIn;
             }
             //
-            Send(client, "Passwords do not match, please choose a password:");
+            Send(client, "Password do not match, please choose a password:");
             PreserveInput = true;
             return LoginStates.NewPassword1;
         }
@@ -181,16 +178,14 @@ namespace Mud.Server.Server
 
         private void LoginSuccessfull(IClient client)
         {
-            if (LoginSuccessful != null)
-                LoginSuccessful(client, _username, _isAdmin, _isNewPlayer);
+            LoginSuccessful?.Invoke(client, _username, _isAdmin, _isNewPlayer);
             //
             State = LoginStates.LoggedIn;
         }
 
         private void Disconnect(IClient client)
         {
-            if (LoginFailed != null)
-                LoginFailed(client);
+            LoginFailed?.Invoke(client);
             //
             State = LoginStates.Disconnected;
         }

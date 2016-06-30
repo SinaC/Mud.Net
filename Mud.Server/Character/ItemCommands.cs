@@ -187,7 +187,7 @@ namespace Mud.Server.Character
             else
             {
                 EquipedItem equipmentSlot = FindHelpers.FindByName(Equipments.Where(x => x.Item != null && CanSee(x.Item)), x => x.Item, parameters[0]);
-                if (equipmentSlot == null || equipmentSlot.Item == null)
+                if (equipmentSlot?.Item == null)
                     Send(StringHelpers.ItemInventoryNotFound);
                 else
                     RemoveItem(equipmentSlot);

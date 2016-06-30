@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mud.Logger;
+#pragma warning disable 642
 
 namespace Mud.Importer.Mystery
 {
@@ -21,25 +22,13 @@ namespace Mud.Importer.Mystery
         private readonly List<ObjectData> _objects;
         private readonly List<RoomData> _rooms;
 
-        public IReadOnlyCollection<AreaData> Areas
-        {
-            get { return _areas.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<AreaData> Areas => _areas.AsReadOnly();
 
-        public IReadOnlyCollection<MobileData> Mobiles
-        {
-            get { return _mobiles.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<MobileData> Mobiles => _mobiles.AsReadOnly();
 
-        public IReadOnlyCollection<ObjectData> Objects
-        {
-            get { return _objects.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<ObjectData> Objects => _objects.AsReadOnly();
 
-        public IReadOnlyCollection<RoomData> Rooms
-        {
-            get { return _rooms.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<RoomData> Rooms => _rooms.AsReadOnly();
 
         public MysteryImporter()
         {
@@ -139,22 +128,24 @@ namespace Mud.Importer.Mystery
                 if (_mobiles.Any(x => x.VNum == vnum))
                     RaiseParseException("ParseMobiles: vnum {0} duplicated", vnum);
 
-                MobileData mobileData = new MobileData();
-                mobileData.VNum = vnum;
-                mobileData.Name = ReadString();
-                mobileData.ShortDescr = ReadString();
-                mobileData.LongDescr = UpperCaseFirst(ReadString());
-                mobileData.Description = UpperCaseFirst(ReadString());
-                mobileData.Race = ReadString();
-                mobileData.Classes = ReadFlags();
-                mobileData.Act = ReadFlags();
-                mobileData.AffectedBy = ReadFlags();
-                mobileData.AffectedBy2 = ReadFlags();
-                mobileData.Etho = (int) ReadNumber();
-                mobileData.Alignment = (int) ReadNumber();
-                mobileData.Group = (int) ReadNumber();
-                mobileData.Level = (int) ReadNumber();
-                mobileData.HitRoll = (int) ReadNumber();
+                MobileData mobileData = new MobileData
+                {
+                    VNum = vnum,
+                    Name = ReadString(),
+                    ShortDescr = ReadString(),
+                    LongDescr = UpperCaseFirst(ReadString()),
+                    Description = UpperCaseFirst(ReadString()),
+                    Race = ReadString(),
+                    Classes = ReadFlags(),
+                    Act = ReadFlags(),
+                    AffectedBy = ReadFlags(),
+                    AffectedBy2 = ReadFlags(),
+                    Etho = (int) ReadNumber(),
+                    Alignment = (int) ReadNumber(),
+                    Group = (int) ReadNumber(),
+                    Level = (int) ReadNumber(),
+                    HitRoll = (int) ReadNumber()
+                };
                 ReadDice(mobileData.Hit);
                 ReadDice(mobileData.Mana);
                 ReadDice(mobileData.Psp);
@@ -254,15 +245,17 @@ namespace Mud.Importer.Mystery
                 if (_objects.Any(x => x.VNum == vnum))
                     RaiseParseException("ParseObjects: vnum {0} duplicated", vnum);
 
-                ObjectData objectData = new ObjectData();
-                objectData.VNum = vnum;
-                objectData.Name = ReadString();
-                objectData.ShortDescr = ReadString();
-                objectData.Description = ReadString();
-                objectData.Material = ReadString();
-                objectData.ItemType = ReadWord();
-                objectData.ExtraFlags = ReadFlags();
-                objectData.WearFlags = ReadFlags();
+                ObjectData objectData = new ObjectData
+                {
+                    VNum = vnum,
+                    Name = ReadString(),
+                    ShortDescr = ReadString(),
+                    Description = ReadString(),
+                    Material = ReadString(),
+                    ItemType = ReadWord(),
+                    ExtraFlags = ReadFlags(),
+                    WearFlags = ReadFlags()
+                };
 
                 // Specific value depending on ItemType (see db2.C:564->681)
                 switch (objectData.ItemType)
@@ -570,10 +563,12 @@ namespace Mud.Importer.Mystery
                 if (_rooms.Any(x => x.VNum == vnum))
                     RaiseParseException("ParseRooms: vnum {0} duplicated", vnum);
 
-                RoomData roomData = new RoomData();
-                roomData.VNum = vnum;
-                roomData.Name = ReadString();
-                roomData.Description = ReadString();
+                RoomData roomData = new RoomData
+                {
+                    VNum = vnum,
+                    Name = ReadString(),
+                    Description = ReadString()
+                };
                 ReadNumber(); // area number not used
                 roomData.Flags = ReadFlags(); // convert_room_flags (see db.C:601)
                 roomData.Sector = (int) ReadNumber();
@@ -668,8 +663,10 @@ namespace Mud.Importer.Mystery
                     RaiseParseException("ParseShops: unknown mobile vnum {0}", keeper);
                 else
                 {
-                    ShopData shopData = new ShopData();
-                    shopData.Keeper = keeper;
+                    ShopData shopData = new ShopData
+                    {
+                        Keeper = keeper
+                    };
                     for (int i = 0; i < ShopData.MaxTrades; i++)
                         shopData.BuyType[i] = (int) ReadNumber();
                     shopData.ProfitBuy = (int) ReadNumber();

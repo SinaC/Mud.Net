@@ -1,4 +1,6 @@
-﻿namespace Mud.Datas
+﻿using Mud.Datas.DataContracts;
+
+namespace Mud.Datas
 {
     public interface IPlayerManager
     {

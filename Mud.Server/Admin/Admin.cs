@@ -26,10 +26,7 @@ namespace Mud.Server.Admin
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands
-        {
-            get { return AdminCommands; }
-        }
+        public override IReadOnlyTrie<CommandMethodInfo> Commands => AdminCommands;
 
         public override bool ProcessCommand(string commandLine) // TODO: refactoring needed: almost same code in Player
         {

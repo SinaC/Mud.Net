@@ -18,9 +18,9 @@ namespace Mud.Server.Item
         #region IItemWeapon
 
         public WeaponTypes Type { get; set; }
-        public int DiceCount { get; private set; }
-        public int DiceValue { get; private set; }
-        public SchoolTypes DamageType { get; private set; }
+        public int DiceCount { get; }
+        public int DiceValue { get; }
+        public SchoolTypes DamageType { get; }
         // TODO: special type, damage string (see 2nd col  in const.C:208), proc
 
         #endregion

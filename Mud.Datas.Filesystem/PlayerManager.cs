@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
+using Mud.Datas.DataContracts;
 
 namespace Mud.Datas.Filesystem
 {

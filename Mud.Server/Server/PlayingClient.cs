@@ -12,18 +12,13 @@ namespace Mud.Server.Server
         private readonly ConcurrentQueue<string> _receiveQueue;
         private readonly StringBuilder _sendBuffer;
 
-        private readonly Paging _paging;
-
-        public Paging Paging
-        {
-            get { return _paging; }
-        }
+        public Paging Paging { get; }
 
         public PlayingClient()
         {
             _receiveQueue = new ConcurrentQueue<string>();
             _sendBuffer = new StringBuilder();
-            _paging = new Paging();
+            Paging = new Paging();
         }
 
         public void EnqueueReceivedData(string data)

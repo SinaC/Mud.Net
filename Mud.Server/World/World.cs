@@ -21,10 +21,7 @@ namespace Mud.Server.World
 
         private static readonly Lazy<World> Lazy = new Lazy<World>(() => new World());
 
-        public static IWorld Instance
-        {
-            get { return Lazy.Value; }
-        }
+        public static IWorld Instance => Lazy.Value;
 
         private World()
         {
@@ -61,7 +58,7 @@ namespace Mud.Server.World
 
         public IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction)
         {
-            string description = blueprint == null ? String.Format("door[{0}->{1}]", from.Name, to.Name) : blueprint.Description;
+            string description = blueprint == null ? $"door[{from.Name}->{to.Name}]" : blueprint.Description;
             Exit from2To = new Exit(description, blueprint, to);
             from.Exits[(int)direction] = from2To;
             return from2To;
@@ -201,8 +198,7 @@ namespace Mud.Server.World
                     RemoveItem(item);
             }
             // Remove from room
-            if (character.Room != null)
-                character.Room.Leave(character);
+            character.Room?.Leave(character);
             //
             character.OnRemoved();
             //
@@ -212,11 +208,9 @@ namespace Mud.Server.World
         public void RemoveItem(IItem item)
         {
             item.OnRemoved();
-            if (item.ContainedInto != null)
-                item.ContainedInto.GetFromContainer(item);
+            item.ContainedInto?.GetFromContainer(item);
             IEquipable equipable = item as IEquipable;
-            if (equipable != null)
-                equipable.ChangeEquipedBy(null);
+            equipable?.ChangeEquipedBy(null);
             _items.Remove(item);
             // If container, remove content
             IContainer container = item as IContainer;

@@ -22,12 +22,12 @@
         /// <summary>
         /// Gets the key in the key/value pair.
         /// </summary>
-        public string Key { get; private set; }
+        public string Key { get; }
 
         /// <summary>
         /// Gets the value in the key/value pair.
         /// </summary>
-        public TValue Value { get; private set; }
+        public TValue Value { get; }
 
         /// <summary>
         /// Returns the fully qualified type name of this instance.
@@ -38,7 +38,7 @@
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return string.Format("[{0}, {1}]", Key, Value);
+            return $"[{Key}, {Value}]";
         }
     }
 }

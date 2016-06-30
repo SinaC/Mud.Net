@@ -12,11 +12,9 @@ namespace Mud.DataStructures.Trie
     /// Implementation of trie data structure.
     /// </summary>
     /// <typeparam name="TValue">The type of values in the trie.</typeparam>
-    public class Trie<TValue> : IDictionary<string, TValue>, IReadOnlyTrie<TValue>, IReadOnlyDictionary<string, TValue>
+    public class Trie<TValue> : IDictionary<string, TValue>, IReadOnlyTrie<TValue>//, IReadOnlyDictionary<string, TValue>
     {
-        private readonly TrieNode root;
-
-        private int count;
+        private readonly TrieNode _root;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Trie{TValue}"/>.
@@ -24,7 +22,7 @@ namespace Mud.DataStructures.Trie
         /// <param name="comparer">Comparer.</param>
         public Trie(IEqualityComparer<char> comparer)
         {
-            root = new TrieNode(char.MinValue, comparer);
+            _root = new TrieNode(char.MinValue, comparer);
         }
 
         /// <summary>
@@ -52,13 +50,7 @@ namespace Mud.DataStructures.Trie
         /// <returns>
         /// The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
         /// </returns>
-        public int Count
-        {
-            get
-            {
-                return count;
-            }
-        }
+        public int Count { get; private set; }
 
         /// <summary>
         /// Gets an <see cref="T:System.Collections.Generic.ICollection`1"/> containing the keys of the <see cref="T:System.Collections.Generic.IDictionary`2"/>.
@@ -80,10 +72,7 @@ namespace Mud.DataStructures.Trie
         /// <returns>
         /// An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the keys of the object that implements <see cref="T:System.Collections.Generic.IReadOnlyDictionary`2"/>.
         /// </returns>
-        IEnumerable<string> IReadOnlyDictionary<string, TValue>.Keys
-        {
-            get { return Keys; }
-        }
+        IEnumerable<string> IReadOnlyDictionary<string, TValue>.Keys => Keys;
 
         /// <summary>
         /// Gets an <see cref="T:System.Collections.Generic.ICollection`1"/> containing the values in the <see cref="T:System.Collections.Generic.IDictionary`2"/>.
@@ -105,18 +94,9 @@ namespace Mud.DataStructures.Trie
         /// <returns>
         /// An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the values in the object that implements <see cref="T:System.Collections.Generic.IReadOnlyDictionary`2"/>.
         /// </returns>
-        IEnumerable<TValue> IReadOnlyDictionary<string, TValue>.Values
-        {
-            get { return Values; }
-        }
+        IEnumerable<TValue> IReadOnlyDictionary<string, TValue>.Values => Values;
 
-        bool ICollection<KeyValuePair<string, TValue>>.IsReadOnly
-        {
-            get
-            {
-                return false;
-            }
-        }
+        bool ICollection<KeyValuePair<string, TValue>>.IsReadOnly => false;
 
         /// <summary>
         /// Gets or sets the element with the specified key.
@@ -167,10 +147,10 @@ namespace Mud.DataStructures.Trie
         {
             if (key == null)
             {
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
             }
 
-            var node = root;
+            var node = _root;
 
             foreach (var c in key)
             {
@@ -179,12 +159,12 @@ namespace Mud.DataStructures.Trie
 
             if (node.IsTerminal)
             {
-                throw new ArgumentException(string.Format("An element with the same charKey already exists: '{0}'", key), "key");
+                throw new ArgumentException($"An element with the same charKey already exists: '{key}'", nameof(key));
             }
 
             SetTerminalNode(node, value);
 
-            count++;
+            Count++;
         }
 
         /// <summary>
@@ -216,8 +196,8 @@ namespace Mud.DataStructures.Trie
         /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only. </exception>
         public void Clear()
         {
-            root.Clear();
-            count = 0;
+            _root.Clear();
+            Count = 0;
         }
 
         /// <summary>
@@ -242,7 +222,7 @@ namespace Mud.DataStructures.Trie
         /// <returns>Collection of <see cref="TrieEntry{TValue}"/> items which have key with specified key.</returns>
         public IEnumerable<TrieEntry<TValue>> GetByPrefix(string prefix)
         {
-            var node = root;
+            var node = _root;
 
             foreach (var item in prefix)
             {
@@ -280,7 +260,7 @@ namespace Mud.DataStructures.Trie
         {
             if (key == null)
             {
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
             }
 
             TrieNode node;
@@ -313,7 +293,7 @@ namespace Mud.DataStructures.Trie
         {
             if (key == null)
             {
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
             }
 
             TrieNode node;
@@ -393,18 +373,18 @@ namespace Mud.DataStructures.Trie
 
         private IEnumerable<TrieNode> GetAllNodes()
         {
-            return root.GetAllNodes();
+            return _root.GetAllNodes();
         }
 
         private void RemoveNode(TrieNode node)
         {
             node.Remove();
-            count--;
+            Count--;
         }
 
         private bool TryGetNode(string key, out TrieNode node)
         {
-            node = root;
+            node = _root;
 
             foreach (var c in key)
             {
@@ -422,17 +402,17 @@ namespace Mud.DataStructures.Trie
         /// </summary>
         private sealed class TrieNode
         {
-            private readonly Dictionary<char, TrieNode> children;
+            private readonly Dictionary<char, TrieNode> _children;
 
-            private readonly IEqualityComparer<char> comparer;
+            private readonly IEqualityComparer<char> _comparer;
 
-            private readonly char keyChar;
+            private readonly char _keyChar;
 
             internal TrieNode(char keyChar, IEqualityComparer<char> comparer)
             {
-                this.keyChar = keyChar;
-                this.comparer = comparer;
-                children = new Dictionary<char, TrieNode>(comparer);
+                _keyChar = keyChar;
+                _comparer = comparer;
+                _children = new Dictionary<char, TrieNode>(comparer);
             }
 
             internal bool IsTerminal { get; set; }
@@ -453,13 +433,13 @@ namespace Mud.DataStructures.Trie
                     ////return result.ToString();
 
                     var stack = new Stack<char>();
-                    stack.Push(keyChar);
+                    stack.Push(_keyChar);
 
                     TrieNode node = this;
 
                     while ((node = node.Parent).Parent != null)
                     {
-                        stack.Push(node.keyChar);
+                        stack.Push(node._keyChar);
                     }
 
                     return new string(stack.ToArray());
@@ -474,14 +454,14 @@ namespace Mud.DataStructures.Trie
             {
                 TrieNode childNode;
 
-                if (!children.TryGetValue(key, out childNode))
+                if (!_children.TryGetValue(key, out childNode))
                 {
-                    childNode = new TrieNode(key, comparer)
+                    childNode = new TrieNode(key, _comparer)
                     {
                         Parent = this
                     };
 
-                    children.Add(key, childNode);
+                    _children.Add(key, childNode);
                 }
 
                 return childNode;
@@ -489,12 +469,12 @@ namespace Mud.DataStructures.Trie
 
             internal void Clear()
             {
-                children.Clear();
+                _children.Clear();
             }
 
             internal IEnumerable<TrieNode> GetAllNodes()
             {
-                foreach (var child in children)
+                foreach (var child in _children)
                 {
                     if (child.Value.IsTerminal)
                     {
@@ -518,7 +498,7 @@ namespace Mud.DataStructures.Trie
                     yield return new TrieEntry<TValue>(Key, Value);
                 }
 
-                foreach (var item in children)
+                foreach (var item in _children)
                 {
                     foreach (var element in item.Value.GetByPrefix())
                     {
@@ -531,9 +511,9 @@ namespace Mud.DataStructures.Trie
             {
                 IsTerminal = false;
 
-                if (children.Count == 0 && Parent != null)
+                if (_children.Count == 0 && Parent != null)
                 {
-                    Parent.children.Remove(keyChar);
+                    Parent._children.Remove(_keyChar);
 
                     if (!Parent.IsTerminal)
                     {
@@ -544,7 +524,7 @@ namespace Mud.DataStructures.Trie
 
             internal bool TryGetNode(char key, out TrieNode node)
             {
-                return children.TryGetValue(key, out node);
+                return _children.TryGetValue(key, out node);
             }
         }
     }

@@ -40,10 +40,7 @@ namespace Mud.Server.Abilities
 
         private static readonly Lazy<AbilityManager> Lazy = new Lazy<AbilityManager>(() => new AbilityManager());
 
-        public static IAbilityManager Instance
-        {
-            get { return Lazy.Value; }
-        }
+        public static IAbilityManager Instance => Lazy.Value;
 
         private AbilityManager()
         {
@@ -57,15 +54,12 @@ namespace Mud.Server.Abilities
 
         #region IAbilityManager
 
-        public IAbility WeakenedSoulAbility { get; private set; }
-        public IAbility ParryAbility { get; private set; }
-        public IAbility DodgerAbility { get; private set; }
-        public IAbility ShieldBlockAbility { get; private set; }
+        public IAbility WeakenedSoulAbility { get; }
+        public IAbility ParryAbility { get; }
+        public IAbility DodgerAbility { get; }
+        public IAbility ShieldBlockAbility { get; }
 
-        public IReadOnlyCollection<IAbility> Abilities
-        {
-            get { return _abilities.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<IAbility> Abilities => _abilities.AsReadOnly();
 
         public IAbility this[int id]
         {
@@ -217,8 +211,7 @@ namespace Mud.Server.Abilities
 
         private static void ProcessOnOneTarget(ICharacter source, ICharacter victim, IAbility ability)
         {
-            if (ability == null || ability.Effects == null || ability.Effects.Count == 0
-                || !source.IsValid || !victim.IsValid)
+            if (ability?.Effects == null || ability.Effects.Count == 0 || !source.IsValid || !victim.IsValid)
                 return;
             foreach (AbilityEffect effect in ability.Effects)
                 effect.Process(source, victim, ability);

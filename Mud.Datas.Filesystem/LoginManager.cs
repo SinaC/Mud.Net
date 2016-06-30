@@ -21,10 +21,7 @@ namespace Mud.Datas.Filesystem
 
         private static readonly Lazy<LoginManager> Lazy = new Lazy<LoginManager>(() => new LoginManager());
 
-        public static ILoginManager Instance
-        {
-            get { return Lazy.Value; }
-        }
+        public static ILoginManager Instance => Lazy.Value;
 
         private LoginManager()
         {

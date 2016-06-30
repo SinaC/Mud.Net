@@ -16,9 +16,9 @@ namespace Mud.Server.Abilities
 
     public class DamageAbilityEffect : AbilityEffect
     {
-        public float Factor { get; private set; }
-        public ComputedAttributeTypes Attribute { get; private set; }
-        public SchoolTypes School { get; private set; }
+        public float Factor { get; }
+        public ComputedAttributeTypes Attribute { get; }
+        public SchoolTypes School { get; }
 
         public DamageAbilityEffect(float factor, ComputedAttributeTypes attribute, SchoolTypes school)
         {
@@ -37,8 +37,8 @@ namespace Mud.Server.Abilities
 
     public class HealAbilityEffect : AbilityEffect
     {
-        public float Factor { get; private set; }
-        public ComputedAttributeTypes Attribute { get; private set; }
+        public float Factor { get; }
+        public ComputedAttributeTypes Attribute { get; }
 
         public HealAbilityEffect(float factor, ComputedAttributeTypes attribute)
         {
@@ -56,9 +56,9 @@ namespace Mud.Server.Abilities
 
     public class AuraAbilityEffect : AbilityEffect
     {
-        public AuraModifiers Modifier { get; private set; }
-        public int Amount { get; private set; }
-        public AmountOperators AmountOperator { get; private set; }
+        public AuraModifiers Modifier { get; }
+        public int Amount { get; }
+        public AmountOperators AmountOperator { get; }
 
         public AuraAbilityEffect(AuraModifiers modifier, int amount, AmountOperators op)
         {
@@ -76,10 +76,10 @@ namespace Mud.Server.Abilities
 
     public class DotAbilityEffect : AbilityEffect
     {
-        public float Factor { get; private set; }
-        public ComputedAttributeTypes Attribute { get; private set; }
-        public SchoolTypes School { get; private set; }
-        public int TickDelay { get; private set; }
+        public float Factor { get; }
+        public ComputedAttributeTypes Attribute { get; }
+        public SchoolTypes School { get; }
+        public int TickDelay { get; }
 
         public DotAbilityEffect(float factor, ComputedAttributeTypes attribute, SchoolTypes school, int tickDelay)
         {
@@ -100,9 +100,9 @@ namespace Mud.Server.Abilities
 
     public class HotAbilityEffect : AbilityEffect
     {
-        public float Factor { get; private set; }
-        public ComputedAttributeTypes Attribute { get; private set; }
-        public int TickDelay { get; private set; }
+        public float Factor { get; }
+        public ComputedAttributeTypes Attribute { get; }
+        public int TickDelay { get; }
 
         public HotAbilityEffect(float factor, ComputedAttributeTypes attribute, int tickDelay)
         {
@@ -122,10 +122,10 @@ namespace Mud.Server.Abilities
 
     public class DamageOrHealEffect : AbilityEffect
     {
-        public float DamageFactor { get; private set; }
-        public float HealFactor { get; private set; }
-        public ComputedAttributeTypes Attribute { get; private set; }
-        public SchoolTypes School { get; private set; }
+        public float DamageFactor { get; }
+        public float HealFactor { get; }
+        public ComputedAttributeTypes Attribute { get; }
+        public SchoolTypes School { get; }
 
         public DamageOrHealEffect(float damageFactor, float healFactor, ComputedAttributeTypes attribute, SchoolTypes school)
         {
@@ -153,7 +153,7 @@ namespace Mud.Server.Abilities
 
     public class DispelEffect : AbilityEffect
     {
-        public DispelTypes DispelType { get; private set; }
+        public DispelTypes DispelType { get; }
         public bool Offensive { get; private set; } // if true, remove a buff, else remove a debuff
 
         public DispelEffect(DispelTypes dispelType, bool offensive)

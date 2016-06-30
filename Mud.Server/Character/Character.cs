@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
@@ -34,10 +33,7 @@ namespace Mud.Server.Character
         private readonly Dictionary<IAbility, DateTime> _cooldowns; // Key: ability.Id, Value: Next ability availability
         private readonly List<AbilityAndLevel> _knownAbilities;
 
-        protected int MaxHitPoints
-        {
-            get { return _computedAttributes[(int) ComputedAttributeTypes.MaxHitPoints]; }
-        }
+        protected int MaxHitPoints => _computedAttributes[(int) ComputedAttributeTypes.MaxHitPoints];
 
         static Character()
         {
@@ -116,10 +112,7 @@ namespace Mud.Server.Character
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands
-        {
-            get { return CharacterCommands; }
-        }
+        public override IReadOnlyTrie<CommandMethodInfo> Commands => CharacterCommands;
 
         public override void Send(string message)
         {
@@ -143,26 +136,21 @@ namespace Mud.Server.Character
         public override void Page(StringBuilder text)
         {
             base.Page(text);
-            if (ImpersonatedBy != null)
-                ImpersonatedBy.Page(text);
+            ImpersonatedBy?.Page(text);
             if (ServerOptions.ForwardSlaveMessages && ControlledBy != null)
                 ControlledBy.Page(text);
         }
 
         #endregion
 
-        public override string DisplayName
-        {
-            get { return Blueprint == null ? StringHelpers.UpperFirstLetter(Name) : Blueprint.ShortDescription; }
-        }
+        public override string DisplayName => Blueprint == null ? StringHelpers.UpperFirstLetter(Name) : Blueprint.ShortDescription;
 
         public override void OnRemoved() // called before removing an item from the game
         {
             base.OnRemoved();
 
             StopFighting(true);
-            if (Slave != null)
-                Slave.ChangeController(null);
+            Slave?.ChangeController(null);
             ImpersonatedBy = null; // TODO: warn ImpersonatedBy ?
             ControlledBy = null; // TODO: warn ControlledBy ?
             Leader = null; // TODO: warn Leader
@@ -176,10 +164,7 @@ namespace Mud.Server.Character
 
         #region IContainer
 
-        public IReadOnlyCollection<IItem> Content
-        {
-            get { return _inventory.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<IItem> Content => _inventory.AsReadOnly();
 
         public bool PutInContainer(IItem obj)
         {
@@ -202,18 +187,15 @@ namespace Mud.Server.Character
 
         public ICharacter Fighting { get; private set; }
 
-        public IReadOnlyCollection<EquipedItem> Equipments
-        {
-            get { return _equipments.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<EquipedItem> Equipments => _equipments.AsReadOnly();
 
         // Class/Race
-        public IClass Class { get; private set; }
-        public IRace Race { get; private set; }
+        public IClass Class { get; }
+        public IRace Race { get; }
 
         // Attributes
-        public Sex Sex { get; private set; }
-        public int Level { get; private set; }
+        public Sex Sex { get; }
+        public int Level { get; }
         public int HitPoints { get; private set; }
 
         public int this[ResourceKinds resource]
@@ -243,31 +225,19 @@ namespace Mud.Server.Character
             }
         }
 
-        public IReadOnlyCollection<AbilityAndLevel> KnownAbilities
-        {
-            get { return _knownAbilities.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<AbilityAndLevel> KnownAbilities => _knownAbilities.AsReadOnly();
 
         // Periodic Auras
-        public IReadOnlyCollection<IPeriodicAura> PeriodicAuras
-        {
-            get { return _periodicAuras.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<IPeriodicAura> PeriodicAuras => _periodicAuras.AsReadOnly();
 
-        public IReadOnlyCollection<IAura> Auras
-        {
-            get { return _auras.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<IAura> Auras => _auras.AsReadOnly();
 
         public ICharacter Leader { get; private set; }
 
-        public IReadOnlyCollection<ICharacter> GroupMembers
-        {
-            get { return _groupMembers.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<ICharacter> GroupMembers => _groupMembers.AsReadOnly();
 
         // Impersonation/Controller
-        public bool Impersonable { get; private set; }
+        public bool Impersonable { get; }
         public IPlayer ImpersonatedBy { get; private set; }
 
         public ICharacter Slave { get; private set; } // who is our slave (related to charm command/spell)
@@ -666,7 +636,7 @@ namespace Mud.Server.Character
         {
             IRoom fromRoom = Room;
             IExit exit = fromRoom.Exit(direction);
-            IRoom toRoom = exit == null ? null : exit.Destination;
+            IRoom toRoom = exit?.Destination;
 
             // TODO: act_move.C:133
             // cannot move while in combat -> should be handled by POSITION in command
@@ -722,11 +692,9 @@ namespace Mud.Server.Character
             }
 
             Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeRoom: {0} from: {1} to {2}", Name, Room == null ? "<<no room>>" : Room.Name, destination == null ? "<<no room>>" : destination.Name);
-            if (Room != null)
-                Room.Leave(this);
+            Room?.Leave(this);
             Room = destination;
-            if (destination != null)
-                destination.Enter(this);
+            destination?.Enter(this);
         }
 
         // Combat
@@ -784,7 +752,7 @@ namespace Mud.Server.Character
             {
                 // Cannot store wielded between hit (disarm anyone ?)
                 IItemWeapon wielded = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2H) ?? EquipedItem.NullObject).Item as IItemWeapon;
-                SchoolTypes damageType = wielded == null ? SchoolTypes.Physical : wielded.DamageType;
+                SchoolTypes damageType = wielded?.DamageType ?? SchoolTypes.Physical;
                 OneHit(enemy, wielded, damageType, false);
 
                 if (Fighting != enemy) // stop multihit if different enemy or no enemy
@@ -860,9 +828,9 @@ namespace Mud.Server.Character
             if (visible) // equivalent to dam_message in fight.C:4381
             {
                 if (fullyAbsorbed)
-                    DisplayAbsorbPhrase(weapon == null ? null : weapon.DisplayName, source);
+                    DisplayAbsorbPhrase(weapon?.DisplayName, source);
                 else
-                    DisplayDamagePhrase(weapon == null ? null : weapon.DisplayName, damage, source);
+                    DisplayDamagePhrase(weapon?.DisplayName, damage, source);
             }
 
             // No damage -> stop here
@@ -921,9 +889,9 @@ namespace Mud.Server.Character
             if (visible) // equivalent to dam_message in fight.C:4381
             {
                 if (fullyAbsorbed)
-                    DisplayAbsorbPhrase(ability == null ? null : ability.Name, source);
+                    DisplayAbsorbPhrase(ability?.Name, source);
                 else
-                    DisplayDamagePhrase(ability == null ? null : ability.Name, damage, source);
+                    DisplayDamagePhrase(ability?.Name, damage, source);
             }
 
             // No damage -> stop here
@@ -973,9 +941,9 @@ namespace Mud.Server.Character
             if (visible) // equivalent to dam_message in fight.C:4381
             {
                 if (fullyAbsorbed)
-                    DisplayUnknownSourceAbsorbPhrase(ability == null ? null : ability.Name);
+                    DisplayUnknownSourceAbsorbPhrase(ability?.Name);
                 else
-                    DisplayUnknownSourceDamagePhrase(ability == null ? null : ability.Name, damage);
+                    DisplayUnknownSourceDamagePhrase(ability?.Name, damage);
             }
 
             // No damage -> stop here
@@ -1047,15 +1015,9 @@ namespace Mud.Server.Character
         }
 
         // Ability
-        public IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> AbilitiesInCooldown
-        {
-            get { return _cooldowns.ToList().AsReadOnly(); }
-        }
+        public IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> AbilitiesInCooldown => _cooldowns.ToList().AsReadOnly();
 
-        public bool HasAbilitiesInCooldown
-        {
-            get { return _cooldowns.Any(); }
-        }
+        public bool HasAbilitiesInCooldown => _cooldowns.Any();
 
         public int CooldownSecondsLeft(IAbility ability)
         {
@@ -1130,8 +1092,7 @@ namespace Mud.Server.Character
 
         protected void SetGlobalCooldown(int pulseCount) // set GCD (in pulse) if impersonated by
         {
-            if (ImpersonatedBy != null)
-                ImpersonatedBy.SetGlobalCooldown(pulseCount);
+            ImpersonatedBy?.SetGlobalCooldown(pulseCount);
         }
 
         protected bool ApplyDamageAndDisplayStatus(int damage)

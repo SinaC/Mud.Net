@@ -10,9 +10,9 @@ namespace Mud.Network.Telnet
     public static class AnsiHelpers
     {
         //https://github.com/SyntaxColoring/ansitext/blob/master/source/ansitext.d
-        private static readonly string ResetColorTag = ASCIIEncoding.ASCII.GetString(new byte[] { 27 }) + "[0m";
-        private static readonly string NormalColorTag = ASCIIEncoding.ASCII.GetString(new byte[] {27}) + "[0;{0}m";
-        private static readonly string LightColorTag = ASCIIEncoding.ASCII.GetString(new byte[] { 27 }) + "[1;{0}m";
+        private static readonly string ResetColorTag = Encoding.ASCII.GetString(new byte[] { 27 }) + "[0m";
+        private static readonly string NormalColorTag = Encoding.ASCII.GetString(new byte[] {27}) + "[0;{0}m";
+        private static readonly string LightColorTag = Encoding.ASCII.GetString(new byte[] { 27 }) + "[1;{0}m";
         private static readonly Regex Regex = new Regex(@"\%(\w)\%", RegexOptions.Compiled);
 
         private static readonly IReadOnlyDictionary<string, string> ColorMap = new Dictionary<string, string>(StringComparer.Ordinal)

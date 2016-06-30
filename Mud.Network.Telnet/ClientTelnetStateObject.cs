@@ -12,8 +12,8 @@ namespace Mud.Network.Telnet
     // State object for reading client data asynchronously
     internal class ClientTelnetStateObject : IClient
     {
-        private static byte[] EchoOffData = new[] { (byte)0xFF, (byte)0xFB, (byte)0x01 };
-        private static byte[] EchoOnData = new[] { (byte)0xFF, (byte)0xFC, (byte)0x01 };
+        private static readonly byte[] EchoOffData ={ 0xFF, 0xFB, 0x01 };
+        private static readonly byte[] EchoOnData = { 0xFF, 0xFC, 0x01 };
 
         // Size of receive buffer.
         public const int BufferSize = 256;
@@ -24,7 +24,7 @@ namespace Mud.Network.Telnet
         // Received data string.
         public StringBuilder Command { get; set; }
         // Server
-        public TelnetServer Server { get; private set; }
+        public TelnetServer Server { get; }
         // State
         public ClientStates State { get; set; }
 
@@ -40,8 +40,7 @@ namespace Mud.Network.Telnet
 
         public void OnDataReceived(string data)
         {
-            if (DataReceived != null)
-                DataReceived(this, data);
+            DataReceived?.Invoke(this, data);
         }
 
         #region IClient

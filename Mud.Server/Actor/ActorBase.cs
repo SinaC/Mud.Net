@@ -26,7 +26,7 @@ namespace Mud.Server.Actor
             {
                 List<TrieEntry<CommandMethodInfo>> methodInfos = Commands.GetByPrefix(command).ToList();
                 TrieEntry<CommandMethodInfo> entry = methodInfos.OrderBy(x => x.Value.Attribute.Priority).FirstOrDefault(); // use priority to choose between conflicting commands
-                if (entry.Value != null && entry.Value.MethodInfo != null)
+                if (entry.Value?.MethodInfo != null)
                 {
                     MethodInfo methodInfo = entry.Value.MethodInfo;
                     bool executedSuccessfully = (bool) methodInfo.Invoke(this, new object[] {rawParameters, parameters});

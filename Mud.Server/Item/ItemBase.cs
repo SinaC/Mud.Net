@@ -12,9 +12,6 @@ namespace Mud.Server.Item
     {
         private static readonly IReadOnlyTrie<CommandMethodInfo> ItemCommands;
 
-        private int _weight;
-        private int _cost;
-
         static ItemBase()
         {
             ItemCommands = CommandHelpers.GetCommands(typeof (ItemBase));
@@ -26,8 +23,8 @@ namespace Mud.Server.Item
             Blueprint = blueprint;
             ContainedInto = containedInto;
             containedInto.PutInContainer(this);
-            _weight = blueprint.Weight;
-            _cost = blueprint.Cost;
+            Weight = blueprint.Weight;
+            Cost = blueprint.Cost;
             IsWearable = true; // TODO
         }
 
@@ -37,23 +34,16 @@ namespace Mud.Server.Item
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands
-        {
-            get { return ItemCommands; }
-        }
+        public override IReadOnlyTrie<CommandMethodInfo> Commands => ItemCommands;
 
         #endregion
 
-        public override string DisplayName
-        {
-            get { return Blueprint == null ? StringHelpers.UpperFirstLetter(Name) : Blueprint.ShortDescription; }
-        }
+        public override string DisplayName => Blueprint == null ? StringHelpers.UpperFirstLetter(Name) : Blueprint.ShortDescription;
 
         public override void OnRemoved() // called before removing an item from the game
         {
             base.OnRemoved();
-            if (ContainedInto != null)
-                ContainedInto.GetFromContainer(this);
+            ContainedInto?.GetFromContainer(this);
             ContainedInto = null;
             Blueprint = null;
         }
@@ -66,29 +56,19 @@ namespace Mud.Server.Item
 
         public bool IsWearable { get; private set; } // TODO:
 
-        public virtual int Weight
-        {
-            get { return _weight; }
-        }
+        public virtual int Weight { get; }
 
-        public virtual int Cost
-        {
-            get { return _cost; }
-        }
+        public virtual int Cost { get; }
 
         public bool ChangeContainer(IContainer container)
         {
             Log.Default.WriteLine(LogLevels.Info, "ChangeContainer: {0} : {1} -> {2}", Name, ContainedInto == null ? "<<??>>" : ContainedInto.Name, container == null ? "<<??>>" : container.Name);
 
-            if (ContainedInto != null)
-                ContainedInto.GetFromContainer(this);
+            ContainedInto?.GetFromContainer(this);
             //Debug.Assert(container != null, "ChangeContainer: an item cannot be outside a container"); // False, equipment are not stored in any container
             //container.PutInContainer(this);
             //ContainedInto = container;
-            if (container != null)
-            {
-                container.PutInContainer(this);
-            }
+            container?.PutInContainer(this);
             ContainedInto = container;
             return true;
         }

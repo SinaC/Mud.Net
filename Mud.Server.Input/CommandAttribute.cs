@@ -7,7 +7,7 @@ namespace Mud.Server.Input
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class CommandAttribute : Attribute
     {
-        public string Name { get; private set; }
+        public string Name { get; }
         public int Priority { get; set; } // Lower value means higher priority
         public bool Hidden { get; set; } // Not displayed in command list
         public string Category { get; set; } // TODO: use category: Info/Communication/Movement/...

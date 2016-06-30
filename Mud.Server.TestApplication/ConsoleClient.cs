@@ -20,8 +20,7 @@ namespace Mud.Server.TestApplication
 
         public void OnDataReceived(string data)
         {
-            if (DataReceived != null)
-                DataReceived(this, data);
+            DataReceived?.Invoke(this, data);
         }
 
         #region IClient

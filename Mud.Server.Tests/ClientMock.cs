@@ -17,8 +17,7 @@ namespace Mud.Server.Tests
         public void OnDataReceived(string data)
         {
             ReceivedData.Add(data);
-            if (DataReceived != null)
-                DataReceived(this, data);
+            DataReceived?.Invoke(this, data);
         }
 
         public void Reset()

@@ -12,14 +12,14 @@ namespace Mud.Server.Aura
 
         #region IPeriodicAura
 
-        public IAbility Ability { get; private set; }
-        public PeriodicAuraTypes AuraType { get; private set; }
+        public IAbility Ability { get; }
+        public PeriodicAuraTypes AuraType { get; }
         public ICharacter Source { get; private set; }
-        public SchoolTypes School { get; private set; }
+        public SchoolTypes School { get; }
         public int Amount { get; private set; }
-        public AmountOperators AmountOperator { get; private set; }
-        public bool TickVisible { get; private set; }
-        public int TotalTicks { get; private set; }
+        public AmountOperators AmountOperator { get; }
+        public bool TickVisible { get; }
+        public int TotalTicks { get; }
         public int TickDelay { get; private set; }
         public int TicksLeft { get; private set; }
 

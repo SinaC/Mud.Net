@@ -14,10 +14,7 @@ namespace Mud.Server.Races
 
         private static readonly Lazy<RaceManager> Lazy = new Lazy<RaceManager>(() => new RaceManager());
 
-        public static IRaceManager Instance
-        {
-            get { return Lazy.Value; }
-        }
+        public static IRaceManager Instance => Lazy.Value;
 
         private RaceManager()
         {
@@ -34,10 +31,7 @@ namespace Mud.Server.Races
 
         #region IRaceManager
 
-        public IReadOnlyCollection<IRace> Races
-        {
-            get { return _races.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<IRace> Races => _races.AsReadOnly();
 
         public IRace this[string name]
         {

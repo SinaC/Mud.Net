@@ -15,10 +15,7 @@ namespace Mud.POC
             _currentLine = 0;
         }
 
-        public bool HasPaging
-        {
-            get { return _lines != null && _currentLine < _lines.Length; }
-        }
+        public bool HasPaging => _lines != null && _currentLine < _lines.Length;
 
         public void SetData(StringBuilder data)
         {

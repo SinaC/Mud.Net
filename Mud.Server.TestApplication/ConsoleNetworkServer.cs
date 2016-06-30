@@ -22,8 +22,7 @@ namespace Mud.Server.TestApplication
                 ColorAccepted = colorAccepted
             };
             _client = client;
-            if (NewClientConnected != null)
-                NewClientConnected(client);
+            NewClientConnected?.Invoke(client);
             return client;
         }
 
@@ -74,8 +73,7 @@ namespace Mud.Server.TestApplication
                             if (line == "quit")
                             {
                                 _stopped = true;
-                                if (ClientDisconnected != null)
-                                    ClientDisconnected(_client);
+                                ClientDisconnected?.Invoke(_client);
                                 break;
                             }
                             else if (line == "alist")
@@ -94,7 +92,7 @@ namespace Mud.Server.TestApplication
                         }
                         // client commands
                         else
-                            _client.OnDataReceived(line);
+                            _client?.OnDataReceived(line);
                     }
                 }
                 else

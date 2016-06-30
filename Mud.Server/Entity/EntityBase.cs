@@ -71,13 +71,12 @@ namespace Mud.Server.Entity
 
         public override void Page(StringBuilder text)
         {
-            if (IncarnatedBy != null)
-                IncarnatedBy.Page(text);
+            IncarnatedBy?.Page(text);
         }
 
         #endregion
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; }
         public bool IsValid { get; protected set; }
         public string Name { get; protected set; }
         public abstract string DisplayName { get; }

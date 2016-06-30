@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.DataStructures.HeapPriorityQueue;
-using Mud.Server.Abilities;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -133,7 +132,7 @@ namespace Mud.Server.Admin
                         sb.AppendFormatLine("Controlled by {0}", victim.ControlledBy.DisplayName);
                     if (victim.Fighting != null)
                         sb.AppendFormatLine("Fighting: {0}", victim.Fighting.DisplayName);
-                    sb.AppendFormatLine("Room: {0} [vnum: {1}]", victim.Room.DisplayName, victim.Room.Blueprint == null ? -1 : victim.Room.Blueprint.Id);
+                    sb.AppendFormatLine("Room: {0} [vnum: {1}]", victim.Room.DisplayName, victim.Room.Blueprint?.Id ?? -1);
                     sb.AppendFormatLine("Race: {0} Class: {1}", victim.Race == null ? "(none)" : victim.Race.DisplayName, victim.Class == null ? "(none)" : victim.Class.DisplayName);
                     sb.AppendFormatLine("Level: {0} Sex: {1}", victim.Level, victim.Sex);
                     sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim[ComputedAttributeTypes.MaxHitPoints]);
@@ -217,7 +216,9 @@ namespace Mud.Server.Admin
                         {
                             IItemCorpse corpse = item as IItemCorpse;
                             if (corpse != null)
+#pragma warning disable 642
                                 ; // TODO: additional info for IItemCorpse
+#pragma warning restore 642
                             else
                             {
                                 IItemLight light = item as IItemLight;

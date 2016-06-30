@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using Mud.Server.Constants;
 
-namespace Mud.Datas
+namespace Mud.Datas.DataContracts
 {
     [DataContract]
     public class CharacterData

@@ -13,7 +13,7 @@ namespace Mud.Server.Item
             ArmorKind = blueprint.ArmorKind;
         }
 
-        public int Armor { get; private set; }
-        public ArmorKinds ArmorKind { get; private set; }
+        public int Armor { get; }
+        public ArmorKinds ArmorKind { get; }
     }
 }

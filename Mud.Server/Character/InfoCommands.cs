@@ -85,7 +85,7 @@ namespace Mud.Server.Character
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(7): direction");
                 IExit exit = Room.Exit(direction);
-                if (exit == null || exit.Destination == null)
+                if (exit?.Destination == null)
                     Send("Nothing special there." + Environment.NewLine);
                 else
                 {
@@ -440,7 +440,7 @@ namespace Mud.Server.Character
             foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
             {
                 IExit exit = Room.Exit(direction);
-                if (exit != null && exit.Destination != null) // TODO: test if destination room is visible, if exit is visible, ...
+                if (exit?.Destination != null) // TODO: test if destination room is visible, if exit is visible, ...
                 {
                     if (compact)
                     {

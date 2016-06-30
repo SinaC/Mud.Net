@@ -5,25 +5,14 @@ namespace Mud.Server.Classes
 {
     public class Cleric : ClassBase
     {
-        private readonly List<ResourceKinds> _resourceKinds = new List<ResourceKinds>
+        public override string Name => "cleric";
+
+        public override string ShortName => "Cle";
+
+        public override List<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
         {
             Constants.ResourceKinds.Mana
         };
-
-        public override string Name
-        {
-            get { return "cleric"; }
-        }
-
-        public override string ShortName
-        {
-            get { return "Cle"; }
-        }
-
-        public override List<ResourceKinds> ResourceKinds
-        {
-            get { return _resourceKinds; }
-        }
 
         public Cleric()
         {

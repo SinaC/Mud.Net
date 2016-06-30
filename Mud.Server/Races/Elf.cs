@@ -2,14 +2,8 @@
 {
     public class Elf : RaceBase
     {
-        public override string Name
-        {
-            get { return "elf"; }
-        }
+        public override string Name => "elf";
 
-        public override string ShortName
-        {
-            get { return "Elf"; }
-        }
+        public override string ShortName => "Elf";
     }
 }

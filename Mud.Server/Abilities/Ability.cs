@@ -9,34 +9,34 @@ namespace Mud.Server.Abilities
         #region IAbility
 
         // Unique Id
-        public int Id { get; private set; }
+        public int Id { get; }
 
         // Name
-        public string Name { get; private set; }
+        public string Name { get; }
 
         // Target
-        public AbilityTargets Target { get; private set; }
+        public AbilityTargets Target { get; }
 
         // Cost
-        public ResourceKinds ResourceKind { get; private set; }
-        public AmountOperators CostType { get; private set; }
-        public int CostAmount { get; private set; }
+        public ResourceKinds ResourceKind { get; }
+        public AmountOperators CostType { get; }
+        public int CostAmount { get; }
 
         // GCD/CD/Duration
-        public int GlobalCooldown { get; private set; }
-        public int Cooldown { get; private set; }
-        public int Duration { get; private set; }
+        public int GlobalCooldown { get; }
+        public int Cooldown { get; }
+        public int Duration { get; }
 
         // School/Mechanic/DispelType
-        public SchoolTypes School { get; private set; }
-        public AbilityMechanics Mechanic { get; private set; }
-        public DispelTypes DispelType { get; private set; }
+        public SchoolTypes School { get; }
+        public AbilityMechanics Mechanic { get; }
+        public DispelTypes DispelType { get; }
 
         // Flags
-        public AbilityFlags Flags { get; private set; }
+        public AbilityFlags Flags { get; }
 
         // Effect list
-        public List<AbilityEffect> Effects { get; private set; } // IReadOnlyCollection
+        public List<AbilityEffect> Effects { get; } // IReadOnlyCollection
 
         #endregion
 
@@ -55,7 +55,7 @@ namespace Mud.Server.Abilities
             Mechanic = mechanic;
             DispelType = dispelType;
             Flags = flags;
-            Effects = effects == null ? null : effects.ToList();
+            Effects = effects?.ToList();
         }
     }
 }

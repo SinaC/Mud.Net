@@ -171,7 +171,9 @@ namespace Mud.Importer
                     sb.AppendLine();
                 }
                 else if (c == '\r')
+#pragma warning disable 642
                     ; // nop
+#pragma warning restore 642
                 else if (c == '~') // smash tilde
                     return sb.ToString();
                 else

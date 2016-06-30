@@ -17,6 +17,7 @@ namespace Mud.Server.Admin
                 {
                     Send("%M%You stop incarnating %C%{0}%x%." + Environment.NewLine, Incarnating.DisplayName);
                     Incarnating.ChangeIncarnation(null);
+                    Incarnating = null;
                 }
                 else
                     Send("Syntax: Incarnate <kind> <name|id>" + Environment.NewLine);

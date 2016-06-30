@@ -63,10 +63,7 @@
 
     public class Class3 : IReadonly3, IWritable3
     {
-        int IReadonly3.Property
-        {
-            get { return Property; }
-        }
+        int IReadonly3.Property => Property;
 
         public int Property { get; set; }
     }

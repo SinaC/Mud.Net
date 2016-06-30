@@ -14,19 +14,13 @@ namespace Mud.Server.Classes
 
         public abstract string Name { get; }
 
-        public string DisplayName
-        {
-            get { return StringHelpers.UpperFirstLetter(Name); }
-        }
+        public string DisplayName => StringHelpers.UpperFirstLetter(Name);
 
         public abstract string ShortName { get; }
 
         public abstract List<ResourceKinds> ResourceKinds { get; }
 
-        public IReadOnlyCollection<AbilityAndLevel> Abilities
-        {
-            get { return _abilities.AsReadOnly(); }
-        }
+        public IReadOnlyCollection<AbilityAndLevel> Abilities => _abilities.AsReadOnly();
 
         #endregion
 

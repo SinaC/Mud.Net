@@ -15,10 +15,7 @@ namespace Mud.Server.Server
             _currentLine = 0;
         }
 
-        public bool HasPageLeft
-        {
-            get { return _lines != null && _currentLine < _lines.Length; }
-        }
+        public bool HasPageLeft => _lines != null && _currentLine < _lines.Length;
 
         public void Clear()
         {

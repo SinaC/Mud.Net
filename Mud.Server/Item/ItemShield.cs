@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Mud.Server.Blueprints;
 
 namespace Mud.Server.Item
@@ -17,7 +13,7 @@ namespace Mud.Server.Item
 
         #region IItemShield
 
-        public int Armor { get; private set; }
+        public int Armor { get; }
 
         #endregion
     }
