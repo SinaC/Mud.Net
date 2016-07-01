@@ -50,7 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ClientMock.cs" />
+    <Compile Include="Mocking\ClientMock.cs" />
     <Compile Include="CommandParsingTests.cs" />
     <Compile Include="Mocking\LogMock.cs" />
     <Compile Include="Mocking\ServerMock.cs" />

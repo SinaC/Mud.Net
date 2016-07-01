@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mud.Network;
 
-namespace Mud.Server.Tests
+namespace Mud.Server.Tests.Mocking
 {
     public class ClientMock : IClient
     {

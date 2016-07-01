@@ -1,8 +1,6 @@
 impersonable list
 use more StringBuilder
 
-AvatarCreationStateMachine (allows to type quit to leave machine :D)
-
 aura/periodic aura can have multiply affects/effects
 
 Mystery to new format converter  (see olc_act.C:2578 for obj values  L4571 for mob values)
