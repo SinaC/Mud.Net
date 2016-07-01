@@ -13,7 +13,7 @@ namespace Mud.Datas.DataContracts
         public string Password { get; set; }
 
         [DataMember]
-        public string IsAdmin { get; set; }
+        public bool IsAdmin { get; set; }
 
         [DataMember]
         public Dictionary<string, string> Aliases { get; set; }

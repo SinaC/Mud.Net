@@ -46,7 +46,7 @@ namespace Mud.Server.Character
         {
             if (parameters.Length == 0)
             {
-                ICharacter leader = Leader ?? this; // TODO: don't display group information if no the same group as leader
+                ICharacter leader = Leader ?? this; // TODO: don't display group information if not the same group as leader
                 StringBuilder sb = new StringBuilder();
                 sb.AppendFormatLine("{0}'s group:", leader.DisplayName);
                 AppendCharacterGroupMemberInfo(sb, leader);

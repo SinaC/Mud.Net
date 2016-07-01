@@ -4,7 +4,6 @@ using Mud.Server.Constants;
 
 namespace Mud.Server.Aura
 {
-    // TODO: linked to an ability
     public class PeriodicAura : IPeriodicAura
     {
         private DateTime _startTime;

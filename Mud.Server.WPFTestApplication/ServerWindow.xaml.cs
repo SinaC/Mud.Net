@@ -44,7 +44,11 @@ namespace Mud.Server.WPFTestApplication
 
             //
             INetworkServer telnetServer = new TelnetServer(11000);
-            Repository.Server.Initialize(new List<INetworkServer> { telnetServer, this });
+            Repository.Server.Initialize(new List<INetworkServer>
+            {
+                telnetServer,
+                this
+            });
             Repository.Server.Start();
 
             //CreateNewClientWindow();
@@ -215,13 +219,12 @@ namespace Mud.Server.WPFTestApplication
                                 Keyword = exit.Keyword
                             };
 
-                            Repository.World.AddExit(from, to, blueprint, (ExitDirections)i);
+                            Repository.World.AddExit(from, to, blueprint, (ExitDirections) i);
                         }
                     }
                 }
             }
-            // Handle resets NOT YET COMPLETED
-            Dictionary<string, int> itemTypes = new Dictionary<string, int>();
+            // Handle resets // TODO: NOT YET COMPLETED
             foreach (RoomData importedRoom in importer.Rooms.Where(x => x.Resets.Any()))
             {
                 IRoom room;
@@ -253,32 +256,40 @@ namespace Mud.Server.WPFTestApplication
                             }
                             break;
                         case 'O':
+                            // TODO: wear location
                             ObjectData obj = importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1);
                             if (obj != null)
                             {
                                 if (obj.ItemType == "weapon")
                                 {
+                                    Log.Default.WriteLine(LogLevels.Info, "RESET O weapon in room {0}: {1}", room.Blueprint.Id, room.Blueprint.Name);
                                     ItemWeaponBlueprint blueprint = new ItemWeaponBlueprint
                                     {
+                                        Id = obj.VNum,
                                         Name = obj.Name,
                                         ShortDescription = obj.ShortDescr,
                                         Description = obj.Description,
+                                        ExtraDescriptions = obj.ExtraDescr,
                                         Cost = Convert.ToInt32(obj.Cost),
                                         Weight = obj.Weight,
                                         // TODO: weapon type Values[0]
                                         DiceCount = Convert.ToInt32(obj.Values[1]),
                                         DiceValue = Convert.ToInt32(obj.Values[2]),
                                         // TODO: damage type Values[3]
+                                        WearLocation = WearLocations.Wield
                                     };
                                     Repository.World.AddItemWeapon(Guid.NewGuid(), blueprint, room);
                                 }
                                 else if (obj.ItemType == "container")
                                 {
+                                    Log.Default.WriteLine(LogLevels.Info, "RESET O container in room {0}: {1}", room.Blueprint.Id, room.Blueprint.Name);
                                     ItemContainerBlueprint blueprint = new ItemContainerBlueprint
                                     {
+                                        Id = obj.VNum,
                                         Name = obj.Name,
                                         ShortDescription = obj.ShortDescr,
                                         Description = obj.Description,
+                                        ExtraDescriptions = obj.ExtraDescr,
                                         Cost = Convert.ToInt32(obj.Cost),
                                         Weight = obj.Weight,
                                         ItemCount = Convert.ToInt32(obj.Values[3]),
@@ -286,20 +297,74 @@ namespace Mud.Server.WPFTestApplication
                                     };
                                     Repository.World.AddItemContainer(Guid.NewGuid(), blueprint, room);
                                 }
-
-                                if (!itemTypes.ContainsKey(obj.ItemType))
-                                    itemTypes.Add(obj.ItemType, 1);
-                                else
-                                    itemTypes[obj.ItemType]++;
+                                else if (obj.ItemType == "light")
+                                {
+                                    Log.Default.WriteLine(LogLevels.Info, "RESET O light in room {0}: {1}", room.Blueprint.Id, room.Blueprint.Name);
+                                    ItemLightBlueprint blueprint = new ItemLightBlueprint
+                                    {
+                                        Id = obj.VNum,
+                                        Name = obj.Name,
+                                        ShortDescription = obj.ShortDescr,
+                                        Description = obj.Description,
+                                        ExtraDescriptions = obj.ExtraDescr,
+                                        Cost = Convert.ToInt32(obj.Cost),
+                                        Weight = obj.Weight,
+                                        DurationHours = Convert.ToInt32(obj.Values[2]),
+                                        WearLocation = WearLocations.Light
+                                    };
+                                    Repository.World.AddItemLight(Guid.NewGuid(), blueprint, room);
+                                }
+                                else if (obj.ItemType == "armor")
+                                {
+                                    Log.Default.WriteLine(LogLevels.Info, "RESET O armor in room {0}: {1}", room.Blueprint.Id, room.Blueprint.Name);
+                                    ItemArmorBlueprint blueprint = new ItemArmorBlueprint
+                                    {
+                                        Id = obj.VNum,
+                                        Name = obj.Name,
+                                        ShortDescription = obj.ShortDescr,
+                                        Description = obj.Description,
+                                        ExtraDescriptions = obj.ExtraDescr,
+                                        Cost = Convert.ToInt32(obj.Cost),
+                                        Weight = obj.Weight,
+                                        Armor = (Convert.ToInt32(obj.Values[0]) + Convert.ToInt32(obj.Values[1]) + Convert.ToInt32(obj.Values[2]) + Convert.ToInt32(obj.Values[3]))/4,
+                                        // TODO: ArmorKind
+                                    };
+                                    Repository.World.AddItemArmor(Guid.NewGuid(), blueprint, room);
+                                }
+                                // TODO: other item types
                             }
                             break;
-                            // TODO: other command  P, E, G, D, R, Z
+                        // TODO: other command  P, E, G, D, R, Z
                     }
                 }
             }
-            //foreach(KeyValuePair<string, int> kv in itemTypes)
-            //    Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", kv.Key, kv.Value);
 
+            // Dump item types
+            //Info: drink-> 12
+            //Info: weapon-> 17 DONE
+            //Info: food-> 9
+            //Info: light-> 3 DONE
+            //Info: container-> 5 DONE
+            //Info: instrument-> 1
+            //Info: component-> 1
+            //Info: scroll-> 5
+            //Info: potion-> 28
+            //Info: treasure-> 6
+            //Info: wand-> 1
+            //Info: armor-> 46 DONE
+            //Info: boat-> 2
+            //Info: key-> 8
+            //Info: trash-> 2
+            //Info: money-> 2
+            //Info: furniture-> 3
+            //Info: fountain-> 1
+            //Info: map-> 9
+            //Info: gem-> 6
+            Log.Default.WriteLine(LogLevels.Info, "Object Types:");
+            foreach (KeyValuePair<string, int> kv in importer.Objects.GroupBy(x => x.ItemType).ToDictionary(x => x.Key, x => x.ToList().Count))
+                Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", kv.Key, kv.Value);
+
+            //
             CharacterBlueprint mob2Blueprint = new CharacterBlueprint
             {
                 Id = 2,

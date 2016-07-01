@@ -3,7 +3,6 @@ using Mud.Server.Constants;
 
 namespace Mud.Server.Aura
 {
-    // TODO: linked to an ability
     public class Aura : IAura
     {
         #region IAura

@@ -96,33 +96,7 @@ namespace Mud.Server.Actor
                 if (index > 0 && index%6 != 0)
                     sb.AppendLine();
             }
-
-            //Send("Available commands:" + Environment.NewLine);
-            //StringBuilder sb = new StringBuilder();
-            //int index = 0;
-            //foreach (KeyValuePair<string, CommandMethodInfo> kv in Commands
-            //    .Where(x => !x.Value.Attribute.Hidden)
-            //    .OrderBy(x => x.Value.Attribute.Category)
-            //    .ThenBy(x => x.Value.Attribute.Priority)
-            //    .ThenBy(x => x.Key))
-            //{
-            //    if ((++index%6) == 0)
-            //    {
-            //        sb.AppendFormat("{0,-13}", kv.Key);
-            //        sb.AppendLine();
-            //        Send(sb);
-            //        sb = new StringBuilder();
-            //    }
-            //    else
-            //        sb.AppendFormat("{0,-13}", kv.Key);
-            //}
-            //if (sb.Length > 0)
-            //{
-            //    sb.AppendLine();
-            //    Send(sb);
-            //}
-            Send(sb);
-
+            Page(sb);
             return true;
         }
 

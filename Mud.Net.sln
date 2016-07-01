@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Network", "Mud.Network\Mud.Network.csproj", "{C911CF12-D355-4814-91BB-A68D05ADE97C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.TestApplication", "Mud.Server.TestApplication\Mud.Server.TestApplication.csproj", "{EF338509-9608-4B2F-B9D1-6355A03BCC82}"
@@ -9,6 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Logger", "Mud.Logger\Mu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5337A639-8D6A-4F63-83CC-E2CED6D36DD5}"
 	ProjectSection(SolutionItems) = preProject
+		AREA file format.txt = AREA file format.txt
 		README.txt = README.txt
 		TODO.txt = TODO.txt
 	EndProjectSection

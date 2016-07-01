@@ -15,5 +15,7 @@ namespace Mud.Server
         public static IRaceManager RaceManager => Races.RaceManager.Instance;
 
         public static ILoginManager LoginManager => Datas.Filesystem.LoginManager.Instance;
+
+        public static IPlayerManager PlayerManager => Datas.Filesystem.PlayerManager.Instance;
     }
 }

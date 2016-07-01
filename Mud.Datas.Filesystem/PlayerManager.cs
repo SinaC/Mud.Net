@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Xml.Serialization;
 using Mud.Datas.DataContracts;
 
@@ -7,6 +8,10 @@ namespace Mud.Datas.Filesystem
     public class PlayerManager : IPlayerManager
     {
         private const string PlayerRepositoryPath = @"D:\Github\Mud.Net\Datas\Players\";
+
+        private static readonly Lazy<PlayerManager> Lazy = new Lazy<PlayerManager>(() => new PlayerManager());
+
+        public static IPlayerManager Instance => Lazy.Value;
 
         public PlayerData Load(string playerName)
         {

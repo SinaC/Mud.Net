@@ -75,3 +75,6 @@ http://www.jacko.demon.co.uk/aardwolf/vismccp
 http://www.gammon.com.au/mushclient/mccp.htm
 
 check http://www.albahari.com/threading/part3.aspx#_Safe_Cancellation
+
+area file format
+http://www.mudmagic.com/codes/download/diku/merc/rom/areas/romstuff.txt
