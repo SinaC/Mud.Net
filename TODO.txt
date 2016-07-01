@@ -1,7 +1,7 @@
 impersonable list
 use more StringBuilder
 
-reconnect while fighting (via telnet) doesn't work -> Disposed Object Exception
+AvatarCreationStateMachine (allows to type quit to leave machine :D)
 
 aura/periodic aura can have multiply affects/effects
 
