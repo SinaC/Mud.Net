@@ -58,8 +58,9 @@ namespace Mud.Server.World
 
         public IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction)
         {
-            string description = blueprint == null ? $"door[{from.Name}->{to.Name}]" : blueprint.Description;
-            Exit from2To = new Exit(description, blueprint, to);
+            //string description = blueprint == null ? $"door[{from.Name}->{to.Name}]" : blueprint.Description;
+            //Exit from2To = new Exit(description, blueprint, to);
+            Exit from2To = new Exit(blueprint, to);
             from.Exits[(int)direction] = from2To;
             return from2To;
         }

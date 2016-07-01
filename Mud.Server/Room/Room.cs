@@ -28,6 +28,7 @@ namespace Mud.Server.Room
             _people = new List<ICharacter>();
             _content = new List<IItem>();
             Exits = new IExit[ExitHelpers.ExitCount];
+            Blueprint = blueprint;
         }
 
         #region IRoom
@@ -61,7 +62,7 @@ namespace Mud.Server.Room
         public bool PutInContainer(IItem obj)
         {
             // TODO: check if already in a container
-            _content.Add(obj);
+            _content.Insert(0, obj);
             return true;
         }
 

@@ -45,7 +45,7 @@ namespace Mud.Server.Item
         public bool PutInContainer(IItem obj)
         {
             //return false; // cannot put anything in a corpse, puttin something is done thru constructor
-            _content.Add(obj);
+            _content.Insert(0, obj);
             return true;
         }
 

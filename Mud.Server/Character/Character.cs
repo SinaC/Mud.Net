@@ -169,7 +169,7 @@ namespace Mud.Server.Character
         public bool PutInContainer(IItem obj)
         {
             // TODO: check if already in a container
-            _inventory.Add(obj);
+            _inventory.Insert(0, obj);
             return true;
         }
 
@@ -1637,22 +1637,6 @@ namespace Mud.Server.Character
                 else
                     return obj.Id;
             }
-        }
-
-        [Command("kill", Category = "Combat")]
-        protected virtual bool DoKill(string rawParameters, params CommandParameter[] parameters)
-        {
-            Send("DoKill: NOT YET IMPLEMENTED" + Environment.NewLine);
-
-            Send("==> TESTING MULTIHIT" + Environment.NewLine);
-            if (parameters.Length > 0)
-            {
-                ICharacter target = FindHelpers.FindByName(Room.People, parameters[0]);
-
-                if (target != null)
-                    MultiHit(target);
-            }
-            return true;
         }
 
         [Command("test")]

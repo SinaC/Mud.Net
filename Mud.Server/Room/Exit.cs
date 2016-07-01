@@ -2,18 +2,19 @@
 
 namespace Mud.Server.Room
 {
+    // TODO: use blueprint for name/keywords/...
     public class Exit : IExit
     {
-        public Exit(string description, ExitBlueprint blueprint, IRoom destination)
+        public Exit(ExitBlueprint blueprint, IRoom destination)
         {
-            Description = description;
+            Description = blueprint.Description;
             Destination = destination;
             Blueprint = blueprint;
         }
 
         #region IExit
 
-        public ExitBlueprint Blueprint { get; private set; } // TODO: 1st parameter in ctor
+        public ExitBlueprint Blueprint { get; private set; }
 
         public string Name { get; private set; }
         public string Keywords { get; private set; }

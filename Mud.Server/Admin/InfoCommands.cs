@@ -13,7 +13,7 @@ namespace Mud.Server.Admin
     // TODO: command to display races, classes
     public partial class Admin
     {
-        [Command("who")]
+        [Command("who", Category = "Information")]
         protected override bool DoWho(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -63,41 +63,48 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [Command("spells")]
-        [Command("skills")]
-        [Command("abilities")]
+        [Command("spells", Category = "Information")]
+        [Command("skills", Category = "Information")]
+        [Command("abilities", Category = "Information")]
         protected virtual bool DoAbilities(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: 1st parameter is class or race
             // TODO: color
             // TODO: split into spells/skills
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("+-------------------------------------------+");
-            sb.AppendLine("| Abilities                                 |");
-            sb.AppendLine("+-----------------------+----------+--------+");
-            sb.AppendLine("| Name                  | Resource | Cost   |");
-            sb.AppendLine("+-----------------------+----------+--------+");
+            //StringBuilder sb = new StringBuilder();
+            //sb.AppendLine("+-------------------------------------------+");
+            //sb.AppendLine("| Abilities                                 |");
+            //sb.AppendLine("+-----------------------+----------+--------+");
+            //sb.AppendLine("| Name                  | Resource | Cost   |");
+            //sb.AppendLine("+-----------------------+----------+--------+");
+            //List<IAbility> abilities = Repository.AbilityManager.Abilities
+            //    .Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed)
+            //    .OrderBy(x => x.Name)
+            //    .ToList();
+            //foreach (IAbility ability in abilities)
+            //{
+            //    if ((ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
+            //        sb.AppendFormatLine("| {0,21} |  passive ability  |", ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
+            //    else if (ability.CostType == AmountOperators.Percentage)
+            //        sb.AppendFormatLine("| {0,21} | {1,14} | {2,5}% |", ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
+            //    else if (ability.CostType == AmountOperators.Fixed)
+            //        sb.AppendFormatLine("| {0,21} | {1,14} | {2,6} |", ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
+            //    else
+            //        sb.AppendFormatLine("| {0,21} | free cost ability |", ability.Name, ability.ResourceKind, ability.CostAmount, ability.CostType == AmountOperators.Percentage ? "%" : " ");
+            //}
+            //sb.AppendLine("+-----------------------+----------+--------+");
+            //Page(sb);
+
             List<IAbility> abilities = Repository.AbilityManager.Abilities
                 .Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed)
                 .OrderBy(x => x.Name)
                 .ToList();
-            foreach (IAbility ability in abilities)
-            {
-                if ((ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
-                    sb.AppendFormatLine("| {0,21} |  passive ability  |", ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
-                else if (ability.CostType == AmountOperators.Percentage)
-                    sb.AppendFormatLine("| {0,21} | {1,14} | {2,5}% |", ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
-                else if (ability.CostType == AmountOperators.Fixed)
-                    sb.AppendFormatLine("| {0,21} | {1,14} | {2,6} |", ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
-                else
-                    sb.AppendFormatLine("| {0,21} | free cost ability |", ability.Name, ability.ResourceKind, ability.CostAmount, ability.CostType == AmountOperators.Percentage ? "%" : " ");
-            }
-            sb.AppendLine("+-----------------------+----------+--------+");
+            StringBuilder sb = AbilitiesTableGenerator.Value.Generate(abilities);
             Page(sb);
             return true;
         }
 
-        [Command("mstat")]
+        [Command("mstat", Category = "Information")]
         protected virtual bool DoMstat(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -175,7 +182,7 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [Command("ostat")]
+        [Command("ostat", Category = "Information")]
         protected virtual bool DoOstat(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -241,7 +248,7 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [Command("path")]
+        [Command("path", Category = "Information")]
         protected virtual bool DoPath(string rawParameters, params CommandParameter[] parameters)
         {
             if (Impersonating == null)
@@ -274,6 +281,39 @@ namespace Mud.Server.Admin
         }
 
         //*********************** Helpers ***************************
+
+        private static readonly Lazy<TableGenerator<IAbility>> AbilitiesTableGenerator = new Lazy<TableGenerator<IAbility>>(() => GenerateAbilitiesTableGenerator);
+
+        private static TableGenerator<IAbility> GenerateAbilitiesTableGenerator
+        {
+            get
+            {
+                TableGenerator<IAbility> generator = new TableGenerator<IAbility>("Abilities");
+                generator.AddColumn("Name", 23, x => x.Name);
+                generator.AddColumn("Resource", 10,
+                    x =>
+                    {
+                        if ((x.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
+                            return "%m%passive ability%x%";
+                        if (x.CostType == AmountOperators.Percentage || x.CostType == AmountOperators.Fixed)
+                            return StringHelpers.ResourceColor(x.ResourceKind);
+                        return "%W%free cost ability%x%";
+                    },
+                    x =>
+                    {
+                        if ((x.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
+                            return 1;
+                        if (x.CostType == AmountOperators.Percentage || x.CostType == AmountOperators.Fixed)
+                            return 0;
+                        return 1;
+                    });
+                generator.AddColumn("Cost", 8, x => x.CostAmount.ToString(), x => x.CostType == AmountOperators.Percentage ? "% " : " ");
+                return generator;
+            }
+        }
+
+        //
+
         private string BuildPath(IRoom origin, IRoom destination)
         {
             Dictionary<IRoom, int> distance = new Dictionary<IRoom, int>(500);
@@ -331,7 +371,7 @@ namespace Mud.Server.Admin
                 return "Path not found.";
         }
 
-        public static string Compress(string str) //http://codereview.stackexchange.com/questions/64929/string-compression-implementation-in-c
+        private static string Compress(string str) //http://codereview.stackexchange.com/questions/64929/string-compression-implementation-in-c
         {
             StringBuilder builder = new StringBuilder();
             for (int i = 1, cnt = 1; i <= str.Length; i++, cnt++)

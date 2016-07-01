@@ -49,6 +49,7 @@
     <Compile Include="Admin\InfoCommands.cs" />
     <Compile Include="Character\AbilityCommands.cs" />
     <Compile Include="Character\Character.cs" />
+    <Compile Include="Character\CombatCommands.cs" />
     <Compile Include="Character\CommunicationCommands.cs" />
     <Compile Include="Character\GroupCommands.cs" />
     <Compile Include="Character\InfoCommands.cs" />
@@ -61,6 +62,8 @@
     <Compile Include="Classes\Thief.cs" />
     <Compile Include="Classes\Warrior.cs" />
     <Compile Include="Helpers\CombatHelpers.cs" />
+    <Compile Include="Helpers\StringExtensions.cs" />
+    <Compile Include="Helpers\TableGenerator.cs" />
     <Compile Include="IClass.cs" />
     <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Helpers\EnumHelpers.cs" />

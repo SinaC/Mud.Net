@@ -63,20 +63,25 @@ namespace Mud.Server.Actor
             Send(text.ToString());
         }
 
-        [Command("cmd")]
-        [Command("commands")]
+        [Command("cmd", Priority = 0)]
+        [Command("commands", Priority = 0)]
         protected virtual bool DoCommands(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: filter by category
             // TODO: group trie by value and display set of key linked to this value
 
             StringBuilder sb = new StringBuilder("Available commands:"+Environment.NewLine);
-            foreach (IGrouping<string, KeyValuePair<string, CommandMethodInfo>> group in Commands.Where(x => !x.Value.Attribute.Hidden).GroupBy(x => x.Value.Attribute.Category).OrderBy(g => g.Key))
+            foreach (IGrouping<string, KeyValuePair<string, CommandMethodInfo>> group in Commands
+                .Where(x => !x.Value.Attribute.Hidden)
+                .GroupBy(x => x.Value.Attribute.Category)
+                .OrderBy(g => g.Key))
             {
                 if (!String.IsNullOrEmpty(group.Key))
-                    sb.AppendLine("%W%"+group.Key + ":%x%");
+                    sb.AppendLine("%W%" + group.Key + ":%x%");
                 int index = 0;
-                foreach (KeyValuePair<string, CommandMethodInfo> kv in group)
+                foreach (KeyValuePair<string, CommandMethodInfo> kv in group
+                    .OrderBy(x => x.Value.Attribute.Priority)
+                    .ThenBy(x => x.Key))
                 {
                     if ((++index%6) == 0)
                     {
@@ -88,7 +93,7 @@ namespace Mud.Server.Actor
                     else
                         sb.AppendFormat("{0,-13}", kv.Key);
                 }
-                if (index > 0 && index % 6 != 0)
+                if (index > 0 && index%6 != 0)
                     sb.AppendLine();
             }
 

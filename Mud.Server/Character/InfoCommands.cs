@@ -289,7 +289,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("score", Priority = 2)]
+        [Command("score", Category = "Information", Priority = 2)]
         protected virtual bool DoScore(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();

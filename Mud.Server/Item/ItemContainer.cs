@@ -44,7 +44,7 @@ namespace Mud.Server.Item
         public bool PutInContainer(IItem obj)
         {
             // TODO: check if already in a container, check max items
-            _content.Add(obj);
+            _content.Insert(0, obj);
             return true;
         }
 
