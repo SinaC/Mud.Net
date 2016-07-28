@@ -13,6 +13,9 @@ namespace Mud.Server.World
 {
     public class World : IWorld
     {
+        private readonly Dictionary<int, RoomBlueprint> _roomBlueprints;
+        private readonly Dictionary<int, CharacterBlueprint> _characterBlueprints;
+        private readonly Dictionary<int, ItemBlueprintBase> _itemBlueprints;
         private readonly List<ICharacter> _characters;
         private readonly List<IRoom> _rooms;
         private readonly List<IItem> _items;
@@ -25,6 +28,9 @@ namespace Mud.Server.World
 
         private World()
         {
+            _roomBlueprints = new Dictionary<int, RoomBlueprint>();
+            _characterBlueprints = new Dictionary<int, CharacterBlueprint>();
+            _itemBlueprints = new Dictionary<int, ItemBlueprintBase>();
             _characters = new List<ICharacter>();
             _rooms = new List<IRoom>();
             _items = new List<IItem>();
@@ -33,6 +39,57 @@ namespace Mud.Server.World
         #endregion
 
         #region IWorld
+
+        public IReadOnlyCollection<RoomBlueprint> GetRoomBlueprints()
+        {
+            return _roomBlueprints.Values.ToList().AsReadOnly();
+        }
+
+        public IReadOnlyCollection<CharacterBlueprint> GetCharacterBlueprints()
+        {
+            return _characterBlueprints.Values.ToList().AsReadOnly();
+        }
+
+        public IReadOnlyCollection<ItemBlueprintBase> GetItemBlueprints()
+        {
+            return _itemBlueprints.Values.ToList().AsReadOnly();
+        }
+
+        public RoomBlueprint GetRoomBlueprint(int id)
+        {
+            RoomBlueprint blueprint;
+            _roomBlueprints.TryGetValue(id, out blueprint);
+            return blueprint;
+        }
+
+        public CharacterBlueprint GetCharacterBlueprint(int id)
+        {
+            CharacterBlueprint blueprint;
+            _characterBlueprints.TryGetValue(id, out blueprint);
+            return blueprint;
+        }
+
+        public ItemBlueprintBase GetItemBlueprint(int id)
+        {
+            ItemBlueprintBase blueprint;
+            _itemBlueprints.TryGetValue(id, out blueprint);
+            return blueprint;
+        }
+
+        public void AddRoomBlueprint(RoomBlueprint blueprint)
+        {
+            _roomBlueprints.Add(blueprint.Id, blueprint);
+        }
+
+        public void AddCharacterBlueprint(CharacterBlueprint blueprint)
+        {
+            _characterBlueprints.Add(blueprint.Id, blueprint);
+        }
+
+        public void AddItemBlueprint(ItemBlueprintBase blueprint)
+        {
+            _itemBlueprints.Add(blueprint.Id, blueprint);
+        }
 
         public IReadOnlyCollection<IRoom> GetRooms()
         {
@@ -51,6 +108,8 @@ namespace Mud.Server.World
 
         public IRoom AddRoom(Guid guid, RoomBlueprint blueprint)
         {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
             IRoom room = new Room.Room(Guid.NewGuid(), blueprint);
             _rooms.Add(room);
             return room;
@@ -58,8 +117,8 @@ namespace Mud.Server.World
 
         public IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction)
         {
-            //string description = blueprint == null ? $"door[{from.Name}->{to.Name}]" : blueprint.Description;
-            //Exit from2To = new Exit(description, blueprint, to);
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
             Exit from2To = new Exit(blueprint, to);
             from.Exits[(int)direction] = from2To;
             return from2To;
@@ -74,6 +133,8 @@ namespace Mud.Server.World
 
         public ICharacter AddCharacter(Guid guid, CharacterBlueprint blueprint, IRoom room) // NPC
         {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
             ICharacter character = new Character.Character(guid, blueprint, room);
             _characters.Add(character);
             return character;
@@ -81,6 +142,8 @@ namespace Mud.Server.World
 
         public IItemContainer AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container)
         {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
             IItemContainer item = new ItemContainer(guid, blueprint, container);
             _items.Add(item);
             return item;
@@ -88,6 +151,8 @@ namespace Mud.Server.World
 
         public IItemArmor AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container)
         {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
             IItemArmor item = new ItemArmor(guid, blueprint, container);
             _items.Add(item);
             return item;
@@ -95,6 +160,8 @@ namespace Mud.Server.World
 
         public IItemWeapon AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container)
         {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
             IItemWeapon item = new ItemWeapon(guid, blueprint, container);
             _items.Add(item);
             return item;
@@ -102,6 +169,8 @@ namespace Mud.Server.World
 
         public IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container)
         {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
             IItemLight item = new ItemLight(guid, blueprint, container);
             _items.Add(item);
             return item;
@@ -109,6 +178,8 @@ namespace Mud.Server.World
 
         public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim)
         {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
             IItemCorpse item = new ItemCorpse(guid, blueprint, container, victim);
             _items.Add(item);
             return item;
@@ -116,7 +187,18 @@ namespace Mud.Server.World
 
         public IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container)
         {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
             IItemShield item = new ItemShield(guid, blueprint, container);
+            _items.Add(item);
+            return item;
+        }
+
+        public IItemFurniture AddItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer container)
+        {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
+            IItemFurniture item = new ItemFurniture(guid, blueprint, container);
             _items.Add(item);
             return item;
         }

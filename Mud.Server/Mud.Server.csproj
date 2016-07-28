@@ -90,12 +90,14 @@
     <Compile Include="Item\IItemArmor.cs" />
     <Compile Include="Item\IItemContainer.cs" />
     <Compile Include="Item\IItemCorpse.cs" />
+    <Compile Include="Item\IItemFurniture.cs" />
     <Compile Include="Item\IItemLight.cs" />
     <Compile Include="Item\IItemShield.cs" />
     <Compile Include="Item\IItemWeapon.cs" />
     <Compile Include="Item\ItemArmor.cs" />
     <Compile Include="Item\ItemCorpse.cs" />
     <Compile Include="Item\ItemEquipableBase.cs" />
+    <Compile Include="Item\ItemFurniture.cs" />
     <Compile Include="Item\ItemLight.cs" />
     <Compile Include="Item\ItemShield.cs" />
     <Compile Include="Item\ItemWeapon.cs" />

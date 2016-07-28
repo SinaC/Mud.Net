@@ -22,7 +22,52 @@ namespace Mud.Server.Tests.Mocking
         }
 
         #region IWorld
-        
+
+        public IReadOnlyCollection<RoomBlueprint> GetRoomBlueprints()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyCollection<CharacterBlueprint> GetCharacterBlueprints()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyCollection<ItemBlueprintBase> GetItemBlueprints()
+        {
+            throw new NotImplementedException();
+        }
+
+        public RoomBlueprint GetRoomBlueprint(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CharacterBlueprint GetCharacterBlueprint(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ItemBlueprintBase GetItemBlueprint(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddRoomBlueprint(RoomBlueprint blueprint)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddCharacterBlueprint(CharacterBlueprint blueprint)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddItemBlueprint(ItemBlueprintBase blueprint)
+        {
+            throw new NotImplementedException();
+        }
+
         public IReadOnlyCollection<IRoom> GetRooms()
         {
             return _rooms.AsReadOnly();
@@ -74,6 +119,11 @@ namespace Mud.Server.Tests.Mocking
         }
 
         public IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IItemFurniture AddItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer container)
         {
             throw new NotImplementedException();
         }

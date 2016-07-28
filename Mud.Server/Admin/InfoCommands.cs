@@ -108,7 +108,7 @@ namespace Mud.Server.Admin
         protected virtual bool DoMstat(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-                Send("mstat whom?");
+                Send("mstat whom?" + Environment.NewLine);
             else
             {
                 ICharacter victim = FindHelpers.FindByName(Repository.World.GetCharacters(), parameters[0]);
@@ -186,7 +186,7 @@ namespace Mud.Server.Admin
         protected virtual bool DoOstat(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-                Send("ostat what?");
+                Send("ostat what?"+Environment.NewLine);
             else
             {
                 IItem item = FindHelpers.FindByName(Repository.World.GetItems(), parameters[0]);

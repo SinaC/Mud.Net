@@ -223,6 +223,8 @@ namespace Mud.Server.Character
                     return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Waist && (replace || x.Item == null));
                 case WearLocations.Wrists:
                     return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wrists && (replace || x.Item == null));
+                    case WearLocations.Arms:
+                        return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Arms && (replace || x.Item == null));
                 case WearLocations.Hands:
                     return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Hands && (replace || x.Item == null));
                 case WearLocations.Ring:

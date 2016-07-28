@@ -515,9 +515,9 @@ namespace Mud.Importer.Mystery
                 {
                     if (arg2 < 0 || arg2 >= RoomData.MaxExits)
                         RaiseParseException("ParseResets: 'R': exit {0} not door", arg2);
-                    RoomData roomData = _rooms.FirstOrDefault(x => x.VNum == arg1);
+                    RoomData roomData = _rooms.FirstOrDefault(x => x.VNum == arg3);
                     if (roomData == null)
-                        Warn("ParseResets: 'D' unknown room vnum {0}", arg1);
+                        Warn("ParseResets: 'D' unknown room vnum {0}", arg3);
                     else
                     {
                         roomData.Resets.Add(resetData);

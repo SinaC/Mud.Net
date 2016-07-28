@@ -67,7 +67,7 @@ namespace Mud.Server.WPFTestApplication
 
             data = DateTime.Now.ToString("HH:mm:ss.ffffff") + data;
 
-            Dispatcher.Invoke(() =>
+            Dispatcher.InvokeAsync(() =>
             {
                 Paragraph paragraph = new Paragraph();
 

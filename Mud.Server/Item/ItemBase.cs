@@ -8,16 +8,17 @@ using Mud.Server.Input;
 
 namespace Mud.Server.Item
 {
-    public abstract class ItemBase : EntityBase, IItem
+    public abstract class ItemBase<TBlueprint> : EntityBase, IItem
+        where TBlueprint : ItemBlueprintBase
     {
         private static readonly IReadOnlyTrie<CommandMethodInfo> ItemCommands;
 
         static ItemBase()
         {
-            ItemCommands = CommandHelpers.GetCommands(typeof (ItemBase));
+            ItemCommands = CommandHelpers.GetCommands(typeof (ItemBase<TBlueprint>));
         }
 
-        protected ItemBase(Guid guid, ItemBlueprintBase blueprint, IContainer containedInto)
+        protected ItemBase(Guid guid, TBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint.Name, blueprint.Description)
         {
             Blueprint = blueprint;

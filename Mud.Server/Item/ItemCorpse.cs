@@ -5,7 +5,7 @@ using Mud.Server.Blueprints;
 
 namespace Mud.Server.Item
 {
-    public class ItemCorpse : ItemBase, IItemCorpse
+    public class ItemCorpse : ItemBase<ItemCorpseBlueprint>, IItemCorpse
     {
         private readonly string _corpseName;
         private readonly List<IItem> _content;

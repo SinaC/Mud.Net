@@ -183,13 +183,17 @@ namespace Mud.Server.Character
         [Command("scan", Category = "Information")]
         protected virtual bool DoScan(string rawParameters, params CommandParameter[] parameters)
         {
+            StringBuilder sb = new StringBuilder(1024);
             // Current room
-            Send("Right here you see:" + Environment.NewLine);
+            sb.AppendLine("Right here you see:");
+            //Send("Right here you see:" + Environment.NewLine);
             StringBuilder currentScan = ScanRoom(Room);
             if (currentScan.Length == 0)
-                Send("None" + Environment.NewLine); // should never happen, 'this' is in the room
+                //Send("None" + Environment.NewLine); // should never happen, 'this' is in the room
+                sb.AppendLine("None");
             else
-                Send(currentScan); // no need to add CRLF
+            //Send(currentScan); // no need to add CRLF
+                sb.Append(currentScan);
             // Scan in one direction for each distance, then starts with another direction
             foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
             {
@@ -202,12 +206,15 @@ namespace Mud.Server.Character
                     StringBuilder roomScan = ScanRoom(destination);
                     if (roomScan.Length > 0)
                     {
-                        Send("%c%{0} %r%{1}%x% from here you see:" + Environment.NewLine, distance, direction);
-                        Send(roomScan); // no need to add CRLF
+                        //Send("%c%{0} %r%{1}%x% from here you see:" + Environment.NewLine, distance, direction);
+                        sb.AppendFormatLine("%c%{0} %r%{1}%x% from here you see:", distance, direction);
+                        //Send(roomScan); // no need to add CRLF
+                        sb.Append(roomScan);
                         currentRoom = destination;
                     }
                 }
             }
+            Send(sb);
             return true;
         }
 
@@ -503,6 +510,8 @@ namespace Mud.Server.Character
                     return "%C%<worn about waist>      %x%";
                 case EquipmentSlots.Wrists:
                     return "%C%<worn around wrists>    %x%";
+                    case EquipmentSlots.Arms:
+                    return "%C%<worn on arms>          %x%";
                 case EquipmentSlots.Hands:
                     return "%C%<worn on hands>         %x%";
                 case EquipmentSlots.RingLeft:

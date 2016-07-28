@@ -1077,6 +1077,7 @@ namespace Mud.Server.Character
             _equipments.Add(new EquipedItem(EquipmentSlots.Cloak));
             _equipments.Add(new EquipedItem(EquipmentSlots.Waist));
             _equipments.Add(new EquipedItem(EquipmentSlots.Wrists));
+            _equipments.Add(new EquipedItem(EquipmentSlots.Arms));
             _equipments.Add(new EquipedItem(EquipmentSlots.Hands));
             _equipments.Add(new EquipedItem(EquipmentSlots.RingLeft));
             _equipments.Add(new EquipedItem(EquipmentSlots.RingRight));

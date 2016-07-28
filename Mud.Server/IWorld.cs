@@ -9,6 +9,18 @@ namespace Mud.Server
 {
     public interface IWorld
     {
+        IReadOnlyCollection<RoomBlueprint> GetRoomBlueprints();
+        IReadOnlyCollection<CharacterBlueprint> GetCharacterBlueprints();
+        IReadOnlyCollection<ItemBlueprintBase> GetItemBlueprints();
+
+        RoomBlueprint GetRoomBlueprint(int id);
+        CharacterBlueprint GetCharacterBlueprint(int id);
+        ItemBlueprintBase GetItemBlueprint(int id);
+
+        void AddRoomBlueprint(RoomBlueprint blueprint);
+        void AddCharacterBlueprint(CharacterBlueprint blueprint);
+        void AddItemBlueprint(ItemBlueprintBase blueprint);
+
         IReadOnlyCollection<IRoom> GetRooms();
         IReadOnlyCollection<ICharacter> GetCharacters();
         IReadOnlyCollection<IItem> GetItems();
@@ -26,6 +38,7 @@ namespace Mud.Server
         IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container);
         IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim);
         IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container);
+        IItemFurniture AddItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer container);
 
         IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible);
         IPeriodicAura AddPeriodicAura(ICharacter victim, IAbility ability, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks); // Hot

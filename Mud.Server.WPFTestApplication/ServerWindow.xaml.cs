@@ -15,6 +15,7 @@ using Mud.Server.Blueprints;
 using Mud.Server.Constants;
 using Mud.Server.Item;
 using Mud.Server.Server;
+using System.IO;
 
 namespace Mud.Server.WPFTestApplication
 {
@@ -44,11 +45,7 @@ namespace Mud.Server.WPFTestApplication
 
             //
             INetworkServer telnetServer = new TelnetServer(11000);
-            Repository.Server.Initialize(new List<INetworkServer>
-            {
-                telnetServer,
-                this
-            });
+            Repository.Server.Initialize(new List<INetworkServer> { telnetServer, this });
             Repository.Server.Start();
 
             //CreateNewClientWindow();
@@ -128,7 +125,7 @@ namespace Mud.Server.WPFTestApplication
 
         public static void LogMethod(string level, string message)
         {
-            _serverWindowInstance.Dispatcher.Invoke(() =>
+            _serverWindowInstance.Dispatcher.InvokeAsync(() =>
             {
                 //_serverWindowInstance.OutputRichTextBox.AppendText(message+Environment.NewLine);
                 Brush color;
@@ -161,70 +158,347 @@ namespace Mud.Server.WPFTestApplication
             _serverWindowInstance.OutputRichTextBox.Document.Blocks.Add(paragraph);
         }
 
+        private static RoomBlueprint CreateRoomBlueprint(RoomData data)
+        {
+            RoomBlueprint blueprint = new RoomBlueprint
+            {
+                Id = data.VNum,
+                Name = data.Name,
+                Description = data.Description,
+            };
+            Repository.World.AddRoomBlueprint(blueprint);
+            return blueprint;
+        }
+
+        private static CharacterBlueprint CreateCharacterBlueprint(MobileData data)
+        {
+            Sex sex = Sex.Neutral;
+            if (data.Sex.ToLower() == "female")
+                sex = Sex.Female;
+            else if (data.Sex.ToLower() == "male")
+                sex = Sex.Male;
+            CharacterBlueprint blueprint = new CharacterBlueprint
+            {
+                Id = data.VNum,
+                Name = data.Name,
+                Description = data.Description,
+                Level = data.Level,
+                LongDescription = data.LongDescr,
+                ShortDescription = data.ShortDescr,
+                Sex = sex,
+            };
+            Repository.World.AddCharacterBlueprint(blueprint);
+            return blueprint;
+        }
+
+        private long ConvertToLong(char c)
+        {
+            return (long)1 << (c - 48);
+        }
+
+        private static WearLocations ConvertWearLocation(ObjectData data)
+        {
+//#define ITEM_TAKE		(A)
+//#define ITEM_WEAR_FINGER	(B)
+//#define ITEM_WEAR_NECK		(C)
+//#define ITEM_WEAR_BODY		(D)
+//#define ITEM_WEAR_HEAD		(E)
+//#define ITEM_WEAR_LEGS		(F)
+//#define ITEM_WEAR_FEET		(G)
+//#define ITEM_WEAR_HANDS		(H)
+//#define ITEM_WEAR_ARMS		(I)
+//#define ITEM_WEAR_SHIELD	(J)
+//#define ITEM_WEAR_ABOUT		(K)
+//#define ITEM_WEAR_WAIST		(L)
+//#define ITEM_WEAR_WRIST		(M)
+//#define ITEM_WIELD		(N)
+//#define ITEM_HOLD		(O)
+//#define ITEM_WEAR_FLOAT		(Q)
+//#define ITEM_WEAR_EAR           (R)
+//#define ITEM_WEAR_EYES          (S)
+            switch (data.WearFlags & ~1 /*remove TAKE*/)
+            {
+                case 0:
+                    if (data.ItemType == "light")
+                        return WearLocations.Light;
+                    else
+                        return WearLocations.None;
+                //case 1 << 1: // B finger
+                case 1 << 2: // C
+                    return WearLocations.Amulet;
+                case 1 << 3: // D
+                    return WearLocations.Chest;
+                case 1 << 4: // E
+                    return WearLocations.Head;
+                case 1 << 5: // F
+                    return WearLocations.Legs;
+                case 1 << 6: // G
+                    return WearLocations.Feet;
+                case 1 << 7: // H
+                    return WearLocations.Hands;
+                case 1 << 8: // I
+                    return WearLocations.Arms;
+                case 1 << 9: // J
+                    return WearLocations.Shield;
+                case 1 << 10: // K
+                    return WearLocations.Cloak;
+                case 1 << 11: // L
+                    return WearLocations.Waist;
+                case 1 << 12: // M
+                    return WearLocations.Wrists;
+                case 1 << 13: // N
+                    return WearLocations.Wield;
+                case 1 << 14: // O
+                    return WearLocations.Hold;
+                //case 1 << 15: // Q float
+                //case 1 << 16: // R ear
+                case 1 << 17: // S
+                    return WearLocations.Head; // eyes
+                default:
+                    return WearLocations.None;
+            }
+        }
+
+        private static ItemBlueprintBase CreateItemBlueprint(ObjectData data)
+        {
+            ItemBlueprintBase blueprint;
+            if (data.ItemType == "weapon")
+            {
+                blueprint = new ItemWeaponBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = data.ExtraDescr,
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    // TODO: weapon type Values[0]
+                    DiceCount = Convert.ToInt32(data.Values[1]),
+                    DiceValue = Convert.ToInt32(data.Values[2]),
+                    // TODO: damage type Values[3]
+                };
+            }
+            else if (data.ItemType == "container")
+            {
+                blueprint = new ItemContainerBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = data.ExtraDescr,
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemCount = Convert.ToInt32(data.Values[3]),
+                    WeightMultiplier = Convert.ToInt32(data.Values[4]),
+                };
+            }
+            else if (data.ItemType == "armor")
+            {
+                blueprint = new ItemArmorBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = data.ExtraDescr,
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    Armor = Convert.ToInt32(data.Values[0]) + Convert.ToInt32(data.Values[1]) + Convert.ToInt32(data.Values[2]) + Convert.ToInt32(data.Values[3]), // TODO
+                    ArmorKind = ArmorKinds.Leather // TODO
+                };
+            }
+            else if (data.ItemType == "light")
+            {
+                blueprint = new ItemLightBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = data.ExtraDescr,
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    DurationHours = Convert.ToInt32(data.Values[2]),
+                };
+            }
+            else if (data.ItemType == "furniture")
+            {
+                blueprint = new ItemFurnitureBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = data.ExtraDescr,
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    MaxPeople = Convert.ToInt32(data.Values[0]),
+                    MaxWeight = Convert.ToInt32(data.Values[1]),
+                    // TODO: flags
+                    HealBonus = Convert.ToInt32(data.Values[3]),
+                    ResourceBonus = Convert.ToInt32(data.Values[4])
+                };
+            }
+            else if (data.ItemType == "fountain")
+            {
+                blueprint = new ItemFurnitureBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = data.ExtraDescr,
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    MaxPeople = 0,
+                    MaxWeight = 0,
+                    HealBonus = 0,
+                    ResourceBonus = 0
+                };
+            }
+            else
+            // TODO: other item type
+                blueprint = null;
+            if (blueprint != null)
+                Repository.World.AddItemBlueprint(blueprint);
+            return blueprint;
+        }
+
+        public static IItem CreateItem(ItemBlueprintBase blueprint, IContainer container)
+        {
+            if (blueprint is ItemWeaponBlueprint)
+                return Repository.World.AddItemWeapon(Guid.NewGuid(), (ItemWeaponBlueprint) blueprint, container);
+            if (blueprint is ItemContainerBlueprint)
+                return Repository.World.AddItemContainer(Guid.NewGuid(),(ItemContainerBlueprint) blueprint, container);
+            if (blueprint is ItemArmorBlueprint)
+                return Repository.World.AddItemArmor(Guid.NewGuid(), (ItemArmorBlueprint) blueprint, container);
+            if (blueprint is ItemLightBlueprint)
+                return Repository.World.AddItemLight(Guid.NewGuid(), (ItemLightBlueprint) blueprint, container);
+            if (blueprint is ItemFurnitureBlueprint)
+                return Repository.World.AddItemFurniture(Guid.NewGuid(), (ItemFurnitureBlueprint) blueprint, container);
+            // TODO: other blueprint
+            return null;
+        }
+
+        // tables.C:601 type_flags
+        //"light" OK
+        //"scroll"
+        //"wand"
+        //"staff"
+        //"weapon" OK
+        //"treasure" -> not mapped
+        //"armor" OK
+        //"potion"
+        //"furniture" OK
+        //"trash" -> not mapped
+        //"container" OK
+        //"drinkcontainer" -> not mapped
+        //"key"
+        //"food"
+        //"money"
+        //"boat"
+        //"npccorpse" -> not mapped
+        //"pccorpse" -> not mapped
+        //"fountain" -> mapped into furniture
+        //"pill" -> not mapped
+        //"map"
+        //"portal"
+        //"warpstone" -> not mapped
+        //"component"
+        //"gem"
+        //"jewelry"
+        //"instrument" -> not mapped
+        //"clothing"
+        //"window" -> not mapped
+        //"template" -> not mapped
+        //"saddle" -> not mapped
+        //"rope" -> not mapped
+
         private static void CreateMidgaard()
         {
             MysteryImporter importer = new MysteryImporter();
-            importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
-            importer.Parse();
+            //importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
+            //importer.Load(@"D:\temp\OldMud-master\area\midgaard.are");
+            //importer.Parse();
             //MysteryImporter importer = new MysteryImporter();
-            //string path = @"D:\GitHub\OldMud\area";
-            //string fileList = Path.Combine(path, "area.lst");
-            //string[] areaFilenames = File.ReadAllLines(fileList);
-            //foreach (string areaFilename in areaFilenames)
-            //{
-            //    if (areaFilename.Contains("$"))
-            //        break;
-            //    string areaFullName = Path.Combine(path, areaFilename);
-            //    importer.Load(areaFullName);
-            //    importer.Parse();
-            //}
+            string path = @"D:\GitHub\OldMud\area";
+            //string path = @"D:\temp\OldMud-master\area";
+            string fileList = Path.Combine(path, "area.lst");
+            string[] areaFilenames = File.ReadAllLines(fileList);
+            foreach (string areaFilename in areaFilenames)
+            {
+                if (areaFilename.Contains("$"))
+                    break;
+                string areaFullName = Path.Combine(path, areaFilename);
+                importer.Load(areaFullName);
+                importer.Parse();
+            }
+
+            foreach (KeyValuePair<string,int> kv in importer.Objects.GroupBy(o => o.ItemType).ToDictionary(g => g.Key, g => g.Count()).OrderBy(x => x.Value))
+                Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", kv.Key, kv.Value);
 
             Dictionary<int, IRoom> roomsByVNums = new Dictionary<int, IRoom>();
 
+            // Create Rooms blueprints
+            foreach (RoomData importedRoom in importer.Rooms)
+                CreateRoomBlueprint(importedRoom);
+            // Create Character blueprints
+            foreach (MobileData mobile in importer.Mobiles)
+                CreateCharacterBlueprint(mobile);
+            // Create Item blueprints
+            foreach (ObjectData obj in importer.Objects)
+                CreateItemBlueprint(obj);
+            
             // Create Rooms
             foreach (RoomData importedRoom in importer.Rooms)
             {
-                RoomBlueprint roomBlueprint = new RoomBlueprint
-                {
-                    Id = importedRoom.VNum,
-                    Name = importedRoom.Name,
-                    Description = importedRoom.Description,
-                };
-                IRoom room = Repository.World.AddRoom(Guid.NewGuid(), roomBlueprint);
+                IRoom room = Repository.World.AddRoom(Guid.NewGuid(), Repository.World.GetRoomBlueprint(importedRoom.VNum));
                 roomsByVNums.Add(importedRoom.VNum, room);
             }
+
             // Create Exits
-            foreach (RoomData room in importer.Rooms)
+            foreach (RoomData importedRoom in importer.Rooms)
             {
                 for (int i = 0; i < RoomData.MaxExits - 1; i++)
                 {
-                    ExitData exit = room.Exits[i];
+                    ExitData exit = importedRoom.Exits[i];
                     if (exit != null)
                     {
                         IRoom from;
-                        roomsByVNums.TryGetValue(room.VNum, out from);
+                        roomsByVNums.TryGetValue(importedRoom.VNum, out from);
                         IRoom to;
                         roomsByVNums.TryGetValue(exit.DestinationVNum, out to);
                         if (from == null)
-                            Log.Default.WriteLine(LogLevels.Error, "Origin room not found for vnum {0}", room.VNum);
+                            Log.Default.WriteLine(LogLevels.Error, "Origin room not found for vnum {0}", importedRoom.VNum);
                         else if (to == null)
-                            Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", room.VNum);
+                            Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", importedRoom.VNum);
                         else
                         {
-                            ExitBlueprint blueprint = new ExitBlueprint
+                            ExitBlueprint exitBlueprint = new ExitBlueprint
                             {
                                 Destination = exit.DestinationVNum,
-                                Key = exit.Key,
                                 Description = exit.Description,
+                                Key = exit.Key,
                                 Keyword = exit.Keyword
                             };
-
-                            Repository.World.AddExit(from, to, blueprint, (ExitDirections) i);
+                            Repository.World.AddExit(from, to, exitBlueprint, (ExitDirections)i);
                         }
                     }
                 }
             }
-            // Handle resets // TODO: NOT YET COMPLETED
+
+            // Handle resets
+            ICharacter lastCharacter = null;
+            IItemContainer lastContainer = null;
+            Dictionary<string, int> itemTypes = new Dictionary<string, int>();
             foreach (RoomData importedRoom in importer.Rooms.Where(x => x.Resets.Any()))
             {
                 IRoom room;
@@ -234,137 +508,114 @@ namespace Mud.Server.WPFTestApplication
                     switch (reset.Command)
                     {
                         case 'M':
-                            MobileData mob = importer.Mobiles.FirstOrDefault(x => x.VNum == reset.Arg1);
-                            if (mob != null)
+                        {
+                            CharacterBlueprint blueprint = Repository.World.GetCharacterBlueprint(reset.Arg1);
+                            if (blueprint != null)
                             {
-                                Sex sex = Sex.Neutral;
-                                if (mob.Sex.ToLowerInvariant() == "male")
-                                    sex = Sex.Male;
-                                else if (mob.Sex.ToLowerInvariant() == "female")
-                                    sex = Sex.Female;
-                                CharacterBlueprint blueprint = new CharacterBlueprint
-                                {
-                                    Id = mob.VNum,
-                                    Name = mob.Name,
-                                    Level = mob.Level,
-                                    Description = mob.Description,
-                                    LongDescription = mob.LongDescr,
-                                    ShortDescription = mob.ShortDescr,
-                                    Sex = sex
-                                };
-                                Repository.World.AddCharacter(Guid.NewGuid(), blueprint, room);
+                                lastCharacter = Repository.World.AddCharacter(Guid.NewGuid(), blueprint, room);
+                                Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} added");
                             }
+                            else
+                                Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} not found");
                             break;
+                        }
                         case 'O':
-                            // TODO: wear location
-                            ObjectData obj = importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1);
-                            if (obj != null)
+                        {
+                            ItemBlueprintBase blueprint = Repository.World.GetItemBlueprint(reset.Arg1);
+                            if (blueprint != null)
                             {
-                                if (obj.ItemType == "weapon")
-                                {
-                                    Log.Default.WriteLine(LogLevels.Info, "RESET O weapon in room {0}: {1}", room.Blueprint.Id, room.Blueprint.Name);
-                                    ItemWeaponBlueprint blueprint = new ItemWeaponBlueprint
-                                    {
-                                        Id = obj.VNum,
-                                        Name = obj.Name,
-                                        ShortDescription = obj.ShortDescr,
-                                        Description = obj.Description,
-                                        ExtraDescriptions = obj.ExtraDescr,
-                                        Cost = Convert.ToInt32(obj.Cost),
-                                        Weight = obj.Weight,
-                                        // TODO: weapon type Values[0]
-                                        DiceCount = Convert.ToInt32(obj.Values[1]),
-                                        DiceValue = Convert.ToInt32(obj.Values[2]),
-                                        // TODO: damage type Values[3]
-                                        WearLocation = WearLocations.Wield
-                                    };
-                                    Repository.World.AddItemWeapon(Guid.NewGuid(), blueprint, room);
-                                }
-                                else if (obj.ItemType == "container")
-                                {
-                                    Log.Default.WriteLine(LogLevels.Info, "RESET O container in room {0}: {1}", room.Blueprint.Id, room.Blueprint.Name);
-                                    ItemContainerBlueprint blueprint = new ItemContainerBlueprint
-                                    {
-                                        Id = obj.VNum,
-                                        Name = obj.Name,
-                                        ShortDescription = obj.ShortDescr,
-                                        Description = obj.Description,
-                                        ExtraDescriptions = obj.ExtraDescr,
-                                        Cost = Convert.ToInt32(obj.Cost),
-                                        Weight = obj.Weight,
-                                        ItemCount = Convert.ToInt32(obj.Values[3]),
-                                        WeightMultiplier = Convert.ToInt32(obj.Values[4]),
-                                    };
-                                    Repository.World.AddItemContainer(Guid.NewGuid(), blueprint, room);
-                                }
-                                else if (obj.ItemType == "light")
-                                {
-                                    Log.Default.WriteLine(LogLevels.Info, "RESET O light in room {0}: {1}", room.Blueprint.Id, room.Blueprint.Name);
-                                    ItemLightBlueprint blueprint = new ItemLightBlueprint
-                                    {
-                                        Id = obj.VNum,
-                                        Name = obj.Name,
-                                        ShortDescription = obj.ShortDescr,
-                                        Description = obj.Description,
-                                        ExtraDescriptions = obj.ExtraDescr,
-                                        Cost = Convert.ToInt32(obj.Cost),
-                                        Weight = obj.Weight,
-                                        DurationHours = Convert.ToInt32(obj.Values[2]),
-                                        WearLocation = WearLocations.Light
-                                    };
-                                    Repository.World.AddItemLight(Guid.NewGuid(), blueprint, room);
-                                }
-                                else if (obj.ItemType == "armor")
-                                {
-                                    Log.Default.WriteLine(LogLevels.Info, "RESET O armor in room {0}: {1}", room.Blueprint.Id, room.Blueprint.Name);
-                                    ItemArmorBlueprint blueprint = new ItemArmorBlueprint
-                                    {
-                                        Id = obj.VNum,
-                                        Name = obj.Name,
-                                        ShortDescription = obj.ShortDescr,
-                                        Description = obj.Description,
-                                        ExtraDescriptions = obj.ExtraDescr,
-                                        Cost = Convert.ToInt32(obj.Cost),
-                                        Weight = obj.Weight,
-                                        Armor = (Convert.ToInt32(obj.Values[0]) + Convert.ToInt32(obj.Values[1]) + Convert.ToInt32(obj.Values[2]) + Convert.ToInt32(obj.Values[3]))/4,
-                                        // TODO: ArmorKind
-                                    };
-                                    Repository.World.AddItemArmor(Guid.NewGuid(), blueprint, room);
-                                }
-                                // TODO: other item types
+                                IItem item = CreateItem(blueprint, room);
+                                if (item != null)
+                                    Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} added room");
+                                else
+                                    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not created");
+                                lastContainer = item as IItemContainer; // even if item is not a container, we have to convert it
                             }
+                            else
+                                Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not found");
+                            //ObjectData obj = importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1);
+                            //if (obj != null)
+                            //{
+                            //    if (obj.ItemType == "weapon")
+                            //    {
+                            //        ItemWeaponBlueprint blueprint = Repository.World.GetItemBlueprint(reset.Arg1) as ItemWeaponBlueprint;
+                            //        Repository.World.AddItemWeapon(Guid.NewGuid(), blueprint, room);
+                            //        Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: Weapon {reset.Arg1} added on floor");
+                            //    }
+                            //    else if (obj.ItemType == "container")
+                            //    {
+                            //        ItemContainerBlueprint blueprint = Repository.World.GetItemBlueprint(reset.Arg1) as ItemContainerBlueprint;
+                            //        lastContainer = Repository.World.AddItemContainer(Guid.NewGuid(), blueprint, room);
+                            //        Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: Container {reset.Arg1} added on floor");
+                            //    }
+                            //}
+                            //else
+                            //    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: Obj {reset.Arg1} not found");
                             break;
-                        // TODO: other command  P, E, G, D, R, Z
+                        }
+                        // P: put object arg1 (add arg2 times at once with max occurence arg4) in object arg3
+                        case 'P':
+                        {
+                            ItemBlueprintBase blueprint = Repository.World.GetItemBlueprint(reset.Arg1);
+                            if (blueprint != null)
+                            {
+                                if (lastContainer != null)
+                                {
+                                    CreateItem(blueprint, lastContainer);
+                                    Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} added in {lastContainer.Blueprint.Id}");
+                                }
+                                else
+                                    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: P: Last item was not a container");
+                            }
+                            else
+                                Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} not found");
+                            break;
+                        }
+                        // G: give object arg1 to mobile 
+                        case 'G':
+                        {
+                            ItemBlueprintBase blueprint = Repository.World.GetItemBlueprint(reset.Arg1);
+                            if (blueprint != null)
+                            {
+                                if (lastCharacter != null)
+                                {
+                                    CreateItem(blueprint, lastCharacter);
+                                    Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
+                                }
+                                else
+                                    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: G: Last character doesn't exist");
+                            }
+                            else
+                                Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} not found");
+                            break;
+                        }
+                        // E: equip object arg1 to mobile
+                        case 'E':
+                            {
+                                ItemBlueprintBase blueprint = Repository.World.GetItemBlueprint(reset.Arg1);
+                                if (blueprint != null)
+                                {
+                                    if (lastCharacter != null)
+                                    {
+                                        CreateItem(blueprint, lastCharacter);
+                                        Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
+                                        // TODO: try to equip
+                                    }
+                                    else
+                                        Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: E: Last character doesn't exist");
+                                }
+                                else
+                                    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} not found");
+                                break;
+                            }
+                            // D: set state of door  NOP
+                            // R: randomize room exits
+                            // Z: maze at arg3 with size arg1*arg2 and map vnum arg4
+                            // TODO: other command  P, E, G, D, R, Z
                     }
                 }
             }
 
-            // Dump item types
-            //Info: drink-> 12
-            //Info: weapon-> 17 DONE
-            //Info: food-> 9
-            //Info: light-> 3 DONE
-            //Info: container-> 5 DONE
-            //Info: instrument-> 1
-            //Info: component-> 1
-            //Info: scroll-> 5
-            //Info: potion-> 28
-            //Info: treasure-> 6
-            //Info: wand-> 1
-            //Info: armor-> 46 DONE
-            //Info: boat-> 2
-            //Info: key-> 8
-            //Info: trash-> 2
-            //Info: money-> 2
-            //Info: furniture-> 3
-            //Info: fountain-> 1
-            //Info: map-> 9
-            //Info: gem-> 6
-            Log.Default.WriteLine(LogLevels.Info, "Object Types:");
-            foreach (KeyValuePair<string, int> kv in importer.Objects.GroupBy(x => x.ItemType).ToDictionary(x => x.Key, x => x.ToList().Count))
-                Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", kv.Key, kv.Value);
-
-            //
             CharacterBlueprint mob2Blueprint = new CharacterBlueprint
             {
                 Id = 2,

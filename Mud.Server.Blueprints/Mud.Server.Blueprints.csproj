@@ -41,6 +41,7 @@
     <Compile Include="ItemBlueprint.cs" />
     <Compile Include="ItemContainerBlueprint.cs" />
     <Compile Include="ItemCorpseBlueprint.cs" />
+    <Compile Include="ItemFurnitureBlueprint.cs" />
     <Compile Include="ItemLightBlueprint.cs" />
     <Compile Include="ItemShieldBlueprint.cs" />
     <Compile Include="ItemWeaponBlueprint.cs" />

@@ -5,9 +5,10 @@ using Mud.Server.Constants;
 
 namespace Mud.Server.Item
 {
-    public class ItemEquipableBase : ItemBase, IEquipable
+    public class ItemEquipableBase<TBlueprint> : ItemBase<TBlueprint>, IEquipable
+        where TBlueprint : ItemBlueprintBase
     {
-        public ItemEquipableBase(Guid guid, ItemBlueprintBase blueprint, IContainer containedInto) 
+        public ItemEquipableBase(Guid guid, TBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)
         {
             WearLocation = blueprint.WearLocation;
