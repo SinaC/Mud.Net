@@ -425,22 +425,20 @@ namespace Mud.Server.WPFTestApplication
         private static void CreateMidgaard()
         {
             MysteryImporter importer = new MysteryImporter();
-            //importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
-            //importer.Load(@"D:\temp\OldMud-master\area\midgaard.are");
-            //importer.Parse();
+            importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
+            importer.Parse();
             //MysteryImporter importer = new MysteryImporter();
-            string path = @"D:\GitHub\OldMud\area";
-            //string path = @"D:\temp\OldMud-master\area";
-            string fileList = Path.Combine(path, "area.lst");
-            string[] areaFilenames = File.ReadAllLines(fileList);
-            foreach (string areaFilename in areaFilenames)
-            {
-                if (areaFilename.Contains("$"))
-                    break;
-                string areaFullName = Path.Combine(path, areaFilename);
-                importer.Load(areaFullName);
-                importer.Parse();
-            }
+            //string path = @"D:\GitHub\OldMud\area";
+            //string fileList = Path.Combine(path, "area.lst");
+            //string[] areaFilenames = File.ReadAllLines(fileList);
+            //foreach (string areaFilename in areaFilenames)
+            //{
+            //    if (areaFilename.Contains("$"))
+            //        break;
+            //    string areaFullName = Path.Combine(path, areaFilename);
+            //    importer.Load(areaFullName);
+            //    importer.Parse();
+            //}
 
             foreach (KeyValuePair<string,int> kv in importer.Objects.GroupBy(o => o.ItemType).ToDictionary(g => g.Key, g => g.Count()).OrderBy(x => x.Value))
                 Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", kv.Key, kv.Value);
@@ -608,7 +606,7 @@ namespace Mud.Server.WPFTestApplication
                                     Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} not found");
                                 break;
                             }
-                            // D: set state of door  NOP
+                            // D: set state of door  (not used)
                             // R: randomize room exits
                             // Z: maze at arg3 with size arg1*arg2 and map vnum arg4
                             // TODO: other command  P, E, G, D, R, Z

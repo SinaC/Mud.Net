@@ -49,7 +49,7 @@ namespace Mud.Server.Player
             // TODO: name validation
             if (!String.IsNullOrWhiteSpace(input))
             {
-                if (input.ToLowerInvariant() == "quit")
+                if (input == "quit")
                 {
                     player.Send("Creation cancelled"+Environment.NewLine);
                     return AvatarCreationStates.Quit;
@@ -70,7 +70,7 @@ namespace Mud.Server.Player
                 DisplaySexList(player);
                 return AvatarCreationStates.SexChoice;
             }
-            else if (input.ToLowerInvariant() == "quit")
+            else if (input == "quit")
             {
                 player.Send("Creation cancelled"+Environment.NewLine);
                 return AvatarCreationStates.Quit;
@@ -81,7 +81,7 @@ namespace Mud.Server.Player
 
         private AvatarCreationStates ProcessSexChoice(IPlayer player, string input)
         {
-            if (input.ToLowerInvariant() == "quit")
+            if (input == "quit")
             {
                 player.Send("Creation cancelled" + Environment.NewLine);
                 return AvatarCreationStates.Quit;
@@ -99,7 +99,7 @@ namespace Mud.Server.Player
 
         private AvatarCreationStates ProcessRaceChoice(IPlayer player, string input)
         {
-            if (input.ToLowerInvariant() == "quit")
+            if (input == "quit")
             {
                 player.Send("Creation cancelled" + Environment.NewLine);
                 return AvatarCreationStates.Quit;
@@ -118,7 +118,7 @@ namespace Mud.Server.Player
 
         private AvatarCreationStates ProcessClassChoice(IPlayer player, string input)
         {
-            if (input.ToLowerInvariant() == "quit")
+            if (input == "quit")
             {
                 player.Send("Creation cancelled" + Environment.NewLine);
                 return AvatarCreationStates.Quit;

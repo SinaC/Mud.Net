@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Text;
 using Mud.Network;
 
@@ -10,14 +9,14 @@ namespace Mud.Server.Server
         public IClient Client { get; set; }
         public IPlayer Player { get; set; }
 
-        private readonly Queue<string> _receiveQueue;
+        private readonly ConcurrentQueue<string> _receiveQueue;
         private readonly StringBuilder _sendBuffer;
 
         public Paging Paging { get; }
 
         public PlayingClient()
         {
-            _receiveQueue = new Queue<string>();
+            _receiveQueue = new ConcurrentQueue<string>();
             _sendBuffer = new StringBuilder();
             Paging = new Paging();
         }
@@ -29,10 +28,9 @@ namespace Mud.Server.Server
 
         public string DequeueReceivedData()
         {
-            //string data;
-            //bool dequeued = _receiveQueue.TryDequeue(out data);
-            //return dequeued ? data : null;
-            return _receiveQueue.Count == 0 ? null : _receiveQueue.Dequeue();
+            string data;
+            bool dequeued = _receiveQueue.TryDequeue(out data);
+            return dequeued ? data : null;
         }
 
         public void EnqueueDataToSend(string data)
