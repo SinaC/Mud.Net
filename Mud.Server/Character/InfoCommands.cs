@@ -40,7 +40,7 @@ namespace Mud.Server.Character
                 else
                 {
                     // search in room, then in inventory(unequiped), then in equipement
-                    IItem containerItem = FindHelpers.FindCharacterItemByName(this, parameters[1]);
+                    IItem containerItem = FindHelpers.FindCharacterItemByName2(this, parameters[1]);
                     if (containerItem == null)
                         Send(StringHelpers.ItemNotFound);
                     else
@@ -155,7 +155,7 @@ namespace Mud.Server.Character
                 }
                 else
                 {
-                    IItem item = FindHelpers.FindCharacterItemByName(this, parameters[0]);
+                    IItem item = FindHelpers.FindCharacterItemByName2(this, parameters[0]);
                     if (item != null)
                     {
                         Act(ActOptions.ToCharacter, "You examine {0}.", item);
@@ -165,11 +165,7 @@ namespace Mud.Server.Character
                         if (container != null) // if container, display content
                         {
                             List<CommandParameter> newParameters = new List<CommandParameter>(parameters);
-                            newParameters.Insert(0, new CommandParameter
-                            {
-                                Count = 1,
-                                Value = "in"
-                            });
+                            newParameters.Insert(0, new CommandParameter("in", 1));
                             DoLook("in " + rawParameters, newParameters.ToArray()); // TODO: call immediately sub-function
                         }
                     }

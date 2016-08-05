@@ -15,7 +15,7 @@ namespace Mud.Server.Input
             return ExtractCommandAndParameters(null, commandLine, out command, out rawParameters, out parameters, out forceOutOfGame);
         }
 
-        public static bool ExtractCommandAndParameters(IReadOnlyDictionary<string,string> aliases, string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame)
+        public static bool ExtractCommandAndParameters(IReadOnlyDictionary<string, string> aliases, string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame)
         {
             Log.Default.WriteLine(LogLevels.Debug, "Extracting command and parameters [{0}]", commandLine);
 
@@ -62,7 +62,7 @@ namespace Mud.Server.Input
             // Parse parameter
             parameters = splitted.Select(ParseParameter).ToArray();
 
-            if (parameters.Any(x => x == CommandParameter.Invalid))
+            if (parameters.Any(x => x == CommandParameter.InvalidCommand))
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Invalid command parameters");
                 return false;
@@ -117,32 +117,29 @@ namespace Mud.Server.Input
         public static CommandParameter ParseParameter(string parameter)
         {
             if (String.IsNullOrWhiteSpace(parameter))
-                return CommandParameter.Empty;
+                return CommandParameter.EmptyCommand;
             int dotIndex = parameter.IndexOf('.');
             if (dotIndex < 0)
-                return new CommandParameter
-                {
-                    Count = 1,
-                    Value = parameter
-                };
+            {
+                bool isAll = String.Equals(parameter, "all", StringComparison.InvariantCultureIgnoreCase);
+                return
+                    isAll
+                        ? CommandParameter.IsAllCommand
+                        : new CommandParameter(parameter, 1);
+            }
             if (dotIndex == 0)
-                return CommandParameter.Invalid; // only . is invalid
+                return CommandParameter.InvalidCommand; // only . is invalid
             string countAsString = parameter.Substring(0, dotIndex);
             string value = parameter.Substring(dotIndex + 1);
+            bool isCountAll = String.Equals(countAsString, "all", StringComparison.InvariantCultureIgnoreCase);
+            if (isCountAll)
+                return new CommandParameter(value, true);
             int count;
             if (!int.TryParse(countAsString, out count)) // string.string is not splitted
-                return new CommandParameter
-                {
-                    Count = 1,
-                    Value = parameter
-                };
+                return new CommandParameter(parameter, 1);
             if (count <= 0 || String.IsNullOrWhiteSpace(value)) // negative count or empty value is invalid
-                return CommandParameter.Invalid;
-            return new CommandParameter
-            {
-                Count = count,
-                Value = value
-            };
+                return CommandParameter.InvalidCommand;
+            return new CommandParameter(parameter, count);
         }
 
         public static string JoinParameters(IEnumerable<CommandParameter> parameters)
@@ -158,8 +155,8 @@ namespace Mud.Server.Input
         public static IReadOnlyTrie<MethodInfo> GetCommandsOld(Type type)
         {
             IEnumerable<TrieEntry<MethodInfo>> commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
-                .Where(x => x.GetCustomAttributes(typeof (CommandAttribute), false).Any())
-                .SelectMany(x => x.GetCustomAttributes(typeof (CommandAttribute)).OfType<CommandAttribute>().Select(attr => attr.Name).Distinct(), // when overriding a command (attribute is declared twice) -> cause 2 entries with the same method and same name
+                .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())
+                .SelectMany(x => x.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().Select(attr => attr.Name).Distinct(), // when overriding a command (attribute is declared twice) -> cause 2 entries with the same method and same name
                     (methodInfo, commandName) => new TrieEntry<MethodInfo>(commandName, methodInfo));
             Trie<MethodInfo> trie = new Trie<MethodInfo>(commands);
             return trie;

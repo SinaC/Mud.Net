@@ -42,7 +42,7 @@ namespace Mud.Server.Player
                             Impersonating = target;
                             PlayerState = PlayerStates.Impersonating;
                             // TODO: if autolook
-                            target.ExecuteCommand("look", String.Empty, CommandParameter.Empty); // TODO: target.DoLook(String.Empty, CommandParameter.Empty)
+                            target.ExecuteCommand("look", String.Empty, CommandParameter.EmptyCommand); // TODO: target.DoLook(String.Empty, CommandParameter.Empty)
                         }
                     }
                     else

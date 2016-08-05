@@ -1,12 +1,39 @@
-﻿namespace Mud.Server.Input
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Mud.Server.Input
 {
     public class CommandParameter
     {
-        public static readonly CommandParameter Empty = new CommandParameter();
-        public static readonly CommandParameter Invalid = new CommandParameter();
+        public static readonly CommandParameter EmptyCommand = new CommandParameter();
+        public static readonly CommandParameter InvalidCommand = new CommandParameter();
+        public static readonly CommandParameter IsAllCommand = new CommandParameter(String.Empty, true);
 
-        public int Count { get; set; }
-        public string Value { get; set; }
+        public bool IsAll { get; } // all.xxx
+        public int Count { get; }
+        public string Value { get; }
+
+        public List<string> Tokens { get; }
+
+        private CommandParameter()
+        {
+            Tokens = new List<string>();
+        }
+
+        public CommandParameter(string value, int count)
+        {
+            Value = value;
+            Count = count;
+            Tokens = value.Split(' ').ToList();
+        }
+
+        public CommandParameter(string value, bool isAll)
+        {
+            Value = value;
+            IsAll = isAll;
+            Tokens = value.Split(' ').ToList();
+        }
 
         public override string ToString()
         {

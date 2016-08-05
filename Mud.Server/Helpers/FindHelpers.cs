@@ -58,14 +58,6 @@ namespace Mud.Server.Helpers
         }
 
         // Entity
-        public static T FindByName<T>(IEnumerable<T> list, string name, bool perfectMatch = false)
-            where T : IEntity
-        {
-            return perfectMatch
-                ? list.FirstOrDefault(x => StringEquals(x.Name, name))
-                : list.FirstOrDefault(x => StringStartWith(x.Name, name));
-        }
-
         public static T FindByName<T>(IEnumerable<T> list, CommandParameter parameter, bool perfectMatch = false)
             where T : IEntity
         {
@@ -74,12 +66,12 @@ namespace Mud.Server.Helpers
                 : list.Where(x => StringStartWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
         }
 
-        public static IEnumerable<T> FindAllByName<T>(IEnumerable<T> list, string name, bool perfectMatch = false)
+        public static IEnumerable<T> FindAllByName<T>(IEnumerable<T> list, CommandParameter parameter, bool perfectMatch = false)
             where T : IEntity
         {
             return perfectMatch
-                ? list.Where(x => StringEquals(x.Name, name))
-                : list.Where(x => StringStartWith(x.Name, name));
+                ? list.Where(x => StringEquals(x.Name, parameter.Value))
+                : list.Where(x => StringStartWith(x.Name, parameter.Value));
         }
 
         public static T FindByName<T, TEntity>(IEnumerable<T> collection, Func<T, TEntity> getItemFunc, CommandParameter parameter, bool perfectMatch = false)

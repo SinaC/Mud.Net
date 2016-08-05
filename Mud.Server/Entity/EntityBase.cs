@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using Mud.Logger;
 using Mud.Server.Actor;
@@ -16,7 +18,7 @@ namespace Mud.Server.Entity
                 guid = Guid.NewGuid();
             Id = guid;
             Name = name;
-
+            Keywords = name.Split(new [] { ' '}, StringSplitOptions.RemoveEmptyEntries);
             // TODO: remove
             Description = "This is the description of the" + Environment.NewLine
                           + "%Y%"+ GetType().Name+ "%x%" + " %B%" + Name + "%x%" + Environment.NewLine
@@ -30,6 +32,7 @@ namespace Mud.Server.Entity
                 guid = Guid.NewGuid();
             Id = guid;
             Name = name;
+            Keywords = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             Description = description;
         }
 
@@ -80,7 +83,7 @@ namespace Mud.Server.Entity
         public bool IsValid { get; protected set; }
         public string Name { get; protected set; }
         public abstract string DisplayName { get; }
-        //TODO: ??? public string Keyword { get; private set; }
+        public IEnumerable<string> Keywords { get; }
         public string Description { get; protected set; }
 
         public bool Incarnatable { get; private set; }

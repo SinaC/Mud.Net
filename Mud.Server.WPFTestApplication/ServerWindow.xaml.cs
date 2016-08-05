@@ -653,7 +653,7 @@ namespace Mud.Server.WPFTestApplication
             ItemContainerBlueprint item1Blueprint = new ItemContainerBlueprint
             {
                 Id = 1,
-                Name = "item1",
+                Name = "item1 first",
                 ShortDescription = "First item (container)",
                 Description = "The first item (container) has been left here.",
                 ItemCount = 10,
@@ -662,7 +662,7 @@ namespace Mud.Server.WPFTestApplication
             ItemWeaponBlueprint item2Blueprint = new ItemWeaponBlueprint
             {
                 Id = 2,
-                Name = "item2",
+                Name = "item2 second",
                 ShortDescription = "Second item (weapon)",
                 Description = "The second item (weapon) has been left here.",
                 Type = WeaponTypes.Axe1H,
@@ -674,7 +674,7 @@ namespace Mud.Server.WPFTestApplication
             ItemArmorBlueprint item3Blueprint = new ItemArmorBlueprint
             {
                 Id = 3,
-                Name = "item3",
+                Name = "item3 third",
                 ShortDescription = "Third item (armor|feet)",
                 Description = "The third item (armor|feet) has been left here.",
                 Armor = 100,
@@ -684,7 +684,7 @@ namespace Mud.Server.WPFTestApplication
             ItemLightBlueprint item4Blueprint = new ItemLightBlueprint
             {
                 Id = 4,
-                Name = "item4",
+                Name = "item4 fourth",
                 ShortDescription = "Fourth item (light)",
                 Description = "The fourth item (light) has been left here.",
                 DurationHours = -1,
@@ -693,7 +693,7 @@ namespace Mud.Server.WPFTestApplication
             ItemWeaponBlueprint item5Blueprint = new ItemWeaponBlueprint
             {
                 Id = 5,
-                Name = "item5",
+                Name = "item5 fifth",
                 ShortDescription = "Fifth item (weapon)",
                 Description = "The fifth item (weapon) has been left here.",
                 Type = WeaponTypes.Sword1H,
@@ -705,7 +705,7 @@ namespace Mud.Server.WPFTestApplication
             ItemWeaponBlueprint item6Blueprint = new ItemWeaponBlueprint
             {
                 Id = 6,
-                Name = "item6",
+                Name = "item6 sixth",
                 ShortDescription = "Sixth item (weapon)",
                 Description = "The sixth item (weapon) has been left here.",
                 Type = WeaponTypes.Mace2H,
@@ -717,7 +717,7 @@ namespace Mud.Server.WPFTestApplication
             ItemShieldBlueprint item7Blueprint = new ItemShieldBlueprint
             {
                 Id = 7,
-                Name = "item7",
+                Name = "item7 seventh",
                 ShortDescription = "Seventh item (shield)",
                 Description = "The seventh item (shield) has been left here.",
                 Armor = 1000,

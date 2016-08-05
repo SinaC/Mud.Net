@@ -64,20 +64,18 @@ namespace Mud.Server.Character
                 Send("Get what?" + Environment.NewLine);
             else if (parameters.Length == 1) // get item, get all, get all.
             {
-                if (parameters[0].Value == "all" || parameters[0].Value.StartsWith("all.")) // get all or get all.
+                CommandParameter whatParameter = parameters[0];
+                if (whatParameter.IsAll) // get all or get all.
                 {
                     // TODO: same code as below (***) except source collection (Room.Content)
-                    IReadOnlyCollection<IItem> list;
+                    IReadOnlyCollection<IItem> list; // list must be cloned because it might be modified
                     bool allDot = false;
-                    if (parameters[0].Value.Contains("."))
+                    if (!String.IsNullOrWhiteSpace(whatParameter.Value)) // get all.
                     {
-                        string what = parameters[0].Value.Substring(4);
-                        list = !String.IsNullOrWhiteSpace(what)
-                            ? new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Room.Content.Where(CanSee), what).ToList())
-                            : new ReadOnlyCollection<IItem>(Room.Content.Where(CanSee).ToList());
+                        list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Room.Content.Where(CanSee), whatParameter).ToList());
                         allDot = true;
                     }
-                    else
+                    else // get all
                         list = new ReadOnlyCollection<IItem>(Room.Content.Where(CanSee).ToList());
                     if (list.Any())
                     {
@@ -85,9 +83,9 @@ namespace Mud.Server.Character
                             GetItem(item);
                     }
                     else if (allDot)
-                        Send("I see nothing like that here."+Environment.NewLine);
+                        Send("I see nothing like that here." + Environment.NewLine);
                     else
-                        Send("I see nothing here."+Environment.NewLine);
+                        Send("I see nothing here." + Environment.NewLine);
                 }
                 else // get item
                 {
@@ -101,7 +99,7 @@ namespace Mud.Server.Character
             else // get item [from] container, get all [from] container, get all.item [from] container
             {
                 CommandParameter whatParameter = parameters[0];
-                CommandParameter whereParameter = parameters[1].Value == "from" ? parameters[2] : parameters[1];
+                CommandParameter whereParameter = FindHelpers.StringEquals(parameters[1].Value, "from") ? parameters[2] : parameters[1];
                 // search container
                 IItem containerItem = FindHelpers.FindByName(Room.Content.Where(CanSee), whereParameter);
                 if (containerItem == null)
@@ -114,20 +112,17 @@ namespace Mud.Server.Character
                     else
                     {
                         // TODO: check if closed
-                        if (whatParameter.Value == "all" || whatParameter.Value.StartsWith("all.")) // get all [from] container, get all.item [from] container
+                        if (whatParameter.IsAll) // get all [from] container, get all.item [from] container
                         {
                             // TODO: same code as above (***) except source collection (container.Content)
-                            IReadOnlyCollection<IItem> list;
+                            IReadOnlyCollection<IItem> list; // list must be cloned because it might be modified
                             bool allDot = false;
-                            if (parameters[0].Value.Contains("."))
+                            if (!String.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item [from] container
                             {
-                                string what = parameters[0].Value.Substring(4);
-                                list = !String.IsNullOrWhiteSpace(what)
-                                    ? new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(container.Content.Where(CanSee), what).ToList())
-                                    : new ReadOnlyCollection<IItem>(container.Content.Where(CanSee).ToList());
+                                list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(container.Content.Where(CanSee), whatParameter).ToList());
                                 allDot = true;
                             }
-                            else
+                            else // get all [from] container
                                 list = new ReadOnlyCollection<IItem>(container.Content.Where(CanSee).ToList());
                             if (list.Any())
                             {
@@ -155,8 +150,8 @@ namespace Mud.Server.Character
 
         [Command("drop", Category = "Item")]
         // Drop item
-        // Drop all
-        // Drop all.item
+        // Drop all TODO
+        // Drop all.item TODO
         protected virtual bool DoDrop(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
