@@ -53,5 +53,6 @@ namespace Mud.Server
         ICharacter GetCharacter(CommandParameter parameter, bool perfectMatch = false);
 
         void Update(); // called every pulse
+        void Cleanup(); // called once outputs has been processed (before next loop)
     }
 }

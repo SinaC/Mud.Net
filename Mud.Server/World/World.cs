@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Logger;
 using Mud.Server.Aura;
 using Mud.Server.Blueprints;
 using Mud.Server.Constants;
@@ -285,7 +286,7 @@ namespace Mud.Server.World
             //
             character.OnRemoved();
             //
-            _characters.Remove(character);
+            //_characters.Remove(character); will removed on cleanup step
         }
 
         public void RemoveItem(IItem item)
@@ -294,7 +295,7 @@ namespace Mud.Server.World
             item.ContainedInto?.GetFromContainer(item);
             IEquipable equipable = item as IEquipable;
             equipable?.ChangeEquipedBy(null);
-            _items.Remove(item);
+            //_items.Remove(item); will removed on cleanup step
             // If container, remove content
             IContainer container = item as IContainer;
             if (container != null)
@@ -319,6 +320,18 @@ namespace Mud.Server.World
         public void Update() // called every pulse (every 1/4 seconds)
         {
             // TODO: see update.C:2332
+        }
+
+        public void Cleanup()
+        {
+            // TODO: room ?
+            if (_items.Any(x => !x.IsValid))
+                Log.Default.WriteLine(LogLevels.Debug, $"Cleaning {_items.Count(x => !x.IsValid)} item(s)");
+            if (_characters.Any(x => !x.IsValid))
+                Log.Default.WriteLine(LogLevels.Debug, $"Cleaning {_characters.Count(x => !x.IsValid)} character(s)");
+
+            _items.RemoveAll(x => !x.IsValid);
+            _characters.RemoveAll(x => !x.IsValid);
         }
 
         #endregion

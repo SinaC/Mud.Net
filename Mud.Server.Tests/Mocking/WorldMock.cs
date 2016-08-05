@@ -198,6 +198,11 @@ namespace Mud.Server.Tests.Mocking
             // TODO
         }
 
+        public void Cleanup()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

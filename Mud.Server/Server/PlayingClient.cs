@@ -6,11 +6,11 @@ namespace Mud.Server.Server
 {
     internal class PlayingClient
     {
+        private readonly ConcurrentQueue<string> _receiveQueue; // concurrent queue is needed because client and server may modify receive queue at the same time
+        private readonly StringBuilder _sendBuffer; // lock is not mandatory because only main loop modify sendBuffer
+
         public IClient Client { get; set; }
         public IPlayer Player { get; set; }
-
-        private readonly ConcurrentQueue<string> _receiveQueue;
-        private readonly StringBuilder _sendBuffer;
 
         public Paging Paging { get; }
 
@@ -35,13 +35,13 @@ namespace Mud.Server.Server
 
         public void EnqueueDataToSend(string data)
         {
-            lock (_sendBuffer)
+            //lock (_sendBuffer)
                 _sendBuffer.Append(data);
         }
 
         public string DequeueDataToSend()
         {
-            lock (_sendBuffer)
+            //lock (_sendBuffer)
             {
                 string data = _sendBuffer.ToString();
                 _sendBuffer.Clear();

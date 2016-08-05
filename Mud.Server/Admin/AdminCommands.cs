@@ -60,6 +60,33 @@ namespace Mud.Server.Admin
             return true;
         }
 
+        [Command("purge")]
+        protected virtual bool DoPurge(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Send("Purge what?"+Environment.NewLine);
+                return true;
+            }
+            if (Impersonating == null)
+            {
+                Send("Slay can only be used when impersonating." + Environment.NewLine);
+                return true;
+            }
+            IItem item = FindHelpers.FindCharacterItemByName2(Impersonating, parameters[0]);
+            if (item == null)
+            {
+                Send(StringHelpers.ItemNotFound);
+                return true;
+            }
+            Impersonating.Act(ActOptions.ToCharacter, "You purge {0}!", item);
+            Impersonating.Act(ActOptions.ToRoom, "{0} purges {1}", Impersonating, item);
+
+            Repository.World.RemoveItem(item);
+
+            return true;
+        }
+
         [Command("force")]
         protected virtual bool DoForce(string rawParameters, params CommandParameter[] parameters)
         {

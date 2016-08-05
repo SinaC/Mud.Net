@@ -682,6 +682,11 @@ namespace Mud.Server.Server
             HandleViolence();
         }
 
+        private void Cleanup()
+        {
+            Repository.World.Cleanup();
+        }
+
         private void GameLoopTask()
         {
             _pulseViolence = ServerOptions.PulseViolence;
@@ -705,6 +710,8 @@ namespace Mud.Server.Server
                     DoPulse();
 
                     ProcessOutput();
+
+                    Cleanup();
 
                     // TODO: remove !IsValid entity
 
