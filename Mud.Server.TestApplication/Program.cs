@@ -358,8 +358,8 @@ namespace Mud.Server.TestApplication
             ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint();
 
             // Add dummy mobs and items to allow impersonate :)
-            IRoom templeOfMota = Repository.World.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
-            IRoom templeSquare = Repository.World.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");
+            IRoom templeOfMota = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
+            IRoom templeSquare = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
             ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
             ICharacter mob2 = Repository.World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);

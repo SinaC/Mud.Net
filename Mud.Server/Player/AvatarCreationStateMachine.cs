@@ -143,7 +143,7 @@ namespace Mud.Server.Player
             if (input == "y" || input == "yes")
             {
                 // Create character + add in world
-                IRoom startingRoom = Repository.World.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota"); // todo: mud school
+                IRoom startingRoom = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota"); // todo: mud school
                 ICharacter avatar = Repository.World.AddCharacter(Guid.NewGuid(), _name, _class, _race, _sex, startingRoom);
                 // TODO: impersonate character with an internal command
                 State = AvatarCreationStates.CreationComplete;

@@ -424,21 +424,21 @@ namespace Mud.Server.WPFTestApplication
 
         private static void CreateMidgaard()
         {
-            MysteryImporter importer = new MysteryImporter();
-            importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
-            importer.Parse();
             //MysteryImporter importer = new MysteryImporter();
-            //string path = @"D:\GitHub\OldMud\area";
-            //string fileList = Path.Combine(path, "area.lst");
-            //string[] areaFilenames = File.ReadAllLines(fileList);
-            //foreach (string areaFilename in areaFilenames)
-            //{
-            //    if (areaFilename.Contains("$"))
-            //        break;
-            //    string areaFullName = Path.Combine(path, areaFilename);
-            //    importer.Load(areaFullName);
-            //    importer.Parse();
-            //}
+            //importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
+            //importer.Parse();
+            MysteryImporter importer = new MysteryImporter();
+            string path = @"D:\GitHub\OldMud\area";
+            string fileList = Path.Combine(path, "area.lst");
+            string[] areaFilenames = File.ReadAllLines(fileList);
+            foreach (string areaFilename in areaFilenames)
+            {
+                if (areaFilename.Contains("$"))
+                    break;
+                string areaFullName = Path.Combine(path, areaFilename);
+                importer.Load(areaFullName);
+                importer.Parse();
+            }
 
             foreach (KeyValuePair<string,int> kv in importer.Objects.GroupBy(o => o.ItemType).ToDictionary(g => g.Key, g => g.Count()).OrderBy(x => x.Value))
                 Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", kv.Key, kv.Value);
@@ -728,8 +728,8 @@ namespace Mud.Server.WPFTestApplication
             ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint(); // this is mandatory
 
             // Add dummy mobs and items to allow impersonate :)
-            IRoom templeOfMota = Repository.World.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
-            IRoom templeSquare = Repository.World.GetRooms().FirstOrDefault(x => x.Name.ToLower() == "the temple square");
+            IRoom templeOfMota = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
+            IRoom templeSquare = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
             ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
             ICharacter mob2 = Repository.World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);

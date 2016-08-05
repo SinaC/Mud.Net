@@ -561,8 +561,9 @@ namespace Mud.Server.Server
             // TODO: remove aura with amount == 0 ?
             // Remove dot/hot on non-impersonated if source is not the in same room (or source is inexistant)
             // TODO: take periodic aura that will be processed/removed
-            IReadOnlyCollection<ICharacter> clonePeriodicAuras = new ReadOnlyCollection<ICharacter>(Repository.World.GetCharacters().Where(x => x.PeriodicAuras.Any()).ToList());
-            foreach (ICharacter character in clonePeriodicAuras)
+            //IReadOnlyCollection<ICharacter> clonePeriodicAuras = new ReadOnlyCollection<ICharacter>(Repository.World.GetCharacters().Where(x => x.PeriodicAuras.Any()).ToList());
+            //foreach (ICharacter character in clonePeriodicAuras)
+            foreach(ICharacter character in Repository.World.Characters.Where(x => x.PeriodicAuras.Any()))
             {
                 try
                 {
@@ -592,8 +593,9 @@ namespace Mud.Server.Server
         {
             // TODO: remove aura with amount == 0 ?
             // Take aura that will expired
-            IReadOnlyCollection<ICharacter> cloneAuras = new ReadOnlyCollection<ICharacter>(Repository.World.GetCharacters().Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)).ToList());
-            foreach (ICharacter character in cloneAuras)
+            //IReadOnlyCollection<ICharacter> cloneAuras = new ReadOnlyCollection<ICharacter>(Repository.World.GetCharacters().Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)).ToList());
+            //foreach (ICharacter character in cloneAuras)
+            foreach(ICharacter character in Repository.World.Characters.Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)))
             {
                 try
                 {
@@ -617,7 +619,7 @@ namespace Mud.Server.Server
         private void HandleCooldowns() // TODO: specific pulse ? 1/2 seconds
         {
             // TODO: filter on character with expired cooldowns
-            foreach (ICharacter character in Repository.World.GetCharacters().Where(x => x.HasAbilitiesInCooldown))
+            foreach (ICharacter character in Repository.World.Characters.Where(x => x.HasAbilitiesInCooldown))
             {
                 try
                 {
@@ -643,8 +645,9 @@ namespace Mud.Server.Server
 
             Log.Default.WriteLine(LogLevels.Trace, "PulseViolence");
 
-            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Repository.World.GetCharacters().Where(x => x.Fighting != null).ToList());
-            foreach (ICharacter character in clone)
+            //IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Repository.World.GetCharacters().Where(x => x.Fighting != null).ToList());
+            //foreach (ICharacter character in clone)
+            foreach(ICharacter character in Repository.World.Characters.Where(x => x.Fighting != null))
             {
                 ICharacter victim = character.Fighting;
                 if (victim != null)
@@ -719,9 +722,9 @@ namespace Mud.Server.Server
                     long elapsedMs = sw.ElapsedMilliseconds; // in milliseconds
                     if (elapsedMs < ServerOptions.PulseDelay)
                     {
-                        //long elapsedTick = sw.ElapsedTicks; // 1 tick = 1 second/Stopwatch.Frequency
-                        //long elapsedNs = sw.Elapsed.Ticks; // 1 tick = 1 nanosecond
-                        //Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}Ms {1}Ticks {2}Ns", elapsedMs, elapsedTick, elapsedNs);
+                        long elapsedTick = sw.ElapsedTicks; // 1 tick = 1 second/Stopwatch.Frequency
+                        long elapsedNs = sw.Elapsed.Ticks; // 1 tick = 1 nanosecond
+                        Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}Ms {1}Ticks {2}Ns", elapsedMs, elapsedTick, elapsedNs);
                         //Thread.Sleep(250 - (int) elapsedMs);
                         int sleepTime = ServerOptions.PulseDelay - (int)elapsedMs;
                         _cancellationTokenSource.Token.WaitHandle.WaitOne(sleepTime);

@@ -191,8 +191,7 @@ namespace Mud.Server.Abilities
                 ProcessOnOneTarget(source, target, ability);
             }
             //7/ Set global cooldown
-            if (source.ImpersonatedBy != null)
-                source.ImpersonatedBy.SetGlobalCooldown(ability.GlobalCooldown);
+            source.ImpersonatedBy?.SetGlobalCooldown(ability.GlobalCooldown);
             // TODO: if ability cannot be used because an effect cannot be casted (ex. power word: shield with weakened soul is still affecting)
             //8/ Set cooldown
             if (ability.Cooldown > 0)

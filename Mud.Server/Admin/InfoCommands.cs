@@ -111,7 +111,7 @@ namespace Mud.Server.Admin
                 Send("mstat whom?" + Environment.NewLine);
             else
             {
-                ICharacter victim = FindHelpers.FindByName(Repository.World.GetCharacters(), parameters[0]);
+                ICharacter victim = FindHelpers.FindByName(Repository.World.Characters, parameters[0]);
                 if (victim == null)
                     Send(StringHelpers.NotFound);
                 else
@@ -189,7 +189,7 @@ namespace Mud.Server.Admin
                 Send("ostat what?"+Environment.NewLine);
             else
             {
-                IItem item = FindHelpers.FindByName(Repository.World.GetItems(), parameters[0]);
+                IItem item = FindHelpers.FindByName(Repository.World.Items, parameters[0]);
                 if (item == null)
                     Send(StringHelpers.NotFound);
                 else
@@ -265,7 +265,7 @@ namespace Mud.Server.Admin
 
             // TODO: destination to mob or room id
             //IRoom destination = Impersonating.Room.GetRoom(ExitDirections.South).GetRoom(ExitDirections.South).GetRoom(ExitDirections.South).GetRoom(ExitDirections.East).GetRoom(ExitDirections.East).GetRoom(ExitDirections.South).GetRoom(ExitDirections.South).GetRoom(ExitDirections.West).GetRoom(ExitDirections.West);
-            IRoom destination = FindHelpers.FindByName(Repository.World.GetRooms(), parameters[0]);
+            IRoom destination = FindHelpers.FindByName(Repository.World.Rooms, parameters[0]);
 
             if (destination == null)
             {

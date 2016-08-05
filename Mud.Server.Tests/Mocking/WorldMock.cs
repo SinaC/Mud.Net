@@ -68,19 +68,22 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IReadOnlyCollection<IRoom> GetRooms()
+        public IEnumerable<IRoom> Rooms
         {
-            return _rooms.AsReadOnly();
+            get { return _rooms.AsReadOnly(); }
         }
 
-        public IReadOnlyCollection<ICharacter> GetCharacters()
+        public IEnumerable<ICharacter> Characters
         {
-            return _characters.AsReadOnly();
+            get { return _characters.AsReadOnly(); }
         }
 
-        public IReadOnlyCollection<IItem> GetItems()
+        public IEnumerable<IItem> Items
         {
-            return _items.AsReadOnly();
+            get
+            {
+                return _items.AsReadOnly();
+            }
         }
 
         public ICharacter AddCharacter(Guid guid, string name, IClass pcClass, IRace pcRace, Sex pcSex, IRoom room)

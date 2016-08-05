@@ -794,7 +794,7 @@ namespace Mud.Server.Character
             Fighting = null;
             // TODO: change/update pos
             if (both)
-                foreach (ICharacter enemy in Repository.World.GetCharacters().Where(x => x.Fighting == this))
+                foreach (ICharacter enemy in Repository.World.Characters.Where(x => x.Fighting == this))
                 {
                     enemy.StopFighting(false);
                     // TODO: change/update pos

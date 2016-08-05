@@ -94,7 +94,7 @@ namespace Mud.Server.Admin
                 Send("Force whom what?" + Environment.NewLine);
             else
             {
-                ICharacter victim = FindHelpers.FindByName(Repository.World.GetCharacters(), parameters[0]);
+                ICharacter victim = FindHelpers.FindByName(Repository.World.Characters, parameters[0]);
                 if (victim == null)
                     Send("Target not found.");
                 else

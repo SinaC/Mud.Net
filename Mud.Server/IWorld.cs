@@ -21,9 +21,9 @@ namespace Mud.Server
         void AddCharacterBlueprint(CharacterBlueprint blueprint);
         void AddItemBlueprint(ItemBlueprintBase blueprint);
 
-        IReadOnlyCollection<IRoom> GetRooms();
-        IReadOnlyCollection<ICharacter> GetCharacters();
-        IReadOnlyCollection<IItem> GetItems();
+        IEnumerable<IRoom> Rooms { get; }
+        IEnumerable<ICharacter> Characters { get; }
+        IEnumerable<IItem> Items { get; }
 
         IRoom AddRoom(Guid guid, RoomBlueprint blueprint);
 

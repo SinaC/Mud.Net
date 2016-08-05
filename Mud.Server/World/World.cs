@@ -92,20 +92,11 @@ namespace Mud.Server.World
             _itemBlueprints.Add(blueprint.Id, blueprint);
         }
 
-        public IReadOnlyCollection<IRoom> GetRooms()
-        {
-            return _rooms.Where(x =>x.IsValid).ToList().AsReadOnly();
-        }
+        public IEnumerable<IRoom> Rooms =>_rooms.Where(x => x.IsValid);
 
-        public IReadOnlyCollection<ICharacter> GetCharacters()
-        {
-            return _characters.Where(x =>x.IsValid).ToList().AsReadOnly();
-        }
+        public IEnumerable<ICharacter> Characters => _characters.Where(x => x.IsValid);
 
-        public IReadOnlyCollection<IItem> GetItems()
-        {
-            return _items.Where(x =>x.IsValid).ToList().AsReadOnly();
-        }
+        public IEnumerable<IItem> Items => _items.Where(x => x.IsValid);
 
         public IRoom AddRoom(Guid guid, RoomBlueprint blueprint)
         {
