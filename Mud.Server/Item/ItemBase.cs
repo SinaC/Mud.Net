@@ -57,13 +57,15 @@ namespace Mud.Server.Item
 
         public bool IsWearable { get; private set; } // TODO:
 
+		public int DecayPulseLeft { get; protected set; } // 0: means no decay
+
         public virtual int Weight { get; }
 
         public virtual int Cost { get; }
 
         public bool ChangeContainer(IContainer container)
         {
-            Log.Default.WriteLine(LogLevels.Info, "ChangeContainer: {0} : {1} -> {2}", Name, ContainedInto == null ? "<<??>>" : ContainedInto.Name, container == null ? "<<??>>" : container.Name);
+            Log.Default.WriteLine(LogLevels.Info, "ChangeContainer: {0} : {1} -> {2}", DisplayName, ContainedInto == null ? "<<??>>" : ContainedInto.DisplayName, container == null ? "<<??>>" : container.DisplayName);
 
             ContainedInto?.GetFromContainer(this);
             //Debug.Assert(container != null, "ChangeContainer: an item cannot be outside a container"); // False, equipment are not stored in any container
@@ -72,6 +74,12 @@ namespace Mud.Server.Item
             container?.PutInContainer(this);
             ContainedInto = container;
             return true;
+        }
+
+        public void DecreaseDecayPulseLeft()
+        {
+            if (DecayPulseLeft > 0)
+                DecayPulseLeft--;
         }
 
         #endregion

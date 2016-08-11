@@ -65,12 +65,12 @@ namespace Mud.Server.Admin
         {
             if (parameters.Length == 0)
             {
-                Send("Purge what?"+Environment.NewLine);
+                Send("Purge what?" + Environment.NewLine);
                 return true;
             }
             if (Impersonating == null)
             {
-                Send("Slay can only be used when impersonating." + Environment.NewLine);
+                Send("Purge can only be used when impersonating." + Environment.NewLine);
                 return true;
             }
             IItem item = FindHelpers.FindCharacterItemByName2(Impersonating, parameters[0]);

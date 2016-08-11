@@ -56,18 +56,18 @@ namespace Mud.Server.Entity
                 return false;
             }
 
-            Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", Name, commandLine);
+            Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
             return ExecuteCommand(command, rawParameters, parameters);
         }
 
         public override void Send(string message)
         {
-            Log.Default.WriteLine(LogLevels.Debug, "SEND[{0}]: {1}", Name, message);
+            Log.Default.WriteLine(LogLevels.Debug, "SEND[{0}]: {1}", DisplayName, message);
 
             if (IncarnatedBy != null)
             {
                 if (ServerOptions.PrefixForwardedMessages)
-                    message = "<INC|" + Name + ">" + message;
+                    message = "<INC|" + DisplayName + ">" + message;
                 IncarnatedBy.Send(message);
             }
         }
@@ -89,8 +89,13 @@ namespace Mud.Server.Entity
         public bool Incarnatable { get; private set; }
         public IAdmin IncarnatedBy { get; private set; }
 
-        public bool ChangeIncarnation(IAdmin admin) // if non-null, start incarnation, else, stop incarnation
+        public virtual bool ChangeIncarnation(IAdmin admin) // if non-null, start incarnation, else, stop incarnation
         {
+            if (!IsValid)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "IEntity.ChangeIncarnation: {0} is not valid anymore", DisplayName);
+                return false;
+            }
             // TODO: check if not already incarnated, if incarnatable, ...
             IncarnatedBy = admin;
             return true;

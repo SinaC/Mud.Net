@@ -31,7 +31,7 @@ namespace Mud.Server.Classes
 
         #region IClassManager
 
-        public IReadOnlyCollection<IClass> Classes => _classes.AsReadOnly();
+        public IEnumerable<IClass> Classes => _classes;
 
         public IClass this[string name]
         {

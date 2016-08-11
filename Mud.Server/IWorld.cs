@@ -39,18 +39,15 @@ namespace Mud.Server
         IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim);
         IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container);
         IItemFurniture AddItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer container);
+        IItemJewelry AddItemJewelry(Guid guid, ItemJewelryBlueprint blueprint, IContainer container);
 
-        IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible);
+        IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool recompute);
         IPeriodicAura AddPeriodicAura(ICharacter victim, IAbility ability, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks); // Hot
         IPeriodicAura AddPeriodicAura(ICharacter victim, IAbility ability, ICharacter source, SchoolTypes school, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks); // Dot
 
         void RemoveCharacter(ICharacter character);
         void RemoveItem(IItem item);
         void RemoveRoom(IRoom room);
-
-        // TODO: remove
-        // TEST PURPOSE
-        ICharacter GetCharacter(CommandParameter parameter, bool perfectMatch = false);
 
         void Update(); // called every pulse
         void Cleanup(); // called once outputs has been processed (before next loop)

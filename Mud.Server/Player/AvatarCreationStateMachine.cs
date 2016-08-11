@@ -104,7 +104,7 @@ namespace Mud.Server.Player
                 player.Send("Creation cancelled" + Environment.NewLine);
                 return AvatarCreationStates.Quit;
             }
-            List<IRace> races = Repository.RaceManager.Races.Where(x => FindHelpers.StringStartWith(x.Name, input)).ToList();
+            List<IRace> races = Repository.RaceManager.Races.Where(x => FindHelpers.StringStartsWith(x.Name, input)).ToList();
             if (races.Count == 1)
             {
                 _race = races[0];
@@ -123,7 +123,7 @@ namespace Mud.Server.Player
                 player.Send("Creation cancelled" + Environment.NewLine);
                 return AvatarCreationStates.Quit;
             }
-            List<IClass> classes = Repository.ClassManager.Classes.Where(x => FindHelpers.StringStartWith(x.Name, input)).ToList();
+            List<IClass> classes = Repository.ClassManager.Classes.Where(x => FindHelpers.StringStartsWith(x.Name, input)).ToList();
             if (classes.Count == 1)
             {
                 _class = classes[0];

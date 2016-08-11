@@ -24,7 +24,7 @@ namespace Mud.Server.Character
         [Command("abilities", Category = "Ability")]
         protected virtual bool DoAbilities(string rawParameters, params CommandParameter[] parameters)
         {
-            bool displayAll = parameters.Length > 0 && parameters[0].Value == "all"; // Display spells below level or all ?
+            bool displayAll = parameters.Length > 0 && parameters[0].IsAll; // Display spells below level or all ?
             // TODO: color
             // TODO: split into spells/skills
 

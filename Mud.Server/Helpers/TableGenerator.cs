@@ -76,7 +76,7 @@ namespace Mud.Server.Helpers
             _columns.Add(column);
         }
 
-        public StringBuilder Generate(IEnumerable<T> items) // no merged cells
+        public StringBuilder Generate(IEnumerable<T> items)
         {
             StringBuilder sb = new StringBuilder();
 

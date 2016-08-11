@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mud.Server.Blueprints;
+using Mud.Server.Server;
 
 namespace Mud.Server.Item
 {
@@ -21,6 +22,10 @@ namespace Mud.Server.Item
             Description = "The corpse of " + _corpseName + " is laying here.";
             _content = new List<IItem>();
             List<IItem> inventory = new List<IItem>(character.Content); // clone
+            if (inventory.Any())
+                DecayPulseLeft = ServerOptions.PulsePerMinutes * 5;
+            else
+                DecayPulseLeft = ServerOptions.PulsePerMinutes;
             foreach (IItem item in inventory) // TODO: check stay death flag
                 item.ChangeContainer(this);
             foreach (IEquipable item in character.Equipments.Where(x => x.Item != null).Select(x => x.Item))
@@ -40,7 +45,7 @@ namespace Mud.Server.Item
 
         #region IContainer
 
-        public IReadOnlyCollection<IItem> Content => _content;
+        public IEnumerable<IItem> Content => _content;
 
         public bool PutInContainer(IItem obj)
         {

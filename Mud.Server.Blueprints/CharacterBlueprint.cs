@@ -27,6 +27,6 @@ namespace Mud.Server.Blueprints
         [DataMember]
         public int Level { get; set; }
 
-        // TODO: flags, armor, damage, ...
+        // TODO: race, class, flags, armor, damage, ...
     }
 }

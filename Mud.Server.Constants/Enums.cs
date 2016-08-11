@@ -137,13 +137,17 @@
         Spirit
     }
 
-    public enum ComputedAttributeTypes // dependent on primary attribute, aura and items (computed in Recompute)
+    public enum SecondaryAttributeTypes // dependent on primary attribute, aura and items (computed in Recompute)
     {
         MaxHitPoints,
         AttackSpeed,
         AttackPower,
         SpellPower,
         Armor,
+        Critical,
+        Dodge,
+        Parry,
+        Block
     }
 
     public enum ResourceKinds
@@ -180,7 +184,12 @@
         AttackPower,
         SpellPower,
         MaxHitPoints,
-        Absorb,
+        DamageAbsorb,
+        HealAbsorb,
         Armor,
+        Critical,
+        Dodge,
+        Parry,
+        Block
     }
 }

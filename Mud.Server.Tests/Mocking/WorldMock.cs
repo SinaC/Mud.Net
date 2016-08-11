@@ -68,23 +68,11 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IRoom> Rooms
-        {
-            get { return _rooms.AsReadOnly(); }
-        }
+        public IEnumerable<IRoom> Rooms => _rooms;
 
-        public IEnumerable<ICharacter> Characters
-        {
-            get { return _characters.AsReadOnly(); }
-        }
+        public IEnumerable<ICharacter> Characters => _characters;
 
-        public IEnumerable<IItem> Items
-        {
-            get
-            {
-                return _items.AsReadOnly();
-            }
-        }
+        public IEnumerable<IItem> Items => _items;
 
         public ICharacter AddCharacter(Guid guid, string name, IClass pcClass, IRace pcRace, Sex pcSex, IRoom room)
         {
@@ -127,6 +115,11 @@ namespace Mud.Server.Tests.Mocking
         }
 
         public IItemFurniture AddItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IItemJewelry AddItemJewelry(Guid guid, ItemJewelryBlueprint blueprint, IContainer container)
         {
             throw new NotImplementedException();
         }
@@ -189,11 +182,6 @@ namespace Mud.Server.Tests.Mocking
         public IItem AddItemLight(Guid guid, ItemBlueprintBase blueprint, IContainer container)
         {
             throw new NotImplementedException();
-        }
-
-        public ICharacter GetCharacter(CommandParameter parameter, bool perfectMatch = false)
-        {
-            return FindHelpers.FindByName(_characters, parameter);
         }
 
         public void Update()

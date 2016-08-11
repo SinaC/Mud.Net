@@ -31,7 +31,7 @@ namespace Mud.Server.Races
 
         #region IRaceManager
 
-        public IReadOnlyCollection<IRace> Races => _races.AsReadOnly();
+        public IEnumerable<IRace> Races => _races;
 
         public IRace this[string name]
         {

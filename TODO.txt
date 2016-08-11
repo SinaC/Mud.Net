@@ -1,14 +1,20 @@
 impersonable list
 use more StringBuilder
+shapeshift (for example druid: bear/cat/cheetah/moonkin demonist: demon)
+specialization
+talent
 
 aura/periodic aura can have multiply affects/effects
 
 Mystery to new format converter  (see olc_act.C:2578 for obj values  L4571 for mob values)
 
-combat table: 
+combat table:
+http://wowwiki.wikia.com/wiki/Combat
 http://wow.gamepedia.com/Attack_table
 http://wow.gamepedia.com/Dual_wield
 http://wow.gamepedia.com/Crushing_blow
+
+check wheelmud for mccp/mxp
 
 loot table instead of resets
 
@@ -53,8 +59,7 @@ dispel type: ?
 effects: list of effect such as weapon damage %, school damage % spellpower, apply aura absorb damage, apply aura periodic damage % spellpower tick seconds, apply aura periodic heal % spellpower tick seconds
 flags: require main hand, not shapeshifted, passive
 
-include command priority in Trie (probably a new data structure)
-+ option in CommandAttribute to force full command name to be typed
+option in CommandAttribute to force full command name to be typed
 
 hide password:
 http://stackoverflow.com/questions/6380257/how-can-i-mask-user-input-when-telneting

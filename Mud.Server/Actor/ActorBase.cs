@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Actor
@@ -29,7 +30,18 @@ namespace Mud.Server.Actor
                 if (entry.Value?.MethodInfo != null)
                 {
                     MethodInfo methodInfo = entry.Value.MethodInfo;
-                    bool executedSuccessfully = (bool) methodInfo.Invoke(this, new object[] {rawParameters, parameters});
+                    bool executedSuccessfully;
+                    if (entry.Value.Attribute.AddCommandInParameters)
+                    {
+                        CommandParameter[] enhancedParameters = new CommandParameter[parameters?.Length + 1 ?? 1];
+                        if (parameters != null)
+                            Array.ConstrainedCopy(parameters, 0, enhancedParameters, 1, parameters.Length);
+                        enhancedParameters[0] = new CommandParameter(command, 1);
+                        string enhancedRawParameters = command + " " + rawParameters;
+                        executedSuccessfully = (bool)methodInfo.Invoke(this, new object[] { enhancedRawParameters, enhancedParameters });
+                    }
+                    else
+                        executedSuccessfully = (bool) methodInfo.Invoke(this, new object[] {rawParameters, parameters});
                     if (!executedSuccessfully)
                     {
                         Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
@@ -67,12 +79,14 @@ namespace Mud.Server.Actor
         [Command("commands", Priority = 0)]
         protected virtual bool DoCommands(string rawParameters, params CommandParameter[] parameters)
         {
-            // TODO: filter by category
             // TODO: group trie by value and display set of key linked to this value
 
+            IEnumerable<KeyValuePair<string, CommandMethodInfo>> filteredCommands = Commands.Where(x => !x.Value.Attribute.Hidden);
+            if (parameters.Length > 0)
+                filteredCommands = filteredCommands.Where(x => FindHelpers.StringStartsWith(x.Value.Attribute.Category, parameters[0].Value));
+
             StringBuilder sb = new StringBuilder("Available commands:"+Environment.NewLine);
-            foreach (IGrouping<string, KeyValuePair<string, CommandMethodInfo>> group in Commands
-                .Where(x => !x.Value.Attribute.Hidden)
+            foreach (IGrouping<string, KeyValuePair<string, CommandMethodInfo>> group in filteredCommands
                 .GroupBy(x => x.Value.Attribute.Category)
                 .OrderBy(g => g.Key))
             {
@@ -84,12 +98,7 @@ namespace Mud.Server.Actor
                     .ThenBy(x => x.Key))
                 {
                     if ((++index%6) == 0)
-                    {
-                        sb.AppendFormat("{0,-13}", kv.Key);
-                        sb.AppendLine();
-                        Send(sb);
-                        sb = new StringBuilder();
-                    }
+                        sb.AppendFormatLine("{0,-13}", kv.Key);
                     else
                         sb.AppendFormat("{0,-13}", kv.Key);
                 }

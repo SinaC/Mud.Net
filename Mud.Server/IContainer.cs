@@ -4,7 +4,7 @@ namespace Mud.Server
 {
     public interface IContainer : IEntity
     {
-        IReadOnlyCollection<IItem> Content { get; }
+        IEnumerable<IItem> Content { get; }
 
         bool PutInContainer(IItem obj);
         bool GetFromContainer(IItem obj);

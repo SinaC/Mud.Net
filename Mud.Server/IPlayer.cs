@@ -40,6 +40,8 @@ namespace Mud.Server
         bool Load(string name);
         bool Save();
 
+        void StopImpersonating();
+
         void OnDisconnected();
     }
 }

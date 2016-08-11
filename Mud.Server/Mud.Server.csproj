@@ -58,10 +58,12 @@
     <Compile Include="Classes\ClassBase.cs" />
     <Compile Include="Classes\ClassManager.cs" />
     <Compile Include="Classes\Cleric.cs" />
+    <Compile Include="Classes\Druid.cs" />
     <Compile Include="Classes\Mage.cs" />
     <Compile Include="Classes\Thief.cs" />
     <Compile Include="Classes\Warrior.cs" />
     <Compile Include="Helpers\CombatHelpers.cs" />
+    <Compile Include="Helpers\ComplexTableGenerator.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\TableGenerator.cs" />
     <Compile Include="IClass.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Item\IItemContainer.cs" />
     <Compile Include="Item\IItemCorpse.cs" />
     <Compile Include="Item\IItemFurniture.cs" />
+    <Compile Include="Item\IItemJewelry.cs" />
     <Compile Include="Item\IItemLight.cs" />
     <Compile Include="Item\IItemShield.cs" />
     <Compile Include="Item\IItemWeapon.cs" />
@@ -98,6 +101,7 @@
     <Compile Include="Item\ItemCorpse.cs" />
     <Compile Include="Item\ItemEquipableBase.cs" />
     <Compile Include="Item\ItemFurniture.cs" />
+    <Compile Include="Item\ItemJewelry.cs" />
     <Compile Include="Item\ItemLight.cs" />
     <Compile Include="Item\ItemShield.cs" />
     <Compile Include="Item\ItemWeapon.cs" />
@@ -124,6 +128,7 @@
     <Compile Include="Server\LoginStateMachine.cs" />
     <Compile Include="Server\Paging.cs" />
     <Compile Include="Server\PlayingClient.cs" />
+    <Compile Include="Server\PulseManager.cs" />
     <Compile Include="Server\Server.cs" />
     <Compile Include="Server\ServerOptions.cs" />
     <Compile Include="IAbility.cs" />

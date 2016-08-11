@@ -31,10 +31,16 @@ namespace Mud.Server
         void ResetSource();
 
         // Absorb, returns remaining damage (only for absorb Aura)
-        int Absorb(int damage);
+        int Absorb(int amount);
 
         // Refresh with a new aura
         void Refresh(IAura aura);
+
+        // Called when dispelled
+        void OnDispelled(IEntity source);
+
+        // Called when vanished
+        void OnVanished(IEntity source);
     }
 
     // TODO ???

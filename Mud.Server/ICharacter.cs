@@ -11,7 +11,8 @@ namespace Mud.Server
     {
         ToRoom, // everyone in the room except Character
         ToCharacter, // only to Character
-        ToAll // everyone in the room
+        ToAll, // everyone in the room
+        ToGroup // everyone in the group (leader is not in group)
     }
 
     public interface ICharacter : IEntity, IContainer
@@ -21,7 +22,7 @@ namespace Mud.Server
         IRoom Room { get; }
         ICharacter Fighting { get; }
 
-        IReadOnlyCollection<EquipedItem> Equipments { get; }
+        IEnumerable<EquipedItem> Equipments { get; }
 
         // Class/Race
         IClass Class { get; }
@@ -33,18 +34,18 @@ namespace Mud.Server
         int HitPoints { get; }
         int this[ResourceKinds resource] { get; }
         int this[PrimaryAttributeTypes attribute] { get; }
-        int this[ComputedAttributeTypes attribute] { get; }
+        int this[SecondaryAttributeTypes attribute] { get; }
 
         // Abilities
-        IReadOnlyCollection<AbilityAndLevel> KnownAbilities { get; }
+        IEnumerable<AbilityAndLevel> KnownAbilities { get; }
 
         // Auras
-        IReadOnlyCollection<IPeriodicAura> PeriodicAuras { get; }
-        IReadOnlyCollection<IAura> Auras { get; }
+        IEnumerable<IPeriodicAura> PeriodicAuras { get; }
+        IEnumerable<IAura> Auras { get; }
 
         // Group/Follower
         ICharacter Leader { get; }
-        IReadOnlyCollection<ICharacter> GroupMembers { get; }
+        IEnumerable<ICharacter> GroupMembers { get; } //!! leader is not be member of its own group and only leader stores GroupMembers
 
         // Impersonation/Controller
         bool Impersonable { get; }
@@ -55,8 +56,8 @@ namespace Mud.Server
 
         // Group/Follower
         bool ChangeLeader(ICharacter leader);
-        bool AddGroupMember(ICharacter member);
-        bool RemoveGroupMember(ICharacter member);
+        bool AddGroupMember(ICharacter member, bool silent);
+        bool RemoveGroupMember(ICharacter member, bool silent);
         bool AddFollower(ICharacter follower);
         bool StopFollower(ICharacter follower);
 
@@ -65,7 +66,7 @@ namespace Mud.Server
         bool ChangeController(ICharacter master); // if non-null, start slavery, else, stop slavery
 
         // Act
-        void Act(ActOptions options, string format, params object[] arguments);
+        void Act(ActOptions option, string format, params object[] arguments);
         void ActToNotVictim(ICharacter victim, string format, params object[] arguments); // to everyone except this and victim
 
         // Equipments
@@ -79,6 +80,7 @@ namespace Mud.Server
         int GetBasePrimaryAttribute(PrimaryAttributeTypes attribute);
         int GetMaxResource(ResourceKinds resource);
         void SpendResource(ResourceKinds resource, int amount);
+        void RegenerateResources();
 
         // Auras
         void AddPeriodicAura(IPeriodicAura aura);
@@ -87,11 +89,11 @@ namespace Mud.Server
         void RemoveAura(IAura aura, bool recompute);
 
         // Recompute
-        void ResetAttributes();
+        void ResetAttributes(bool resetHitPoints);
         void RecomputeAttributes();
 
         // Move
-        bool Move(ExitDirections direction, bool follow = false);
+        bool Move(ExitDirections direction, bool checkFighting, bool follow = false);
         void ChangeRoom(IRoom destination);
 
         // Combat
@@ -100,12 +102,12 @@ namespace Mud.Server
         bool StartFighting(ICharacter enemy);
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
         bool WeaponDamage(ICharacter source, IItemWeapon weapon, int damage, SchoolTypes damageType, bool visible); // damage from weapon(or bare hands) of known source
-        bool Damage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage from known source
-        bool UnknownSourceDamage(IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage from unknown source
+        bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage from ability of known source
+        bool UnknownSourceDamage(IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage with unknown source or no source
         bool RawKill(ICharacter victim, bool killingPayoff); // kill victim + create corpse (if killingPayoff is true, xp gain/loss)
 
         // Ability
-        IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> AbilitiesInCooldown { get; }
+        IDictionary<IAbility, DateTime> AbilitiesInCooldown { get; }
         bool HasAbilitiesInCooldown { get; }
         int CooldownSecondsLeft(IAbility ability); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)
         void SetCooldown(IAbility ability);

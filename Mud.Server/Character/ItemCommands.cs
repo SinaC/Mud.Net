@@ -11,25 +11,35 @@ namespace Mud.Server.Character
 {
     public partial class Character
     {
+        // TODO: wield is specific for weapon
+        // TOOD: hold is specific for offhand
         [Command("wear", Category = "Item")]
         [Command("wield", Category = "Item")]
         [Command("hold", Category = "Item")]
+        // Wear item
+        // Wear all
+        // Wear all.item
         protected virtual bool DoWear(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 Send("Wear, wield, or hold what?" + Environment.NewLine);
-            else if (rawParameters == "all")
+            else if (parameters[0].IsAll)
             {
-                bool atLeastOneEquiped = false;
-                // We have to clone list, because it'll be modified when wearing an item
-                IReadOnlyCollection<IEquipable> clone = new ReadOnlyCollection<IEquipable>(Content.Where(CanSee).OfType<IEquipable>().ToList());
-                foreach (IEquipable item in clone)
+                CommandParameter whatParameter = parameters[0];
+                // We have to clone list because it'll be modified when wearing an item
+                IReadOnlyCollection<IEquipable> list; // list must be cloned because it'll be modified when wearing an item
+                if (!String.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item
+                    list = new ReadOnlyCollection<IEquipable>(FindHelpers.FindAllByName(Content.Where(CanSee).OfType<IEquipable>(), whatParameter).ToList());
+                else // get all
+                    list = new ReadOnlyCollection<IEquipable>(Content.Where(CanSee).OfType<IEquipable>().ToList());
+                if (list.Any())
                 {
-                    WearItem(item, false);
-                    atLeastOneEquiped = true;
-                }
-                if (atLeastOneEquiped)
+                    foreach (IEquipable item in list)
+                        WearItem(item, false);
                     RecomputeAttributes();
+                }
+                else
+                    Send(StringHelpers.ItemInventoryNotFound); // TODO: better wording
             }
             else
             {
@@ -68,9 +78,9 @@ namespace Mud.Server.Character
                 if (whatParameter.IsAll) // get all or get all.
                 {
                     // TODO: same code as below (***) except source collection (Room.Content)
-                    IReadOnlyCollection<IItem> list; // list must be cloned because it might be modified
+                    IReadOnlyCollection<IItem> list; // list must be cloned because it'll be modified when getting an item
                     bool allDot = false;
-                    if (!String.IsNullOrWhiteSpace(whatParameter.Value)) // get all.
+                    if (!String.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item
                     {
                         list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Room.Content.Where(CanSee), whatParameter).ToList());
                         allDot = true;
@@ -115,7 +125,7 @@ namespace Mud.Server.Character
                         if (whatParameter.IsAll) // get all [from] container, get all.item [from] container
                         {
                             // TODO: same code as above (***) except source collection (container.Content)
-                            IReadOnlyCollection<IItem> list; // list must be cloned because it might be modified
+                            IReadOnlyCollection<IItem> list; // list must be cloned because it'll be modified when getting an item
                             bool allDot = false;
                             if (!String.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item [from] container
                             {
@@ -150,25 +160,33 @@ namespace Mud.Server.Character
 
         [Command("drop", Category = "Item")]
         // Drop item
-        // Drop all TODO
-        // Drop all.item TODO
+        // Drop all
+        // Drop all.item
         protected virtual bool DoDrop(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 Send("Drop what?" + Environment.NewLine);
-            else if (parameters[0].Value.StartsWith("all"))
-                ; // TODO
+            else if (parameters[0].IsAll)
+            {
+                CommandParameter whatParameter = parameters[0];
+                IReadOnlyCollection<IItem> list; // list must be cloned because it'll be modified when dropping an item
+                if (!String.IsNullOrWhiteSpace(whatParameter.Value)) // drop all.item
+                    list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Content.Where(CanSee), whatParameter).ToList());
+                else // drop all
+                    list = new ReadOnlyCollection<IItem>(Content.Where(CanSee).ToList());
+                if (list.Any())
+                {
+                    foreach (IItem item in list)
+                        DropItem(item);
+                }
+            }
             else
             {
                 IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
                 if (item == null)
                     Send(StringHelpers.ItemInventoryNotFound);
                 else
-                {
-                    Act(ActOptions.ToCharacter, "You drop {0}.", item);
-                    Act(ActOptions.ToRoom, "{0} drops {1}.", this, item);
-                    item.ChangeContainer(Room);
-                }
+                    DropItem(item);
             }
             return true;
         }
@@ -261,7 +279,7 @@ namespace Mud.Server.Character
 
             if (wearLocation == WearLocations.None)
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Item {0} cannot be equiped", item.Name);
+                Log.Default.WriteLine(LogLevels.Warning, "Item {0} cannot be equiped", item.DisplayName);
                 if (replace) // replace means, only item is trying to be worn
                     Act(ActOptions.ToCharacter, "{0} cannot be worn.", item);
                 return false;
@@ -288,6 +306,14 @@ namespace Mud.Server.Character
             equipmentSlot.Item = item; // equip
             item.ChangeContainer(null); // remove from inventory
             item.ChangeEquipedBy(this); // set as equiped by this
+            return true;
+        }
+
+        private bool DropItem(IItem item)
+        {
+            Act(ActOptions.ToCharacter, "You drop {0}.", item);
+            Act(ActOptions.ToRoom, "{0} drops {1}.", this, item);
+            item.ChangeContainer(Room);
             return true;
         }
 

@@ -72,13 +72,13 @@ namespace Mud.Server.WPFTestApplication
             {
                 OutputText("Admins:");
                 foreach (IAdmin a in Repository.Server.GetAdmins())
-                    OutputText(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.Name : "") + " " + (a.Incarnating != null ? a.Incarnating.Name : ""));
+                    OutputText(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.DisplayName : "") + " " + (a.Incarnating != null ? a.Incarnating.DisplayName : ""));
             }
             else if (input == "plist")
             {
                 OutputText("players:");
                 foreach (IPlayer p in Repository.Server.GetPlayers())
-                    OutputText(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.Name : ""));
+                    OutputText(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.DisplayName : ""));
             }
             InputTextBox.Focus();
             InputTextBox.SelectAll();
@@ -223,7 +223,8 @@ namespace Mud.Server.WPFTestApplication
                         return WearLocations.Light;
                     else
                         return WearLocations.None;
-                //case 1 << 1: // B finger
+                case 1 << 1: // B finger
+                    return WearLocations.Ring;
                 case 1 << 2: // C
                     return WearLocations.Amulet;
                 case 1 << 3: // D
@@ -364,9 +365,26 @@ namespace Mud.Server.WPFTestApplication
                     ResourceBonus = 0
                 };
             }
+            else if (data.ItemType == "jewelry" || data.ItemType == "treasure")
+            {
+                blueprint = new ItemJewelryBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = data.ExtraDescr,
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data)
+                };
+            }
             else
-            // TODO: other item type
+            {
+                Log.Default.WriteLine(LogLevels.Warning, $"ItemBlueprint cannot be created: [{data.VNum}] [{data.ItemType}] [{data.WearFlags}] : {data.Name}");
+                // TODO: other item type
                 blueprint = null;
+            }
             if (blueprint != null)
                 Repository.World.AddItemBlueprint(blueprint);
             return blueprint;
@@ -384,6 +402,8 @@ namespace Mud.Server.WPFTestApplication
                 return Repository.World.AddItemLight(Guid.NewGuid(), (ItemLightBlueprint) blueprint, container);
             if (blueprint is ItemFurnitureBlueprint)
                 return Repository.World.AddItemFurniture(Guid.NewGuid(), (ItemFurnitureBlueprint) blueprint, container);
+            if (blueprint is ItemJewelryBlueprint)
+                return Repository.World.AddItemJewelry(Guid.NewGuid(), (ItemJewelryBlueprint)blueprint, container);
             // TODO: other blueprint
             return null;
         }
@@ -424,21 +444,21 @@ namespace Mud.Server.WPFTestApplication
 
         private static void CreateMidgaard()
         {
-            //MysteryImporter importer = new MysteryImporter();
-            //importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
-            //importer.Parse();
             MysteryImporter importer = new MysteryImporter();
-            string path = @"D:\GitHub\OldMud\area";
-            string fileList = Path.Combine(path, "area.lst");
-            string[] areaFilenames = File.ReadAllLines(fileList);
-            foreach (string areaFilename in areaFilenames)
-            {
-                if (areaFilename.Contains("$"))
-                    break;
-                string areaFullName = Path.Combine(path, areaFilename);
-                importer.Load(areaFullName);
-                importer.Parse();
-            }
+            importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
+            importer.Parse();
+            //MysteryImporter importer = new MysteryImporter();
+            //string path = @"D:\GitHub\OldMud\area";
+            //string fileList = Path.Combine(path, "area.lst");
+            //string[] areaFilenames = File.ReadAllLines(fileList);
+            //foreach (string areaFilename in areaFilenames)
+            //{
+            //    if (areaFilename.Contains("$"))
+            //        break;
+            //    string areaFullName = Path.Combine(path, areaFilename);
+            //    importer.Load(areaFullName);
+            //    importer.Parse();
+            //}
 
             foreach (KeyValuePair<string,int> kv in importer.Objects.GroupBy(o => o.ItemType).ToDictionary(g => g.Key, g => g.Count()).OrderBy(x => x.Value))
                 Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", kv.Key, kv.Value);
@@ -511,7 +531,7 @@ namespace Mud.Server.WPFTestApplication
                             if (blueprint != null)
                             {
                                 lastCharacter = Repository.World.AddCharacter(Guid.NewGuid(), blueprint, room);
-                                Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} added");
+                                Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} added");
                             }
                             else
                                 Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} not found");
@@ -524,7 +544,7 @@ namespace Mud.Server.WPFTestApplication
                             {
                                 IItem item = CreateItem(blueprint, room);
                                 if (item != null)
-                                    Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} added room");
+                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} added room");
                                 else
                                     Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not created");
                                 lastContainer = item as IItemContainer; // even if item is not a container, we have to convert it
@@ -560,13 +580,13 @@ namespace Mud.Server.WPFTestApplication
                                 if (lastContainer != null)
                                 {
                                     CreateItem(blueprint, lastContainer);
-                                    Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} added in {lastContainer.Blueprint.Id}");
+                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} added in {lastContainer.Blueprint.Id}");
                                 }
                                 else
                                     Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: P: Last item was not a container");
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} not found");
+                                Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} (type: {importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
                             break;
                         }
                         // G: give object arg1 to mobile 
@@ -578,13 +598,13 @@ namespace Mud.Server.WPFTestApplication
                                 if (lastCharacter != null)
                                 {
                                     CreateItem(blueprint, lastCharacter);
-                                    Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
+                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
                                 }
                                 else
                                     Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: G: Last character doesn't exist");
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} not found");
+                                Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} (type: {importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
                             break;
                         }
                         // E: equip object arg1 to mobile
@@ -596,14 +616,14 @@ namespace Mud.Server.WPFTestApplication
                                     if (lastCharacter != null)
                                     {
                                         CreateItem(blueprint, lastCharacter);
-                                        Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
+                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
                                         // TODO: try to equip
                                     }
                                     else
                                         Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: E: Last character doesn't exist");
                                 }
                                 else
-                                    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} not found");
+                                    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} (type: {importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
                                 break;
                             }
                             // D: set state of door  (not used)
@@ -731,7 +751,7 @@ namespace Mud.Server.WPFTestApplication
             IRoom templeOfMota = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
             IRoom templeSquare = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
-            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
+            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Thief"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
             ICharacter mob2 = Repository.World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
             ICharacter mob3 = Repository.World.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
             //ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);

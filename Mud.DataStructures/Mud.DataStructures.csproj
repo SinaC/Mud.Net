@@ -39,6 +39,7 @@
     <Compile Include="Graph\Dijkstra.cs" />
     <Compile Include="HeapPriorityQueue\HeapPriorityQueue.cs" />
     <Compile Include="HeapPriorityQueue\KeyValueEntry.cs" />
+    <Compile Include="ModifiableList.cs" />
     <Compile Include="Trie\IReadOnlyTrie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trie\Trie.cs" />

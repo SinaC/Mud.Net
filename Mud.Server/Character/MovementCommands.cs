@@ -8,65 +8,65 @@ namespace Mud.Server.Character
         [Command("north", Category = "Movement", Priority = 0)]
         protected virtual bool DoNorth(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.North);
+            return Move(ExitDirections.North, true);
         }
 
         [Command("east", Category = "Movement", Priority = 0)]
         protected virtual bool DoEast(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.East);
+            return Move(ExitDirections.East, true);
         }
 
         [Command("south", Category = "Movement", Priority = 0)]
         protected virtual bool DoSouth(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.South);
+            return Move(ExitDirections.South, true);
         }
 
         [Command("west", Category = "Movement", Priority = 0)]
         protected virtual bool DoWest(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.West);
+            return Move(ExitDirections.West, true);
         }
 
         [Command("up", Category = "Movement", Priority = 0)]
         protected virtual bool DoUp(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.Up);
+            return Move(ExitDirections.Up, true);
         }
 
         [Command("down", Category = "Movement", Priority = 0)]
         protected virtual bool DoDown(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.Down);
+            return Move(ExitDirections.Down, true);
         }
 
         [Command("northeast", Category = "Movement", Priority = 1)]
         [Command("ne", Category = "Movement", Priority = 0)]
         protected virtual bool DoNorthEast(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.NorthEast);
+            return Move(ExitDirections.NorthEast, true);
         }
 
         [Command("northwest", Category = "Movement", Priority = 1)]
         [Command("nw", Category = "Movement", Priority = 0)]
         protected virtual bool DoNorthWest(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.NorthWest);
+            return Move(ExitDirections.NorthWest, true);
         }
 
         [Command("southeast", Category = "Movement", Priority = 1)]
         [Command("se", Category = "Movement", Priority = 0)]
         protected virtual bool DoSouthEast(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.SouthEast);
+            return Move(ExitDirections.SouthEast, true);
         }
 
         [Command("southwest", Category = "Movement", Priority = 1)]
         [Command("sw", Category = "Movement", Priority = 0)]
         protected virtual bool DoSouthWest(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.SouthWest);
+            return Move(ExitDirections.SouthWest, true);
         }
     }
 }

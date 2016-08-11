@@ -16,6 +16,8 @@ namespace Mud.Importer
 
         public void Load(string filename)
         {
+            if (!File.Exists(filename))
+                throw new FileNotFoundException("Cannot load file", filename);
             Log.Default.WriteLine(LogLevels.Debug, "Reading " + filename);
 
             CurrentFilename = filename;

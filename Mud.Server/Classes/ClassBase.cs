@@ -18,9 +18,9 @@ namespace Mud.Server.Classes
 
         public abstract string ShortName { get; }
 
-        public abstract List<ResourceKinds> ResourceKinds { get; }
+        public abstract IEnumerable<ResourceKinds> ResourceKinds { get; }
 
-        public IReadOnlyCollection<AbilityAndLevel> Abilities => _abilities.AsReadOnly();
+        public IEnumerable<AbilityAndLevel> Abilities => _abilities;
 
         #endregion
 

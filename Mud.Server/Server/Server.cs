@@ -40,7 +40,6 @@ namespace Mud.Server.Server
         private Task _gameLoopTask;
 
         private volatile int _pulseBeforeShutdown; // pulse count before shutdown
-        private int _pulseViolence;
 
         #region Singleton
 
@@ -76,7 +75,7 @@ namespace Mud.Server.Server
             _cancellationTokenSource = new CancellationTokenSource();
             _gameLoopTask = Task.Factory.StartNew(GameLoopTask, _cancellationTokenSource.Token);
 
-            foreach(INetworkServer networkServer in _networkServers)
+            foreach (INetworkServer networkServer in _networkServers)
             {
                 networkServer.Initialize();
                 networkServer.Start();
@@ -117,7 +116,7 @@ namespace Mud.Server.Server
                 Broadcast($"%R%Shutdown in {minutes} minute{(minutes > 1 ? "s" : String.Empty)}%x%");
             else
                 Broadcast($"%R%Shutdown in {seconds} second{(seconds > 1 ? "s" : String.Empty)}%x%");
-            _pulseBeforeShutdown = seconds * ServerOptions.PulsePerSeconds;
+            _pulseBeforeShutdown = seconds*ServerOptions.PulsePerSeconds;
         }
 
         public void Quit(IPlayer player)
@@ -341,7 +340,7 @@ namespace Mud.Server.Server
         private void ClientPlayingOnDataReceived(IClient client, string command)
         {
             PlayingClient playingClient;
-            lock(_playingClientLockObject)
+            lock (_playingClientLockObject)
                 _clients.TryGetValue(client, out playingClient);
             if (playingClient == null)
                 Log.Default.WriteLine(LogLevels.Error, "ClientPlayingOnDataReceived: null client");
@@ -410,7 +409,7 @@ namespace Mud.Server.Server
             if (command == String.Empty) // <Enter> -> send next page
             {
                 // Pages are always sent immediately asynchronously, don't use ProcessOutput even if in synchronous mode
-                string nextPage = playingClient.Paging.GetNextPage(20); // TODO: configurable line count
+                string nextPage = playingClient.Paging.GetNextPage(25); // TODO: configurable line count
                 playingClient.Client.WriteData(nextPage);
                 if (playingClient.Paging.HasPageLeft) // page left, send page instructions
                 {
@@ -444,7 +443,7 @@ namespace Mud.Server.Server
         {
             message = message + Environment.NewLine;
             // By-pass process output
-            lock(_playingClientLockObject)
+            lock (_playingClientLockObject)
                 foreach (IClient client in _clients.Keys)
                     client.WriteData(message);
         }
@@ -500,7 +499,7 @@ namespace Mud.Server.Server
                             {
                                 // bust a prompt // TODO: complex prompt
                                 if (playingClient.Player.Impersonating != null)
-                                    data += $"<{playingClient.Player.Impersonating.HitPoints}/{playingClient.Player.Impersonating[ComputedAttributeTypes.MaxHitPoints]}hp>";
+                                    data += $"<{playingClient.Player.Impersonating.HitPoints}/{playingClient.Player.Impersonating[SecondaryAttributeTypes.MaxHitPoints]}hp>";
                                 else
                                     data += ">";
                             }
@@ -524,29 +523,29 @@ namespace Mud.Server.Server
             if (_pulseBeforeShutdown >= 0)
             {
                 _pulseBeforeShutdown--;
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 60 * 15)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*60*15)
                     Broadcast("%R%Shutdown in 15 minutes%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 60 * 10)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*60*10)
                     Broadcast("%R%Shutdown in 10 minutes%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 60 * 5)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*60*5)
                     Broadcast("%R%Shutdown in 5 minutes%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 60)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*60)
                     Broadcast("%R%Shutdown in 1 minute%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 30)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*30)
                     Broadcast("%R%Shutdown in 30 seconds%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 15)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*15)
                     Broadcast("%R%Shutdown in 15 seconds%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 10)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*10)
                     Broadcast("%R%Shutdown in 10 seconds%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 5)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*5)
                     Broadcast("%R%Shutdown in 5%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 4)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*4)
                     Broadcast("%R%Shutdown in 4%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 3)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*3)
                     Broadcast("%R%Shutdown in 3%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 2)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*2)
                     Broadcast("%R%Shutdown in 2%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds * 1)
+                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*1)
                     Broadcast("%R%Shutdown in 1%x%");
                 else if (_pulseBeforeShutdown == 0)
                 {
@@ -561,14 +560,14 @@ namespace Mud.Server.Server
             // TODO: remove aura with amount == 0 ?
             // Remove dot/hot on non-impersonated if source is not the in same room (or source is inexistant)
             // TODO: take periodic aura that will be processed/removed
-            //IReadOnlyCollection<ICharacter> clonePeriodicAuras = new ReadOnlyCollection<ICharacter>(Repository.World.GetCharacters().Where(x => x.PeriodicAuras.Any()).ToList());
+            //IReadOnlyCollection<ICharacter> clonePeriodicAuras = new ReadOnlyCollection<ICharacter>(Repository.World.Characters().Where(x => x.PeriodicAuras.Any()).ToList());
             //foreach (ICharacter character in clonePeriodicAuras)
-            foreach(ICharacter character in Repository.World.Characters.Where(x => x.PeriodicAuras.Any()))
+            foreach (ICharacter character in Repository.World.Characters.Where(x => x.PeriodicAuras.Any()))
             {
                 try
                 {
-                    IReadOnlyCollection<IPeriodicAura> periodicAuras = new ReadOnlyCollection<IPeriodicAura>(character.PeriodicAuras.ToList());
-                    foreach (IPeriodicAura pa in periodicAuras)
+                    IReadOnlyCollection<IPeriodicAura> clonePeriodicAuras = new ReadOnlyCollection<IPeriodicAura>(character.PeriodicAuras.ToList()); // must be cloned because collection may be modified during foreach
+                    foreach (IPeriodicAura pa in clonePeriodicAuras)
                     {
                         // On NPC, remove hot/dot from unknown source or source not in the same room
                         if (character.ImpersonatedBy == null && (pa.Source == null || pa.Source.Room != character.Room))
@@ -584,7 +583,7 @@ namespace Mud.Server.Server
                 }
                 catch (Exception ex)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling periodic auras of {0}. Exception: {1}", character.Name, ex);
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling periodic auras of {0}. Exception: {1}", character.DisplayName, ex);
                 }
             }
         }
@@ -593,15 +592,15 @@ namespace Mud.Server.Server
         {
             // TODO: remove aura with amount == 0 ?
             // Take aura that will expired
-            //IReadOnlyCollection<ICharacter> cloneAuras = new ReadOnlyCollection<ICharacter>(Repository.World.GetCharacters().Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)).ToList());
+            //IReadOnlyCollection<ICharacter> cloneAuras = new ReadOnlyCollection<ICharacter>(Repository.World.Characters().Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)).ToList());
             //foreach (ICharacter character in cloneAuras)
-            foreach(ICharacter character in Repository.World.Characters.Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)))
+            foreach (ICharacter character in Repository.World.Characters.Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)))
             {
                 try
                 {
-                    IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // clone
+                    IReadOnlyCollection<IAura> cloneAuras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // must be cloned because collection may be modified during foreach
                     bool needsRecompute = false;
-                    foreach (IAura aura in auras.Where(x => x.SecondsLeft <= 0))
+                    foreach (IAura aura in cloneAuras.Where(x => x.SecondsLeft <= 0))
                     {
                         character.RemoveAura(aura, false); // recompute once each aura has been processed
                         needsRecompute = true;
@@ -611,7 +610,7 @@ namespace Mud.Server.Server
                 }
                 catch (Exception ex)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of {0}. Exception: {1}", character.Name, ex);
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of {0}. Exception: {1}", character.DisplayName, ex);
                 }
             }
         }
@@ -624,30 +623,23 @@ namespace Mud.Server.Server
                 try
                 {
                     IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> cooldowns = new ReadOnlyCollection<KeyValuePair<IAbility, DateTime>>(character.AbilitiesInCooldown.ToList()); // clone
-                    foreach(IAbility ability in cooldowns.Where(x => (x.Value - CurrentTime).TotalSeconds <= 0).Select(x => x.Key))
+                    foreach (IAbility ability in cooldowns.Where(x => (x.Value - CurrentTime).TotalSeconds <= 0).Select(x => x.Key))
                         character.ResetCooldown(ability);
                 }
                 catch (Exception ex)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling cooldowns of {0}. Exception: {1}", character.Name, ex);
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling cooldowns of {0}. Exception: {1}", character.DisplayName, ex);
                 }
             }
         }
 
         private void HandleViolence()
         {
-            if (_pulseViolence > 0)
-            {
-                _pulseViolence--;
-                return;
-            }
-            _pulseViolence = ServerOptions.PulseViolence;
-
             Log.Default.WriteLine(LogLevels.Trace, "PulseViolence");
 
-            //IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Repository.World.GetCharacters().Where(x => x.Fighting != null).ToList());
+            //IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Repository.World.Characters().Where(x => x.Fighting != null).ToList());
             //foreach (ICharacter character in clone)
-            foreach(ICharacter character in Repository.World.Characters.Where(x => x.Fighting != null))
+            foreach (ICharacter character in Repository.World.Characters.Where(x => x.Fighting != null))
             {
                 ICharacter victim = character.Fighting;
                 if (victim != null)
@@ -656,43 +648,91 @@ namespace Mud.Server.Server
                     {
                         if (victim.Room == character.Room) // fight continue only if in the same room
                         {
-                            Log.Default.WriteLine(LogLevels.Debug, "Continue fight between {0} and {1}", character.Name, victim.Name);
+                            Log.Default.WriteLine(LogLevels.Debug, "Continue fight between {0} and {1}", character.DisplayName, victim.DisplayName);
                             character.MultiHit(victim);
                         }
                         else
                         {
-                            Log.Default.WriteLine(LogLevels.Debug, "Stop fighting between {0} and {1}, because not in same room", character.Name, victim.Name);
+                            Log.Default.WriteLine(LogLevels.Debug, "Stop fighting between {0} and {1}, because not in same room", character.DisplayName, victim.DisplayName);
                             character.StopFighting(false);
                         }
                     }
                     catch (Exception ex)
                     {
-                        Log.Default.WriteLine(LogLevels.Error, "Exception while handling violence of {0}. Exception: {1}", character.Name, ex);
+                        Log.Default.WriteLine(LogLevels.Error, "Exception while handling violence of {0}. Exception: {1}", character.DisplayName, ex);
                     }
                 }
             }
         }
 
-        private void DoPulse()
+        private void HandlePlayers()
         {
-            // TODO:  (see handler.c)
-            //Log.Default.WriteLine(LogLevels.Debug, "PULSE: {0:HH:mm:ss.ffffff}", DateTime.Now);
+            foreach (PlayingClient playingClient in _players.Values)
+            {
+                //
+                playingClient.Client.WriteData("--TICK--"+Environment.NewLine); // TODO: only if user want tick info
 
-            HandleShutdown();
-            HandlePeriodicAuras();
-            HandleAuras();
-            HandleCooldowns();
-            HandleViolence();
+                // If idle for too long, unimpersonate or disconnect
+                TimeSpan ts = Repository.Server.CurrentTime - playingClient.LastReceivedDataTimestamp;
+                if (ts.TotalMinutes > ServerOptions.IdleMinutesBeforeUnimpersonate && playingClient.Player.Impersonating != null)
+                {
+                    playingClient.Client.WriteData("Idle for too long, unimpersonating..." + Environment.NewLine);
+                    playingClient.Player.Impersonating.StopFighting(true);
+                    playingClient.Player.StopImpersonating();
+                }
+                else if (ts.TotalMinutes > ServerOptions.IdleMinutesBeforeDisconnect)
+                {
+                    playingClient.Client.WriteData("Idle for too long, disconnecting..." + Environment.NewLine);
+                    ClientPlayingOnDisconnected(playingClient.Client);
+                }
+            }
+        }
+
+        private void HandleCharacters()
+        {
+            foreach (ICharacter character in Repository.World.Characters)
+            {
+                if (character.Impersonable && character.ImpersonatedBy == null) // TODO: remove after x minutes
+                    Log.Default.WriteLine(LogLevels.Warning, $"Impersonable {character.DisplayName} is not impersonated");
+
+                //
+                character.RegenerateResources();
+            }
+        }
+
+        private void HandleItems()
+        {
+            foreach (IItem item in Repository.World.Items.Where(x => x.DecayPulseLeft > 0))
+            {
+                //Log.Default.WriteLine(LogLevels.Debug, $"HandleItemDecay {item.DisplayName} with {item.DecayPulseLeft} pulse left");
+                item.DecreaseDecayPulseLeft();
+                if (item.DecayPulseLeft == 0)
+                    Repository.World.RemoveItem(item);
+            }
+		}
+
+        private void HandleRooms()
+        {
+            // TODO
         }
 
         private void Cleanup()
         {
+            // Remove invalid entities
             Repository.World.Cleanup();
         }
 
         private void GameLoopTask()
         {
-            _pulseViolence = ServerOptions.PulseViolence;
+            PulseManager pulseManager = new PulseManager();
+            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulseViolence, HandleViolence);
+            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulsePerSeconds, HandlePeriodicAuras);
+            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulsePerSeconds, HandleAuras);
+            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulsePerSeconds, HandleCooldowns);
+            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulsePerSeconds*60, HandlePlayers);
+            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulsePerSeconds*60, HandleCharacters);
+            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulsePerSeconds*60, HandleItems);
+            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulsePerSeconds*60, HandleRooms);
 
             try
             {
@@ -710,23 +750,23 @@ namespace Mud.Server.Server
 
                     ProcessInput();
 
-                    DoPulse();
+                    //DoPulse();
+                    HandleShutdown();
+                    pulseManager.Pulse();
 
                     ProcessOutput();
 
                     Cleanup();
 
-                    // TODO: remove !IsValid entity
-
                     sw.Stop();
                     long elapsedMs = sw.ElapsedMilliseconds; // in milliseconds
                     if (elapsedMs < ServerOptions.PulseDelay)
                     {
-                        long elapsedTick = sw.ElapsedTicks; // 1 tick = 1 second/Stopwatch.Frequency
-                        long elapsedNs = sw.Elapsed.Ticks; // 1 tick = 1 nanosecond
-                        Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}Ms {1}Ticks {2}Ns", elapsedMs, elapsedTick, elapsedNs);
+                        //long elapsedTick = sw.ElapsedTicks; // 1 tick = 1 second/Stopwatch.Frequency
+                        //long elapsedNs = sw.Elapsed.Ticks; // 1 tick = 1 nanosecond
+                        //Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}Ms {1}Ticks {2}Ns", elapsedMs, elapsedTick, elapsedNs);
                         //Thread.Sleep(250 - (int) elapsedMs);
-                        int sleepTime = ServerOptions.PulseDelay - (int)elapsedMs;
+                        int sleepTime = ServerOptions.PulseDelay - (int) elapsedMs;
                         _cancellationTokenSource.Token.WaitHandle.WaitOne(sleepTime);
                     }
                     else
@@ -741,6 +781,8 @@ namespace Mud.Server.Server
             {
                 Log.Default.WriteLine(LogLevels.Error, "GameLoopTask exception. Exception: {0}", ex);
             }
+
+            pulseManager.Clear();
 
             Log.Default.WriteLine(LogLevels.Info, "GameLoopTask stopped");
         }

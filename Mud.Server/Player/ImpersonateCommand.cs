@@ -23,7 +23,7 @@ namespace Mud.Server.Player
             }
             else
             {
-                ICharacter target = Repository.World.GetCharacter(parameters[0]);
+                ICharacter target = FindHelpers.FindByName(Repository.World.Characters, parameters[0]);
                 if (target != null)
                 {
                     if (target.Impersonable)

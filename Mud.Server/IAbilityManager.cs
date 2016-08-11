@@ -10,7 +10,7 @@ namespace Mud.Server
         IAbility DodgerAbility { get; }
         IAbility ShieldBlockAbility { get; }
 
-        IReadOnlyCollection<IAbility> Abilities { get; }
+        IEnumerable<IAbility> Abilities { get; }
         
         IAbility this[int id] { get; }
         IAbility this[string name] { get; }

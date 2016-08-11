@@ -8,7 +8,7 @@ namespace Mud.Server
     {
         RoomBlueprint Blueprint { get; }
 
-        IReadOnlyCollection<ICharacter> People { get; }
+        IEnumerable<ICharacter> People { get; }
         IExit[] Exits { get; } // fixed length
 
         IExit Exit(ExitDirections direction);

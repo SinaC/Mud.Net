@@ -32,10 +32,24 @@ namespace Mud.Server
     {
         Self, // caster
         Target, // target in room
-        TargetOrSelf, // target in room, if not target self
+        TargetOrSelf, // target in room, if no target self
         Group, // everyone in group
         Room, // every enemy in room
         Distant, // target in any room (search in current, then anywhere)
+    }
+
+    public enum AbilityBehaviors
+    {
+        None, // passive ability
+        Friendly, // heal
+        Harmful, // damage ability
+        Any // heal or damage ability
+    }
+
+    public enum AbilityKinds
+    {
+        Skill, // if harmful ability then use Yellow attack table
+        Spell, // if harmful ability then use Spell attack table
     }
 
     public interface IAbility
@@ -48,6 +62,12 @@ namespace Mud.Server
 
         // Target
         AbilityTargets Target { get; }
+
+        // Behaviours
+        AbilityBehaviors Behavior { get; }
+
+        // Kind
+        AbilityKinds Kind { get; }
 
         // Cost
         ResourceKinds ResourceKind { get; }

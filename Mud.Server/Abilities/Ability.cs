@@ -17,6 +17,12 @@ namespace Mud.Server.Abilities
         // Target
         public AbilityTargets Target { get; }
 
+        // Behaviours
+        public AbilityBehaviors Behavior { get; }
+
+        // Kind
+        public AbilityKinds Kind { get; }
+
         // Cost
         public ResourceKinds ResourceKind { get; }
         public AmountOperators CostType { get; }
@@ -40,11 +46,13 @@ namespace Mud.Server.Abilities
 
         #endregion
 
-        public Ability(int id, string name, AbilityTargets target, ResourceKinds resourceKind, AmountOperators costType, int costAmount, int globalCooldown, int cooldown, int duration, SchoolTypes school, AbilityMechanics mechanic, DispelTypes dispelType, AbilityFlags flags, params AbilityEffect[] effects)
+        public Ability(int id, string name, AbilityTargets target, AbilityBehaviors behavior, AbilityKinds kind, ResourceKinds resourceKind, AmountOperators costType, int costAmount, int globalCooldown, int cooldown, int duration, SchoolTypes school, AbilityMechanics mechanic, DispelTypes dispelType, AbilityFlags flags, params AbilityEffect[] effects)
         {
             Id = id;
             Name = name;
             Target = target;
+            Behavior = behavior;
+            Kind = kind;
             ResourceKind = resourceKind;
             CostType = costType;
             CostAmount = costAmount;

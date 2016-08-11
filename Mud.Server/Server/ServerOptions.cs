@@ -9,10 +9,14 @@ namespace Mud.Server.Server
         public const bool RemovePeriodicAurasInNotInSameRoom = true; // If a NPC has dot/hot from a source in another room, they are removed on next Pulse
 
         public const int PulsePerSeconds = 4;
+        public const int PulsePerMinutes = PulsePerSeconds*60;
         public const int PulseDelay = 1000 / PulsePerSeconds;
         public const int PulseViolence = 3 * PulsePerSeconds; // automatic combat (in pulse per seconds)
 
         public const bool CheckLoginPassword = false;
+
+        public const int IdleMinutesBeforeUnimpersonate = 10;
+        public const int IdleMinutesBeforeDisconnect = 20;
 
         public static ItemCorpseBlueprint CorpseBlueprint { get; set; }
     }

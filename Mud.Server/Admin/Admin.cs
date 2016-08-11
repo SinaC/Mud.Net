@@ -75,12 +75,12 @@ namespace Mud.Server.Admin
                 }
                 else if (Incarnating != null) // incarnating
                 {
-                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", Name, Incarnating.Name, commandLine);
+                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", Name, Incarnating.DisplayName, commandLine);
                     executedSuccessfully = Incarnating.ExecuteCommand(command, rawParameters, parameters);
                 }
                 else if (Impersonating != null) // impersonating
                 {
-                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", Name, Impersonating.Name, commandLine);
+                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", Name, Impersonating.DisplayName, commandLine);
                     executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
                 }
                 else

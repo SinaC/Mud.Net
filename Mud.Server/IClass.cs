@@ -10,8 +10,8 @@ namespace Mud.Server
         string DisplayName { get; }
         string ShortName { get; }
 
-        IReadOnlyCollection<AbilityAndLevel> Abilities { get; }
-        List<ResourceKinds> ResourceKinds { get; }
+        IEnumerable<AbilityAndLevel> Abilities { get; }
+        IEnumerable<ResourceKinds> ResourceKinds { get; } // TOOD: use
 
         // TODO: PrimaryAttributeTypes gain when levelling
     }

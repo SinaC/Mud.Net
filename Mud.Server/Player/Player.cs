@@ -84,12 +84,12 @@ namespace Mud.Server.Player
                 bool executedSuccessfully;
                 if (forceOutOfGame || Impersonating == null)
                 {
-                    Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", Name, commandLine);
+                    Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
                     executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
                 }
                 else
                 {
-                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", Name, Impersonating.Name, commandLine);
+                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DisplayName, commandLine);
                     executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
                 }
                 if (!executedSuccessfully)
@@ -153,6 +153,11 @@ namespace Mud.Server.Player
             Aliases.Add("sh", "test 'power word: shield'");
             Aliases.Add("fo", "/force mob2 follow mob1");
 
+            Aliases.Add("1", "/force hassan follow mob2");
+            Aliases.Add("2", "follow hassan");
+            Aliases.Add("3", "/force hassan group mob1");
+            Aliases.Add("4", "/force mob2 group hassan");
+
             //
             PlayerState = PlayerStates.Playing;
             return true;
@@ -167,14 +172,21 @@ namespace Mud.Server.Player
             return true;
         }
 
+        public void StopImpersonating()
+        {
+            Impersonating.ChangeImpersonation(null);
+            Impersonating = null;
+            PlayerState = PlayerStates.Playing;
+        }
+
+
         public virtual void OnDisconnected()
         {
             // Stop impersonation if any + stop fights
             if (Impersonating != null)
             {
                 Impersonating.StopFighting(true);
-                Impersonating.ChangeImpersonation(null);
-                Impersonating = null;
+                StopImpersonating();
             }
         }
 

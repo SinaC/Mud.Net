@@ -92,7 +92,7 @@ namespace Mud.Server.World
             _itemBlueprints.Add(blueprint.Id, blueprint);
         }
 
-        public IEnumerable<IRoom> Rooms =>_rooms.Where(x => x.IsValid);
+        public IEnumerable<IRoom> Rooms => _rooms.Where(x => x.IsValid);
 
         public IEnumerable<ICharacter> Characters => _characters.Where(x => x.IsValid);
 
@@ -195,10 +195,19 @@ namespace Mud.Server.World
             return item;
         }
 
-        public IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible)
+        public IItemJewelry AddItemJewelry(Guid guid, ItemJewelryBlueprint blueprint, IContainer container)
+        {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
+            IItemJewelry item = new ItemJewelry(guid, blueprint, container);
+            _items.Add(item);
+            return item;
+        }
+
+        public IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool recompute)
         {
             IAura aura = new Aura.Aura(ability, source, modifier, amount, amountOperator, totalSeconds);
-            victim.AddAura(aura, visible);
+            victim.AddAura(aura, recompute);
             return aura;
         }
 
@@ -226,8 +235,9 @@ namespace Mud.Server.World
                 ICharacter leader = character.Leader;
                 leader.StopFollower(character);
                 if (leader.GroupMembers.Any(x => x == character))
-                    leader.RemoveGroupMember(character);
+                    leader.RemoveGroupMember(character, false);
             }
+            // TODO: if leader of a group
 
             // Search IPeriodicAura with character as Source and nullify Source
             List<ICharacter> charactersWithPeriodicAuras = _characters.Where(x => x.PeriodicAuras.Any(pa => pa.Source == character)).ToList(); // clone
@@ -265,12 +275,16 @@ namespace Mud.Server.World
             // Remove content
             if (character.Content.Any())
             {
-                List<IItem> inventory = new List<IItem>(character.Content); // clone to be sure
-                foreach(IItem item in inventory)
+                List<IItem> clonedInventory = new List<IItem>(character.Content); // clone because GetFromContainer change Content collection
+                foreach(IItem item in clonedInventory)
                     RemoveItem(item);
-                List<IEquipable> equipment = new List<IEquipable>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item));
-                foreach (IEquipable item in equipment)
-                    RemoveItem(item);
+				// Remove equipments
+				if (character.Equipments.Any(x => x.Item != null))
+				{
+                	List<IEquipable> equipment = new List<IEquipable>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item));
+                	foreach (IEquipable item in equipment)
+                    	RemoveItem(item);
+				}
             }
             // Remove from room
             character.Room?.Leave(character);
@@ -299,7 +313,7 @@ namespace Mud.Server.World
 
         public void RemoveRoom(IRoom room)
         {
-            // TODO
+            throw new NotImplementedException();
         }
 
         // TODO: remove
@@ -313,7 +327,7 @@ namespace Mud.Server.World
             // TODO: see update.C:2332
         }
 
-        public void Cleanup()
+        public void Cleanup() // remove invalid entities
         {
             // TODO: room ?
             if (_items.Any(x => !x.IsValid))
@@ -323,7 +337,9 @@ namespace Mud.Server.World
 
             _items.RemoveAll(x => !x.IsValid);
             _characters.RemoveAll(x => !x.IsValid);
+            // TODO: room
         }
+
 
         #endregion
     }

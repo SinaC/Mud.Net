@@ -15,9 +15,9 @@ namespace Mud.Server.Input
             return ExtractCommandAndParameters(null, commandLine, out command, out rawParameters, out parameters, out forceOutOfGame);
         }
 
-        public static bool ExtractCommandAndParameters(IReadOnlyDictionary<string, string> aliases, string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame)
+        public static bool ExtractCommandAndParameters(IReadOnlyDictionary<string,string> aliases, string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame)
         {
-            Log.Default.WriteLine(LogLevels.Debug, "Extracting command and parameters [{0}]", commandLine);
+            Log.Default.WriteLine(LogLevels.Trace, "Extracting command and parameters [{0}]", commandLine);
 
             //// Extract command
             //int spaceIndex = commandLine.IndexOf(' ');
@@ -33,7 +33,7 @@ namespace Mud.Server.Input
                 string alias;
                 if (aliases.TryGetValue(command, out alias))
                 {
-                    Log.Default.WriteLine(LogLevels.Info, "Alias found : {0} -> {1}", command, alias);
+                    Log.Default.WriteLine(LogLevels.Debug, "Alias found : {0} -> {1}", command, alias);
                     commandLine = alias;
                     // Extract command and raw parameters
                     ExtractCommand(commandLine, out command, out rawParameters);
@@ -73,7 +73,7 @@ namespace Mud.Server.Input
 
         public static bool ExtractCommand(string commandLine, out string command, out string rawParameters)
         {
-            Log.Default.WriteLine(LogLevels.Debug, "Extracting command [{0}]", commandLine);
+            Log.Default.WriteLine(LogLevels.Trace, "Extracting command [{0}]", commandLine);
 
             // Extract command
             int spaceIndex = commandLine.IndexOf(' ');
@@ -155,8 +155,8 @@ namespace Mud.Server.Input
         public static IReadOnlyTrie<MethodInfo> GetCommandsOld(Type type)
         {
             IEnumerable<TrieEntry<MethodInfo>> commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
-                .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())
-                .SelectMany(x => x.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().Select(attr => attr.Name).Distinct(), // when overriding a command (attribute is declared twice) -> cause 2 entries with the same method and same name
+                .Where(x => x.GetCustomAttributes(typeof (CommandAttribute), false).Any())
+                .SelectMany(x => x.GetCustomAttributes(typeof (CommandAttribute)).OfType<CommandAttribute>().Select(attr => attr.Name).Distinct(), // when overriding a command (attribute is declared twice) -> cause 2 entries with the same method and same name
                     (methodInfo, commandName) => new TrieEntry<MethodInfo>(commandName, methodInfo));
             Trie<MethodInfo> trie = new Trie<MethodInfo>(commands);
             return trie;

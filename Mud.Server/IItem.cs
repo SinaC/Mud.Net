@@ -8,9 +8,13 @@ namespace Mud.Server
 
         ItemBlueprintBase Blueprint { get; }
 
+        int DecayPulseLeft { get; } // 0: means no decay
+
         int Weight { get; }
         int Cost { get; }
 
         bool ChangeContainer(IContainer container);
+
+        void DecreaseDecayPulseLeft();
     }
 }

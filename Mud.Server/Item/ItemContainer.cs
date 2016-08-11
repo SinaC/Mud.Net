@@ -39,7 +39,7 @@ namespace Mud.Server.Item
 
         #region IContainer
 
-        public IReadOnlyCollection<IItem> Content => _content.AsReadOnly();
+        public IEnumerable<IItem> Content => _content;
 
         public bool PutInContainer(IItem obj)
         {

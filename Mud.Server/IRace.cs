@@ -9,7 +9,7 @@ namespace Mud.Server
         string DisplayName { get; }
         string ShortName { get; }
 
-        IReadOnlyCollection<AbilityAndLevel> Abilities { get; }
+        IEnumerable<AbilityAndLevel> Abilities { get; }
 
         // TODO: specific behaviour such as 120% xp for human, infrared for dwarf, ...
         // TODO: xp/level, ...

@@ -87,7 +87,7 @@ namespace Mud.Server.Aura
 
                 int amount = Amount;
                 if (AmountOperator == AmountOperators.Percentage)
-                    amount = victim[ComputedAttributeTypes.MaxHitPoints] * Amount / 100; // percentage of max hit points
+                    amount = victim[SecondaryAttributeTypes.MaxHitPoints] * Amount / 100; // percentage of max hit points
                 if (AuraType == PeriodicAuraTypes.Heal)
                     victim.Heal(Source, Ability, amount, TickVisible);
                 else if (AuraType == PeriodicAuraTypes.Damage)
@@ -95,7 +95,7 @@ namespace Mud.Server.Aura
                     if (Source == null)
                         victim.UnknownSourceDamage(Ability, amount, School, TickVisible);
                     else
-                        victim.Damage(Source, Ability, amount, School, TickVisible);
+                        victim.AbilityDamage(Source, Ability, amount, School, TickVisible);
                 }
             }
             return TicksLeft == 0;
@@ -109,6 +109,16 @@ namespace Mud.Server.Aura
             TicksLeft = aura.TotalTicks;
             TickDelay = aura.TickDelay;
             Amount = aura.Amount;
+        }
+
+        // Called when dispelled
+        public virtual void OnDispelled(IEntity source)
+        {
+        }
+
+        // Called when vanished
+        public virtual void OnVanished(IEntity source)
+        {
         }
     }
 }

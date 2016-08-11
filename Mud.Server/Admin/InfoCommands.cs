@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.DataStructures.HeapPriorityQueue;
+using Mud.Server.Abilities;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -47,9 +48,9 @@ namespace Mud.Server.Admin
                 {
                     case PlayerStates.Impersonating:
                         if (admin.Impersonating != null)
-                            sb.AppendFormatLine("[ IG] {0} impersonating {1}", admin.DisplayName, admin.Impersonating.Name);
+                            sb.AppendFormatLine("[ IG] {0} impersonating {1}", admin.DisplayName, admin.Impersonating.DisplayName);
                         else if (admin.Incarnating != null)
-                            sb.AppendFormatLine("[ IG] {0} incarnating {1}", admin.DisplayName, admin.Incarnating.Name);
+                            sb.AppendFormatLine("[ IG] {0} incarnating {1}", admin.DisplayName, admin.Incarnating.DisplayName);
                         else
                             sb.AppendFormatLine("[ IG] {0} neither playing nor incarnating !!!", admin.DisplayName);
                         break;
@@ -104,11 +105,29 @@ namespace Mud.Server.Admin
             return true;
         }
 
+        [Command("stat", Category = "Information")]
+        protected virtual bool DoStat(string rawParameters, params CommandParameter[] parameters)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormatLine("#Admin: {0}", Repository.Server.GetAdmins().Count);
+            sb.AppendFormatLine("#Player: {0}", Repository.Server.GetPlayers().Count);
+            sb.AppendLine("Blueprints:");
+            sb.AppendFormatLine("   #Rooms: {0}", Repository.World.GetRoomBlueprints().Count);
+            sb.AppendFormatLine("   #Characters: {0}", Repository.World.GetCharacterBlueprints().Count);
+            sb.AppendFormatLine("   #Items: {0}", Repository.World.GetItemBlueprints().Count);
+            sb.AppendLine("Entities:");
+            sb.AppendFormatLine("   #Rooms: {0}", Repository.World.Rooms.Count());
+            sb.AppendFormatLine("   #Characters: {0}", Repository.World.Characters.Count());
+            sb.AppendFormatLine("   #Items: {0}", Repository.World.Items.Count());
+            Send(sb);
+            return true;
+        }
+
         [Command("mstat", Category = "Information")]
         protected virtual bool DoMstat(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-                Send("mstat whom?" + Environment.NewLine);
+                Send("Mstat whom?" + Environment.NewLine);
             else
             {
                 ICharacter victim = FindHelpers.FindByName(Repository.World.Characters, parameters[0]);
@@ -122,7 +141,7 @@ namespace Mud.Server.Admin
                         // TODO: display blueprint
                     else
                         sb.AppendLine("No blueprint");
-                    sb.AppendFormatLine("Name: {0}", victim.DisplayName);
+                    sb.AppendFormatLine("Name: {0}", victim.Name);
                     sb.AppendFormatLine("DisplayName: {0}", victim.DisplayName);
                     if (victim.Leader != null)
                         sb.AppendFormatLine("Leader: {0}", victim.Leader.DisplayName);
@@ -142,12 +161,12 @@ namespace Mud.Server.Admin
                     sb.AppendFormatLine("Room: {0} [vnum: {1}]", victim.Room.DisplayName, victim.Room.Blueprint?.Id ?? -1);
                     sb.AppendFormatLine("Race: {0} Class: {1}", victim.Race == null ? "(none)" : victim.Race.DisplayName, victim.Class == null ? "(none)" : victim.Class.DisplayName);
                     sb.AppendFormatLine("Level: {0} Sex: {1}", victim.Level, victim.Sex);
-                    sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim[ComputedAttributeTypes.MaxHitPoints]);
+                    sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim[SecondaryAttributeTypes.MaxHitPoints]);
                     sb.AppendLine("Attributes:");
                     foreach (PrimaryAttributeTypes primaryAttribute in EnumHelpers.GetValues<PrimaryAttributeTypes>())
                         sb.AppendFormatLine("{0}: Current: {1} Base: {2}", primaryAttribute, victim[primaryAttribute], victim.GetBasePrimaryAttribute(primaryAttribute));
-                    foreach (ComputedAttributeTypes computedAttribute in EnumHelpers.GetValues<ComputedAttributeTypes>())
-                        sb.AppendFormatLine("{0}: {1}", computedAttribute, victim[computedAttribute]);
+                    foreach (SecondaryAttributeTypes secondary in EnumHelpers.GetValues<SecondaryAttributeTypes>())
+                        sb.AppendFormatLine("{0}: {1}", secondary, victim[secondary]);
                     foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>().Where(x => x != ResourceKinds.None))
                         sb.AppendFormatLine("{0}: {1}", resourceKind, victim[resourceKind]);
                     foreach (IPeriodicAura pa in victim.PeriodicAuras)
@@ -176,6 +195,14 @@ namespace Mud.Server.Admin
                             aura.Amount,
                             aura.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
                             aura.SecondsLeft);
+                    if (victim.KnownAbilities.Any())
+                    {
+                        sb.AppendLine("Abilities:");
+                        foreach (AbilityAndLevel abilityAndLevel in victim.KnownAbilities.Where(x => (x.Ability.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name))
+                            sb.AppendFormatLine("{0} - {1}[{2}]", abilityAndLevel.Level, abilityAndLevel.Ability.Name, abilityAndLevel.Ability.Id);
+                    }
+                    else
+                        sb.AppendLine("No abilities");
                     Send(sb);
                 }
             }
@@ -186,7 +213,7 @@ namespace Mud.Server.Admin
         protected virtual bool DoOstat(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-                Send("ostat what?"+Environment.NewLine);
+                Send("Ostat what?"+Environment.NewLine);
             else
             {
                 IItem item = FindHelpers.FindByName(Repository.World.Items, parameters[0]);
@@ -203,10 +230,10 @@ namespace Mud.Server.Admin
                     sb.AppendFormatLine("Name: {0}", item.Name);
                     sb.AppendFormatLine("DisplayName: {0}", item.DisplayName);
                     if (item.ContainedInto != null)
-                        sb.AppendFormatLine("Contained in {0}", item.ContainedInto.Name);
+                        sb.AppendFormatLine("Contained in {0}", item.ContainedInto.DisplayName);
                     IEquipable equipable = item as IEquipable;
                     if (equipable != null)
-                        sb.AppendFormatLine("Equiped by {0}", equipable.EquipedBy == null ? "(none)" : equipable.EquipedBy.Name);
+                        sb.AppendFormatLine("Equiped by {0}", equipable.EquipedBy == null ? "(none)" : equipable.EquipedBy.DisplayName);
                     else
                         sb.AppendLine("Cannot be equiped");
                     sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
@@ -324,6 +351,7 @@ namespace Mud.Server.Admin
             distance[origin] = 0;
             pQueue.Enqueue(origin, 0);
 
+            // Dijkstra
             while (!pQueue.IsEmpty())
             {
                 IRoom nearest = pQueue.Dequeue();

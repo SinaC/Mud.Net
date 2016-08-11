@@ -9,7 +9,7 @@ namespace Mud.Server.Classes
 
         public override string ShortName => "Mag";
 
-        public override List<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
+        public override IEnumerable<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
         {
             Constants.ResourceKinds.Mana
         };

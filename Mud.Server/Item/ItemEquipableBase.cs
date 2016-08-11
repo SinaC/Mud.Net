@@ -21,7 +21,7 @@ namespace Mud.Server.Item
         public bool ChangeEquipedBy(ICharacter character)
         {
             EquipedBy?.Unequip(this);
-            Log.Default.WriteLine(LogLevels.Info, "ChangeEquipedBy: {0} : {1} -> {2}", Name, EquipedBy == null ? "<<??>>" : EquipedBy.Name, character == null ? "<<??>>" : character.Name);
+            Log.Default.WriteLine(LogLevels.Info, "ChangeEquipedBy: {0} : {1} -> {2}", DisplayName, EquipedBy == null ? "<<??>>" : EquipedBy.DisplayName, character == null ? "<<??>>" : character.DisplayName);
             EquipedBy = character;
             // TODO: call something like character.Equip ? (additional parameter EquipmentSlot)
             return true;

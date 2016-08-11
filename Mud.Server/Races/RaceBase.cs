@@ -17,7 +17,7 @@ namespace Mud.Server.Races
 
         public abstract string ShortName { get; }
 
-        public IReadOnlyCollection<AbilityAndLevel> Abilities => _abilities.AsReadOnly();
+        public IEnumerable<AbilityAndLevel> Abilities => _abilities;
 
         #endregion
 

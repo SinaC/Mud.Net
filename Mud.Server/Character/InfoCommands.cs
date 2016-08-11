@@ -18,7 +18,7 @@ namespace Mud.Server.Character
         // 4/ else if an item can be found in inventory+room (matching 1st parameter), display item description or extra description
         // 5/ else, if an extra description can be found in room (matching 1st parameter), display it
         // 6/ else, if 1st parameter is a direction, display if there is an exit/door
-        [Command("look", Category = "Information")]
+        [Command("look", Category = "Information", Priority = 0)]
         protected virtual bool DoLook(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: 0/ sleeping/blind/dark room (see act_info.C:1413 -> 1436)
@@ -40,12 +40,12 @@ namespace Mud.Server.Character
                 else
                 {
                     // search in room, then in inventory(unequiped), then in equipement
-                    IItem containerItem = FindHelpers.FindCharacterItemByName2(this, parameters[1]);
+                    IItem containerItem = FindHelpers.FindCharacterItemByName(this, parameters[1]);
                     if (containerItem == null)
                         Send(StringHelpers.ItemNotFound);
                     else
                     {
-                        Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): found in {0}", containerItem.ContainedInto.Name);
+                        Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): found in {0}", containerItem.ContainedInto.DisplayName);
                         IContainer container = containerItem as IContainer;
                         if (container != null)
                         {
@@ -74,7 +74,7 @@ namespace Mud.Server.Character
             IItem item = FindHelpers.FindCharacterItemByName(this, parameters[0]);
             if (item != null)
             {
-                Log.Default.WriteLine(LogLevels.Debug, "DoLook(4+5): item in inventory+room -> {0}", item.ContainedInto.Name);
+                Log.Default.WriteLine(LogLevels.Debug, "DoLook(4+5): item in inventory+room -> {0}", item.ContainedInto.DisplayName);
                 Send("{0}" + Environment.NewLine, item.Description); // TODO: formatting
                 return true;
             }
@@ -155,7 +155,7 @@ namespace Mud.Server.Character
                 }
                 else
                 {
-                    IItem item = FindHelpers.FindCharacterItemByName2(this, parameters[0]);
+                    IItem item = FindHelpers.FindCharacterItemByName(this, parameters[0]);
                     if (item != null)
                     {
                         Act(ActOptions.ToCharacter, "You examine {0}.", item);
@@ -220,9 +220,9 @@ namespace Mud.Server.Character
             StringBuilder sb = new StringBuilder();
             if (_auras.Any() || _periodicAuras.Any())
             {
-                sb.AppendLine("%c%You are affected by the following spells:%x%");
+                sb.AppendLine("%c%You are affected by the following auras:%x%");
                 // Auras
-                foreach (IAura aura in _auras.Where(x => (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
+                foreach (IAura aura in _auras.Where(x => x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
                 {
                     //if (aura.Modifier == AuraModifiers.None)
                     //    sb.AppendFormatLine("{0} from {1} for {2}.",
@@ -250,7 +250,7 @@ namespace Mud.Server.Character
                             StringHelpers.FormatDelay(aura.SecondsLeft));
                 }
                 // Periodic auras
-                foreach (IPeriodicAura pa in _periodicAuras.Where(x => (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
+                foreach (IPeriodicAura pa in _periodicAuras.Where(x => x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
                 {
                     //if (pa.AuraType == PeriodicAuraTypes.Damage)
                     //    sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} for {6}.",
@@ -297,29 +297,32 @@ namespace Mud.Server.Character
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine();
-            sb.AppendLine("+---------------------------------------------------+"); // length = 51
+            sb.AppendLine("+-------------------------------------------------------+"); // length = 55
             if (ImpersonatedBy != null)
-                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + " (" + ImpersonatedBy.DisplayName+")", 51) + "|");
+                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + " (" + ImpersonatedBy.DisplayName+")", 55) + "|");
             else
-                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName, 51) + "|");
-            sb.AppendLine("+-----------------------+---------------------------+");
-            sb.AppendFormatLine("| %c%Strength  : %W%[{0,3}/{1,3}]%x% | %c%Race  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Strength], GetBasePrimaryAttribute(PrimaryAttributeTypes.Strength), Race == null ? "(none)" : Race.DisplayName);
-            sb.AppendFormatLine("| %c%Agility   : %W%[{0,3}/{1,3}]%x% | %c%Class : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Agility], GetBasePrimaryAttribute(PrimaryAttributeTypes.Agility), Class == null ? "(none)" : Class.DisplayName);
-            sb.AppendFormatLine("| %c%Stamina   : %W%[{0,3}/{1,3}]%x% | %c%Sex   : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Stamina], GetBasePrimaryAttribute(PrimaryAttributeTypes.Stamina), Sex);
-            sb.AppendFormatLine("| %c%Intellect : %W%[{0,3}/{1,3}]%x% | %c%Level : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Intellect], GetBasePrimaryAttribute(PrimaryAttributeTypes.Intellect), Level);
-            sb.AppendFormatLine("| %c%Spirit    : %W%[{0,3}/{1,3}]%x% |                           |", this[PrimaryAttributeTypes.Spirit], GetBasePrimaryAttribute(PrimaryAttributeTypes.Spirit));
-            sb.AppendLine("+-----------------------+--+------------------------+");
+                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName, 55) + "|");
+            sb.AppendLine("+---------------------------+---------------------------+");
+            sb.AppendFormatLine("| %c%Strength  : %W%[{0,5}/{1,5}]%x% | %c%Race  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Strength], GetBasePrimaryAttribute(PrimaryAttributeTypes.Strength), Race == null ? "(none)" : Race.DisplayName);
+            sb.AppendFormatLine("| %c%Agility   : %W%[{0,5}/{1,5}]%x% | %c%Class : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Agility], GetBasePrimaryAttribute(PrimaryAttributeTypes.Agility), Class == null ? "(none)" : Class.DisplayName);
+            sb.AppendFormatLine("| %c%Stamina   : %W%[{0,5}/{1,5}]%x% | %c%Sex   : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Stamina], GetBasePrimaryAttribute(PrimaryAttributeTypes.Stamina), Sex);
+            sb.AppendFormatLine("| %c%Intellect : %W%[{0,5}/{1,5}]%x% | %c%Level : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Intellect], GetBasePrimaryAttribute(PrimaryAttributeTypes.Intellect), Level);
+            sb.AppendFormatLine("| %c%Spirit    : %W%[{0,5}/{1,5}]%x% |                           |", this[PrimaryAttributeTypes.Spirit], GetBasePrimaryAttribute(PrimaryAttributeTypes.Spirit));
+            sb.AppendLine("+---------------------------+--+------------------------+");
             // TODO: resource only if character can use them
-            sb.AppendFormatLine("| %g%Hit    : %W%[{0,6}/{1,6}]%x% | %g%Attack Power : %W%[{2,6}]%x%|", HitPoints, this[ComputedAttributeTypes.MaxHitPoints], this[ComputedAttributeTypes.AttackPower]);
-            sb.AppendFormatLine("| %g%Mana   : %W%[{0,6}/{1,6}]%x% | %g%Spell Power  : %W%[{2,6}]%x%|", this[ResourceKinds.Mana], GetMaxResource(ResourceKinds.Mana), this[ComputedAttributeTypes.SpellPower]);
-            sb.AppendFormatLine("| %g%Energy :       %W%[{0,3}/{1,3}]%x% | %g%Attack Speed : %W%[{2,6}]%x%|", this[ResourceKinds.Energy], GetMaxResource(ResourceKinds.Energy), this[ComputedAttributeTypes.AttackSpeed]);
-            sb.AppendFormatLine("| %g%Rage   :       %W%[{0,3}/{1,3}]%x% | %g%Armor:         %W%[{2,6}]%x%|", this[ResourceKinds.Rage], GetMaxResource(ResourceKinds.Rage), this[ComputedAttributeTypes.Armor]);
-            sb.AppendFormatLine("| %g%Runic  :       %W%[{0,3}/{1,3}]%x% |                        |", this[ResourceKinds.Runic], GetMaxResource(ResourceKinds.Runic));
+            sb.AppendFormatLine("| %g%Hit    : %W%[{0,8}/{1,8}]%x% | %g%Attack Power : %W%[{2,6}]%x%|", HitPoints, this[SecondaryAttributeTypes.MaxHitPoints], this[SecondaryAttributeTypes.AttackPower]);
+            sb.AppendFormatLine("| %g%Mana   : %W%[{0,8}/{1,8}]%x% | %g%Spell Power  : %W%[{2,6}]%x%|", this[ResourceKinds.Mana], GetMaxResource(ResourceKinds.Mana), this[SecondaryAttributeTypes.SpellPower]);
+            sb.AppendFormatLine("| %g%Energy :           %W%[{0,3}/{1,3}]%x% | %g%Attack Speed : %W%[{2,6}]%x%|", this[ResourceKinds.Energy], GetMaxResource(ResourceKinds.Energy), this[SecondaryAttributeTypes.AttackSpeed]);
+            sb.AppendFormatLine("| %g%Rage   :           %W%[{0,3}/{1,3}]%x% | %g%Armor:         %W%[{2,6}]%x%|", this[ResourceKinds.Rage], GetMaxResource(ResourceKinds.Rage), this[SecondaryAttributeTypes.Armor]);
+            sb.AppendFormatLine("| %g%Runic  :           %W%[{0,3}/{1,3}]%x% |                        |", this[ResourceKinds.Runic], GetMaxResource(ResourceKinds.Runic));
             // TODO: runes  sb.AppendFormatLine("| Runes  : BBUUFFDD");
             // TODO: gold, xp to level, item, weight
             // TODO: armor/resistances
-            sb.AppendLine("+--------------------------+------------------------+");
+            sb.AppendLine("+------------------------------+------------------------+");
             Send(sb);
+
+            ComplexTableGenerator generator = new ComplexTableGenerator();
+            //TODO
             return true;
         }
 
@@ -421,13 +424,14 @@ namespace Mud.Server.Character
             }
         }
 
-        private void DisplayItems(IReadOnlyCollection<IItem> items, bool shortDisplay, bool displayNothing) // equivalent to act_info.C:show_list_to_char
+        private void DisplayItems(IEnumerable<IItem> items, bool shortDisplay, bool displayNothing) // equivalent to act_info.C:show_list_to_char
         {
-            if (displayNothing && !items.Any())
+            var enumerable = items as IItem[] ?? items.ToArray();
+            if (displayNothing && !enumerable.Any())
                 Send("Nothing." + Environment.NewLine);
             else
             {
-                foreach (IItem item in items) // TODO: compact mode (grouped by Blueprint)
+                foreach (IItem item in enumerable) // TODO: compact mode (grouped by Blueprint)
                     Send(FormatItem(item, shortDisplay) + Environment.NewLine); // TODO: (see act_info.C:170 format_obj_to_char)
             }
         }

@@ -4,7 +4,7 @@ namespace Mud.Server
 {
     public interface IClassManager
     {
-        IReadOnlyCollection<IClass> Classes { get; }
+        IEnumerable<IClass> Classes { get; }
 
         IClass this[string name] { get; }
     }

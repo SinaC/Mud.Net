@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Server.Blueprints;
@@ -57,7 +58,7 @@ namespace Mud.Server.Room
 
         #region IContainer
 
-        public IReadOnlyCollection<IItem> Content => _content.AsReadOnly();
+        public IEnumerable<IItem> Content => _content.Where(x => x.IsValid);
 
         public bool PutInContainer(IItem obj)
         {
@@ -76,7 +77,7 @@ namespace Mud.Server.Room
 
         public RoomBlueprint Blueprint { get; private set; } // TODO: 1st parameter in ctor
 
-        public IReadOnlyCollection<ICharacter> People => _people.AsReadOnly();
+        public IEnumerable<ICharacter> People => _people.Where(x => x.IsValid);
 
         public IExit[] Exits { get; }
 
@@ -88,7 +89,7 @@ namespace Mud.Server.Room
         public IRoom GetRoom(ExitDirections direction)
         {
             IExit exit = Exit(direction);
-            return exit != null ? exit.Destination : null;
+            return exit?.Destination;
         }
 
         public bool Enter(ICharacter character)
@@ -107,14 +108,14 @@ namespace Mud.Server.Room
 
         #endregion
 
-        [Command("test")]
+        [Command("test", Category = "!!Test!!")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
             Send("Room: DoTest" + Environment.NewLine);
             return true;
         }
 
-        [Command("look")]
+        [Command("look", Category = "Information")]
         protected virtual bool DoLook(string rawParameters, params CommandParameter[] parameters)
         {
             //TODO: better 'UI'

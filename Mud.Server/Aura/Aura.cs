@@ -44,17 +44,17 @@ namespace Mud.Server.Aura
             Source = null;
         }
 
-        // Absorb, returns remaining damage (only for absorb Aura)
-        public int Absorb(int damage)
+        // Absorb, returns remaining damage/heal (only for absorb Aura)
+        public int Absorb(int amount)
         {
-            if (damage <= Amount) // Full absorb
+            if (amount <= Amount) // Full absorb
             {
-                Amount -= damage;
+                Amount -= amount;
                 return 0;
             }
             else // Partial absorb
             {
-                int remaining = damage - Amount;
+                int remaining = amount - Amount;
                 Amount = 0;
                 return remaining;
             }
@@ -68,6 +68,16 @@ namespace Mud.Server.Aura
             // Refresh aura values
             Amount = aura.Amount;
             TotalSeconds = aura.TotalSeconds;
+        }
+
+        // Called when dispelled
+        public virtual void OnDispelled(IEntity source)
+        {
+        }
+
+        // Called when vanished
+        public virtual void OnVanished(IEntity source)
+        {
         }
     }
 }
