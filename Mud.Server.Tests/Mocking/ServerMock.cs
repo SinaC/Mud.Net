@@ -41,9 +41,9 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IReadOnlyCollection<IPlayer> GetPlayers()
+        public IEnumerable<IPlayer> Players
         {
-            throw new NotImplementedException();
+            get { throw new NotImplementedException(); }
         }
 
         public IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch)
@@ -51,9 +51,9 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IReadOnlyCollection<IAdmin> GetAdmins()
+        public IEnumerable<IAdmin> Admins
         {
-            throw new NotImplementedException();
+            get { throw new NotImplementedException(); }
         }
 
         public IPlayer AddPlayer(IClient client, string name)

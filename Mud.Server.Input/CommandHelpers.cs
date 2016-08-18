@@ -136,10 +136,10 @@ namespace Mud.Server.Input
                 return new CommandParameter(value, true);
             int count;
             if (!int.TryParse(countAsString, out count)) // string.string is not splitted
-                return new CommandParameter(parameter, 1);
+                return new CommandParameter(value, 1);
             if (count <= 0 || String.IsNullOrWhiteSpace(value)) // negative count or empty value is invalid
                 return CommandParameter.InvalidCommand;
-            return new CommandParameter(parameter, count);
+            return new CommandParameter(value, count);
         }
 
         public static string JoinParameters(IEnumerable<CommandParameter> parameters)

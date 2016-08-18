@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Mud.Logger;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 
@@ -32,9 +31,9 @@ namespace Mud.Server.Abilities
                     case CombatHelpers.AttackResults.Critical:
                         // TODO http://wow.gamepedia.com/Critical_strike
                         if (victim.ImpersonatedBy != null)
-                            damage *= 2;
-                        else
                             damage = (damage * 150) / 200;
+                        else
+                            damage *= 2;
                         break;
                     case CombatHelpers.AttackResults.CrushingBlow:
                         // http://wow.gamepedia.com/Crushing_Blow
@@ -289,6 +288,23 @@ namespace Mud.Server.Abilities
             Repository.World.AddAura(victim, ability, source, AuraModifiers.DamageAbsorb, amount, AmountOperators.Fixed, ability.Duration, true);
             Repository.World.AddAura(victim, Repository.AbilityManager.WeakenedSoulAbility, source, AuraModifiers.None, 0, AmountOperators.None, 15, true);
             return true;
+        }
+    }
+
+    public class ChangeFormEffect : AbilityEffect
+    {
+        public Forms Form { get; }
+
+        public ChangeFormEffect(Forms form)
+        {
+            Form = form;
+        }
+
+        public override bool Process(ICharacter source, ICharacter victim, IAbility ability, CombatHelpers.AttackResults attackResult)
+        {
+            if (victim.Form == Form)
+                return victim.ChangeForm(Forms.Normal);
+            return victim.ChangeForm(Form);
         }
     }
 }

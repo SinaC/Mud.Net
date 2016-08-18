@@ -14,6 +14,11 @@ namespace Mud.Server.Classes
             Constants.ResourceKinds.Energy
         };
 
+        public override IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form)
+        {
+            return ResourceKinds; // always energy
+        }
+
         public Thief()
         {
             AddAbility(1, "dodge");

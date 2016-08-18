@@ -5,6 +5,7 @@ using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Actor;
+using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -129,6 +130,10 @@ namespace Mud.Server.Player
         public DateTime LastCommandTimestamp { get; protected set; }
         public string LastCommand { get; protected set; }
 
+        public virtual string Prompt => Impersonating != null 
+            ? BuildCharacterPrompt(Impersonating)
+            : ">";
+
         public void DecreaseGlobalCooldown() // decrease one by one
         {
             GlobalCooldown = Math.Max(GlobalCooldown - 1, 0);
@@ -191,6 +196,16 @@ namespace Mud.Server.Player
         }
 
         #endregion
+
+        protected string BuildCharacterPrompt(ICharacter character)
+        {
+            StringBuilder sb = new StringBuilder("<");
+            sb.AppendFormat("{0}/{1}Hp", character.HitPoints, character[SecondaryAttributeTypes.MaxHitPoints]);
+            foreach (ResourceKinds resourceKinds in character.CurrentResourceKinds)
+                sb.AppendFormat(" {0}/{1}{2}", character[resourceKinds], character.GetMaxResource(resourceKinds), resourceKinds);
+            sb.Append(">");
+            return sb.ToString();
+        }
 
         [Command("macro")]
         [Command("alias")]

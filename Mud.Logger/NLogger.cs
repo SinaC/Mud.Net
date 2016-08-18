@@ -2,6 +2,7 @@
 using System.IO;
 using NLog;
 using NLog.Targets;
+using NLog.Targets.Wrappers;
 
 namespace Mud.Logger
 {
@@ -11,13 +12,21 @@ namespace Mud.Logger
 
         #region ILog
 
-        public void Initialize(string path, string file, string fileTarget = "logfile")
+        public void Initialize(string path, string file, string fileTargetName = "logfile")
         {
             string logfile = Path.Combine(path, file);
-            FileTarget target = LogManager.Configuration.FindTargetByName(fileTarget) as FileTarget;
+            //FileTarget target = LogManager.Configuration.FindTargetByName(fileTarget) as FileTarget;
+            var target = LogManager.Configuration.FindTargetByName(fileTargetName);
             if (target == null)
-                throw new ApplicationException($"Couldn't find target {fileTarget} in NLog config");
-            target.FileName = logfile;
+                throw new ApplicationException($"Couldn't find target {fileTargetName} in NLog config");
+            FileTarget fileTarget = null;
+            if (target is AsyncTargetWrapper)
+                fileTarget = ((AsyncTargetWrapper)target).WrappedTarget as FileTarget;
+            else
+                fileTarget = target as FileTarget;
+            if (fileTarget == null)
+                throw new ApplicationException($"Target {fileTargetName} is not a FileTarget");
+            fileTarget.FileName = logfile;
         }
 
         public void WriteLine(LogLevels level, string format, params object[] args)

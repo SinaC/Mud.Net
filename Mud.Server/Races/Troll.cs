@@ -11,9 +11,7 @@
             AddAbility(1, "berserking");
             AddAbility(5, "test");
             AddAbility(5, "renew");
-            AddAbility(50, "trash");
             AddAbility(20, "smite");
-            AddAbility(20, "swiftmend");
         }
     }
 }

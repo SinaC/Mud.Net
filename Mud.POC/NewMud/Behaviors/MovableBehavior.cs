@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mud.POC.NewMud.Behaviors
+﻿namespace Mud.POC.NewMud.Behaviors
 {
     // Behavior applied to objects that can move or be moved.
     public class MovableBehavior : Behavior

@@ -9,7 +9,8 @@ namespace Mud.Server.Input
         public string Name { get; }
         public int Priority { get; set; } // Lower value means higher priority
         public bool Hidden { get; set; } // Not displayed in command list
-        public string Category { get; set; } // TODO: use category: Info/Communication/Movement/...
+        public string Category { get; set; }
+        public bool NoShortcut { get; set; } // Command must be fully typed
         public bool AddCommandInParameters { get; set; } // Command must be added in parameter list
 
         public CommandAttribute(string name)
@@ -19,6 +20,7 @@ namespace Mud.Server.Input
             Hidden = false;
             Category = String.Empty;
             AddCommandInParameters = false;
+            NoShortcut = false;
         }
     }
 

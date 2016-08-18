@@ -7,6 +7,18 @@
         Female
     }
 
+    public enum Forms
+    {
+        Normal,
+        Bear, // druid
+        Cat, // druid
+        Travel, // druid
+        Moonkin, // druid
+        Tree, // druid
+        Shadow // priest
+    }
+
+    // TODO
     //public enum Parts
     //{
     //    Head,

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using Mud.Logger;
 
 namespace Mud.Server.Server
@@ -35,6 +33,7 @@ namespace Mud.Server.Server
 
         public void Pulse()
         {
+            Stopwatch sw = new Stopwatch();
             foreach (PulseEntry entry in _entries)
             {
                 if (entry.PulseCurrentValue > 0)
@@ -42,8 +41,10 @@ namespace Mud.Server.Server
                 else
                 {
                     entry.PulseCurrentValue = entry.PulseResetValue;
-                    Log.Default.WriteLine(LogLevels.Trace, $"PULSE: {entry.PulseAction.Method.Name}");
+                    sw.Restart();
                     entry.PulseAction();
+                    sw.Stop();
+                    Log.Default.WriteLine(LogLevels.Trace, $"PULSE: {entry.PulseAction.Method.Name} in {sw.ElapsedMilliseconds} ms");
                 }
             }
         }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Mud.Logger;
 using Mud.Server.Constants;
 
@@ -16,6 +18,268 @@ namespace Mud.Server.Helpers
             Critical,
             CrushingBlow,
             Hit,
+        }
+
+        public enum CombatDifficulties
+        {
+            Grey,   // 0
+            Green,  // 1
+            Yellow, // 2
+            Orange, // 3
+            Red,    // 4
+            Skull   // 5
+        }
+
+        #region Experience to next level
+
+        //http://wow.gamepedia.com/Experience_to_level#Experience_to_level_pre-7.0_.28Post-Squish.29
+        public static readonly IDictionary<int, long> ExperienceToNextLevel = new Dictionary<int, long>
+        {
+            {1, 400},
+            {2, 900},
+            {3, 1400},
+            {4, 2100},
+            {5, 2800},
+            {6, 3600},
+            {7, 4500},
+            {8, 5400},
+            {9, 6500},
+            {10, 6700},
+
+            {11, 7000},
+            {12, 7700},
+            {13, 8700},
+            {14, 9700},
+            {15, 10800},
+            {16, 11900},
+            {17, 13100},
+            {18, 14200},
+            {19, 15400},
+            {20, 16600},
+
+            {21, 17900},
+            {22, 19200},
+            {23, 20400},
+            {24, 21800},
+            {25, 23100},
+            {26, 24400},
+            {27, 25800},
+            {28, 27100},
+            {29, 29000},
+            {30, 31000},
+
+            {31, 33300},
+            {32, 35700},
+            {33, 38400},
+            {34, 41100},
+            {35, 44000},
+            {36, 47000},
+            {37, 49900},
+            {38, 53000},
+            {39, 56200},
+            {40, 74300},
+
+            {41, 78500},
+            {42, 82800},
+            {43, 87100},
+            {44, 91600},
+            {45, 96300},
+            {46, 101000},
+            {47, 105800},
+            {48, 110700},
+            {49, 115700},
+            {50, 120900},
+
+            {51, 126100},
+            {52, 131500},
+            {53, 137000},
+            {54, 142500},
+            {55, 148200},
+            {56, 154000},
+            {57, 159900},
+            {58, 165800},
+            {59, 172000},
+            {60, 254000},
+
+            {61, 275000},
+            {62, 301000},
+            {63, 328000},
+            {64, 359000},
+            {65, 367000},
+            {66, 374000},
+            {67, 381000},
+            {68, 388000},
+            {69, 395000},
+            {70, 405000},
+
+            {71, 415000},
+            {72, 422000},
+            {73, 427000},
+            {74, 432000},
+            {75, 438000},
+            {76, 445000},
+            {77, 455000},
+            {78, 462000},
+            {79, 474000},
+            {80, 482000},
+
+            {81, 487000},
+            {82, 492000},
+            {83, 497000},
+            {84, 506000},
+            {85, 517000},
+            {86, 545000},
+            {87, 550000},
+            {88, 556000},
+            {89, 562000},
+            {90, 774800},
+
+            {91, 783900},
+            {92, 790400},
+            {93, 798200},
+            {94, 807300},
+            {95, 815100},
+            {96, 821600},
+            {97, 830700},
+            {98, 838500},
+            {99, 846300},
+            {100, 0},
+        };
+
+        public static readonly IDictionary<int, long> CumulativeExperienceByLevel = ExperienceToNextLevel.ToDictionary(x => x.Key, x => ExperienceToNextLevel.Where(y => y.Key < x.Key).Sum(y => y.Value));
+
+        #endregion
+
+        private static CombatDifficulties GetConColor(int playerLvl, int mobLvl)
+        {
+            if (playerLvl + 5 <= mobLvl)
+                return playerLvl + 10 <= mobLvl 
+                    ? CombatDifficulties.Skull 
+                    : CombatDifficulties.Red;
+            switch (mobLvl - playerLvl)
+            {
+                case 4:
+                case 3:
+                    return CombatDifficulties.Orange;
+                case 2:
+                case 1:
+                case 0:
+                case -1:
+                case -2:
+                    return CombatDifficulties.Yellow;
+                default:
+                    // More advanced formula for grey/green lvls
+                    if (playerLvl <= 5)
+                        return CombatDifficulties.Green; // All others are green.
+                    if (playerLvl <= 39)
+                        // Its below or equal to the 'grey level'
+                        return mobLvl <= playerLvl - 5 - (int) Math.Floor((double)playerLvl/10) 
+                            ? CombatDifficulties.Grey 
+                            : CombatDifficulties.Green;
+                    // Over lvl 39:
+                    return mobLvl <= playerLvl - 1 - (int) Math.Floor((double)playerLvl /5) 
+                        ? CombatDifficulties.Grey 
+                        : CombatDifficulties.Green;
+            }
+        }
+
+        //http://wow.gamepedia.com/Mob_experience#Example_Code
+        private static int GetZeroDifference(int lvl)
+        {
+            if (lvl <= 7)
+                return 5;
+            if (lvl <= 9)
+                return 6;
+            if (lvl <= 11)
+                return 7;
+            if (lvl <= 15)
+                return 8;
+            if (lvl <= 19)
+                return 9;
+            if (lvl <= 29)
+                return 11;
+            if (lvl <= 39)
+                return 12;
+            if (lvl <= 44)
+                return 13;
+            if (lvl <= 49)
+                return 14;
+            if (lvl <= 54)
+                return 15;
+            if (lvl <= 59)
+                return 16;
+            return 17; // Approx.
+        }
+
+        private static double GetMobExperience(int playerLvl, int mobLvl)
+        {
+            // TODO: replace +45 according to http://wow.gamepedia.com/Mob_experience#Basic_Formula
+            if (mobLvl >= playerLvl)
+            {
+                double temp = ((double)playerLvl *5 + 45)*(1 + 0.05*((double)mobLvl - (double)playerLvl));
+                double tempCap = ((double)playerLvl *5 + 45)*1.2;
+                return Math.Floor(Math.Min(temp, tempCap));
+            }
+            if (GetConColor(playerLvl, mobLvl) == CombatDifficulties.Grey)
+                return 0; // np difficulty -> no gain
+            return Math.Floor((double)playerLvl *5 + 45)*(1 - ((double) playerLvl - (double) mobLvl)/(double) GetZeroDifference(playerLvl));
+        }
+
+        private static double GetEliteMobExperience(int playerLvl, int mobLvl)
+        {
+            return GetMobExperience(playerLvl, mobLvl) * 2;
+        }
+
+        private static double GetMobExperienceFull(int playerLvl, int mobLvl, bool isElite)
+        {
+            return isElite ? GetEliteMobExperience(playerLvl, mobLvl) : GetMobExperience(playerLvl, mobLvl);
+        }
+
+        private static double ApplyRestedExperience(double experience, long restedExperienceLeft)
+        {
+            if (restedExperienceLeft == 0)
+                return experience;
+            if (restedExperienceLeft >= experience)
+                return experience * 2;
+            //Restedness is partially covering the XP gained.
+            // XP = rest + (AXP - (rest / 2))
+            return restedExperienceLeft + (experience - (double)restedExperienceLeft / 2);
+        }
+
+        private static double GetPartyExperienceBonus(int playerCount)
+        {
+            switch (playerCount)
+            {
+                case 3:
+                    return 1.116;
+                case 4:
+                    return 1.3;
+                case 5:
+                    return 1.4;
+                default:
+                    return 1;
+            }
+        }
+
+        public static long GetSoloMobExperienceFull(int playerLvl, int mobLvl, bool isElite, long restedExperienceLeft)
+        {
+            return (long)ApplyRestedExperience(GetMobExperienceFull(playerLvl, mobLvl, isElite), restedExperienceLeft);
+        }
+
+        public static long GetDuoMobExperienceFull(int player1Lvl, int player2Lvl, int mobLvl, bool isElite, long restedExperienceLeft)
+        {
+            int highestLvl = Math.Max(player1Lvl, player2Lvl);
+            double temp = GetMobExperienceFull(highestLvl, mobLvl, isElite);
+            return (long)ApplyRestedExperience(player1Lvl * temp / (player1Lvl + player2Lvl), restedExperienceLeft);
+        }
+
+        // Party Mob XP
+        public static long GetPartyMobExperienceFull(int playerLvl, int highestLvl, int sumLvls, int playerCount, int mobLvl, bool isElite, long restedExperienceLeft)
+        {
+            double temp = GetMobExperienceFull(highestLvl, mobLvl, isElite) * GetPartyExperienceBonus(playerCount);
+            // temp = XP from soloing via highest lvl...
+            temp = (temp*playerLvl)/sumLvls;
+            return (long)ApplyRestedExperience(temp, restedExperienceLeft);
         }
 
         // TODO: check block only if shield is equiped

@@ -11,8 +11,13 @@ namespace Mud.Server.Classes
 
         public override IEnumerable<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
         {
-            Constants.ResourceKinds.Energy
+            Constants.ResourceKinds.Rage
         };
+
+        public override IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form)
+        {
+            return ResourceKinds; // always rage
+        }
 
         public Warrior()
         {
@@ -20,6 +25,7 @@ namespace Mud.Server.Classes
             AddAbility(2, "shield block");
             AddAbility(10, "dodge");
             AddAbility(20, "battle shout");
+            AddAbility(50, "rupture"); // test
         }
     }
 }

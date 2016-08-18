@@ -7,14 +7,14 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [Command("shutdow", Hidden = true)] // TODO: add an option in CommandAttribute to force full command to be type
-        protected virtual bool DoShutdow(string rawParameters, params CommandParameter[] parameters)
-        {
-            Send("If you want to SHUTDOWN, spell it out." + Environment.NewLine);
-            return true;
-        }
+        //[Command("shutdow", Hidden = true)] // TODO: add an option in CommandAttribute to force full command to be type
+        //protected virtual bool DoShutdow(string rawParameters, params CommandParameter[] parameters)
+        //{
+        //    Send("If you want to SHUTDOWN, spell it out." + Environment.NewLine);
+        //    return true;
+        //}
 
-        [Command("shutdown")]
+        [Command("shutdown", Category = "Admin", Priority = 999/*low priority*/, NoShortcut = true)]
         protected virtual bool DoShutdown(string rawParameters, params CommandParameter[] parameters)
         {
             int seconds;
@@ -27,7 +27,7 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [Command("slay")]
+        [Command("slay", Category = "Admin")]
         protected virtual bool DoSlay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -60,7 +60,7 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [Command("purge")]
+        [Command("purge", Category = "Admin")]
         protected virtual bool DoPurge(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -87,7 +87,7 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [Command("force")]
+        [Command("force", Category = "Admin")]
         protected virtual bool DoForce(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length < 2)
@@ -108,7 +108,7 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [Command("addlag")]
+        [Command("addlag", Category = "Admin")]
         protected virtual bool DoAddLag(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

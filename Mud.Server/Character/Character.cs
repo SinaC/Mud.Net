@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
@@ -59,10 +58,12 @@ namespace Mud.Server.Character
             _groupMembers = new List<ICharacter>();
             _cooldowns = new Dictionary<IAbility, DateTime>(new CompareIAbility());
 
+            Form = Forms.Normal;
             Class = pcClass;
             Race = pcRace;
             Sex = pcSex;
             Level = 30 + RandomizeHelpers.Instance.Randomizer.Next(-10, 10); // TODO: parameter
+            Experience = CombatHelpers.ExperienceToNextLevel.Where(x => x.Key < Level).Sum(x => x.Value);
             for (int i = 0; i < _basePrimaryAttributes.Length; i++)
                 _basePrimaryAttributes[i] = 15000 + RandomizeHelpers.Instance.Randomizer.Next(-20,20);
             _knownAbilities = new List<AbilityAndLevel>(); // handled by RecomputeKnownAbilities
@@ -74,6 +75,7 @@ namespace Mud.Server.Character
             RecomputeKnownAbilities();
             ResetAttributes(true);
             RecomputeCommands();
+            RecomputeCurrentResourceKinds();
             BuildEquipmentSlots();
         }
 
@@ -95,9 +97,11 @@ namespace Mud.Server.Character
 
             Blueprint = blueprint;
 
+            Form = Forms.Normal;
             // TODO: mob class/race ???
             Sex = blueprint.Sex;
             Level = blueprint.Level;
+            Experience = CombatHelpers.ExperienceToNextLevel.Where(x => x.Key < Level).Sum(x => x.Value);
             for (int i = 0; i < _basePrimaryAttributes.Length; i++)
                 _basePrimaryAttributes[i] = 10*Level;
             _knownAbilities = new List<AbilityAndLevel>(); // handled by RecomputeKnownAbilities
@@ -109,6 +113,7 @@ namespace Mud.Server.Character
             RecomputeKnownAbilities();
             ResetAttributes(true);
             RecomputeCommands();
+            RecomputeCurrentResourceKinds();
             BuildEquipmentSlots();
         }
 
@@ -201,7 +206,8 @@ namespace Mud.Server.Character
 
         // Attributes
         public Sex Sex { get; }
-        public int Level { get; }
+        public long Experience { get; private set; }
+        public int Level { get; private set; }
         public int HitPoints { get; private set; }
 
         public int this[ResourceKinds resource]
@@ -230,6 +236,15 @@ namespace Mud.Server.Character
                 _secondaryAttributes[(int) attribute] = value;
             }
         }
+
+        public IEnumerable<ResourceKinds> CurrentResourceKinds { get; private set; }
+
+        public long ExperienceToLevel => CombatHelpers.CumulativeExperienceByLevel[Level] + CombatHelpers.ExperienceToNextLevel[Level] - Experience;
+
+        // Form
+        public Forms Form { get; private set; }
+
+        // Abilities
 
         public IEnumerable<AbilityAndLevel> KnownAbilities => _knownAbilities;
 
@@ -511,14 +526,14 @@ namespace Mud.Server.Character
             return _maxResources[(int) resource];
         }
 
-        public void SpendResource(ResourceKinds resource, int amount)
+        public void ChangeResource(ResourceKinds resource, int amount)
         {
-            this[resource] = Math.Max(0, this[resource] - amount);
+            this[resource] = Math.Min(_maxResources[(int)resource], Math.Max(0, this[resource] + amount));
         }
 
-        public void RegenerateResources()
+        public void UpdateResources()
         {
-            // TODO: use real formulas
+            // TODO: use real formulas (rage decrease and other increase)
             foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
             {
                 int max = GetMaxResource(resource);
@@ -529,6 +544,30 @@ namespace Mud.Server.Character
                     current = max; // not higher than max
                 this[resource] = Math.Min(max, Math.Max(0, current)); // keep value in valid range
             }
+        }
+
+        // Form
+        public bool ChangeForm(Forms form)
+        {
+            if (form == Form)
+                return false;
+
+            if (form == Forms.Normal)
+                Send("You regain your normal form"+Environment.NewLine);
+
+            Form = form;
+
+            RecomputeKnownAbilities();
+            RecomputeAttributes();
+            RecomputeCommands();
+            RecomputeCurrentResourceKinds();
+
+            // Start values
+            this[ResourceKinds.Energy] = 100;
+            this[ResourceKinds.Rage] = 0;
+            this[ResourceKinds.Runic] = 0;
+
+            return true;
         }
 
         // Auras
@@ -692,8 +731,8 @@ namespace Mud.Server.Character
             // TODO: correct values
             _maxResources[(int)ResourceKinds.Mana] = Level * 100;
             _maxResources[(int)ResourceKinds.Energy] = 100;
-            _maxResources[(int)ResourceKinds.Rage] = 120;
-            _maxResources[(int)ResourceKinds.Runic] = 130;
+            _maxResources[(int)ResourceKinds.Rage] = 100;
+            _maxResources[(int)ResourceKinds.Runic] = 120;
             // TODO: runes
             // Apply aura on compute attributes
             foreach (IAura aura in Auras)
@@ -993,7 +1032,9 @@ namespace Mud.Server.Character
                 Act(ActOptions.ToCharacter, "You hear {0}'s death cry.", victim);
             ActToNotVictim(victim, "You hear {0}'s death cry.", victim);
 
-            // TODO: gain/lose xp/reputation   damage.C:32
+            // Gain/lose xp/reputation   damage.C:32
+            if (killingPayoff)
+                KillingPayoff(victim);
 
             // Create corpse
             IItemCorpse corpse = Repository.World.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
@@ -1009,6 +1050,34 @@ namespace Mud.Server.Character
 
             // TODO: autoloot, autosac  damage.C:96
             return true;
+        }
+
+        public void GainExperience(long experience)
+        {
+            bool recompute = false;
+            Experience += experience;
+            if (experience > 0)
+            {
+                while (ExperienceToLevel <= 0)
+                {
+                    recompute = true;
+                    Level++;
+                    Send("You raise a level!!" + Environment.NewLine);
+                    Act(ActOptions.ToGroup, "{0} has attained level {1}", this, Level);
+                }
+            }
+            // TODO: negative experience gain don't lose level
+            if (recompute)
+            {
+                RecomputeKnownAbilities();
+                RecomputeAttributes();
+                RecomputeCommands();
+                // Bonus -> reset cooldown and set resource to max
+                _cooldowns.Clear();
+                HitPoints = MaxHitPoints;
+                for (int i = 0; i < _currentResources.Length; i++)
+                    _currentResources[i] = _maxResources[i];
+            }
         }
 
         // Ability
@@ -1519,6 +1588,12 @@ namespace Mud.Server.Character
                 _fullCommands.AddRange(skillCommands);
         }
 
+        protected void RecomputeCurrentResourceKinds()
+        {
+            // Get current resource kind from class if any, every resource otherwise
+            CurrentResourceKinds = (Class?.CurrentResourceKinds(Form) ?? EnumHelpers.GetValues<ResourceKinds>()).Where(x => x != ResourceKinds.None).ToList();
+        }
+
         protected int ComputeArmorFromEquipments()
         {
             int armorValue = 0;
@@ -1589,13 +1664,62 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", DisplayName, source.DisplayName);
 
                 StopFighting(false);
-                RawKill(this, true);
+                source.RawKill(this, true);
                 return true;
             }
 
             // TODO: wimpy, ... // fight.C:2264
 
             return true;
+        }
+
+        // Gain/Lose xp
+        protected void KillingPayoff(ICharacter victim)
+        {
+            // Gain xp
+            if (this != victim && !victim.Impersonable) // gain xp only for non-impersonable victim
+            {
+                // TODO: not the best way to do it
+                // Build group members
+                List<ICharacter> members = new List<ICharacter>
+                {
+                    this
+                };
+                ICharacter leader = null;
+                // Member of a group
+                if (Leader != null && Leader.GroupMembers.Any(x => x == this))
+                    leader = Leader;
+                // Leader of a group
+                else if (Leader == null && GroupMembers.Any())
+                    leader = this;
+                if (leader != null)
+                    members.AddRange(leader.GroupMembers);
+                int highestLevel = members.Max(x => x.Level);
+                int sumLevels = members.Sum(x => x.Level);
+                int memberCount = members.Count;
+                // Gain xp
+                foreach (ICharacter member in members)
+                {
+                    long experienceGain;
+                    if (memberCount == 1)
+                        experienceGain = CombatHelpers.GetSoloMobExperienceFull(member.Level, victim.Level, false /*TODO: elite*/, 0 /*TODO: rested exp*/);
+                    else if (memberCount == 2)
+                        experienceGain = CombatHelpers.GetDuoMobExperienceFull(members[0].Level, members[1].Level, victim.Level, false /*TODO: elite*/, 0 /*TODO: rested exp*/);
+                    else
+                        experienceGain = CombatHelpers.GetPartyMobExperienceFull(member.Level, highestLevel, sumLevels, memberCount, victim.Level, false /*TODO: elite*/, 0 /*TODO: rested exp*/);
+                    if (experienceGain > 0)
+                    {
+                        member.Send("%y%You gain {0} experience points.%x%" + Environment.NewLine, experienceGain);
+                        member.GainExperience(experienceGain);
+                    }
+                }
+            }
+
+            // Lose xp
+            if (victim.Impersonable) // only impersonable victim lose xp
+            {
+                // TODO: 2/3 of level
+            }
         }
 
         #region Act

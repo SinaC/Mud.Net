@@ -21,17 +21,22 @@ namespace Mud.Server.Abilities
             // Linked to Power Word: Shield (cannot be used/casted)
             new Ability(WeakenedSoulAbilityId, "Weakened Soul", AbilityTargets.Target, AbilityBehaviors.None, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.CannotBeUsed),
             //
+            new Ability(10, "Bear Form", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.AuraIsHidden, new ChangeFormEffect(Forms.Bear)),
+            new Ability(11, "Cat Form", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.AuraIsHidden, new ChangeFormEffect(Forms.Cat)),
+            new Ability(19, "Shadow Form", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.AuraIsHidden, new ChangeFormEffect(Forms.Shadow)),
+            //
             new Ability(100, "Wrath", AbilityTargets.Target, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 4, 4, 0, 0, SchoolTypes.Nature, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new DamageAbilityEffect(149, SecondaryAttributeTypes.SpellPower, SchoolTypes.Nature)),
-            new Ability(101, "Trash", AbilityTargets.Room, AbilityBehaviors.Harmful, AbilityKinds.Skill, ResourceKinds.Energy, AmountOperators.Fixed, 50, 4, 0, 15, SchoolTypes.Physical, AbilityMechanics.Bleeding, DispelTypes.None, AbilityFlags.None, new DamageAbilityEffect(513, SecondaryAttributeTypes.AttackPower, SchoolTypes.Physical), new DotAbilityEffect(365, SecondaryAttributeTypes.SpellPower, SchoolTypes.Physical, 3)),
-            new Ability(102, "Shadow Word: Pain", AbilityTargets.Target, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 1, 1, 0, 18, SchoolTypes.Shadow, AbilityMechanics.None, DispelTypes.Magic, AbilityFlags.None, new DamageAbilityEffect(475, SecondaryAttributeTypes.SpellPower, SchoolTypes.Shadow), new DotAbilityEffect(475, SecondaryAttributeTypes.SpellPower, SchoolTypes.Shadow, 3)),
-            new Ability(103, "Rupture", AbilityTargets.Target, AbilityBehaviors.Harmful, AbilityKinds.Skill, ResourceKinds.Energy, AmountOperators.Fixed, 25, 4, 0, 8 /* TODO: multiplied by combo*/, SchoolTypes.Physical, AbilityMechanics.Bleeding, DispelTypes.None, AbilityFlags.None, new DotAbilityEffect(685, SecondaryAttributeTypes.AttackPower, SchoolTypes.Physical, 2)),
-            new Ability(104, "Renew", AbilityTargets.TargetOrSelf, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 2, 4, 0, 12, SchoolTypes.Holy, AbilityMechanics.None, DispelTypes.Magic, AbilityFlags.None, new HealAbilityEffect(22, SecondaryAttributeTypes.SpellPower), new HotAbilityEffect(44, SecondaryAttributeTypes.SpellPower, 3)),
-            new Ability(105, "Power Word: Shield", AbilityTargets.TargetOrSelf, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 2, 1, 6, 15, SchoolTypes.Holy, AbilityMechanics.Shielded, DispelTypes.Magic, AbilityFlags.None, new PowerWordShieldEffect()),
+            new Ability(101, "Thrash(bear)", AbilityTargets.Room, AbilityBehaviors.Harmful, AbilityKinds.Skill, ResourceKinds.Rage, AmountOperators.Fixed, 50, 4, 0, 15, SchoolTypes.Physical, AbilityMechanics.Bleeding, DispelTypes.None, AbilityFlags.RequireBearForm, new DamageAbilityEffect(513, SecondaryAttributeTypes.AttackPower, SchoolTypes.Physical), new DotAbilityEffect(365, SecondaryAttributeTypes.SpellPower, SchoolTypes.Physical, 3)),
+            new Ability(102, "Thrash(cat)", AbilityTargets.Room, AbilityBehaviors.Harmful, AbilityKinds.Skill, ResourceKinds.Energy, AmountOperators.Fixed, 50, 4, 0, 15, SchoolTypes.Physical, AbilityMechanics.Bleeding, DispelTypes.None, AbilityFlags.RequireCatForm, new DamageAbilityEffect(513, SecondaryAttributeTypes.AttackPower, SchoolTypes.Physical), new DotAbilityEffect(365, SecondaryAttributeTypes.SpellPower, SchoolTypes.Physical, 3)),
+            new Ability(103, "Shadow Word: Pain", AbilityTargets.Target, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 1, 1, 0, 18, SchoolTypes.Shadow, AbilityMechanics.None, DispelTypes.Magic, AbilityFlags.None, new DamageAbilityEffect(475, SecondaryAttributeTypes.SpellPower, SchoolTypes.Shadow), new DotAbilityEffect(475, SecondaryAttributeTypes.SpellPower, SchoolTypes.Shadow, 3)),
+            new Ability(104, "Rupture", AbilityTargets.Target, AbilityBehaviors.Harmful, AbilityKinds.Skill, ResourceKinds.Energy, AmountOperators.Fixed, 25, 4, 0, 8 /* TODO: multiplied by combo*/, SchoolTypes.Physical, AbilityMechanics.Bleeding, DispelTypes.None, AbilityFlags.None, new DotAbilityEffect(685, SecondaryAttributeTypes.AttackPower, SchoolTypes.Physical, 2)),
+            new Ability(105, "Renew", AbilityTargets.TargetOrSelf, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 2, 4, 0, 12, SchoolTypes.Holy, AbilityMechanics.None, DispelTypes.Magic, AbilityFlags.None, new HealAbilityEffect(22, SecondaryAttributeTypes.SpellPower), new HotAbilityEffect(44, SecondaryAttributeTypes.SpellPower, 3)),
+            new Ability(106, "Power Word: Shield", AbilityTargets.TargetOrSelf, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 2, 1, 6, 15, SchoolTypes.Holy, AbilityMechanics.Shielded, DispelTypes.Magic, AbilityFlags.None, new PowerWordShieldEffect()),
             // TODO: + %maxHP should only be done on friendly target
-            new Ability(106, "Death Coil", AbilityTargets.TargetOrSelf, AbilityBehaviors.Any, AbilityKinds.Spell, ResourceKinds.Runic, AmountOperators.Fixed, 30, 4, 0, 30, SchoolTypes.Shadow, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new DamageOrHealEffect(0.88f, 0.88f*5, SecondaryAttributeTypes.AttackPower, SchoolTypes.Shadow), new AuraAbilityEffect(AuraModifiers.MaxHitPoints, 3, AmountOperators.Percentage)),
-            new Ability(107, "Berserking", AbilityTargets.Self, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 4, 3*60, 10, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackSpeed, 15, AmountOperators.Percentage)),
-            new Ability(108, "Battle Shout", AbilityTargets.Group, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 4, 0, 1*60*60, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackPower, 10, AmountOperators.Percentage)),
-            new Ability(109, "Swiftmend", AbilityTargets.Target, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 14, 1, 30, 0, SchoolTypes.Nature, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new HealAbilityEffect(700,SecondaryAttributeTypes.SpellPower)),
+            new Ability(107, "Death Coil", AbilityTargets.TargetOrSelf, AbilityBehaviors.Any, AbilityKinds.Spell, ResourceKinds.Runic, AmountOperators.Fixed, 30, 4, 0, 30, SchoolTypes.Shadow, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new DamageOrHealEffect(0.88f, 0.88f*5, SecondaryAttributeTypes.AttackPower, SchoolTypes.Shadow), new AuraAbilityEffect(AuraModifiers.MaxHitPoints, 3, AmountOperators.Percentage)),
+            new Ability(108, "Berserking", AbilityTargets.Self, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 4, 3*60, 10, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackSpeed, 15, AmountOperators.Percentage)),
+            new Ability(109, "Battle Shout", AbilityTargets.Group, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 4, 0, 1*60*60, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackPower, 10, AmountOperators.Percentage)),
+            new Ability(110, "Swiftmend", AbilityTargets.Target, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 14, 1, 30, 0, SchoolTypes.Nature, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new HealAbilityEffect(700,SecondaryAttributeTypes.SpellPower)),
 
             new Ability(ParryAbilityId, "Parry", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
             new Ability(DodgeAbilityId, "Dodge", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
@@ -105,6 +110,26 @@ namespace Mud.Server.Abilities
                 source.Send("You must be wielding something prior using {0}" + Environment.NewLine, ability.Name);
                 return false;
             }
+            if ((ability.Flags & AbilityFlags.RequireBearForm) == AbilityFlags.RequireBearForm && source.Form != Forms.Bear)
+            {
+                source.Send("You must be in Bear form prior using {0}" + Environment.NewLine, ability.Name);
+                return false;
+            }
+            if ((ability.Flags & AbilityFlags.RequireCatForm) == AbilityFlags.RequireCatForm && source.Form != Forms.Cat)
+            {
+                source.Send("You must be in Cat form prior using {0}" + Environment.NewLine, ability.Name);
+                return false;
+            }
+            if ((ability.Flags & AbilityFlags.RequireMoonkinForm) == AbilityFlags.RequireMoonkinForm && source.Form != Forms.Moonkin)
+            {
+                source.Send("You must be in Moonkin form prior using {0}" + Environment.NewLine, ability.Name);
+                return false;
+            }
+            if ((ability.Flags & AbilityFlags.RequireShadowForm) == AbilityFlags.RequireShadowForm && source.Form != Forms.Shadow)
+            {
+                source.Send("You must be in Shadow form prior using {0}" + Environment.NewLine, ability.Name);
+                return false;
+            }
             // TODO: shapeshift, combo
             //2/ Check cooldown
             int cooldownSecondsLeft = source.CooldownSecondsLeft(ability);
@@ -117,6 +142,11 @@ namespace Mud.Server.Abilities
             int cost = ability.CostAmount; // default value (always overwritten if significant)
             if (ability.ResourceKind != ResourceKinds.None && ability.CostAmount > 0 && ability.CostType != AmountOperators.None)
             {
+                if (!source.CurrentResourceKinds.Contains(ability.ResourceKind)) // TODO: not sure about this test
+                {
+                    source.Send("You can't use {0} as resource for the moment." + Environment.NewLine, ability.ResourceKind);
+                    return false;
+                }
                 int resourceLeft = source[ability.ResourceKind];
                 if (ability.CostType == AmountOperators.Fixed)
                     cost = ability.CostAmount;
@@ -208,7 +238,7 @@ namespace Mud.Server.Abilities
             source.Send("You cast/use '{0}'." + Environment.NewLine, ability.Name); // TODO: better wording
             //6/ Pay resource cost
             if (ability.ResourceKind != ResourceKinds.None && ability.CostAmount > 0 && ability.CostType != AmountOperators.None)
-                source.SpendResource(ability.ResourceKind, cost);
+                source.ChangeResource(ability.ResourceKind, -cost);
             //7/ Perform effect(s) on target(s)
             IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(targets);
             foreach (ICharacter target in clone)
@@ -239,68 +269,80 @@ namespace Mud.Server.Abilities
         {
             if (ability?.Effects == null || ability.Effects.Count == 0 || !source.IsValid || !victim.IsValid)
                 return;
-            // Miss/Dodge/Parray/Block check
+            // Miss/Dodge/Parray/Block check (only for harmful ability)
             CombatHelpers.AttackResults attackResult = CombatHelpers.AttackResults.Hit;
-            if (ability.Kind == AbilityKinds.Skill)
+            if (ability.Behavior == AbilityBehaviors.Harmful)
             {
-                // TODO: refactor same code in Character.OneHit
-                // Miss, dodge, parry, ...
-                attackResult = CombatHelpers.YellowMeleeAttack(source, victim, cannotMiss, cannotBeDodgedParriedBlocked);
-                Log.Default.WriteLine(LogLevels.Debug, $"{source.DisplayName} -> {victim.DisplayName} : attack result = {attackResult}");
-                switch (attackResult)
+                // Starts fight if needed (if A attacks B, A fights B and B fights A)
+                if (source != victim)
                 {
-                    case CombatHelpers.AttackResults.Miss:
-                        victim.Act(ActOptions.ToCharacter, "{0} misses you.", source);
-                        source.Act(ActOptions.ToCharacter, "You miss {0}.", victim);
-                        return; // no effect applied
-                    case CombatHelpers.AttackResults.Dodge:
-                        victim.Act(ActOptions.ToCharacter, "You dodge {0}'s {1}.", source, ability.Name);
-                        source.Act(ActOptions.ToCharacter, "{0} dodges your {1}.", victim, ability.Name);
-                        return; // no effect applied
-                    case CombatHelpers.AttackResults.Parry:
-                        victim.Act(ActOptions.ToCharacter, "You parry {0}'s {1}.", source, ability.Name);
-                        source.Act(ActOptions.ToCharacter, "{0} parries your {1}.", victim, ability.Name);
-                        return; // no effect applied
-                    case CombatHelpers.AttackResults.Block:
-                        EquipedItem victimShield = victim.Equipments.FirstOrDefault(x => x.Item != null && x.Slot == EquipmentSlots.Shield);
-                        if (victimShield != null) // will never be null because MeleeAttack will not return Block if no shield
-                        {
-                            victim.Act(ActOptions.ToCharacter, "You block {0}'s {1} with {2}.", source, ability.Name, victimShield.Item);
-                            source.Act(ActOptions.ToCharacter, "{0} blocks your {1} with {2}.", victim, ability.Name, victimShield.Item);
-                        }
-                        // effect applied
-                        break;
-                    case CombatHelpers.AttackResults.Critical:
-                    case CombatHelpers.AttackResults.CrushingBlow:
-                    case CombatHelpers.AttackResults.Hit:
-                        // effect applied
-                        break;
-                    default:
-                        Log.Default.WriteLine(LogLevels.Error, $"Ability {ability.Name}[{ability.Kind}] returned an invalid attack result: {attackResult}");
-                        break;
+                    if (source.Fighting == null)
+                        source.StartFighting(victim);
+                    if (victim.Fighting == null)
+                        victim.StartFighting(source);
+                    // TODO: Cannot attack slave without breaking slavery
                 }
-            }
-            else if (ability.Kind == AbilityKinds.Spell)
-            {
-                // Miss/Hit/Critical
-                attackResult = CombatHelpers.SpellAttack(source, victim, cannotMiss);
-                switch (attackResult)
+                if (ability.Kind == AbilityKinds.Skill)
                 {
-                    case CombatHelpers.AttackResults.Miss:
-                        victim.Act(ActOptions.ToCharacter, "{0} misses you.", source);
-                        source.Act(ActOptions.ToCharacter, "You miss {0}.", victim);
-                        return; // no effect applied
-                    case CombatHelpers.AttackResults.Hit:
-                    case CombatHelpers.AttackResults.Critical:
-                        // effect applied
-                        break;
-                    default:
-                        Log.Default.WriteLine(LogLevels.Error, $"Ability {ability.Name}[{ability.Kind}] returned an invalid attack result: {attackResult}");
-                        break;
+                    // TODO: refactor same code in Character.OneHit
+                    // Miss, dodge, parry, ...
+                    attackResult = CombatHelpers.YellowMeleeAttack(source, victim, cannotMiss, cannotBeDodgedParriedBlocked);
+                    Log.Default.WriteLine(LogLevels.Debug, $"{source.DisplayName} -> {victim.DisplayName} : attack result = {attackResult}");
+                    switch (attackResult)
+                    {
+                        case CombatHelpers.AttackResults.Miss:
+                            victim.Act(ActOptions.ToCharacter, "{0} misses you.", source);
+                            source.Act(ActOptions.ToCharacter, "You miss {0}.", victim);
+                            return; // no effect applied
+                        case CombatHelpers.AttackResults.Dodge:
+                            victim.Act(ActOptions.ToCharacter, "You dodge {0}'s {1}.", source, ability.Name);
+                            source.Act(ActOptions.ToCharacter, "{0} dodges your {1}.", victim, ability.Name);
+                            return; // no effect applied
+                        case CombatHelpers.AttackResults.Parry:
+                            victim.Act(ActOptions.ToCharacter, "You parry {0}'s {1}.", source, ability.Name);
+                            source.Act(ActOptions.ToCharacter, "{0} parries your {1}.", victim, ability.Name);
+                            return; // no effect applied
+                        case CombatHelpers.AttackResults.Block:
+                            EquipedItem victimShield = victim.Equipments.FirstOrDefault(x => x.Item != null && x.Slot == EquipmentSlots.Shield);
+                            if (victimShield != null) // will never be null because MeleeAttack will not return Block if no shield
+                            {
+                                victim.Act(ActOptions.ToCharacter, "You block {0}'s {1} with {2}.", source, ability.Name, victimShield.Item);
+                                source.Act(ActOptions.ToCharacter, "{0} blocks your {1} with {2}.", victim, ability.Name, victimShield.Item);
+                            }
+                            // effect applied
+                            break;
+                        case CombatHelpers.AttackResults.Critical:
+                        case CombatHelpers.AttackResults.CrushingBlow:
+                        case CombatHelpers.AttackResults.Hit:
+                            // effect applied
+                            break;
+                        default:
+                            Log.Default.WriteLine(LogLevels.Error, $"Ability {ability.Name}[{ability.Kind}] returned an invalid attack result: {attackResult}");
+                            break;
+                    }
                 }
+                else if (ability.Kind == AbilityKinds.Spell && ability.Behavior == AbilityBehaviors.Harmful)
+                {
+                    // Miss/Hit/Critical
+                    attackResult = CombatHelpers.SpellAttack(source, victim, cannotMiss);
+                    switch (attackResult)
+                    {
+                        case CombatHelpers.AttackResults.Miss:
+                            victim.Act(ActOptions.ToCharacter, "{0} misses you.", source);
+                            source.Act(ActOptions.ToCharacter, "You miss {0}.", victim);
+                            return; // no effect applied
+                        case CombatHelpers.AttackResults.Hit:
+                        case CombatHelpers.AttackResults.Critical:
+                            // effect applied
+                            break;
+                        default:
+                            Log.Default.WriteLine(LogLevels.Error, $"Ability {ability.Name}[{ability.Kind}] returned an invalid attack result: {attackResult}");
+                            break;
+                    }
+                }
+                else
+                    Log.Default.WriteLine(LogLevels.Error, $"Ability {ability.Name} has an invalid kind: {ability.Kind}");
             }
-            else
-                Log.Default.WriteLine(LogLevels.Error, $"Ability {ability.Name} has an invalid kind: {ability.Kind}");
             // Apply effects
             foreach (AbilityEffect effect in ability.Effects)
                 effect.Process(source, victim, ability, attackResult);

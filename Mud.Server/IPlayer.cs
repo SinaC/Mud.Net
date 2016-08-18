@@ -34,6 +34,8 @@ namespace Mud.Server
         DateTime LastCommandTimestamp { get; }
         string LastCommand { get; }
 
+        string Prompt { get; }
+
         void DecreaseGlobalCooldown(); // decrease one by one
         void SetGlobalCooldown(int pulseCount); // set global cooldown delay (in pulse)
 

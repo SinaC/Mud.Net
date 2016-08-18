@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server.Helpers
 {
-    /* should handle this kind of table
-+-------------------------------------------------------+
-|                     Mob1 (Sinac)                      |
-+---------------------------+---------------------------+
-| Strength  : [15008/15008] | Race  :             Troll |
-| Agility   : [15015/15015] | Class :             Thief |
-| Stamina   : [14991/14991] | Sex   :              Male |
-| Intellect : [15000/15000] | Level :                28 |
-| Spirit    : [14997/14997] |                           |
-+---------------------------+--+------------------------+
-| Hit    : [  750550/  750550] | Attack Power : [ 30066]|
-| Mana   : [    2800/    2800] | Spell Power  : [ 15050]|
-| Energy :           [100/100] | Attack Speed : [    20]|
-| Rage   :           [120/120] | Armor:         [     0]|
-| Runic  :           [130/130] |                        |
-+------------------------------+------------------------+
+    //TODO
+
+/* should handle this kind of table
++--------------------------------------------------------+
+|                      Mob1 (Sinac)                      |
++---------------------------+----------------------------+
+| Strength  : [14981/14981] | Race   :             Troll |
+| Agility   : [14987/14987] | Class  :             Druid |
+| Stamina   : [15003/15003] | Sex    :              Male |
+| Intellect : [15011/15011] | Level  :                20 |
+| Spirit    : [14995/14995] | NxtLvl :             16600 |
++---------------------------+--+-------------------------+
+| Hit    : [  751150/  751150] | Attack Power : [ 30012] |
+| Mana   : [    2000/    2000] | Spell Power  : [ 15061] |
+| Energy :           [100/100] | Attack Speed : [    20] |
+| Rage   :           [100/100] | Armor        : [     0] |
+| Runic  :           [120/120] | Form         : [Normal] |
++------------------------------+-------------------------+
 */
+
     public class ComplexTableGenerator
     {
         // AddSeparator

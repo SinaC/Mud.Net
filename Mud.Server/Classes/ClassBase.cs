@@ -22,6 +22,8 @@ namespace Mud.Server.Classes
 
         public IEnumerable<AbilityAndLevel> Abilities => _abilities;
 
+        public abstract IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form);
+
         #endregion
 
         protected ClassBase()
@@ -34,7 +36,7 @@ namespace Mud.Server.Classes
             IAbility ability = Repository.AbilityManager[abilityId];
             if (ability == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Trying to add unknown ability [id:{0}] to class [{1}]", abilityId, Name);
+                Log.Default.WriteLine(LogLevels.Warning, "Trying to add unknown ability [id:{0}] to class [{1}]", abilityId, Name);
                 return;
             }
             //
@@ -46,7 +48,7 @@ namespace Mud.Server.Classes
             IAbility ability = Repository.AbilityManager[abilityName];
             if (ability == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Trying to add unknown ability [{0}] to class [{1}]", abilityName, Name);
+                Log.Default.WriteLine(LogLevels.Warning, "Trying to add unknown ability [{0}] to class [{1}]", abilityName, Name);
                 return;
             }
             //

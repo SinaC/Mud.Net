@@ -1,6 +1,4 @@
-﻿using Mud.Server.Blueprints;
-
-namespace Mud.Server.Item
+﻿namespace Mud.Server.Item
 {
     public interface IItemFurniture : IItem
     {

@@ -65,14 +65,14 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("murde", Hidden = true)] // TODO: force full match
-        protected virtual bool DoMurde(string rawParameters, params CommandParameter[] parameters)
-        {
-            Send("If you want to MURDER, spell it out." + Environment.NewLine);
-            return true;
-        }
+        //[Command("murde", Hidden = true)] // TODO: force full match
+        //protected virtual bool DoMurde(string rawParameters, params CommandParameter[] parameters)
+        //{
+        //    Send("If you want to MURDER, spell it out." + Environment.NewLine);
+        //    return true;
+        //}
 
-        [Command("murder", Category = "Combat")]
+        [Command("murder", Category = "Combat", Priority = 999/*low priority*/, NoShortcut = true)]
         protected virtual bool DoMurder(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

@@ -10,7 +10,7 @@ namespace Mud.Server.Tests.Mocking
 
         #region ILog
 
-        public void Initialize(string path, string file, string fileTarget = "logfile")
+        public void Initialize(string path, string file, string fileTargetName = "logfile")
         {
             // NOP
         }

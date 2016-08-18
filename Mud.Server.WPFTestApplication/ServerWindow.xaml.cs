@@ -15,7 +15,6 @@ using Mud.Server.Blueprints;
 using Mud.Server.Constants;
 using Mud.Server.Item;
 using Mud.Server.Server;
-using System.IO;
 
 namespace Mud.Server.WPFTestApplication
 {
@@ -71,13 +70,13 @@ namespace Mud.Server.WPFTestApplication
             else if (input == "alist")
             {
                 OutputText("Admins:");
-                foreach (IAdmin a in Repository.Server.GetAdmins())
+                foreach (IAdmin a in Repository.Server.Admins)
                     OutputText(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.DisplayName : "") + " " + (a.Incarnating != null ? a.Incarnating.DisplayName : ""));
             }
             else if (input == "plist")
             {
                 OutputText("players:");
-                foreach (IPlayer p in Repository.Server.GetPlayers())
+                foreach (IPlayer p in Repository.Server.Players)
                     OutputText(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.DisplayName : ""));
             }
             InputTextBox.Focus();
@@ -745,13 +744,16 @@ namespace Mud.Server.WPFTestApplication
             };
 
             //
-            ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint(); // this is mandatory
+            ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint
+            {
+                Name = "corpse"
+            }; // this is mandatory
 
             // Add dummy mobs and items to allow impersonate :)
             IRoom templeOfMota = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
             IRoom templeSquare = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
-            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Thief"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
+            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Druid"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
             ICharacter mob2 = Repository.World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
             ICharacter mob3 = Repository.World.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
             //ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);

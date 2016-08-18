@@ -295,34 +295,99 @@ namespace Mud.Server.Character
         [Command("score", Category = "Information", Priority = 2)]
         protected virtual bool DoScore(string rawParameters, params CommandParameter[] parameters)
         {
+            //StringBuilder sb = new StringBuilder();
+            //sb.AppendLine();
+            //sb.AppendLine("+--------------------------------------------------------+"); // length = 56
+            //if (ImpersonatedBy != null)
+            //    sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + " (" + ImpersonatedBy.DisplayName + ")", 56) + "|");
+            //else
+            //    sb.AppendLine("|" + StringHelpers.CenterText(DisplayName, 56) + "|");
+            //sb.AppendLine("+---------------------------+----------------------------+");
+            //sb.AppendFormatLine("| %c%Strength  : %W%[{0,5}/{1,5}]%x% | %c%Race   : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Strength], GetBasePrimaryAttribute(PrimaryAttributeTypes.Strength), Race == null ? "(none)" : Race.DisplayName);
+            //sb.AppendFormatLine("| %c%Agility   : %W%[{0,5}/{1,5}]%x% | %c%Class  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Agility], GetBasePrimaryAttribute(PrimaryAttributeTypes.Agility), Class == null ? "(none)" : Class.DisplayName);
+            //sb.AppendFormatLine("| %c%Stamina   : %W%[{0,5}/{1,5}]%x% | %c%Sex    : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Stamina], GetBasePrimaryAttribute(PrimaryAttributeTypes.Stamina), Sex);
+            //sb.AppendFormatLine("| %c%Intellect : %W%[{0,5}/{1,5}]%x% | %c%Level  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Intellect], GetBasePrimaryAttribute(PrimaryAttributeTypes.Intellect), Level);
+            //sb.AppendFormatLine("| %c%Spirit    : %W%[{0,5}/{1,5}]%x% | %c%NxtLvl : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Spirit], GetBasePrimaryAttribute(PrimaryAttributeTypes.Spirit), ExperienceToLevel);
+            //sb.AppendLine("+---------------------------+--+-------------------------+");
+            //// TODO: resource only if character can use them
+            //sb.AppendFormatLine("| %g%Hit    : %W%[{0,8}/{1,8}]%x% | %g%Attack Power : %W%[{2,6}]%x% |", HitPoints, this[SecondaryAttributeTypes.MaxHitPoints], this[SecondaryAttributeTypes.AttackPower]);
+            //sb.AppendFormatLine("| %g%Mana   : %W%[{0,8}/{1,8}]%x% | %g%Spell Power  : %W%[{2,6}]%x% |", this[ResourceKinds.Mana], GetMaxResource(ResourceKinds.Mana), this[SecondaryAttributeTypes.SpellPower]);
+            //sb.AppendFormatLine("| %g%Energy :           %W%[{0,3}/{1,3}]%x% | %g%Attack Speed : %W%[{2,6}]%x% |", this[ResourceKinds.Energy], GetMaxResource(ResourceKinds.Energy), this[SecondaryAttributeTypes.AttackSpeed]);
+            //sb.AppendFormatLine("| %g%Rage   :           %W%[{0,3}/{1,3}]%x% | %g%Armor        : %W%[{2,6}]%x% |", this[ResourceKinds.Rage], GetMaxResource(ResourceKinds.Rage), this[SecondaryAttributeTypes.Armor]);
+            //sb.AppendFormatLine("| %g%Runic  :           %W%[{0,3}/{1,3}]%x% | %g%Form         : %W%[{2,6}]%x% |", this[ResourceKinds.Runic], GetMaxResource(ResourceKinds.Runic), Form);
+            //// TODO: runes  sb.AppendFormatLine("| Runes  : BBUUFFDD");
+            //// TODO: gold, xp to level, item, weight
+            //// TODO: armor/resistances
+            //sb.AppendLine("+------------------------------+-------------------------+");
+            //Send(sb);
+
+            // TODO: score all will display everything (every resources, every stats)
+
             StringBuilder sb = new StringBuilder();
             sb.AppendLine();
-            sb.AppendLine("+-------------------------------------------------------+"); // length = 55
+            sb.AppendLine("+--------------------------------------------------------+"); // length = 56
+            string form = String.Empty;
+            if (Form != Forms.Normal)
+                form = $"%m% [Form: {Form}]%x%";
             if (ImpersonatedBy != null)
-                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + " (" + ImpersonatedBy.DisplayName+")", 55) + "|");
+                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + " (" + ImpersonatedBy.DisplayName + ")" + form, form == String.Empty ? 56 : 62) + "|");
             else
-                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName, 55) + "|");
-            sb.AppendLine("+---------------------------+---------------------------+");
-            sb.AppendFormatLine("| %c%Strength  : %W%[{0,5}/{1,5}]%x% | %c%Race  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Strength], GetBasePrimaryAttribute(PrimaryAttributeTypes.Strength), Race == null ? "(none)" : Race.DisplayName);
-            sb.AppendFormatLine("| %c%Agility   : %W%[{0,5}/{1,5}]%x% | %c%Class : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Agility], GetBasePrimaryAttribute(PrimaryAttributeTypes.Agility), Class == null ? "(none)" : Class.DisplayName);
-            sb.AppendFormatLine("| %c%Stamina   : %W%[{0,5}/{1,5}]%x% | %c%Sex   : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Stamina], GetBasePrimaryAttribute(PrimaryAttributeTypes.Stamina), Sex);
-            sb.AppendFormatLine("| %c%Intellect : %W%[{0,5}/{1,5}]%x% | %c%Level : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Intellect], GetBasePrimaryAttribute(PrimaryAttributeTypes.Intellect), Level);
-            sb.AppendFormatLine("| %c%Spirit    : %W%[{0,5}/{1,5}]%x% |                           |", this[PrimaryAttributeTypes.Spirit], GetBasePrimaryAttribute(PrimaryAttributeTypes.Spirit));
-            sb.AppendLine("+---------------------------+--+------------------------+");
-            // TODO: resource only if character can use them
-            sb.AppendFormatLine("| %g%Hit    : %W%[{0,8}/{1,8}]%x% | %g%Attack Power : %W%[{2,6}]%x%|", HitPoints, this[SecondaryAttributeTypes.MaxHitPoints], this[SecondaryAttributeTypes.AttackPower]);
-            sb.AppendFormatLine("| %g%Mana   : %W%[{0,8}/{1,8}]%x% | %g%Spell Power  : %W%[{2,6}]%x%|", this[ResourceKinds.Mana], GetMaxResource(ResourceKinds.Mana), this[SecondaryAttributeTypes.SpellPower]);
-            sb.AppendFormatLine("| %g%Energy :           %W%[{0,3}/{1,3}]%x% | %g%Attack Speed : %W%[{2,6}]%x%|", this[ResourceKinds.Energy], GetMaxResource(ResourceKinds.Energy), this[SecondaryAttributeTypes.AttackSpeed]);
-            sb.AppendFormatLine("| %g%Rage   :           %W%[{0,3}/{1,3}]%x% | %g%Armor:         %W%[{2,6}]%x%|", this[ResourceKinds.Rage], GetMaxResource(ResourceKinds.Rage), this[SecondaryAttributeTypes.Armor]);
-            sb.AppendFormatLine("| %g%Runic  :           %W%[{0,3}/{1,3}]%x% |                        |", this[ResourceKinds.Runic], GetMaxResource(ResourceKinds.Runic));
-            // TODO: runes  sb.AppendFormatLine("| Runes  : BBUUFFDD");
-            // TODO: gold, xp to level, item, weight
-            // TODO: armor/resistances
-            sb.AppendLine("+------------------------------+------------------------+");
+                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + form, form == String.Empty ? 56 : 62) + "|");
+            sb.AppendLine("+---------------------------+----------------------------+");
+            sb.AppendLine("| %W%Attributes%x%                |                            |");
+            sb.AppendFormatLine("| %c%Strength  : %W%[{0,5}/{1,5}]%x% | %c%Race   : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Strength], GetBasePrimaryAttribute(PrimaryAttributeTypes.Strength), Race?.DisplayName ?? "(none)");
+            sb.AppendFormatLine("| %c%Agility   : %W%[{0,5}/{1,5}]%x% | %c%Class  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Agility], GetBasePrimaryAttribute(PrimaryAttributeTypes.Agility), Class?.DisplayName ?? "(none)");
+            sb.AppendFormatLine("| %c%Stamina   : %W%[{0,5}/{1,5}]%x% | %c%Sex    : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Stamina], GetBasePrimaryAttribute(PrimaryAttributeTypes.Stamina), Sex);
+            sb.AppendFormatLine("| %c%Intellect : %W%[{0,5}/{1,5}]%x% | %c%Level  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Intellect], GetBasePrimaryAttribute(PrimaryAttributeTypes.Intellect), Level);
+            sb.AppendFormatLine("| %c%Spirit    : %W%[{0,5}/{1,5}]%x% | %c%NxtLvl : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Spirit], GetBasePrimaryAttribute(PrimaryAttributeTypes.Spirit), ExperienceToLevel);
+            sb.AppendLine("+---------------------------+--+-------------------------+");
+            sb.AppendLine("| %W%Resources%x%                    | %W%Offensive%x%               |");
+            // TODO: don't display both Attack Power and Spell Power
+            sb.AppendFormatLine("| %g%Hit    : %W%[{0,8}/{1,8}]%x% | %g%Attack Power : %W%[{2,6}]%x% |", HitPoints, this[SecondaryAttributeTypes.MaxHitPoints], this[SecondaryAttributeTypes.AttackPower]);
+            List<string> resources = CurrentResourceKinds.Fill(3).Select(x => x == ResourceKinds.None
+                ? "                            "
+                : $"%g%{x,-7}:     %W%[{this[x],6}/{GetMaxResource(x),6}]%x%").ToList();
+            sb.AppendFormatLine("| {0} | %g%Spell Power  : %W%[{1,6}]%x% |", resources[0], this[SecondaryAttributeTypes.SpellPower]);
+            sb.AppendFormatLine("| {0} | %g%Attack Speed : %W%[{1,6}]%x% |", resources[1], this[SecondaryAttributeTypes.AttackSpeed]);
+            sb.AppendFormatLine("| {0} | %g%Armor        : %W%[{1,6}]%x% |", resources[2], this[SecondaryAttributeTypes.Armor]);
+            sb.AppendLine("+------------------------------+-------------------------+");
+            sb.AppendLine("| %W%Defensive%x%                    |                         |");
+            sb.AppendFormatLine("| %g%Dodge              : %W%[{0,5}]%x% |                         |", this[SecondaryAttributeTypes.Dodge]);
+            sb.AppendFormatLine("| %g%Parry              : %W%[{0,5}]%x% |                         |", this[SecondaryAttributeTypes.Parry]);
+            sb.AppendFormatLine("| %g%Block              : %W%[{0,5}]%x% |                         |", this[SecondaryAttributeTypes.Block]);
+            sb.AppendLine("+------------------------------+-------------------------+");
             Send(sb);
+            //Name[Form]
 
-            ComplexTableGenerator generator = new ComplexTableGenerator();
-            //TODO
+            //Attributes
+            //Str / Race
+            //Agi / Class
+            //Int / Sex
+            //Sta / Level
+            //Spi / Xp2Level
+
+            //Resource Offensive
+            //Hp / AP or SP
+            //Mana1 / AS
+            //[Mana2] / Critical
+
+            //Defensive
+            //Armor
+            //Dodge
+            //Parry
+            //Block
+
+            //ComplexTableGenerator generator = new ComplexTableGenerator();
+            //generator.SetColumns(10); // dummy value
+            //generator.AddSeparator();
+            //if (ImpersonatedBy != null)
+            //    generator.AddRow(DisplayName + " (" + ImpersonatedBy.DisplayName + ")");
+            //else
+            //    generator.AddRow(DisplayName);
+            //generator.SetColumns(25, 25);
+            //generator.AddRow();
+            //sb = generator.Generate();
+            //Send(sb);
             return true;
         }
 
@@ -369,6 +434,7 @@ namespace Mud.Server.Character
         //********************************************************************
         // Helpers
         //********************************************************************
+
         private void DisplayRoom() // equivalent to act_info.C:do_look("auto")
         {
             // Room name

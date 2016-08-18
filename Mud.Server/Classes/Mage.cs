@@ -14,6 +14,11 @@ namespace Mud.Server.Classes
             Constants.ResourceKinds.Mana
         };
 
+        public override IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form)
+        {
+            return ResourceKinds; // always mana
+        }
+
         public Mage()
         {
             AddAbility(1, "wrath");

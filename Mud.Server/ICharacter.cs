@@ -30,11 +30,17 @@ namespace Mud.Server
 
         // Attributes
         Sex Sex { get; }
+        long Experience { get; }
         int Level { get; }
         int HitPoints { get; }
         int this[ResourceKinds resource] { get; }
         int this[PrimaryAttributeTypes attribute] { get; }
         int this[SecondaryAttributeTypes attribute] { get; }
+        IEnumerable<ResourceKinds> CurrentResourceKinds { get; }
+        long ExperienceToLevel { get; }
+
+            // Form
+        Forms Form { get; }
 
         // Abilities
         IEnumerable<AbilityAndLevel> KnownAbilities { get; }
@@ -79,8 +85,11 @@ namespace Mud.Server
         // Attributes
         int GetBasePrimaryAttribute(PrimaryAttributeTypes attribute);
         int GetMaxResource(ResourceKinds resource);
-        void SpendResource(ResourceKinds resource, int amount);
-        void RegenerateResources();
+        void ChangeResource(ResourceKinds resource, int amount);
+        void UpdateResources();
+
+        // Form
+        bool ChangeForm(Forms form);
 
         // Auras
         void AddPeriodicAura(IPeriodicAura aura);
@@ -105,6 +114,7 @@ namespace Mud.Server
         bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage from ability of known source
         bool UnknownSourceDamage(IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage with unknown source or no source
         bool RawKill(ICharacter victim, bool killingPayoff); // kill victim + create corpse (if killingPayoff is true, xp gain/loss)
+        void GainExperience(long experience); // add/substract experience
 
         // Ability
         IDictionary<IAbility, DateTime> AbilitiesInCooldown { get; }

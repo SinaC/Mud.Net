@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Mud.Datas.DataContracts;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Input;
@@ -96,6 +94,10 @@ namespace Mud.Server.Admin
 
         #endregion
 
+        public override string Prompt => Incarnating != null 
+            ? BuildIncarnatePrompt()
+            : base.Prompt;
+
         public override void OnDisconnected()
         {
             base.OnDisconnected();
@@ -113,5 +115,13 @@ namespace Mud.Server.Admin
         public IEntity Incarnating { get; private set; }
 
         #endregion
+
+        private string BuildIncarnatePrompt()
+        {
+            ICharacter character = Incarnating as ICharacter;
+            if (character != null)
+                return BuildCharacterPrompt(character);
+            return ">";
+        }
     }
 }

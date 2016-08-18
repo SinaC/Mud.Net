@@ -20,7 +20,7 @@ namespace Mud.Server.Admin
             StringBuilder sb = new StringBuilder();
             //
             sb.AppendFormatLine("Players:");
-            foreach (IPlayer player in Repository.Server.GetPlayers())
+            foreach (IPlayer player in Repository.Server.Players)
             {
                 switch (player.PlayerState)
                 {
@@ -42,7 +42,7 @@ namespace Mud.Server.Admin
             }
             //
             sb.AppendFormatLine("Admins:");
-            foreach (IAdmin admin in Repository.Server.GetAdmins())
+            foreach (IAdmin admin in Repository.Server.Admins)
             {
                 switch (admin.PlayerState)
                 {
@@ -109,8 +109,8 @@ namespace Mud.Server.Admin
         protected virtual bool DoStat(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormatLine("#Admin: {0}", Repository.Server.GetAdmins().Count);
-            sb.AppendFormatLine("#Player: {0}", Repository.Server.GetPlayers().Count);
+            sb.AppendFormatLine("#Admin: {0}", Repository.Server.Admins.Count());
+            sb.AppendFormatLine("#Player: {0}", Repository.Server.Players.Count());
             sb.AppendLine("Blueprints:");
             sb.AppendFormatLine("   #Rooms: {0}", Repository.World.GetRoomBlueprints().Count);
             sb.AppendFormatLine("   #Characters: {0}", Repository.World.GetCharacterBlueprints().Count);
@@ -161,6 +161,7 @@ namespace Mud.Server.Admin
                     sb.AppendFormatLine("Room: {0} [vnum: {1}]", victim.Room.DisplayName, victim.Room.Blueprint?.Id ?? -1);
                     sb.AppendFormatLine("Race: {0} Class: {1}", victim.Race == null ? "(none)" : victim.Race.DisplayName, victim.Class == null ? "(none)" : victim.Class.DisplayName);
                     sb.AppendFormatLine("Level: {0} Sex: {1}", victim.Level, victim.Sex);
+                    sb.AppendFormatLine("Experience: {0} NextLevel: {1}", victim.Experience, victim.ExperienceToLevel);
                     sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim[SecondaryAttributeTypes.MaxHitPoints]);
                     sb.AppendLine("Attributes:");
                     foreach (PrimaryAttributeTypes primaryAttribute in EnumHelpers.GetValues<PrimaryAttributeTypes>())
@@ -229,15 +230,15 @@ namespace Mud.Server.Admin
                         sb.AppendLine("No blueprint");
                     sb.AppendFormatLine("Name: {0}", item.Name);
                     sb.AppendFormatLine("DisplayName: {0}", item.DisplayName);
+                    sb.AppendFormatLine("Type: {0}", item.GetType().Name);
                     if (item.ContainedInto != null)
                         sb.AppendFormatLine("Contained in {0}", item.ContainedInto.DisplayName);
                     IEquipable equipable = item as IEquipable;
                     if (equipable != null)
-                        sb.AppendFormatLine("Equiped by {0}", equipable.EquipedBy == null ? "(none)" : equipable.EquipedBy.DisplayName);
+                        sb.AppendFormatLine("Equiped by {0} on {1}", equipable.EquipedBy == null ? "(none)" : equipable.EquipedBy.DisplayName, equipable.WearLocation);
                     else
                         sb.AppendLine("Cannot be equiped");
                     sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
-                    sb.AppendFormatLine("Type: {0}", item.GetType().Name);
                     IItemArmor armor = item as IItemArmor;
                     if (armor != null)
                         sb.AppendFormatLine("Armor type: {0} Armor value: {1}", armor.ArmorKind, armor.Armor);
@@ -266,6 +267,7 @@ namespace Mud.Server.Admin
                                     else
                                         sb.AppendLine("UNHANDLED ITEM TYPE");
                                 }
+                                // TODO: other item type
                             }
                         }
                     }

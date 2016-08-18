@@ -11,7 +11,7 @@
 
     public interface ILog
     {
-        void Initialize(string path, string file, string fileTarget = "logfile");
+        void Initialize(string path, string file, string fileTargetName = "logfile");
         void WriteLine(LogLevels level, string format, params object[] args);
     }
 }

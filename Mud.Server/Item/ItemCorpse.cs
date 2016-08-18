@@ -35,13 +35,7 @@ namespace Mud.Server.Item
             }
         }
 
-        public override int Weight
-        {
-            get
-            {
-                return base.Weight + _content.Sum(x => x.Weight);
-            }
-        }
+        public override int Weight => base.Weight + _content.Sum(x => x.Weight);
 
         #region IContainer
 

@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mud.Logger;
 using Mud.Network;
+using Mud.Server.Abilities;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -32,7 +33,7 @@ namespace Mud.Server.Server
         private readonly ConcurrentDictionary<IClient, PlayingClient> _clients;
         private readonly ConcurrentDictionary<IPlayer, PlayingClient> _players;
 
-        // Client in login process are not yet considered as player, they are stored in a seperate stucture
+        // Client in login process are not yet considered as player, they are stored in a seperate structure
         private readonly ConcurrentDictionary<IClient, LoginStateMachine> _loginInClients;
 
         private List<INetworkServer> _networkServers;
@@ -68,6 +69,34 @@ namespace Mud.Server.Server
                 networkServer.NewClientConnected += NetworkServerOnNewClientConnected;
                 networkServer.ClientDisconnected += NetworkServerOnClientDisconnected;
             }
+
+            // Perform some validity/sanity checks
+            foreach (IClass c in Repository.ClassManager.Classes)
+            {
+                if (c.ResourceKinds == null || !c.ResourceKinds.Any())
+                    Log.Default.WriteLine(LogLevels.Warning, "Class {0} doesn't have any allowed resources");
+                else
+                {
+                    foreach (AbilityAndLevel abilityAndLevel in c.Abilities)
+                        if (abilityAndLevel.Ability.ResourceKind != ResourceKinds.None && !c.ResourceKinds.Contains(abilityAndLevel.Ability.ResourceKind))
+                            Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityAndLevel.Ability.Name, abilityAndLevel.Ability.ResourceKind);
+                }
+            }
+            long totalExperience = 0;
+            long previousExpToLevel = 0;
+            for (int lvl = 1; lvl < 100; lvl++)
+            {
+                long expToLevel;
+                bool found = CombatHelpers.ExperienceToNextLevel.TryGetValue(lvl, out expToLevel);
+                if (!found)
+                    Log.Default.WriteLine(LogLevels.Error, "No experience to next level found for level {0}", lvl);
+                else if (expToLevel < previousExpToLevel)
+                    Log.Default.WriteLine(LogLevels.Error, "Experience to next level for level {0} is lower than previous level", lvl);
+                else
+                    previousExpToLevel = expToLevel;
+                totalExperience += expToLevel;
+            }
+            Log.Default.WriteLine(LogLevels.Info, "Total experience from 1 to 100 = {0:n0}", totalExperience);
         }
 
         public void Start()
@@ -134,20 +163,14 @@ namespace Mud.Server.Server
             return FindHelpers.FindByName(_players.Keys, parameter, perfectMatch);
         }
 
-        public IReadOnlyCollection<IPlayer> GetPlayers()
-        {
-            return _players.Keys.ToList().AsReadOnly();
-        }
+        public IEnumerable<IPlayer> Players => _players.Keys;
 
         public IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch)
         {
             return FindHelpers.FindByName(_players.Keys.OfType<IAdmin>(), parameter, perfectMatch);
         }
 
-        public IReadOnlyCollection<IAdmin> GetAdmins()
-        {
-            return _players.Keys.OfType<IAdmin>().ToList().AsReadOnly();
-        }
+        public IEnumerable<IAdmin> Admins => _players.Keys.OfType<IAdmin>();
 
         // TODO: remove
         // TEST PURPOSE
@@ -274,15 +297,13 @@ namespace Mud.Server.Server
                 previousPlayerPair.Value.Client.DataReceived -= ClientPlayingOnDataReceived;
                 previousPlayerPair.Value.Client.Disconnect();
 
-                // Welcome
+                // Welcome back
                 client.WriteData("Reconnecting to Mud.Net!!" + Environment.NewLine);
-                client.WriteData(">"); // TODO: complex prompt
             }
             else
             {
                 // Welcome
                 client.WriteData("Welcome to Mud.Net!!" + Environment.NewLine);
-                client.WriteData(">"); // TODO: complex prompt
             }
             // TODO: if new player, avatar creation state machine
 
@@ -306,10 +327,9 @@ namespace Mud.Server.Server
             // Create a new player/admin only if not reconnecting
             if (playerOrAdmin == null)
             {
-                if (isAdmin)
-                    playerOrAdmin = new Admin.Admin(Guid.NewGuid(), username);
-                else
-                    playerOrAdmin = new Player.Player(Guid.NewGuid(), username);
+                playerOrAdmin = isAdmin 
+                    ? new Admin.Admin(Guid.NewGuid(), username) 
+                    : new Player.Player(Guid.NewGuid(), username);
                 //
                 playerOrAdmin.SendData += PlayerOnSendData;
                 playerOrAdmin.PageData += PlayerOnPageData;
@@ -326,6 +346,9 @@ namespace Mud.Server.Server
                 _players.TryAdd(playerOrAdmin, newPlayingClient);
                 _clients.TryAdd(client, newPlayingClient);
             }
+
+            // Prompt
+            client.WriteData(playerOrAdmin.Prompt);
 
             // Load player/admin (if needed)
             if (loadPlayerOrAdmin)
@@ -388,7 +411,7 @@ namespace Mud.Server.Server
         {
             PlayingClient playingClient;
             bool found = _players.TryGetValue(player, out playingClient);
-            if (playingClient == null)
+            if (!found || playingClient == null)
                 Log.Default.WriteLine(LogLevels.Error, "PlayerOnPageData: playingClient not found!!!");
             else if (data.Length > 0)
             {
@@ -402,40 +425,38 @@ namespace Mud.Server.Server
         #endregion
 
         // Once paging is active, classic commands are processed anymore
-        // Valid commands are (Enter), (Q)uit, (A)ll
-        // TODO: (N)ext same as Enter  (P)revious
+        // Valid commands are (Enter), (N)ext, (Q)uit, (A)ll
+        // TODO: (P)revious
         private void HandlePaging(PlayingClient playingClient, string command)
         {
-            if (command == String.Empty) // <Enter> -> send next page
+            string lowerCommand = command.ToLowerInvariant();
+            if (command == String.Empty || "next".StartsWith(lowerCommand)) // <Enter> -> send next page
             {
                 // Pages are always sent immediately asynchronously, don't use ProcessOutput even if in synchronous mode
                 string nextPage = playingClient.Paging.GetNextPage(25); // TODO: configurable line count
                 playingClient.Client.WriteData(nextPage);
-                if (playingClient.Paging.HasPageLeft) // page left, send page instructions
+                if (playingClient.Paging.HasPageLeft) // page left, send page instructions (no prompt)
                 {
-                    const string pagingInstructions = "[Paging : (Enter), (Q)uit, (A)ll]";
+                    const string pagingInstructions = "[Paging : (Enter), (N)ext (Q)uit, (A)ll]";
                     playingClient.Client.WriteData(pagingInstructions);
                 }
                 else // no more page -> normal mode
                 {
                     playingClient.Paging.Clear();
-                    const string prompt = ">"; // TODO: complex prompt
-                    playingClient.Client.WriteData(prompt);
+                    playingClient.Client.WriteData(playingClient.Player.Prompt);
                 }
             }
-            else if ("quit".StartsWith(command.ToLower()))
+            else if ("quit".StartsWith(lowerCommand))
             {
                 playingClient.Paging.Clear();
-                const string prompt = ">"; // TODO: complex prompt
-                playingClient.Client.WriteData(prompt);
+                playingClient.Client.WriteData(playingClient.Player.Prompt);
             }
-            else if ("all".StartsWith(command.ToLower()))
+            else if ("all".StartsWith(lowerCommand))
             {
                 string remaining = playingClient.Paging.GetRemaining();
                 playingClient.Paging.Clear();
-                const string prompt = ">"; // TODO: complex prompt
                 playingClient.Client.WriteData(remaining);
-                playingClient.Client.WriteData(prompt);
+                playingClient.Client.WriteData(playingClient.Player.Prompt);
             }
         }
 
@@ -451,31 +472,31 @@ namespace Mud.Server.Server
         private void ProcessInput()
         {
             // Read one command from each client and process it
-            foreach (PlayingClient playingClient in _players.Values) // TODO: first connected player will be processed before other, try a randomize
+            foreach (PlayingClient playingClient in _players.Values) // TODO: first connected player will be processed before other, try a randomize (round-robin)
             {
                 if (playingClient.Player != null)
                 {
-                    if (playingClient.Player.GlobalCooldown > 0) // if player is on GCD, decrease it
-                        playingClient.Player.DecreaseGlobalCooldown();
-                    else
+                    try
                     {
-                        string command = playingClient.DequeueReceivedData(); // process one command at a time
-                        if (command != null)
+                        if (playingClient.Player.GlobalCooldown > 0) // if player is on GCD, decrease it
+                            playingClient.Player.DecreaseGlobalCooldown();
+                        else
                         {
-                            if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
-                                HandlePaging(playingClient, command);
-                            else if (!String.IsNullOrWhiteSpace(command))
+                            string command = playingClient.DequeueReceivedData(); // process one command at a time
+                            if (command != null)
                             {
-                                try
+                                if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
+                                    HandlePaging(playingClient, command);
+                                else if (!String.IsNullOrWhiteSpace(command))
                                 {
                                     playingClient.Player.ProcessCommand(command);
                                 }
-                                catch (Exception ex)
-                                {
-                                    Log.Default.WriteLine(LogLevels.Error, "Exception while processing input of {0}. Exception: {1}", playingClient.Player.Name, ex);
-                                }
                             }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Default.WriteLine(LogLevels.Error, "Exception while processing input of {0}. Exception: {1}", playingClient.Player.Name, ex);
                     }
                 }
                 else
@@ -489,23 +510,15 @@ namespace Mud.Server.Server
             {
                 if (playingClient.Player != null)
                 {
-                    string data = playingClient.DequeueDataToSend();
                     try
                     {
-                        if (!String.IsNullOrWhiteSpace(data)) // TODO use stringbuilder to append prompt
+                        string datas = playingClient.DequeueDataToSend(); // TODO should return a StringBuilder to quickly append prompt
+                        if (!String.IsNullOrWhiteSpace(datas))
                         {
-                            // Bust a prompt ?
-                            if (playingClient.Player.PlayerState == PlayerStates.Playing || playingClient.Player.PlayerState == PlayerStates.Impersonating)
-                            {
-                                // bust a prompt // TODO: complex prompt
-                                if (playingClient.Player.Impersonating != null)
-                                    data += $"<{playingClient.Player.Impersonating.HitPoints}/{playingClient.Player.Impersonating[SecondaryAttributeTypes.MaxHitPoints]}hp>";
-                                else
-                                    data += ">";
-                            }
-                            else
-                                data += ">";
-                            playingClient.Client.WriteData(data);
+                            // Add prompt
+                            datas += playingClient.Player.Prompt;
+                            // Send datas
+                            playingClient.Client.WriteData(datas);
                         }
                     }
                     catch (Exception ex)
@@ -696,7 +709,7 @@ namespace Mud.Server.Server
                     Log.Default.WriteLine(LogLevels.Warning, $"Impersonable {character.DisplayName} is not impersonated");
 
                 //
-                character.RegenerateResources();
+                character.UpdateResources();
             }
         }
 
@@ -709,7 +722,7 @@ namespace Mud.Server.Server
                 if (item.DecayPulseLeft == 0)
                     Repository.World.RemoveItem(item);
             }
-		}
+        }
 
         private void HandleRooms()
         {
@@ -737,9 +750,9 @@ namespace Mud.Server.Server
             try
             {
                 Stopwatch sw = new Stopwatch();
-                sw.Start();
                 while (true)
                 {
+                    sw.Restart();
                     if (_cancellationTokenSource.IsCancellationRequested)
                     {
                         Log.Default.WriteLine(LogLevels.Info, "Stop GameLoopTask requested");
@@ -774,7 +787,6 @@ namespace Mud.Server.Server
                         Log.Default.WriteLine(LogLevels.Error, "!!! No sleep for GameLoopTask. Elapsed {0}", elapsedMs);
                         _cancellationTokenSource.Token.WaitHandle.WaitOne(1);
                     }
-                    sw.Restart();
                 }
             }
             catch (TaskCanceledException ex)

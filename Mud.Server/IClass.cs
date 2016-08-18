@@ -10,8 +10,12 @@ namespace Mud.Server
         string DisplayName { get; }
         string ShortName { get; }
 
-        IEnumerable<AbilityAndLevel> Abilities { get; }
+        // Kind of resource available for class
         IEnumerable<ResourceKinds> ResourceKinds { get; } // TOOD: use
+        // Abilities available for this class
+        IEnumerable<AbilityAndLevel> Abilities { get; }
+        // Current available kind of resource depending on form (subset of ResourceKinds property, i.e.: druids in bear form only have rage but mana will still regenerated even if not in current)
+        IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form);
 
         // TODO: PrimaryAttributeTypes gain when levelling
     }

@@ -9,15 +9,19 @@ namespace Mud.Server
     public enum AbilityFlags
     {
         None = 0,
-        Passive = 1,
-        RequiresMainHand = 2,
-        CannotBeUsedWhileShapeshifted = 4,
-        CannotBeDodgedParriedBlocked = 8,
-        CannotMiss = 16,
-        CannotBeReflected = 32,
-        RequiresComboPoints = 64,
-        CannotBeUsed = 128,
-        AuraIsHidden = 256,
+        Passive = 0x0001,
+        RequiresMainHand = 0x0002,
+        CannotBeUsedWhileShapeshifted = 0x0004,
+        CannotBeDodgedParriedBlocked = 0x0008,
+        CannotMiss = 0x0010,
+        CannotBeReflected = 0x0020,
+        RequiresComboPoints = 0x0040,
+        CannotBeUsed = 0x0080,
+        AuraIsHidden = 0x0100,
+        RequireBearForm = 0x0200,
+        RequireCatForm = 0x0400,
+        RequireMoonkinForm = 0x0800,
+        RequireShadowForm = 0x1000
     }
 
     public enum AbilityMechanics

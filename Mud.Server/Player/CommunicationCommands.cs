@@ -34,7 +34,7 @@ namespace Mud.Server.Player
         {
             Send("%m%You gossip '%M%{0}%m%'%x%" + Environment.NewLine, rawParameters);
             string other = String.Format("%m%{0} gossips '%M%{1}%m%'%x%" + Environment.NewLine, DisplayName, rawParameters);
-            foreach(IPlayer player in Repository.Server.GetPlayers().Where(x => x != this))
+            foreach(IPlayer player in Repository.Server.Players.Where(x => x != this))
                 player.Send(other);
 
             return true;

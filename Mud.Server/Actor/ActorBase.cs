@@ -27,7 +27,12 @@ namespace Mud.Server.Actor
             {
                 List<TrieEntry<CommandMethodInfo>> methodInfos = Commands.GetByPrefix(command).ToList();
                 TrieEntry<CommandMethodInfo> entry = methodInfos.OrderBy(x => x.Value.Attribute.Priority).FirstOrDefault(); // use priority to choose between conflicting commands
-                if (entry.Value?.MethodInfo != null)
+                if (entry.Value?.Attribute?.NoShortcut == true && command != entry.Key) // if command doesn't accept shortcut, inform player
+                {
+                    Send("If you want to {0}, spell it out."+Environment.NewLine, entry.Key.ToUpper());
+                    return true;
+                }
+                else if (entry.Value?.MethodInfo != null)
                 {
                     MethodInfo methodInfo = entry.Value.MethodInfo;
                     bool executedSuccessfully;

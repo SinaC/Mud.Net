@@ -17,9 +17,9 @@ namespace Mud.Server
         void Quit(IPlayer player);
 
         IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch);
-        IReadOnlyCollection<IPlayer> GetPlayers();
+        IEnumerable<IPlayer> Players { get; }
         IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch);
-        IReadOnlyCollection<IAdmin> GetAdmins();
+        IEnumerable<IAdmin> Admins { get; }
 
         // TODO: remove
         // TEST PURPOSE
