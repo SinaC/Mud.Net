@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.Logger;
+using Mud.Server.Common;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -45,7 +46,7 @@ namespace Mud.Server.Character
                         Send(StringHelpers.ItemNotFound);
                     else
                     {
-                        Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): found in {0}", containerItem.ContainedInto.DisplayName);
+                        Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): found in {0}", containerItem.ContainedInto.DebugName);
                         IContainer container = containerItem as IContainer;
                         if (container != null)
                         {
@@ -74,7 +75,7 @@ namespace Mud.Server.Character
             IItem item = FindHelpers.FindCharacterItemByName(this, parameters[0]);
             if (item != null)
             {
-                Log.Default.WriteLine(LogLevels.Debug, "DoLook(4+5): item in inventory+room -> {0}", item.ContainedInto.DisplayName);
+                Log.Default.WriteLine(LogLevels.Debug, "DoLook(4+5): item in inventory+room -> {0}", item.ContainedInto.DebugName);
                 Send("{0}" + Environment.NewLine, item.Description); // TODO: formatting
                 return true;
             }
@@ -224,19 +225,6 @@ namespace Mud.Server.Character
                 // Auras
                 foreach (IAura aura in _auras.Where(x => x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
                 {
-                    //if (aura.Modifier == AuraModifiers.None)
-                    //    sb.AppendFormatLine("{0} from {1} for {2}.",
-                    //        aura.Ability == null ? "Unknown" : aura.Ability.Name,
-                    //        aura.Source == null ? "(none)" : aura.Source.DisplayName,
-                    //        StringHelpers.FormatDelay(aura.SecondsLeft));
-                    //else
-                    //    sb.AppendFormatLine("{0} from {1} modifies {2} by {3}{4} for {5}.",
-                    //        aura.Ability == null ? "Unknown" : aura.Ability.Name,
-                    //        aura.Source == null ? "(none)" : aura.Source.DisplayName,
-                    //        aura.Modifier,
-                    //        aura.Amount,
-                    //        aura.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
-                    //        StringHelpers.FormatDelay(aura.SecondsLeft));
                     if (aura.Modifier == AuraModifiers.None)
                         sb.AppendFormatLine("%B%{0}%x% for %c%{1}%x%",
                             aura.Ability == null ? "Unknown" : aura.Ability.Name,
@@ -252,23 +240,6 @@ namespace Mud.Server.Character
                 // Periodic auras
                 foreach (IPeriodicAura pa in _periodicAuras.Where(x => x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
                 {
-                    //if (pa.AuraType == PeriodicAuraTypes.Damage)
-                    //    sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} for {6}.",
-                    //        pa.Ability == null ? "Unknown" : pa.Ability.Name,
-                    //        pa.Source == null ? "(none)" : pa.Source.DisplayName,
-                    //        pa.Amount,
-                    //        pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
-                    //        pa.School,
-                    //        StringHelpers.FormatDelay(pa.TickDelay),
-                    //        StringHelpers.FormatDelay(pa.SecondsLeft));
-                    //else
-                    //    sb.AppendFormatLine("{0} from {1}: {2}{3} heal every {4} for {5}.",
-                    //        pa.Ability == null ? "Unknown" : pa.Ability.Name,
-                    //        pa.Source == null ? "(none)" : pa.Source.DisplayName,
-                    //        pa.Amount,
-                    //        pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
-                    //        StringHelpers.FormatDelay(pa.TickDelay),
-                    //        StringHelpers.FormatDelay(pa.SecondsLeft));
                     if (pa.AuraType == PeriodicAuraTypes.Damage)
                         sb.AppendFormatLine("%B%{0}%x% %W%deals {1}{2}%x% {3} damage every %g%{4}%x% for %c%{5}%x%",
                             pa.Ability == null ? "Unknown" : pa.Ability.Name,
@@ -295,32 +266,6 @@ namespace Mud.Server.Character
         [Command("score", Category = "Information", Priority = 2)]
         protected virtual bool DoScore(string rawParameters, params CommandParameter[] parameters)
         {
-            //StringBuilder sb = new StringBuilder();
-            //sb.AppendLine();
-            //sb.AppendLine("+--------------------------------------------------------+"); // length = 56
-            //if (ImpersonatedBy != null)
-            //    sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + " (" + ImpersonatedBy.DisplayName + ")", 56) + "|");
-            //else
-            //    sb.AppendLine("|" + StringHelpers.CenterText(DisplayName, 56) + "|");
-            //sb.AppendLine("+---------------------------+----------------------------+");
-            //sb.AppendFormatLine("| %c%Strength  : %W%[{0,5}/{1,5}]%x% | %c%Race   : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Strength], GetBasePrimaryAttribute(PrimaryAttributeTypes.Strength), Race == null ? "(none)" : Race.DisplayName);
-            //sb.AppendFormatLine("| %c%Agility   : %W%[{0,5}/{1,5}]%x% | %c%Class  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Agility], GetBasePrimaryAttribute(PrimaryAttributeTypes.Agility), Class == null ? "(none)" : Class.DisplayName);
-            //sb.AppendFormatLine("| %c%Stamina   : %W%[{0,5}/{1,5}]%x% | %c%Sex    : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Stamina], GetBasePrimaryAttribute(PrimaryAttributeTypes.Stamina), Sex);
-            //sb.AppendFormatLine("| %c%Intellect : %W%[{0,5}/{1,5}]%x% | %c%Level  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Intellect], GetBasePrimaryAttribute(PrimaryAttributeTypes.Intellect), Level);
-            //sb.AppendFormatLine("| %c%Spirit    : %W%[{0,5}/{1,5}]%x% | %c%NxtLvl : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Spirit], GetBasePrimaryAttribute(PrimaryAttributeTypes.Spirit), ExperienceToLevel);
-            //sb.AppendLine("+---------------------------+--+-------------------------+");
-            //// TODO: resource only if character can use them
-            //sb.AppendFormatLine("| %g%Hit    : %W%[{0,8}/{1,8}]%x% | %g%Attack Power : %W%[{2,6}]%x% |", HitPoints, this[SecondaryAttributeTypes.MaxHitPoints], this[SecondaryAttributeTypes.AttackPower]);
-            //sb.AppendFormatLine("| %g%Mana   : %W%[{0,8}/{1,8}]%x% | %g%Spell Power  : %W%[{2,6}]%x% |", this[ResourceKinds.Mana], GetMaxResource(ResourceKinds.Mana), this[SecondaryAttributeTypes.SpellPower]);
-            //sb.AppendFormatLine("| %g%Energy :           %W%[{0,3}/{1,3}]%x% | %g%Attack Speed : %W%[{2,6}]%x% |", this[ResourceKinds.Energy], GetMaxResource(ResourceKinds.Energy), this[SecondaryAttributeTypes.AttackSpeed]);
-            //sb.AppendFormatLine("| %g%Rage   :           %W%[{0,3}/{1,3}]%x% | %g%Armor        : %W%[{2,6}]%x% |", this[ResourceKinds.Rage], GetMaxResource(ResourceKinds.Rage), this[SecondaryAttributeTypes.Armor]);
-            //sb.AppendFormatLine("| %g%Runic  :           %W%[{0,3}/{1,3}]%x% | %g%Form         : %W%[{2,6}]%x% |", this[ResourceKinds.Runic], GetMaxResource(ResourceKinds.Runic), Form);
-            //// TODO: runes  sb.AppendFormatLine("| Runes  : BBUUFFDD");
-            //// TODO: gold, xp to level, item, weight
-            //// TODO: armor/resistances
-            //sb.AppendLine("+------------------------------+-------------------------+");
-            //Send(sb);
-
             // TODO: score all will display everything (every resources, every stats)
 
             StringBuilder sb = new StringBuilder();
@@ -356,6 +301,7 @@ namespace Mud.Server.Character
             sb.AppendFormatLine("| %g%Parry              : %W%[{0,5}]%x% |                         |", this[SecondaryAttributeTypes.Parry]);
             sb.AppendFormatLine("| %g%Block              : %W%[{0,5}]%x% |                         |", this[SecondaryAttributeTypes.Block]);
             sb.AppendLine("+------------------------------+-------------------------+");
+            // TODO: resistances, gold, item, weight
             Send(sb);
             //Name[Form]
 
@@ -428,6 +374,19 @@ namespace Mud.Server.Character
                 else
                     Send("{0} is in cooldown for {1}." + Environment.NewLine, ability.Name, StringHelpers.FormatDelay(cooldownSecondsLeft));
             }
+            return true;
+        }
+
+        [Command("where", Category = "Information")]
+        protected virtual bool DoWhere(string rawParameters, params CommandParameter[] parameters)
+        {
+            // TODO: first argument can be an impersonated character -> display room
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormatLine("{0}.", Room.Area.DisplayName);
+            sb.AppendLine("Peoples near you:");
+            foreach (IPlayer player in Room.Area.Players.Where(x => CanSee(x.Impersonating)))
+                sb.AppendFormatLine("{0,-28} {1}", player.Impersonating.DisplayName, player.Impersonating.Room.DisplayName);
+            Send(sb);
             return true;
         }
 

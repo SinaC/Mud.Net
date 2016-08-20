@@ -1,5 +1,5 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -39,18 +39,17 @@ namespace Mud.Server.Player
             return true;
         }
 
-        //[Command("qui", Hidden = true)] // TODO: full match
-        //protected virtual bool DoQui(string rawParameters, params CommandParameter[] parameters)
-        //{
-        //    Send("If you want to QUIT, spell it out." + Environment.NewLine);
-        //    return true;
-        //}
-
-        [Command("quit", Priority = 999/*low priority*/, NoShortcut = true)]
-        protected virtual bool DoQuit(string rawParameters, params CommandParameter[] parameters)
+        [Command("areas", Priority = 10)]
+        protected virtual bool DoAreas(string rawParameters, params CommandParameter[] parameters)
         {
-            // TODO: in combat check, ...
-            Repository.Server.Quit(this);
+            TableGenerator<IArea> generator = new TableGenerator<IArea>("Areas");
+            generator.AddColumn("Name", 30, area => area.DisplayName, TableGenerator<IArea>.AlignLeftFunc);
+            generator.AddColumn("Min", 5, area => area.MinLevel.ToString());
+            generator.AddColumn("Max", 5, area => area.MaxLevel.ToString());
+            generator.AddColumn("Builders", 15, area => area.Builders, TableGenerator<IArea>.AlignLeftFunc);
+            generator.AddColumn("Credits", 40, area => area.Credits, TableGenerator<IArea>.AlignLeftFunc);
+            StringBuilder sb = generator.Generate(Repository.World.Areas);
+            Page(sb);
             return true;
         }
     }

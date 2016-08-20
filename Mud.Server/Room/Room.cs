@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Server.Blueprints;
+using Mud.Server.Blueprints.Room;
+using Mud.Server.Common;
 using Mud.Server.Constants;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
@@ -23,13 +25,16 @@ namespace Mud.Server.Room
             RoomCommands = CommandHelpers.GetCommands(typeof (Room));
         }
 
-        public Room(Guid guid, RoomBlueprint blueprint)
+        public Room(Guid guid, RoomBlueprint blueprint, IArea area)
             : base(guid, blueprint.Name, blueprint.Description)
         {
+            Blueprint = blueprint;
             _people = new List<ICharacter>();
             _content = new List<IItem>();
             Exits = new IExit[ExitHelpers.ExitCount];
-            Blueprint = blueprint;
+
+            Area = area;
+            Area.AddRoom(this);
         }
 
         #region IRoom
@@ -43,6 +48,8 @@ namespace Mud.Server.Room
         #endregion
 
         public override string DisplayName => StringHelpers.UpperFirstLetter(Name);
+
+        public override string DebugName => $"{DisplayName}[{Blueprint.Id}]";
 
         public override void OnRemoved()
         {
@@ -77,6 +84,8 @@ namespace Mud.Server.Room
 
         public RoomBlueprint Blueprint { get; private set; } // TODO: 1st parameter in ctor
 
+        public IArea Area { get; }
+
         public IEnumerable<ICharacter> People => _people.Where(x => x.IsValid);
 
         public IExit[] Exits { get; }
@@ -94,6 +103,11 @@ namespace Mud.Server.Room
 
         public bool Enter(ICharacter character)
         {
+            //if (character.Room != null)
+            //{
+            //    Log.Default.WriteLine(LogLevels.Error, $"IRoom.Enter: Character {character.DebugName} is already in Room {character.Room.DebugName}");
+            //    return false;
+            //}
             // TODO: check if not already in room
             _people.Add(character);
             return true;

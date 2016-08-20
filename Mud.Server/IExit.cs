@@ -1,4 +1,5 @@
 ﻿using Mud.Server.Blueprints;
+using Mud.Server.Blueprints.Room;
 
 namespace Mud.Server
 {

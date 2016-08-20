@@ -7,6 +7,8 @@ using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Abilities;
 using Mud.Server.Blueprints;
+using Mud.Server.Blueprints.Character;
+using Mud.Server.Common;
 using Mud.Server.Constants;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
@@ -34,6 +36,7 @@ namespace Mud.Server.Character
         private readonly List<ICharacter> _groupMembers;
         private readonly Dictionary<IAbility, DateTime> _cooldowns; // Key: ability.Id, Value: Next ability availability
         private readonly List<AbilityAndLevel> _knownAbilities;
+        private readonly List<IQuest> _quests;
 
         protected int MaxHitPoints => _secondaryAttributes[(int) SecondaryAttributeTypes.MaxHitPoints];
 
@@ -57,6 +60,7 @@ namespace Mud.Server.Character
             _currentResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _groupMembers = new List<ICharacter>();
             _cooldowns = new Dictionary<IAbility, DateTime>(new CompareIAbility());
+            _quests = new List<IQuest>();
 
             Form = Forms.Normal;
             Class = pcClass;
@@ -94,6 +98,7 @@ namespace Mud.Server.Character
             _currentResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _groupMembers = new List<ICharacter>();
             _cooldowns = new Dictionary<IAbility, DateTime>(new CompareIAbility());
+            _quests = new List<IQuest>();
 
             Blueprint = blueprint;
 
@@ -155,6 +160,8 @@ namespace Mud.Server.Character
         #endregion
 
         public override string DisplayName => Blueprint == null ? StringHelpers.UpperFirstLetter(Name) : Blueprint.ShortDescription;
+
+        public override string DebugName => Blueprint == null ? DisplayName : $"{DisplayName}[{Blueprint.Id}]";
 
         public override void OnRemoved() // called before removing a character from the game
         {
@@ -264,20 +271,58 @@ namespace Mud.Server.Character
         public ICharacter Slave { get; private set; } // who is our slave (related to charm command/spell)
         public ICharacter ControlledBy { get; private set; } // who is our master (related to charm command/spell)
 
+        // Quest
+        public IEnumerable<IQuest> Quests => _quests;
+
+        public void AddQuest(IQuest quest)
+        {
+            // TODO: max quest ?
+            _quests.Add(quest);
+        }
+
+        public void CompleteQuest(IQuest quest)
+        {
+            if (_quests.All(q => q.Blueprint.Id != quest.Blueprint.Id))
+            {
+                Log.Default.WriteLine(LogLevels.Warning, $"ICharacter.CompleteQuest: unassigned quest {quest.Blueprint.Id} for {DebugName}");
+                return;
+            }
+            if (!quest.IsCompleted)
+            {
+                Send("Quest {0} is not finished!"+Environment.NewLine, quest.Blueprint.Title);
+                return;
+            }
+            Send("You complete {0} successfully." + Environment.NewLine, quest.Blueprint.Title);
+            quest.Complete();
+            _quests.Remove(quest);
+        }
+
+        public void AbandonQuest(IQuest quest)
+        {
+            if (_quests.All(q => q.Blueprint.Id != quest.Blueprint.Id))
+            {
+                Log.Default.WriteLine(LogLevels.Warning, $"ICharacter.CompleteQuest: unassigned quest {quest.Blueprint.Id} for {DebugName}");
+                return;
+            }
+            Send("You abandon {0}!" + Environment.NewLine, quest.Blueprint.Title);
+            quest.Abandon();
+            _quests.Remove(quest);
+        }
+
         // Group
         public bool ChangeLeader(ICharacter newLeader)
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeLeader: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeLeader: {0} is not valid anymore", DebugName);
                 return false;
             }
             if (newLeader != null && !newLeader.IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeLeader: {0} is not valid anymore", newLeader.DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeLeader: {0} is not valid anymore", newLeader.DebugName);
                 return false;
             }
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeLeader: {0} old= {1}; new {2}", DisplayName, Leader == null ? "<<none>>" : Leader.DisplayName, newLeader == null ? "<<none>>" : newLeader.DisplayName);
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeLeader: {0} old= {1}; new {2}", DebugName, Leader == null ? "<<none>>" : Leader.DebugName, newLeader == null ? "<<none>>" : newLeader.DebugName);
             Leader = newLeader;
             return true;
         }
@@ -286,12 +331,12 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddGroupMember: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddGroupMember: {0} is not valid anymore", DebugName);
                 return false;
             }
             if (Leader != null)
             {
-                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.AddGroupMember: {0} cannot add member because leader is not null", DisplayName);
+                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.AddGroupMember: {0} cannot add member because leader is not null", DebugName);
                 return false;
             }
             if (!newMember.IsValid)
@@ -301,10 +346,10 @@ namespace Mud.Server.Character
             }
             if (_groupMembers.Any(x => x == newMember))
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddGroupMember: {0} already in group of {1}", newMember.DisplayName, DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddGroupMember: {0} already in group of {1}", newMember.DebugName, DebugName);
                 return false;
             }
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.AddGroupMember: {0} joined by {1}", DisplayName, newMember.DisplayName);
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.AddGroupMember: {0} joined by {1}", DebugName, newMember.DebugName);
             // TODO: act to warn room ?
             if (!silent)
                 Send("{0} joins group." + Environment.NewLine, newMember.DisplayName);
@@ -320,19 +365,19 @@ namespace Mud.Server.Character
 
         public bool RemoveGroupMember(ICharacter oldMember, bool silent)  // TODO: what if leader leaves group!!!
         {
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.RemoveGroupMember: {0} leaves {1}", oldMember.DisplayName, DisplayName);
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.RemoveGroupMember: {0} leaves {1}", oldMember.DebugName, DebugName);
             bool removed = _groupMembers.Remove(oldMember);
             if (!removed) { 
-                Log.Default.WriteLine(LogLevels.Debug, "ICharacter.RemoveGroupMember: {0} not in group of {1}", oldMember.DisplayName, DisplayName);
+                Log.Default.WriteLine(LogLevels.Debug, "ICharacter.RemoveGroupMember: {0} not in group of {1}", oldMember.DebugName, DebugName);
                 return false;
             }
             oldMember.ChangeLeader(null); // this is not mandatory (should be done by caller)
             if (!silent)
-                Send("{0} leaves group." + Environment.NewLine, oldMember.DisplayName);
+                Send("{0} leaves group." + Environment.NewLine, oldMember.DebugName);
             // TODO: act to warn room ?
             if (!silent)
                 foreach (ICharacter member in _groupMembers)
-                member.Send("{0} leaves group." + Environment.NewLine, member.DisplayName);
+                member.Send("{0} leaves group." + Environment.NewLine, member.DebugName);
             if (!silent)
                 oldMember.Act(ActOptions.ToCharacter, "You leave {0}'s group.", this);
             return true;
@@ -351,12 +396,12 @@ namespace Mud.Server.Character
         {
             if (follower.Leader == null)
             {
-                Log.Default.WriteLine(LogLevels.Warning, "ICharacter:StopFollower: {0} is not following anyone", follower.DisplayName);
+                Log.Default.WriteLine(LogLevels.Warning, "ICharacter:StopFollower: {0} is not following anyone", follower.DebugName);
                 return false;
             }
             if (follower.Leader != this)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter:StopFollower: {0} is not following {1} but {2}", follower.DisplayName, DisplayName, follower.Leader == null ? "<<none>>" : follower.Leader.DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter:StopFollower: {0} is not following {1} but {2}", follower.DebugName, DebugName, follower.Leader == null ? "<<none>>" : follower.Leader.DebugName);
                 return false;
             }
             follower.ChangeLeader(null);
@@ -371,11 +416,11 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeImpersonation: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeImpersonation: {0} is not valid anymore", DebugName);
                 return false;
             }
 
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeImpersonation: {0} old: {1}; new {2}", DisplayName, ImpersonatedBy == null ? "<<none>>" : ImpersonatedBy.DisplayName, player == null ? "<<none>>" : player.DisplayName);
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeImpersonation: {0} old: {1}; new {2}", DebugName, ImpersonatedBy == null ? "<<none>>" : ImpersonatedBy.DisplayName, player == null ? "<<none>>" : player.DisplayName);
             // TODO: check if not already impersonated, if impersonable, ...
             ImpersonatedBy = player;
             RecomputeKnownAbilities();
@@ -400,11 +445,11 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeController: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeController: {0} is not valid anymore", DebugName);
                 return false;
             }
 
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeController: {0} master: old: {1}; new {2}", DisplayName, ControlledBy == null ? "<<none>>" : ControlledBy.DisplayName, master == null ? "<<none>>" : master.DisplayName);
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeController: {0} master: old: {1}; new {2}", DebugName, ControlledBy == null ? "<<none>>" : ControlledBy.DebugName, master == null ? "<<none>>" : master.DebugName);
             // TODO: check if already slave, ...
             if (master == null) // TODO: remove display ???
             {
@@ -439,7 +484,7 @@ namespace Mud.Server.Character
                     case ActOptions.ToGroup:
                     if (Leader == null)
                     {
-                        Log.Default.WriteLine(LogLevels.Warning, "Act[ToGroup] without leader: {0} format: {1}", DisplayName, format);
+                        Log.Default.WriteLine(LogLevels.Warning, "Act[ToGroup] without leader: {0} format: {1}", DebugName, format);
                         return;
                     }
                     else
@@ -471,7 +516,7 @@ namespace Mud.Server.Character
             //else if (options == ActOptions.ToGroup)
             //{
             //    if (Leader == null)
-            //        Log.Default.WriteLine(LogLevels.Warning, "Act[ToGroup] without leader: {0} format: {1}", DisplayName, format);
+            //        Log.Default.WriteLine(LogLevels.Warning, "Act[ToGroup] without leader: {0} format: {1}", DebugName, format);
             //    else
             //        foreach (ICharacter to in Leader.GroupMembers)
             //        {
@@ -575,19 +620,19 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddPeriodicAura: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddPeriodicAura: {0} is not valid anymore", DebugName);
                 return;
             }
             //IPeriodicAura same = _periodicAuras.FirstOrDefault(x => ReferenceEquals(x.Ability, aura.Ability) && x.AuraType == aura.AuraType && x.School == aura.School && x.Source == aura.Source);
             IPeriodicAura same = _periodicAuras.FirstOrDefault(x => x.Ability == aura.Ability && x.AuraType == aura.AuraType && x.School == aura.School && x.Source == aura.Source);
             if (same != null)
             {
-                Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddPeriodicAura: Refresh: {0} {1}", DisplayName, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
+                Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddPeriodicAura: Refresh: {0} {1}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
                 same.Refresh(aura);
             }
             else
             {
-                Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddPeriodicAura: Add: {0} {1}", DisplayName, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
+                Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddPeriodicAura: Add: {0} {1}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
                 _periodicAuras.Add(aura);
                 if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
                     Send("You are now affected by {0}." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
@@ -608,7 +653,7 @@ namespace Mud.Server.Character
 
         public void RemovePeriodicAura(IPeriodicAura aura)
         {
-            Log.Default.WriteLine(LogLevels.Info, "ICharacter.RemovePeriodicAura: {0} {1}", DisplayName, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
+            Log.Default.WriteLine(LogLevels.Info, "ICharacter.RemovePeriodicAura: {0} {1}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
             bool removed = _periodicAuras.Remove(aura);
             if (!removed)
                 Log.Default.WriteLine(LogLevels.Warning, "ICharacter.RemovePeriodicAura: Trying to remove unknown PeriodicAura");
@@ -628,19 +673,19 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddAura: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddAura: {0} is not valid anymore", DebugName);
                 return;
             }
             //IAura same = _auras.FirstOrDefault(x => ReferenceEquals(x.Ability, aura.Ability) && x.Modifier == aura.Modifier && x.Source == aura.Source);
             IAura same = _auras.FirstOrDefault(x => x.Ability == aura.Ability && x.Modifier == aura.Modifier && x.Source == aura.Source);
             if (same != null)
             {
-                Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddAura: Refresh: {0} {1}| recompute: {2}", DisplayName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
+                Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddAura: Refresh: {0} {1}| recompute: {2}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
                 same.Refresh(aura);
             }
             else
             {
-                Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddAura: Add: {0} {1}| recompute: {2}", DisplayName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
+                Log.Default.WriteLine(LogLevels.Info, "ICharacter.AddAura: Add: {0} {1}| recompute: {2}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
                 _auras.Add(aura);
                 if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
                     Send("You are now affected by {0}." + Environment.NewLine, aura.Ability == null ? "Something" : aura.Ability.Name);
@@ -651,7 +696,7 @@ namespace Mud.Server.Character
 
         public void RemoveAura(IAura aura, bool recompute)
         {
-            Log.Default.WriteLine(LogLevels.Info, "ICharacter.RemoveAura: {0} {1} | recompute: {2}", DisplayName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
+            Log.Default.WriteLine(LogLevels.Info, "ICharacter.RemoveAura: {0} {1} | recompute: {2}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
             bool removed = _auras.Remove(aura);
             if (!removed)
                 Log.Default.WriteLine(LogLevels.Warning, "ICharacter.RemoveAura: Trying to remove unknown aura");
@@ -666,7 +711,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ResetAttributes: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "ResetAttributes: {0} is not valid anymore", DebugName);
                 return;
             }
 
@@ -813,13 +858,13 @@ namespace Mud.Server.Character
                 {
                     if (Slave != null)
                     {
-                        Slave.Send("You follow {0}" + Environment.NewLine, DisplayName);
+                        Slave.Send("You follow {0}" + Environment.NewLine, DebugName);
                         Slave.Move(direction, true);
                     }
                     IReadOnlyCollection<ICharacter> followers = new ReadOnlyCollection<ICharacter>(fromRoom.People.Where(x => x.Leader == this).ToList()); // clone because Move will modify fromRoom.People
                     foreach (ICharacter follower in followers)
                     {
-                        follower.Send("You follow {0}" + Environment.NewLine, DisplayName);
+                        follower.Send("You follow {0}" + Environment.NewLine, DebugName);
                         follower.Move(direction, true);
                     }
                 }
@@ -831,11 +876,11 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeRoom: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeRoom: {0} is not valid anymore", DebugName);
                 return;
             }
 
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeRoom: {0} from: {1} to {2}", DisplayName, Room == null ? "<<no room>>" : Room.DisplayName, destination == null ? "<<no room>>" : destination.DisplayName);
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeRoom: {0} from: {1} to {2}", DebugName, Room == null ? "<<no room>>" : Room.DebugName, destination == null ? "<<no room>>" : destination.DebugName);
             Room?.Leave(this);
             Room = destination;
             destination?.Enter(this);
@@ -846,7 +891,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.Heal: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.Heal: {0} is not valid anymore", DebugName);
                 return false;
             }
 
@@ -854,13 +899,13 @@ namespace Mud.Server.Character
             bool fullyAbsorbed;
             amount = ModifyHeal(amount, out fullyAbsorbed);
 
-            Log.Default.WriteLine(LogLevels.Info, "{0} healed by {1} {2} for {3}", DisplayName, source == null ? "<<??>>" : source.DisplayName, ability == null ? "<<??>>" : ability.Name, amount);
+            Log.Default.WriteLine(LogLevels.Info, "{0} healed by {1} {2} for {3}", DebugName, source == null ? "<<??>>" : source.DebugName, ability == null ? "<<??>>" : ability.Name, amount);
             if (amount <= 0)
-                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.Heal: invalid amount {0} on {1}", amount, DisplayName);
+                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.Heal: invalid amount {0} on {1}", amount, DebugName);
             else
                 HitPoints = Math.Min(HitPoints + amount, MaxHitPoints);
 
-            Log.Default.WriteLine(LogLevels.Debug, "{0} HP left: {1}", DisplayName, HitPoints);
+            Log.Default.WriteLine(LogLevels.Debug, "{0} HP left: {1}", DebugName, HitPoints);
 
             // Display heal
             if (visible)
@@ -879,14 +924,14 @@ namespace Mud.Server.Character
             // TODO: read http://wowwiki.wikia.com/wiki/Combat
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.MultiHit: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.MultiHit: {0} is not valid anymore", DebugName);
                 return false;
             }
 
             if (!IsValid)
                 return false;
 
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.MultiHit: {0} -> {1}", DisplayName, enemy.DisplayName);
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.MultiHit: {0} -> {1}", DebugName, enemy.DebugName);
 
             if (this == enemy || Room != enemy.Room)
                 return false;
@@ -926,11 +971,11 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "StartFighting: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "StartFighting: {0} is not valid anymore", DebugName);
                 return false;
             }
 
-            Log.Default.WriteLine(LogLevels.Debug, "{0} starts fighting {1}", DisplayName, enemy.DisplayName);
+            Log.Default.WriteLine(LogLevels.Debug, "{0} starts fighting {1}", DebugName, enemy.DebugName);
 
             Fighting = enemy;
             return true;
@@ -965,7 +1010,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "UnknownSourceDamage: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "UnknownSourceDamage: {0} is not valid anymore", DebugName);
                 return false;
             }
 
@@ -985,24 +1030,24 @@ namespace Mud.Server.Character
             // No damage -> stop here
             if (damage == 0)
             {
-                Log.Default.WriteLine(LogLevels.Debug, "{0} does no damage to {1}", ability, DisplayName);
+                Log.Default.WriteLine(LogLevels.Debug, "{0} does no damage to {1}", ability, DebugName);
 
                 return false;
             }
 
-            Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", ability, damage, DisplayName);
+            Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", ability, damage, DebugName);
 
             bool dead = ApplyDamageAndDisplayStatus(damage);
 
-            Log.Default.WriteLine(LogLevels.Debug, "{0} HP left: {1}", DisplayName, HitPoints);
+            Log.Default.WriteLine(LogLevels.Debug, "{0} HP left: {1}", DebugName, HitPoints);
 
             // If dead, create corpse, xp gain/loss, remove character from world if needed
             if (dead) // TODO: fight.C:2246
             {
-                Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", DisplayName, ability);
+                Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", DebugName, ability);
 
                 StopFighting(false);
-                RawKill(this, true);
+                RawKill(this, true); // TODO: This is totally dumb (victim should not be killing itself)
                 return true;
             }
             return true;
@@ -1012,7 +1057,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "RawKill: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "RawKill: {0} is not valid anymore", DebugName);
                 return false;
             }
 
@@ -1037,7 +1082,7 @@ namespace Mud.Server.Character
                 KillingPayoff(victim);
 
             // Create corpse
-            IItemCorpse corpse = Repository.World.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim);
+            IItemCorpse corpse = Repository.World.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim, this);
             if (victim.ImpersonatedBy != null) // If impersonated, no real death
             {
                 // TODO: teleport player to hall room/graveyard  see fight.C:3952
@@ -1106,7 +1151,7 @@ namespace Mud.Server.Character
         public void ResetCooldown(IAbility ability)
         {
             _cooldowns.Remove(ability);
-            Send("{0} is available again."+Environment.NewLine, ability.Name);
+            Send("{0} is available."+Environment.NewLine, ability.Name);
         }
 
         #endregion
@@ -1321,7 +1366,7 @@ namespace Mud.Server.Character
 
             // Miss, dodge, parry, ...
             CombatHelpers.AttackResults attackResult = CombatHelpers.WhiteMeleeAttack(this, victim, dualWield);
-            Log.Default.WriteLine(LogLevels.Debug, $"{DisplayName} -> {victim.DisplayName} : attack result = {attackResult}");
+            Log.Default.WriteLine(LogLevels.Debug, $"{DebugName} -> {victim.DebugName} : attack result = {attackResult}");
             switch (attackResult)
             {
                 case CombatHelpers.AttackResults.Miss:
@@ -1616,7 +1661,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "CombatDamage: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "CombatDamage: {0} is not valid anymore", DebugName);
                 return false;
             }
 
@@ -1646,22 +1691,22 @@ namespace Mud.Server.Character
             // No damage -> stop here
             if (damage == 0)
             {
-                Log.Default.WriteLine(LogLevels.Debug, "{0} does no damage to {1}", source.DisplayName, DisplayName);
+                Log.Default.WriteLine(LogLevels.Debug, "{0} does no damage to {1}", source.DebugName, DebugName);
 
                 return false;
             }
 
-            Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", source.DisplayName, damage, DisplayName);
+            Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", source.DebugName, damage, DebugName);
 
             // Apply damage
             bool dead = ApplyDamageAndDisplayStatus(damage);
 
-            Log.Default.WriteLine(LogLevels.Debug, "{0} HP: {1}", DisplayName, HitPoints);
+            Log.Default.WriteLine(LogLevels.Debug, "{0} HP: {1}", DebugName, HitPoints);
 
             // If dead, create corpse, xp gain/loss, remove character from world if needed
             if (dead) // TODO: fight.C:2246
             {
-                Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", DisplayName, source.DisplayName);
+                Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", DebugName, source.DebugName);
 
                 StopFighting(false);
                 source.RawKill(this, true);

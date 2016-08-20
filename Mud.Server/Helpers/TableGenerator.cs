@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mud.Server.Common;
 
 namespace Mud.Server.Helpers
 {
     public class TableGenerator<T>
     {
+        public static readonly Func<T, string> AlignLeftFunc = T => null;
+
         private class Column
         {
             public string Header { get; }
@@ -147,10 +150,20 @@ namespace Mud.Server.Helpers
                     }
 
                     sb.Append('|');
-                    for (int i = 1 + value.LengthNoColor() + trailingSpace.LengthNoColor() - 1; i < columnWidth; i++)
+                    if (trailingSpace == null) // if not trailing space, align on left
+                    {
                         sb.Append(' ');
-                    sb.Append(value);
-                    sb.Append(trailingSpace);
+                        sb.Append(value);
+                        for (int i = value.LengthNoColor() - 1; i < columnWidth-2; i++)
+                            sb.Append(' ');
+                    }
+                    else // if trailing space, align on right
+                    {
+                        for (int i = 1 + value.LengthNoColor() + trailingSpace.LengthNoColor() - 1; i < columnWidth; i++)
+                            sb.Append(' ');
+                        sb.Append(value);
+                        sb.Append(trailingSpace);
+                    }
                 }
                 sb.AppendLine("|");
             }

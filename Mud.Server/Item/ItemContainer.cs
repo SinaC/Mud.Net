@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mud.Server.Blueprints;
+using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
 {
@@ -20,10 +21,7 @@ namespace Mud.Server.Item
 
         #region IItem
 
-        public override int Weight
-        {
-            get { return base.Weight + _content.Sum(x => x.Weight)*WeightMultiplier; }
-        }
+        public override int Weight => base.Weight + _content.Sum(x => x.Weight)*WeightMultiplier;
 
         void IEntity.OnRemoved()
         {

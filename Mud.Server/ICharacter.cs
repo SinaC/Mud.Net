@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mud.Server.Abilities;
-using Mud.Server.Blueprints;
+using Mud.Server.Blueprints.Character;
 using Mud.Server.Constants;
 using Mud.Server.Item;
 
@@ -39,7 +39,7 @@ namespace Mud.Server
         IEnumerable<ResourceKinds> CurrentResourceKinds { get; }
         long ExperienceToLevel { get; }
 
-            // Form
+        // Form
         Forms Form { get; }
 
         // Abilities
@@ -59,6 +59,12 @@ namespace Mud.Server
 
         ICharacter Slave { get; } // who is our slave (related to charm command/spell)
         ICharacter ControlledBy { get; } // who is our master (related to charm command/spell)
+
+        // Quest
+        IEnumerable<IQuest> Quests { get; }
+        void AddQuest(IQuest quest);
+        void CompleteQuest(IQuest quest);
+        void AbandonQuest(IQuest quest);
 
         // Group/Follower
         bool ChangeLeader(ICharacter leader);

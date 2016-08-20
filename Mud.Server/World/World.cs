@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Mud.Logger;
 using Mud.Server.Aura;
-using Mud.Server.Blueprints;
+using Mud.Server.Blueprints.Character;
+using Mud.Server.Blueprints.Item;
+using Mud.Server.Blueprints.LootTable;
+using Mud.Server.Blueprints.Quest;
+using Mud.Server.Blueprints.Room;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -14,11 +18,14 @@ namespace Mud.Server.World
 {
     public class World : IWorld
     {
+        private readonly List<TreasureTable<int>> _treasureTables;
+        private readonly Dictionary<int, QuestBlueprint> _questBlueprints;
         private readonly Dictionary<int, RoomBlueprint> _roomBlueprints;
         private readonly Dictionary<int, CharacterBlueprint> _characterBlueprints;
         private readonly Dictionary<int, ItemBlueprintBase> _itemBlueprints;
-        private readonly List<ICharacter> _characters;
+        private readonly List<IArea> _areas;
         private readonly List<IRoom> _rooms;
+        private readonly List<ICharacter> _characters;
         private readonly List<IItem> _items;
 
         #region Singleton
@@ -29,11 +36,14 @@ namespace Mud.Server.World
 
         private World()
         {
+            _treasureTables = new List<TreasureTable<int>>();
+            _questBlueprints = new Dictionary<int, QuestBlueprint>();
             _roomBlueprints = new Dictionary<int, RoomBlueprint>();
             _characterBlueprints = new Dictionary<int, CharacterBlueprint>();
             _itemBlueprints = new Dictionary<int, ItemBlueprintBase>();
-            _characters = new List<ICharacter>();
+            _areas = new List<IArea>();
             _rooms = new List<IRoom>();
+            _characters = new List<ICharacter>();
             _items = new List<IItem>();
         }
 
@@ -41,40 +51,47 @@ namespace Mud.Server.World
 
         #region IWorld
 
-        public IReadOnlyCollection<RoomBlueprint> GetRoomBlueprints()
+        // Treasures
+        public IReadOnlyCollection<TreasureTable<int>> TreasureTables => _treasureTables;
+
+        public void AddTreasureTable(TreasureTable<int> table)
         {
-            return _roomBlueprints.Values.ToList().AsReadOnly();
+            // TODO: check if already exists ?
+            _treasureTables.Add(table);
         }
 
-        public IReadOnlyCollection<CharacterBlueprint> GetCharacterBlueprints()
-        {
-            return _characterBlueprints.Values.ToList().AsReadOnly();
-        }
+        // Blueprints
+        public IReadOnlyCollection<QuestBlueprint> QuestBlueprints => _questBlueprints.Values.ToList().AsReadOnly();
 
-        public IReadOnlyCollection<ItemBlueprintBase> GetItemBlueprints()
+        public IReadOnlyCollection<RoomBlueprint> RoomBlueprints => _roomBlueprints.Values.ToList().AsReadOnly();
+
+        public IReadOnlyCollection<CharacterBlueprint> CharacterBlueprints => _characterBlueprints.Values.ToList().AsReadOnly();
+
+        public IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints => _itemBlueprints.Values.ToList().AsReadOnly();
+
+        public QuestBlueprint GetQuestBlueprint(int id)
         {
-            return _itemBlueprints.Values.ToList().AsReadOnly();
+            return GetBlueprintById(_questBlueprints, id);
         }
 
         public RoomBlueprint GetRoomBlueprint(int id)
         {
-            RoomBlueprint blueprint;
-            _roomBlueprints.TryGetValue(id, out blueprint);
-            return blueprint;
+            return GetBlueprintById(_roomBlueprints, id);
         }
 
         public CharacterBlueprint GetCharacterBlueprint(int id)
         {
-            CharacterBlueprint blueprint;
-            _characterBlueprints.TryGetValue(id, out blueprint);
-            return blueprint;
+            return GetBlueprintById(_characterBlueprints, id);
         }
 
         public ItemBlueprintBase GetItemBlueprint(int id)
         {
-            ItemBlueprintBase blueprint;
-            _itemBlueprints.TryGetValue(id, out blueprint);
-            return blueprint;
+            return GetBlueprintById(_itemBlueprints, id);
+        }
+
+        public void AddQuestBlueprint(QuestBlueprint blueprint)
+        {
+            _questBlueprints.Add(blueprint.Id, blueprint);
         }
 
         public void AddRoomBlueprint(RoomBlueprint blueprint)
@@ -92,17 +109,27 @@ namespace Mud.Server.World
             _itemBlueprints.Add(blueprint.Id, blueprint);
         }
 
+        //
+        public IEnumerable<IArea> Areas => _areas;
+
         public IEnumerable<IRoom> Rooms => _rooms.Where(x => x.IsValid);
 
         public IEnumerable<ICharacter> Characters => _characters.Where(x => x.IsValid);
 
         public IEnumerable<IItem> Items => _items.Where(x => x.IsValid);
 
-        public IRoom AddRoom(Guid guid, RoomBlueprint blueprint)
+        public IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits)
+        {
+            IArea area = new Area.Area(displayName, minLevel, maxLevel, builders, credits);
+            _areas.Add(area);
+            return area;
+        }
+
+        public IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area)
         {
             if (blueprint == null)
                 throw new ArgumentNullException(nameof(blueprint));
-            IRoom room = new Room.Room(Guid.NewGuid(), blueprint);
+            IRoom room = new Room.Room(Guid.NewGuid(), blueprint, area);
             _rooms.Add(room);
             return room;
         }
@@ -168,11 +195,11 @@ namespace Mud.Server.World
             return item;
         }
 
-        public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim)
+        public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, ICharacter killer)
         {
             if (blueprint == null)
                 throw new ArgumentNullException(nameof(blueprint));
-            IItemCorpse item = new ItemCorpse(guid, blueprint, container, victim);
+            IItemCorpse item = new ItemCorpse(guid, blueprint, room, victim, killer);
             _items.Add(item);
             return item;
         }
@@ -202,6 +229,38 @@ namespace Mud.Server.World
             IItemJewelry item = new ItemJewelry(guid, blueprint, container);
             _items.Add(item);
             return item;
+        }
+
+        public IItem AddItem(Guid guid, int blueprintId, IContainer container)
+        {
+            ItemBlueprintBase blueprint = GetItemBlueprint(blueprintId);
+            if (blueprint == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: unknown blueprintId {0}", blueprintId);
+            }
+            var weaponBlueprint = blueprint as ItemWeaponBlueprint;
+            if (weaponBlueprint != null)
+                return AddItemWeapon(guid, weaponBlueprint, container);
+            var containerBlueprint = blueprint as ItemContainerBlueprint;
+            if (containerBlueprint != null)
+                return AddItemContainer(guid, containerBlueprint, container);
+            var armorBlueprint = blueprint as ItemArmorBlueprint;
+            if (armorBlueprint != null)
+                return AddItemArmor(guid, armorBlueprint, container);
+            var lightBlueprint = blueprint as ItemLightBlueprint;
+            if (lightBlueprint != null)
+                return AddItemLight(guid, lightBlueprint, container);
+            var furnitureBlueprint = blueprint as ItemFurnitureBlueprint;
+            if (furnitureBlueprint != null)
+                return AddItemFurniture(guid, furnitureBlueprint, container);
+            var jewelryBlueprint = blueprint as ItemJewelryBlueprint;
+            if (jewelryBlueprint != null)
+                return AddItemJewelry(guid, jewelryBlueprint, container);
+            var shieldBlueprint = blueprint as ItemShieldBlueprint;
+            if (shieldBlueprint != null)
+                return AddItemShield(guid, shieldBlueprint, container);
+            // TODO: other blueprint
+            return null;
         }
 
         public IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool recompute)
@@ -276,15 +335,15 @@ namespace Mud.Server.World
             if (character.Content.Any())
             {
                 List<IItem> clonedInventory = new List<IItem>(character.Content); // clone because GetFromContainer change Content collection
-                foreach(IItem item in clonedInventory)
+                foreach (IItem item in clonedInventory)
                     RemoveItem(item);
-				// Remove equipments
-				if (character.Equipments.Any(x => x.Item != null))
-				{
-                	List<IEquipable> equipment = new List<IEquipable>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item));
-                	foreach (IEquipable item in equipment)
-                    	RemoveItem(item);
-				}
+                // Remove equipments
+                if (character.Equipments.Any(x => x.Item != null))
+                {
+                    List<IEquipable> equipment = new List<IEquipable>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item));
+                    foreach (IEquipable item in equipment)
+                        RemoveItem(item);
+                }
             }
             // Remove from room
             character.Room?.Leave(character);
@@ -340,7 +399,13 @@ namespace Mud.Server.World
             // TODO: room
         }
 
-
         #endregion
+
+        private T GetBlueprintById<T>(IDictionary<int, T> blueprints, int id)
+        {
+            T blueprint;
+            blueprints.TryGetValue(id, out blueprint);
+            return blueprint;
+        }
     }
 }

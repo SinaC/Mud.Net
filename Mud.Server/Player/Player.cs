@@ -200,9 +200,12 @@ namespace Mud.Server.Player
         protected string BuildCharacterPrompt(ICharacter character)
         {
             StringBuilder sb = new StringBuilder("<");
-            sb.AppendFormat("{0}/{1}Hp", character.HitPoints, character[SecondaryAttributeTypes.MaxHitPoints]);
+            sb.Append($"{character.HitPoints}/{character[SecondaryAttributeTypes.MaxHitPoints]}Hp");
             foreach (ResourceKinds resourceKinds in character.CurrentResourceKinds)
-                sb.AppendFormat(" {0}/{1}{2}", character[resourceKinds], character.GetMaxResource(resourceKinds), resourceKinds);
+                sb.Append($" {character[resourceKinds]}/{character.GetMaxResource(resourceKinds)}{resourceKinds}");
+            sb.Append($" {character.ExperienceToLevel}Nxt");
+            if (character.Fighting != null)
+                sb.Append($" {(int)(100d*character.Fighting.HitPoints/character.Fighting[SecondaryAttributeTypes.MaxHitPoints])}%");
             sb.Append(">");
             return sb.ToString();
         }
@@ -222,7 +225,7 @@ namespace Mud.Server.Player
                 else
                     Send("You have no aliases defined." + Environment.NewLine);
             }
-            // TODO: else add alias (!!! cannot set an alias on alias/delete :p)
+            // TODO: else add alias (!!! cannot set an alias on alias or delete :p)
             return true;
         }
 

@@ -40,6 +40,7 @@
     <Compile Include="Abilities\Ability.cs" />
     <Compile Include="Abilities\ToRemoveAbilities.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
+    <Compile Include="Area\Area.cs" />
     <Compile Include="Aura\Aura.cs" />
     <Compile Include="Aura\PeriodicAura.cs" />
     <Compile Include="Actor\ActorBase.cs" />
@@ -55,23 +56,21 @@
     <Compile Include="Character\InfoCommands.cs" />
     <Compile Include="Character\MovementCommands.cs" />
     <Compile Include="Character\ItemCommands.cs" />
+    <Compile Include="Character\QuestCommands.cs" />
     <Compile Include="Classes\ClassBase.cs" />
     <Compile Include="Classes\ClassManager.cs" />
+    <Compile Include="Classes\Priest.cs" />
     <Compile Include="Classes\Druid.cs" />
     <Compile Include="Classes\Mage.cs" />
     <Compile Include="Classes\Thief.cs" />
     <Compile Include="Classes\Warrior.cs" />
     <Compile Include="Helpers\CombatHelpers.cs" />
     <Compile Include="Helpers\ComplexTableGenerator.cs" />
-    <Compile Include="Helpers\IEnumerableExtensions.cs" />
-    <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\TableGenerator.cs" />
+    <Compile Include="IArea.cs" />
     <Compile Include="IClass.cs" />
     <Compile Include="Entity\EntityBase.cs" />
-    <Compile Include="Helpers\EnumHelpers.cs" />
     <Compile Include="Helpers\FindHelpers.cs" />
-    <Compile Include="Helpers\RandomizeHelpers.cs" />
-    <Compile Include="Helpers\StringBuilderExtensions.cs" />
     <Compile Include="IAbilityManager.cs" />
     <Compile Include="IActor.cs" />
     <Compile Include="IAdmin.cs" />
@@ -85,6 +84,7 @@
     <Compile Include="IItem.cs" />
     <Compile Include="IPeriodicAura.cs" />
     <Compile Include="IPlayer.cs" />
+    <Compile Include="IQuest.cs" />
     <Compile Include="IRace.cs" />
     <Compile Include="IRaceManager.cs" />
     <Compile Include="IRoom.cs" />
@@ -112,10 +112,11 @@
     <Compile Include="Player\InfoCommands.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Player\ImpersonateCommand.cs" />
+    <Compile Include="Player\MiscCommands.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\CommunicationCommands.cs" />
-    <Compile Include="Classes\Priest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quest.cs" />
     <Compile Include="Races\Dwarf.cs" />
     <Compile Include="Races\Elf.cs" />
     <Compile Include="Races\Gnome.cs" />
@@ -163,6 +164,10 @@
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
+      <Project>{d1a7d787-0fe7-4281-9458-d2c8f728e404}</Project>
+      <Name>Mud.Server.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Constants\Mud.Server.Constants.csproj">
       <Project>{3c334a4d-ed18-4eb4-ac7b-2b03bb849d47}</Project>

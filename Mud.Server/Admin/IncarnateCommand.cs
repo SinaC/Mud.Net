@@ -20,10 +20,10 @@ namespace Mud.Server.Admin
                     Incarnating = null;
                 }
                 else
-                    Send("Syntax: Incarnate <kind> <name|id>" + Environment.NewLine);
+                    Send("Syntax: Incarnate <room|item|mob> <name|id>" + Environment.NewLine);
             }
             else if (parameters.Length == 1)
-                Send("Syntax: Incarnate <kind> <name|id>" + Environment.NewLine);
+                Send("Syntax: Incarnate <room|item|mob> <name|id>" + Environment.NewLine);
             else if (parameters.Length == 2)
             {
                 IEntity incarnateTarget = null;

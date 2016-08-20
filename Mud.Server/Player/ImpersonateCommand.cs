@@ -72,7 +72,7 @@ namespace Mud.Server.Player
                 return true;
             }
 
-            Send("Please choose an avatar name (type quit to stop creation)."+Environment.NewLine);
+            Send("Please choose an avatar name (type quit to stop and cancel creation)."+Environment.NewLine);
             CurrentStateMachine = new AvatarCreationStateMachine();
             return true;
         }

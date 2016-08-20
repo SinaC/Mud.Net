@@ -26,7 +26,6 @@ namespace Mud.Importer
                 _currentLine = 1;
                 _content = tr.ReadToEnd();
                 _currentIndex = 0;
-                tr.Close();
             }
         }
 

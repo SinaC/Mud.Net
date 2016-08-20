@@ -26,7 +26,7 @@ namespace Mud.Server.Server
 
     // Once playing,
     //  in synchronous mode, input and output are 'queued' and handled by ProcessorInput/ProcessOutput
-    public class Server : IServer
+    public class Server : IServer, IDisposable
     {
         // This allows fast lookup with client or player BUT both structures must be modified at the same time
         private readonly object _playingClientLockObject = new object();
@@ -568,7 +568,7 @@ namespace Mud.Server.Server
             }
         }
 
-        private void HandlePeriodicAuras() // TODO: specific pulse ? 1/2 seconds
+        private void HandlePeriodicAuras()
         {
             // TODO: remove aura with amount == 0 ?
             // Remove dot/hot on non-impersonated if source is not the in same room (or source is inexistant)
@@ -596,12 +596,12 @@ namespace Mud.Server.Server
                 }
                 catch (Exception ex)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling periodic auras of {0}. Exception: {1}", character.DisplayName, ex);
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling periodic auras of {0}. Exception: {1}", character.DebugName, ex);
                 }
             }
         }
 
-        private void HandleAuras() // TODO: specific pulse ? 1/2 seconds
+        private void HandleAuras() 
         {
             // TODO: remove aura with amount == 0 ?
             // Take aura that will expired
@@ -623,12 +623,12 @@ namespace Mud.Server.Server
                 }
                 catch (Exception ex)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of {0}. Exception: {1}", character.DisplayName, ex);
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of {0}. Exception: {1}", character.DebugName, ex);
                 }
             }
         }
 
-        private void HandleCooldowns() // TODO: specific pulse ? 1/2 seconds
+        private void HandleCooldowns() 
         {
             // TODO: filter on character with expired cooldowns
             foreach (ICharacter character in Repository.World.Characters.Where(x => x.HasAbilitiesInCooldown))
@@ -641,15 +641,15 @@ namespace Mud.Server.Server
                 }
                 catch (Exception ex)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling cooldowns of {0}. Exception: {1}", character.DisplayName, ex);
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling cooldowns of {0}. Exception: {1}", character.DebugName, ex);
                 }
             }
         }
 
+        // TODO: 'Optimize' following function using area info such as players count
+
         private void HandleViolence()
         {
-            Log.Default.WriteLine(LogLevels.Trace, "PulseViolence");
-
             //IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Repository.World.Characters().Where(x => x.Fighting != null).ToList());
             //foreach (ICharacter character in clone)
             foreach (ICharacter character in Repository.World.Characters.Where(x => x.Fighting != null))
@@ -661,18 +661,18 @@ namespace Mud.Server.Server
                     {
                         if (victim.Room == character.Room) // fight continue only if in the same room
                         {
-                            Log.Default.WriteLine(LogLevels.Debug, "Continue fight between {0} and {1}", character.DisplayName, victim.DisplayName);
+                            Log.Default.WriteLine(LogLevels.Debug, "Continue fight between {0} and {1}", character.DebugName, victim.DebugName);
                             character.MultiHit(victim);
                         }
                         else
                         {
-                            Log.Default.WriteLine(LogLevels.Debug, "Stop fighting between {0} and {1}, because not in same room", character.DisplayName, victim.DisplayName);
+                            Log.Default.WriteLine(LogLevels.Debug, "Stop fighting between {0} and {1}, because not in same room", character.DebugName, victim.DebugName);
                             character.StopFighting(false);
                         }
                     }
                     catch (Exception ex)
                     {
-                        Log.Default.WriteLine(LogLevels.Error, "Exception while handling violence of {0}. Exception: {1}", character.DisplayName, ex);
+                        Log.Default.WriteLine(LogLevels.Error, "Exception while handling violence of {0}. Exception: {1}", character.DebugName, ex);
                     }
                 }
             }
@@ -706,7 +706,7 @@ namespace Mud.Server.Server
             foreach (ICharacter character in Repository.World.Characters)
             {
                 if (character.Impersonable && character.ImpersonatedBy == null) // TODO: remove after x minutes
-                    Log.Default.WriteLine(LogLevels.Warning, $"Impersonable {character.DisplayName} is not impersonated");
+                    Log.Default.WriteLine(LogLevels.Warning, $"Impersonable {character.DebugName} is not impersonated");
 
                 //
                 character.UpdateResources();
@@ -717,10 +717,14 @@ namespace Mud.Server.Server
         {
             foreach (IItem item in Repository.World.Items.Where(x => x.DecayPulseLeft > 0))
             {
-                //Log.Default.WriteLine(LogLevels.Debug, $"HandleItemDecay {item.DisplayName} with {item.DecayPulseLeft} pulse left");
+                //Log.Default.WriteLine(LogLevels.Debug, $"HandleItems {item.DebugName} with {item.DecayPulseLeft} pulse left");
                 item.DecreaseDecayPulseLeft();
                 if (item.DecayPulseLeft == 0)
+                {
+                    Log.Default.WriteLine(LogLevels.Debug, $"Item {item.DebugName} decayed");
+                    // TODO: if it's a player corpse, move items to room
                     Repository.World.RemoveItem(item);
+                }
             }
         }
 
@@ -798,5 +802,27 @@ namespace Mud.Server.Server
 
             Log.Default.WriteLine(LogLevels.Info, "GameLoopTask stopped");
         }
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposeOfManagedResourcesInAdditionToUnmanagedResources)
+        {
+            if (disposeOfManagedResourcesInAdditionToUnmanagedResources)
+            {
+                if (_cancellationTokenSource != null)
+                {
+                    _cancellationTokenSource.Dispose();
+                    _cancellationTokenSource = null;
+                }
+            }
+        }
+
+        #endregion
     }
 }

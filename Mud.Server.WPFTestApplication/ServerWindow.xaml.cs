@@ -12,6 +12,11 @@ using Mud.Logger;
 using Mud.Network;
 using Mud.Network.Telnet;
 using Mud.Server.Blueprints;
+using Mud.Server.Blueprints.Character;
+using Mud.Server.Blueprints.Item;
+using Mud.Server.Blueprints.LootTable;
+using Mud.Server.Blueprints.Quest;
+using Mud.Server.Blueprints.Room;
 using Mud.Server.Constants;
 using Mud.Server.Item;
 using Mud.Server.Server;
@@ -33,7 +38,90 @@ namespace Mud.Server.WPFTestApplication
 
             Log.Default.Initialize(ConfigurationManager.AppSettings["logpath"], "server.log");
 
+            TestLootTable();
+
             Loaded += OnLoaded;
+        }
+
+        private void TestLootTable()
+        {
+            TreasureTable<int> tableSpider = new TreasureTable<int>
+            {
+                Name = "TreasureList_Spider",
+                Entries = new List<TreasureTableEntry<int>>
+                {
+                    new TreasureTableEntry<int>
+                    {
+                        Value = 1, // Spider venom
+                        Occurancy = 25,
+                        MaxOccurancy = 1
+                    },
+                    new TreasureTableEntry<int>
+                    {
+                        Value = 2, // Spider webbing
+                        Occurancy = 65,
+                        MaxOccurancy = 1
+                    },
+                    new TreasureTableEntry<int>
+                    {
+                        Value = 3, // Severed spider leg
+                        Occurancy = 10,
+                        MaxOccurancy = 1
+                    }
+                }
+            };
+            TreasureTable<int> tableRareLoot = new TreasureTable<int>
+            {
+                Name = "TreasureList_RareLoot",
+                Entries = new List<TreasureTableEntry<int>>
+                {
+                    new TreasureTableEntry<int>
+                    {
+                        Value = 4, // Ubber-sword
+                        Occurancy = 1,
+                        MaxOccurancy = 1,
+                    }
+                }
+            };
+            TreasureTable<int> tableEmpty = new TreasureTable<int>
+            {
+                Name = "TreasureList_Empty",
+            };
+            CharacterLootTable<int> spiderTable = new CharacterLootTable<int>
+            {
+                MinLoot = 1,
+                MaxLoot = 3,
+                Entries = new List<CharacterLootTableEntry<int>>
+                {
+                    new CharacterLootTableEntry<int>
+                    {
+                        Value = tableSpider,
+                        Occurancy = 45,
+                        Max = 2
+                    },
+                    new CharacterLootTableEntry<int>
+                    {
+                        Value = tableRareLoot,
+                        Occurancy = 5,
+                        Max = 1
+                    },
+                    new CharacterLootTableEntry<int>
+                    {
+                        Value = tableEmpty,
+                        Occurancy = 50,
+                        Max = 1
+                    }
+                },
+                //AlwaysDrop = new List<int>
+                //{
+                //    99
+                //}
+            };
+            for (int i = 0; i < 10; i++)
+            {
+                List<int> loots = spiderTable.GenerateLoots();
+                Log.Default.WriteLine(LogLevels.Info, "***LOOT {0}: {1}", i, string.Join(",", loots));
+            }
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -389,24 +477,6 @@ namespace Mud.Server.WPFTestApplication
             return blueprint;
         }
 
-        public static IItem CreateItem(ItemBlueprintBase blueprint, IContainer container)
-        {
-            if (blueprint is ItemWeaponBlueprint)
-                return Repository.World.AddItemWeapon(Guid.NewGuid(), (ItemWeaponBlueprint) blueprint, container);
-            if (blueprint is ItemContainerBlueprint)
-                return Repository.World.AddItemContainer(Guid.NewGuid(),(ItemContainerBlueprint) blueprint, container);
-            if (blueprint is ItemArmorBlueprint)
-                return Repository.World.AddItemArmor(Guid.NewGuid(), (ItemArmorBlueprint) blueprint, container);
-            if (blueprint is ItemLightBlueprint)
-                return Repository.World.AddItemLight(Guid.NewGuid(), (ItemLightBlueprint) blueprint, container);
-            if (blueprint is ItemFurnitureBlueprint)
-                return Repository.World.AddItemFurniture(Guid.NewGuid(), (ItemFurnitureBlueprint) blueprint, container);
-            if (blueprint is ItemJewelryBlueprint)
-                return Repository.World.AddItemJewelry(Guid.NewGuid(), (ItemJewelryBlueprint)blueprint, container);
-            // TODO: other blueprint
-            return null;
-        }
-
         // tables.C:601 type_flags
         //"light" OK
         //"scroll"
@@ -462,6 +532,7 @@ namespace Mud.Server.WPFTestApplication
             foreach (KeyValuePair<string,int> kv in importer.Objects.GroupBy(o => o.ItemType).ToDictionary(g => g.Key, g => g.Count()).OrderBy(x => x.Value))
                 Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", kv.Key, kv.Value);
 
+            Dictionary<int, IArea> areasByVnums = new Dictionary<int, IArea>();
             Dictionary<int, IRoom> roomsByVNums = new Dictionary<int, IRoom>();
 
             // Create Rooms blueprints
@@ -473,11 +544,19 @@ namespace Mud.Server.WPFTestApplication
             // Create Item blueprints
             foreach (ObjectData obj in importer.Objects)
                 CreateItemBlueprint(obj);
-            
+            // Create Areas
+            foreach (AreaData importedArea in importer.Areas)
+            {
+                // TODO: levels
+                IArea area = Repository.World.AddArea(Guid.NewGuid(), importedArea.Name, 1, 99, importedArea.Builders, importedArea.Credits);
+                areasByVnums.Add(importedArea.VNum, area);
+            }
+
             // Create Rooms
             foreach (RoomData importedRoom in importer.Rooms)
             {
-                IRoom room = Repository.World.AddRoom(Guid.NewGuid(), Repository.World.GetRoomBlueprint(importedRoom.VNum));
+                IArea area = areasByVnums[importedRoom.AreaVnum];
+                IRoom room = Repository.World.AddRoom(Guid.NewGuid(), Repository.World.GetRoomBlueprint(importedRoom.VNum), area);
                 roomsByVNums.Add(importedRoom.VNum, room);
             }
 
@@ -541,7 +620,7 @@ namespace Mud.Server.WPFTestApplication
                             ItemBlueprintBase blueprint = Repository.World.GetItemBlueprint(reset.Arg1);
                             if (blueprint != null)
                             {
-                                IItem item = CreateItem(blueprint, room);
+                                IItem item = Repository.World.AddItem(Guid.NewGuid(), blueprint.Id, room);
                                 if (item != null)
                                     Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} added room");
                                 else
@@ -578,7 +657,7 @@ namespace Mud.Server.WPFTestApplication
                             {
                                 if (lastContainer != null)
                                 {
-                                    CreateItem(blueprint, lastContainer);
+                                    Repository.World.AddItem(Guid.NewGuid(), blueprint.Id, lastContainer);
                                     Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} added in {lastContainer.Blueprint.Id}");
                                 }
                                 else
@@ -596,7 +675,7 @@ namespace Mud.Server.WPFTestApplication
                             {
                                 if (lastCharacter != null)
                                 {
-                                    CreateItem(blueprint, lastCharacter);
+                                        Repository.World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
                                     Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
                                 }
                                 else
@@ -614,7 +693,7 @@ namespace Mud.Server.WPFTestApplication
                                 {
                                     if (lastCharacter != null)
                                     {
-                                        CreateItem(blueprint, lastCharacter);
+                                        Repository.World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
                                         Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
                                         // TODO: try to equip
                                     }
@@ -642,6 +721,7 @@ namespace Mud.Server.WPFTestApplication
                 Sex = Sex.Female,
                 Level = 10
             };
+            Repository.World.AddCharacterBlueprint(mob2Blueprint);
             CharacterBlueprint mob3Blueprint = new CharacterBlueprint
             {
                 Id = 3,
@@ -651,6 +731,7 @@ namespace Mud.Server.WPFTestApplication
                 Sex = Sex.Male,
                 Level = 10
             };
+            Repository.World.AddCharacterBlueprint(mob3Blueprint);
             //CharacterBlueprint mob4Blueprint = new CharacterBlueprint
             //{
             //    Id = 4,
@@ -669,6 +750,8 @@ namespace Mud.Server.WPFTestApplication
                 Sex = Sex.Female,
                 Level = 10
             };
+            Repository.World.AddCharacterBlueprint(mob5Blueprint);
+
             ItemContainerBlueprint item1Blueprint = new ItemContainerBlueprint
             {
                 Id = 1,
@@ -678,6 +761,7 @@ namespace Mud.Server.WPFTestApplication
                 ItemCount = 10,
                 WeightMultiplier = 100
             };
+            Repository.World.AddItemBlueprint(item1Blueprint);
             ItemWeaponBlueprint item2Blueprint = new ItemWeaponBlueprint
             {
                 Id = 2,
@@ -690,6 +774,7 @@ namespace Mud.Server.WPFTestApplication
                 DamageType = SchoolTypes.Fire,
                 WearLocation = WearLocations.Wield
             };
+            Repository.World.AddItemBlueprint(item2Blueprint);
             ItemArmorBlueprint item3Blueprint = new ItemArmorBlueprint
             {
                 Id = 3,
@@ -700,6 +785,7 @@ namespace Mud.Server.WPFTestApplication
                 ArmorKind = ArmorKinds.Mail,
                 WearLocation = WearLocations.Feet
             };
+            Repository.World.AddItemBlueprint(item3Blueprint);
             ItemLightBlueprint item4Blueprint = new ItemLightBlueprint
             {
                 Id = 4,
@@ -709,6 +795,7 @@ namespace Mud.Server.WPFTestApplication
                 DurationHours = -1,
                 WearLocation = WearLocations.Light
             };
+            Repository.World.AddItemBlueprint(item4Blueprint);
             ItemWeaponBlueprint item5Blueprint = new ItemWeaponBlueprint
             {
                 Id = 5,
@@ -721,6 +808,7 @@ namespace Mud.Server.WPFTestApplication
                 DamageType = SchoolTypes.Physical,
                 WearLocation = WearLocations.Wield
             };
+            Repository.World.AddItemBlueprint(item5Blueprint);
             ItemWeaponBlueprint item6Blueprint = new ItemWeaponBlueprint
             {
                 Id = 6,
@@ -733,6 +821,7 @@ namespace Mud.Server.WPFTestApplication
                 DamageType = SchoolTypes.Holy,
                 WearLocation = WearLocations.Wield
             };
+            Repository.World.AddItemBlueprint(item6Blueprint);
             ItemShieldBlueprint item7Blueprint = new ItemShieldBlueprint
             {
                 Id = 7,
@@ -742,6 +831,7 @@ namespace Mud.Server.WPFTestApplication
                 Armor = 1000,
                 WearLocation = WearLocations.Shield
             };
+            Repository.World.AddItemBlueprint(item7Blueprint);
 
             //
             ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint
@@ -775,6 +865,58 @@ namespace Mud.Server.WPFTestApplication
             mob2.Equipments.First(x => x.Slot == EquipmentSlots.Wield).Item = item2;
             item2.ChangeContainer(null);
             item2.ChangeEquipedBy(mob2);
+
+            // Quest
+            QuestKillLootTable<int> quest1DrunkKillLoot = new QuestKillLootTable<int>
+            {
+                Name = "Quest 1 drunk kill loot table",
+                Entries = new List<QuestKillLootTableEntry<int>>
+                {
+                    new QuestKillLootTableEntry<int>
+                    {
+                        Value = 3023,
+                        Percentage = 80,
+                    }
+                }
+            };
+            QuestBlueprint questBlueprint1 = new QuestBlueprint
+            {
+                Id = 1,
+                Title = "Quest 1",
+                Description = "Kill 2 beggars, get 1 sixth item (weapon) and get 2 clubs on drunk",
+                Level = 10,
+                ShouldQuestItemBeDestroyed = true,
+                KillObjectives = new List<QuestKillObjective>
+                {
+                    new QuestKillObjective
+                    {
+                        CharacterBlueprintId = 3065,
+                        Count = 2
+                    }
+                },
+                ItemObjectives = new List<QuestItemObjective>
+                {
+                    new QuestItemObjective
+                    {
+                        ItemBlueprintId = 6,
+                        Count = 1
+                    },
+                    new QuestItemObjective
+                    {
+                        ItemBlueprintId = 3023,
+                        Count = 2
+                    }
+                },
+                KillLootTable = new Dictionary<int, QuestKillLootTable<int>> // when killing mob 3064, we receive item 3023 (80%)
+                {
+                    { 3064, quest1DrunkKillLoot },
+                    { 3063, quest1DrunkKillLoot }
+                }
+            };
+            Repository.World.AddQuestBlueprint(questBlueprint1);
+            // Give quest to mob1
+            IQuest quest = new Quest(questBlueprint1, mob1, mob2);
+            mob1.AddQuest(quest);
         }
     }
 }

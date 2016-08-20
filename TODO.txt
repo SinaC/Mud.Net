@@ -1,8 +1,12 @@
 impersonable list
 use more StringBuilder
-shapeshift (for example druid: bear/cat/cheetah/moonkin demonist: demon)
 specialization
 talent
+OLC
+
+optimize quest (especially IsCompleted and Objectives: called 3 times when using command Quest)
+
+http://wow.gamepedia.com/Experience_point#Quest_XP
 
 aura/periodic aura can have multiply affects/effects
 
@@ -17,6 +21,10 @@ http://wow.gamepedia.com/Crushing_blow
 check wheelmud for mccp/mxp
 
 loot table instead of resets
+
+CharacterLootTable must be stored in Character(or CharacterBlueprint)
+QuestTable must be stored in Quest -> new item QuestItem can only be looted by quest owner
+Current quests are stored in Player(or Character) -> when a corpse is created, check if current quest have specific loot table
 
 each time operator IS or AS is used, this should be replaced with an overridable method
 DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
@@ -39,6 +47,9 @@ spam, linkdead, ...
 
 mongo DB to store pfile
 
+loot table: 
+http://www.gammon.com.au/forum/bbshowpost.php?bbsubject_id=9715
+
 ability:
 http://www.wowhead.com/spell=106832/thrash
 http://www.wowhead.com/spell=589/shadow-word-pain
@@ -60,6 +71,11 @@ effects: list of effect such as weapon damage %, school damage % spellpower, app
 flags: require main hand, not shapeshifted, passive
 
 option in CommandAttribute to force full command name to be typed
+
+lua:
+https://github.com/NLua/NLua
+http://stackoverflow.com/questions/24927776/nlua-luainterface-calling-a-function
+https://github.com/codefoco/NLuaBox/blob/master/NLuaBoxAppDelegateInternal.cs#L60
 
 hide password:
 http://stackoverflow.com/questions/6380257/how-can-i-mask-user-input-when-telneting

@@ -11,6 +11,7 @@ namespace Mud.Server
         IEnumerable<string> Keywords { get; }
         string DisplayName { get; }
         string Description { get; }
+        string DebugName { get; }
 
         bool Incarnatable { get; }
         IAdmin IncarnatedBy { get; }

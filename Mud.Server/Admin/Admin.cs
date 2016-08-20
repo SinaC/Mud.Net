@@ -68,17 +68,17 @@ namespace Mud.Server.Admin
                 bool executedSuccessfully;
                 if (forceOutOfGame || (Impersonating == null && Incarnating == null)) // neither incarnating nor impersonating
                 {
-                    Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", Name, commandLine);
+                    Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
                     executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
                 }
                 else if (Incarnating != null) // incarnating
                 {
-                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", Name, Incarnating.DisplayName, commandLine);
+                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Incarnating.DebugName, commandLine);
                     executedSuccessfully = Incarnating.ExecuteCommand(command, rawParameters, parameters);
                 }
                 else if (Impersonating != null) // impersonating
                 {
-                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", Name, Impersonating.DisplayName, commandLine);
+                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DebugName, commandLine);
                     executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
                 }
                 else
@@ -121,7 +121,7 @@ namespace Mud.Server.Admin
             ICharacter character = Incarnating as ICharacter;
             if (character != null)
                 return BuildCharacterPrompt(character);
-            return ">";
+            return $"{Incarnating.DisplayName}>";
         }
     }
 }

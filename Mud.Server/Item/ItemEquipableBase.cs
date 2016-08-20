@@ -1,6 +1,7 @@
 ﻿using System;
 using Mud.Logger;
 using Mud.Server.Blueprints;
+using Mud.Server.Blueprints.Item;
 using Mud.Server.Constants;
 
 namespace Mud.Server.Item
@@ -21,7 +22,7 @@ namespace Mud.Server.Item
         public bool ChangeEquipedBy(ICharacter character)
         {
             EquipedBy?.Unequip(this);
-            Log.Default.WriteLine(LogLevels.Info, "ChangeEquipedBy: {0} : {1} -> {2}", DisplayName, EquipedBy == null ? "<<??>>" : EquipedBy.DisplayName, character == null ? "<<??>>" : character.DisplayName);
+            Log.Default.WriteLine(LogLevels.Info, "ChangeEquipedBy: {0} : {1} -> {2}", DebugName, EquipedBy == null ? "<<??>>" : EquipedBy.DebugName, character == null ? "<<??>>" : character.DebugName);
             EquipedBy = character;
             // TODO: call something like character.Equip ? (additional parameter EquipmentSlot)
             return true;

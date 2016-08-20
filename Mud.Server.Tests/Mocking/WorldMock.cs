@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mud.Server.Blueprints;
+using Mud.Server.Blueprints.Character;
+using Mud.Server.Blueprints.Item;
+using Mud.Server.Blueprints.LootTable;
+using Mud.Server.Blueprints.Quest;
+using Mud.Server.Blueprints.Room;
 using Mud.Server.Constants;
 using Mud.Server.Item;
 
@@ -21,17 +26,18 @@ namespace Mud.Server.Tests.Mocking
 
         #region IWorld
 
-        public IReadOnlyCollection<RoomBlueprint> GetRoomBlueprints()
+        public IReadOnlyCollection<TreasureTable<int>> TreasureTables { get; }
+        public void AddTreasureTable(TreasureTable<int> table)
         {
             throw new NotImplementedException();
         }
 
-        public IReadOnlyCollection<CharacterBlueprint> GetCharacterBlueprints()
-        {
-            throw new NotImplementedException();
-        }
+        public IReadOnlyCollection<QuestBlueprint> QuestBlueprints { get; }
+        public IReadOnlyCollection<RoomBlueprint> RoomBlueprints { get; }
+        public IReadOnlyCollection<CharacterBlueprint> CharacterBlueprints { get; }
+        public IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints { get; }
 
-        public IReadOnlyCollection<ItemBlueprintBase> GetItemBlueprints()
+        public QuestBlueprint GetQuestBlueprint(int id)
         {
             throw new NotImplementedException();
         }
@@ -51,6 +57,11 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
+        public void AddQuestBlueprint(QuestBlueprint blueprint)
+        {
+            throw new NotImplementedException();
+        }
+
         public void AddRoomBlueprint(RoomBlueprint blueprint)
         {
             throw new NotImplementedException();
@@ -66,11 +77,23 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
+        public IEnumerable<IArea> Areas { get; }
+
         public IEnumerable<IRoom> Rooms => _rooms;
 
         public IEnumerable<ICharacter> Characters => _characters;
 
         public IEnumerable<IItem> Items => _items;
+
+        public IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area)
+        {
+            throw new NotImplementedException();
+        }
 
         public ICharacter AddCharacter(Guid guid, string name, IClass pcClass, IRace pcRace, Sex pcSex, IRoom room)
         {
@@ -102,7 +125,7 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim)
+        public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim, ICharacter killer)
         {
             throw new NotImplementedException();
         }
@@ -118,6 +141,11 @@ namespace Mud.Server.Tests.Mocking
         }
 
         public IItemJewelry AddItemJewelry(Guid guid, ItemJewelryBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IItem AddItem(Guid guid, int blueprintId, IContainer container)
         {
             throw new NotImplementedException();
         }
@@ -153,11 +181,6 @@ namespace Mud.Server.Tests.Mocking
         }
 
         public IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IRoom AddRoom(Guid guid, RoomBlueprint blueprint)
         {
             throw new NotImplementedException();
         }

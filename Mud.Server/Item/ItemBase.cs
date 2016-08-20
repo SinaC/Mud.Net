@@ -2,6 +2,7 @@
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Blueprints;
+using Mud.Server.Blueprints.Item;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -41,6 +42,8 @@ namespace Mud.Server.Item
 
         public override string DisplayName => Blueprint == null ? StringHelpers.UpperFirstLetter(Name) : Blueprint.ShortDescription;
 
+        public override string DebugName => $"{DisplayName}[{Blueprint.Id}]";
+
         public override void OnRemoved() // called before removing an item from the game
         {
             base.OnRemoved();
@@ -57,7 +60,7 @@ namespace Mud.Server.Item
 
         public bool IsWearable { get; private set; } // TODO:
 
-		public int DecayPulseLeft { get; protected set; } // 0: means no decay
+        public int DecayPulseLeft { get; protected set; } // 0: means no decay
 
         public virtual int Weight { get; }
 
@@ -65,7 +68,7 @@ namespace Mud.Server.Item
 
         public bool ChangeContainer(IContainer container)
         {
-            Log.Default.WriteLine(LogLevels.Info, "ChangeContainer: {0} : {1} -> {2}", DisplayName, ContainedInto == null ? "<<??>>" : ContainedInto.DisplayName, container == null ? "<<??>>" : container.DisplayName);
+            Log.Default.WriteLine(LogLevels.Info, "ChangeContainer: {0} : {1} -> {2}", DebugName, ContainedInto == null ? "<<??>>" : ContainedInto.DebugName, container == null ? "<<??>>" : container.DebugName);
 
             ContainedInto?.GetFromContainer(this);
             //Debug.Assert(container != null, "ChangeContainer: an item cannot be outside a container"); // False, equipment are not stored in any container

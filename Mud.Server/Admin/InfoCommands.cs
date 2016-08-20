@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Mud.DataStructures.HeapPriorityQueue;
 using Mud.Server.Abilities;
+using Mud.Server.Common;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -109,12 +110,13 @@ namespace Mud.Server.Admin
         protected virtual bool DoStat(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormatLine("#Admin: {0}", Repository.Server.Admins.Count());
-            sb.AppendFormatLine("#Player: {0}", Repository.Server.Players.Count());
+            sb.AppendFormatLine("#Admins: {0}", Repository.Server.Admins.Count());
+            sb.AppendFormatLine("#Players: {0}", Repository.Server.Players.Count());
+            sb.AppendFormatLine("#Areas: {0}", Repository.World.Areas.Count());
             sb.AppendLine("Blueprints:");
-            sb.AppendFormatLine("   #Rooms: {0}", Repository.World.GetRoomBlueprints().Count);
-            sb.AppendFormatLine("   #Characters: {0}", Repository.World.GetCharacterBlueprints().Count);
-            sb.AppendFormatLine("   #Items: {0}", Repository.World.GetItemBlueprints().Count);
+            sb.AppendFormatLine("   #Rooms: {0}", Repository.World.RoomBlueprints.Count);
+            sb.AppendFormatLine("   #Characters: {0}", Repository.World.CharacterBlueprints.Count);
+            sb.AppendFormatLine("   #Items: {0}", Repository.World.ItemBlueprints.Count);
             sb.AppendLine("Entities:");
             sb.AppendFormatLine("   #Rooms: {0}", Repository.World.Rooms.Count());
             sb.AppendFormatLine("   #Characters: {0}", Repository.World.Characters.Count());

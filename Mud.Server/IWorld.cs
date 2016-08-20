@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mud.Server.Blueprints;
+using Mud.Server.Blueprints.Character;
+using Mud.Server.Blueprints.Item;
+using Mud.Server.Blueprints.LootTable;
+using Mud.Server.Blueprints.Quest;
+using Mud.Server.Blueprints.Room;
 using Mud.Server.Constants;
 using Mud.Server.Item;
 
@@ -8,23 +12,36 @@ namespace Mud.Server
 {
     public interface IWorld
     {
-        IReadOnlyCollection<RoomBlueprint> GetRoomBlueprints();
-        IReadOnlyCollection<CharacterBlueprint> GetCharacterBlueprints();
-        IReadOnlyCollection<ItemBlueprintBase> GetItemBlueprints();
+        // Treasures
+        IReadOnlyCollection<TreasureTable<int>> TreasureTables { get; }
 
+        void AddTreasureTable(TreasureTable<int> table);
+
+        // Blueprints
+        IReadOnlyCollection<QuestBlueprint> QuestBlueprints { get; }
+        IReadOnlyCollection<RoomBlueprint> RoomBlueprints { get; }
+        IReadOnlyCollection<CharacterBlueprint> CharacterBlueprints { get; }
+        IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints { get; }
+
+        QuestBlueprint GetQuestBlueprint(int id);
         RoomBlueprint GetRoomBlueprint(int id);
         CharacterBlueprint GetCharacterBlueprint(int id);
         ItemBlueprintBase GetItemBlueprint(int id);
 
+        void AddQuestBlueprint(QuestBlueprint blueprint);
         void AddRoomBlueprint(RoomBlueprint blueprint);
         void AddCharacterBlueprint(CharacterBlueprint blueprint);
         void AddItemBlueprint(ItemBlueprintBase blueprint);
 
+        //
+        IEnumerable<IArea> Areas { get; }
         IEnumerable<IRoom> Rooms { get; }
         IEnumerable<ICharacter> Characters { get; }
         IEnumerable<IItem> Items { get; }
 
-        IRoom AddRoom(Guid guid, RoomBlueprint blueprint);
+        IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits);
+
+        IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area);
 
         IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction);
 
@@ -35,10 +52,11 @@ namespace Mud.Server
         IItemArmor AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container);
         IItemWeapon AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container);
         IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container);
-        IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim);
+        IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, ICharacter killer);
         IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container);
         IItemFurniture AddItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer container);
         IItemJewelry AddItemJewelry(Guid guid, ItemJewelryBlueprint blueprint, IContainer container);
+        IItem AddItem(Guid guid, int blueprintId, IContainer container);
 
         IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool recompute);
         IPeriodicAura AddPeriodicAura(ICharacter victim, IAbility ability, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks); // Hot

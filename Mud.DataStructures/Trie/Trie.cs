@@ -12,7 +12,7 @@ namespace Mud.DataStructures.Trie
     /// Implementation of trie data structure.
     /// </summary>
     /// <typeparam name="TValue">The type of values in the trie.</typeparam>
-    public class Trie<TValue> : IDictionary<string, TValue>, IReadOnlyTrie<TValue>//, IReadOnlyDictionary<string, TValue>
+    public sealed class Trie<TValue> : IDictionary<string, TValue>, IReadOnlyTrie<TValue>//, IReadOnlyDictionary<string, TValue>
     {
         private readonly TrieNode _root;
 

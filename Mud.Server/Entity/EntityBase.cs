@@ -55,13 +55,13 @@ namespace Mud.Server.Entity
                 return false;
             }
 
-            Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
+            Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DebugName, commandLine);
             return ExecuteCommand(command, rawParameters, parameters);
         }
 
         public override void Send(string message)
         {
-            Log.Default.WriteLine(LogLevels.Debug, "SEND[{0}]: {1}", DisplayName, message);
+            Log.Default.WriteLine(LogLevels.Debug, "SEND[{0}]: {1}", DebugName, message);
 
             if (IncarnatedBy != null)
             {
@@ -84,6 +84,7 @@ namespace Mud.Server.Entity
         public abstract string DisplayName { get; }
         public IEnumerable<string> Keywords { get; }
         public string Description { get; protected set; }
+        public abstract string DebugName { get; }
 
         public bool Incarnatable { get; private set; }
         public IAdmin IncarnatedBy { get; private set; }

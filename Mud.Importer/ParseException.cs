@@ -2,6 +2,7 @@
 
 namespace Mud.Importer
 {
+    [Serializable]
     public class ParseException : Exception
     {
         public ParseException(string message)

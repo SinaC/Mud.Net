@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -25,6 +26,7 @@ namespace Mud.Server.Actor
             // Search for command and invoke it
             if (Commands != null)
             {
+                command = command.ToLowerInvariant(); // lower command
                 List<TrieEntry<CommandMethodInfo>> methodInfos = Commands.GetByPrefix(command).ToList();
                 TrieEntry<CommandMethodInfo> entry = methodInfos.OrderBy(x => x.Value.Attribute.Priority).FirstOrDefault(); // use priority to choose between conflicting commands
                 if (entry.Value?.Attribute?.NoShortcut == true && command != entry.Key) // if command doesn't accept shortcut, inform player
@@ -36,7 +38,7 @@ namespace Mud.Server.Actor
                 {
                     MethodInfo methodInfo = entry.Value.MethodInfo;
                     bool executedSuccessfully;
-                    if (entry.Value.Attribute.AddCommandInParameters)
+                    if (entry.Value.Attribute?.AddCommandInParameters == true)
                     {
                         CommandParameter[] enhancedParameters = new CommandParameter[parameters?.Length + 1 ?? 1];
                         if (parameters != null)

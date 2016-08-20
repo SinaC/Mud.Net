@@ -287,7 +287,7 @@ namespace Mud.Server.Abilities
                     // TODO: refactor same code in Character.OneHit
                     // Miss, dodge, parry, ...
                     attackResult = CombatHelpers.YellowMeleeAttack(source, victim, cannotMiss, cannotBeDodgedParriedBlocked);
-                    Log.Default.WriteLine(LogLevels.Debug, $"{source.DisplayName} -> {victim.DisplayName} : attack result = {attackResult}");
+                    Log.Default.WriteLine(LogLevels.Debug, $"{source.DebugName} -> {victim.DebugName} : attack result = {attackResult}");
                     switch (attackResult)
                     {
                         case CombatHelpers.AttackResults.Miss:

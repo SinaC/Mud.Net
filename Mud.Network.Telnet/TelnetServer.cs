@@ -399,17 +399,42 @@ namespace Mud.Network.Telnet
 
         public void Dispose()
         {
-            _listenTask = null;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-            _listenEvent.Dispose();
-            _listenEvent.Close();
-            _listenEvent = null;
+        protected virtual void Dispose(bool disposeOfManagedResourcesInAdditionToUnmanagedResources)
+        {
+            if (disposeOfManagedResourcesInAdditionToUnmanagedResources)
+            {
+                if (_listenTask != null)
+                {
+                    _listenTask.Dispose();
+                    _listenTask = null;
+                }
 
-            _serverSocket.Shutdown(SocketShutdown.Both);
-            _serverSocket.Close();
-            _serverSocket = null;
+                if (_listenEvent != null)
+                {
+                    _listenEvent.Dispose();
+                    _listenEvent.Close();
+                    _listenEvent = null;
+                }
+
+                if (_serverSocket != null)
+                {
+                    _serverSocket.Shutdown(SocketShutdown.Both);
+                    _serverSocket.Close();
+                    _serverSocket = null;
+                }
+
+                if (_cancellationTokenSource != null)
+                {
+                    _cancellationTokenSource.Dispose();
+                    _cancellationTokenSource = null;
+                }
+            }
         }
 
         #endregion
-    }
+        }
 }

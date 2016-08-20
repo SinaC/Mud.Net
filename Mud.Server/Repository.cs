@@ -1,4 +1,5 @@
 ﻿using Mud.Datas;
+using Mud.Server.Blueprints.LootTable;
 
 namespace Mud.Server
 {

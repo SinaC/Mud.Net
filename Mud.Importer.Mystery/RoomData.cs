@@ -6,6 +6,8 @@ namespace Mud.Importer.Mystery
     {
         public const int MaxExits = 11;
 
+        public int AreaVnum { get; set; }
+
         public int VNum { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

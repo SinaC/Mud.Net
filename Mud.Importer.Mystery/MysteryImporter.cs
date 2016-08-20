@@ -22,6 +22,8 @@ namespace Mud.Importer.Mystery
         private readonly List<ObjectData> _objects;
         private readonly List<RoomData> _rooms;
 
+        private int _lastAreaVnum;
+
         public IReadOnlyCollection<AreaData> Areas => _areas.AsReadOnly();
 
         public IReadOnlyCollection<MobileData> Mobiles => _mobiles.AsReadOnly();
@@ -109,6 +111,8 @@ namespace Mud.Importer.Mystery
             area.FileName = CurrentFilename;
             // Save area
             _areas.Add(area);
+            //
+            _lastAreaVnum = area.VNum;
         }
 
         private void ParseMobiles()
@@ -565,6 +569,7 @@ namespace Mud.Importer.Mystery
 
                 RoomData roomData = new RoomData
                 {
+                    AreaVnum = _lastAreaVnum,
                     VNum = vnum,
                     Name = ReadString(),
                     Description = ReadString()

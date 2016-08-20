@@ -10,6 +10,9 @@ using Mud.Network;
 using Mud.Network.Telnet;
 using Mud.POC;
 using Mud.Server.Blueprints;
+using Mud.Server.Blueprints.Character;
+using Mud.Server.Blueprints.Item;
+using Mud.Server.Blueprints.Room;
 using Mud.Server.Constants;
 using Mud.Server.Item;
 using Mud.Server.Server;
@@ -160,8 +163,9 @@ namespace Mud.Server.TestApplication
             ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint();
 
             // World
-            IRoom room1 = Repository.World.AddRoom(Guid.NewGuid(), room1Blueprint);
-            IRoom room2 = Repository.World.AddRoom(Guid.NewGuid(), room2Blueprint);
+            IArea midgaard = Repository.World.Areas.FirstOrDefault(x => x.DisplayName == "Midgaard");
+            IRoom room1 = Repository.World.AddRoom(Guid.NewGuid(), room1Blueprint, midgaard);
+            IRoom room2 = Repository.World.AddRoom(Guid.NewGuid(), room2Blueprint, midgaard);
             Repository.World.AddExit(room1, room2, null, ExitDirections.North);
             Repository.World.AddExit(room2, room1, null, ExitDirections.North);
 
@@ -204,18 +208,28 @@ namespace Mud.Server.TestApplication
             //    importer.Parse();
             //}
 
+            Dictionary<int, IArea> areasByVnums = new Dictionary<int, IArea>();
             Dictionary<int, IRoom> roomsByVNums = new Dictionary<int, IRoom>();
+
+            // Create Areas
+            foreach (AreaData importedArea in importer.Areas)
+            {
+                // TODO: levels
+                IArea area = Repository.World.AddArea(Guid.NewGuid(), importedArea.Name, 1, 99, importedArea.Builders, importedArea.Credits);
+                areasByVnums.Add(importedArea.VNum, area);
+            }
 
             // Create Rooms
             foreach (RoomData importedRoom in importer.Rooms)
             {
+                IArea area = areasByVnums[importedRoom.AreaVnum];
                 RoomBlueprint roomBlueprint = new RoomBlueprint
                 {
                     Id = importedRoom.VNum,
                     Name = importedRoom.Name,
                     Description = importedRoom.Description,
                 };
-                IRoom room = Repository.World.AddRoom(Guid.NewGuid(), roomBlueprint);
+                IRoom room = Repository.World.AddRoom(Guid.NewGuid(), roomBlueprint, area);
                 roomsByVNums.Add(importedRoom.VNum, room);
             }
             // Create Exits
@@ -459,6 +473,7 @@ namespace Mud.Server.TestApplication
         private static void TestCommandParsing()
         {
             // server doesn't need to be started, we are not testing real runtime but basic commands
+            IArea area = Repository.World.AddArea(Guid.NewGuid(), "testarea", 1, 99, "SinaC", "Credits");
             // Blueprints
             RoomBlueprint room1Blueprint = new RoomBlueprint
             {
@@ -467,7 +482,7 @@ namespace Mud.Server.TestApplication
                 Description = "My first room"
             };
             // World
-            IRoom room = Repository.World.AddRoom(Guid.NewGuid(), room1Blueprint);
+            IRoom room = Repository.World.AddRoom(Guid.NewGuid(), room1Blueprint, area);
 
             IPlayer player = Repository.Server.AddPlayer(new ConsoleClient("Player"), "Player");
             player.ProcessCommand("test");

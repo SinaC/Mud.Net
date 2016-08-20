@@ -279,7 +279,7 @@ namespace Mud.Server.Character
 
             if (wearLocation == WearLocations.None)
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Item {0} cannot be equiped", item.DisplayName);
+                Log.Default.WriteLine(LogLevels.Warning, "Item {0} cannot be equiped", item.DebugName);
                 if (replace) // replace means, only item is trying to be worn
                     Act(ActOptions.ToCharacter, "{0} cannot be worn.", item);
                 return false;
