@@ -71,12 +71,12 @@ namespace Mud.Server.Aura
         }
 
         // Called when dispelled
-        public virtual void OnDispelled(IEntity source)
+        public virtual void OnDispelled(IEntity dispelSource)
         {
         }
 
         // Called when vanished
-        public virtual void OnVanished(IEntity source)
+        public virtual void OnVanished()
         {
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Mud.Server.Blueprints;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Constants;
 
@@ -8,6 +7,8 @@ namespace Mud.Server
     public interface IRoom : IEntity, IContainer
     {
         RoomBlueprint Blueprint { get; }
+
+        IReadOnlyDictionary<string, string> ExtraDescriptions { get; } // keyword -> description
 
         IArea Area { get; }
 

@@ -5,7 +5,7 @@ using Mud.Server.Input;
 
 namespace Mud.Server.Helpers
 {
-    public static class FindHelpers // TODO: check if a keyword contains parameter instead of name == parameter  ???
+    public static class FindHelpers
     {
         public static readonly Func<string, string, bool> StringEquals = (s, s1) => String.Equals(s, s1, StringComparison.InvariantCultureIgnoreCase);
         public static readonly Func<string, string, bool> StringStartsWith = (s, s1) => s.StartsWith(s1, StringComparison.InvariantCultureIgnoreCase);
@@ -13,16 +13,26 @@ namespace Mud.Server.Helpers
         public static readonly Func<IEnumerable<string>, IEnumerable<string>, bool> StringListEquals = (enumerable, enumerable1) => enumerable1.All(x => enumerable.Any(y => StringEquals(y, x)));
         public static readonly Func<IEnumerable<string>, IEnumerable<string>, bool> StringListStartsWith = (enumerable, enumerable1) => enumerable1.All(x => enumerable.Any(y => StringStartsWith(y, x)));
 
-        // Search in room content, then in inventory, then in equipment
-        public static IItem FindCharacterItemByName2(ICharacter character, CommandParameter parameter, bool perfectMatch = false) // equivalent do get_obj_here in handler.C:3680
-        {
-            return FindByName(character.Room.Content.Where(character.CanSee), parameter, perfectMatch)
-                   ?? FindByName(character.Content.Where(character.CanSee), parameter, perfectMatch)
-                   ?? (FindByName(character.Equipments.Where(x => x.Item != null && character.CanSee(x.Item)), x => x.Item, parameter, perfectMatch) ?? EquipedItem.NullObject).Item;
-        }
+        //// Search in room content, then in inventory, then in equipment
+        //public static IItem FindItemHere(ICharacter character, CommandParameter parameter, bool perfectMatch = false) // equivalent to get_obj_here in handler.C:3680
+        //{
+        //    return FindByName(character.Room.Content.Where(character.CanSee), parameter, perfectMatch)
+        //           ?? FindByName(character.Content.Where(character.CanSee), parameter, perfectMatch)
+        //           ?? (FindByName(character.Equipments.Where(x => x.Item != null && character.CanSee(x.Item)), x => x.Item, parameter, perfectMatch) ?? EquipedItem.NullObject).Item;
+        //}
+
+        //// Concat room content, inventory and equipment, then search
+        //public static IItem FindCharacterItemByNameInRoomAndInventoryAndEquipment(ICharacter character, CommandParameter parameter, bool perfectMatch = false) // should replace FindItemHere
+        //{
+        //    return FindByName(
+        //        character.Room.Content.Where(character.CanSee)
+        //            .Concat(character.Content.Where(character.CanSee))
+        //            .Concat(character.Equipments.Where(x => x.Item != null && character.CanSee(x.Item)).Select(x => x.Item)),
+        //        parameter, perfectMatch);
+        //}
 
         // Concat room content, inventory and equipment, then search
-        public static IItem FindCharacterItemByName(ICharacter character, CommandParameter parameter, bool perfectMatch = false) // equivalent do get_obj_here in handler.C:3680
+        public static IItem FindItemHere(ICharacter character, CommandParameter parameter, bool perfectMatch = false) // equivalent to get_obj_here in handler.C:3680
         {
             return FindByName(
                 character.Room.Content.Where(character.CanSee)
@@ -89,6 +99,89 @@ namespace Mud.Server.Helpers
             return perfectMatch
                 ? collection.Where(x => StringEquals(getItemFunc(x).Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1)
                 : collection.Where(x => StringStartsWith(getItemFunc(x).Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
+        }
+
+        // FindLocation
+        public static IRoom FindLocation(CommandParameter parameter)
+        {
+            if (parameter.IsNumber)
+            {
+                int id = parameter.AsInt;
+                return Repository.World.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
+            }
+
+            ICharacter victim = FindByName(Repository.World.Characters, parameter);
+            if (victim != null)
+                return victim.Room;
+
+            IItem item = FindByName(Repository.World.Items, parameter);
+            if (item != null)
+                return item.ContainedInto as IRoom;
+
+            return null;
+        }
+
+        public static IRoom FindLocation(ICharacter asker, CommandParameter parameter)
+        {
+            if (parameter.IsNumber)
+            {
+                int id = parameter.AsInt;
+                return Repository.World.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
+            }
+
+            ICharacter victim = FindChararacterInWorld(asker, parameter);
+            if (victim != null)
+                return victim.Room;
+
+            IItem item = FindItemInWorld(asker, parameter);
+            if (item != null)
+                return item.ContainedInto as IRoom;
+
+            return null;
+        }
+
+        // FindCharacter
+        public static ICharacter FindChararacterInWorld(ICharacter asker, CommandParameter parameter) // equivalent to get_char_world in handler.C:3511
+        {
+            // In room
+            ICharacter inRoom = FindByName(asker.Room.People.Where(asker.CanSee), parameter);
+            if (inRoom != null)
+                return inRoom;
+
+            // In area
+            //  players
+            ICharacter inAreaPlayer = FindByName(asker.Room.Area.Characters.Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
+            if (inAreaPlayer != null)
+                return inAreaPlayer;
+            //  characters
+            ICharacter inAreaCharacter = FindByName(asker.Room.Area.Characters.Where(asker.CanSee), parameter);
+            if (inAreaCharacter != null)
+                return inAreaCharacter;
+
+            // In world
+            //  players
+            ICharacter inWorldPlayer = FindByName(Repository.World.Characters.Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
+            if (inWorldPlayer != null)
+                return inWorldPlayer;
+            //  characters
+            ICharacter inWorldCharacter = FindByName(Repository.World.Characters.Where(asker.CanSee), parameter);
+            if (inWorldCharacter != null)
+                return inWorldCharacter;
+            return null;
+        }
+
+        // FindItem
+        public static IItem FindItemInWorld(ICharacter asker, CommandParameter parameter) // equivalent to get_obj_world in handler.C:3702
+        {
+            IItem hereItem = FindItemHere(asker, parameter);
+            if (hereItem != null)
+                return hereItem;
+
+            IItem inWorldItem = FindByName(Repository.World.Items.Where(asker.CanSee), parameter);
+            if (inWorldItem != null)
+                return inWorldItem;
+
+            return null;
         }
     }
 }

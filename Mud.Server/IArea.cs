@@ -12,6 +12,7 @@ namespace Mud.Server
 
         IEnumerable<IRoom> Rooms { get; }
         IEnumerable<IPlayer> Players { get; }
+        IEnumerable<ICharacter> Characters { get; }
 
         bool AddRoom(IRoom room);
         bool RemoveRoom(IRoom room);

@@ -37,11 +37,11 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): container in room, inventory, equipment");
                 // look in container
                 if (parameters.Length == 1)
-                    Send("Look in what?" + Environment.NewLine);
+                    Send("Look in what?");
                 else
                 {
                     // search in room, then in inventory(unequiped), then in equipement
-                    IItem containerItem = FindHelpers.FindCharacterItemByName(this, parameters[1]);
+                    IItem containerItem = FindHelpers.FindItemHere(this, parameters[1]);
                     if (containerItem == null)
                         Send(StringHelpers.ItemNotFound);
                     else
@@ -49,14 +49,10 @@ namespace Mud.Server.Character
                         Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): found in {0}", containerItem.ContainedInto.DebugName);
                         IContainer container = containerItem as IContainer;
                         if (container != null)
-                        {
-                            // TODO: check if closed
-                            Send("{0} holds:" + Environment.NewLine, containerItem.DisplayName);
-                            DisplayItems(container.Content, true, true);
-                        }
-                            // TODO: drink container
+                            DisplayContainerContent(container);
+                        // TODO: drink container
                         else
-                            Send("This is not a container." + Environment.NewLine);
+                            Send("This is not a container.");
                     }
                 }
                 return true;
@@ -70,31 +66,51 @@ namespace Mud.Server.Character
                 DisplayCharacter(victim, true);
                 return true;
             }
-            // 4: search n'th item in inventory+room
-            //IItem item = FindHelpers.FindByName(Content.Concat(Room.Content), parameters[0]); // Concat preserves order!!!
-            IItem item = FindHelpers.FindCharacterItemByName(this, parameters[0]);
-            if (item != null)
+            // 4:search among inventory/equipment/room.content if an item has extra description or name equals to parameters
+            string itemDescription;
+            bool itemFound = FindItemByExtraDescriptionOrName(parameters[0], out itemDescription);
+            if (itemFound)
             {
-                Log.Default.WriteLine(LogLevels.Debug, "DoLook(4+5): item in inventory+room -> {0}", item.ContainedInto.DebugName);
-                Send("{0}" + Environment.NewLine, item.Description); // TODO: formatting
+                Log.Default.WriteLine(LogLevels.Debug, "DoLook(4): item in inventory+equipment+room -> {0}", itemDescription);
+                Send(itemDescription, false);
                 return true;
             }
-            // 6: extra description in room  TODO
-            // 7: direction
-            ExitDirections direction;
-            if (EnumHelpers.TryFindByName(parameters[0].Value, out direction))
+            // 5: extra description in room
+            if (Room.ExtraDescriptions != null && Room.ExtraDescriptions.Any())
             {
-                Log.Default.WriteLine(LogLevels.Debug, "DoLook(7): direction");
+                // TODO: try to use ElementAtOrDefault
+                int count = 0;
+                foreach (KeyValuePair<string, string> extraDescription in Room.ExtraDescriptions)
+                {
+                    if (parameters[0].Tokens.All(x => FindHelpers.StringStartsWith(extraDescription.Key, x))
+                            && ++count == parameters[0].Count)
+                    {
+                        Send(extraDescription.Value, false);
+                        return true;
+                    }
+                }
+            }
+            // 6: direction
+            ExitDirections direction;
+            if (ExitHelpers.FindDirection(parameters[0].Value, out direction))
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "DoLook(6): direction");
                 IExit exit = Room.Exit(direction);
                 if (exit?.Destination == null)
-                    Send("Nothing special there." + Environment.NewLine);
+                    Send("Nothing special there.");
                 else
                 {
                     if (exit.Description != null)
                         Send(exit.Description);
                     else
-                        Send("Nothing special there." + Environment.NewLine);
-                    // TODO: check if door + flags CLOSED/BASHED/HIDDEN
+                        Send("Nothing special there.");
+                    if (exit.Keywords.Any())
+                    {
+                        if (exit.IsClosed)
+                            Act(ActOptions.ToCharacter, "The {0} is closed.", exit);
+                        else if (exit.IsDoor)
+                            Act(ActOptions.ToCharacter, "The {0} is open.", exit);
+                    }
                 }
             }
             else
@@ -109,69 +125,33 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("inventory", Category = "Information")]
-        protected virtual bool DoInventory(string rawParameters, params CommandParameter[] parameters)
-        {
-            Send("You are carrying:" + Environment.NewLine);
-            DisplayItems(Content, true, true);
-            return true;
-        }
-
-        [Command("equipment", Category = "Information")]
-        protected virtual bool DoEquipment(string rawParameters, params CommandParameter[] parameters)
-        {
-            Send("You are using:" + Environment.NewLine);
-            if (Equipments.All(x => x.Item == null))
-                Send("Nothing" + Environment.NewLine);
-            else
-                foreach (EquipedItem equipedItem in Equipments.Where(x => x.Item != null))
-                {
-                    string where = EquipmentSlotsToString(equipedItem.Slot);
-                    StringBuilder sb = new StringBuilder(where);
-                    if (CanSee(equipedItem.Item))
-                        sb.AppendLine(FormatItem(equipedItem.Item, true));
-                    else
-                        sb.AppendLine("something.");
-                    Send(sb);
-                }
-            return true;
-        }
-
         [Command("examine", Category = "Information")]
         protected virtual bool DoExamine(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-                Send("Examine what or whom?" + Environment.NewLine);
+                Send("Examine what or whom?");
             else
             {
                 ICharacter victim = FindHelpers.FindByName(Room.People, parameters[0]);
                 if (victim != null)
                 {
-                    Act(ActOptions.ToCharacter, "You examine {0}.", victim);
-                    victim.Act(ActOptions.ToCharacter, "{0} examines you.", this);
-                    ActToNotVictim(victim, "{0} examines {1}.", this, victim);
-                    //DoLook(rawParameters, parameters); // call immediately helpers function (DoLook: case 3)
+                    Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, victim);
                     DisplayCharacter(victim, true);
                     // TODO: display race and size
                 }
                 else
                 {
-                    IItem item = FindHelpers.FindCharacterItemByName(this, parameters[0]);
+                    IItem item = FindHelpers.FindItemHere(this, parameters[0]);
                     if (item != null)
                     {
-                        Act(ActOptions.ToCharacter, "You examine {0}.", item);
-                        Act(ActOptions.ToRoom, "{0} examines {1}.", this, item);
-                        DoLook(rawParameters, parameters); // TODO: call immediately sub-function
+                        Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, item);
+                        DisplayItem(item);
                         IContainer container = item as IContainer;
                         if (container != null) // if container, display content
-                        {
-                            List<CommandParameter> newParameters = new List<CommandParameter>(parameters);
-                            newParameters.Insert(0, new CommandParameter("in", 1));
-                            DoLook("in " + rawParameters, newParameters.ToArray()); // TODO: call immediately sub-function
-                        }
+                            DisplayContainerContent(container);
                     }
                     else
-                        Send("You don't see any {0}." + Environment.NewLine, parameters[0]);
+                        Send("You don't see any {0}.", parameters[0]);
                 }
             }
             return true;
@@ -183,10 +163,10 @@ namespace Mud.Server.Character
             StringBuilder sb = new StringBuilder(1024);
             // Current room
             sb.AppendLine("Right here you see:");
-            //Send("Right here you see:" + Environment.NewLine);
+            //Send("Right here you see:");
             StringBuilder currentScan = ScanRoom(Room);
             if (currentScan.Length == 0)
-                //Send("None" + Environment.NewLine); // should never happen, 'this' is in the room
+                //Send("None"); // should never happen, 'this' is in the room
                 sb.AppendLine("None");
             else
             //Send(currentScan); // no need to add CRLF
@@ -203,12 +183,11 @@ namespace Mud.Server.Character
                     StringBuilder roomScan = ScanRoom(destination);
                     if (roomScan.Length > 0)
                     {
-                        //Send("%c%{0} %r%{1}%x% from here you see:" + Environment.NewLine, distance, direction);
                         sb.AppendFormatLine("%c%{0} %r%{1}%x% from here you see:", distance, direction);
                         //Send(roomScan); // no need to add CRLF
                         sb.Append(roomScan);
-                        currentRoom = destination;
                     }
+                    currentRoom = destination;
                 }
             }
             Send(sb);
@@ -337,46 +316,6 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("cd", Category = "Information")]
-        [Command("cooldowns", Category = "Information")]
-        protected virtual bool DoCooldowns(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (parameters.Length == 0)
-            {
-                //IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> abilitiesInCooldown = AbilitiesInCooldown;
-                if (AbilitiesInCooldown.Any())
-                {
-                    StringBuilder sb = new StringBuilder();
-                    sb.AppendLine("%c%Following abilities are in cooldown:%x%");
-                    foreach (var cooldown in AbilitiesInCooldown
-                        .Select(x => new { Ability = x.Key, SecondsLeft = (x.Value - Repository.Server.CurrentTime).TotalSeconds })
-                        .OrderBy(x => x.SecondsLeft))
-                    {
-                        int secondsLeft = (int) Math.Ceiling(cooldown.SecondsLeft);
-                        sb.AppendFormatLine("{0} is in cooldown for {1}.", cooldown.Ability.Name, StringHelpers.FormatDelay(secondsLeft));
-                    }
-                    Send(sb);
-                }
-                else
-                    Send("%c%No abilities in cooldown.%x%" + Environment.NewLine);
-            }
-            else
-            {
-                IAbility ability = Repository.AbilityManager.Search(parameters[0]);
-                if (ability == null)
-                {
-                    Send("You don't know any abilities of that name." + Environment.NewLine);
-                    return true;
-                }
-                int cooldownSecondsLeft = CooldownSecondsLeft(ability);
-                if (cooldownSecondsLeft <= 0)
-                    Send("{0} is not in cooldown." + Environment.NewLine, ability.Name);
-                else
-                    Send("{0} is in cooldown for {1}." + Environment.NewLine, ability.Name, StringHelpers.FormatDelay(cooldownSecondsLeft));
-            }
-            return true;
-        }
-
         [Command("where", Category = "Information")]
         protected virtual bool DoWhere(string rawParameters, params CommandParameter[] parameters)
         {
@@ -390,6 +329,39 @@ namespace Mud.Server.Character
             return true;
         }
 
+        [Command("inventory", Category = "Information")]
+        protected virtual bool DoInventory(string rawParameters, params CommandParameter[] parameters)
+        {
+            Send("You are carrying:");
+            DisplayItems(Content, true, true);
+            return true;
+        }
+
+        [Command("equipment", Category = "Information")]
+        protected virtual bool DoEquipment(string rawParameters, params CommandParameter[] parameters)
+        {
+            Send("You are using:");
+            if (Equipments.All(x => x.Item == null))
+                Send("Nothing");
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+                //foreach (EquipedItem equipedItem in Equipments.Where(x => x.Item != null))
+                foreach (EquipedItem equipedItem in Equipments)
+                {
+                    string where = EquipmentSlotsToString(equipedItem.Slot);
+                    sb.Append(where);
+                    //sb.AppendLine(FormatItem(equipedItem.Item, true));
+                    if (equipedItem.Item == null)
+                        sb.AppendLine("nothing");
+                    else
+                        sb.AppendLine(FormatItem(equipedItem.Item, true).ToString());
+                }
+                Send(sb);
+            }
+            return true;
+        }
+
         //********************************************************************
         // Helpers
         //********************************************************************
@@ -397,12 +369,15 @@ namespace Mud.Server.Character
         private void DisplayRoom() // equivalent to act_info.C:do_look("auto")
         {
             // Room name
-            Send("%c%{0}%x%" + Environment.NewLine, Room.DisplayName);
+            if (ImpersonatedBy != null && ImpersonatedBy is IAdmin)
+                Send($"%c%{Room.DisplayName} [{Room.Blueprint?.Id.ToString() ?? "???"}]%x%");
+            else
+                Send("%c%{0}%x%", Room.DisplayName);
             // Room description
-            Send(Room.Description);
+            Send(Room.Description, false); // false: don't add trailing NewLine
             // Exits
             DisplayExits(true);
-            DisplayItems(Room.Content, false, false);
+            DisplayItems(Room.Content.Where(CanSee), false, false);
             foreach (ICharacter victim in Room.People.Where(x => x != this))
             {
                 //  (see act_info.C:714 show_char_to_char)
@@ -411,11 +386,59 @@ namespace Mud.Server.Character
                     // TODO: display flags (see act_info.C:387 -> 478)
                     // TODO: display long description and stop
                     // TODO: display position (see act_info.C:505 -> 612)
-                    Send("{0} is here." + Environment.NewLine, victim.DisplayName); // last case of POS_STANDING
+
+                    // last case of POS_STANDING
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(victim.RelativeDisplayName(this));
+                    switch (victim.Position)
+                    {
+                        case Positions.Stunned:
+                            sb.Append(" is lying here stunned.");
+                            break;
+                        case Positions.Sleeping:
+                            sb.Append(" is sleeping here."); // TODO: check furniture (add in ICharacter IItemFurniture On { get; } )
+                            break;
+                        case Positions.Resting:
+                            sb.Append(" is resting here."); // TODO: check furniture (add in ICharacter IItemFurniture On { get; } )
+                            break;
+                        case Positions.Sitting:
+                            sb.Append(" is sitting here."); // TODO: check furniture (add in ICharacter IItemFurniture On { get; } )
+                            break;
+                        case Positions.Standing:
+                            sb.Append(" is here."); // TODO: check furniture (add in ICharacter IItemFurniture On { get; } )
+                            break;
+                        case Positions.Fighting:
+                            sb.Append(" is here, fighting ");
+                            if (victim.Fighting == null)
+                            {
+                                Log.Default.WriteLine(LogLevels.Warning, "{0} position is fighting but fighting is null.", victim.DisplayName);
+                                sb.Append("thing air??");
+                            }
+                            else if (victim.Fighting == this)
+                                sb.Append("YOU!");
+                            else if (victim.Room == victim.Fighting.Room)
+                                sb.AppendFormat("{0}.", victim.Fighting.RelativeDisplayName(this));
+                            else
+                            {
+                                Log.Default.WriteLine(LogLevels.Warning, "{0} is fighting {1} in a different room.", victim.DisplayName, victim.Fighting.DisplayName);
+                                sb.Append("someone who left??");
+                            }
+                            break;
+                    }
+                    sb.AppendLine();
+                    //Send("{0} is here.", victim.RelativeDisplayName(this));
+                    Send(sb);
                 }
                 else
                     ; // TODO: INFRARED (see act_info.C:728)
             }
+        }
+
+        private void DisplayContainerContent(IContainer container)
+        {
+            // TODO: check if closed
+            Send("{0} holds:", container.DisplayName);
+            DisplayItems(container.Content, true, true);
         }
 
         private void DisplayCharacter(ICharacter victim, bool peekInventory) // equivalent to act_info.C:show_char_to_char_1
@@ -424,41 +447,51 @@ namespace Mud.Server.Character
                 Act(ActOptions.ToRoom, "{0} looks at {0:m}self.", this);
             else
             {
-                victim.Act(ActOptions.ToCharacter, "{0} looks at you.", this);
-                ActToNotVictim(victim, "{0} looks at {1}.", this, victim);
+                //victim.Act(ActOptions.ToCharacter, "{0} looks at you.", this);
+                //ActToNotVictim(victim, "{0} looks at {1}.", this, victim);
+                Act(ActOptions.ToRoom, "{0} looks at {1}.", this, victim);
             }
-            Send("{0} is here." + Environment.NewLine, victim.DisplayName);
+            Send("{0} is here.", victim.RelativeDisplayName(this));
             // TODO: health (instead of is here.) (see act_info.C:629 show_char_to_char_1)
             if (victim.Equipments.Any(x => x.Item != null))
             {
                 Act(ActOptions.ToCharacter, "{0} is using:", victim);
-                foreach (EquipedItem equipedItem in victim.Equipments.Where(x => x.Item != null && CanSee(x.Item)))
+                foreach (EquipedItem equipedItem in victim.Equipments.Where(x => x.Item != null))
                 {
                     string where = EquipmentSlotsToString(equipedItem.Slot);
                     StringBuilder sb = new StringBuilder(where);
-                    sb.AppendLine(FormatItem(equipedItem.Item, true));
+                    sb.AppendLine(FormatItem(equipedItem.Item, true).ToString());
                     Send(sb);
                 }
             }
 
-
             if (peekInventory)
             {
-                Send("You peek at the inventory:" + Environment.NewLine);
-                DisplayItems(victim.Content, true, true);
+                Send("You peek at the inventory:");
+                IEnumerable<IItem> items = this == victim
+                    ? victim.Content
+                    : victim.Content.Where(CanSee); // don't display 'invisible item' when inspecting someone else
+                DisplayItems(items, true, true);
             }
+        }
+
+        private void DisplayItem(IItem item)
+        {
+            Send("{0}", item.RelativeDescription(this)); // TODO: formatting
         }
 
         private void DisplayItems(IEnumerable<IItem> items, bool shortDisplay, bool displayNothing) // equivalent to act_info.C:show_list_to_char
         {
+            StringBuilder sb = new StringBuilder();
             var enumerable = items as IItem[] ?? items.ToArray();
             if (displayNothing && !enumerable.Any())
-                Send("Nothing." + Environment.NewLine);
+                sb.AppendLine("Nothing.");
             else
             {
                 foreach (IItem item in enumerable) // TODO: compact mode (grouped by Blueprint)
-                    Send(FormatItem(item, shortDisplay) + Environment.NewLine); // TODO: (see act_info.C:170 format_obj_to_char)
+                    sb.AppendLine(FormatItem(item, shortDisplay).ToString()); // TODO: (see act_info.C:170 format_obj_to_char)
             }
+            Send(sb);
         }
 
         private void DisplayExits(bool compact)
@@ -472,25 +505,36 @@ namespace Mud.Server.Character
             foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
             {
                 IExit exit = Room.Exit(direction);
-                if (exit?.Destination != null) // TODO: test if destination room is visible, if exit is visible, ...
+                if (exit?.Destination != null && CanSee(exit))
                 {
                     if (compact)
                     {
-                        // TODO: 
-                        // hidden+not bashed: [xxx]
-                        // closed: (xxx)
-                        // bashed: {{xxx}}
-                        message.AppendFormat(" {0}", direction.ToString().ToLowerInvariant());
+                        message.Append(" ");
+                        if (exit.IsHidden)
+                            message.Append("[");
+                        if (exit.IsClosed)
+                            message.Append("(");
+                        message.AppendFormat("{0}", direction.ToString().ToLowerInvariant());
+                        if (exit.IsClosed)
+                            message.Append(")");
+                        if (exit.IsHidden)
+                            message.Append("]");
                     }
                     else
                     {
-                        string destination = exit.Destination.DisplayName; // TODO: 'room name' or 'too dark to tell' or 'closed door'
-                        message.AppendFormatLine("{0} - {1} {2}{3}{4}",
-                            StringHelpers.UpperFirstLetter(direction.ToString()),
-                            destination,
-                            String.Empty, // TODO: closed (DOOR)
-                            String.Empty, // TODO: hidden [HIDDEN]
-                            String.Empty); // TODO: {{BASHED}}
+                        message.Append(StringHelpers.UpperFirstLetter(direction.ToString()));
+                        message.Append(" - ");
+                        if (exit.IsClosed)
+                            message.Append("A closed door");
+                        else
+                            message.Append(exit.Destination.DisplayName); // TODO: too dark to tell
+                        if (exit.IsClosed)
+                            message.Append(" (CLOSED)");
+                        if (exit.IsHidden)
+                            message.Append(" [HIDDEN]");
+                        if (ImpersonatedBy != null && ImpersonatedBy is IAdmin)
+                            message.Append($" [{exit.Destination.Blueprint?.Id.ToString() ?? "???"}]");
+                        message.AppendLine();
                     }
                     exitFound = true;
                 }
@@ -507,12 +551,66 @@ namespace Mud.Server.Character
             Send(message);
         }
 
+        // Find by extra description then name (search in inventory, then equipment, then in room)
+
+        public bool FindItemByExtraDescriptionOrName(CommandParameter parameter, out string description)
+        {
+            //return
+            //    Content.Where(CanSee)
+            //        .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item))
+            //        .Concat(Room.Content.Where(CanSee))
+            //        .Where(x => FindHelpers.StringListStartsWith(x.ExtraDescriptions.Keys ?? Enumerable.Empty<string>(), parameter.Tokens) || FindHelpers.StringListStartsWith(x.Keywords, parameter.Tokens))
+            //        .ElementAtOrDefault(parameter.Count - 1);
+            description = null;
+            int count = 0;
+            foreach (IItem item in Content.Where(CanSee)
+                .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item))
+                .Concat(Room.Content.Where(CanSee)))
+            {
+                // Search in item extra description keywords
+                if (item.ExtraDescriptions != null)
+                {
+                    foreach (KeyValuePair<string, string> extraDescription in item.ExtraDescriptions)
+                        if (parameter.Tokens.All(x => FindHelpers.StringStartsWith(extraDescription.Key, x))
+                            && ++count == parameter.Count)
+                        {
+                            description = extraDescription.Value;
+                            return true;
+                        }
+                }
+                // Search in item keywords
+                if (FindHelpers.StringListStartsWith(item.Keywords, parameter.Tokens)
+                    && ++count == parameter.Count)
+                {
+                    description = item.RelativeDescription(this) + Environment.NewLine;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private StringBuilder ScanRoom(IRoom room)
         {
             StringBuilder peopleInRoom = new StringBuilder();
             foreach (ICharacter victim in room.People.Where(CanSee))
-                peopleInRoom.AppendFormatLine(" - {0}", victim.DisplayName);
+                peopleInRoom.AppendFormatLine(" - {0}", victim.DisplayName); // TODO: use RelativeDisplayName ???
             return peopleInRoom;
+        }
+
+        //private StringBuilder FormatItem(IItem item, bool shortDisplay) // TODO: (see act_info.C:170 format_obj_to_char)
+        //{
+        //    StringBuilder sb = new StringBuilder();
+        //    // TODO: affects
+        //    sb.Append(shortDisplay
+        //        ? item.RelativeDisplayName(this) //item.DisplayName
+        //        : item.RelativeDescription(this));
+        //    return sb;
+        //}
+        private string FormatItem(IItem item, bool shortDisplay) // TODO: (see act_info.C:170 format_obj_to_char)
+        {
+            return shortDisplay
+                ? item.RelativeDisplayName(this) //item.DisplayName
+                : item.RelativeDescription(this);
         }
 
         private static string EquipmentSlotsToString(EquipmentSlots slot)
@@ -520,62 +618,58 @@ namespace Mud.Server.Character
             switch (slot)
             {
                 case EquipmentSlots.Light:
-                    return "%C%<used as light>         %x%";
+                    return "%C%<used as light>          %x%";
                 case EquipmentSlots.Head:
-                    return "%C%<worn on head>          %x%";
+                    return "%C%<worn on head>           %x%";
                 case EquipmentSlots.Amulet:
-                    return "%C%<worn on neck>          %x%";
+                    return "%C%<worn on neck>           %x%";
                 case EquipmentSlots.Shoulders:
-                    return "%C%<worn around shoulders> %x%";
+                    return "%C%<worn around shoulders>  %x%";
                 case EquipmentSlots.Chest:
-                    return "%C%<worn on chest>         %x%";
+                    return "%C%<worn on chest>          %x%";
                 case EquipmentSlots.Cloak:
-                    return "%C%<worn about body>       %x%";
+                    return "%C%<worn about body>        %x%";
                 case EquipmentSlots.Waist:
-                    return "%C%<worn about waist>      %x%";
+                    return "%C%<worn about waist>       %x%";
                 case EquipmentSlots.Wrists:
-                    return "%C%<worn around wrists>    %x%";
-                    case EquipmentSlots.Arms:
-                    return "%C%<worn on arms>          %x%";
+                    return "%C%<worn around wrists>     %x%";
+                case EquipmentSlots.Arms:
+                    return "%C%<worn on arms>           %x%";
                 case EquipmentSlots.Hands:
-                    return "%C%<worn on hands>         %x%";
+                    return "%C%<worn on hands>          %x%";
                 case EquipmentSlots.RingLeft:
-                    return "%C%<worn on left finger>   %x%";
+                    return "%C%<worn on left finger>    %x%";
                 case EquipmentSlots.RingRight:
                     return "%C%<worn on right finger>   %x%";
                 case EquipmentSlots.Legs:
-                    return "%C%<worn on legs>          %x%";
+                    return "%C%<worn on legs>           %x%";
                 case EquipmentSlots.Feet:
-                    return "%C%<worn on feet>          %x%";
+                    return "%C%<worn on feet>           %x%";
                 case EquipmentSlots.Trinket1:
-                    return "%C%<worn as 1st trinket>   %x%";
+                    return "%C%<worn as 1st trinket>    %x%";
                 case EquipmentSlots.Trinket2:
-                    return "%C%<worn as 2nd trinket>   %x%";
+                    return "%C%<worn as 2nd trinket>    %x%";
                 case EquipmentSlots.Wield:
-                    return "%C%<wielded>               %x%";
+                    return "%C%<wielded>                %x%";
                 case EquipmentSlots.Wield2:
-                    return "%c%<offhand>               %x%";
+                    return "%c%<offhand>                %x%";
                 case EquipmentSlots.Hold:
-                    return "%C%<held>                  %x%";
+                    return "%C%<held>                   %x%";
                 case EquipmentSlots.Shield:
-                    return "%C%<worn as shield>        %x%";
+                    return "%C%<worn as shield>         %x%";
                 case EquipmentSlots.Wield2H:
-                    return "%C%<wielded 2-handed>      %x%";
+                    return "%C%<wielded 2-handed>       %x%";
+                case EquipmentSlots.Wield3:
+                    return "%c%<3rd wield>              %x%";
+                case EquipmentSlots.Wield4:
+                    return "%c%<4th wield>              %x%";
+                case EquipmentSlots.Wield2H2:
+                    return "%C%<wielded 2nd 2-handed>   %x%";
                 default:
                     Log.Default.WriteLine(LogLevels.Error, "DoEquipment: missing WearLocation {0}", slot);
                     break;
             }
-            return "%C%<unknown>               %x%";
-        }
-
-        private static string FormatItem(IItem item, bool shortDisplay) // TODO: (see act_info.C:170 format_obj_to_char)
-        {
-            StringBuilder sb = new StringBuilder();
-            // TODO: affects
-            sb.Append(shortDisplay
-                ? item.DisplayName
-                : item.Description);
-            return sb.ToString();
+            return "%C%<unknown>%x%";
         }
     }
 }

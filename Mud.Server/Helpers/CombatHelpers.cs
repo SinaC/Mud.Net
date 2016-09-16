@@ -286,50 +286,15 @@ namespace Mud.Server.Helpers
         // TODO: check block only if shield is equiped
 
         // White melee: auto-attack
-        public static AttackResults WhiteMeleeAttack(ICharacter attacker, ICharacter victim, bool dualWield)
+        public static AttackResults WhiteMeleeAttack(ICharacter attacker, ICharacter victim, bool notMainWield)
         {
             //http://wow.gamepedia.com/Attack_table#Player_melee_and_ranged_attacks
             if (attacker.ImpersonatedBy != null)
-                return MeleeAttackFromImpersonated(attacker, victim, dualWield, true, false, false);
+                return MeleeAttackFromImpersonated(attacker, victim, notMainWield, true, false, false);
             else
-                return MeleeAttackFromNotImpersonated(attacker, victim, dualWield, false, false);
+                return MeleeAttackFromNotImpersonated(attacker, victim, notMainWield, false, false);
 
             //// TODO: if victim can't see this, chance are divided by 2
-
-            //// check miss
-            //if (miss > 0 && RandomizeHelpers.Instance.Randomizer.Next(1000) <= miss)
-            //{
-            //    victim.Act(ActOptions.ToCharacter, "{0} misses you.", this);
-            //    Act(ActOptions.ToCharacter, "You miss {0}.", victim);
-            //    return false;
-            //}
-            //// check dodge
-            //if (dodge > 0 && RandomizeHelpers.Instance.Randomizer.Next(1000) <= dodge)
-            //{
-            //    victim.Act(ActOptions.ToCharacter, "You dodge {0}'s attack.", this);
-            //    Act(ActOptions.ToCharacter, "{0} dodges your attack.", victim);
-            //    return false;
-
-            //}
-            //// check parry
-            //bool victimHasWeapon = victim.Equipments.Any(x => x.Item != null && (x.Slot == EquipmentSlots.Wield || x.Slot == EquipmentSlots.Wield2 || x.Slot == EquipmentSlots.Wield2H));
-            //parry = !victimHasWeapon ? parry / 2 : parry; // no weapon -> half chance
-            //if (parry > 0 && RandomizeHelpers.Instance.Randomizer.Next(1000) <= parry)
-            //{
-            //    victim.Act(ActOptions.ToCharacter, "You parry {0}'s attack.", this);
-            //    Act(ActOptions.ToCharacter, "{0} parries your attack.", victim);
-            //    return false;
-            //}
-            //// check glance
-            //// TODO: http://wow.gamepedia.com/Glancing_Blow
-            //// check block
-            //EquipedItem victimShield = victim.Equipments.FirstOrDefault(x => x.Item != null && x.Slot == EquipmentSlots.Shield);
-            //if (victimShield != null && block > 0 && RandomizeHelpers.Instance.Randomizer.Next(1000) <= block)
-            //{
-            //    victim.Act(ActOptions.ToCharacter, "You block {0}'s attack with {1}.", this, victimShield.Item);
-            //    Act(ActOptions.ToCharacter, "{0} blocks your attack with {1}.", victim, victimShield.Item);
-            //    return false;
-            //}
         }
 
         // Yellow melee: melee ability
@@ -354,7 +319,7 @@ namespace Mud.Server.Helpers
         }
 
         // PC attacking a NPC/PC
-        private static AttackResults MeleeAttackFromImpersonated(ICharacter attacker, ICharacter victim, bool dualWield, bool allowGlancingBlow /*yellow melee don't do glancing blow*/, bool cannotMiss, bool cannotBeDodgedParriedBlocked)
+        private static AttackResults MeleeAttackFromImpersonated(ICharacter attacker, ICharacter victim, bool notMainWield, bool allowGlancingBlow /*yellow melee don't do glancing blow*/, bool cannotMiss, bool cannotBeDodgedParriedBlocked)
         {
             int deltaLevel = attacker.Level - victim.Level;
             // following values must be / 10 to get %age
@@ -482,7 +447,7 @@ namespace Mud.Server.Helpers
                 malusCritical = 0;
             }
             //
-            if (dualWield)
+            if (notMainWield)
                 miss += 190;
 
             //
@@ -554,7 +519,7 @@ namespace Mud.Server.Helpers
         }
 
         // NPC attacking a PC
-        private static AttackResults MeleeAttackFromNotImpersonated(ICharacter attacker, ICharacter victim, bool dualWield, bool cannotMiss, bool cannotBeDodgedParriedBlocked)
+        private static AttackResults MeleeAttackFromNotImpersonated(ICharacter attacker, ICharacter victim, bool notMainWield, bool cannotMiss, bool cannotBeDodgedParriedBlocked)
         {
             int deltaLevel = attacker.Level - victim.Level;
             // following values must be / 10 to get %age
@@ -691,7 +656,7 @@ namespace Mud.Server.Helpers
                 bonusBlock = -150;
                 crushing = 850;
             }
-            if (dualWield)
+            if (notMainWield)
                 miss += 190;
 
             //

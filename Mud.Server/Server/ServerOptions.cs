@@ -1,5 +1,4 @@
-﻿using Mud.Server.Blueprints;
-using Mud.Server.Blueprints.Item;
+﻿using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Server
 {
@@ -18,6 +17,10 @@ namespace Mud.Server.Server
 
         public const int IdleMinutesBeforeUnimpersonate = 10;
         public const int IdleMinutesBeforeDisconnect = 20;
+
+        public const int MaxLevel = 60;
+
+        public const string PagingInstructions = "[Paging : (Enter), (N)ext, (P)revious, (Q)uit, (A)ll]";
 
         public static ItemCorpseBlueprint CorpseBlueprint { get; set; }
     }

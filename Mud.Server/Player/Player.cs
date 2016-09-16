@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mud.Datas.DataContracts;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Actor;
@@ -13,16 +14,11 @@ namespace Mud.Server.Player
 {
     public partial class Player : ActorBase, IPlayer
     {
-        private static readonly IReadOnlyTrie<CommandMethodInfo> PlayerCommands;
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(Player)));
 
-        protected readonly Dictionary<string, string> Aliases; // TODO: init in load
+        protected readonly Dictionary<string, string> Aliases;
 
-        protected IInputTrap<IPlayer> CurrentStateMachine; // TODO: state machine for avatar creation
-
-        static Player()
-        {
-            PlayerCommands = CommandHelpers.GetCommands(typeof(Player));
-        }
+        protected IInputTrap<IPlayer> CurrentStateMachine;
 
         protected Player()
         {
@@ -43,7 +39,7 @@ namespace Mud.Server.Player
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands => PlayerCommands;
+        public override IReadOnlyTrie<CommandMethodInfo> Commands => PlayerCommands.Value;
 
         public override bool ProcessCommand(string commandLine)
         {
@@ -77,7 +73,7 @@ namespace Mud.Server.Player
                 if (!extractedSuccessfully)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
-                    Send("Invalid command or parameters" + Environment.NewLine);
+                    Send("Invalid command or parameters.");
                     return false;
                 }
 
@@ -99,14 +95,32 @@ namespace Mud.Server.Player
             }
         }
 
-        public override void Send(string message)
+        public override void Send(string message, bool addTrailingNewLine)
         {
+            if (addTrailingNewLine)
+                message = message + Environment.NewLine;
             SendData?.Invoke(this, message);
+            if (SnoopBy != null)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(DisplayName);
+                sb.Append("> ");
+                sb.Append(message);
+                SnoopBy.Send(sb);
+            }
         }
 
         public override void Page(StringBuilder text)
         {
             PageData?.Invoke(this, text);
+            if (SnoopBy != null)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(DisplayName);
+                sb.Append("[paged]> ");
+                sb.Append(text);
+                SnoopBy.Send(sb);
+            }
         }
 
         #endregion
@@ -115,7 +129,7 @@ namespace Mud.Server.Player
         public event PageDataEventHandler PageData;
 
         public Guid Id { get; }
-        public string Name { get; private set; }
+        public string Name { get; protected set; }
 
         public string DisplayName => StringHelpers.UpperFirstLetter(Name);
 
@@ -126,6 +140,10 @@ namespace Mud.Server.Player
         public PlayerStates PlayerState { get; protected set; }
 
         public ICharacter Impersonating { get; private set; }
+
+        public IPlayer LastTeller { get; private set; }
+
+        public IAdmin SnoopBy { get; private set; } // every messages send to 'this' will be sent to SnoopBy
 
         public DateTime LastCommandTimestamp { get; protected set; }
         public string LastCommand { get; protected set; }
@@ -144,49 +162,80 @@ namespace Mud.Server.Player
             GlobalCooldown = pulseCount;
         }
 
-        public bool Load(string name)
+        public virtual bool Load(string name)
         {
             Name = name;
-            // TODO: load player file
-            // TODO: load impersonation list
-            // TODO: load aliases
+            Aliases.Clear();
 
-            // Aliases
-            Aliases.Add("i", "/impersonate mob1");
-            Aliases.Add("t1", "/force mob2 test 3 mob1");
-            Aliases.Add("t2", "/force mob4 test 4 mob1");
-            Aliases.Add("sh", "test 'power word: shield'");
-            Aliases.Add("fo", "/force mob2 follow mob1");
+            PlayerData data = Repository.PlayerManager.Load(name);
+            if (data?.Aliases != null)
+            {
+                foreach (CoupledData<string, string> alias in data.Aliases)
+                    Aliases.Add(alias.Key, alias.Data);
+            }
 
-            Aliases.Add("1", "/force hassan follow mob2");
-            Aliases.Add("2", "follow hassan");
-            Aliases.Add("3", "/force hassan group mob1");
-            Aliases.Add("4", "/force mob2 group hassan");
+            // TODO: impersonate list
 
-            //
             PlayerState = PlayerStates.Playing;
             return true;
         }
 
-        public bool Save()
+        public virtual bool Save()
         {
-            // TODO: save player file
-            // TODO: save impersonation list
-            // TODO: save aliases
+            PlayerData data = new PlayerData
+            {
+                Name = Name,
+                Aliases = Aliases.Select(x => new CoupledData<string, string> { Key = x.Key, Data = x.Value }).ToList(),
+                Characters = new List<CharacterData>
+                {
+                    new CharacterData
+                    {
+                        Name = "sinac",
+                        RoomId = 3001,
+                        Level = 20,
+                        Sex = Sex.Male,
+                        Class = "priest",
+                        Race = "elf",
+                        // TODO: impersonate list
+                        PrimaryAttributes = new Dictionary<PrimaryAttributeTypes, int>
+                        {
+                            {PrimaryAttributeTypes.Strength, 50},
+                            {PrimaryAttributeTypes.Intellect, 60},
+                            {PrimaryAttributeTypes.Spirit, 70},
+                            {PrimaryAttributeTypes.Agility, 80},
+                            {PrimaryAttributeTypes.Stamina, 90},
+                        }.Select(x => new CoupledData<PrimaryAttributeTypes,int> { Key = x.Key, Data = x.Value}).ToList(),
+                    }
+                }
+            };
+
+            Repository.PlayerManager.Save(data);
 
             return true;
+        }
+
+        public void SetLastTeller(IPlayer teller)
+        {
+            LastTeller = teller;
+        }
+
+        public void SetSnoopBy(IAdmin snooper)
+        {
+            SnoopBy = snooper;
         }
 
         public void StopImpersonating()
         {
-            Impersonating.ChangeImpersonation(null);
+            Impersonating?.ChangeImpersonation(null);
             Impersonating = null;
             PlayerState = PlayerStates.Playing;
         }
 
-
         public virtual void OnDisconnected()
         {
+            LastTeller = null;
+            LastTeller?.Send($"{DisplayName} has left the game.");
+            SnoopBy?.Send($"Your victim {DisplayName} has left the game.");
             // Stop impersonation if any + stop fights
             if (Impersonating != null)
             {
@@ -210,48 +259,33 @@ namespace Mud.Server.Player
             return sb.ToString();
         }
 
-        [Command("macro")]
-        [Command("alias")]
-        protected virtual bool DoAlias(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (parameters.Length == 0)
-            {
-                if (Aliases.Any())
-                {
-                    Send("Your current aliases are:"+Environment.NewLine);
-                    foreach(KeyValuePair<string, string> alias in Aliases.OrderBy(x => x.Key))
-                        Send("     {0}: {1}"+Environment.NewLine, alias.Key, alias.Value);
-                }
-                else
-                    Send("You have no aliases defined." + Environment.NewLine);
-            }
-            // TODO: else add alias (!!! cannot set an alias on alias or delete :p)
-            return true;
-        }
-
-
-        [Command("test")]
+        [Command("test", Category = "!!Test!!")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
             //Send("Player: DoTest" + Environment.NewLine);
-            StringBuilder lorem = new StringBuilder("1/Lorem ipsum dolor sit amet, " + Environment.NewLine +
-                                                    "2/consectetur adipiscing elit, " + Environment.NewLine +
-                                                    "3/sed do eiusmod tempor incididunt " + Environment.NewLine +
-                                                    "4/ut labore et dolore magna aliqua. " + Environment.NewLine +
-                                                    "5/Ut enim ad minim veniam, " + Environment.NewLine +
-                                                    "6/quis nostrud exercitation ullamco " + Environment.NewLine +
-                                                    "7/laboris nisi ut aliquip ex " + Environment.NewLine +
-                                                    "8/ea commodo consequat. " + Environment.NewLine +
-                                                    "9/Duis aute irure dolor in " + Environment.NewLine +
-                                                    "10/reprehenderit in voluptate velit " + Environment.NewLine +
-                                                    "11/esse cillum dolore eu fugiat " + Environment.NewLine +
-                                                    "12/nulla pariatur. " + Environment.NewLine +
-                                                    "13/Excepteur sint occaecat " + Environment.NewLine +
-                                                    "14/cupidatat non proident, " + Environment.NewLine +
-                                                    "15/sunt in culpa qui officia deserunt " + Environment.NewLine //+
-                                                    //"16/mollit anim id est laborum." + Environment.NewLine
-                                                    );
-            Page(lorem);
+            //StringBuilder lorem = new StringBuilder("1/Lorem ipsum dolor sit amet, " + Environment.NewLine +
+            //                                        "2/consectetur adipiscing elit, " + Environment.NewLine +
+            //                                        "3/sed do eiusmod tempor incididunt " + Environment.NewLine +
+            //                                        "4/ut labore et dolore magna aliqua. " + Environment.NewLine +
+            //                                        "5/Ut enim ad minim veniam, " + Environment.NewLine +
+            //                                        "6/quis nostrud exercitation ullamco " + Environment.NewLine +
+            //                                        "7/laboris nisi ut aliquip ex " + Environment.NewLine +
+            //                                        "8/ea commodo consequat. " + Environment.NewLine +
+            //                                        "9/Duis aute irure dolor in " + Environment.NewLine +
+            //                                        "10/reprehenderit in voluptate velit " + Environment.NewLine +
+            //                                        "11/esse cillum dolore eu fugiat " + Environment.NewLine +
+            //                                        "12/nulla pariatur. " + Environment.NewLine +
+            //                                        "13/Excepteur sint occaecat " + Environment.NewLine +
+            //                                        "14/cupidatat non proident, " + Environment.NewLine +
+            //                                        "15/sunt in culpa qui officia deserunt " + Environment.NewLine //+
+            //                                        //"16/mollit anim id est laborum." + Environment.NewLine
+            //                                        );
+            //Page(lorem);
+            string lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+            StringBuilder sb = new StringBuilder();
+            foreach (string word in lorem.Split(' ', ',', ';', '.'))
+                sb.AppendLine(word);
+            Page(sb);
             return true;
         }
     }

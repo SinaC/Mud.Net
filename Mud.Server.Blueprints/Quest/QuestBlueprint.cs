@@ -8,27 +8,22 @@ namespace Mud.Server.Blueprints.Quest
         public string Title { get; set; }
         public string Description { get; set; }
         public int Level { get; set; }
+        public int Experience { get; set; }
+        public int Gold { get; set; }
         public bool ShouldQuestItemBeDestroyed { get; set; }
 
         public Dictionary<int, QuestKillLootTable<int>> KillLootTable { get; set; }
-        public List<QuestItemObjective> ItemObjectives { get; set; }
-        public List<QuestKillObjective> KillObjectives { get; set; }
+        public List<QuestItemObjectiveBlueprint> ItemObjectives { get; set; }
+        public List<QuestKillObjectiveBlueprint> KillObjectives { get; set; }
+        public List<QuestLocationObjectiveBlueprint> LocationObjectives { get; set; }
 
-        // TODO: rewards: loot/xp/gold
+        // TODO: rewards: loot
 
         public QuestBlueprint()
         {
             KillLootTable = new Dictionary<int, QuestKillLootTable<int>>();
-            ItemObjectives = new List<QuestItemObjective>();
-            KillObjectives = new List<QuestKillObjective>();
-        }
-
-        public List<int> GenerateKillLoot(int victimBlueprintId)
-        {
-            QuestKillLootTable<int> table;
-            if (!KillLootTable.TryGetValue(victimBlueprintId, out table))
-                return null;
-            return table.GenerateLoots();
+            ItemObjectives = new List<QuestItemObjectiveBlueprint>();
+            KillObjectives = new List<QuestKillObjectiveBlueprint>();
         }
     }
 }

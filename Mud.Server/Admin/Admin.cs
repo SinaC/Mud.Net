@@ -1,19 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Mud.Datas.DataContracts;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
+using Mud.Server.Constants;
 using Mud.Server.Input;
 
 namespace Mud.Server.Admin
 {
-    // TODO: cannot impersonate while already incarnated, cannot incarnate while already impersonated
     public partial class Admin : Player.Player, IAdmin
     {
-        private static readonly IReadOnlyTrie<CommandMethodInfo> AdminCommands;
-
-        static Admin()
-        {
-            AdminCommands = CommandHelpers.GetCommands(typeof(Admin));
-        }
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> AdminCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(Admin)));
 
         public Admin(Guid id, string name) 
             : base(id, name)
@@ -26,7 +24,7 @@ namespace Mud.Server.Admin
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands => AdminCommands;
+        public override IReadOnlyTrie<CommandMethodInfo> Commands => AdminCommands.Value;
 
         public override bool ProcessCommand(string commandLine) // TODO: refactoring needed: almost same code in Player
         {
@@ -60,7 +58,7 @@ namespace Mud.Server.Admin
                 if (!extractedSuccessfully)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
-                    Send("Invalid command or parameters" + Environment.NewLine);
+                    Send("Invalid command or parameters");
                     return false;
                 }
 
@@ -98,6 +96,81 @@ namespace Mud.Server.Admin
             ? BuildIncarnatePrompt()
             : base.Prompt;
 
+        public override bool Load(string name)
+        {
+            Name = name;
+            Aliases.Clear();
+
+            //// TODO: load player file
+            //// TODO: load impersonation list
+            //// TODO: load aliases
+
+            //// Aliases
+            //Aliases.Add("i1", "/impersonate mob1");
+            //Aliases.Add("i4", "/impersonate mob4");
+            //Aliases.Add("t1", "/force mob2 test 3 mob1");
+            //Aliases.Add("t2", "/force mob4 test 4 mob1");
+            //Aliases.Add("sh", "test 'power word: shield'");
+            //Aliases.Add("fo", "/force mob2 follow mob1");
+
+            //Aliases.Add("1", "/force hassan follow mob2");
+            //Aliases.Add("2", "follow hassan");
+            //Aliases.Add("3", "/force hassan group mob1");
+            //Aliases.Add("4", "/force mob2 group hassan");
+
+            //Save(); // Test purpose
+
+            ////
+            //PlayerState = PlayerStates.Playing;
+            //return true;
+
+
+            AdminData data = Repository.AdminManager.Load(name);
+            if (data?.Aliases != null)
+            {
+                foreach (CoupledData<string, string> alias in data.Aliases)
+                    Aliases.Add(alias.Key, alias.Data);
+            }
+
+            // TODO: impersonate list
+
+            PlayerState = PlayerStates.Playing;
+            return true;
+        }
+
+        public override bool Save()
+        {
+            AdminData data = new AdminData
+            {
+                Name = Name,
+                Aliases = Aliases.Select(x => new CoupledData<string,string> { Key = x.Key, Data = x.Value}).ToList(),
+                Characters = new List<CharacterData>
+                {
+                    new CharacterData
+                    {
+                        Name = "sinac",
+                        RoomId = 3000,
+                        Level = 30,
+                        Sex = Sex.Male,
+                        Class = "druid",
+                        Race = "troll",
+                        // TODO: impersonate list
+                        PrimaryAttributes = new Dictionary<PrimaryAttributeTypes, int>
+                        {
+                            {PrimaryAttributeTypes.Strength, 100},
+                            {PrimaryAttributeTypes.Intellect, 110},
+                            {PrimaryAttributeTypes.Spirit, 120},
+                            {PrimaryAttributeTypes.Agility, 130},
+                            {PrimaryAttributeTypes.Stamina, 140},
+                        }.Select(x => new CoupledData<PrimaryAttributeTypes,int> { Key = x.Key, Data = x.Value}).ToList(),
+                    }
+                }
+            };
+            Repository.AdminManager.Save(data);
+
+            return true;
+        }
+
         public override void OnDisconnected()
         {
             base.OnDisconnected();
@@ -105,14 +178,19 @@ namespace Mud.Server.Admin
             // Stop incarnation if any
             if (Incarnating != null)
             {
-                Incarnating.ChangeIncarnation(null);
-                Incarnating = null;
+                StopIncarnating();
             }
         }
 
         #endregion
 
         public IEntity Incarnating { get; private set; }
+
+        public void StopIncarnating()
+        {
+            Incarnating?.ChangeIncarnation(null);
+            Incarnating = null;
+        }
 
         #endregion
 

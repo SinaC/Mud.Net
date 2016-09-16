@@ -22,6 +22,11 @@ namespace Mud.Server.Common
 
         #endregion
 
+        public bool Chance(int percentage)
+        {
+            return 1 + Randomizer.Next(100) <= percentage;
+        }
+
         public int Dice(int count, int value)
         {
             //return Enumerable.Range(0, count).Sum(x => Randomizer.Next(value)+1);

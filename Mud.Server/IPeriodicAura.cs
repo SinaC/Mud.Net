@@ -51,9 +51,9 @@ namespace Mud.Server
         void Refresh(IPeriodicAura aura);
 
         // Called when dispelled
-        void OnDispelled(IEntity source);
+        void OnDispelled(IEntity dispelSource);
 
         // Called when vanished
-        void OnVanished(IEntity source);
+        void OnVanished();
     }
 }

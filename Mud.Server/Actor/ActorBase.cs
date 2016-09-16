@@ -18,7 +18,7 @@ namespace Mud.Server.Actor
         public abstract IReadOnlyTrie<CommandMethodInfo> Commands { get; }
 
         public abstract bool ProcessCommand(string commandLine);
-        public abstract void Send(string message);
+        public abstract void Send(string message, bool addTrailingNewLine);
         public abstract void Page(StringBuilder text);
 
         public bool ExecuteCommand(string command, string rawParameters, CommandParameter[] parameters)
@@ -31,7 +31,7 @@ namespace Mud.Server.Actor
                 TrieEntry<CommandMethodInfo> entry = methodInfos.OrderBy(x => x.Value.Attribute.Priority).FirstOrDefault(); // use priority to choose between conflicting commands
                 if (entry.Value?.Attribute?.NoShortcut == true && command != entry.Key) // if command doesn't accept shortcut, inform player
                 {
-                    Send("If you want to {0}, spell it out."+Environment.NewLine, entry.Key.ToUpper());
+                    Send("If you want to {0}, spell it out.", entry.Key.ToUpper());
                     return true;
                 }
                 else if (entry.Value?.MethodInfo != null)
@@ -40,12 +40,14 @@ namespace Mud.Server.Actor
                     bool executedSuccessfully;
                     if (entry.Value.Attribute?.AddCommandInParameters == true)
                     {
+                        // Insert command as first parameter
                         CommandParameter[] enhancedParameters = new CommandParameter[parameters?.Length + 1 ?? 1];
                         if (parameters != null)
                             Array.ConstrainedCopy(parameters, 0, enhancedParameters, 1, parameters.Length);
                         enhancedParameters[0] = new CommandParameter(command, 1);
                         string enhancedRawParameters = command + " " + rawParameters;
-                        executedSuccessfully = (bool)methodInfo.Invoke(this, new object[] { enhancedRawParameters, enhancedParameters });
+                        //
+                        executedSuccessfully = (bool) methodInfo.Invoke(this, new object[] {enhancedRawParameters, enhancedParameters});
                     }
                     else
                         executedSuccessfully = (bool) methodInfo.Invoke(this, new object[] {rawParameters, parameters});
@@ -60,26 +62,29 @@ namespace Mud.Server.Actor
                 else
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command not found");
-                    Send("Command not found"+Environment.NewLine);
+                    Send("Command not found.");
                     return false;
                 }
             }
             else
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Command not found");
-                Send("Command not found" + Environment.NewLine);
+                Send("Command not found.");
                 return false;
             }
         }
 
         public void Send(string format, params object[] parameters)
         {
-            Send(String.Format(format, parameters));
+            string message = parameters.Length == 0 
+                ? format 
+                : String.Format(format, parameters);
+            Send(message, true); // add trailing newline
         }
 
         public void Send(StringBuilder text)
         {
-            Send(text.ToString());
+            Send(text.ToString(), false); // don't add trailing newline
         }
 
         [Command("cmd", Priority = 0)]
@@ -105,9 +110,9 @@ namespace Mud.Server.Actor
                     .ThenBy(x => x.Key))
                 {
                     if ((++index%6) == 0)
-                        sb.AppendFormatLine("{0,-13}", kv.Key);
+                        sb.AppendFormatLine("{0,-14}", kv.Key);
                     else
-                        sb.AppendFormat("{0,-13}", kv.Key);
+                        sb.AppendFormat("{0,-14}", kv.Key);
                 }
                 if (index > 0 && index%6 != 0)
                     sb.AppendLine();

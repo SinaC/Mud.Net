@@ -191,7 +191,7 @@ namespace Mud.Server.Server
                 _clients.TryAdd(client, playingClient);
             }
 
-            player.Send("Welcome {0}" + Environment.NewLine, name);
+            player.Send("Welcome {0}", name);
 
             return player;
         }
@@ -213,7 +213,7 @@ namespace Mud.Server.Server
                 _clients.TryAdd(client, playingClient);
             }
 
-            admin.Send("Welcome master {0}" + Environment.NewLine, name);
+            admin.Send("Welcome master {0}", name);
 
             return admin;
         }
@@ -234,6 +234,8 @@ namespace Mud.Server.Server
             client.DataReceived += ClientLoginOnDataReceived;
             // Send greetings
             client.WriteData("Why don't you login or tell us the name you wish to be known by?");
+            //// TODO: TEST purpose
+            //client.WriteData("%y%Quest Quest 1: the beggar          :   1 /   3 (33%)%x%");
         }
 
         private void NetworkServerOnClientDisconnected(IClient client)
@@ -389,6 +391,15 @@ namespace Mud.Server.Server
                 Log.Default.WriteLine(LogLevels.Error, "ClientPlayingOnDisconnected: playingClient not found!!!");
             else
             {
+                IAdmin admin = playingClient.Player as IAdmin;
+                // Remove nullify LastTeller and SnoopBy
+                foreach (IPlayer player in Players)
+                {
+                    if (player.LastTeller == playingClient.Player)
+                        player.SetLastTeller(null);
+                    if (admin != null && player.SnoopBy == admin)
+                        player.SetSnoopBy(null);
+                }
                 playingClient.Player.OnDisconnected();
                 playingClient.Client.Disconnect();
                 client.DataReceived -= ClientPlayingOnDataReceived;
@@ -430,16 +441,25 @@ namespace Mud.Server.Server
         private void HandlePaging(PlayingClient playingClient, string command)
         {
             string lowerCommand = command.ToLowerInvariant();
-            if (command == String.Empty || "next".StartsWith(lowerCommand)) // <Enter> -> send next page
+            if (command == String.Empty || "next".StartsWith(lowerCommand)) // <Enter> or Next -> send next page
             {
                 // Pages are always sent immediately asynchronously, don't use ProcessOutput even if in synchronous mode
                 string nextPage = playingClient.Paging.GetNextPage(25); // TODO: configurable line count
                 playingClient.Client.WriteData(nextPage);
                 if (playingClient.Paging.HasPageLeft) // page left, send page instructions (no prompt)
+                    playingClient.Client.WriteData(ServerOptions.PagingInstructions);
+                else // no more page -> normal mode
                 {
-                    const string pagingInstructions = "[Paging : (Enter), (N)ext (Q)uit, (A)ll]";
-                    playingClient.Client.WriteData(pagingInstructions);
+                    playingClient.Paging.Clear();
+                    playingClient.Client.WriteData(playingClient.Player.Prompt);
                 }
+            }
+            else if ("previous".StartsWith(lowerCommand))
+            {
+                string previousPage = playingClient.Paging.GetPreviousPage(25); // TODO: configurable line count
+                playingClient.Client.WriteData(previousPage);
+                if (playingClient.Paging.HasPageLeft) // page left, send page instructions (no prompt)
+                    playingClient.Client.WriteData(ServerOptions.PagingInstructions);
                 else // no more page -> normal mode
                 {
                     playingClient.Paging.Clear();
@@ -449,6 +469,7 @@ namespace Mud.Server.Server
             else if ("quit".StartsWith(lowerCommand))
             {
                 playingClient.Paging.Clear();
+                playingClient.Client.WriteData(Environment.NewLine);
                 playingClient.Client.WriteData(playingClient.Player.Prompt);
             }
             else if ("all".StartsWith(lowerCommand))
@@ -485,7 +506,7 @@ namespace Mud.Server.Server
                             string command = playingClient.DequeueReceivedData(); // process one command at a time
                             if (command != null)
                             {
-                                if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Quit, All
+                                if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Next, Quit, All
                                     HandlePaging(playingClient, command);
                                 else if (!String.IsNullOrWhiteSpace(command))
                                 {
@@ -584,13 +605,19 @@ namespace Mud.Server.Server
                     {
                         // On NPC, remove hot/dot from unknown source or source not in the same room
                         if (character.ImpersonatedBy == null && (pa.Source == null || pa.Source.Room != character.Room))
+                        {
+                            pa.OnVanished();
                             character.RemovePeriodicAura(pa);
+                        }
                         else // Otherwise, process normally
                         {
                             if (pa.TicksLeft > 0)
                                 pa.Process(character);
                             if (pa.TicksLeft == 0) // no else, because Process decrease PeriodsLeft
+                            {
+                                pa.OnVanished();
                                 character.RemovePeriodicAura(pa);
+                            }
                         }
                     }
                 }
@@ -615,6 +642,7 @@ namespace Mud.Server.Server
                     bool needsRecompute = false;
                     foreach (IAura aura in cloneAuras.Where(x => x.SecondsLeft <= 0))
                     {
+                        aura.OnVanished();
                         character.RemoveAura(aura, false); // recompute once each aura has been processed
                         needsRecompute = true;
                     }
@@ -637,7 +665,7 @@ namespace Mud.Server.Server
                 {
                     IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> cooldowns = new ReadOnlyCollection<KeyValuePair<IAbility, DateTime>>(character.AbilitiesInCooldown.ToList()); // clone
                     foreach (IAbility ability in cooldowns.Where(x => (x.Value - CurrentTime).TotalSeconds <= 0).Select(x => x.Key))
-                        character.ResetCooldown(ability);
+                        character.ResetCooldown(ability, true);
                 }
                 catch (Exception ex)
                 {
@@ -722,7 +750,7 @@ namespace Mud.Server.Server
                 if (item.DecayPulseLeft == 0)
                 {
                     Log.Default.WriteLine(LogLevels.Debug, $"Item {item.DebugName} decayed");
-                    // TODO: if it's a player corpse, move items to room
+                    // TODO: if it's a player corpse, move items to room (except quest item)
                     Repository.World.RemoveItem(item);
                 }
             }

@@ -6,6 +6,7 @@ using Mud.Logger;
 
 namespace Mud.Server.Blueprints.LootTable
 {
+    // http://www.gammon.com.au/forum/bbshowpost.php?bbsubject_id=9715
     public class CharacterLootTable<T>
         where T:IEquatable<T>
     {

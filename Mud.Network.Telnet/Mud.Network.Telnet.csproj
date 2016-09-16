@@ -38,6 +38,7 @@
     <Compile Include="ClientTelnetStateObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TelnetServer.cs" />
+    <Compile Include="Tokens.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">

@@ -6,11 +6,12 @@ namespace Mud.Server.Helpers
 {
     public static class StringHelpers
     {
-        public static string NotYetImplemented = "NOT YET IMPLEMENTED!!" + Environment.NewLine;
-        public static string NotFound = "Not found." + Environment.NewLine;
-        public static string CharacterNotFound = "They aren't here." + Environment.NewLine;
-        public static string ItemNotFound = "You do not see that here." + Environment.NewLine;
-        public static string ItemInventoryNotFound = "You do not have that item." + Environment.NewLine;
+        public static string NotYetImplemented = "NOT YET IMPLEMENTED!!";
+        public static string NotFound = "Not found.";
+        public static string CharacterNotFound = "They aren't here.";
+        public static string ItemNotFound = "You do not see that here.";
+        public static string ItemInventoryNotFound = "You do not have that item.";
+        public static string QuestPrefix = "%R%(QUEST)%x%";
 
         #region Color tags
 
@@ -85,7 +86,6 @@ namespace Mud.Server.Helpers
             }
         }
 
-        // TODO: other flavor messages (see fight.C:4429)
         public static string DamagePhraseSelf(int damage)
         {
             if (damage == 0) return "miss";
@@ -162,6 +162,20 @@ namespace Mud.Server.Helpers
             if (hours < 24)
                 return hours + " hour" + (hours != 1 ? "s" : String.Empty);
             int days = (hours + 24 - 1)/24;
+            return days + " day" + (days != 1 ? "s" : String.Empty);
+        }
+
+        public static string FormatDelayShort(int delay)
+        {
+            if (delay < 60)
+                return delay + " sec";
+            int minutes = (delay + 60 - 1) / 60; // -> ceil(x/60)
+            if (minutes < 60)
+                return minutes + " min";
+            int hours = (minutes + 60 - 1) / 60; // -> ceil(x/60)
+            if (hours < 24)
+                return hours + " hour" + (hours != 1 ? "s" : String.Empty);
+            int days = (hours + 24 - 1) / 24;
             return days + " day" + (days != 1 ? "s" : String.Empty);
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using Mud.Logger;
-using Mud.Server.Blueprints;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Constants;
 
@@ -13,6 +12,7 @@ namespace Mud.Server.Item
             : base(guid, blueprint, containedInto)
         {
             WearLocation = blueprint.WearLocation;
+            IsWearable = true;
         }
 
         public WearLocations WearLocation { get; }

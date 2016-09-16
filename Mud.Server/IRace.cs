@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mud.Server.Abilities;
+using Mud.Server.Constants;
 
 namespace Mud.Server
 {
@@ -10,6 +11,8 @@ namespace Mud.Server
         string ShortName { get; }
 
         IEnumerable<AbilityAndLevel> Abilities { get; }
+
+        IEnumerable<EquipmentSlots> EquipmentSlots { get; }
 
         // TODO: specific behaviour such as 120% xp for human, infrared for dwarf, ...
         // TODO: xp/level, ...

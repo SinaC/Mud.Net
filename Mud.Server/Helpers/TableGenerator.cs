@@ -82,6 +82,7 @@ namespace Mud.Server.Helpers
         public StringBuilder Generate(IEnumerable<T> items)
         {
             StringBuilder sb = new StringBuilder();
+            sb.AppendLine();
 
             int width = 1 + _columns.Sum(x => x.Width) + _columns.Count;
 

@@ -18,7 +18,7 @@ namespace Mud.Importer.Mystery
         public long Cost { get; set; }
         public char Condition { get; set; } // lookup table
         public string Size { get; set; } // lookup table
-        public Dictionary<string, string> ExtraDescr; // keyword -> description
+        public Dictionary<string, string> ExtraDescr { get; set; } // keyword -> description
         public string Program { get; set; } // Obj program name
 
         public ObjectData()

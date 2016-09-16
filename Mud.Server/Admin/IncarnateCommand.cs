@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Mud.Logger;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -6,24 +6,23 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [Command("incarnate")]
+        [Command("incarnate", Category = "Admin")]
         protected virtual bool DoIncarnate(string rawParameters, params CommandParameter[] parameters)
         {
             if (Impersonating != null)
-                Send("You are already impersonating {0}." + Environment.NewLine, Impersonating.DisplayName);
+                Send("You are already impersonating {0}.", Impersonating.DisplayName);
             else if (parameters.Length == 0)
             {
                 if (Incarnating != null)
                 {
-                    Send("%M%You stop incarnating %C%{0}%x%." + Environment.NewLine, Incarnating.DisplayName);
-                    Incarnating.ChangeIncarnation(null);
-                    Incarnating = null;
+                    Send("%M%You stop incarnating %C%{0}%x%.", Incarnating.DisplayName);
+                    StopIncarnating();
                 }
                 else
-                    Send("Syntax: Incarnate <room|item|mob> <name|id>" + Environment.NewLine);
+                    Send("Syntax: Incarnate <room|item|mob> <name|id>");
             }
             else if (parameters.Length == 1)
-                Send("Syntax: Incarnate <room|item|mob> <name|id>" + Environment.NewLine);
+                Send("Syntax: Incarnate <room|item|mob> <name|id>");
             else if (parameters.Length == 2)
             {
                 IEntity incarnateTarget = null;
@@ -38,12 +37,13 @@ namespace Mud.Server.Admin
                     Send("Target not found");
                 else
                 {
+                    //Log.Default.WriteLine(LogLevels.Info, $"{DisplayName} incarnates {incarnateTarget.DisplayName}");
                     if (Incarnating != null)
                     {
-                        Send("%M%You stop incarnating %C%{0}%x%." + Environment.NewLine, Incarnating.DisplayName);
+                        Send("%M%You stop incarnating %C%{0}%x%.", Incarnating.DisplayName);
                         Incarnating.ChangeIncarnation(null);
                     }
-                    Send("%M%You start incarnating %C%{0}%x%." + Environment.NewLine, incarnateTarget.DisplayName);
+                    Send("%M%You start incarnating %C%{0}%x%.", incarnateTarget.DisplayName);
                     incarnateTarget.ChangeIncarnation(this);
                     Incarnating = incarnateTarget;
                     PlayerState = PlayerStates.Impersonating;

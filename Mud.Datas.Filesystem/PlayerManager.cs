@@ -15,9 +15,12 @@ namespace Mud.Datas.Filesystem
 
         public PlayerData Load(string playerName)
         {
+            string filename = Path.Combine(PlayerRepositoryPath, playerName + ".data");
+
+            if (!File.Exists(filename))
+                return null;
             PlayerData playerData;
             XmlSerializer deserializer = new XmlSerializer(typeof(PlayerData));
-            string filename = Path.Combine(PlayerRepositoryPath, playerName + ".data");
             using (FileStream file = File.OpenRead(filename))
             {
                 playerData = (PlayerData) deserializer.Deserialize(file);

@@ -1,10 +1,40 @@
-﻿namespace Mud.Server.Constants
+﻿using System;
+
+namespace Mud.Server.Constants
 {
     public enum Sex
     {
         Neutral,
         Male,
         Female
+    }
+
+    public enum Positions
+    {
+        Stunned,
+        Sleeping,
+        Resting,
+        Sitting,
+        Fighting,
+        Standing
+    }
+
+    [Flags]
+    public enum FurnitureActions
+    {
+        None = 0,
+        Stand = 1,
+        Sit = 2,
+        Rest = 4,
+        Sleep = 8
+    }
+
+    public enum FurniturePlacePrepositions
+    {
+        None = 0,
+        At,
+        In,
+        On
     }
 
     public enum Forms
@@ -89,10 +119,13 @@
         Trinket1,
         Trinket2,
         Wield,
-        Wield2,  // mutually exclusive with Hold, Shield
+        Wield2, // mutually exclusive with Hold, Shield
         Hold, // mutually exclusive with Wield2, Shield
         Shield, // mutually exclusive with Wield2, Hold
-        Wield2H // wield 2-handed
+        Wield2H, // wield 2-handed
+        Wield3,
+        Wield4,
+        Wield2H2,
     }
 
     public enum ArmorKinds

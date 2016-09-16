@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
-using Mud.Server.Blueprints;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
 using Mud.Server.Constants;
@@ -15,15 +14,10 @@ namespace Mud.Server.Room
 {
     public class Room : EntityBase, IRoom
     {
-        private static readonly IReadOnlyTrie<CommandMethodInfo> RoomCommands;
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> RoomCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(Room)));
 
         private readonly List<ICharacter> _people;
         private readonly List<IItem> _content;
-
-        static Room()
-        {
-            RoomCommands = CommandHelpers.GetCommands(typeof (Room));
-        }
 
         public Room(Guid guid, RoomBlueprint blueprint, IArea area)
             : base(guid, blueprint.Name, blueprint.Description)
@@ -43,7 +37,7 @@ namespace Mud.Server.Room
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands => RoomCommands;
+        public override IReadOnlyTrie<CommandMethodInfo> Commands => RoomCommands.Value;
 
         #endregion
 
@@ -82,7 +76,9 @@ namespace Mud.Server.Room
 
         #endregion
 
-        public RoomBlueprint Blueprint { get; private set; } // TODO: 1st parameter in ctor
+        public RoomBlueprint Blueprint { get; private set; }
+
+        public IReadOnlyDictionary<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
 
         public IArea Area { get; }
 
@@ -110,6 +106,12 @@ namespace Mud.Server.Room
             //}
             // TODO: check if not already in room
             _people.Add(character);
+            // Update location quest
+            if (character.Impersonable)
+            {
+                foreach(IQuest quest in character.Quests)
+                    quest.Update(this);
+            }
             return true;
         }
 
@@ -125,7 +127,7 @@ namespace Mud.Server.Room
         [Command("test", Category = "!!Test!!")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("Room: DoTest" + Environment.NewLine);
+            Send("Room: DoTest");
             return true;
         }
 

@@ -31,6 +31,10 @@ namespace Mud.Server
 
         ICharacter Impersonating { get; }
 
+        IPlayer LastTeller { get; } // used by DoReply
+
+        IAdmin SnoopBy { get; } // every messages send to 'this' will be sent to SnoopBy
+
         DateTime LastCommandTimestamp { get; }
         string LastCommand { get; }
 
@@ -41,6 +45,10 @@ namespace Mud.Server
 
         bool Load(string name);
         bool Save();
+
+        void SetLastTeller(IPlayer teller);
+
+        void SetSnoopBy(IAdmin snooper);
 
         void StopImpersonating();
 

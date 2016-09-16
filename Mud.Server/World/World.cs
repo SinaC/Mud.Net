@@ -9,8 +9,6 @@ using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Constants;
-using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Item;
 using Mud.Server.Room;
 
@@ -91,22 +89,34 @@ namespace Mud.Server.World
 
         public void AddQuestBlueprint(QuestBlueprint blueprint)
         {
-            _questBlueprints.Add(blueprint.Id, blueprint);
+            if (_questBlueprints.ContainsKey(blueprint.Id))
+                Log.Default.WriteLine(LogLevels.Error, $"Quest blueprint duplicate {blueprint.Id}!!!");
+            else
+                _questBlueprints.Add(blueprint.Id, blueprint);
         }
 
         public void AddRoomBlueprint(RoomBlueprint blueprint)
         {
-            _roomBlueprints.Add(blueprint.Id, blueprint);
+            if (_roomBlueprints.ContainsKey(blueprint.Id))
+                Log.Default.WriteLine(LogLevels.Error, $"Room blueprint duplicate {blueprint.Id}!!!");
+            else
+                _roomBlueprints.Add(blueprint.Id, blueprint);
         }
 
         public void AddCharacterBlueprint(CharacterBlueprint blueprint)
         {
-            _characterBlueprints.Add(blueprint.Id, blueprint);
+            if (_characterBlueprints.ContainsKey(blueprint.Id))
+                Log.Default.WriteLine(LogLevels.Error, $"Character blueprint duplicate {blueprint.Id}!!!");
+            else
+                _characterBlueprints.Add(blueprint.Id, blueprint);
         }
 
         public void AddItemBlueprint(ItemBlueprintBase blueprint)
         {
-            _itemBlueprints.Add(blueprint.Id, blueprint);
+            if (_itemBlueprints.ContainsKey(blueprint.Id))
+                Log.Default.WriteLine(LogLevels.Error, $"Item blueprint duplicate {blueprint.Id}!!!");
+            else
+                _itemBlueprints.Add(blueprint.Id, blueprint);
         }
 
         //
@@ -231,12 +241,31 @@ namespace Mud.Server.World
             return item;
         }
 
+        public IItemQuest AddItemQuest(Guid guid, ItemQuestBlueprint blueprint, IContainer container)
+        {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
+            IItemQuest item = new ItemQuest(guid, blueprint, container);
+            _items.Add(item);
+            return item;
+        }
+
+        public IItemKey AddItemKey(Guid guid, ItemKeyBlueprint blueprint, IContainer container)
+        {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
+            IItemKey item = new ItemKey(guid, blueprint, container);
+            _items.Add(item);
+            return item;
+        }
+
         public IItem AddItem(Guid guid, int blueprintId, IContainer container)
         {
             ItemBlueprintBase blueprint = GetItemBlueprint(blueprintId);
             if (blueprint == null)
             {
                 Log.Default.WriteLine(LogLevels.Error, "World.AddItem: unknown blueprintId {0}", blueprintId);
+                return null;
             }
             var weaponBlueprint = blueprint as ItemWeaponBlueprint;
             if (weaponBlueprint != null)
@@ -259,6 +288,10 @@ namespace Mud.Server.World
             var shieldBlueprint = blueprint as ItemShieldBlueprint;
             if (shieldBlueprint != null)
                 return AddItemShield(guid, shieldBlueprint, container);
+            var keyBlueprint = blueprint as ItemKeyBlueprint;
+            if (keyBlueprint != null)
+                return AddItemKey(guid, keyBlueprint, container);
+            Log.Default.WriteLine(LogLevels.Error, $"World.AddItem: Unknown blueprint id or type {blueprintId} {blueprint.GetType().FullName}");
             // TODO: other blueprint
             return null;
         }
@@ -346,20 +379,18 @@ namespace Mud.Server.World
                 }
             }
             // Remove from room
-            character.Room?.Leave(character);
+            character.ChangeRoom(null);
             //
             character.OnRemoved();
-            //
-            //_characters.Remove(character); will removed on cleanup step
+            //_characters.Remove(character); will removed in cleanup step
         }
 
         public void RemoveItem(IItem item)
         {
-            item.OnRemoved();
-            item.ContainedInto?.GetFromContainer(item);
+            //item.ContainedInto?.GetFromContainer(item);
+            item.ChangeContainer(null);
             IEquipable equipable = item as IEquipable;
             equipable?.ChangeEquipedBy(null);
-            //_items.Remove(item); will removed on cleanup step
             // If container, remove content
             IContainer container = item as IContainer;
             if (container != null)
@@ -368,17 +399,13 @@ namespace Mud.Server.World
                 foreach (IItem itemInContainer in content)
                     RemoveItem(itemInContainer);
             }
+            item.OnRemoved();
+            //_items.Remove(item); will removed in cleanup step
         }
 
         public void RemoveRoom(IRoom room)
         {
             throw new NotImplementedException();
-        }
-
-        // TODO: remove
-        public ICharacter GetCharacter(CommandParameter parameter, bool perfectMatch = false)
-        {
-            return FindHelpers.FindByName(_characters, parameter, perfectMatch);
         }
 
         public void Update() // called every pulse (every 1/4 seconds)

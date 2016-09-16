@@ -1,10 +1,16 @@
-﻿namespace Mud.Server.Item
+﻿using System.Collections.Generic;
+using Mud.Server.Constants;
+
+namespace Mud.Server.Item
 {
-    public interface IItemFurniture : IItem
+    public interface IItemFurniture : IItem // TODO: count people actually on furniture
     {
+        IEnumerable<ICharacter> People { get; }
+
         int MaxPeople { get; }
         int MaxWeight { get; }
-        // TODO: flags (see tables.C furniture_flags)
+        FurnitureActions FurnitureActions { get; }
+        FurniturePlacePrepositions FurniturePlacePreposition { get; }
         int HealBonus { get; }
         int ResourceBonus { get; }
     }

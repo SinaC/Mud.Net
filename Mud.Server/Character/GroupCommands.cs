@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -18,7 +17,7 @@ namespace Mud.Server.Character
         {
             if (parameters.Length == 0)
             {
-                Send("Follow whom?"+Environment.NewLine);
+                Send("Follow whom?");
                 return true;
             }
             ICharacter newLeader = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
@@ -32,7 +31,7 @@ namespace Mud.Server.Character
             {
                 if (Leader == null)
                 {
-                    Send("You already follow yourself."+Environment.NewLine);
+                    Send("You already follow yourself.");
                     return true;
                 }
                 Leader.StopFollower(this);
@@ -57,7 +56,7 @@ namespace Mud.Server.Character
                 else if (Leader == null && GroupMembers.Any())
                     leader = this;
                 if (leader == null)
-                    Send("You are not in a group."+Environment.NewLine);
+                    Send("You are not in a group.");
                 else
                 {
                     StringBuilder sb = new StringBuilder();
@@ -72,7 +71,7 @@ namespace Mud.Server.Character
             {
                 if (Leader != null)
                 {
-                    Send("You are not the group leader." + Environment.NewLine);
+                    Send("You are not the group leader.");
                     return true;
                 }
                 // Remove from group if target is already in the group
@@ -91,7 +90,7 @@ namespace Mud.Server.Character
                 }
                 if (newMember == this)
                 {
-                    Send("You cannot group yourself."+Environment.NewLine);
+                    Send("You cannot group yourself.");
                     return true;
                 }
                 if (newMember.Leader != this)
@@ -139,66 +138,32 @@ namespace Mud.Server.Character
                     newLeader.AddGroupMember(member, true);
                 }
                 // Warn members about leader change
-                newLeader.Send("You are the new group leader."+Environment.NewLine);
-                foreach (ICharacter member in newLeader.GroupMembers)
-                    member.Act(ActOptions.ToCharacter, "{0} is the new group leader.", newLeader);
+                newLeader.Send("You are the new group leader.");
+                //foreach (ICharacter member in newLeader.GroupMembers)
+                //    member.Act(ActOptions.ToCharacter, "{0} is the new group leader.", newLeader);
+                Act(ActOptions.ToGroup, "{0} is the new group leader.", newLeader);
             }
             else
-                Send("You are not in a group."+Environment.NewLine);
+                Send("You are not in a group.");
             return true;
         }
 
         [Command("gtell", Category = "Group")] // TODO: multiple category +Communication
+        [Command("groupsay", Category = "Group", Priority = 50)]
         [Command("gsay", Category = "Group")] // TODO: multiple category +Communication
         protected virtual bool DoGroupSay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
-                Send("Say your group what?" + Environment.NewLine);
+                Send("Say your group what?");
                 return true;
             }
-            Send("%g%You say the group '%W%{0}%g%'%x%", rawParameters);
-            IEnumerable<ICharacter> members = Leader == null ? GroupMembers : Leader.GroupMembers;
-            foreach (ICharacter member in members)
-                member.Act(ActOptions.ToCharacter, "%g%{0} says the group'%W%{1}%g%'%x%", this, rawParameters);
-            return true;
-        }
-
-        [Command("charm", Category = "!!Test!!")] // TODO: remove   test commands
-        protected virtual bool DoCharm(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (ControlledBy != null)
-                Send("You feel like taking, not giving, orders." + Environment.NewLine);
-            else if (parameters.Length == 0)
-            {
-                if (Slave != null)
-                {
-                    Send("You stop controlling {0}." + Environment.NewLine, Slave.DisplayName);
-                    Slave.ChangeController(null);
-                    Slave = null;
-                }
-                else
-                    Send("Try controlling something before trying to un-control." + Environment.NewLine);
-            }
-            else
-            {
-                ICharacter target = FindHelpers.FindByName(Room.People, parameters[0]);
-                if (target != null)
-                {
-                    if (target == this)
-                        Send("You like yourself even better!" + Environment.NewLine);
-                    else
-                    {
-                        target.ChangeController(this);
-                        Slave = target;
-                        Send("{0} looks at you with adoring eyes." + Environment.NewLine, target.DisplayName);
-                        target.Send("Isn't {0} so nice?" + Environment.NewLine, DisplayName);
-                    }
-                }
-                else
-                    Send(StringHelpers.CharacterNotFound);
-            }
-
+            //Send("%g%You say the group '%W%{0}%g%'%x%", rawParameters);
+            //IEnumerable<ICharacter> members = Leader == null ? GroupMembers : Leader.GroupMembers;
+            //foreach (ICharacter member in members)
+            //    member.Act(ActOptions.ToCharacter, "%g%{0} says the group'%W%{1}%g%'%x%", this, rawParameters);
+            Act(ActOptions.ToGroup, "%g%{0:n} says the group '%x%{1}%g%'%x%", this, parameters[0].Value);
+            Send($"%g%You say to the group: '%x%{parameters[0].Value}%g%'%x%");
             return true;
         }
 
@@ -206,18 +171,18 @@ namespace Mud.Server.Character
         protected virtual bool DoOrder(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-                Send("Order what?" + Environment.NewLine);
+                Send("Order what?");
             else if (Slave == null)
-                Send("You have no followers here." + Environment.NewLine);
+                Send("You have no followers here.");
             else if (Slave.Room != Room)
                 Send(StringHelpers.CharacterNotFound);
             else
             {
-                Slave.Send("{0} orders you to '{1}'." + Environment.NewLine, DisplayName, rawParameters);
+                Slave.Send("{0} orders you to '{1}'.", DisplayName, rawParameters);
                 Slave.ProcessCommand(rawParameters);
                 SetGlobalCooldown(3);
-                //Send("You order {0} to {1}." + Environment.NewLine, Slave.Name, rawParameters);
-                Send("Ok." + Environment.NewLine);
+                //Send("You order {0} to {1}.", Slave.Name, rawParameters);
+                Send("Ok.");
             }
             return true;
         }

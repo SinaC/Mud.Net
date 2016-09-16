@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mud.Server.Blueprints;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
@@ -141,6 +140,16 @@ namespace Mud.Server.Tests.Mocking
         }
 
         public IItemJewelry AddItemJewelry(Guid guid, ItemJewelryBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IItemQuest AddItemQuest(Guid guid, ItemQuestBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IItemKey AddItemKey(Guid guid, ItemKeyBlueprint blueprint, IContainer container)
         {
             throw new NotImplementedException();
         }

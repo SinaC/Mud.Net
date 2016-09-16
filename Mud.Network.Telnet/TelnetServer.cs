@@ -110,8 +110,8 @@ namespace Mud.Network.Telnet
             try
             {
                 // Close clients socket
-                List<ClientTelnetStateObject> copy = _clients.Select(x => x).ToList(); // make a copy, because CloseConnection modify collection
-                foreach (ClientTelnetStateObject client in copy)
+                List<ClientTelnetStateObject> clone = _clients.Select(x => x).ToList(); // make a copy, because CloseConnection modify collection
+                foreach (ClientTelnetStateObject client in clone)
                     CloseConnection(client);
                 _clients.Clear();
                 

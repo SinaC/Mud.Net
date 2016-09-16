@@ -9,6 +9,9 @@ namespace Mud.Server
         IAbility ParryAbility { get; }
         IAbility DodgerAbility { get; }
         IAbility ShieldBlockAbility { get; }
+        IAbility DualWieldAbility { get; }
+        IAbility ThirdWieldAbility { get; }
+        IAbility FourthWieldAbility { get; }
 
         IEnumerable<IAbility> Abilities { get; }
         

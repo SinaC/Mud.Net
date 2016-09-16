@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -11,7 +12,6 @@ using Mud.Importer.Mystery;
 using Mud.Logger;
 using Mud.Network;
 using Mud.Network.Telnet;
-using Mud.Server.Blueprints;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
@@ -128,7 +128,17 @@ namespace Mud.Server.WPFTestApplication
         {
             Loaded -= OnLoaded;
 
-            CreateMidgaard();
+            try
+            {
+                CreateWorld();
+            }
+            catch (Exception ex)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "*** Fatal error. Stopping application ***");
+                Log.Default.WriteLine(LogLevels.Error, ex.ToString()); //Fatal exception -> stop application
+                Application.Current.Shutdown(0);
+                return;
+            }
 
             //
             INetworkServer telnetServer = new TelnetServer(11000);
@@ -252,6 +262,8 @@ namespace Mud.Server.WPFTestApplication
                 Id = data.VNum,
                 Name = data.Name,
                 Description = data.Description,
+                ExtraDescriptions = RoomBlueprint.BuildExtraDescriptions(data.ExtraDescr)
+                // Exits will be done when each room blueprint is created
             };
             Repository.World.AddRoomBlueprint(blueprint);
             return blueprint;
@@ -283,6 +295,71 @@ namespace Mud.Server.WPFTestApplication
             return (long)1 << (c - 48);
         }
 
+        private static ExitFlags ConvertExitInfo(long exitInfo)
+        {
+            ExitFlags flags = 0;
+            if ((exitInfo & MysteryImporter.A) == MysteryImporter.A)
+                flags |= ExitFlags.Door;
+            if ((exitInfo & MysteryImporter.B) == MysteryImporter.B)
+                flags |= ExitFlags.Closed;
+            if ((exitInfo & MysteryImporter.B) == MysteryImporter.B)
+                flags |= ExitFlags.Locked;
+            if ((exitInfo & MysteryImporter.H) == MysteryImporter.H)
+                flags |= ExitFlags.Easy;
+            if ((exitInfo & MysteryImporter.I) == MysteryImporter.I)
+                flags |= ExitFlags.Hard;
+            if ((exitInfo & MysteryImporter.M) == MysteryImporter.M)
+                flags |= ExitFlags.Hidden;
+            return flags;
+        }
+
+        private static FurnitureActions ConvertFurnitureActions(object value)
+        {
+            FurnitureActions actions = FurnitureActions.None;
+
+            int flag = value == null ? 0 : Convert.ToInt32(value);
+            if ((flag & MysteryImporter.A) == MysteryImporter.A
+                || (flag & MysteryImporter.B) == MysteryImporter.B
+                || (flag & MysteryImporter.C) == MysteryImporter.C)
+                actions |= FurnitureActions.Stand;
+            if ((flag & MysteryImporter.D) == MysteryImporter.D
+                || (flag & MysteryImporter.E) == MysteryImporter.E
+                || (flag & MysteryImporter.F) == MysteryImporter.F)
+                actions |= FurnitureActions.Sit;
+            if ((flag & MysteryImporter.G) == MysteryImporter.G
+                || (flag & MysteryImporter.H) == MysteryImporter.H
+                || (flag & MysteryImporter.I) == MysteryImporter.I)
+                actions |= FurnitureActions.Rest;
+            if ((flag & MysteryImporter.J) == MysteryImporter.J
+                || (flag & MysteryImporter.K) == MysteryImporter.K
+                || (flag & MysteryImporter.L) == MysteryImporter.L)
+                actions |= FurnitureActions.Sleep;
+            return actions;
+        }
+
+        private static FurniturePlacePrepositions ConvertFurniturePreposition(object value)
+        {
+            FurniturePlacePrepositions preposition = FurniturePlacePrepositions.None;
+
+            int flag = value == null ? 0 : Convert.ToInt32(value);
+            if ((flag & MysteryImporter.A) == MysteryImporter.A
+                || (flag & MysteryImporter.D) == MysteryImporter.D
+                || (flag & MysteryImporter.G) == MysteryImporter.G
+                || (flag & MysteryImporter.J) == MysteryImporter.J)
+                preposition = FurniturePlacePrepositions.At;
+            else if ((flag & MysteryImporter.B) == MysteryImporter.B
+                || (flag & MysteryImporter.E) == MysteryImporter.E
+                || (flag & MysteryImporter.H) == MysteryImporter.H
+                || (flag & MysteryImporter.K) == MysteryImporter.K)
+                preposition = FurniturePlacePrepositions.On;
+            else if ((flag & MysteryImporter.C) == MysteryImporter.C
+                || (flag & MysteryImporter.F) == MysteryImporter.F
+                || (flag & MysteryImporter.I) == MysteryImporter.I
+                || (flag & MysteryImporter.L) == MysteryImporter.L)
+                preposition = FurniturePlacePrepositions.In;
+            return preposition;
+        }
+
         private static WearLocations ConvertWearLocation(ObjectData data)
         {
 //#define ITEM_TAKE		(A)
@@ -310,7 +387,7 @@ namespace Mud.Server.WPFTestApplication
                         return WearLocations.Light;
                     else
                         return WearLocations.None;
-                case 1 << 1: // B finger
+                case MysteryImporter.B: // B finger
                     return WearLocations.Ring;
                 case 1 << 2: // C
                     return WearLocations.Amulet;
@@ -358,7 +435,7 @@ namespace Mud.Server.WPFTestApplication
                     Name = data.Name,
                     ShortDescription = data.ShortDescr,
                     Description = data.Description,
-                    ExtraDescriptions = data.ExtraDescr,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
@@ -376,7 +453,7 @@ namespace Mud.Server.WPFTestApplication
                     Name = data.Name,
                     ShortDescription = data.ShortDescr,
                     Description = data.Description,
-                    ExtraDescriptions = data.ExtraDescr,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
@@ -392,7 +469,7 @@ namespace Mud.Server.WPFTestApplication
                     Name = data.Name,
                     ShortDescription = data.ShortDescr,
                     Description = data.Description,
-                    ExtraDescriptions = data.ExtraDescr,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
@@ -408,7 +485,7 @@ namespace Mud.Server.WPFTestApplication
                     Name = data.Name,
                     ShortDescription = data.ShortDescr,
                     Description = data.Description,
-                    ExtraDescriptions = data.ExtraDescr,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
@@ -423,13 +500,14 @@ namespace Mud.Server.WPFTestApplication
                     Name = data.Name,
                     ShortDescription = data.ShortDescr,
                     Description = data.Description,
-                    ExtraDescriptions = data.ExtraDescr,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
                     MaxPeople = Convert.ToInt32(data.Values[0]),
                     MaxWeight = Convert.ToInt32(data.Values[1]),
-                    // TODO: flags
+                    FurnitureActions = ConvertFurnitureActions(data.Values[2]),
+                    FurniturePlacePreposition = ConvertFurniturePreposition(data.Values[2]),
                     HealBonus = Convert.ToInt32(data.Values[3]),
                     ResourceBonus = Convert.ToInt32(data.Values[4])
                 };
@@ -442,7 +520,7 @@ namespace Mud.Server.WPFTestApplication
                     Name = data.Name,
                     ShortDescription = data.ShortDescr,
                     Description = data.Description,
-                    ExtraDescriptions = data.ExtraDescr,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
@@ -460,7 +538,21 @@ namespace Mud.Server.WPFTestApplication
                     Name = data.Name,
                     ShortDescription = data.ShortDescr,
                     Description = data.Description,
-                    ExtraDescriptions = data.ExtraDescr,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data)
+                };
+            }
+            else if (data.ItemType == "key")
+            {
+                blueprint = new ItemKeyBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data)
@@ -511,23 +603,23 @@ namespace Mud.Server.WPFTestApplication
         //"saddle" -> not mapped
         //"rope" -> not mapped
 
-        private static void CreateMidgaard()
+        private static void CreateWorld()
         {
-            MysteryImporter importer = new MysteryImporter();
-            importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
-            importer.Parse();
             //MysteryImporter importer = new MysteryImporter();
-            //string path = @"D:\GitHub\OldMud\area";
-            //string fileList = Path.Combine(path, "area.lst");
-            //string[] areaFilenames = File.ReadAllLines(fileList);
-            //foreach (string areaFilename in areaFilenames)
-            //{
-            //    if (areaFilename.Contains("$"))
-            //        break;
-            //    string areaFullName = Path.Combine(path, areaFilename);
-            //    importer.Load(areaFullName);
-            //    importer.Parse();
-            //}
+            //importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
+            //importer.Parse();
+            MysteryImporter importer = new MysteryImporter();
+            string path = @"D:\GitHub\OldMud\area";
+            string fileList = Path.Combine(path, "area.lst");
+            string[] areaFilenames = File.ReadAllLines(fileList);
+            foreach (string areaFilename in areaFilenames.Where(x => !x.Contains("limbo")))
+            {
+                if (areaFilename.Contains("$"))
+                    break;
+                string areaFullName = Path.Combine(path, areaFilename);
+                importer.Load(areaFullName);
+                importer.Parse();
+            }
 
             foreach (KeyValuePair<string,int> kv in importer.Objects.GroupBy(o => o.ItemType).ToDictionary(g => g.Key, g => g.Count()).OrderBy(x => x.Value))
                 Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", kv.Key, kv.Value);
@@ -573,9 +665,9 @@ namespace Mud.Server.WPFTestApplication
                         IRoom to;
                         roomsByVNums.TryGetValue(exit.DestinationVNum, out to);
                         if (from == null)
-                            Log.Default.WriteLine(LogLevels.Error, "Origin room not found for vnum {0}", importedRoom.VNum);
+                            Log.Default.WriteLine(LogLevels.Warning, "Origin room not found for vnum {0}", importedRoom.VNum);
                         else if (to == null)
-                            Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", importedRoom.VNum);
+                            Log.Default.WriteLine(LogLevels.Warning, "Destination room not found for vnum {0}", importedRoom.VNum);
                         else
                         {
                             ExitBlueprint exitBlueprint = new ExitBlueprint
@@ -583,8 +675,10 @@ namespace Mud.Server.WPFTestApplication
                                 Destination = exit.DestinationVNum,
                                 Description = exit.Description,
                                 Key = exit.Key,
-                                Keyword = exit.Keyword
+                                Keyword = exit.Keyword,
+                                Flags = ConvertExitInfo(exit.ExitInfo)
                             };
+                            // TODO: add exit to room blueprint
                             Repository.World.AddExit(from, to, exitBlueprint, (ExitDirections)i);
                         }
                     }
@@ -612,7 +706,7 @@ namespace Mud.Server.WPFTestApplication
                                 Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} added");
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} not found");
+                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} not found");
                             break;
                         }
                         case 'O':
@@ -624,11 +718,11 @@ namespace Mud.Server.WPFTestApplication
                                 if (item != null)
                                     Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} added room");
                                 else
-                                    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not created");
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not created");
                                 lastContainer = item as IItemContainer; // even if item is not a container, we have to convert it
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not found");
+                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not found");
                             //ObjectData obj = importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1);
                             //if (obj != null)
                             //{
@@ -661,10 +755,10 @@ namespace Mud.Server.WPFTestApplication
                                     Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} added in {lastContainer.Blueprint.Id}");
                                 }
                                 else
-                                    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: P: Last item was not a container");
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: P: Last item was not a container");
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} (type: {importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
+                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} (type: {importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
                             break;
                         }
                         // G: give object arg1 to mobile 
@@ -679,10 +773,10 @@ namespace Mud.Server.WPFTestApplication
                                     Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
                                 }
                                 else
-                                    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: G: Last character doesn't exist");
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: G: Last character doesn't exist");
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} (type: {importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
+                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} (type: {importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
                             break;
                         }
                         // E: equip object arg1 to mobile
@@ -698,10 +792,10 @@ namespace Mud.Server.WPFTestApplication
                                         // TODO: try to equip
                                     }
                                     else
-                                        Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: E: Last character doesn't exist");
+                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Last character doesn't exist");
                                 }
                                 else
-                                    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} (type: {importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} (type: {importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
                                 break;
                             }
                             // D: set state of door  (not used)
@@ -832,6 +926,22 @@ namespace Mud.Server.WPFTestApplication
                 WearLocation = WearLocations.Shield
             };
             Repository.World.AddItemBlueprint(item7Blueprint);
+            ItemQuestBlueprint questItem1Blueprint = new ItemQuestBlueprint
+            {
+                Id = 8,
+                Name = "Quest item 1",
+                ShortDescription = "Quest item 1",
+                Description = "The quest item 1 has been left here."
+            };
+            Repository.World.AddItemBlueprint(questItem1Blueprint);
+            ItemQuestBlueprint questItem2Blueprint = new ItemQuestBlueprint
+            {
+                Id = 9,
+                Name = "Quest item 2",
+                ShortDescription = "Quest item 2",
+                Description = "The quest item 2 has been left here."
+            };
+            Repository.World.AddItemBlueprint(questItem2Blueprint);
 
             //
             ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint
@@ -843,7 +953,7 @@ namespace Mud.Server.WPFTestApplication
             IRoom templeOfMota = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
             IRoom templeSquare = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
-            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Druid"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
+            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Druid"], Repository.RaceManager["Insectoid"], Sex.Male, templeOfMota); // playable
             ICharacter mob2 = Repository.World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
             ICharacter mob3 = Repository.World.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
             //ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
@@ -861,20 +971,22 @@ namespace Mud.Server.WPFTestApplication
             IItemLight item4Dup1 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             IItemWeapon item6 = Repository.World.AddItemWeapon(Guid.NewGuid(), item6Blueprint, templeSquare);
             IItemShield item7 = Repository.World.AddItemShield(Guid.NewGuid(), item7Blueprint, templeOfMota);
+            Repository.World.AddItemQuest(Guid.NewGuid(), questItem2Blueprint, templeSquare);
+
             // Equip weapon on mob2
             mob2.Equipments.First(x => x.Slot == EquipmentSlots.Wield).Item = item2;
             item2.ChangeContainer(null);
             item2.ChangeEquipedBy(mob2);
 
             // Quest
-            QuestKillLootTable<int> quest1DrunkKillLoot = new QuestKillLootTable<int>
+            QuestKillLootTable<int> quest1KillLoot = new QuestKillLootTable<int>
             {
-                Name = "Quest 1 drunk kill loot table",
+                Name = "Quest 1 kill 1 table",
                 Entries = new List<QuestKillLootTableEntry<int>>
                 {
                     new QuestKillLootTableEntry<int>
                     {
-                        Value = 3023,
+                        Value = questItem1Blueprint.Id,
                         Percentage = 80,
                     }
                 }
@@ -882,41 +994,78 @@ namespace Mud.Server.WPFTestApplication
             QuestBlueprint questBlueprint1 = new QuestBlueprint
             {
                 Id = 1,
-                Title = "Quest 1",
-                Description = "Kill 2 beggars, get 1 sixth item (weapon) and get 2 clubs on drunk",
-                Level = 10,
+                Title = "Complex quest",
+                Description = "Kill 3 fido, get one quest item 2, get 2 quest item 1 on beggar and explore temple square",
+                Level = 50,
+                Experience = 50000,
+                Gold = 20,
                 ShouldQuestItemBeDestroyed = true,
-                KillObjectives = new List<QuestKillObjective>
+                KillObjectives = new List<QuestKillObjectiveBlueprint>
                 {
-                    new QuestKillObjective
+                    new QuestKillObjectiveBlueprint
                     {
-                        CharacterBlueprintId = 3065,
-                        Count = 2
+                        CharacterBlueprintId = 3062, // fido
+                        Count = 3
                     }
                 },
-                ItemObjectives = new List<QuestItemObjective>
+                ItemObjectives = new List<QuestItemObjectiveBlueprint>
                 {
-                    new QuestItemObjective
+                    new QuestItemObjectiveBlueprint
                     {
-                        ItemBlueprintId = 6,
+                        ItemBlueprintId = questItem2Blueprint.Id,
                         Count = 1
                     },
-                    new QuestItemObjective
+                    new QuestItemObjectiveBlueprint
                     {
-                        ItemBlueprintId = 3023,
+                        ItemBlueprintId = questItem1Blueprint.Id,
                         Count = 2
                     }
                 },
-                KillLootTable = new Dictionary<int, QuestKillLootTable<int>> // when killing mob 3064, we receive item 3023 (80%)
+                LocationObjectives = new List<QuestLocationObjectiveBlueprint>
                 {
-                    { 3064, quest1DrunkKillLoot },
-                    { 3063, quest1DrunkKillLoot }
+                    new QuestLocationObjectiveBlueprint
+                    {
+                        RoomBlueprintId = templeSquare.Blueprint.Id,
+                    }
+                },
+                KillLootTable = new Dictionary<int, QuestKillLootTable<int>> // when killing mob 3065, we receive quest item 1 (80%)
+                {
+                    { 3065, quest1KillLoot } // beggar
                 }
+                // TODO: rewards
             };
             Repository.World.AddQuestBlueprint(questBlueprint1);
-            // Give quest to mob1
-            IQuest quest = new Quest(questBlueprint1, mob1, mob2);
-            mob1.AddQuest(quest);
+
+            QuestBlueprint questBlueprint2 = new QuestBlueprint
+            {
+                Id = 2,
+                Title = "Simple exploration quest",
+                Description = "Explore common square",
+                Level = 10,
+                Experience = 10000,
+                Gold = 20,
+                LocationObjectives = new List<QuestLocationObjectiveBlueprint>
+                {
+                    new QuestLocationObjectiveBlueprint
+                    {
+                        RoomBlueprintId = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the common square")?.Blueprint.Id ?? 0
+                    }
+                },
+                // TODO: rewards
+            };
+            Repository.World.AddQuestBlueprint(questBlueprint2);
+
+            // Give quest 1 and 2 to mob1
+            IQuest quest1 = new Quest.Quest(questBlueprint1, mob1, mob2);
+            mob1.AddQuest(quest1);
+            IQuest quest2 = new Quest.Quest(questBlueprint2, mob1, mob2);
+            mob1.AddQuest(quest2);
+
+            //// Search extra description
+            //foreach(IRoom room in Repository.World.Rooms.Where(x => x.ExtraDescriptions != null && x.ExtraDescriptions.Any()))
+            //    Log.Default.WriteLine(LogLevels.Info, "Room {0} has extra description: {1}", room.DebugName, room.ExtraDescriptions.Keys.Aggregate((n,i) => n+","+i));
+            //foreach (IItem item in Repository.World.Items.Where(x => x.ExtraDescriptions != null && x.ExtraDescriptions.Any()))
+            //    Log.Default.WriteLine(LogLevels.Info, "Item {0} has extra description: {1}", item.DebugName, item.ExtraDescriptions.Keys.Aggregate((n, i) => n + "," + i));
         }
     }
 }

@@ -35,8 +35,11 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContracts\AdminData.cs" />
     <Compile Include="DataContracts\CharacterData.cs" />
+    <Compile Include="DataContracts\CoupledData.cs" />
     <Compile Include="DataContracts\LoginData.cs" />
+    <Compile Include="IAdminManager.cs" />
     <Compile Include="ILoginManager.cs" />
     <Compile Include="IPlayerManager.cs" />
     <Compile Include="DataContracts\PlayerData.cs" />

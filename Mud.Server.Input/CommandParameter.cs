@@ -16,6 +16,24 @@ namespace Mud.Server.Input
 
         public List<string> Tokens { get; }
 
+        public bool IsNumber
+        {
+            get
+            {
+                int n;
+                return int.TryParse(Value, out n);
+            }
+        }
+
+        public int AsInt {
+            get
+            {
+                int intValue;
+                int.TryParse(Value, out intValue);
+                return intValue;
+            }
+        }
+
         private CommandParameter()
         {
             Tokens = new List<string>();

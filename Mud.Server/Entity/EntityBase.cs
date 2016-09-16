@@ -51,7 +51,7 @@ namespace Mud.Server.Entity
             if (!extractedSuccessfully)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
-                Send("Invalid command or parameters" + Environment.NewLine);
+                Send("Invalid command or parameters");
                 return false;
             }
 
@@ -59,7 +59,7 @@ namespace Mud.Server.Entity
             return ExecuteCommand(command, rawParameters, parameters);
         }
 
-        public override void Send(string message)
+        public override void Send(string message, bool addTrailingNewLine)
         {
             Log.Default.WriteLine(LogLevels.Debug, "SEND[{0}]: {1}", DebugName, message);
 
@@ -67,7 +67,7 @@ namespace Mud.Server.Entity
             {
                 if (ServerOptions.PrefixForwardedMessages)
                     message = "<INC|" + DisplayName + ">" + message;
-                IncarnatedBy.Send(message);
+                IncarnatedBy.Send(message, addTrailingNewLine);
             }
         }
 
@@ -87,13 +87,14 @@ namespace Mud.Server.Entity
         public abstract string DebugName { get; }
 
         public bool Incarnatable { get; private set; }
-        public IAdmin IncarnatedBy { get; private set; }
+        public IAdmin IncarnatedBy { get; protected set; }
 
         public virtual bool ChangeIncarnation(IAdmin admin) // if non-null, start incarnation, else, stop incarnation
         {
             if (!IsValid)
             {
                 Log.Default.WriteLine(LogLevels.Error, "IEntity.ChangeIncarnation: {0} is not valid anymore", DisplayName);
+                IncarnatedBy = null;
                 return false;
             }
             // TODO: check if not already incarnated, if incarnatable, ...
@@ -101,11 +102,23 @@ namespace Mud.Server.Entity
             return true;
         }
 
+        public virtual string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false)
+        {
+            return DisplayName; // no behavior by default
+        }
+
+        public virtual string RelativeDescription(ICharacter beholder)
+        {
+            return Description; // no behavior by default
+        }
+
         // Overriden in inherited class
         public virtual void OnRemoved() // called before removing an item from the game
         {
             IsValid = false;
             // TODO: warn IncarnatedBy about removing
+            IncarnatedBy?.StopIncarnating();
+            IncarnatedBy = null;
         }
 
         #endregion

@@ -6,20 +6,19 @@ namespace Mud.Server.Player
 {
     public partial class Player
     {
-        [Command("impersonate")]
+        [Command("impersonate", Category = "Avatar")]
         protected virtual bool DoImpersonate(string rawParameters, params CommandParameter[] parameters)
         {
+            // TODO: use impersonate list
             if (parameters.Length == 0)
             {
                 if (Impersonating != null)
                 {
-                    Send("You stop impersonating {0}." + Environment.NewLine, Impersonating.DisplayName);
-                    Impersonating.ChangeImpersonation(null);
-                    Impersonating = null;
-                    PlayerState = PlayerStates.Playing;
+                    Send("You stop impersonating {0}.", Impersonating.DisplayName);
+                    StopImpersonating();
                 }
                 else
-                    Send("Impersonate whom?" + Environment.NewLine);
+                    Send("Impersonate whom?");
             }
             else
             {
@@ -29,15 +28,15 @@ namespace Mud.Server.Player
                     if (target.Impersonable)
                     {
                         if (target.ImpersonatedBy != null)
-                            Send("{0} is already impersonated by {1}."+Environment.NewLine, target.DisplayName, target.ImpersonatedBy.DisplayName);
+                            Send("{0} is already impersonated by {1}.", target.DisplayName, target.ImpersonatedBy.DisplayName);
                         else
                         {
                             if (Impersonating != null)
                             {
-                                Send("You stop impersonating {0}." + Environment.NewLine, Impersonating.DisplayName);
+                                Send("You stop impersonating {0}.", Impersonating.DisplayName);
                                 Impersonating.ChangeImpersonation(null);
                             }
-                            Send("%M%You start impersonating %C%{0}%x%." + Environment.NewLine, target.DisplayName);
+                            Send("%M%You start impersonating %C%{0}%x%.", target.DisplayName);
                             target.ChangeImpersonation(this);
                             Impersonating = target;
                             PlayerState = PlayerStates.Impersonating;
@@ -46,7 +45,7 @@ namespace Mud.Server.Player
                         }
                     }
                     else
-                        Send("{0} cannot be impersonated." + Environment.NewLine, target.DisplayName);
+                        Send("{0} cannot be impersonated.", target.DisplayName);
                 }
                 else
                     Send(StringHelpers.CharacterNotFound);
@@ -55,7 +54,7 @@ namespace Mud.Server.Player
             return true;
         }
 
-        [Command("list")]
+        [Command("listavatar", Category = "Avatar")]
         protected virtual bool DoList(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: display impersonation list
@@ -63,16 +62,16 @@ namespace Mud.Server.Player
             return true;
         }
 
-        [Command("createavatar")]
+        [Command("createavatar", Category = "Avatar")]
         protected virtual bool DoCreateAvatar(string rawParameters, params CommandParameter[] parameters)
         {
             if (Impersonating != null)
             {
-                Send("You cannot create a new avatar while impersonating." + Environment.NewLine);
+                Send("You cannot create a new avatar while impersonating.");
                 return true;
             }
 
-            Send("Please choose an avatar name (type quit to stop and cancel creation)."+Environment.NewLine);
+            Send("Please choose an avatar name (type quit to stop and cancel creation).");
             CurrentStateMachine = new AvatarCreationStateMachine();
             return true;
         }

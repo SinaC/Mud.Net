@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using Mud.Server.Common;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
@@ -13,7 +13,7 @@ namespace Mud.Server.Character
         {
             if (parameters.Length == 0)
             {
-                Send("Kill whom?" + Environment.NewLine);
+                Send("Kill whom?");
                 return true;
             }
 
@@ -26,13 +26,13 @@ namespace Mud.Server.Character
 
             if (target == this)
             {
-                Send("You hit yourself. Ouch!" + Environment.NewLine);
+                Send("You hit yourself. Ouch!");
                 return true;
             }
 
             if (target.Impersonable)
             {
-                Send("You must MURDER a player!" + Environment.NewLine);
+                Send("You must MURDER a player!");
                 return true;
             }
 
@@ -66,19 +66,12 @@ namespace Mud.Server.Character
             return true;
         }
 
-        //[Command("murde", Hidden = true)] // TODO: force full match
-        //protected virtual bool DoMurde(string rawParameters, params CommandParameter[] parameters)
-        //{
-        //    Send("If you want to MURDER, spell it out." + Environment.NewLine);
-        //    return true;
-        //}
-
         [Command("murder", Category = "Combat", Priority = 999/*low priority*/, NoShortcut = true)]
         protected virtual bool DoMurder(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
-                Send("Murder whom?" + Environment.NewLine);
+                Send("Murder whom?");
                 return true;
             }
 
@@ -91,7 +84,7 @@ namespace Mud.Server.Character
 
             if (target == this)
             {
-                Send("You hit yourself. Ouch!" + Environment.NewLine);
+                Send("You hit yourself. Ouch!");
                 return true;
             }
 
@@ -130,7 +123,7 @@ namespace Mud.Server.Character
         {
             if (Fighting == null)
             {
-                Send("You aren't fighting anyone." + Environment.NewLine);
+                Send("You aren't fighting anyone.");
                 return true;
             }
             IRoom from = Room;
@@ -150,7 +143,7 @@ namespace Mud.Server.Character
                         //
                         StopFighting(true);
                         //
-                        Send("You flee from combat!"+Environment.NewLine);
+                        Send("You flee from combat!");
                         Act(ActOptions.ToRoom, "{0} has fled!", this);
                         successful = true;
                         break;
@@ -159,7 +152,7 @@ namespace Mud.Server.Character
             }
 
             if (!successful)
-                Send("PANIC! You couldn't escape!" + Environment.NewLine);
+                Send("PANIC! You couldn't escape!");
             return true;
         }
     }

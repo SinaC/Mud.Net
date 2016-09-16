@@ -22,6 +22,36 @@
                     return ExitDirections.North;
             }
         }
+
+        public static bool FindDirection(string direction, out ExitDirections exitDirection)
+        {
+            exitDirection = ExitDirections.North;
+            if (direction == "n" || direction == "north")
+                exitDirection = ExitDirections.North;
+            else if (direction == "e" || direction == "easy")
+                exitDirection = ExitDirections.East;
+            else if (direction == "s" || direction == "south")
+                exitDirection = ExitDirections.South;
+            else if (direction == "w" || direction == "west")
+                exitDirection = ExitDirections.West;
+            else if (direction == "u" || direction == "up")
+                exitDirection = ExitDirections.Up;
+            else if (direction == "d" || direction == "down")
+                exitDirection = ExitDirections.Down;
+            else if (direction == "n" || direction == "north")
+                exitDirection = ExitDirections.North;
+            else if (direction == "ne" || direction == "northeast")
+                exitDirection = ExitDirections.NorthEast;
+            else if (direction == "nw" || direction == "northwest")
+                exitDirection = ExitDirections.NorthWest;
+            else if (direction == "se" || direction == "southeas")
+                exitDirection = ExitDirections.SouthEast;
+            else if (direction == "sw" || direction == "southwest")
+                exitDirection = ExitDirections.SouthWest;
+            else
+                return false;
+            return true;
+        }
     }
 
     public enum ExitDirections // MUST contains 'ExitCount' entries

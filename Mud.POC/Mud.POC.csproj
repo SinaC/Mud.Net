@@ -49,6 +49,8 @@
     <Compile Include="NewMud\Behaviors\LivingBehavior.cs" />
     <Compile Include="NewMud\Behaviors\PlayerBehavior.cs" />
     <Compile Include="NewMud\Thing.cs" />
+    <Compile Include="TestDelayedAction.cs" />
+    <Compile Include="TestReputation.cs" />
     <Compile Include="TestAct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestPaging.cs" />

@@ -39,7 +39,7 @@ namespace Mud.Server.Player
             return true;
         }
 
-        [Command("areas", Priority = 10)]
+        [Command("areas", Category = "Information", Priority = 10)]
         protected virtual bool DoAreas(string rawParameters, params CommandParameter[] parameters)
         {
             TableGenerator<IArea> generator = new TableGenerator<IArea>("Areas");

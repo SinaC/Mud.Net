@@ -24,6 +24,12 @@ namespace Mud.Server
 
         IEnumerable<EquipedItem> Equipments { get; }
 
+        // Furniture (sleep/sit/stand)
+        IItemFurniture Furniture { get; }
+
+        // Position
+        Positions Position { get; }
+
         // Class/Race
         IClass Class { get; }
         IRace Race { get; }
@@ -65,6 +71,7 @@ namespace Mud.Server
         void AddQuest(IQuest quest);
         void CompleteQuest(IQuest quest);
         void AbandonQuest(IQuest quest);
+        bool IsQuestObjective(ICharacter questingCharacter);
 
         // Group/Follower
         bool ChangeLeader(ICharacter leader);
@@ -80,13 +87,21 @@ namespace Mud.Server
         // Act
         void Act(ActOptions option, string format, params object[] arguments);
         void ActToNotVictim(ICharacter victim, string format, params object[] arguments); // to everyone except this and victim
+        void Act(IEnumerable<ICharacter> characters, string format, params object[] arguments); // to every character in provided list
 
         // Equipments
         bool Unequip(IEquipable item);
 
+        // Furniture
+        bool ChangeFurniture(IItemFurniture furniture);
+
+        // Position
+        bool ChangePosition(Positions position);
+
         // Visibility
-        bool CanSee(ICharacter character);
-        bool CanSee(IItem obj);
+        bool CanSee(ICharacter target);
+        bool CanSee(IItem target);
+        bool CanSee(IExit exit);
 
         // Attributes
         int GetBasePrimaryAttribute(PrimaryAttributeTypes attribute);
@@ -127,7 +142,7 @@ namespace Mud.Server
         bool HasAbilitiesInCooldown { get; }
         int CooldownSecondsLeft(IAbility ability); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)
         void SetCooldown(IAbility ability);
-        void ResetCooldown(IAbility ability);
+        void ResetCooldown(IAbility ability, bool verbose);
     }
 
     public class EquipedItem

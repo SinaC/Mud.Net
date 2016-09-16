@@ -19,7 +19,7 @@ namespace Mud.Importer.Mystery
         public int PspRate { get; set; } // bstat(psprate)
         public string Clan { get; set; }
         public ExitData[] Exits { get; set; }
-        public Dictionary<string, string> ExtraDescr; // keyword -> description
+        public Dictionary<string, string> ExtraDescr { get; set; } // keyword -> description
         public string Owner { get; set; }
         public long Guilds { get; set; } // flags
         public string Program { get; set; } // Room program name

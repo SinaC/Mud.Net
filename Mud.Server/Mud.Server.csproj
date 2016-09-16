@@ -40,6 +40,8 @@
     <Compile Include="Abilities\Ability.cs" />
     <Compile Include="Abilities\ToRemoveAbilities.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
+    <Compile Include="Admin\CommunicationCommands.cs" />
+    <Compile Include="Admin\PunishCommands.cs" />
     <Compile Include="Area\Area.cs" />
     <Compile Include="Aura\Aura.cs" />
     <Compile Include="Aura\PeriodicAura.cs" />
@@ -57,6 +59,7 @@
     <Compile Include="Character\MovementCommands.cs" />
     <Compile Include="Character\ItemCommands.cs" />
     <Compile Include="Character\QuestCommands.cs" />
+    <Compile Include="Character\TestCommands.cs" />
     <Compile Include="Classes\ClassBase.cs" />
     <Compile Include="Classes\ClassManager.cs" />
     <Compile Include="Classes\Priest.cs" />
@@ -94,7 +97,9 @@
     <Compile Include="Item\IItemCorpse.cs" />
     <Compile Include="Item\IItemFurniture.cs" />
     <Compile Include="Item\IItemJewelry.cs" />
+    <Compile Include="Item\IItemKey.cs" />
     <Compile Include="Item\IItemLight.cs" />
+    <Compile Include="Item\IItemQuest.cs" />
     <Compile Include="Item\IItemShield.cs" />
     <Compile Include="Item\IItemWeapon.cs" />
     <Compile Include="Item\ItemArmor.cs" />
@@ -102,7 +107,9 @@
     <Compile Include="Item\ItemEquipableBase.cs" />
     <Compile Include="Item\ItemFurniture.cs" />
     <Compile Include="Item\ItemJewelry.cs" />
+    <Compile Include="Item\ItemKey.cs" />
     <Compile Include="Item\ItemLight.cs" />
+    <Compile Include="Item\ItemQuest.cs" />
     <Compile Include="Item\ItemShield.cs" />
     <Compile Include="Item\ItemWeapon.cs" />
     <Compile Include="IWorld.cs" />
@@ -116,11 +123,12 @@
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\CommunicationCommands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Quest.cs" />
+    <Compile Include="Quest\Quest.cs" />
     <Compile Include="Races\Dwarf.cs" />
     <Compile Include="Races\Elf.cs" />
     <Compile Include="Races\Gnome.cs" />
     <Compile Include="Races\Human.cs" />
+    <Compile Include="Races\Insectoid.cs" />
     <Compile Include="Races\RaceBase.cs" />
     <Compile Include="Races\RaceManager.cs" />
     <Compile Include="Races\Troll.cs" />

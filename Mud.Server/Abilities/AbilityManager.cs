@@ -15,6 +15,9 @@ namespace Mud.Server.Abilities
         private const int ParryAbilityId = 1000;
         private const int DodgeAbilityId = 1001;
         private const int ShieldBlockAbilityId = 1002;
+        private const int DualWieldAbilityId = 1003;
+        private const int ThirdWieldAbilityId = 1004;
+        private const int FourthWieldAbilityId = 1005;
 
         private readonly List<IAbility> _abilities = new List<IAbility> // TODO: dictionary on id + Trie on name
         {
@@ -36,11 +39,14 @@ namespace Mud.Server.Abilities
             new Ability(107, "Death Coil", AbilityTargets.TargetOrSelf, AbilityBehaviors.Any, AbilityKinds.Spell, ResourceKinds.Runic, AmountOperators.Fixed, 30, 4, 0, 30, SchoolTypes.Shadow, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new DamageOrHealEffect(0.88f, 0.88f*5, SecondaryAttributeTypes.AttackPower, SchoolTypes.Shadow), new AuraAbilityEffect(AuraModifiers.MaxHitPoints, 3, AmountOperators.Percentage)),
             new Ability(108, "Berserking", AbilityTargets.Self, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 4, 3*60, 10, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackSpeed, 15, AmountOperators.Percentage)),
             new Ability(109, "Battle Shout", AbilityTargets.Group, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 4, 0, 1*60*60, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackPower, 10, AmountOperators.Percentage)),
-            new Ability(110, "Swiftmend", AbilityTargets.Target, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 14, 1, 30, 0, SchoolTypes.Nature, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new HealAbilityEffect(700,SecondaryAttributeTypes.SpellPower)),
+            new Ability(110, "Swiftmend", AbilityTargets.TargetOrSelf, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 14, 1, 30, 0, SchoolTypes.Nature, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new HealAbilityEffect(700,SecondaryAttributeTypes.SpellPower)),
 
             new Ability(ParryAbilityId, "Parry", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
             new Ability(DodgeAbilityId, "Dodge", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
             new Ability(ShieldBlockAbilityId, "Shield Block", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
+            new Ability(DualWieldAbilityId, "Dual wield", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
+            new Ability(ThirdWieldAbilityId, "Third wield", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
+            new Ability(FourthWieldAbilityId, "Fourth wield", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.Physical, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
 
             new Ability(8888, "Smite", AbilityTargets.Target, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 1, 1, 2, 0, SchoolTypes.Holy, AbilityMechanics.None, DispelTypes.None, AbilityFlags.CannotMiss, new DamageRangeAbilityEffect(516, 577, SchoolTypes.Holy), new HealSourceAbilityEffect(0.69f, SecondaryAttributeTypes.MaxHitPoints)),
 
@@ -59,6 +65,9 @@ namespace Mud.Server.Abilities
             ParryAbility = this[ParryAbilityId];
             DodgerAbility = this[DodgeAbilityId];
             ShieldBlockAbility = this[ShieldBlockAbilityId];
+            DualWieldAbility = this[DualWieldAbilityId];
+            ThirdWieldAbility = this[ThirdWieldAbilityId];
+            FourthWieldAbility = this[FourthWieldAbilityId];
         }
 
         #endregion
@@ -69,6 +78,9 @@ namespace Mud.Server.Abilities
         public IAbility ParryAbility { get; }
         public IAbility DodgerAbility { get; }
         public IAbility ShieldBlockAbility { get; }
+        public IAbility DualWieldAbility { get; }
+        public IAbility ThirdWieldAbility { get; }
+        public IAbility FourthWieldAbility { get; }
 
         public IEnumerable<IAbility> Abilities => _abilities.AsReadOnly();
 
@@ -95,39 +107,39 @@ namespace Mud.Server.Abilities
             //0/ Search ability (in known abilities)
             if (parameters.Length == 0)
             {
-                source.Send("Cast/Use what ?" + Environment.NewLine);
+                source.Send("Cast/Use what ?");
                 return false;
             }
             IAbility ability = Search(source.KnownAbilities, source.Level, parameters[0]);
             if (ability == null)
             {
-                source.Send("You don't know any abilities of that name." + Environment.NewLine);
+                source.Send("You don't know any abilities of that name.");
                 return false;
             }
             //1/ Check flags
             if ((ability.Flags & AbilityFlags.RequiresMainHand) == AbilityFlags.RequiresMainHand && !source.Equipments.Any(x => (x.Slot == EquipmentSlots.Wield || x.Slot == EquipmentSlots.Wield2H) && x.Item != null))
             {
-                source.Send("You must be wielding something prior using {0}" + Environment.NewLine, ability.Name);
+                source.Send("You must be wielding in main-hand something prior using {0}", ability.Name);
                 return false;
             }
             if ((ability.Flags & AbilityFlags.RequireBearForm) == AbilityFlags.RequireBearForm && source.Form != Forms.Bear)
             {
-                source.Send("You must be in Bear form prior using {0}" + Environment.NewLine, ability.Name);
+                source.Send("You must be in Bear form prior using {0}", ability.Name);
                 return false;
             }
             if ((ability.Flags & AbilityFlags.RequireCatForm) == AbilityFlags.RequireCatForm && source.Form != Forms.Cat)
             {
-                source.Send("You must be in Cat form prior using {0}" + Environment.NewLine, ability.Name);
+                source.Send("You must be in Cat form prior using {0}", ability.Name);
                 return false;
             }
             if ((ability.Flags & AbilityFlags.RequireMoonkinForm) == AbilityFlags.RequireMoonkinForm && source.Form != Forms.Moonkin)
             {
-                source.Send("You must be in Moonkin form prior using {0}" + Environment.NewLine, ability.Name);
+                source.Send("You must be in Moonkin form prior using {0}", ability.Name);
                 return false;
             }
             if ((ability.Flags & AbilityFlags.RequireShadowForm) == AbilityFlags.RequireShadowForm && source.Form != Forms.Shadow)
             {
-                source.Send("You must be in Shadow form prior using {0}" + Environment.NewLine, ability.Name);
+                source.Send("You must be in Shadow form prior using {0}", ability.Name);
                 return false;
             }
             // TODO: shapeshift, combo
@@ -135,7 +147,7 @@ namespace Mud.Server.Abilities
             int cooldownSecondsLeft = source.CooldownSecondsLeft(ability);
             if (cooldownSecondsLeft > 0)
             {
-                source.Send("{0} is in cooldown for {1}." + Environment.NewLine, ability.Name, StringHelpers.FormatDelay(cooldownSecondsLeft));
+                source.Send("{0} is in cooldown for {1}.", ability.Name, StringHelpers.FormatDelay(cooldownSecondsLeft));
                 return false;
             }
             //3/ Check resource
@@ -144,7 +156,7 @@ namespace Mud.Server.Abilities
             {
                 if (!source.CurrentResourceKinds.Contains(ability.ResourceKind)) // TODO: not sure about this test
                 {
-                    source.Send("You can't use {0} as resource for the moment." + Environment.NewLine, ability.ResourceKind);
+                    source.Send("You can't use {0} as resource for the moment.", ability.ResourceKind);
                     return false;
                 }
                 int resourceLeft = source[ability.ResourceKind];
@@ -158,7 +170,7 @@ namespace Mud.Server.Abilities
                 bool enoughResource = cost <= resourceLeft;
                 if (!enoughResource)
                 {
-                    source.Send("You don't have enough {0}." + Environment.NewLine, ability.ResourceKind);
+                    source.Send("You don't have enough {0}.", ability.ResourceKind);
                     return false;
                 }
             }
@@ -176,7 +188,7 @@ namespace Mud.Server.Abilities
                         target = source.Fighting;
                     else if (parameters.Length == 1)
                     {
-                        source.Send("{0} on whom ?" + Environment.NewLine, ability.Name);
+                        source.Send("{0} on whom ?", ability.Name);
                         return false;
                     }
                     else
@@ -235,7 +247,7 @@ namespace Mud.Server.Abilities
                     break;
             }
             //5/ Say ability
-            source.Send("You cast/use '{0}'." + Environment.NewLine, ability.Name); // TODO: better wording
+            source.Send("You cast/use '{0}'.", ability.Name); // TODO: better wording
             //6/ Pay resource cost
             if (ability.ResourceKind != ResourceKinds.None && ability.CostAmount > 0 && ability.CostType != AmountOperators.None)
                 source.ChangeResource(ability.ResourceKind, -cost);

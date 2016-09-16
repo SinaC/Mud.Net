@@ -19,6 +19,7 @@ namespace Mud.Server.Player
         CreationComplete,
         Quit
     }
+
     public class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreationStates>
     {
         private string _name;
@@ -52,14 +53,14 @@ namespace Mud.Server.Player
             {
                 if (input == "quit")
                 {
-                    player.Send("Creation cancelled"+Environment.NewLine);
+                    player.Send("Creation cancelled");
                     return AvatarCreationStates.Quit;
                 }
                 _name = input;
-                player.Send("Are you sure '{0}' is the name of your avatar? (y/n/quit)" + Environment.NewLine, StringHelpers.UpperFirstLetter(_name));
+                player.Send("Are you sure '{0}' is the name of your avatar? (y/n/quit)", StringHelpers.UpperFirstLetter(_name));
                 return AvatarCreationStates.NameConfirmation;
             }
-            player.Send("Please enter a name (type quit to stop creation):" + Environment.NewLine);
+            player.Send("Please enter a name (type quit to stop creation):");
             return AvatarCreationStates.NameChoice;
         }
 
@@ -67,13 +68,13 @@ namespace Mud.Server.Player
         {
             if (input == "y" || input == "yes")
             {
-                player.Send("Nice! Please choose a sex (type quit to stop creation)." + Environment.NewLine);
+                player.Send("Nice! Please choose a sex (type quit to stop creation).");
                 DisplaySexList(player);
                 return AvatarCreationStates.SexChoice;
             }
             else if (input == "quit")
             {
-                player.Send("Creation cancelled"+Environment.NewLine);
+                player.Send("Creation cancelled.");
                 return AvatarCreationStates.Quit;
             }
             player.Send("Ok, what name would you give to your avatar (type quit to stop creation)?");
@@ -84,13 +85,13 @@ namespace Mud.Server.Player
         {
             if (input == "quit")
             {
-                player.Send("Creation cancelled" + Environment.NewLine);
+                player.Send("Creation cancelled.");
                 return AvatarCreationStates.Quit;
             }
             bool found = EnumHelpers.TryFindByPrefix(input, out _sex);
             if (found)
             {
-                player.Send("Great! Please choose a race (type quit to stop creation)." + Environment.NewLine);
+                player.Send("Great! Please choose a race (type quit to stop creation).");
                 DisplayRaceList(player, false);
                 return AvatarCreationStates.RaceChoice;
             }
@@ -102,14 +103,14 @@ namespace Mud.Server.Player
         {
             if (input == "quit")
             {
-                player.Send("Creation cancelled" + Environment.NewLine);
+                player.Send("Creation cancelled.");
                 return AvatarCreationStates.Quit;
             }
             List<IRace> races = Repository.RaceManager.Races.Where(x => FindHelpers.StringStartsWith(x.Name, input)).ToList();
             if (races.Count == 1)
             {
                 _race = races[0];
-                player.Send("Good choice! Now, please choose a class (type quit to stop creation)." + Environment.NewLine);
+                player.Send("Good choice! Now, please choose a class (type quit to stop creation).");
                 DisplayClassList(player, false);
                 return AvatarCreationStates.ClassChoice;
             }
@@ -121,7 +122,7 @@ namespace Mud.Server.Player
         {
             if (input == "quit")
             {
-                player.Send("Creation cancelled" + Environment.NewLine);
+                player.Send("Creation cancelled.");
                 return AvatarCreationStates.Quit;
             }
             List<IClass> classes = Repository.ClassManager.Classes.Where(x => FindHelpers.StringStartsWith(x.Name, input)).ToList();
@@ -131,8 +132,8 @@ namespace Mud.Server.Player
                 // TODO: Add character to impersonate list
                 player.Save();
                 // TODO: better wording
-                player.Send("Your avatar is created. Name: {0} Sex: {1} Race: {2} Class: {3}."+Environment.NewLine, StringHelpers.UpperFirstLetter(_name), _sex, _race.DisplayName, _class.DisplayName);
-                player.Send("Would you like to impersonate it now? (y/n)"+Environment.NewLine);
+                player.Send("Your avatar is created. Name: {0} Sex: {1} Race: {2} Class: {3}.", StringHelpers.UpperFirstLetter(_name), _sex, _race.DisplayName, _class.DisplayName);
+                player.Send("Would you like to impersonate it now? (y/n)");
                 return AvatarCreationStates.ImmediateImpersonate;
             }
             DisplayClassList(player);
@@ -151,7 +152,7 @@ namespace Mud.Server.Player
                 player.ProcessCommand("/impersonate " + avatar.Name);
                 return AvatarCreationStates.CreationComplete;
             }
-            player.Send("Avatar {0} created but not impersonated. Use /impersonate {0} to enter game or use /list to see your avatar list."+Environment.NewLine, StringHelpers.UpperFirstLetter(_name));
+            player.Send("Avatar {0} created but not impersonated. Use /impersonate {0} to enter game or use /list to see your avatar list.", StringHelpers.UpperFirstLetter(_name));
             // else, NOP
             return AvatarCreationStates.CreationComplete;
         }
@@ -171,25 +172,25 @@ namespace Mud.Server.Player
         private void DisplaySexList(IPlayer player, bool displayHeader = true)
         {
             if (displayHeader)
-                player.Send("Please choose a sex (type quit to stop creation)." + Environment.NewLine);
-            string sex = String.Join(" | ", Enum.GetNames(typeof(Sex)));
-            player.Send(sex+Environment.NewLine);
+                player.Send("Please choose a sex (type quit to stop creation).");
+            string sexes = String.Join(" | ", Enum.GetNames(typeof(Sex)));
+            player.Send(sexes);
         }
 
         private void DisplayRaceList(IPlayer player, bool displayHeader = true)
         {
             if (displayHeader)
-                player.Send("Please choose a race (type quit to stop creation)." + Environment.NewLine);
+                player.Send("Please choose a race (type quit to stop creation).");
             string races = String.Join(" | ", Repository.RaceManager.Races.Select(x => x.DisplayName));
-            player.Send(races + Environment.NewLine);
+            player.Send(races);
         }
 
         private void DisplayClassList(IPlayer player, bool displayHeader = true)
         {
             if (displayHeader)
-                player.Send("Please choose a class (type quit to stop creation)." + Environment.NewLine);
+                player.Send("Please choose a class (type quit to stop creation).");
             string classes = String.Join(" | ", Repository.ClassManager.Classes.Select(x => x.DisplayName));
-            player.Send(classes + Environment.NewLine);
+            player.Send(classes);
         }
     }
 }

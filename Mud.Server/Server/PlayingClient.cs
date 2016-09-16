@@ -40,13 +40,13 @@ namespace Mud.Server.Server
 
         public void EnqueueDataToSend(string data)
         {
-            lock (_sendBuffer)
+            lock (_sendBuffer) // TODO: is this really needed ???
                 _sendBuffer.Append(data);
         }
 
         public string DequeueDataToSend()
         {
-            lock (_sendBuffer)
+            lock (_sendBuffer) // TODO: is this really needed ???   DequeueDataToSend is processed in Server.ProcessOutput and EnqueueDataToSend is processed in Server.ProcessInput+Server.HandleXXX
             {
                 string data = _sendBuffer.ToString();
                 _sendBuffer.Clear();

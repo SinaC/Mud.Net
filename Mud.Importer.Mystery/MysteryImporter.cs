@@ -8,6 +8,38 @@ namespace Mud.Importer.Mystery
 {
     public class MysteryImporter : TextBasedImporter
     {
+        public const int A = 1 << 0;   //0x00000001;
+        public const int B = 1 << 1;   //0x00000002;
+        public const int C = 1 << 2;   //0x00000004;
+        public const int D = 1 << 3;   //0x00000008;
+        public const int E = 1 << 4;   //0x00000010;
+        public const int F = 1 << 5;   //0x00000020;
+        public const int G = 1 << 6;   //0x00000040;
+        public const int H = 1 << 7;   //0x00000080;
+        public const int I = 1 << 8;   //0x00000100;
+        public const int J = 1 << 9;   //0x00000200;
+        public const int K = 1 << 10;  //0x00000400;
+        public const int L = 1 << 11;  //0x00000800;
+        public const int M = 1 << 12;  //0x00001000;
+        public const int N = 1 << 13;  //0x00002000;
+        public const int O = 1 << 14;  //0x00004000;
+        public const int P = 1 << 15;  //0x00008000;
+        public const int Q = 1 << 16;  //0x00010000;
+        public const int R = 1 << 17;  //0x00020000;
+        public const int S = 1 << 18;  //0x00040000;
+        public const int T = 1 << 19;  //0x00080000;
+        public const int U = 1 << 20;  //0x00100000;
+        public const int V = 1 << 21;  //0x00200000;
+        public const int W = 1 << 22;  //0x00400000;
+        public const int X = 1 << 23;  //0x00800000;
+        public const int Y = 1 << 24;  //0x01000000;
+        public const int Z = 1 << 25;  //0x02000000;
+        public const int aa = 1 << 26; //0x04000000;
+        public const int bb = 1 << 27; //0x8000000;
+        public const int cc = 1 << 28; //0x10000000;
+        public const int dd = 1 << 29; //0x20000000;
+        public const int ee = 1 << 30; //0x40000000;
+
         private const string AreaDataHeader = "AREADATA";
         private const string AreaDataHeader2 = "AREA";
         private const string MobilesHeader = "MOBILES";

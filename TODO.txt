@@ -1,16 +1,49 @@
+transform ICharacter into
+	ICharacter, INonPlayableCharacter, IPlayableCharacter
+transform Character into
+	Character, NonPlayableCharacter, PlayableCharacter
+
+check if everywhere if Act should replace Send
+use new act formatting: h, b, v where possible
+wield2h/wield2h2
+
+casting time ? (-> spell interrupt is needed) --> delayed actions
+
 impersonable list
 use more StringBuilder
 specialization
 talent
 OLC
+guild
+reputation
+achievements
+AH
+portal
 
-optimize quest (especially IsCompleted and Objectives: called 3 times when using command Quest)
+afk/replay (display missed tell)
+drink/eat/fill/pour/quaff
+pull/push
+buy/sell/list
+
+act: add IPlayer, IAdmin -> Name or Impersonated.DisplayName
+
+admin
+    mload/oload
+    at(quite difficult to implement)
+    wiznet (wiznet.C)
+    admin level
+statistics: mob killed, player killed, ...
+
+!! Stunned position is not very well used/defined
+min pos to initiate command  see interp.C:935
+
+prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 
 http://wow.gamepedia.com/Experience_point#Quest_XP
 
 aura/periodic aura can have multiply affects/effects
 
-Mystery to new format converter  (see olc_act.C:2578 for obj values  L4571 for mob values)
+Mystery to new format converter (see olc_act.C:2578 for obj values  L4571 for mob values)
 
 combat table:
 http://wowwiki.wikia.com/wiki/Combat
@@ -19,12 +52,6 @@ http://wow.gamepedia.com/Dual_wield
 http://wow.gamepedia.com/Crushing_blow
 
 check wheelmud for mccp/mxp
-
-loot table instead of resets
-
-CharacterLootTable must be stored in Character(or CharacterBlueprint)
-QuestTable must be stored in Quest -> new item QuestItem can only be looted by quest owner
-Current quests are stored in Player(or Character) -> when a corpse is created, check if current quest have specific loot table
 
 each time operator IS or AS is used, this should be replaced with an overridable method
 DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
@@ -35,20 +62,10 @@ EquipedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
 should equiped items be in inventory ? 4 bag slots instead of inventory + 1 dummy bag slot with inventory ?
 
 unit tests
-IReadOnlyPlayer, IReadOnlyCharacter, ...  + set private/protected to internal  this allows to remove methods like Enter/Leaves/ChangeImpersonation/ChangeController
-do_reply
-add CanSee test where it's needed
-use ShortDescription where it's needed
-avatar creation state machine
-
-min pos to initiate command  see interp.C:935
 
 spam, linkdead, ...
 
 mongo DB to store pfile
-
-loot table: 
-http://www.gammon.com.au/forum/bbshowpost.php?bbsubject_id=9715
 
 ability:
 http://www.wowhead.com/spell=106832/thrash
@@ -70,9 +87,8 @@ dispel type: ?
 effects: list of effect such as weapon damage %, school damage % spellpower, apply aura absorb damage, apply aura periodic damage % spellpower tick seconds, apply aura periodic heal % spellpower tick seconds
 flags: require main hand, not shapeshifted, passive
 
-option in CommandAttribute to force full command name to be typed
-
 lua:
+http://dotnetslackers.com/articles/wpf/Integrate-Lua-into-WPF-Games.aspx
 https://github.com/NLua/NLua
 http://stackoverflow.com/questions/24927776/nlua-luainterface-calling-a-function
 https://github.com/codefoco/NLuaBox/blob/master/NLuaBoxAppDelegateInternal.cs#L60
@@ -98,3 +114,9 @@ check http://www.albahari.com/threading/part3.aspx#_Safe_Cancellation
 
 area file format
 http://www.mudmagic.com/codes/download/diku/merc/rom/areas/romstuff.txt
+
+loot table: 
+http://www.gammon.com.au/forum/bbshowpost.php?bbsubject_id=9715
+
+rom snippets:
+http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/

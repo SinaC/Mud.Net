@@ -11,6 +11,9 @@ namespace Mud.Datas.DataContracts
         public string Name { get; set; }
 
         [DataMember]
+        public int RoomId { get; set; }
+
+        [DataMember]
         public string Race { get; set; }
 
         [DataMember]
@@ -23,7 +26,7 @@ namespace Mud.Datas.DataContracts
         public Sex Sex { get; set; }
 
         [DataMember]
-        public Dictionary<PrimaryAttributeTypes, int> PrimaryAttributes { get; set; }
+        public List<CoupledData<PrimaryAttributeTypes, int>> PrimaryAttributes { get; set; }
 
         // TODO auras, equipment, inventory, cooldowns, room
     }

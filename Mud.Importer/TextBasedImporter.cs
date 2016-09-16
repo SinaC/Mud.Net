@@ -137,6 +137,7 @@ namespace Mud.Importer
                 {
                     if (cEnd == ' ')
                         UngetChar(c);
+                    ReplaceColorCode(sb);
                     return sb.ToString();
                 }
                 else
@@ -176,7 +177,10 @@ namespace Mud.Importer
                     ; // nop
 #pragma warning restore 642
                 else if (c == '~') // smash tilde
+                {
+                    ReplaceColorCode(sb);
                     return sb.ToString();
+                }
                 else
                     sb.Append(c);
             }
@@ -209,6 +213,7 @@ namespace Mud.Importer
             } while (c == '\n' || c == '\r');
 
             UngetChar(c);
+            ReplaceColorCode(sb);
             return sb.ToString();
         }
 
@@ -325,6 +330,15 @@ namespace Mud.Importer
                 return 0;
             }
             return bitsum;
+        }
+
+        protected static void ReplaceColorCode(StringBuilder sb)
+        {
+            sb.Replace("{{", "{")
+                .Replace("{x", "%x%")
+                .Replace("{D", "%w%")
+                .Replace("{r", "%r%").Replace("{b", "%b%").Replace("{g", "%g%").Replace("{y", "%y%").Replace("{m", "%m%").Replace("{c", "%c%").Replace("{w", "%w%")
+                .Replace("{R", "%R%").Replace("{B", "%B%").Replace("{G", "%G%").Replace("{Y", "%Y%").Replace("{M", "%M%").Replace("{C", "%C%").Replace("{W", "%W%");
         }
     }
 }

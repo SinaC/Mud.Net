@@ -36,11 +36,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character\CharacterBlueprint.cs" />
+    <Compile Include="Item\ItemKeyBlueprint.cs" />
+    <Compile Include="Item\ItemQuestBlueprint.cs" />
     <Compile Include="Quest\QuestBlueprint.cs" />
-    <Compile Include="Quest\QuestItemObjective.cs" />
+    <Compile Include="Quest\QuestItemObjectiveBlueprint.cs" />
     <Compile Include="Quest\QuestKillLootTable.cs" />
     <Compile Include="Quest\QuestKillLootTableEntry.cs" />
-    <Compile Include="Quest\QuestKillObjective.cs" />
+    <Compile Include="Quest\QuestKillObjectiveBlueprint.cs" />
+    <Compile Include="Quest\QuestLocationObjectiveBlueprint.cs" />
     <Compile Include="Room\ExitBlueprint.cs" />
     <Compile Include="Item\ItemArmorBlueprint.cs" />
     <Compile Include="Item\ItemBlueprintBase.cs" />

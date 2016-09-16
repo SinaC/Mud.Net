@@ -27,7 +27,16 @@ namespace Mud.Server.Server
         {
             // if unread lines, they will be overridden by new ones
             _currentLine = 0;
-            _lines = data.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            _lines = data.ToString().TrimEnd().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            // TODO: remove trailing empty entries
+            //_lines = data.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        public string GetPreviousPage(int lineCount)
+        {
+            // once GetNextPage has been called (called by default when paging a content), currentLine is at first line of next page -> we have to go up 2 pages to get previous page
+            _currentLine = Math.Max(0, _currentLine - lineCount*2);
+            return GetNextPage(lineCount);
         }
 
         public string GetNextPage(int lineCount)
@@ -39,7 +48,7 @@ namespace Mud.Server.Server
 
         public string GetRemaining()
         {
-            string lines = String.Join(Environment.NewLine, _lines) + Environment.NewLine;
+            string lines = String.Join(Environment.NewLine, _lines.Skip(_currentLine)) + Environment.NewLine;
             return lines;
         }
     }

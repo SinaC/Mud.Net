@@ -1,5 +1,4 @@
 ﻿using Mud.Datas;
-using Mud.Server.Blueprints.LootTable;
 
 namespace Mud.Server
 {
@@ -18,5 +17,7 @@ namespace Mud.Server
         public static ILoginManager LoginManager => Datas.Filesystem.LoginManager.Instance;
 
         public static IPlayerManager PlayerManager => Datas.Filesystem.PlayerManager.Instance;
+
+        public static IAdminManager AdminManager => Datas.Filesystem.AdminManager.Instance;
     }
 }

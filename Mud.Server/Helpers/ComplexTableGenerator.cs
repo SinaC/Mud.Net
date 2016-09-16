@@ -67,6 +67,9 @@ namespace Mud.Server.Helpers
         public StringBuilder Generate()
         {
             StringBuilder sb = new StringBuilder();
+            sb.AppendLine();
+
+            // TODO
 
             // + at the beginning and end or each row
             // whitespace before and after each cell

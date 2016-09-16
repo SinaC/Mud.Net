@@ -27,6 +27,7 @@ namespace Mud.Server.Area
         public string Credits { get; }
         public IEnumerable<IRoom> Rooms => _rooms;
         public IEnumerable<IPlayer> Players => _rooms.SelectMany(x => x.People).Where(x => x.ImpersonatedBy != null).Select(x => x.ImpersonatedBy);
+        public IEnumerable<ICharacter> Characters => _rooms.SelectMany(x => x.People);
 
         public bool AddRoom(IRoom room)
         {

@@ -36,6 +36,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminManager.cs" />
     <Compile Include="LoginManager.cs" />
     <Compile Include="DataContracts\LoginRepositoryData.cs" />
     <Compile Include="PlayerManager.cs" />

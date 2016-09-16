@@ -3,5 +3,7 @@
     public interface IAdmin : IPlayer
     {
         IEntity Incarnating { get; }
+
+        void StopIncarnating();
     }
 }

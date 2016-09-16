@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.Server.Abilities;
+using Mud.Server.Common;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -25,7 +26,6 @@ namespace Mud.Server.Character
         protected virtual bool DoAbilities(string rawParameters, params CommandParameter[] parameters)
         {
             bool displayAll = parameters.Length > 0 && parameters[0].IsAll; // Display spells below level or all ?
-            // TODO: color
             // TODO: split into spells/skills
 
             List<AbilityAndLevel> abilities = KnownAbilities
@@ -40,38 +40,63 @@ namespace Mud.Server.Character
             //    .OrderBy(x => x.Ability.Name)
             //    .ToList();
 
-            //StringBuilder sb = new StringBuilder();
-            //sb.AppendLine("+-------------------------------------------------+");
-            //sb.AppendLine("| Abilities                                       |");
-            //sb.AppendLine("+-----+-----------------------+----------+--------+");
-            //sb.AppendLine("| Lvl | Name                  | Resource | Cost   |");
-            //sb.AppendLine("+-----+-----------------------+----------+--------+");
-            //foreach (AbilityAndLevel abilityAndLevel in abilities)
-            //{
-            //    int level = abilityAndLevel.Level;
-            //    IAbility ability = abilityAndLevel.Ability;
-            //    if ((ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
-            //        sb.AppendFormatLine("| {0,3} | {1,21} |  %m%passive ability%x%  |", level, ability.Name);
-            //    else if (ability.CostType == AmountOperators.Percentage)
-            //        sb.AppendFormatLine("| {0,3} | {1,21} | {2,14} | {3,5}% |", level, ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
-            //    else if (ability.CostType == AmountOperators.Fixed)
-            //        sb.AppendFormatLine("| {0,3} | {1,21} | {2,14} | {3,6} |", level, ability.Name, StringHelpers.ResourceColor(ability.ResourceKind), ability.CostAmount);
-            //    else
-            //        sb.AppendFormatLine("| {0,3} | {1,21} | %W%free cost ability%x% |", level, ability.Name);
-            //}
-            //sb.AppendLine("+-----+-----------------------+----------+--------+");
-            //Page(sb);
+            //+------------------------------------------------------------+
+            //| Abilities                                                  |
+            //+-----+-----------------------+----------+--------+----------+
+            //| Lvl | Name                  | Resource | Cost   | Cooldown |
+            //+-----+-----------------------+----------+--------+----------+
 
-            
-            StringBuilder sb2 = AbilitiesAndLevelTableTableGenerator.Value.Generate(abilities);
-            Page(sb2);
+            StringBuilder sb = AbilitiesAndLevelTableGeneratorInstance.Value.Generate(abilities);
+            Page(sb);
 
             return true;
         }
 
-        private static readonly Lazy<TableGenerator<AbilityAndLevel>> AbilitiesAndLevelTableTableGenerator = new Lazy<TableGenerator<AbilityAndLevel>>(() => GenerateAbilitiesAndLevelTableGenerator);
+        [Command("cd", Category = "Ability")]
+        [Command("cooldowns", Category = "Ability")]
+        protected virtual bool DoCooldowns(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                //IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> abilitiesInCooldown = AbilitiesInCooldown;
+                if (AbilitiesInCooldown.Any())
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine("%c%Following abilities are in cooldown:%x%");
+                    foreach (var cooldown in AbilitiesInCooldown
+                        .Select(x => new { Ability = x.Key, SecondsLeft = (x.Value - Repository.Server.CurrentTime).TotalSeconds })
+                        .OrderBy(x => x.SecondsLeft))
+                    {
+                        int secondsLeft = (int)Math.Ceiling(cooldown.SecondsLeft);
+                        sb.AppendFormatLine("{0} is in cooldown for {1}.", cooldown.Ability.Name, StringHelpers.FormatDelay(secondsLeft));
+                    }
+                    Send(sb);
+                }
+                else
+                    Send("%c%No abilities in cooldown.%x%");
+            }
+            else
+            {
+                IAbility ability = Repository.AbilityManager.Search(parameters[0]);
+                if (ability == null)
+                {
+                    Send("You don't know any abilities of that name.");
+                    return true;
+                }
+                int cooldownSecondsLeft = CooldownSecondsLeft(ability);
+                if (cooldownSecondsLeft <= 0)
+                    Send("{0} is not in cooldown.", ability.Name);
+                else
+                    Send("{0} is in cooldown for {1}.", ability.Name, StringHelpers.FormatDelay(cooldownSecondsLeft));
+            }
+            return true;
+        }
 
-        private static TableGenerator<AbilityAndLevel> GenerateAbilitiesAndLevelTableGenerator
+        #region Helpers
+
+        private static readonly Lazy<TableGenerator<AbilityAndLevel>> AbilitiesAndLevelTableGeneratorInstance = new Lazy<TableGenerator<AbilityAndLevel>>(() => AbilitiesAndLevelTableGenerator);
+
+        private static TableGenerator<AbilityAndLevel> AbilitiesAndLevelTableGenerator
         {
             get
             {
@@ -96,8 +121,11 @@ namespace Mud.Server.Character
                         return 1;
                     });
                 generator.AddColumn("Cost", 8, x => x.Ability.CostAmount.ToString(), x => x.Ability.CostType == AmountOperators.Percentage ? "% " : " ");
+                generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
                 return generator;
             }
         }
+
+        #endregion
     }
 }

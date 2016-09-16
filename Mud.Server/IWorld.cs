@@ -56,6 +56,8 @@ namespace Mud.Server
         IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container);
         IItemFurniture AddItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer container);
         IItemJewelry AddItemJewelry(Guid guid, ItemJewelryBlueprint blueprint, IContainer container);
+        IItemQuest AddItemQuest(Guid guid, ItemQuestBlueprint blueprint, IContainer container);
+        IItemKey AddItemKey(Guid guid, ItemKeyBlueprint blueprint, IContainer container);
         IItem AddItem(Guid guid, int blueprintId, IContainer container);
 
         IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool recompute);

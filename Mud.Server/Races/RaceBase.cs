@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mud.Logger;
 using Mud.Server.Abilities;
+using Mud.Server.Constants;
 using Mud.Server.Helpers;
 
 namespace Mud.Server.Races
@@ -8,6 +9,29 @@ namespace Mud.Server.Races
     public abstract class RaceBase : IRace
     {
         private readonly List<AbilityAndLevel> _abilities;
+        private readonly List<EquipmentSlots> _basicSlots = new List<EquipmentSlots>
+        {
+                Constants.EquipmentSlots.Light,
+                Constants.EquipmentSlots.Head,
+                Constants.EquipmentSlots.Amulet,
+                Constants.EquipmentSlots.Shoulders,
+                Constants.EquipmentSlots.Chest,
+                Constants.EquipmentSlots.Cloak,
+                Constants.EquipmentSlots.Waist,
+                Constants.EquipmentSlots.Wrists,
+                Constants.EquipmentSlots.Arms,
+                Constants.EquipmentSlots.Hands,
+                Constants.EquipmentSlots.RingLeft,
+                Constants.EquipmentSlots.RingRight,
+                Constants.EquipmentSlots.Legs,
+                Constants.EquipmentSlots.Feet,
+                Constants.EquipmentSlots.Trinket1,
+                Constants.EquipmentSlots.Trinket2,
+                Constants.EquipmentSlots.Wield,
+                Constants.EquipmentSlots.Wield2,
+                Constants.EquipmentSlots.Shield,
+                Constants.EquipmentSlots.Hold,
+        };
 
         #region IRace
 
@@ -18,6 +42,8 @@ namespace Mud.Server.Races
         public abstract string ShortName { get; }
 
         public IEnumerable<AbilityAndLevel> Abilities => _abilities;
+
+        public virtual IEnumerable<EquipmentSlots> EquipmentSlots => _basicSlots;
 
         #endregion
 
