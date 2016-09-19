@@ -26,8 +26,8 @@ namespace Mud.Datas.DataContracts
         public Sex Sex { get; set; }
 
         [DataMember]
-        public List<CoupledData<PrimaryAttributeTypes, int>> PrimaryAttributes { get; set; }
+        public long Experience { get; set; }
 
-        // TODO auras, equipment, inventory, cooldowns, room
+        // TODO: aura, equipments, inventory, cooldown, quests, ...
     }
 }

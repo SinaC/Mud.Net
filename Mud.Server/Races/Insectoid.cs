@@ -5,6 +5,8 @@ namespace Mud.Server.Races
 {
     public class Insectoid : RaceBase // 4-arms
     {
+        #region IRace
+
         private readonly List<EquipmentSlots> _slots = new List<EquipmentSlots>
         {
             Constants.EquipmentSlots.Light,
@@ -33,6 +35,13 @@ namespace Mud.Server.Races
         public override string ShortName => "Ins";
 
         public override IEnumerable<EquipmentSlots> EquipmentSlots => _slots;
+
+        public override int GetPrimaryAttributeModifier(PrimaryAttributeTypes primaryAttribute)
+        {
+            return 0; // TODO: http://wow.gamepedia.com/Base_attributes#Racial_modifiers
+        }
+
+        #endregion
 
         public Insectoid()
         {

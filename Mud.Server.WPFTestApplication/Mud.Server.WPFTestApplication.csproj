@@ -102,6 +102,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Datas\Mud.Datas.csproj">
+      <Project>{2c853490-7908-4e36-b906-72eba82b4236}</Project>
+      <Name>Mud.Datas</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Importer.Mystery\Mud.Importer.Mystery.csproj">
       <Project>{b461b0bd-82f7-41e5-b3ba-e364a3f1f61d}</Project>
       <Name>Mud.Importer.Mystery</Name>

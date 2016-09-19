@@ -10,20 +10,6 @@ namespace Mud.Server.Entity
 {
     public abstract class EntityBase : ActorBase, IEntity
     {
-        protected EntityBase(Guid guid, string name)
-        {
-            IsValid = true;
-            if (guid == Guid.Empty)
-                guid = Guid.NewGuid();
-            Id = guid;
-            Name = name;
-            Keywords = name.Split(new [] { ' '}, StringSplitOptions.RemoveEmptyEntries);
-            // TODO: remove
-            Description = "This is the description of the" + Environment.NewLine
-                          + "%Y%"+ GetType().Name+ "%x%" + " %B%" + Name + "%x%" + Environment.NewLine
-                          + "over multiple lines";
-        }
-
         protected EntityBase(Guid guid, string name, string description)
         {
             IsValid = true;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mud.Network;
+using Mud.Server.Constants;
 using Mud.Server.Input;
 
 namespace Mud.Server.Tests.Mocking
@@ -32,6 +33,11 @@ namespace Mud.Server.Tests.Mocking
         }
 
         public void Quit(IPlayer player)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
         {
             throw new NotImplementedException();
         }

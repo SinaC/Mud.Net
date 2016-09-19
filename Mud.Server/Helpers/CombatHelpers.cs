@@ -151,13 +151,13 @@ namespace Mud.Server.Helpers
 
         #endregion
 
-        private static CombatDifficulties GetConColor(int playerLvl, int mobLvl)
+        public static CombatDifficulties GetConColor(int level, int targetLevel)
         {
-            if (playerLvl + 5 <= mobLvl)
-                return playerLvl + 10 <= mobLvl 
+            if (level + 5 <= targetLevel)
+                return level + 10 <= targetLevel 
                     ? CombatDifficulties.Skull 
                     : CombatDifficulties.Red;
-            switch (mobLvl - playerLvl)
+            switch (targetLevel - level)
             {
                 case 4:
                 case 3:
@@ -169,45 +169,45 @@ namespace Mud.Server.Helpers
                 case -2:
                     return CombatDifficulties.Yellow;
                 default:
-                    // More advanced formula for grey/green lvls
-                    if (playerLvl <= 5)
+                    // More advanced formula for grey/green levels
+                    if (level <= 5)
                         return CombatDifficulties.Green; // All others are green.
-                    if (playerLvl <= 39)
+                    if (level <= 39)
                         // Its below or equal to the 'grey level'
-                        return mobLvl <= playerLvl - 5 - (int) Math.Floor((double)playerLvl/10) 
+                        return targetLevel <= level - 5 - (int) Math.Floor((double)level/10) 
                             ? CombatDifficulties.Grey 
                             : CombatDifficulties.Green;
-                    // Over lvl 39:
-                    return mobLvl <= playerLvl - 1 - (int) Math.Floor((double)playerLvl /5) 
+                    // Over level 39:
+                    return targetLevel <= level - 1 - (int) Math.Floor((double)level /5) 
                         ? CombatDifficulties.Grey 
                         : CombatDifficulties.Green;
             }
         }
 
         //http://wow.gamepedia.com/Mob_experience#Example_Code
-        private static int GetZeroDifference(int lvl)
+        private static int GetZeroDifference(int level)
         {
-            if (lvl <= 7)
+            if (level <= 7)
                 return 5;
-            if (lvl <= 9)
+            if (level <= 9)
                 return 6;
-            if (lvl <= 11)
+            if (level <= 11)
                 return 7;
-            if (lvl <= 15)
+            if (level <= 15)
                 return 8;
-            if (lvl <= 19)
+            if (level <= 19)
                 return 9;
-            if (lvl <= 29)
+            if (level <= 29)
                 return 11;
-            if (lvl <= 39)
+            if (level <= 39)
                 return 12;
-            if (lvl <= 44)
+            if (level <= 44)
                 return 13;
-            if (lvl <= 49)
+            if (level <= 49)
                 return 14;
-            if (lvl <= 54)
+            if (level <= 54)
                 return 15;
-            if (lvl <= 59)
+            if (level <= 59)
                 return 16;
             return 17; // Approx.
         }

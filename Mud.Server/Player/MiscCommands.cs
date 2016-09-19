@@ -130,6 +130,7 @@ namespace Mud.Server.Player
 
             Send("Alas, all good things must come to an end.");
             Impersonating?.Act(ActOptions.ToRoom, "{0:N} has left the game.", Impersonating);
+            Repository.Server.Wiznet($"{DisplayName} rejoins the real world.", WiznetFlags.Logins);
 
             Save();
             Repository.Server.Quit(this);
@@ -167,7 +168,9 @@ namespace Mud.Server.Player
                 Send("Report which bug?");
                 return true;
             }
-            Log.Default.WriteLine(LogLevels.Warning, $"USER BUG REPORTING -- {DisplayName}: {rawParameters}"); // TODO: specific log file ?
+            string msg = $"****USER BUG REPORTING -- {DisplayName}: {rawParameters}";
+            Log.Default.WriteLine(LogLevels.Warning, msg); // TODO: specific log file ?
+            Repository.Server.Wiznet(msg, WiznetFlags.Bugs);
             Send("Bug logged.");
             return true;
         }
@@ -180,7 +183,9 @@ namespace Mud.Server.Player
                 Send("Report which typo?");
                 return true;
             }
-            Log.Default.WriteLine(LogLevels.Warning, $"USER TYPO REPORTING -- {DisplayName}: {rawParameters}"); // TODO: specific log file ?
+            string msg = $"****USER TYPO REPORTING -- {DisplayName}: {rawParameters}";
+            Log.Default.WriteLine(LogLevels.Warning, msg); // TODO: specific log file ?
+            Repository.Server.Wiznet(msg, WiznetFlags.Typos);
             Send("Typo logged.");
             return true;
         }

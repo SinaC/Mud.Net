@@ -99,6 +99,7 @@
     <Compile Include="Item\IItemJewelry.cs" />
     <Compile Include="Item\IItemKey.cs" />
     <Compile Include="Item\IItemLight.cs" />
+    <Compile Include="Item\IItemPortal.cs" />
     <Compile Include="Item\IItemQuest.cs" />
     <Compile Include="Item\IItemShield.cs" />
     <Compile Include="Item\IItemWeapon.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Item\ItemJewelry.cs" />
     <Compile Include="Item\ItemKey.cs" />
     <Compile Include="Item\ItemLight.cs" />
+    <Compile Include="Item\ItemPortal.cs" />
     <Compile Include="Item\ItemQuest.cs" />
     <Compile Include="Item\ItemShield.cs" />
     <Compile Include="Item\ItemWeapon.cs" />

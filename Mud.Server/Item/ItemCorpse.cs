@@ -13,7 +13,7 @@ namespace Mud.Server.Item
 
         public override string DisplayName => "The corpse of " + _corpseName;
 
-        public ItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, ICharacter killer)
+        public ItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
             : base(guid, blueprint, room)
         {
             _corpseName = victim.DisplayName;
@@ -43,6 +43,11 @@ namespace Mud.Server.Item
                         Repository.World.AddItem(Guid.NewGuid(), loot, this);
                 }
             }
+        }
+
+        public ItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, ICharacter killer)
+            : this(guid, blueprint, room, victim)
+        {
             // Check killer quest table (only if killer is PC and victim is NPC) // TODO: only visible for people on quest???
             if (killer != null && killer.Impersonable && !victim.Impersonable && victim.Blueprint != null)
             {

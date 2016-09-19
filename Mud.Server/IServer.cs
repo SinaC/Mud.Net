@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mud.Network;
+using Mud.Server.Constants;
 using Mud.Server.Input;
 
 namespace Mud.Server
@@ -15,6 +16,8 @@ namespace Mud.Server
 
         void Shutdown(int seconds);
         void Quit(IPlayer player);
+
+        void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel);
 
         IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch);
         IEnumerable<IPlayer> Players { get; }

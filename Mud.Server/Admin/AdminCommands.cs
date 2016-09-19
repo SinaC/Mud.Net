@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Server;
@@ -44,12 +46,15 @@ namespace Mud.Server.Admin
                 Send("Suicide is a mortal sin.");
                 return true;
             }
+
+            Repository.Server.Wiznet($"{DisplayName} slayed {victim.DebugName}.", WiznetFlags.Punish);
+
             //Impersonating.Act(ActOptions.ToCharacter, "You slay {0:m} in cold blood!", victim);
             //victim.Act(ActOptions.ToCharacter, "{0} slays you in cold blood!", Impersonating);
             //Impersonating.ActToNotVictim(victim, "{0} slays {1} in cold blood!", Impersonating, victim);
-            Impersonating.Act(ActOptions.ToAll, "{0:N} slay{1:v} {2} in cold blood!", Impersonating, Impersonating, victim);
+            victim.Act(ActOptions.ToAll, "{0:N} slay{0:v} {1} in cold blood!", Impersonating, victim);
 
-            Impersonating.RawKill(victim, false);
+            victim.RawKilled(Impersonating, false);
 
             return true;
         }
@@ -73,8 +78,9 @@ namespace Mud.Server.Admin
                 Send(StringHelpers.ItemNotFound);
                 return true;
             }
-            Impersonating.Act(ActOptions.ToAll, "{0:N} purge{0:v} {1}!", Impersonating, item);
+            Repository.Server.Wiznet($"{DisplayName} purges {item.DebugName}.", WiznetFlags.Punish);
 
+            Impersonating.Act(ActOptions.ToAll, "{0:N} purge{0:v} {1}!", Impersonating, item);
             Repository.World.RemoveItem(item);
 
             return true;
@@ -128,7 +134,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            int experience = parameters[1].AsInt;
+            int experience = parameters[1].AsNumber;
             if (experience < 1)
             {
                 Send("Experience must be greather than 1.");
@@ -140,6 +146,8 @@ namespace Mud.Server.Admin
                 Send($"{DisplayName} is already at max level.");
                 return true;
             }
+
+            Repository.Server.Wiznet($"{DisplayName} give experience [{experience}] to {victim.DebugName}.", WiznetFlags.Help);
 
             victim.Send("You have received an experience boost.");
             victim.GainExperience(experience);

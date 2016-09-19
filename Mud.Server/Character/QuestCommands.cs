@@ -30,7 +30,7 @@ namespace Mud.Server.Character
             }
             else
             {
-                int id = parameters[0].AsInt;
+                int id = parameters[0].AsNumber;
                 IQuest quest = id > 0 ? Quests.ElementAtOrDefault(id-1) : null; // index starts at 0
                 if (quest == null)
                 {
@@ -55,7 +55,7 @@ namespace Mud.Server.Character
                 Send("Complete which quest?");
                 return true;
             }
-            int id = parameters[0].AsInt;
+            int id = parameters[0].AsNumber;
             IQuest quest = id > 0 ? Quests.ElementAtOrDefault(id - 1) : null;
             if (quest == null)
             {
@@ -80,7 +80,7 @@ namespace Mud.Server.Character
                 Send("Abandon which quest?");
                 return true;
             }
-            int id = parameters[0].AsInt;
+            int id = parameters[0].AsNumber;
             IQuest quest = id > 0 ? Quests.ElementAtOrDefault(id - 1) : null;
             if (quest == null)
             {

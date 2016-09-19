@@ -237,4 +237,31 @@ namespace Mud.Server.Constants
         Parry,
         Block
     }
+
+    public enum AdminLevels
+    {
+        Angel,
+        DemiGod,
+        Immortal,
+        God,
+        Deity,
+        Supremacy,
+        Creator,
+        Implementor,
+    }
+
+    [Flags]
+    public enum WiznetFlags
+    {
+        Incarnate = 2,
+        Punish = 4,
+        Logins = 8,
+        Deaths = 16,
+        MobDeaths = 32,
+        Levels = 64,
+        Snoops = 128,
+        Bugs = 256,
+        Typos = 512,
+        Help = 1024,
+    }
 }

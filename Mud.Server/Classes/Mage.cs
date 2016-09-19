@@ -5,6 +5,8 @@ namespace Mud.Server.Classes
 {
     public class Mage : ClassBase
     {
+        #region IClass
+
         public override string Name => "mage";
 
         public override string ShortName => "Mag";
@@ -18,6 +20,14 @@ namespace Mud.Server.Classes
         {
             return ResourceKinds; // always mana
         }
+
+        public override int GetPrimaryAttributeByLevel(PrimaryAttributeTypes primaryAttribute, int level)
+        {
+            return level * 10; // TODO: http://wow.gamepedia.com/Base_attributes
+        }
+
+
+        #endregion
 
         public Mage()
         {

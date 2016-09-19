@@ -62,8 +62,7 @@ namespace Mud.Server.Character
             if (victim != null)
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(3): character in room");
-                // TODO: peek ability check ???
-                DisplayCharacter(victim, true);
+                DisplayCharacter(victim, true); // TODO: always peeking ???
                 return true;
             }
             // 4:search among inventory/equipment/room.content if an item has extra description or name equals to parameters
@@ -100,10 +99,7 @@ namespace Mud.Server.Character
                     Send("Nothing special there.");
                 else
                 {
-                    if (exit.Description != null)
-                        Send(exit.Description);
-                    else
-                        Send("Nothing special there.");
+                    Send(exit.Description ?? "Nothing special there.");
                     if (exit.Keywords.Any())
                     {
                         if (exit.IsClosed)
@@ -319,12 +315,31 @@ namespace Mud.Server.Character
         [Command("where", Category = "Information")]
         protected virtual bool DoWhere(string rawParameters, params CommandParameter[] parameters)
         {
-            // TODO: first argument can be an impersonated character -> display room
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormatLine("{0}.", Room.Area.DisplayName);
-            sb.AppendLine("Peoples near you:");
-            foreach (IPlayer player in Room.Area.Players.Where(x => CanSee(x.Impersonating)))
-                sb.AppendFormatLine("{0,-28} {1}", player.Impersonating.DisplayName, player.Impersonating.Room.DisplayName);
+            sb.AppendFormatLine($"[{Room.Area.DisplayName}].");
+            if (parameters.Length == 0)
+            {
+                sb.AppendLine("Peoples near you:");
+                bool found = false;
+                foreach (IPlayer player in Room.Area.Players.Where(x => CanSee(x.Impersonating)))
+                {
+                    sb.AppendFormatLine("{0,-28} {1}", player.Impersonating.DisplayName, player.Impersonating.Room.DisplayName);
+                    found = true;
+                }
+                if (!found)
+                    sb.AppendLine("None");
+            }
+            else
+            {
+                bool found = false;
+                foreach (IPlayer player in Room.Area.Players.Where(x => CanSee(x.Impersonating) && FindHelpers.StringListStartsWith(x.Impersonating.Keywords, parameters[0].Tokens)))
+                {
+                    sb.AppendFormatLine("{0,-28} {1}", player.Impersonating.DisplayName, player.Impersonating.Room.DisplayName);
+                    found = true;
+                }
+                if (!found)
+                    sb.AppendLine($"You didn't find any {parameters[0]}.");
+            }
             Send(sb);
             return true;
         }
@@ -362,10 +377,54 @@ namespace Mud.Server.Character
             return true;
         }
 
-        //********************************************************************
-        // Helpers
-        //********************************************************************
+        [Command("consider", Category = "Information")]
+        protected virtual bool DoConsider(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Send("Consider killing whom?");
+                return true;
+            }
 
+            ICharacter whom = FindHelpers.FindByName(Room.People, parameters[0]);
+            if (whom == null)
+            {
+                Send(StringHelpers.CharacterNotFound);
+                return true;
+            }
+
+            CombatHelpers.CombatDifficulties difficulty = CombatHelpers.GetConColor(Level, whom.Level);
+
+            switch (difficulty)
+            {
+                case CombatHelpers.CombatDifficulties.Grey:
+                    Act(ActOptions.ToCharacter, "You can kill {0} naked and weaponless.", whom);
+                    break;
+                case CombatHelpers.CombatDifficulties.Green:
+                    Act(ActOptions.ToCharacter, "{0:N} looks like an easy kill.", whom);
+                    break;
+                case CombatHelpers.CombatDifficulties.Yellow:
+                    Send("The perfect match!");
+                    break;
+                case CombatHelpers.CombatDifficulties.Orange:
+                    Act(ActOptions.ToCharacter, "{0:N} says 'Do you fell lucky punk?'.", whom);
+                    break;
+                case CombatHelpers.CombatDifficulties.Red:
+                    Act(ActOptions.ToCharacter, "{0:N} laughs at you mercilessly.", whom);
+                    break;
+                case CombatHelpers.CombatDifficulties.Skull:
+                    Send("Death will thank you for your gift.");
+                    break;
+                default:
+                    Act(ActOptions.ToCharacter, "You failed to consider killing {0}.", whom);
+                    Log.Default.WriteLine(LogLevels.Error, "DoConsider: unhandled CombatDifficulties: {0}", difficulty);
+                    break;
+            }
+
+            return true;
+        }
+
+        // Helpers
         private void DisplayRoom() // equivalent to act_info.C:do_look("auto")
         {
             // Room name
@@ -451,8 +510,31 @@ namespace Mud.Server.Character
                 //ActToNotVictim(victim, "{0} looks at {1}.", this, victim);
                 Act(ActOptions.ToRoom, "{0} looks at {1}.", this, victim);
             }
-            Send("{0} is here.", victim.RelativeDisplayName(this));
-            // TODO: health (instead of is here.) (see act_info.C:629 show_char_to_char_1)
+            //
+            string condition = "is here.";
+            if (victim[SecondaryAttributeTypes.MaxHitPoints] > 0)
+            {
+                int percent = (100*victim.HitPoints)/victim[SecondaryAttributeTypes.MaxHitPoints];
+                if (percent >= 100)
+                    condition = "is in excellent condition.";
+                else if (percent >= 90)
+                    condition = "has a few scratches.";
+                else if (percent >= 75)
+                    condition = "has some small wounds and bruises.";
+                else if (percent >= 50)
+                    condition = "has quite a few wounds.";
+                else if (percent >= 30)
+                    condition = "has some big nasty wounds and scratches.";
+                else if (percent >= 15)
+                    condition = "looks pretty hurt.";
+                else if (percent >= 0)
+                    condition = "is in awful condition.";
+                else
+                    condition = "is bleeding to death.";
+            }
+            Send($"{victim.RelativeDisplayName(this)} {condition}");
+
+            //
             if (victim.Equipments.Any(x => x.Item != null))
             {
                 Act(ActOptions.ToCharacter, "{0} is using:", victim);
@@ -477,7 +559,8 @@ namespace Mud.Server.Character
 
         private void DisplayItem(IItem item)
         {
-            Send("{0}", item.RelativeDescription(this)); // TODO: formatting
+            string formattedItem = FormatItem(item, true);
+            Send(formattedItem);
         }
 
         private void DisplayItems(IEnumerable<IItem> items, bool shortDisplay, bool displayNothing) // equivalent to act_info.C:show_list_to_char
@@ -488,8 +571,15 @@ namespace Mud.Server.Character
                 sb.AppendLine("Nothing.");
             else
             {
-                foreach (IItem item in enumerable) // TODO: compact mode (grouped by Blueprint)
-                    sb.AppendLine(FormatItem(item, shortDisplay).ToString()); // TODO: (see act_info.C:170 format_obj_to_char)
+                // Grouped by description
+                foreach(var groupedFormattedItem in enumerable.Select(item => FormatItem(item, shortDisplay)).GroupBy(x => x))
+                {
+                    int count = groupedFormattedItem.Count();
+                    if (count > 1)
+                        sb.AppendFormatLine("%W%({0,2})%x% {1}", count, groupedFormattedItem.Key);
+                    else
+                        sb.AppendFormatLine("     {0}", groupedFormattedItem.Key);
+                }
             }
             Send(sb);
         }
@@ -551,16 +641,8 @@ namespace Mud.Server.Character
             Send(message);
         }
 
-        // Find by extra description then name (search in inventory, then equipment, then in room)
-
-        public bool FindItemByExtraDescriptionOrName(CommandParameter parameter, out string description)
+        private bool FindItemByExtraDescriptionOrName(CommandParameter parameter, out string description) // Find by extra description then name (search in inventory, then equipment, then in room)
         {
-            //return
-            //    Content.Where(CanSee)
-            //        .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item))
-            //        .Concat(Room.Content.Where(CanSee))
-            //        .Where(x => FindHelpers.StringListStartsWith(x.ExtraDescriptions.Keys ?? Enumerable.Empty<string>(), parameter.Tokens) || FindHelpers.StringListStartsWith(x.Keywords, parameter.Tokens))
-            //        .ElementAtOrDefault(parameter.Count - 1);
             description = null;
             int count = 0;
             foreach (IItem item in Content.Where(CanSee)
@@ -582,12 +664,28 @@ namespace Mud.Server.Character
                 if (FindHelpers.StringListStartsWith(item.Keywords, parameter.Tokens)
                     && ++count == parameter.Count)
                 {
-                    description = item.RelativeDescription(this) + Environment.NewLine;
+                    description = FormatItem(item, false) + Environment.NewLine;
                     return true;
                 }
             }
             return false;
         }
+
+        //// Following method should be equivalent to FindItemByExtraDescriptionOrName
+        //public string Test2(CommandParameter parameter)
+        //{
+        //    KeyValuePair<string, string> description = Content.Where(CanSee)
+        //        .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item))
+        //        .Concat(Room.Content.Where(CanSee))
+        //        .SelectMany(item =>
+        //            (item.ExtraDescriptions ?? Enumerable.Empty<KeyValuePair<string, string>>())
+        //                .Concat(item.Keywords.Select(k => new KeyValuePair<string, string>(k, item.RelativeDescription(this) + Environment.NewLine))))
+        //        .Where(kv => parameter.Tokens.All(t => FindHelpers.StringStartsWith(kv.Key, t)))
+        //        .ElementAtOrDefault(parameter.Count - 1);
+        //    if (description.Equals(default(KeyValuePair<string, string>)))
+        //        return null;
+        //    return description.Value;
+        //}
 
         private StringBuilder ScanRoom(IRoom room)
         {
@@ -597,15 +695,6 @@ namespace Mud.Server.Character
             return peopleInRoom;
         }
 
-        //private StringBuilder FormatItem(IItem item, bool shortDisplay) // TODO: (see act_info.C:170 format_obj_to_char)
-        //{
-        //    StringBuilder sb = new StringBuilder();
-        //    // TODO: affects
-        //    sb.Append(shortDisplay
-        //        ? item.RelativeDisplayName(this) //item.DisplayName
-        //        : item.RelativeDescription(this));
-        //    return sb;
-        //}
         private string FormatItem(IItem item, bool shortDisplay) // TODO: (see act_info.C:170 format_obj_to_char)
         {
             return shortDisplay

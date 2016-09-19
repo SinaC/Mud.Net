@@ -28,7 +28,7 @@
             exitDirection = ExitDirections.North;
             if (direction == "n" || direction == "north")
                 exitDirection = ExitDirections.North;
-            else if (direction == "e" || direction == "easy")
+            else if (direction == "e" || direction == "east")
                 exitDirection = ExitDirections.East;
             else if (direction == "s" || direction == "south")
                 exitDirection = ExitDirections.South;

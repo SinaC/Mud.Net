@@ -6,6 +6,7 @@ using Mud.Datas.DataContracts;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Actor;
+using Mud.Server.Blueprints.Quest;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -16,15 +17,20 @@ namespace Mud.Server.Player
     {
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(Player)));
 
-        protected readonly Dictionary<string, string> Aliases;
+        private readonly List<string> _delayedTells;
 
+        protected readonly List<CharacterData> AvatarList;
+        protected readonly Dictionary<string, string> Aliases;
         protected IInputTrap<IPlayer> CurrentStateMachine;
 
         protected Player()
         {
-            Aliases = new Dictionary<string, string>();
-
             PlayerState = PlayerStates.Loading;
+
+            _delayedTells = new List<string>();
+
+            AvatarList = new List<CharacterData>();
+            Aliases = new Dictionary<string, string>();
             CurrentStateMachine = null;
         }
 
@@ -82,6 +88,8 @@ namespace Mud.Server.Player
                 if (forceOutOfGame || Impersonating == null)
                 {
                     Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
+                    // TODO: automatically remove AFK (unless command is AFK!!) and tell if tells have been received
+                    // %r%You have received tells: Type %Y%'replay'%r% to see them.%x%
                     executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
                 }
                 else
@@ -93,6 +101,18 @@ namespace Mud.Server.Player
                     Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
                 return executedSuccessfully;
             }
+        }
+
+        public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
+        {
+            if (IsAfk && methodInfo.Attribute.Name != "afk")
+            {
+                Send("%G%AFK%x% removed.");
+                Send("%r%You have received tells: Type %Y%'replay'%r% to see them.%x%");
+                IsAfk = !IsAfk;
+                return true;
+            }
+            return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
         }
 
         public override void Send(string message, bool addTrailingNewLine)
@@ -129,11 +149,9 @@ namespace Mud.Server.Player
         public event PageDataEventHandler PageData;
 
         public Guid Id { get; }
-        public string Name { get; protected set; }
+        public string Name { get; }
 
         public string DisplayName => StringHelpers.UpperFirstLetter(Name);
-
-        public List<ICharacter> Avatars { get; protected set; } // List of character a player can impersonate
 
         public int GlobalCooldown { get; protected set; } // delay (in Pulse) before next action
 
@@ -152,6 +170,10 @@ namespace Mud.Server.Player
             ? BuildCharacterPrompt(Impersonating)
             : ">";
 
+        public bool IsAfk { get; protected set; }
+
+        public IEnumerable<string> DelayedTells => _delayedTells; // Tell stored while AFK
+
         public void DecreaseGlobalCooldown() // decrease one by one
         {
             GlobalCooldown = Math.Max(GlobalCooldown - 1, 0);
@@ -164,53 +186,24 @@ namespace Mud.Server.Player
 
         public virtual bool Load(string name)
         {
-            Name = name;
-            Aliases.Clear();
-
             PlayerData data = Repository.PlayerManager.Load(name);
-            if (data?.Aliases != null)
-            {
-                foreach (CoupledData<string, string> alias in data.Aliases)
-                    Aliases.Add(alias.Key, alias.Data);
-            }
-
-            // TODO: impersonate list
-
+            // Load player data
+            LoadPlayerData(data);
+            //
             PlayerState = PlayerStates.Playing;
             return true;
         }
 
         public virtual bool Save()
         {
-            PlayerData data = new PlayerData
-            {
-                Name = Name,
-                Aliases = Aliases.Select(x => new CoupledData<string, string> { Key = x.Key, Data = x.Value }).ToList(),
-                Characters = new List<CharacterData>
-                {
-                    new CharacterData
-                    {
-                        Name = "sinac",
-                        RoomId = 3001,
-                        Level = 20,
-                        Sex = Sex.Male,
-                        Class = "priest",
-                        Race = "elf",
-                        // TODO: impersonate list
-                        PrimaryAttributes = new Dictionary<PrimaryAttributeTypes, int>
-                        {
-                            {PrimaryAttributeTypes.Strength, 50},
-                            {PrimaryAttributeTypes.Intellect, 60},
-                            {PrimaryAttributeTypes.Spirit, 70},
-                            {PrimaryAttributeTypes.Agility, 80},
-                            {PrimaryAttributeTypes.Stamina, 90},
-                        }.Select(x => new CoupledData<PrimaryAttributeTypes,int> { Key = x.Key, Data = x.Value}).ToList(),
-                    }
-                }
-            };
-
+            if (Impersonating != null)
+                UpdateCharacterDataFromImpersonated();
+            //
+            PlayerData data = new PlayerData();
+            // Fill player data
+            FillPlayerData(data);
+            //
             Repository.PlayerManager.Save(data);
-
             return true;
         }
 
@@ -219,14 +212,30 @@ namespace Mud.Server.Player
             LastTeller = teller;
         }
 
+        public void AddDelayedTell(string sentence)
+        {
+            _delayedTells.Add(sentence);
+        }
+
+        public void ClearDelayedTells()
+        {
+            _delayedTells.Clear();
+        }
+
         public void SetSnoopBy(IAdmin snooper)
         {
             SnoopBy = snooper;
         }
 
+        public void AddAvatar(CharacterData characterData)
+        {
+            AvatarList.Add(characterData);
+        }
+
         public void StopImpersonating()
         {
             Impersonating?.ChangeImpersonation(null);
+            Repository.World.RemoveCharacter(Impersonating); // extract avatar  TODO: linkdead instead of RemoveCharacter ?
             Impersonating = null;
             PlayerState = PlayerStates.Playing;
         }
@@ -259,34 +268,102 @@ namespace Mud.Server.Player
             return sb.ToString();
         }
 
+        protected void LoadPlayerData(PlayerData data)
+        {
+            Aliases.Clear();
+            AvatarList.Clear();
+            if (data?.Aliases != null)
+            {
+                foreach (CoupledData<string, string> alias in data.Aliases)
+                    Aliases.Add(alias.Key, alias.Data);
+            }
+
+            if (data?.Characters != null)
+            {
+                foreach (CharacterData characterData in data.Characters)
+                    AvatarList.Add(characterData);
+            }
+        }
+
+        protected void FillPlayerData(PlayerData data)
+        {
+            data.Name = Name;
+            data.Aliases = Aliases.Select(x => new CoupledData<string, string> {Key = x.Key, Data = x.Value}).ToList();
+            // TODO: copy from Impersonated to CharacterData
+            data.Characters = AvatarList;
+        }
+
+        protected void UpdateCharacterDataFromImpersonated()
+        {
+            if (Impersonating == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated while not impersonated.");
+                return;
+            }
+            CharacterData characterData = AvatarList.FirstOrDefault(x => FindHelpers.StringEquals(x.Name, Impersonating.Name));
+            if (characterData == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, $"UpdateCharacterDataFromImpersonated: unknown avatar {Impersonating.Name} for player {DisplayName}");
+                return;
+            }
+            characterData.Name = Impersonating.Name;
+            characterData.Sex = Impersonating.Sex;
+            characterData.Class = Impersonating.Class?.Name ?? String.Empty;
+            characterData.Race = Impersonating.Race?.Name ?? String.Empty;
+            characterData.Level = Impersonating.Level;
+            characterData.RoomId = Impersonating.Room?.Blueprint?.Id ?? 0;
+            characterData.Experience = Impersonating.Experience;
+            // TODO: aura, equipments, inventory, cooldown, quests, ...
+        }
+
         [Command("test", Category = "!!Test!!")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
-            //Send("Player: DoTest" + Environment.NewLine);
-            //StringBuilder lorem = new StringBuilder("1/Lorem ipsum dolor sit amet, " + Environment.NewLine +
-            //                                        "2/consectetur adipiscing elit, " + Environment.NewLine +
-            //                                        "3/sed do eiusmod tempor incididunt " + Environment.NewLine +
-            //                                        "4/ut labore et dolore magna aliqua. " + Environment.NewLine +
-            //                                        "5/Ut enim ad minim veniam, " + Environment.NewLine +
-            //                                        "6/quis nostrud exercitation ullamco " + Environment.NewLine +
-            //                                        "7/laboris nisi ut aliquip ex " + Environment.NewLine +
-            //                                        "8/ea commodo consequat. " + Environment.NewLine +
-            //                                        "9/Duis aute irure dolor in " + Environment.NewLine +
-            //                                        "10/reprehenderit in voluptate velit " + Environment.NewLine +
-            //                                        "11/esse cillum dolore eu fugiat " + Environment.NewLine +
-            //                                        "12/nulla pariatur. " + Environment.NewLine +
-            //                                        "13/Excepteur sint occaecat " + Environment.NewLine +
-            //                                        "14/cupidatat non proident, " + Environment.NewLine +
-            //                                        "15/sunt in culpa qui officia deserunt " + Environment.NewLine //+
-            //                                        //"16/mollit anim id est laborum." + Environment.NewLine
-            //                                        );
-            //Page(lorem);
-            string lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-            StringBuilder sb = new StringBuilder();
-            foreach (string word in lorem.Split(' ', ',', ';', '.'))
-                sb.AppendLine(word);
-            Page(sb);
+            if (Impersonating != null)
+            {
+                // Add quest to impersonated character is any
+                QuestBlueprint questBlueprint1 = Repository.World.GetQuestBlueprint(1);
+                QuestBlueprint questBlueprint2 = Repository.World.GetQuestBlueprint(2);
+                ICharacter questor = Repository.World.Characters.FirstOrDefault(x => x.Name.ToLowerInvariant().Contains("questor"));
+
+                IQuest quest1 = new Quest.Quest(questBlueprint1, Impersonating, questor);
+                Impersonating.AddQuest(quest1);
+                IQuest quest2 = new Quest.Quest(questBlueprint2, Impersonating, questor);
+                Impersonating.AddQuest(quest2);
+            }
+
             return true;
+
+            //IQuest quest1 = new Quest.Quest(questBlueprint1, mob1, mob2);
+            //mob1.AddQuest(quest1);
+            //IQuest quest2 = new Quest.Quest(questBlueprint2, mob1, mob2);
+            //mob1.AddQuest(quest2);
+
+            ////Send("Player: DoTest" + Environment.NewLine);
+            ////StringBuilder lorem = new StringBuilder("1/Lorem ipsum dolor sit amet, " + Environment.NewLine +
+            ////                                        "2/consectetur adipiscing elit, " + Environment.NewLine +
+            ////                                        "3/sed do eiusmod tempor incididunt " + Environment.NewLine +
+            ////                                        "4/ut labore et dolore magna aliqua. " + Environment.NewLine +
+            ////                                        "5/Ut enim ad minim veniam, " + Environment.NewLine +
+            ////                                        "6/quis nostrud exercitation ullamco " + Environment.NewLine +
+            ////                                        "7/laboris nisi ut aliquip ex " + Environment.NewLine +
+            ////                                        "8/ea commodo consequat. " + Environment.NewLine +
+            ////                                        "9/Duis aute irure dolor in " + Environment.NewLine +
+            ////                                        "10/reprehenderit in voluptate velit " + Environment.NewLine +
+            ////                                        "11/esse cillum dolore eu fugiat " + Environment.NewLine +
+            ////                                        "12/nulla pariatur. " + Environment.NewLine +
+            ////                                        "13/Excepteur sint occaecat " + Environment.NewLine +
+            ////                                        "14/cupidatat non proident, " + Environment.NewLine +
+            ////                                        "15/sunt in culpa qui officia deserunt " + Environment.NewLine //+
+            ////                                        //"16/mollit anim id est laborum." + Environment.NewLine
+            ////                                        );
+            ////Page(lorem);
+            //string lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+            //StringBuilder sb = new StringBuilder();
+            //foreach (string word in lorem.Split(' ', ',', ';', '.'))
+            //    sb.AppendLine(word);
+            //Page(sb);
+            //return true;
         }
     }
 }

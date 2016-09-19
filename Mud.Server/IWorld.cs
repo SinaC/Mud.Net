@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mud.Datas.DataContracts;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
@@ -45,19 +46,21 @@ namespace Mud.Server
 
         IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction);
 
-        ICharacter AddCharacter(Guid guid, string name, IClass pcClass, IRace pcRace, Sex pcSex, IRoom room); // Impersonated
-        ICharacter AddCharacter(Guid guid, CharacterBlueprint blueprint, IRoom room); // Non-impersonated
+        ICharacter AddCharacter(Guid guid, CharacterData characterData, IRoom room); // Impersonable
+        ICharacter AddCharacter(Guid guid, CharacterBlueprint blueprint, IRoom room); // Non-impersonable
         
         IItemContainer AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container);
         IItemArmor AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container);
         IItemWeapon AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container);
         IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container);
+        IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim);
         IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, ICharacter killer);
         IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container);
         IItemFurniture AddItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer container);
         IItemJewelry AddItemJewelry(Guid guid, ItemJewelryBlueprint blueprint, IContainer container);
         IItemQuest AddItemQuest(Guid guid, ItemQuestBlueprint blueprint, IContainer container);
         IItemKey AddItemKey(Guid guid, ItemKeyBlueprint blueprint, IContainer container);
+        IItemPortal AddItemPortal(Guid guid, ItemPortalBlueprint blueprint, IRoom destination, IContainer container);
         IItem AddItem(Guid guid, int blueprintId, IContainer container);
 
         IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool recompute);

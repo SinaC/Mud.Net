@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Mud.Datas.DataContracts;
 
 namespace Mud.Server
 {
@@ -23,7 +24,6 @@ namespace Mud.Server
         Guid Id { get; }
         string Name { get; }
         string DisplayName { get; } // First letter is in upper-case
-        List<ICharacter> Avatars { get; } // List of character a player can impersonate
 
         int GlobalCooldown { get; } // delay (in Pulse) before next action    check WAIT_STATE
 
@@ -40,6 +40,9 @@ namespace Mud.Server
 
         string Prompt { get; }
 
+        bool IsAfk { get; }
+        IEnumerable<string> DelayedTells { get; } // Tell stored while AFK
+
         void DecreaseGlobalCooldown(); // decrease one by one
         void SetGlobalCooldown(int pulseCount); // set global cooldown delay (in pulse)
 
@@ -47,9 +50,12 @@ namespace Mud.Server
         bool Save();
 
         void SetLastTeller(IPlayer teller);
+        void AddDelayedTell(string sentence);
+        void ClearDelayedTells();
 
         void SetSnoopBy(IAdmin snooper);
 
+        void AddAvatar(CharacterData characterData);
         void StopImpersonating();
 
         void OnDisconnected();

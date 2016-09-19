@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Mud.Datas.DataContracts;
 using Mud.Importer.Mystery;
 using Mud.Logger;
 using Mud.Network;
@@ -168,7 +169,7 @@ namespace Mud.Server.TestApplication
             Repository.World.AddExit(room1, room2, null, ExitDirections.North);
             Repository.World.AddExit(room2, room1, null, ExitDirections.North);
 
-            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "Mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, room1); // playable
+            //ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "Mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, room1); // playable
             ICharacter mob2 = Repository.World.AddCharacter(Guid.NewGuid(), mob2Blueprint, room1);
             ICharacter mob3 = Repository.World.AddCharacter(Guid.NewGuid(), mob3Blueprint, room2);
             ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), mob4Blueprint, room2);
@@ -178,9 +179,9 @@ namespace Mud.Server.TestApplication
             IItemContainer item1Dup1 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, room2);
             IItemWeapon item2 = Repository.World.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
             IItemArmor item3 = Repository.World.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
-            IItemLight item4 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
-            IItemWeapon item5 = Repository.World.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
-            IItemContainer item1Dup2 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
+            //IItemLight item4 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
+            //IItemWeapon item5 = Repository.World.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
+            //IItemContainer item1Dup2 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
             IItemArmor item3Dup1 = Repository.World.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
             IItemLight item4Dup1 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             // Equip weapon on mob2
@@ -374,7 +375,7 @@ namespace Mud.Server.TestApplication
             IRoom templeOfMota = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
             IRoom templeSquare = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
-            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
+            //ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
             ICharacter mob2 = Repository.World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
             ICharacter mob3 = Repository.World.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
             ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
@@ -384,9 +385,9 @@ namespace Mud.Server.TestApplication
             IItemContainer item1Dup1 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
             IItemWeapon item2 = Repository.World.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
             IItemArmor item3 = Repository.World.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
-            IItemLight item4 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
-            IItemWeapon item5 = Repository.World.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
-            IItemContainer item1Dup2 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
+            //IItemLight item4 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
+            //IItemWeapon item5 = Repository.World.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
+            //IItemContainer item1Dup2 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
             IItemArmor item3Dup1 = Repository.World.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
             IItemLight item4Dup1 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             // Equip weapon on mob2
@@ -499,7 +500,16 @@ namespace Mud.Server.TestApplication
             player.ProcessCommand("unknown"); // INVALID
             player.ProcessCommand("/test");
 
-            ICharacter character = Repository.World.AddCharacter(Guid.NewGuid(), "Character", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, room);
+            ICharacter character = Repository.World.AddCharacter(Guid.NewGuid(), new CharacterData
+            {
+                Name = "toto",
+                Class = Repository.ClassManager["Mage"].Name,
+                Race = Repository.RaceManager["Troll"].Name,
+                Sex = Sex.Male,
+                Level = 1,
+                Experience = 0,
+                RoomId = room.Blueprint.Id
+            }, room);
             character.ProcessCommand("look");
             character.ProcessCommand("tell"); // INVALID because Player commands are not accessible by Character
             character.ProcessCommand("unknown"); // INVALID

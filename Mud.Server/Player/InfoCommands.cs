@@ -16,21 +16,24 @@ namespace Mud.Server.Player
             sb.AppendFormatLine("Players:");
             foreach (IPlayer player in Repository.Server.Players)
             {
+                IAdmin admin = player as IAdmin;
+                string adminLevel = admin == null ? "" : $"[{admin.Level}]";
                 switch (player.PlayerState)
                 {
                     case PlayerStates.Impersonating:
                         if (player.Impersonating != null)
-                            sb.AppendFormatLine("[ IG] {0} playing {1} [lvl: {2} Class: {3} Race: {4}]",
+                            sb.AppendFormatLine("[ IG]{0} {1} playing {2} [lvl: {3} Class: {4} Race: {5}]",
+                                adminLevel,
                                 player.DisplayName,
                                 player.Impersonating.DisplayName,
                                 player.Impersonating.Level,
                                 player.Impersonating.Class == null ? "(none)" : player.Impersonating.Class.DisplayName,
                                 player.Impersonating.Race == null ? "(none)" : player.Impersonating.Race.DisplayName);
                         else
-                            sb.AppendFormatLine("[ IG] {0} playing something", player.DisplayName);
+                            sb.AppendFormatLine("[ IG] {0} {1} playing something", adminLevel, player.DisplayName);
                         break;
                     default:
-                        sb.AppendFormatLine("[OOG] {0}", player.DisplayName);
+                        sb.AppendFormatLine("[OOG] {0} {1}", adminLevel, player.DisplayName);
                         break;
                 }
             }

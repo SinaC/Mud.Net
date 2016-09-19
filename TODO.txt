@@ -1,13 +1,8 @@
-transform ICharacter into
-	ICharacter, INonPlayableCharacter, IPlayableCharacter
-transform Character into
-	Character, NonPlayableCharacter, PlayableCharacter
-
 check if everywhere if Act should replace Send
 use new act formatting: h, b, v where possible
 wield2h/wield2h2
 
-casting time ? (-> spell interrupt is needed) --> delayed actions
+casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
 
 impersonable list
 use more StringBuilder
@@ -18,9 +13,10 @@ guild
 reputation
 achievements
 AH
-portal
+help
 
-afk/replay (display missed tell)
+use wiznet(msg, WiznetFlags.Bugs) when Log is used
+
 drink/eat/fill/pour/quaff
 pull/push
 buy/sell/list
@@ -30,8 +26,6 @@ act: add IPlayer, IAdmin -> Name or Impersonated.DisplayName
 admin
     mload/oload
     at(quite difficult to implement)
-    wiznet (wiznet.C)
-    admin level
 statistics: mob killed, player killed, ...
 
 !! Stunned position is not very well used/defined
@@ -39,7 +33,11 @@ min pos to initiate command  see interp.C:935
 
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 
-http://wow.gamepedia.com/Experience_point#Quest_XP
+what are the differences between a PC and a NPC
+transform ICharacter into
+ ICharacter, INonPlayableCharacter, IPlayableCharacter
+transform Character into 
+ Character, NonPlayableCharacter, PlayableCharacter
 
 aura/periodic aura can have multiply affects/effects
 
@@ -58,8 +56,6 @@ DoLook/DoExamine should be heavily modified to use Room.Display  Character.Displ
 IItem: Display(short/long) (used instead of FormatItem in InfoCommands.cs)
 EquipedItem should be responsible for displaying itself
 EquipedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
-
-should equiped items be in inventory ? 4 bag slots instead of inventory + 1 dummy bag slot with inventory ?
 
 unit tests
 

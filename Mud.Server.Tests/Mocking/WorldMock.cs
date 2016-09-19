@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mud.Datas.DataContracts;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
@@ -94,7 +95,7 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public ICharacter AddCharacter(Guid guid, string name, IClass pcClass, IRace pcRace, Sex pcSex, IRoom room)
+        public ICharacter AddCharacter(Guid guid, CharacterData characterData, IRoom room)
         {
             throw new NotImplementedException();
         }
@@ -120,6 +121,11 @@ namespace Mud.Server.Tests.Mocking
         }
 
         public IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
         {
             throw new NotImplementedException();
         }
@@ -150,6 +156,11 @@ namespace Mud.Server.Tests.Mocking
         }
 
         public IItemKey AddItemKey(Guid guid, ItemKeyBlueprint blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IItemPortal AddItemPortal(Guid guid, ItemPortalBlueprint blueprint, IRoom destination, IContainer container)
         {
             throw new NotImplementedException();
         }

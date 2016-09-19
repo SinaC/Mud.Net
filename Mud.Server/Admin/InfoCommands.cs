@@ -13,16 +13,16 @@ using Mud.Server.Item;
 
 namespace Mud.Server.Admin
 {
-    // TODO: command to display races, classes
     public partial class Admin
     {
+        // TODO: command to display races, classes
         [Command("who", Category = "Information")]
         protected override bool DoWho(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             //
             sb.AppendFormatLine("Players:");
-            foreach (IPlayer player in Repository.Server.Players)
+            foreach (IPlayer player in Repository.Server.Players.Where(x => x.GetType() == typeof(IPlayer))) // only player
             {
                 switch (player.PlayerState)
                 {
@@ -50,14 +50,14 @@ namespace Mud.Server.Admin
                 {
                     case PlayerStates.Impersonating:
                         if (admin.Impersonating != null)
-                            sb.AppendFormatLine("[ IG] {0} impersonating {1}", admin.DisplayName, admin.Impersonating.DisplayName);
+                            sb.AppendFormatLine("[ IG] [{0}] {1} impersonating {2}", admin.Level, admin.DisplayName, admin.Impersonating.DisplayName);
                         else if (admin.Incarnating != null)
-                            sb.AppendFormatLine("[ IG] {0} incarnating {1}", admin.DisplayName, admin.Incarnating.DisplayName);
+                            sb.AppendFormatLine("[ IG] [{0}] {1} incarnating {2}", admin.Level, admin.DisplayName, admin.Incarnating.DisplayName);
                         else
-                            sb.AppendFormatLine("[ IG] {0} neither playing nor incarnating !!!", admin.DisplayName);
+                            sb.AppendFormatLine("[ IG] [{0}] {1} neither playing nor incarnating !!!", admin.Level, admin.DisplayName);
                         break;
                     default:
-                        sb.AppendFormatLine("[OOG] {0} {1}", admin.DisplayName, admin.PlayerState);
+                        sb.AppendFormatLine("[OOG] [{0}] {1} {2}", admin.Level, admin.DisplayName, admin.PlayerState);
                         break;
                 }
             }
@@ -89,6 +89,42 @@ namespace Mud.Server.Admin
             return true;
         }
 
+        [Command("wiznet", Category = "Information")]
+        protected virtual bool DoWiznet(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (WiznetFlags flag in EnumHelpers.GetValues<WiznetFlags>())
+                {
+                    bool isOn = (WiznetFlags & flag) == flag;
+                    sb.AppendLine($"{flag,-16} : {(isOn ? "ON" : "OFF")}");
+                }
+                Send(sb);
+            }
+            else
+            {
+                WiznetFlags flag;
+                if (!EnumHelpers.TryFindByName<WiznetFlags>(parameters[0].Value.ToLowerInvariant(), out flag))
+                {
+                    Send("No such option.");
+                    return true;
+                }
+                bool isOn = (WiznetFlags & flag) == flag;
+                if (isOn)
+                {
+                    Send($"You'll no longer see {flag} on wiznet.");
+                    WiznetFlags &= ~flag;
+                }
+                else
+                {
+                    Send($"You will now see {flag} on wiznet.");
+                    WiznetFlags |= flag;
+                }
+            }
+            return true;
+        }
+
         [Command("stat", Category = "Information")]
         protected virtual bool DoStat(string rawParameters, params CommandParameter[] parameters)
         {
@@ -111,18 +147,24 @@ namespace Mud.Server.Admin
         [Command("rstat", Category = "Information")]
         protected virtual bool DoRstat(string rawParameters, params CommandParameter[] parameters)
         {
-            if (parameters.Length == 0)
+            if (parameters.Length == 0 && Impersonating == null)
             {
                 Send("Rstat what?");
                 return true;
             }
-            if (!parameters[0].IsNumber)
+            if (parameters.Length >= 1 && !parameters[0].IsNumber)
             {
                 Send("Syntax: rstat <room id>");
                 return true;
             }
-            int id = parameters[0].AsInt;
-            IRoom room = Repository.World.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
+            IRoom room;
+            if (Impersonating != null)
+                room = Impersonating.Room;
+            else
+            {
+                int id = parameters[0].AsNumber;
+                room = Repository.World.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
+            }
             if (room == null)
             {
                 Send("It doesn't exist.");
@@ -141,9 +183,27 @@ namespace Mud.Server.Admin
                 foreach (KeyValuePair<string, string> kv in room.ExtraDescriptions)
                     sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", kv.Key, kv.Value);
             }
-            // TODO: exits
-            // TODO: content
-            // TODO: people
+            foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
+            {
+                IExit exit = room.Exit(direction);
+                if (exit?.Destination != null)
+                {
+                    sb.Append(StringHelpers.UpperFirstLetter(direction.ToString()));
+                    sb.Append(" - ");
+                    sb.Append(exit.Destination.DisplayName); // TODO: too dark to tell
+                    if (exit.IsClosed)
+                        sb.Append(" (CLOSED)");
+                    if (exit.IsHidden)
+                        sb.Append(" [HIDDEN]");
+                    if (exit.IsLocked)
+                        sb.AppendFormat(" <Locked> {0}", exit.Blueprint.Key);
+                    sb.Append($" [{exit.Destination.Blueprint?.Id.ToString() ?? "???"}]");
+                    sb.AppendLine();
+                }
+                // TODO: exits
+                // TODO: content
+                // TODO: people
+            }
             Send(sb);
             return true;
         }
@@ -278,10 +338,10 @@ namespace Mud.Server.Admin
                     else
                         sb.AppendFormatLine("Incarnatable: {0}", item.Incarnatable);
                     if (item.ContainedInto != null)
-                        sb.AppendFormatLine("Contained in {0}", item.ContainedInto.DisplayName);
+                        sb.AppendFormatLine("Contained in {0}", item.ContainedInto.DebugName);
                     IEquipable equipable = item as IEquipable;
                     if (equipable != null)
-                        sb.AppendFormatLine("Equiped by {0} on {1}", equipable.EquipedBy?.DisplayName ?? "(none)", equipable.WearLocation);
+                        sb.AppendFormatLine("Equiped by {0} on {1}", equipable.EquipedBy?.DebugName ?? "(none)", equipable.WearLocation);
                     else
                         sb.AppendLine("Cannot be equiped");
                     sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
@@ -314,7 +374,7 @@ namespace Mud.Server.Admin
                         else
                         {
                             sb.Append("People using it: ");
-                            sb.Append(people.Select(x => x.DisplayName).Aggregate((n, i) => n + "," + i));
+                            sb.Append(people.Select(x => x.DebugName).Aggregate((n, i) => n + "," + i));
                             sb.AppendLine();
                         }
                     }
@@ -322,6 +382,10 @@ namespace Mud.Server.Admin
                     IItemShield shield = item as IItemShield;
                     if (shield != null)
                         sb.AppendFormatLine("Armor: {0}", shield.Armor);
+                    //
+                    IItemPortal portal = item as IItemPortal;
+                    if (portal != null)
+                        sb.AppendFormatLine("Destination: {0}", portal.Destination?.DebugName ?? "???");
                     // TODO: other item type
                     //
                     Send(sb);
@@ -484,6 +548,9 @@ namespace Mud.Server.Admin
 
         private string BuildPath(IRoom origin, IRoom destination)
         {
+            if (origin == destination)
+                return destination.DisplayName + " is here.";
+
             Dictionary<IRoom, int> distance = new Dictionary<IRoom, int>(500);
             Dictionary<IRoom, Tuple<IRoom, ExitDirections>> previousRoom = new Dictionary<IRoom, Tuple<IRoom, ExitDirections>>(500);
             HeapPriorityQueue<IRoom> pQueue = new HeapPriorityQueue<IRoom>(500);
@@ -536,8 +603,7 @@ namespace Mud.Server.Admin
                 // compress path:  ssswwwwnn -> 3s4w2n
                 return Compress(sb.ToString());
             }
-            else
-                return destination.DisplayName + " is here.";
+            return "No path found.";
         }
 
         private static string Compress(string str) //http://codereview.stackexchange.com/questions/64929/string-compression-implementation-in-c

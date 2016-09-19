@@ -74,9 +74,6 @@ namespace Mud.Server.Helpers
         public static T FindByName<T>(IEnumerable<T> list, CommandParameter parameter, bool perfectMatch = false)
             where T : IEntity
         {
-            //return perfectMatch
-            //    ? list.Where(x => StringEquals(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1)
-            //    : list.Where(x => StringStartsWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
             return perfectMatch
                 ? list.Where(x => StringListEquals(x.Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1)
                 : list.Where(x => StringListStartsWith(x.Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1);
@@ -85,13 +82,17 @@ namespace Mud.Server.Helpers
         public static IEnumerable<T> FindAllByName<T>(IEnumerable<T> list, CommandParameter parameter, bool perfectMatch = false)
             where T : IEntity
         {
-            //return perfectMatch
-            //    ? list.Where(x => StringEquals(x.Name, parameter.Value))
-            //    : list.Where(x => StringStartsWith(x.Name, parameter.Value));
             return perfectMatch
                 ? list.Where(x => StringListEquals(x.Keywords, parameter.Tokens))
                 : list.Where(x => StringListStartsWith(x.Keywords, parameter.Tokens));
         }
+
+        //public static IEnumerable<IPlayer> FindAllByName(IEnumerable<IPlayer> list, CommandParameter parameter, bool perfectMatch = false)
+        //{
+        //    return perfectMatch
+        //        ? list.Where(x => StringEquals(x.Name, parameter.Value))
+        //        : list.Where(x => StringStartsWith(x.Name, parameter.Value));
+        //}
 
         public static T FindByName<T, TEntity>(IEnumerable<T> collection, Func<T, TEntity> getItemFunc, CommandParameter parameter, bool perfectMatch = false)
             where TEntity : IEntity
@@ -106,7 +107,7 @@ namespace Mud.Server.Helpers
         {
             if (parameter.IsNumber)
             {
-                int id = parameter.AsInt;
+                int id = parameter.AsNumber;
                 return Repository.World.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
             }
 
@@ -125,7 +126,7 @@ namespace Mud.Server.Helpers
         {
             if (parameter.IsNumber)
             {
-                int id = parameter.AsInt;
+                int id = parameter.AsNumber;
                 return Repository.World.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
             }
 

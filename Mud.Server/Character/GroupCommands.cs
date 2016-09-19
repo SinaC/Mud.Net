@@ -7,6 +7,7 @@ using Mud.Server.Common;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Server;
 
 namespace Mud.Server.Character
 {
@@ -191,7 +192,10 @@ namespace Mud.Server.Character
         private void AppendCharacterGroupMemberInfo(StringBuilder sb, ICharacter member, bool isLeader)
         {
             // TODO: add class, mana, xp, ...
-            sb.AppendFormatLine("[{0,3}]{1} {2,-30} {3,5}/{4,5}hp", member.Level, isLeader ? "L" : " ", member.DisplayName, member.HitPoints, member[SecondaryAttributeTypes.MaxHitPoints]);
+            if (member.Level >= ServerOptions.MaxLevel)
+                sb.AppendFormatLine("[{0,3}]{1} {2,-30} {3,5}/{4,5}hp", member.Level, isLeader ? "L" : " ", member.DisplayName, member.HitPoints, member[SecondaryAttributeTypes.MaxHitPoints]);
+            else
+                sb.AppendFormatLine("[{0,3}]{1} {2,-30} {3,5}/{4,5}hp {6}Nxt", member.Level, isLeader ? "L" : " ", member.DisplayName, member.HitPoints, member[SecondaryAttributeTypes.MaxHitPoints], member.ExperienceToLevel);
         }
     }
 }

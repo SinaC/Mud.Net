@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Datas.DataContracts;
 using Mud.Server.Common;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
@@ -129,7 +130,17 @@ namespace Mud.Server.Player
             if (classes.Count == 1)
             {
                 _class = classes[0];
-                // TODO: Add character to impersonate list
+                IRoom startingRoom = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota"); // todo: mud school
+                CharacterData characterData = new CharacterData
+                {
+                    Name = _name,
+                    Sex = _sex,
+                    Race = _race.Name,
+                    Class = _class.Name,
+                    Level = 1,
+                    RoomId = startingRoom?.Blueprint.Id ?? 3001, // TODO
+                };
+                player.AddAvatar(characterData);
                 player.Save();
                 // TODO: better wording
                 player.Send("Your avatar is created. Name: {0} Sex: {1} Race: {2} Class: {3}.", StringHelpers.UpperFirstLetter(_name), _sex, _race.DisplayName, _class.DisplayName);
@@ -144,12 +155,10 @@ namespace Mud.Server.Player
         {
             if (input == "y" || input == "yes")
             {
-                // Create character + add in world
-                IRoom startingRoom = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota"); // todo: mud school
-                ICharacter avatar = Repository.World.AddCharacter(Guid.NewGuid(), _name, _class, _race, _sex, startingRoom);
-                // TODO: impersonate character with an internal command
+                // Impersonate
                 State = AvatarCreationStates.CreationComplete;
-                player.ProcessCommand("/impersonate " + avatar.Name);
+                // TODO: impersonate character with an internal command
+                player.ProcessCommand("/impersonate " + _name);
                 return AvatarCreationStates.CreationComplete;
             }
             player.Send("Avatar {0} created but not impersonated. Use /impersonate {0} to enter game or use /list to see your avatar list.", StringHelpers.UpperFirstLetter(_name));

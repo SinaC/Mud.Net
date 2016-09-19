@@ -25,7 +25,7 @@ namespace Mud.Server.Input
             }
         }
 
-        public int AsInt {
+        public int AsNumber {
             get
             {
                 int intValue;

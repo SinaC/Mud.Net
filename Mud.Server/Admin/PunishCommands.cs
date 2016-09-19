@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -43,6 +40,8 @@ namespace Mud.Server.Admin
             victim.ProcessCommand(command);
             Send("Ok.");
 
+            Repository.Server.Wiznet($"{DisplayName} forces {victim.DebugName} to {command}", WiznetFlags.Punish);
+
             return true;
         }
 
@@ -68,6 +67,8 @@ namespace Mud.Server.Admin
                         Send(StringHelpers.CharacterNotFound);
                     else
                     {
+                        Repository.Server.Wiznet($"{DisplayName} adds lag {victim.DisplayName}.", WiznetFlags.Punish);
+
                         Send("Adding lag now.");
                         victim.SetGlobalCooldown(count);
                     }
@@ -94,6 +95,7 @@ namespace Mud.Server.Admin
             if (whom == this)
             {
                 Send("Cancelling all snoops.");
+                Repository.Server.Wiznet($"{DisplayName} stops being such as snoop.", WiznetFlags.Punish | WiznetFlags.Snoops);
                 foreach (IPlayer player in Repository.Server.Players)
                 {
                     if (player.SnoopBy == this)
@@ -113,6 +115,8 @@ namespace Mud.Server.Admin
                     Send("No snoop loops.");
                     return true;
                 }
+
+            Repository.Server.Wiznet($"{DisplayName} starts snooping {whom.DisplayName}.", WiznetFlags.Snoops | WiznetFlags.Punish);
 
             whom.SetSnoopBy(this);
             Send("Ok.");

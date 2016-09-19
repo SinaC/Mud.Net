@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<AdminData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>sinac</Name>
+  <Aliases />
+  <Characters>
+    <CharacterData>
+      <Name>sinac</Name>
+      <RoomId>3001</RoomId>
+      <Race>troll</Race>
+      <Class>druid</Class>
+      <Level>1</Level>
+      <Sex>Male</Sex>
+      <Experience>0</Experience>
+    </CharacterData>
+  </Characters>
+  <Level>Angel</Level>
+  <WiznetFlags />
+</AdminData>

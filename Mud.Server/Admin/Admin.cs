@@ -98,76 +98,30 @@ namespace Mud.Server.Admin
 
         public override bool Load(string name)
         {
-            Name = name;
-            Aliases.Clear();
-
-            //// TODO: load player file
-            //// TODO: load impersonation list
-            //// TODO: load aliases
-
-            //// Aliases
-            //Aliases.Add("i1", "/impersonate mob1");
-            //Aliases.Add("i4", "/impersonate mob4");
-            //Aliases.Add("t1", "/force mob2 test 3 mob1");
-            //Aliases.Add("t2", "/force mob4 test 4 mob1");
-            //Aliases.Add("sh", "test 'power word: shield'");
-            //Aliases.Add("fo", "/force mob2 follow mob1");
-
-            //Aliases.Add("1", "/force hassan follow mob2");
-            //Aliases.Add("2", "follow hassan");
-            //Aliases.Add("3", "/force hassan group mob1");
-            //Aliases.Add("4", "/force mob2 group hassan");
-
-            //Save(); // Test purpose
-
-            ////
-            //PlayerState = PlayerStates.Playing;
-            //return true;
-
-
             AdminData data = Repository.AdminManager.Load(name);
-            if (data?.Aliases != null)
-            {
-                foreach (CoupledData<string, string> alias in data.Aliases)
-                    Aliases.Add(alias.Key, alias.Data);
-            }
-
-            // TODO: impersonate list
-
+            // Load player data
+            LoadPlayerData(data);
+            // Load admin datas
+            Level = data?.Level ?? AdminLevels.Angel;
+            WiznetFlags = data?.WiznetFlags ?? 0;
+            //
             PlayerState = PlayerStates.Playing;
             return true;
         }
 
         public override bool Save()
         {
-            AdminData data = new AdminData
-            {
-                Name = Name,
-                Aliases = Aliases.Select(x => new CoupledData<string,string> { Key = x.Key, Data = x.Value}).ToList(),
-                Characters = new List<CharacterData>
-                {
-                    new CharacterData
-                    {
-                        Name = "sinac",
-                        RoomId = 3000,
-                        Level = 30,
-                        Sex = Sex.Male,
-                        Class = "druid",
-                        Race = "troll",
-                        // TODO: impersonate list
-                        PrimaryAttributes = new Dictionary<PrimaryAttributeTypes, int>
-                        {
-                            {PrimaryAttributeTypes.Strength, 100},
-                            {PrimaryAttributeTypes.Intellect, 110},
-                            {PrimaryAttributeTypes.Spirit, 120},
-                            {PrimaryAttributeTypes.Agility, 130},
-                            {PrimaryAttributeTypes.Stamina, 140},
-                        }.Select(x => new CoupledData<PrimaryAttributeTypes,int> { Key = x.Key, Data = x.Value}).ToList(),
-                    }
-                }
-            };
+            if (Impersonating != null)
+                UpdateCharacterDataFromImpersonated();
+            //
+            AdminData data = new AdminData();
+            // Fill player data
+            FillPlayerData(data);
+            // Fill admin data
+            data.Level = Level;
+            data.WiznetFlags = WiznetFlags;
+            //
             Repository.AdminManager.Save(data);
-
             return true;
         }
 
@@ -183,6 +137,10 @@ namespace Mud.Server.Admin
         }
 
         #endregion
+
+        public AdminLevels Level { get; private set; }
+
+        public WiznetFlags WiznetFlags { get; private set; }
 
         public IEntity Incarnating { get; private set; }
 

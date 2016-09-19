@@ -5,6 +5,8 @@ namespace Mud.Server.Classes
 {
     public class Warrior : ClassBase
     {
+        #region IClass
+
         public override string Name => "warrior";
 
         public override string ShortName => "War";
@@ -18,6 +20,13 @@ namespace Mud.Server.Classes
         {
             return ResourceKinds; // always rage
         }
+
+        public override int GetPrimaryAttributeByLevel(PrimaryAttributeTypes primaryAttribute, int level)
+        {
+            return level * 10; // TODO: http://wow.gamepedia.com/Base_attributes
+        }
+
+        #endregion
 
         public Warrior()
         {

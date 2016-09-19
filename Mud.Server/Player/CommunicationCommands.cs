@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -98,12 +99,52 @@ namespace Mud.Server.Player
             return true;
         }
 
+        [Command("afk", Category = "Communication")]
+        protected virtual bool DoAfk(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (IsAfk)
+            {
+                Send("%G%AFK%x% removed.");
+                if (DelayedTells.Any())
+                    Send("%r%You have received tells: Type %Y%'replay'%r% to see them.%x%");
+            }
+            else
+                Send("You are now in %G%AFK%x% mode.");
+            IsAfk = !IsAfk;
+            return true;
+        }
+
+        [Command("replay", Category = "Communication")]
+        protected virtual bool DoReplay(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (DelayedTells.Any())
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (string sentence in DelayedTells)
+                    sb.AppendLine(sentence);
+                Page(sb);
+                ClearDelayedTells();
+            }
+            else
+                Send("You have no tells to replay.");
+            return true;
+        }
+
         // Helpers
         private void InnerTell(IPlayer whom, string what) // used by DoTell and DoReply
         {
-            Send("%g%You tell {0}: '%G%{1}%g%'%x%", whom.DisplayName, what);
-            whom.Send("%g%{0} tells you '%G%{1}%g%'%x%", DisplayName, what);
-            whom.SetLastTeller(this);
+            string sentence = $"%g%{DisplayName} tells you '%G%{what}%g%'%x%";
+            if (whom.IsAfk)
+            {
+                Send($"{whom.DisplayName} is AFK, but your tell will go through when {whom.DisplayName} returns.");
+                whom.AddDelayedTell(sentence);
+            }
+            else
+            {
+                Send("%g%You tell {0}: '%G%{1}%g%'%x%", whom.DisplayName, what);
+                whom.Send(sentence);
+                whom.SetLastTeller(this);
+            }
         }
     }
 }

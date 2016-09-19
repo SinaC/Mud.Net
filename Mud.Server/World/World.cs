@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Datas.DataContracts;
 using Mud.Logger;
 using Mud.Server.Aura;
 using Mud.Server.Blueprints.Character;
@@ -153,9 +154,9 @@ namespace Mud.Server.World
             return from2To;
         }
 
-        public ICharacter AddCharacter(Guid guid, string name, IClass pcClass, IRace pcRace, Sex pcSex, IRoom room) // PC
+        public ICharacter AddCharacter(Guid guid, CharacterData characterData, IRoom room) // PC
         {
-            ICharacter character = new Character.Character(guid, name, pcClass, pcRace, pcSex, room);
+            ICharacter character = new Character.Character(guid, characterData, room);
             _characters.Add(character);
             return character;
         }
@@ -201,6 +202,15 @@ namespace Mud.Server.World
             if (blueprint == null)
                 throw new ArgumentNullException(nameof(blueprint));
             IItemLight item = new ItemLight(guid, blueprint, container);
+            _items.Add(item);
+            return item;
+        }
+
+        public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
+        {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
+            IItemCorpse item = new ItemCorpse(guid, blueprint, room, victim);
             _items.Add(item);
             return item;
         }
@@ -259,6 +269,15 @@ namespace Mud.Server.World
             return item;
         }
 
+        public IItemPortal AddItemPortal(Guid guid, ItemPortalBlueprint blueprint, IRoom destination, IContainer container)
+        {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
+            IItemPortal item = new ItemPortal(guid, blueprint, destination, container);
+            _items.Add(item);
+            return item;
+        }
+
         public IItem AddItem(Guid guid, int blueprintId, IContainer container)
         {
             ItemBlueprintBase blueprint = GetItemBlueprint(blueprintId);
@@ -291,6 +310,12 @@ namespace Mud.Server.World
             var keyBlueprint = blueprint as ItemKeyBlueprint;
             if (keyBlueprint != null)
                 return AddItemKey(guid, keyBlueprint, container);
+            var portalBlueprint = blueprint as ItemPortalBlueprint;
+            if (portalBlueprint != null)
+            {
+                IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
+                return AddItemPortal(guid, portalBlueprint, destination, container);
+            }
             Log.Default.WriteLine(LogLevels.Error, $"World.AddItem: Unknown blueprint id or type {blueprintId} {blueprint.GetType().FullName}");
             // TODO: other blueprint
             return null;

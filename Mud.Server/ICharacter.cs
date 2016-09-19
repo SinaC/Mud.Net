@@ -124,6 +124,7 @@ namespace Mud.Server
 
         // Move
         bool Move(ExitDirections direction, bool checkFighting, bool follow = false);
+        bool Enter(IItemPortal portal, bool follow = false);
         void ChangeRoom(IRoom destination);
 
         // Combat
@@ -134,7 +135,8 @@ namespace Mud.Server
         bool WeaponDamage(ICharacter source, IItemWeapon weapon, int damage, SchoolTypes damageType, bool visible); // damage from weapon(or bare hands) of known source
         bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage from ability of known source
         bool UnknownSourceDamage(IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage with unknown source or no source
-        bool RawKill(ICharacter victim, bool killingPayoff); // kill victim + create corpse (if killingPayoff is true, xp gain/loss)
+        bool RawKilled(ICharacter killer, bool killingPayoff); // kill 'this' + create corpse (if killingPayoff is true, xp gain/loss)
+        void KillingPayoff(ICharacter victim);
         void GainExperience(long experience); // add/substract experience
 
         // Ability
@@ -143,6 +145,9 @@ namespace Mud.Server
         int CooldownSecondsLeft(IAbility ability); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)
         void SetCooldown(IAbility ability);
         void ResetCooldown(IAbility ability, bool verbose);
+
+        // Look
+        void AutoLook();
     }
 
     public class EquipedItem

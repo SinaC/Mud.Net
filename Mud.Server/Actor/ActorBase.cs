@@ -36,6 +36,12 @@ namespace Mud.Server.Actor
                 }
                 else if (entry.Value?.MethodInfo != null)
                 {
+                    bool beforeExecute = ExecuteBeforeCommand(entry.Value, rawParameters, parameters);
+                    if (!beforeExecute)
+                    {
+                        Log.Default.WriteLine(LogLevels.Info, $"ExecuteBeforeCommand returned false for command {entry.Value.MethodInfo.Name} and parameters {rawParameters}");
+                        return false;
+                    }
                     MethodInfo methodInfo = entry.Value.MethodInfo;
                     bool executedSuccessfully;
                     if (entry.Value.Attribute?.AddCommandInParameters == true)
@@ -56,22 +62,37 @@ namespace Mud.Server.Actor
                         Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
                         return false;
                     }
-
+                    bool afterExecute = ExecuteAfterCommand(entry.Value, rawParameters, parameters);
+                    if (!afterExecute)
+                    {
+                        Log.Default.WriteLine(LogLevels.Info, $"ExecuteBeforeCommand returned false for command {entry.Value.MethodInfo.Name} and parameters {rawParameters}");
+                        return false;
+                    }
                     return true;
                 }
                 else
                 {
-                    Log.Default.WriteLine(LogLevels.Warning, "Command not found");
+                    Log.Default.WriteLine(LogLevels.Warning, $"Command {command} not found");
                     Send("Command not found.");
                     return false;
                 }
             }
             else
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Command not found");
+                Log.Default.WriteLine(LogLevels.Warning, $"No command found for {GetType().FullName}");
                 Send("Command not found.");
                 return false;
             }
+        }
+
+        public virtual bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
+        {
+            return true;
+        }
+
+        public virtual bool ExecuteAfterCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
+        {
+            return true;
         }
 
         public void Send(string format, params object[] parameters)

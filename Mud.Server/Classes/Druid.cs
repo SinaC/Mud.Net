@@ -18,6 +18,8 @@ namespace Mud.Server.Classes
             Constants.ResourceKinds.Mana
         };
 
+        #region IClass
+
         public override string Name => "Druid";
         public override string ShortName => "Dru";
         public override IEnumerable<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
@@ -39,6 +41,13 @@ namespace Mud.Server.Classes
                     return _manaOnly;
             }
         }
+
+        public override int GetPrimaryAttributeByLevel(PrimaryAttributeTypes primaryAttribute, int level)
+        {
+            return level*10; // TODO: http://wow.gamepedia.com/Base_attributes
+        }
+
+        #endregion
 
         public Druid()
         {

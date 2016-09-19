@@ -17,6 +17,6 @@ namespace Mud.Server
         // Current available kind of resource depending on form (subset of ResourceKinds property, i.e.: druids in bear form only have rage but mana will still regenerated even if not in current)
         IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form);
 
-        // TODO: PrimaryAttributeTypes gain when levelling
+        int GetPrimaryAttributeByLevel(PrimaryAttributeTypes primaryAttribute, int level);
     }
 }

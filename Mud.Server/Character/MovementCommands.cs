@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.Constants;
@@ -495,7 +497,6 @@ namespace Mud.Server.Character
             return true;
         }
 
-
         [Command("sleep", Category = "Movement")]
         protected virtual bool DoSleep(string rawParameters, params CommandParameter[] parameters)
         {
@@ -557,6 +558,31 @@ namespace Mud.Server.Character
             ChangePosition(Positions.Sleeping);
 
             return true;
+        }
+
+        [Command("enter", Category = "Movement")]
+        protected virtual bool DoEnter(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Send("Nope, can't do it.");
+                return true;
+            }
+
+            IItem item = FindHelpers.FindItemHere(this, parameters[0]);
+            if (item == null)
+            {
+                Send(StringHelpers.ItemNotFound);
+                return true;
+            }
+            IItemPortal portal = item as IItemPortal;
+            if (portal == null)
+            {
+                Send("You can't seem to find a way in.");
+                return true;
+            }
+
+            return Enter(portal);
         }
 
         // Helpers

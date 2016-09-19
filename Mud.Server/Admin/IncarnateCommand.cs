@@ -1,4 +1,5 @@
-﻿using Mud.Logger;
+﻿using System.Linq;
+using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -15,6 +16,8 @@ namespace Mud.Server.Admin
             {
                 if (Incarnating != null)
                 {
+                    Repository.Server.Wiznet($"{DisplayName} stops incarnating {Incarnating.DebugName}.", WiznetFlags.Incarnate);
+
                     Send("%M%You stop incarnating %C%{0}%x%.", Incarnating.DisplayName);
                     StopIncarnating();
                 }
@@ -28,7 +31,15 @@ namespace Mud.Server.Admin
                 IEntity incarnateTarget = null;
                 string kind = parameters[0].Value;
                 if ("room".StartsWith(kind))
-                    incarnateTarget = FindHelpers.FindByName(Repository.World.Rooms, parameters[1]);
+                {
+                    if (parameters[1].IsNumber)
+                    {
+                        int id = parameters[1].AsNumber;
+                        incarnateTarget = Repository.World.Rooms.FirstOrDefault(x => x.Blueprint?.Id == id);
+                    }
+                    else
+                        incarnateTarget = FindHelpers.FindByName(Repository.World.Rooms, parameters[1]);
+                }
                 else if ("item".StartsWith(kind))
                     incarnateTarget = FindHelpers.FindByName(Repository.World.Items, parameters[1]);
                 else if ("mob".StartsWith(kind))
@@ -40,9 +51,14 @@ namespace Mud.Server.Admin
                     //Log.Default.WriteLine(LogLevels.Info, $"{DisplayName} incarnates {incarnateTarget.DisplayName}");
                     if (Incarnating != null)
                     {
+                        Repository.Server.Wiznet($"{DisplayName} stops incarnating {Incarnating.DebugName}.", WiznetFlags.Incarnate);
+
                         Send("%M%You stop incarnating %C%{0}%x%.", Incarnating.DisplayName);
                         Incarnating.ChangeIncarnation(null);
                     }
+
+                    Repository.Server.Wiznet($"{DisplayName} starts incarnating {incarnateTarget.DebugName}.", WiznetFlags.Incarnate);
+
                     Send("%M%You start incarnating %C%{0}%x%.", incarnateTarget.DisplayName);
                     incarnateTarget.ChangeIncarnation(this);
                     Incarnating = incarnateTarget;

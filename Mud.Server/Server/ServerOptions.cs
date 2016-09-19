@@ -19,6 +19,7 @@ namespace Mud.Server.Server
         public const int IdleMinutesBeforeDisconnect = 20;
 
         public const int MaxLevel = 60;
+        public const int MaxAvatarCount = 10;
 
         public const string PagingInstructions = "[Paging : (Enter), (N)ext, (P)revious, (Q)uit, (A)ll]";
 

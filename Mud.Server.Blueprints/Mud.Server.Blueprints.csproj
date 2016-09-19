@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="Character\CharacterBlueprint.cs" />
     <Compile Include="Item\ItemKeyBlueprint.cs" />
+    <Compile Include="Item\ItemPortalBlueprint.cs" />
     <Compile Include="Item\ItemQuestBlueprint.cs" />
     <Compile Include="Quest\QuestBlueprint.cs" />
     <Compile Include="Quest\QuestItemObjectiveBlueprint.cs" />

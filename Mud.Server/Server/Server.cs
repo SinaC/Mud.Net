@@ -158,6 +158,12 @@ namespace Mud.Server.Server
                 ClientPlayingOnDisconnected(playingClient.Client);
         }
 
+        public void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
+        {
+            foreach (IAdmin admin in Admins.Where(a => (a.WiznetFlags & flags) == flags && a.Level >= minLevel))
+                admin.Send($"%W%WIZNET%x%:{message}");
+        }
+
         public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch)
         {
             return FindHelpers.FindByName(_players.Keys, parameter, perfectMatch);
@@ -299,11 +305,15 @@ namespace Mud.Server.Server
                 previousPlayerPair.Value.Client.DataReceived -= ClientPlayingOnDataReceived;
                 previousPlayerPair.Value.Client.Disconnect();
 
+                Wiznet($"{username} has reconnected.", WiznetFlags.Logins);
+
                 // Welcome back
                 client.WriteData("Reconnecting to Mud.Net!!" + Environment.NewLine);
             }
             else
             {
+                Wiznet($"{username} has connected.", WiznetFlags.Logins);
+
                 // Welcome
                 client.WriteData("Welcome to Mud.Net!!" + Environment.NewLine);
             }
@@ -391,6 +401,8 @@ namespace Mud.Server.Server
                 Log.Default.WriteLine(LogLevels.Error, "ClientPlayingOnDisconnected: playingClient not found!!!");
             else
             {
+                Wiznet($"{playingClient.Player.DisplayName} has disconnected.", WiznetFlags.Logins);
+
                 IAdmin admin = playingClient.Player as IAdmin;
                 // Remove nullify LastTeller and SnoopBy
                 foreach (IPlayer player in Players)
@@ -680,6 +692,7 @@ namespace Mud.Server.Server
         {
             //IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Repository.World.Characters().Where(x => x.Fighting != null).ToList());
             //foreach (ICharacter character in clone)
+            var fighters = Repository.World.Characters.Where(x => x.Fighting != null).ToList();
             foreach (ICharacter character in Repository.World.Characters.Where(x => x.Fighting != null))
             {
                 ICharacter victim = character.Fighting;

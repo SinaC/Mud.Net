@@ -5,6 +5,8 @@ namespace Mud.Server.Classes
 {
     public class Thief : ClassBase
     {
+        #region IClass
+
         public override string Name => "Thief";
 
         public override string ShortName => "Thi";
@@ -18,6 +20,13 @@ namespace Mud.Server.Classes
         {
             return ResourceKinds; // always energy
         }
+
+        public override int GetPrimaryAttributeByLevel(PrimaryAttributeTypes primaryAttribute, int level)
+        {
+            return level * 10; // TODO: http://wow.gamepedia.com/Base_attributes
+        }
+
+        #endregion
 
         public Thief()
         {

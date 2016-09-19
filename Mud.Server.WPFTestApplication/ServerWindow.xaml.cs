@@ -558,6 +558,21 @@ namespace Mud.Server.WPFTestApplication
                     WearLocation = ConvertWearLocation(data)
                 };
             }
+            else if (data.ItemType == "portal")
+            {
+                blueprint = new ItemPortalBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    Destination = Convert.ToInt32(data.Values[3])
+                };
+            }
             else
             {
                 Log.Default.WriteLine(LogLevels.Warning, $"ItemBlueprint cannot be created: [{data.VNum}] [{data.ItemType}] [{data.WearFlags}] : {data.Name}");
@@ -605,21 +620,23 @@ namespace Mud.Server.WPFTestApplication
 
         private static void CreateWorld()
         {
-            //MysteryImporter importer = new MysteryImporter();
-            //importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
-            //importer.Parse();
             MysteryImporter importer = new MysteryImporter();
-            string path = @"D:\GitHub\OldMud\area";
-            string fileList = Path.Combine(path, "area.lst");
-            string[] areaFilenames = File.ReadAllLines(fileList);
-            foreach (string areaFilename in areaFilenames.Where(x => !x.Contains("limbo")))
-            {
-                if (areaFilename.Contains("$"))
-                    break;
-                string areaFullName = Path.Combine(path, areaFilename);
-                importer.Load(areaFullName);
-                importer.Parse();
-            }
+            importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
+            importer.Parse();
+            importer.Load(@"D:\GitHub\OldMud\area\amazon.are");
+            importer.Parse();
+            //MysteryImporter importer = new MysteryImporter();
+            //string path = @"D:\GitHub\OldMud\area";
+            //string fileList = Path.Combine(path, "area.lst");
+            //string[] areaFilenames = File.ReadAllLines(fileList);
+            //foreach (string areaFilename in areaFilenames.Where(x => !x.Contains("limbo")))
+            //{
+            //    if (areaFilename.Contains("$"))
+            //        break;
+            //    string areaFullName = Path.Combine(path, areaFilename);
+            //    importer.Load(areaFullName);
+            //    importer.Parse();
+            //}
 
             foreach (KeyValuePair<string,int> kv in importer.Objects.GroupBy(o => o.ItemType).ToDictionary(g => g.Key, g => g.Count()).OrderBy(x => x.Value))
                 Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", kv.Key, kv.Value);
@@ -953,22 +970,22 @@ namespace Mud.Server.WPFTestApplication
             IRoom templeOfMota = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
             IRoom templeSquare = Repository.World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
-            ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Druid"], Repository.RaceManager["Insectoid"], Sex.Male, templeOfMota); // playable
+            //ICharacter mob1 = Repository.World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Druid"], Repository.RaceManager["Insectoid"], Sex.Male, templeOfMota); // playable
             ICharacter mob2 = Repository.World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
             ICharacter mob3 = Repository.World.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
             //ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
-            ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), "mob4", Repository.ClassManager["Warrior"], Repository.RaceManager["Dwarf"], Sex.Female, templeSquare); // playable
+            //ICharacter mob4 = Repository.World.AddCharacter(Guid.NewGuid(), "mob4", Repository.ClassManager["Warrior"], Repository.RaceManager["Dwarf"], Sex.Female, templeSquare); // playable
             ICharacter mob5 = Repository.World.AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
             IItemContainer item1 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
             IItemContainer item1Dup1 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
             IItemWeapon item2 = Repository.World.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
             IItemArmor item3 = Repository.World.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
-            IItemLight item4 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
-            IItemWeapon item5 = Repository.World.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
-            IItemContainer item1Dup2 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
+            //IItemLight item4 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
+            //IItemWeapon item5 = Repository.World.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
+            //IItemContainer item1Dup2 = Repository.World.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
             IItemArmor item3Dup1 = Repository.World.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
-            IItemLight item4Dup1 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            //IItemLight item4Dup1 = Repository.World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             IItemWeapon item6 = Repository.World.AddItemWeapon(Guid.NewGuid(), item6Blueprint, templeSquare);
             IItemShield item7 = Repository.World.AddItemShield(Guid.NewGuid(), item7Blueprint, templeOfMota);
             Repository.World.AddItemQuest(Guid.NewGuid(), questItem2Blueprint, templeSquare);
@@ -1056,10 +1073,10 @@ namespace Mud.Server.WPFTestApplication
             Repository.World.AddQuestBlueprint(questBlueprint2);
 
             // Give quest 1 and 2 to mob1
-            IQuest quest1 = new Quest.Quest(questBlueprint1, mob1, mob2);
-            mob1.AddQuest(quest1);
-            IQuest quest2 = new Quest.Quest(questBlueprint2, mob1, mob2);
-            mob1.AddQuest(quest2);
+            //IQuest quest1 = new Quest.Quest(questBlueprint1, mob1, mob2);
+            //mob1.AddQuest(quest1);
+            //IQuest quest2 = new Quest.Quest(questBlueprint2, mob1, mob2);
+            //mob1.AddQuest(quest2);
 
             //// Search extra description
             //foreach(IRoom room in Repository.World.Rooms.Where(x => x.ExtraDescriptions != null && x.ExtraDescriptions.Any()))

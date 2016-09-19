@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Mud.Datas.DataContracts;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Abilities;
@@ -39,8 +40,8 @@ namespace Mud.Server.Character
 
         protected int MaxHitPoints => _secondaryAttributes[(int) SecondaryAttributeTypes.MaxHitPoints];
 
-        public Character(Guid guid, string name, IClass pcClass, IRace pcRace, Sex pcSex, IRoom room) // PC
-            : base(guid, name)
+        protected Character(Guid guid, string name, string description)
+            : base(guid, name, description)
         {
             _fullCommands = new Trie<CommandMethodInfo>();
             _inventory = new List<IItem>();
@@ -55,22 +56,40 @@ namespace Mud.Server.Character
             _groupMembers = new List<ICharacter>();
             _cooldowns = new Dictionary<IAbility, DateTime>(new CompareIAbility());
             _quests = new List<IQuest>();
+            _knownAbilities = new List<AbilityAndLevel>(); // handled by RecomputeKnownAbilities
 
             Position = Positions.Standing;
             Form = Forms.Normal;
-            Class = pcClass;
-            Race = pcRace;
-            Sex = pcSex;
-            Level = 30 + RandomizeHelpers.Instance.Randomizer.Next(-10, 10); // TODO: parameter
-            Experience = CombatHelpers.ExperienceToNextLevel.Where(x => x.Key < Level).Sum(x => x.Value);
-            for (int i = 0; i < _basePrimaryAttributes.Length; i++)
-                _basePrimaryAttributes[i] = 15000 + RandomizeHelpers.Instance.Randomizer.Next(-20, 20);
-            _knownAbilities = new List<AbilityAndLevel>(); // handled by RecomputeKnownAbilities
+        }
+
+        public Character(Guid guid, CharacterData data, IRoom room)
+            : this(guid, data.Name, String.Empty)
+        {
+            Class = Repository.ClassManager[data.Class];
+            if (Class == null)
+            {
+                string msg = $"Invalid class {data.Class} for character {data.Name}!!";
+                Log.Default.WriteLine(LogLevels.Error, msg);
+                Class = Repository.ClassManager.Classes.First();
+                Repository.Server.Wiznet(msg, WiznetFlags.Bugs);
+            }
+            Race = Repository.RaceManager[data.Race];
+            if (Race == null)
+            {
+                string msg = $"Invalid race {data.Race} for character {data.Name}!!";
+                Log.Default.WriteLine(LogLevels.Error, msg);
+                Race = Repository.RaceManager.Races.First();
+                Repository.Server.Wiznet(msg, WiznetFlags.Bugs);
+            }
+            Sex = data.Sex;
+            Level = data.Level;
+            Experience = data.Experience;
 
             Impersonable = true; // Playable
             Room = room;
             room.Enter(this);
 
+            RecomputeBaseAttributes();
             RecomputeKnownAbilities();
             ResetAttributes(true);
             RecomputeCommands();
@@ -79,38 +98,20 @@ namespace Mud.Server.Character
         }
 
         public Character(Guid guid, CharacterBlueprint blueprint, IRoom room) // NPC
-            : base(guid, blueprint.Name, blueprint.Description)
+            : this(guid, blueprint.Name, blueprint.Description)
         {
-            _fullCommands = new Trie<CommandMethodInfo>();
-            _inventory = new List<IItem>();
-            _equipments = new List<EquipedItem>();
-            _periodicAuras = new List<IPeriodicAura>();
-            _auras = new List<IAura>();
-            _basePrimaryAttributes = new int[EnumHelpers.GetCount<PrimaryAttributeTypes>()]; // TODO: blueprint
-            _currentPrimaryAttributes = new int[EnumHelpers.GetCount<PrimaryAttributeTypes>()]; // TODO: blueprint
-            _secondaryAttributes = new int[EnumHelpers.GetCount<SecondaryAttributeTypes>()];
-            _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
-            _currentResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
-            _groupMembers = new List<ICharacter>();
-            _cooldowns = new Dictionary<IAbility, DateTime>(new CompareIAbility());
-            _quests = new List<IQuest>();
-
             Blueprint = blueprint;
 
-            Position = Positions.Standing;
-            Form = Forms.Normal;
             // TODO: mob class/race ???
             Sex = blueprint.Sex;
             Level = blueprint.Level;
             Experience = CombatHelpers.ExperienceToNextLevel.Where(x => x.Key < Level).Sum(x => x.Value);
-            for (int i = 0; i < _basePrimaryAttributes.Length; i++)
-                _basePrimaryAttributes[i] = 10*Level;
-            _knownAbilities = new List<AbilityAndLevel>(); // handled by RecomputeKnownAbilities
 
             Impersonable = false; // Non-playable
             Room = room;
             room.Enter(this);
 
+            RecomputeBaseAttributes();
             RecomputeKnownAbilities();
             ResetAttributes(true);
             RecomputeCommands();
@@ -908,6 +909,46 @@ namespace Mud.Server.Character
             return true;
         }
 
+        public bool Enter(IItemPortal portal, bool follow = false)
+        {
+            IRoom destination = portal?.Destination;
+            if (portal == null || destination == null || destination == Room)
+            {
+                Act(ActOptions.ToCharacter, "{0} doesn't seem to go anywhere.");
+                return true;
+            }
+
+            IRoom wasRoom = Room;
+
+            Act(ActOptions.ToRoom, "{0:N} steps into {1}.", this, portal);
+            Act(ActOptions.ToCharacter, "You walk through {0} and find yourself somewhere else...", portal);
+
+            ChangeRoom(destination);
+
+            if (ImpersonatedBy != null || IncarnatedBy != null)
+                DisplayRoom();
+
+            Act(ActOptions.ToRoom, "{0:N} arrived through {1}.", this, portal);
+
+            // Followers: no circular follows
+            if (wasRoom != destination)
+            {
+                if (Slave != null)
+                {
+                    Slave.Send("You follow {0}.", DebugName);
+                    Slave.Enter(portal, true);
+                }
+                IReadOnlyCollection<ICharacter> followers = new ReadOnlyCollection<ICharacter>(wasRoom.People.Where(x => x.Leader == this).ToList()); // clone because Move will modify fromRoom.People
+                foreach (ICharacter follower in followers)
+                {
+                    follower.Send("You follow {0}.", DebugName);
+                    follower.Enter(portal, true);
+                }
+            }
+
+            return true;
+        }
+
         public void ChangeRoom(IRoom destination)
         {
             if (!IsValid)
@@ -1106,54 +1147,110 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", DebugName, ability);
 
                 StopFighting(false);
-                RawKill(this, true); // TODO: This is totally dumb (victim should not be killing itself)
+                RawKilled(null, false);
                 return true;
             }
             return true;
         }
 
-        public bool RawKill(ICharacter victim, bool killingPayoff) // returns ItemCorpse
+        public bool RawKilled(ICharacter killer, bool killingPayoff)
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "RawKill: {0} is not valid anymore", DebugName);
+                Log.Default.WriteLine(LogLevels.Error, "RawKilled: {0} is not valid anymore", DebugName);
                 return false;
             }
 
-            victim.StopFighting(true);
-            // Remove periodic auras on victim
-            List<IPeriodicAura> periodicAuras = new List<IPeriodicAura>(victim.PeriodicAuras); // clone
+            string wiznetMsg;
+            if (killer != null )
+                wiznetMsg = $"{DebugName} got toasted by {killer.DebugName ?? "???"} at {Room?.DebugName ?? "???"}";
+            else
+                wiznetMsg = $"{DebugName} got toasted by an unknown source at {Room?.DebugName ?? "???"}";
+            if (Impersonable)
+                Repository.Server.Wiznet(wiznetMsg, WiznetFlags.Deaths);
+            else
+                Repository.Server.Wiznet(wiznetMsg, WiznetFlags.MobDeaths);
+
+            StopFighting(true);
+            // Remove periodic auras
+            List<IPeriodicAura> periodicAuras = new List<IPeriodicAura>(PeriodicAuras); // clone
             foreach (IPeriodicAura pa in periodicAuras)
-                victim.RemovePeriodicAura(pa);
-            // Remove auras on victim
-            List<IAura> auras = new List<IAura>(victim.Auras); // clone
+                RemovePeriodicAura(pa);
+            // Remove auras
+            List<IAura> auras = new List<IAura>(Auras); // clone
             foreach (IAura aura in auras)
-                victim.RemoveAura(aura, false);
+                RemoveAura(aura, false);
             // no need to recompute
 
             // Death cry
-            if (this != victim)
-                Act(ActOptions.ToCharacter, "You hear {0}'s death cry.", victim);
-            ActToNotVictim(victim, "You hear {0}'s death cry.", victim);
+            ActToNotVictim(this, "You hear {0}'s death cry.", this);
 
             // Gain/lose xp/reputation   damage.C:32
             if (killingPayoff)
-                KillingPayoff(victim);
+                killer?.KillingPayoff(this);
+            DeathPayoff();
 
             // Create corpse
-            IItemCorpse corpse = Repository.World.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, victim, this);
-            if (victim.ImpersonatedBy != null) // If impersonated, no real death
+            IItemCorpse corpse;
+            if (killer != null)
+                corpse = Repository.World.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, this, killer);
+            else
+                corpse = Repository.World.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, this);
+            if (ImpersonatedBy != null) // If impersonated, no real death
             {
                 // TODO: teleport player to hall room/graveyard  see fight.C:3952
-                victim.ResetAttributes(false); // don't reset hp
+                ResetAttributes(false); // don't reset hp
             }
             else // If not impersonated, remove from game
             {
-                Repository.World.RemoveCharacter(victim);
+                Repository.World.RemoveCharacter(this);
             }
 
             // TODO: autoloot, autosac  damage.C:96
             return true;
+        }
+
+        // Gain xp/gold/reputation/...
+        public void KillingPayoff(ICharacter victim)
+        {
+            // Gain xp
+            if (Impersonable && this != victim && !victim.Impersonable) // gain xp only for non-impersonable victim and only if impersonable
+            {
+                // TODO: not the best way to do it
+                // Build group members
+                List<ICharacter> members = new List<ICharacter>
+                {
+                    this
+                };
+                ICharacter leader = null;
+                // Member of a group
+                if (Leader != null && Leader.GroupMembers.Any(x => x == this))
+                    leader = Leader;
+                // Leader of a group
+                else if (Leader == null && GroupMembers.Any())
+                    leader = this;
+                if (leader != null)
+                    members.AddRange(leader.GroupMembers);
+                int highestLevel = members.Max(x => x.Level);
+                int sumLevels = members.Sum(x => x.Level);
+                int memberCount = members.Count;
+                // Gain xp
+                foreach (ICharacter member in members)
+                {
+                    long experienceGain;
+                    if (memberCount == 1)
+                        experienceGain = CombatHelpers.GetSoloMobExperienceFull(member.Level, victim.Level, false /*TODO: elite*/, 0 /*TODO: rested exp*/);
+                    else if (memberCount == 2)
+                        experienceGain = CombatHelpers.GetDuoMobExperienceFull(members[0].Level, members[1].Level, victim.Level, false /*TODO: elite*/, 0 /*TODO: rested exp*/);
+                    else
+                        experienceGain = CombatHelpers.GetPartyMobExperienceFull(member.Level, highestLevel, sumLevels, memberCount, victim.Level, false /*TODO: elite*/, 0 /*TODO: rested exp*/);
+                    if (experienceGain > 0)
+                    {
+                        member.Send("%y%You gain {0} experience points.%x%", experienceGain);
+                        member.GainExperience(experienceGain);
+                    }
+                }
+            }
         }
 
         public void GainExperience(long experience)
@@ -1175,6 +1272,7 @@ namespace Mud.Server.Character
                     {
                         recompute = true;
                         Level++;
+                        Repository.Server.Wiznet($"{DebugName} has attained level {Level}", WiznetFlags.Levels);
                         Send("You raise a level!!");
                         Act(ActOptions.ToGroup, "{0} has attained level {1}", this, Level);
                         // In case multiple level are gain, check max level
@@ -1184,6 +1282,7 @@ namespace Mud.Server.Character
                 }
                 if (recompute)
                 {
+                    RecomputeBaseAttributes();
                     RecomputeKnownAbilities();
                     RecomputeAttributes();
                     RecomputeCommands();
@@ -1192,6 +1291,8 @@ namespace Mud.Server.Character
                     HitPoints = MaxHitPoints;
                     for (int i = 0; i < _currentResources.Length; i++)
                         _currentResources[i] = _maxResources[i];
+
+                    ImpersonatedBy?.Save(); // Force a save when a level is gained
                 }
             }
         }
@@ -1224,6 +1325,11 @@ namespace Mud.Server.Character
             _cooldowns.Remove(ability);
             if (verbose)
                 Send("%c%{0} is available.%x%", ability.Name);
+        }
+
+        public void AutoLook()
+        {
+            DisplayRoom();
         }
 
         #endregion
@@ -1683,6 +1789,12 @@ namespace Mud.Server.Character
             }
         }
 
+        protected void RecomputeBaseAttributes()
+        {
+            for (int i = 0; i < _basePrimaryAttributes.Length; i++)
+                _basePrimaryAttributes[i] = (Class?.GetPrimaryAttributeByLevel((PrimaryAttributeTypes) i, Level) ?? 10*Level) + (Race?.GetPrimaryAttributeModifier((PrimaryAttributeTypes) i) ?? 0);
+        }
+
         // TODO: Should recompute attributes/commands afterwards
         protected void RecomputeKnownAbilities()
         {
@@ -1805,7 +1917,7 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", DebugName, source.DebugName);
 
                 StopFighting(false);
-                source.RawKill(this, true);
+                RawKilled(source, true);
                 return true;
             }
 
@@ -1814,53 +1926,10 @@ namespace Mud.Server.Character
             return true;
         }
 
-        // Gain/Lose xp
-        protected void KillingPayoff(ICharacter victim)
+        // Lose xp/reputation/durability/...
+        protected void DeathPayoff()
         {
-            // Gain xp
-            if (Impersonable && this != victim && !victim.Impersonable) // gain xp only for non-impersonable victim and only if impersonable
-            {
-                // TODO: not the best way to do it
-                // Build group members
-                List<ICharacter> members = new List<ICharacter>
-                {
-                    this
-                };
-                ICharacter leader = null;
-                // Member of a group
-                if (Leader != null && Leader.GroupMembers.Any(x => x == this))
-                    leader = Leader;
-                // Leader of a group
-                else if (Leader == null && GroupMembers.Any())
-                    leader = this;
-                if (leader != null)
-                    members.AddRange(leader.GroupMembers);
-                int highestLevel = members.Max(x => x.Level);
-                int sumLevels = members.Sum(x => x.Level);
-                int memberCount = members.Count;
-                // Gain xp
-                foreach (ICharacter member in members)
-                {
-                    long experienceGain;
-                    if (memberCount == 1)
-                        experienceGain = CombatHelpers.GetSoloMobExperienceFull(member.Level, victim.Level, false /*TODO: elite*/, 0 /*TODO: rested exp*/);
-                    else if (memberCount == 2)
-                        experienceGain = CombatHelpers.GetDuoMobExperienceFull(members[0].Level, members[1].Level, victim.Level, false /*TODO: elite*/, 0 /*TODO: rested exp*/);
-                    else
-                        experienceGain = CombatHelpers.GetPartyMobExperienceFull(member.Level, highestLevel, sumLevels, memberCount, victim.Level, false /*TODO: elite*/, 0 /*TODO: rested exp*/);
-                    if (experienceGain > 0)
-                    {
-                        member.Send("%y%You gain {0} experience points.%x%", experienceGain);
-                        member.GainExperience(experienceGain);
-                    }
-                }
-            }
-
-            // Lose xp
-            if (victim.Impersonable) // only impersonable victim lose xp
-            {
-                // TODO: 2/3 of level
-            }
+            // TODO
         }
 
         #region Act
