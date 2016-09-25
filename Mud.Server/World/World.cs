@@ -278,14 +278,8 @@ namespace Mud.Server.World
             return item;
         }
 
-        public IItem AddItem(Guid guid, int blueprintId, IContainer container)
+        public IItem AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container)
         {
-            ItemBlueprintBase blueprint = GetItemBlueprint(blueprintId);
-            if (blueprint == null)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: unknown blueprintId {0}", blueprintId);
-                return null;
-            }
             var weaponBlueprint = blueprint as ItemWeaponBlueprint;
             if (weaponBlueprint != null)
                 return AddItemWeapon(guid, weaponBlueprint, container);
@@ -316,9 +310,23 @@ namespace Mud.Server.World
                 IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
                 return AddItemPortal(guid, portalBlueprint, destination, container);
             }
-            Log.Default.WriteLine(LogLevels.Error, $"World.AddItem: Unknown blueprint id or type {blueprintId} {blueprint.GetType().FullName}");
             // TODO: other blueprint
+            Log.Default.WriteLine(LogLevels.Error, $"World.AddItem: Invalid blueprint type {blueprint.GetType().FullName}");
             return null;
+        }
+
+        public IItem AddItem(Guid guid, int blueprintId, IContainer container)
+        {
+            ItemBlueprintBase blueprint = GetItemBlueprint(blueprintId);
+            if (blueprint == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, $"World.AddItem: unknown blueprintId {blueprintId}");
+                return null;
+            }
+            IItem item = AddItem(guid, blueprint, container);
+            if (item == null)
+                Log.Default.WriteLine(LogLevels.Error, $"World.AddItem: Unknown blueprint id {blueprintId} or type {blueprint.GetType().FullName}");
+            return item;
         }
 
         public IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool recompute)

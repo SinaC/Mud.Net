@@ -48,6 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Datas.TestApplication",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Common", "Mud.Server.Common\Mud.Server.Common.csproj", "{D1A7D787-0FE7-4281-9458-D2C8F728E404}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer.Rom", "Mud.Importer.Rom\Mud.Importer.Rom.csproj", "{5BE3B1DC-2039-450C-AD58-AB35620FFC4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +132,10 @@ Global
 		{D1A7D787-0FE7-4281-9458-D2C8F728E404}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1A7D787-0FE7-4281-9458-D2C8F728E404}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1A7D787-0FE7-4281-9458-D2C8F728E404}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BE3B1DC-2039-450C-AD58-AB35620FFC4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BE3B1DC-2039-450C-AD58-AB35620FFC4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BE3B1DC-2039-450C-AD58-AB35620FFC4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BE3B1DC-2039-450C-AD58-AB35620FFC4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using Mud.Datas.DataContracts;
 using Mud.Server.Common;
 using Mud.Server.Constants;
@@ -49,13 +51,24 @@ namespace Mud.Server.Player
 
         private AvatarCreationStates ProcessNameChoice(IPlayer player, string input)
         {
-            // TODO: name validation
             if (!String.IsNullOrWhiteSpace(input))
             {
                 if (input == "quit")
                 {
-                    player.Send("Creation cancelled");
+                    player.Send("Creation cancelled.");
                     return AvatarCreationStates.Quit;
+                }
+                if (input.Contains(' ') || !Regex.IsMatch(input, @"^[a-z]+$"))
+                {
+                    player.Send("Invalid characters detected.");
+                    player.Send("Please enter a VALID name (type quit to stop creation):");
+                    return AvatarCreationStates.NameChoice;
+                }
+                if (player.Avatars.Any(x => FindHelpers.StringEquals(x.Name, input)))
+                {
+                    player.Send("You already have an avatar with that name.");
+                    player.Send("Please enter a name (type quit to stop creation):");
+                    return AvatarCreationStates.NameChoice;
                 }
                 _name = input;
                 player.Send("Are you sure '{0}' is the name of your avatar? (y/n/quit)", StringHelpers.UpperFirstLetter(_name));

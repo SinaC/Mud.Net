@@ -40,7 +40,7 @@ namespace Mud.Server.Character
 
         protected int MaxHitPoints => _secondaryAttributes[(int) SecondaryAttributeTypes.MaxHitPoints];
 
-        protected Character(Guid guid, string name, string description)
+        private Character(Guid guid, string name, string description)
             : base(guid, name, description)
         {
             _fullCommands = new Trie<CommandMethodInfo>();
@@ -71,7 +71,7 @@ namespace Mud.Server.Character
                 string msg = $"Invalid class {data.Class} for character {data.Name}!!";
                 Log.Default.WriteLine(LogLevels.Error, msg);
                 Class = Repository.ClassManager.Classes.First();
-                Repository.Server.Wiznet(msg, WiznetFlags.Bugs);
+                Repository.Server.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             }
             Race = Repository.RaceManager[data.Race];
             if (Race == null)
@@ -79,7 +79,7 @@ namespace Mud.Server.Character
                 string msg = $"Invalid race {data.Race} for character {data.Name}!!";
                 Log.Default.WriteLine(LogLevels.Error, msg);
                 Race = Repository.RaceManager.Races.First();
-                Repository.Server.Wiznet(msg, WiznetFlags.Bugs);
+                Repository.Server.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             }
             Sex = data.Sex;
             Level = data.Level;
@@ -612,16 +612,25 @@ namespace Mud.Server.Character
 
         public void UpdateResources()
         {
-            // TODO: use Furniture heal/resource bonus
             // TODO: use real formulas (rage decrease and other increase)
+            if (HitPoints < MaxHitPoints)
+            {
+                int regen = MaxHitPoints/20;
+                if (Furniture?.HealBonus > 0)
+                    regen = (regen*Furniture.HealBonus)/100;
+                HitPoints = Math.Min(MaxHitPoints,HitPoints + regen);
+            }
             foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
             {
                 int max = GetMaxResource(resource);
                 int current = this[resource];
                 if (current < max)
-                    current += max/20; // + 5% of max value
-                else
-                    current = max; // not higher than max
+                {
+                    int regen = max/20; // base value:  // + 5% of max value
+                    if (Furniture?.ResourceBonus > 0)
+                        regen = (regen * Furniture.ResourceBonus) / 100;
+                    current += regen;
+                }
                 this[resource] = Math.Min(max, Math.Max(0, current)); // keep value in valid range
             }
         }
@@ -742,6 +751,21 @@ namespace Mud.Server.Character
         }
 
         // Recompute
+        public void Reset() // Reset attributes, remove auras, periodic auras
+        {
+            if (!IsValid)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "ResetAttributes: {0} is not valid anymore", DebugName);
+                return;
+            }
+
+            // Remove periodic auras on character
+            _periodicAuras.Clear();
+            _auras.Clear();
+
+            ResetAttributes(true);
+        }
+
         public void ResetAttributes(bool resetHitPoints)
         {
             if (!IsValid)

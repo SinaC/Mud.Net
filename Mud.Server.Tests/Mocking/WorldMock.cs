@@ -165,6 +165,11 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
+        public IItem AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
         public IItem AddItem(Guid guid, int blueprintId, IContainer container)
         {
             throw new NotImplementedException();

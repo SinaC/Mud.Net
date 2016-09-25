@@ -7,12 +7,10 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [Command("incarnate", Category = "Admin")]
+        [AdminCommand("incarnate", Category = "Admin", CannotBeImpersonated = true)]
         protected virtual bool DoIncarnate(string rawParameters, params CommandParameter[] parameters)
         {
-            if (Impersonating != null)
-                Send("You are already impersonating {0}.", Impersonating.DisplayName);
-            else if (parameters.Length == 0)
+            if (parameters.Length == 0)
             {
                 if (Incarnating != null)
                 {

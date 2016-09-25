@@ -15,7 +15,6 @@ namespace Mud.Server.Player
         [Command("impersonate", Category = "Avatar")]
         protected virtual bool DoImpersonate(string rawParameters, params CommandParameter[] parameters)
         {
-            // TODO: use impersonate list
             if (parameters.Length == 0)
             {
                 if (Impersonating != null)
@@ -28,7 +27,7 @@ namespace Mud.Server.Player
                     Send("Impersonate whom?");
                 return true;
             }
-            CharacterData characterData = AvatarList.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            CharacterData characterData = _avatarList.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (characterData == null)
             {
                 Send("Avatar not found. Use listavatar to display your avatar list.");
@@ -40,7 +39,7 @@ namespace Mud.Server.Player
                 string msg = $"Invalid roomId {characterData.RoomId} for character {characterData.Name}!!";
                 location = Repository.World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3001); // TODO: default room in IWorld
                 Log.Default.WriteLine(LogLevels.Error, msg);
-                Repository.Server.Wiznet(msg, WiznetFlags.Bugs);
+                Repository.Server.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             }
             ICharacter avatar = Repository.World.AddCharacter(Guid.NewGuid(), characterData, location);
             Send("%M%You start impersonating %C%{0}%x%.", avatar.DisplayName);
@@ -55,7 +54,7 @@ namespace Mud.Server.Player
         [Command("listavatar", Category = "Avatar")]
         protected virtual bool DoList(string rawParameters, params CommandParameter[] parameters)
         {
-            if (!AvatarList.Any())
+            if (!_avatarList.Any())
             {
                 Send("You don't have any avatar available. Use createavatar to create one.");
                 return true;
@@ -66,20 +65,15 @@ namespace Mud.Server.Player
             generator.AddColumn("Class", 12, data => Repository.ClassManager[data.Class]?.DisplayName ?? "none");
             generator.AddColumn("Race", 12, data => Repository.RaceManager[data.Race]?.DisplayName ?? "none");
             generator.AddColumn("Location", 40, data => Repository.World.Rooms.FirstOrDefault(x => x.Blueprint.Id == data.RoomId)?.DisplayName ?? "In the void");
-            StringBuilder sb = generator.Generate(AvatarList);
+            StringBuilder sb = generator.Generate(_avatarList);
             Send(sb);
             return true;
         }
 
-        [Command("createavatar", Category = "Avatar")]
+        [PlayerCommand("createavatar", Category = "Avatar", CannotBeImpersonated = true)]
         protected virtual bool DoCreateAvatar(string rawParameters, params CommandParameter[] parameters)
         {
-            if (Impersonating != null)
-            {
-                Send("You cannot create a new avatar while impersonating.");
-                return true;
-            }
-            if (AvatarList.Count >= ServerOptions.MaxAvatarCount)
+            if (_avatarList.Count >= ServerOptions.MaxAvatarCount)
             {
                 Send("Max. avatar count reached. Delete one before creating a new one.");
                 return true;
@@ -90,7 +84,7 @@ namespace Mud.Server.Player
             return true;
         }
 
-        [Command("deleteavatar", Category = "Avatar")]
+        [PlayerCommand("deleteavatar", Category = "Avatar", CannotBeImpersonated = true)]
         protected virtual bool DoDeleteAvatar(string rawParameters, params CommandParameter[] parameters)
         {
             throw new NotImplementedException();

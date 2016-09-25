@@ -90,6 +90,24 @@ namespace Mud.Server.Admin
             }
         }
 
+        //public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
+        //{
+        //    AdminCommandAttribute adminCommandAttribute = methodInfo.Attribute as AdminCommandAttribute;
+        //    if (adminCommandAttribute?.MinLevel > Level)
+        //    {
+        //        Send($"You're a not allowed to use '{adminCommandAttribute.Name}'.");
+        //        Log.Default.WriteLine(LogLevels.Info, $"{DisplayName} [Level:{Level}] tried to use {adminCommandAttribute.Name} [Level:{adminCommandAttribute.MinLevel}]");
+        //        return false;
+        //    }
+        //    return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
+        //}
+
+        protected override bool IsCommandAvailable(CommandAttribute attribute)
+        {
+            AdminCommandAttribute adminCommandAttribute = attribute as AdminCommandAttribute;
+            return adminCommandAttribute == null || Level >= adminCommandAttribute?.MinLevel;
+        }
+
         #endregion
 
         public override string Prompt => Incarnating != null 

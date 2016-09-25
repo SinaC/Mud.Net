@@ -119,6 +119,7 @@ namespace Mud.Server
         void RemoveAura(IAura aura, bool recompute);
 
         // Recompute
+        void Reset(); // Reset attributes, remove auras, periodic auras
         void ResetAttributes(bool resetHitPoints);
         void RecomputeAttributes();
 

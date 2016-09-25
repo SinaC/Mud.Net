@@ -33,6 +33,8 @@ namespace Mud.Server.Blueprints.Character
 
         public CharacterLootTable<int> LootTable { get; set; }
 
+        public string ScriptTableName { get; set; }
+
         #region IEquatable
 
         public bool Equals(CharacterBlueprint other)

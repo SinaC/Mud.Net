@@ -36,39 +36,48 @@ namespace Mud.Server.Actor
                 }
                 else if (entry.Value?.MethodInfo != null)
                 {
-                    bool beforeExecute = ExecuteBeforeCommand(entry.Value, rawParameters, parameters);
-                    if (!beforeExecute)
+                    if (IsCommandAvailable(entry.Value?.Attribute))
                     {
-                        Log.Default.WriteLine(LogLevels.Info, $"ExecuteBeforeCommand returned false for command {entry.Value.MethodInfo.Name} and parameters {rawParameters}");
-                        return false;
-                    }
-                    MethodInfo methodInfo = entry.Value.MethodInfo;
-                    bool executedSuccessfully;
-                    if (entry.Value.Attribute?.AddCommandInParameters == true)
-                    {
-                        // Insert command as first parameter
-                        CommandParameter[] enhancedParameters = new CommandParameter[parameters?.Length + 1 ?? 1];
-                        if (parameters != null)
-                            Array.ConstrainedCopy(parameters, 0, enhancedParameters, 1, parameters.Length);
-                        enhancedParameters[0] = new CommandParameter(command, 1);
-                        string enhancedRawParameters = command + " " + rawParameters;
-                        //
-                        executedSuccessfully = (bool) methodInfo.Invoke(this, new object[] {enhancedRawParameters, enhancedParameters});
+                        bool beforeExecute = ExecuteBeforeCommand(entry.Value, rawParameters, parameters);
+                        if (!beforeExecute)
+                        {
+                            Log.Default.WriteLine(LogLevels.Info, $"ExecuteBeforeCommand returned false for command {entry.Value.MethodInfo.Name} and parameters {rawParameters}");
+                            return false;
+                        }
+                        MethodInfo methodInfo = entry.Value.MethodInfo;
+                        bool executedSuccessfully;
+                        if (entry.Value.Attribute?.AddCommandInParameters == true)
+                        {
+                            // Insert command as first parameter
+                            CommandParameter[] enhancedParameters = new CommandParameter[parameters?.Length + 1 ?? 1];
+                            if (parameters != null)
+                                Array.ConstrainedCopy(parameters, 0, enhancedParameters, 1, parameters.Length);
+                            enhancedParameters[0] = new CommandParameter(command, 1);
+                            string enhancedRawParameters = command + " " + rawParameters;
+                            //
+                            executedSuccessfully = (bool) methodInfo.Invoke(this, new object[] {enhancedRawParameters, enhancedParameters});
+                        }
+                        else
+                            executedSuccessfully = (bool) methodInfo.Invoke(this, new object[] {rawParameters, parameters});
+                        if (!executedSuccessfully)
+                        {
+                            Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
+                            return false;
+                        }
+                        bool afterExecute = ExecuteAfterCommand(entry.Value, rawParameters, parameters);
+                        if (!afterExecute)
+                        {
+                            Log.Default.WriteLine(LogLevels.Info, $"ExecuteBeforeCommand returned false for command {entry.Value.MethodInfo.Name} and parameters {rawParameters}");
+                            return false;
+                        }
+                        return true;
                     }
                     else
-                        executedSuccessfully = (bool) methodInfo.Invoke(this, new object[] {rawParameters, parameters});
-                    if (!executedSuccessfully)
                     {
-                        Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
+                        Log.Default.WriteLine(LogLevels.Warning, $"Command {command} not found");
+                        Send("Command not found.");
                         return false;
                     }
-                    bool afterExecute = ExecuteAfterCommand(entry.Value, rawParameters, parameters);
-                    if (!afterExecute)
-                    {
-                        Log.Default.WriteLine(LogLevels.Info, $"ExecuteBeforeCommand returned false for command {entry.Value.MethodInfo.Name} and parameters {rawParameters}");
-                        return false;
-                    }
-                    return true;
                 }
                 else
                 {
@@ -108,17 +117,19 @@ namespace Mud.Server.Actor
             Send(text.ToString(), false); // don't add trailing newline
         }
 
+        #endregion
+
         [Command("cmd", Priority = 0)]
         [Command("commands", Priority = 0)]
         protected virtual bool DoCommands(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: group trie by value and display set of key linked to this value
 
-            IEnumerable<KeyValuePair<string, CommandMethodInfo>> filteredCommands = Commands.Where(x => !x.Value.Attribute.Hidden);
+            IEnumerable<KeyValuePair<string, CommandMethodInfo>> filteredCommands = Commands.Where(x => !x.Value.Attribute.Hidden && IsCommandAvailable(x.Value.Attribute));
             if (parameters.Length > 0)
                 filteredCommands = filteredCommands.Where(x => FindHelpers.StringStartsWith(x.Value.Attribute.Category, parameters[0].Value));
 
-            StringBuilder sb = new StringBuilder("Available commands:"+Environment.NewLine);
+            StringBuilder sb = new StringBuilder("Available commands:" + Environment.NewLine);
             foreach (IGrouping<string, KeyValuePair<string, CommandMethodInfo>> group in filteredCommands
                 .GroupBy(x => x.Value.Attribute.Category)
                 .OrderBy(g => g.Key))
@@ -130,18 +141,21 @@ namespace Mud.Server.Actor
                     .OrderBy(x => x.Value.Attribute.Priority)
                     .ThenBy(x => x.Key))
                 {
-                    if ((++index%6) == 0)
+                    if ((++index % 6) == 0)
                         sb.AppendFormatLine("{0,-14}", kv.Key);
                     else
                         sb.AppendFormat("{0,-14}", kv.Key);
                 }
-                if (index > 0 && index%6 != 0)
+                if (index > 0 && index % 6 != 0)
                     sb.AppendLine();
             }
             Page(sb);
             return true;
         }
 
-        #endregion
+        protected virtual bool IsCommandAvailable(CommandAttribute attribute)
+        {
+            return true;
+        }
     }
 }

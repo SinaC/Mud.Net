@@ -170,7 +170,7 @@ namespace Mud.Server.Player
             }
             string msg = $"****USER BUG REPORTING -- {DisplayName}: {rawParameters}";
             Log.Default.WriteLine(LogLevels.Warning, msg); // TODO: specific log file ?
-            Repository.Server.Wiznet(msg, WiznetFlags.Bugs);
+            Repository.Server.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             Send("Bug logged.");
             return true;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mud.Server.Constants;
 
 namespace Mud.Server.Input
 {
@@ -24,6 +25,29 @@ namespace Mud.Server.Input
         }
     }
 
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class PlayerCommandAttribute : CommandAttribute
+    {
+        public bool MustBeImpersonated { get; set; }
+        public bool CannotBeImpersonated { get; set; }
+
+        public PlayerCommandAttribute(string name)
+            : base(name)
+        {
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class AdminCommandAttribute : PlayerCommandAttribute
+    {
+        public AdminLevels MinLevel { get; set; }
+
+        public AdminCommandAttribute(string name) 
+            : base(name)
+        {
+        }
+    }
+
     public class CommandAttributeEqualityComparer : IEqualityComparer<CommandAttribute>
     {
         public bool Equals(CommandAttribute x, CommandAttribute y)
@@ -40,4 +64,4 @@ namespace Mud.Server.Input
             return obj.Name.GetHashCode();
         }
     }
-}
+    }

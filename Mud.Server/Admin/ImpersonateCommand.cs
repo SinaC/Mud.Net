@@ -4,7 +4,7 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [Command("impersonate", Category = "Avatar")]
+        [Command("impersonate", Category = "Avatar", Priority = 0)]
         protected override bool DoImpersonate(string rawParameters, params CommandParameter[] parameters)
         {
             if (Incarnating != null)

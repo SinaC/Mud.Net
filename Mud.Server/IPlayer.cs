@@ -31,7 +31,9 @@ namespace Mud.Server
 
         ICharacter Impersonating { get; }
 
-        IPlayer LastTeller { get; } // used by DoReply
+        IEnumerable<CharacterData> Avatars { get; }
+
+        IPlayer LastTeller { get; }
 
         IAdmin SnoopBy { get; } // every messages send to 'this' will be sent to SnoopBy
 

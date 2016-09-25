@@ -690,9 +690,6 @@ namespace Mud.Server.Server
 
         private void HandleViolence()
         {
-            //IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Repository.World.Characters().Where(x => x.Fighting != null).ToList());
-            //foreach (ICharacter character in clone)
-            var fighters = Repository.World.Characters.Where(x => x.Fighting != null).ToList();
             foreach (ICharacter character in Repository.World.Characters.Where(x => x.Fighting != null))
             {
                 ICharacter victim = character.Fighting;
@@ -709,6 +706,11 @@ namespace Mud.Server.Server
                         {
                             Log.Default.WriteLine(LogLevels.Debug, "Stop fighting between {0} and {1}, because not in same room", character.DebugName, victim.DebugName);
                             character.StopFighting(false);
+                            if (!character.Impersonable)
+                            {
+                                Log.Default.WriteLine(LogLevels.Debug, "Non-impersonable character stop fighting, resetting it");
+                                character.Reset();
+                            }
                         }
                     }
                     catch (Exception ex)

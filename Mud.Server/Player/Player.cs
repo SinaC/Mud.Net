@@ -18,8 +18,8 @@ namespace Mud.Server.Player
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(Player)));
 
         private readonly List<string> _delayedTells;
+        private readonly List<CharacterData> _avatarList;
 
-        protected readonly List<CharacterData> AvatarList;
         protected readonly Dictionary<string, string> Aliases;
         protected IInputTrap<IPlayer> CurrentStateMachine;
 
@@ -28,8 +28,8 @@ namespace Mud.Server.Player
             PlayerState = PlayerStates.Loading;
 
             _delayedTells = new List<string>();
+            _avatarList = new List<CharacterData>();
 
-            AvatarList = new List<CharacterData>();
             Aliases = new Dictionary<string, string>();
             CurrentStateMachine = null;
         }
@@ -105,6 +105,21 @@ namespace Mud.Server.Player
 
         public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
         {
+            PlayerCommandAttribute playerCommandAttribute = methodInfo.Attribute as PlayerCommandAttribute;
+            if (playerCommandAttribute != null)
+            {
+                if (playerCommandAttribute.MustBeImpersonated && Impersonating == null)
+                {
+                    Send($"You must be impersonated to use '{playerCommandAttribute.Name}'.");
+                    return false;
+                }
+
+                if (playerCommandAttribute.CannotBeImpersonated && Impersonating != null)
+                {
+                    Send($"You cannot be impersonated to use '{playerCommandAttribute.Name}'.");
+                    return false;
+                }
+            }
             if (IsAfk && methodInfo.Attribute.Name != "afk")
             {
                 Send("%G%AFK%x% removed.");
@@ -158,6 +173,8 @@ namespace Mud.Server.Player
         public PlayerStates PlayerState { get; protected set; }
 
         public ICharacter Impersonating { get; private set; }
+
+        public IEnumerable<CharacterData> Avatars => _avatarList;
 
         public IPlayer LastTeller { get; private set; }
 
@@ -229,7 +246,7 @@ namespace Mud.Server.Player
 
         public void AddAvatar(CharacterData characterData)
         {
-            AvatarList.Add(characterData);
+            _avatarList.Add(characterData);
         }
 
         public void StopImpersonating()
@@ -271,7 +288,7 @@ namespace Mud.Server.Player
         protected void LoadPlayerData(PlayerData data)
         {
             Aliases.Clear();
-            AvatarList.Clear();
+            _avatarList.Clear();
             if (data?.Aliases != null)
             {
                 foreach (CoupledData<string, string> alias in data.Aliases)
@@ -281,7 +298,7 @@ namespace Mud.Server.Player
             if (data?.Characters != null)
             {
                 foreach (CharacterData characterData in data.Characters)
-                    AvatarList.Add(characterData);
+                    _avatarList.Add(characterData);
             }
         }
 
@@ -290,7 +307,7 @@ namespace Mud.Server.Player
             data.Name = Name;
             data.Aliases = Aliases.Select(x => new CoupledData<string, string> {Key = x.Key, Data = x.Value}).ToList();
             // TODO: copy from Impersonated to CharacterData
-            data.Characters = AvatarList;
+            data.Characters = _avatarList;
         }
 
         protected void UpdateCharacterDataFromImpersonated()
@@ -300,7 +317,7 @@ namespace Mud.Server.Player
                 Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated while not impersonated.");
                 return;
             }
-            CharacterData characterData = AvatarList.FirstOrDefault(x => FindHelpers.StringEquals(x.Name, Impersonating.Name));
+            CharacterData characterData = _avatarList.FirstOrDefault(x => FindHelpers.StringEquals(x.Name, Impersonating.Name));
             if (characterData == null)
             {
                 Log.Default.WriteLine(LogLevels.Error, $"UpdateCharacterDataFromImpersonated: unknown avatar {Impersonating.Name} for player {DisplayName}");

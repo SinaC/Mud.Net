@@ -30,6 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KopiLua, Version=1.3.5449.31722, Culture=neutral, PublicKeyToken=e25f4af1e4f7b31c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLua_Safe.1.3.2.1\lib\net45\KopiLua.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLua, Version=1.3.2.0, Culture=neutral, PublicKeyToken=8df2ab518030ea95, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLua_Safe.1.3.2.1\lib\net45\NLua.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -50,6 +58,7 @@
     <Compile Include="NewMud\Behaviors\PlayerBehavior.cs" />
     <Compile Include="NewMud\Thing.cs" />
     <Compile Include="TestDelayedAction.cs" />
+    <Compile Include="TestLua.cs" />
     <Compile Include="TestReputation.cs" />
     <Compile Include="TestAct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,9 +67,17 @@
     <Compile Include="TestTableGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Datas\Mud.Datas.csproj">
+      <Project>{2c853490-7908-4e36-b906-72eba82b4236}</Project>
+      <Name>Mud.Datas</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
+      <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
+      <Name>Mud.Server.Blueprints</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Constants\Mud.Server.Constants.csproj">
       <Project>{3c334a4d-ed18-4eb4-ac7b-2b03bb849d47}</Project>
@@ -75,7 +92,14 @@
       <Name>Mud.Server</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

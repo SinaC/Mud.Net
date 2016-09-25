@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using Mud.Server.Blueprints.Character;
+using Mud.Server.Blueprints.Item;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -9,16 +11,83 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [Command("shutdown", Category = "Admin", Priority = 999 /*low priority*/, NoShortcut = true)]
+        [AdminCommand("shutdown", Category = "Admin", Priority = 999 /*low priority*/, NoShortcut = true, MinLevel = AdminLevels.Implementor, CannotBeImpersonated = true)]
         protected virtual bool DoShutdown(string rawParameters, params CommandParameter[] parameters)
         {
             int seconds;
             if (parameters.Length == 0 || !int.TryParse(parameters[0].Value, out seconds))
-                Send("Syntax: shutdown xxx  where xxx is a delay in seconds.");
+                Send("Syntax: shutdown <delay>");
             else if (seconds < 30)
                 Send("You cannot shutdown that fast.");
             else
                 Repository.Server.Shutdown(seconds);
+            return true;
+        }
+
+        [AdminCommand("cload", Category = "Admin", MustBeImpersonated = true)]
+        [AdminCommand("mload", Category = "Admin", MustBeImpersonated = true)]
+        protected virtual bool DoCload(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0 || !parameters[0].IsNumber)
+            {
+                Send("Syntax: cload <id>");
+                return true;
+            }
+
+            CharacterBlueprint characterBlueprint = Repository.World.GetCharacterBlueprint(parameters[0].AsNumber);
+            if (characterBlueprint == null)
+            {
+                Send("No character with that id.");
+                return true;
+            }
+
+            ICharacter character = Repository.World.AddCharacter(Guid.NewGuid(), characterBlueprint, Impersonating.Room);
+            if (character == null)
+            {
+                Send("Character cannot be created.");
+                Repository.Server.Wiznet($"DoCload: character with id {parameters[0].AsNumber} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
+                return true;
+            }
+
+            Repository.Server.Wiznet($"{DisplayName} loads {character.DebugName}.", WiznetFlags.Load);
+
+            Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1:n}!", Impersonating, character);
+            Send("Ok.");
+
+            return true;
+        }
+
+        [AdminCommand("iload", Category = "Admin", MustBeImpersonated = true)]
+        [AdminCommand("oload", Category = "Admin", MustBeImpersonated = true)]
+        protected virtual bool DoIload(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0 || !parameters[0].IsNumber)
+            {
+                Send("Syntax: iload <id>");
+                return true;
+            }
+
+            ItemBlueprintBase itemBlueprint = Repository.World.GetItemBlueprint(parameters[0].AsNumber);
+            if (itemBlueprint == null)
+            {
+                Send("No item with that id.");
+                return true;
+            }
+
+            IContainer container = itemBlueprint.WearLocation == WearLocations.None ? Impersonating.Room as IContainer : Impersonating as IContainer;
+            IItem item = Repository.World.AddItem(Guid.NewGuid(), itemBlueprint, container);
+            if (item == null)
+            {
+                Send("Item cannot be created.");
+                Repository.Server.Wiznet($"DoIload: item with id {parameters[0].AsNumber} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
+                return true;
+            }
+
+            Repository.Server.Wiznet($"{DisplayName} loads {item.DebugName}.", WiznetFlags.Load);
+
+            Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1}!", Impersonating, item);
+            Send("Ok.");
+
             return true;
         }
 
@@ -30,17 +99,14 @@ namespace Mud.Server.Admin
                 Send("Slay whom?");
                 return true;
             }
-            if (Impersonating == null)
-            {
-                Send("Slay can only be used when impersonating.");
-                return true;
-            }
+
             ICharacter victim = FindHelpers.FindByName(Impersonating.Room.People, parameters[0]);
             if (victim == null)
             {
                 Send(StringHelpers.CharacterNotFound);
                 return true;
             }
+
             if (victim == Impersonating)
             {
                 Send("Suicide is a mortal sin.");
@@ -49,17 +115,13 @@ namespace Mud.Server.Admin
 
             Repository.Server.Wiznet($"{DisplayName} slayed {victim.DebugName}.", WiznetFlags.Punish);
 
-            //Impersonating.Act(ActOptions.ToCharacter, "You slay {0:m} in cold blood!", victim);
-            //victim.Act(ActOptions.ToCharacter, "{0} slays you in cold blood!", Impersonating);
-            //Impersonating.ActToNotVictim(victim, "{0} slays {1} in cold blood!", Impersonating, victim);
             victim.Act(ActOptions.ToAll, "{0:N} slay{0:v} {1} in cold blood!", Impersonating, victim);
-
             victim.RawKilled(Impersonating, false);
 
             return true;
         }
 
-        [Command("purge", Category = "Admin", NoShortcut = true)]
+        [AdminCommand("purge", Category = "Admin", NoShortcut = true, MustBeImpersonated = true)]
         protected virtual bool DoPurge(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -67,17 +129,14 @@ namespace Mud.Server.Admin
                 Send("Purge what?");
                 return true;
             }
-            if (Impersonating == null)
-            {
-                Send("Purge can only be used when impersonating.");
-                return true;
-            }
+
             IItem item = FindHelpers.FindItemHere(Impersonating, parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemNotFound);
                 return true;
             }
+
             Repository.Server.Wiznet($"{DisplayName} purges {item.DebugName}.", WiznetFlags.Punish);
 
             Impersonating.Act(ActOptions.ToAll, "{0:N} purge{0:v} {1}!", Impersonating, item);
@@ -86,17 +145,12 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [Command("goto", Category = "Admin")]
+        [AdminCommand("goto", Category = "Admin", MustBeImpersonated = true)]
         protected virtual bool DoGoto(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Goto where?");
-                return true;
-            }
-            if (Impersonating == null)
-            {
-                Send("Goto can only be used when impersonating.");
                 return true;
             }
 
@@ -113,7 +167,7 @@ namespace Mud.Server.Admin
             Impersonating.Act(Impersonating.Room.People.Where(x => x != Impersonating && x.CanSee(Impersonating)), "{0} leaves in a swirling mist.", Impersonating); // Don't display 'Someone leaves ...' if Impersonating is not visible
             Impersonating.ChangeRoom(where);
             Impersonating.Act(Impersonating.Room.People.Where(x => x != Impersonating && x.CanSee(Impersonating)), "{0} appears in a swirling mist.", Impersonating);
-            Impersonating.ProcessCommand("look");
+            Impersonating.AutoLook();
 
             return true;
         }
@@ -211,7 +265,7 @@ namespace Mud.Server.Admin
                 else
                     whom.Act(ActOptions.ToCharacter, "Someone has transferred you.");
             }
-            whom.ProcessCommand("look"); // TODO: call immediate command
+            whom.AutoLook();
 
             Send("Ok");
             return true;

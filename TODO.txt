@@ -1,11 +1,5 @@
-check if everywhere if Act should replace Send
-use new act formatting: h, b, v where possible
-wield2h/wield2h2
-
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
 
-impersonable list
-use more StringBuilder
 specialization
 talent
 OLC
@@ -14,8 +8,9 @@ reputation
 achievements
 AH
 help
+lua for mob IA
 
-use wiznet(msg, WiznetFlags.Bugs) when Log is used
+use wiznet(msg, WiznetFlags.Bugs) when LogLevels.Error is used
 
 drink/eat/fill/pour/quaff
 pull/push
@@ -24,12 +19,16 @@ buy/sell/list
 act: add IPlayer, IAdmin -> Name or Impersonated.DisplayName
 
 admin
-    mload/oload
     at(quite difficult to implement)
+    most [MustBeImpersonated] command should work when incarnating
 statistics: mob killed, player killed, ...
 
 !! Stunned position is not very well used/defined
 min pos to initiate command  see interp.C:935
+use more StringBuilder
+check if everywhere if Act should replace Send
+use new act formatting: h, b, v whereas possible
+wield2h/wield2h2
 
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 
@@ -40,8 +39,10 @@ transform Character into
  Character, NonPlayableCharacter, PlayableCharacter
 
 aura/periodic aura can have multiply affects/effects
+isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + filter on isValid + remove them during Cleanup phease (--> no more clone of auras needed while modifying/clearing auras, same goes with periodic aura)
 
 Mystery to new format converter (see olc_act.C:2578 for obj values  L4571 for mob values)
+Other format (ROM, Merc, ...)
 
 combat table:
 http://wowwiki.wikia.com/wiki/Combat
@@ -116,3 +117,9 @@ http://www.gammon.com.au/forum/bbshowpost.php?bbsubject_id=9715
 
 rom snippets:
 http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/
+
+area:
+https://github.com/vedicveko/Mud-Areas
+
+old mobprogram
+http://dsmud.wikidot.com/mprog-guide-written-by-xzylvador-from-aarchon-mud

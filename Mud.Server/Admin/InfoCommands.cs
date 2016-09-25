@@ -104,6 +104,13 @@ namespace Mud.Server.Admin
             }
             else
             {
+                if (parameters[0].IsAll)
+                {
+                    foreach (WiznetFlags wiznetFlag in EnumHelpers.GetValues<WiznetFlags>())
+                        WiznetFlags |= wiznetFlag;
+                    Send("You will now see every wiznet informations.");
+                    return true;
+                }
                 WiznetFlags flag;
                 if (!EnumHelpers.TryFindByName<WiznetFlags>(parameters[0].Value.ToLowerInvariant(), out flag))
                 {
@@ -154,7 +161,7 @@ namespace Mud.Server.Admin
             }
             if (parameters.Length >= 1 && !parameters[0].IsNumber)
             {
-                Send("Syntax: rstat <room id>");
+                Send("Syntax: rstat [<room id>]");
                 return true;
             }
             IRoom room;
@@ -209,6 +216,7 @@ namespace Mud.Server.Admin
         }
 
         [Command("cstat", Category = "Information")]
+        [Command("mstat", Category = "Information")]
         protected virtual bool DoCstat(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -304,11 +312,12 @@ namespace Mud.Server.Admin
             return true;
         }
 
+        [Command("istat", Category = "Information")]
         [Command("ostat", Category = "Information")]
-        protected virtual bool DoOstat(string rawParameters, params CommandParameter[] parameters)
+        protected virtual bool DoIstat(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-                Send("Ostat what?");
+                Send("Istat what?");
             else
             {
                 IItem item = Impersonating == null
@@ -395,6 +404,7 @@ namespace Mud.Server.Admin
         }
 
         [Command("cfind", Category = "Information")]
+        [Command("mfind", Category = "Information")]
         protected virtual bool DoCfind(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -419,12 +429,13 @@ namespace Mud.Server.Admin
             return true;
         }
 
+        [Command("ifind", Category = "Information")]
         [Command("ofind", Category = "Information")]
-        protected virtual bool DoOfind(string rawParameters, params CommandParameter[] parameters)
+        protected virtual bool DoIFind(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
-                Send("Ofind what?");
+                Send("Ifind what?");
                 return true;
             }
 
@@ -444,15 +455,9 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [Command("path", Category = "Information")]
+        [AdminCommand("path", Category = "Information", MustBeImpersonated = true)]
         protected virtual bool DoPath(string rawParameters, params CommandParameter[] parameters)
         {
-            if (Impersonating == null)
-            {
-                Send("Map can only be used when impersonating.");
-                return true;
-            }
-
             if (parameters.Length == 0)
             {
                 Send("Path to where ?");

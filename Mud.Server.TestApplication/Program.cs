@@ -30,7 +30,10 @@ namespace Mud.Server.TestApplication
             //TestCommandParsing();
             //TestBasicCommands();
             //TestWorldOnline();
-            TestWorldOffline();
+            //TestWorldOffline();
+            TestLua testLua = new TestLua();
+            //testLua.TestBasicFunctionality();
+            testLua.TestIntegration();
         }
 
         //private static void TestSecondWindow()
