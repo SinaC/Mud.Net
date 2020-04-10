@@ -285,7 +285,7 @@ namespace Mud.Server.Character
                     Send(StringHelpers.ItemNotFound);
                     return true;
                 }
-                if ((furniture.FurnitureActions & FurnitureActions.Stand) != FurnitureActions.Stand)
+                if (!furniture.CanStand)
                 {
                     Send("You can't seem to find a place to stand.");
                     return true;
@@ -359,7 +359,7 @@ namespace Mud.Server.Character
                     Send(StringHelpers.ItemNotFound);
                     return true;
                 }
-                if ((furniture.FurnitureActions & FurnitureActions.Sit) != FurnitureActions.Sit)
+                if (!furniture.CanSit)
                 {
                     Send("You can't sit on that.");
                     return true;
@@ -439,7 +439,7 @@ namespace Mud.Server.Character
                     Send(StringHelpers.ItemNotFound);
                     return true;
                 }
-                if ((furniture.FurnitureActions & FurnitureActions.Rest) != FurnitureActions.Rest)
+                if (!furniture.CanRest)
                 {
                     Send("You can't rest on that.");
                     return true;
@@ -527,7 +527,7 @@ namespace Mud.Server.Character
             // Check furniture validity
             if (furniture != null)
             {
-                if ((furniture.FurnitureActions & FurnitureActions.Sleep) != FurnitureActions.Sleep)
+                if (!furniture.CanSleep)
                 {
                     Send("You can't sleep on that.");
                     return true;
@@ -573,8 +573,8 @@ namespace Mud.Server.Character
                 Send(StringHelpers.ItemNotFound);
                 return true;
             }
-            IItemPortal portal = item as IItemPortal;
-            if (portal == null)
+
+            if (!(item is IItemPortal portal))
             {
                 Send("You can't seem to find a way in.");
                 return true;

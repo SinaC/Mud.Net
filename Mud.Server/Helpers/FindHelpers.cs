@@ -116,10 +116,7 @@ namespace Mud.Server.Helpers
                 return victim.Room;
 
             IItem item = FindByName(Repository.World.Items, parameter);
-            if (item != null)
-                return item.ContainedInto as IRoom;
-
-            return null;
+            return item?.ContainedInto as IRoom;
         }
 
         public static IRoom FindLocation(ICharacter asker, CommandParameter parameter)
@@ -135,10 +132,7 @@ namespace Mud.Server.Helpers
                 return victim.Room;
 
             IItem item = FindItemInWorld(asker, parameter);
-            if (item != null)
-                return item.ContainedInto as IRoom;
-
-            return null;
+            return item?.ContainedInto as IRoom;
         }
 
         // FindCharacter
@@ -166,9 +160,7 @@ namespace Mud.Server.Helpers
                 return inWorldPlayer;
             //  characters
             ICharacter inWorldCharacter = FindByName(Repository.World.Characters.Where(asker.CanSee), parameter);
-            if (inWorldCharacter != null)
-                return inWorldCharacter;
-            return null;
+            return inWorldCharacter;
         }
 
         // FindItem
@@ -179,10 +171,7 @@ namespace Mud.Server.Helpers
                 return hereItem;
 
             IItem inWorldItem = FindByName(Repository.World.Items.Where(asker.CanSee), parameter);
-            if (inWorldItem != null)
-                return inWorldItem;
-
-            return null;
+            return inWorldItem;
         }
     }
 }

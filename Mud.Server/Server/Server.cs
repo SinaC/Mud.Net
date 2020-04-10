@@ -164,17 +164,11 @@ namespace Mud.Server.Server
                 admin.Send($"%W%WIZNET%x%:{message}");
         }
 
-        public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch)
-        {
-            return FindHelpers.FindByName(_players.Keys, parameter, perfectMatch);
-        }
+        public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys, parameter, perfectMatch);
 
         public IEnumerable<IPlayer> Players => _players.Keys;
 
-        public IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch)
-        {
-            return FindHelpers.FindByName(_players.Keys.OfType<IAdmin>(), parameter, perfectMatch);
-        }
+        public IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys.OfType<IAdmin>(), parameter, perfectMatch);
 
         public IEnumerable<IAdmin> Admins => _players.Keys.OfType<IAdmin>();
 
@@ -447,9 +441,8 @@ namespace Mud.Server.Server
 
         #endregion
 
-        // Once paging is active, classic commands are processed anymore
-        // Valid commands are (Enter), (N)ext, (Q)uit, (A)ll
-        // TODO: (P)revious
+        // Once paging is active, classic commands are not processed anymore
+        // Valid commands are (Enter), (N)ext, (P)revious, (Q)uit, (A)ll
         private void HandlePaging(PlayingClient playingClient, string command)
         {
             string lowerCommand = command.ToLowerInvariant();
@@ -495,7 +488,7 @@ namespace Mud.Server.Server
 
         private void Broadcast(string message)
         {
-            message = message + Environment.NewLine;
+            message += Environment.NewLine;
             // By-pass process output
             lock (_playingClientLockObject)
                 foreach (IClient client in _clients.Keys)
@@ -522,7 +515,7 @@ namespace Mud.Server.Server
                                     HandlePaging(playingClient, command);
                                 else if (!string.IsNullOrWhiteSpace(command))
                                 {
-                                    playingClient.Player.ProcessCommand(command);
+                                    playingClient.Player.ProcessCommand(command); // TODO: if command takes time to be processed, 'next' players will be delayed
                                 }
                             }
                         }

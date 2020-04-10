@@ -11,7 +11,6 @@ namespace Mud.Server.Player
     // TODO: find a better filename
     public partial class Player
     {
-
         [Command("macro", Category = "Misc")]
         [Command("alias", Category = "Misc")]
         protected virtual bool DoAlias(string rawParameters, params CommandParameter[] parameters)

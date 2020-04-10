@@ -2,6 +2,7 @@
 
 namespace Mud.Server.Server
 {
+    // TODO: read from config file
     public static class ServerOptions
     {
         public const bool PrefixForwardedMessages = false; // Add <IMP> or <CTRL> before forwarding a message

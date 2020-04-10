@@ -26,8 +26,7 @@ namespace Mud.Server.Quest
             {
                 foreach (QuestItemObjectiveBlueprint itemObjective in Blueprint.ItemObjectives)
                 {
-                    ItemQuestBlueprint itemBlueprint = Repository.World.GetItemBlueprint(itemObjective.ItemBlueprintId) as ItemQuestBlueprint;
-                    if (itemBlueprint != null)
+                    if (Repository.World.GetItemBlueprint(itemObjective.ItemBlueprintId) is ItemQuestBlueprint itemBlueprint)
                         _objectives.Add(new ItemQuestObjective
                         {
                             Blueprint = itemBlueprint,

@@ -50,7 +50,7 @@ namespace Mud.Server.World
 
         #region IWorld
 
-        // Treasures
+        // Treasure tables
         public IReadOnlyCollection<TreasureTable<int>> TreasureTables => _treasureTables;
 
         public void AddTreasureTable(TreasureTable<int> table)
@@ -68,25 +68,13 @@ namespace Mud.Server.World
 
         public IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints => _itemBlueprints.Values.ToList().AsReadOnly();
 
-        public QuestBlueprint GetQuestBlueprint(int id)
-        {
-            return GetBlueprintById(_questBlueprints, id);
-        }
+        public QuestBlueprint GetQuestBlueprint(int id) => GetBlueprintById(_questBlueprints, id);
 
-        public RoomBlueprint GetRoomBlueprint(int id)
-        {
-            return GetBlueprintById(_roomBlueprints, id);
-        }
+        public RoomBlueprint GetRoomBlueprint(int id) => GetBlueprintById(_roomBlueprints, id);
 
-        public CharacterBlueprint GetCharacterBlueprint(int id)
-        {
-            return GetBlueprintById(_characterBlueprints, id);
-        }
+        public CharacterBlueprint GetCharacterBlueprint(int id) => GetBlueprintById(_characterBlueprints, id);
 
-        public ItemBlueprintBase GetItemBlueprint(int id)
-        {
-            return GetBlueprintById(_itemBlueprints, id);
-        }
+        public ItemBlueprintBase GetItemBlueprint(int id)=> GetBlueprintById(_itemBlueprints, id);
 
         public void AddQuestBlueprint(QuestBlueprint blueprint)
         {
@@ -463,8 +451,7 @@ namespace Mud.Server.World
 
         private T GetBlueprintById<T>(IDictionary<int, T> blueprints, int id)
         {
-            T blueprint;
-            blueprints.TryGetValue(id, out blueprint);
+            blueprints.TryGetValue(id, out var blueprint);
             return blueprint;
         }
     }

@@ -13,5 +13,10 @@ namespace Mud.Server.Item
         FurniturePlacePrepositions FurniturePlacePreposition { get; }
         int HealBonus { get; }
         int ResourceBonus { get; }
+
+        bool CanStand { get; }
+        bool CanSit { get; }
+        bool CanRest { get; }
+        bool CanSleep { get; }
     }
 }

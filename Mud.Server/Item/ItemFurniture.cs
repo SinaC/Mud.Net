@@ -30,6 +30,11 @@ namespace Mud.Server.Item
         public int HealBonus { get; }
         public int ResourceBonus { get; }
 
+        public bool CanStand => (FurnitureActions & FurnitureActions.Stand) == FurnitureActions.Stand;
+        public bool CanSit => (FurnitureActions & FurnitureActions.Sit) == FurnitureActions.Sit;
+        public bool CanRest => (FurnitureActions & FurnitureActions.Rest) == FurnitureActions.Rest;
+        public bool CanSleep => (FurnitureActions & FurnitureActions.Sleep) == FurnitureActions.Sleep;
+
         #endregion
     }
 }

@@ -27,13 +27,8 @@ namespace Mud.Server.Entity
 
         public override bool ProcessCommand(string commandLine)
         {
-            string command;
-            string rawParameters;
-            CommandParameter[] parameters;
-            bool forceOutOfGame;
-
             // Extract command and parameters
-            bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(commandLine, out command, out rawParameters, out parameters, out forceOutOfGame);
+            bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(commandLine, out var command, out var rawParameters, out var parameters, out _);
             if (!extractedSuccessfully)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");

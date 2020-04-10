@@ -9,10 +9,12 @@ namespace Mud.Server.Classes
         {
             Constants.ResourceKinds.Rage
         };
+
         private readonly List<ResourceKinds> _energyOnly = new List<ResourceKinds>
         {
             Constants.ResourceKinds.Energy
         };
+
         private readonly List<ResourceKinds> _manaOnly = new List<ResourceKinds>
         {
             Constants.ResourceKinds.Mana

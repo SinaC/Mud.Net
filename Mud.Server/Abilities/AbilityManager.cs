@@ -84,15 +84,9 @@ namespace Mud.Server.Abilities
 
         public IEnumerable<IAbility> Abilities => _abilities.AsReadOnly();
 
-        public IAbility this[int id]
-        {
-            get { return _abilities.FirstOrDefault(x => x.Id == id); }
-        }
+        public IAbility this[int id] =>_abilities.FirstOrDefault(x => x.Id == id);
 
-        public IAbility this[string name]
-        {
-            get { return _abilities.FirstOrDefault(x => FindHelpers.StringEquals(x.Name, name)); }
-        }
+        public IAbility this[string name] => _abilities.FirstOrDefault(x => FindHelpers.StringEquals(x.Name, name));
 
         public IAbility Search(CommandParameter parameter, bool includePassive = false)
         {

@@ -142,8 +142,7 @@ namespace Mud.Server.Character
                     {
                         Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, item);
                         DisplayItem(item);
-                        IContainer container = item as IContainer;
-                        if (container != null) // if container, display content
+                        if (item is IContainer container) // if container, display content
                             DisplayContainerContent(container);
                     }
                     else
@@ -370,7 +369,7 @@ namespace Mud.Server.Character
                     if (equipedItem.Item == null)
                         sb.AppendLine("nothing");
                     else
-                        sb.AppendLine(FormatItem(equipedItem.Item, true).ToString());
+                        sb.AppendLine(FormatItem(equipedItem.Item, true));
                 }
                 Send(sb);
             }
@@ -542,7 +541,7 @@ namespace Mud.Server.Character
                 {
                     string where = EquipmentSlotsToString(equipedItem.Slot);
                     StringBuilder sb = new StringBuilder(where);
-                    sb.AppendLine(FormatItem(equipedItem.Item, true).ToString());
+                    sb.AppendLine(FormatItem(equipedItem.Item, true));
                     Send(sb);
                 }
             }
@@ -622,7 +621,7 @@ namespace Mud.Server.Character
                             message.Append(" (CLOSED)");
                         if (exit.IsHidden)
                             message.Append(" [HIDDEN]");
-                        if (ImpersonatedBy != null && ImpersonatedBy is IAdmin)
+                        if (ImpersonatedBy is IAdmin)
                             message.Append($" [{exit.Destination.Blueprint?.Id.ToString() ?? "???"}]");
                         message.AppendLine();
                     }

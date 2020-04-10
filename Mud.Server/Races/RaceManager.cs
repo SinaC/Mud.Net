@@ -33,10 +33,7 @@ namespace Mud.Server.Races
 
         public IEnumerable<IRace> Races => _races;
 
-        public IRace this[string name]
-        {
-            get { return _races.FirstOrDefault(x => FindHelpers.StringEquals(x.Name, name)); }
-        }
+        public IRace this[string name] => _races.FirstOrDefault(x => FindHelpers.StringEquals(x.Name, name));
 
         #endregion
     }

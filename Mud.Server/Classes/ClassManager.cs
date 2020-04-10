@@ -33,10 +33,7 @@ namespace Mud.Server.Classes
 
         public IEnumerable<IClass> Classes => _classes;
 
-        public IClass this[string name]
-        {
-            get { return _classes.FirstOrDefault(x => FindHelpers.StringEquals(x.Name, name)); }
-        }
+        public IClass this[string name] => _classes.FirstOrDefault(x => FindHelpers.StringEquals(x.Name, name));
 
         #endregion
     }
