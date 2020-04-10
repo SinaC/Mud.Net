@@ -1,6 +1,4 @@
-﻿using Mud.Server.Blueprints.Room;
-
-namespace Mud.Server.Blueprints.Item
+﻿namespace Mud.Server.Blueprints.Item
 {
     public class ItemPortalBlueprint : ItemBlueprintBase
     {

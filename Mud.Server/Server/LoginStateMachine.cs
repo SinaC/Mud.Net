@@ -59,7 +59,7 @@ namespace Mud.Server.Server
             // Reset password tries
             _invalidPasswordTries = 0;
             //
-            if (!String.IsNullOrWhiteSpace(input))
+            if (!string.IsNullOrWhiteSpace(input))
             {
                 _username = input;
                 bool isAdmin;
@@ -192,7 +192,7 @@ namespace Mud.Server.Server
 
         private static void Send(IClient client, string format, params object[] parameters)
         {
-            string message = String.Format(format, parameters);
+            string message = string.Format(format, parameters);
             client.WriteData(message);
         }
 

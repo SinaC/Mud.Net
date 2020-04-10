@@ -63,7 +63,7 @@ namespace Mud.Server.Character
         }
 
         public Character(Guid guid, CharacterData data, IRoom room)
-            : this(guid, data.Name, String.Empty)
+            : this(guid, data.Name, string.Empty)
         {
             Class = Repository.ClassManager[data.Class];
             if (Class == null)
@@ -240,20 +240,20 @@ namespace Mud.Server.Character
 
         public int this[ResourceKinds resource]
         {
-            get { return _currentResources[(int) resource]; }
-            private set { _currentResources[(int) resource] = value; }
+            get => _currentResources[(int) resource];
+            private set => _currentResources[(int) resource] = value;
         }
 
         public int this[PrimaryAttributeTypes attribute]
         {
-            get { return _currentPrimaryAttributes[(int) attribute]; }
-            private set { _currentPrimaryAttributes[(int) attribute] = value; }
+            get => _currentPrimaryAttributes[(int) attribute];
+            private set => _currentPrimaryAttributes[(int) attribute] = value;
         }
 
         public int this[SecondaryAttributeTypes attribute]
         {
-            get { return _secondaryAttributes[(int) attribute]; }
-            private set { _secondaryAttributes[(int) attribute] = value; }
+            get => _secondaryAttributes[(int) attribute];
+            private set => _secondaryAttributes[(int) attribute] = value;
         }
 
         public IEnumerable<ResourceKinds> CurrentResourceKinds { get; private set; }
@@ -578,11 +578,10 @@ namespace Mud.Server.Character
 
         public bool CanSee(IItem target)
         {
-            IItemQuest questItem = target as IItemQuest;
-            if (questItem != null)
+            if (target is IItemQuest questItem)
             {
                 // See only if on this quest
-                if (Quests.Any(x => x.Objectives.OfType<ItemQuestObjective>().Any(o => o.Blueprint.Id == target.Blueprint.Id)))
+                if (Quests.Any(x => x.Objectives.OfType<ItemQuestObjective>().Any(o => o.Blueprint.Id == questItem.Blueprint.Id)))
                     return true;
                 return false;
             }
@@ -595,15 +594,9 @@ namespace Mud.Server.Character
         }
 
         // Attributes
-        public int GetBasePrimaryAttribute(PrimaryAttributeTypes attribute)
-        {
-            return _basePrimaryAttributes[(int) attribute];
-        }
+        public int GetBasePrimaryAttribute(PrimaryAttributeTypes attribute) => _basePrimaryAttributes[(int) attribute];
 
-        public int GetMaxResource(ResourceKinds resource)
-        {
-            return _maxResources[(int) resource];
-        }
+        public int GetMaxResource(ResourceKinds resource) => _maxResources[(int) resource];
 
         public void ChangeResource(ResourceKinds resource, int amount)
         {
@@ -1140,7 +1133,7 @@ namespace Mud.Server.Character
 
             // Modify damage (resist, vuln, invul, absorb)
             bool fullyAbsorbed;
-            damage = ModifyDamage(damage, Int32.MaxValue, damageType, out fullyAbsorbed);
+            damage = ModifyDamage(damage, int.MaxValue, damageType, out fullyAbsorbed);
 
             // Display damage
             if (visible) // equivalent to dam_message in fight.C:4381
@@ -1335,7 +1328,7 @@ namespace Mud.Server.Character
                 int secondsLeft = (int) Math.Ceiling(diff.TotalSeconds);
                 return secondsLeft;
             }
-            return Int32.MinValue;
+            return int.MinValue;
         }
 
         public void SetCooldown(IAbility ability)
@@ -1632,7 +1625,7 @@ namespace Mud.Server.Character
 
         protected void DisplayDamageAbsorbPhrase(string name, ICharacter source)
         {
-            if (!String.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrWhiteSpace(name))
             {
                 if (this == source)
                 {
@@ -1670,7 +1663,7 @@ namespace Mud.Server.Character
 
         protected void DisplayUnknownSourceAbsorbPhrase(string name)
         {
-            if (!String.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrWhiteSpace(name))
             {
                 //Act(ActOptions.ToCharacter, "{0} is absorbed.", name);
                 //Act(ActOptions.ToRoom, "{0} is absorbed by {1}.", name, this);
@@ -1689,7 +1682,7 @@ namespace Mud.Server.Character
             string damagePhraseSelf = StringHelpers.DamagePhraseSelf(damage);
             string damagePhraseOther = StringHelpers.DamagePhraseOther(damage);
 
-            if (!String.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrWhiteSpace(name))
             {
                 if (this == source)
                 {
@@ -1730,7 +1723,7 @@ namespace Mud.Server.Character
             string damagePhraseSelf = StringHelpers.DamagePhraseSelf(damage);
             string damagePhraseOther = StringHelpers.DamagePhraseOther(damage);
 
-            if (!String.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrWhiteSpace(name))
             {
                 Act(ActOptions.ToCharacter, "{0} {1} you.[{2}]", name, damagePhraseSelf, damage);
                 Act(ActOptions.ToRoom, "{0} {1} {2}.[{3}]", name, damagePhraseOther, this, damage);
@@ -1781,7 +1774,7 @@ namespace Mud.Server.Character
 
         protected void DisplayHealAbsorbPhrase(string name, ICharacter source)
         {
-            if (!String.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrWhiteSpace(name))
             {
                 if (this == source)
                 {
@@ -2029,7 +2022,7 @@ namespace Mud.Server.Character
                 }
             }
             if (result.Length > 0)
-                result[0] = Char.ToUpperInvariant(result[0]);
+                result[0] = char.ToUpperInvariant(result[0]);
             return result.ToString();
         }
 

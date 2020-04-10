@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Mud.Logger;
@@ -29,7 +28,7 @@ namespace Mud.Server.Character
                 CommandParameter whatParameter = parameters[0];
                 // We have to clone list because it'll be modified when wearing an item
                 IReadOnlyCollection<IEquipable> list; // list must be cloned because it'll be modified when wearing an item
-                if (!String.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item
+                if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item
                     list = new ReadOnlyCollection<IEquipable>(FindHelpers.FindAllByName(Content.Where(CanSee).OfType<IEquipable>(), whatParameter).ToList());
                 else // get all
                     list = new ReadOnlyCollection<IEquipable>(Content.Where(CanSee).OfType<IEquipable>().ToList());
@@ -98,7 +97,7 @@ namespace Mud.Server.Character
                     // TODO: same code as below (***) except source collection (Room.Content)
                     IReadOnlyCollection<IItem> list; // list must be cloned because it'll be modified when getting an item
                     bool allDot = false;
-                    if (!String.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item
+                    if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item
                     {
                         list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Room.Content.Where(CanSee), whatParameter).ToList());
                         allDot = true;
@@ -150,7 +149,7 @@ namespace Mud.Server.Character
                             // TODO: same code as above (***) except source collection (container.Content)
                             IReadOnlyCollection<IItem> list; // list must be cloned because it'll be modified when getting an item
                             bool allDot = false;
-                            if (!String.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item [from] container
+                            if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item [from] container
                             {
                                 list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(container.Content.Where(CanSee), whatParameter).ToList());
                                 allDot = true;
@@ -193,7 +192,7 @@ namespace Mud.Server.Character
             {
                 CommandParameter whatParameter = parameters[0];
                 IReadOnlyCollection<IItem> list; // list must be cloned because it'll be modified when dropping an item
-                if (!String.IsNullOrWhiteSpace(whatParameter.Value)) // drop all.item
+                if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // drop all.item
                     list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Content.Where(CanSee), whatParameter).ToList());
                 else // drop all
                     list = new ReadOnlyCollection<IItem>(Content.Where(CanSee).ToList());
@@ -301,7 +300,7 @@ namespace Mud.Server.Character
             {
                 // TODO: same code as above (***) except source collection (container.Content)
                 IReadOnlyCollection<IItem> list; // list must be cloned because it'll be modified when putting an item
-                if (!String.IsNullOrWhiteSpace(whatParameter.Value)) // put all.item [in] container
+                if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // put all.item [in] container
                     list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Content.Where(CanSee), whatParameter).ToList());
                 else // put all [in] container
                     list = new ReadOnlyCollection<IItem>(Content.Where(CanSee).ToList());

@@ -267,7 +267,7 @@ namespace Mud.Network.Telnet
                         }
 
                         // Remove non-ascii char
-                        dataReceived = AsciiRegEx.Replace(dataReceived, String.Empty);
+                        dataReceived = AsciiRegEx.Replace(dataReceived, string.Empty);
 
                         // Append data in command
                         client.Command.Append(dataReceived);

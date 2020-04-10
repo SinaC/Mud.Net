@@ -43,7 +43,7 @@ namespace Mud.DataStructures.HeapPriorityQueue
 
         public int Count { get; private set; }
 
-        public Boolean IsEmpty()
+        public bool IsEmpty()
         {
             return Count == 0;
         }

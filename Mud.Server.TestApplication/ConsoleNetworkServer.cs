@@ -41,7 +41,7 @@ namespace Mud.Server.TestApplication
                     bool isEchoOff = _client != null && _client.IsEchoOff;
                     if (isEchoOff)
                     {
-                        line = String.Empty;
+                        line = string.Empty;
                         while (true) // http://stackoverflow.com/questions/3404421/password-masking-console-application
                         {
                             ConsoleKeyInfo key = Console.ReadKey(true);
@@ -69,7 +69,7 @@ namespace Mud.Server.TestApplication
                         // server commands
                         if (line.StartsWith("#"))
                         {
-                            line = line.Replace("#", String.Empty).ToLower();
+                            line = line.Replace("#", string.Empty).ToLower();
                             if (line == "quit")
                             {
                                 _stopped = true;

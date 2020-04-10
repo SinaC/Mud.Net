@@ -19,23 +19,23 @@ namespace Mud.Network.Telnet
         {
             {"x", ResetColorTag},
 
-            {"r", String.Format(NormalColorTag, 31)},
-            {"g", String.Format(NormalColorTag, 32)},
-            {"y", String.Format(NormalColorTag, 33)},
-            {"b", String.Format(NormalColorTag, 34)},
-            {"m", String.Format(NormalColorTag, 35)},
-            {"c", String.Format(NormalColorTag, 36)},
-            {"w", String.Format(NormalColorTag, 37)},
+            {"r", string.Format(NormalColorTag, 31)},
+            {"g", string.Format(NormalColorTag, 32)},
+            {"y", string.Format(NormalColorTag, 33)},
+            {"b", string.Format(NormalColorTag, 34)},
+            {"m", string.Format(NormalColorTag, 35)},
+            {"c", string.Format(NormalColorTag, 36)},
+            {"w", string.Format(NormalColorTag, 37)},
 
-            {"R", String.Format(LightColorTag, 31)},
-            {"G", String.Format(LightColorTag, 32)},
-            {"Y", String.Format(LightColorTag, 33)},
-            {"B", String.Format(LightColorTag, 34)},
-            {"M", String.Format(LightColorTag, 35)},
-            {"C", String.Format(LightColorTag, 36)},
-            {"W", String.Format(LightColorTag, 37)},
+            {"R", string.Format(LightColorTag, 31)},
+            {"G", string.Format(LightColorTag, 32)},
+            {"Y", string.Format(LightColorTag, 33)},
+            {"B", string.Format(LightColorTag, 34)},
+            {"M", string.Format(LightColorTag, 35)},
+            {"C", string.Format(LightColorTag, 36)},
+            {"W", string.Format(LightColorTag, 37)},
 
-            {"D", String.Format(LightColorTag, 30)},
+            {"D", string.Format(LightColorTag, 30)},
 
             //{"bold", String.Format(NormalColorTag, 1)},
             //{"italics", String.Format(NormalColorTag, 3)},
@@ -64,7 +64,7 @@ namespace Mud.Network.Telnet
                 if (!ColorMap.TryGetValue(key, out mapped))
                 {
                     Log.Default.WriteLine(LogLevels.Error, "Unknown color code [{0}] in {1}", key, input);
-                    mapped = String.Empty;
+                    mapped = string.Empty;
                 }
                 return mapped;
             });
@@ -73,7 +73,7 @@ namespace Mud.Network.Telnet
 
         public static string StripColor(string input)
         {
-            string output = Regex.Replace(input, match => String.Empty);
+            string output = Regex.Replace(input, match => string.Empty);
             return output;
         }
     }

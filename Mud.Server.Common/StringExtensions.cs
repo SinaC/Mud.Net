@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Mud.Server.Common
 {
@@ -9,7 +8,7 @@ namespace Mud.Server.Common
 
         public static int LengthNoColor(this string s)
         {
-            string output = ColorTagRegex.Replace(s, match => String.Empty);
+            string output = ColorTagRegex.Replace(s, match => string.Empty);
             return output.Length;
         }
     }

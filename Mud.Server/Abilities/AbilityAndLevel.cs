@@ -2,8 +2,8 @@
 {
     public class AbilityAndLevel
     {
-        public int Level { get; private set; }
-        public IAbility Ability { get; private set; }
+        public int Level { get; }
+        public IAbility Ability { get; }
 
         public AbilityAndLevel(int level, IAbility ability)
         {

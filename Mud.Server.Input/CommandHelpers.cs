@@ -40,7 +40,7 @@ namespace Mud.Server.Input
                 }
             }
 
-            if (String.IsNullOrWhiteSpace(commandLine))
+            if (string.IsNullOrWhiteSpace(commandLine))
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Empty command");
                 forceOutOfGame = false;
@@ -79,14 +79,14 @@ namespace Mud.Server.Input
             int spaceIndex = commandLine.IndexOf(' ');
             command = spaceIndex == -1 ? commandLine : commandLine.Substring(0, spaceIndex);
             // Extract raw parameters
-            rawParameters = spaceIndex == -1 ? String.Empty : commandLine.Substring(spaceIndex + 1);
+            rawParameters = spaceIndex == -1 ? string.Empty : commandLine.Substring(spaceIndex + 1);
 
             return true;
         }
 
         public static IEnumerable<string> SplitParameters(string parameters)
         {
-            if (String.IsNullOrWhiteSpace(parameters))
+            if (string.IsNullOrWhiteSpace(parameters))
                 yield break;
             var sb = new StringBuilder();
             bool inQuote = false;
@@ -97,7 +97,7 @@ namespace Mud.Server.Input
                     inQuote = true;
                     continue;
                 }
-                if (c != '"' && c != '\'' && !(Char.IsWhiteSpace(c) && !inQuote))
+                if (c != '"' && c != '\'' && !(char.IsWhiteSpace(c) && !inQuote))
                 {
                     sb.Append(c);
                     continue;
@@ -116,12 +116,12 @@ namespace Mud.Server.Input
 
         public static CommandParameter ParseParameter(string parameter)
         {
-            if (String.IsNullOrWhiteSpace(parameter))
+            if (string.IsNullOrWhiteSpace(parameter))
                 return CommandParameter.EmptyCommand;
             int dotIndex = parameter.IndexOf('.');
             if (dotIndex < 0)
             {
-                bool isAll = String.Equals(parameter, "all", StringComparison.InvariantCultureIgnoreCase);
+                bool isAll = string.Equals(parameter, "all", StringComparison.InvariantCultureIgnoreCase);
                 return
                     isAll
                         ? CommandParameter.IsAllCommand
@@ -131,13 +131,13 @@ namespace Mud.Server.Input
                 return CommandParameter.InvalidCommand; // only . is invalid
             string countAsString = parameter.Substring(0, dotIndex);
             string value = parameter.Substring(dotIndex + 1);
-            bool isCountAll = String.Equals(countAsString, "all", StringComparison.InvariantCultureIgnoreCase);
+            bool isCountAll = string.Equals(countAsString, "all", StringComparison.InvariantCultureIgnoreCase);
             if (isCountAll)
                 return new CommandParameter(value, true);
             int count;
             if (!int.TryParse(countAsString, out count)) // string.string is not splitted
                 return new CommandParameter(value, 1);
-            if (count <= 0 || String.IsNullOrWhiteSpace(value)) // negative count or empty value is invalid
+            if (count <= 0 || string.IsNullOrWhiteSpace(value)) // negative count or empty value is invalid
                 return CommandParameter.InvalidCommand;
             return new CommandParameter(value, count);
         }
@@ -146,9 +146,9 @@ namespace Mud.Server.Input
         {
             CommandParameter[] commandParameters = parameters as CommandParameter[] ?? parameters.ToArray();
             if (!commandParameters.Any())
-                return String.Empty;
+                return string.Empty;
 
-            string joined = String.Join(" ", commandParameters.Select(x => x.Count == 1 ? x.Value : $"{x.Count}.{x.Value}"));
+            string joined = string.Join(" ", commandParameters.Select(x => x.Count == 1 ? x.Value : $"{x.Count}.{x.Value}"));
             return joined;
         }
 

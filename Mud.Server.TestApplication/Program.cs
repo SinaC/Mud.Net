@@ -571,12 +571,12 @@ namespace Mud.Server.TestApplication
                 if (Console.KeyAvailable)
                 {
                     string line = Console.ReadLine();
-                    if (!String.IsNullOrWhiteSpace(line))
+                    if (!string.IsNullOrWhiteSpace(line))
                     {
                         // server commands
                         if (line.StartsWith("#"))
                         {
-                            line = line.Replace("#", String.Empty).ToLower();
+                            line = line.Replace("#", string.Empty).ToLower();
                             if (line == "exit" || line == "quit")
                             {
                                 stopped = true;

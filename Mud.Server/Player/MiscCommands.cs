@@ -163,7 +163,7 @@ namespace Mud.Server.Player
         [Command("bug", Category = "Misc", Priority = 50)]
         protected virtual bool DoBug(string rawParameters, params CommandParameter[] parameters)
         {
-            if (String.IsNullOrWhiteSpace(rawParameters))
+            if (string.IsNullOrWhiteSpace(rawParameters))
             {
                 Send("Report which bug?");
                 return true;
@@ -178,7 +178,7 @@ namespace Mud.Server.Player
         [Command("typo", Category = "Misc", Priority = 50)]
         protected virtual bool DoTypo(string rawParameters, params CommandParameter[] parameters)
         {
-            if (String.IsNullOrWhiteSpace(rawParameters))
+            if (string.IsNullOrWhiteSpace(rawParameters))
             {
                 Send("Report which typo?");
                 return true;

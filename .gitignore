@@ -213,3 +213,4 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+/.vs/Mud.Net/v16/Server/sqlite3

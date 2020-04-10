@@ -19,7 +19,7 @@ namespace Mud.Server.Input
             Name = name;
             Priority = 999;
             Hidden = false;
-            Category = String.Empty;
+            Category = string.Empty;
             AddCommandInParameters = false;
             NoShortcut = false;
         }

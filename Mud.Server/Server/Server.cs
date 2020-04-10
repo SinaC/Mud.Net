@@ -140,11 +140,11 @@ namespace Mud.Server.Server
             int minutes = seconds/60;
             int remaining = seconds%60;
             if (minutes > 0 && remaining != 0)
-                Broadcast($"%R%Shutdown in {minutes} minute{(minutes > 1 ? "s" : String.Empty)} and {remaining} second{(remaining > 1 ? "s" : String.Empty)}%x%");
+                Broadcast($"%R%Shutdown in {minutes} minute{(minutes > 1 ? "s" : string.Empty)} and {remaining} second{(remaining > 1 ? "s" : string.Empty)}%x%");
             else if (minutes > 0 && remaining == 0)
-                Broadcast($"%R%Shutdown in {minutes} minute{(minutes > 1 ? "s" : String.Empty)}%x%");
+                Broadcast($"%R%Shutdown in {minutes} minute{(minutes > 1 ? "s" : string.Empty)}%x%");
             else
-                Broadcast($"%R%Shutdown in {seconds} second{(seconds > 1 ? "s" : String.Empty)}%x%");
+                Broadcast($"%R%Shutdown in {seconds} second{(seconds > 1 ? "s" : string.Empty)}%x%");
             _pulseBeforeShutdown = seconds*ServerOptions.PulsePerSeconds;
         }
 
@@ -441,7 +441,7 @@ namespace Mud.Server.Server
                 // Save data to page
                 playingClient.Paging.SetData(data);
                 // Send first page
-                HandlePaging(playingClient, String.Empty);
+                HandlePaging(playingClient, string.Empty);
             }
         }
 
@@ -453,7 +453,7 @@ namespace Mud.Server.Server
         private void HandlePaging(PlayingClient playingClient, string command)
         {
             string lowerCommand = command.ToLowerInvariant();
-            if (command == String.Empty || "next".StartsWith(lowerCommand)) // <Enter> or Next -> send next page
+            if (command == string.Empty || "next".StartsWith(lowerCommand)) // <Enter> or Next -> send next page
             {
                 // Pages are always sent immediately asynchronously, don't use ProcessOutput even if in synchronous mode
                 string nextPage = playingClient.Paging.GetNextPage(25); // TODO: configurable line count
@@ -520,7 +520,7 @@ namespace Mud.Server.Server
                             {
                                 if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Next, Quit, All
                                     HandlePaging(playingClient, command);
-                                else if (!String.IsNullOrWhiteSpace(command))
+                                else if (!string.IsNullOrWhiteSpace(command))
                                 {
                                     playingClient.Player.ProcessCommand(command);
                                 }
@@ -546,7 +546,7 @@ namespace Mud.Server.Server
                     try
                     {
                         string datas = playingClient.DequeueDataToSend(); // TODO should return a StringBuilder to quickly append prompt
-                        if (!String.IsNullOrWhiteSpace(datas))
+                        if (!string.IsNullOrWhiteSpace(datas))
                         {
                             // Add prompt
                             datas += playingClient.Player.Prompt;

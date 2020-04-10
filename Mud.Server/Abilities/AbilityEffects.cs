@@ -282,7 +282,7 @@ namespace Mud.Server.Abilities
         {
             if (victim.Auras.Any(x => x.Ability != null && x.Ability == Repository.AbilityManager.WeakenedSoulAbility))
             {
-                source.Act(ActOptions.ToCharacter, "{0} cannot be targetted by {1}.", victim, ability.Name);
+                source.Act(ActOptions.ToCharacter, "{0} cannot be targeted by {1}.", victim, ability.Name);
                 return false;
             }
             int amount = ComputeAttributeBasedAmount(source, SecondaryAttributeTypes.SpellPower, 45.9f);

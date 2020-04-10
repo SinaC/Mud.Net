@@ -41,14 +41,14 @@ namespace Mud.Server.Server
 
         public string GetNextPage(int lineCount)
         {
-            string lines = String.Join(Environment.NewLine, _lines.Skip(_currentLine).TakeWhile((n, i) => i < lineCount && i < _lines.Length)) + Environment.NewLine;
+            string lines = string.Join(Environment.NewLine, _lines.Skip(_currentLine).TakeWhile((n, i) => i < lineCount && i < _lines.Length)) + Environment.NewLine;
             _currentLine = Math.Min(_currentLine + lineCount, _lines.Length);
             return lines;
         }
 
         public string GetRemaining()
         {
-            string lines = String.Join(Environment.NewLine, _lines.Skip(_currentLine)) + Environment.NewLine;
+            string lines = string.Join(Environment.NewLine, _lines.Skip(_currentLine)) + Environment.NewLine;
             return lines;
         }
     }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Mud.Datas.DataContracts;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
@@ -48,13 +46,8 @@ namespace Mud.Server.Admin
             }
             else
             {
-                string command;
-                string rawParameters;
-                CommandParameter[] parameters;
-                bool forceOutOfGame;
-
                 // Extract command and parameters
-                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(Aliases, commandLine, out command, out rawParameters, out parameters, out forceOutOfGame);
+                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(Aliases, commandLine, out var command, out var rawParameters, out var parameters, out var forceOutOfGame);
                 if (!extractedSuccessfully)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
@@ -172,8 +165,7 @@ namespace Mud.Server.Admin
 
         private string BuildIncarnatePrompt()
         {
-            ICharacter character = Incarnating as ICharacter;
-            if (character != null)
+            if (Incarnating is ICharacter character)
                 return BuildCharacterPrompt(character);
             return $"{Incarnating.DisplayName}>";
         }

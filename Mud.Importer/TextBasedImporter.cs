@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using Mud.Logger;
 
@@ -33,13 +32,13 @@ namespace Mud.Importer
 
         protected void Warn(string format, params object[] parameters)
         {
-            string message = CurrentFilename + ":" + _currentLine + "->" + String.Format(format, parameters);
+            string message = CurrentFilename + ":" + _currentLine + "->" + string.Format(format, parameters);
             Log.Default.WriteLine(LogLevels.Warning, message);
         }
 
         protected void RaiseParseException(string format, params object[] parameters)
         {
-            string message = CurrentFilename + ":" + _currentLine + "->" + String.Format(format, parameters);
+            string message = CurrentFilename + ":" + _currentLine + "->" + string.Format(format, parameters);
             Log.Default.WriteLine(LogLevels.Error, message);
             throw new ParseException(message);
         }
@@ -80,7 +79,7 @@ namespace Mud.Importer
             do
             {
                 c = GetChar();
-            } while (Char.IsWhiteSpace(c));
+            } while (char.IsWhiteSpace(c));
 
             long number = 0;
 
@@ -95,10 +94,10 @@ namespace Mud.Importer
                 c = GetChar();
             }
 
-            if (!Char.IsDigit(c))
+            if (!char.IsDigit(c))
                 RaiseParseException("ReadNumber: bad format");
 
-            while (Char.IsDigit(c))
+            while (char.IsDigit(c))
             {
                 number = number * 10 + c - '0';
                 c = GetChar();
@@ -122,7 +121,7 @@ namespace Mud.Importer
             do
             {
                 cEnd = GetChar();
-            } while (Char.IsWhiteSpace(cEnd));
+            } while (char.IsWhiteSpace(cEnd));
 
             if (cEnd != '\'' && cEnd != '"')
             {
@@ -133,7 +132,7 @@ namespace Mud.Importer
             while (true)
             {
                 char c = GetChar();
-                if (cEnd == ' ' ? Char.IsWhiteSpace(c) : c == cEnd)
+                if (cEnd == ' ' ? char.IsWhiteSpace(c) : c == cEnd)
                 {
                     if (cEnd == ' ')
                         UngetChar(c);
@@ -153,10 +152,10 @@ namespace Mud.Importer
             do
             {
                 c = GetChar();
-            } while (Char.IsWhiteSpace(c));
+            } while (char.IsWhiteSpace(c));
 
             if (c == '~')
-                return String.Empty;
+                return string.Empty;
             sb.Append(c);
 
 
@@ -196,7 +195,7 @@ namespace Mud.Importer
                 if (IsEof())
                     RaiseParseException("ReadLine: EOF encountered on read");
                 c = GetChar();
-            } while (Char.IsWhiteSpace(c));
+            } while (char.IsWhiteSpace(c));
             UngetChar(c);
 
             do
@@ -225,7 +224,7 @@ namespace Mud.Importer
             do
             {
                 c = GetChar();
-            } while (Char.IsWhiteSpace(c));
+            } while (char.IsWhiteSpace(c));
 
             if (c == '\'')
             {
@@ -243,7 +242,7 @@ namespace Mud.Importer
 
             long number = 0;
 
-            if (!Char.IsDigit(c))
+            if (!char.IsDigit(c))
             {
                 while (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z'))
                 {
@@ -252,7 +251,7 @@ namespace Mud.Importer
                 }
             }
 
-            while (Char.IsDigit(c))
+            while (char.IsDigit(c))
             {
                 number = number * 10 + c - '0';
                 c = GetChar();
@@ -276,7 +275,7 @@ namespace Mud.Importer
             do
             {
                 c = GetChar();
-            } while (Char.IsWhiteSpace(c));
+            } while (char.IsWhiteSpace(c));
 
             return c;
         }
@@ -300,10 +299,10 @@ namespace Mud.Importer
         protected static string UpperCaseFirst(string s)
         {
             // Check for empty string.
-            if (String.IsNullOrWhiteSpace(s))
-                return String.Empty;
+            if (string.IsNullOrWhiteSpace(s))
+                return string.Empty;
             // Return char and concat substring.
-            return Char.ToUpper(s[0]) + s.Substring(1);
+            return char.ToUpper(s[0]) + s.Substring(1);
         }
 
         protected static long flag_convert(char letter)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Configuration;
 using System.Text;
 using Mud.DataStructures.HeapPriorityQueue;
 using Mud.Server.Abilities;
@@ -233,7 +232,7 @@ namespace Mud.Server.Admin
                     StringBuilder sb = new StringBuilder();
                     if (victim.Blueprint != null)
                         sb.AppendFormatLine("Blueprint: {0}", victim.Blueprint.Id);
-                        // TODO: display blueprint
+                    // TODO: display blueprint
                     else
                         sb.AppendLine("No blueprint");
                     sb.AppendFormatLine("Name: {0}", victim.Name);
@@ -278,7 +277,7 @@ namespace Mud.Server.Admin
                                 pa.Ability?.Name ?? "(none)",
                                 pa.Source?.DisplayName ?? "(none)",
                                 pa.Amount,
-                                pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                                pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
                                 pa.School,
                                 pa.TickDelay,
                                 pa.SecondsLeft);
@@ -287,7 +286,7 @@ namespace Mud.Server.Admin
                                 pa.Ability?.Name ?? "(none)",
                                 pa.Source?.DisplayName ?? "(none)",
                                 pa.Amount,
-                                pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                                pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
                                 pa.TickDelay,
                                 pa.SecondsLeft);
                     foreach (IAura aura in victim.Auras)
@@ -296,7 +295,7 @@ namespace Mud.Server.Admin
                             aura.Source?.DisplayName ?? "(none)",
                             aura.Modifier,
                             aura.Amount,
-                            aura.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                            aura.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
                             aura.SecondsLeft);
                     if (victim.KnownAbilities.Any())
                     {
@@ -348,33 +347,26 @@ namespace Mud.Server.Admin
                         sb.AppendFormatLine("Incarnatable: {0}", item.Incarnatable);
                     if (item.ContainedInto != null)
                         sb.AppendFormatLine("Contained in {0}", item.ContainedInto.DebugName);
-                    IEquipable equipable = item as IEquipable;
-                    if (equipable != null)
+                    if (item is IEquipable equipable)
                         sb.AppendFormatLine("Equiped by {0} on {1}", equipable.EquipedBy?.DebugName ?? "(none)", equipable.WearLocation);
                     else
                         sb.AppendLine("Cannot be equiped");
                     sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
-                    IItemArmor armor = item as IItemArmor;
-                    if (armor != null)
+                    if (item is IItemArmor armor)
                         sb.AppendFormatLine("Armor type: {0} Armor value: {1}", armor.ArmorKind, armor.Armor);
-                    IItemContainer container = item as IItemContainer;
-                    if (container != null)
+                    if (item is IItemContainer container)
                         sb.AppendFormatLine("Item count: {0} Weight multiplier: {1}", container.ItemCount, container.WeightMultiplier);
                     //
-                    IItemCorpse corpse = item as IItemCorpse;
-                    if (corpse != null)
+                    if (item is IItemCorpse corpse)
                         sb.AppendLine("No additional informations");
                     //
-                    IItemLight light = item as IItemLight;
-                    if (light != null)
+                    if (item is IItemLight light)
                         sb.AppendFormatLine("Time left: {0}", light.TimeLeft);
                     //
-                    IItemWeapon weapon = item as IItemWeapon;
-                    if (weapon != null)
+                    if (item is IItemWeapon weapon)
                         sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3}", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType);
                     //
-                    IItemFurniture furniture = item as IItemFurniture;
-                    if (furniture != null)
+                    if (item is IItemFurniture furniture)
                     {
                         sb.AppendFormatLine("Actions: {0} Preposition: {1} MaxPeople: {2} HealBonus: {3} ResourceBonus: {4}", furniture.FurnitureActions, furniture.FurniturePlacePreposition, furniture.MaxPeople, furniture.HealBonus, furniture.ResourceBonus);
                         List<ICharacter> people = furniture.People.ToList();
@@ -388,12 +380,10 @@ namespace Mud.Server.Admin
                         }
                     }
                     //
-                    IItemShield shield = item as IItemShield;
-                    if (shield != null)
+                    if (item is IItemShield shield)
                         sb.AppendFormatLine("Armor: {0}", shield.Armor);
                     //
-                    IItemPortal portal = item as IItemPortal;
-                    if (portal != null)
+                    if (item is IItemPortal portal)
                         sb.AppendFormatLine("Destination: {0}", portal.Destination?.DebugName ?? "???");
                     // TODO: other item type
                     //
@@ -486,8 +476,7 @@ namespace Mud.Server.Admin
             StringBuilder sb = new StringBuilder();
             sb.Append(entity.DebugName);
             // don't to anything if entity is IRoom
-            IItem item = entity as IItem;
-            if (item != null)
+            if (entity is IItem item)
             {
                 if (item.ContainedInto != null)
                 {
@@ -498,18 +487,17 @@ namespace Mud.Server.Admin
                 }
                 else
                 {
-                    IEquipable equipable = item as IEquipable;
-                    if (equipable != null)
+                    if (item is IEquipable equipable)
                     {
-                        sb.Append(" equiped by ");
+                        sb.Append(" equipped by ");
                         sb.Append("{");
                         sb.Append(DisplayEntityAndContainer(equipable.EquipedBy));
                         sb.Append("}");
                     }
                 }
             }
-            ICharacter character = entity as ICharacter;
-            if (character != null)
+
+            if (entity is ICharacter character)
             {
                 sb.Append("{");
                 sb.Append(DisplayEntityAndContainer(character.Room));
@@ -578,7 +566,7 @@ namespace Mud.Server.Admin
                         int neighbourDist = distance[nearest] + 1;
                         int bestNeighbourDist;
                         if (!distance.TryGetValue(neighbour, out bestNeighbourDist))
-                            bestNeighbourDist = Int32.MaxValue;
+                            bestNeighbourDist = int.MaxValue;
                         if (neighbourDist < bestNeighbourDist)
                         {
                             distance[neighbour] = neighbourDist;

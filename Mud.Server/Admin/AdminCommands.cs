@@ -191,7 +191,7 @@ namespace Mud.Server.Admin
             int experience = parameters[1].AsNumber;
             if (experience < 1)
             {
-                Send("Experience must be greather than 1.");
+                Send("Experience must be greater than 1.");
                 return true;
             }
 

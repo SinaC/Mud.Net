@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -49,8 +48,8 @@ namespace Mud.Server.Character
                             ability.School, ability.Mechanic, ability.DispelType,
                             ability.Flags,
                             ability.Effects == null || ability.Effects.Count == 0
-                                ? String.Empty
-                                : String.Join(" | ", ability.Effects.Select(x => "[" + x.GetType().Name + "]")));
+                                ? string.Empty
+                                : string.Join(" | ", ability.Effects.Select(x => "[" + x.GetType().Name + "]")));
                     }
                 }
                 else if (parameters[0].Value == "0")

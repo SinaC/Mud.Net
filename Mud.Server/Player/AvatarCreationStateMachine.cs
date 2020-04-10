@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Mud.Datas.DataContracts;
 using Mud.Server.Common;
@@ -51,7 +50,7 @@ namespace Mud.Server.Player
 
         private AvatarCreationStates ProcessNameChoice(IPlayer player, string input)
         {
-            if (!String.IsNullOrWhiteSpace(input))
+            if (!string.IsNullOrWhiteSpace(input))
             {
                 if (input == "quit")
                 {
@@ -195,7 +194,7 @@ namespace Mud.Server.Player
         {
             if (displayHeader)
                 player.Send("Please choose a sex (type quit to stop creation).");
-            string sexes = String.Join(" | ", Enum.GetNames(typeof(Sex)));
+            string sexes = string.Join(" | ", Enum.GetNames(typeof(Sex)));
             player.Send(sexes);
         }
 
@@ -203,7 +202,7 @@ namespace Mud.Server.Player
         {
             if (displayHeader)
                 player.Send("Please choose a race (type quit to stop creation).");
-            string races = String.Join(" | ", Repository.RaceManager.Races.Select(x => x.DisplayName));
+            string races = string.Join(" | ", Repository.RaceManager.Races.Select(x => x.DisplayName));
             player.Send(races);
         }
 
@@ -211,7 +210,7 @@ namespace Mud.Server.Player
         {
             if (displayHeader)
                 player.Send("Please choose a class (type quit to stop creation).");
-            string classes = String.Join(" | ", Repository.ClassManager.Classes.Select(x => x.DisplayName));
+            string classes = string.Join(" | ", Repository.ClassManager.Classes.Select(x => x.DisplayName));
             player.Send(classes);
         }
     }

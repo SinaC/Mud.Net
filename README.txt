@@ -1,5 +1,5 @@
-Player are in-game once he/she has Impersonate a Character
-Admin are in-game once he/she has Impersonate a Character or Incarnate an Entity (Character/Room/Item)
+A Player is in-game once he/she has Impersonate a Character
+An Admin is in-game once he/she has Impersonate a Character or Incarnate an Entity (Character/Room/Item)
 
 when char1 follows char2, char1.Leader = char2
 when char2 groups char1, char2.GroupMembers.Add(char1) [can only group if char1.Leader == char2]

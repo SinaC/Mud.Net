@@ -7,7 +7,7 @@ namespace Mud.Server.Helpers
 {
     public static class FindHelpers
     {
-        public static readonly Func<string, string, bool> StringEquals = (s, s1) => String.Equals(s, s1, StringComparison.InvariantCultureIgnoreCase);
+        public static readonly Func<string, string, bool> StringEquals = (s, s1) => string.Equals(s, s1, StringComparison.InvariantCultureIgnoreCase);
         public static readonly Func<string, string, bool> StringStartsWith = (s, s1) => s.StartsWith(s1, StringComparison.InvariantCultureIgnoreCase);
         // every item in enumerable1 must be found in enumerable
         public static readonly Func<IEnumerable<string>, IEnumerable<string>, bool> StringListEquals = (enumerable, enumerable1) => enumerable1.All(x => enumerable.Any(y => StringEquals(y, x)));

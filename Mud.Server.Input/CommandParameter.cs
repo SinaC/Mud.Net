@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Mud.Server.Input
@@ -8,7 +7,7 @@ namespace Mud.Server.Input
     {
         public static readonly CommandParameter EmptyCommand = new CommandParameter();
         public static readonly CommandParameter InvalidCommand = new CommandParameter();
-        public static readonly CommandParameter IsAllCommand = new CommandParameter(String.Empty, true);
+        public static readonly CommandParameter IsAllCommand = new CommandParameter(string.Empty, true);
 
         public bool IsAll { get; } // all.xxx
         public int Count { get; }
@@ -16,20 +15,12 @@ namespace Mud.Server.Input
 
         public List<string> Tokens { get; }
 
-        public bool IsNumber
-        {
-            get
-            {
-                int n;
-                return int.TryParse(Value, out n);
-            }
-        }
+        public bool IsNumber => int.TryParse(Value, out _);
 
         public int AsNumber {
             get
             {
-                int intValue;
-                int.TryParse(Value, out intValue);
+                int.TryParse(Value, out var intValue);
                 return intValue;
             }
         }

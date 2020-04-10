@@ -16,7 +16,7 @@ namespace Mud.Importer
         }
 
         public ParseException(string format, params object[] parameters)
-            : base(String.Format(format, parameters))
+            : base(string.Format(format, parameters))
         {
         }
     }

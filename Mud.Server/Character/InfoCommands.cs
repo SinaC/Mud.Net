@@ -25,7 +25,7 @@ namespace Mud.Server.Character
             // TODO: 0/ sleeping/blind/dark room (see act_info.C:1413 -> 1436)
 
             // 1: room+exits+chars+items
-            if (String.IsNullOrWhiteSpace(rawParameters))
+            if (string.IsNullOrWhiteSpace(rawParameters))
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(1): room");
                 DisplayRoom();
@@ -209,7 +209,7 @@ namespace Mud.Server.Character
                             aura.Ability == null ? "Unknown" : aura.Ability.Name,
                             aura.Modifier,
                             aura.Amount,
-                            aura.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                            aura.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
                             StringHelpers.FormatDelay(aura.SecondsLeft));
                 }
                 // Periodic auras
@@ -219,7 +219,7 @@ namespace Mud.Server.Character
                         sb.AppendFormatLine("%B%{0}%x% %W%deals {1}{2}%x% {3} damage every %g%{4}%x% for %c%{5}%x%",
                             pa.Ability == null ? "Unknown" : pa.Ability.Name,
                             pa.Amount,
-                            pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                            pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
                             StringHelpers.SchoolTypeColor(pa.School),
                             StringHelpers.FormatDelay(pa.TickDelay),
                             StringHelpers.FormatDelay(pa.SecondsLeft));
@@ -227,7 +227,7 @@ namespace Mud.Server.Character
                         sb.AppendFormatLine("%B%{0}%x% %W%heals {1}{2}%x% hp every %g%{3}%x% for %c%{4}%x%",
                             pa.Ability == null ? "Unknown" : pa.Ability.Name,
                             pa.Amount,
-                            pa.AmountOperator == AmountOperators.Fixed ? String.Empty : "%",
+                            pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
                             StringHelpers.FormatDelay(pa.TickDelay),
                             StringHelpers.FormatDelay(pa.SecondsLeft));
                 }
@@ -246,13 +246,13 @@ namespace Mud.Server.Character
             StringBuilder sb = new StringBuilder();
             sb.AppendLine();
             sb.AppendLine("+--------------------------------------------------------+"); // length = 56
-            string form = String.Empty;
+            string form = string.Empty;
             if (Form != Forms.Normal)
                 form = $"%m% [Form: {Form}]%x%";
             if (ImpersonatedBy != null)
-                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + " (" + ImpersonatedBy.DisplayName + ")" + form, form == String.Empty ? 56 : 62) + "|");
+                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + " (" + ImpersonatedBy.DisplayName + ")" + form, form == string.Empty ? 56 : 62) + "|");
             else
-                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + form, form == String.Empty ? 56 : 62) + "|");
+                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + form, form == string.Empty ? 56 : 62) + "|");
             sb.AppendLine("+---------------------------+----------------------------+");
             sb.AppendLine("| %W%Attributes%x%                |                            |");
             sb.AppendFormatLine("| %c%Strength  : %W%[{0,5}/{1,5}]%x% | %c%Race   : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Strength], GetBasePrimaryAttribute(PrimaryAttributeTypes.Strength), Race?.DisplayName ?? "(none)");

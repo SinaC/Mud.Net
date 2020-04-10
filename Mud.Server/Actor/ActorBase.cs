@@ -108,7 +108,7 @@ namespace Mud.Server.Actor
         {
             string message = parameters.Length == 0 
                 ? format 
-                : String.Format(format, parameters);
+                : string.Format(format, parameters);
             Send(message, true); // add trailing newline
         }
 
@@ -134,7 +134,7 @@ namespace Mud.Server.Actor
                 .GroupBy(x => x.Value.Attribute.Category)
                 .OrderBy(g => g.Key))
             {
-                if (!String.IsNullOrEmpty(group.Key))
+                if (!string.IsNullOrEmpty(group.Key))
                     sb.AppendLine("%W%" + group.Key + ":%x%");
                 int index = 0;
                 foreach (KeyValuePair<string, CommandMethodInfo> kv in group

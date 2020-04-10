@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Mud.Logger;
 #pragma warning disable 642
@@ -651,7 +650,7 @@ namespace Mud.Importer.Mystery
                     }
                     else if (letter == 'O')
                     {
-                        if (!String.IsNullOrWhiteSpace(roomData.Owner))
+                        if (!string.IsNullOrWhiteSpace(roomData.Owner))
                             RaiseParseException("ParseRooms: vnum {0} has duplicate owner", vnum);
                         roomData.Owner = ReadString();
                     }

@@ -25,7 +25,7 @@ namespace Mud.POC
 
         public string GetNextLines(int lineCount)
         {
-            string lines = String.Join(Environment.NewLine, _lines.Skip(_currentLine).TakeWhile((n, i) => i < lineCount && i < _lines.Length));
+            string lines = string.Join(Environment.NewLine, _lines.Skip(_currentLine).TakeWhile((n, i) => i < lineCount && i < _lines.Length));
             _currentLine = Math.Min(_currentLine + lineCount, _lines.Length);
             return lines;
         }

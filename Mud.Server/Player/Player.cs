@@ -325,8 +325,8 @@ namespace Mud.Server.Player
             }
             characterData.Name = Impersonating.Name;
             characterData.Sex = Impersonating.Sex;
-            characterData.Class = Impersonating.Class?.Name ?? String.Empty;
-            characterData.Race = Impersonating.Race?.Name ?? String.Empty;
+            characterData.Class = Impersonating.Class?.Name ?? string.Empty;
+            characterData.Race = Impersonating.Race?.Name ?? string.Empty;
             characterData.Level = Impersonating.Level;
             characterData.RoomId = Impersonating.Room?.Blueprint?.Id ?? 0;
             characterData.Experience = Impersonating.Experience;

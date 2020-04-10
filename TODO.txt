@@ -1,3 +1,5 @@
+IocContainer instead of Factory
+
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
 
 specialization

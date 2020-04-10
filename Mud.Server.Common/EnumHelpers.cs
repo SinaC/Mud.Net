@@ -24,9 +24,9 @@ namespace Mud.Server.Common
             where T : struct
         {
             string name = Enum.GetNames(typeof (T)).FirstOrDefault(x => x.StartsWith(prefix, StringComparison.InvariantCultureIgnoreCase));
-            if (!String.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrWhiteSpace(name))
                 return Enum.TryParse(name, true, out value);
-            value = default(T);
+            value = default;
             return false;
         }
 

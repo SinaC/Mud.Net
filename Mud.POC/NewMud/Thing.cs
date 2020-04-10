@@ -25,8 +25,8 @@ namespace Mud.POC.NewMud
             Children = new List<Thing>();
             BehaviorManager = new BehaviorManager(this);
 
-            Name = String.Empty;
-            Description = String.Empty;
+            Name = string.Empty;
+            Description = string.Empty;
 
             if (behaviors != null)
                 foreach(Behavior behavior in behaviors)

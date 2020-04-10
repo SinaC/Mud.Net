@@ -75,7 +75,7 @@ namespace Mud.POC
             }
 
             // Firstly, apply .net formatting
-            string rawPhrase = String.Format(format, parameters);
+            string rawPhrase = string.Format(format, parameters);
 
             // Secondly, apply Mud formatting
             if (options == ActOptions.ToAll || options == ActOptions.ToRoom || options == ActOptions.ToNotVictim)

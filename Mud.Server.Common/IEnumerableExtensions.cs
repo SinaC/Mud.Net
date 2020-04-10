@@ -16,7 +16,7 @@ namespace Mud.Server.Common
                 i++;
             }
             for (; i < length; i++)
-                yield return default(T);
+                yield return default;
         }
     }
 }

@@ -1,11 +1,8 @@
 ﻿// TODO: exit flags are incorrect (door is missing)
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Mud.Logger;
 
 namespace Mud.Importer.Rom
@@ -648,7 +645,7 @@ namespace Mud.Importer.Rom
                     }
                     else if (letter == 'O')
                     {
-                        if (!String.IsNullOrWhiteSpace(roomData.Owner))
+                        if (!string.IsNullOrWhiteSpace(roomData.Owner))
                             RaiseParseException("ParseRooms: vnum {0} has duplicate owner", vnum);
                         roomData.Owner = ReadString();
                     }
