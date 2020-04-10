@@ -23,6 +23,7 @@ namespace Mud.Server.Races
             AddAbility(5, "test");
             AddAbility(5, "renew");
             AddAbility(20, "smite");
+            AddAbility(60, "Power Word: Shield");
         }
     }
 }
