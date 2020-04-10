@@ -98,8 +98,8 @@ namespace Mud.Server.Helpers
             where TEntity : IEntity
         {
             return perfectMatch
-                ? collection.Where(x => StringEquals(getItemFunc(x).Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1)
-                : collection.Where(x => StringStartsWith(getItemFunc(x).Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
+                ? collection.Where(x => StringListEquals(getItemFunc(x).Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1)
+                : collection.Where(x => StringListStartsWith(getItemFunc(x).Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1);
         }
 
         // FindLocation

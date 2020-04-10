@@ -841,10 +841,12 @@ namespace Mud.Server.WPFTestApplication
 
         private static void CreateWorld()
         {
+            string path = ConfigurationManager.AppSettings["ImportAreaPath"];
+
             MysteryImporter mysteryImporter = new MysteryImporter();
-            mysteryImporter.Load(@"C:\prj\personal\OldMud\area\midgaard.are");
+            mysteryImporter.Load(System.IO.Path.Combine(path, "midgaard.are"));
             mysteryImporter.Parse();
-            mysteryImporter.Load(@"C:\prj\personal\OldMud\area\amazon.are");
+            mysteryImporter.Load(System.IO.Path.Combine(path, "amazon.are"));
             mysteryImporter.Parse();
             //MysteryImporter importer = new MysteryImporter();
             //string path = @"D:\GitHub\OldMud\area";

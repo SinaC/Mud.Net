@@ -371,8 +371,20 @@ namespace Mud.Server.Character
                                Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Trinket1 || x.Slot == EquipmentSlots.Trinket2))
                                : null);
                 case WearLocations.Wield:
-                    // TODO
-                    return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Wield || x.Slot == EquipmentSlots.Wield2 || x.Slot == EquipmentSlots.Wield3 || x.Slot == EquipmentSlots.Wield4) && (replace || x.Item == null));
+                    if (replace)
+                        return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Wield
+                                                            || x.Slot == EquipmentSlots.Wield2
+                                                            || x.Slot == EquipmentSlots.Wield3
+                                                            || x.Slot == EquipmentSlots.Wield4) && x.Item == null)
+                            ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield)
+                            ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2)
+                            ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield3)
+                            ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield4);
+                    else
+                        return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Wield
+                                                            || x.Slot == EquipmentSlots.Wield2
+                                                            || x.Slot == EquipmentSlots.Wield3
+                                                            || x.Slot == EquipmentSlots.Wield4) && x.Item == null);
                 case WearLocations.Hold:
                     // TODO
                     return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Hold && (replace || x.Item == null));

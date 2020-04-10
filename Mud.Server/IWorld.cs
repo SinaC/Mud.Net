@@ -48,7 +48,7 @@ namespace Mud.Server
 
         ICharacter AddCharacter(Guid guid, CharacterData characterData, IRoom room); // Impersonable
         ICharacter AddCharacter(Guid guid, CharacterBlueprint blueprint, IRoom room); // Non-impersonable
-        
+
         IItemContainer AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container);
         IItemArmor AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container);
         IItemWeapon AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container);
