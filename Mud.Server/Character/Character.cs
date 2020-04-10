@@ -1558,14 +1558,14 @@ namespace Mud.Server.Character
             // http://wow.gamepedia.com/Attack_power
             int damage;
             if (weapon != null)
-                damage = RandomizeHelpers.Instance.Dice(weapon.DiceCount, weapon.DiceValue) + this[SecondaryAttributeTypes.AttackPower]/14; // TODO: use weapon dps and weapon speed
+                damage = RandomizeHelpers.Instance.Dice(weapon.DiceCount, weapon.DiceValue) + this[SecondaryAttributeTypes.AttackPower] / 14; // TODO: use weapon dps and weapon speed
             else
             {
                 // TEST
                 if (ImpersonatedBy != null)
                     damage = 75; // TODO: almost no damage unless hand2hand
                 else // http://wow.gamepedia.com/Attack_power (Mob attack power)
-                    damage = (this[SecondaryAttributeTypes.AttackPower]/14)*Level; // TODO: simulate weapon dps using level
+                    damage = (this[SecondaryAttributeTypes.AttackPower] / 14) * Level; // TODO: simulate weapon dps using level
             }
             if (notMainWield)
                 damage /= 2;
@@ -1590,7 +1590,7 @@ namespace Mud.Server.Character
                     return false;
                 case CombatHelpers.AttackResults.GlancingBlow:
                     // http://wow.gamepedia.com/Glancing_Blow
-                    damage = (damage*75)/100;
+                    damage = (damage * 75) / 100;
                     break;
                 case CombatHelpers.AttackResults.Block:
                     EquipedItem victimShield = victim.Equipments.FirstOrDefault(x => x.Item != null && x.Slot == EquipmentSlots.Shield);
@@ -1599,18 +1599,18 @@ namespace Mud.Server.Character
                         victim.Act(ActOptions.ToCharacter, "You block {0}'s attack with {1}.", this, victimShield.Item);
                         Act(ActOptions.ToCharacter, "{0} blocks your attack with {1}.", victim, victimShield.Item);
                     }
-                    damage = (damage*7)/10;
+                    damage = (damage * 7) / 10;
                     break;
                 case CombatHelpers.AttackResults.Critical:
                     //  TODO http://wow.gamepedia.com/Critical_strike
-                    if (victim.ImpersonatedBy != null)
-                        damage = (damage*150)/200;
+                    if (victim.ImpersonatedBy != null) // PVP
+                        damage = (damage * 150) / 200;
                     else
-                        damage *= 2;
+                        damage *= 2; // PVE
                     break;
                 case CombatHelpers.AttackResults.CrushingBlow:
                     // http://wow.gamepedia.com/Crushing_Blow
-                    damage = (damage*150)/200;
+                    damage = (damage * 150) / 200;
                     break;
                 case CombatHelpers.AttackResults.Hit:
                     // NOP
