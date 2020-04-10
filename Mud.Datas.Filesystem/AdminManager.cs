@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Xml.Serialization;
 using Mud.Datas.DataContracts;
@@ -7,12 +8,15 @@ namespace Mud.Datas.Filesystem
 {
     public class AdminManager : IAdminManager
     {
-        private const string AdminRepositoryPath = @"D:\Github\Mud.Net\Datas\Admins\";
+        #region Singleton
 
         private static readonly Lazy<AdminManager> Lazy = new Lazy<AdminManager>(() => new AdminManager());
 
         public static IAdminManager Instance => Lazy.Value;
 
+        #endregion
+
+        private string AdminRepositoryPath => ConfigurationManager.AppSettings["AdminRepositoryPath"];
 
         public AdminData Load(string adminName)
         {

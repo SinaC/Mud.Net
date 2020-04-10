@@ -6,11 +6,11 @@
     <CharacterData>
       <Name>sinac</Name>
       <RoomId>3001</RoomId>
-      <Race>troll</Race>
-      <Class>druid</Class>
-      <Level>1</Level>
+      <Race>Troll</Race>
+      <Class>Druid</Class>
+      <Level>60</Level>
       <Sex>Male</Sex>
-      <Experience>0</Experience>
+      <Experience>6000000</Experience>
     </CharacterData>
   </Characters>
   <Level>Angel</Level>

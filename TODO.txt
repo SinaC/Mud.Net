@@ -1,5 +1,6 @@
 IocContainer instead of Factory (Remove Repository class, Singleton will be handled by IOC)
 
+failed to wield a second weapon using wield but succeed with wear all
 default error message with command if not in correct position
 
 IItemFurniture, add CanSit, CanRest, ...

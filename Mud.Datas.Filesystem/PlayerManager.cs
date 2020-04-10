@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Xml.Serialization;
 using Mud.Datas.DataContracts;
@@ -7,11 +8,15 @@ namespace Mud.Datas.Filesystem
 {
     public class PlayerManager : IPlayerManager
     {
-        private const string PlayerRepositoryPath = @"D:\Github\Mud.Net\Datas\Players\";
+        #region Singleton
 
         private static readonly Lazy<PlayerManager> Lazy = new Lazy<PlayerManager>(() => new PlayerManager());
 
         public static IPlayerManager Instance => Lazy.Value;
+
+        #endregion
+
+        private string PlayerRepositoryPath => ConfigurationManager.AppSettings["PlayerRepositoryPath"];
 
         public PlayerData Load(string playerName)
         {

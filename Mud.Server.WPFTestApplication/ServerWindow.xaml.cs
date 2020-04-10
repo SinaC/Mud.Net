@@ -842,9 +842,9 @@ namespace Mud.Server.WPFTestApplication
         private static void CreateWorld()
         {
             MysteryImporter mysteryImporter = new MysteryImporter();
-            mysteryImporter.Load(@"D:\GitHub\OldMud\area\midgaard.are");
+            mysteryImporter.Load(@"C:\prj\personal\OldMud\area\midgaard.are");
             mysteryImporter.Parse();
-            mysteryImporter.Load(@"D:\GitHub\OldMud\area\amazon.are");
+            mysteryImporter.Load(@"C:\prj\personal\OldMud\area\amazon.are");
             mysteryImporter.Parse();
             //MysteryImporter importer = new MysteryImporter();
             //string path = @"D:\GitHub\OldMud\area";
