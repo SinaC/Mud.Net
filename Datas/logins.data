@@ -11,5 +11,10 @@
       <Password>password</Password>
       <IsAdmin>false</IsAdmin>
     </LoginData>
+    <LoginData>
+      <Username>pouet</Username>
+      <Password>pouet</Password>
+      <IsAdmin>false</IsAdmin>
+    </LoginData>
   </Logins>
 </LoginRepositoryData>

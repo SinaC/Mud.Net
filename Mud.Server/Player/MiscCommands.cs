@@ -159,6 +159,14 @@ namespace Mud.Server.Player
             return true;
         }
 
+        [Command("delete", Category = "Delete", Priority = 999, NoShortcut = true)]
+        protected virtual bool DoDelete(string rawParameters, params CommandParameter[] parameters)
+        {
+            // TODO: set to deletion confirmation state -> undo by any other command
+            // TODO: delete player/admin file and remove from
+            return true;
+        }
+
         [Command("bug", Category = "Misc", Priority = 50)]
         protected virtual bool DoBug(string rawParameters, params CommandParameter[] parameters)
         {

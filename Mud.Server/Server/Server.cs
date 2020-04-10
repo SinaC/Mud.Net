@@ -312,6 +312,9 @@ namespace Mud.Server.Server
                 client.WriteData("Welcome to Mud.Net!!" + Environment.NewLine);
             }
             // TODO: if new player, avatar creation state machine
+            if (isNewPlayer)
+            {
+            }
 
             // Remove login state machine
             LoginStateMachine loginStateMachine;
@@ -352,6 +355,10 @@ namespace Mud.Server.Server
                 _players.TryAdd(playerOrAdmin, newPlayingClient);
                 _clients.TryAdd(client, newPlayingClient);
             }
+
+            // Save if isNewPlayer
+            if (isNewPlayer)
+                playerOrAdmin.Save();
 
             // Prompt
             client.WriteData(playerOrAdmin.Prompt);

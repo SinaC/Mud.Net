@@ -1,5 +1,7 @@
 IocContainer instead of Factory (Remove Repository class, Singleton will be handled by IOC)
 
+LoginStateMachine: new state AccountCreated: save player or admin then go to LoginSuccessfully
+
 default error message with character command if not in correct position
 
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
