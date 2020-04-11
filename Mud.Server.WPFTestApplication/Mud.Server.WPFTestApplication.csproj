@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SimpleInjector, Version=4.9.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.9.2\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Xml" />
@@ -93,6 +96,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -103,6 +107,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
+      <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
+      <Name>Mud.Container</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Datas.Filesystem\Mud.Datas.Filesystem.csproj">
+      <Project>{520950bd-51eb-4c0e-aea4-a6cec62b23fc}</Project>
+      <Name>Mud.Datas.Filesystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Datas.Mongo\Mud.Datas.Mongo.csproj">
+      <Project>{e493e419-b6ab-4ee0-bd8b-0b2ea775849f}</Project>
+      <Name>Mud.Datas.Mongo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Datas\Mud.Datas.csproj">
       <Project>{2c853490-7908-4e36-b906-72eba82b4236}</Project>
       <Name>Mud.Datas</Name>

@@ -39,6 +39,9 @@
       <HintPath>..\packages\NLua_Safe.1.3.2.1\lib\net45\NLua.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SimpleInjector, Version=4.9.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.9.2\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -68,6 +71,10 @@
     <Compile Include="TestTableGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
+      <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
+      <Name>Mud.Container</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Datas\Mud.Datas.csproj">
       <Project>{2c853490-7908-4e36-b906-72eba82b4236}</Project>
       <Name>Mud.Datas</Name>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mud.Container;
 using Mud.Server.Constants;
 
 namespace Mud.Server.Races
@@ -45,7 +46,7 @@ namespace Mud.Server.Races
 
         public Insectoid()
         {
-            AddAbility(1, Repository.AbilityManager.ThirdWieldAbility);
+            AddAbility(1, DependencyContainer.Instance.GetInstance<IAbilityManager>().ThirdWieldAbility);
         }
     }
 }

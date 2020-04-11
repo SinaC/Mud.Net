@@ -12,6 +12,15 @@
       <Sex>Male</Sex>
       <Experience>6000000</Experience>
     </CharacterData>
+    <CharacterData>
+      <Name>alhazred</Name>
+      <RoomId>3001</RoomId>
+      <Race>elf</Race>
+      <Class>priest</Class>
+      <Level>1</Level>
+      <Sex>Neutral</Sex>
+      <Experience>0</Experience>
+    </CharacterData>
   </Characters>
   <Level>Angel</Level>
   <WiznetFlags />

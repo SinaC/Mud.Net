@@ -53,13 +53,7 @@ namespace Mud.Server.Abilities
             new Ability(999999, "Test", AbilityTargets.TargetOrSelf, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 5, 0, 60, SchoolTypes.Shadow, AbilityMechanics.Shielded, DispelTypes.Magic, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.HealAbsorb, 200000, AmountOperators.Fixed))
         };
 
-        #region Singleton
-
-        private static readonly Lazy<AbilityManager> Lazy = new Lazy<AbilityManager>(() => new AbilityManager());
-
-        public static IAbilityManager Instance => Lazy.Value;
-
-        private AbilityManager()
+        public AbilityManager()
         {
             WeakenedSoulAbility = this[WeakenedSoulAbilityId];
             ParryAbility = this[ParryAbilityId];
@@ -69,8 +63,6 @@ namespace Mud.Server.Abilities
             ThirdWieldAbility = this[ThirdWieldAbilityId];
             FourthWieldAbility = this[FourthWieldAbilityId];
         }
-
-        #endregion
 
         #region IAbilityManager
 

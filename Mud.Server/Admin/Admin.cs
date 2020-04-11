@@ -1,4 +1,6 @@
 ﻿using System;
+using Mud.Container;
+using Mud.Datas;
 using Mud.Datas.DataContracts;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
@@ -109,7 +111,7 @@ namespace Mud.Server.Admin
 
         public override bool Load(string name)
         {
-            AdminData data = Repository.AdminManager.Load(name);
+            AdminData data = DependencyContainer.Instance.GetInstance<IAdminManager>().Load(name);
             // Load player data
             LoadPlayerData(data);
             // Load admin datas
@@ -132,7 +134,7 @@ namespace Mud.Server.Admin
             data.Level = Level;
             data.WiznetFlags = WiznetFlags;
             //
-            Repository.AdminManager.Save(data);
+            DependencyContainer.Instance.GetInstance<IAdminManager>().Save(data);
             //
             Log.Default.WriteLine(LogLevels.Info, $"Admin {DisplayName} saved");
             return true;

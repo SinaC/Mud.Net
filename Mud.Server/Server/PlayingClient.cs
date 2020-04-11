@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Text;
+using Mud.Container;
 using Mud.Network;
 
 namespace Mud.Server.Server
@@ -22,13 +23,13 @@ namespace Mud.Server.Server
             _receiveQueue = new ConcurrentQueue<string>();
             _sendBuffer = new StringBuilder();
             Paging = new Paging();
-            LastReceivedDataTimestamp = Repository.Server.CurrentTime;
+            LastReceivedDataTimestamp = DependencyContainer.Instance.GetInstance<IServer>().CurrentTime;
         }
 
         public void EnqueueReceivedData(string data)
         {
             _receiveQueue.Enqueue(data);
-            LastReceivedDataTimestamp = Repository.Server.CurrentTime;
+            LastReceivedDataTimestamp = DependencyContainer.Instance.GetInstance<IServer>().CurrentTime;
         }
 
         public string DequeueReceivedData()

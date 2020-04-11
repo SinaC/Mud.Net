@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SimpleInjector, Version=4.9.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.9.2\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -136,7 +139,6 @@
     <Compile Include="Races\RaceBase.cs" />
     <Compile Include="Races\RaceManager.cs" />
     <Compile Include="Races\Troll.cs" />
-    <Compile Include="Repository.cs" />
     <Compile Include="Room\Exit.cs" />
     <Compile Include="Room\Room.cs" />
     <Compile Include="Server\LoginStateMachine.cs" />
@@ -149,6 +151,10 @@
     <Compile Include="World\World.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
+      <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
+      <Name>Mud.Container</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Datas.Filesystem\Mud.Datas.Filesystem.csproj">
       <Project>{520950bd-51eb-4c0e-aea4-a6cec62b23fc}</Project>
       <Name>Mud.Datas.Filesystem</Name>
@@ -192,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

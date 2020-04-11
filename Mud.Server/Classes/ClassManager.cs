@@ -10,13 +10,7 @@ namespace Mud.Server.Classes
     {
         private readonly List<IClass> _classes;
 
-        #region Singleton
-
-        private static readonly Lazy<ClassManager> Lazy = new Lazy<ClassManager>(() => new ClassManager());
-
-        public static IClassManager Instance => Lazy.Value;
-
-        private ClassManager()
+        public ClassManager()
         {
             // Get classes using reflection
             Type iClassType = typeof(IClass);
@@ -26,8 +20,6 @@ namespace Mud.Server.Classes
                 .OfType<IClass>()
                 .ToList();
         }
-
-        #endregion
 
         #region IClassManager
 

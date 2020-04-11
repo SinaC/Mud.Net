@@ -19,18 +19,10 @@ namespace Mud.Datas.Filesystem
         private Dictionary<string, LoginData> _table = new Dictionary<string, LoginData>();
         private bool _loaded;
 
-        #region Singleton
-
-        private static readonly Lazy<LoginManager> Lazy = new Lazy<LoginManager>(() => new LoginManager());
-
-        public static ILoginManager Instance => Lazy.Value;
-
-        private LoginManager()
+        public LoginManager()
         {
             _loaded = false;
         }
-
-        #endregion
 
         #region ILoginRepository
 

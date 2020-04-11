@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mud.Container;
 using Mud.Server.Abilities;
 using Mud.Server.Common;
 using Mud.Server.Constants;
@@ -16,7 +17,7 @@ namespace Mud.Server.Character
         [Command("cast", Category = "Ability", Priority = 2)]
         protected virtual bool DoCast(string rawParameters, params CommandParameter[] parameters)
         {
-            Repository.AbilityManager.Process(this, parameters);
+            DependencyContainer.Instance.GetInstance<IAbilityManager>().Process(this, parameters);
             return true;
         }
 
@@ -34,7 +35,7 @@ namespace Mud.Server.Character
                 .ThenBy(x => x.Ability.Name)
                 .ToList();
             // Test purpose: every abilities
-            //List<AbilityAndLevel> abilities = Repository.AbilityManager.Abilities
+            //List<AbilityAndLevel> abilities = DependencyContainer.Instance.GetInstance<IAbilityManager>().Abilities
             //    .Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed)
             //    .Select(x => new AbilityAndLevel(1, x))
             //    .OrderBy(x => x.Ability.Name)
@@ -64,7 +65,7 @@ namespace Mud.Server.Character
                     StringBuilder sb = new StringBuilder();
                     sb.AppendLine("%c%Following abilities are in cooldown:%x%");
                     foreach (var cooldown in AbilitiesInCooldown
-                        .Select(x => new { Ability = x.Key, SecondsLeft = (x.Value - Repository.Server.CurrentTime).TotalSeconds })
+                        .Select(x => new { Ability = x.Key, SecondsLeft = (x.Value - DependencyContainer.Instance.GetInstance<IServer>().CurrentTime).TotalSeconds })
                         .OrderBy(x => x.SecondsLeft))
                     {
                         int secondsLeft = (int)Math.Ceiling(cooldown.SecondsLeft);
@@ -77,7 +78,7 @@ namespace Mud.Server.Character
             }
             else
             {
-                IAbility ability = Repository.AbilityManager.Search(parameters[0]);
+                IAbility ability = DependencyContainer.Instance.GetInstance<IAbilityManager>().Search(parameters[0]);
                 if (ability == null)
                 {
                     Send("You don't know any abilities of that name.");

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using Mud.Container;
+using Mud.Datas;
 using Mud.Network;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -63,7 +65,7 @@ namespace Mud.Server.Server
             {
                 _username = input;
                 bool isAdmin;
-                bool known = Repository.LoginManager.CheckUsername(input, out isAdmin);
+                bool known = DependencyContainer.Instance.GetInstance<ILoginManager>().CheckUsername(input, out isAdmin);
 
                 // If known, greets and asks for password
                 // Else, name confirmation
@@ -95,7 +97,7 @@ namespace Mud.Server.Server
             // Else, 
             //      If too many try, disconnect
             //      Else, retry password
-            bool passwordCorrect = Repository.LoginManager.CheckPassword(_username, input);
+            bool passwordCorrect = DependencyContainer.Instance.GetInstance<ILoginManager>().CheckPassword(_username, input);
             if (passwordCorrect)
             {
                 Send(client, "Password correct." + Environment.NewLine);
@@ -153,7 +155,7 @@ namespace Mud.Server.Server
             if (input == _password)
             {
                 Send(client, "Your new account with username {0} has been created" + Environment.NewLine, _username);
-                Repository.LoginManager.InsertLogin(_username, _password); // add login in DB
+                DependencyContainer.Instance.GetInstance<ILoginManager>().InsertLogin(_username, _password); // add login in DB
                 EchoOn(client);
                 LoginSuccessfull(client);
                 return LoginStates.LoggedIn;

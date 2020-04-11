@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mud.Container;
 using Mud.Logger;
 using Mud.Server.Abilities;
 using Mud.Server.Constants;
@@ -35,7 +36,7 @@ namespace Mud.Server.Classes
 
         public void AddAbility(int level, int abilityId)
         {
-            IAbility ability = Repository.AbilityManager[abilityId];
+            IAbility ability = DependencyContainer.Instance.GetInstance<IAbilityManager>()[abilityId];
             if (ability == null)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Trying to add unknown ability [id:{0}] to class [{1}]", abilityId, Name);
@@ -47,7 +48,7 @@ namespace Mud.Server.Classes
 
         public void AddAbility(int level, string abilityName)
         {
-            IAbility ability = Repository.AbilityManager[abilityName];
+            IAbility ability = DependencyContainer.Instance.GetInstance<IAbilityManager>()[abilityName];
             if (ability == null)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Trying to add unknown ability [{0}] to class [{1}]", abilityName, Name);

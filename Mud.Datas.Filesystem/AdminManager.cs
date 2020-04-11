@@ -8,14 +8,6 @@ namespace Mud.Datas.Filesystem
 {
     public class AdminManager : IAdminManager
     {
-        #region Singleton
-
-        private static readonly Lazy<AdminManager> Lazy = new Lazy<AdminManager>(() => new AdminManager());
-
-        public static IAdminManager Instance => Lazy.Value;
-
-        #endregion
-
         private string AdminRepositoryPath => ConfigurationManager.AppSettings["AdminRepositoryPath"];
 
         public AdminData Load(string adminName)

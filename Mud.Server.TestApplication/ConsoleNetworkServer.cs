@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using Mud.Container;
 using Mud.Network;
 
 namespace Mud.Server.TestApplication
@@ -79,13 +80,13 @@ namespace Mud.Server.TestApplication
                             else if (line == "alist")
                             {
                                 Console.WriteLine("Admins:");
-                                foreach (IAdmin a in Repository.Server.Admins)
+                                foreach (IAdmin a in DependencyContainer.Instance.GetInstance<IServer>().Admins)
                                     Console.WriteLine(a.DisplayName + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.DisplayName : "") + " " + (a.Incarnating != null ? a.Incarnating.DisplayName : ""));
                             }
                             else if (line == "plist")
                             {
                                 Console.WriteLine("players:");
-                                foreach (IPlayer p in Repository.Server.Players)
+                                foreach (IPlayer p in DependencyContainer.Instance.GetInstance<IServer>().Players)
                                     Console.WriteLine(p.DisplayName + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.DisplayName : ""));
                             }
                             // TODO: characters/rooms/items
