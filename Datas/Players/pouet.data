@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<PlayerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>pouet</Name>
+  <Aliases />
+  <Characters>
+    <CharacterData>
+      <Name>badass</Name>
+      <RoomId>3014</RoomId>
+      <Race>insectoid</Race>
+      <Class>Thief</Class>
+      <Level>1</Level>
+      <Sex>Neutral</Sex>
+      <Experience>0</Experience>
+    </CharacterData>
+  </Characters>
+</PlayerData>
