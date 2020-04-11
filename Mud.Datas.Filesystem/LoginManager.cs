@@ -87,6 +87,15 @@ namespace Mud.Datas.Filesystem
             return false;
         }
 
+        public bool DeleteLogin(string username)
+        {
+            if (!_table.ContainsKey(username))
+                return false;
+            _table.Remove(username);
+            Save();
+            return true;
+        }
+
         #endregion
 
         private bool Load()

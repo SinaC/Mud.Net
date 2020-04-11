@@ -6,5 +6,6 @@ namespace Mud.Datas
     {
         PlayerData Load(string playerName);
         void Save(PlayerData data);
+        void Delete(string playerName);
     }
 }

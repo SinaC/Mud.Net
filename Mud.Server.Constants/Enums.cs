@@ -254,15 +254,15 @@ namespace Mud.Server.Constants
     public enum WiznetFlags
     {
         Incarnate = 0x0001,
-        Punish = 0x0002,
-        Logins = 0x0004,
-        Deaths = 0x0008,
+        Punish    = 0x0002,
+        Logins    = 0x0004,
+        Deaths    = 0x0008,
         MobDeaths = 0x0010,
-        Levels = 0x0020,
-        Snoops = 0x0040,
-        Bugs = 0x0080,
-        Typos = 0x0100,
-        Help = 0x0200,
-        Load = 0x0400,
+        Levels    = 0x0020,
+        Snoops    = 0x0040,
+        Bugs      = 0x0080,
+        Typos     = 0x0100,
+        Help      = 0x0200,
+        Load      = 0x0400,
     }
 }

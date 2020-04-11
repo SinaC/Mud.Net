@@ -37,6 +37,11 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
+        public void Delete(IPlayer player)
+        {
+            throw new NotImplementedException(); 
+        }
+
         public void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
         {
             throw new NotImplementedException();

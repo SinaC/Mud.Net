@@ -133,6 +133,8 @@ namespace Mud.Server.Admin
             data.WiznetFlags = WiznetFlags;
             //
             Repository.AdminManager.Save(data);
+            //
+            Log.Default.WriteLine(LogLevels.Info, $"Admin {DisplayName} saved");
             return true;
         }
 

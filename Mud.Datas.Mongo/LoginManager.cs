@@ -49,6 +49,13 @@ namespace Mud.Datas.Mongo
             return true;
         }
 
+        public bool DeleteLogin(string username)
+        {
+            IMongoCollection<LoginData> collection = LoginCollection;
+            DeleteResult deleteResult = collection.DeleteOne(x => x.Username == username);
+            return deleteResult.DeletedCount > 0;
+        }
+
         #endregion
 
         private IMongoCollection<LoginData> LoginCollection

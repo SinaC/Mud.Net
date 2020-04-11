@@ -41,6 +41,7 @@
     <Compile Include="Abilities\ToRemoveAbilities.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
     <Compile Include="Admin\CommunicationCommands.cs" />
+    <Compile Include="Admin\MiscCommands.cs" />
     <Compile Include="Admin\PunishCommands.cs" />
     <Compile Include="Area\Area.cs" />
     <Compile Include="Aura\Aura.cs" />

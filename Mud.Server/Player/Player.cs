@@ -22,6 +22,7 @@ namespace Mud.Server.Player
 
         protected readonly Dictionary<string, string> Aliases;
         protected IInputTrap<IPlayer> CurrentStateMachine;
+        protected bool _deletionConfirmationNeeded;
 
         protected Player()
         {
@@ -32,6 +33,7 @@ namespace Mud.Server.Player
 
             Aliases = new Dictionary<string, string>();
             CurrentStateMachine = null;
+            _deletionConfirmationNeeded = false;
         }
 
         public Player(Guid id, string name)
@@ -49,18 +51,6 @@ namespace Mud.Server.Player
 
         public override bool ProcessCommand(string commandLine)
         {
-            // ! means repeat last command
-            if (commandLine != null && commandLine.Length >= 1 && commandLine[0] == '!')
-            {
-                commandLine = LastCommand;
-                LastCommandTimestamp = DateTime.Now;
-            }
-            else
-            {
-                LastCommand = commandLine;
-                LastCommandTimestamp = DateTime.Now;
-            }
-
             // If an input state machine is running, send commandLine to machine
             if (CurrentStateMachine != null && !CurrentStateMachine.IsFinalStateReached)
             {
@@ -69,13 +59,26 @@ namespace Mud.Server.Player
             }
             else
             {
-                string command;
-                string rawParameters;
-                CommandParameter[] parameters;
-                bool forceOutOfGame;
+                // ! means repeat last command (only when last command was not delete)
+                if (commandLine != null && commandLine.Length >= 1 && commandLine[0] == '!')
+                {
+                    if (LastCommand?.ToLowerInvariant() == "delete")
+                    {
+                        Send("Cannot use '!' to repeat 'delete' command");
+                        _deletionConfirmationNeeded = false; // reset delete confirmation
+                        return false;
+                    }
+                    commandLine = LastCommand;
+                    LastCommandTimestamp = DateTime.Now;
+                }
+                else
+                {
+                    LastCommand = commandLine;
+                    LastCommandTimestamp = DateTime.Now;
+                }
 
                 // Extract command and parameters
-                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(Aliases, commandLine, out command, out rawParameters, out parameters, out forceOutOfGame);
+                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(Aliases, commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame);
                 if (!extractedSuccessfully)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
@@ -127,7 +130,13 @@ namespace Mud.Server.Player
                 IsAfk = !IsAfk;
                 return true;
             }
-            return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
+            bool baseExecuteBeforeCommandResult = base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
+            if (baseExecuteBeforeCommandResult && methodInfo.Attribute.Name != "delete")
+            {
+                // once another command then 'delete' is used, reset deletion confirmation
+                _deletionConfirmationNeeded = false;
+            }
+            return baseExecuteBeforeCommandResult;
         }
 
         public override void Send(string message, bool addTrailingNewLine)
@@ -221,6 +230,8 @@ namespace Mud.Server.Player
             FillPlayerData(data);
             //
             Repository.PlayerManager.Save(data);
+            //
+            Log.Default.WriteLine(LogLevels.Info, $"Player {DisplayName} saved");
             return true;
         }
 

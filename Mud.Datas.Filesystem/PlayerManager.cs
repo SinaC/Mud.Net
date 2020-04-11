@@ -18,9 +18,11 @@ namespace Mud.Datas.Filesystem
 
         private string PlayerRepositoryPath => ConfigurationManager.AppSettings["PlayerRepositoryPath"];
 
+        private Func<string,string> BuildFilename => (playerName) => Path.Combine(PlayerRepositoryPath, playerName + ".data");
+
         public PlayerData Load(string playerName)
         {
-            string filename = Path.Combine(PlayerRepositoryPath, playerName + ".data");
+            string filename = BuildFilename(playerName);
 
             if (!File.Exists(filename))
                 return null;
@@ -35,13 +37,22 @@ namespace Mud.Datas.Filesystem
 
         public void Save(PlayerData data)
         {
+            string filename = BuildFilename(data.Name);
+
             XmlSerializer serializer = new XmlSerializer(typeof(PlayerData));
             Directory.CreateDirectory(PlayerRepositoryPath);
-            string filename = Path.Combine(PlayerRepositoryPath, data.Name + ".data");
             using (FileStream file = File.Create(filename))
             {
                 serializer.Serialize(file, data);
             }
+        }
+
+        public void Delete(string playerName)
+        {
+            string filename = BuildFilename(playerName);
+
+            if (File.Exists(filename))
+                File.Delete(filename);
         }
     }
 }

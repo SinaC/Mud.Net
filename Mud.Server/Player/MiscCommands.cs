@@ -100,6 +100,20 @@ namespace Mud.Server.Player
         [Command("save", Category = "Misc", Priority = 999 /*low priority*/, NoShortcut = true)]
         protected virtual bool DoSave(string rawParameters, params CommandParameter[] parameters)
         {
+            if (Impersonating != null)
+            {
+                if (Impersonating.Fighting != null)
+                {
+                    Send("No way! You are fighting.");
+                    return true;
+                }
+                if (Impersonating.Position == Positions.Stunned)
+                {
+                    Send("You can't leave while stunned.");
+                    return true;
+                }
+            }
+
             bool saved = Save();
 
             if (saved)
@@ -139,6 +153,20 @@ namespace Mud.Server.Player
         [Command("password", Category = "Misc", Priority = 999, NoShortcut = true)]
         protected virtual bool DoPassword(string rawParameters, params CommandParameter[] parameters)
         {
+            if (Impersonating != null)
+            {
+                if (Impersonating.Fighting != null)
+                {
+                    Send("No way! You are fighting.");
+                    return true;
+                }
+                if (Impersonating.Position == Positions.Stunned)
+                {
+                    Send("You can't leave while stunned.");
+                    return true;
+                }
+            }
+
             if (parameters.Length != 2)
             {
                 Send("Syntax: password <old> <new>");
@@ -159,11 +187,48 @@ namespace Mud.Server.Player
             return true;
         }
 
-        [Command("delete", Category = "Delete", Priority = 999, NoShortcut = true)]
+        [Command("delete", Category = "Misc", Priority = 999, NoShortcut = true)]
         protected virtual bool DoDelete(string rawParameters, params CommandParameter[] parameters)
         {
-            // TODO: set to deletion confirmation state -> undo by any other command
-            // TODO: delete player/admin file and remove from
+            if (Impersonating != null)
+            {
+                if (Impersonating.Fighting != null)
+                {
+                    Send("No way! You are fighting.");
+                    return true;
+                }
+                if (Impersonating.Position == Positions.Stunned)
+                {
+                    Send("You can't leave while stunned.");
+                    return true;
+                }
+            }
+
+            if (parameters.Length == 0)
+            {
+                Send("Syntax: delete <password>");
+                return true;
+            }
+
+            if (!Repository.LoginManager.CheckPassword(Name, parameters[0].Value))
+            {
+                Send("Wrong password. Wait 10 seconds.");
+                SetGlobalCooldown(10 * ServerOptions.PulsePerSeconds);
+                return true;
+            }
+
+            if (_deletionConfirmationNeeded)
+            {
+                // perform deletion
+                Send("Deletion confirmed! Processing...");
+
+                Repository.Server.Delete(this);
+            }
+            else 
+            {
+                Send("Ask you sure you want to delete your account? Use 'delete' again to confirm.");
+                _deletionConfirmationNeeded = true;
+            }
             return true;
         }
 

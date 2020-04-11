@@ -16,6 +16,7 @@ namespace Mud.Server
 
         void Shutdown(int seconds);
         void Quit(IPlayer player);
+        void Delete(IPlayer player);
 
         void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel);
 

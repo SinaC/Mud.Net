@@ -158,6 +158,23 @@ namespace Mud.Server.Server
                 ClientPlayingOnDisconnected(playingClient.Client);
         }
 
+        public void Delete(IPlayer player)
+        {
+            PlayingClient playingClient;
+            _players.TryGetValue(player, out playingClient);
+            if (playingClient == null)
+                Log.Default.WriteLine(LogLevels.Error, "Delete: client not found");
+            else
+            {
+                string playerName = player.DisplayName;
+                Repository.LoginManager.DeleteLogin(player.Name);
+                Repository.PlayerManager.Delete(player.Name);
+                ClientPlayingOnDisconnected(playingClient.Client);
+                //
+                Log.Default.WriteLine(LogLevels.Info, $"Player {playerName} has been deleted");
+            }
+        }
+
         public void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
         {
             foreach (IAdmin admin in Admins.Where(a => (a.WiznetFlags & flags) == flags && a.Level >= minLevel))
