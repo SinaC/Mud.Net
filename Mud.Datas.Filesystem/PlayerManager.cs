@@ -8,14 +8,6 @@ namespace Mud.Datas.Filesystem
 {
     public class PlayerManager : IPlayerManager
     {
-        #region Singleton
-
-        private static readonly Lazy<PlayerManager> Lazy = new Lazy<PlayerManager>(() => new PlayerManager());
-
-        public static IPlayerManager Instance => Lazy.Value;
-
-        #endregion
-
         private string PlayerRepositoryPath => ConfigurationManager.AppSettings["PlayerRepositoryPath"];
 
         private Func<string,string> BuildFilename => (playerName) => Path.Combine(PlayerRepositoryPath, playerName + ".data");

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mud.Container;
 using Mud.DataStructures.HeapPriorityQueue;
 using Mud.Server.Abilities;
 using Mud.Server.Common;
@@ -21,7 +22,7 @@ namespace Mud.Server.Admin
             StringBuilder sb = new StringBuilder();
             //
             sb.AppendFormatLine("Players:");
-            foreach (IPlayer player in Repository.Server.Players.Where(x => x.GetType() == typeof(IPlayer))) // only player
+            foreach (IPlayer player in DependencyContainer.Instance.GetInstance<IServer>().Players.Where(x => x.GetType() == typeof(IPlayer))) // only player
             {
                 switch (player.PlayerState)
                 {
@@ -43,7 +44,7 @@ namespace Mud.Server.Admin
             }
             //
             sb.AppendFormatLine("Admins:");
-            foreach (IAdmin admin in Repository.Server.Admins)
+            foreach (IAdmin admin in DependencyContainer.Instance.GetInstance<IServer>().Admins)
             {
                 switch (admin.PlayerState)
                 {
@@ -79,7 +80,7 @@ namespace Mud.Server.Admin
             //| Name                  | Resource | Cost   | Cooldown |
             //+-----------------------+----------+--------+----------+ 
 
-            List<IAbility> abilities = Repository.AbilityManager.Abilities
+            List<IAbility> abilities = DependencyContainer.Instance.GetInstance<IAbilityManager>().Abilities
                 .Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed)
                 .OrderBy(x => x.Name)
                 .ToList();
@@ -134,18 +135,20 @@ namespace Mud.Server.Admin
         [Command("stat", Category = "Information")]
         protected virtual bool DoStat(string rawParameters, params CommandParameter[] parameters)
         {
+            IServer server = DependencyContainer.Instance.GetInstance<IServer>();
+            IWorld world = DependencyContainer.Instance.GetInstance<IWorld>();
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormatLine("#Admins: {0}", Repository.Server.Admins.Count());
-            sb.AppendFormatLine("#Players: {0}", Repository.Server.Players.Count());
-            sb.AppendFormatLine("#Areas: {0}", Repository.World.Areas.Count());
+            sb.AppendFormatLine("#Admins: {0}", server.Admins.Count());
+            sb.AppendFormatLine("#Players: {0}", server.Players.Count());
+            sb.AppendFormatLine("#Areas: {0}", world.Areas.Count());
             sb.AppendLine("Blueprints:");
-            sb.AppendFormatLine("   #Rooms: {0}", Repository.World.RoomBlueprints.Count);
-            sb.AppendFormatLine("   #Characters: {0}", Repository.World.CharacterBlueprints.Count);
-            sb.AppendFormatLine("   #Items: {0}", Repository.World.ItemBlueprints.Count);
+            sb.AppendFormatLine("   #Rooms: {0}", world.RoomBlueprints.Count);
+            sb.AppendFormatLine("   #Characters: {0}", world.CharacterBlueprints.Count);
+            sb.AppendFormatLine("   #Items: {0}", world.ItemBlueprints.Count);
             sb.AppendLine("Entities:");
-            sb.AppendFormatLine("   #Rooms: {0}", Repository.World.Rooms.Count());
-            sb.AppendFormatLine("   #Characters: {0}", Repository.World.Characters.Count());
-            sb.AppendFormatLine("   #Items: {0}", Repository.World.Items.Count());
+            sb.AppendFormatLine("   #Rooms: {0}", world.Rooms.Count());
+            sb.AppendFormatLine("   #Characters: {0}", world.Characters.Count());
+            sb.AppendFormatLine("   #Items: {0}", world.Items.Count());
             Send(sb);
             return true;
         }
@@ -169,7 +172,7 @@ namespace Mud.Server.Admin
             else
             {
                 int id = parameters[0].AsNumber;
-                room = Repository.World.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
+                room = DependencyContainer.Instance.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
             }
             if (room == null)
             {
@@ -223,7 +226,7 @@ namespace Mud.Server.Admin
             else
             {
                 ICharacter victim = Impersonating == null 
-                    ? FindHelpers.FindByName(Repository.World.Characters, parameters[0])
+                    ? FindHelpers.FindByName(DependencyContainer.Instance.GetInstance<IWorld>().Characters, parameters[0])
                     : FindHelpers.FindChararacterInWorld(Impersonating, parameters[0]);
                 if (victim == null)
                     Send(StringHelpers.NotFound);
@@ -320,7 +323,7 @@ namespace Mud.Server.Admin
             else
             {
                 IItem item = Impersonating == null
-                    ? FindHelpers.FindByName(Repository.World.Items, parameters[0])
+                    ? FindHelpers.FindByName(DependencyContainer.Instance.GetInstance<IWorld>().Items, parameters[0])
                     : FindHelpers.FindItemHere(Impersonating, parameters[0]);
                 if (item == null)
                     Send(StringHelpers.NotFound);
@@ -405,7 +408,7 @@ namespace Mud.Server.Admin
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"Searching characters '{parameters[0].Value}'");
-            List<ICharacter> characters = FindHelpers.FindAllByName(Repository.World.Characters, parameters[0]).OrderBy(x => x.Blueprint?.Id).ToList();
+            List<ICharacter> characters = FindHelpers.FindAllByName(DependencyContainer.Instance.GetInstance<IWorld>().Characters, parameters[0]).OrderBy(x => x.Blueprint?.Id).ToList();
             if (characters.Count == 0)
                 sb.AppendLine("No matches");
             else
@@ -431,7 +434,7 @@ namespace Mud.Server.Admin
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"Searching items '{parameters[0].Value}'");
-            List<IItem> items = FindHelpers.FindAllByName(Repository.World.Items, parameters[0]).OrderBy(x => x.Blueprint?.Id).ToList();
+            List<IItem> items = FindHelpers.FindAllByName(DependencyContainer.Instance.GetInstance<IWorld>().Items, parameters[0]).OrderBy(x => x.Blueprint?.Id).ToList();
             if (items.Count == 0)
                 sb.AppendLine("No matches");
             else

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Mud.Container;
 using Mud.Datas.DataContracts;
 using Mud.Logger;
 using Mud.Server.Constants;
@@ -33,15 +34,15 @@ namespace Mud.Server.Player
                 Send("Avatar not found. Use listavatar to display your avatar list.");
                 return true;
             }
-            IRoom location = Repository.World.Rooms.FirstOrDefault(x => x.Blueprint.Id == characterData.RoomId);
+            IRoom location = DependencyContainer.Instance.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Blueprint.Id == characterData.RoomId);
             if (location == null)
             {
                 string msg = $"Invalid roomId {characterData.RoomId} for character {characterData.Name}!!";
-                location = Repository.World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3001); // TODO: default room in IWorld
+                location = DependencyContainer.Instance.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Blueprint.Id == 3001); // TODO: default room in IWorld
                 Log.Default.WriteLine(LogLevels.Error, msg);
-                Repository.Server.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+                DependencyContainer.Instance.GetInstance<IServer>().Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             }
-            ICharacter avatar = Repository.World.AddCharacter(Guid.NewGuid(), characterData, location);
+            ICharacter avatar = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), characterData, location);
             Send("%M%You start impersonating %C%{0}%x%.", avatar.DisplayName);
             avatar.ChangeImpersonation(this);
             Impersonating = avatar;
@@ -62,9 +63,9 @@ namespace Mud.Server.Player
             TableGenerator<CharacterData> generator = new TableGenerator<CharacterData>("Avatars");
             generator.AddColumn("Name", 14, data => StringHelpers.UpperFirstLetter(data.Name));
             generator.AddColumn("Level", 7, data => data.Level.ToString());
-            generator.AddColumn("Class", 12, data => Repository.ClassManager[data.Class]?.DisplayName ?? "none");
-            generator.AddColumn("Race", 12, data => Repository.RaceManager[data.Race]?.DisplayName ?? "none");
-            generator.AddColumn("Location", 40, data => Repository.World.Rooms.FirstOrDefault(x => x.Blueprint.Id == data.RoomId)?.DisplayName ?? "In the void");
+            generator.AddColumn("Class", 12, data => DependencyContainer.Instance.GetInstance<IClassManager>()[data.Class]?.DisplayName ?? "none");
+            generator.AddColumn("Race", 12, data => DependencyContainer.Instance.GetInstance<IRaceManager>()[data.Race]?.DisplayName ?? "none");
+            generator.AddColumn("Location", 40, data => DependencyContainer.Instance.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Blueprint.Id == data.RoomId)?.DisplayName ?? "In the void");
             StringBuilder sb = generator.Generate(_avatarList);
             Send(sb);
             return true;

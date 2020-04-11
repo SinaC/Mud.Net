@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Mud.Container;
 using Mud.Datas.DataContracts;
 using Mud.Server;
 using Mud.Server.Area;
@@ -92,7 +93,7 @@ namespace Mud.POC
     {
         public ICharacter GetCharacter()
         {
-            return Repository.World.Characters.First();
+            return DependencyContainer.Instance.GetInstance<IWorld>().Characters.First();
         }
 
         public void TestIntegration()
@@ -103,7 +104,7 @@ namespace Mud.POC
             lua.RegisterFunction("print", typeof(LuaOutput).GetMethod("Print"));
 
             //// Create Lua table for each blueprint script table name
-            //foreach (CharacterBlueprint blueprint in Repository.World.CharacterBlueprints.Where(x => x.ScriptTableName != null))
+            //foreach (CharacterBlueprint blueprint in DependencyContainer.Instance.GetInstance<IWorld>().CharacterBlueprints.Where(x => x.ScriptTableName != null))
             //{
             //    if (lua.GetTable(blueprint.ScriptTableName) == null)
             //        lua.NewTable(blueprint.ScriptTableName);
@@ -133,7 +134,7 @@ end");
 
             // TODO: replace 'scripts' with parameter in ICharacter and initialize this in AddCharacter or in Character ctor
             List<CharacterScript> scripts = new List<CharacterScript>();
-            foreach (ICharacter character in Repository.World.Characters.Where(x => x.Blueprint.ScriptTableName != null))
+            foreach (ICharacter character in DependencyContainer.Instance.GetInstance<IWorld>().Characters.Where(x => x.Blueprint.ScriptTableName != null))
             {
                 string scriptName = character.Blueprint.ScriptTableName;
                 var mobScript = lua[scriptName];
@@ -145,18 +146,18 @@ end");
             }
 
             // Call script from appropriate functions in Server
-            foreach (ICharacter character in Repository.World.Characters)
+            foreach (ICharacter character in DependencyContainer.Instance.GetInstance<IWorld>().Characters)
             {
                 CharacterScript script = scripts.FirstOrDefault(x => x.Character == character);
                 script?.OnTick();
-                script?.OnSay(Repository.World.Characters.Skip(1).First(), "woot");
+                script?.OnSay(DependencyContainer.Instance.GetInstance<IWorld>().Characters.Skip(1).First(), "woot");
             }
 
-            CharacterScript mob1 = scripts.FirstOrDefault(x => x.Character == Repository.World.Characters.First());
+            CharacterScript mob1 = scripts.FirstOrDefault(x => x.Character == DependencyContainer.Instance.GetInstance<IWorld>().Characters.First());
             //mob1?.Pouet("tsekwa");
 
-            CharacterScript mob2 = scripts.FirstOrDefault(x => x.Character == Repository.World.Characters.Skip(1).First());
-            mob2?.OnGreet(Repository.World.Characters.First(), ExitDirections.SouthWest);
+            CharacterScript mob2 = scripts.FirstOrDefault(x => x.Character == DependencyContainer.Instance.GetInstance<IWorld>().Characters.Skip(1).First());
+            mob2?.OnGreet(DependencyContainer.Instance.GetInstance<IWorld>().Characters.First(), ExitDirections.SouthWest);
 
             var mob1InLua = lua["mob1"];
 
@@ -208,7 +209,7 @@ end");
 
             lua.RegisterFunction("print", typeof(LuaOutput).GetMethod("Print"));
             //lua["this"] = bigBadMob;
-            //lua["room"] = Repository.World.Rooms.First();
+            //lua["room"] = DependencyContainer.Instance.GetInstance<IWorld>().Rooms.First();
             lua.RegisterFunction("getCharacter", this, GetType().GetMethod("GetCharacter"));
             lua.DoString(
             @"print('this is a debug message')
@@ -244,8 +245,8 @@ end");
 
         private void CreateWorld()
         {
-            Repository.World.AddArea(Guid.NewGuid(), "area", 1, 100, "sinac", "sinac");
-            Repository.World.AddRoomBlueprint(new RoomBlueprint
+            DependencyContainer.Instance.GetInstance<IWorld>().AddArea(Guid.NewGuid(), "area", 1, 100, "sinac", "sinac");
+            DependencyContainer.Instance.GetInstance<IWorld>().AddRoomBlueprint(new RoomBlueprint
             {
                 Name = "battle room",
                 Description = "A battle room",
@@ -253,7 +254,7 @@ end");
                 ExtraDescriptions = null,
                 Exits = null,
             });
-            Repository.World.AddCharacterBlueprint(new CharacterBlueprint
+            DependencyContainer.Instance.GetInstance<IWorld>().AddCharacterBlueprint(new CharacterBlueprint
             {
                 Name = "supahmob",
                 Level = 50,
@@ -265,7 +266,7 @@ end");
                 LootTable = null,
                 ScriptTableName = "mob1"
             });
-            Repository.World.AddCharacterBlueprint(new CharacterBlueprint
+            DependencyContainer.Instance.GetInstance<IWorld>().AddCharacterBlueprint(new CharacterBlueprint
             {
                 Name = "weakmob",
                 Level = 50,
@@ -278,9 +279,9 @@ end");
                 ScriptTableName = "mob2"
             });
 
-            Repository.World.AddRoom(Guid.NewGuid(), Repository.World.GetRoomBlueprint(1), Repository.World.Areas.First());
-            ICharacter bigBadMob = Repository.World.AddCharacter(Guid.NewGuid(), Repository.World.GetCharacterBlueprint(1), Repository.World.Rooms.First());
-            ICharacter weakMob = Repository.World.AddCharacter(Guid.NewGuid(), Repository.World.GetCharacterBlueprint(2), Repository.World.Rooms.First());
+            DependencyContainer.Instance.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), DependencyContainer.Instance.GetInstance<IWorld>().GetRoomBlueprint(1), DependencyContainer.Instance.GetInstance<IWorld>().Areas.First());
+            ICharacter bigBadMob = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), DependencyContainer.Instance.GetInstance<IWorld>().GetCharacterBlueprint(1), DependencyContainer.Instance.GetInstance<IWorld>().Rooms.First());
+            ICharacter weakMob = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), DependencyContainer.Instance.GetInstance<IWorld>().GetCharacterBlueprint(2), DependencyContainer.Instance.GetInstance<IWorld>().Rooms.First());
         }
     }
 }

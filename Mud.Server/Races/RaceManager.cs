@@ -10,13 +10,7 @@ namespace Mud.Server.Races
     {
         private readonly List<IRace> _races;
 
-        #region Singleton
-
-        private static readonly Lazy<RaceManager> Lazy = new Lazy<RaceManager>(() => new RaceManager());
-
-        public static IRaceManager Instance => Lazy.Value;
-
-        private RaceManager()
+        public RaceManager()
         {
             // Get races using reflection
             Type iRaceType = typeof (IRace);
@@ -26,9 +20,7 @@ namespace Mud.Server.Races
                 .OfType<IRace>()
                 .ToList();
         }
-
-        #endregion
-
+        
         #region IRaceManager
 
         public IEnumerable<IRace> Races => _races;

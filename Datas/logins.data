@@ -16,5 +16,10 @@
       <Password>pouet</Password>
       <IsAdmin>false</IsAdmin>
     </LoginData>
+    <LoginData>
+      <Username>tsekwa</Username>
+      <Password>tsekwa</Password>
+      <IsAdmin>false</IsAdmin>
+    </LoginData>
   </Logins>
 </LoginRepositoryData>

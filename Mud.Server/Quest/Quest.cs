@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Container;
 using Mud.Logger;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -26,7 +27,7 @@ namespace Mud.Server.Quest
             {
                 foreach (QuestItemObjectiveBlueprint itemObjective in Blueprint.ItemObjectives)
                 {
-                    if (Repository.World.GetItemBlueprint(itemObjective.ItemBlueprintId) is ItemQuestBlueprint itemBlueprint)
+                    if (DependencyContainer.Instance.GetInstance<IWorld>().GetItemBlueprint(itemObjective.ItemBlueprintId) is ItemQuestBlueprint itemBlueprint)
                         _objectives.Add(new ItemQuestObjective
                         {
                             Blueprint = itemBlueprint,
@@ -41,7 +42,7 @@ namespace Mud.Server.Quest
             {
                 foreach (QuestKillObjectiveBlueprint killObjective in Blueprint.KillObjectives)
                 {
-                    CharacterBlueprint characterBlueprint = Repository.World.GetCharacterBlueprint(killObjective.CharacterBlueprintId);
+                    CharacterBlueprint characterBlueprint = DependencyContainer.Instance.GetInstance<IWorld>().GetCharacterBlueprint(killObjective.CharacterBlueprintId);
                     if (characterBlueprint != null)
                         _objectives.Add(new KillQuestObjective
                         {
@@ -57,7 +58,7 @@ namespace Mud.Server.Quest
             {
                 foreach (QuestLocationObjectiveBlueprint locationObjective in Blueprint.LocationObjectives)
                 {
-                    RoomBlueprint roomBlueprint = Repository.World.GetRoomBlueprint(locationObjective.RoomBlueprintId);
+                    RoomBlueprint roomBlueprint = DependencyContainer.Instance.GetInstance<IWorld>().GetRoomBlueprint(locationObjective.RoomBlueprintId);
                     if (roomBlueprint != null)
                         _objectives.Add(new LocationQuestObjective
                         {
@@ -90,10 +91,10 @@ namespace Mud.Server.Quest
             {
                 foreach (int loot in killLoots)
                 {
-                    ItemQuestBlueprint questItemBlueprint = Repository.World.GetItemBlueprint(loot) as ItemQuestBlueprint;
+                    ItemQuestBlueprint questItemBlueprint = DependencyContainer.Instance.GetInstance<IWorld>().GetItemBlueprint(loot) as ItemQuestBlueprint;
                     if (questItemBlueprint != null)
                     {
-                        IItemQuest questItem = Repository.World.AddItemQuest(Guid.NewGuid(), questItemBlueprint, container);
+                        IItemQuest questItem = DependencyContainer.Instance.GetInstance<IWorld>().AddItemQuest(Guid.NewGuid(), questItemBlueprint, container);
                         Log.Default.WriteLine(LogLevels.Debug, $"Loot objective {loot} generated for {_character.DisplayName}");
                     }
                     else
@@ -202,7 +203,7 @@ namespace Mud.Server.Quest
             foreach (IItem questItem in questItems)
             {
                 Log.Default.WriteLine(LogLevels.Debug, "Destroying quest item {0} in {1}", questItem.DebugName, _character.DebugName);
-                Repository.World.RemoveItem(questItem);
+                DependencyContainer.Instance.GetInstance<IWorld>().RemoveItem(questItem);
             }
         }
     }

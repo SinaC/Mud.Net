@@ -27,13 +27,7 @@ namespace Mud.Server.World
         private readonly List<ICharacter> _characters;
         private readonly List<IItem> _items;
 
-        #region Singleton
-
-        private static readonly Lazy<World> Lazy = new Lazy<World>(() => new World());
-
-        public static IWorld Instance => Lazy.Value;
-
-        private World()
+        public World()
         {
             _treasureTables = new List<TreasureTable<int>>();
             _questBlueprints = new Dictionary<int, QuestBlueprint>();
@@ -45,8 +39,6 @@ namespace Mud.Server.World
             _characters = new List<ICharacter>();
             _items = new List<IItem>();
         }
-
-        #endregion
 
         #region IWorld
 
