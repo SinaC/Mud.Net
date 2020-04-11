@@ -61,6 +61,7 @@ namespace Mud.Server.Player
             }
             else
             {
+                CurrentStateMachine = null; // reset current state machine if not currently running one
                 // ! means repeat last command (only when last command was not delete)
                 if (commandLine != null && commandLine.Length >= 1 && commandLine[0] == '!')
                 {
@@ -281,6 +282,29 @@ namespace Mud.Server.Player
                 Impersonating.StopFighting(true);
                 StopImpersonating();
             }
+        }
+
+        public virtual StringBuilder PerformSanityCheck()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("--Player--");
+            sb.AppendLine($"Id: {Id}");
+            sb.AppendLine($"Name: {Name}");
+            sb.AppendLine($"DisplayName: {DisplayName}");
+            sb.AppendLine($"LastCommand: {LastCommand} Timestamp: {LastCommandTimestamp}");
+            sb.AppendLine($"IsAfk: {IsAfk}");
+            sb.AppendLine($"PlayerState: {PlayerState}");
+            sb.AppendLine($"GCD: {GlobalCooldown}");
+            sb.AppendLine($"Aliases: {Aliases?.Count ?? 0}");
+            sb.AppendLine($"Avatars: {_avatarList?.Count ?? 0}");
+            sb.AppendLine($"SnoopBy: {SnoopBy?.DisplayName ?? "none"}");
+            sb.AppendLine($"LastTeller: {LastTeller?.DisplayName ?? "none"}");
+            sb.AppendLine($"DelayedTells: {DelayedTells?.Count() ?? 0}");
+            sb.AppendLine($"Impersonating: {Impersonating?.DisplayName ?? "none"}");
+            sb.AppendLine($"CurrentStateMachine: {CurrentStateMachine}");
+
+            return sb;
         }
 
         #endregion

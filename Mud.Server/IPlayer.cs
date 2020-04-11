@@ -61,5 +61,7 @@ namespace Mud.Server
         void StopImpersonating();
 
         void OnDisconnected();
+
+        StringBuilder PerformSanityCheck();
     }
 }
