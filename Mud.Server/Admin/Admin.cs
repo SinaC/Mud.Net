@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Mud.Container;
 using Mud.Datas;
 using Mud.Datas.DataContracts;
@@ -48,6 +49,7 @@ namespace Mud.Server.Admin
             }
             else
             {
+                CurrentStateMachine = null; // reset current state machine if not currently running one
                 // Extract command and parameters
                 bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(Aliases, commandLine, out var command, out var rawParameters, out var parameters, out var forceOutOfGame);
                 if (!extractedSuccessfully)
@@ -149,6 +151,18 @@ namespace Mud.Server.Admin
             {
                 StopIncarnating();
             }
+        }
+
+        public override StringBuilder PerformSanityCheck()
+        {
+            StringBuilder sb = base.PerformSanityCheck();
+
+            sb.AppendLine("--Admin--");
+            sb.AppendLine($"Incarnating: {Incarnating?.DisplayName ?? "none"}");
+            sb.AppendLine($"Level: {Level}");
+            sb.AppendLine($"WiznetFlags: {WiznetFlags}");
+
+            return sb;
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using Mud.Container;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -269,6 +270,29 @@ namespace Mud.Server.Admin
             whom.AutoLook();
 
             Send("Ok");
+            return true;
+        }
+
+        [Command("sanitycheck", Category = "Admin")]
+        protected virtual bool DoSanityCheck(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Send("Perform sanity check on which player/admin?");
+                return true;
+            }
+
+            IPlayer whom = FindHelpers.FindByName(DependencyContainer.Instance.GetInstance<IServer>().Players, parameters[0]);
+
+            if (whom == null)
+            {
+                Send(StringHelpers.CharacterNotFound);
+                return true;
+            }
+
+            StringBuilder info = whom.PerformSanityCheck();
+            Page(info);
+
             return true;
         }
     }

@@ -28,8 +28,8 @@ namespace Mud.Server.Player
                                 player.DisplayName,
                                 player.Impersonating.DisplayName,
                                 player.Impersonating.Level,
-                                player.Impersonating.Class == null ? "(none)" : player.Impersonating.Class.DisplayName,
-                                player.Impersonating.Race == null ? "(none)" : player.Impersonating.Race.DisplayName);
+                                player.Impersonating.Class?.DisplayName ?? "(none)",
+                                player.Impersonating.Race?.DisplayName ?? "(none)");
                         else
                             sb.AppendFormatLine("[ IG] {0} {1} playing something", adminLevel, player.DisplayName);
                         break;
