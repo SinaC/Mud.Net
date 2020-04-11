@@ -5,12 +5,12 @@
   <Characters>
     <CharacterData>
       <Name>badass</Name>
-      <RoomId>3014</RoomId>
+      <RoomId>3001</RoomId>
       <Race>insectoid</Race>
       <Class>Thief</Class>
-      <Level>1</Level>
+      <Level>34</Level>
       <Sex>Neutral</Sex>
-      <Experience>0</Experience>
+      <Experience>500000</Experience>
     </CharacterData>
   </Characters>
 </PlayerData>
