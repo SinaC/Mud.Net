@@ -259,32 +259,23 @@ namespace Mud.Server.World
 
         public IItem AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container)
         {
-            var weaponBlueprint = blueprint as ItemWeaponBlueprint;
-            if (weaponBlueprint != null)
+            if (blueprint is ItemWeaponBlueprint weaponBlueprint)
                 return AddItemWeapon(guid, weaponBlueprint, container);
-            var containerBlueprint = blueprint as ItemContainerBlueprint;
-            if (containerBlueprint != null)
+            if (blueprint is ItemContainerBlueprint containerBlueprint)
                 return AddItemContainer(guid, containerBlueprint, container);
-            var armorBlueprint = blueprint as ItemArmorBlueprint;
-            if (armorBlueprint != null)
+            if (blueprint is ItemArmorBlueprint armorBlueprint)
                 return AddItemArmor(guid, armorBlueprint, container);
-            var lightBlueprint = blueprint as ItemLightBlueprint;
-            if (lightBlueprint != null)
+            if (blueprint is ItemLightBlueprint lightBlueprint)
                 return AddItemLight(guid, lightBlueprint, container);
-            var furnitureBlueprint = blueprint as ItemFurnitureBlueprint;
-            if (furnitureBlueprint != null)
+            if (blueprint is ItemFurnitureBlueprint furnitureBlueprint)
                 return AddItemFurniture(guid, furnitureBlueprint, container);
-            var jewelryBlueprint = blueprint as ItemJewelryBlueprint;
-            if (jewelryBlueprint != null)
+            if (blueprint is ItemJewelryBlueprint jewelryBlueprint)
                 return AddItemJewelry(guid, jewelryBlueprint, container);
-            var shieldBlueprint = blueprint as ItemShieldBlueprint;
-            if (shieldBlueprint != null)
+            if (blueprint is ItemShieldBlueprint shieldBlueprint)
                 return AddItemShield(guid, shieldBlueprint, container);
-            var keyBlueprint = blueprint as ItemKeyBlueprint;
-            if (keyBlueprint != null)
+            if (blueprint is ItemKeyBlueprint keyBlueprint)
                 return AddItemKey(guid, keyBlueprint, container);
-            var portalBlueprint = blueprint as ItemPortalBlueprint;
-            if (portalBlueprint != null)
+            if (blueprint is ItemPortalBlueprint portalBlueprint)
             {
                 IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
                 return AddItemPortal(guid, portalBlueprint, destination, container);
@@ -404,8 +395,7 @@ namespace Mud.Server.World
             IEquipable equipable = item as IEquipable;
             equipable?.ChangeEquipedBy(null);
             // If container, remove content
-            IContainer container = item as IContainer;
-            if (container != null)
+            if (item is IContainer container)
             {
                 List<IItem> content = new List<IItem>(container.Content); // clone to be sure
                 foreach (IItem itemInContainer in content)

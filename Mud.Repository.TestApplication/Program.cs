@@ -1,4 +1,6 @@
-﻿namespace Mud.Repository.TestApplication
+﻿using Mud.Repository.Mongo;
+
+namespace Mud.Repository.TestApplication
 {
     class Program
     {
