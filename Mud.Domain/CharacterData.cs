@@ -1,4 +1,6 @@
-﻿namespace Mud.Domain
+﻿using System.Collections.Generic;
+
+namespace Mud.Domain
 {
     public class CharacterData
     {
@@ -15,6 +17,10 @@
         public Sex Sex { get; set; }
 
         public long Experience { get; set; }
+
+        public List<EquipedItemData> Equipments { get; set; }
+
+        public List<ItemData> Inventory { get; set; }
 
         // TODO: aura, equipments, inventory, cooldown, quests, ...
     }
