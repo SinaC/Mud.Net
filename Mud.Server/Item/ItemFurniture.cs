@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Constants;
 
 namespace Mud.Server.Item
 {

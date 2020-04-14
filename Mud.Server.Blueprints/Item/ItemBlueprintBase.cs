@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Mud.Server.Constants;
+using Mud.Domain;
 
 namespace Mud.Server.Blueprints.Item
 {

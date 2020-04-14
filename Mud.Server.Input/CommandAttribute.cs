@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mud.Server.Constants;
+using Mud.Domain;
 
 namespace Mud.Server.Input
 {

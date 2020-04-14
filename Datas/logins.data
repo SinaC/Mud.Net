@@ -21,5 +21,10 @@
       <Password>tsekwa</Password>
       <IsAdmin>false</IsAdmin>
     </LoginData>
+    <LoginData>
+      <Username>brol</Username>
+      <Password>brol</Password>
+      <IsAdmin>false</IsAdmin>
+    </LoginData>
   </Logins>
 </LoginRepositoryData>

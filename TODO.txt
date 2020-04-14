@@ -1,6 +1,17 @@
-default error message with character command if not in correct position
+move blueprints to Mud.Domain + refactor Mud.Domain
 
-rename IPlayerManager into IPlayerRepository, same goes for IAdminManager and ILoginManager
+IServer:
+ following methods should be moved in 2 dedicated interface
+        void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel);
+
+        IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch);
+        IEnumerable<IPlayer> Players { get; }
+        IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch);
+        IEnumerable<IAdmin> Admins { get; }
+
+same for IWorld: should create IReadonlyWorld which only contains getter
+
+default error message with character command if not in correct position
 
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
 

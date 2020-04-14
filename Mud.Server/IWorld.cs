@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mud.Datas.DataContracts;
+using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Constants;
 using Mud.Server.Item;
 
 namespace Mud.Server

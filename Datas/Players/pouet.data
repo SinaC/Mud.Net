@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<PlayerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<PlayerData>
   <Name>pouet</Name>
   <Aliases />
   <Characters>
@@ -9,7 +9,7 @@
       <Race>insectoid</Race>
       <Class>Thief</Class>
       <Level>34</Level>
-      <Sex>Neutral</Sex>
+      <Sex>0</Sex>
       <Experience>500000</Experience>
     </CharacterData>
   </Characters>

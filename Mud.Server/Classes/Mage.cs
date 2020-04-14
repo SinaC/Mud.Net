@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Mud.Server.Constants;
+﻿using Mud.Domain;
+using System.Collections.Generic;
 
 namespace Mud.Server.Classes
 {
@@ -13,7 +13,7 @@ namespace Mud.Server.Classes
 
         public override IEnumerable<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
         {
-            Constants.ResourceKinds.Mana
+            Domain.ResourceKinds.Mana
         };
 
         public override IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form)

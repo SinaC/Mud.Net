@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Text;
 using Mud.Container;
-using Mud.Datas;
-using Mud.Datas.DataContracts;
+using Mud.Repository;
 using Mud.DataStructures.Trie;
+using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Constants;
 using Mud.Server.Input;
 
 namespace Mud.Server.Admin
@@ -14,7 +13,7 @@ namespace Mud.Server.Admin
     {
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> AdminCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(Admin)));
 
-        protected IAdminManager AdminManager => DependencyContainer.Instance.GetInstance<IAdminManager>();
+        protected IAdminRepository AdminManager => DependencyContainer.Instance.GetInstance<IAdminRepository>();
 
         public Admin(Guid id, string name) 
             : base(id, name)

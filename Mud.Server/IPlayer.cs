@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Mud.Datas.DataContracts;
 
 namespace Mud.Server
 {
@@ -31,7 +30,7 @@ namespace Mud.Server
 
         ICharacter Impersonating { get; }
 
-        IEnumerable<CharacterData> Avatars { get; }
+        IEnumerable<Domain.CharacterData> Avatars { get; }
 
         IPlayer LastTeller { get; }
 
@@ -57,7 +56,7 @@ namespace Mud.Server
 
         void SetSnoopBy(IAdmin snooper);
 
-        void AddAvatar(CharacterData characterData);
+        void AddAvatar(Domain.CharacterData characterData);
         void StopImpersonating();
 
         void OnDisconnected();

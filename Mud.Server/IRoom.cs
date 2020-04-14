@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Mud.Domain;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Constants;
 
 namespace Mud.Server
 {

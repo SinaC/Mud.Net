@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="SimpleInjector, Version=4.9.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.4.9.2\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
@@ -58,9 +62,13 @@
       <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
       <Name>Mud.Container</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Datas\Mud.Datas.csproj">
+    <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj">
       <Project>{2c853490-7908-4e36-b906-72eba82b4236}</Project>
-      <Name>Mud.Datas</Name>
+      <Name>Mud.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
+      <Project>{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}</Project>
+      <Name>Mud.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Importer.Mystery\Mud.Importer.Mystery.csproj">
       <Project>{b461b0bd-82f7-41e5-b3ba-e364a3f1f61d}</Project>
@@ -89,10 +97,6 @@
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Constants\Mud.Server.Constants.csproj">
-      <Project>{3c334a4d-ed18-4eb4-ac7b-2b03bb849d47}</Project>
-      <Name>Mud.Server.Constants</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
       <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>

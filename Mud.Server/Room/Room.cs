@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
+using Mud.Domain;
+using Mud.Domain.Extensions;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
-using Mud.Server.Constants;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -25,7 +26,7 @@ namespace Mud.Server.Room
             Blueprint = blueprint;
             _people = new List<ICharacter>();
             _content = new List<IItem>();
-            Exits = new IExit[ExitHelpers.ExitCount];
+            Exits = new IExit[ExitDirectionsExtensions.ExitCount];
 
             Area = area;
             Area.AddRoom(this);

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.DataStructures.HeapPriorityQueue;
+using Mud.Domain;
 using Mud.Server.Abilities;
 using Mud.Server.Common;
-using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
@@ -94,7 +94,7 @@ namespace Mud.Server.Admin
             if (parameters.Length == 0)
             {
                 StringBuilder sb = new StringBuilder();
-                foreach (WiznetFlags flag in EnumHelpers.GetValues<WiznetFlags>())
+                foreach (WiznetFlags flag in EnumHelpers.GetValues<WiznetFlags>().Where(x => x != WiznetFlags.None))
                 {
                     bool isOn = (WiznetFlags & flag) == flag;
                     sb.AppendLine($"{flag,-16} : {(isOn ? "ON" : "OFF")}");
@@ -105,13 +105,13 @@ namespace Mud.Server.Admin
             {
                 if (parameters[0].IsAll)
                 {
-                    foreach (WiznetFlags wiznetFlag in EnumHelpers.GetValues<WiznetFlags>())
+                    foreach (WiznetFlags wiznetFlag in EnumHelpers.GetValues<WiznetFlags>().Where(x => x != WiznetFlags.None))
                         WiznetFlags |= wiznetFlag;
                     Send("You will now see every wiznet informations.");
                     return true;
                 }
                 WiznetFlags flag;
-                if (!EnumHelpers.TryFindByName<WiznetFlags>(parameters[0].Value.ToLowerInvariant(), out flag))
+                if (!EnumHelpers.TryFindByName<WiznetFlags>(parameters[0].Value.ToLowerInvariant(), out flag) || flag == WiznetFlags.None)
                 {
                     Send("No such option.");
                     return true;

@@ -1,7 +1,12 @@
 <?xml version="1.0"?>
 <AdminData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Name>sinac</Name>
-  <Aliases />
+  <Aliases>
+    <PairDataOfStringString>
+      <Key>pouet</Key>
+      <Value>who</Value>
+    </PairDataOfStringString>
+  </Aliases>
   <Characters>
     <CharacterData>
       <Name>sinac</Name>
@@ -9,7 +14,7 @@
       <Race>Troll</Race>
       <Class>Druid</Class>
       <Level>60</Level>
-      <Sex>Male</Sex>
+      <Sex>1</Sex>
       <Experience>6000000</Experience>
     </CharacterData>
     <CharacterData>
@@ -18,10 +23,10 @@
       <Race>elf</Race>
       <Class>priest</Class>
       <Level>1</Level>
-      <Sex>Neutral</Sex>
+      <Sex>0</Sex>
       <Experience>0</Experience>
     </CharacterData>
   </Characters>
-  <Level>Angel</Level>
-  <WiznetFlags />
+  <Level>7</Level>
+  <WiznetFlags>1037</WiznetFlags>
 </AdminData>

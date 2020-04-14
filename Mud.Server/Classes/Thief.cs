@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Mud.Server.Constants;
+using Mud.Domain;
 
 namespace Mud.Server.Classes
 {
@@ -13,7 +13,7 @@ namespace Mud.Server.Classes
 
         public override IEnumerable<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
         {
-            Constants.ResourceKinds.Energy
+            Domain.ResourceKinds.Energy
         };
 
         public override IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form)

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mud.Datas.DataContracts;
+using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Aura;
 using Mud.Server.Blueprints.Character;
@@ -9,7 +9,6 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Constants;
 using Mud.Server.Item;
 using Mud.Server.Room;
 

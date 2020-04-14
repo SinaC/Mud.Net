@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Mud.Container;
-using Mud.Datas.DataContracts;
+using Mud.Domain;
 using Mud.Importer.Mystery;
 using Mud.Logger;
 using Mud.Network;
@@ -14,7 +14,6 @@ using Mud.POC;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Constants;
 using Mud.Server.Item;
 using Mud.Server.Server;
 

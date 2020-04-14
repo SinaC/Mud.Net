@@ -1,7 +1,7 @@
 ﻿using System;
+using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Constants;
 
 namespace Mud.Server.Item
 {

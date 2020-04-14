@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mud.Domain;
 using Mud.Network;
-using Mud.Server.Constants;
 using Mud.Server.Input;
 
 namespace Mud.Server.Tests.Mocking

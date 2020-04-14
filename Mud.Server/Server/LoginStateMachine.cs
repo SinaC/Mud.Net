@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using Mud.Container;
-using Mud.Datas;
+using Mud.Repository;
 using Mud.Network;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -35,7 +35,7 @@ namespace Mud.Server.Server
         private bool _isAdmin;
         private bool _isNewPlayer;
 
-        protected ILoginManager LoginManager => DependencyContainer.Instance.GetInstance<ILoginManager>();
+        protected ILoginRepository LoginManager => DependencyContainer.Instance.GetInstance<ILoginRepository>();
 
         public event LoginSuccessfulEventHandler LoginSuccessful;
         public event LoginFailedEventHandler LoginFailed;

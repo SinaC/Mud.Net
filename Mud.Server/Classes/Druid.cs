@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Mud.Server.Constants;
+using Mud.Domain;
 
 namespace Mud.Server.Classes
 {
@@ -7,17 +7,17 @@ namespace Mud.Server.Classes
     {
         private readonly List<ResourceKinds> _rageOnly = new List<ResourceKinds>
         {
-            Constants.ResourceKinds.Rage
+            Domain.ResourceKinds.Rage
         };
 
         private readonly List<ResourceKinds> _energyOnly = new List<ResourceKinds>
         {
-            Constants.ResourceKinds.Energy
+            Domain.ResourceKinds.Energy
         };
 
         private readonly List<ResourceKinds> _manaOnly = new List<ResourceKinds>
         {
-            Constants.ResourceKinds.Mana
+            Domain.ResourceKinds.Mana
         };
 
         #region IClass
@@ -26,9 +26,9 @@ namespace Mud.Server.Classes
         public override string ShortName => "Dru";
         public override IEnumerable<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
         {
-            Constants.ResourceKinds.Mana, // others
-            Constants.ResourceKinds.Energy, // cat form
-            Constants.ResourceKinds.Rage // bear form
+            Domain.ResourceKinds.Mana, // others
+            Domain.ResourceKinds.Energy, // cat form
+            Domain.ResourceKinds.Rage // bear form
         };
 
         public override IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form)
