@@ -12,6 +12,7 @@ using Mud.Datas;
 using Mud.Logger;
 using Mud.Network;
 using Mud.Server.Abilities;
+using Mud.Server.Common;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -502,6 +503,8 @@ namespace Mud.Server.Server
                 playingClient.Client.WriteData(remaining);
                 playingClient.Client.WriteData(playingClient.Player.Prompt);
             }
+            else
+                playingClient.Client.WriteData(ServerOptions.PagingInstructions);
         }
 
         private void Broadcast(string message)
@@ -516,7 +519,7 @@ namespace Mud.Server.Server
         private void ProcessInput()
         {
             // Read one command from each client and process it
-            foreach (PlayingClient playingClient in _players.Values) // TODO: first connected player will be processed before other, try a randomize (round-robin)
+            foreach (PlayingClient playingClient in _players.Values.Shuffle()) // !! players list cannot be modified while processing inputs
             {
                 if (playingClient.Player != null)
                 {

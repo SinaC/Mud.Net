@@ -24,7 +24,7 @@ namespace Mud.Server.Player
 
         protected readonly Dictionary<string, string> Aliases;
         protected IInputTrap<IPlayer> CurrentStateMachine;
-        protected bool _deletionConfirmationNeeded;
+        protected bool DeletionConfirmationNeeded;
 
         protected Player()
         {
@@ -35,7 +35,7 @@ namespace Mud.Server.Player
 
             Aliases = new Dictionary<string, string>();
             CurrentStateMachine = null;
-            _deletionConfirmationNeeded = false;
+            DeletionConfirmationNeeded = false;
         }
 
         public Player(Guid id, string name)
@@ -68,7 +68,7 @@ namespace Mud.Server.Player
                     if (LastCommand?.ToLowerInvariant() == "delete")
                     {
                         Send("Cannot use '!' to repeat 'delete' command");
-                        _deletionConfirmationNeeded = false; // reset delete confirmation
+                        DeletionConfirmationNeeded = false; // reset delete confirmation
                         return false;
                     }
                     commandLine = LastCommand;
@@ -111,8 +111,7 @@ namespace Mud.Server.Player
 
         public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
         {
-            PlayerCommandAttribute playerCommandAttribute = methodInfo.Attribute as PlayerCommandAttribute;
-            if (playerCommandAttribute != null)
+            if (methodInfo.Attribute is PlayerCommandAttribute playerCommandAttribute)
             {
                 if (playerCommandAttribute.MustBeImpersonated && Impersonating == null)
                 {
@@ -137,7 +136,7 @@ namespace Mud.Server.Player
             if (baseExecuteBeforeCommandResult && methodInfo.Attribute.Name != "delete")
             {
                 // once another command then 'delete' is used, reset deletion confirmation
-                _deletionConfirmationNeeded = false;
+                DeletionConfirmationNeeded = false;
             }
             return baseExecuteBeforeCommandResult;
         }
@@ -309,7 +308,7 @@ namespace Mud.Server.Player
 
         #endregion
 
-        protected string BuildCharacterPrompt(ICharacter character)
+        protected string BuildCharacterPrompt(ICharacter character) // TODO: custom prompt defined by player
         {
             StringBuilder sb = new StringBuilder("<");
             sb.Append($"{character.HitPoints}/{character[SecondaryAttributeTypes.MaxHitPoints]}Hp");

@@ -219,7 +219,7 @@ namespace Mud.Server.Player
                 return true;
             }
 
-            if (_deletionConfirmationNeeded)
+            if (DeletionConfirmationNeeded)
             {
                 // perform deletion
                 Send("Deletion confirmed! Processing...");
@@ -229,7 +229,7 @@ namespace Mud.Server.Player
             else 
             {
                 Send("Ask you sure you want to delete your account? Use 'delete' again to confirm.");
-                _deletionConfirmationNeeded = true;
+                DeletionConfirmationNeeded = true;
             }
             return true;
         }

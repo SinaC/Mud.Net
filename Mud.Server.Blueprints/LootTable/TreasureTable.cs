@@ -28,7 +28,7 @@ namespace Mud.Server.Blueprints.LootTable
         public T GenerateLoot()
         {
             T randomId = RandomizeHelpers.Instance.Random(Entries);
-            if (randomId.Equals(default(T)))
+            if (randomId.Equals(default))
                 Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: no loot found");
             return randomId;
         }

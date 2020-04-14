@@ -26,6 +26,12 @@ namespace Mud.Server.TestApplication
         {
             Log.Default.Initialize(ConfigurationManager.AppSettings["logpath"], "server.log");
 
+            DependencyContainer.Instance.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
+
             //TestSecondWindow();
             //TestPaging();
             //TestCommandParsing();

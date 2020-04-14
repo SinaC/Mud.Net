@@ -101,13 +101,12 @@ namespace Mud.Server.Admin
 
         protected override bool IsCommandAvailable(CommandAttribute attribute)
         {
-            AdminCommandAttribute adminCommandAttribute = attribute as AdminCommandAttribute;
-            return adminCommandAttribute == null || Level >= adminCommandAttribute?.MinLevel;
+            return !(attribute is AdminCommandAttribute adminCommandAttribute) || Level >= adminCommandAttribute.MinLevel;
         }
 
         #endregion
 
-        public override string Prompt => Incarnating != null 
+        public override string Prompt => Incarnating != null
             ? BuildIncarnatePrompt()
             : base.Prompt;
 

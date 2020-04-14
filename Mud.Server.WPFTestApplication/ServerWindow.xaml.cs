@@ -31,6 +31,8 @@ namespace Mud.Server.WPFTestApplication
     {
         private static ServerWindow _serverWindowInstance;
 
+        private IServer Server => DependencyContainer.Instance.GetInstance<IServer>();
+
         public ServerWindow()
         {
             _serverWindowInstance = this;
@@ -153,8 +155,8 @@ namespace Mud.Server.WPFTestApplication
 
             //
             INetworkServer telnetServer = new TelnetServer(11000);
-            DependencyContainer.Instance.GetInstance<IServer>().Initialize(new List<INetworkServer> { telnetServer, this });
-            DependencyContainer.Instance.GetInstance<IServer>().Start();
+            Server.Initialize(new List<INetworkServer> { telnetServer, this });
+            Server.Start();
 
             //CreateNewClientWindow();
             InputTextBox.Focus();
@@ -173,19 +175,19 @@ namespace Mud.Server.WPFTestApplication
             string input = InputTextBox.Text.ToLower();
             if (input == "exit" || input == "quit")
             {
-                Container.DependencyContainer.Instance.GetInstance<IServer>().Stop();
+                Server.Stop();
                 Application.Current.Shutdown();
             }
             else if (input == "alist")
             {
                 OutputText("Admins:");
-                foreach (IAdmin a in Container.DependencyContainer.Instance.GetInstance<IServer>().Admins)
+                foreach (IAdmin a in Server.Admins)
                     OutputText(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.DisplayName : "") + " " + (a.Incarnating != null ? a.Incarnating.DisplayName : ""));
             }
             else if (input == "plist")
             {
                 OutputText("players:");
-                foreach (IPlayer p in Container.DependencyContainer.Instance.GetInstance<IServer>().Players)
+                foreach (IPlayer p in Server.Players)
                     OutputText(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.DisplayName : ""));
             }
             InputTextBox.Focus();

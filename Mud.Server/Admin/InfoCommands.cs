@@ -21,7 +21,7 @@ namespace Mud.Server.Admin
         {
             StringBuilder sb = new StringBuilder();
             //
-            sb.AppendFormatLine("Players:");
+            sb.AppendLine("Players:");
             foreach (IPlayer player in DependencyContainer.Instance.GetInstance<IServer>().Players.Where(x => !(x is IAdmin))) // only player
             {
                 switch (player.PlayerState)
