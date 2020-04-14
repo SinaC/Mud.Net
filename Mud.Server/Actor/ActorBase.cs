@@ -14,9 +14,9 @@ namespace Mud.Server.Actor
 {
     public abstract class ActorBase : IActor
     {
-        protected IServer Server => DependencyContainer.Instance.GetInstance<IServer>();
         protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
-        protected ITimeHandler TimeHandler => DependencyContainer.Instance.GetInstance<ITimeHandler>();
+        protected IWiznet Wiznet => DependencyContainer.Instance.GetInstance<IWiznet>();
+        protected IPlayerManager PlayerManager => DependencyContainer.Instance.GetInstance<IPlayerManager>();
         protected IAbilityManager AbilityManager => DependencyContainer.Instance.GetInstance<IAbilityManager>();
         protected IClassManager ClassManager => DependencyContainer.Instance.GetInstance<IClassManager>();
         protected IRaceManager RaceManager => DependencyContainer.Instance.GetInstance<IRaceManager>();

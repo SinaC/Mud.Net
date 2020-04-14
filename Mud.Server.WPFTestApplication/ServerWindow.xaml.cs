@@ -33,6 +33,8 @@ namespace Mud.Server.WPFTestApplication
         private static ServerWindow _serverWindowInstance;
 
         private static IServer Server => DependencyContainer.Instance.GetInstance<IServer>();
+        private static IPlayerManager PlayerManager => DependencyContainer.Instance.GetInstance<IPlayerManager>();
+        private static IAdminManager AdminManager => DependencyContainer.Instance.GetInstance<IAdminManager>();
         private static IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
 
         public ServerWindow()
@@ -46,6 +48,9 @@ namespace Mud.Server.WPFTestApplication
             DependencyContainer.Instance.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<ITimeHandler, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements ITimeHandler
+            DependencyContainer.Instance.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
+            DependencyContainer.Instance.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
+            DependencyContainer.Instance.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
             DependencyContainer.Instance.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
@@ -194,13 +199,13 @@ namespace Mud.Server.WPFTestApplication
             else if (input == "alist")
             {
                 OutputText("Admins:");
-                foreach (IAdmin a in Server.Admins)
+                foreach (IAdmin a in AdminManager.Admins)
                     OutputText(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.DisplayName : "") + " " + (a.Incarnating != null ? a.Incarnating.DisplayName : ""));
             }
             else if (input == "plist")
             {
                 OutputText("players:");
-                foreach (IPlayer p in Server.Players)
+                foreach (IPlayer p in PlayerManager.Players)
                     OutputText(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.DisplayName : ""));
             }
             InputTextBox.Focus();

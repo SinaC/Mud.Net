@@ -85,7 +85,7 @@ namespace Mud.Server.Character
                 //Send($"You shout '{rawParameters}'");
                 //foreach(IPlayer player in Server.Players.Where(x => x.Impersonating != null))
                 //    player.Impersonating.Act(ActOptions.ToCharacter, "{0:n} shouts {1}", this, rawParameters);
-                Act(Server.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), "{0:N} shout{0:v} {1}", this, rawParameters);
+                Act(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), "{0:N} shout{0:v} {1}", this, rawParameters);
             }
             return true;
         }

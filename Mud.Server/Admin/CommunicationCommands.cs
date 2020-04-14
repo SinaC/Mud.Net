@@ -15,7 +15,7 @@ namespace Mud.Server.Admin
             }
 
             string what = $"%c%[%y%{DisplayName}%c%]: {parameters[0].Value}%x%";
-            foreach (IAdmin admin in Server.Admins)
+            foreach (IAdmin admin in AdminManager.Admins)
                 admin.Send(what);
 
             return true;

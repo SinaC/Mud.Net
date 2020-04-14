@@ -25,8 +25,9 @@ namespace Mud.Server.Player
         protected IInputTrap<IPlayer> CurrentStateMachine;
         protected bool DeletionConfirmationNeeded;
 
-        protected IPlayerRepository PlayerManager => DependencyContainer.Instance.GetInstance<IPlayerRepository>();
-        protected ILoginRepository LoginManager => DependencyContainer.Instance.GetInstance<ILoginRepository>();
+        protected IServer Server => DependencyContainer.Instance.GetInstance<IServer>();
+        protected IPlayerRepository PlayerRepository => DependencyContainer.Instance.GetInstance<IPlayerRepository>();
+        protected ILoginRepository LoginRepository => DependencyContainer.Instance.GetInstance<ILoginRepository>();
 
         protected Player()
         {
@@ -216,7 +217,7 @@ namespace Mud.Server.Player
 
         public virtual bool Load(string name)
         {
-            PlayerData data = PlayerManager.Load(name);
+            PlayerData data = PlayerRepository.Load(name);
             // Load player data
             LoadPlayerData(data);
             //
@@ -233,7 +234,7 @@ namespace Mud.Server.Player
             // Fill player data
             FillPlayerData(data);
             //
-            PlayerManager.Save(data);
+            PlayerRepository.Save(data);
             //
             Log.Default.WriteLine(LogLevels.Info, $"Player {DisplayName} saved");
             return true;

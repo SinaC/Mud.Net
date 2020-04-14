@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
@@ -37,6 +38,8 @@ namespace Mud.Server.Character
         private readonly List<AbilityAndLevel> _knownAbilities;
         private readonly List<IQuest> _quests;
 
+        protected ITimeHandler TimeHandler => DependencyContainer.Instance.GetInstance<ITimeHandler>();
+
         protected int MaxHitPoints => _secondaryAttributes[(int) SecondaryAttributeTypes.MaxHitPoints];
 
         private Character(Guid guid, string name, string description)
@@ -70,7 +73,7 @@ namespace Mud.Server.Character
                 string msg = $"Invalid class {data.Class} for character {data.Name}!!";
                 Log.Default.WriteLine(LogLevels.Error, msg);
                 Class = ClassManager.Classes.First();
-                Server.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             }
             Race = RaceManager[data.Race];
             if (Race == null)
@@ -78,7 +81,7 @@ namespace Mud.Server.Character
                 string msg = $"Invalid race {data.Race} for character {data.Name}!!";
                 Log.Default.WriteLine(LogLevels.Error, msg);
                 Race = RaceManager.Races.First();
-                Server.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             }
             Sex = data.Sex;
             Level = data.Level;
@@ -1182,7 +1185,7 @@ namespace Mud.Server.Character
                 wiznetMsg = $"{DebugName} got toasted by {killer.DebugName ?? "???"} at {Room?.DebugName ?? "???"}";
             else
                 wiznetMsg = $"{DebugName} got toasted by an unknown source at {Room?.DebugName ?? "???"}";
-            Server.Wiznet(wiznetMsg, Impersonable
+            Wiznet.Wiznet(wiznetMsg, Impersonable
                 ? WiznetFlags.Deaths
                 : WiznetFlags.MobDeaths);
 
@@ -1287,7 +1290,7 @@ namespace Mud.Server.Character
                     {
                         recompute = true;
                         Level++;
-                        Server.Wiznet($"{DebugName} has attained level {Level}", WiznetFlags.Levels);
+                        Wiznet.Wiznet($"{DebugName} has attained level {Level}", WiznetFlags.Levels);
                         Send("You raise a level!!");
                         Act(ActOptions.ToGroup, "{0} has attained level {1}", this, Level);
                         // In case multiple level are gain, check max level

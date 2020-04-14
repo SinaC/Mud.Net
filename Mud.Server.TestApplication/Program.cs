@@ -435,9 +435,9 @@ namespace Mud.Server.TestApplication
 
         private static void TestBasicCommands()
         {
-            IPlayer player1 = DependencyContainer.Instance.GetInstance<IServer>().AddPlayer(new ConsoleClient("Player1"), "Player1");
-            IPlayer player2 = DependencyContainer.Instance.GetInstance<IServer>().AddPlayer(new ConsoleClient("Player2"), "Player2");
-            IAdmin admin = DependencyContainer.Instance.GetInstance<IServer>().AddAdmin(new ConsoleClient("Admin1"), "Admin1");
+            IPlayer player1 = DependencyContainer.Instance.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player1"), "Player1");
+            IPlayer player2 = DependencyContainer.Instance.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player2"), "Player2");
+            IAdmin admin = DependencyContainer.Instance.GetInstance<IAdminManager>().AddAdmin(new ConsoleClient("Admin1"), "Admin1");
 
             CreateDummyWorld();
 
@@ -493,7 +493,7 @@ namespace Mud.Server.TestApplication
             // World
             IRoom room = DependencyContainer.Instance.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), room1Blueprint, area);
 
-            IPlayer player = DependencyContainer.Instance.GetInstance<IServer>().AddPlayer(new ConsoleClient("Player"), "Player");
+            IPlayer player = DependencyContainer.Instance.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player"), "Player");
             player.ProcessCommand("test");
             player.ProcessCommand("test arg1");
             player.ProcessCommand("test 'arg1' 'arg2' 'arg3' 'arg4'");
@@ -535,7 +535,7 @@ namespace Mud.Server.TestApplication
             player.ProcessCommand("tell");
             player.ProcessCommand("look"); // INVALID because Character commands are not accessible by Player unless if impersonating
 
-            IAdmin admin = DependencyContainer.Instance.GetInstance<IServer>().AddAdmin(new ConsoleClient("Admin"), "Admin");
+            IAdmin admin = DependencyContainer.Instance.GetInstance<IAdminManager>().AddAdmin(new ConsoleClient("Admin"), "Admin");
             admin.ProcessCommand("incarnate");
             admin.ProcessCommand("unknown"); // INVALID
         }
@@ -591,13 +591,13 @@ namespace Mud.Server.TestApplication
                             else if (line == "alist")
                             {
                                 Console.WriteLine("Admins:");
-                                foreach (IAdmin a in DependencyContainer.Instance.GetInstance<IServer>().Admins)
+                                foreach (IAdmin a in DependencyContainer.Instance.GetInstance<IAdminManager>().Admins)
                                     Console.WriteLine(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.DisplayName : "") + " " + (a.Incarnating != null ? a.Incarnating.DisplayName : ""));
                             }
                             else if (line == "plist")
                             {
                                 Console.WriteLine("players:");
-                                foreach (IPlayer p in DependencyContainer.Instance.GetInstance<IServer>().Players)
+                                foreach (IPlayer p in DependencyContainer.Instance.GetInstance<IPlayerManager>().Players)
                                     Console.WriteLine(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.DisplayName : ""));
                             }
                             // TODO: characters/rooms/items

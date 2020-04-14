@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using AutoMapper;
 using Mud.Container;
 using Mud.Network;
+using Mud.Repository;
 
 namespace Mud.Server.TestApplication
 {
@@ -30,6 +32,29 @@ namespace Mud.Server.TestApplication
         public void Initialize()
         {
             _stopped = false;
+
+            // Initialize IOC container
+            DependencyContainer.Instance.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<ITimeHandler, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements ITimeHandler
+            DependencyContainer.Instance.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
+            DependencyContainer.Instance.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
+            DependencyContainer.Instance.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
+            DependencyContainer.Instance.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
+
+            DependencyContainer.Instance.Register<ILoginRepository, Repository.Filesystem.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IPlayerRepository, Repository.Filesystem.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IAdminRepository, Repository.Filesystem.AdminRepository>(SimpleInjector.Lifestyle.Singleton);
+
+            // Initialize mapping
+            var mapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<Repository.Filesystem.AutoMapperProfile>();
+                cfg.AddProfile<Repository.Mongo.AutoMapperProfile>();
+            });
+            DependencyContainer.Instance.RegisterInstance(mapperConfiguration.CreateMapper());
         }
 
         public void Start()
@@ -80,13 +105,13 @@ namespace Mud.Server.TestApplication
                             else if (line == "alist")
                             {
                                 Console.WriteLine("Admins:");
-                                foreach (IAdmin a in DependencyContainer.Instance.GetInstance<IServer>().Admins)
+                                foreach (IAdmin a in DependencyContainer.Instance.GetInstance<IAdminManager>().Admins)
                                     Console.WriteLine(a.DisplayName + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.DisplayName : "") + " " + (a.Incarnating != null ? a.Incarnating.DisplayName : ""));
                             }
                             else if (line == "plist")
                             {
                                 Console.WriteLine("players:");
-                                foreach (IPlayer p in DependencyContainer.Instance.GetInstance<IServer>().Players)
+                                foreach (IPlayer p in DependencyContainer.Instance.GetInstance<IPlayerManager>().Players)
                                     Console.WriteLine(p.DisplayName + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.DisplayName : ""));
                             }
                             // TODO: characters/rooms/items
