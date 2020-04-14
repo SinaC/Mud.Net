@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mud.Domain;
+using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Common;
-using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -91,7 +92,7 @@ namespace Mud.Server.Character
             }
             // 6: direction
             ExitDirections direction;
-            if (ExitHelpers.FindDirection(parameters[0].Value, out direction))
+            if (ExitDirectionsExtensions.TryFindDirection(parameters[0].Value, out direction))
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(6): direction");
                 IExit exit = Room.Exit(direction);

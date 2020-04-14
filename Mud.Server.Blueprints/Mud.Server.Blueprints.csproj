@@ -64,6 +64,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
+      <Project>{0ca7b0b7-273a-4c00-9cb7-d9951ac0bdce}</Project>
+      <Name>Mud.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4E337998-ECAB-493B-9FAA-01366EE90EFF}</Project>
       <Name>Mud.Logger</Name>
@@ -71,10 +75,6 @@
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
       <Project>{d1a7d787-0fe7-4281-9458-d2c8f728e404}</Project>
       <Name>Mud.Server.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Constants\Mud.Server.Constants.csproj">
-      <Project>{3c334a4d-ed18-4eb4-ac7b-2b03bb849d47}</Project>
-      <Name>Mud.Server.Constants</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

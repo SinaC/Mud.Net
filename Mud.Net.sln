@@ -34,23 +34,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Input", "Mud.Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Blueprints", "Mud.Server.Blueprints\Mud.Server.Blueprints.csproj", "{B85FDC6F-9D3F-4B24-AF53-AA30B6244BAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Constants", "Mud.Server.Constants\Mud.Server.Constants.csproj", "{3C334A4D-ED18-4EB4-AC7B-2B03BB849D47}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.WPFTestApplication", "Mud.Server.WPFTestApplication\Mud.Server.WPFTestApplication.csproj", "{094D6E52-B9EF-4A1E-808E-CF6A0DBECA42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Datas", "Mud.Datas\Mud.Datas.csproj", "{2C853490-7908-4E36-B906-72EBA82B4236}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository", "Mud.Repository\Mud.Repository.csproj", "{2C853490-7908-4E36-B906-72EBA82B4236}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Datas.Filesystem", "Mud.Datas.Filesystem\Mud.Datas.Filesystem.csproj", "{520950BD-51EB-4C0E-AEA4-A6CEC62B23FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Filesystem", "Mud.Repository.Filesystem\Mud.Repository.Filesystem.csproj", "{520950BD-51EB-4C0E-AEA4-A6CEC62B23FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Datas.Mongo", "Mud.Datas.Mongo\Mud.Datas.Mongo.csproj", "{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Mongo", "Mud.Repository.Mongo\Mud.Repository.Mongo.csproj", "{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Datas.TestApplication", "Mud.Datas.TestApplication\Mud.Datas.TestApplication.csproj", "{0C8470E9-D691-48EA-8F36-504781C18777}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.TestApplication", "Mud.Repository.TestApplication\Mud.Repository.TestApplication.csproj", "{0C8470E9-D691-48EA-8F36-504781C18777}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Common", "Mud.Server.Common\Mud.Server.Common.csproj", "{D1A7D787-0FE7-4281-9458-D2C8F728E404}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer.Rom", "Mud.Importer.Rom\Mud.Importer.Rom.csproj", "{5BE3B1DC-2039-450C-AD58-AB35620FFC4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Container", "Mud.Container\Mud.Container.csproj", "{B9D5A4DD-8418-4E00-BC90-582359F7F05D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Domain", "Mud.Domain\Mud.Domain.csproj", "{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,10 +106,6 @@ Global
 		{B85FDC6F-9D3F-4B24-AF53-AA30B6244BAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B85FDC6F-9D3F-4B24-AF53-AA30B6244BAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B85FDC6F-9D3F-4B24-AF53-AA30B6244BAB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C334A4D-ED18-4EB4-AC7B-2B03BB849D47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C334A4D-ED18-4EB4-AC7B-2B03BB849D47}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C334A4D-ED18-4EB4-AC7B-2B03BB849D47}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C334A4D-ED18-4EB4-AC7B-2B03BB849D47}.Release|Any CPU.Build.0 = Release|Any CPU
 		{094D6E52-B9EF-4A1E-808E-CF6A0DBECA42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{094D6E52-B9EF-4A1E-808E-CF6A0DBECA42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{094D6E52-B9EF-4A1E-808E-CF6A0DBECA42}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -142,6 +138,10 @@ Global
 		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

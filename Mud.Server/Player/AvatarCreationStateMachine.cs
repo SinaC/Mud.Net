@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Mud.Container;
-using Mud.Datas.DataContracts;
+using Mud.Domain;
 using Mud.Server.Common;
-using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -143,7 +142,7 @@ namespace Mud.Server.Player
                 player.Send("Creation cancelled.");
                 return AvatarCreationStates.Quit;
             }
-            List<IClass> classes =ClassManager.Classes.Where(x => FindHelpers.StringStartsWith(x.Name, input)).ToList();
+            List<IClass> classes = ClassManager.Classes.Where(x => FindHelpers.StringStartsWith(x.Name, input)).ToList();
             if (classes.Count == 1)
             {
                 _class = classes[0];

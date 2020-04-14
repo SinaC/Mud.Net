@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<PlayerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<PlayerData>
   <Name>tsekwa</Name>
   <Aliases />
   <Characters>
@@ -9,7 +9,7 @@
       <Race>human</Race>
       <Class>warrior</Class>
       <Level>1</Level>
-      <Sex>Male</Sex>
+      <Sex>1</Sex>
       <Experience>0</Experience>
     </CharacterData>
   </Characters>

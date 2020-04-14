@@ -7,18 +7,19 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using AutoMapper;
 using Mud.Container;
-using Mud.Datas;
+using Mud.Domain;
 using Mud.Importer.Mystery;
 using Mud.Logger;
 using Mud.Network;
 using Mud.Network.Telnet;
+using Mud.Repository;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Constants;
 using Mud.Server.Item;
 using Mud.Server.Server;
 
@@ -38,6 +39,10 @@ namespace Mud.Server.WPFTestApplication
         {
             _serverWindowInstance = this;
 
+            // Initialize log
+            Log.Default.Initialize(ConfigurationManager.AppSettings["logpath"], "server.log");
+
+            // Initialize IOC container
             DependencyContainer.Instance.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<ITimeHandler, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements ITimeHandler
@@ -45,16 +50,22 @@ namespace Mud.Server.WPFTestApplication
             DependencyContainer.Instance.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
 
-            DependencyContainer.Instance.Register<ILoginManager, Datas.Filesystem.LoginManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Instance.Register<IPlayerManager, Datas.Filesystem.PlayerManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Instance.Register<IAdminManager, Datas.Filesystem.AdminManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<ILoginRepository, Repository.Filesystem.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IPlayerRepository, Repository.Filesystem.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IAdminRepository, Repository.Filesystem.AdminRepository>(SimpleInjector.Lifestyle.Singleton);
 
-            InitializeComponent();
+            // Initialize mapping
+            var mapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<Repository.Filesystem.AutoMapperProfile>();
+                cfg.AddProfile<Repository.Mongo.AutoMapperProfile>();
+            });
+            DependencyContainer.Instance.RegisterInstance(mapperConfiguration.CreateMapper());
 
-            Log.Default.Initialize(ConfigurationManager.AppSettings["logpath"], "server.log");
-
+            //
             TestLootTable();
 
+            InitializeComponent();
             Loaded += OnLoaded;
         }
 
@@ -1022,7 +1033,7 @@ namespace Mud.Server.WPFTestApplication
                         // G: give object arg1 to mobile 
                         case 'G':
                         {
-                            ItemBlueprintBase blueprint =World.GetItemBlueprint(reset.Arg1);
+                            ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
                             if (blueprint != null)
                             {
                                 if (lastCharacter != null)
@@ -1040,7 +1051,7 @@ namespace Mud.Server.WPFTestApplication
                         // E: equip object arg1 to mobile
                         case 'E':
                             {
-                                ItemBlueprintBase blueprint =World.GetItemBlueprint(reset.Arg1);
+                                ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
                                 if (blueprint != null)
                                 {
                                     if (lastCharacter != null)
@@ -1208,27 +1219,27 @@ namespace Mud.Server.WPFTestApplication
             }; // this is mandatory
 
             // Add dummy mobs and items to allow impersonate :)
-            IRoom templeOfMota =World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
-            IRoom templeSquare =World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
+            IRoom templeOfMota = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
+            IRoom templeSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
-            //ICharacter mob1 =World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Druid"], Repository.RaceManager["Insectoid"], Sex.Male, templeOfMota); // playable
-            ICharacter mob2 =World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
-            ICharacter mob3 =World.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
-            //ICharacter mob4 =World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
-            //ICharacter mob4 =World.AddCharacter(Guid.NewGuid(), "mob4", Repository.ClassManager["Warrior"], Repository.RaceManager["Dwarf"], Sex.Female, templeSquare); // playable
-            ICharacter mob5 =World.AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
+            //ICharacter mob1 = World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Druid"], Repository.RaceManager["Insectoid"], Sex.Male, templeOfMota); // playable
+            ICharacter mob2 = World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
+            ICharacter mob3 = World.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
+            //ICharacter mob4 = World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
+            //ICharacter mob4 = World.AddCharacter(Guid.NewGuid(), "mob4", Repository.ClassManager["Warrior"], Repository.RaceManager["Dwarf"], Sex.Female, templeSquare); // playable
+            ICharacter mob5 = World.AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
-            IItemContainer item1 =World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemContainer item1Dup1 =World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemWeapon item2 =World.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
-            IItemArmor item3 =World.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
-            //IItemLight item4 =World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
-            //IItemWeapon item5 =World.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
-            //IItemContainer item1Dup2 =World.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
-            IItemArmor item3Dup1 =World.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
-            //IItemLight item4Dup1 =World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
-            IItemWeapon item6 =World.AddItemWeapon(Guid.NewGuid(), item6Blueprint, templeSquare);
-            IItemShield item7 =World.AddItemShield(Guid.NewGuid(), item7Blueprint, templeOfMota);
+            IItemContainer item1 = World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItemContainer item1Dup1 = World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItemWeapon item2 = World.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
+            IItemArmor item3 = World.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
+            //IItemLight item4 = World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
+            //IItemWeapon item5 = World.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
+            //IItemContainer item1Dup2 = World.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
+            IItemArmor item3Dup1 = World.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
+            //IItemLight item4Dup1 = World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            IItemWeapon item6 = World.AddItemWeapon(Guid.NewGuid(), item6Blueprint, templeSquare);
+            IItemShield item7 = World.AddItemShield(Guid.NewGuid(), item7Blueprint, templeOfMota);
            World.AddItemQuest(Guid.NewGuid(), questItem2Blueprint, templeSquare);
 
             // Equip weapon on mob2
@@ -1306,7 +1317,7 @@ namespace Mud.Server.WPFTestApplication
                 {
                     new QuestLocationObjectiveBlueprint
                     {
-                        RoomBlueprintId =World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the common square")?.Blueprint.Id ?? 0
+                        RoomBlueprintId = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the common square")?.Blueprint.Id ?? 0
                     }
                 },
                 // TODO: rewards

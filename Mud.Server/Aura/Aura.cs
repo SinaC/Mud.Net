@@ -1,6 +1,6 @@
 ﻿using System;
 using Mud.Container;
-using Mud.Server.Constants;
+using Mud.Domain;
 
 namespace Mud.Server.Aura
 {

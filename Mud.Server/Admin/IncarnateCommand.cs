@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -14,7 +13,7 @@ namespace Mud.Server.Admin
             {
                 if (Incarnating != null)
                 {
-                    Server.Wiznet($"{DisplayName} stops incarnating {Incarnating.DebugName}.", WiznetFlags.Incarnate);
+                    Server.Wiznet($"{DisplayName} stops incarnating {Incarnating.DebugName}.", Domain.WiznetFlags.Incarnate);
 
                     Send("%M%You stop incarnating %C%{0}%x%.", Incarnating.DisplayName);
                     StopIncarnating();
@@ -49,13 +48,13 @@ namespace Mud.Server.Admin
                     //Log.Default.WriteLine(LogLevels.Info, $"{DisplayName} incarnates {incarnateTarget.DisplayName}");
                     if (Incarnating != null)
                     {
-                        Server.Wiznet($"{DisplayName} stops incarnating {Incarnating.DebugName}.", WiznetFlags.Incarnate);
+                        Server.Wiznet($"{DisplayName} stops incarnating {Incarnating.DebugName}.", Domain.WiznetFlags.Incarnate);
 
                         Send("%M%You stop incarnating %C%{0}%x%.", Incarnating.DisplayName);
                         Incarnating.ChangeIncarnation(null);
                     }
 
-                    Server.Wiznet($"{DisplayName} starts incarnating {incarnateTarget.DebugName}.", WiznetFlags.Incarnate);
+                    Server.Wiznet($"{DisplayName} starts incarnating {incarnateTarget.DebugName}.", Domain.WiznetFlags.Incarnate);
 
                     Send("%M%You start incarnating %C%{0}%x%.", incarnateTarget.DisplayName);
                     incarnateTarget.ChangeIncarnation(this);

@@ -1,5 +1,5 @@
 ﻿using System;
-using Mud.Server.Constants;
+using Mud.Domain;
 
 namespace Mud.Server
 {

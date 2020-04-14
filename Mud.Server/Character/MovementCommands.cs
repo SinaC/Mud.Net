@@ -1,7 +1,8 @@
 ﻿using System.Linq;
+using Mud.Domain;
+using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Common;
-using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
@@ -106,7 +107,7 @@ namespace Mud.Server.Character
             Send("Ok.");
 
             // Open the other side
-            IExit otherSideExit = exit.Destination.Exit(ExitHelpers.ReverseDirection(exitDirection));
+            IExit otherSideExit = exit.Destination.Exit(exitDirection.ReverseDirection());
             if (otherSideExit != null)
             {
                 otherSideExit.Open();
@@ -144,7 +145,7 @@ namespace Mud.Server.Character
             Send("Ok.");
 
             // Close the other side
-            IExit otherSideExit = exit.Destination.Exit(ExitHelpers.ReverseDirection(exitDirection));
+            IExit otherSideExit = exit.Destination.Exit(exitDirection.ReverseDirection());
             if (otherSideExit != null)
             {
                 otherSideExit.Close();
@@ -199,7 +200,7 @@ namespace Mud.Server.Character
             Act(ActOptions.ToRoom, "{0:N} unlocks the {1}.", this, exit);
 
             // Unlock other side
-            IExit otherSideExit = exit.Destination.Exit(ExitHelpers.ReverseDirection(exitDirection));
+            IExit otherSideExit = exit.Destination.Exit(exitDirection.ReverseDirection());
             if (otherSideExit != null)
                 otherSideExit.Unlock();
             else
@@ -252,7 +253,7 @@ namespace Mud.Server.Character
             Act(ActOptions.ToRoom, "{0:N} locks the {1}.", this, exit);
 
             // Unlock other side
-            IExit otherSideExit = exit.Destination.Exit(ExitHelpers.ReverseDirection(exitDirection));
+            IExit otherSideExit = exit.Destination.Exit(exitDirection.ReverseDirection());
             if (otherSideExit != null)
                 otherSideExit.Lock();
             else
@@ -611,7 +612,7 @@ namespace Mud.Server.Character
 
         private bool FindDoor(CommandParameter parameter, out ExitDirections exitDirection, out bool wasAskingForDirection)
         {
-            if (ExitHelpers.FindDirection(parameter.Value, out exitDirection))
+            if (ExitDirectionsExtensions.TryFindDirection(parameter.Value, out exitDirection))
             {
                 wasAskingForDirection = true;
                 return true;

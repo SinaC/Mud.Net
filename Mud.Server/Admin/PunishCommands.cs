@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -40,7 +39,7 @@ namespace Mud.Server.Admin
             victim.ProcessCommand(command);
             Send("Ok.");
 
-            Server.Wiznet($"{DisplayName} forces {victim.DebugName} to {command}", WiznetFlags.Punish);
+            Server.Wiznet($"{DisplayName} forces {victim.DebugName} to {command}", Domain.WiznetFlags.Punish);
 
             return true;
         }
@@ -67,7 +66,7 @@ namespace Mud.Server.Admin
                         Send(StringHelpers.CharacterNotFound);
                     else
                     {
-                        Server.Wiznet($"{DisplayName} adds lag {victim.DisplayName}.", WiznetFlags.Punish);
+                        Server.Wiznet($"{DisplayName} adds lag {victim.DisplayName}.", Domain.WiznetFlags.Punish);
 
                         Send("Adding lag now.");
                         victim.SetGlobalCooldown(count);
@@ -95,7 +94,7 @@ namespace Mud.Server.Admin
             if (whom == this)
             {
                 Send("Cancelling all snoops.");
-                Server.Wiznet($"{DisplayName} stops being such as snoop.", WiznetFlags.Punish | WiznetFlags.Snoops);
+                Server.Wiznet($"{DisplayName} stops being such as snoop.", Domain.WiznetFlags.Punish | Domain.WiznetFlags.Snoops);
                 foreach (IPlayer player in Server.Players)
                 {
                     if (player.SnoopBy == this)
@@ -116,7 +115,7 @@ namespace Mud.Server.Admin
                     return true;
                 }
 
-            Server.Wiznet($"{DisplayName} starts snooping {whom.DisplayName}.", WiznetFlags.Snoops | WiznetFlags.Punish);
+            Server.Wiznet($"{DisplayName} starts snooping {whom.DisplayName}.", Domain.WiznetFlags.Snoops | Domain.WiznetFlags.Punish);
 
             whom.SetSnoopBy(this);
             Send("Ok.");

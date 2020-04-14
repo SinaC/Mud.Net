@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.Container;
-using Mud.Datas;
-using Mud.Datas.DataContracts;
+using Mud.Repository;
 using Mud.DataStructures.Trie;
+using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Actor;
 using Mud.Server.Blueprints.Quest;
-using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -26,8 +25,8 @@ namespace Mud.Server.Player
         protected IInputTrap<IPlayer> CurrentStateMachine;
         protected bool DeletionConfirmationNeeded;
 
-        protected IPlayerManager PlayerManager => DependencyContainer.Instance.GetInstance<IPlayerManager>();
-        protected ILoginManager LoginManager => DependencyContainer.Instance.GetInstance<ILoginManager>();
+        protected IPlayerRepository PlayerManager => DependencyContainer.Instance.GetInstance<IPlayerRepository>();
+        protected ILoginRepository LoginManager => DependencyContainer.Instance.GetInstance<ILoginRepository>();
 
         protected Player()
         {
@@ -330,8 +329,8 @@ namespace Mud.Server.Player
             _avatarList.Clear();
             if (data?.Aliases != null)
             {
-                foreach (CoupledData<string, string> alias in data.Aliases)
-                    Aliases.Add(alias.Key, alias.Data);
+                foreach (KeyValuePair<string, string> alias in data.Aliases)
+                    Aliases.Add(alias.Key, alias.Value);
             }
 
             if (data?.Characters != null)
@@ -344,7 +343,7 @@ namespace Mud.Server.Player
         protected void FillPlayerData(PlayerData data)
         {
             data.Name = Name;
-            data.Aliases = Aliases.Select(x => new CoupledData<string, string> {Key = x.Key, Data = x.Value}).ToList();
+            data.Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value);
             // TODO: copy from Impersonated to CharacterData
             data.Characters = _avatarList;
         }

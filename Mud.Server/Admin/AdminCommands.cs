@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Server;

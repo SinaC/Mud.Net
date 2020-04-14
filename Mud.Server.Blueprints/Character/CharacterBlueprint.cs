@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Mud.Domain;
 using Mud.Server.Blueprints.LootTable;
-using Mud.Server.Constants;
 
 namespace Mud.Server.Blueprints.Character
 {

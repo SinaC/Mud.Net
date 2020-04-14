@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Mud.Container;
-using Mud.Datas;
+using Mud.Repository;
+using Mud.Domain;
 using Mud.Logger;
 using Mud.Network;
 using Mud.Server.Abilities;
 using Mud.Server.Common;
-using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -47,8 +47,8 @@ namespace Mud.Server.Server
 
         protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
         protected IClassManager ClassManager => DependencyContainer.Instance.GetInstance<IClassManager>();
-        protected ILoginManager LoginManager => DependencyContainer.Instance.GetInstance<ILoginManager>();
-        protected IPlayerManager PlayerManager => DependencyContainer.Instance.GetInstance<IPlayerManager>();
+        protected ILoginRepository LoginManager => DependencyContainer.Instance.GetInstance<ILoginRepository>();
+        protected IPlayerRepository PlayerManager => DependencyContainer.Instance.GetInstance<IPlayerRepository>();
 
         public Server()
         {

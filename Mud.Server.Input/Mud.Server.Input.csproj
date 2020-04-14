@@ -47,13 +47,13 @@
       <Project>{00b458af-c87b-4558-8ba7-b21d9626621e}</Project>
       <Name>Mud.DataStructures</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
+      <Project>{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}</Project>
+      <Name>Mud.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Constants\Mud.Server.Constants.csproj">
-      <Project>{3c334a4d-ed18-4eb4-ac7b-2b03bb849d47}</Project>
-      <Name>Mud.Server.Constants</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

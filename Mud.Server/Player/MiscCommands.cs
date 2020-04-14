@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Constants;
 using Mud.Server.Input;
 using Mud.Server.Server;
 

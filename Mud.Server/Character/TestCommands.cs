@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Mud.Server.Constants;
+using Mud.Domain;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
