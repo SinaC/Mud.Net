@@ -22,6 +22,6 @@ namespace Mud.Domain
 
         public List<ItemData> Inventory { get; set; }
 
-        // TODO: aura, equipments, inventory, cooldown, quests, ...
+        // TODO: aura, cooldown, quests, ...
     }
 }

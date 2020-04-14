@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Mud.Repository.Filesystem.DataContracts
 {
@@ -26,6 +27,12 @@ namespace Mud.Repository.Filesystem.DataContracts
         [DataMember]
         public long Experience { get; set; }
 
-        // TODO: aura, equipments, inventory, cooldown, quests, ...
+        [DataMember]
+        public List<EquipedItemData> Equipments { get; set; }
+
+        [DataMember]
+        public List<ItemData> Inventory { get; set; }
+
+        // TODO: aura, cooldown, quests, ...
     }
 }

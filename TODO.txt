@@ -1,5 +1,4 @@
 move blueprints to Mud.Domain + refactor Mud.Domain
-CharacterData; equipments
 
 IWorld: should create IReadonlyWorld which only contains getter
 

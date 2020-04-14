@@ -360,7 +360,7 @@ namespace Mud.Server.Player
             CharacterData characterData = _avatarList.FirstOrDefault(x => FindHelpers.StringEquals(x.Name, Impersonating.Name));
             if (characterData == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, $"UpdateCharacterDataFromImpersonated: unknown avatar {Impersonating.Name} for player {DisplayName}");
+                Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated: unknown avatar {Impersonating.Name} for player {DisplayName}");
                 return;
             }
             characterData.Name = Impersonating.Name;
@@ -371,7 +371,7 @@ namespace Mud.Server.Player
             characterData.RoomId = Impersonating.Room?.Blueprint?.Id ?? 0;
             characterData.Experience = Impersonating.Experience;
             List<EquipedItemData> equipedItemDatas = new List<EquipedItemData>();
-            foreach(EquipedItem equipedItem in Impersonating.Equipments)
+            foreach(EquipedItem equipedItem in Impersonating.Equipments.Where(x => x.Item != null))
                 equipedItemDatas.Add(MapEquipedData(equipedItem));
             characterData.Equipments = equipedItemDatas;
             List<ItemData> itemDatas = new List<ItemData>();

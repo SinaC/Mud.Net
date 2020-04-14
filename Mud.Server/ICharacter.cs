@@ -149,6 +149,9 @@ namespace Mud.Server
 
         // Look
         void AutoLook();
+
+        // Equipment
+        EquipedItem SearchEquipmentSlot(IEquipable item, bool replace);
     }
 
     public class EquipedItem
