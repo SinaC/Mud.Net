@@ -29,7 +29,7 @@ namespace Mud.Server.Server
 
     // Once playing,
     //  in synchronous mode, input and output are 'queued' and handled by ProcessorInput/ProcessOutput
-    public class Server : IServer, IDisposable
+    public class Server : IServer, ITimeHandler, IDisposable
     {
         // This allows fast lookup with client or player BUT both structures must be modified at the same time
         private readonly object _playingClientLockObject = new object();
@@ -45,6 +45,11 @@ namespace Mud.Server.Server
 
         private volatile int _pulseBeforeShutdown; // pulse count before shutdown
 
+        protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
+        protected IClassManager ClassManager => DependencyContainer.Instance.GetInstance<IClassManager>();
+        protected ILoginManager LoginManager => DependencyContainer.Instance.GetInstance<ILoginManager>();
+        protected IPlayerManager PlayerManager => DependencyContainer.Instance.GetInstance<IPlayerManager>();
+
         public Server()
         {
             _clients = new ConcurrentDictionary<IClient, PlayingClient>();
@@ -53,8 +58,6 @@ namespace Mud.Server.Server
         }
 
         #region IServer
-
-        public DateTime CurrentTime { get; private set; }
 
         public void Initialize(List<INetworkServer> networkServers)
         {
@@ -66,7 +69,7 @@ namespace Mud.Server.Server
             }
 
             // Perform some validity/sanity checks
-            foreach (IClass c in DependencyContainer.Instance.GetInstance<IClassManager>().Classes)
+            foreach (IClass c in ClassManager.Classes)
             {
                 if (c.ResourceKinds == null || !c.ResourceKinds.Any())
                     Log.Default.WriteLine(LogLevels.Warning, "Class {0} doesn't have any allowed resources");
@@ -162,8 +165,8 @@ namespace Mud.Server.Server
             else
             {
                 string playerName = player.DisplayName;
-                DependencyContainer.Instance.GetInstance<ILoginManager>().DeleteLogin(player.Name);
-                DependencyContainer.Instance.GetInstance<IPlayerManager>().Delete(player.Name);
+                LoginManager.DeleteLogin(player.Name);
+                PlayerManager.Delete(player.Name);
                 ClientPlayingOnDisconnected(playingClient.Client);
                 //
                 Log.Default.WriteLine(LogLevels.Info, $"Player {playerName} has been deleted");
@@ -229,6 +232,12 @@ namespace Mud.Server.Server
 
             return admin;
         }
+
+        #endregion
+
+        #region ITimeHandler
+
+        public DateTime CurrentTime { get; private set; }
 
         #endregion
 
@@ -620,9 +629,9 @@ namespace Mud.Server.Server
             // TODO: remove aura with amount == 0 ?
             // Remove dot/hot on non-impersonated if source is not the in same room (or source is inexistant)
             // TODO: take periodic aura that will be processed/removed
-            //IReadOnlyCollection<ICharacter> clonePeriodicAuras = new ReadOnlyCollection<ICharacter>(DependencyContainer.Instance.GetInstance<IWorld>().Characters().Where(x => x.PeriodicAuras.Any()).ToList());
+            //IReadOnlyCollection<ICharacter> clonePeriodicAuras = new ReadOnlyCollection<ICharacter>(World.Characters().Where(x => x.PeriodicAuras.Any()).ToList());
             //foreach (ICharacter character in clonePeriodicAuras)
-            foreach (ICharacter character in DependencyContainer.Instance.GetInstance<IWorld>().Characters.Where(x => x.PeriodicAuras.Any()))
+            foreach (ICharacter character in World.Characters.Where(x => x.PeriodicAuras.Any()))
             {
                 try
                 {
@@ -658,9 +667,9 @@ namespace Mud.Server.Server
         {
             // TODO: remove aura with amount == 0 ?
             // Take aura that will expired
-            //IReadOnlyCollection<ICharacter> cloneAuras = new ReadOnlyCollection<ICharacter>(DependencyContainer.Instance.GetInstance<IWorld>().Characters().Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)).ToList());
+            //IReadOnlyCollection<ICharacter> cloneAuras = new ReadOnlyCollection<ICharacter>(World.Characters().Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)).ToList());
             //foreach (ICharacter character in cloneAuras)
-            foreach (ICharacter character in DependencyContainer.Instance.GetInstance<IWorld>().Characters.Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)))
+            foreach (ICharacter character in World.Characters.Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)))
             {
                 try
                 {
@@ -685,7 +694,7 @@ namespace Mud.Server.Server
         private void HandleCooldowns() 
         {
             // TODO: filter on character with expired cooldowns
-            foreach (ICharacter character in DependencyContainer.Instance.GetInstance<IWorld>().Characters.Where(x => x.HasAbilitiesInCooldown))
+            foreach (ICharacter character in World.Characters.Where(x => x.HasAbilitiesInCooldown))
             {
                 try
                 {
@@ -704,7 +713,7 @@ namespace Mud.Server.Server
 
         private void HandleViolence()
         {
-            foreach (ICharacter character in DependencyContainer.Instance.GetInstance<IWorld>().Characters.Where(x => x.Fighting != null))
+            foreach (ICharacter character in World.Characters.Where(x => x.Fighting != null))
             {
                 ICharacter victim = character.Fighting;
                 if (victim != null)
@@ -760,7 +769,7 @@ namespace Mud.Server.Server
 
         private void HandleCharacters()
         {
-            foreach (ICharacter character in DependencyContainer.Instance.GetInstance<IWorld>().Characters)
+            foreach (ICharacter character in World.Characters)
             {
                 if (character.Impersonable && character.ImpersonatedBy == null) // TODO: remove after x minutes
                     Log.Default.WriteLine(LogLevels.Warning, $"Impersonable {character.DebugName} is not impersonated");
@@ -772,7 +781,7 @@ namespace Mud.Server.Server
 
         private void HandleItems()
         {
-            foreach (IItem item in DependencyContainer.Instance.GetInstance<IWorld>().Items.Where(x => x.DecayPulseLeft > 0))
+            foreach (IItem item in World.Items.Where(x => x.DecayPulseLeft > 0))
             {
                 //Log.Default.WriteLine(LogLevels.Debug, $"HandleItems {item.DebugName} with {item.DecayPulseLeft} pulse left");
                 item.DecreaseDecayPulseLeft();
@@ -780,7 +789,7 @@ namespace Mud.Server.Server
                 {
                     Log.Default.WriteLine(LogLevels.Debug, $"Item {item.DebugName} decayed");
                     // TODO: if it's a player corpse, move items to room (except quest item)
-                    DependencyContainer.Instance.GetInstance<IWorld>().RemoveItem(item);
+                    World.RemoveItem(item);
                 }
             }
         }
@@ -793,7 +802,7 @@ namespace Mud.Server.Server
         private void Cleanup()
         {
             // Remove invalid entities
-            DependencyContainer.Instance.GetInstance<IWorld>().Cleanup();
+            World.Cleanup();
         }
 
         private void GameLoopTask()

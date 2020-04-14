@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Common;
@@ -13,6 +14,13 @@ namespace Mud.Server.Actor
 {
     public abstract class ActorBase : IActor
     {
+        protected IServer Server => DependencyContainer.Instance.GetInstance<IServer>();
+        protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
+        protected ITimeHandler TimeHandler => DependencyContainer.Instance.GetInstance<ITimeHandler>();
+        protected IAbilityManager AbilityManager => DependencyContainer.Instance.GetInstance<IAbilityManager>();
+        protected IClassManager ClassManager => DependencyContainer.Instance.GetInstance<IClassManager>();
+        protected IRaceManager RaceManager => DependencyContainer.Instance.GetInstance<IRaceManager>();
+
         #region IActor
 
         public abstract IReadOnlyTrie<CommandMethodInfo> Commands { get; }

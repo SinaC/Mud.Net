@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Mud.Container;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -15,7 +14,7 @@ namespace Mud.Server.Player
             StringBuilder sb = new StringBuilder();
             //
             sb.AppendFormatLine("Players:");
-            foreach (IPlayer player in DependencyContainer.Instance.GetInstance<IServer>().Players)
+            foreach (IPlayer player in Server.Players)
             {
                 IAdmin admin = player as IAdmin;
                 string adminLevel = admin == null ? "" : $"[{admin.Level}]";
@@ -52,7 +51,7 @@ namespace Mud.Server.Player
             generator.AddColumn("Max", 5, area => area.MaxLevel.ToString());
             generator.AddColumn("Builders", 15, area => area.Builders, TableGenerator<IArea>.AlignLeftFunc);
             generator.AddColumn("Credits", 40, area => area.Credits, TableGenerator<IArea>.AlignLeftFunc);
-            StringBuilder sb = generator.Generate(DependencyContainer.Instance.GetInstance<IWorld>().Areas);
+            StringBuilder sb = generator.Generate(World.Areas);
             Page(sb);
             return true;
         }

@@ -9,6 +9,9 @@ namespace Mud.Server.Abilities
 {
     public abstract class AbilityEffect
     {
+        protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
+        protected IAbilityManager AbilityManager => DependencyContainer.Instance.GetInstance<IAbilityManager>();
+
         public abstract bool Process(ICharacter source, ICharacter victim, IAbility ability, CombatHelpers.AttackResults attackResult);
 
         protected int ComputeAttributeBasedAmount(ICharacter source, SecondaryAttributeTypes attribute, decimal factor)
@@ -161,7 +164,7 @@ namespace Mud.Server.Abilities
 
         public override bool Process(ICharacter source, ICharacter victim, IAbility ability, CombatHelpers.AttackResults attackResult)
         {
-            DependencyContainer.Instance.GetInstance<IWorld>().AddAura(victim, ability, source, Modifier, Amount, AmountOperator, ability.Duration, true);
+            World.AddAura(victim, ability, source, Modifier, Amount, AmountOperator, ability.Duration, true);
             return true;
         }
     }
@@ -185,7 +188,7 @@ namespace Mud.Server.Abilities
         {
             int amount = ComputeAttributeBasedAmount(source, Attribute, Factor);
             int totalTicks = ability.Duration / TickDelay;
-            DependencyContainer.Instance.GetInstance<IWorld>().AddPeriodicAura(victim, ability, source, School, amount, AmountOperators.Fixed, true, TickDelay, totalTicks);
+            World.AddPeriodicAura(victim, ability, source, School, amount, AmountOperators.Fixed, true, TickDelay, totalTicks);
             return true;
         }
     }
@@ -207,7 +210,7 @@ namespace Mud.Server.Abilities
         {
             int amount = ComputeAttributeBasedAmount(source, Attribute, Factor);
             int totalTicks = ability.Duration / TickDelay;
-            DependencyContainer.Instance.GetInstance<IWorld>().AddPeriodicAura(victim, ability, source, amount, AmountOperators.Fixed, true, TickDelay, totalTicks);
+            World.AddPeriodicAura(victim, ability, source, amount, AmountOperators.Fixed, true, TickDelay, totalTicks);
             return true;
         }
     }
@@ -281,14 +284,14 @@ namespace Mud.Server.Abilities
     {
         public override bool Process(ICharacter source, ICharacter victim, IAbility ability, CombatHelpers.AttackResults attackResult)
         {
-            if (victim.Auras.Any(x => x.Ability != null && x.Ability == DependencyContainer.Instance.GetInstance<IAbilityManager>().WeakenedSoulAbility))
+            if (victim.Auras.Any(x => x.Ability != null && x.Ability == AbilityManager.WeakenedSoulAbility))
             {
                 source.Act(ActOptions.ToCharacter, "{0} cannot be targeted by {1}.", victim, ability.Name);
                 return false;
             }
             int amount = ComputeAttributeBasedAmount(source, SecondaryAttributeTypes.SpellPower, 45.9m);
-            DependencyContainer.Instance.GetInstance<IWorld>().AddAura(victim, ability, source, AuraModifiers.DamageAbsorb, amount, AmountOperators.Fixed, ability.Duration, true);
-            DependencyContainer.Instance.GetInstance<IWorld>().AddAura(victim, DependencyContainer.Instance.GetInstance<IAbilityManager>().WeakenedSoulAbility, source, AuraModifiers.None, 0, AmountOperators.None, 15, true);
+            World.AddAura(victim, ability, source, AuraModifiers.DamageAbsorb, amount, AmountOperators.Fixed, ability.Duration, true);
+            World.AddAura(victim, AbilityManager.WeakenedSoulAbility, source, AuraModifiers.None, 0, AmountOperators.None, 15, true);
             return true;
         }
     }

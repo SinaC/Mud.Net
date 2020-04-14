@@ -31,8 +31,7 @@ namespace Mud.Server.Item
 
         private void UpdateQuestObjective(IContainer container)
         {
-            ICharacter character = container as ICharacter;
-            if (character != null && character.Impersonable)
+            if (container is ICharacter character && character.Impersonable)
             {
                 foreach (IQuest quest in character.Quests)
                     quest.Update(this);

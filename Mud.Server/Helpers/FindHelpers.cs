@@ -8,6 +8,8 @@ namespace Mud.Server.Helpers
 {
     public static class FindHelpers
     {
+        private static IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
+
         public static readonly Func<string, string, bool> StringEquals = (s, s1) => string.Equals(s, s1, StringComparison.InvariantCultureIgnoreCase);
         public static readonly Func<string, string, bool> StringStartsWith = (s, s1) => s.StartsWith(s1, StringComparison.InvariantCultureIgnoreCase);
         // every item in enumerable1 must be found in enumerable
@@ -109,14 +111,14 @@ namespace Mud.Server.Helpers
             if (parameter.IsNumber)
             {
                 int id = parameter.AsNumber;
-                return DependencyContainer.Instance.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
+                return World.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
             }
 
-            ICharacter victim = FindByName(DependencyContainer.Instance.GetInstance<IWorld>().Characters, parameter);
+            ICharacter victim = FindByName(World.Characters, parameter);
             if (victim != null)
                 return victim.Room;
 
-            IItem item = FindByName(DependencyContainer.Instance.GetInstance<IWorld>().Items, parameter);
+            IItem item = FindByName(World.Items, parameter);
             return item?.ContainedInto as IRoom;
         }
 
@@ -125,7 +127,7 @@ namespace Mud.Server.Helpers
             if (parameter.IsNumber)
             {
                 int id = parameter.AsNumber;
-                return DependencyContainer.Instance.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
+                return World.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
             }
 
             ICharacter victim = FindChararacterInWorld(asker, parameter);
@@ -156,11 +158,11 @@ namespace Mud.Server.Helpers
 
             // In world
             //  players
-            ICharacter inWorldPlayer = FindByName(DependencyContainer.Instance.GetInstance<IWorld>().Characters.Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
+            ICharacter inWorldPlayer = FindByName(World.Characters.Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
             if (inWorldPlayer != null)
                 return inWorldPlayer;
             //  characters
-            ICharacter inWorldCharacter = FindByName(DependencyContainer.Instance.GetInstance<IWorld>().Characters.Where(asker.CanSee), parameter);
+            ICharacter inWorldCharacter = FindByName(World.Characters.Where(asker.CanSee), parameter);
             return inWorldCharacter;
         }
 
@@ -171,7 +173,7 @@ namespace Mud.Server.Helpers
             if (hereItem != null)
                 return hereItem;
 
-            IItem inWorldItem = FindByName(DependencyContainer.Instance.GetInstance<IWorld>().Items.Where(asker.CanSee), parameter);
+            IItem inWorldItem = FindByName(World.Items.Where(asker.CanSee), parameter);
             return inWorldItem;
         }
     }

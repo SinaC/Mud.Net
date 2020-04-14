@@ -119,6 +119,7 @@
     <Compile Include="Item\ItemQuest.cs" />
     <Compile Include="Item\ItemShield.cs" />
     <Compile Include="Item\ItemWeapon.cs" />
+    <Compile Include="ITimeHandler.cs" />
     <Compile Include="IWorld.cs" />
     <Compile Include="Item\ItemContainer.cs" />
     <Compile Include="Item\ItemBase.cs" />

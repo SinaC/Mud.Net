@@ -31,7 +31,8 @@ namespace Mud.Server.WPFTestApplication
     {
         private static ServerWindow _serverWindowInstance;
 
-        private IServer Server => DependencyContainer.Instance.GetInstance<IServer>();
+        private static IServer Server => DependencyContainer.Instance.GetInstance<IServer>();
+        private static IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
 
         public ServerWindow()
         {
@@ -39,6 +40,7 @@ namespace Mud.Server.WPFTestApplication
 
             DependencyContainer.Instance.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<ITimeHandler, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements ITimeHandler
             DependencyContainer.Instance.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
@@ -278,7 +280,7 @@ namespace Mud.Server.WPFTestApplication
                 ExtraDescriptions = RoomBlueprint.BuildExtraDescriptions(data.ExtraDescr)
                 // Exits will be done when each room blueprint is created
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddRoomBlueprint(blueprint);
+            World.AddRoomBlueprint(blueprint);
             return blueprint;
         }
 
@@ -292,7 +294,7 @@ namespace Mud.Server.WPFTestApplication
                 ExtraDescriptions = RoomBlueprint.BuildExtraDescriptions(data.ExtraDescr)
                 // Exits will be done when each room blueprint is created
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddRoomBlueprint(blueprint);
+            World.AddRoomBlueprint(blueprint);
             return blueprint;
         }
 
@@ -313,7 +315,7 @@ namespace Mud.Server.WPFTestApplication
                 ShortDescription = data.ShortDescr,
                 Sex = sex,
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddCharacterBlueprint(blueprint);
+            World.AddCharacterBlueprint(blueprint);
             return blueprint;
         }
         private static CharacterBlueprint CreateCharacterBlueprint(Importer.Rom.MobileData data)
@@ -333,7 +335,7 @@ namespace Mud.Server.WPFTestApplication
                 ShortDescription = data.ShortDescr,
                 Sex = sex,
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddCharacterBlueprint(blueprint);
+            World.AddCharacterBlueprint(blueprint);
             return blueprint;
         }
 
@@ -690,7 +692,7 @@ namespace Mud.Server.WPFTestApplication
                 blueprint = null;
             }
             if (blueprint != null)
-                DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(blueprint);
+                World.AddItemBlueprint(blueprint);
             return blueprint;
         }
         private static ItemBlueprintBase CreateItemBlueprint(Importer.Rom.ObjectData data)
@@ -849,7 +851,7 @@ namespace Mud.Server.WPFTestApplication
                 blueprint = null;
             }
             if (blueprint != null)
-                DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(blueprint);
+                World.AddItemBlueprint(blueprint);
             return blueprint;
         }
 
@@ -895,7 +897,7 @@ namespace Mud.Server.WPFTestApplication
             foreach (Importer.Mystery.AreaData importedArea in mysteryImporter.Areas)
             {
                 // TODO: levels
-                IArea area = DependencyContainer.Instance.GetInstance<IWorld>().AddArea(Guid.NewGuid(), importedArea.Name, 1, 99, importedArea.Builders, importedArea.Credits);
+                IArea area = World.AddArea(Guid.NewGuid(), importedArea.Name, 1, 99, importedArea.Builders, importedArea.Credits);
                 areasByVnums.Add(importedArea.VNum, area);
             }
 
@@ -903,7 +905,7 @@ namespace Mud.Server.WPFTestApplication
             foreach (Importer.Mystery.RoomData importedRoom in mysteryImporter.Rooms)
             {
                 IArea area = areasByVnums[importedRoom.AreaVnum];
-                IRoom room = DependencyContainer.Instance.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), DependencyContainer.Instance.GetInstance<IWorld>().GetRoomBlueprint(importedRoom.VNum), area);
+                IRoom room = World.AddRoom(Guid.NewGuid(), World.GetRoomBlueprint(importedRoom.VNum), area);
                 roomsByVNums.Add(importedRoom.VNum, room);
             }
 
@@ -934,7 +936,7 @@ namespace Mud.Server.WPFTestApplication
                                 Flags = ConvertExitInfo(exit.ExitInfo)
                             };
                             // TODO: add exit to room blueprint
-                            DependencyContainer.Instance.GetInstance<IWorld>().AddExit(from, to, exitBlueprint, (ExitDirections)i);
+                            World.AddExit(from, to, exitBlueprint, (ExitDirections)i);
                         }
                     }
                 }
@@ -955,10 +957,10 @@ namespace Mud.Server.WPFTestApplication
                     {
                         case 'M':
                         {
-                            CharacterBlueprint blueprint = DependencyContainer.Instance.GetInstance<IWorld>().GetCharacterBlueprint(reset.Arg1);
+                            CharacterBlueprint blueprint = World.GetCharacterBlueprint(reset.Arg1);
                             if (blueprint != null)
                             {
-                                lastCharacter = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), blueprint, room);
+                                lastCharacter = World.AddCharacter(Guid.NewGuid(), blueprint, room);
                                 Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} added");
                             }
                             else
@@ -967,10 +969,10 @@ namespace Mud.Server.WPFTestApplication
                         }
                         case 'O':
                         {
-                            ItemBlueprintBase blueprint = DependencyContainer.Instance.GetInstance<IWorld>().GetItemBlueprint(reset.Arg1);
+                            ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
                             if (blueprint != null)
                             {
-                                IItem item = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), blueprint.Id, room);
+                                IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, room);
                                 if (item != null)
                                     Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} added room");
                                 else
@@ -984,30 +986,30 @@ namespace Mud.Server.WPFTestApplication
                             //{
                             //    if (obj.ItemType == "weapon")
                             //    {
-                            //        ItemWeaponBlueprint blueprint = DependencyContainer.Instance.GetInstance<IWorld>().GetItemBlueprint(reset.Arg1) as ItemWeaponBlueprint;
-                            //        DependencyContainer.Instance.GetInstance<IWorld>().AddItemWeapon(Guid.NewGuid(), blueprint, room);
+                            //        ItemWeaponBlueprint blueprint = World.GetItemBlueprint(reset.Arg1) as ItemWeaponBlueprint;
+                            //        World.AddItemWeapon(Guid.NewGuid(), blueprint, room);
                             //        Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: Weapon {reset.Arg1} added on floor");
                             //    }
                             //    else if (obj.ItemType == "container")
                             //    {
-                            //        ItemContainerBlueprint blueprint = DependencyContainer.Instance.GetInstance<IWorld>().GetItemBlueprint(reset.Arg1) as ItemContainerBlueprint;
-                            //        lastContainer = DependencyContainer.Instance.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), blueprint, room);
+                            //        ItemContainerBlueprint blueprint = World.GetItemBlueprint(reset.Arg1) as ItemContainerBlueprint;
+                            //        lastContainer = World.AddItemContainer(Guid.NewGuid(), blueprint, room);
                             //        Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: Container {reset.Arg1} added on floor");
                             //    }
                             //}
                             //else
                             //    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: Obj {reset.Arg1} not found");
-                            break;
+                                break;
                         }
                         // P: put object arg1 (add arg2 times at once with max occurence arg4) in object arg3
                         case 'P':
                         {
-                            ItemBlueprintBase blueprint = DependencyContainer.Instance.GetInstance<IWorld>().GetItemBlueprint(reset.Arg1);
+                            ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
                             if (blueprint != null)
                             {
                                 if (lastContainer != null)
                                 {
-                                    DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), blueprint.Id, lastContainer);
+                                   World.AddItem(Guid.NewGuid(), blueprint.Id, lastContainer);
                                     Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} added in {lastContainer.Blueprint.Id}");
                                 }
                                 else
@@ -1020,12 +1022,12 @@ namespace Mud.Server.WPFTestApplication
                         // G: give object arg1 to mobile 
                         case 'G':
                         {
-                            ItemBlueprintBase blueprint = DependencyContainer.Instance.GetInstance<IWorld>().GetItemBlueprint(reset.Arg1);
+                            ItemBlueprintBase blueprint =World.GetItemBlueprint(reset.Arg1);
                             if (blueprint != null)
                             {
                                 if (lastCharacter != null)
                                 {
-                                        DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
+                                       World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
                                     Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
                                 }
                                 else
@@ -1038,12 +1040,12 @@ namespace Mud.Server.WPFTestApplication
                         // E: equip object arg1 to mobile
                         case 'E':
                             {
-                                ItemBlueprintBase blueprint = DependencyContainer.Instance.GetInstance<IWorld>().GetItemBlueprint(reset.Arg1);
+                                ItemBlueprintBase blueprint =World.GetItemBlueprint(reset.Arg1);
                                 if (blueprint != null)
                                 {
                                     if (lastCharacter != null)
                                     {
-                                        DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
+                                       World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
                                         Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
                                         // TODO: try to equip
                                     }
@@ -1071,7 +1073,7 @@ namespace Mud.Server.WPFTestApplication
                 Sex = Sex.Female,
                 Level = 10
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddCharacterBlueprint(mob2Blueprint);
+           World.AddCharacterBlueprint(mob2Blueprint);
             CharacterBlueprint mob3Blueprint = new CharacterBlueprint
             {
                 Id = 3,
@@ -1081,7 +1083,7 @@ namespace Mud.Server.WPFTestApplication
                 Sex = Sex.Male,
                 Level = 10
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddCharacterBlueprint(mob3Blueprint);
+           World.AddCharacterBlueprint(mob3Blueprint);
             //CharacterBlueprint mob4Blueprint = new CharacterBlueprint
             //{
             //    Id = 4,
@@ -1100,7 +1102,7 @@ namespace Mud.Server.WPFTestApplication
                 Sex = Sex.Female,
                 Level = 10
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddCharacterBlueprint(mob5Blueprint);
+           World.AddCharacterBlueprint(mob5Blueprint);
 
             ItemContainerBlueprint item1Blueprint = new ItemContainerBlueprint
             {
@@ -1111,7 +1113,7 @@ namespace Mud.Server.WPFTestApplication
                 ItemCount = 10,
                 WeightMultiplier = 100
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(item1Blueprint);
+           World.AddItemBlueprint(item1Blueprint);
             ItemWeaponBlueprint item2Blueprint = new ItemWeaponBlueprint
             {
                 Id = 2,
@@ -1124,7 +1126,7 @@ namespace Mud.Server.WPFTestApplication
                 DamageType = SchoolTypes.Fire,
                 WearLocation = WearLocations.Wield
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(item2Blueprint);
+           World.AddItemBlueprint(item2Blueprint);
             ItemArmorBlueprint item3Blueprint = new ItemArmorBlueprint
             {
                 Id = 3,
@@ -1135,7 +1137,7 @@ namespace Mud.Server.WPFTestApplication
                 ArmorKind = ArmorKinds.Mail,
                 WearLocation = WearLocations.Feet
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(item3Blueprint);
+           World.AddItemBlueprint(item3Blueprint);
             ItemLightBlueprint item4Blueprint = new ItemLightBlueprint
             {
                 Id = 4,
@@ -1145,7 +1147,7 @@ namespace Mud.Server.WPFTestApplication
                 DurationHours = -1,
                 WearLocation = WearLocations.Light
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(item4Blueprint);
+           World.AddItemBlueprint(item4Blueprint);
             ItemWeaponBlueprint item5Blueprint = new ItemWeaponBlueprint
             {
                 Id = 5,
@@ -1158,7 +1160,7 @@ namespace Mud.Server.WPFTestApplication
                 DamageType = SchoolTypes.Physical,
                 WearLocation = WearLocations.Wield
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(item5Blueprint);
+           World.AddItemBlueprint(item5Blueprint);
             ItemWeaponBlueprint item6Blueprint = new ItemWeaponBlueprint
             {
                 Id = 6,
@@ -1171,7 +1173,7 @@ namespace Mud.Server.WPFTestApplication
                 DamageType = SchoolTypes.Holy,
                 WearLocation = WearLocations.Wield
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(item6Blueprint);
+           World.AddItemBlueprint(item6Blueprint);
             ItemShieldBlueprint item7Blueprint = new ItemShieldBlueprint
             {
                 Id = 7,
@@ -1181,7 +1183,7 @@ namespace Mud.Server.WPFTestApplication
                 Armor = 1000,
                 WearLocation = WearLocations.Shield
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(item7Blueprint);
+           World.AddItemBlueprint(item7Blueprint);
             ItemQuestBlueprint questItem1Blueprint = new ItemQuestBlueprint
             {
                 Id = 8,
@@ -1189,7 +1191,7 @@ namespace Mud.Server.WPFTestApplication
                 ShortDescription = "Quest item 1",
                 Description = "The quest item 1 has been left here."
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(questItem1Blueprint);
+           World.AddItemBlueprint(questItem1Blueprint);
             ItemQuestBlueprint questItem2Blueprint = new ItemQuestBlueprint
             {
                 Id = 9,
@@ -1197,7 +1199,7 @@ namespace Mud.Server.WPFTestApplication
                 ShortDescription = "Quest item 2",
                 Description = "The quest item 2 has been left here."
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(questItem2Blueprint);
+           World.AddItemBlueprint(questItem2Blueprint);
 
             //
             ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint
@@ -1206,28 +1208,28 @@ namespace Mud.Server.WPFTestApplication
             }; // this is mandatory
 
             // Add dummy mobs and items to allow impersonate :)
-            IRoom templeOfMota = DependencyContainer.Instance.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
-            IRoom templeSquare = DependencyContainer.Instance.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
+            IRoom templeOfMota =World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
+            IRoom templeSquare =World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
-            //ICharacter mob1 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Druid"], Repository.RaceManager["Insectoid"], Sex.Male, templeOfMota); // playable
-            ICharacter mob2 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
-            ICharacter mob3 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
-            //ICharacter mob4 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
-            //ICharacter mob4 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), "mob4", Repository.ClassManager["Warrior"], Repository.RaceManager["Dwarf"], Sex.Female, templeSquare); // playable
-            ICharacter mob5 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
+            //ICharacter mob1 =World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Druid"], Repository.RaceManager["Insectoid"], Sex.Male, templeOfMota); // playable
+            ICharacter mob2 =World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
+            ICharacter mob3 =World.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
+            //ICharacter mob4 =World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
+            //ICharacter mob4 =World.AddCharacter(Guid.NewGuid(), "mob4", Repository.ClassManager["Warrior"], Repository.RaceManager["Dwarf"], Sex.Female, templeSquare); // playable
+            ICharacter mob5 =World.AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
-            IItemContainer item1 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemContainer item1Dup1 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemWeapon item2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
-            IItemArmor item3 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
-            //IItemLight item4 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
-            //IItemWeapon item5 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
-            //IItemContainer item1Dup2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
-            IItemArmor item3Dup1 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
-            //IItemLight item4Dup1 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
-            IItemWeapon item6 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemWeapon(Guid.NewGuid(), item6Blueprint, templeSquare);
-            IItemShield item7 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemShield(Guid.NewGuid(), item7Blueprint, templeOfMota);
-            DependencyContainer.Instance.GetInstance<IWorld>().AddItemQuest(Guid.NewGuid(), questItem2Blueprint, templeSquare);
+            IItemContainer item1 =World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItemContainer item1Dup1 =World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItemWeapon item2 =World.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
+            IItemArmor item3 =World.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
+            //IItemLight item4 =World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
+            //IItemWeapon item5 =World.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
+            //IItemContainer item1Dup2 =World.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
+            IItemArmor item3Dup1 =World.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
+            //IItemLight item4Dup1 =World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            IItemWeapon item6 =World.AddItemWeapon(Guid.NewGuid(), item6Blueprint, templeSquare);
+            IItemShield item7 =World.AddItemShield(Guid.NewGuid(), item7Blueprint, templeOfMota);
+           World.AddItemQuest(Guid.NewGuid(), questItem2Blueprint, templeSquare);
 
             // Equip weapon on mob2
             mob2.Equipments.First(x => x.Slot == EquipmentSlots.Wield).Item = item2;
@@ -1290,7 +1292,7 @@ namespace Mud.Server.WPFTestApplication
                 }
                 // TODO: rewards
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddQuestBlueprint(questBlueprint1);
+           World.AddQuestBlueprint(questBlueprint1);
 
             QuestBlueprint questBlueprint2 = new QuestBlueprint
             {
@@ -1304,12 +1306,12 @@ namespace Mud.Server.WPFTestApplication
                 {
                     new QuestLocationObjectiveBlueprint
                     {
-                        RoomBlueprintId = DependencyContainer.Instance.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the common square")?.Blueprint.Id ?? 0
+                        RoomBlueprintId =World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the common square")?.Blueprint.Id ?? 0
                     }
                 },
                 // TODO: rewards
             };
-            DependencyContainer.Instance.GetInstance<IWorld>().AddQuestBlueprint(questBlueprint2);
+           World.AddQuestBlueprint(questBlueprint2);
 
             // Give quest 1 and 2 to mob1
             //IQuest quest1 = new Quest.Quest(questBlueprint1, mob1, mob2);
@@ -1318,9 +1320,9 @@ namespace Mud.Server.WPFTestApplication
             //mob1.AddQuest(quest2);
 
             //// Search extra description
-            //foreach(IRoom room in DependencyContainer.Instance.GetInstance<IWorld>().Rooms.Where(x => x.ExtraDescriptions != null && x.ExtraDescriptions.Any()))
+            //foreach(IRoom room inWorld.Rooms.Where(x => x.ExtraDescriptions != null && x.ExtraDescriptions.Any()))
             //    Log.Default.WriteLine(LogLevels.Info, "Room {0} has extra description: {1}", room.DebugName, room.ExtraDescriptions.Keys.Aggregate((n,i) => n+","+i));
-            //foreach (IItem item in DependencyContainer.Instance.GetInstance<IWorld>().Items.Where(x => x.ExtraDescriptions != null && x.ExtraDescriptions.Any()))
+            //foreach (IItem item inWorld.Items.Where(x => x.ExtraDescriptions != null && x.ExtraDescriptions.Any()))
             //    Log.Default.WriteLine(LogLevels.Info, "Item {0} has extra description: {1}", item.DebugName, item.ExtraDescriptions.Keys.Aggregate((n, i) => n + "," + i));
         }
     }

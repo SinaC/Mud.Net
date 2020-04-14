@@ -14,6 +14,8 @@ namespace Mud.Server.Admin
     {
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> AdminCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(Admin)));
 
+        protected IAdminManager AdminManager => DependencyContainer.Instance.GetInstance<IAdminManager>();
+
         public Admin(Guid id, string name) 
             : base(id, name)
         {
@@ -112,7 +114,7 @@ namespace Mud.Server.Admin
 
         public override bool Load(string name)
         {
-            AdminData data = DependencyContainer.Instance.GetInstance<IAdminManager>().Load(name);
+            AdminData data = AdminManager.Load(name);
             // Load player data
             LoadPlayerData(data);
             // Load admin datas
@@ -135,7 +137,7 @@ namespace Mud.Server.Admin
             data.Level = Level;
             data.WiznetFlags = WiznetFlags;
             //
-            DependencyContainer.Instance.GetInstance<IAdminManager>().Save(data);
+            AdminManager.Save(data);
             //
             Log.Default.WriteLine(LogLevels.Info, $"Admin {DisplayName} saved");
             return true;

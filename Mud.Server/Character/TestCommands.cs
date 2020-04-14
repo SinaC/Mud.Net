@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Mud.Container;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -18,11 +17,11 @@ namespace Mud.Server.Character
             if (parameters.Length == 0)
             {
                 //AbilityDamage(this, null, 500, SchoolTypes.Fire, true);
-                //DependencyContainer.Instance.GetInstance<IWorld>().AddAura(this, null, this, AuraModifiers.Dodge, 200 /*to be sure :p*/, AmountOperators.Fixed, 60*60, true);
-                DependencyContainer.Instance.GetInstance<IWorld>().AddAura(this, null, this, AuraModifiers.Dodge, 30, AmountOperators.Fixed, 60 * 60, true);
-                DependencyContainer.Instance.GetInstance<IWorld>().AddAura(this, null, this, AuraModifiers.Parry, 30, AmountOperators.Fixed, 60 * 60, true);
-                DependencyContainer.Instance.GetInstance<IWorld>().AddAura(this, null, this, AuraModifiers.Block, 30, AmountOperators.Fixed, 60 * 60, true);
-                //DependencyContainer.Instance.GetInstance<IWorld>().AddAura(this, null, this, AuraModifiers.Armor, 100000, AmountOperators.Fixed, 60 * 60, true);
+                //World.AddAura(this, null, this, AuraModifiers.Dodge, 200 /*to be sure :p*/, AmountOperators.Fixed, 60*60, true);
+                World.AddAura(this, null, this, AuraModifiers.Dodge, 30, AmountOperators.Fixed, 60 * 60, true);
+                World.AddAura(this, null, this, AuraModifiers.Parry, 30, AmountOperators.Fixed, 60 * 60, true);
+                World.AddAura(this, null, this, AuraModifiers.Block, 30, AmountOperators.Fixed, 60 * 60, true);
+                //World.AddAura(this, null, this, AuraModifiers.Armor, 100000, AmountOperators.Fixed, 60 * 60, true);
             }
             else
             {
@@ -39,7 +38,7 @@ namespace Mud.Server.Character
                 //    : parameters[1];
                 if (parameters[0].Value == "a")
                 {
-                    foreach (IAbility ability in DependencyContainer.Instance.GetInstance<IAbilityManager>().Abilities)
+                    foreach (IAbility ability in AbilityManager.Abilities)
                     {
                         Send("[{0}]{1} [{2}] [{3}|{4}|{5}] [{6}|{7}|{8}] [{9}|{10}|{11}] {12} {13}",
                             ability.Id, ability.Name,
@@ -55,42 +54,42 @@ namespace Mud.Server.Character
                 }
                 else if (parameters[0].Value == "0")
                 {
-                    DependencyContainer.Instance.GetInstance<IWorld>().AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
-                    DependencyContainer.Instance.GetInstance<IWorld>().AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
-                    DependencyContainer.Instance.GetInstance<IWorld>().AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
-                    DependencyContainer.Instance.GetInstance<IWorld>().AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
-                    DependencyContainer.Instance.GetInstance<IWorld>().AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
-                    DependencyContainer.Instance.GetInstance<IWorld>().AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
                 }
                 else if (parameters[0].Value == "1")
                     victim.UnknownSourceDamage(null, 100, SchoolTypes.Frost, true);
                 else if (parameters[0].Value == "2")
                     victim.UnknownSourceDamage(null, 100, SchoolTypes.Frost, true);
                 else if (parameters[0].Value == "3")
-                    DependencyContainer.Instance.GetInstance<IWorld>().AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
                 else if (parameters[0].Value == "4")
-                    DependencyContainer.Instance.GetInstance<IWorld>().AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
                 else if (parameters[0].Value == "5")
                 {
-                    DependencyContainer.Instance.GetInstance<IWorld>().AddAura(victim, null, this, AuraModifiers.Stamina, 15, AmountOperators.Percentage, 70, true);
-                    DependencyContainer.Instance.GetInstance<IWorld>().AddAura(victim, null, this, AuraModifiers.Characteristics, -10, AmountOperators.Fixed, 30, true);
-                    DependencyContainer.Instance.GetInstance<IWorld>().AddAura(victim, null, this, AuraModifiers.AttackPower, 150, AmountOperators.Fixed, 90, true);
+                    World.AddAura(victim, null, this, AuraModifiers.Stamina, 15, AmountOperators.Percentage, 70, true);
+                    World.AddAura(victim, null, this, AuraModifiers.Characteristics, -10, AmountOperators.Fixed, 30, true);
+                    World.AddAura(victim, null, this, AuraModifiers.AttackPower, 150, AmountOperators.Fixed, 90, true);
                 }
                 else if (parameters[0].Value == "6")
                 {
-                    DependencyContainer.Instance.GetInstance<IAbilityManager>().Process(this, victim, DependencyContainer.Instance.GetInstance<IAbilityManager>()["Shadow Word: Pain"]);
+                    AbilityManager.Process(this, victim, AbilityManager["Shadow Word: Pain"]);
                 }
                 else if (parameters[0].Value == "7")
                 {
-                    DependencyContainer.Instance.GetInstance<IAbilityManager>().Process(this, victim, DependencyContainer.Instance.GetInstance<IAbilityManager>()["Rupture"]);
+                    AbilityManager.Process(this, victim, AbilityManager["Rupture"]);
                 }
                 else if (parameters[0].Value == "8")
                 {
-                    DependencyContainer.Instance.GetInstance<IAbilityManager>().Process(this, victim, DependencyContainer.Instance.GetInstance<IAbilityManager>()["Trash"]);
+                    AbilityManager.Process(this, victim, AbilityManager["Trash"]);
                 }
                 else
                 {
-                    DependencyContainer.Instance.GetInstance<IAbilityManager>().Process(this, parameters);
+                    AbilityManager.Process(this, parameters);
                 }
             }
             return true;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mud.Container;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Server;
 
@@ -41,7 +40,7 @@ namespace Mud.Server.Item
                 if (loots != null && loots.Any())
                 {
                     foreach (int loot in loots)
-                        DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), loot, this);
+                        World.AddItem(Guid.NewGuid(), loot, this);
                 }
             }
         }

@@ -11,6 +11,8 @@ namespace Mud.Server.Classes
     {
         private readonly List<AbilityAndLevel> _abilities;
 
+        protected IAbilityManager AbilityManager => DependencyContainer.Instance.GetInstance<IAbilityManager>();
+
         #region IClass
 
         public abstract string Name { get; }
@@ -36,7 +38,7 @@ namespace Mud.Server.Classes
 
         public void AddAbility(int level, int abilityId)
         {
-            IAbility ability = DependencyContainer.Instance.GetInstance<IAbilityManager>()[abilityId];
+            IAbility ability = AbilityManager[abilityId];
             if (ability == null)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Trying to add unknown ability [id:{0}] to class [{1}]", abilityId, Name);
@@ -48,7 +50,7 @@ namespace Mud.Server.Classes
 
         public void AddAbility(int level, string abilityName)
         {
-            IAbility ability = DependencyContainer.Instance.GetInstance<IAbilityManager>()[abilityName];
+            IAbility ability = AbilityManager[abilityName];
             if (ability == null)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Trying to add unknown ability [{0}] to class [{1}]", abilityName, Name);

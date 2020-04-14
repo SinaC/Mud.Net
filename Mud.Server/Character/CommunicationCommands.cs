@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Mud.Container;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -84,9 +83,9 @@ namespace Mud.Server.Character
             else
             {
                 //Send($"You shout '{rawParameters}'");
-                //foreach(IPlayer player in DependencyContainer.Instance.GetInstance<IServer>().Players.Where(x => x.Impersonating != null))
+                //foreach(IPlayer player in Server.Players.Where(x => x.Impersonating != null))
                 //    player.Impersonating.Act(ActOptions.ToCharacter, "{0:n} shouts {1}", this, rawParameters);
-                Act(DependencyContainer.Instance.GetInstance<IServer>().Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), "{0:N} shout{0:v} {1}", this, rawParameters);
+                Act(Server.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), "{0:N} shout{0:v} {1}", this, rawParameters);
             }
             return true;
         }

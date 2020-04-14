@@ -30,6 +30,10 @@ namespace Mud.Server.Player
         private IRace _race;
         private IClass _class;
 
+        protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
+        protected IRaceManager RaceManager => DependencyContainer.Instance.GetInstance<IRaceManager>();
+        protected IClassManager ClassManager => DependencyContainer.Instance.GetInstance<IClassManager>();
+
         public override bool IsFinalStateReached => State == AvatarCreationStates.CreationComplete || State == AvatarCreationStates.Quit;
 
         public AvatarCreationStateMachine()
@@ -120,7 +124,7 @@ namespace Mud.Server.Player
                 player.Send("Creation cancelled.");
                 return AvatarCreationStates.Quit;
             }
-            List<IRace> races = DependencyContainer.Instance.GetInstance<IRaceManager>().Races.Where(x => FindHelpers.StringStartsWith(x.Name, input)).ToList();
+            List<IRace> races = RaceManager.Races.Where(x => FindHelpers.StringStartsWith(x.Name, input)).ToList();
             if (races.Count == 1)
             {
                 _race = races[0];
@@ -139,11 +143,11 @@ namespace Mud.Server.Player
                 player.Send("Creation cancelled.");
                 return AvatarCreationStates.Quit;
             }
-            List<IClass> classes = DependencyContainer.Instance.GetInstance<IClassManager>().Classes.Where(x => FindHelpers.StringStartsWith(x.Name, input)).ToList();
+            List<IClass> classes =ClassManager.Classes.Where(x => FindHelpers.StringStartsWith(x.Name, input)).ToList();
             if (classes.Count == 1)
             {
                 _class = classes[0];
-                IRoom startingRoom = DependencyContainer.Instance.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota"); // todo: mud school
+                IRoom startingRoom = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota"); // todo: mud school
                 CharacterData characterData = new CharacterData
                 {
                     Name = _name,
@@ -203,7 +207,7 @@ namespace Mud.Server.Player
         {
             if (displayHeader)
                 player.Send("Please choose a race (type quit to stop creation).");
-            string races = string.Join(" | ", DependencyContainer.Instance.GetInstance<IRaceManager>().Races.Select(x => x.DisplayName));
+            string races = string.Join(" | ", RaceManager.Races.Select(x => x.DisplayName));
             player.Send(races);
         }
 
@@ -211,7 +215,7 @@ namespace Mud.Server.Player
         {
             if (displayHeader)
                 player.Send("Please choose a class (type quit to stop creation).");
-            string classes = string.Join(" | ", DependencyContainer.Instance.GetInstance<IClassManager>().Classes.Select(x => x.DisplayName));
+            string classes = string.Join(" | ", ClassManager.Classes.Select(x => x.DisplayName));
             player.Send(classes);
         }
     }

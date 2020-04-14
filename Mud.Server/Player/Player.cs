@@ -26,6 +26,9 @@ namespace Mud.Server.Player
         protected IInputTrap<IPlayer> CurrentStateMachine;
         protected bool DeletionConfirmationNeeded;
 
+        protected IPlayerManager PlayerManager => DependencyContainer.Instance.GetInstance<IPlayerManager>();
+        protected ILoginManager LoginManager => DependencyContainer.Instance.GetInstance<ILoginManager>();
+
         protected Player()
         {
             PlayerState = PlayerStates.Loading;
@@ -214,7 +217,7 @@ namespace Mud.Server.Player
 
         public virtual bool Load(string name)
         {
-            PlayerData data = DependencyContainer.Instance.GetInstance<IPlayerManager>().Load(name);
+            PlayerData data = PlayerManager.Load(name);
             // Load player data
             LoadPlayerData(data);
             //
@@ -231,7 +234,7 @@ namespace Mud.Server.Player
             // Fill player data
             FillPlayerData(data);
             //
-            DependencyContainer.Instance.GetInstance<IPlayerManager>().Save(data);
+            PlayerManager.Save(data);
             //
             Log.Default.WriteLine(LogLevels.Info, $"Player {DisplayName} saved");
             return true;
@@ -265,7 +268,7 @@ namespace Mud.Server.Player
         public void StopImpersonating()
         {
             Impersonating?.ChangeImpersonation(null);
-            DependencyContainer.Instance.GetInstance<IWorld>().RemoveCharacter(Impersonating); // extract avatar  TODO: linkdead instead of RemoveCharacter ?
+            World.RemoveCharacter(Impersonating); // extract avatar  TODO: linkdead instead of RemoveCharacter ?
             Impersonating = null;
             PlayerState = PlayerStates.Playing;
         }
@@ -375,9 +378,9 @@ namespace Mud.Server.Player
             if (Impersonating != null)
             {
                 // Add quest to impersonated character is any
-                QuestBlueprint questBlueprint1 = DependencyContainer.Instance.GetInstance<IWorld>().GetQuestBlueprint(1);
-                QuestBlueprint questBlueprint2 = DependencyContainer.Instance.GetInstance<IWorld>().GetQuestBlueprint(2);
-                ICharacter questor = DependencyContainer.Instance.GetInstance<IWorld>().Characters.FirstOrDefault(x => x.Name.ToLowerInvariant().Contains("questor"));
+                QuestBlueprint questBlueprint1 = World.GetQuestBlueprint(1);
+                QuestBlueprint questBlueprint2 = World.GetQuestBlueprint(2);
+                ICharacter questor = World.Characters.FirstOrDefault(x => x.Name.ToLowerInvariant().Contains("questor"));
 
                 IQuest quest1 = new Quest.Quest(questBlueprint1, Impersonating, questor);
                 Impersonating.AddQuest(quest1);

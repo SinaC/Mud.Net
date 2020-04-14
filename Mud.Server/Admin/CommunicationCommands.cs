@@ -1,5 +1,4 @@
-﻿using Mud.Container;
-using Mud.Server.Input;
+﻿using Mud.Server.Input;
 
 namespace Mud.Server.Admin
 {
@@ -16,7 +15,7 @@ namespace Mud.Server.Admin
             }
 
             string what = $"%c%[%y%{DisplayName}%c%]: {parameters[0].Value}%x%";
-            foreach (IAdmin admin in DependencyContainer.Instance.GetInstance<IServer>().Admins)
+            foreach (IAdmin admin in Server.Admins)
                 admin.Send(what);
 
             return true;

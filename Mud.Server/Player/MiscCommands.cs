@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mud.Container;
-using Mud.Datas;
 using Mud.Logger;
 using Mud.Server.Constants;
 using Mud.Server.Input;
@@ -145,10 +143,10 @@ namespace Mud.Server.Player
 
             Send("Alas, all good things must come to an end.");
             Impersonating?.Act(ActOptions.ToRoom, "{0:N} has left the game.", Impersonating);
-            DependencyContainer.Instance.GetInstance<IServer>().Wiznet($"{DisplayName} rejoins the real world.", WiznetFlags.Logins);
+            Server.Wiznet($"{DisplayName} rejoins the real world.", WiznetFlags.Logins);
 
             Save();
-            DependencyContainer.Instance.GetInstance<IServer>().Quit(this);
+            Server.Quit(this);
             return true;
         }
 
@@ -174,7 +172,7 @@ namespace Mud.Server.Player
                 Send("Syntax: password <old> <new>");
                 return true;
             }
-            if (!DependencyContainer.Instance.GetInstance<ILoginManager>().CheckPassword(Name, parameters[0].Value))
+            if (!LoginManager.CheckPassword(Name, parameters[0].Value))
             {
                 Send("Wrong password. Wait 10 seconds.");
                 SetGlobalCooldown(10*ServerOptions.PulsePerSeconds);
@@ -185,7 +183,7 @@ namespace Mud.Server.Player
                 Send("New password must be at least five characters long.");
                 return true;
             }
-            DependencyContainer.Instance.GetInstance<ILoginManager>().ChangePassword(Name, parameters[1].Value);
+            LoginManager.ChangePassword(Name, parameters[1].Value);
             return true;
         }
 
@@ -212,7 +210,7 @@ namespace Mud.Server.Player
                 return true;
             }
 
-            if (!DependencyContainer.Instance.GetInstance<ILoginManager>().CheckPassword(Name, parameters[0].Value))
+            if (!LoginManager.CheckPassword(Name, parameters[0].Value))
             {
                 Send("Wrong password. Wait 10 seconds.");
                 SetGlobalCooldown(10 * ServerOptions.PulsePerSeconds);
@@ -224,7 +222,7 @@ namespace Mud.Server.Player
                 // perform deletion
                 Send("Deletion confirmed! Processing...");
 
-                DependencyContainer.Instance.GetInstance<IServer>().Delete(this);
+                Server.Delete(this);
             }
             else 
             {
@@ -244,7 +242,7 @@ namespace Mud.Server.Player
             }
             string msg = $"****USER BUG REPORTING -- {DisplayName}: {rawParameters}";
             Log.Default.WriteLine(LogLevels.Warning, msg); // TODO: specific log file ?
-            DependencyContainer.Instance.GetInstance<IServer>().Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+            Server.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             Send("Bug logged.");
             return true;
         }
@@ -259,7 +257,7 @@ namespace Mud.Server.Player
             }
             string msg = $"****USER TYPO REPORTING -- {DisplayName}: {rawParameters}";
             Log.Default.WriteLine(LogLevels.Warning, msg); // TODO: specific log file ?
-            DependencyContainer.Instance.GetInstance<IServer>().Wiznet(msg, WiznetFlags.Typos);
+            Server.Wiznet(msg, WiznetFlags.Typos);
             Send("Typo logged.");
             return true;
         }
