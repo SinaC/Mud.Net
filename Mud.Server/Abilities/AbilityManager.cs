@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
+using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Helpers;
@@ -51,6 +53,8 @@ namespace Mud.Server.Abilities
 
             new Ability(999999, "Test", AbilityTargets.TargetOrSelf, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 5, 0, 60, SchoolTypes.Shadow, AbilityMechanics.Shielded, DispelTypes.Magic, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.HealAbsorb, 200000, AmountOperators.Fixed))
         };
+
+        protected IWiznet Wiznet => DependencyContainer.Instance.GetInstance<IWiznet>();
 
         public AbilityManager()
         {
@@ -232,18 +236,14 @@ namespace Mud.Server.Abilities
                     break;
             }
             //5/ Say ability
-            source.Send("You cast/use '{0}'.", ability.Name); // TODO: better wording
+            SayAbility(ability, source);
             //6/ Pay resource cost
             if (ability.ResourceKind != ResourceKinds.None && ability.CostAmount > 0 && ability.CostType != AmountOperators.None)
                 source.ChangeResource(ability.ResourceKind, -cost);
             //7/ Perform effect(s) on target(s)
             IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(targets);
             foreach (ICharacter target in clone)
-            {
-                if (source != target)
-                    target.Act(ActOptions.ToCharacter, "{0} casts/uses '{1}' on you.", source, ability.Name); // TODO: better wording
                 ProcessOnOneTarget(source, target, ability, (ability.Flags & AbilityFlags.CannotMiss) == AbilityFlags.CannotMiss, (ability.Flags & AbilityFlags.CannotBeDodgedParriedBlocked) == AbilityFlags.CannotBeDodgedParriedBlocked);
-            }
             //8/ Set global cooldown
             source.ImpersonatedBy?.SetGlobalCooldown(ability.GlobalCooldown);
             // TODO: if ability cannot be used because an effect cannot be casted (ex. power word: shield with weakened soul is still affecting)
@@ -262,10 +262,11 @@ namespace Mud.Server.Abilities
             return true;
         }
 
-        private static void ProcessOnOneTarget(ICharacter source, ICharacter victim, IAbility ability, bool cannotMiss, bool cannotBeDodgedParriedBlocked)
+        private void ProcessOnOneTarget(ICharacter source, ICharacter victim, IAbility ability, bool cannotMiss, bool cannotBeDodgedParriedBlocked)
         {
             if (ability?.Effects == null || ability.Effects.Count == 0 || !source.IsValid || !victim.IsValid)
                 return;
+
             // Miss/Dodge/Parray/Block check (only for harmful ability)
             CombatHelpers.AttackResults attackResult = CombatHelpers.AttackResults.Hit;
             if (ability.Behavior == AbilityBehaviors.Harmful)
@@ -345,7 +346,7 @@ namespace Mud.Server.Abilities
                 effect.Process(source, victim, ability, attackResult);
         }
 
-        public IAbility Search(IEnumerable<AbilityAndLevel> abilities, int level, CommandParameter parameter)
+        private IAbility Search(IEnumerable<AbilityAndLevel> abilities, int level, CommandParameter parameter)
         {
             return abilities.Where(x =>
                 (x.Ability.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed
@@ -356,5 +357,174 @@ namespace Mud.Server.Abilities
                 .ElementAtOrDefault(parameter.Count - 1);
         }
 
+        private static Dictionary<string, string> SyllableTable = new Dictionary<string, string> // TODO: use Trie ?
+        {
+            { " ",      " "     },
+            { "ar",     "abra"      },
+            { "au",     "kada"      },
+            { "bless",  "fido"      },
+            { "blind",  "nose"      },
+            { "bur",    "mosa"      },
+            { "cu",     "judi"      },
+            { "de",     "oculo"     },
+            { "en",     "unso"      },
+            { "light",  "dies"      },
+            { "lo",     "hi"        },
+            { "mor",    "zak"       },
+            { "move",   "sido"      },
+            { "ness",   "lacri"     },
+            { "ning",   "illa"      },
+            { "per",    "duda"      },
+            { "ra",     "gru"       },
+            { "fresh",  "ima"       },
+            { "re",     "candus"    },
+            { "son",    "sabru"     },
+            { "tect",   "infra"     },
+            { "tri",    "cula"      },
+            { "ven",    "nofo"      },
+            { "a", "a" }, { "b", "b" }, { "c", "q" }, { "d", "e" },
+            { "e", "z" }, { "f", "y" }, { "g", "o" }, { "h", "p" },
+            { "i", "u" }, { "j", "y" }, { "k", "t" }, { "l", "r" },
+            { "m", "w" }, { "n", "i" }, { "o", "a" }, { "p", "s" },
+            { "q", "d" }, { "r", "f" }, { "s", "g" }, { "t", "h" },
+            { "u", "j" }, { "v", "z" }, { "w", "x" }, { "x", "n" },
+            { "y", "l" }, { "z", "k" }
+        };
+
+        // TODO: maybe a table should be constructed for each spell to avoid computing at each cast
+        private void SayAbility(IAbility ability, ICharacter source)
+        {
+            if (ability.Kind == AbilityKinds.Spell)
+            {
+                source.Send("You cast '{0}'.", ability.Name);
+
+                // Build mystical words for spell
+                StringBuilder mysticalWords = new StringBuilder();
+                string abilityName = ability.Name.ToLowerInvariant();
+                string remaining = abilityName;
+                while (remaining.Length > 0)
+                {
+                    bool found = false;
+                    foreach (var syllable in SyllableTable)
+                    {
+                        if (remaining.StartsWith(syllable.Key))
+                        {
+                            mysticalWords.Append(syllable.Value);
+                            remaining = remaining.Substring(syllable.Key.Length);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        mysticalWords.Append('?');
+                        remaining = remaining.Substring(1);
+                        Logger.Log.Default.WriteLine(LogLevels.Warning, "Spell {0} contains a character which is not found in syllable table", ability.Name);
+                    }
+                }
+
+                // Say to people in room except source
+                foreach (ICharacter target in source.Room.People.Where(x => x != source))
+                {
+                    if (target.KnownAbilities.Any(x => x.Ability == ability && x.Level < target.Level))
+                        target.Act(ActOptions.ToCharacter, "{0} casts the spell '{1}'.", source, ability.Name);
+                    else
+                    {
+
+                        target.Act(ActOptions.ToCharacter, "{0} utters the words, '{1}'.", source, mysticalWords);
+                    }
+                }
+            }
+            else if (ability.Kind == AbilityKinds.Skill)
+            {
+                source.Send("You use '{0}'.", ability.Name);
+                source.Act(ActOptions.ToRoom, "{0} uses '{1}'.", source, ability.Name);
+            }
+            else
+            {
+                source.Send("You use '{0}'.", ability.Name);
+                source.Act(ActOptions.ToRoom, "{0} uses '{1}'.", source, ability.Name);
+                Log.Default.WriteLine(LogLevels.Error, "Ability {0} has unknown type {1}!", ability.Name, ability.Kind);
+                Wiznet.Wiznet($"Ability {ability.Name} has unknown type {ability.Kind}!", WiznetFlags.Bugs);
+            }
+        }
+        //            /*
+        // * Utter mystical words for an sn.
+        // */
+        //void say_spell(CHAR_DATA* ch, int sn)
+        //        {
+        //            char buf[MAX_STRING_LENGTH];
+        //            char buf2[MAX_STRING_LENGTH];
+        //            CHAR_DATA* rch;
+        //            const char* pName;
+        //            int iSyl;
+        //            int length;
+
+        //  struct syl_type
+        //        {
+        //            char* old;
+        //            char* newsyl;
+        //        };
+
+        //        static const struct syl_type syl_table[] =
+        //  {
+        //    { " ",		" "		},
+        //    { "ar",		"abra"		},
+        //    { "au",		"kada"		},
+        //    { "bless",	"fido"		},
+        //    { "blind",	"nose"		},
+        //    { "bur",	"mosa"		},
+        //    { "cu",		"judi"		},
+        //    { "de",		"oculo"		},
+        //    { "en",		"unso"		},
+        //    { "light",	"dies"		},
+        //    { "lo",		"hi"		},
+        //    { "mor",	"zak"		},
+        //    { "move",	"sido"		},
+        //    { "ness",	"lacri"		},
+        //    { "ning",	"illa"		},
+        //    { "per",	"duda"		},
+        //    { "ra",		"gru"		},
+        //    { "fresh",	"ima"		},
+        //    { "re",		"candus"	},
+        //    { "son",	"sabru"		},
+        //    { "tect",	"infra"		},
+        //    { "tri",	"cula"		},
+        //    { "ven",	"nofo"		},
+        //    { "a", "a" }, { "b", "b" }, { "c", "q" }, { "d", "e" },
+        //    { "e", "z" }, { "f", "y" }, { "g", "o" }, { "h", "p" },
+        //    { "i", "u" }, { "j", "y" }, { "k", "t" }, { "l", "r" },
+        //    { "m", "w" }, { "n", "i" }, { "o", "a" }, { "p", "s" },
+        //    { "q", "d" }, { "r", "f" }, { "s", "g" }, { "t", "h" },
+        //    { "u", "j" }, { "v", "z" }, { "w", "x" }, { "x", "n" },
+        //    { "y", "l" }, { "z", "k" },
+        //    { "", "" }
+        //  };
+
+        //  buf[0]	= '\0';
+        //  for (pName = ability_table[sn].name; *pName != '\0'; pName += length ) {
+        //    for (iSyl = 0; (length = strlen(syl_table[iSyl].old)) != 0; iSyl++ ) {
+        //      if ( !str_prefix(syl_table[iSyl].old, pName ) ) {
+        //	strcat(buf, syl_table[iSyl].newsyl );
+        //	break;
+        //      }
+        //}
+
+        //    if (length == 0 )
+        //      length = 1;
+        //  }
+
+        //  sprintf(buf2, "$n utters the words, '%s'.", buf );
+        //sprintf(buf,  "$n casts the '%s' spell.", ability_table[sn].name );
+
+        //  for (rch = ch->in_room->people; rch; rch = rch->next_in_room ) {
+        //    if (rch != ch )
+        //      // Modified by SinaC 2000, was rch->pcdata->learned[sn] before
+        //      act(( !IS_NPC(rch) && (get_ability(rch, sn) > 0) ) ? buf : buf2,
+        //	   ch, NULL, rch, TO_VICT);
+        //  }
+
+        //  return;
+        //}
     }
 }
