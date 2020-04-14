@@ -10,6 +10,8 @@ namespace Mud.Server.Aura
         private DateTime _startTime;
         private DateTime _lastTickElapsed;
 
+        protected ITimeHandler TimeHandler => DependencyContainer.Instance.GetInstance<ITimeHandler>();
+
         #region IPeriodicAura
 
         public IAbility Ability { get; }
@@ -27,7 +29,7 @@ namespace Mud.Server.Aura
         {
             get
             {
-                TimeSpan ts = DependencyContainer.Instance.GetInstance<IServer>().CurrentTime - _startTime;
+                TimeSpan ts = TimeHandler.CurrentTime - _startTime;
                 return TotalTicks*TickDelay - (int) Math.Ceiling(ts.TotalSeconds);
             }
         }
@@ -36,8 +38,8 @@ namespace Mud.Server.Aura
 
         public PeriodicAura(IAbility ability, PeriodicAuraTypes auraType, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
         {
-            _startTime = DependencyContainer.Instance.GetInstance<IServer>().CurrentTime;
-            _lastTickElapsed = DependencyContainer.Instance.GetInstance<IServer>().CurrentTime;
+            _startTime = TimeHandler.CurrentTime;
+            _lastTickElapsed = TimeHandler.CurrentTime;
 
             Ability = ability;
             AuraType = auraType;
@@ -72,7 +74,7 @@ namespace Mud.Server.Aura
             }
 
             // Set/Reset start time on first tick
-            DateTime now = DependencyContainer.Instance.GetInstance<IServer>().CurrentTime;
+            DateTime now = TimeHandler.CurrentTime;
             if (TicksLeft == TotalTicks) // first tick
                 _startTime = now;
 
@@ -105,7 +107,7 @@ namespace Mud.Server.Aura
         // Refresh with a new aura
         public void Refresh(IPeriodicAura aura)
         {
-            _startTime = DependencyContainer.Instance.GetInstance<IServer>().CurrentTime;
+            _startTime = TimeHandler.CurrentTime;
             // Refresh aura values
             TicksLeft = aura.TotalTicks;
             TickDelay = aura.TickDelay;

@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Mud.Container;
 using Mud.Server.Constants;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -23,7 +22,7 @@ namespace Mud.Server.Admin
             }
 
             ICharacter victim = Impersonating == null
-                ? FindHelpers.FindByName(DependencyContainer.Instance.GetInstance<IWorld>().Characters, parameters[0])
+                ? FindHelpers.FindByName(World.Characters, parameters[0])
                 : FindHelpers.FindChararacterInWorld(Impersonating, parameters[0]);
             if (victim == null)
             {
@@ -41,7 +40,7 @@ namespace Mud.Server.Admin
             victim.ProcessCommand(command);
             Send("Ok.");
 
-            DependencyContainer.Instance.GetInstance<IServer>().Wiznet($"{DisplayName} forces {victim.DebugName} to {command}", WiznetFlags.Punish);
+            Server.Wiznet($"{DisplayName} forces {victim.DebugName} to {command}", WiznetFlags.Punish);
 
             return true;
         }
@@ -63,12 +62,12 @@ namespace Mud.Server.Admin
                     Send("There's a limit to cruel and unusual punishment.");
                 else
                 {
-                    IPlayer victim = DependencyContainer.Instance.GetInstance<IServer>().GetPlayer(parameters[0], true);
+                    IPlayer victim = Server.GetPlayer(parameters[0], true);
                     if (victim == null)
                         Send(StringHelpers.CharacterNotFound);
                     else
                     {
-                        DependencyContainer.Instance.GetInstance<IServer>().Wiznet($"{DisplayName} adds lag {victim.DisplayName}.", WiznetFlags.Punish);
+                        Server.Wiznet($"{DisplayName} adds lag {victim.DisplayName}.", WiznetFlags.Punish);
 
                         Send("Adding lag now.");
                         victim.SetGlobalCooldown(count);
@@ -87,7 +86,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            IPlayer whom = FindHelpers.FindByName(DependencyContainer.Instance.GetInstance<IServer>().Players, parameters[0]);
+            IPlayer whom = FindHelpers.FindByName(Server.Players, parameters[0]);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
@@ -96,8 +95,8 @@ namespace Mud.Server.Admin
             if (whom == this)
             {
                 Send("Cancelling all snoops.");
-                DependencyContainer.Instance.GetInstance<IServer>().Wiznet($"{DisplayName} stops being such as snoop.", WiznetFlags.Punish | WiznetFlags.Snoops);
-                foreach (IPlayer player in DependencyContainer.Instance.GetInstance<IServer>().Players)
+                Server.Wiznet($"{DisplayName} stops being such as snoop.", WiznetFlags.Punish | WiznetFlags.Snoops);
+                foreach (IPlayer player in Server.Players)
                 {
                     if (player.SnoopBy == this)
                         player.SetSnoopBy(null);
@@ -117,7 +116,7 @@ namespace Mud.Server.Admin
                     return true;
                 }
 
-            DependencyContainer.Instance.GetInstance<IServer>().Wiznet($"{DisplayName} starts snooping {whom.DisplayName}.", WiznetFlags.Snoops | WiznetFlags.Punish);
+            Server.Wiznet($"{DisplayName} starts snooping {whom.DisplayName}.", WiznetFlags.Snoops | WiznetFlags.Punish);
 
             whom.SetSnoopBy(this);
             Send("Ok.");

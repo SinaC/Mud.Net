@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Mud.Container;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Constants;
@@ -22,7 +21,7 @@ namespace Mud.Server.Admin
             else if (seconds < 30)
                 Send("You cannot shutdown that fast.");
             else
-                DependencyContainer.Instance.GetInstance<IServer>().Shutdown(seconds);
+                Server.Shutdown(seconds);
             return true;
         }
 
@@ -36,22 +35,22 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            CharacterBlueprint characterBlueprint = DependencyContainer.Instance.GetInstance<IWorld>().GetCharacterBlueprint(parameters[0].AsNumber);
+            CharacterBlueprint characterBlueprint = World.GetCharacterBlueprint(parameters[0].AsNumber);
             if (characterBlueprint == null)
             {
                 Send("No character with that id.");
                 return true;
             }
 
-            ICharacter character = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), characterBlueprint, Impersonating.Room);
+            ICharacter character = World.AddCharacter(Guid.NewGuid(), characterBlueprint, Impersonating.Room);
             if (character == null)
             {
                 Send("Character cannot be created.");
-                DependencyContainer.Instance.GetInstance<IServer>().Wiznet($"DoCload: character with id {parameters[0].AsNumber} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Server.Wiznet($"DoCload: character with id {parameters[0].AsNumber} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return true;
             }
 
-            DependencyContainer.Instance.GetInstance<IServer>().Wiznet($"{DisplayName} loads {character.DebugName}.", WiznetFlags.Load);
+            Server.Wiznet($"{DisplayName} loads {character.DebugName}.", WiznetFlags.Load);
 
             Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1:n}!", Impersonating, character);
             Send("Ok.");
@@ -69,7 +68,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            ItemBlueprintBase itemBlueprint = DependencyContainer.Instance.GetInstance<IWorld>().GetItemBlueprint(parameters[0].AsNumber);
+            ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(parameters[0].AsNumber);
             if (itemBlueprint == null)
             {
                 Send("No item with that id.");
@@ -77,15 +76,15 @@ namespace Mud.Server.Admin
             }
 
             IContainer container = itemBlueprint.WearLocation == WearLocations.None ? Impersonating.Room as IContainer : Impersonating as IContainer;
-            IItem item = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), itemBlueprint, container);
+            IItem item = World.AddItem(Guid.NewGuid(), itemBlueprint, container);
             if (item == null)
             {
                 Send("Item cannot be created.");
-                DependencyContainer.Instance.GetInstance<IServer>().Wiznet($"DoIload: item with id {parameters[0].AsNumber} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Server.Wiznet($"DoIload: item with id {parameters[0].AsNumber} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return true;
             }
 
-            DependencyContainer.Instance.GetInstance<IServer>().Wiznet($"{DisplayName} loads {item.DebugName}.", WiznetFlags.Load);
+            Server.Wiznet($"{DisplayName} loads {item.DebugName}.", WiznetFlags.Load);
 
             Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1}!", Impersonating, item);
             Send("Ok.");
@@ -115,7 +114,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            DependencyContainer.Instance.GetInstance<IServer>().Wiznet($"{DisplayName} slayed {victim.DebugName}.", WiznetFlags.Punish);
+            Server.Wiznet($"{DisplayName} slayed {victim.DebugName}.", WiznetFlags.Punish);
 
             victim.Act(ActOptions.ToAll, "{0:N} slay{0:v} {1} in cold blood!", Impersonating, victim);
             victim.RawKilled(Impersonating, false);
@@ -139,10 +138,10 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            DependencyContainer.Instance.GetInstance<IServer>().Wiznet($"{DisplayName} purges {item.DebugName}.", WiznetFlags.Punish);
+            Server.Wiznet($"{DisplayName} purges {item.DebugName}.", WiznetFlags.Punish);
 
             Impersonating.Act(ActOptions.ToAll, "{0:N} purge{0:v} {1}!", Impersonating, item);
-            DependencyContainer.Instance.GetInstance<IWorld>().RemoveItem(item);
+            World.RemoveItem(item);
 
             return true;
         }
@@ -183,7 +182,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            ICharacter victim = FindHelpers.FindByName(DependencyContainer.Instance.GetInstance<IServer>().Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), parameters[0]);
+            ICharacter victim = FindHelpers.FindByName(Server.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), parameters[0]);
             if (victim == null)
             {
                 Send("That impersonated player is not here.");
@@ -203,7 +202,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            DependencyContainer.Instance.GetInstance<IServer>().Wiznet($"{DisplayName} give experience [{experience}] to {victim.DebugName}.", WiznetFlags.Help);
+            Server.Wiznet($"{DisplayName} give experience [{experience}] to {victim.DebugName}.", WiznetFlags.Help);
 
             victim.Send("You have received an experience boost.");
             victim.GainExperience(experience);
@@ -248,7 +247,7 @@ namespace Mud.Server.Admin
             if (Impersonating != null)
                 whom = FindHelpers.FindChararacterInWorld(Impersonating, parameters[0]);
             else
-                whom = FindHelpers.FindByName(DependencyContainer.Instance.GetInstance<IWorld>().Characters, parameters[0]);
+                whom = FindHelpers.FindByName(World.Characters, parameters[0]);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
@@ -282,7 +281,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            IPlayer whom = FindHelpers.FindByName(DependencyContainer.Instance.GetInstance<IServer>().Players, parameters[0]);
+            IPlayer whom = FindHelpers.FindByName(Server.Players, parameters[0]);
 
             if (whom == null)
             {

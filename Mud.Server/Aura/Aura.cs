@@ -6,6 +6,8 @@ namespace Mud.Server.Aura
 {
     public class Aura : IAura
     {
+        protected ITimeHandler TimeHandler => DependencyContainer.Instance.GetInstance<ITimeHandler>();
+
         #region IAura
 
         public IAbility Ability { get; }
@@ -20,7 +22,7 @@ namespace Mud.Server.Aura
         {
             get
             {
-                TimeSpan ts = DependencyContainer.Instance.GetInstance<IServer>().CurrentTime - StartTime;
+                TimeSpan ts = TimeHandler.CurrentTime - StartTime;
                 return TotalSeconds - (int)Math.Ceiling(ts.TotalSeconds);
             }
         }
@@ -29,7 +31,7 @@ namespace Mud.Server.Aura
 
         public Aura(IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds)
         {
-            StartTime = DependencyContainer.Instance.GetInstance<IServer>().CurrentTime;
+            StartTime = TimeHandler.CurrentTime;
 
             Ability = ability;
             Source = source;
@@ -64,7 +66,7 @@ namespace Mud.Server.Aura
         // Refresh with a new aura
         public void Refresh(IAura aura)
         {
-            StartTime = DependencyContainer.Instance.GetInstance<IServer>().CurrentTime;
+            StartTime = TimeHandler.CurrentTime;
 
             // Refresh aura values
             Amount = aura.Amount;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using Mud.Container;
 using Mud.Datas.DataContracts;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
@@ -66,21 +65,21 @@ namespace Mud.Server.Character
         public Character(Guid guid, CharacterData data, IRoom room)
             : this(guid, data.Name, string.Empty)
         {
-            Class = DependencyContainer.Instance.GetInstance<IClassManager>()[data.Class];
+            Class = ClassManager[data.Class];
             if (Class == null)
             {
                 string msg = $"Invalid class {data.Class} for character {data.Name}!!";
                 Log.Default.WriteLine(LogLevels.Error, msg);
-                Class = DependencyContainer.Instance.GetInstance<IClassManager>().Classes.First();
-                DependencyContainer.Instance.GetInstance<IServer>().Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+                Class = ClassManager.Classes.First();
+                Server.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             }
-            Race = DependencyContainer.Instance.GetInstance<IRaceManager>()[data.Race];
+            Race = RaceManager[data.Race];
             if (Race == null)
             {
                 string msg = $"Invalid race {data.Race} for character {data.Name}!!";
                 Log.Default.WriteLine(LogLevels.Error, msg);
-                Race = DependencyContainer.Instance.GetInstance<IRaceManager>().Races.First();
-                DependencyContainer.Instance.GetInstance<IServer>().Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+                Race = RaceManager.Races.First();
+                Server.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             }
             Sex = data.Sex;
             Level = data.Level;
@@ -1050,7 +1049,7 @@ namespace Mud.Server.Character
             }
 
             // Off hand
-            if (KnownAbilities.Any(x => x.Ability == DependencyContainer.Instance.GetInstance<IAbilityManager>().DualWieldAbility))
+            if (KnownAbilities.Any(x => x.Ability == AbilityManager.DualWieldAbility))
             {
                 IItemWeapon wielded2 = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2) ?? EquipedItem.NullObject).Item as IItemWeapon;
                 if (wielded2 == null)
@@ -1061,7 +1060,7 @@ namespace Mud.Server.Character
                 return true;
 
             // 3rd hand or Wield2H2
-            if (KnownAbilities.Any(x => x.Ability == DependencyContainer.Instance.GetInstance<IAbilityManager>().ThirdWieldAbility))
+            if (KnownAbilities.Any(x => x.Ability == AbilityManager.ThirdWieldAbility))
             {
                 IItemWeapon wielded3 = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield3) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2H2) ?? EquipedItem.NullObject).Item as IItemWeapon;
                 if (wielded3 == null)
@@ -1072,7 +1071,7 @@ namespace Mud.Server.Character
                 return true;
 
             // 4th hand
-            if (KnownAbilities.Any(x => x.Ability == DependencyContainer.Instance.GetInstance<IAbilityManager>().FourthWieldAbility))
+            if (KnownAbilities.Any(x => x.Ability == AbilityManager.FourthWieldAbility))
             {
                 IItemWeapon wielded4 = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield4) ?? EquipedItem.NullObject).Item as IItemWeapon;
                 if (wielded4 == null)
@@ -1108,7 +1107,7 @@ namespace Mud.Server.Character
             ChangePosition(Positions.Standing);
             if (both)
             {
-                foreach (ICharacter enemy in DependencyContainer.Instance.GetInstance<IWorld>().Characters.Where(x => x.Fighting == this))
+                foreach (ICharacter enemy in World.Characters.Where(x => x.Fighting == this))
                     enemy.StopFighting(false);
             }
             return true;
@@ -1184,10 +1183,9 @@ namespace Mud.Server.Character
                 wiznetMsg = $"{DebugName} got toasted by {killer.DebugName ?? "???"} at {Room?.DebugName ?? "???"}";
             else
                 wiznetMsg = $"{DebugName} got toasted by an unknown source at {Room?.DebugName ?? "???"}";
-            if (Impersonable)
-                DependencyContainer.Instance.GetInstance<IServer>().Wiznet(wiznetMsg, WiznetFlags.Deaths);
-            else
-                DependencyContainer.Instance.GetInstance<IServer>().Wiznet(wiznetMsg, WiznetFlags.MobDeaths);
+            Server.Wiznet(wiznetMsg, Impersonable
+                ? WiznetFlags.Deaths
+                : WiznetFlags.MobDeaths);
 
             StopFighting(true);
             // Remove periodic auras
@@ -1211,9 +1209,9 @@ namespace Mud.Server.Character
             // Create corpse
             IItemCorpse corpse;
             if (killer != null)
-                corpse = DependencyContainer.Instance.GetInstance<IWorld>().AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, this, killer);
+                corpse = World.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, this, killer);
             else
-                corpse = DependencyContainer.Instance.GetInstance<IWorld>().AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, this);
+                corpse = World.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, this);
             if (ImpersonatedBy != null) // If impersonated, no real death
             {
                 // TODO: teleport player to hall room/graveyard  see fight.C:3952
@@ -1221,7 +1219,7 @@ namespace Mud.Server.Character
             }
             else // If not impersonated, remove from game
             {
-                DependencyContainer.Instance.GetInstance<IWorld>().RemoveCharacter(this);
+                World.RemoveCharacter(this);
             }
 
             // TODO: autoloot, autosac  damage.C:96
@@ -1290,7 +1288,7 @@ namespace Mud.Server.Character
                     {
                         recompute = true;
                         Level++;
-                        DependencyContainer.Instance.GetInstance<IServer>().Wiznet($"{DebugName} has attained level {Level}", WiznetFlags.Levels);
+                        Server.Wiznet($"{DebugName} has attained level {Level}", WiznetFlags.Levels);
                         Send("You raise a level!!");
                         Act(ActOptions.ToGroup, "{0} has attained level {1}", this, Level);
                         // In case multiple level are gain, check max level
@@ -1325,7 +1323,7 @@ namespace Mud.Server.Character
             DateTime nextAvailability;
             if (_cooldowns.TryGetValue(ability, out nextAvailability))
             {
-                TimeSpan diff = nextAvailability - DependencyContainer.Instance.GetInstance<IServer>().CurrentTime;
+                TimeSpan diff = nextAvailability - TimeHandler.CurrentTime;
                 int secondsLeft = (int) Math.Ceiling(diff.TotalSeconds);
                 return secondsLeft;
             }
@@ -1334,7 +1332,7 @@ namespace Mud.Server.Character
 
         public void SetCooldown(IAbility ability)
         {
-            DateTime nextAvailability = DependencyContainer.Instance.GetInstance<IServer>().CurrentTime.AddSeconds(ability.Cooldown);
+            DateTime nextAvailability = TimeHandler.CurrentTime.AddSeconds(ability.Cooldown);
             _cooldowns[ability] = nextAvailability;
         }
 
@@ -1821,7 +1819,7 @@ namespace Mud.Server.Character
 
             // Admins know every abilities
             //if (ImpersonatedBy is IAdmin)
-            //    _knownAbilities.AddRange(DependencyContainer.Instance.GetInstance<IAbilityManager>().Abilities.Select(x => new AbilityAndLevel(1,x)));
+            //    _knownAbilities.AddRange(AbilityManager.Abilities.Select(x => new AbilityAndLevel(1,x)));
             //else
             {
                 if (Class != null)
@@ -1851,7 +1849,7 @@ namespace Mud.Server.Character
                     Priority = 1,
                     AddCommandInParameters = true // !! this is mandatory
                 };
-                Func<string, CommandParameter[], bool> func = (rawParameters, parameters) => DependencyContainer.Instance.GetInstance<IAbilityManager>().Process(this, parameters);
+                Func<string, CommandParameter[], bool> func = (rawParameters, parameters) => AbilityManager.Process(this, parameters);
                 CommandMethodInfo cmi = new CommandMethodInfo(ca, func.Method);
                 skillCommands.Add(new TrieEntry<CommandMethodInfo>(commandName, cmi));
             }

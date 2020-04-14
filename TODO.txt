@@ -1,5 +1,7 @@
 default error message with character command if not in correct position
 
+rename IPlayerManager into IPlayerRepository, same goes for IAdminManager and ILoginManager
+
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
 
 specialization

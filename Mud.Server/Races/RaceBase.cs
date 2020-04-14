@@ -34,6 +34,8 @@ namespace Mud.Server.Races
                 Constants.EquipmentSlots.Hold,
         };
 
+        protected IAbilityManager AbilityManager => DependencyContainer.Instance.GetInstance<IAbilityManager>();
+
         #region IRace
 
         public abstract string Name { get; }
@@ -57,7 +59,7 @@ namespace Mud.Server.Races
 
         public void AddAbility(int level, int abilityId)
         {
-            IAbility ability = DependencyContainer.Instance.GetInstance<IAbilityManager>()[abilityId];
+            IAbility ability = AbilityManager[abilityId];
             if (ability == null)
             {
                 Log.Default.WriteLine(LogLevels.Error, "Trying to add unknown ability [id:{0}] to race [{1}]", abilityId, Name);
@@ -69,7 +71,7 @@ namespace Mud.Server.Races
 
         public void AddAbility(int level, string abilityName)
         {
-            IAbility ability = DependencyContainer.Instance.GetInstance<IAbilityManager>()[abilityName];
+            IAbility ability = AbilityManager[abilityName];
             if (ability == null)
             {
                 Log.Default.WriteLine(LogLevels.Error, "Trying to add unknown ability [{0}] to race [{1}]", abilityName, Name);
