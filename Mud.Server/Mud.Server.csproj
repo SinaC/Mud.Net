@@ -75,6 +75,7 @@
     <Compile Include="Helpers\CombatHelpers.cs" />
     <Compile Include="Helpers\ComplexTableGenerator.cs" />
     <Compile Include="Helpers\TableGenerator.cs" />
+    <Compile Include="IAdminManager.cs" />
     <Compile Include="IArea.cs" />
     <Compile Include="IClass.cs" />
     <Compile Include="Entity\EntityBase.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="IItem.cs" />
     <Compile Include="IPeriodicAura.cs" />
     <Compile Include="IPlayer.cs" />
+    <Compile Include="IPlayerManager.cs" />
     <Compile Include="IQuest.cs" />
     <Compile Include="IRace.cs" />
     <Compile Include="IRaceManager.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="Item\ItemShield.cs" />
     <Compile Include="Item\ItemWeapon.cs" />
     <Compile Include="ITimeHandler.cs" />
+    <Compile Include="IWiznet.cs" />
     <Compile Include="IWorld.cs" />
     <Compile Include="Item\ItemContainer.cs" />
     <Compile Include="Item\ItemBase.cs" />

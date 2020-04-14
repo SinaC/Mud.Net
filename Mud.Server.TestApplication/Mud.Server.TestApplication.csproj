@@ -62,6 +62,18 @@
       <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
       <Name>Mud.Container</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Repository.Filesystem\Mud.Repository.Filesystem.csproj">
+      <Project>{520950bd-51eb-4c0e-aea4-a6cec62b23fc}</Project>
+      <Name>Mud.Repository.Filesystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Repository.Mongo\Mud.Repository.Mongo.csproj">
+      <Project>{e493e419-b6ab-4ee0-bd8b-0b2ea775849f}</Project>
+      <Name>Mud.Repository.Mongo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Repository.TestApplication\Mud.Repository.TestApplication.csproj">
+      <Project>{0c8470e9-d691-48ea-8f36-504781c18777}</Project>
+      <Name>Mud.Repository.TestApplication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj">
       <Project>{2c853490-7908-4e36-b906-72eba82b4236}</Project>
       <Name>Mud.Repository</Name>

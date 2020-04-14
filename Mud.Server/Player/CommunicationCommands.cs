@@ -15,7 +15,7 @@ namespace Mud.Server.Player
                 Send("Tell whom what ?");
                 return true;
             }
-            IPlayer whom = Server.GetPlayer(parameters[0], true);
+            IPlayer whom = PlayerManager.GetPlayer(parameters[0], true);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
@@ -54,7 +54,7 @@ namespace Mud.Server.Player
         {
             Send("%m%You gossip '%M%{0}%m%'%x%", rawParameters);
             string other = $"%m%{DisplayName} gossips '%M%{rawParameters}%m%'%x%";
-            foreach (IPlayer player in Server.Players.Where(x => x != this))
+            foreach (IPlayer player in PlayerManager.Players.Where(x => x != this))
                 player.Send(other);
 
             return true;
@@ -73,7 +73,7 @@ namespace Mud.Server.Player
             Send("%y%You question '{0}'%x%", what);
 
             string phrase = $"%y%{DisplayName} questions '{what}'%x%";
-            foreach (IPlayer player in Server.Players.Where(x => x != this))
+            foreach (IPlayer player in PlayerManager.Players.Where(x => x != this))
                 player.Send(phrase);
 
             return true;
@@ -92,7 +92,7 @@ namespace Mud.Server.Player
             Send("%y%You answer '{0}'%x%", what);
 
             string phrase = $"%y%{DisplayName} answers '{what}'%x%";
-            foreach (IPlayer player in Server.Players.Where(x => x != this))
+            foreach (IPlayer player in PlayerManager.Players.Where(x => x != this))
                 player.Send(phrase);
 
             return true;

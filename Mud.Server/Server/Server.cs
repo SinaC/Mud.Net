@@ -29,7 +29,7 @@ namespace Mud.Server.Server
 
     // Once playing,
     //  in synchronous mode, input and output are 'queued' and handled by ProcessorInput/ProcessOutput
-    public class Server : IServer, ITimeHandler, IDisposable
+    public class Server : IServer, ITimeHandler, IWiznet, IPlayerManager, IAdminManager, IDisposable
     {
         // This allows fast lookup with client or player BUT both structures must be modified at the same time
         private readonly object _playingClientLockObject = new object();
@@ -173,19 +173,29 @@ namespace Mud.Server.Server
             }
         }
 
+        #endregion
+
+        #region ITimeHandler
+
+        public DateTime CurrentTime { get; private set; }
+
+        #endregion
+
+        #region IWiznet
+
         public void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
         {
             foreach (IAdmin admin in Admins.Where(a => (a.WiznetFlags & flags) == flags && a.Level >= minLevel))
                 admin.Send($"%W%WIZNET%x%:{message}");
         }
 
+        #endregion
+
+        #region IPlayerManager
+
         public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys, parameter, perfectMatch);
 
         public IEnumerable<IPlayer> Players => _players.Keys;
-
-        public IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys.OfType<IAdmin>(), parameter, perfectMatch);
-
-        public IEnumerable<IAdmin> Admins => _players.Keys.OfType<IAdmin>();
 
         // TODO: remove
         // TEST PURPOSE
@@ -211,6 +221,18 @@ namespace Mud.Server.Server
             return player;
         }
 
+
+
+        #endregion
+
+        #region IAdminManager
+
+        public IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys.OfType<IAdmin>(), parameter, perfectMatch);
+
+        public IEnumerable<IAdmin> Admins => _players.Keys.OfType<IAdmin>();
+
+        // TODO: remove
+        // TEST PURPOSE
         public IAdmin AddAdmin(IClient client, string name)
         {
             IAdmin admin = new Admin.Admin(Guid.NewGuid(), name);
@@ -232,12 +254,6 @@ namespace Mud.Server.Server
 
             return admin;
         }
-
-        #endregion
-
-        #region ITimeHandler
-
-        public DateTime CurrentTime { get; private set; }
 
         #endregion
 

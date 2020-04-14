@@ -38,7 +38,7 @@ namespace Mud.Server.Player
                 string msg = $"Invalid roomId {characterData.RoomId} for character {characterData.Name}!!";
                 location = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3001); // TODO: default room in IWorld
                 Log.Default.WriteLine(LogLevels.Error, msg);
-                Server.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             }
             ICharacter avatar = World.AddCharacter(Guid.NewGuid(), characterData, location);
             Send("%M%You start impersonating %C%{0}%x%.", avatar.DisplayName);

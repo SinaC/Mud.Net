@@ -14,7 +14,7 @@ namespace Mud.Server.Player
             StringBuilder sb = new StringBuilder();
             //
             sb.AppendFormatLine("Players:");
-            foreach (IPlayer player in Server.Players)
+            foreach (IPlayer player in PlayerManager.Players)
             {
                 IAdmin admin = player as IAdmin;
                 string adminLevel = admin == null ? "" : $"[{admin.Level}]";

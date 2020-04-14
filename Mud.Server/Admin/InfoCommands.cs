@@ -21,7 +21,7 @@ namespace Mud.Server.Admin
             StringBuilder sb = new StringBuilder();
             //
             sb.AppendLine("Players:");
-            foreach (IPlayer player in Server.Players.Where(x => !(x is IAdmin))) // only player
+            foreach (IPlayer player in PlayerManager.Players.Where(x => !(x is IAdmin))) // only player
             {
                 switch (player.PlayerState)
                 {
@@ -43,7 +43,7 @@ namespace Mud.Server.Admin
             }
             //
             sb.AppendFormatLine("Admins:");
-            foreach (IAdmin admin in Server.Admins)
+            foreach (IAdmin admin in AdminManager.Admins)
             {
                 switch (admin.PlayerState)
                 {
@@ -135,8 +135,8 @@ namespace Mud.Server.Admin
         protected virtual bool DoStat(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormatLine("#Admins: {0}", Server.Admins.Count());
-            sb.AppendFormatLine("#Players: {0}", Server.Players.Count());
+            sb.AppendFormatLine("#Admins: {0}", AdminManager.Admins.Count());
+            sb.AppendFormatLine("#Players: {0}", PlayerManager.Players.Count());
             sb.AppendFormatLine("#Areas: {0}", World.Areas.Count());
             sb.AppendLine("Blueprints:");
             sb.AppendFormatLine("   #Rooms: {0}", World.RoomBlueprints.Count);

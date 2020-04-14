@@ -143,7 +143,7 @@ namespace Mud.Server.Player
 
             Send("Alas, all good things must come to an end.");
             Impersonating?.Act(ActOptions.ToRoom, "{0:N} has left the game.", Impersonating);
-            Server.Wiznet($"{DisplayName} rejoins the real world.", WiznetFlags.Logins);
+            Wiznet.Wiznet($"{DisplayName} rejoins the real world.", WiznetFlags.Logins);
 
             Save();
             Server.Quit(this);
@@ -172,7 +172,7 @@ namespace Mud.Server.Player
                 Send("Syntax: password <old> <new>");
                 return true;
             }
-            if (!LoginManager.CheckPassword(Name, parameters[0].Value))
+            if (!LoginRepository.CheckPassword(Name, parameters[0].Value))
             {
                 Send("Wrong password. Wait 10 seconds.");
                 SetGlobalCooldown(10*ServerOptions.PulsePerSeconds);
@@ -183,7 +183,7 @@ namespace Mud.Server.Player
                 Send("New password must be at least five characters long.");
                 return true;
             }
-            LoginManager.ChangePassword(Name, parameters[1].Value);
+            LoginRepository.ChangePassword(Name, parameters[1].Value);
             return true;
         }
 
@@ -210,7 +210,7 @@ namespace Mud.Server.Player
                 return true;
             }
 
-            if (!LoginManager.CheckPassword(Name, parameters[0].Value))
+            if (!LoginRepository.CheckPassword(Name, parameters[0].Value))
             {
                 Send("Wrong password. Wait 10 seconds.");
                 SetGlobalCooldown(10 * ServerOptions.PulsePerSeconds);
@@ -242,7 +242,7 @@ namespace Mud.Server.Player
             }
             string msg = $"****USER BUG REPORTING -- {DisplayName}: {rawParameters}";
             Log.Default.WriteLine(LogLevels.Warning, msg); // TODO: specific log file ?
-            Server.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             Send("Bug logged.");
             return true;
         }
@@ -257,7 +257,7 @@ namespace Mud.Server.Player
             }
             string msg = $"****USER TYPO REPORTING -- {DisplayName}: {rawParameters}";
             Log.Default.WriteLine(LogLevels.Warning, msg); // TODO: specific log file ?
-            Server.Wiznet(msg, WiznetFlags.Typos);
+            Wiznet.Wiznet(msg, WiznetFlags.Typos);
             Send("Typo logged.");
             return true;
         }

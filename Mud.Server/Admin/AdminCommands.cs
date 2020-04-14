@@ -46,11 +46,11 @@ namespace Mud.Server.Admin
             if (character == null)
             {
                 Send("Character cannot be created.");
-                Server.Wiznet($"DoCload: character with id {parameters[0].AsNumber} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet($"DoCload: character with id {parameters[0].AsNumber} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return true;
             }
 
-            Server.Wiznet($"{DisplayName} loads {character.DebugName}.", WiznetFlags.Load);
+            Wiznet.Wiznet($"{DisplayName} loads {character.DebugName}.", WiznetFlags.Load);
 
             Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1:n}!", Impersonating, character);
             Send("Ok.");
@@ -80,11 +80,11 @@ namespace Mud.Server.Admin
             if (item == null)
             {
                 Send("Item cannot be created.");
-                Server.Wiznet($"DoIload: item with id {parameters[0].AsNumber} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet($"DoIload: item with id {parameters[0].AsNumber} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return true;
             }
 
-            Server.Wiznet($"{DisplayName} loads {item.DebugName}.", WiznetFlags.Load);
+            Wiznet.Wiznet($"{DisplayName} loads {item.DebugName}.", WiznetFlags.Load);
 
             Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1}!", Impersonating, item);
             Send("Ok.");
@@ -114,7 +114,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            Server.Wiznet($"{DisplayName} slayed {victim.DebugName}.", WiznetFlags.Punish);
+            Wiznet.Wiznet($"{DisplayName} slayed {victim.DebugName}.", WiznetFlags.Punish);
 
             victim.Act(ActOptions.ToAll, "{0:N} slay{0:v} {1} in cold blood!", Impersonating, victim);
             victim.RawKilled(Impersonating, false);
@@ -138,7 +138,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            Server.Wiznet($"{DisplayName} purges {item.DebugName}.", WiznetFlags.Punish);
+            Wiznet.Wiznet($"{DisplayName} purges {item.DebugName}.", WiznetFlags.Punish);
 
             Impersonating.Act(ActOptions.ToAll, "{0:N} purge{0:v} {1}!", Impersonating, item);
             World.RemoveItem(item);
@@ -182,7 +182,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            ICharacter victim = FindHelpers.FindByName(Server.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), parameters[0]);
+            ICharacter victim = FindHelpers.FindByName(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), parameters[0]);
             if (victim == null)
             {
                 Send("That impersonated player is not here.");
@@ -202,7 +202,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            Server.Wiznet($"{DisplayName} give experience [{experience}] to {victim.DebugName}.", WiznetFlags.Help);
+            Wiznet.Wiznet($"{DisplayName} give experience [{experience}] to {victim.DebugName}.", WiznetFlags.Help);
 
             victim.Send("You have received an experience boost.");
             victim.GainExperience(experience);
@@ -281,7 +281,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            IPlayer whom = FindHelpers.FindByName(Server.Players, parameters[0]);
+            IPlayer whom = FindHelpers.FindByName(PlayerManager.Players, parameters[0]);
 
             if (whom == null)
             {
