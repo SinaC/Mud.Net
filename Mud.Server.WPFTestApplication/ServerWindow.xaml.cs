@@ -10,7 +10,6 @@ using System.Windows.Media;
 using AutoMapper;
 using Mud.Container;
 using Mud.Domain;
-using Mud.Importer.Mystery;
 using Mud.Logger;
 using Mud.Network;
 using Mud.Network.Telnet;
@@ -363,17 +362,17 @@ namespace Mud.Server.WPFTestApplication
         private static ExitFlags ConvertExitInfo(long exitInfo)
         {
             ExitFlags flags = 0;
-            if ((exitInfo & MysteryImporter.A) == MysteryImporter.A)
+            if ((exitInfo & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A)
                 flags |= ExitFlags.Door;
-            if ((exitInfo & MysteryImporter.B) == MysteryImporter.B)
+            if ((exitInfo & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B)
                 flags |= ExitFlags.Closed;
-            if ((exitInfo & MysteryImporter.B) == MysteryImporter.B)
+            if ((exitInfo & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B)
                 flags |= ExitFlags.Locked;
-            if ((exitInfo & MysteryImporter.H) == MysteryImporter.H)
+            if ((exitInfo & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H)
                 flags |= ExitFlags.Easy;
-            if ((exitInfo & MysteryImporter.I) == MysteryImporter.I)
+            if ((exitInfo & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I)
                 flags |= ExitFlags.Hard;
-            if ((exitInfo & MysteryImporter.M) == MysteryImporter.M)
+            if ((exitInfo & Importer.Mystery.MysteryImporter.M) == Importer.Mystery.MysteryImporter.M)
                 flags |= ExitFlags.Hidden;
             return flags;
         }
@@ -383,21 +382,21 @@ namespace Mud.Server.WPFTestApplication
             FurnitureActions actions = FurnitureActions.None;
 
             int flag = value == null ? 0 : Convert.ToInt32(value);
-            if ((flag & MysteryImporter.A) == MysteryImporter.A
-                || (flag & MysteryImporter.B) == MysteryImporter.B
-                || (flag & MysteryImporter.C) == MysteryImporter.C)
+            if ((flag & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A
+                || (flag & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B
+                || (flag & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C)
                 actions |= FurnitureActions.Stand;
-            if ((flag & MysteryImporter.D) == MysteryImporter.D
-                || (flag & MysteryImporter.E) == MysteryImporter.E
-                || (flag & MysteryImporter.F) == MysteryImporter.F)
+            if ((flag & Importer.Mystery.MysteryImporter.D) == Importer.Mystery.MysteryImporter.D
+                || (flag & Importer.Mystery.MysteryImporter.E) == Importer.Mystery.MysteryImporter.E
+                || (flag & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F)
                 actions |= FurnitureActions.Sit;
-            if ((flag & MysteryImporter.G) == MysteryImporter.G
-                || (flag & MysteryImporter.H) == MysteryImporter.H
-                || (flag & MysteryImporter.I) == MysteryImporter.I)
+            if ((flag & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G
+                || (flag & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H
+                || (flag & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I)
                 actions |= FurnitureActions.Rest;
-            if ((flag & MysteryImporter.J) == MysteryImporter.J
-                || (flag & MysteryImporter.K) == MysteryImporter.K
-                || (flag & MysteryImporter.L) == MysteryImporter.L)
+            if ((flag & Importer.Mystery.MysteryImporter.J) == Importer.Mystery.MysteryImporter.J
+                || (flag & Importer.Mystery.MysteryImporter.K) == Importer.Mystery.MysteryImporter.K
+                || (flag & Importer.Mystery.MysteryImporter.L) == Importer.Mystery.MysteryImporter.L)
                 actions |= FurnitureActions.Sleep;
             return actions;
         }
@@ -407,44 +406,44 @@ namespace Mud.Server.WPFTestApplication
             FurniturePlacePrepositions preposition = FurniturePlacePrepositions.None;
 
             int flag = value == null ? 0 : Convert.ToInt32(value);
-            if ((flag & MysteryImporter.A) == MysteryImporter.A
-                || (flag & MysteryImporter.D) == MysteryImporter.D
-                || (flag & MysteryImporter.G) == MysteryImporter.G
-                || (flag & MysteryImporter.J) == MysteryImporter.J)
+            if ((flag & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A
+                || (flag & Importer.Mystery.MysteryImporter.D) == Importer.Mystery.MysteryImporter.D
+                || (flag & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G
+                || (flag & Importer.Mystery.MysteryImporter.J) == Importer.Mystery.MysteryImporter.J)
                 preposition = FurniturePlacePrepositions.At;
-            else if ((flag & MysteryImporter.B) == MysteryImporter.B
-                || (flag & MysteryImporter.E) == MysteryImporter.E
-                || (flag & MysteryImporter.H) == MysteryImporter.H
-                || (flag & MysteryImporter.K) == MysteryImporter.K)
+            else if ((flag & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B
+                || (flag & Importer.Mystery.MysteryImporter.E) == Importer.Mystery.MysteryImporter.E
+                || (flag & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H
+                || (flag & Importer.Mystery.MysteryImporter.K) == Importer.Mystery.MysteryImporter.K)
                 preposition = FurniturePlacePrepositions.On;
-            else if ((flag & MysteryImporter.C) == MysteryImporter.C
-                || (flag & MysteryImporter.F) == MysteryImporter.F
-                || (flag & MysteryImporter.I) == MysteryImporter.I
-                || (flag & MysteryImporter.L) == MysteryImporter.L)
+            else if ((flag & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C
+                || (flag & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F
+                || (flag & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I
+                || (flag & Importer.Mystery.MysteryImporter.L) == Importer.Mystery.MysteryImporter.L)
                 preposition = FurniturePlacePrepositions.In;
             return preposition;
         }
 
         private static WearLocations ConvertWearLocation(Importer.Mystery.ObjectData data)
         {
-//#define ITEM_TAKE		(A)
-//#define ITEM_WEAR_FINGER	(B)
-//#define ITEM_WEAR_NECK		(C)
-//#define ITEM_WEAR_BODY		(D)
-//#define ITEM_WEAR_HEAD		(E)
-//#define ITEM_WEAR_LEGS		(F)
-//#define ITEM_WEAR_FEET		(G)
-//#define ITEM_WEAR_HANDS		(H)
-//#define ITEM_WEAR_ARMS		(I)
-//#define ITEM_WEAR_SHIELD	(J)
-//#define ITEM_WEAR_ABOUT		(K)
-//#define ITEM_WEAR_WAIST		(L)
-//#define ITEM_WEAR_WRIST		(M)
-//#define ITEM_WIELD		(N)
-//#define ITEM_HOLD		(O)
-//#define ITEM_WEAR_FLOAT		(Q)
-//#define ITEM_WEAR_EAR           (R)
-//#define ITEM_WEAR_EYES          (S)
+            //#define ITEM_TAKE		(A)
+            //#define ITEM_WEAR_FINGER	(B)
+            //#define ITEM_WEAR_NECK		(C)
+            //#define ITEM_WEAR_BODY		(D)
+            //#define ITEM_WEAR_HEAD		(E)
+            //#define ITEM_WEAR_LEGS		(F)
+            //#define ITEM_WEAR_FEET		(G)
+            //#define ITEM_WEAR_HANDS		(H)
+            //#define ITEM_WEAR_ARMS		(I)
+            //#define ITEM_WEAR_SHIELD	(J)
+            //#define ITEM_WEAR_ABOUT		(K)
+            //#define ITEM_WEAR_WAIST		(L)
+            //#define ITEM_WEAR_WRIST		(M)
+            //#define ITEM_WIELD		(N)
+            //#define ITEM_HOLD		(O)
+            //#define ITEM_WEAR_FLOAT		(Q)
+            //#define ITEM_WEAR_EAR           (R)
+            //#define ITEM_WEAR_EYES          (S)
             switch (data.WearFlags & ~1 /*remove TAKE*/)
             {
                 case 0:
@@ -452,37 +451,37 @@ namespace Mud.Server.WPFTestApplication
                         return WearLocations.Light;
                     else
                         return WearLocations.None;
-                case MysteryImporter.B: // B finger
+                case Importer.Mystery.MysteryImporter.B: // B finger
                     return WearLocations.Ring;
-                case 1 << 2: // C
+                case Importer.Mystery.MysteryImporter.C: // C neck
                     return WearLocations.Amulet;
-                case 1 << 3: // D
+                case Importer.Mystery.MysteryImporter.D: // D body
                     return WearLocations.Chest;
-                case 1 << 4: // E
+                case Importer.Mystery.MysteryImporter.E: // E head
                     return WearLocations.Head;
-                case 1 << 5: // F
+                case Importer.Mystery.MysteryImporter.F: // F legs
                     return WearLocations.Legs;
-                case 1 << 6: // G
+                case Importer.Mystery.MysteryImporter.G: // G feet
                     return WearLocations.Feet;
-                case 1 << 7: // H
+                case Importer.Mystery.MysteryImporter.H: // H hands
                     return WearLocations.Hands;
-                case 1 << 8: // I
+                case Importer.Mystery.MysteryImporter.I: // I arms
                     return WearLocations.Arms;
-                case 1 << 9: // J
+                case Importer.Mystery.MysteryImporter.J: // J shield
                     return WearLocations.Shield;
-                case 1 << 10: // K
+                case Importer.Mystery.MysteryImporter.K: // K about
                     return WearLocations.Cloak;
-                case 1 << 11: // L
+                case Importer.Mystery.MysteryImporter.L: // L waist
                     return WearLocations.Waist;
-                case 1 << 12: // M
+                case Importer.Mystery.MysteryImporter.M: // M wrist
                     return WearLocations.Wrists;
-                case 1 << 13: // N
+                case Importer.Mystery.MysteryImporter.N: // N wield
                     return WearLocations.Wield;
-                case 1 << 14: // O
+                case Importer.Mystery.MysteryImporter.O: // O hold
                     return WearLocations.Hold;
-                //case 1 << 15: // Q float
-                //case 1 << 16: // R ear
-                case 1 << 17: // S
+                //case Importer.Mystery.MysteryImporter.Q: // Q float
+                //case Importer.Mystery.MysteryImporter.R: // R ear
+                case Importer.Mystery.MysteryImporter.S: // S eyes
                     return WearLocations.Head; // eyes
                 default:
                     return WearLocations.None;
@@ -515,37 +514,37 @@ namespace Mud.Server.WPFTestApplication
                         return WearLocations.Light;
                     else
                         return WearLocations.None;
-                case MysteryImporter.B: // B finger
+                case Importer.Mystery.MysteryImporter.B: // B finger
                     return WearLocations.Ring;
-                case 1 << 2: // C
+                case Importer.Mystery.MysteryImporter.C: // C neck
                     return WearLocations.Amulet;
-                case 1 << 3: // D
+                case Importer.Mystery.MysteryImporter.D: // D body
                     return WearLocations.Chest;
-                case 1 << 4: // E
+                case Importer.Mystery.MysteryImporter.E: // E head
                     return WearLocations.Head;
-                case 1 << 5: // F
+                case Importer.Mystery.MysteryImporter.F: // F legs
                     return WearLocations.Legs;
-                case 1 << 6: // G
+                case Importer.Mystery.MysteryImporter.G: // G feet
                     return WearLocations.Feet;
-                case 1 << 7: // H
+                case Importer.Mystery.MysteryImporter.H: // H hands
                     return WearLocations.Hands;
-                case 1 << 8: // I
+                case Importer.Mystery.MysteryImporter.I: // I arms
                     return WearLocations.Arms;
-                case 1 << 9: // J
+                case Importer.Mystery.MysteryImporter.J: // J shield
                     return WearLocations.Shield;
-                case 1 << 10: // K
+                case Importer.Mystery.MysteryImporter.K: // K about
                     return WearLocations.Cloak;
-                case 1 << 11: // L
+                case Importer.Mystery.MysteryImporter.L: // L waist
                     return WearLocations.Waist;
-                case 1 << 12: // M
+                case Importer.Mystery.MysteryImporter.M: // M wrist
                     return WearLocations.Wrists;
-                case 1 << 13: // N
+                case Importer.Mystery.MysteryImporter.N: // N wield
                     return WearLocations.Wield;
-                case 1 << 14: // O
+                case Importer.Mystery.MysteryImporter.O: // O hold
                     return WearLocations.Hold;
-                //case 1 << 15: // Q float
-                //case 1 << 16: // R ear
-                case 1 << 17: // S
+                //case Importer.Mystery.MysteryImporter.Q: // Q float
+                //case Importer.Mystery.MysteryImporter.R: // R ear
+                case Importer.Mystery.MysteryImporter.S: // S eyes
                     return WearLocations.Head; // eyes
                 default:
                     return WearLocations.None;
@@ -875,7 +874,7 @@ namespace Mud.Server.WPFTestApplication
         {
             string path = ConfigurationManager.AppSettings["ImportAreaPath"];
 
-            MysteryImporter mysteryImporter = new MysteryImporter();
+            Importer.Mystery.MysteryImporter mysteryImporter = new Importer.Mystery.MysteryImporter();
             mysteryImporter.Load(System.IO.Path.Combine(path, "midgaard.are"));
             mysteryImporter.Parse();
             mysteryImporter.Load(System.IO.Path.Combine(path, "amazon.are"));
@@ -894,7 +893,7 @@ namespace Mud.Server.WPFTestApplication
             //}
 
 
-            foreach (KeyValuePair<string,int> kv in mysteryImporter.Objects.GroupBy(o => o.ItemType).ToDictionary(g => g.Key, g => g.Count()).OrderBy(x => x.Value))
+            foreach (KeyValuePair<string, int> kv in mysteryImporter.Objects.GroupBy(o => o.ItemType).ToDictionary(g => g.Key, g => g.Count()).OrderBy(x => x.Value))
                 Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", kv.Key, kv.Value);
 
             Dictionary<int, IArea> areasByVnums = new Dictionary<int, IArea>();
@@ -972,87 +971,87 @@ namespace Mud.Server.WPFTestApplication
                     switch (reset.Command)
                     {
                         case 'M':
-                        {
-                            CharacterBlueprint blueprint = World.GetCharacterBlueprint(reset.Arg1);
-                            if (blueprint != null)
                             {
-                                lastCharacter = World.AddCharacter(Guid.NewGuid(), blueprint, room);
-                                Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} added");
-                            }
-                            else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} not found");
-                            break;
-                        }
-                        case 'O':
-                        {
-                            ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
-                            if (blueprint != null)
-                            {
-                                IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, room);
-                                if (item != null)
-                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} added room");
+                                CharacterBlueprint blueprint = World.GetCharacterBlueprint(reset.Arg1);
+                                if (blueprint != null)
+                                {
+                                    lastCharacter = World.AddCharacter(Guid.NewGuid(), blueprint, room);
+                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} added");
+                                }
                                 else
-                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not created");
-                                lastContainer = item as IItemContainer; // even if item is not a container, we have to convert it
-                            }
-                            else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not found");
-                            //ObjectData obj = importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1);
-                            //if (obj != null)
-                            //{
-                            //    if (obj.ItemType == "weapon")
-                            //    {
-                            //        ItemWeaponBlueprint blueprint = World.GetItemBlueprint(reset.Arg1) as ItemWeaponBlueprint;
-                            //        World.AddItemWeapon(Guid.NewGuid(), blueprint, room);
-                            //        Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: Weapon {reset.Arg1} added on floor");
-                            //    }
-                            //    else if (obj.ItemType == "container")
-                            //    {
-                            //        ItemContainerBlueprint blueprint = World.GetItemBlueprint(reset.Arg1) as ItemContainerBlueprint;
-                            //        lastContainer = World.AddItemContainer(Guid.NewGuid(), blueprint, room);
-                            //        Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: Container {reset.Arg1} added on floor");
-                            //    }
-                            //}
-                            //else
-                            //    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: Obj {reset.Arg1} not found");
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} not found");
                                 break;
-                        }
+                            }
+                        case 'O':
+                            {
+                                ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
+                                if (blueprint != null)
+                                {
+                                    IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, room);
+                                    if (item != null)
+                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} added room");
+                                    else
+                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not created");
+                                    lastContainer = item as IItemContainer; // even if item is not a container, we have to convert it
+                                }
+                                else
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not found");
+                                //ObjectData obj = importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1);
+                                //if (obj != null)
+                                //{
+                                //    if (obj.ItemType == "weapon")
+                                //    {
+                                //        ItemWeaponBlueprint blueprint = World.GetItemBlueprint(reset.Arg1) as ItemWeaponBlueprint;
+                                //        World.AddItemWeapon(Guid.NewGuid(), blueprint, room);
+                                //        Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: Weapon {reset.Arg1} added on floor");
+                                //    }
+                                //    else if (obj.ItemType == "container")
+                                //    {
+                                //        ItemContainerBlueprint blueprint = World.GetItemBlueprint(reset.Arg1) as ItemContainerBlueprint;
+                                //        lastContainer = World.AddItemContainer(Guid.NewGuid(), blueprint, room);
+                                //        Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: Container {reset.Arg1} added on floor");
+                                //    }
+                                //}
+                                //else
+                                //    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: Obj {reset.Arg1} not found");
+                                break;
+                            }
                         // P: put object arg1 (add arg2 times at once with max occurence arg4) in object arg3
                         case 'P':
-                        {
-                            ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
-                            if (blueprint != null)
                             {
-                                if (lastContainer != null)
+                                ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
+                                if (blueprint != null)
                                 {
-                                   World.AddItem(Guid.NewGuid(), blueprint.Id, lastContainer);
-                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} added in {lastContainer.Blueprint.Id}");
+                                    if (lastContainer != null)
+                                    {
+                                        World.AddItem(Guid.NewGuid(), blueprint.Id, lastContainer);
+                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} added in {lastContainer.Blueprint.Id}");
+                                    }
+                                    else
+                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: P: Last item was not a container");
                                 }
                                 else
-                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: P: Last item was not a container");
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} (type: {mysteryImporter.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
+                                break;
                             }
-                            else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} (type: {mysteryImporter.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
-                            break;
-                        }
                         // G: give object arg1 to mobile 
                         case 'G':
-                        {
-                            ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
-                            if (blueprint != null)
                             {
-                                if (lastCharacter != null)
+                                ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
+                                if (blueprint != null)
                                 {
-                                       World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
-                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
+                                    if (lastCharacter != null)
+                                    {
+                                        World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
+                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
+                                    }
+                                    else
+                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: G: Last character doesn't exist");
                                 }
                                 else
-                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: G: Last character doesn't exist");
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} (type: {mysteryImporter.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
+                                break;
                             }
-                            else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} (type: {mysteryImporter.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
-                            break;
-                        }
                         // E: equip object arg1 to mobile
                         case 'E':
                             {
@@ -1061,9 +1060,23 @@ namespace Mud.Server.WPFTestApplication
                                 {
                                     if (lastCharacter != null)
                                     {
-                                       World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
+                                        IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
                                         Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
-                                        // TODO: try to equip
+                                        // try to equip
+                                        if (item is IEquipable equipable)
+                                        {
+                                            EquipedItem equipedItem = lastCharacter.SearchEquipmentSlot(equipable, false);
+                                            if (equipedItem != null)
+                                            {
+                                                equipedItem.Item = equipable;
+                                                equipable.ChangeContainer(null); // remove from inventory
+                                                equipable.ChangeEquipedBy(lastCharacter); // set as equiped by lastCharacter
+                                            }
+                                            else
+                                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Item {reset.Arg1} wear location {equipable.WearLocation} doesn't exist on last character");
+                                        }
+                                        else
+                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Item {reset.Arg1} cannot be equiped");
                                     }
                                     else
                                         Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Last character doesn't exist");
@@ -1075,7 +1088,7 @@ namespace Mud.Server.WPFTestApplication
                             // D: set state of door  (not used)
                             // R: randomize room exits
                             // Z: maze at arg3 with size arg1*arg2 and map vnum arg4
-                            // TODO: other command  P, E, G, D, R, Z
+                            // TODO: other command  D, R, Z
                     }
                 }
             }
@@ -1089,7 +1102,7 @@ namespace Mud.Server.WPFTestApplication
                 Sex = Sex.Female,
                 Level = 10
             };
-           World.AddCharacterBlueprint(mob2Blueprint);
+            World.AddCharacterBlueprint(mob2Blueprint);
             CharacterBlueprint mob3Blueprint = new CharacterBlueprint
             {
                 Id = 3,
@@ -1099,7 +1112,7 @@ namespace Mud.Server.WPFTestApplication
                 Sex = Sex.Male,
                 Level = 10
             };
-           World.AddCharacterBlueprint(mob3Blueprint);
+            World.AddCharacterBlueprint(mob3Blueprint);
             //CharacterBlueprint mob4Blueprint = new CharacterBlueprint
             //{
             //    Id = 4,
@@ -1118,7 +1131,7 @@ namespace Mud.Server.WPFTestApplication
                 Sex = Sex.Female,
                 Level = 10
             };
-           World.AddCharacterBlueprint(mob5Blueprint);
+            World.AddCharacterBlueprint(mob5Blueprint);
 
             ItemContainerBlueprint item1Blueprint = new ItemContainerBlueprint
             {
@@ -1129,7 +1142,7 @@ namespace Mud.Server.WPFTestApplication
                 ItemCount = 10,
                 WeightMultiplier = 100
             };
-           World.AddItemBlueprint(item1Blueprint);
+            World.AddItemBlueprint(item1Blueprint);
             ItemWeaponBlueprint item2Blueprint = new ItemWeaponBlueprint
             {
                 Id = 2,
@@ -1142,7 +1155,7 @@ namespace Mud.Server.WPFTestApplication
                 DamageType = SchoolTypes.Fire,
                 WearLocation = WearLocations.Wield
             };
-           World.AddItemBlueprint(item2Blueprint);
+            World.AddItemBlueprint(item2Blueprint);
             ItemArmorBlueprint item3Blueprint = new ItemArmorBlueprint
             {
                 Id = 3,
@@ -1153,7 +1166,7 @@ namespace Mud.Server.WPFTestApplication
                 ArmorKind = ArmorKinds.Mail,
                 WearLocation = WearLocations.Feet
             };
-           World.AddItemBlueprint(item3Blueprint);
+            World.AddItemBlueprint(item3Blueprint);
             ItemLightBlueprint item4Blueprint = new ItemLightBlueprint
             {
                 Id = 4,
@@ -1163,7 +1176,7 @@ namespace Mud.Server.WPFTestApplication
                 DurationHours = -1,
                 WearLocation = WearLocations.Light
             };
-           World.AddItemBlueprint(item4Blueprint);
+            World.AddItemBlueprint(item4Blueprint);
             ItemWeaponBlueprint item5Blueprint = new ItemWeaponBlueprint
             {
                 Id = 5,
@@ -1176,7 +1189,7 @@ namespace Mud.Server.WPFTestApplication
                 DamageType = SchoolTypes.Physical,
                 WearLocation = WearLocations.Wield
             };
-           World.AddItemBlueprint(item5Blueprint);
+            World.AddItemBlueprint(item5Blueprint);
             ItemWeaponBlueprint item6Blueprint = new ItemWeaponBlueprint
             {
                 Id = 6,
@@ -1189,7 +1202,7 @@ namespace Mud.Server.WPFTestApplication
                 DamageType = SchoolTypes.Holy,
                 WearLocation = WearLocations.Wield
             };
-           World.AddItemBlueprint(item6Blueprint);
+            World.AddItemBlueprint(item6Blueprint);
             ItemShieldBlueprint item7Blueprint = new ItemShieldBlueprint
             {
                 Id = 7,
@@ -1199,7 +1212,7 @@ namespace Mud.Server.WPFTestApplication
                 Armor = 1000,
                 WearLocation = WearLocations.Shield
             };
-           World.AddItemBlueprint(item7Blueprint);
+            World.AddItemBlueprint(item7Blueprint);
             ItemQuestBlueprint questItem1Blueprint = new ItemQuestBlueprint
             {
                 Id = 8,
@@ -1207,7 +1220,7 @@ namespace Mud.Server.WPFTestApplication
                 ShortDescription = "Quest item 1",
                 Description = "The quest item 1 has been left here."
             };
-           World.AddItemBlueprint(questItem1Blueprint);
+            World.AddItemBlueprint(questItem1Blueprint);
             ItemQuestBlueprint questItem2Blueprint = new ItemQuestBlueprint
             {
                 Id = 9,
@@ -1215,7 +1228,7 @@ namespace Mud.Server.WPFTestApplication
                 ShortDescription = "Quest item 2",
                 Description = "The quest item 2 has been left here."
             };
-           World.AddItemBlueprint(questItem2Blueprint);
+            World.AddItemBlueprint(questItem2Blueprint);
 
             //
             ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint
@@ -1245,7 +1258,7 @@ namespace Mud.Server.WPFTestApplication
             //IItemLight item4Dup1 = World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             IItemWeapon item6 = World.AddItemWeapon(Guid.NewGuid(), item6Blueprint, templeSquare);
             IItemShield item7 = World.AddItemShield(Guid.NewGuid(), item7Blueprint, templeOfMota);
-           World.AddItemQuest(Guid.NewGuid(), questItem2Blueprint, templeSquare);
+            World.AddItemQuest(Guid.NewGuid(), questItem2Blueprint, templeSquare);
 
             // Equip weapon on mob2
             mob2.Equipments.First(x => x.Slot == EquipmentSlots.Wield).Item = item2;
@@ -1308,7 +1321,7 @@ namespace Mud.Server.WPFTestApplication
                 }
                 // TODO: rewards
             };
-           World.AddQuestBlueprint(questBlueprint1);
+            World.AddQuestBlueprint(questBlueprint1);
 
             QuestBlueprint questBlueprint2 = new QuestBlueprint
             {
@@ -1327,7 +1340,7 @@ namespace Mud.Server.WPFTestApplication
                 },
                 // TODO: rewards
             };
-           World.AddQuestBlueprint(questBlueprint2);
+            World.AddQuestBlueprint(questBlueprint2);
 
             // Give quest 1 and 2 to mob1
             //IQuest quest1 = new Quest.Quest(questBlueprint1, mob1, mob2);

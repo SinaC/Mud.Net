@@ -38,6 +38,8 @@
     <Compile Include="AdminData.cs" />
     <Compile Include="CharacterData.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="EquipedItemData.cs" />
+    <Compile Include="ItemData.cs" />
     <Compile Include="ExitDirections.cs" />
     <Compile Include="Extensions\ExitDirectionsExtensions.cs" />
     <Compile Include="PlayerData.cs" />

@@ -21,6 +21,7 @@ namespace Mud.Server.Player
                     Send("You stop impersonating {0}.", Impersonating.DisplayName);
                     UpdateCharacterDataFromImpersonated();
                     StopImpersonating();
+                    Save();
                 }
                 else
                     Send("Impersonate whom?");

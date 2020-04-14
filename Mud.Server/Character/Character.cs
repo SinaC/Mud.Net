@@ -9,6 +9,7 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Abilities;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
@@ -87,6 +88,42 @@ namespace Mud.Server.Character
             Level = data.Level;
             Experience = data.Experience;
 
+            // Must be built before equiping
+            BuildEquipmentSlots();
+
+            // Equiped items
+            foreach (EquipedItemData equipedItemData in data.Equipments)
+            {
+                EquipedItem equipedItem = Equipments.FirstOrDefault(x => x.Slot == equipedItemData.Slot);
+                if (equipedItem != null)
+                {
+                    IItem item = MapItem(equipedItemData, this);
+                    if (item is IEquipable equipable)
+                    {
+                        equipedItem.Item = equipable;
+                        equipable.ChangeContainer(null); // remove from inventory
+                        equipable.ChangeEquipedBy(this); // set as equiped by this
+                    }
+                    else
+                    {
+                        string msg = $"Item blueprint Id {equipedItemData.ItemId} cannot be equipped anymore in slot {equipedItemData.Slot}";
+                        Log.Default.WriteLine(LogLevels.Error, msg, equipedItemData.ItemId, equipedItemData.Slot);
+                        Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+                    }
+                }
+                else 
+                {
+                    string msg = $"Item blueprint Id {equipedItemData.ItemId} was supposed to be equiped in slot {equipedItemData.Slot} which doesn't exist anymore for {DebugName}";
+                    Log.Default.WriteLine(LogLevels.Error, msg);
+                    Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+                }
+            }
+            // Inventory
+            foreach (ItemData itemData in data.Inventory)
+            {
+                IItem item = MapItem(itemData, this);
+            }
+
             Impersonable = true; // Playable
             Room = room;
             room.Enter(this);
@@ -96,7 +133,6 @@ namespace Mud.Server.Character
             ResetAttributes(true);
             RecomputeCommands();
             RecomputeCurrentResourceKinds();
-            BuildEquipmentSlots();
         }
 
         public Character(Guid guid, CharacterBlueprint blueprint, IRoom room) // NPC
@@ -1350,6 +1386,80 @@ namespace Mud.Server.Character
             DisplayRoom();
         }
 
+        // Equipment
+        public EquipedItem SearchEquipmentSlot(IEquipable item, bool replace)
+        {
+            // TODO: if wield, can be equiped as wield2 if dual wield
+            // TODO: if wield2H, can be equiped as wield+hold or wield+shield
+            // TODO: if hold (or shield), can be equiped as hold (or shield) and no wield2H on wield+hold (or +shield)
+            switch (item.WearLocation)
+            {
+                case WearLocations.None:
+                    return null;
+                case WearLocations.Light:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Light && (replace || x.Item == null));
+                case WearLocations.Head:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Head && (replace || x.Item == null));
+                case WearLocations.Amulet:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Amulet && (replace || x.Item == null));
+                case WearLocations.Shoulders:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Shoulders && (replace || x.Item == null));
+                case WearLocations.Chest:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Chest && (replace || x.Item == null));
+                case WearLocations.Cloak:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Cloak && (replace || x.Item == null));
+                case WearLocations.Waist:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Waist && (replace || x.Item == null));
+                case WearLocations.Wrists:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wrists && (replace || x.Item == null));
+                case WearLocations.Arms:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Arms && (replace || x.Item == null));
+                case WearLocations.Hands:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Hands && (replace || x.Item == null));
+                case WearLocations.Ring:
+                    // Search an empty slot, if no empty slot take first non-empty if replace is true
+                    return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.RingLeft || x.Slot == EquipmentSlots.RingRight) && x.Item == null)
+                           ?? (replace ?
+                               Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.RingLeft || x.Slot == EquipmentSlots.RingRight))
+                               : null);
+                case WearLocations.Legs:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Legs && (replace || x.Item == null));
+                case WearLocations.Feet:
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Feet && (replace || x.Item == null));
+                case WearLocations.Trinket:
+                    // Search an empty slot, if no empty slot take first non-empty if replace is true
+                    return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Trinket1 || x.Slot == EquipmentSlots.Trinket2) && x.Item == null)
+                           ?? (replace ?
+                               Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Trinket1 || x.Slot == EquipmentSlots.Trinket2))
+                               : null);
+                case WearLocations.Wield:
+                    if (replace)
+                        return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Wield
+                                                            || x.Slot == EquipmentSlots.Wield2
+                                                            || x.Slot == EquipmentSlots.Wield3
+                                                            || x.Slot == EquipmentSlots.Wield4) && x.Item == null)
+                            ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield)
+                            ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2)
+                            ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield3)
+                            ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield4);
+                    else
+                        return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Wield
+                                                            || x.Slot == EquipmentSlots.Wield2
+                                                            || x.Slot == EquipmentSlots.Wield3
+                                                            || x.Slot == EquipmentSlots.Wield4) && x.Item == null);
+                case WearLocations.Hold:
+                    // TODO
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Hold && (replace || x.Item == null));
+                case WearLocations.Shield:
+                    // TODO
+                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Shield && (replace || x.Item == null));
+                case WearLocations.Wield2H:
+                    // TODO
+                    return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Wield2H || x.Slot == EquipmentSlots.Wield2H2) && (replace || x.Item == null));
+            }
+            return null;
+        }
+
         #endregion
 
         protected void ModifyAttribute(PrimaryAttributeTypes attribute, AmountOperators op, int amount)
@@ -2261,6 +2371,39 @@ namespace Mud.Server.Character
                 else
                     return obj.Id;
             }
+        }
+
+        private IItem MapItem(ItemData itemData, IContainer container)
+        {
+            ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(itemData.ItemId);
+            if (itemBlueprint != null)
+            {
+                IItem item = World.AddItem(Guid.NewGuid(), itemBlueprint, container);
+
+                if (itemData.Contains?.Any() == true)
+                {
+                    if (item is IItemContainer itemContainer)
+                    {
+                        foreach (ItemData subItemData in itemData.Contains)
+                            MapItem(subItemData, itemContainer);
+                    }
+                    else
+                    {
+                        string msg = $"Item blueprint id {itemData.ItemId} contains item(s) but is not a container anymore";
+                        Log.Default.WriteLine(LogLevels.Error, msg);
+                        Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+                    }
+                }
+
+                return item;
+            }
+            else
+            {
+                string msg = $"Item blueprint Id {itemData.ItemId} doesn't exist anymore";
+                Log.Default.WriteLine(LogLevels.Error, msg);
+                Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+            }
+            return null;
         }
     }
 }

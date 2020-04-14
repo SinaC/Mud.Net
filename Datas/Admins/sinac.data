@@ -10,12 +10,104 @@
   <Characters>
     <CharacterData>
       <Name>sinac</Name>
-      <RoomId>3001</RoomId>
+      <RoomId>3005</RoomId>
       <Race>Troll</Race>
       <Class>Druid</Class>
       <Level>60</Level>
       <Sex>1</Sex>
       <Experience>6000000</Experience>
+      <Equipments>
+        <EquipedItemData>
+          <ItemId>3365</ItemId>
+          <Contains />
+          <Slot>1</Slot>
+        </EquipedItemData>
+        <EquipedItemData>
+          <ItemId>3356</ItemId>
+          <Contains />
+          <Slot>2</Slot>
+        </EquipedItemData>
+        <EquipedItemData>
+          <ItemId>3353</ItemId>
+          <Contains />
+          <Slot>5</Slot>
+        </EquipedItemData>
+        <EquipedItemData>
+          <ItemId>3364</ItemId>
+          <Contains />
+          <Slot>11</Slot>
+        </EquipedItemData>
+        <EquipedItemData>
+          <ItemId>6</ItemId>
+          <Contains />
+          <Slot>17</Slot>
+        </EquipedItemData>
+        <EquipedItemData>
+          <ItemId>3350</ItemId>
+          <Contains />
+          <Slot>18</Slot>
+        </EquipedItemData>
+        <EquipedItemData>
+          <ItemId>7</ItemId>
+          <Contains />
+          <Slot>20</Slot>
+        </EquipedItemData>
+      </Equipments>
+      <Inventory>
+        <ItemData>
+          <ItemId>3131</ItemId>
+          <Contains>
+            <ItemData>
+              <ItemId>3363</ItemId>
+              <Contains />
+            </ItemData>
+            <ItemData>
+              <ItemId>3350</ItemId>
+              <Contains />
+            </ItemData>
+            <ItemData>
+              <ItemId>3365</ItemId>
+              <Contains />
+            </ItemData>
+          </Contains>
+        </ItemData>
+        <ItemData>
+          <ItemId>3</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3365</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3364</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3350</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3353</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3364</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3353</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3120</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>1</ItemId>
+          <Contains />
+        </ItemData>
+      </Inventory>
     </CharacterData>
     <CharacterData>
       <Name>alhazred</Name>
@@ -25,6 +117,8 @@
       <Level>1</Level>
       <Sex>0</Sex>
       <Experience>0</Experience>
+      <Equipments />
+      <Inventory />
     </CharacterData>
   </Characters>
   <Level>7</Level>
