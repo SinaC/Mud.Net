@@ -26,7 +26,7 @@ namespace Mud.Server.Player
         protected IInputTrap<IPlayer> CurrentStateMachine;
         protected bool DeletionConfirmationNeeded;
 
-        protected IServer Server => DependencyContainer.Instance.GetInstance<IServer>();
+        protected IServerPlayerCommand ServerPlayerCommand => DependencyContainer.Instance.GetInstance<IServerPlayerCommand>();
         protected IPlayerRepository PlayerRepository => DependencyContainer.Instance.GetInstance<IPlayerRepository>();
         protected ILoginRepository LoginRepository => DependencyContainer.Instance.GetInstance<ILoginRepository>();
 

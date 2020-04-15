@@ -31,7 +31,7 @@ namespace Mud.Server.Server
 
     // Once playing,
     //  in synchronous mode, input and output are 'queued' and handled by ProcessorInput/ProcessOutput
-    public class Server : IServer, ITimeHandler, IWiznet, IPlayerManager, IAdminManager, IDisposable
+    public class Server : IServer, ITimeHandler, IWiznet, IPlayerManager, IAdminManager, IServerAdminCommand, IServerPlayerCommand, IDisposable
     {
         // This allows fast lookup with client or player BUT both structures must be modified at the same time
         private readonly object _playingClientLockObject = new object();
@@ -143,44 +143,101 @@ namespace Mud.Server.Server
             }
         }
 
+        #endregion
+
+        #region ITimeHandler
+
+        public DateTime CurrentTime { get; private set; }
+
+        #endregion
+
+        #region IWiznet
+
+        public void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
+        {
+            foreach (IAdmin admin in Admins.Where(a => (a.WiznetFlags & flags) == flags && a.Level >= minLevel))
+                admin.Send($"%W%WIZNET%x%:{message}");
+        }
+
+        #endregion
+
+        #region IPlayerManager
+
+        public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys, parameter, perfectMatch);
+
+        public IEnumerable<IPlayer> Players => _players.Keys;
+
+        // TODO: remove
+        // TEST PURPOSE
+        public IPlayer AddPlayer(IClient client, string name)
+        {
+            IPlayer player = new Player.Player(Guid.NewGuid(), name);
+            player.SendData += PlayerOnSendData;
+            player.PageData += PlayerOnPageData;
+            client.DataReceived += ClientPlayingOnDataReceived;
+            PlayingClient playingClient = new PlayingClient
+            {
+                Client = client,
+                Player = player
+            };
+            lock (_playingClientLockObject)
+            {
+                _players.TryAdd(player, playingClient);
+                _clients.TryAdd(client, playingClient);
+            }
+
+            player.Send("Welcome {0}", name);
+
+            return player;
+        }
+
+        #endregion
+
+        #region IAdminManager
+
+        public IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys.OfType<IAdmin>(), parameter, perfectMatch);
+
+        public IEnumerable<IAdmin> Admins => _players.Keys.OfType<IAdmin>();
+
+        // TODO: remove
+        // TEST PURPOSE
+        public IAdmin AddAdmin(IClient client, string name)
+        {
+            IAdmin admin = new Admin.Admin(Guid.NewGuid(), name);
+            admin.SendData += PlayerOnSendData;
+            admin.PageData += PlayerOnPageData;
+            client.DataReceived += ClientPlayingOnDataReceived;
+            PlayingClient playingClient = new PlayingClient
+            {
+                Client = client,
+                Player = admin
+            };
+            lock (_playingClientLockObject)
+            {
+                _players.TryAdd(admin, playingClient);
+                _clients.TryAdd(client, playingClient);
+            }
+
+            admin.Send("Welcome master {0}", name);
+
+            return admin;
+        }
+
+        #endregion
+
+        #region IServerAdminCommand
+
         public void Shutdown(int seconds)
         {
-            int minutes = seconds/60;
-            int remaining = seconds%60;
+            int minutes = seconds / 60;
+            int remaining = seconds % 60;
             if (minutes > 0 && remaining != 0)
                 Broadcast($"%R%Shutdown in {minutes} minute{(minutes > 1 ? "s" : string.Empty)} and {remaining} second{(remaining > 1 ? "s" : string.Empty)}%x%");
             else if (minutes > 0 && remaining == 0)
                 Broadcast($"%R%Shutdown in {minutes} minute{(minutes > 1 ? "s" : string.Empty)}%x%");
             else
                 Broadcast($"%R%Shutdown in {seconds} second{(seconds > 1 ? "s" : string.Empty)}%x%");
-            _pulseBeforeShutdown = seconds*Settings.PulsePerSeconds;
-        }
-
-        public void Quit(IPlayer player)
-        {
-            PlayingClient playingClient;
-            _players.TryGetValue(player, out playingClient);
-            if (playingClient == null)
-                Log.Default.WriteLine(LogLevels.Error, "Quit: client not found");
-            else
-                ClientPlayingOnDisconnected(playingClient.Client);
-        }
-
-        public void Delete(IPlayer player)
-        {
-            PlayingClient playingClient;
-            _players.TryGetValue(player, out playingClient);
-            if (playingClient == null)
-                Log.Default.WriteLine(LogLevels.Error, "Delete: client not found");
-            else
-            {
-                string playerName = player.DisplayName;
-                LoginRepository.DeleteLogin(player.Name);
-                PlayerRepository.Delete(player.Name);
-                ClientPlayingOnDisconnected(playingClient.Client);
-                //
-                Log.Default.WriteLine(LogLevels.Info, $"Player {playerName} has been deleted");
-            }
+            _pulseBeforeShutdown = seconds * Settings.PulsePerSeconds;
         }
 
         public void Promote(IPlayer player, AdminLevels level)
@@ -258,84 +315,33 @@ namespace Mud.Server.Server
 
         #endregion
 
-        #region ITimeHandler
+        #region IServerPlayerCommand
 
-        public DateTime CurrentTime { get; private set; }
-
-        #endregion
-
-        #region IWiznet
-
-        public void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
+        public void Quit(IPlayer player)
         {
-            foreach (IAdmin admin in Admins.Where(a => (a.WiznetFlags & flags) == flags && a.Level >= minLevel))
-                admin.Send($"%W%WIZNET%x%:{message}");
+            PlayingClient playingClient;
+            _players.TryGetValue(player, out playingClient);
+            if (playingClient == null)
+                Log.Default.WriteLine(LogLevels.Error, "Quit: client not found");
+            else
+                ClientPlayingOnDisconnected(playingClient.Client);
         }
 
-        #endregion
-
-        #region IPlayerManager
-
-        public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys, parameter, perfectMatch);
-
-        public IEnumerable<IPlayer> Players => _players.Keys;
-
-        // TODO: remove
-        // TEST PURPOSE
-        public IPlayer AddPlayer(IClient client, string name)
+        public void Delete(IPlayer player)
         {
-            IPlayer player = new Player.Player(Guid.NewGuid(), name);
-            player.SendData += PlayerOnSendData;
-            player.PageData += PlayerOnPageData;
-            client.DataReceived += ClientPlayingOnDataReceived;
-            PlayingClient playingClient = new PlayingClient
+            PlayingClient playingClient;
+            _players.TryGetValue(player, out playingClient);
+            if (playingClient == null)
+                Log.Default.WriteLine(LogLevels.Error, "Delete: client not found");
+            else
             {
-                Client = client,
-                Player = player
-            };
-            lock (_playingClientLockObject)
-            {
-                _players.TryAdd(player, playingClient);
-                _clients.TryAdd(client, playingClient);
+                string playerName = player.DisplayName;
+                LoginRepository.DeleteLogin(player.Name);
+                PlayerRepository.Delete(player.Name);
+                ClientPlayingOnDisconnected(playingClient.Client);
+                //
+                Log.Default.WriteLine(LogLevels.Info, $"Player {playerName} has been deleted");
             }
-
-            player.Send("Welcome {0}", name);
-
-            return player;
-        }
-
-
-
-        #endregion
-
-        #region IAdminManager
-
-        public IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys.OfType<IAdmin>(), parameter, perfectMatch);
-
-        public IEnumerable<IAdmin> Admins => _players.Keys.OfType<IAdmin>();
-
-        // TODO: remove
-        // TEST PURPOSE
-        public IAdmin AddAdmin(IClient client, string name)
-        {
-            IAdmin admin = new Admin.Admin(Guid.NewGuid(), name);
-            admin.SendData += PlayerOnSendData;
-            admin.PageData += PlayerOnPageData;
-            client.DataReceived += ClientPlayingOnDataReceived;
-            PlayingClient playingClient = new PlayingClient
-            {
-                Client = client,
-                Player = admin
-            };
-            lock (_playingClientLockObject)
-            {
-                _players.TryAdd(admin, playingClient);
-                _clients.TryAdd(client, playingClient);
-            }
-
-            admin.Send("Welcome master {0}", name);
-
-            return admin;
         }
 
         #endregion

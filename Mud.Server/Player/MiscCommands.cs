@@ -145,7 +145,7 @@ namespace Mud.Server.Player
             Wiznet.Wiznet($"{DisplayName} rejoins the real world.", WiznetFlags.Logins);
 
             Save();
-            Server.Quit(this);
+            ServerPlayerCommand.Quit(this);
             return true;
         }
 
@@ -221,7 +221,7 @@ namespace Mud.Server.Player
                 // perform deletion
                 Send("Deletion confirmed! Processing...");
 
-                Server.Delete(this);
+                ServerPlayerCommand.Delete(this);
             }
             else 
             {
