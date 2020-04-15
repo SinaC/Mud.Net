@@ -8,7 +8,7 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Item;
-using Mud.Server.Server;
+using Mud.Settings;
 
 namespace Mud.Server.Quest
 {
@@ -17,6 +17,7 @@ namespace Mud.Server.Quest
         private readonly List<QuestObjectiveBase> _objectives;
         private readonly ICharacter _character;
 
+        protected ISettings Settings => DependencyContainer.Instance.GetInstance<ISettings>();
         protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
 
         public Quest(QuestBlueprint blueprint, ICharacter character, ICharacter giver)
@@ -93,8 +94,7 @@ namespace Mud.Server.Quest
             {
                 foreach (int loot in killLoots)
                 {
-                    ItemQuestBlueprint questItemBlueprint = World.GetItemBlueprint(loot) as ItemQuestBlueprint;
-                    if (questItemBlueprint != null)
+                    if (World.GetItemBlueprint(loot) is ItemQuestBlueprint questItemBlueprint)
                     {
                         IItemQuest questItem = World.AddItemQuest(Guid.NewGuid(), questItemBlueprint, container);
                         Log.Default.WriteLine(LogLevels.Debug, $"Loot objective {loot} generated for {_character.DisplayName}");
@@ -162,7 +162,7 @@ namespace Mud.Server.Quest
             int goldGain = Blueprint.Gold;
 
             // XP: http://wow.gamepedia.com/Experience_point#Quest_XP
-            if (_character.Level < ServerOptions.MaxLevel)
+            if (_character.Level < Settings.MaxLevel)
             {
                 int factorPercentage = 100;
                 if (_character.Level == Blueprint.Level + 6)

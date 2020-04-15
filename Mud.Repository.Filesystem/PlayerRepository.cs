@@ -1,12 +1,11 @@
-﻿using System.Configuration;
-using System.IO;
+﻿using System.IO;
 using System.Xml.Serialization;
 
 namespace Mud.Repository.Filesystem
 {
     public class PlayerRepository : RepositoryBase, IPlayerRepository
     {
-        private string PlayerRepositoryPath => ConfigurationManager.AppSettings["PlayerRepositoryPath"];
+        private string PlayerRepositoryPath => Settings.PlayerRepositoryPath;
 
         private string BuildFilename(string playerName) => Path.Combine(PlayerRepositoryPath, playerName + ".data");
 

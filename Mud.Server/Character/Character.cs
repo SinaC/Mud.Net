@@ -16,7 +16,6 @@ using Mud.Server.Entity;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
-using Mud.Server.Server;
 
 namespace Mud.Server.Character
 {
@@ -172,14 +171,14 @@ namespace Mud.Server.Character
             base.Send(message, addTrailingNewLine);
             if (ImpersonatedBy != null)
             {
-                if (ServerOptions.PrefixForwardedMessages)
+                if (Settings.PrefixForwardedMessages)
                     message = "<IMP|" + DisplayName + ">" + message;
                 ImpersonatedBy.Send(message, addTrailingNewLine);
             }
             // TODO: do we really need to receive message sent to slave ?
-            if (ServerOptions.ForwardSlaveMessages && ControlledBy != null)
+            if (Settings.ForwardSlaveMessages && ControlledBy != null)
             {
-                if (ServerOptions.PrefixForwardedMessages)
+                if (Settings.PrefixForwardedMessages)
                     message = "<CTRL|" + DisplayName + ">" + message;
                 ControlledBy.Send(message, addTrailingNewLine);
             }
@@ -189,7 +188,7 @@ namespace Mud.Server.Character
         {
             base.Page(text);
             ImpersonatedBy?.Page(text);
-            if (ServerOptions.ForwardSlaveMessages && ControlledBy != null)
+            if (Settings.ForwardSlaveMessages && ControlledBy != null)
                 ControlledBy.Page(text);
         }
 
@@ -298,7 +297,7 @@ namespace Mud.Server.Character
         public IEnumerable<ResourceKinds> CurrentResourceKinds { get; private set; }
 
         public long ExperienceToLevel => 
-            Level >= ServerOptions.MaxLevel
+            Level >= Settings.MaxLevel
                 ? 0
                 : CombatHelpers.CumulativeExperienceByLevel[Level] + CombatHelpers.ExperienceToNextLevel[Level] - Experience;
 
@@ -1246,11 +1245,22 @@ namespace Mud.Server.Character
             DeathPayoff();
 
             // Create corpse
-            IItemCorpse corpse;
-            if (killer != null)
-                corpse = World.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, this, killer);
+            if (World.GetItemBlueprint(Settings.CorpseBlueprintId) is ItemCorpseBlueprint itemCorpseBlueprint)
+            {
+                IItemCorpse corpse;
+                if (killer != null)
+                    corpse = World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this, killer);
+                else
+                    corpse = World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this);
+                // TODO: autoloot ?
+            }
             else
-                corpse = World.AddItemCorpse(Guid.NewGuid(), ServerOptions.CorpseBlueprint, Room, this);
+            {
+                string msg = $"ItemCorpseBlueprint (id:{Settings.CorpseBlueprintId}) doesn't exist !!!";
+                Log.Default.WriteLine(LogLevels.Error, msg);
+                Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+            }
+
             if (ImpersonatedBy != null) // If impersonated, no real death
             {
                 // TODO: teleport player to hall room/graveyard  see fight.C:3952
@@ -1312,7 +1322,7 @@ namespace Mud.Server.Character
         {
             if (!Impersonable)
                 return;
-            if (Level >= ServerOptions.MaxLevel)
+            if (Level >= Settings.MaxLevel)
             {
                 // NOP
             }
@@ -1331,7 +1341,7 @@ namespace Mud.Server.Character
                         Send("You raise a level!!");
                         Act(ActOptions.ToGroup, "{0} has attained level {1}", this, Level);
                         // In case multiple level are gain, check max level
-                        if (Level >= ServerOptions.MaxLevel)
+                        if (Level >= Settings.MaxLevel)
                             break;
                     }
                 }

@@ -13,9 +13,11 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Network;
 using Mud.Server.Abilities;
+using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Settings;
 
 namespace Mud.Server.Server
 {
@@ -45,6 +47,7 @@ namespace Mud.Server.Server
 
         private volatile int _pulseBeforeShutdown; // pulse count before shutdown
 
+        protected ISettings Settings => DependencyContainer.Instance.GetInstance<ISettings>();
         protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
         protected IClassManager ClassManager => DependencyContainer.Instance.GetInstance<IClassManager>();
         protected ILoginRepository LoginManager => DependencyContainer.Instance.GetInstance<ILoginRepository>();
@@ -66,6 +69,12 @@ namespace Mud.Server.Server
             {
                 networkServer.NewClientConnected += NetworkServerOnNewClientConnected;
                 networkServer.ClientDisconnected += NetworkServerOnClientDisconnected;
+            }
+
+            // Check item corpse blueprint
+            if (!(World.GetItemBlueprint(Settings.CorpseBlueprintId) is ItemCorpseBlueprint))
+            {
+                Log.Default.WriteLine(LogLevels.Error, $"ItemCorpseBlueprint (id:{Settings.CorpseBlueprintId}) doesn't exist or is not an corpse item !!!");
             }
 
             // Perform some validity/sanity checks
@@ -143,7 +152,7 @@ namespace Mud.Server.Server
                 Broadcast($"%R%Shutdown in {minutes} minute{(minutes > 1 ? "s" : string.Empty)}%x%");
             else
                 Broadcast($"%R%Shutdown in {seconds} second{(seconds > 1 ? "s" : string.Empty)}%x%");
-            _pulseBeforeShutdown = seconds*ServerOptions.PulsePerSeconds;
+            _pulseBeforeShutdown = seconds*Settings.PulsePerSeconds;
         }
 
         public void Quit(IPlayer player)
@@ -496,7 +505,7 @@ namespace Mud.Server.Server
                 string nextPage = playingClient.Paging.GetNextPage(25); // TODO: configurable line count
                 playingClient.Client.WriteData(nextPage);
                 if (playingClient.Paging.HasPageLeft) // page left, send page instructions (no prompt)
-                    playingClient.Client.WriteData(ServerOptions.PagingInstructions);
+                    playingClient.Client.WriteData(StringHelpers.PagingInstructions);
                 else // no more page -> normal mode
                 {
                     playingClient.Paging.Clear();
@@ -508,7 +517,7 @@ namespace Mud.Server.Server
                 string previousPage = playingClient.Paging.GetPreviousPage(25); // TODO: configurable line count
                 playingClient.Client.WriteData(previousPage);
                 if (playingClient.Paging.HasPageLeft) // page left, send page instructions (no prompt)
-                    playingClient.Client.WriteData(ServerOptions.PagingInstructions);
+                    playingClient.Client.WriteData(StringHelpers.PagingInstructions);
                 else // no more page -> normal mode
                 {
                     playingClient.Paging.Clear();
@@ -529,7 +538,7 @@ namespace Mud.Server.Server
                 playingClient.Client.WriteData(playingClient.Player.Prompt);
             }
             else
-                playingClient.Client.WriteData(ServerOptions.PagingInstructions);
+                playingClient.Client.WriteData(StringHelpers.PagingInstructions);
         }
 
         private void Broadcast(string message)
@@ -608,29 +617,29 @@ namespace Mud.Server.Server
             if (_pulseBeforeShutdown >= 0)
             {
                 _pulseBeforeShutdown--;
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*60*15)
+                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*60*15)
                     Broadcast("%R%Shutdown in 15 minutes%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*60*10)
+                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*60*10)
                     Broadcast("%R%Shutdown in 10 minutes%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*60*5)
+                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*60*5)
                     Broadcast("%R%Shutdown in 5 minutes%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*60)
+                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*60)
                     Broadcast("%R%Shutdown in 1 minute%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*30)
+                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*30)
                     Broadcast("%R%Shutdown in 30 seconds%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*15)
+                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*15)
                     Broadcast("%R%Shutdown in 15 seconds%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*10)
+                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*10)
                     Broadcast("%R%Shutdown in 10 seconds%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*5)
+                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*5)
                     Broadcast("%R%Shutdown in 5%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*4)
+                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*4)
                     Broadcast("%R%Shutdown in 4%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*3)
+                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*3)
                     Broadcast("%R%Shutdown in 3%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*2)
+                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*2)
                     Broadcast("%R%Shutdown in 2%x%");
-                if (_pulseBeforeShutdown == ServerOptions.PulsePerSeconds*1)
+                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*1)
                     Broadcast("%R%Shutdown in 1%x%");
                 else if (_pulseBeforeShutdown == 0)
                 {
@@ -769,13 +778,13 @@ namespace Mud.Server.Server
 
                 // If idle for too long, unimpersonate or disconnect
                 TimeSpan ts = CurrentTime - playingClient.LastReceivedDataTimestamp;
-                if (ts.TotalMinutes > ServerOptions.IdleMinutesBeforeUnimpersonate && playingClient.Player.Impersonating != null)
+                if (ts.TotalMinutes > Settings.IdleMinutesBeforeUnimpersonate && playingClient.Player.Impersonating != null)
                 {
                     playingClient.Client.WriteData("Idle for too long, unimpersonating..." + Environment.NewLine);
                     playingClient.Player.Impersonating.StopFighting(true);
                     playingClient.Player.StopImpersonating();
                 }
-                else if (ts.TotalMinutes > ServerOptions.IdleMinutesBeforeDisconnect)
+                else if (ts.TotalMinutes > Settings.IdleMinutesBeforeDisconnect)
                 {
                     playingClient.Client.WriteData("Idle for too long, disconnecting..." + Environment.NewLine);
                     ClientPlayingOnDisconnected(playingClient.Client);
@@ -824,14 +833,14 @@ namespace Mud.Server.Server
         private void GameLoopTask()
         {
             PulseManager pulseManager = new PulseManager();
-            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulseViolence, HandleViolence);
-            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulsePerSeconds, HandlePeriodicAuras);
-            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulsePerSeconds, HandleAuras);
-            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulsePerSeconds, HandleCooldowns);
-            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulsePerSeconds*60, HandlePlayers);
-            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulsePerSeconds*60, HandleCharacters);
-            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulsePerSeconds*60, HandleItems);
-            pulseManager.Add(ServerOptions.PulsePerSeconds, ServerOptions.PulsePerSeconds*60, HandleRooms);
+            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulseViolence, HandleViolence);
+            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandlePeriodicAuras);
+            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleAuras);
+            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleCooldowns);
+            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandlePlayers);
+            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandleCharacters);
+            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandleItems);
+            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandleRooms);
 
             try
             {
@@ -859,13 +868,13 @@ namespace Mud.Server.Server
 
                     sw.Stop();
                     long elapsedMs = sw.ElapsedMilliseconds; // in milliseconds
-                    if (elapsedMs < ServerOptions.PulseDelay)
+                    if (elapsedMs < Settings.PulseDelay)
                     {
                         //long elapsedTick = sw.ElapsedTicks; // 1 tick = 1 second/Stopwatch.Frequency
                         //long elapsedNs = sw.Elapsed.Ticks; // 1 tick = 1 nanosecond
                         //Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}Ms {1}Ticks {2}Ns", elapsedMs, elapsedTick, elapsedNs);
                         //Thread.Sleep(250 - (int) elapsedMs);
-                        int sleepTime = ServerOptions.PulseDelay - (int) elapsedMs;
+                        int sleepTime = Settings.PulseDelay - (int) elapsedMs;
                         _cancellationTokenSource.Token.WaitHandle.WaitOne(sleepTime);
                     }
                     else

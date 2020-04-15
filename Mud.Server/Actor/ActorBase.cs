@@ -9,11 +9,13 @@ using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Settings;
 
 namespace Mud.Server.Actor
 {
     public abstract class ActorBase : IActor
     {
+        protected ISettings Settings => DependencyContainer.Instance.GetInstance<ISettings>();
         protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
         protected IWiznet Wiznet => DependencyContainer.Instance.GetInstance<IWiznet>();
         protected IPlayerManager PlayerManager => DependencyContainer.Instance.GetInstance<IPlayerManager>();
