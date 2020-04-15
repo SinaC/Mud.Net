@@ -48,7 +48,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            Server.Promote(player, level);
+            ServerAdminCommand.Promote(player, level);
 
             return true;
         }
@@ -62,7 +62,7 @@ namespace Mud.Server.Admin
             else if (seconds < 30)
                 Send("You cannot shutdown that fast.");
             else
-                Server.Shutdown(seconds);
+                ServerAdminCommand.Shutdown(seconds);
             return true;
         }
 

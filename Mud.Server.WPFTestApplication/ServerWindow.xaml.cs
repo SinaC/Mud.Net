@@ -33,6 +33,7 @@ namespace Mud.Server.WPFTestApplication
         private static ServerWindow _serverWindowInstance;
 
         private static IServer Server => DependencyContainer.Instance.GetInstance<IServer>();
+        private static IServerAdminCommand ServerPlayerCommand => DependencyContainer.Instance.GetInstance<IServerAdminCommand>();
         private static IPlayerManager PlayerManager => DependencyContainer.Instance.GetInstance<IPlayerManager>();
         private static IAdminManager AdminManager => DependencyContainer.Instance.GetInstance<IAdminManager>();
         private static IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
@@ -51,6 +52,8 @@ namespace Mud.Server.WPFTestApplication
             DependencyContainer.Instance.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
             DependencyContainer.Instance.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
             DependencyContainer.Instance.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
+            DependencyContainer.Instance.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
+            DependencyContainer.Instance.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
             DependencyContainer.Instance.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
@@ -244,7 +247,7 @@ namespace Mud.Server.WPFTestApplication
                             else
                                 level = AdminLevels.Angel;
                             OutputText($"Promoting {player.Name} to {level}");
-                            Server.Promote(player, level);
+                            ServerPlayerCommand.Promote(player, level);
                         }
                     }
                 }

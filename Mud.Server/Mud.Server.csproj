@@ -99,6 +99,8 @@
     <Compile Include="IRaceManager.cs" />
     <Compile Include="IRoom.cs" />
     <Compile Include="IServer.cs" />
+    <Compile Include="IServerAdminCommand.cs" />
+    <Compile Include="IServerPlayerCommand.cs" />
     <Compile Include="Item\IItemArmor.cs" />
     <Compile Include="Item\IItemContainer.cs" />
     <Compile Include="Item\IItemCorpse.cs" />
