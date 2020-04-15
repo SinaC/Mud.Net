@@ -1,4 +1,6 @@
-﻿namespace Mud.Repository.Mongo.Domain
+﻿using System.Collections.Generic;
+
+namespace Mud.Repository.Mongo.Domain
 {
     public class CharacterData
     {
@@ -16,6 +18,10 @@
 
         public long Experience { get; set; }
 
-        // TODO: aura, equipments, inventory, cooldown, quests, ...
+        public List<EquipedItemData> Equipments { get; set; }
+
+        public List<ItemData> Inventory { get; set; }
+
+        // TODO: aura, cooldown, quests, ...
     }
 }

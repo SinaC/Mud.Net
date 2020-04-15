@@ -19,6 +19,7 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Common;
 using Mud.Server.Item;
 using Mud.Settings;
 
@@ -55,9 +56,12 @@ namespace Mud.Server.WPFTestApplication
             DependencyContainer.Instance.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<ISettings,Settings.Settings>(SimpleInjector.Lifestyle.Singleton);
 
-            DependencyContainer.Instance.Register<ILoginRepository, Repository.Filesystem.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Instance.Register<IPlayerRepository, Repository.Filesystem.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Instance.Register<IAdminRepository, Repository.Filesystem.AdminRepository>(SimpleInjector.Lifestyle.Singleton);
+            //DependencyContainer.Instance.Register<ILoginRepository, Repository.Filesystem.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
+            //DependencyContainer.Instance.Register<IPlayerRepository, Repository.Filesystem.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
+            //DependencyContainer.Instance.Register<IAdminRepository, Repository.Filesystem.AdminRepository>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<ILoginRepository, Repository.Mongo.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IPlayerRepository, Repository.Mongo.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IAdminRepository, Repository.Mongo.AdminRepository>(SimpleInjector.Lifestyle.Singleton);
 
             // Initialize mapping
             var mapperConfiguration = new MapperConfiguration(cfg =>
@@ -207,6 +211,43 @@ namespace Mud.Server.WPFTestApplication
                 OutputText("players:");
                 foreach (IPlayer p in PlayerManager.Players)
                     OutputText(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.DisplayName : ""));
+            }
+            else if (input.StartsWith("promote"))
+            {
+                string[] tokens = input.Split(' ');
+                if (tokens.Length <= 1)
+                {
+                    OutputText("A player name must be specified");
+                }
+                else 
+                {
+                    string playerName = tokens[1];
+                    if (AdminManager.Admins.Any(x => x.Name == playerName))
+                    {
+                        OutputText("Already admin");
+                    }
+                    else
+                    {
+                        IPlayer player = PlayerManager.Players.FirstOrDefault(x => x.Name == playerName);
+                        if (player == null)
+                        {
+                            OutputText("No such player");
+                        }
+                        else
+                        {
+                            AdminLevels level;
+                            if (tokens.Length >= 2)
+                            {
+                                if (!EnumHelpers.TryFindByName(tokens[2], out level))
+                                    level = AdminLevels.Angel;
+                            }
+                            else
+                                level = AdminLevels.Angel;
+                            OutputText($"Promoting {player.Name} to {level}");
+                            Server.Promote(player, level);
+                        }
+                    }
+                }
             }
             InputTextBox.Focus();
             InputTextBox.SelectAll();

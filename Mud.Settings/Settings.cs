@@ -6,6 +6,8 @@ namespace Mud.Settings
     {
         public string LogPath => ConfigurationManager.AppSettings["logpath"];
 
+        public string ConnectionString => ConfigurationManager.AppSettings["connectionstring"];
+
         public string PlayerRepositoryPath => ConfigurationManager.AppSettings["PlayerRepositoryPath"];
 
         public string AdminRepositoryPath => ConfigurationManager.AppSettings["AdminRepositoryPath"];

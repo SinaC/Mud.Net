@@ -50,8 +50,9 @@ namespace Mud.Server.Server
         protected ISettings Settings => DependencyContainer.Instance.GetInstance<ISettings>();
         protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
         protected IClassManager ClassManager => DependencyContainer.Instance.GetInstance<IClassManager>();
-        protected ILoginRepository LoginManager => DependencyContainer.Instance.GetInstance<ILoginRepository>();
-        protected IPlayerRepository PlayerManager => DependencyContainer.Instance.GetInstance<IPlayerRepository>();
+        protected ILoginRepository LoginRepository => DependencyContainer.Instance.GetInstance<ILoginRepository>();
+        protected IPlayerRepository PlayerRepository => DependencyContainer.Instance.GetInstance<IPlayerRepository>();
+        protected IAdminRepository AdminRepository => DependencyContainer.Instance.GetInstance<IAdminRepository>();
 
         public Server()
         {
@@ -174,12 +175,85 @@ namespace Mud.Server.Server
             else
             {
                 string playerName = player.DisplayName;
-                LoginManager.DeleteLogin(player.Name);
-                PlayerManager.Delete(player.Name);
+                LoginRepository.DeleteLogin(player.Name);
+                PlayerRepository.Delete(player.Name);
                 ClientPlayingOnDisconnected(playingClient.Client);
                 //
                 Log.Default.WriteLine(LogLevels.Info, $"Player {playerName} has been deleted");
             }
+        }
+
+        public void Promote(IPlayer player, AdminLevels level)
+        {
+            // TODO: should be done atomically
+            if (player is IAdmin)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Promote: client is already admin");
+                return;
+            }
+            PlayingClient playingClient;
+            _players.TryGetValue(player, out playingClient);
+            if (playingClient == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Promote: client not found");
+                return;
+            }
+
+            // Let's go
+            Log.Default.WriteLine(LogLevels.Info, "Promoting {0} to {1}", player.Name, level);
+            Wiznet($"Promoting {player.Name} to {level}", WiznetFlags.Promote);
+
+            // Remove from playing client
+            lock (_playingClientLockObject)
+            {
+                _clients.TryRemove(playingClient.Client, out playingClient);
+                _players.TryRemove(playingClient.Player, out playingClient);
+                // !!! PlayingClient removed from both collection must be equal
+            }
+
+            // Unlink SendData and PageData
+            player.SendData -= PlayerOnSendData;
+            player.PageData -= PlayerOnPageData;
+
+            // Reset LastTeller and SnoopBy
+            player.SetLastTeller(null);
+            player.SetSnoopBy(null);
+
+            // Stop impersonation if any + stop fights
+            if (player.Impersonating != null)
+            {
+                player.Impersonating.StopFighting(true);
+                player.StopImpersonating();
+            }
+
+            // Create admin
+            IAdmin admin = new Admin.Admin(player.Id, player.Name, level, player.Aliases, player.Avatars);
+
+            // Replace player by admin in playingClient
+            playingClient.Player = admin;
+
+            // Link SendData and PageData
+            admin.SendData += PlayerOnSendData;
+            admin.PageData += PlayerOnPageData;
+
+            // Reinsert in playing client
+            lock (_playingClientLockObject)
+            {
+                _players.TryAdd(admin, playingClient);
+                _clients.TryAdd(playingClient.Client, playingClient);
+            }
+
+            // Delete player
+            PlayerRepository.Delete(player.Name);
+
+            // Save admin
+            admin.Save();
+
+            // Save login
+            LoginRepository.ChangeAdminStatus(admin.Name, true);
+
+            // Inform admin about promotion
+            admin.Send("You have been promoted to {0}", level);
         }
 
         #endregion

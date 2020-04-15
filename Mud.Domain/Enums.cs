@@ -265,5 +265,6 @@ namespace Mud.Domain
         Typos     = 0x0100,
         Help      = 0x0200,
         Load      = 0x0400,
+        Promote   = 0x0800
     }
 }

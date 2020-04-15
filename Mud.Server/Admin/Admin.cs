@@ -6,6 +6,7 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Input;
+using System.Collections.Generic;
 
 namespace Mud.Server.Admin
 {
@@ -19,6 +20,13 @@ namespace Mud.Server.Admin
         public Admin(Guid id, string name) 
             : base(id, name)
         {
+        }
+
+        // used for promotion
+        public Admin(Guid id, string name, AdminLevels level, IReadOnlyDictionary<string,string> aliases, IEnumerable<CharacterData> avatarList)
+            : base(id, name, aliases, avatarList)
+        {
+            Level = level;
         }
 
         #region IAdmin

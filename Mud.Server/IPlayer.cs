@@ -32,6 +32,8 @@ namespace Mud.Server
 
         IEnumerable<Domain.CharacterData> Avatars { get; }
 
+        IReadOnlyDictionary<string,string> Aliases { get; }
+
         IPlayer LastTeller { get; }
 
         IAdmin SnoopBy { get; } // every messages send to 'this' will be sent to SnoopBy

@@ -56,14 +56,14 @@ namespace Mud.Server.Player
                     return true;
                 }
                 string oldCmd;
-                if (Aliases.TryGetValue(alias, out oldCmd))
+                if (_aliases.TryGetValue(alias, out oldCmd))
                 {
-                    Aliases[alias] = newCmd;
+                    _aliases[alias] = newCmd;
                     Send($"{alias} is now realiased to '{newCmd}'.");
                 }
                 else
                 {
-                    Aliases.Add(alias, newCmd);
+                    _aliases.Add(alias, newCmd);
                     Send($"{alias} is now aliased to '{newCmd}'.");
                 }
             }
@@ -88,7 +88,7 @@ namespace Mud.Server.Player
             string cmd;
             if (Aliases.TryGetValue(alias, out cmd))
             {
-                Aliases.Remove(alias);
+                _aliases.Remove(alias);
                 Send("Alias removed.");
             }
             else

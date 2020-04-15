@@ -22,7 +22,7 @@ namespace Mud.Server.Player
         private readonly List<string> _delayedTells;
         private readonly List<CharacterData> _avatarList;
 
-        protected readonly Dictionary<string, string> Aliases;
+        protected readonly Dictionary<string, string> _aliases;
         protected IInputTrap<IPlayer> CurrentStateMachine;
         protected bool DeletionConfirmationNeeded;
 
@@ -36,8 +36,8 @@ namespace Mud.Server.Player
 
             _delayedTells = new List<string>();
             _avatarList = new List<CharacterData>();
+            _aliases = new Dictionary<string, string>();
 
-            Aliases = new Dictionary<string, string>();
             CurrentStateMachine = null;
             DeletionConfirmationNeeded = false;
         }
@@ -47,6 +47,13 @@ namespace Mud.Server.Player
         {
             Id = id;
             Name = name;
+        }
+
+        // Used for promotion
+        public Player(Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<CharacterData> avatarList) : this(id, name)
+        {
+            _aliases = aliases?.ToDictionary(x => x.Key, x => x.Value) ?? new Dictionary<string, string>();
+            _avatarList = avatarList?.ToList() ?? new List<CharacterData>();
         }
 
         #region IPlayer
@@ -191,6 +198,8 @@ namespace Mud.Server.Player
 
         public IEnumerable<CharacterData> Avatars => _avatarList;
 
+        public IReadOnlyDictionary<string, string> Aliases => _aliases;
+
         public IPlayer LastTeller { get; private set; }
 
         public IAdmin SnoopBy { get; private set; } // every messages send to 'this' will be sent to SnoopBy
@@ -327,12 +336,12 @@ namespace Mud.Server.Player
 
         protected void LoadPlayerData(PlayerData data)
         {
-            Aliases.Clear();
+            _aliases.Clear();
             _avatarList.Clear();
             if (data?.Aliases != null)
             {
                 foreach (KeyValuePair<string, string> alias in data.Aliases)
-                    Aliases.Add(alias.Key, alias.Value);
+                    _aliases.Add(alias.Key, alias.Value);
             }
 
             if (data?.Characters != null)
