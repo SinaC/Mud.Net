@@ -1,3 +1,5 @@
+avatar name must be unique on server
+
 move blueprints to Mud.Domain + refactor Mud.Domain
 
 IWorld: should create IReadonlyWorld which only contains getter

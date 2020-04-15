@@ -216,18 +216,17 @@ namespace Mud.Server.Player
                 return true;
             }
 
-            if (DeletionConfirmationNeeded)
-            {
-                // perform deletion
-                Send("Deletion confirmed! Processing...");
-
-                ServerPlayerCommand.Delete(this);
-            }
-            else 
+            if (!DeletionConfirmationNeeded)
             {
                 Send("Ask you sure you want to delete your account? Use 'delete' again to confirm.");
                 DeletionConfirmationNeeded = true;
+                return true;
             }
+
+            // perform deletion
+            Send("Deletion confirmed! Processing...");
+            ServerPlayerCommand.Delete(this);
+
             return true;
         }
 
