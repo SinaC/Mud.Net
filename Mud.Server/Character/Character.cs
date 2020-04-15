@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Mud.Container;
@@ -97,7 +98,7 @@ namespace Mud.Server.Character
                 EquipedItem equipedItem = Equipments.FirstOrDefault(x => x.Slot == equipedItemData.Slot);
                 if (equipedItem != null)
                 {
-                    IItem item = MapItem(equipedItemData, this);
+                    IItem item = MapItemData(equipedItemData, this);
                     if (item is IEquipable equipable)
                     {
                         equipedItem.Item = equipable;
@@ -113,7 +114,7 @@ namespace Mud.Server.Character
                 }
                 else 
                 {
-                    string msg = $"Item blueprint Id {equipedItemData.ItemId} was supposed to be equiped in slot {equipedItemData.Slot} which doesn't exist anymore for {DebugName}";
+                    string msg = $"Item blueprint Id {equipedItemData.ItemId} was supposed to be equiped in slot {equipedItemData.Slot} which doesn't exist anymore for {Name}";
                     Log.Default.WriteLine(LogLevels.Error, msg);
                     Wiznet.Wiznet(msg, WiznetFlags.Bugs);
                 }
@@ -121,7 +122,7 @@ namespace Mud.Server.Character
             // Inventory
             foreach (ItemData itemData in data.Inventory)
             {
-                IItem item = MapItem(itemData, this);
+                MapItemData(itemData, this);
             }
 
             Impersonable = true; // Playable
@@ -2121,12 +2122,14 @@ namespace Mud.Server.Character
                     case ActParsingStates.FormatSeparatorFound: // searching for }
                         if (c == '}')
                         {
+                            Debug.Assert(argumentFormat != null);
                             FormatActOneArgument(target, result, argumentFormat.ToString(), currentArgument);
                             state = ActParsingStates.Normal;
                         }
                         else
                         {
                             // argumentFormat cannot be null
+                            Debug.Assert(argumentFormat != null);
                             argumentFormat.Append(c);
                         }
                         break;
@@ -2158,8 +2161,7 @@ namespace Mud.Server.Character
         private static void FormatActOneArgument(ICharacter target, StringBuilder result, string format, object argument)
         {
             // Character ?
-            ICharacter character = argument as ICharacter;
-            if (character != null)
+            if (argument is ICharacter character)
             {
                 char letter = format?[0] ?? 'n'; // if no format, n
                 switch (letter)
@@ -2315,24 +2317,21 @@ namespace Mud.Server.Character
                 return;
             }
             // Item ?
-            IItem item = argument as IItem;
-            if (item != null)
+            if (argument is IItem item)
             {
                 // no specific format
                 result.Append(item.RelativeDisplayName(target));
                 return;
             }
             // Exit ?
-            IExit exit = argument as IExit;
-            if (exit != null)
+            if (argument is IExit exit)
             {
                 // no specific format
                 result.Append(exit.Keywords.FirstOrDefault() ?? "door");
                 return;
             }
             // Ability ?
-            IAbility ability = argument as IAbility;
-            if (ability != null)
+            if (argument is IAbility ability)
             {
                 // no specific format
                 result.Append(ability.Name);
@@ -2343,8 +2342,7 @@ namespace Mud.Server.Character
                 result.Append(argument);
             else
             {
-                IFormattable formattable = argument as IFormattable;
-                if (formattable != null)
+                if (argument is IFormattable formattable)
                     result.Append(formattable.ToString(format, null));
                 else
                     result.Append(argument);
@@ -2373,19 +2371,19 @@ namespace Mud.Server.Character
             }
         }
 
-        private IItem MapItem(ItemData itemData, IContainer container)
+        private IItem MapItemData(ItemData itemData, IContainer container)
         {
             ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(itemData.ItemId);
             if (itemBlueprint != null)
             {
                 IItem item = World.AddItem(Guid.NewGuid(), itemBlueprint, container);
 
-                if (itemData.Contains?.Any() == true)
+                if (itemData.Contains?.Any() == true) // if contains items
                 {
                     if (item is IItemContainer itemContainer)
                     {
                         foreach (ItemData subItemData in itemData.Contains)
-                            MapItem(subItemData, itemContainer);
+                            MapItemData(subItemData, itemContainer); // recursive call
                     }
                     else
                     {
