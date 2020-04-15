@@ -428,7 +428,7 @@ namespace Mud.Server.Character
         private void DisplayRoom() // equivalent to act_info.C:do_look("auto")
         {
             // Room name
-            if (ImpersonatedBy != null && ImpersonatedBy is IAdmin)
+            if (ImpersonatedBy is IAdmin)
                 Send($"%c%{Room.DisplayName} [{Room.Blueprint?.Id.ToString() ?? "???"}]%x%");
             else
                 Send("%c%{0}%x%", Room.DisplayName);

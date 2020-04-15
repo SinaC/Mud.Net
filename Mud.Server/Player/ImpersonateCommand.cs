@@ -5,7 +5,6 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Server;
 
 namespace Mud.Server.Player
 {
@@ -73,7 +72,7 @@ namespace Mud.Server.Player
         [PlayerCommand("createavatar", Category = "Avatar", CannotBeImpersonated = true)]
         protected virtual bool DoCreateAvatar(string rawParameters, params CommandParameter[] parameters)
         {
-            if (_avatarList.Count >= ServerOptions.MaxAvatarCount)
+            if (_avatarList.Count >= Settings.MaxAvatarCount)
             {
                 Send("Max. avatar count reached. Delete one before creating a new one.");
                 return true;

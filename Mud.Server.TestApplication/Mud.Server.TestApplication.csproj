@@ -114,6 +114,10 @@
       <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>
       <Name>Mud.Server</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
+      <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
+      <Name>Mud.Settings</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

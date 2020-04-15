@@ -4,7 +4,6 @@ using System.Text;
 using Mud.Logger;
 using Mud.Server.Actor;
 using Mud.Server.Input;
-using Mud.Server.Server;
 
 namespace Mud.Server.Entity
 {
@@ -46,7 +45,7 @@ namespace Mud.Server.Entity
 
             if (IncarnatedBy != null)
             {
-                if (ServerOptions.PrefixForwardedMessages)
+                if (Settings.PrefixForwardedMessages)
                     message = "<INC|" + DisplayName + ">" + message;
                 IncarnatedBy.Send(message, addTrailingNewLine);
             }

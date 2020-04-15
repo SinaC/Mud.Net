@@ -11,6 +11,8 @@ namespace Mud.Server.Helpers
         public static string ItemNotFound = "You do not see that here.";
         public static string ItemInventoryNotFound = "You do not have that item.";
         public static string QuestPrefix = "%R%(QUEST)%x%";
+        public static string PagingInstructions = "[Paging : (Enter), (N)ext, (P)revious, (Q)uit, (A)ll]";
+
 
         #region Color tags
 

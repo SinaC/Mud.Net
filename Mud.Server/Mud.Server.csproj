@@ -150,7 +150,6 @@
     <Compile Include="Server\PlayingClient.cs" />
     <Compile Include="Server\PulseManager.cs" />
     <Compile Include="Server\Server.cs" />
-    <Compile Include="Server\ServerOptions.cs" />
     <Compile Include="IAbility.cs" />
     <Compile Include="World\World.cs" />
   </ItemGroup>
@@ -191,10 +190,17 @@
       <Project>{3e2bd396-17b9-423e-9114-9e215b468267}</Project>
       <Name>Mud.Server.Input</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
+      <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
+      <Name>Mud.Settings</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Settings\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

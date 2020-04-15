@@ -20,7 +20,7 @@ using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Item;
-using Mud.Server.Server;
+using Mud.Settings;
 
 namespace Mud.Server.WPFTestApplication
 {
@@ -53,6 +53,7 @@ namespace Mud.Server.WPFTestApplication
             DependencyContainer.Instance.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<ISettings,Settings.Settings>(SimpleInjector.Lifestyle.Singleton);
 
             DependencyContainer.Instance.Register<ILoginRepository, Repository.Filesystem.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IPlayerRepository, Repository.Filesystem.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
@@ -1231,10 +1232,12 @@ namespace Mud.Server.WPFTestApplication
             World.AddItemBlueprint(questItem2Blueprint);
 
             //
-            ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint
+            ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
             {
+                Id = DependencyContainer.Instance.GetInstance<ISettings>().CorpseBlueprintId,
                 Name = "corpse"
             }; // this is mandatory
+            DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(corpseBlueprint);
 
             // Add dummy mobs and items to allow impersonate :)
             IRoom templeOfMota = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");

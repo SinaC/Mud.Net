@@ -65,7 +65,7 @@ namespace Mud.Server.World
 
         public CharacterBlueprint GetCharacterBlueprint(int id) => GetBlueprintById(_characterBlueprints, id);
 
-        public ItemBlueprintBase GetItemBlueprint(int id)=> GetBlueprintById(_itemBlueprints, id);
+        public ItemBlueprintBase GetItemBlueprint(int id) => GetBlueprintById(_itemBlueprints, id);
 
         public void AddQuestBlueprint(QuestBlueprint blueprint)
         {

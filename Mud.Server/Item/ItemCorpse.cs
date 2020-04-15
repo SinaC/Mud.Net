@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Server;
 
 namespace Mud.Server.Item
 {
@@ -23,9 +22,9 @@ namespace Mud.Server.Item
             _content = new List<IItem>();
             List<IItem> inventory = new List<IItem>(victim.Content); // clone
             if (inventory.Any())
-                DecayPulseLeft = ServerOptions.PulsePerMinutes * 5;
+                DecayPulseLeft = Settings.PulsePerMinutes * 5;
             else
-                DecayPulseLeft = ServerOptions.PulsePerMinutes;
+                DecayPulseLeft = Settings.PulsePerMinutes;
             foreach (IItem item in inventory) // TODO: check stay death flag
                 item.ChangeContainer(this);
             foreach (IEquipable item in victim.Equipments.Where(x => x.Item != null).Select(x => x.Item))

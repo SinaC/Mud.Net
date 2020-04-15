@@ -6,7 +6,6 @@ using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Server;
 
 namespace Mud.Server.Admin
 {
@@ -196,7 +195,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            if (victim.Level >= ServerOptions.MaxLevel)
+            if (victim.Level >= Settings.MaxLevel)
             {
                 Send($"{DisplayName} is already at max level.");
                 return true;

@@ -15,7 +15,7 @@ using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Item;
-using Mud.Server.Server;
+using Mud.Settings;
 
 namespace Mud.Server.TestApplication
 {
@@ -25,11 +25,17 @@ namespace Mud.Server.TestApplication
         {
             Log.Default.Initialize(ConfigurationManager.AppSettings["logpath"], "server.log");
 
+            // Initialize IOC container
             DependencyContainer.Instance.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<ITimeHandler, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements ITimeHandler
+            DependencyContainer.Instance.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
+            DependencyContainer.Instance.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
+            DependencyContainer.Instance.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
             DependencyContainer.Instance.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<ISettings, Settings.Settings>(SimpleInjector.Lifestyle.Singleton);
 
             //TestSecondWindow();
             //TestPaging();
@@ -169,7 +175,12 @@ namespace Mud.Server.TestApplication
                 WearLocation = WearLocations.Wield
             };
             //
-            ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint();
+            ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
+            {
+                Id = DependencyContainer.Instance.GetInstance<ISettings>().CorpseBlueprintId,
+                Name = "corpse"
+            }; // this is mandatory
+            DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(corpseBlueprint);
 
             // World
             IArea midgaard = DependencyContainer.Instance.GetInstance<IWorld>().Areas.FirstOrDefault(x => x.DisplayName == "Midgaard");
@@ -378,7 +389,12 @@ namespace Mud.Server.TestApplication
             };
 
             //
-            ServerOptions.CorpseBlueprint = new ItemCorpseBlueprint();
+            ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
+            {
+                Id = DependencyContainer.Instance.GetInstance<ISettings>().CorpseBlueprintId,
+                Name = "corpse"
+            }; // this is mandatory
+            DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(corpseBlueprint);
 
             // Add dummy mobs and items to allow impersonate :)
             IRoom templeOfMota = DependencyContainer.Instance.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");

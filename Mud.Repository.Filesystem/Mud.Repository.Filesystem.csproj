@@ -34,12 +34,10 @@
     <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="SimpleInjector, Version=4.9.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.4.9.2\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
@@ -76,6 +74,10 @@
     <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj">
       <Project>{2c853490-7908-4e36-b906-72eba82b4236}</Project>
       <Name>Mud.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
+      <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
+      <Name>Mud.Settings</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

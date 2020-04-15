@@ -4,7 +4,6 @@ using System.Linq;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Input;
-using Mud.Server.Server;
 
 namespace Mud.Server.Player
 {
@@ -175,7 +174,7 @@ namespace Mud.Server.Player
             if (!LoginRepository.CheckPassword(Name, parameters[0].Value))
             {
                 Send("Wrong password. Wait 10 seconds.");
-                SetGlobalCooldown(10*ServerOptions.PulsePerSeconds);
+                SetGlobalCooldown(10* Settings.PulsePerSeconds);
                 return true;
             }
             if (parameters[1].Value.Length < 5)
@@ -213,7 +212,7 @@ namespace Mud.Server.Player
             if (!LoginRepository.CheckPassword(Name, parameters[0].Value))
             {
                 Send("Wrong password. Wait 10 seconds.");
-                SetGlobalCooldown(10 * ServerOptions.PulsePerSeconds);
+                SetGlobalCooldown(10 * Settings.PulsePerSeconds);
                 return true;
             }
 

@@ -1,12 +1,11 @@
-﻿using System.Configuration;
-using System.IO;
+﻿using System.IO;
 using System.Xml.Serialization;
 
 namespace Mud.Repository.Filesystem
 {
     public class AdminRepository : RepositoryBase, IAdminRepository
     {
-        private string AdminRepositoryPath => ConfigurationManager.AppSettings["AdminRepositoryPath"];
+        private string AdminRepositoryPath => Settings.AdminRepositoryPath;
 
         private string BuildFilename(string adminName) => Path.Combine(AdminRepositoryPath, adminName + ".data");
 

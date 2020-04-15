@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -9,11 +8,11 @@ using Mud.Logger;
 
 namespace Mud.Repository.Filesystem
 {
-    public class LoginRepository : ILoginRepository
+    public class LoginRepository : RepositoryBase, ILoginRepository
     {
         private const bool CheckLoginPassword = false;
 
-        private string LoginRepositoryFilename => ConfigurationManager.AppSettings["LoginRepositoryFilename"];
+        private string LoginRepositoryFilename => Settings.LoginRepositoryFilename;
 
         private Dictionary<string, LoginData> _table = new Dictionary<string, LoginData>();
         private bool _loaded;

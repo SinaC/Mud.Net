@@ -52,6 +52,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Container", "Mud.Contai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Domain", "Mud.Domain\Mud.Domain.csproj", "{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Settings", "Mud.Settings\Mud.Settings.csproj", "{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -142,6 +144,10 @@ Global
 		{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
