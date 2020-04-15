@@ -6,7 +6,7 @@ namespace Mud.Repository.TestApplication
     {
         static void Main(string[] args)
         {
-            LoginManager manager = new LoginManager();
+            LoginRepository manager = new LoginRepository();
             bool isAdmin;
             bool found = manager.CheckUsername("sinac", out isAdmin);
         }

@@ -92,36 +92,42 @@ namespace Mud.Server.Character
             BuildEquipmentSlots();
 
             // Equiped items
-            foreach (EquipedItemData equipedItemData in data.Equipments)
+            if (data.Equipments != null)
             {
-                EquipedItem equipedItem = Equipments.FirstOrDefault(x => x.Slot == equipedItemData.Slot);
-                if (equipedItem != null)
+                foreach (EquipedItemData equipedItemData in data.Equipments)
                 {
-                    IItem item = MapItemData(equipedItemData, this);
-                    if (item is IEquipable equipable)
+                    EquipedItem equipedItem = Equipments.FirstOrDefault(x => x.Slot == equipedItemData.Slot);
+                    if (equipedItem != null)
                     {
-                        equipedItem.Item = equipable;
-                        equipable.ChangeContainer(null); // remove from inventory
-                        equipable.ChangeEquipedBy(this); // set as equiped by this
+                        IItem item = MapItemData(equipedItemData, this);
+                        if (item is IEquipable equipable)
+                        {
+                            equipedItem.Item = equipable;
+                            equipable.ChangeContainer(null); // remove from inventory
+                            equipable.ChangeEquipedBy(this); // set as equiped by this
+                        }
+                        else
+                        {
+                            string msg = $"Item blueprint Id {equipedItemData.ItemId} cannot be equipped anymore in slot {equipedItemData.Slot}";
+                            Log.Default.WriteLine(LogLevels.Error, msg, equipedItemData.ItemId, equipedItemData.Slot);
+                            Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+                        }
                     }
                     else
                     {
-                        string msg = $"Item blueprint Id {equipedItemData.ItemId} cannot be equipped anymore in slot {equipedItemData.Slot}";
-                        Log.Default.WriteLine(LogLevels.Error, msg, equipedItemData.ItemId, equipedItemData.Slot);
+                        string msg = $"Item blueprint Id {equipedItemData.ItemId} was supposed to be equiped in slot {equipedItemData.Slot} which doesn't exist anymore for {Name}";
+                        Log.Default.WriteLine(LogLevels.Error, msg);
                         Wiznet.Wiznet(msg, WiznetFlags.Bugs);
                     }
                 }
-                else 
-                {
-                    string msg = $"Item blueprint Id {equipedItemData.ItemId} was supposed to be equiped in slot {equipedItemData.Slot} which doesn't exist anymore for {Name}";
-                    Log.Default.WriteLine(LogLevels.Error, msg);
-                    Wiznet.Wiznet(msg, WiznetFlags.Bugs);
-                }
             }
-            // Inventory
-            foreach (ItemData itemData in data.Inventory)
+            if (data.Inventory != null)
             {
-                MapItemData(itemData, this);
+                // Inventory
+                foreach (ItemData itemData in data.Inventory)
+                {
+                    MapItemData(itemData, this);
+                }
             }
 
             Impersonable = true; // Playable

@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Mud.Repository.Mongo.Domain
 {
+    [BsonKnownTypes(typeof(AdminData))]
     public class PlayerData
     {
         [BsonId]

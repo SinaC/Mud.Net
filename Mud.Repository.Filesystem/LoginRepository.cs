@@ -86,6 +86,19 @@ namespace Mud.Repository.Filesystem
             return true;
         }
 
+        public bool ChangeAdminStatus(string username, bool isAdmin)
+        {
+            LoginData loginData;
+            bool found = _table.TryGetValue(username, out loginData);
+            if (found)
+            {
+                loginData.IsAdmin = isAdmin;
+                Save();
+                return true;
+            }
+            return false;
+        }
+
         #endregion
 
         private bool Load()

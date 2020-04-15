@@ -3,6 +3,8 @@
     public interface ISettings
     {
         string LogPath { get; }
+
+        string ConnectionString { get; }
         string PlayerRepositoryPath { get; }
         string AdminRepositoryPath { get; }
         string LoginRepositoryFilename { get; }

@@ -4,6 +4,7 @@ using System.Text;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -11,6 +12,47 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
+        [AdminCommand("promote", Category = "Admin", Priority = 999, NoShortcut = true, MinLevel = AdminLevels.Supremacy, CannotBeImpersonated = true)]
+        protected virtual bool DoPromote(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length != 2)
+            {
+                Send("Syntax: promote <player> <level>");
+                return true;
+            }
+
+            // whom
+            IPlayer player = FindHelpers.FindByName(PlayerManager.Players, parameters[0], true);
+            if (player == null)
+            {
+                Send(StringHelpers.CharacterNotFound);
+                return true;
+            }
+            if (player == this)
+            {
+                Send("You cannot promote yourself.");
+                return true;
+            }
+
+            if (player is IAdmin)
+            {
+                Send("{0} is already Admin", player.DisplayName);
+                return true;
+            }
+
+            // what
+            AdminLevels level;
+            if (!EnumHelpers.TryFindByName(parameters[1].Value, out level))
+            {
+                Send("{0} is not a valid admin levels. Values are : {1}", parameters[1].Value, string.Join(",", EnumHelpers.GetValues<AdminLevels>().Select(x => x.ToString())));
+                return true;
+            }
+
+            Server.Promote(player, level);
+
+            return true;
+        }
+
         [AdminCommand("shutdown", Category = "Admin", Priority = 999 /*low priority*/, NoShortcut = true, MinLevel = AdminLevels.Implementor, CannotBeImpersonated = true)]
         protected virtual bool DoShutdown(string rawParameters, params CommandParameter[] parameters)
         {

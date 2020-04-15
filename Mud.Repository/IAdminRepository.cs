@@ -5,6 +5,6 @@ namespace Mud.Repository
     public interface IAdminRepository
     {
         AdminData Load(string adminName);
-        void Save(AdminData data);
+        void Save(AdminData adminData);
     }
 }

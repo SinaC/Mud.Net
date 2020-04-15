@@ -5,7 +5,7 @@ namespace Mud.Repository
     public interface IPlayerRepository
     {
         PlayerData Load(string playerName);
-        void Save(PlayerData data);
+        void Save(PlayerData playerData);
         void Delete(string playerName);
     }
 }
