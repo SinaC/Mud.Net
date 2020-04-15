@@ -1,3 +1,4 @@
+merge IAdminRepository and IPlayerRepository -> IPlayerRepository
 avatar name must be unique on server
 
 move blueprints to Mud.Domain + refactor Mud.Domain
@@ -16,6 +17,7 @@ reputation
 achievements
 AH
 help
+notes
 lua for mob IA
 
 use wiznet(msg, WiznetFlags.Bugs) when LogLevels.Error is used
