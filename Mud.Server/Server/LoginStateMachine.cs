@@ -27,7 +27,7 @@ namespace Mud.Server.Server
 
     internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
     {
-        public const int MaxPasswordTries = 3;
+        private const int MaxPasswordTries = 3;
         private int _invalidPasswordTries;
 
         private string _username;
@@ -36,6 +36,7 @@ namespace Mud.Server.Server
         private bool _isNewPlayer;
 
         protected ILoginRepository LoginManager => DependencyContainer.Instance.GetInstance<ILoginRepository>();
+        protected IUniquenessManager UniquenessManager => DependencyContainer.Instance.GetInstance<IUniquenessManager>();
 
         public event LoginSuccessfulEventHandler LoginSuccessful;
         public event LoginFailedEventHandler LoginFailed;
@@ -65,7 +66,6 @@ namespace Mud.Server.Server
             //
             if (!string.IsNullOrWhiteSpace(input))
             {
-                _username = input;
                 bool isAdmin;
                 bool known = LoginManager.CheckUsername(input, out isAdmin);
 
@@ -73,19 +73,29 @@ namespace Mud.Server.Server
                 // Else, name confirmation
                 if (known)
                 {
-                    Send(client, "Welcome back, {0}! Please enter your password:", StringHelpers.UpperFirstLetter(_username));
+                    Send(client, "Welcome back, {0}! Please enter your password:", StringHelpers.UpperFirstLetter(input));
+                    _username = input;
                     _isAdmin = isAdmin;
                     _isNewPlayer = false;
                     EchoOff(client);
                     PreserveInput = true;
                     return LoginStates.Password;
                 }
-                // TODO: check name validity
-                Send(client, "Are you sure this is the account name you wish to use? (y/n)");
-                _isAdmin = false;
-                _isNewPlayer = true;
+
+                // If account name is available, create
+                if (UniquenessManager.IsAccountNameAvailable(input))
+                {
+                    Send(client, "Are you sure this is the account name you wish to use? (y/n)");
+                    _username = input;
+                    _isAdmin = false;
+                    _isNewPlayer = true;
+                    PreserveInput = false;
+                    return LoginStates.UsernameConfirm;
+                }
+
+                Send(client, "This name is not available for creation. Please enter a valid name:");
                 PreserveInput = false;
-                return LoginStates.UsernameConfirm;
+                return LoginStates.Username;
             }
             //
             Send(client, "Please enter a name:");

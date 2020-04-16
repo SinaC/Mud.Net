@@ -26,6 +26,7 @@ namespace Mud.Repository.Filesystem
 
         public bool InsertLogin(string username, string password)
         {
+            LoadIfNeeded();
             if (_table.ContainsKey(username))
                 return false;
             _table.Add(username, new LoginData
@@ -40,8 +41,7 @@ namespace Mud.Repository.Filesystem
 
         public bool CheckUsername(string username, out bool isAdmin)
         {
-            if (!_loaded)
-                Load();
+            LoadIfNeeded();
             isAdmin = false;
             LoginData loginData;
             bool found = _table.TryGetValue(username, out loginData);
@@ -52,6 +52,7 @@ namespace Mud.Repository.Filesystem
 
         public bool CheckPassword(string username, string password)
         {
+            LoadIfNeeded();
             // TODO: check password + encryption
             if (CheckLoginPassword)
             {
@@ -66,6 +67,7 @@ namespace Mud.Repository.Filesystem
 
         public bool ChangePassword(string username, string password)
         {
+            LoadIfNeeded();
             LoginData loginData;
             bool found = _table.TryGetValue(username, out loginData);
             if (found)
@@ -79,6 +81,7 @@ namespace Mud.Repository.Filesystem
 
         public bool DeleteLogin(string username)
         {
+            LoadIfNeeded();
             if (!_table.ContainsKey(username))
                 return false;
             _table.Remove(username);
@@ -88,6 +91,7 @@ namespace Mud.Repository.Filesystem
 
         public bool ChangeAdminStatus(string username, bool isAdmin)
         {
+            LoadIfNeeded();
             LoginData loginData;
             bool found = _table.TryGetValue(username, out loginData);
             if (found)
@@ -99,10 +103,18 @@ namespace Mud.Repository.Filesystem
             return false;
         }
 
+        public IEnumerable<string> GetLogins()
+        {
+            LoadIfNeeded();
+            return _table.Keys.ToArray();
+        }
+
         #endregion
 
-        private bool Load()
+        private void LoadIfNeeded()
         {
+            if (_loaded)
+                return;
             // TODO: load logins and check if there is player file not found in logins
             try
             {
@@ -121,12 +133,12 @@ namespace Mud.Repository.Filesystem
             }
             catch (Exception ex)
             {
-                Log.Default.WriteLine(LogLevels.Error, "SaveLogins: unable to save. Exception: {0}", ex);
+                Log.Default.WriteLine(LogLevels.Error, "LoadIfNeeded: unable to load. Exception: {0}", ex);
             }
-            return true;
+            return;
         }
 
-        private bool Save()
+        private void Save()
         {
             try
             {
@@ -147,9 +159,9 @@ namespace Mud.Repository.Filesystem
             }
             catch (Exception ex)
             {
-                Log.Default.WriteLine(LogLevels.Error, "SaveLogins: unable to save. Exception: {0}", ex);
+                Log.Default.WriteLine(LogLevels.Error, "Save: unable to save. Exception: {0}", ex);
             }
-            return true;
+            return;
         }
     }
 }

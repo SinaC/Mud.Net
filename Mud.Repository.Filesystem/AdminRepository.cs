@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace Mud.Repository.Filesystem
@@ -15,13 +17,7 @@ namespace Mud.Repository.Filesystem
             if (!File.Exists(filename))
                 return null;
 
-            DataContracts.AdminData adminData;
-            XmlSerializer deserializer = new XmlSerializer(typeof(DataContracts.AdminData));
-            using (FileStream file = File.OpenRead(filename))
-            {
-                adminData = (DataContracts.AdminData)deserializer.Deserialize(file);
-            }
-
+            DataContracts.AdminData adminData = InnerLoad(filename);
             var mapped = Mapper.Map<DataContracts.AdminData, Domain.AdminData>(adminData);
 
             return mapped;
@@ -37,6 +33,27 @@ namespace Mud.Repository.Filesystem
             using (FileStream file = File.Create(filename))
             {
                 serializer.Serialize(file, mapped);
+            }
+        }
+
+        public IEnumerable<string> GetAvatarNames() 
+        {
+            List<string> avatarNames = new List<string>();
+            foreach (string filename in Directory.EnumerateFiles(AdminRepositoryPath))
+            {
+                DataContracts.AdminData adminData = InnerLoad(filename);
+                if (adminData.Characters.Any())
+                    avatarNames.AddRange(adminData.Characters.Select(x => x.Name));
+            }
+            return avatarNames.ToArray();
+        }
+
+        private DataContracts.AdminData InnerLoad(string filename)
+        {
+            XmlSerializer deserializer = new XmlSerializer(typeof(DataContracts.AdminData));
+            using (FileStream file = File.OpenRead(filename))
+            {
+                return (DataContracts.AdminData)deserializer.Deserialize(file);
             }
         }
     }

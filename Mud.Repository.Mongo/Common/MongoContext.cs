@@ -2,7 +2,7 @@
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 
-namespace Mud.Repository.Mongo
+namespace Mud.Repository.Mongo.Common
 {
     public abstract class MongoContext
     {

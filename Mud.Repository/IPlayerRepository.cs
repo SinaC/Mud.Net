@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using System.Collections.Generic;
 
 namespace Mud.Repository
 {
@@ -7,5 +8,6 @@ namespace Mud.Repository
         PlayerData Load(string playerName);
         void Save(PlayerData playerData);
         void Delete(string playerName);
+        IEnumerable<string> GetAvatarNames();
     }
 }

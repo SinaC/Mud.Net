@@ -57,14 +57,21 @@ namespace Mud.Server.WPFTestApplication
             DependencyContainer.Instance.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Instance.Register<ISettings,Settings.Settings>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<ISettings, Settings.Settings>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
 
-            //DependencyContainer.Instance.Register<ILoginRepository, Repository.Filesystem.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
-            //DependencyContainer.Instance.Register<IPlayerRepository, Repository.Filesystem.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
-            //DependencyContainer.Instance.Register<IAdminRepository, Repository.Filesystem.AdminRepository>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Instance.Register<ILoginRepository, Repository.Mongo.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Instance.Register<IPlayerRepository, Repository.Mongo.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Instance.Register<IAdminRepository, Repository.Mongo.AdminRepository>(SimpleInjector.Lifestyle.Singleton);
+            if (ConfigurationManager.AppSettings["UseMongo"] == "true")
+            {
+                DependencyContainer.Instance.Register<ILoginRepository, Repository.Mongo.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
+                DependencyContainer.Instance.Register<IPlayerRepository, Repository.Mongo.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
+                DependencyContainer.Instance.Register<IAdminRepository, Repository.Mongo.AdminRepository>(SimpleInjector.Lifestyle.Singleton);
+            }
+            else 
+            {
+                DependencyContainer.Instance.Register<ILoginRepository, Repository.Filesystem.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
+                DependencyContainer.Instance.Register<IPlayerRepository, Repository.Filesystem.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
+                DependencyContainer.Instance.Register<IAdminRepository, Repository.Filesystem.AdminRepository>(SimpleInjector.Lifestyle.Singleton);
+            }
 
             // Initialize mapping
             var mapperConfiguration = new MapperConfiguration(cfg =>

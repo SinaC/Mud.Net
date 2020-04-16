@@ -53,6 +53,7 @@ namespace Mud.Server.Server
         protected ILoginRepository LoginRepository => DependencyContainer.Instance.GetInstance<ILoginRepository>();
         protected IPlayerRepository PlayerRepository => DependencyContainer.Instance.GetInstance<IPlayerRepository>();
         protected IAdminRepository AdminRepository => DependencyContainer.Instance.GetInstance<IAdminRepository>();
+        protected IUniquenessManager UniquenessManager => DependencyContainer.Instance.GetInstance<IUniquenessManager>();
 
         public Server()
         {
@@ -75,7 +76,7 @@ namespace Mud.Server.Server
             // Check item corpse blueprint
             if (!(World.GetItemBlueprint(Settings.CorpseBlueprintId) is ItemCorpseBlueprint))
             {
-                Log.Default.WriteLine(LogLevels.Error, $"ItemCorpseBlueprint (id:{Settings.CorpseBlueprintId}) doesn't exist or is not an corpse item !!!");
+                Log.Default.WriteLine(LogLevels.Error, "ItemCorpseBlueprint (id:{0}) doesn't exist or is not an corpse item !!!", Settings.CorpseBlueprintId);
             }
 
             // Perform some validity/sanity checks
@@ -105,6 +106,9 @@ namespace Mud.Server.Server
                 totalExperience += expToLevel;
             }
             Log.Default.WriteLine(LogLevels.Info, "Total experience from 1 to 100 = {0:n0}", totalExperience);
+
+            // Initialize UniquenessManager
+            UniquenessManager.Initialize();
         }
 
         public void Start()
@@ -338,9 +342,10 @@ namespace Mud.Server.Server
                 string playerName = player.DisplayName;
                 LoginRepository.DeleteLogin(player.Name);
                 PlayerRepository.Delete(player.Name);
+                UniquenessManager.RemoveAvatarNames(player.Avatars?.Select(x => x.Name));
                 ClientPlayingOnDisconnected(playingClient.Client);
                 //
-                Log.Default.WriteLine(LogLevels.Info, $"Player {playerName} has been deleted");
+                Log.Default.WriteLine(LogLevels.Info, "Player {0} has been deleted", playerName);
             }
         }
 
@@ -877,7 +882,7 @@ namespace Mud.Server.Server
             foreach (ICharacter character in World.Characters)
             {
                 if (character.Impersonable && character.ImpersonatedBy == null) // TODO: remove after x minutes
-                    Log.Default.WriteLine(LogLevels.Warning, $"Impersonable {character.DebugName} is not impersonated");
+                    Log.Default.WriteLine(LogLevels.Warning, "Impersonable {0} is not impersonated", character.DebugName);
 
                 //
                 character.UpdateResources();
@@ -892,7 +897,7 @@ namespace Mud.Server.Server
                 item.DecreaseDecayPulseLeft();
                 if (item.DecayPulseLeft == 0)
                 {
-                    Log.Default.WriteLine(LogLevels.Debug, $"Item {item.DebugName} decayed");
+                    Log.Default.WriteLine(LogLevels.Debug, "Item {0} decayed", item.DebugName);
                     // TODO: if it's a player corpse, move items to room (except quest item)
                     World.RemoveItem(item);
                 }

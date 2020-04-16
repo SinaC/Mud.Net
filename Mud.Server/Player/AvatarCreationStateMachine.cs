@@ -32,6 +32,7 @@ namespace Mud.Server.Player
         protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
         protected IRaceManager RaceManager => DependencyContainer.Instance.GetInstance<IRaceManager>();
         protected IClassManager ClassManager => DependencyContainer.Instance.GetInstance<IClassManager>();
+        protected IUniquenessManager UniquenessManager => DependencyContainer.Instance.GetInstance<IUniquenessManager>();
 
         public override bool IsFinalStateReached => State == AvatarCreationStates.CreationComplete || State == AvatarCreationStates.Quit;
 
@@ -70,6 +71,13 @@ namespace Mud.Server.Player
                 if (player.Avatars.Any(x => FindHelpers.StringEquals(x.Name, input)))
                 {
                     player.Send("You already have an avatar with that name.");
+                    player.Send("Please enter a name (type quit to stop creation):");
+                    return AvatarCreationStates.NameChoice;
+                }
+                // Can create an avatar with login name
+                if (input != player.Name && !UniquenessManager.IsAvatarNameAvailable(input))
+                {
+                    player.Send("This avatar name is not available.");
                     player.Send("Please enter a name (type quit to stop creation):");
                     return AvatarCreationStates.NameChoice;
                 }
@@ -158,6 +166,7 @@ namespace Mud.Server.Player
                 };
                 player.AddAvatar(characterData);
                 player.Save();
+                UniquenessManager.AddAvatarName(_name);
                 // TODO: better wording
                 player.Send("Your avatar is created. Name: {0} Sex: {1} Race: {2} Class: {3}.", StringHelpers.UpperFirstLetter(_name), _sex, _race.DisplayName, _class.DisplayName);
                 player.Send("Would you like to impersonate it now? (y/n)");

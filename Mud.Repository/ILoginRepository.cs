@@ -1,4 +1,6 @@
-﻿namespace Mud.Repository
+﻿using System.Collections.Generic;
+
+namespace Mud.Repository
 {
     public interface ILoginRepository
     {
@@ -8,5 +10,6 @@
         bool ChangePassword(string username, string password);
         bool DeleteLogin(string username);
         bool ChangeAdminStatus(string username, bool isAdmin);
+        IEnumerable<string> GetLogins();
     }
 }

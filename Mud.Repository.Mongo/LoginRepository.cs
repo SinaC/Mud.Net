@@ -2,6 +2,7 @@
 using System.Linq;
 using MongoDB.Driver;
 using Mud.Repository.Mongo.Domain;
+using Mud.Repository.Mongo.Common;
 
 namespace Mud.Repository.Mongo
 {
@@ -65,6 +66,11 @@ namespace Mud.Repository.Mongo
             loginData.IsAdmin = isAdmin;
             MongoRepository.Collection.ReplaceOne(x => x.Username == username, loginData, new ReplaceOptions { IsUpsert = false });
             return true;
+        }
+
+        public IEnumerable<string> GetLogins()
+        {
+            return MongoRepository.Collection.AsQueryable().Select(x => x.Username).ToArray();
         }
 
         #endregion
