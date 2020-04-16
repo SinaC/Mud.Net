@@ -65,29 +65,30 @@ namespace Mud.POC.TestLua
             //lua["room"] = World.Rooms.First();
             lua.RegisterFunction("getCharacter", this, GetType().GetMethod("GetCharacter")); // here (***)
             lua.DoString(
-            @"print('this is a debug message')
-            local this = getCharacter()
-            cName = this.DisplayName
-            function luanet.each(o)
-               local e = o:GetEnumerator()
-               return function()
-                  if e:MoveNext() then
-                    return e.Current
-                 end
-               end
-            end
+            @"import = function () end -- avoid end-user importing external modules
+print('this is a debug message')
+local this = getCharacter()
+cName = this.DisplayName
+function luanet.each(o)
+   local e = o:GetEnumerator()
+   return function()
+      if e:MoveNext() then
+        return e.Current
+     end
+   end
+end
 
-            local each = luanet.each;
-            
-            for c in each(this.Room.People) do
-                local name = c == getCharacter() and 'me' or c.DisplayName;
-                print('in room:'..name);
-            end
+local each = luanet.each;
 
-           -- local globals = _G
-            --for g in each(globals) do
-            --    print('global:'..tostring(g));
-            --end");
+for c in each(this.Room.People) do
+    local name = c == getCharacter() and 'me' or c.DisplayName;
+    print('in room:'..name);
+end
+
+-- local globals = _G
+--for g in each(globals) do
+--    print('global:'..tostring(g));
+--end");
             //doesn't work    lua.DoString("function this.pouet(s) print(s) end");
             var cName = lua["cName"];
             var luanet = lua["luanet"];

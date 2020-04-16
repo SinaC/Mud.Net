@@ -26,7 +26,7 @@ namespace Mud.POC.TestLua
 
             // Read scripts from file/immediate string
             lua.DoString(
-@"
+@"import = function () end -- avoid end-user importing external modules
 mob1 = {}
 function mob1:OnTick()
     print('OnTick:['..self.DisplayName..']  '..tostring(self));
@@ -81,8 +81,5 @@ end");
 
             lua.Close();
         }
-
-
-        
     }
 }
