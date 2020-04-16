@@ -14,7 +14,7 @@ namespace Mud.Server.Server
         private readonly ConcurrentQueue<string> _receiveQueue; // concurrent queue because network may write and server read at the same time
         private readonly StringBuilder _sendBuffer;
 
-        protected ITimeHandler TimeHandler => DependencyContainer.Instance.GetInstance<ITimeHandler>();
+        protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
 
         public Paging Paging { get; }
 

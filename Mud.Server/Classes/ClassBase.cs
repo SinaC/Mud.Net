@@ -11,7 +11,7 @@ namespace Mud.Server.Classes
     {
         private readonly List<AbilityAndLevel> _abilities;
 
-        protected IAbilityManager AbilityManager => DependencyContainer.Instance.GetInstance<IAbilityManager>();
+        protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
 
         #region IClass
 

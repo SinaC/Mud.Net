@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mud.Container;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,7 +23,7 @@ namespace Mud.Server.Common
 
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
         {
-            return source.Shuffle(RandomizeHelpers.Instance.Randomizer);
+            return source.Shuffle(DependencyContainer.Current.GetInstance<IRandomManager>().Randomizer);
         }
 
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rng)

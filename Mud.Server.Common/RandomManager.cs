@@ -5,22 +5,19 @@ using System.Linq;
 
 namespace Mud.Server.Common
 {
-    public class RandomizeHelpers
+    public class RandomManager : IRandomManager
     {
         public Random Randomizer { get; }
 
-        #region Singleton
-
-        private static readonly Lazy<RandomizeHelpers> Lazy = new Lazy<RandomizeHelpers>(() => new RandomizeHelpers());
-
-        public static RandomizeHelpers Instance => Lazy.Value;
-
-        private RandomizeHelpers()
+        public RandomManager()
         {
             Randomizer = new Random();
         }
 
-        #endregion
+        public RandomManager(int seed)
+        {
+            Randomizer = new Random(seed);
+        }
 
         public bool Chance(int percentage)
         {
@@ -39,7 +36,7 @@ namespace Mud.Server.Common
 
             int sum = list.Sum(x => x.Occurancy);
             if (sum <= 0)
-                return default(T);
+                return default;
 
             int random = Randomizer.Next(sum);
 
@@ -50,8 +47,8 @@ namespace Mud.Server.Common
                 if (random < range)
                     return occurancy.Value;
             }
-            Debug.Assert(false, "RangeRandom");
-            return default(T);
+            Debug.Assert(false, "Random");
+            return default;
         }
 
         public T Random<T>(IEnumerable<IOccurancy<T>> occurancies, IEnumerable<T> history)
@@ -73,7 +70,7 @@ namespace Mud.Server.Common
 
             int sum = list.Sum(x => x.Occurancy);
             if (sum <= 0)
-                return default(T);
+                return default;
 
             int random = Randomizer.Next(sum);
 
@@ -85,7 +82,7 @@ namespace Mud.Server.Common
                     return occurancy;
             }
             Debug.Assert(false, "RangeRandom");
-            return default(T);
+            return default;
         }
     }
 }

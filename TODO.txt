@@ -8,6 +8,8 @@ default error message with character command if not in correct position
 
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
 
+unit/integration tests
+
 specialization
 talent
 OLC

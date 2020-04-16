@@ -6,6 +6,6 @@ namespace Mud.Container
     {
         private static readonly Lazy<SimpleInjector.Container> Lazy = new Lazy<SimpleInjector.Container>(() => new SimpleInjector.Container());
 
-        public static SimpleInjector.Container Instance => Lazy.Value;
+        public static SimpleInjector.Container Current => Lazy.Value;
     }
 }

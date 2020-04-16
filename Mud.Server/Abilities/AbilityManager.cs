@@ -54,7 +54,7 @@ namespace Mud.Server.Abilities
             new Ability(999999, "Test", AbilityTargets.TargetOrSelf, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 5, 0, 60, SchoolTypes.Shadow, AbilityMechanics.Shielded, DispelTypes.Magic, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.HealAbsorb, 200000, AmountOperators.Fixed))
         };
 
-        protected IWiznet Wiznet => DependencyContainer.Instance.GetInstance<IWiznet>();
+        protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
         public AbilityManager()
         {

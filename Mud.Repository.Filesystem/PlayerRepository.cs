@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
+using Mud.Repository.Filesystem.Common;
 
 namespace Mud.Repository.Filesystem
 {
@@ -11,13 +11,15 @@ namespace Mud.Repository.Filesystem
 
         private string BuildFilename(string playerName) => Path.Combine(PlayerRepositoryPath, playerName + ".data");
 
+        #region IPlayerRepository
+
         public Domain.PlayerData Load(string playerName)
         {
             string filename = BuildFilename(playerName);
             if (!File.Exists(filename))
                 return null;
 
-            DataContracts.PlayerData playerData = InnerLoad(filename);
+            DataContracts.PlayerData playerData = Load<DataContracts.PlayerData>(filename);
             var mapped = Mapper.Map<DataContracts.PlayerData, Domain.PlayerData>(playerData);
 
             return mapped;
@@ -27,13 +29,8 @@ namespace Mud.Repository.Filesystem
         {
             var mapped = Mapper.Map<Domain.PlayerData, DataContracts.PlayerData>(playerData);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(DataContracts.PlayerData));
-            Directory.CreateDirectory(PlayerRepositoryPath);
             string filename = BuildFilename(playerData.Name);
-            using (FileStream file = File.Create(filename))
-            {
-                serializer.Serialize(file, mapped);
-            }
+            Save(mapped, filename);
         }
 
         public void Delete(string playerName)
@@ -49,20 +46,13 @@ namespace Mud.Repository.Filesystem
             List<string> avatarNames = new List<string>();
             foreach (string filename in Directory.EnumerateFiles(PlayerRepositoryPath))
             {
-                DataContracts.PlayerData playerData = InnerLoad(filename);
+                DataContracts.PlayerData playerData = Load<DataContracts.PlayerData>(filename);
                 if (playerData.Characters.Any())
                     avatarNames.AddRange(playerData.Characters.Select(x => x.Name));
             }
             return avatarNames.ToArray();
         }
 
-        private DataContracts.PlayerData InnerLoad(string filename)
-        {
-            XmlSerializer deserializer = new XmlSerializer(typeof(DataContracts.PlayerData));
-            using (FileStream file = File.OpenRead(filename))
-            {
-                return (DataContracts.PlayerData)deserializer.Deserialize(file);
-            }
-        }
+        #endregion
     }
 }

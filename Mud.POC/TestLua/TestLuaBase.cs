@@ -10,7 +10,7 @@ namespace Mud.POC.TestLua
 {
     public abstract class TestLuaBase
     {
-        protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
+        protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
 
         public abstract void Test();
 

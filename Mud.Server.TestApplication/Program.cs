@@ -15,6 +15,7 @@ using Mud.POC.TestLua;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Common;
 using Mud.Server.Item;
 using Mud.Settings;
 
@@ -24,22 +25,24 @@ namespace Mud.Server.TestApplication
     {
         private static void Main(string[] args)
         {
+            // Initialize log
             Log.Default.Initialize(ConfigurationManager.AppSettings["logpath"], "server.log");
 
             // Initialize IOC container
-            DependencyContainer.Instance.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Instance.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Instance.Register<ITimeHandler, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements ITimeHandler
-            DependencyContainer.Instance.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
-            DependencyContainer.Instance.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
-            DependencyContainer.Instance.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
-            DependencyContainer.Instance.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
-            DependencyContainer.Instance.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
-            DependencyContainer.Instance.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Instance.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Instance.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Instance.Register<ISettings, Settings.Settings>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Instance.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<ITimeHandler, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements ITimeHandler
+            DependencyContainer.Current.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
+            DependencyContainer.Current.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
+            DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
+            DependencyContainer.Current.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
+            DependencyContainer.Current.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
+            DependencyContainer.Current.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<ISettings, Settings.Settings>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager());
 
             //TestSecondWindow();
             //TestPaging();
@@ -183,33 +186,33 @@ namespace Mud.Server.TestApplication
             //
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
             {
-                Id = DependencyContainer.Instance.GetInstance<ISettings>().CorpseBlueprintId,
+                Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
                 Name = "corpse"
             }; // this is mandatory
-            DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(corpseBlueprint);
+            DependencyContainer.Current.GetInstance<IWorld>().AddItemBlueprint(corpseBlueprint);
 
             // World
-            IArea midgaard = DependencyContainer.Instance.GetInstance<IWorld>().Areas.FirstOrDefault(x => x.DisplayName == "Midgaard");
-            IRoom room1 = DependencyContainer.Instance.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), room1Blueprint, midgaard);
-            IRoom room2 = DependencyContainer.Instance.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), room2Blueprint, midgaard);
-            DependencyContainer.Instance.GetInstance<IWorld>().AddExit(room1, room2, null, ExitDirections.North);
-            DependencyContainer.Instance.GetInstance<IWorld>().AddExit(room2, room1, null, ExitDirections.North);
+            IArea midgaard = DependencyContainer.Current.GetInstance<IWorld>().Areas.FirstOrDefault(x => x.DisplayName == "Midgaard");
+            IRoom room1 = DependencyContainer.Current.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), room1Blueprint, midgaard);
+            IRoom room2 = DependencyContainer.Current.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), room2Blueprint, midgaard);
+            DependencyContainer.Current.GetInstance<IWorld>().AddExit(room1, room2, null, ExitDirections.North);
+            DependencyContainer.Current.GetInstance<IWorld>().AddExit(room2, room1, null, ExitDirections.North);
 
             //ICharacter mob1 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), "Mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, room1); // playable
-            ICharacter mob2 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob2Blueprint, room1);
-            ICharacter mob3 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob3Blueprint, room2);
-            ICharacter mob4 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob4Blueprint, room2);
-            ICharacter mob5 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob5Blueprint, room2);
+            ICharacter mob2 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob2Blueprint, room1);
+            ICharacter mob3 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob3Blueprint, room2);
+            ICharacter mob4 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob4Blueprint, room2);
+            ICharacter mob5 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob5Blueprint, room2);
 
-            IItemContainer item1 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, room1);
-            IItemContainer item1Dup1 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, room2);
-            IItemWeapon item2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
-            IItemArmor item3 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
+            IItemContainer item1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, room1);
+            IItemContainer item1Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, room2);
+            IItemWeapon item2 = DependencyContainer.Current.GetInstance<IWorld>().AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
+            IItemArmor item3 = DependencyContainer.Current.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
             //IItemLight item4 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
             //IItemWeapon item5 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
             //IItemContainer item1Dup2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
-            IItemArmor item3Dup1 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
-            IItemLight item4Dup1 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            IItemArmor item3Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
+            IItemLight item4Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             // Equip weapon on mob2
             mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield).Item = item2;
             item2.ChangeContainer(null);
@@ -241,7 +244,7 @@ namespace Mud.Server.TestApplication
             foreach (AreaData importedArea in importer.Areas)
             {
                 // TODO: levels
-                IArea area = DependencyContainer.Instance.GetInstance<IWorld>().AddArea(Guid.NewGuid(), importedArea.Name, 1, 99, importedArea.Builders, importedArea.Credits);
+                IArea area = DependencyContainer.Current.GetInstance<IWorld>().AddArea(Guid.NewGuid(), importedArea.Name, 1, 99, importedArea.Builders, importedArea.Credits);
                 areasByVnums.Add(importedArea.VNum, area);
             }
 
@@ -255,7 +258,7 @@ namespace Mud.Server.TestApplication
                     Name = importedRoom.Name,
                     Description = importedRoom.Description,
                 };
-                IRoom room = DependencyContainer.Instance.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), roomBlueprint, area);
+                IRoom room = DependencyContainer.Current.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), roomBlueprint, area);
                 roomsByVNums.Add(importedRoom.VNum, room);
             }
             // Create Exits
@@ -276,7 +279,7 @@ namespace Mud.Server.TestApplication
                             Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", room.VNum);
                         else
                         {
-                            DependencyContainer.Instance.GetInstance<IWorld>().AddExit(from, to, null, (ExitDirections) i);
+                            DependencyContainer.Current.GetInstance<IWorld>().AddExit(from, to, null, (ExitDirections) i);
                         }
                     }
                 }
@@ -397,30 +400,30 @@ namespace Mud.Server.TestApplication
             //
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
             {
-                Id = DependencyContainer.Instance.GetInstance<ISettings>().CorpseBlueprintId,
+                Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
                 Name = "corpse"
             }; // this is mandatory
-            DependencyContainer.Instance.GetInstance<IWorld>().AddItemBlueprint(corpseBlueprint);
+            DependencyContainer.Current.GetInstance<IWorld>().AddItemBlueprint(corpseBlueprint);
 
             // Add dummy mobs and items to allow impersonate :)
-            IRoom templeOfMota = DependencyContainer.Instance.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
-            IRoom templeSquare = DependencyContainer.Instance.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
+            IRoom templeOfMota = DependencyContainer.Current.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
+            IRoom templeSquare = DependencyContainer.Current.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
             //ICharacter mob1 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
-            ICharacter mob2 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
-            ICharacter mob3 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
-            ICharacter mob4 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
-            ICharacter mob5 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
+            ICharacter mob2 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
+            ICharacter mob3 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
+            ICharacter mob4 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
+            ICharacter mob5 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
-            IItemContainer item1 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemContainer item1Dup1 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemWeapon item2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
-            IItemArmor item3 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
+            IItemContainer item1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItemContainer item1Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItemWeapon item2 = DependencyContainer.Current.GetInstance<IWorld>().AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
+            IItemArmor item3 = DependencyContainer.Current.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
             //IItemLight item4 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
             //IItemWeapon item5 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
             //IItemContainer item1Dup2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
-            IItemArmor item3Dup1 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
-            IItemLight item4Dup1 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            IItemArmor item3Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
+            IItemLight item4Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             // Equip weapon on mob2
             mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield).Item = item2;
             item2.ChangeContainer(null);
@@ -457,9 +460,9 @@ namespace Mud.Server.TestApplication
 
         private static void TestBasicCommands()
         {
-            IPlayer player1 = DependencyContainer.Instance.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player1"), "Player1");
-            IPlayer player2 = DependencyContainer.Instance.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player2"), "Player2");
-            IAdmin admin = DependencyContainer.Instance.GetInstance<IAdminManager>().AddAdmin(new ConsoleClient("Admin1"), "Admin1");
+            IPlayer player1 = DependencyContainer.Current.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player1"), "Player1");
+            IPlayer player2 = DependencyContainer.Current.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player2"), "Player2");
+            IAdmin admin = DependencyContainer.Current.GetInstance<IAdminManager>().AddAdmin(new ConsoleClient("Admin1"), "Admin1");
 
             CreateDummyWorld();
 
@@ -504,7 +507,7 @@ namespace Mud.Server.TestApplication
         private static void TestCommandParsing()
         {
             // server doesn't need to be started, we are not testing real runtime but basic commands
-            IArea area = DependencyContainer.Instance.GetInstance<IWorld>().AddArea(Guid.NewGuid(), "testarea", 1, 99, "SinaC", "Credits");
+            IArea area = DependencyContainer.Current.GetInstance<IWorld>().AddArea(Guid.NewGuid(), "testarea", 1, 99, "SinaC", "Credits");
             // Blueprints
             RoomBlueprint room1Blueprint = new RoomBlueprint
             {
@@ -513,9 +516,9 @@ namespace Mud.Server.TestApplication
                 Description = "My first room"
             };
             // World
-            IRoom room = DependencyContainer.Instance.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), room1Blueprint, area);
+            IRoom room = DependencyContainer.Current.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), room1Blueprint, area);
 
-            IPlayer player = DependencyContainer.Instance.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player"), "Player");
+            IPlayer player = DependencyContainer.Current.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player"), "Player");
             player.ProcessCommand("test");
             player.ProcessCommand("test arg1");
             player.ProcessCommand("test 'arg1' 'arg2' 'arg3' 'arg4'");
@@ -531,11 +534,11 @@ namespace Mud.Server.TestApplication
             player.ProcessCommand("unknown"); // INVALID
             player.ProcessCommand("/test");
 
-            ICharacter character = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), new CharacterData
+            ICharacter character = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), new CharacterData
             {
                 Name = "toto",
-                Class = DependencyContainer.Instance.GetInstance<IClassManager>()["Mage"].Name,
-                Race = DependencyContainer.Instance.GetInstance<IRaceManager>()["Troll"].Name,
+                Class = DependencyContainer.Current.GetInstance<IClassManager>()["Mage"].Name,
+                Race = DependencyContainer.Current.GetInstance<IRaceManager>()["Troll"].Name,
                 Sex = Sex.Male,
                 Level = 1,
                 Experience = 0,
@@ -557,7 +560,7 @@ namespace Mud.Server.TestApplication
             player.ProcessCommand("tell");
             player.ProcessCommand("look"); // INVALID because Character commands are not accessible by Player unless if impersonating
 
-            IAdmin admin = DependencyContainer.Instance.GetInstance<IAdminManager>().AddAdmin(new ConsoleClient("Admin"), "Admin");
+            IAdmin admin = DependencyContainer.Current.GetInstance<IAdminManager>().AddAdmin(new ConsoleClient("Admin"), "Admin");
             admin.ProcessCommand("incarnate");
             admin.ProcessCommand("unknown"); // INVALID
         }
@@ -590,8 +593,8 @@ namespace Mud.Server.TestApplication
             CreateMidgaard();
 
             INetworkServer telnetServer = new TelnetServer(11000);
-           DependencyContainer.Instance.GetInstance<IServer>().Initialize(new List<INetworkServer> { telnetServer});
-           DependencyContainer.Instance.GetInstance<IServer>().Start();
+           DependencyContainer.Current.GetInstance<IServer>().Initialize(new List<INetworkServer> { telnetServer});
+           DependencyContainer.Current.GetInstance<IServer>().Start();
 
             bool stopped = false;
             while (!stopped)
@@ -613,13 +616,13 @@ namespace Mud.Server.TestApplication
                             else if (line == "alist")
                             {
                                 Console.WriteLine("Admins:");
-                                foreach (IAdmin a in DependencyContainer.Instance.GetInstance<IAdminManager>().Admins)
+                                foreach (IAdmin a in DependencyContainer.Current.GetInstance<IAdminManager>().Admins)
                                     Console.WriteLine(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.DisplayName : "") + " " + (a.Incarnating != null ? a.Incarnating.DisplayName : ""));
                             }
                             else if (line == "plist")
                             {
                                 Console.WriteLine("players:");
-                                foreach (IPlayer p in DependencyContainer.Instance.GetInstance<IPlayerManager>().Players)
+                                foreach (IPlayer p in DependencyContainer.Current.GetInstance<IPlayerManager>().Players)
                                     Console.WriteLine(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.DisplayName : ""));
                             }
                             // TODO: characters/rooms/items
@@ -630,7 +633,7 @@ namespace Mud.Server.TestApplication
                     Thread.Sleep(100);
             }
             
-           DependencyContainer.Instance.GetInstance<IServer>().Stop();
+           DependencyContainer.Current.GetInstance<IServer>().Stop();
         }
 
         private static void TestWorldOffline()
@@ -641,11 +644,11 @@ namespace Mud.Server.TestApplication
             CreateMidgaard();
 
             ConsoleNetworkServer consoleNetworkServer = new ConsoleNetworkServer();
-           DependencyContainer.Instance.GetInstance<IServer>().Initialize(new List<INetworkServer> { consoleNetworkServer});
+           DependencyContainer.Current.GetInstance<IServer>().Initialize(new List<INetworkServer> { consoleNetworkServer});
             consoleNetworkServer.AddClient("Player1", false, true);
-           DependencyContainer.Instance.GetInstance<IServer>().Start(); // this call is blocking because consoleNetworkServer.Start is blocking
+           DependencyContainer.Current.GetInstance<IServer>().Start(); // this call is blocking because consoleNetworkServer.Start is blocking
 
-           DependencyContainer.Instance.GetInstance<IServer>().Stop();
+           DependencyContainer.Current.GetInstance<IServer>().Stop();
         }
     }
 }

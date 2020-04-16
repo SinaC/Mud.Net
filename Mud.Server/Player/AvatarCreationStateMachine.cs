@@ -22,23 +22,23 @@ namespace Mud.Server.Player
         Quit
     }
 
-    public class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreationStates>
+    internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreationStates>
     {
         private string _name;
         private Sex _sex;
         private IRace _race;
         private IClass _class;
 
-        protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
-        protected IRaceManager RaceManager => DependencyContainer.Instance.GetInstance<IRaceManager>();
-        protected IClassManager ClassManager => DependencyContainer.Instance.GetInstance<IClassManager>();
-        protected IUniquenessManager UniquenessManager => DependencyContainer.Instance.GetInstance<IUniquenessManager>();
+        protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
+        protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
+        protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
+        protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
 
         public override bool IsFinalStateReached => State == AvatarCreationStates.CreationComplete || State == AvatarCreationStates.Quit;
 
         public AvatarCreationStateMachine()
         {
-            PreserveInput = false;
+            KeepInputAsIs = false;
             StateMachine = new Dictionary<AvatarCreationStates, Func<IPlayer, string, AvatarCreationStates>>
             {
                 {AvatarCreationStates.NameChoice, ProcessNameChoice},

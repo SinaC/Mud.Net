@@ -9,8 +9,9 @@ namespace Mud.Server.Abilities
 {
     public abstract class AbilityEffect
     {
-        protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
-        protected IAbilityManager AbilityManager => DependencyContainer.Instance.GetInstance<IAbilityManager>();
+        protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
+        protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
+        protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
 
         public abstract bool Process(ICharacter source, ICharacter victim, IAbility ability, CombatHelpers.AttackResults attackResult);
 
@@ -105,7 +106,7 @@ namespace Mud.Server.Abilities
 
         public override bool Process(ICharacter source, ICharacter victim, IAbility ability, CombatHelpers.AttackResults attackResult)
         {
-            int amount = RandomizeHelpers.Instance.Randomizer.Next(MinDamage, MaxDamage + 1);
+            int amount = RandomManager.Randomizer.Next(MinDamage, MaxDamage + 1);
             PerformDamage(source, victim, ability, attackResult, amount, School);
             return true;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mud.Container;
 using Mud.Logger;
 using Mud.Server.Common;
 
@@ -9,6 +10,8 @@ namespace Mud.Server.Blueprints.Quest
     public class QuestKillLootTable<T> // this represents additional provided by kill mob while working on this quest
         where T:IEquatable<T>
     {
+        private IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
+
         public string Name { get; set; }
         public List<QuestKillLootTableEntry<T>> Entries { get; set; }
 
@@ -31,7 +34,7 @@ namespace Mud.Server.Blueprints.Quest
             {
                 foreach (QuestKillLootTableEntry<T> entry in Entries)
                 {
-                    int percentage = 1 + RandomizeHelpers.Instance.Randomizer.Next(0, 100); // from 1 to 100
+                    int percentage = 1 + RandomManager.Randomizer.Next(0, 100); // from 1 to 100
                     if (percentage <= entry.Percentage)
                         loots.Add(entry.Value);
                 }

@@ -17,8 +17,8 @@ namespace Mud.Server.Quest
         private readonly List<QuestObjectiveBase> _objectives;
         private readonly ICharacter _character;
 
-        protected ISettings Settings => DependencyContainer.Instance.GetInstance<ISettings>();
-        protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
+        protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
+        protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
 
         public Quest(QuestBlueprint blueprint, ICharacter character, ICharacter giver)
         {

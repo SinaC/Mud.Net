@@ -35,8 +35,8 @@ namespace Mud.Server.Server
         private bool _isAdmin;
         private bool _isNewPlayer;
 
-        protected ILoginRepository LoginManager => DependencyContainer.Instance.GetInstance<ILoginRepository>();
-        protected IUniquenessManager UniquenessManager => DependencyContainer.Instance.GetInstance<IUniquenessManager>();
+        protected ILoginRepository LoginManager => DependencyContainer.Current.GetInstance<ILoginRepository>();
+        protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
 
         public event LoginSuccessfulEventHandler LoginSuccessful;
         public event LoginFailedEventHandler LoginFailed;
@@ -45,7 +45,7 @@ namespace Mud.Server.Server
 
         public LoginStateMachine()
         {
-            PreserveInput = false;
+            KeepInputAsIs = false;
             StateMachine = new Dictionary<LoginStates, Func<IClient, string, LoginStates>>
             {
                 {LoginStates.Username, ProcessUsername},
@@ -78,7 +78,7 @@ namespace Mud.Server.Server
                     _isAdmin = isAdmin;
                     _isNewPlayer = false;
                     EchoOff(client);
-                    PreserveInput = true;
+                    KeepInputAsIs = true;
                     return LoginStates.Password;
                 }
 
@@ -89,17 +89,17 @@ namespace Mud.Server.Server
                     _username = input;
                     _isAdmin = false;
                     _isNewPlayer = true;
-                    PreserveInput = false;
+                    KeepInputAsIs = false;
                     return LoginStates.UsernameConfirm;
                 }
 
                 Send(client, "This name is not available for creation. Please enter a valid name:");
-                PreserveInput = false;
+                KeepInputAsIs = false;
                 return LoginStates.Username;
             }
             //
             Send(client, "Please enter a name:");
-            PreserveInput = false;
+            KeepInputAsIs = false;
             return LoginStates.Username;
         }
 
@@ -115,7 +115,7 @@ namespace Mud.Server.Server
                 Send(client, "Password correct." + Environment.NewLine);
                 EchoOn(client);
                 LoginSuccessfull(client);
-                PreserveInput = false;
+                KeepInputAsIs = false;
                 return LoginStates.LoggedIn;
             }
             //
@@ -123,7 +123,7 @@ namespace Mud.Server.Server
             if (_invalidPasswordTries < MaxPasswordTries)
             {
                 Send(client, "Password invalid, please try again:");
-                PreserveInput = true;
+                KeepInputAsIs = true;
                 return LoginStates.Password;
             }
             //
@@ -140,12 +140,12 @@ namespace Mud.Server.Server
             {
                 Send(client, "Great! Please enter a password.");
                 EchoOff(client);
-                PreserveInput = true;
+                KeepInputAsIs = true;
                 return LoginStates.NewPassword1;
             }
             //
             Send(client, "Ok, what name would you like to use?");
-            PreserveInput = false;
+            KeepInputAsIs = false;
             return LoginStates.Username;
         }
 
@@ -155,7 +155,7 @@ namespace Mud.Server.Server
             _password = input;
             // Ask confirmation
             Send(client, "Please reenter your password:");
-            PreserveInput = true;
+            KeepInputAsIs = true;
             return LoginStates.NewPassword2;
         }
 
@@ -174,7 +174,7 @@ namespace Mud.Server.Server
             }
             //
             Send(client, "Password do not match, please choose a password:");
-            PreserveInput = true;
+            KeepInputAsIs = true;
             return LoginStates.NewPassword1;
         }
 

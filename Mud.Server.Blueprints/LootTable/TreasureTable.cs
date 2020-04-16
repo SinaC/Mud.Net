@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Container;
 using Mud.Logger;
 using Mud.Server.Common;
 
@@ -9,6 +10,8 @@ namespace Mud.Server.Blueprints.LootTable
     public class TreasureTable<T>
         where T:IEquatable<T>
     {
+        private IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
+
         public string Name { get; set; }
         public List<TreasureTableEntry<T>> Entries { get; set; }
 
@@ -27,7 +30,7 @@ namespace Mud.Server.Blueprints.LootTable
 
         public T GenerateLoot()
         {
-            T randomId = RandomizeHelpers.Instance.Random(Entries);
+            T randomId = RandomManager.Random(Entries);
             if (randomId.Equals(default))
                 Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: no loot found");
             return randomId;
@@ -40,7 +43,7 @@ namespace Mud.Server.Blueprints.LootTable
                 Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: No entries");
                 return default(T); // max occurancy reached, no loot
             }
-            TreasureTableEntry<T> randomEntry = RandomizeHelpers.Instance.Random<TreasureTableEntry<T>, T>(Entries);
+            TreasureTableEntry<T> randomEntry = RandomManager.Random<TreasureTableEntry<T>, T>(Entries);
             if (randomEntry == null)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: no loot found");

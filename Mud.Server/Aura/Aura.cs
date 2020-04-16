@@ -6,7 +6,7 @@ namespace Mud.Server.Aura
 {
     public class Aura : IAura
     {
-        protected ITimeHandler TimeHandler => DependencyContainer.Instance.GetInstance<ITimeHandler>();
+        protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
 
         #region IAura
 

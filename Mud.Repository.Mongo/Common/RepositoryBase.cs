@@ -4,21 +4,21 @@ using Mud.Settings;
 
 namespace Mud.Repository.Mongo.Common
 {
-    public abstract class RepositoryBase<T>
+    public abstract class RepositoryBase<T> : MongoRepository<T>
     {
         private const string DatabaseName = "MudNet";
 
-        protected IMapper Mapper => DependencyContainer.Instance.GetInstance<IMapper>();
-        protected ISettings Settings => DependencyContainer.Instance.GetInstance<ISettings>();
+        protected IMapper Mapper => DependencyContainer.Current.GetInstance<IMapper>();
+        protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
 
-        public string CollectionName { get; }
-
-        public MongoRepository<T> MongoRepository { get; }
+        protected RepositoryBase()
+            :this(typeof(T).Name)
+        {
+        }
 
         protected RepositoryBase(string collectionName)
+            :base(DependencyContainer.Current.GetInstance<ISettings>().ConnectionString, DatabaseName, collectionName)
         {
-            CollectionName = collectionName;
-            MongoRepository = new MongoRepository<T>(Settings.ConnectionString, DatabaseName, CollectionName);
         }
     }
 }
