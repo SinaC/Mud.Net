@@ -6,7 +6,7 @@ namespace Mud.POC.TestLua
     {
         public static void Print(string msg)
         {
-            Debug.WriteLine(msg);
+            Debug.WriteLine(">" + msg);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Mud.Server.TestApplication
             //TestWorldOffline();
 
             //TestLuaIntegration testLua = new TestLuaIntegration();
-            //TestLuaBasicFunctionality = new TestLuaBasicFunctionality();
+            //TestLuaBasicFunctionality testLua = new TestLuaBasicFunctionality();
             TestLuaFunctionHiding testLua = new TestLuaFunctionHiding();
             testLua.Test();
         }

@@ -19,21 +19,9 @@ namespace Mud.POC.TestLua
 
         protected LuaFunction GetLuaFunction([CallerMemberName] string fctName = null)
         {
-            Debug.WriteLine($"DEBUG: LuaScript::GetLuaFunction: Instance [{Entity}] fctName [{fctName}]");
+            Debug.WriteLine($"DEBUG: LuaScript::GetLuaFunction: Entity [{Entity}] fctName [{fctName}]");
             LuaFunction function = _table?[fctName] as LuaFunction;
             return function;
         }
-
-        // This doesn't work because args is considered one argument instead of a list of arguments
-        // should recreate an array of object with Entity as first entry
-        // object[] luaArgs = new object[args.Length+1];
-        // luaArgs[0] = Entity
-        // Array.Copy(args, 0, luaArgs, 1, args.Length);
-        // luaFunction?.Call(luaArgs);
-        //protected object[] CallLuaFunction(string fctName, params object[] args)
-        //{
-        //    LuaFunction luaFunction = _table?[fctName] as LuaFunction;
-        //    return luaFunction?.Call(Entity, args); // Entity will be 'self' in lua
-        //}
     }
 }
