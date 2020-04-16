@@ -1,6 +1,7 @@
 merge IAdminRepository and IPlayerRepository -> IAccountRepository
 avatar name must be unique on server (a player can create an avatar with its own player name)
 
+
 move blueprints to Mud.Domain + refactor Mud.Domain
 
 IWorld: should create IReadonlyWorld which only contains getter
