@@ -86,6 +86,7 @@ namespace Mud.Server.Player
         [PlayerCommand("deleteavatar", Category = "Avatar", CannotBeImpersonated = true)]
         protected virtual bool DoDeleteAvatar(string rawParameters, params CommandParameter[] parameters)
         {
+            //TODO UniquenessManager.RemoveAvatarName(avatarName)
             throw new NotImplementedException();
         }
     }

@@ -4,9 +4,11 @@ namespace Mud.Settings
 {
     public class Settings : ISettings
     {
+        #region ISettings
+
         public string LogPath => ConfigurationManager.AppSettings["logpath"];
 
-        public string ConnectionString => ConfigurationManager.AppSettings["connectionstring"];
+        public string ConnectionString => ConfigurationManager.AppSettings["ConnectionString"];
 
         public string PlayerRepositoryPath => ConfigurationManager.AppSettings["PlayerRepositoryPath"];
 
@@ -50,6 +52,8 @@ namespace Mud.Settings
         public int MaxLevel => IntSetting("MaxLevel", 60);
 
         public int MaxAvatarCount => IntSetting("MaxAvatarCount", 10);
+
+        #endregion
 
         //
         private bool BoolSetting(string key, bool defaultValue) => SafeConvertToBool(ConfigurationManager.AppSettings[key]) ?? defaultValue;

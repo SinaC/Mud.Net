@@ -2,7 +2,7 @@
 using Mud.Container;
 using Mud.Settings;
 
-namespace Mud.Repository.Mongo
+namespace Mud.Repository.Mongo.Common
 {
     public abstract class RepositoryBase<T>
     {

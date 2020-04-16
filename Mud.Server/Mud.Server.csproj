@@ -160,6 +160,7 @@
     <Compile Include="Item\ItemShield.cs" />
     <Compile Include="Item\ItemWeapon.cs" />
     <Compile Include="ITimeHandler.cs" />
+    <Compile Include="IUniquenessManager.cs" />
     <Compile Include="IWiznet.cs" />
     <Compile Include="IWorld.cs" />
     <Compile Include="Item\ItemContainer.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Server\PulseManager.cs" />
     <Compile Include="Server\Server.cs" />
     <Compile Include="IAbility.cs" />
+    <Compile Include="Server\UniquenessManager.cs" />
     <Compile Include="World\World.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -237,9 +239,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Settings\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

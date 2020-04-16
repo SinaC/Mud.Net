@@ -1,11 +1,14 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Driver;
+using Mud.Repository.Mongo.Common;
 
 namespace Mud.Repository.Mongo
 {
     public class AdminRepository : RepositoryBase<Domain.AdminData>, IAdminRepository
     {
-        public AdminRepository() : base("Admin")
+        public AdminRepository() 
+            : base("Admin")
         {
         }
 
@@ -25,6 +28,11 @@ namespace Mud.Repository.Mongo
             var mapped = Mapper.Map<Mud.Domain.AdminData, Domain.AdminData>(adminData);
 
             MongoRepository.Collection.ReplaceOne(x => x.Name == adminData.Name, mapped, new ReplaceOptions { IsUpsert = true });
+        }
+
+        public IEnumerable<string> GetAvatarNames() 
+        {
+            return MongoRepository.Collection.AsQueryable().SelectMany(x => x.Characters).Select(x => x.Name).ToList();
         }
     }
 }

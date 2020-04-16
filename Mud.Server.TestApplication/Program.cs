@@ -39,6 +39,7 @@ namespace Mud.Server.TestApplication
             DependencyContainer.Instance.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Instance.Register<ISettings, Settings.Settings>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Instance.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
 
             //TestSecondWindow();
             //TestPaging();

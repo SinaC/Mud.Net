@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace Mud.Repository.Mongo
+namespace Mud.Repository.Mongo.Common
 {
     public class MongoCappedRepository<TDocument> : MongoRepository<TDocument>
     {

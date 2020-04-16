@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace Mud.Repository.Filesystem
@@ -15,13 +17,7 @@ namespace Mud.Repository.Filesystem
             if (!File.Exists(filename))
                 return null;
 
-            DataContracts.PlayerData playerData;
-            XmlSerializer deserializer = new XmlSerializer(typeof(DataContracts.PlayerData));
-            using (FileStream file = File.OpenRead(filename))
-            {
-                playerData = (DataContracts.PlayerData) deserializer.Deserialize(file);
-            }
-
+            DataContracts.PlayerData playerData = InnerLoad(filename);
             var mapped = Mapper.Map<DataContracts.PlayerData, Domain.PlayerData>(playerData);
 
             return mapped;
@@ -46,6 +42,27 @@ namespace Mud.Repository.Filesystem
 
             if (File.Exists(filename))
                 File.Delete(filename);
+        }
+
+        public IEnumerable<string> GetAvatarNames()
+        {
+            List<string> avatarNames = new List<string>();
+            foreach (string filename in Directory.EnumerateFiles(PlayerRepositoryPath))
+            {
+                DataContracts.PlayerData playerData = InnerLoad(filename);
+                if (playerData.Characters.Any())
+                    avatarNames.AddRange(playerData.Characters.Select(x => x.Name));
+            }
+            return avatarNames.ToArray();
+        }
+
+        private DataContracts.PlayerData InnerLoad(string filename)
+        {
+            XmlSerializer deserializer = new XmlSerializer(typeof(DataContracts.PlayerData));
+            using (FileStream file = File.OpenRead(filename))
+            {
+                return (DataContracts.PlayerData)deserializer.Deserialize(file);
+            }
         }
     }
 }

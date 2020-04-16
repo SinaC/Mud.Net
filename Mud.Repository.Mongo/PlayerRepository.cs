@@ -1,11 +1,14 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Driver;
+using Mud.Repository.Mongo.Common;
 
 namespace Mud.Repository.Mongo
 {
     public class PlayerRepository : RepositoryBase<Domain.PlayerData>, IPlayerRepository
     {
-        public PlayerRepository() : base("Player")
+        public PlayerRepository()
+            : base("Player")
         {
         }
 
@@ -30,6 +33,11 @@ namespace Mud.Repository.Mongo
         public void Delete(string playerName)
         {
             MongoRepository.Collection.DeleteOne(x => x.Name == playerName);
+        }
+
+        public IEnumerable<string> GetAvatarNames()
+        {
+            return MongoRepository.Collection.AsQueryable().SelectMany(x => x.Characters).Select(x => x.Name).ToList();
         }
     }
 }
