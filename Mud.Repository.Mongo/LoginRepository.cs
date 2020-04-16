@@ -24,13 +24,13 @@ namespace Mud.Repository.Mongo
                 Password = password,
                 IsAdmin = false,
             };
-            MongoRepository.Insert(loginData);
+            Insert(loginData);
             return true;
         }
 
         public bool CheckUsername(string username, out bool isAdmin)
         {
-            LoginData loginData = MongoRepository.Collection.AsQueryable().FirstOrDefault(x => x.Username == username);
+            LoginData loginData = Collection.AsQueryable().FirstOrDefault(x => x.Username == username);
             if (loginData != null)
             {
                 isAdmin = loginData.IsAdmin;
@@ -42,56 +42,35 @@ namespace Mud.Repository.Mongo
 
         public bool CheckPassword(string username, string password)
         {
-            LoginData loginData = MongoRepository.Collection.AsQueryable().FirstOrDefault(x => x.Username == username);
+            LoginData loginData = Collection.AsQueryable().FirstOrDefault(x => x.Username == username);
             return loginData != null && loginData.Password == password;
         }
 
         public bool ChangePassword(string username, string password)
         {
-            // TODO
-            return true;
+            var update = Builders<LoginData>.Update.Set(x => x.Password, password);
+            UpdateResult result = Collection.UpdateOne(x => x.Username == username, update);
+            return result.ModifiedCount > 0;
         }
 
         public bool DeleteLogin(string username)
         {
-            DeleteResult deleteResult = MongoRepository.Collection.DeleteOne(x => x.Username == username);
+            DeleteResult deleteResult = Collection.DeleteOne(x => x.Username == username);
             return deleteResult.DeletedCount > 0;
         }
 
         public bool ChangeAdminStatus(string username, bool isAdmin)
         {
-            LoginData loginData = MongoRepository.Collection.AsQueryable().FirstOrDefault(x => x.Username == username);
-            if (loginData == null)
-                return false;
-            loginData.IsAdmin = isAdmin;
-            MongoRepository.Collection.ReplaceOne(x => x.Username == username, loginData, new ReplaceOptions { IsUpsert = false });
-            return true;
+            var update = Builders<LoginData>.Update.Set(x => x.IsAdmin, isAdmin);
+            UpdateResult result = Collection.UpdateOne(x => x.Username == username, update);
+            return result.ModifiedCount > 0;
         }
 
         public IEnumerable<string> GetLogins()
         {
-            return MongoRepository.Collection.AsQueryable().Select(x => x.Username).ToArray();
+            return Collection.AsQueryable().Select(x => x.Username).ToArray();
         }
 
         #endregion
-
-        private void ResetUsernames()
-        {
-            MongoRepository.Fetch(new List<LoginData>
-            { 
-                new LoginData
-                {
-                    Username = "sinac",
-                    Password = "password",
-                    IsAdmin = true
-                },
-                new LoginData
-                {
-                    Username = "player",
-                    Password = "password",
-                    IsAdmin = false
-                }
-            });
-        }
     }
 }

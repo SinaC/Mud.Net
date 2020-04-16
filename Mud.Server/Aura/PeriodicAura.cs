@@ -10,7 +10,7 @@ namespace Mud.Server.Aura
         private DateTime _startTime;
         private DateTime _lastTickElapsed;
 
-        protected ITimeHandler TimeHandler => DependencyContainer.Instance.GetInstance<ITimeHandler>();
+        protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
 
         #region IPeriodicAura
 

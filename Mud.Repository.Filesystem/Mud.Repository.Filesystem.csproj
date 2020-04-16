@@ -92,7 +92,7 @@
     <Compile Include="DataContracts\LoginRepositoryData.cs" />
     <Compile Include="PlayerRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoryBase.cs" />
+    <Compile Include="Common\RepositoryBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">

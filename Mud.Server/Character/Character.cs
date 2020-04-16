@@ -39,7 +39,8 @@ namespace Mud.Server.Character
         private readonly List<AbilityAndLevel> _knownAbilities;
         private readonly List<IQuest> _quests;
 
-        protected ITimeHandler TimeHandler => DependencyContainer.Instance.GetInstance<ITimeHandler>();
+        protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
+        private IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
 
         protected int MaxHitPoints => _secondaryAttributes[(int) SecondaryAttributeTypes.MaxHitPoints];
 
@@ -1686,7 +1687,7 @@ namespace Mud.Server.Character
             // http://wow.gamepedia.com/Attack_power
             int damage;
             if (weapon != null)
-                damage = RandomizeHelpers.Instance.Dice(weapon.DiceCount, weapon.DiceValue) + this[SecondaryAttributeTypes.AttackPower] / 14; // TODO: use weapon dps and weapon speed
+                damage = RandomManager.Dice(weapon.DiceCount, weapon.DiceValue) + this[SecondaryAttributeTypes.AttackPower] / 14; // TODO: use weapon dps and weapon speed
             else
             {
                 // TEST

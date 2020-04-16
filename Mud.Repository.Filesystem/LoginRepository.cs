@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using Mud.Repository.Filesystem.Common;
 using Mud.Repository.Filesystem.DataContracts;
 using Mud.Logger;
 
@@ -27,6 +28,7 @@ namespace Mud.Repository.Filesystem
         public bool InsertLogin(string username, string password)
         {
             LoadIfNeeded();
+
             if (_table.ContainsKey(username))
                 return false;
             _table.Add(username, new LoginData
@@ -42,6 +44,7 @@ namespace Mud.Repository.Filesystem
         public bool CheckUsername(string username, out bool isAdmin)
         {
             LoadIfNeeded();
+
             isAdmin = false;
             LoginData loginData;
             bool found = _table.TryGetValue(username, out loginData);
@@ -53,6 +56,7 @@ namespace Mud.Repository.Filesystem
         public bool CheckPassword(string username, string password)
         {
             LoadIfNeeded();
+
             // TODO: check password + encryption
             if (CheckLoginPassword)
             {
@@ -68,6 +72,7 @@ namespace Mud.Repository.Filesystem
         public bool ChangePassword(string username, string password)
         {
             LoadIfNeeded();
+
             LoginData loginData;
             bool found = _table.TryGetValue(username, out loginData);
             if (found)
@@ -82,6 +87,7 @@ namespace Mud.Repository.Filesystem
         public bool DeleteLogin(string username)
         {
             LoadIfNeeded();
+
             if (!_table.ContainsKey(username))
                 return false;
             _table.Remove(username);
@@ -92,6 +98,7 @@ namespace Mud.Repository.Filesystem
         public bool ChangeAdminStatus(string username, bool isAdmin)
         {
             LoadIfNeeded();
+
             LoginData loginData;
             bool found = _table.TryGetValue(username, out loginData);
             if (found)
@@ -106,6 +113,7 @@ namespace Mud.Repository.Filesystem
         public IEnumerable<string> GetLogins()
         {
             LoadIfNeeded();
+
             return _table.Keys.ToArray();
         }
 

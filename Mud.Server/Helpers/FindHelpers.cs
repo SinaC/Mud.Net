@@ -8,7 +8,7 @@ namespace Mud.Server.Helpers
 {
     public static class FindHelpers
     {
-        private static IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
+        private static IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
 
         public static readonly Func<string, string, bool> StringEquals = (s, s1) => string.Equals(s, s1, StringComparison.InvariantCultureIgnoreCase);
         public static readonly Func<string, string, bool> StringStartsWith = (s, s1) => s.StartsWith(s1, StringComparison.InvariantCultureIgnoreCase);

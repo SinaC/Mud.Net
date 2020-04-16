@@ -152,16 +152,6 @@ namespace Mud.Server.Input
             return joined;
         }
 
-        public static IReadOnlyTrie<MethodInfo> GetCommandsOld(Type type)
-        {
-            IEnumerable<TrieEntry<MethodInfo>> commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
-                .Where(x => x.GetCustomAttributes(typeof (CommandAttribute), false).Any())
-                .SelectMany(x => x.GetCustomAttributes(typeof (CommandAttribute)).OfType<CommandAttribute>().Select(attr => attr.Name).Distinct(), // when overriding a command (attribute is declared twice) -> cause 2 entries with the same method and same name
-                    (methodInfo, commandName) => new TrieEntry<MethodInfo>(commandName, methodInfo));
-            Trie<MethodInfo> trie = new Trie<MethodInfo>(commands);
-            return trie;
-        }
-
         public static IReadOnlyTrie<CommandMethodInfo> GetCommands(Type type)
         {
             var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)

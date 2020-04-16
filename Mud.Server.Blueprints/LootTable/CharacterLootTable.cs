@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mud.Server.Common;
 using Mud.Logger;
+using Mud.Container;
 
 namespace Mud.Server.Blueprints.LootTable
 {
@@ -10,6 +11,8 @@ namespace Mud.Server.Blueprints.LootTable
     public class CharacterLootTable<T>
         where T:IEquatable<T>
     {
+        private IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
+
         public int MinLoot { get; set; }
         public int MaxLoot { get; set; }
         public List<CharacterLootTableEntry<T>> Entries { get; set; }
@@ -38,13 +41,13 @@ namespace Mud.Server.Blueprints.LootTable
         {
             List<CharacterLootTableEntry<T>> history = new List<CharacterLootTableEntry<T>>();
             List<T> lootList = new List<T>();
-            int lootCount = RandomizeHelpers.Instance.Randomizer.Next(MinLoot, MaxLoot + 1);
+            int lootCount = RandomManager.Randomizer.Next(MinLoot, MaxLoot + 1);
             //Log.Default.WriteLine(LogLevels.Debug, "#Loot: {0}", lootCount);
             if (Entries != null)
             {
                 for (int loop = 1; loop <= lootCount; loop++)
                 {
-                    CharacterLootTableEntry<T> randomEntry = RandomizeHelpers.Instance.Random<CharacterLootTableEntry<T>, TreasureTable<T>>(Entries);
+                    CharacterLootTableEntry<T> randomEntry = RandomManager.Random<CharacterLootTableEntry<T>, TreasureTable<T>>(Entries);
                     if (randomEntry != null)
                     {
                         //Log.Default.WriteLine(LogLevels.Debug, "Table: {0}", randomEntry.Value.Name);

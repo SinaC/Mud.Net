@@ -14,7 +14,7 @@ namespace Mud.Repository.Mongo
 
         public Mud.Domain.PlayerData Load(string playerName)
         {
-            Domain.PlayerData playerData = MongoRepository.Collection.AsQueryable().FirstOrDefault(x => x.Name == playerName);
+            Domain.PlayerData playerData = Collection.AsQueryable().FirstOrDefault(x => x.Name == playerName);
 
             if (playerData == null)
                 return null;
@@ -27,17 +27,17 @@ namespace Mud.Repository.Mongo
         {
             var mapped = Mapper.Map<Mud.Domain.PlayerData, Domain.PlayerData>(playerData);
 
-            MongoRepository.Collection.ReplaceOne(x => x.Name == playerData.Name, mapped, new ReplaceOptions { IsUpsert = true });
+            Collection.ReplaceOne(x => x.Name == playerData.Name, mapped, new ReplaceOptions { IsUpsert = true });
         }
 
         public void Delete(string playerName)
         {
-            MongoRepository.Collection.DeleteOne(x => x.Name == playerName);
+            Collection.DeleteOne(x => x.Name == playerName);
         }
 
         public IEnumerable<string> GetAvatarNames()
         {
-            return MongoRepository.Collection.AsQueryable().SelectMany(x => x.Characters).Select(x => x.Name).ToList();
+            return Collection.AsQueryable().SelectMany(x => x.Characters).Select(x => x.Name).ToList();
         }
     }
 }

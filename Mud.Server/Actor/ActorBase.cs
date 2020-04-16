@@ -15,13 +15,13 @@ namespace Mud.Server.Actor
 {
     public abstract class ActorBase : IActor
     {
-        protected ISettings Settings => DependencyContainer.Instance.GetInstance<ISettings>();
-        protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
-        protected IWiznet Wiznet => DependencyContainer.Instance.GetInstance<IWiznet>();
-        protected IPlayerManager PlayerManager => DependencyContainer.Instance.GetInstance<IPlayerManager>();
-        protected IAbilityManager AbilityManager => DependencyContainer.Instance.GetInstance<IAbilityManager>();
-        protected IClassManager ClassManager => DependencyContainer.Instance.GetInstance<IClassManager>();
-        protected IRaceManager RaceManager => DependencyContainer.Instance.GetInstance<IRaceManager>();
+        protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
+        protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
+        protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
+        protected IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
+        protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
+        protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
+        protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
 
         #region IActor
 

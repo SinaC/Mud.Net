@@ -14,7 +14,7 @@ namespace Mud.Repository.Mongo
 
         public Mud.Domain.AdminData Load(string adminName)
         {
-            Domain.AdminData adminData = MongoRepository.Collection.AsQueryable().FirstOrDefault(x => x.Name == adminName);
+            Domain.AdminData adminData = Collection.AsQueryable().FirstOrDefault(x => x.Name == adminName);
 
             if (adminData == null)
                 return null;
@@ -27,12 +27,12 @@ namespace Mud.Repository.Mongo
         {
             var mapped = Mapper.Map<Mud.Domain.AdminData, Domain.AdminData>(adminData);
 
-            MongoRepository.Collection.ReplaceOne(x => x.Name == adminData.Name, mapped, new ReplaceOptions { IsUpsert = true });
+            Collection.ReplaceOne(x => x.Name == adminData.Name, mapped, new ReplaceOptions { IsUpsert = true });
         }
 
         public IEnumerable<string> GetAvatarNames() 
         {
-            return MongoRepository.Collection.AsQueryable().SelectMany(x => x.Characters).Select(x => x.Name).ToList();
+            return Collection.AsQueryable().SelectMany(x => x.Characters).Select(x => x.Name).ToList();
         }
     }
 }

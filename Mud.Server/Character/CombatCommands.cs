@@ -132,7 +132,7 @@ namespace Mud.Server.Character
             // Try 6 times to find an exit
             for (int attempt = 0; attempt < 6; attempt++)
             {
-                int randomExit = RandomizeHelpers.Instance.Randomizer.Next(ExitDirectionsExtensions.ExitCount);
+                int randomExit = RandomManager.Randomizer.Next(ExitDirectionsExtensions.ExitCount);
                 IRoom destination = Room.Exits[randomExit]?.Destination;
                 if (destination != null)
                 {

@@ -15,7 +15,7 @@ namespace Mud.Server.Input
     {
         protected Dictionary<TState, Func<TActor, string, TState>> StateMachine;
 
-        public bool PreserveInput { get; protected set; }
+        public bool KeepInputAsIs { get; protected set; }
         public TState State { get; protected set; }
 
         protected InputTrapBase()
@@ -35,7 +35,7 @@ namespace Mud.Server.Input
         public virtual void ProcessInput(TActor actor, string input)
         {
             // Lower and trim if needed
-            if (!PreserveInput)
+            if (!KeepInputAsIs)
                 input = input?.Trim().ToLower(CultureInfo.InvariantCulture);
             Func<TActor, string, TState> func = StateMachine[State];
             TState newState = func(actor, input);

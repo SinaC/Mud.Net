@@ -35,7 +35,7 @@ namespace Mud.Server.Races
             Domain.EquipmentSlots.Hold,
         };
 
-        protected IAbilityManager AbilityManager => DependencyContainer.Instance.GetInstance<IAbilityManager>();
+        protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
 
         #region IRace
 

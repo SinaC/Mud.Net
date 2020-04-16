@@ -47,13 +47,13 @@ namespace Mud.Server.Server
 
         private volatile int _pulseBeforeShutdown; // pulse count before shutdown
 
-        protected ISettings Settings => DependencyContainer.Instance.GetInstance<ISettings>();
-        protected IWorld World => DependencyContainer.Instance.GetInstance<IWorld>();
-        protected IClassManager ClassManager => DependencyContainer.Instance.GetInstance<IClassManager>();
-        protected ILoginRepository LoginRepository => DependencyContainer.Instance.GetInstance<ILoginRepository>();
-        protected IPlayerRepository PlayerRepository => DependencyContainer.Instance.GetInstance<IPlayerRepository>();
-        protected IAdminRepository AdminRepository => DependencyContainer.Instance.GetInstance<IAdminRepository>();
-        protected IUniquenessManager UniquenessManager => DependencyContainer.Instance.GetInstance<IUniquenessManager>();
+        protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
+        protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
+        protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
+        protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
+        protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
+        protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();
+        protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
 
         public Server()
         {
@@ -106,6 +106,8 @@ namespace Mud.Server.Server
                 totalExperience += expToLevel;
             }
             Log.Default.WriteLine(LogLevels.Info, "Total experience from 1 to 100 = {0:n0}", totalExperience);
+
+            // TODO: other sanity checks
 
             // Initialize UniquenessManager
             UniquenessManager.Initialize();

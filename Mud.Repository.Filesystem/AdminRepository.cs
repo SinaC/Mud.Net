@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
+using Mud.Repository.Filesystem.Common;
 
 namespace Mud.Repository.Filesystem
 {
@@ -11,13 +11,15 @@ namespace Mud.Repository.Filesystem
 
         private string BuildFilename(string adminName) => Path.Combine(AdminRepositoryPath, adminName + ".data");
 
+        #region IAdminRepository
+
         public Domain.AdminData Load(string adminName)
         {
             string filename = BuildFilename(adminName);
             if (!File.Exists(filename))
                 return null;
 
-            DataContracts.AdminData adminData = InnerLoad(filename);
+            DataContracts.AdminData adminData = Load<DataContracts.AdminData>(filename);
             var mapped = Mapper.Map<DataContracts.AdminData, Domain.AdminData>(adminData);
 
             return mapped;
@@ -27,13 +29,8 @@ namespace Mud.Repository.Filesystem
         {
             var mapped = Mapper.Map<Domain.AdminData, DataContracts.AdminData>(adminData);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(DataContracts.AdminData));
-            Directory.CreateDirectory(AdminRepositoryPath);
             string filename = BuildFilename(adminData.Name);
-            using (FileStream file = File.Create(filename))
-            {
-                serializer.Serialize(file, mapped);
-            }
+            Save(mapped, filename);
         }
 
         public IEnumerable<string> GetAvatarNames() 
@@ -41,20 +38,13 @@ namespace Mud.Repository.Filesystem
             List<string> avatarNames = new List<string>();
             foreach (string filename in Directory.EnumerateFiles(AdminRepositoryPath))
             {
-                DataContracts.AdminData adminData = InnerLoad(filename);
+                DataContracts.AdminData adminData = Load<DataContracts.AdminData>(filename);
                 if (adminData.Characters.Any())
                     avatarNames.AddRange(adminData.Characters.Select(x => x.Name));
             }
             return avatarNames.ToArray();
         }
 
-        private DataContracts.AdminData InnerLoad(string filename)
-        {
-            XmlSerializer deserializer = new XmlSerializer(typeof(DataContracts.AdminData));
-            using (FileStream file = File.OpenRead(filename))
-            {
-                return (DataContracts.AdminData)deserializer.Deserialize(file);
-            }
-        }
+        #endregion
     }
 }
