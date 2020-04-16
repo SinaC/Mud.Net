@@ -11,6 +11,7 @@ using Mud.Logger;
 using Mud.Network;
 using Mud.Network.Telnet;
 using Mud.POC;
+using Mud.POC.TestLua;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
@@ -45,9 +46,11 @@ namespace Mud.Server.TestApplication
             //TestBasicCommands();
             //TestWorldOnline();
             //TestWorldOffline();
-            TestLua testLua = new TestLua();
-            //testLua.TestBasicFunctionality();
-            testLua.TestIntegration();
+
+            //TestLuaIntegration testLua = new TestLuaIntegration();
+            //TestLuaBasicFunctionality = new TestLuaBasicFunctionality();
+            TestLuaFunctionHiding testLua = new TestLuaFunctionHiding();
+            testLua.Test();
         }
 
         //private static void TestSecondWindow()

@@ -62,7 +62,13 @@
     <Compile Include="NewMud\Behaviors\PlayerBehavior.cs" />
     <Compile Include="NewMud\Thing.cs" />
     <Compile Include="TestDelayedAction.cs" />
-    <Compile Include="TestLua.cs" />
+    <Compile Include="TestLua\CharacterScript.cs" />
+    <Compile Include="TestLua\LuaOutput.cs" />
+    <Compile Include="TestLua\LuaScript.cs" />
+    <Compile Include="TestLua\TestLuaFunctionHiding.cs" />
+    <Compile Include="TestLua\TestLuaBase.cs" />
+    <Compile Include="TestLua\TestLuaBasicFunctionality.cs" />
+    <Compile Include="TestLua\TestLuaIntegration.cs" />
     <Compile Include="TestReputation.cs" />
     <Compile Include="TestAct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
