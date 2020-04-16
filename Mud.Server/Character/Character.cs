@@ -71,7 +71,7 @@ namespace Mud.Server.Character
             Class = ClassManager[data.Class];
             if (Class == null)
             {
-                string msg = $"Invalid class {data.Class} for character {data.Name}!!";
+                string msg = $"Invalid class '{data.Class}' for character {data.Name}!!";
                 Log.Default.WriteLine(LogLevels.Error, msg);
                 Class = ClassManager.Classes.First();
                 Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
@@ -79,7 +79,7 @@ namespace Mud.Server.Character
             Race = RaceManager[data.Race];
             if (Race == null)
             {
-                string msg = $"Invalid race {data.Race} for character {data.Name}!!";
+                string msg = $"Invalid race '{data.Race}' for character {data.Name}!!";
                 Log.Default.WriteLine(LogLevels.Error, msg);
                 Race = RaceManager.Races.First();
                 Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);

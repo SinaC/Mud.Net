@@ -42,8 +42,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Filesystem",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Mongo", "Mud.Repository.Mongo\Mud.Repository.Mongo.csproj", "{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.TestApplication", "Mud.Repository.TestApplication\Mud.Repository.TestApplication.csproj", "{0C8470E9-D691-48EA-8F36-504781C18777}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Common", "Mud.Server.Common\Mud.Server.Common.csproj", "{D1A7D787-0FE7-4281-9458-D2C8F728E404}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer.Rom", "Mud.Importer.Rom\Mud.Importer.Rom.csproj", "{5BE3B1DC-2039-450C-AD58-AB35620FFC4E}"
@@ -124,10 +122,6 @@ Global
 		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0C8470E9-D691-48EA-8F36-504781C18777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C8470E9-D691-48EA-8F36-504781C18777}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0C8470E9-D691-48EA-8F36-504781C18777}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0C8470E9-D691-48EA-8F36-504781C18777}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D1A7D787-0FE7-4281-9458-D2C8F728E404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D1A7D787-0FE7-4281-9458-D2C8F728E404}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1A7D787-0FE7-4281-9458-D2C8F728E404}.Release|Any CPU.ActiveCfg = Release|Any CPU

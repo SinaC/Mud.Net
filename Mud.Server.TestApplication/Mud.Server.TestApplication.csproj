@@ -70,10 +70,6 @@
       <Project>{e493e419-b6ab-4ee0-bd8b-0b2ea775849f}</Project>
       <Name>Mud.Repository.Mongo</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Repository.TestApplication\Mud.Repository.TestApplication.csproj">
-      <Project>{0c8470e9-d691-48ea-8f36-504781c18777}</Project>
-      <Name>Mud.Repository.TestApplication</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj">
       <Project>{2c853490-7908-4e36-b906-72eba82b4236}</Project>
       <Name>Mud.Repository</Name>
