@@ -1,5 +1,5 @@
 merge IAdminRepository and IPlayerRepository -> IPlayerRepository
-avatar name must be unique on server
+avatar name must be unique on server (a player can create an avatar with its own player name)
 
 move blueprints to Mud.Domain + refactor Mud.Domain
 

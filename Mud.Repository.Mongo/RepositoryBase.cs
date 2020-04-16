@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using Mud.Container;
 using Mud.Settings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Repository.Mongo
 {
@@ -20,12 +15,10 @@ namespace Mud.Repository.Mongo
 
         public MongoRepository<T> MongoRepository { get; }
 
-        public RepositoryBase(string collectionName)
+        protected RepositoryBase(string collectionName)
         {
             CollectionName = collectionName;
-
-            string connectionString = Settings.ConnectionString;
-            MongoRepository = new MongoRepository<T>(connectionString, DatabaseName, CollectionName);
+            MongoRepository = new MongoRepository<T>(Settings.ConnectionString, DatabaseName, CollectionName);
         }
     }
 }
