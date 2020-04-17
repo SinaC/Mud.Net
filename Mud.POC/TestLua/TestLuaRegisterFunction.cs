@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -123,21 +124,61 @@ namespace Mud.POC.TestLua
     public class TestRegisterFunctionEntity
     {
         public Guid Id { get; }
+        public string Name { get; }
 
-        public TestRegisterFunctionEntity()
+        public TestRegisterFunctionEntity(string name)
         {
             Id = Guid.NewGuid();
-            Console.WriteLine($"Id: {Id}");
+            Name = name;
+            Debug.WriteLine($"Id: {Id}");
         }
+
+
+        [AttrLuaFunc("quit", "Exit the program.")]
+        public void quit()
+        {
+            Debug.WriteLine($"quit[{Id}]");
+        }
+
+        [AttrLuaFunc("pouet", "Pouet.", "param1 is the first param", "param2 is the second param")]
+        public void pouet(int param1, string param2)
+        {
+            Debug.WriteLine($"pouet[{Id}]:{param1} {param2}");
+        }
+
+        //[AttrLuaFunc("help", "List available commands.")]
+        //public void help()
+        //{
+        //    Debug.WriteLine("Available commands: ");
+        //    Debug.WriteLine();
+
+        //    IDictionaryEnumerator Funcs = pLuaFuncs.GetEnumerator();
+        //    while (Funcs.MoveNext())
+        //    {
+        //        Debug.WriteLine(((LuaFuncDescriptor)Funcs.Value).getFuncHeader());
+        //    }
+        //}
+
+        //[AttrLuaFunc("helpcmd", "Show help for a given command", "Command to get help of.")]
+        //public void help(String strCmd)
+        //{
+        //    if (!pLuaFuncs.ContainsKey(strCmd))
+        //    {
+        //        Debug.WriteLine("No such function or package: " + strCmd);
+        //        return;
+        //    }
+
+        //    LuaFuncDescriptor pDesc = (LuaFuncDescriptor)pLuaFuncs[strCmd];
+        //    Debug.WriteLine(pDesc.getFuncFullDoc());
+        //}
     }
 
-    public class TestRegisterFunction
+    public class TestLuaRegisterFunction
     {
         public Lua pLuaVM { get; }
         public Hashtable pLuaFuncs { get; }
 
-
-        public TestRegisterFunction()
+        public TestLuaRegisterFunction()
         {
             pLuaVM = new Lua();
             pLuaFuncs = new Hashtable();
@@ -145,16 +186,23 @@ namespace Mud.POC.TestLua
 
         public void Test()
         {
-            Console.WriteLine($"Testing with Id {Id}");
+            TestRegisterFunctionEntity entity1 = new TestRegisterFunctionEntity("Entity1");
+            registerLuaFunctions(entity1);
+            TestRegisterFunctionEntity entity2 = new TestRegisterFunctionEntity("Entity2");
+            registerLuaFunctions(entity2); // this will overwrite functions registered by previous registerLuaFunctions
 
-            registerLuaFunctions(this);
+            pLuaVM.RegisterFunction("print", typeof(LuaOutput).GetMethod("Print"));
 
-            pLuaVM.DoString(@"
+            for (int i = 0; i < 5; i++)
+            {
+                Debug.WriteLine($"RUN {i}");
+                pLuaVM.DoString(@"
 quit();
 pouet(5, 'test');
+print(tostring(Id));
+print(tostring(self));
 ");
-            var _g = pLuaVM["_G"] as LuaTable;
-            var quit = _g["quit"] as LuaFunction;
+            }
         }
 
         public void registerLuaFunctions(Object pTarget)
@@ -190,7 +238,7 @@ pouet(5, 'test');
                         // attribute, complain and go to the next method
                         if (pPrmInfo.Length > 0 && pPrmInfo.Length != pPrmDocs.Length)
                         {
-                            Console.WriteLine("Function " + mInfo.Name + " (exported as " +
+                            Debug.WriteLine("Function " + mInfo.Name + " (exported as " +
                                               strFName + ") argument number mismatch. Declared " +
                                               pPrmDocs.Length + " but requires " +
                                               pPrmInfo.Length + ".");
@@ -211,49 +259,11 @@ pouet(5, 'test');
                         //pLuaFuncs.Add(strFName, pDesc);
 
                         // And tell the VM to register it.
-                        pLuaVM.RegisterFunction(strFName, new TestRegisterFunction(), mInfo);
-                        Console.WriteLine($"RegisterFunction:{strFName}");
+                        pLuaVM.RegisterFunction(strFName, pTarget, mInfo);
+                        Debug.WriteLine($"RegisterFunction:{strFName}");
                     }
                 }
             }
-        }
-
-        [AttrLuaFunc("quit", "Exit the program.")]
-        public void quit()
-        {
-            Console.WriteLine($"quit [{Id}]");
-        }
-
-        [AttrLuaFunc("pouet", "Pouet.", "param1 is the first param", "param2 is the second param")]
-        public void pouet(int param1, string param2)
-        {
-            Console.WriteLine($"pouet  [{Id}]:{param1} {param2}");
-        }
-
-        [AttrLuaFunc("help", "List available commands.")]
-        public void help()
-        {
-            Console.WriteLine("Available commands: ");
-            Console.WriteLine();
-
-            IDictionaryEnumerator Funcs = pLuaFuncs.GetEnumerator();
-            while (Funcs.MoveNext())
-            {
-                Console.WriteLine(((LuaFuncDescriptor)Funcs.Value).getFuncHeader());
-            }
-        }
-
-        [AttrLuaFunc("helpcmd", "Show help for a given command", "Command to get help of.")]
-        public void help(String strCmd)
-        {
-            if (!pLuaFuncs.ContainsKey(strCmd))
-            {
-                Console.WriteLine("No such function or package: " + strCmd);
-                return;
-            }
-
-            LuaFuncDescriptor pDesc = (LuaFuncDescriptor)pLuaFuncs[strCmd];
-            Console.WriteLine(pDesc.getFuncFullDoc());
         }
     }
 }
