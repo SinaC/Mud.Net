@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mud.Logger;
 using Mud.Server.Tests.Mocking;
 
 namespace Mud.Server.Tests
@@ -7,14 +6,13 @@ namespace Mud.Server.Tests
     [TestClass]
     public class CommandParsingTests
     {
-        private LogMock _log;
         private WorldMock _world;
+        private PlayerManagerMock _playerManagerMock;
 
         private IPlayer CreatePlayer(string playerName)
         {
-            //IPlayer player = _world.AddPlayer(new ClientMock(), Guid.NewGuid(), playerName);
-            //return player;
-            return null;
+            IPlayer player = _playerManagerMock.AddPlayer(new ClientMock(), playerName);
+            return player;
         }
         
         /*
@@ -88,9 +86,8 @@ namespace Mud.Server.Tests
         [TestInitialize]
         public void Initialize()
         {
+            _playerManagerMock = new PlayerManagerMock();
             _world = new WorldMock();
-            _log = new LogMock();
-            Log.SetLogger(_log);
         }
     }
 }

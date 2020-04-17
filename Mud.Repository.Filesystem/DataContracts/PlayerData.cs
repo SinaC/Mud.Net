@@ -10,10 +10,10 @@ namespace Mud.Repository.Filesystem.DataContracts
         [DataMember]
         public string Name { get; set; }
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public List<PairData<string, string>> Aliases { get; set; }
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public List<CharacterData> Characters { get; set; }
     }
 }

@@ -91,12 +91,16 @@ namespace Mud.Server.Tests.Mocking
 
         public IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area)
         {
-            throw new NotImplementedException();
+            IRoom room = new Room.Room(guid, blueprint, area);
+            _rooms.Add(room);
+            return room;
         }
 
         public ICharacter AddCharacter(Guid guid, CharacterData characterData, IRoom room)
         {
-            throw new NotImplementedException();
+            ICharacter character = new Character.Character(guid, characterData, room);
+            _characters.Add(character);
+            return character;
         }
 
         public ICharacter AddCharacter(Guid guid, CharacterBlueprint blueprint, IRoom room)

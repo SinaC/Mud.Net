@@ -93,6 +93,7 @@
     <Compile Include="Mocking\ClientMock.cs" />
     <Compile Include="CommandParsingTests.cs" />
     <Compile Include="Mocking\LogMock.cs" />
+    <Compile Include="Mocking\PlayerManagerMock.cs" />
     <Compile Include="Mocking\ServerMock.cs" />
     <Compile Include="Mocking\WorldMock.cs" />
     <Compile Include="PlayerCommandTests.cs" />
@@ -100,6 +101,10 @@
     <Compile Include="ContainerTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
+      <Project>{B9D5A4DD-8418-4E00-BC90-582359F7F05D}</Project>
+      <Name>Mud.Container</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj">
       <Project>{2c853490-7908-4e36-b906-72eba82b4236}</Project>
       <Name>Mud.Repository</Name>

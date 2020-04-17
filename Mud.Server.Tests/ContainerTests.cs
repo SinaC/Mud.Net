@@ -10,7 +10,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void Singleton_OneRegister_Test()
         {
-            Container container = new Container();
+            SimpleInjector.Container container = new SimpleInjector.Container();
             container.Register<IId, Class1>(Lifestyle.Singleton);
 
             var instance1 = container.GetInstance<IId>();
@@ -23,7 +23,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void Singleton_TwoRegistersWithDifferentInterfaces_Test()
         {
-            Container container = new Container();
+            SimpleInjector.Container container = new SimpleInjector.Container();
             container.Register<IId, Class2>(Lifestyle.Singleton);
             container.Register<IAdditional, Class2>(Lifestyle.Singleton);
 

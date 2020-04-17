@@ -77,6 +77,9 @@ namespace Mud.Server.WPFTestApplication
             // Initialize mapping
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
+                cfg.AllowNullCollections = true;
+                cfg.AllowNullDestinationValues = true;
+
                 cfg.AddProfile<Repository.Filesystem.AutoMapperProfile>();
                 cfg.AddProfile<Repository.Mongo.AutoMapperProfile>();
             });

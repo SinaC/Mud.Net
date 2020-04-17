@@ -120,6 +120,15 @@
       <Equipments />
       <Inventory />
     </CharacterData>
+    <CharacterData>
+      <Name>poupette</Name>
+      <RoomId>3001</RoomId>
+      <Race>elf</Race>
+      <Class>mage</Class>
+      <Level>1</Level>
+      <Sex>2</Sex>
+      <Experience>0</Experience>
+    </CharacterData>
   </Characters>
   <Level>7</Level>
   <WiznetFlags>1037</WiznetFlags>

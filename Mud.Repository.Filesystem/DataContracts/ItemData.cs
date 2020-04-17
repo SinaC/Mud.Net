@@ -9,7 +9,7 @@ namespace Mud.Repository.Filesystem.DataContracts
         [DataMember]
         public int ItemId { get; set; }
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public List<ItemData> Contains { get; set; }
     }
 }
