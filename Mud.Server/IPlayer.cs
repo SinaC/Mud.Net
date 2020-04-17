@@ -26,6 +26,8 @@ namespace Mud.Server
 
         int GlobalCooldown { get; } // delay (in Pulse) before next action    check WAIT_STATE
 
+        int PagingLineCount { get; }
+
         PlayerStates PlayerState { get; }
 
         ICharacter Impersonating { get; }

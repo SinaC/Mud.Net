@@ -6,6 +6,7 @@ using Mud.Server.Common;
 
 namespace Mud.Server.Helpers
 {
+    // TODO: multi table
     public class TableGenerator<T>
     {
         public static readonly Func<T, string> AlignLeftFunc = T => null;
@@ -79,21 +80,72 @@ namespace Mud.Server.Helpers
             _columns.Add(column);
         }
 
+        public int Width => 1 + _columns.Sum(x => x.Width) + _columns.Count;
+
+        public StringBuilder GenerateWithPreHeaders(IEnumerable<T> items, IEnumerable<string> preHeaders) // TODO: will be replaced by multi-table
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine();
+
+            AddSeparatorLine(sb);
+            foreach (string preHeader in preHeaders)
+                AddPreHeaderLine(sb, preHeader);
+
+            BuildTable(sb, items);
+
+            return sb;
+        }
+
         public StringBuilder Generate(IEnumerable<T> items)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine();
 
-            int width = 1 + _columns.Sum(x => x.Width) + _columns.Count;
+            BuildTable(sb, items);
 
-            // Header
+            return sb;
+        }
 
-            //-->
-            // line before title
-            sb.Append('+');
+        private void AddPreHeaderLine(StringBuilder sb, string content)
+        {
+            int width = Width;
+
+            sb.Append("| ");
+            sb.Append(content);
+            int contentLengthNoColor = content.LengthNoColor();
+            for (int i = 3 + contentLengthNoColor; i < width; i++)
+                sb.Append(' ');
+            sb.AppendLine("|");
+        }
+
+        private void AddSeparatorLine(StringBuilder sb)
+        {
+            int width = Width;
+
+            sb.Append("+");
             for (int i = 1; i < width - 1; i++)
                 sb.Append('-');
             sb.AppendLine("+");
+        }
+
+        private void AddSeparatorWithColumnsLine(StringBuilder sb)
+        {
+            foreach (Column column in _columns)
+            {
+                sb.Append('+');
+                for (int i = 0; i < column.Width; i++)
+                    sb.Append('-');
+            }
+            sb.AppendLine("+");
+        }
+
+        private void BuildTable(StringBuilder sb, IEnumerable<T> items)
+        {
+            int width = Width;
+
+            //-->
+            // line before title
+            AddSeparatorLine(sb);
 
             // title
             sb.Append("| ");
@@ -103,13 +155,7 @@ namespace Mud.Server.Helpers
             sb.AppendLine("|");
 
             // line after title
-            foreach (Column column in _columns)
-            {
-                sb.Append('+');
-                for (int i = 0; i < column.Width; i++)
-                    sb.Append('-');
-            }
-            sb.AppendLine("+");
+            AddSeparatorWithColumnsLine(sb);
 
             // column headers
             foreach (Column column in _columns)
@@ -122,13 +168,7 @@ namespace Mud.Server.Helpers
             sb.AppendLine("|");
 
             // line after column header
-            foreach (Column column in _columns)
-            {
-                sb.Append('+');
-                for (int i = 0; i < column.Width; i++)
-                    sb.Append('-');
-            }
-            sb.AppendLine("+");
+            AddSeparatorWithColumnsLine(sb);
             //<-- can be precomputed
 
             // Values
@@ -155,7 +195,7 @@ namespace Mud.Server.Helpers
                     {
                         sb.Append(' ');
                         sb.Append(value);
-                        for (int i = value.LengthNoColor() - 1; i < columnWidth-2; i++)
+                        for (int i = value.LengthNoColor() - 1; i < columnWidth - 2; i++)
                             sb.Append(' ');
                     }
                     else // if trailing space, align on right
@@ -170,18 +210,10 @@ namespace Mud.Server.Helpers
             }
 
             // line after values
-            foreach (Column column in _columns)
-            {
-                sb.Append('+');
-                for (int i = 0; i < column.Width; i++)
-                    sb.Append('-');
-            }
-            sb.AppendLine("+");
+            AddSeparatorWithColumnsLine(sb);
 
             // ONLY FOR TEST PURPOSE
             //Console.Write(sb.ToString());
-
-            return sb;
         }
     }
 }

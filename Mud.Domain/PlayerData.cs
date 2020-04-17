@@ -6,6 +6,8 @@ namespace Mud.Domain
     {
         public string Name { get; set; }
 
+        public int PagingLineCount { get; set; }
+
         public Dictionary<string, string> Aliases { get; set; }
 
         public List<CharacterData> Characters { get; set; }

@@ -589,7 +589,7 @@ namespace Mud.Server.Server
             if (command == string.Empty || "next".StartsWith(lowerCommand)) // <Enter> or Next -> send next page
             {
                 // Pages are always sent immediately asynchronously, don't use ProcessOutput even if in synchronous mode
-                string nextPage = playingClient.Paging.GetNextPage(25); // TODO: configurable line count
+                string nextPage = playingClient.Paging.GetNextPage(playingClient.Player.PagingLineCount);
                 playingClient.Client.WriteData(nextPage);
                 if (playingClient.Paging.HasPageLeft) // page left, send page instructions (no prompt)
                     playingClient.Client.WriteData(StringHelpers.PagingInstructions);
@@ -601,7 +601,7 @@ namespace Mud.Server.Server
             }
             else if ("previous".StartsWith(lowerCommand))
             {
-                string previousPage = playingClient.Paging.GetPreviousPage(25); // TODO: configurable line count
+                string previousPage = playingClient.Paging.GetPreviousPage(playingClient.Player.PagingLineCount);
                 playingClient.Client.WriteData(previousPage);
                 if (playingClient.Paging.HasPageLeft) // page left, send page instructions (no prompt)
                     playingClient.Client.WriteData(StringHelpers.PagingInstructions);

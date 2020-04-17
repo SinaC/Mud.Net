@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <AdminData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Name>sinac</Name>
+  <PagingLineCount>30</PagingLineCount>
   <Aliases>
     <PairDataOfStringString>
       <Key>pouet</Key>
@@ -128,6 +129,8 @@
       <Level>1</Level>
       <Sex>2</Sex>
       <Experience>0</Experience>
+      <Equipments />
+      <Inventory />
     </CharacterData>
   </Characters>
   <Level>7</Level>

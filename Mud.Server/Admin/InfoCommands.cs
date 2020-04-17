@@ -14,7 +14,6 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        // TODO: command to display races, classes
         [Command("who", Category = "Information")]
         protected override bool DoWho(string rawParameters, params CommandParameter[] parameters)
         {
@@ -70,23 +69,49 @@ namespace Mud.Server.Admin
         [Command("abilities", Category = "Information")]
         protected virtual bool DoAbilities(string rawParameters, params CommandParameter[] parameters)
         {
-            // TODO: 1st parameter is class or race
-            // TODO: color
-            // TODO: split into spells/skills
-            //+------------------------------------------------------+
-            //| Abilities                                            |
-            //+-----------------------+----------+--------+----------+
-            //| Name                  | Resource | Cost   | Cooldown |
-            //+-----------------------+----------+--------+----------+ 
+            //+------------------------------------------------------------------+
+            //| Abilities                                                        |
+            //+-----------------------+----------+-----------+--------+----------+
+            //| Name                  | Resource | Kind      | Cost   | Cooldown |
+            //+-----------------------+----------+-----------+--------+ ---------+
 
-            List<IAbility> abilities = AbilityManager.Abilities
-                .Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed)
-                .OrderBy(x => x.Name)
-                .ToList();
-            StringBuilder sb = AbilitiesTableGenerator.Value.Generate(abilities);
-            Page(sb);
+            if (parameters.Length == 0)
+            {
+                // no filter
+                StringBuilder sb = AbilitiesTableGenerator.Value.Generate(AbilityManager.Abilities
+                    .Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed)
+                    .OrderBy(x => x.Name));
+                Page(sb);
+                return true;
+            }
+
+            // filter on class?
+            IClass matchingClass = ClassManager.Classes.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            if (matchingClass != null)
+            {
+                StringBuilder sb = AbilitiesAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingClass.Abilities
+                    .OrderBy(x => x.Level)
+                    .ThenBy(x => x.Ability.Name),
+                    new[] { matchingClass.DisplayName });
+                Page(sb);
+                return true;
+            }
+
+            // filter on race?
+            IRace matchingRace = RaceManager.Races.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            if (matchingRace != null)
+            {
+                StringBuilder sb = AbilitiesAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingRace.Abilities
+                    .OrderBy(x => x.Level)
+                    .ThenBy(x => x.Ability.Name),
+                    new[] { matchingRace.DisplayName });
+                Page(sb);
+                return true;
+            }
+
+            // TODO: error msg
             return true;
-        }
+         }
 
         [Command("wiznet", Category = "Information")]
         protected virtual bool DoWiznet(string rawParameters, params CommandParameter[] parameters)
@@ -196,7 +221,7 @@ namespace Mud.Server.Admin
                 {
                     sb.Append(StringHelpers.UpperFirstLetter(direction.ToString()));
                     sb.Append(" - ");
-                    sb.Append(exit.Destination.DisplayName); // TODO: too dark to tell
+                    sb.Append(exit.Destination.DisplayName);
                     if (exit.IsClosed)
                         sb.Append(" (CLOSED)");
                     if (exit.IsHidden)
@@ -272,7 +297,7 @@ namespace Mud.Server.Admin
                     foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>().Where(x => x != ResourceKinds.None))
                         sb.AppendFormatLine("{0}: {1}", resourceKind, victim[resourceKind]);
                     foreach (IPeriodicAura pa in victim.PeriodicAuras)
-                        if (pa.AuraType == PeriodicAuraTypes.Damage) // TODO: operator
+                        if (pa.AuraType == PeriodicAuraTypes.Damage)
                             sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds.",
                                 pa.Ability?.Name ?? "(none)",
                                 pa.Source?.DisplayName ?? "(none)",
@@ -468,7 +493,62 @@ namespace Mud.Server.Admin
             return true;
         }
 
+        [Command("info", Category = "Information")]
+        protected virtual bool DoInfo(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Send("Syntax: info [race|class|racename|classname]");
+                return true;
+            }
+
+            // class
+            if (parameters[0].Value == "class")
+            {
+                // Name, ShortName, DisplayName, ResourceKinds
+                StringBuilder sb = ClassesTableGenerator.Value.Generate(ClassManager.Classes);
+                Page(sb);
+                return true;
+            }
+
+            // race
+            if (parameters[0].Value == "race")
+            {
+                // Name, ShortName, DisplayName
+                StringBuilder sb = RacesTableGenerator.Value.Generate(RaceManager.Races);
+                Page(sb);
+                return true;
+            }
+
+            // class name
+            IClass matchingClass = ClassManager.Classes.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            if (matchingClass != null)
+            {
+                 StringBuilder sb = AbilitiesAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingClass.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name), new[] {
+                    matchingClass.DisplayName,
+                    $"ShortName: {matchingClass.ShortName}",
+                    $"Resource(s): {string.Join(",", matchingClass.ResourceKinds?.Select(x => x.ToString()))}"});
+                Page(sb);
+                return true;
+            }
+
+            // race name
+            IRace matchingRace = RaceManager.Races.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            if (matchingRace != null)
+            {
+                StringBuilder sb = AbilitiesAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingRace.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name), new[] {
+                    matchingRace.DisplayName,
+                    $"ShortName: {matchingRace.ShortName}" });
+                Page(sb);
+                return true;
+            }
+
+            Send("Syntax: info [race|class|racename|classname]");
+            return true;
+        }
+
         //*********************** Helpers ***************************
+
         private static string DisplayEntityAndContainer(IEntity entity)
         {
             if (entity == null)
@@ -506,6 +586,49 @@ namespace Mud.Server.Admin
             return sb.ToString();
         }
 
+        private static readonly Lazy<TableGenerator<IClass>> ClassesTableGenerator = new Lazy<TableGenerator<IClass>>(() => GenerateClassesTableGenerator);
+
+        private static TableGenerator<IClass> GenerateClassesTableGenerator
+        {
+            get 
+            {
+                TableGenerator<IClass> generator = new TableGenerator<IClass>("Classes");
+                generator.AddColumn("Name", 15, x => x.Name);
+                generator.AddColumn("ShortName", 10, x => x.ShortName);
+                generator.AddColumn("DisplayName", 20, x => x.DisplayName);
+                generator.AddColumn("Resource(s)", 30, x => string.Join(",", x.ResourceKinds?.Select(y => StringHelpers.ResourceColor(y))));
+                generator.AddColumn("#Abilities", 12, x => 
+                {
+                    int count = x.Abilities.Count();
+                    return count == 0
+                    ? "---"
+                    : count.ToString();
+                });
+                return generator;
+            }
+        }
+
+        private static readonly Lazy<TableGenerator<IRace>> RacesTableGenerator = new Lazy<TableGenerator<IRace>>(() => GenerateRacesTableGenerator);
+
+        private static TableGenerator<IRace> GenerateRacesTableGenerator
+        {
+            get 
+            {
+                TableGenerator<IRace> generator = new TableGenerator<IRace>("Races");
+                generator.AddColumn("Name", 15, x => x.Name);
+                generator.AddColumn("ShortName", 10, x => x.ShortName);
+                generator.AddColumn("DisplayName", 20, x => x.DisplayName);
+                generator.AddColumn("#Abilities", 12, x =>
+                {
+                    int count = x.Abilities.Count();
+                    return count == 0
+                    ? "---"
+                    : count.ToString();
+                });
+                return generator;
+            }
+        }
+
         private static readonly Lazy<TableGenerator<IAbility>> AbilitiesTableGenerator = new Lazy<TableGenerator<IAbility>>(() => GenerateAbilitiesTableGenerator);
 
         private static TableGenerator<IAbility> GenerateAbilitiesTableGenerator
@@ -531,8 +654,44 @@ namespace Mud.Server.Admin
                             return 0;
                         return 1;
                     });
+                generator.AddColumn("Type", 10, x => x.Kind.ToString());
                 generator.AddColumn("Cost", 8, x => x.CostAmount.ToString(), x => x.CostType == AmountOperators.Percentage ? "% " : " ");
                 generator.AddColumn("Cooldown", 10, x => x.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Cooldown) : "---");
+                generator.AddColumn("Flags", 20, x => x.Flags.ToString());
+                return generator;
+            }
+        }
+
+        private static readonly Lazy<TableGenerator<AbilityAndLevel>> AbilitiesAndLevelTableGenerator = new Lazy<TableGenerator<AbilityAndLevel>>(() => GenerateAbilitiesAndLevelTableGenerator);
+
+        private static TableGenerator<AbilityAndLevel> GenerateAbilitiesAndLevelTableGenerator
+        {
+            get
+            {
+                TableGenerator<AbilityAndLevel> generator = new TableGenerator<AbilityAndLevel>("Abilities");
+                generator.AddColumn("Lvl", 5, x => x.Level.ToString());
+                generator.AddColumn("Name", 23, x => x.Ability.Name);
+                generator.AddColumn("Resource", 10,
+                    x =>
+                    {
+                        if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
+                            return "%m%passive ability%x%";
+                        if (x.Ability.CostType == AmountOperators.Percentage || x.Ability.CostType == AmountOperators.Fixed)
+                            return StringHelpers.ResourceColor(x.Ability.ResourceKind);
+                        return "%W%free cost ability%x%";
+                    },
+                    x =>
+                    {
+                        if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
+                            return 1;
+                        if (x.Ability.CostType == AmountOperators.Percentage || x.Ability.CostType == AmountOperators.Fixed)
+                            return 0;
+                        return 1;
+                    });
+                generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
+                generator.AddColumn("Cost", 8, x => x.Ability.CostAmount.ToString(), x => x.Ability.CostType == AmountOperators.Percentage ? "% " : " ");
+                generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
+                generator.AddColumn("Flags", 20, x => x.Ability.Flags.ToString());
                 return generator;
             }
         }

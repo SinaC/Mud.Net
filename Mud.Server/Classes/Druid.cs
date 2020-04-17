@@ -22,8 +22,10 @@ namespace Mud.Server.Classes
 
         #region IClass
 
-        public override string Name => "Druid";
+        public override string Name => "druid";
+
         public override string ShortName => "Dru";
+
         public override IEnumerable<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
         {
             Domain.ResourceKinds.Mana, // others
