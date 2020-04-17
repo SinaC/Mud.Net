@@ -98,6 +98,7 @@
     <Compile Include="NewMud\Behaviors\PlayerBehavior.cs" />
     <Compile Include="NewMud\Thing.cs" />
     <Compile Include="TestDelayedAction.cs" />
+    <Compile Include="TestLua\TestRegisterFunction.cs" />
     <Compile Include="TestLua\CharacterScript.cs" />
     <Compile Include="TestLua\LuaOutput.cs" />
     <Compile Include="TestLua\LuaScript.cs" />
