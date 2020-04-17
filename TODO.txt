@@ -73,8 +73,6 @@ unit tests
 
 spam, linkdead, ...
 
-mongo DB to store pfile
-
 ability:
 http://www.wowhead.com/spell=106832/thrash
 http://www.wowhead.com/spell=589/shadow-word-pain
