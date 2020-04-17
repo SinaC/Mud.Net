@@ -215,3 +215,4 @@ pip-log.txt
 .mr.developer.cfg
 /.vs/Mud.Net/v16/Server/sqlite3
 /.vs/Mud.Net/v15/Server/sqlite3
+/.vs/Mud.Net/v16/TestStore/0
