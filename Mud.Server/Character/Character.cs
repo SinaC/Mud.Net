@@ -147,7 +147,7 @@ namespace Mud.Server.Character
         {
             Blueprint = blueprint;
 
-            // TODO: mob class/race ???
+            // TODO: race, class, flags, armor, damage, ...
             Sex = blueprint.Sex;
             Level = blueprint.Level;
             Experience = CombatHelpers.ExperienceToNextLevel.Where(x => x.Key < Level).Sum(x => x.Value);
@@ -324,6 +324,18 @@ namespace Mud.Server.Character
 
         public IEnumerable<ICharacter> GroupMembers => _groupMembers.Where(x => x.IsValid);
 
+        public bool IsSameGroup(ICharacter character)
+        {
+            if (!IsValid || !character.IsValid)
+                return false;
+            //if (GroupMembers.Any(x => x == character) && character.GroupMembers.Any(x => x == this))
+            //    return true;
+            //return false;
+            ICharacter first = Leader ?? this;
+            ICharacter second = character.Leader ?? character;
+            return first == second;
+        }
+
         // Impersonation/Controller
         public bool Impersonable { get; }
         public IPlayer ImpersonatedBy { get; private set; }
@@ -419,13 +431,14 @@ namespace Mud.Server.Character
                 return false;
             }
             Log.Default.WriteLine(LogLevels.Debug, "ICharacter.AddGroupMember: {0} joined by {1}", DebugName, newMember.DebugName);
-            // TODO: act to warn room ?
             if (!silent)
                 Send("{0} joins group.", newMember.DisplayName);
             newMember.ChangeLeader(this); // this is not mandatory (should be done by caller)
             if (!silent)
+            {
                 foreach (ICharacter member in _groupMembers)
                     member.Send("{0} joins group.", newMember.DisplayName);
+            }
             if (!silent)
                 newMember.Act(ActOptions.ToCharacter, "You join {0}'s group.", this);
             _groupMembers.Add(newMember);
@@ -444,10 +457,11 @@ namespace Mud.Server.Character
             oldMember.ChangeLeader(null); // this is not mandatory (should be done by caller)
             if (!silent)
                 Send("{0} leaves group.", oldMember.DebugName);
-            // TODO: act to warn room ?
             if (!silent)
+            {
                 foreach (ICharacter member in _groupMembers)
                     member.Send("{0} leaves group.", member.DebugName);
+            }
             if (!silent)
                 oldMember.Act(ActOptions.ToCharacter, "You leave {0}'s group.", this);
             return true;
@@ -490,9 +504,21 @@ namespace Mud.Server.Character
                 ImpersonatedBy = null;
                 return false;
             }
+            if (player != null)
+            {
+                if (!Impersonable)
+                {
+                    Log.Default.WriteLine(LogLevels.Warning, "ICharacter.ChangeImpersonation: {0} cannot be impersonated", DebugName);
+                    return false;
+                }
+                if (ImpersonatedBy != null)
+                {
+                    Log.Default.WriteLine(LogLevels.Warning, "ICharacter.ChangeImpersonation: {0} is already impersonated by {1}", DebugName, ImpersonatedBy.DisplayName);
+                    return false;
+                }
+            }
 
             Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeImpersonation: {0} old: {1}; new {2}", DebugName, ImpersonatedBy == null ? "<<none>>" : ImpersonatedBy.DisplayName, player == null ? "<<none>>" : player.DisplayName);
-            // TODO: check if not already impersonated, if impersonable, ...
             ImpersonatedBy = player;
             RecomputeKnownAbilities();
             RecomputeAttributes();
@@ -519,9 +545,13 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeController: {0} is not valid anymore", DebugName);
                 return false;
             }
+            if (ControlledBy != null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeController: {0} is not already controlled by {1}", DebugName, ControlledBy.DisplayName);
+                return false;
+            }
 
             Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeController: {0} master: old: {1}; new {2}", DebugName, ControlledBy == null ? "<<none>>" : ControlledBy.DebugName, master == null ? "<<none>>" : master.DebugName);
-            // TODO: check if already slave, ...
             if (master == null) // TODO: remove display ???
             {
                 if (ControlledBy != null)
@@ -923,7 +953,6 @@ namespace Mud.Server.Character
             IRoom toRoom = exit?.Destination;
 
             // TODO: act_move.C:133
-            // cannot move while in combat -> should be handled by POSITION in command
             // drunk
             // exit flags such as climb, door closed, ...
             // private room, size, swim room, guild room
@@ -1405,7 +1434,7 @@ namespace Mud.Server.Character
         }
 
         // Equipment
-        public EquipedItem SearchEquipmentSlot(IEquipable item, bool replace)
+        public EquipedItem SearchEquipmentSlot(IEquipable item, bool replace) // TODO: WearLocations should be flags
         {
             // TODO: if wield, can be equiped as wield2 if dual wield
             // TODO: if wield2H, can be equiped as wield+hold or wield+shield

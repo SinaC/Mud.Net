@@ -7,7 +7,7 @@ namespace Mud.Server.Classes
     {
         #region IClass
 
-        public override string Name => "Thief";
+        public override string Name => "thief";
 
         public override string ShortName => "Thi";
 

@@ -11,19 +11,19 @@ namespace Mud.Server.Character
 {
     public partial class Character
     {
-        // TODO: wield is specific for weapon
-        // TOOD: hold is specific for offhand
         [Command("wear", Category = "Item")]
-        [Command("wield", Category = "Item")]
-        [Command("hold", Category = "Item")]
         // Wear item
         // Wear all
         // Wear all.item
         protected virtual bool DoWear(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
+            {
                 Send("Wear, wield, or hold what?");
-            else if (parameters[0].IsAll)
+                return true;
+            }
+            // Wear all
+            if (parameters[0].IsAll)
             {
                 CommandParameter whatParameter = parameters[0];
                 // We have to clone list because it'll be modified when wearing an item
@@ -34,30 +34,86 @@ namespace Mud.Server.Character
                     list = new ReadOnlyCollection<IEquipable>(Content.Where(CanSee).OfType<IEquipable>().ToList());
                 if (list.Any())
                 {
-                    foreach (IEquipable item in list)
-                        WearItem(item, false);
+                    foreach (IEquipable equipableItem in list)
+                        WearItem(equipableItem, false);
                     RecomputeAttributes();
                 }
                 else
-                    Send(StringHelpers.ItemInventoryNotFound); // TODO: better wording
+                    Send(StringHelpers.ItemInventoryNotFound);
+                return true;
             }
+            // Wear one item
+            IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
+            if (item == null)
+                Send(StringHelpers.ItemInventoryNotFound);
             else
             {
-                IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
-                if (item == null)
-                    Send(StringHelpers.ItemInventoryNotFound);
+                IEquipable equipable = item as IEquipable;
+                if (equipable == null)
+                    Send("It cannot be equiped.");
                 else
                 {
-                    IEquipable equipable = item as IEquipable;
-                    if (equipable == null)
-                        Send("It cannot be equiped.");
-                    else
-                    {
-                        WearItem(equipable, true);
-                        RecomputeAttributes();
-                    }
+                    WearItem(equipable, true);
+                    RecomputeAttributes();
                 }
             }
+            return true;
+        }
+
+        [Command("wield", Category = "Item")]
+        protected virtual bool DoWield(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Send("Wield what?");
+                return true;
+            }
+            IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
+            if (item == null)
+            {
+                Send(StringHelpers.ItemInventoryNotFound);
+                return false;
+            }
+            IEquipable equipable = item as IEquipable;
+            if (equipable == null)
+            {
+                Send("It cannot be wielded.");
+                return false;
+            }
+            if (!(item is IItemWeapon))
+            {
+                Send("Only weapons can be wielded.");
+                return false;
+            }
+            //
+            WearItem(equipable, true);
+            RecomputeAttributes();
+            return true;
+        }
+
+        [Command("hold", Category = "Item")]
+        protected virtual bool DoHold(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Send("Wield what?");
+                return true;
+            }
+            IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
+            if (item == null)
+            {
+                Send(StringHelpers.ItemInventoryNotFound);
+                return false;
+            }
+            IEquipable equipable = item as IEquipable;
+            if (equipable == null || equipable.WearLocation != WearLocations.Hold)
+            {
+                Send("It cannot be hold.");
+                return false;
+            }
+            //
+            WearItem(equipable, true);
+            RecomputeAttributes();
             return true;
         }
 

@@ -77,7 +77,19 @@ namespace Mud.Server.Entity
                 IncarnatedBy = null;
                 return false;
             }
-            // TODO: check if not already incarnated, if incarnatable, ...
+            if (admin != null)
+            {
+                if (!Incarnatable)
+                {
+                    Log.Default.WriteLine(LogLevels.Warning, "IEntity.ChangeIncarnation: {0} cannot be incarnated", DebugName);
+                    return false;
+                }
+                if (IncarnatedBy != null)
+                {
+                    Log.Default.WriteLine(LogLevels.Warning, "IEntity.ChangeIncarnation: {0} is already incarnated by {1}", DebugName, IncarnatedBy.DisplayName);
+                    return false;
+                }
+            }
             IncarnatedBy = admin;
             return true;
         }

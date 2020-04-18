@@ -7,7 +7,7 @@ namespace Mud.Server.Admin
         [Command("delete", Category = "Misc", Priority = 999, NoShortcut = true)]
         protected override bool DoDelete(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("An admin cannot be deleted from game!!!");
+            Send("An admin cannot be deleted in game!!!");
             return true;
         }
     }

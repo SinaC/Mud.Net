@@ -40,6 +40,7 @@ namespace Mud.Server.Player
 
             CurrentStateMachine = null;
             DeletionConfirmationNeeded = false;
+            PagingLineCount = 25;
         }
 
         public Player(Guid id, string name)
@@ -101,22 +102,7 @@ namespace Mud.Server.Player
                 }
 
                 // Execute command
-                bool executedSuccessfully;
-                if (forceOutOfGame || Impersonating == null)
-                {
-                    Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
-                    // TODO: automatically remove AFK (unless command is AFK!!) and tell if tells have been received
-                    // %r%You have received tells: Type %Y%'replay'%r% to see them.%x%
-                    executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
-                }
-                else
-                {
-                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DisplayName, commandLine);
-                    executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
-                }
-                if (!executedSuccessfully)
-                    Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
-                return executedSuccessfully;
+                return InnerExecuteCommand(commandLine, command, rawParameters, parameters, forceOutOfGame);
             }
         }
 
@@ -169,14 +155,19 @@ namespace Mud.Server.Player
 
         public override void Page(StringBuilder text)
         {
-            PageData?.Invoke(this, text);
-            if (SnoopBy != null)
+            if (PagingLineCount == 0) // no paging
+                Send(text.ToString(), false);
+            else
             {
-                StringBuilder sb = new StringBuilder();
-                sb.Append(DisplayName);
-                sb.Append("[paged]> ");
-                sb.Append(text);
-                SnoopBy.Send(sb);
+                PageData?.Invoke(this, text);
+                if (SnoopBy != null)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(DisplayName);
+                    sb.Append("[paged]> ");
+                    sb.Append(text);
+                    SnoopBy.Send(sb);
+                }
             }
         }
 
@@ -191,6 +182,8 @@ namespace Mud.Server.Player
         public string DisplayName => StringHelpers.UpperFirstLetter(Name);
 
         public int GlobalCooldown { get; protected set; } // delay (in Pulse) before next action
+
+        public int PagingLineCount { get; protected set; }
 
         public PlayerStates PlayerState { get; protected set; }
 
@@ -207,7 +200,7 @@ namespace Mud.Server.Player
         public DateTime LastCommandTimestamp { get; protected set; }
         public string LastCommand { get; protected set; }
 
-        public virtual string Prompt => Impersonating != null 
+        public virtual string Prompt => Impersonating != null
             ? BuildCharacterPrompt(Impersonating)
             : ">";
 
@@ -321,6 +314,30 @@ namespace Mud.Server.Player
 
         #endregion
 
+        protected virtual bool InnerExecuteCommand(string commandLine, string command, string rawParameters, CommandParameter[] parameters, bool forceOutOfGame)
+        {
+            // Execute command
+            bool executedSuccessfully;
+            if (forceOutOfGame || Impersonating == null)
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
+                executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
+            }
+            else if (Impersonating != null) // impersonating
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DebugName, commandLine);
+                executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
+            }
+            else
+            {
+                Log.Default.WriteLine(LogLevels.Error, "[{0}] is neither out of game nor impersonating", DisplayName);
+                executedSuccessfully = false;
+            }
+            if (!executedSuccessfully)
+                Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
+            return executedSuccessfully;
+        }
+
         protected string BuildCharacterPrompt(ICharacter character) // TODO: custom prompt defined by player
         {
             StringBuilder sb = new StringBuilder("<");
@@ -354,6 +371,7 @@ namespace Mud.Server.Player
         protected void FillPlayerData(PlayerData data)
         {
             data.Name = Name;
+            data.PagingLineCount = PagingLineCount;
             data.Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value);
             // TODO: copy from Impersonated to CharacterData
             data.Characters = _avatarList;

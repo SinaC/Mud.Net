@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using Mud.Server.Common;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Character
@@ -96,7 +97,8 @@ namespace Mud.Server.Character
         protected virtual bool DoQuestGet(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO
-            throw new NotImplementedException();
+            Send(StringHelpers.NotYetImplemented);
+            return true;
         }
 
         [Command("qlist", Category = "Quest", Priority = 5)]
@@ -104,8 +106,9 @@ namespace Mud.Server.Character
         protected virtual bool DoQuestList(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO
-            throw new NotImplementedException();
+            Send(StringHelpers.NotYetImplemented);
             // Display quest available in this.Room
+            return true;
         }
 
         #region Helpers

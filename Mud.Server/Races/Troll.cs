@@ -6,7 +6,7 @@ namespace Mud.Server.Races
     {
         #region IRace
 
-        public override string Name => "Troll";
+        public override string Name => "troll";
 
         public override string ShortName => "Tro";
 

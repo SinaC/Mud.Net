@@ -66,50 +66,50 @@ namespace Mud.Server.Character
                         AppendCharacterGroupMemberInfo(sb, member, false);
                     Send(sb);
                 }
+                return true;
             }
-            else
+
+            // Try to add/remove someone in group
+            if (Leader != null)
             {
-                if (Leader != null)
-                {
-                    Send("You are not the group leader.");
-                    return true;
-                }
-                // Remove from group if target is already in the group
-                ICharacter oldMember = FindHelpers.FindByName(GroupMembers.Where(CanSee), parameters[0]);
-                if (oldMember != null)
-                {
-                    RemoveGroupMember(oldMember, false);
-                    return true;
-                }
-                // Search in room a new member to add
-                ICharacter newMember = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
-                if (newMember == null) // not found
-                {
-                    Send(StringHelpers.CharacterNotFound);
-                    return true;
-                }
-                if (newMember == this)
-                {
-                    Send("You cannot group yourself.");
-                    return true;
-                }
-                if (newMember.Leader != this)
-                {
-                    Act(ActOptions.ToCharacter, "{0} is not following you.", newMember);
-                    return true;
-                }
-                if (newMember.GroupMembers.Any())
-                {
-                    Act(ActOptions.ToCharacter, "{0} is already in a group", newMember);
-                    return true;
-                }
-                if (GroupMembers.Any(x => x == newMember))
-                {
-                    Act(ActOptions.ToCharacter, "{0} is already in your group.", newMember);
-                    return true;
-                }
-                AddGroupMember(newMember, false);
+                Send("You are not the group leader.");
+                return true;
             }
+            // Remove from group if target is already in the group
+            ICharacter oldMember = FindHelpers.FindByName(GroupMembers.Where(CanSee), parameters[0]);
+            if (oldMember != null)
+            {
+                RemoveGroupMember(oldMember, false);
+                return true;
+            }
+            // Search in room a new member to add
+            ICharacter newMember = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
+            if (newMember == null) // not found
+            {
+                Send(StringHelpers.CharacterNotFound);
+                return true;
+            }
+            if (newMember == this)
+            {
+                Send("You cannot group yourself.");
+                return true;
+            }
+            if (newMember.Leader != this)
+            {
+                Act(ActOptions.ToCharacter, "{0} is not following you.", newMember);
+                return true;
+            }
+            if (newMember.GroupMembers.Any())
+            {
+                Act(ActOptions.ToCharacter, "{0} is already in a group", newMember);
+                return true;
+            }
+            if (GroupMembers.Any(x => x == newMember))
+            {
+                Act(ActOptions.ToCharacter, "{0} is already in your group.", newMember);
+                return true;
+            }
+            AddGroupMember(newMember, false);
             return true;
         }
 
@@ -139,8 +139,6 @@ namespace Mud.Server.Character
                 }
                 // Warn members about leader change
                 newLeader.Send("You are the new group leader.");
-                //foreach (ICharacter member in newLeader.GroupMembers)
-                //    member.Act(ActOptions.ToCharacter, "{0} is the new group leader.", newLeader);
                 Act(ActOptions.ToGroup, "{0} is the new group leader.", newLeader);
             }
             else
@@ -158,10 +156,6 @@ namespace Mud.Server.Character
                 Send("Say your group what?");
                 return true;
             }
-            //Send("%g%You say the group '%W%{0}%g%'%x%", rawParameters);
-            //IEnumerable<ICharacter> members = Leader == null ? GroupMembers : Leader.GroupMembers;
-            //foreach (ICharacter member in members)
-            //    member.Act(ActOptions.ToCharacter, "%g%{0} says the group'%W%{1}%g%'%x%", this, rawParameters);
             Act(ActOptions.ToGroup, "%g%{0:n} says the group '%x%{1}%g%'%x%", this, parameters[0].Value);
             Send($"%g%You say to the group: '%x%{parameters[0].Value}%g%'%x%");
             return true;

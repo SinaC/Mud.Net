@@ -55,5 +55,44 @@ namespace Mud.Server.Player
             Page(sb);
             return true;
         }
+
+        [Command("scroll", Category = "Information")]
+        [Command("page", Category = "Information")]
+        protected virtual bool DoPage(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                if (PagingLineCount == 0)
+                    Send("You do not page long messages.");
+                else
+                    Send($"You currently display {PagingLineCount} lines per page.");
+                return true;
+            }
+
+            if (!parameters[0].IsNumber)
+            {
+                Send("You must provide a number.");
+                return true;
+            }
+
+            int lineCount = parameters[0].AsNumber;
+            if (lineCount == 0)
+            {
+                Send("Paging disabled");
+                PagingLineCount = 0;
+                return true;
+            }
+
+            if (lineCount < 10 || lineCount > 100)
+            {
+                Send("Please provide a reasonable number.");
+                return true;
+            }
+
+            Send($"Scroll set to {lineCount} lines.");
+            PagingLineCount = lineCount;
+
+            return true;
+        }
     }
 }

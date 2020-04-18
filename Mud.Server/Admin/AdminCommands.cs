@@ -116,7 +116,9 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            IContainer container = itemBlueprint.WearLocation == WearLocations.None ? Impersonating.Room as IContainer : Impersonating as IContainer;
+            IContainer container = itemBlueprint.WearLocation == WearLocations.None
+                ? Impersonating.Room as IContainer
+                : Impersonating as IContainer;
             IItem item = World.AddItem(Guid.NewGuid(), itemBlueprint, container);
             if (item == null)
             {

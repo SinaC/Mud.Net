@@ -20,34 +20,34 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("spells", Category = "Ability")]
-        [Command("skills", Category = "Ability")]
         [Command("abilities", Category = "Ability")]
         protected virtual bool DoAbilities(string rawParameters, params CommandParameter[] parameters)
         {
             bool displayAll = parameters.Length > 0 && parameters[0].IsAll; // Display spells below level or all ?
-            // TODO: split into spells/skills
 
-            List<AbilityAndLevel> abilities = KnownAbilities
-                .Where(x => (x.Ability.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed && (displayAll || x.Level <= Level))
-                .OrderBy(x => x.Level)
-                .ThenBy(x => x.Ability.Name)
-                .ToList();
-            // Test purpose: every abilities
-            //List<AbilityAndLevel> abilities =AbilityManager.Abilities
-            //    .Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed)
-            //    .Select(x => new AbilityAndLevel(1, x))
-            //    .OrderBy(x => x.Ability.Name)
-            //    .ToList();
+            DisplayAbilitiesList(displayAll, x => true);
 
-            //+------------------------------------------------------------+
-            //| Abilities                                                  |
-            //+-----+-----------------------+----------+--------+----------+
-            //| Lvl | Name                  | Resource | Cost   | Cooldown |
-            //+-----+-----------------------+----------+--------+----------+
+            return true;
+        }
 
-            StringBuilder sb = AbilitiesAndLevelTableGeneratorInstance.Value.Generate(abilities);
-            Page(sb);
+        [Command("spells", Category = "Ability")]
+        protected virtual bool DoSpells(string rawParameters, params CommandParameter[] parameters)
+
+        {
+            bool displayAll = parameters.Length > 0 && parameters[0].IsAll; // Display spells below level or all ?
+
+            DisplayAbilitiesList(displayAll, x => x == AbilityKinds.Spell);
+
+            return true;
+        }
+
+        [Command("skills", Category = "Ability")]
+        protected virtual bool DoSkills(string rawParameters, params CommandParameter[] parameters)
+
+        {
+            bool displayAll = parameters.Length > 0 && parameters[0].IsAll; // Display spells below level or all ?
+
+            DisplayAbilitiesList(displayAll, x => x == AbilityKinds.Skill);
 
             return true;
         }
@@ -94,6 +94,17 @@ namespace Mud.Server.Character
 
         #region Helpers
 
+        private void DisplayAbilitiesList(bool displayAll, Func<AbilityKinds, bool> filterOnAbilityKind) 
+        {
+            IEnumerable<AbilityAndLevel> abilities = KnownAbilities
+                .Where(x => (x.Ability.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed && (displayAll || x.Level <= Level) && filterOnAbilityKind(x.Ability.Kind))
+                .OrderBy(x => x.Level)
+                .ThenBy(x => x.Ability.Name);
+
+            StringBuilder sb = AbilitiesAndLevelTableGeneratorInstance.Value.Generate(abilities);
+            Page(sb);
+        }
+
         private static readonly Lazy<TableGenerator<AbilityAndLevel>> AbilitiesAndLevelTableGeneratorInstance = new Lazy<TableGenerator<AbilityAndLevel>>(() => AbilitiesAndLevelTableGenerator);
 
         private static TableGenerator<AbilityAndLevel> AbilitiesAndLevelTableGenerator
@@ -120,6 +131,7 @@ namespace Mud.Server.Character
                             return 0;
                         return 1;
                     });
+                generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
                 generator.AddColumn("Cost", 8, x => x.Ability.CostAmount.ToString(), x => x.Ability.CostType == AmountOperators.Percentage ? "% " : " ");
                 generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
                 return generator;

@@ -38,66 +38,6 @@ namespace Mud.Server.Admin
 
         public override IReadOnlyTrie<CommandMethodInfo> Commands => AdminCommands.Value;
 
-        public override bool ProcessCommand(string commandLine) // TODO: refactoring needed: almost same code in Player
-        {
-            // ! means repeat last command
-            if (commandLine != null && commandLine.Length >= 1 && commandLine[0] == '!')
-            {
-                commandLine = LastCommand;
-                LastCommandTimestamp = DateTime.Now;
-            }
-            else
-            {
-                LastCommand = commandLine;
-                LastCommandTimestamp = DateTime.Now;
-            }
-
-            // If an input state machine is running, send commandLine to machine
-            if (CurrentStateMachine != null && !CurrentStateMachine.IsFinalStateReached)
-            {
-                CurrentStateMachine.ProcessInput(this, commandLine);
-                return true;
-            }
-            else
-            {
-                CurrentStateMachine = null; // reset current state machine if not currently running one
-                // Extract command and parameters
-                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(Aliases, commandLine, out var command, out var rawParameters, out var parameters, out var forceOutOfGame);
-                if (!extractedSuccessfully)
-                {
-                    Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
-                    Send("Invalid command or parameters");
-                    return false;
-                }
-
-                // Execute command
-                bool executedSuccessfully;
-                if (forceOutOfGame || (Impersonating == null && Incarnating == null)) // neither incarnating nor impersonating
-                {
-                    Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
-                    executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
-                }
-                else if (Incarnating != null) // incarnating
-                {
-                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Incarnating.DebugName, commandLine);
-                    executedSuccessfully = Incarnating.ExecuteCommand(command, rawParameters, parameters);
-                }
-                else if (Impersonating != null) // impersonating
-                {
-                    Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DebugName, commandLine);
-                    executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
-                }
-                else
-                {
-                    Log.Default.WriteLine(LogLevels.Error, "[{0}] is neither out of game, nor impersonating, nor incarnating");
-                    executedSuccessfully = false;
-                }
-                if (!executedSuccessfully)
-                    Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
-                return executedSuccessfully;
-            }
-        }
-
         //public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
         //{
         //    AdminCommandAttribute adminCommandAttribute = methodInfo.Attribute as AdminCommandAttribute;
@@ -190,6 +130,30 @@ namespace Mud.Server.Admin
         }
 
         #endregion
+
+        protected override bool InnerExecuteCommand(string commandLine, string command, string rawParameters, CommandParameter[] parameters, bool forceOutOfGame)
+        {
+            // Execute command
+            bool executedSuccessfully;
+            if (forceOutOfGame || Impersonating == null)
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
+                executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
+            }
+            else if (Impersonating != null) // impersonating
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DebugName, commandLine);
+                executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
+            }
+            else
+            {
+                Log.Default.WriteLine(LogLevels.Error, "[{0}] is neither out of game nor impersonating", DisplayName);
+                executedSuccessfully = false;
+            }
+            if (!executedSuccessfully)
+                Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
+            return executedSuccessfully;
+        }
 
         private string BuildIncarnatePrompt()
         {
