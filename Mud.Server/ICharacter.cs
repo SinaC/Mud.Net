@@ -58,6 +58,7 @@ namespace Mud.Server
         // Group/Follower
         ICharacter Leader { get; }
         IEnumerable<ICharacter> GroupMembers { get; } //!! leader is not be member of its own group and only leader stores GroupMembers
+        bool IsSameGroup(ICharacter character); // check is 'this' and 'character' are in the same group
 
         // Impersonation/Controller
         bool Impersonable { get; }

@@ -83,7 +83,29 @@ namespace Mud.Server.Character
                 Send("Open what?");
                 return true;
             }
-            // TODO: search item
+            // Search item: in room, then inventory, then in equipment
+            IItem item = FindHelpers.FindByName(
+                Room.Content.Where(CanSee)
+                .Concat(Content.Where(CanSee))
+                .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item)),
+                parameters[0]);
+            if (item != null)
+            {
+                if (item is IItemPortal itemPortal)
+                {
+                    // TODO: no open/close/lock/unlock on portal for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return true;
+                }
+                if (item is IItemContainer itemContainer)
+                {
+                    // TODO: no open/close/lock/unlock on container for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return true;
+                }
+                Send("That's not a container.");
+                return true;
+            }
 
             // No item found, search door
             ExitDirections exitDirection;
@@ -126,7 +148,29 @@ namespace Mud.Server.Character
                 Send("Close what?");
                 return true;
             }
-            // TODO: search item
+            // Search item: in room, then inventory, then in equipment
+            IItem item = FindHelpers.FindByName(
+                Room.Content.Where(CanSee)
+                .Concat(Content.Where(CanSee))
+                .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item)),
+                parameters[0]);
+            if (item != null)
+            {
+                if (item is IItemPortal itemPortal)
+                {
+                    // TODO: no open/close/lock/unlock on portal for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return true;
+                }
+                if (item is IItemContainer itemContainer)
+                {
+                    // TODO: no open/close/lock/unlock on container for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return true;
+                }
+                Send("That's not a container.");
+                return true;
+            }
 
             // No item found, search door
             ExitDirections exitDirection;
@@ -165,7 +209,29 @@ namespace Mud.Server.Character
                 return true;
             }
 
-            // TODO: search item
+            // Search item: in room, then inventory, then in equipment
+            IItem item = FindHelpers.FindByName(
+                Room.Content.Where(CanSee)
+                .Concat(Content.Where(CanSee))
+                .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item)),
+                parameters[0]);
+            if (item != null)
+            {
+                if (item is IItemPortal itemPortal)
+                {
+                    // TODO: no open/close/lock/unlock on portal for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return true;
+                }
+                if (item is IItemContainer itemContainer)
+                {
+                    // TODO: no open/close/lock/unlock on container for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return true;
+                }
+                Send("That's not a container.");
+                return true;
+            }
 
             // No item found, search door
             ExitDirections exitDirection;
@@ -218,7 +284,29 @@ namespace Mud.Server.Character
                 return true;
             }
 
-            // TODO: search item
+            // Search item: in room, then inventory, then in equipment
+            IItem item = FindHelpers.FindByName(
+                Room.Content.Where(CanSee)
+                .Concat(Content.Where(CanSee))
+                .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item)),
+                parameters[0]);
+            if (item != null)
+            {
+                if (item is IItemPortal itemPortal)
+                {
+                    // TODO: no open/close/lock/unlock on portal for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return true;
+                }
+                if (item is IItemContainer itemContainer)
+                {
+                    // TODO: no open/close/lock/unlock on container for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return true;
+                }
+                Send("That's not a container.");
+                return true;
+            }
 
             // No item found, search door
             ExitDirections exitDirection;
@@ -280,13 +368,15 @@ namespace Mud.Server.Character
             IItemFurniture furniture = null;
             if (parameters.Length > 0)
             {
-                furniture = FindHelpers.FindByName(Room.Content.OfType<IItemFurniture>().Where(CanSee), parameters[0]); // TODO: search for IItem than cast it to ItemFurniture?
-                if (furniture == null)
+                IItem item = FindHelpers.FindByName(Room.Content.Where(CanSee), parameters[0]);
+                if (item == null)
                 {
                     Send(StringHelpers.ItemNotFound);
                     return true;
                 }
-                if (!furniture.CanStand)
+
+                furniture = item as IItemFurniture;
+                if (furniture == null || !furniture.CanStand)
                 {
                     Send("You can't seem to find a place to stand.");
                     return true;
@@ -354,13 +444,15 @@ namespace Mud.Server.Character
             IItemFurniture furniture = null;
             if (parameters.Length > 0)
             {
-                furniture = FindHelpers.FindByName(Room.Content.OfType<IItemFurniture>().Where(CanSee), parameters[0]); // TODO: search for IItem than cast it to ItemFurniture?
-                if (furniture == null)
+                IItem item = FindHelpers.FindByName(Room.Content.Where(CanSee), parameters[0]);
+                if (item == null)
                 {
                     Send(StringHelpers.ItemNotFound);
                     return true;
                 }
-                if (!furniture.CanSit)
+
+                furniture = item as IItemFurniture;
+                if (furniture == null || !furniture.CanSit)
                 {
                     Send("You can't sit on that.");
                     return true;
@@ -434,13 +526,15 @@ namespace Mud.Server.Character
             IItemFurniture furniture = null;
             if (parameters.Length > 0)
             {
-                furniture = FindHelpers.FindByName(Room.Content.OfType<IItemFurniture>().Where(CanSee), parameters[0]); // TODO: search for IItem than cast it to ItemFurniture?
-                if (furniture == null)
+                IItem item = FindHelpers.FindByName(Room.Content.Where(CanSee), parameters[0]);
+                if (item == null)
                 {
                     Send(StringHelpers.ItemNotFound);
                     return true;
                 }
-                if (!furniture.CanRest)
+
+                furniture = item as IItemFurniture;
+                if (furniture == null || !furniture.CanRest)
                 {
                     Send("You can't rest on that.");
                     return true;
@@ -515,12 +609,14 @@ namespace Mud.Server.Character
             IItemFurniture furniture;
             if (parameters.Length != 0)
             {
-                furniture = FindHelpers.FindByName(Room.Content.OfType<IItemFurniture>().Where(CanSee), parameters[0]); // TODO: search for IItem than cast it to ItemFurniture?
-                if (furniture == null)
+                IItem item = FindHelpers.FindByName(Room.Content.Where(CanSee), parameters[0]);
+                if (item == null)
                 {
                     Send(StringHelpers.ItemNotFound);
                     return true;
                 }
+
+                furniture = item as IItemFurniture;
             }
             else
                 furniture = Furniture;

@@ -64,54 +64,35 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [Command("spells", Category = "Information")]
-        [Command("skills", Category = "Information")]
         [Command("abilities", Category = "Information")]
         protected virtual bool DoAbilities(string rawParameters, params CommandParameter[] parameters)
         {
-            //+------------------------------------------------------------------+
-            //| Abilities                                                        |
-            //+-----------------------+----------+-----------+--------+----------+
-            //| Name                  | Resource | Kind      | Cost   | Cooldown |
-            //+-----------------------+----------+-----------+--------+ ---------+
+            bool displayed = DisplayAbilitiesList(x => true, parameters);
 
-            if (parameters.Length == 0)
-            {
-                // no filter
-                StringBuilder sb = AbilitiesTableGenerator.Value.Generate(AbilityManager.Abilities
-                    .Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed)
-                    .OrderBy(x => x.Name));
-                Page(sb);
-                return true;
-            }
-
-            // filter on class?
-            IClass matchingClass = ClassManager.Classes.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
-            if (matchingClass != null)
-            {
-                StringBuilder sb = AbilitiesAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingClass.Abilities
-                    .OrderBy(x => x.Level)
-                    .ThenBy(x => x.Ability.Name),
-                    new[] { matchingClass.DisplayName });
-                Page(sb);
-                return true;
-            }
-
-            // filter on race?
-            IRace matchingRace = RaceManager.Races.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
-            if (matchingRace != null)
-            {
-                StringBuilder sb = AbilitiesAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingRace.Abilities
-                    .OrderBy(x => x.Level)
-                    .ThenBy(x => x.Ability.Name),
-                    new[] { matchingRace.DisplayName });
-                Page(sb);
-                return true;
-            }
-
-            // TODO: error msg
+            if (!displayed)
+                Send("Syntax: abilities no param|class name|race name");
             return true;
-         }
+        }
+
+        [Command("spells", Category = "Information")]
+        protected virtual bool DoSpells(string rawParameters, params CommandParameter[] parameters)
+        {
+            bool displayed = DisplayAbilitiesList(x => x == AbilityKinds.Spell, parameters);
+
+            if (!displayed)
+                Send("Syntax: spells no param|class name|race name");
+            return true;
+        }
+
+        [Command("skills", Category = "Information")]
+        protected virtual bool DoSkills(string rawParameters, params CommandParameter[] parameters)
+        {
+            bool displayed = DisplayAbilitiesList(x => x == AbilityKinds.Spell, parameters);
+
+            if (!displayed)
+                Send("Syntax: skills no param|class name|race name");
+            return true;
+        }
 
         [Command("wiznet", Category = "Information")]
         protected virtual bool DoWiznet(string rawParameters, params CommandParameter[] parameters)
@@ -549,6 +530,44 @@ namespace Mud.Server.Admin
 
         //*********************** Helpers ***************************
 
+        private bool DisplayAbilitiesList(Func<AbilityKinds, bool> filterOnAbilityKind, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                // no filter
+                StringBuilder sb = AbilitiesTableGenerator.Value.Generate(AbilityManager.Abilities
+                    .Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed)
+                    .OrderBy(x => x.Name));
+                Page(sb);
+                return true;
+            }
+
+            // filter on class?
+            IClass matchingClass = ClassManager.Classes.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            if (matchingClass != null)
+            {
+                StringBuilder sb = AbilitiesAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingClass.Abilities
+                    .OrderBy(x => x.Level)
+                    .ThenBy(x => x.Ability.Name),
+                    new[] { matchingClass.DisplayName });
+                Page(sb);
+                return true;
+            }
+
+            // filter on race?
+            IRace matchingRace = RaceManager.Races.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            if (matchingRace != null)
+            {
+                StringBuilder sb = AbilitiesAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingRace.Abilities
+                    .OrderBy(x => x.Level)
+                    .ThenBy(x => x.Ability.Name),
+                    new[] { matchingRace.DisplayName });
+                Page(sb);
+                return true;
+            }
+            return false;
+        }
+
         private static string DisplayEntityAndContainer(IEntity entity)
         {
             if (entity == null)
@@ -585,6 +604,8 @@ namespace Mud.Server.Admin
             }
             return sb.ToString();
         }
+
+        //
 
         private static readonly Lazy<TableGenerator<IClass>> ClassesTableGenerator = new Lazy<TableGenerator<IClass>>(() => GenerateClassesTableGenerator);
 

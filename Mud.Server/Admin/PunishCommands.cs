@@ -48,29 +48,33 @@ namespace Mud.Server.Admin
         protected virtual bool DoAddLag(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
+            {
                 Send("Add lag to whom?");
-            else if (parameters.Length == 1)
+                return true;
+            }
+            if (parameters.Length >= 1)
+            {
                 Send("Add how many lag ?");
+                return true;
+            }
+            //
+            int count;
+            int.TryParse(parameters[1].Value, out count);
+            if (count <= 0)
+                Send("That makes a LOT of sense.");
+            else if (count > 100)
+                Send("There's a limit to cruel and unusual punishment.");
             else
             {
-                int count;
-                int.TryParse(parameters[1].Value, out count);
-                if (count <= 0)
-                    Send("That makes a LOT of sense.");
-                else if (count > 100)
-                    Send("There's a limit to cruel and unusual punishment.");
+                IPlayer victim = PlayerManager.GetPlayer(parameters[0], true);
+                if (victim == null)
+                    Send(StringHelpers.CharacterNotFound);
                 else
                 {
-                    IPlayer victim = PlayerManager.GetPlayer(parameters[0], true);
-                    if (victim == null)
-                        Send(StringHelpers.CharacterNotFound);
-                    else
-                    {
-                        Wiznet.Wiznet($"{DisplayName} adds lag {victim.DisplayName}.", Domain.WiznetFlags.Punish);
+                    Wiznet.Wiznet($"{DisplayName} adds lag {victim.DisplayName}.", Domain.WiznetFlags.Punish);
 
-                        Send("Adding lag now.");
-                        victim.SetGlobalCooldown(count);
-                    }
+                    Send("Adding lag now.");
+                    victim.SetGlobalCooldown(count);
                 }
             }
             return true;

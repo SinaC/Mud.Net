@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <AdminData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Name>sinac</Name>
-  <PagingLineCount>30</PagingLineCount>
+  <PagingLineCount>25</PagingLineCount>
   <Aliases>
     <PairDataOfStringString>
       <Key>pouet</Key>
@@ -12,8 +12,8 @@
     <CharacterData>
       <Name>sinac</Name>
       <RoomId>3005</RoomId>
-      <Race>Troll</Race>
-      <Class>Druid</Class>
+      <Race>troll</Race>
+      <Class>druid</Class>
       <Level>60</Level>
       <Sex>1</Sex>
       <Experience>6000000</Experience>
@@ -56,48 +56,7 @@
       </Equipments>
       <Inventory>
         <ItemData>
-          <ItemId>3131</ItemId>
-          <Contains>
-            <ItemData>
-              <ItemId>3363</ItemId>
-              <Contains />
-            </ItemData>
-            <ItemData>
-              <ItemId>3350</ItemId>
-              <Contains />
-            </ItemData>
-            <ItemData>
-              <ItemId>3365</ItemId>
-              <Contains />
-            </ItemData>
-          </Contains>
-        </ItemData>
-        <ItemData>
-          <ItemId>3</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3365</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3364</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3350</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3364</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
+          <ItemId>1</ItemId>
           <Contains />
         </ItemData>
         <ItemData>
@@ -105,8 +64,49 @@
           <Contains />
         </ItemData>
         <ItemData>
-          <ItemId>1</ItemId>
+          <ItemId>3353</ItemId>
           <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3364</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3353</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3350</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3364</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3365</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3131</ItemId>
+          <Contains>
+            <ItemData>
+              <ItemId>3365</ItemId>
+              <Contains />
+            </ItemData>
+            <ItemData>
+              <ItemId>3350</ItemId>
+              <Contains />
+            </ItemData>
+            <ItemData>
+              <ItemId>3363</ItemId>
+              <Contains />
+            </ItemData>
+          </Contains>
         </ItemData>
       </Inventory>
     </CharacterData>

@@ -40,12 +40,11 @@ namespace Mud.Server.Character
             //if (is_safe(ch, victim))
             //    return;
 
-            //if (victim->fighting != NULL &&
-            //     !is_same_group(ch, victim->fighting))
-            //{
-            //    send_to_char("Kill stealing is not permitted.\n\r", ch);
-            //    return;
-            //}
+            if (target.Fighting != null && IsSameGroup(target.Fighting))
+            {
+                Send("Kill stealing is not permitted.");
+                return true;
+            }
 
             //if (IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim)
             //{
@@ -53,15 +52,16 @@ namespace Mud.Server.Character
             //    return;
             //}
 
-            //if (ch->position == POS_FIGHTING)
-            //{
-            //    send_to_char("You do the best you can!\n\r", ch);
-            //    return;
-            //}
+            if (Position == Positions.Fighting)
+            {
+                Send("You do the best you can!");
+                return true;
+            }
 
             ImpersonatedBy?.SetGlobalCooldown(1);
             //TODO: check_killer( ch, victim );
 
+            // Starts fight
             MultiHit(target);
             return true;
         }
@@ -92,12 +92,11 @@ namespace Mud.Server.Character
             //if (is_safe(ch, victim))
             //    return;
 
-            //if (victim->fighting != NULL &&
-            //     !is_same_group(ch, victim->fighting))
-            //{
-            //    send_to_char("Kill stealing is not permitted.\n\r", ch);
-            //    return;
-            //}
+            if (target.Fighting != null && IsSameGroup(target.Fighting))
+            {
+                Send("Kill stealing is not permitted.");
+                return true;
+            }
 
             //if (IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim)
             //{
@@ -105,15 +104,16 @@ namespace Mud.Server.Character
             //    return;
             //}
 
-            //if (ch->position == POS_FIGHTING)
-            //{
-            //    send_to_char("You do the best you can!\n\r", ch);
-            //    return;
-            //}
+            if (Position == Positions.Fighting)
+            {
+                Send("You do the best you can!");
+                return true;
+            }
 
             ImpersonatedBy?.SetGlobalCooldown(1);
             //TODO: check_killer( ch, victim );
 
+            // Starts fight
             MultiHit(target);
             return true;
         }

@@ -175,11 +175,11 @@ namespace Mud.Server.Helpers
                         return CombatDifficulties.Green; // All others are green.
                     if (level <= 39)
                         // Its below or equal to the 'grey level'
-                        return targetLevel <= level - 5 - (int) Math.Floor((double)level/10) 
+                        return targetLevel <= level - 5 - (int) Math.Floor((decimal)level/10) 
                             ? CombatDifficulties.Grey 
                             : CombatDifficulties.Green;
                     // Over level 39:
-                    return targetLevel <= level - 1 - (int) Math.Floor((double)level /5) 
+                    return targetLevel <= level - 1 - (int) Math.Floor((decimal)level /5) 
                         ? CombatDifficulties.Grey 
                         : CombatDifficulties.Green;
             }
@@ -213,31 +213,31 @@ namespace Mud.Server.Helpers
             return 17; // Approx.
         }
 
-        private static double GetMobExperience(int playerLvl, int mobLvl)
+        private static decimal GetMobExperience(int playerLvl, int mobLvl)
         {
             // TODO: replace +45 according to http://wow.gamepedia.com/Mob_experience#Basic_Formula
             if (mobLvl >= playerLvl)
             {
-                double temp = ((double)playerLvl *5 + 45)*(1 + 0.05*((double)mobLvl - (double)playerLvl));
-                double tempCap = ((double)playerLvl *5 + 45)*1.2;
+                decimal temp = ((decimal)playerLvl * 5 + 45) * (1 + 0.05m * ((decimal)mobLvl - (decimal)playerLvl));
+                decimal tempCap = ((decimal)playerLvl * 5 + 45) * 1.2m;
                 return Math.Floor(Math.Min(temp, tempCap));
             }
             if (GetConColor(playerLvl, mobLvl) == CombatDifficulties.Grey)
                 return 0; // np difficulty -> no gain
-            return Math.Floor((double)playerLvl *5 + 45)*(1 - ((double) playerLvl - (double) mobLvl)/(double) GetZeroDifference(playerLvl));
+            return Math.Floor((decimal)playerLvl * 5 + 45) * (1 - ((decimal)playerLvl - (decimal)mobLvl) / (decimal)GetZeroDifference(playerLvl));
         }
 
-        private static double GetEliteMobExperience(int playerLvl, int mobLvl)
+        private static decimal GetEliteMobExperience(int playerLvl, int mobLvl)
         {
             return GetMobExperience(playerLvl, mobLvl) * 2;
         }
 
-        private static double GetMobExperienceFull(int playerLvl, int mobLvl, bool isElite)
+        private static decimal GetMobExperienceFull(int playerLvl, int mobLvl, bool isElite)
         {
             return isElite ? GetEliteMobExperience(playerLvl, mobLvl) : GetMobExperience(playerLvl, mobLvl);
         }
 
-        private static double ApplyRestedExperience(double experience, long restedExperienceLeft)
+        private static decimal ApplyRestedExperience(decimal experience, long restedExperienceLeft)
         {
             if (restedExperienceLeft == 0)
                 return experience;
@@ -245,19 +245,19 @@ namespace Mud.Server.Helpers
                 return experience * 2;
             //Restedness is partially covering the XP gained.
             // XP = rest + (AXP - (rest / 2))
-            return restedExperienceLeft + (experience - (double)restedExperienceLeft / 2);
+            return restedExperienceLeft + (experience - (decimal)restedExperienceLeft / 2);
         }
 
-        private static double GetPartyExperienceBonus(int playerCount)
+        private static decimal GetPartyExperienceBonus(int playerCount)
         {
             switch (playerCount)
             {
                 case 3:
-                    return 1.116;
+                    return 1.116m;
                 case 4:
-                    return 1.3;
+                    return 1.3m;
                 case 5:
-                    return 1.4;
+                    return 1.4m;
                 default:
                     return 1;
             }
@@ -271,14 +271,14 @@ namespace Mud.Server.Helpers
         public static long GetDuoMobExperienceFull(int player1Lvl, int player2Lvl, int mobLvl, bool isElite, long restedExperienceLeft)
         {
             int highestLvl = Math.Max(player1Lvl, player2Lvl);
-            double temp = GetMobExperienceFull(highestLvl, mobLvl, isElite);
+            decimal temp = GetMobExperienceFull(highestLvl, mobLvl, isElite);
             return (long)ApplyRestedExperience(player1Lvl * temp / (player1Lvl + player2Lvl), restedExperienceLeft);
         }
 
         // Party Mob XP
         public static long GetPartyMobExperienceFull(int playerLvl, int highestLvl, int sumLvls, int playerCount, int mobLvl, bool isElite, long restedExperienceLeft)
         {
-            double temp = GetMobExperienceFull(highestLvl, mobLvl, isElite) * GetPartyExperienceBonus(playerCount);
+            decimal temp = GetMobExperienceFull(highestLvl, mobLvl, isElite) * GetPartyExperienceBonus(playerCount);
             // temp = XP from soloing via highest lvl...
             temp = (temp*playerLvl)/sumLvls;
             return (long)ApplyRestedExperience(temp, restedExperienceLeft);
