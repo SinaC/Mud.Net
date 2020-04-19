@@ -109,9 +109,10 @@ namespace Mud.Server.Character
                             Act(ActOptions.ToCharacter, "The {0} is open.", exit);
                     }
                 }
+                return true;
             }
-            else
-                Send(StringHelpers.ItemNotFound);
+            //
+            Send(StringHelpers.ItemNotFound);
             return true;
         }
 
@@ -126,29 +127,30 @@ namespace Mud.Server.Character
         protected virtual bool DoExamine(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
+            {
                 Send("Examine what or whom?");
+                return true;
+            }
+            //
+            ICharacter victim = FindHelpers.FindByName(Room.People, parameters[0]);
+            if (victim != null)
+            {
+                Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, victim);
+                DisplayCharacter(victim, true);
+                // TODO: display race and size
+            }
             else
             {
-                ICharacter victim = FindHelpers.FindByName(Room.People, parameters[0]);
-                if (victim != null)
+                IItem item = FindHelpers.FindItemHere(this, parameters[0]);
+                if (item != null)
                 {
-                    Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, victim);
-                    DisplayCharacter(victim, true);
-                    // TODO: display race and size
+                    Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, item);
+                    DisplayItem(item);
+                    if (item is IContainer container) // if container, display content
+                        DisplayContainerContent(container);
                 }
                 else
-                {
-                    IItem item = FindHelpers.FindItemHere(this, parameters[0]);
-                    if (item != null)
-                    {
-                        Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, item);
-                        DisplayItem(item);
-                        if (item is IContainer container) // if container, display content
-                            DisplayContainerContent(container);
-                    }
-                    else
-                        Send("You don't see any {0}.", parameters[0]);
-                }
+                    Send("You don't see any {0}.", parameters[0]);
             }
             return true;
         }

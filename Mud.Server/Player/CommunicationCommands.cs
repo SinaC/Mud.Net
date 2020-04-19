@@ -53,6 +53,7 @@ namespace Mud.Server.Player
         protected virtual bool DoGossip(string rawParameters, params CommandParameter[] parameters)
         {
             Send("%m%You gossip '%M%{0}%m%'%x%", rawParameters);
+
             string other = $"%m%{DisplayName} gossips '%M%{rawParameters}%m%'%x%";
             foreach (IPlayer player in PlayerManager.Players.Where(x => x != this))
                 player.Send(other);

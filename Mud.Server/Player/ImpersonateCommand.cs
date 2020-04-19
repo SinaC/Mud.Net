@@ -15,16 +15,15 @@ namespace Mud.Server.Player
         {
             if (parameters.Length == 0)
             {
-                if (Impersonating != null)
+                if (Impersonating == null)
                 {
-                    Send("You stop impersonating {0}.", Impersonating.DisplayName);
-                    UpdateCharacterDataFromImpersonated();
-                    StopImpersonating();
-                    Save();
-                }
-                else
                     Send("Impersonate whom?");
-                return true;
+                    return true;
+                }
+                Send("You stop impersonating {0}.", Impersonating.DisplayName);
+                UpdateCharacterDataFromImpersonated();
+                StopImpersonating();
+                Save();
             }
             CharacterData characterData = _avatarList.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (characterData == null)

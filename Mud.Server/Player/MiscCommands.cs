@@ -16,16 +16,17 @@ namespace Mud.Server.Player
         {
             if (parameters.Length == 0)
             {
-                if (Aliases.Any())
+                if (Aliases.Count == 0)
                 {
-                    Send("Your current aliases are:");
-                    foreach (KeyValuePair<string, string> alias in Aliases.OrderBy(x => x.Key))
-                        Send("     {0}: {1}", alias.Key, alias.Value);
-                }
-                else
                     Send("You have no aliases defined.");
+                    return true;
+                }
+                Send("Your current aliases are:");
+                foreach (KeyValuePair<string, string> alias in Aliases.OrderBy(x => x.Key))
+                    Send("     {0}: {1}", alias.Key, alias.Value);
+                return true;
             }
-            else if (parameters.Length == 1)
+            if (parameters.Length == 1)
             {
                 string alias = parameters[0].Value.ToLowerInvariant();
                 string cmd;
@@ -33,8 +34,9 @@ namespace Mud.Server.Player
                     Send($"{alias} is aliases to {cmd}.");
                 else
                     Send("That alias is not defined.");
+                return true;
             }
-            else if (parameters.Length == 2)
+            if (parameters.Length == 2)
             {
                 // TODO: else add alias (!!! cannot set an alias on alias or delete :p)
                 string alias = parameters[0].Value.ToLowerInvariant().Trim();
@@ -66,12 +68,12 @@ namespace Mud.Server.Player
                     _aliases.Add(alias, newCmd);
                     Send($"{alias} is now aliased to '{newCmd}'.");
                 }
+                return true;
             }
-            else
-                Send("Syntax:" + Environment.NewLine +
-                     " alias" + Environment.NewLine +
-                     " alias <alias>" + Environment.NewLine +
-                     " alias <alias> <command>");
+            Send("Syntax:" + Environment.NewLine +
+                    " alias" + Environment.NewLine +
+                    " alias <alias>" + Environment.NewLine +
+                    " alias <alias> <command>");
             return true;
         }
 

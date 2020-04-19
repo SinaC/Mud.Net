@@ -16,7 +16,7 @@ namespace Mud.Server.Character
         [Command("cast", Category = "Ability", Priority = 2)]
         protected virtual bool DoCast(string rawParameters, params CommandParameter[] parameters)
         {
-           AbilityManager.Process(this, parameters);
+            AbilityManager.Process(this, parameters);
             return true;
         }
 
@@ -58,7 +58,6 @@ namespace Mud.Server.Character
         {
             if (parameters.Length == 0)
             {
-                //IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> abilitiesInCooldown = AbilitiesInCooldown;
                 if (AbilitiesInCooldown.Any())
                 {
                     StringBuilder sb = new StringBuilder();
@@ -71,24 +70,23 @@ namespace Mud.Server.Character
                         sb.AppendFormatLine("{0} is in cooldown for {1}.", cooldown.Ability.Name, StringHelpers.FormatDelay(secondsLeft));
                     }
                     Send(sb);
-                }
-                else
-                    Send("%c%No abilities in cooldown.%x%");
-            }
-            else
-            {
-                IAbility ability =AbilityManager.Search(parameters[0]);
-                if (ability == null)
-                {
-                    Send("You don't know any abilities of that name.");
                     return true;
                 }
-                int cooldownSecondsLeft = CooldownSecondsLeft(ability);
-                if (cooldownSecondsLeft <= 0)
-                    Send("{0} is not in cooldown.", ability.Name);
-                else
-                    Send("{0} is in cooldown for {1}.", ability.Name, StringHelpers.FormatDelay(cooldownSecondsLeft));
+                Send("%c%No abilities in cooldown.%x%");
+                return true;
             }
+            //
+            IAbility ability = AbilityManager.Search(parameters[0]);
+            if (ability == null)
+            {
+                Send("You don't know any abilities of that name.");
+                return true;
+            }
+            int cooldownSecondsLeft = CooldownSecondsLeft(ability);
+            if (cooldownSecondsLeft <= 0)
+                Send("{0} is not in cooldown.", ability.Name);
+            else
+                Send("{0} is in cooldown for {1}.", ability.Name, StringHelpers.FormatDelay(cooldownSecondsLeft));
             return true;
         }
 

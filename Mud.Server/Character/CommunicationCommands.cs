@@ -10,13 +10,12 @@ namespace Mud.Server.Character
         protected virtual bool DoSay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-                Send("Say what?");
-            else
             {
-                //Send("%g%You say '%x%{0}%g%'%x%", rawParameters);
-                //Act(ActOptions.ToRoom, "%g%{0:n} says '%x%{1}%g%'%x%", this, rawParameters);
-                Act(ActOptions.ToAll, "%g%{0:N} say{0:v} '%x%{1}%g%'%x%", this, rawParameters);
+                Send("Say what?");
+                return true;
             }
+
+            Act(ActOptions.ToAll, "%g%{0:N} say{0:v} '%x%{1}%g%'%x%", this, rawParameters);
             return true;
         }
 
@@ -24,14 +23,12 @@ namespace Mud.Server.Character
         protected virtual bool DoYell(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-                Send("Yell what?");
-            else
             {
-                //Send("%G%You yell %x%'{0}%G%'%x%", rawParameters);
-                //foreach (IPlayer player in Room.Area.Players.Where(x => x.Impersonating != null))
-                //    player.Impersonating.Act(ActOptions.ToCharacter, "%G%{0:n} yells '%x%{1}%G%'%x%", this, rawParameters);
-                Act(Room.Area.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), "%G%{0:n} yell{0:v} '%x%{1}%G%'%x%", this, rawParameters);
+                Send("Yell what?");
+                return true;
             }
+
+            Act(Room.Area.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), "%G%{0:n} yell{0:v} '%x%{1}%G%'%x%", this, rawParameters);
             return true;
         }
 
@@ -45,7 +42,6 @@ namespace Mud.Server.Character
             }
 
             Act(ActOptions.ToAll, "{0:n} {1}", rawParameters);
-
             return true;
         }
 
@@ -79,14 +75,12 @@ namespace Mud.Server.Character
         protected virtual bool DoShout(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-                Send("Shout what?");
-            else
             {
-                //Send($"You shout '{rawParameters}'");
-                //foreach(IPlayer player in Server.Players.Where(x => x.Impersonating != null))
-                //    player.Impersonating.Act(ActOptions.ToCharacter, "{0:n} shouts {1}", this, rawParameters);
-                Act(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), "{0:N} shout{0:v} {1}", this, rawParameters);
+                Send("Shout what?");
+                return true;
             }
+
+            Act(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), "{0:N} shout{0:v} {1}", this, rawParameters);
             return true;
         }
     }
