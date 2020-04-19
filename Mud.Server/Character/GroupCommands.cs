@@ -56,16 +56,16 @@ namespace Mud.Server.Character
                 else if (Leader == null && GroupMembers.Any())
                     leader = this;
                 if (leader == null)
-                    Send("You are not in a group.");
-                else
                 {
-                    StringBuilder sb = new StringBuilder();
-                    sb.AppendFormatLine("{0}'s group:", leader.DisplayName);
-                    AppendCharacterGroupMemberInfo(sb, leader, true);
-                    foreach (ICharacter member in leader.GroupMembers)
-                        AppendCharacterGroupMemberInfo(sb, member, false);
-                    Send(sb);
+                    Send("You are not in a group.");
+                    return true;
                 }
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormatLine("{0}'s group:", leader.DisplayName);
+                AppendCharacterGroupMemberInfo(sb, leader, true);
+                foreach (ICharacter member in leader.GroupMembers)
+                    AppendCharacterGroupMemberInfo(sb, member, false);
+                Send(sb);
                 return true;
             }
 
@@ -165,19 +165,25 @@ namespace Mud.Server.Character
         protected virtual bool DoOrder(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-                Send("Order what?");
-            else if (Slave == null)
-                Send("You have no followers here.");
-            else if (Slave.Room != Room)
-                Send(StringHelpers.CharacterNotFound);
-            else
             {
-                Slave.Send("{0} orders you to '{1}'.", DisplayName, rawParameters);
-                Slave.ProcessCommand(rawParameters);
-                SetGlobalCooldown(3);
-                //Send("You order {0} to {1}.", Slave.Name, rawParameters);
-                Send("Ok.");
+                Send("Order what?");
+                return true;
             }
+            if (Slave == null)
+            {
+                Send("You have no followers here.");
+                return true;
+            }
+            if (Slave.Room != Room)
+            {
+                Send(StringHelpers.CharacterNotFound);
+                return true;
+            }
+            Slave.Send("{0} orders you to '{1}'.", DisplayName, rawParameters);
+            Slave.ProcessCommand(rawParameters);
+            SetGlobalCooldown(3);
+            //Send("You order {0} to {1}.", Slave.Name, rawParameters);
+            Send("Ok.");
             return true;
         }
 

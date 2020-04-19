@@ -3,12 +3,23 @@ better command parser: should be able to specify something like
     [command] [world.character] -> first parameter will be parsed as a character found in world
     [command] [room.item|room.character|inventory.item|equipment.item] -> first will be parsed as an item in room, a character in room, an item in inventory, an item in equipement
 
+wear item
+     all
+     all.item
+
+look no arg
+     in|on|into container
+     character
+     item
+     extradescription
+     direction
+
 multitable generator
 
 autosac, autoloot, auto...
 prompt
 
-CommandAttribute: description and syntax properties
+CommandAttribute: description and syntax properties -> sometimes a method has multiple command attributes but will have only one description/syntax/arguments
 
 merge IAdminRepository and IPlayerRepository -> IAccountRepository
 

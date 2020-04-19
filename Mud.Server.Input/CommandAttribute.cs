@@ -20,8 +20,8 @@ namespace Mud.Server.Input
             Priority = 999;
             Hidden = false;
             Category = string.Empty;
-            AddCommandInParameters = false;
             NoShortcut = false;
+            AddCommandInParameters = false;
         }
     }
 
