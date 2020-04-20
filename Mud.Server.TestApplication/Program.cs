@@ -215,7 +215,7 @@ namespace Mud.Server.TestApplication
             IItemArmor item3Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
             IItemLight item4Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             // Equip weapon on mob2
-            mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield).Item = item2;
+            mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
             item2.ChangeContainer(null);
             item2.ChangeEquipedBy(mob2);
         }
@@ -426,7 +426,7 @@ namespace Mud.Server.TestApplication
             IItemArmor item3Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
             IItemLight item4Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             // Equip weapon on mob2
-            mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield).Item = item2;
+            mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
             item2.ChangeContainer(null);
             item2.ChangeEquipedBy(mob2);
         }

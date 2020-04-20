@@ -24,11 +24,6 @@
           <Slot>1</Slot>
         </EquipedItemData>
         <EquipedItemData>
-          <ItemId>3356</ItemId>
-          <Contains />
-          <Slot>2</Slot>
-        </EquipedItemData>
-        <EquipedItemData>
           <ItemId>3353</ItemId>
           <Contains />
           <Slot>5</Slot>
@@ -39,63 +34,30 @@
           <Slot>11</Slot>
         </EquipedItemData>
         <EquipedItemData>
+          <ItemId>3</ItemId>
+          <Contains />
+          <Slot>13</Slot>
+        </EquipedItemData>
+        <EquipedItemData>
           <ItemId>6</ItemId>
           <Contains />
-          <Slot>17</Slot>
-        </EquipedItemData>
-        <EquipedItemData>
-          <ItemId>3350</ItemId>
-          <Contains />
-          <Slot>18</Slot>
-        </EquipedItemData>
-        <EquipedItemData>
-          <ItemId>7</ItemId>
-          <Contains />
-          <Slot>20</Slot>
+          <Slot>15</Slot>
         </EquipedItemData>
       </Equipments>
       <Inventory>
         <ItemData>
-          <ItemId>1</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3120</ItemId>
+          <ItemId>2</ItemId>
           <Contains />
         </ItemData>
         <ItemData>
           <ItemId>3353</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3364</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3350</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3364</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3365</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3</ItemId>
           <Contains />
         </ItemData>
         <ItemData>
           <ItemId>3131</ItemId>
           <Contains>
             <ItemData>
-              <ItemId>3365</ItemId>
+              <ItemId>3363</ItemId>
               <Contains />
             </ItemData>
             <ItemData>
@@ -103,10 +65,22 @@
               <Contains />
             </ItemData>
             <ItemData>
-              <ItemId>3363</ItemId>
+              <ItemId>3365</ItemId>
               <Contains />
             </ItemData>
           </Contains>
+        </ItemData>
+        <ItemData>
+          <ItemId>3120</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>1</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3350</ItemId>
+          <Contains />
         </ItemData>
       </Inventory>
     </CharacterData>
