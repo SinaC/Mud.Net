@@ -23,16 +23,14 @@ namespace Mud.Server.Races
             Domain.EquipmentSlots.Wrists,
             Domain.EquipmentSlots.Arms,
             Domain.EquipmentSlots.Hands,
-            Domain.EquipmentSlots.RingLeft,
-            Domain.EquipmentSlots.RingRight,
+            Domain.EquipmentSlots.Ring,
+            Domain.EquipmentSlots.Ring,
             Domain.EquipmentSlots.Legs,
             Domain.EquipmentSlots.Feet,
-            Domain.EquipmentSlots.Trinket1,
-            Domain.EquipmentSlots.Trinket2,
-            Domain.EquipmentSlots.Wield,
-            Domain.EquipmentSlots.Wield2,
-            Domain.EquipmentSlots.Shield,
-            Domain.EquipmentSlots.Hold,
+            Domain.EquipmentSlots.Trinket,
+            Domain.EquipmentSlots.Trinket,
+            Domain.EquipmentSlots.MainHand,
+            Domain.EquipmentSlots.OffHand,
         };
 
         protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();

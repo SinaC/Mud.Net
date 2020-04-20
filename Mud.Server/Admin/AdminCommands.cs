@@ -135,7 +135,7 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [Command("slay", Category = "Admin", NoShortcut = true)]
+        [AdminCommand("slay", Category = "Admin", NoShortcut = true, MustBeImpersonated = true)]
         protected virtual bool DoSlay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

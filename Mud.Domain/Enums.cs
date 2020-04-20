@@ -112,20 +112,13 @@ namespace Mud.Domain
         Wrists,
         Arms,
         Hands,
-        RingLeft,
-        RingRight,
+        Ring,
         Legs,
         Feet,
-        Trinket1,
-        Trinket2,
-        Wield,
-        Wield2, // mutually exclusive with Hold, Shield
-        Hold, // mutually exclusive with Wield2, Shield
-        Shield, // mutually exclusive with Wield2, Hold
-        Wield2H, // wield 2-handed
-        Wield3,
-        Wield4,
-        Wield2H2,
+        Trinket,
+        // MainHand + OffHand are needed to equip Wield2H unless big enough
+        MainHand, // can equip Wield
+        OffHand // can equip Wield/Hold/Shield
     }
 
     public enum ArmorKinds

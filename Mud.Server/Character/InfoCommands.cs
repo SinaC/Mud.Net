@@ -8,6 +8,7 @@ using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Item;
 
 namespace Mud.Server.Character
 {
@@ -366,7 +367,7 @@ namespace Mud.Server.Character
                 //foreach (EquipedItem equipedItem in Equipments.Where(x => x.Item != null))
                 foreach (EquipedItem equipedItem in Equipments)
                 {
-                    string where = EquipmentSlotsToString(equipedItem.Slot);
+                    string where = EquipmentSlotsToString(equipedItem);
                     sb.Append(where);
                     //sb.AppendLine(FormatItem(equipedItem.Item, true));
                     if (equipedItem.Item == null)
@@ -542,7 +543,7 @@ namespace Mud.Server.Character
                 Act(ActOptions.ToCharacter, "{0} is using:", victim);
                 foreach (EquipedItem equipedItem in victim.Equipments.Where(x => x.Item != null))
                 {
-                    string where = EquipmentSlotsToString(equipedItem.Slot);
+                    string where = EquipmentSlotsToString(equipedItem);
                     StringBuilder sb = new StringBuilder(where);
                     sb.AppendLine(FormatItem(equipedItem.Item, true));
                     Send(sb);
@@ -704,9 +705,9 @@ namespace Mud.Server.Character
                 : item.RelativeDescription(this);
         }
 
-        private static string EquipmentSlotsToString(EquipmentSlots slot)
+        private static string EquipmentSlotsToString(EquipedItem equipedItem)
         {
-            switch (slot)
+            switch (equipedItem.Slot)
             {
                 case EquipmentSlots.Light:
                     return "%C%<used as light>          %x%";
@@ -728,36 +729,27 @@ namespace Mud.Server.Character
                     return "%C%<worn on arms>           %x%";
                 case EquipmentSlots.Hands:
                     return "%C%<worn on hands>          %x%";
-                case EquipmentSlots.RingLeft:
-                    return "%C%<worn on left finger>    %x%";
-                case EquipmentSlots.RingRight:
-                    return "%C%<worn on right finger>   %x%";
+                case EquipmentSlots.Ring:
+                    return "%C%<worn on finger>         %x%";
                 case EquipmentSlots.Legs:
                     return "%C%<worn on legs>           %x%";
                 case EquipmentSlots.Feet:
                     return "%C%<worn on feet>           %x%";
-                case EquipmentSlots.Trinket1:
-                    return "%C%<worn as 1st trinket>    %x%";
-                case EquipmentSlots.Trinket2:
-                    return "%C%<worn as 2nd trinket>    %x%";
-                case EquipmentSlots.Wield:
+                case EquipmentSlots.Trinket:
+                    return "%C%<worn as trinket>        %x%";
+                case EquipmentSlots.MainHand:
                     return "%C%<wielded>                %x%";
-                case EquipmentSlots.Wield2:
+                case EquipmentSlots.OffHand:
+                    if (equipedItem.Item != null)
+                    {
+                        if (equipedItem.Item is IItemShield)
+                            return "%C%<worn as shield>         %x%";
+                        if (equipedItem.Item.WearLocation == WearLocations.Hold)
+                            return "%C%<held>                   %x%";
+                    }
                     return "%c%<offhand>                %x%";
-                case EquipmentSlots.Hold:
-                    return "%C%<held>                   %x%";
-                case EquipmentSlots.Shield:
-                    return "%C%<worn as shield>         %x%";
-                case EquipmentSlots.Wield2H:
-                    return "%C%<wielded 2-handed>       %x%";
-                case EquipmentSlots.Wield3:
-                    return "%c%<3rd wield>              %x%";
-                case EquipmentSlots.Wield4:
-                    return "%c%<4th wield>              %x%";
-                case EquipmentSlots.Wield2H2:
-                    return "%C%<wielded 2nd 2-handed>   %x%";
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "DoEquipment: missing WearLocation {0}", slot);
+                    Log.Default.WriteLine(LogLevels.Error, "DoEquipment: missing WearLocation {0}", equipedItem.Slot);
                     break;
             }
             return "%C%<unknown>%x%";

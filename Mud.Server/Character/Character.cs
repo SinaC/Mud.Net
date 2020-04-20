@@ -97,26 +97,25 @@ namespace Mud.Server.Character
             {
                 foreach (EquipedItemData equipedItemData in data.Equipments)
                 {
-                    EquipedItem equipedItem = Equipments.FirstOrDefault(x => x.Slot == equipedItemData.Slot);
+                    EquipedItem equipedItem = SearchEquipmentSlot(equipedItemData.Slot, false);
                     if (equipedItem != null)
                     {
                         IItem item = MapItemData(equipedItemData, this);
                         if (item is IEquipable equipable)
                         {
                             equipedItem.Item = equipable;
-                            equipable.ChangeContainer(null); // remove from inventory
                             equipable.ChangeEquipedBy(this); // set as equiped by this
                         }
                         else
                         {
-                            string msg = $"Item blueprint Id {equipedItemData.ItemId} cannot be equipped anymore in slot {equipedItemData.Slot}";
+                            string msg = $"Item blueprint Id {equipedItemData.ItemId} cannot be equipped anymore in slot {equipedItemData.Slot} for character {data.Name}.";
                             Log.Default.WriteLine(LogLevels.Error, msg, equipedItemData.ItemId, equipedItemData.Slot);
                             Wiznet.Wiznet(msg, WiznetFlags.Bugs);
                         }
                     }
                     else
                     {
-                        string msg = $"Item blueprint Id {equipedItemData.ItemId} was supposed to be equiped in slot {equipedItemData.Slot} which doesn't exist anymore for {Name}";
+                        string msg = $"Item blueprint Id {equipedItemData.ItemId} was supposed to be equipped in first empty slot {equipedItemData.Slot} for character {data.Name}.";
                         Log.Default.WriteLine(LogLevels.Error, msg);
                         Wiznet.Wiznet(msg, WiznetFlags.Bugs);
                     }
@@ -126,9 +125,7 @@ namespace Mud.Server.Character
             {
                 // Inventory
                 foreach (ItemData itemData in data.Inventory)
-                {
                     MapItemData(itemData, this);
-                }
             }
 
             Impersonable = true; // Playable
@@ -1110,11 +1107,11 @@ namespace Mud.Server.Character
             //int attackCount = Math.Max(1, 1 + this[SecondaryAttributeTypes.AttackSpeed] / 21);
             int attackCount = Math.Max(1, 1 + this[SecondaryAttributeTypes.AttackSpeed]);
 
-            // Main hand or Wield2H
+            // Main hand
             for (int i = 0; i < attackCount; i++)
             {
                 // Cannot store wielded between hit (disarm anyone ?)
-                IItemWeapon wielded = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2H) ?? EquipedItem.NullObject).Item as IItemWeapon;
+                IItemWeapon wielded = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand)?.Item as IItemWeapon;
                 SchoolTypes damageType = wielded?.DamageType ?? SchoolTypes.Physical;
                 OneHit(enemy, wielded, damageType, false);
 
@@ -1125,7 +1122,7 @@ namespace Mud.Server.Character
             // Off hand
             if (KnownAbilities.Any(x => x.Ability == AbilityManager.DualWieldAbility))
             {
-                IItemWeapon wielded2 = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2) ?? EquipedItem.NullObject).Item as IItemWeapon;
+                IItemWeapon wielded2 = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand)?.Item as IItemWeapon;
                 if (wielded2 == null)
                     return true;
                 OneHit(enemy, wielded2, wielded2.DamageType, true);
@@ -1133,10 +1130,10 @@ namespace Mud.Server.Character
             if (Fighting != enemy) // stop multihit if different enemy or no enemy
                 return true;
 
-            // 3rd hand or Wield2H2
+            // Second main hand
             if (KnownAbilities.Any(x => x.Ability == AbilityManager.ThirdWieldAbility))
             {
-                IItemWeapon wielded3 = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield3) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2H2) ?? EquipedItem.NullObject).Item as IItemWeapon;
+                IItemWeapon wielded3 = Equipments.Where(x => x.Slot == EquipmentSlots.MainHand).ElementAtOrDefault(1)?.Item as IItemWeapon;
                 if (wielded3 == null)
                     return true;
                 OneHit(enemy, wielded3, wielded3.DamageType, true);
@@ -1144,10 +1141,10 @@ namespace Mud.Server.Character
             if (Fighting != enemy) // stop multihit if different enemy or no enemy
                 return true;
 
-            // 4th hand
+            // Second off hand
             if (KnownAbilities.Any(x => x.Ability == AbilityManager.FourthWieldAbility))
             {
-                IItemWeapon wielded4 = (Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield4) ?? EquipedItem.NullObject).Item as IItemWeapon;
+                IItemWeapon wielded4 = Equipments.Where(x => x.Slot == EquipmentSlots.OffHand).ElementAtOrDefault(1)?.Item as IItemWeapon;
                 if (wielded4 == null)
                     return true;
                 OneHit(enemy, wielded4, wielded4.DamageType, true);
@@ -1434,75 +1431,56 @@ namespace Mud.Server.Character
         }
 
         // Equipment
-        public EquipedItem SearchEquipmentSlot(IEquipable item, bool replace) // TODO: WearLocations should be flags
+        public EquipedItem SearchEquipmentSlot(IEquipable item, bool replace)
         {
-            // TODO: if wield, can be equiped as wield2 if dual wield
-            // TODO: if wield2H, can be equiped as wield+hold or wield+shield
-            // TODO: if hold (or shield), can be equiped as hold (or shield) and no wield2H on wield+hold (or +shield)
             switch (item.WearLocation)
             {
                 case WearLocations.None:
                     return null;
                 case WearLocations.Light:
-                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Light && (replace || x.Item == null));
+                    return SearchEquipmentSlot(EquipmentSlots.Light, replace);
                 case WearLocations.Head:
-                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Head && (replace || x.Item == null));
+                    return SearchEquipmentSlot(EquipmentSlots.Head, replace);
                 case WearLocations.Amulet:
-                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Amulet && (replace || x.Item == null));
+                    return SearchEquipmentSlot(EquipmentSlots.Amulet, replace);
                 case WearLocations.Shoulders:
-                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Shoulders && (replace || x.Item == null));
+                    return SearchEquipmentSlot(EquipmentSlots.Shoulders, replace);
                 case WearLocations.Chest:
-                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Chest && (replace || x.Item == null));
+                    return SearchEquipmentSlot(EquipmentSlots.Chest, replace);
                 case WearLocations.Cloak:
-                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Cloak && (replace || x.Item == null));
+                    return SearchEquipmentSlot(EquipmentSlots.Cloak, replace);
                 case WearLocations.Waist:
-                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Waist && (replace || x.Item == null));
+                    return SearchEquipmentSlot(EquipmentSlots.Waist, replace);
                 case WearLocations.Wrists:
-                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wrists && (replace || x.Item == null));
+                    return SearchEquipmentSlot(EquipmentSlots.Wrists, replace);
                 case WearLocations.Arms:
-                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Arms && (replace || x.Item == null));
+                    return SearchEquipmentSlot(EquipmentSlots.Arms, replace);
                 case WearLocations.Hands:
-                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Hands && (replace || x.Item == null));
+                    return SearchEquipmentSlot(EquipmentSlots.Hands, replace);
                 case WearLocations.Ring:
-                    // Search an empty slot, if no empty slot take first non-empty if replace is true
-                    return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.RingLeft || x.Slot == EquipmentSlots.RingRight) && x.Item == null)
-                           ?? (replace ?
-                               Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.RingLeft || x.Slot == EquipmentSlots.RingRight))
-                               : null);
+                    return SearchEquipmentSlot(EquipmentSlots.Ring, replace);
                 case WearLocations.Legs:
-                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Legs && (replace || x.Item == null));
+                    return SearchEquipmentSlot(EquipmentSlots.Legs, replace);
                 case WearLocations.Feet:
-                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Feet && (replace || x.Item == null));
+                    return SearchEquipmentSlot(EquipmentSlots.Feet, replace);
                 case WearLocations.Trinket:
-                    // Search an empty slot, if no empty slot take first non-empty if replace is true
-                    return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Trinket1 || x.Slot == EquipmentSlots.Trinket2) && x.Item == null)
-                           ?? (replace ?
-                               Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Trinket1 || x.Slot == EquipmentSlots.Trinket2))
-                               : null);
+                    return SearchEquipmentSlot(EquipmentSlots.Trinket, replace);
                 case WearLocations.Wield:
-                    if (replace)
-                        return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Wield
-                                                            || x.Slot == EquipmentSlots.Wield2
-                                                            || x.Slot == EquipmentSlots.Wield3
-                                                            || x.Slot == EquipmentSlots.Wield4) && x.Item == null)
-                            ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield)
-                            ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield2)
-                            ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield3)
-                            ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Wield4);
-                    else
-                        return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Wield
-                                                            || x.Slot == EquipmentSlots.Wield2
-                                                            || x.Slot == EquipmentSlots.Wield3
-                                                            || x.Slot == EquipmentSlots.Wield4) && x.Item == null);
+                    // Search empty mainhand, then empty offhand, TODO use offhand only if mainhand is not wielding a 2H
+                    return SearchOneHandedWeaponEquipmentSlot(replace);
                 case WearLocations.Hold:
-                    // TODO
-                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Hold && (replace || x.Item == null));
+                    // only if mainhand is not wielding a 2H
+                    return SearchOffhandEquipmentSlot(replace);
                 case WearLocations.Shield:
-                    // TODO
-                    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.Shield && (replace || x.Item == null));
+                    // only if mainhand is not wielding a 2H
+                    return SearchOffhandEquipmentSlot(replace);
                 case WearLocations.Wield2H:
-                    // TODO
-                    return Equipments.FirstOrDefault(x => (x.Slot == EquipmentSlots.Wield2H || x.Slot == EquipmentSlots.Wield2H2) && (replace || x.Item == null));
+                    // Search empty mainhand + empty offhand (no autoreplace) // TODO can wield 2H on one hand if giant or specific ability
+                    var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
+                    var offHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand && x.Item == null);
+                    if (mainHand != null && offHand != null && mainHand.Item == null && offHand.Item == null)
+                        return mainHand;
+                    break;
             }
             return null;
         }
@@ -1551,17 +1529,67 @@ namespace Mud.Server.Character
                 _equipments.Add(new EquipedItem(EquipmentSlots.Wrists));
                 _equipments.Add(new EquipedItem(EquipmentSlots.Arms));
                 _equipments.Add(new EquipedItem(EquipmentSlots.Hands));
-                _equipments.Add(new EquipedItem(EquipmentSlots.RingLeft));
-                _equipments.Add(new EquipedItem(EquipmentSlots.RingRight));
+                _equipments.Add(new EquipedItem(EquipmentSlots.Ring)); // 2 rings
+                _equipments.Add(new EquipedItem(EquipmentSlots.Ring));
                 _equipments.Add(new EquipedItem(EquipmentSlots.Legs));
                 _equipments.Add(new EquipedItem(EquipmentSlots.Feet));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Trinket1));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Trinket2));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Wield));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Wield2));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Shield));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Hold));
+                _equipments.Add(new EquipedItem(EquipmentSlots.Trinket)); // 2 trinkets
+                _equipments.Add(new EquipedItem(EquipmentSlots.Trinket));
+                _equipments.Add(new EquipedItem(EquipmentSlots.MainHand)); // 2 hands
+                _equipments.Add(new EquipedItem(EquipmentSlots.OffHand));
             }
+        }
+
+        protected EquipedItem SearchEquipmentSlot(EquipmentSlots equipmentSlot, bool replace)
+        {
+            if (replace) // search empty slot, if not found, return first matching slot
+                return Equipments.FirstOrDefault(x => x.Slot == equipmentSlot && x.Item == null) ?? Equipments.FirstOrDefault(x => x.Slot == equipmentSlot);
+            return Equipments.FirstOrDefault(x => x.Slot == equipmentSlot && x.Item == null);
+        }
+
+        protected EquipedItem SearchOneHandedWeaponEquipmentSlot(bool replace)
+        {
+            // Search empty mainhand, then empty offhand only if mainhand is not wielding a 2H
+            if (replace)
+            {
+                // Search empty main hand
+                var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
+                if (mainHand != null)
+                    return mainHand;
+                // Search empty off hand
+                var offHand = SearchOffhandEquipmentSlot(false);
+                if (offHand != null)
+                    return offHand;
+                // If not empty main/off hand, search an slot to replace
+                return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand) ?? SearchOffhandEquipmentSlot(true);
+            }
+            else
+            {
+                // Search empty main hand
+                var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
+                if (mainHand != null)
+                    return mainHand;
+                // If not empty main hand found, search off hand
+                return SearchOffhandEquipmentSlot(false);
+            }
+
+            //if (replace)
+            //    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand && x.Item == null)
+            //           ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand);
+            //return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand && x.Item == null);
+        }
+
+        protected EquipedItem SearchOffhandEquipmentSlot(bool replace)
+        {
+            // This leads to strange looking equipments:
+            // wield 1-H weapon -> first main hand
+            // wield 2-H weapon -> second main hand
+            // hold shield -> second off hand (should be first off hand)
+            // Return offhand only if related mainhand is not wielding 2H
+            int countMainhand2H = Equipments.Count(x => x.Slot == EquipmentSlots.MainHand && x.Item?.WearLocation == WearLocations.Wield2H);
+            if (replace)
+                return Equipments.Where(x => x.Slot == EquipmentSlots.OffHand && x.Item == null).ElementAtOrDefault(countMainhand2H) ?? Equipments.Where(x => x.Slot == EquipmentSlots.OffHand).ElementAtOrDefault(countMainhand2H);
+            return Equipments.Where(x => x.Slot == EquipmentSlots.OffHand && x.Item == null).ElementAtOrDefault(countMainhand2H);
         }
 
         protected void SetGlobalCooldown(int pulseCount) // set GCD (in pulse) if impersonated by
@@ -1751,7 +1779,7 @@ namespace Mud.Server.Character
                     damage = (damage * 75) / 100;
                     break;
                 case CombatHelpers.AttackResults.Block:
-                    EquipedItem victimShield = victim.Equipments.FirstOrDefault(x => x.Item != null && x.Slot == EquipmentSlots.Shield);
+                    EquipedItem victimShield = victim.Equipments.FirstOrDefault(x => x.Item != null && x.Item is IItemShield && x.Slot == EquipmentSlots.OffHand);
                     if (victimShield != null) // will never be null because MeleeAttack will not return Block if no shield
                     {
                         victim.Act(ActOptions.ToCharacter, "You block {0}'s attack with {1}.", this, victimShield.Item);

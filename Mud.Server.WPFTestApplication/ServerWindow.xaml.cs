@@ -607,6 +607,100 @@ namespace Mud.Server.WPFTestApplication
             }
         }
 
+        private static WeaponTypes ConvertWeaponType(object value)
+        {
+            string weaponType = (string)value;
+            switch (weaponType)
+            {
+                case "exotic": // Exotic
+                    // TODO:
+                    return WeaponTypes.Fist;
+                case "sword": // Sword
+                    return WeaponTypes.Sword1H;
+                case "dagger": // Dagger
+                    return WeaponTypes.Dagger;
+                case "spear": // Spear
+                    return WeaponTypes.Mace2H;
+                case "mace": // Mace
+                    return WeaponTypes.Mace1H;
+                case "axe": // Axe
+                    return WeaponTypes.Mace2H;
+                case "flail": // Flail
+                    // TODO:
+                    return WeaponTypes.Fist;
+                case "whip": // Whip
+                    // TODO:
+                    return WeaponTypes.Fist;
+                case "polearm": // Polearm
+                    // TODO:
+                    return WeaponTypes.Polearm;
+                case "staff(weapon)": // Staff
+                    return WeaponTypes.Stave;
+                case "arrow": // Arrow
+                    // TODO:
+                    return WeaponTypes.Fist;
+                case "ranged": // Ranged
+                    // TODO:
+                    return WeaponTypes.Fist;
+            }
+            return WeaponTypes.Fist;
+        }
+
+        private static SchoolTypes ConvertWeaponDamageType(object attackTableValue, object weaponType2Value)
+        {
+            string attackTable = (string)attackTableValue;
+            int weaponType2 = weaponType2Value == null ? 0 : Convert.ToInt32(weaponType2Value);
+            if (attackTable == "acid") // Acid
+                return SchoolTypes.Nature;
+            if (attackTable == "wrath") // Wrath
+                return SchoolTypes.Arcane;
+            if (attackTable == "magic") // Magic
+                return SchoolTypes.Arcane;
+            if (attackTable == "divine") // Divine power
+                return SchoolTypes.Holy;
+            if (attackTable == "shbite") // Shocking bite
+                return SchoolTypes.Nature;
+            if (attackTable == "flbite") // Flaming bite
+                return SchoolTypes.Fire;
+            if (attackTable == "frbite") // Frost bite
+                return SchoolTypes.Frost;
+            if (attackTable == "acbite") // Acidic bite
+                return SchoolTypes.Nature;
+            if (attackTable == "drain") // Life drain
+                return SchoolTypes.Shadow;
+            if (attackTable == "slime") // Slime
+                return SchoolTypes.Nature;
+            if (attackTable == "shock") // Shock
+                return SchoolTypes.Nature;
+            if (attackTable == "flame") // Flame
+                return SchoolTypes.Fire;
+            if (attackTable == "chill") // Chill
+                return SchoolTypes.Frost;
+
+            // originally a flag but converted to a single value
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A) // Flaming
+                return SchoolTypes.Fire;
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B) // Frost
+                return SchoolTypes.Fire;
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C) // Vampiric
+                return SchoolTypes.Shadow;
+            // D: Sharp
+            // E: Vorpal
+            // F: Two-hands
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G) // Shocking
+                return SchoolTypes.Nature;
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H) // Poison
+                return SchoolTypes.Nature;
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I) // Holy
+                return SchoolTypes.Holy;
+            // J: Weighted
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.K) == Importer.Mystery.MysteryImporter.K) // Necrotism
+                return SchoolTypes.Shadow;
+
+            //
+            return SchoolTypes.Physical;
+        }
+
         private static ItemBlueprintBase CreateItemBlueprint(Importer.Mystery.ObjectData data)
         {
             ItemBlueprintBase blueprint;
@@ -622,10 +716,12 @@ namespace Mud.Server.WPFTestApplication
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
-                    // TODO: weapon type Values[0]
+                    Type = ConvertWeaponType(data.Values[0]),
                     DiceCount = Convert.ToInt32(data.Values[1]),
                     DiceValue = Convert.ToInt32(data.Values[2]),
-                    // TODO: damage type Values[3]
+                    // Values[3] slash/pierce/bash/... attack_table in const.C
+                    // Values[4] flaming/sharp/... weapon_type2 in tables.C
+                    DamageType = ConvertWeaponDamageType(data.Values[3], data.Values[4]),
                 };
             }
             else if (data.ItemType == "container")
@@ -1250,13 +1346,13 @@ namespace Mud.Server.WPFTestApplication
             {
                 Id = 6,
                 Name = "item6 sixth",
-                ShortDescription = "Sixth item (weapon)",
-                Description = "The sixth item (weapon) has been left here.",
+                ShortDescription = "Sixth item (weapon 2H)",
+                Description = "The sixth item (weapon 2H) has been left here.",
                 Type = WeaponTypes.Mace2H,
                 DiceCount = 10,
                 DiceValue = 20,
                 DamageType = SchoolTypes.Holy,
-                WearLocation = WearLocations.Wield
+                WearLocation = WearLocations.Wield2H
             };
             World.AddItemBlueprint(item6Blueprint);
             ItemShieldBlueprint item7Blueprint = new ItemShieldBlueprint
@@ -1319,7 +1415,7 @@ namespace Mud.Server.WPFTestApplication
             World.AddItemQuest(Guid.NewGuid(), questItem2Blueprint, templeSquare);
 
             // Equip weapon on mob2
-            mob2.Equipments.First(x => x.Slot == EquipmentSlots.Wield).Item = item2;
+            mob2.Equipments.First(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
             item2.ChangeContainer(null);
             item2.ChangeEquipedBy(mob2);
 

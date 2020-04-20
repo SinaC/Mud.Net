@@ -173,33 +173,17 @@ namespace Mud.Repository.Mongo
                 case 10:
                     return Mud.Domain.EquipmentSlots.Hands;
                 case 11:
-                    return Mud.Domain.EquipmentSlots.RingLeft;
+                    return Mud.Domain.EquipmentSlots.Ring;
                 case 12:
-                    return Mud.Domain.EquipmentSlots.RingRight;
-                case 13:
                     return Mud.Domain.EquipmentSlots.Legs;
-                case 14:
+                case 13:
                     return Mud.Domain.EquipmentSlots.Feet;
+                case 14:
+                    return Mud.Domain.EquipmentSlots.Trinket;
                 case 15:
-                    return Mud.Domain.EquipmentSlots.Trinket1;
+                    return Mud.Domain.EquipmentSlots.MainHand;
                 case 16:
-                    return Mud.Domain.EquipmentSlots.Trinket2;
-                case 17:
-                    return Mud.Domain.EquipmentSlots.Wield;
-                case 18:
-                    return Mud.Domain.EquipmentSlots.Wield2;
-                case 19:
-                    return Mud.Domain.EquipmentSlots.Hold;
-                case 20:
-                    return Mud.Domain.EquipmentSlots.Shield;
-                case 21:
-                    return Mud.Domain.EquipmentSlots.Wield2H;
-                case 22:
-                    return Mud.Domain.EquipmentSlots.Wield3;
-                case 23:
-                    return Mud.Domain.EquipmentSlots.Wield4;
-                case 24:
-                    return Mud.Domain.EquipmentSlots.Wield2H2;
+                    return Mud.Domain.EquipmentSlots.OffHand;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid EquipmentSlots {slot} while reading pfile");
                     return 0;
@@ -232,34 +216,18 @@ namespace Mud.Repository.Mongo
                     return 9;
                 case Mud.Domain.EquipmentSlots.Hands:
                     return 10;
-                case Mud.Domain.EquipmentSlots.RingLeft:
+                case Mud.Domain.EquipmentSlots.Ring:
                     return 11;
-                case Mud.Domain.EquipmentSlots.RingRight:
-                    return 12;
                 case Mud.Domain.EquipmentSlots.Legs:
-                    return 13;
+                    return 12;
                 case Mud.Domain.EquipmentSlots.Feet:
+                    return 13;
+                case Mud.Domain.EquipmentSlots.Trinket:
                     return 14;
-                case Mud.Domain.EquipmentSlots.Trinket1:
+                case Mud.Domain.EquipmentSlots.MainHand:
                     return 15;
-                case Mud.Domain.EquipmentSlots.Trinket2:
+                case Mud.Domain.EquipmentSlots.OffHand:
                     return 16;
-                case Mud.Domain.EquipmentSlots.Wield:
-                    return 17;
-                case Mud.Domain.EquipmentSlots.Wield2:
-                    return 18;
-                case Mud.Domain.EquipmentSlots.Hold:
-                    return 19;
-                case Mud.Domain.EquipmentSlots.Shield:
-                    return 20;
-                case Mud.Domain.EquipmentSlots.Wield2H:
-                    return 21;
-                case Mud.Domain.EquipmentSlots.Wield3:
-                    return 22;
-                case Mud.Domain.EquipmentSlots.Wield4:
-                    return 23;
-                case Mud.Domain.EquipmentSlots.Wield2H2:
-                    return 24;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid EquipmentSlots {slot} while writing pfile");
                     return 0;

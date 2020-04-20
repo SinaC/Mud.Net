@@ -7,6 +7,7 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Item;
 
 namespace Mud.Server.Abilities
 {
@@ -106,7 +107,7 @@ namespace Mud.Server.Abilities
                 return false;
             }
             //1/ Check flags
-            if ((ability.Flags & AbilityFlags.RequiresMainHand) == AbilityFlags.RequiresMainHand && !source.Equipments.Any(x => (x.Slot == EquipmentSlots.Wield || x.Slot == EquipmentSlots.Wield2H) && x.Item != null))
+            if ((ability.Flags & AbilityFlags.RequiresMainHand) == AbilityFlags.RequiresMainHand && !source.Equipments.Any(x => x.Slot == EquipmentSlots.MainHand && x.Item != null))
             {
                 source.Send("You must be wielding in main-hand something prior using {0}", ability.Name);
                 return false;
@@ -301,7 +302,7 @@ namespace Mud.Server.Abilities
                             source.Act(ActOptions.ToCharacter, "{0} parries your {1}.", victim, ability.Name);
                             return; // no effect applied
                         case CombatHelpers.AttackResults.Block:
-                            EquipedItem victimShield = victim.Equipments.FirstOrDefault(x => x.Item != null && x.Slot == EquipmentSlots.Shield);
+                            EquipedItem victimShield = victim.Equipments.FirstOrDefault(x => x.Item != null && x.Item is IItemShield && x.Slot == EquipmentSlots.OffHand);
                             if (victimShield != null) // will never be null because MeleeAttack will not return Block if no shield
                             {
                                 victim.Act(ActOptions.ToCharacter, "You block {0}'s {1} with {2}.", source, ability.Name, victimShield.Item);

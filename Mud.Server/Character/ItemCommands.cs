@@ -33,11 +33,17 @@ namespace Mud.Server.Character
                     list = new ReadOnlyCollection<IEquipable>(FindHelpers.FindAllByName(Content.Where(CanSee).OfType<IEquipable>(), whatParameter).ToList());
                 else // get all
                     list = new ReadOnlyCollection<IEquipable>(Content.Where(CanSee).OfType<IEquipable>().ToList());
+                bool itemEquipped = false;
                 if (list.Any())
                 {
                     foreach (IEquipable equipableItem in list)
-                        WearItem(equipableItem, false);
-                    RecomputeAttributes();
+                    {
+                        if (WearItem(equipableItem, false))
+                            itemEquipped = true;
+                    }
+
+                    if (itemEquipped)
+                        RecomputeAttributes();
                 }
                 else
                     Send(StringHelpers.ItemInventoryNotFound);
