@@ -52,6 +52,8 @@ namespace Mud.Server.Item
                 displayName.Append("Something");
             else
                 displayName.Append("something");
+            if (beholder.ImpersonatedBy is IAdmin)
+                displayName.Append($"[Id: {Blueprint.Id}]");
             return displayName.ToString();
         }
 

@@ -12,7 +12,7 @@
     <CharacterData>
       <CreationTime>2020-04-20T16:00:00</CreationTime>
       <Name>sinac</Name>
-      <RoomId>3025</RoomId>
+      <RoomId>3014</RoomId>
       <Race>troll</Race>
       <Class>druid</Class>
       <Level>60</Level>
@@ -47,108 +47,20 @@
       </Equipments>
       <Inventory>
         <ItemData>
-          <ItemId>3365</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3364</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>6</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3365</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3364</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>6</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>2</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3131</ItemId>
+          <ItemId>1</ItemId>
           <Contains>
             <ItemData>
-              <ItemId>3363</ItemId>
+              <ItemId>3364</ItemId>
               <Contains />
             </ItemData>
             <ItemData>
-              <ItemId>3350</ItemId>
-              <Contains />
-            </ItemData>
-            <ItemData>
-              <ItemId>3365</ItemId>
+              <ItemId>6</ItemId>
               <Contains />
             </ItemData>
           </Contains>
         </ItemData>
         <ItemData>
-          <ItemId>3120</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>1</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3350</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>7</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>6</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
           <ItemId>3</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3364</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3365</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>9</ItemId>
           <Contains />
         </ItemData>
         <ItemData>
@@ -156,43 +68,7 @@
           <Contains />
         </ItemData>
         <ItemData>
-          <ItemId>6</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3364</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3365</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>6</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3364</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3365</ItemId>
+          <ItemId>9</ItemId>
           <Contains />
         </ItemData>
       </Inventory>
@@ -210,7 +86,7 @@
             </CurrentQuestObjectiveData>
             <CurrentQuestObjectiveData>
               <ObjectiveId>2</ObjectiveId>
-              <Count>1</Count>
+              <Count>2</Count>
             </CurrentQuestObjectiveData>
             <CurrentQuestObjectiveData>
               <ObjectiveId>0</ObjectiveId>
@@ -239,7 +115,7 @@
             </CurrentQuestObjectiveData>
             <CurrentQuestObjectiveData>
               <ObjectiveId>2</ObjectiveId>
-              <Count>0</Count>
+              <Count>1</Count>
             </CurrentQuestObjectiveData>
             <CurrentQuestObjectiveData>
               <ObjectiveId>3</ObjectiveId>

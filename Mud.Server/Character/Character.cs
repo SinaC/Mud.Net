@@ -105,6 +105,7 @@ namespace Mud.Server.Character
                         if (item is IEquipable equipable)
                         {
                             equipedItem.Item = equipable;
+                            equipable.ChangeContainer(null); // remove from inventory
                             equipable.ChangeEquipedBy(this); // set as equiped by this
                         }
                         else

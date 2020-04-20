@@ -34,6 +34,7 @@ namespace Mud.Server.Quest
 
         public Quest(CurrentQuestData questData, ICharacter character)
         {
+            _character = character;
             QuestBlueprint questBlueprint = World.GetQuestBlueprint(questData.QuestId);
             // TODO: quid if blueprint is null?
             Blueprint = questBlueprint;
@@ -55,8 +56,9 @@ namespace Mud.Server.Quest
                     case QuestObjectiveCountBase questObjectiveCountBase:
                         questObjectiveCountBase.Count = objectiveData.Count;
                         break;
+                        // TODO: if quest item: test if conflict between stored count and inventory
                     case LocationQuestObjective questObjectiveLocation:
-                        questObjectiveLocation.Explored = true;
+                        questObjectiveLocation.Explored = objectiveData.Count > 0;
                         break;
                     default:
                         string msg = $"Quest ({questData.QuestId}) objective ({objectiveData.ObjectiveId}) cannot be found for character {character.DisplayName}.";
