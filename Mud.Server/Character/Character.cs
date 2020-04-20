@@ -1670,18 +1670,18 @@ namespace Mud.Server.Character
             if (damageTypes == SchoolTypes.Physical)
             {
                 // 1 -> 59
-                //double damageReduction = (double)this[ComputedAttributeTypes.Armor] / (this[ComputedAttributeTypes.Armor] + 400 + 85 * sourceLevel);
-                double denominator = this[SecondaryAttributeTypes.Armor] + 400 + 85*sourceLevel;
+                //decimal damageReduction = (decimal)this[ComputedAttributeTypes.Armor] / (this[ComputedAttributeTypes.Armor] + 400 + 85 * sourceLevel);
+                decimal denominator = this[SecondaryAttributeTypes.Armor] + 400 + 85*sourceLevel;
                 if (sourceLevel >= 60)
-                    denominator += 4.5*(sourceLevel - 59);
+                    denominator += 4.5m*(sourceLevel - 59);
                 if (sourceLevel >= 80)
                     denominator += 20*(sourceLevel - 80);
                 if (sourceLevel >= 85)
                     denominator += 22*(sourceLevel - 85);
-                double damageReduction = this[SecondaryAttributeTypes.Armor]/denominator;
+                decimal damageReduction = (decimal)this[SecondaryAttributeTypes.Armor]/denominator;
                 if (damageReduction > 0)
                 {
-                    //double damageAbsorption = HitPoints/(1.0 - damageReduction);
+                    //decimal damageAbsorption = HitPoints/(1.0m - damageReduction);
                     damage = damage - (int) (damage*damageReduction);
                 }
             }
