@@ -24,6 +24,7 @@ namespace Mud.Server.Player
                 UpdateCharacterDataFromImpersonated();
                 StopImpersonating();
                 Save();
+                return true;
             }
             CharacterData characterData = _avatarList.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (characterData == null)

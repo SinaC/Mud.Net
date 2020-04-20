@@ -45,7 +45,9 @@ namespace Mud.Server.Races
 
         public Insectoid()
         {
+            AddAbility(1, AbilityManager.DualWieldAbility);
             AddAbility(1, AbilityManager.ThirdWieldAbility);
+            AddAbility(1, AbilityManager.FourthWieldAbility);
         }
     }
 }

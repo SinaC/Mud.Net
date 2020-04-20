@@ -1346,8 +1346,8 @@ namespace Mud.Server.WPFTestApplication
             {
                 Id = 6,
                 Name = "item6 sixth",
-                ShortDescription = "Sixth item (weapon)",
-                Description = "The sixth item (weapon) has been left here.",
+                ShortDescription = "Sixth item (weapon 2H)",
+                Description = "The sixth item (weapon 2H) has been left here.",
                 Type = WeaponTypes.Mace2H,
                 DiceCount = 10,
                 DiceValue = 20,
