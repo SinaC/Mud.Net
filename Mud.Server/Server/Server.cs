@@ -74,7 +74,7 @@ namespace Mud.Server.Server
             }
 
             // Check item corpse blueprint
-            if (!(World.GetItemBlueprint(Settings.CorpseBlueprintId) is ItemCorpseBlueprint))
+            if (World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
             {
                 Log.Default.WriteLine(LogLevels.Error, "ItemCorpseBlueprint (id:{0}) doesn't exist or is not an corpse item !!!", Settings.CorpseBlueprintId);
             }
@@ -108,6 +108,8 @@ namespace Mud.Server.Server
             Log.Default.WriteLine(LogLevels.Info, "Total experience from 1 to 100 = {0:n0}", totalExperience);
 
             // TODO: other sanity checks
+            // TODO: check room/item/character id uniqueness
+            // TODO: check quest objectives id
 
             // Initialize UniquenessManager
             UniquenessManager.Initialize();

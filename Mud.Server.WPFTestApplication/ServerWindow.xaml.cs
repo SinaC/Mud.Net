@@ -369,14 +369,14 @@ namespace Mud.Server.WPFTestApplication
             return blueprint;
         }
 
-        private static CharacterBlueprint CreateCharacterBlueprint(Importer.Mystery.MobileData data)
+        private static CharacterNormalBlueprint CreateCharacterBlueprint(Importer.Mystery.MobileData data)
         {
             Sex sex = Sex.Neutral;
             if (data.Sex.ToLower() == "female")
                 sex = Sex.Female;
             else if (data.Sex.ToLower() == "male")
                 sex = Sex.Male;
-            CharacterBlueprint blueprint = new CharacterBlueprint
+            CharacterNormalBlueprint blueprint = new CharacterNormalBlueprint
             {
                 Id = data.VNum,
                 Name = data.Name,
@@ -389,14 +389,14 @@ namespace Mud.Server.WPFTestApplication
             World.AddCharacterBlueprint(blueprint);
             return blueprint;
         }
-        private static CharacterBlueprint CreateCharacterBlueprint(Importer.Rom.MobileData data)
+        private static CharacterNormalBlueprint CreateCharacterBlueprint(Importer.Rom.MobileData data)
         {
             Sex sex = Sex.Neutral;
             if (data.Sex.ToLower() == "female")
                 sex = Sex.Female;
             else if (data.Sex.ToLower() == "male")
                 sex = Sex.Male;
-            CharacterBlueprint blueprint = new CharacterBlueprint
+            CharacterNormalBlueprint blueprint = new CharacterNormalBlueprint
             {
                 Id = data.VNum,
                 Name = data.Name,
@@ -1124,7 +1124,7 @@ namespace Mud.Server.WPFTestApplication
                     {
                         case 'M':
                             {
-                                CharacterBlueprint blueprint = World.GetCharacterBlueprint(reset.Arg1);
+                                CharacterBlueprintBase blueprint = World.GetCharacterBlueprint(reset.Arg1);
                                 if (blueprint != null)
                                 {
                                     lastCharacter = World.AddCharacter(Guid.NewGuid(), blueprint, room);
@@ -1245,7 +1245,7 @@ namespace Mud.Server.WPFTestApplication
                 }
             }
 
-            CharacterBlueprint mob2Blueprint = new CharacterBlueprint
+            CharacterNormalBlueprint mob2Blueprint = new CharacterNormalBlueprint
             {
                 Id = 2,
                 Name = "mob2",
@@ -1255,7 +1255,7 @@ namespace Mud.Server.WPFTestApplication
                 Level = 10
             };
             World.AddCharacterBlueprint(mob2Blueprint);
-            CharacterBlueprint mob3Blueprint = new CharacterBlueprint
+            CharacterNormalBlueprint mob3Blueprint = new CharacterNormalBlueprint
             {
                 Id = 3,
                 Name = "mob3",
@@ -1274,7 +1274,7 @@ namespace Mud.Server.WPFTestApplication
             //    Sex = Sex.Neutral,
             //    Level = 10
             //};
-            CharacterBlueprint mob5Blueprint = new CharacterBlueprint
+            CharacterNormalBlueprint mob5Blueprint = new CharacterNormalBlueprint
             {
                 Id = 5,
                 Name = "mob5",
@@ -1388,11 +1388,13 @@ namespace Mud.Server.WPFTestApplication
                 Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
                 Name = "corpse"
             }; // this is mandatory
-            DependencyContainer.Current.GetInstance<IWorld>().AddItemBlueprint(corpseBlueprint);
+            World.AddItemBlueprint(corpseBlueprint);
 
             // Add dummy mobs and items to allow impersonate :)
             IRoom templeOfMota = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
             IRoom templeSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
+            IRoom marketSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "market square");
+            IRoom commonSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the common square");
 
             //ICharacter mob1 = World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Druid"], Repository.RaceManager["Insectoid"], Sex.Male, templeOfMota); // playable
             ICharacter mob2 = World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
@@ -1445,6 +1447,7 @@ namespace Mud.Server.WPFTestApplication
                 {
                     new QuestKillObjectiveBlueprint
                     {
+                        Id = 0,
                         CharacterBlueprintId = 3062, // fido
                         Count = 3
                     }
@@ -1453,11 +1456,13 @@ namespace Mud.Server.WPFTestApplication
                 {
                     new QuestItemObjectiveBlueprint
                     {
+                        Id = 1,
                         ItemBlueprintId = questItem2Blueprint.Id,
                         Count = 1
                     },
                     new QuestItemObjectiveBlueprint
                     {
+                        Id = 2,
                         ItemBlueprintId = questItem1Blueprint.Id,
                         Count = 2
                     }
@@ -1466,6 +1471,7 @@ namespace Mud.Server.WPFTestApplication
                 {
                     new QuestLocationObjectiveBlueprint
                     {
+                        Id = 3,
                         RoomBlueprintId = templeSquare.Blueprint.Id,
                     }
                 },
@@ -1481,7 +1487,7 @@ namespace Mud.Server.WPFTestApplication
             {
                 Id = 2,
                 Title = "Simple exploration quest",
-                Description = "Explore common square",
+                Description = "Explore temple of mota, temple square, market square and common square",
                 Level = 10,
                 Experience = 10000,
                 Gold = 20,
@@ -1489,12 +1495,45 @@ namespace Mud.Server.WPFTestApplication
                 {
                     new QuestLocationObjectiveBlueprint
                     {
-                        RoomBlueprintId = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the common square")?.Blueprint.Id ?? 0
+                        Id = 0,
+                        RoomBlueprintId = templeOfMota.Blueprint.Id
+                    },
+                    new QuestLocationObjectiveBlueprint
+                    {
+                        Id = 1,
+                        RoomBlueprintId = templeSquare.Blueprint.Id
+                    },
+                    new QuestLocationObjectiveBlueprint
+                    {
+                        Id = 2,
+                        RoomBlueprintId = marketSquare.Blueprint.Id
+                    },
+                    new QuestLocationObjectiveBlueprint
+                    {
+                        Id = 3,
+                        RoomBlueprintId = commonSquare.Blueprint.Id
                     }
                 },
                 // TODO: rewards
             };
             World.AddQuestBlueprint(questBlueprint2);
+
+            CharacterQuestorBlueprint mob10Blueprint = new CharacterQuestorBlueprint
+            {
+                Id = 10,
+                Name = "mob10 questor",
+                ShortDescription = "Tenth mob (neutral questor)",
+                Description = "Tenth mob (neutral questor) is here",
+                Sex = Sex.Neutral,
+                Level = 60,
+                QuestBlueprints = new List<QuestBlueprint>
+                {
+                    questBlueprint1,
+                    questBlueprint2
+                }
+            };
+            World.AddCharacterBlueprint(mob10Blueprint);
+            ICharacter mob10 = World.AddCharacter(Guid.NewGuid(), mob10Blueprint, commonSquare);
 
             // Give quest 1 and 2 to mob1
             //IQuest quest1 = new Quest.Quest(questBlueprint1, mob1, mob2);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Aura;
@@ -19,7 +20,7 @@ namespace Mud.Server.World
         private readonly List<TreasureTable<int>> _treasureTables;
         private readonly Dictionary<int, QuestBlueprint> _questBlueprints;
         private readonly Dictionary<int, RoomBlueprint> _roomBlueprints;
-        private readonly Dictionary<int, CharacterBlueprint> _characterBlueprints;
+        private readonly Dictionary<int, CharacterBlueprintBase> _characterBlueprints;
         private readonly Dictionary<int, ItemBlueprintBase> _itemBlueprints;
         private readonly List<IArea> _areas;
         private readonly List<IRoom> _rooms;
@@ -31,7 +32,7 @@ namespace Mud.Server.World
             _treasureTables = new List<TreasureTable<int>>();
             _questBlueprints = new Dictionary<int, QuestBlueprint>();
             _roomBlueprints = new Dictionary<int, RoomBlueprint>();
-            _characterBlueprints = new Dictionary<int, CharacterBlueprint>();
+            _characterBlueprints = new Dictionary<int, CharacterBlueprintBase>();
             _itemBlueprints = new Dictionary<int, ItemBlueprintBase>();
             _areas = new List<IArea>();
             _rooms = new List<IRoom>();
@@ -55,7 +56,7 @@ namespace Mud.Server.World
 
         public IReadOnlyCollection<RoomBlueprint> RoomBlueprints => _roomBlueprints.Values.ToList().AsReadOnly();
 
-        public IReadOnlyCollection<CharacterBlueprint> CharacterBlueprints => _characterBlueprints.Values.ToList().AsReadOnly();
+        public IReadOnlyCollection<CharacterBlueprintBase> CharacterBlueprints => _characterBlueprints.Values.ToList().AsReadOnly();
 
         public IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints => _itemBlueprints.Values.ToList().AsReadOnly();
 
@@ -63,9 +64,15 @@ namespace Mud.Server.World
 
         public RoomBlueprint GetRoomBlueprint(int id) => GetBlueprintById(_roomBlueprints, id);
 
-        public CharacterBlueprint GetCharacterBlueprint(int id) => GetBlueprintById(_characterBlueprints, id);
+        public CharacterBlueprintBase GetCharacterBlueprint(int id) => GetBlueprintById(_characterBlueprints, id);
 
         public ItemBlueprintBase GetItemBlueprint(int id) => GetBlueprintById(_itemBlueprints, id);
+
+        public TBlueprint GetCharacterBlueprint<TBlueprint>(int id)
+            where TBlueprint : CharacterBlueprintBase => GetCharacterBlueprint(id) as TBlueprint;
+
+        public TBlueprint GetItemBlueprint<TBlueprint>(int id)
+            where TBlueprint : ItemBlueprintBase => GetItemBlueprint(id) as TBlueprint;
 
         public void AddQuestBlueprint(QuestBlueprint blueprint)
         {
@@ -83,7 +90,7 @@ namespace Mud.Server.World
                 _roomBlueprints.Add(blueprint.Id, blueprint);
         }
 
-        public void AddCharacterBlueprint(CharacterBlueprint blueprint)
+        public void AddCharacterBlueprint(CharacterBlueprintBase blueprint)
         {
             if (_characterBlueprints.ContainsKey(blueprint.Id))
                 Log.Default.WriteLine(LogLevels.Error, $"Character blueprint duplicate {blueprint.Id}!!!");
@@ -140,7 +147,7 @@ namespace Mud.Server.World
             return character;
         }
 
-        public ICharacter AddCharacter(Guid guid, CharacterBlueprint blueprint, IRoom room) // NPC
+        public ICharacter AddCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
         {
             if (blueprint == null)
                 throw new ArgumentNullException(nameof(blueprint));
@@ -259,29 +266,38 @@ namespace Mud.Server.World
 
         public IItem AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container)
         {
-            if (blueprint is ItemWeaponBlueprint weaponBlueprint)
-                return AddItemWeapon(guid, weaponBlueprint, container);
-            if (blueprint is ItemContainerBlueprint containerBlueprint)
-                return AddItemContainer(guid, containerBlueprint, container);
-            if (blueprint is ItemArmorBlueprint armorBlueprint)
-                return AddItemArmor(guid, armorBlueprint, container);
-            if (blueprint is ItemLightBlueprint lightBlueprint)
-                return AddItemLight(guid, lightBlueprint, container);
-            if (blueprint is ItemFurnitureBlueprint furnitureBlueprint)
-                return AddItemFurniture(guid, furnitureBlueprint, container);
-            if (blueprint is ItemJewelryBlueprint jewelryBlueprint)
-                return AddItemJewelry(guid, jewelryBlueprint, container);
-            if (blueprint is ItemShieldBlueprint shieldBlueprint)
-                return AddItemShield(guid, shieldBlueprint, container);
-            if (blueprint is ItemKeyBlueprint keyBlueprint)
-                return AddItemKey(guid, keyBlueprint, container);
-            if (blueprint is ItemPortalBlueprint portalBlueprint)
+            switch (blueprint)
             {
-                IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
-                return AddItemPortal(guid, portalBlueprint, destination, container);
+                case ItemArmorBlueprint armorBlueprint:
+                    return AddItemArmor(guid, armorBlueprint, container);
+                case ItemContainerBlueprint containerBlueprint:
+                    return AddItemContainer(guid, containerBlueprint, container);
+                case ItemCorpseBlueprint corpseBlueprint:
+                    Log.Default.WriteLine(LogLevels.Error, "World.AddItem: CorpseBlueprint cannot be added with this API.");
+                    return null;
+                case ItemFurnitureBlueprint furnitureBlueprint:
+                    return AddItemFurniture(guid, furnitureBlueprint, container);
+                case ItemJewelryBlueprint jewelryBlueprint:
+                    return AddItemJewelry(guid, jewelryBlueprint, container);
+                case ItemKeyBlueprint keyBlueprint:
+                    return AddItemKey(guid, keyBlueprint, container);
+                case ItemLightBlueprint lightBlueprint:
+                    return AddItemLight(guid, lightBlueprint, container);
+                case ItemPortalBlueprint portalBlueprint:
+                {
+                    IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
+                    return AddItemPortal(guid, portalBlueprint, destination, container);
+                }
+                case ItemQuestBlueprint questBlueprint:
+                    return AddItemQuest(guid, questBlueprint, container);
+                case ItemShieldBlueprint shieldBlueprint:
+                    return AddItemShield(guid, shieldBlueprint, container);
+                case ItemWeaponBlueprint weaponBlueprint:
+                    return AddItemWeapon(guid, weaponBlueprint, container);
             }
+
             // TODO: other blueprint
-            Log.Default.WriteLine(LogLevels.Error, $"World.AddItem: Invalid blueprint type {blueprint.GetType().FullName}");
+            Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Invalid blueprint type {0}", blueprint.GetType().FullName);
             return null;
         }
 
@@ -290,12 +306,12 @@ namespace Mud.Server.World
             ItemBlueprintBase blueprint = GetItemBlueprint(blueprintId);
             if (blueprint == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, $"World.AddItem: unknown blueprintId {blueprintId}");
+                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: unknown blueprintId {0}", blueprintId);
                 return null;
             }
             IItem item = AddItem(guid, blueprint, container);
             if (item == null)
-                Log.Default.WriteLine(LogLevels.Error, $"World.AddItem: Unknown blueprint id {blueprintId} or type {blueprint.GetType().FullName}");
+                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Unknown blueprint id {0} or type {1}", blueprintId, blueprint.GetType().FullName);
             return item;
         }
 

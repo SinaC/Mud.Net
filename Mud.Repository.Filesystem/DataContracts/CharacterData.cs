@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Mud.Repository.Filesystem.DataContracts
@@ -6,6 +7,9 @@ namespace Mud.Repository.Filesystem.DataContracts
     [DataContract(Namespace = "")]
     public class CharacterData
     {
+        [DataMember]
+        public DateTime CreationTime { get; set; }
+
         [DataMember]
         public string Name { get; set; }
 
@@ -33,6 +37,9 @@ namespace Mud.Repository.Filesystem.DataContracts
         [DataMember(EmitDefaultValue = false)]
         public List<ItemData> Inventory { get; set; }
 
-        // TODO: aura, cooldown, quests, ...
+        [DataMember(EmitDefaultValue = false)]
+        public List<CurrentQuestData> CurrentQuests { get; set; }
+
+        // TODO: aura, cooldown, ...
     }
 }

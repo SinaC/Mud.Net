@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mud.Container;
+using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -14,62 +15,54 @@ namespace Mud.Server.Quest
 {
     public class Quest : IQuest
     {
-        private readonly List<QuestObjectiveBase> _objectives;
+        private readonly List<IQuestObjective> _objectives;
         private readonly ICharacter _character;
 
         protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
         protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
+        protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
-        public Quest(QuestBlueprint blueprint, ICharacter character, ICharacter giver)
+        public Quest(QuestBlueprint blueprint, ICharacter character, ICharacter giver) // TODO: giver should be ICharacterQuestor
         {
             _character = character;
+            StartTime = DateTime.Now;
             Blueprint = blueprint;
             Giver = giver;
-            _objectives = new List<QuestObjectiveBase>();
-            if (Blueprint.ItemObjectives != null)
+            _objectives = new List<IQuestObjective>();
+            BuildObjectives(blueprint, character);
+        }
+
+        public Quest(CurrentQuestData questData, ICharacter character)
+        {
+            QuestBlueprint questBlueprint = World.GetQuestBlueprint(questData.QuestId);
+            // TODO: quid if blueprint is null?
+            Blueprint = questBlueprint;
+            StartTime = questData.StartTime;
+            CompletionTime = questData.CompletionTime;
+
+            CharacterQuestorBlueprint characterQuestorBlueprint = World.GetCharacterBlueprint<CharacterQuestorBlueprint>(questData.GiverId);
+            // TODO: quid if blueprint is null?
+            Giver = World.Characters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id && x.Room?.Blueprint?.Id == questData.GiverRoomId) ?? World.Characters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id);
+
+            _objectives = new List<IQuestObjective>();
+            BuildObjectives(questBlueprint, character);
+            foreach (CurrentQuestObjectiveData objectiveData in questData.Objectives)
             {
-                foreach (QuestItemObjectiveBlueprint itemObjective in Blueprint.ItemObjectives)
+                // Search objective
+                IQuestObjective objective = Objectives.FirstOrDefault(x => x.Id == objectiveData.ObjectiveId);
+                switch (objective)
                 {
-                    if (World.GetItemBlueprint(itemObjective.ItemBlueprintId) is ItemQuestBlueprint itemBlueprint)
-                        _objectives.Add(new ItemQuestObjective
-                        {
-                            Blueprint = itemBlueprint,
-                            Count = character.Content.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == itemObjective.ItemBlueprintId), // should always be 0
-                            Total = itemObjective.Count
-                        });
-                    else
-                        Log.Default.WriteLine(LogLevels.Warning, $"Loot objective {itemObjective.ItemBlueprintId} doesn't exist (or is not quest item) for quest {blueprint.Id}");
-                }
-            }
-            if (Blueprint.KillObjectives != null)
-            {
-                foreach (QuestKillObjectiveBlueprint killObjective in Blueprint.KillObjectives)
-                {
-                    CharacterBlueprint characterBlueprint = World.GetCharacterBlueprint(killObjective.CharacterBlueprintId);
-                    if (characterBlueprint != null)
-                        _objectives.Add(new KillQuestObjective
-                        {
-                            Blueprint = characterBlueprint,
-                            Count = 0,
-                            Total = killObjective.Count
-                        });
-                    else
-                        Log.Default.WriteLine(LogLevels.Warning, $"Kill objective {killObjective.CharacterBlueprintId} doesn't exist for quest {blueprint.Id}");
-                }
-            }
-            if (Blueprint.LocationObjectives != null)
-            {
-                foreach (QuestLocationObjectiveBlueprint locationObjective in Blueprint.LocationObjectives)
-                {
-                    RoomBlueprint roomBlueprint = World.GetRoomBlueprint(locationObjective.RoomBlueprintId);
-                    if (roomBlueprint != null)
-                        _objectives.Add(new LocationQuestObjective
-                        {
-                            Blueprint = roomBlueprint,
-                            Explored = character.Room?.Blueprint?.Id == roomBlueprint.Id
-                        });
-                    else
-                        Log.Default.WriteLine(LogLevels.Warning, $"Location objective {locationObjective.RoomBlueprintId} doesn't exist for quest {blueprint.Id}");
+                    case QuestObjectiveCountBase questObjectiveCountBase:
+                        questObjectiveCountBase.Count = objectiveData.Count;
+                        break;
+                    case LocationQuestObjective questObjectiveLocation:
+                        questObjectiveLocation.Explored = true;
+                        break;
+                    default:
+                        string msg = $"Quest ({questData.QuestId}) objective ({objectiveData.ObjectiveId}) cannot be found for character {character.DisplayName}.";
+                        Log.Default.WriteLine(LogLevels.Error, msg);
+                        Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+                        break;
                 }
             }
         }
@@ -80,7 +73,7 @@ namespace Mud.Server.Quest
 
         public ICharacter Giver { get; }
 
-        public IEnumerable<QuestObjectiveBase> Objectives => _objectives;
+        public IEnumerable<IQuestObjective> Objectives => _objectives;
 
         public void GenerateKillLoot(ICharacter victim, IContainer container)
         {
@@ -96,7 +89,7 @@ namespace Mud.Server.Quest
                 {
                     if (World.GetItemBlueprint(loot) is ItemQuestBlueprint questItemBlueprint)
                     {
-                        IItemQuest questItem = World.AddItemQuest(Guid.NewGuid(), questItemBlueprint, container);
+                        World.AddItemQuest(Guid.NewGuid(), questItemBlueprint, container);
                         Log.Default.WriteLine(LogLevels.Debug, $"Loot objective {loot} generated for {_character.DisplayName}");
                     }
                     else
@@ -152,6 +145,9 @@ namespace Mud.Server.Quest
 
         public bool IsCompleted => Objectives == null || Objectives.All(x => x.IsCompleted);
 
+        public DateTime StartTime { get; }
+        public DateTime? CompletionTime { get; private set; }
+
         public void Complete()
         {
             // TODO: give xp/gold/loot
@@ -187,6 +183,8 @@ namespace Mud.Server.Quest
             if (xpGain > 0)
                 _character.GainExperience(xpGain);
             // TODO: goldGain
+
+            CompletionTime = DateTime.Now;
         }
 
         public void Abandon()
@@ -196,7 +194,96 @@ namespace Mud.Server.Quest
                 DestroyQuestItems();
         }
 
+        public CurrentQuestData GenerateQuestData()
+        {
+            return new CurrentQuestData
+            {
+                QuestId = Blueprint.Id,
+                StartTime = StartTime,
+                CompletionTime = CompletionTime,
+                GiverId = Giver.Blueprint.Id,
+                GiverRoomId = Giver.Room?.Blueprint.Id ?? 0,
+                Objectives = Objectives.Select(x => new CurrentQuestObjectiveData
+                {
+                    ObjectiveId = x.Id,
+                    Count = ComputeObjectiveCurrentQuestObjectiveDataCount(x)
+                }).ToList()
+            };
+        }
+
         #endregion
+
+        private int ComputeObjectiveCurrentQuestObjectiveDataCount(IQuestObjective questObjective)
+        {
+            switch (questObjective)
+            {
+                case QuestObjectiveCountBase questObjectiveCountBase:
+                    return questObjectiveCountBase.Count;
+                case LocationQuestObjective questObjectiveLocation:
+                    return questObjectiveLocation.Explored ? 1: 0;
+                default:
+                    string msg = $"Cannot convert quest objective {questObjective.Id} type {questObjective.GetType().Name.ToString()} to count";
+                    Log.Default.WriteLine(LogLevels.Error, msg);
+                    Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+                    break;
+            }
+
+            return 0;
+        }
+
+        private void BuildObjectives(QuestBlueprint blueprint, ICharacter character)
+        {
+            if (Blueprint.ItemObjectives != null)
+            {
+                foreach (QuestItemObjectiveBlueprint itemObjective in Blueprint.ItemObjectives)
+                {
+                    ItemQuestBlueprint itemBlueprint = World.GetItemBlueprint<ItemQuestBlueprint>(itemObjective.ItemBlueprintId);
+                    if (itemBlueprint != null)
+                        _objectives.Add(new ItemQuestObjective
+                        {
+                            Id = itemObjective.Id,
+                            Blueprint = itemBlueprint,
+                            Count = character.Content.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == itemObjective.ItemBlueprintId), // should always be 0
+                            Total = itemObjective.Count
+                        });
+                    else
+                        Log.Default.WriteLine(LogLevels.Warning, $"Loot objective {itemObjective.ItemBlueprintId} doesn't exist (or is not quest item) for quest {blueprint.Id}");
+                }
+            }
+            if (Blueprint.KillObjectives != null)
+            {
+                foreach (QuestKillObjectiveBlueprint killObjective in Blueprint.KillObjectives)
+                {
+                    CharacterBlueprintBase characterBlueprint = World.GetCharacterBlueprint(killObjective.CharacterBlueprintId);
+                    if (characterBlueprint != null)
+                        _objectives.Add(new KillQuestObjective
+                        {
+                            Id = killObjective.Id,
+                            Blueprint = characterBlueprint,
+                            Count = 0,
+                            Total = killObjective.Count
+                        });
+                    else
+                        Log.Default.WriteLine(LogLevels.Warning, $"Kill objective {killObjective.CharacterBlueprintId} doesn't exist for quest {blueprint.Id}");
+                }
+            }
+            if (Blueprint.LocationObjectives != null)
+            {
+                foreach (QuestLocationObjectiveBlueprint locationObjective in Blueprint.LocationObjectives)
+                {
+                    RoomBlueprint roomBlueprint = World.GetRoomBlueprint(locationObjective.RoomBlueprintId);
+                    if (roomBlueprint != null)
+                        _objectives.Add(new LocationQuestObjective
+                        {
+                            Id = locationObjective.Id,
+                            Blueprint = roomBlueprint,
+                            Explored = character.Room?.Blueprint?.Id == roomBlueprint.Id
+                        });
+                    else
+                        Log.Default.WriteLine(LogLevels.Warning, $"Location objective {locationObjective.RoomBlueprintId} doesn't exist for quest {blueprint.Id}");
+                }
+            }
+        }
 
         private void DestroyQuestItems()
         {

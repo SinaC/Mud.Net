@@ -16,6 +16,7 @@ using Mud.Server.Entity;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
+using Mud.Server.Quest;
 
 namespace Mud.Server.Character
 {
@@ -121,11 +122,17 @@ namespace Mud.Server.Character
                     }
                 }
             }
+            // Inventory
             if (data.Inventory != null)
             {
-                // Inventory
                 foreach (ItemData itemData in data.Inventory)
                     MapItemData(itemData, this);
+            }
+            // Quests
+            if (data.CurrentQuests != null)
+            {
+                foreach (CurrentQuestData questData in data.CurrentQuests)
+                    _quests.Add(new Quest.Quest(questData, this));
             }
 
             Impersonable = true; // Playable
@@ -139,7 +146,7 @@ namespace Mud.Server.Character
             RecomputeCurrentResourceKinds();
         }
 
-        public Character(Guid guid, CharacterBlueprint blueprint, IRoom room) // NPC
+        public Character(Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
             : this(guid, blueprint.Name, blueprint.Description)
         {
             Blueprint = blueprint;
@@ -168,6 +175,19 @@ namespace Mud.Server.Character
         #region IActor
 
         public override IReadOnlyTrie<CommandMethodInfo> Commands => _fullCommands;
+
+        public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
+        {
+            if (methodInfo.Attribute is CharacterCommandAttribute characterCommandAttribute)
+            {
+                if (characterCommandAttribute.MustBeImpersonated && ImpersonatedBy == null)
+                {
+                    Send($"You must be impersonated to use '{characterCommandAttribute.Name}'.");
+                    return false;
+                }
+            }
+            return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
+        }
 
         public override void Send(string message, bool addTrailingNewLine)
         {
@@ -256,7 +276,7 @@ namespace Mud.Server.Character
 
         #endregion
 
-        public CharacterBlueprint Blueprint { get; private set; }
+        public CharacterBlueprintBase Blueprint { get; private set; }
 
         public IRoom Room { get; private set; }
 
@@ -1278,7 +1298,8 @@ namespace Mud.Server.Character
             DeathPayoff();
 
             // Create corpse
-            if (World.GetItemBlueprint(Settings.CorpseBlueprintId) is ItemCorpseBlueprint itemCorpseBlueprint)
+            ItemCorpseBlueprint itemCorpseBlueprint = World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
+            if (itemCorpseBlueprint != null)
             {
                 IItemCorpse corpse;
                 if (killer != null)
@@ -1483,6 +1504,31 @@ namespace Mud.Server.Character
                     break;
             }
             return null;
+        }
+
+        // CharacterData
+        public void FillCharacterData(CharacterData characterData)
+        {
+            characterData.Name = Name;
+            characterData.Sex = Sex;
+            characterData.Class = Class?.Name ?? string.Empty;
+            characterData.Race = Race?.Name ?? string.Empty;
+            characterData.Level = Level;
+            characterData.RoomId = Room?.Blueprint?.Id ?? 0;
+            characterData.Experience = Experience;
+            List<EquipedItemData> equipedItemDatas = new List<EquipedItemData>();
+            foreach (EquipedItem equipedItem in Equipments.Where(x => x.Item != null))
+                equipedItemDatas.Add(MapEquipedData(equipedItem));
+            characterData.Equipments = equipedItemDatas;
+            List<ItemData> itemDatas = new List<ItemData>();
+            foreach (IItem item in Content)
+                itemDatas.Add(MapItemData(item));
+            characterData.Inventory = itemDatas;
+            List<CurrentQuestData> currentQuestDatas = new List<CurrentQuestData>();
+            foreach (IQuest quest in Quests)
+                currentQuestDatas.Add(quest.GenerateQuestData());
+            characterData.CurrentQuests = currentQuestDatas;
+            // TODO: aura, cooldown, ...
         }
 
         #endregion
@@ -2476,6 +2522,40 @@ namespace Mud.Server.Character
                 Wiznet.Wiznet(msg, WiznetFlags.Bugs);
             }
             return null;
+        }
+
+        private EquipedItemData MapEquipedData(EquipedItem equipedItem)
+        {
+            return new EquipedItemData
+            {
+                ItemId = equipedItem.Item.Blueprint.Id,
+                Slot = equipedItem.Slot,
+                Contains = MapContent(equipedItem.Item)
+            };
+        }
+
+        private List<ItemData> MapContent(IItem item)
+        {
+            List<ItemData> contains = new List<ItemData>();
+            if (item is IItemContainer container)
+            {
+                foreach (IItem subItem in container.Content)
+                {
+                    ItemData subItemData = MapItemData(subItem);
+                    contains.Add(subItemData);
+                }
+            }
+
+            return contains;
+        }
+
+        private ItemData MapItemData(IItem item)
+        {
+            return new ItemData
+            {
+                ItemId = item.Blueprint.Id,
+                Contains = MapContent(item)
+            };
         }
     }
 }

@@ -133,6 +133,8 @@
     <Compile Include="AutoMapperProfile.cs" />
     <Compile Include="Domain\AdminData.cs" />
     <Compile Include="Domain\CharacterData.cs" />
+    <Compile Include="Domain\CurrentQuestData.cs" />
+    <Compile Include="Domain\CurrentQuestObjectiveData.cs" />
     <Compile Include="Domain\EquipedItemData.cs" />
     <Compile Include="Domain\ItemData.cs" />
     <Compile Include="Domain\LoginData.cs" />

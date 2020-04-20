@@ -1,12 +1,13 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using Mud.Domain;
 using Mud.Server.Blueprints.LootTable;
 
 namespace Mud.Server.Blueprints.Character
 {
     [DataContract]
-    public class CharacterBlueprint : IEquatable<CharacterBlueprint>
+    [KnownType(typeof(CharacterNormalBlueprint))]
+    [KnownType(typeof(CharacterQuestorBlueprint))]
+    public abstract class CharacterBlueprintBase
     {
         [DataMember]
         public int Id { get; set; }
@@ -31,17 +32,25 @@ namespace Mud.Server.Blueprints.Character
 
         // TODO: race, class, flags, armor, damage, ...
 
+        [DataMember]
         public CharacterLootTable<int> LootTable { get; set; }
 
+        [DataMember]
         public string ScriptTableName { get; set; }
 
-        #region IEquatable
-
-        public bool Equals(CharacterBlueprint other)
+        public bool Equals(CharacterBlueprintBase other)
         {
             return other != null && Id == other.Id;
         }
-        
-        #endregion
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as CharacterBlueprintBase);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
     }
 }

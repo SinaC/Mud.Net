@@ -152,6 +152,13 @@ namespace Mud.Server.Input
             return joined;
         }
 
+        public static (string rawParameters, CommandParameter[] parameters) SkipParameters(IEnumerable<CommandParameter> inputParameters, int count)
+        {
+            CommandParameter[] parameters = inputParameters.Skip(count).ToArray();
+            string rawParameter = JoinParameters(parameters);
+            return (rawParameter, parameters);
+        }
+
         public static IReadOnlyTrie<CommandMethodInfo> GetCommands(Type type)
         {
             var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)

@@ -390,56 +390,7 @@ namespace Mud.Server.Player
                 Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated: unknown avatar {Impersonating.Name} for player {DisplayName}");
                 return;
             }
-            characterData.Name = Impersonating.Name;
-            characterData.Sex = Impersonating.Sex;
-            characterData.Class = Impersonating.Class?.Name ?? string.Empty;
-            characterData.Race = Impersonating.Race?.Name ?? string.Empty;
-            characterData.Level = Impersonating.Level;
-            characterData.RoomId = Impersonating.Room?.Blueprint?.Id ?? 0;
-            characterData.Experience = Impersonating.Experience;
-            List<EquipedItemData> equipedItemDatas = new List<EquipedItemData>();
-            foreach(EquipedItem equipedItem in Impersonating.Equipments.Where(x => x.Item != null))
-                equipedItemDatas.Add(MapEquipedData(equipedItem));
-            characterData.Equipments = equipedItemDatas;
-            List<ItemData> itemDatas = new List<ItemData>();
-            foreach(IItem item in Impersonating.Content)
-                itemDatas.Add(MapItemData(item));
-            characterData.Inventory = itemDatas;
-            // TODO: aura, cooldown, quests, ...
-        }
-
-        private EquipedItemData MapEquipedData(EquipedItem equipedItem)
-        {
-            return new EquipedItemData
-            {
-                ItemId = equipedItem.Item.Blueprint.Id,
-                Slot = equipedItem.Slot,
-                Contains = MapContent(equipedItem.Item)
-            };
-        }
-
-        private List<ItemData> MapContent(IItem item)
-        {
-            List<ItemData> contains = new List<ItemData>();
-            if (item is IItemContainer container)
-            {
-                foreach (IItem subItem in container.Content)
-                {
-                    ItemData subItemData = MapItemData(subItem);
-                    contains.Add(subItemData);
-                }
-            }
-
-            return contains;
-        }
-
-        private ItemData MapItemData(IItem item)
-        {
-            return new ItemData
-            {
-                ItemId = item.Blueprint.Id,
-                Contains = MapContent(item)
-            };
+            Impersonating.FillCharacterData(characterData);
         }
 
         [Command("test", Category = "!!Test!!")]

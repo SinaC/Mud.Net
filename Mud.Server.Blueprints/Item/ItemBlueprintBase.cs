@@ -5,6 +5,17 @@ using Mud.Domain;
 namespace Mud.Server.Blueprints.Item
 {
     [DataContract]
+    [KnownType(typeof(ItemArmorBlueprint))]
+    [KnownType(typeof(ItemContainerBlueprint))]
+    [KnownType(typeof(ItemCorpseBlueprint))]
+    [KnownType(typeof(ItemFurnitureBlueprint))]
+    [KnownType(typeof(ItemJewelryBlueprint))]
+    [KnownType(typeof(ItemKeyBlueprint))]
+    [KnownType(typeof(ItemLightBlueprint))]
+    [KnownType(typeof(ItemPortalBlueprint))]
+    [KnownType(typeof(ItemQuestBlueprint))]
+    [KnownType(typeof(ItemShieldBlueprint))]
+    [KnownType(typeof(ItemWeaponBlueprint))]
     public abstract class ItemBlueprintBase
     {
         [DataMember]
@@ -44,7 +55,16 @@ namespace Mud.Server.Blueprints.Item
                     result.Add(keyword, kv.Value);
             }
             return result;
-            ;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ItemBlueprintBase);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
     }
 }

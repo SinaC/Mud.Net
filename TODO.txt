@@ -1,3 +1,12 @@
+move MapItemData in ItemBase
+
+quest load currentquestdata doesn't seem to display objective complete correctly (simple exploration quest is flagged as complete but is not complete according to pfile)
+quest time limit
+      save quest in player data -> only player can get quest
+      save completed quests
+      quest tree (prereq)
+      quest item: cannot be dropped, must be destroyed -> will affect objective completion
+
 better command parser: should be able to specify something like
     [command] [room.character] -> first parameter will be parsed as a character found in room
     [command] [world.character] -> first parameter will be parsed as a character found in world

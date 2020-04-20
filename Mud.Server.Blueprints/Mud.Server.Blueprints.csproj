@@ -75,7 +75,9 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Character\CharacterBlueprint.cs" />
+    <Compile Include="Character\CharacterNormalBlueprint.cs" />
+    <Compile Include="Character\CharacterBlueprintBase.cs" />
+    <Compile Include="Character\CharacterQuestorBlueprint.cs" />
     <Compile Include="Item\ItemKeyBlueprint.cs" />
     <Compile Include="Item\ItemPortalBlueprint.cs" />
     <Compile Include="Item\ItemQuestBlueprint.cs" />

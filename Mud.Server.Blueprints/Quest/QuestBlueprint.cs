@@ -24,6 +24,7 @@ namespace Mud.Server.Blueprints.Quest
             KillLootTable = new Dictionary<int, QuestKillLootTable<int>>();
             ItemObjectives = new List<QuestItemObjectiveBlueprint>();
             KillObjectives = new List<QuestKillObjectiveBlueprint>();
+            LocationObjectives = new List<QuestLocationObjectiveBlueprint>();
         }
     }
 }
