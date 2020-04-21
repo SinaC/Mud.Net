@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<AdminData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<AdminData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Name>sinac</Name>
-  <PagingLineCount>0</PagingLineCount>
+  <PagingLineCount>25</PagingLineCount>
   <Aliases>
     <PairDataOfStringString>
       <Key>pouet</Key>
@@ -10,8 +10,9 @@
   </Aliases>
   <Characters>
     <CharacterData>
+      <CreationTime>2020-04-20T16:00:00</CreationTime>
       <Name>sinac</Name>
-      <RoomId>3001</RoomId>
+      <RoomId>3025</RoomId>
       <Race>troll</Race>
       <Class>druid</Class>
       <Level>60</Level>
@@ -46,49 +47,88 @@
       </Equipments>
       <Inventory>
         <ItemData>
-          <ItemId>7</ItemId>
+          <ItemId>9</ItemId>
           <Contains />
         </ItemData>
         <ItemData>
-          <ItemId>3350</ItemId>
+          <ItemId>8</ItemId>
+          <Contains />
+        </ItemData>
+        <ItemData>
+          <ItemId>3</ItemId>
           <Contains />
         </ItemData>
         <ItemData>
           <ItemId>1</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3120</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>3131</ItemId>
           <Contains>
             <ItemData>
-              <ItemId>3365</ItemId>
+              <ItemId>6</ItemId>
               <Contains />
             </ItemData>
             <ItemData>
-              <ItemId>3350</ItemId>
-              <Contains />
-            </ItemData>
-            <ItemData>
-              <ItemId>3363</ItemId>
+              <ItemId>3364</ItemId>
               <Contains />
             </ItemData>
           </Contains>
         </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>2</ItemId>
-          <Contains />
-        </ItemData>
       </Inventory>
+      <CurrentQuests>
+        <CurrentQuestData>
+          <QuestId>1</QuestId>
+          <StartTime>2020-04-20T16:28:36.5733055+02:00</StartTime>
+          <SecondsLeft>0</SecondsLeft>
+          <CompletionTime xsi:nil="true" />
+          <GiverId>10</GiverId>
+          <GiverRoomId>3025</GiverRoomId>
+          <Objectives>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>1</ObjectiveId>
+              <Count>1</Count>
+            </CurrentQuestObjectiveData>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>2</ObjectiveId>
+              <Count>1</Count>
+            </CurrentQuestObjectiveData>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>0</ObjectiveId>
+              <Count>0</Count>
+            </CurrentQuestObjectiveData>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>3</ObjectiveId>
+              <Count>0</Count>
+            </CurrentQuestObjectiveData>
+          </Objectives>
+        </CurrentQuestData>
+        <CurrentQuestData>
+          <QuestId>2</QuestId>
+          <StartTime>2020-04-21T10:06:35.4657832+02:00</StartTime>
+          <SecondsLeft>293</SecondsLeft>
+          <CompletionTime xsi:nil="true" />
+          <GiverId>10</GiverId>
+          <GiverRoomId>3025</GiverRoomId>
+          <Objectives>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>0</ObjectiveId>
+              <Count>0</Count>
+            </CurrentQuestObjectiveData>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>1</ObjectiveId>
+              <Count>0</Count>
+            </CurrentQuestObjectiveData>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>2</ObjectiveId>
+              <Count>0</Count>
+            </CurrentQuestObjectiveData>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>3</ObjectiveId>
+              <Count>1</Count>
+            </CurrentQuestObjectiveData>
+          </Objectives>
+        </CurrentQuestData>
+      </CurrentQuests>
     </CharacterData>
     <CharacterData>
+      <CreationTime>2020-04-20T16:00:00</CreationTime>
       <Name>alhazred</Name>
       <RoomId>3001</RoomId>
       <Race>elf</Race>
@@ -98,8 +138,10 @@
       <Experience>0</Experience>
       <Equipments />
       <Inventory />
+      <CurrentQuests />
     </CharacterData>
     <CharacterData>
+      <CreationTime>2020-04-20T16:00:00</CreationTime>
       <Name>poupette</Name>
       <RoomId>3001</RoomId>
       <Race>elf</Race>
@@ -109,8 +151,10 @@
       <Experience>0</Experience>
       <Equipments />
       <Inventory />
+      <CurrentQuests />
     </CharacterData>
     <CharacterData>
+      <CreationTime>2020-04-20T16:00:00</CreationTime>
       <Name>testor</Name>
       <RoomId>3005</RoomId>
       <Race>insectoid</Race>
@@ -170,6 +214,7 @@
           <Contains />
         </ItemData>
       </Inventory>
+      <CurrentQuests />
     </CharacterData>
   </Characters>
   <Level>7</Level>

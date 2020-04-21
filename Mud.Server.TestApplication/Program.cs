@@ -96,7 +96,7 @@ namespace Mud.Server.TestApplication
                 Description = "My second room"
             };
             // Characters
-            CharacterBlueprint mob2Blueprint = new CharacterBlueprint
+            CharacterNormalBlueprint mob2Blueprint = new CharacterNormalBlueprint
             {
                 Id = 2,
                 Name = "mob2",
@@ -105,7 +105,7 @@ namespace Mud.Server.TestApplication
                 Sex = Sex.Female,
                 Level = 10
             };
-            CharacterBlueprint mob3Blueprint = new CharacterBlueprint
+            CharacterNormalBlueprint mob3Blueprint = new CharacterNormalBlueprint
             {
                 Id = 3,
                 Name = "mob3",
@@ -114,7 +114,7 @@ namespace Mud.Server.TestApplication
                 Sex = Sex.Male,
                 Level = 10
             };
-            CharacterBlueprint mob4Blueprint = new CharacterBlueprint
+            CharacterNormalBlueprint mob4Blueprint = new CharacterNormalBlueprint
             {
                 Id = 4,
                 Name = "mob4",
@@ -123,7 +123,7 @@ namespace Mud.Server.TestApplication
                 Sex = Sex.Neutral,
                 Level = 10
             };
-            CharacterBlueprint mob5Blueprint = new CharacterBlueprint
+            CharacterNormalBlueprint mob5Blueprint = new CharacterNormalBlueprint
             {
                 Id = 5,
                 Name = "mob5",
@@ -309,7 +309,7 @@ namespace Mud.Server.TestApplication
             //    }
             //}
 
-            CharacterBlueprint mob2Blueprint = new CharacterBlueprint
+            CharacterNormalBlueprint mob2Blueprint = new CharacterNormalBlueprint
             {
                 Id = 2,
                 Name = "mob2",
@@ -318,7 +318,7 @@ namespace Mud.Server.TestApplication
                 Sex = Sex.Female,
                 Level = 10
             };
-            CharacterBlueprint mob3Blueprint = new CharacterBlueprint
+            CharacterNormalBlueprint mob3Blueprint = new CharacterNormalBlueprint
             {
                 Id = 3,
                 Name = "mob3",
@@ -327,7 +327,7 @@ namespace Mud.Server.TestApplication
                 Sex = Sex.Male,
                 Level = 10
             };
-            CharacterBlueprint mob4Blueprint = new CharacterBlueprint
+            CharacterNormalBlueprint mob4Blueprint = new CharacterNormalBlueprint
             {
                 Id = 4,
                 Name = "mob4",
@@ -336,7 +336,7 @@ namespace Mud.Server.TestApplication
                 Sex = Sex.Neutral,
                 Level = 10
             };
-            CharacterBlueprint mob5Blueprint = new CharacterBlueprint
+            CharacterNormalBlueprint mob5Blueprint = new CharacterNormalBlueprint
             {
                 Id = 5,
                 Name = "mob5",

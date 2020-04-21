@@ -11,6 +11,7 @@ namespace Mud.Server.Blueprints.Quest
         public int Experience { get; set; }
         public int Gold { get; set; }
         public bool ShouldQuestItemBeDestroyed { get; set; }
+        public int TimeLimit { get; set; } // 0 means no limit, in minutes
 
         public Dictionary<int, QuestKillLootTable<int>> KillLootTable { get; set; }
         public List<QuestItemObjectiveBlueprint> ItemObjectives { get; set; }
@@ -24,6 +25,7 @@ namespace Mud.Server.Blueprints.Quest
             KillLootTable = new Dictionary<int, QuestKillLootTable<int>>();
             ItemObjectives = new List<QuestItemObjectiveBlueprint>();
             KillObjectives = new List<QuestKillObjectiveBlueprint>();
+            LocationObjectives = new List<QuestLocationObjectiveBlueprint>();
         }
     }
 }

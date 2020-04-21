@@ -26,6 +26,17 @@ namespace Mud.Server.Input
     }
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class CharacterCommandAttribute : CommandAttribute
+    {
+        public bool MustBeImpersonated { get; set; }
+
+        public CharacterCommandAttribute(string name)
+            : base(name)
+        {
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class PlayerCommandAttribute : CommandAttribute
     {
         public bool MustBeImpersonated { get; set; }

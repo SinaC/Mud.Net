@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using Mud.Server.Blueprints.Character;
-using Mud.Server.Blueprints.Item;
+﻿using System;
+using System.Collections.Generic;
+using Mud.Domain;
 using Mud.Server.Blueprints.Quest;
-using Mud.Server.Blueprints.Room;
 using Mud.Server.Item;
 
 namespace Mud.Server
@@ -11,78 +10,34 @@ namespace Mud.Server
     {
         QuestBlueprint Blueprint { get; }
 
+        ICharacter Character { get; }
         ICharacter Giver { get; } // TODO: quest may be ended with a different NPC
 
-        IEnumerable<QuestObjectiveBase> Objectives { get; }
+        IEnumerable<IQuestObjective> Objectives { get; }
         void GenerateKillLoot(ICharacter victim, IContainer container);
         void Update(ICharacter victim);
-        void Update(IItemQuest item);
+        void Update(IItemQuest item, bool force);
         void Update(IRoom room);
+        void Reset();
+        void Timeout();
+        bool UpdateSecondsLeft(int seconds); // true if timed out
 
         bool IsCompleted { get; }
+        DateTime StartTime { get; }
+        int SecondsLeft { get; }
+        DateTime? CompletionTime { get; }
         void Complete();
         void Abandon();
+
+        CurrentQuestData GenerateQuestData();
     }
 
-    public abstract class QuestObjectiveBase
+    public interface IQuestObjective
     {
-        public abstract bool IsCompleted { get; }
+        int Id { get; }
+        bool IsCompleted { get; }
+        string CompletionState { get; }
 
-        public abstract string CompletionState { get; }
-    }
-
-    public abstract class QuestObjectiveCountBase : QuestObjectiveBase
-    {
-        public abstract string TargetName { get; }
-        public int Count { get; set; }
-        public int Total { get; set; }
-
-        #region QuestObjectiveBase
-
-        public override bool IsCompleted => Count >= Total;
-
-        public override string CompletionState => IsCompleted 
-            ? $"{TargetName,-20}: complete" 
-            : $"{TargetName,-20}: {Count,3} / {Total,3} ({((Count*100)/Total):D}%)";
-
-        #endregion
-    }
-
-    public class ItemQuestObjective : QuestObjectiveCountBase
-    {
-        public ItemQuestBlueprint Blueprint { get; set; }
-
-        #region QuestObjectiveCountBase
-
-        public override string TargetName => Blueprint.ShortDescription;
-
-        #endregion
-    }
-
-    public class KillQuestObjective : QuestObjectiveCountBase
-    {
-        public CharacterBlueprint Blueprint { get; set; }
-
-        #region QuestObjectiveCountBase
-
-        public override string TargetName => Blueprint.ShortDescription;
-
-        #endregion
-    }
-
-    public class LocationQuestObjective : QuestObjectiveBase
-    {
-        #region QuestObjectiveBase
-
-        public override bool IsCompleted => Explored;
-
-        public override string CompletionState => IsCompleted
-            ? $"{Blueprint.Name,-20}: explored"
-            : $"{Blueprint.Name,-20}: not explored";
-
-        #endregion
-
-        public RoomBlueprint Blueprint { get; set; }
-        public bool Explored { get; set; }
+        void Reset();
     }
 }

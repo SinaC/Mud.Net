@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using Mud.Server.Common;
+using Mud.Server.Blueprints.Character;
+using Mud.Server.Blueprints.Quest;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -8,9 +10,10 @@ namespace Mud.Server.Character
 {
     public partial class Character
     {
-        [Command("quests", Category = "Quest", Priority = 1)]
-        protected virtual bool DoQuests(string rawParameters, params CommandParameter[] parameters)
+        [CharacterCommand("quest", Category = "Quest", Priority = 1)]
+        protected virtual bool DoQuest(string rawParameters, params CommandParameter[] parameters)
         {
+            // no param -> quest info
             if (parameters.Length == 0)
             {
                 StringBuilder sb = new StringBuilder();
@@ -22,32 +25,74 @@ namespace Mud.Server.Character
                     int id = 0;
                     foreach (IQuest quest in Quests)
                     {
-                        sb.Append(BuildQuestSummary(quest, id));
+                        BuildQuestSummary(sb, quest, id);
                         id++;
                     }
                 }
                 Page(sb);
+                return true;
             }
-            else
+
+            // quest id
+            if (parameters[0].IsNumber)
             {
+                // quest id
                 int id = parameters[0].AsNumber;
-                IQuest quest = id > 0 ? Quests.ElementAtOrDefault(id-1) : null; // index starts at 0
+                IQuest quest = id > 0 ? Quests.ElementAtOrDefault(id - 1) : null; // index starts at 0
                 if (quest == null)
                 {
                     Send("No such quest.");
                     return true;
                 }
                 StringBuilder sb = new StringBuilder();
-                sb.AppendFormatLine($"{quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
-                sb.AppendLine(quest.Blueprint.Description);
-                sb.Append(BuildQuestObjectives(quest));
+                BuildQuestSummary(sb, quest, null);
                 Page(sb);
+                return true;
             }
+
+            // quest abandon id
+            if ("abandon".StartsWith(parameters[0].Value))
+            {
+                var subCommandParameters = CommandHelpers.SkipParameters(parameters, 1);
+                DoQuestAbandon(subCommandParameters.rawParameters, subCommandParameters.parameters);
+                return true;
+            }
+
+            // quest complete id
+            if ("complete".StartsWith(parameters[0].Value))
+            {
+                var subCommandParameters = CommandHelpers.SkipParameters(parameters, 1);
+                DoQuestComplete(subCommandParameters.rawParameters, subCommandParameters.parameters);
+                return true;
+            }
+
+            // quest get all|title
+            if ("get".StartsWith(parameters[0].Value))
+            {
+                var subCommandParameters = CommandHelpers.SkipParameters(parameters, 1);
+                DoQuestGet(subCommandParameters.rawParameters, subCommandParameters.parameters);
+                return true;
+            }
+
+            // quest list
+            if ("list".StartsWith(parameters[0].Value))
+            {
+                var subCommandParameters = CommandHelpers.SkipParameters(parameters, 1);
+                DoQuestList(subCommandParameters.rawParameters, subCommandParameters.parameters);
+                return true;
+            }
+
+            Send("Syntax: quest ");
+            Send("        quest id");
+            Send("        quest abandon id");
+            Send("        quest complete id");
+            Send("        quest get all|title");
+            Send("        quest list");
             return true;
         }
 
-        [Command("qcomplete", Category = "Quest", Priority = 2)]
-        [Command("questcomplete", Category = "Quest", Priority = 2)]
+        [CharacterCommand("qcomplete", Category = "Quest", Priority = 2)]
+        [CharacterCommand("questcomplete", Category = "Quest", Priority = 2)]
         protected virtual bool DoQuestComplete(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -67,12 +112,21 @@ namespace Mud.Server.Character
                 Send($"You must be near {quest.Giver.DisplayName} to complete this quest.");
                 return true;
             }
-            CompleteQuest(quest);
+            if (!quest.IsCompleted)
+            {
+                Send("Quest '{0}' is not finished!", quest.Blueprint.Title);
+                return true;
+            }
+            //
+            quest.Complete();
+            _quests.Remove(quest);
+
+            Send("You complete '{0}' successfully.", quest.Blueprint.Title);
             return true;
         }
 
-        [Command("qabandon", Category = "Quest", Priority = 3)]
-        [Command("questabandon", Category = "Quest", Priority = 3)]
+        [CharacterCommand("qabandon", Category = "Quest", Priority = 3)]
+        [CharacterCommand("questabandon", Category = "Quest", Priority = 3)]
         protected virtual bool DoQuestAbandon(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -87,53 +141,152 @@ namespace Mud.Server.Character
                 Send("No such quest.");
                 return true;
             }
-            AbandonQuest(quest);
+            //
+            quest.Abandon();
+            _quests.Remove(quest);
+
+            Send("You abandon '{0}'!", quest.Blueprint.Title);
             return true;
         }
 
-        [Command("qget", Category = "Quest", Priority = 4)]
-        [Command("questget", Category = "Quest", Priority = 4)]
+        [CharacterCommand("qget", Category = "Quest", Priority = 4)]
+        [CharacterCommand("questget", Category = "Quest", Priority = 4)]
         protected virtual bool DoQuestGet(string rawParameters, params CommandParameter[] parameters)
         {
-            // TODO
-            Send(StringHelpers.NotYetImplemented);
+            if (parameters.Length == 0)
+            {
+                Send("Get which quest?");
+                return true;
+            }
+
+            if (!Room.People.Any(x => x.Blueprint is CharacterQuestorBlueprint))
+            {
+                Send("You cannot get any quest here.");
+                return true;
+            }
+
+            // get all
+            if (parameters[0].IsAll)
+            {
+                bool found = false;
+                // Search quest giver with wanted quest
+                foreach (ICharacter questGiver in Room.People.Where(x => x.Blueprint is CharacterQuestorBlueprint))
+                {
+                    CharacterQuestorBlueprint questGiverBlueprint = questGiver.Blueprint as CharacterQuestorBlueprint;
+                    if (questGiverBlueprint?.QuestBlueprints?.Any() == true)
+                    {
+                        foreach (QuestBlueprint questBlueprint in GetAvailableQuestBlueprints(questGiverBlueprint))
+                        {
+                            GetQuest(questBlueprint, questGiver);
+                            found = true;
+                        }
+                    }
+                }
+                if (!found)
+                    Send("You are already running all available quests here.");
+                return true;
+            }
+
+            // get quest
+            string questTitle = parameters[0].Value.ToLowerInvariant();
+            // Search quest giver with wanted quest
+            foreach (ICharacter questGiver in Room.People.Where(x => x.Blueprint is CharacterQuestorBlueprint))
+            {
+                CharacterQuestorBlueprint questGiverBlueprint = questGiver.Blueprint as CharacterQuestorBlueprint;
+                if (questGiverBlueprint?.QuestBlueprints?.Any() == true)
+                {
+                    foreach (QuestBlueprint questBlueprint in GetAvailableQuestBlueprints(questGiverBlueprint))
+                    {
+                        if (questBlueprint.Title.ToLowerInvariant().StartsWith(questTitle))
+                        {
+                            GetQuest(questBlueprint, questGiver);
+                            return true;
+                        }
+                    }
+                }
+            }
+            //
+            Send("No such quest can be get here.");
             return true;
         }
 
-        [Command("qlist", Category = "Quest", Priority = 5)]
-        [Command("questlist", Category = "Quest", Priority = 5)]
+        [CharacterCommand("qlist", Category = "Quest", Priority = 5)]
+        [CharacterCommand("questlist", Category = "Quest", Priority = 5)]
         protected virtual bool DoQuestList(string rawParameters, params CommandParameter[] parameters)
         {
-            // TODO
-            Send(StringHelpers.NotYetImplemented);
-            // Display quest available in this.Room
+            // Display quests available in this.Room
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Available quests:");
+            bool questGiverFound = false;
+            bool questAvailable = false;
+            foreach (ICharacter questGiver in Room.People.Where(x => x.Blueprint is CharacterQuestorBlueprint))
+            {
+                CharacterQuestorBlueprint questGiverBlueprint = questGiver.Blueprint as CharacterQuestorBlueprint;
+                if (questGiverBlueprint?.QuestBlueprints?.Any() == true)
+                {
+                    foreach (QuestBlueprint questBlueprint in GetAvailableQuestBlueprints(questGiverBlueprint))
+                    {
+                        sb.AppendLine($"Quest '{questBlueprint.Title}' [lvl:{questBlueprint.Level}]");
+                        questAvailable = true;
+                    }
+                    questGiverFound = true;
+                }
+            }
+
+            if (!questGiverFound)
+                Send("You cannot get any quest here.");
+            else
+            {
+                if (!questAvailable)
+                    sb.AppendLine("No quest available for the moment.");
+                Page(sb);
+            }
+
             return true;
         }
 
         #region Helpers
 
-        private StringBuilder BuildQuestSummary(IQuest quest, int id)
+        private IQuest GetQuest(QuestBlueprint questBlueprint, ICharacter questGiver)
         {
-            StringBuilder sb = new StringBuilder();
-            if (id >= 0)
-                sb.AppendFormatLine($"{id + 1,2}) {quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
+            IQuest quest = new Quest.Quest(questBlueprint, this, questGiver);
+            AddQuest(quest);
+            //
+            Act(ActOptions.ToRoom, "{0} get{0:v} quest '{1}'.", this, questBlueprint.Title);
+            if (questBlueprint.TimeLimit > 0)
+                Send($"You get quest '{questBlueprint.Title}'. Better hurry, you have {questBlueprint.TimeLimit} minutes to complete this quest!");
             else
-                sb.AppendFormatLine($"{quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
-            if (!quest.IsCompleted)
-                sb.Append(BuildQuestObjectives(quest));
-            return sb;
+                Send($"You get quest '{questBlueprint.Title}'.");
+            return quest;
         }
 
-        private StringBuilder BuildQuestObjectives(IQuest quest)
+        // TODO: Add a method in CharacterQuestor (to be developed) to get available quests for a ICharacter
+        private IEnumerable<QuestBlueprint> GetAvailableQuestBlueprints(CharacterQuestorBlueprint questGiverBlueprint) => questGiverBlueprint.QuestBlueprints.Where(x => Quests.All(y => y.Blueprint.Id != x.Id));
+
+        private void BuildQuestSummary(StringBuilder sb, IQuest quest, int? id)
         {
-            StringBuilder sb = new StringBuilder();
-            foreach (QuestObjectiveBase objective in quest.Objectives)
+            // TODO: Table ?
+            if (id >= 0)
+                sb.Append($"{id + 1,2}) {quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
+            else
+                sb.Append($"{quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
+            if (quest.Blueprint.TimeLimit > 0)
+                sb.Append($" Time left: {StringHelpers.FormatDelay(quest.SecondsLeft)}");
+            sb.AppendLine();
+            if (!quest.IsCompleted)
+                BuildQuestObjectives(sb, quest);
+        }
+
+        private void BuildQuestObjectives(StringBuilder sb, IQuest quest)
+        {
+            foreach (IQuestObjective objective in quest.Objectives)
+            {
                 // TODO: 2 columns ?
                 if (objective.IsCompleted)
-                    sb.AppendFormatLine($"     %g%{objective.CompletionState}%x%");
+                    sb.AppendLine($"     %g%{objective.CompletionState}%x%");
                 else
-                    sb.AppendFormatLine($"     {objective.CompletionState}");
-            return sb;
+                    sb.AppendLine($"     {objective.CompletionState}");
+            }
         }
 
         #endregion

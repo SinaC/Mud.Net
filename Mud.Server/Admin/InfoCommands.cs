@@ -5,6 +5,8 @@ using System.Text;
 using Mud.DataStructures.HeapPriorityQueue;
 using Mud.Domain;
 using Mud.Server.Abilities;
+using Mud.Server.Blueprints.Character;
+using Mud.Server.Blueprints.Quest;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -225,7 +227,7 @@ namespace Mud.Server.Admin
         protected virtual bool DoCstat(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-                Send("Cstat whom?");
+                Send("Cstat/mstat whom?");
             else
             {
                 ICharacter victim = Impersonating == null 
@@ -237,8 +239,25 @@ namespace Mud.Server.Admin
                 {
                     StringBuilder sb = new StringBuilder();
                     if (victim.Blueprint != null)
+                    {
                         sb.AppendFormatLine("Blueprint: {0}", victim.Blueprint.Id);
-                    // TODO: display blueprint
+                        // TODO: display blueprint
+                        if (victim.Blueprint is CharacterQuestorBlueprint characterQuestorBlueprint)
+                        {
+                            sb.AppendLine($"Quest giver: {characterQuestorBlueprint.QuestBlueprints?.Count ?? 0}");
+                            foreach (var questBlueprint in characterQuestorBlueprint.QuestBlueprints ?? Enumerable.Empty<QuestBlueprint>())
+                            {
+                                sb.AppendLine($"  Quest: {questBlueprint.Id}");
+                                sb.AppendLine($"    Title: {questBlueprint.Title}");
+                                sb.AppendLine($"    Level: {questBlueprint.Level}");
+                                sb.AppendLine($"    Description: {questBlueprint.Description}");
+                                sb.AppendLine($"    Experience: {questBlueprint.Experience}");
+                                sb.AppendLine($"    Gold: {questBlueprint.Gold}");
+                                sb.AppendLine($"    ShouldQuestItemBeDestroyed: {questBlueprint.ShouldQuestItemBeDestroyed}");
+                                // TODO: display KillLootTable, ItemObjectives, KillObjectives, LocationObjectives
+                            }
+                        }
+                    }
                     else
                         sb.AppendLine("No blueprint");
                     sb.AppendFormatLine("Name: {0}", victim.Name);
@@ -322,7 +341,7 @@ namespace Mud.Server.Admin
         protected virtual bool DoIstat(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-                Send("Istat what?");
+                Send("Istat/ostat what?");
             else
             {
                 IItem item = Impersonating == null
@@ -405,7 +424,7 @@ namespace Mud.Server.Admin
         {
             if (parameters.Length == 0)
             {
-                Send("Cfind what?");
+                Send("Cfind/mfind what?");
                 return true;
             }
 
@@ -431,7 +450,7 @@ namespace Mud.Server.Admin
         {
             if (parameters.Length == 0)
             {
-                Send("Ifind what?");
+                Send("Ifind/ofind what?");
                 return true;
             }
 

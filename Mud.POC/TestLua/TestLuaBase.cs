@@ -25,7 +25,7 @@ namespace Mud.POC.TestLua
                 ExtraDescriptions = null,
                 Exits = null,
             });
-            World.AddCharacterBlueprint(new CharacterBlueprint
+            World.AddCharacterBlueprint(new CharacterNormalBlueprint
             {
                 Name = "supahmob",
                 Level = 50,
@@ -37,7 +37,7 @@ namespace Mud.POC.TestLua
                 LootTable = null,
                 ScriptTableName = "mob1"
             });
-            World.AddCharacterBlueprint(new CharacterBlueprint
+            World.AddCharacterBlueprint(new CharacterNormalBlueprint
             {
                 Name = "weakmob",
                 Level = 50,

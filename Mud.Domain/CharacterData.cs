@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Mud.Domain
 {
     public class CharacterData
     {
+        public DateTime CreationTime { get; set; }
+
         public string Name { get; set; }
 
         public int RoomId { get; set; }
@@ -22,6 +25,8 @@ namespace Mud.Domain
 
         public List<ItemData> Inventory { get; set; }
 
-        // TODO: aura, cooldown, quests, ...
+        public List<CurrentQuestData> CurrentQuests { get; set; }
+
+        // TODO: aura, cooldown, ...
     }
 }

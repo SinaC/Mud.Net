@@ -74,7 +74,7 @@ namespace Mud.Server.Server
             }
 
             // Check item corpse blueprint
-            if (!(World.GetItemBlueprint(Settings.CorpseBlueprintId) is ItemCorpseBlueprint))
+            if (World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
             {
                 Log.Default.WriteLine(LogLevels.Error, "ItemCorpseBlueprint (id:{0}) doesn't exist or is not an corpse item !!!", Settings.CorpseBlueprintId);
             }
@@ -108,6 +108,8 @@ namespace Mud.Server.Server
             Log.Default.WriteLine(LogLevels.Info, "Total experience from 1 to 100 = {0:n0}", totalExperience);
 
             // TODO: other sanity checks
+            // TODO: check room/item/character id uniqueness
+            // TODO: check quest objectives id
 
             // Initialize UniquenessManager
             UniquenessManager.Initialize();
@@ -821,6 +823,30 @@ namespace Mud.Server.Server
             }
         }
 
+        private void HandleQuests()
+        {
+            foreach (IPlayer player in Players.Where(x => x.Impersonating?.Quests?.Any(y => y.Blueprint.TimeLimit > 0) == true))
+            {
+                try
+                {
+                    IReadOnlyCollection<IQuest> clone = new ReadOnlyCollection<IQuest>(player.Impersonating.Quests.Where(x => x.Blueprint.TimeLimit > 0).ToList());
+                    foreach (IQuest quest in clone)
+                    {
+                        bool timedOut = quest.UpdateSecondsLeft(-1);
+                        if (timedOut)
+                        {
+                            quest.Timeout();
+                            player.Impersonating.RemoveQuest(quest);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling cooldowns of {0}. Exception: {1}", player.Impersonating.DebugName, ex);
+                }
+            }
+        }
+
         // TODO: 'Optimize' following function using area info such as players count
 
         private void HandleViolence()
@@ -924,6 +950,7 @@ namespace Mud.Server.Server
             pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandlePeriodicAuras);
             pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleAuras);
             pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleCooldowns);
+            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleQuests);
             pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandlePlayers);
             pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandleCharacters);
             pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandleItems);

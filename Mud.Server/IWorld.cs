@@ -20,17 +20,21 @@ namespace Mud.Server
         // Blueprints
         IReadOnlyCollection<QuestBlueprint> QuestBlueprints { get; }
         IReadOnlyCollection<RoomBlueprint> RoomBlueprints { get; }
-        IReadOnlyCollection<CharacterBlueprint> CharacterBlueprints { get; }
+        IReadOnlyCollection<CharacterBlueprintBase> CharacterBlueprints { get; }
         IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints { get; }
 
         QuestBlueprint GetQuestBlueprint(int id);
         RoomBlueprint GetRoomBlueprint(int id);
-        CharacterBlueprint GetCharacterBlueprint(int id);
+        CharacterBlueprintBase GetCharacterBlueprint(int id);
         ItemBlueprintBase GetItemBlueprint(int id);
+        TBlueprint GetCharacterBlueprint<TBlueprint>(int id)
+            where TBlueprint : CharacterBlueprintBase;
+        TBlueprint GetItemBlueprint<TBlueprint>(int id)
+            where TBlueprint : ItemBlueprintBase;
 
         void AddQuestBlueprint(QuestBlueprint blueprint);
         void AddRoomBlueprint(RoomBlueprint blueprint);
-        void AddCharacterBlueprint(CharacterBlueprint blueprint);
+        void AddCharacterBlueprint(CharacterBlueprintBase blueprint);
         void AddItemBlueprint(ItemBlueprintBase blueprint);
 
         //
@@ -46,7 +50,7 @@ namespace Mud.Server
         IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction);
 
         ICharacter AddCharacter(Guid guid, CharacterData characterData, IRoom room); // Impersonable
-        ICharacter AddCharacter(Guid guid, CharacterBlueprint blueprint, IRoom room); // Non-impersonable
+        ICharacter AddCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room); // Non-impersonable
 
         IItemContainer AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container);
         IItemArmor AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container);

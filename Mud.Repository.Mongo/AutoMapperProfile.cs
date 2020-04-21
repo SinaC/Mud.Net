@@ -31,6 +31,10 @@ namespace Mud.Repository.Mongo
 
             CreateMap<Mud.Domain.EquipedItemData, Domain.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
+
+            CreateMap<Mud.Domain.CurrentQuestData, Domain.CurrentQuestData>();
+
+            CreateMap<Mud.Domain.CurrentQuestObjectiveData, Domain.CurrentQuestObjectiveData>();
         }
 
         private void InternalToExternal()
@@ -50,6 +54,10 @@ namespace Mud.Repository.Mongo
 
             CreateMap<Domain.EquipedItemData, Mud.Domain.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
+
+            CreateMap<Domain.CurrentQuestData, Mud.Domain.CurrentQuestData>();
+
+            CreateMap<Domain.CurrentQuestObjectiveData, Mud.Domain.CurrentQuestObjectiveData>();
         }
 
         private Mud.Domain.WiznetFlags MapWiznetFlags(int flags)

@@ -105,7 +105,7 @@ namespace Mud.Server.Character
         {
             if (parameters.Length == 0)
             {
-                Send("Wield what?");
+                Send("Hold what?");
                 return true;
             }
             IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
@@ -115,7 +115,7 @@ namespace Mud.Server.Character
                 return true;
             }
             IEquipable equipable = item as IEquipable;
-            if (equipable == null || equipable.WearLocation != WearLocations.Hold)
+            if (equipable == null || equipable.WearLocation != WearLocations.Hold || equipable.WearLocation != WearLocations.Shield)
             {
                 Send("It cannot be hold.");
                 return true;
@@ -278,9 +278,9 @@ namespace Mud.Server.Character
                 CommandParameter whatParameter = parameters[0];
                 IReadOnlyCollection<IItem> list; // list must be cloned because it'll be modified when dropping an item
                 if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // drop all.item
-                    list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Content.Where(CanSee), whatParameter).ToList());
+                    list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Content.Where(x => CanSee(x) && !(x is ItemQuest)), whatParameter).ToList());
                 else // drop all
-                    list = new ReadOnlyCollection<IItem>(Content.Where(CanSee).ToList());
+                    list = new ReadOnlyCollection<IItem>(Content.Where(x => CanSee(x) && !(x is ItemQuest)).ToList());
                 if (list.Any())
                 {
                     foreach (IItem itemInList in list)
@@ -295,6 +295,11 @@ namespace Mud.Server.Character
             if (item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
+                return true;
+            }
+            if (item is ItemQuest)
+            {
+                Act(ActOptions.ToCharacter, "You cannot drop quest items.");
                 return true;
             }
             DropItem(item);
@@ -411,6 +416,38 @@ namespace Mud.Server.Character
                 return true;
             }
             PutItem(item, container);
+            return true;
+        }
+
+        [Command("destroy", Category = "Item", Priority = 50, NoShortcut = true)]
+        // Destroy item
+        protected virtual bool DoDestroy(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Send("Destroy what?");
+                return true;
+            }
+            IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
+            if (item == null)
+            {
+                Send(StringHelpers.ItemInventoryNotFound);
+                return true;
+            }
+            // Remove from inventory
+            item.ChangeContainer(null);
+            // Update quest if needed
+            if (item is IItemQuest itemQuest)
+            {
+                foreach (IQuest quest in Quests)
+                    quest.Update(itemQuest, true);
+            }
+            //
+            Log.Default.WriteLine(LogLevels.Debug, "Manually destroying item {0} in {1}", item.DebugName, DebugName);
+            World.RemoveItem(item);
+            RecomputeAttributes();
+
+            Send($"You destroy {item.DisplayName}.");
             return true;
         }
 

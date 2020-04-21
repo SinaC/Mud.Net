@@ -29,10 +29,15 @@ namespace Mud.Repository.Filesystem
             CreateMap<Domain.CharacterData, DataContracts.CharacterData>()
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)));
 
-            CreateMap<Domain.ItemData, DataContracts.ItemData>();
+            CreateMap<Domain.ItemData, DataContracts.ItemData>()
+                .Include<Domain.EquipedItemData, DataContracts.EquipedItemData>();
 
             CreateMap<Domain.EquipedItemData, DataContracts.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
+
+            CreateMap<Domain.CurrentQuestData, DataContracts.CurrentQuestData>();
+
+            CreateMap<Domain.CurrentQuestObjectiveData, DataContracts.CurrentQuestObjectiveData>();
         }
 
         private void InternalToExternal()
@@ -48,10 +53,15 @@ namespace Mud.Repository.Filesystem
             CreateMap<DataContracts.CharacterData, Domain.CharacterData>()
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)));
 
-            CreateMap<DataContracts.ItemData, Domain.ItemData>();
+            CreateMap<DataContracts.ItemData, Domain.ItemData>()
+                .Include<DataContracts.EquipedItemData, Domain.EquipedItemData>();
 
             CreateMap<DataContracts.EquipedItemData, Domain.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
+
+            CreateMap<DataContracts.CurrentQuestData, Domain.CurrentQuestData>();
+
+            CreateMap<DataContracts.CurrentQuestObjectiveData, Domain.CurrentQuestObjectiveData>();
         }
 
         private List<DataContracts.PairData<TKey, TValue>> MapFromDictionary<TKey, TValue>(Dictionary<TKey, TValue> dictionary) => dictionary.Select(x => new DataContracts.PairData<TKey, TValue>(x.Key, x.Value)).ToList();

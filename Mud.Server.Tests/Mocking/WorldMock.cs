@@ -33,7 +33,7 @@ namespace Mud.Server.Tests.Mocking
 
         public IReadOnlyCollection<QuestBlueprint> QuestBlueprints { get; }
         public IReadOnlyCollection<RoomBlueprint> RoomBlueprints { get; }
-        public IReadOnlyCollection<CharacterBlueprint> CharacterBlueprints { get; }
+        public IReadOnlyCollection<CharacterBlueprintBase> CharacterBlueprints { get; }
         public IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints { get; }
 
         public QuestBlueprint GetQuestBlueprint(int id)
@@ -46,12 +46,24 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public CharacterBlueprint GetCharacterBlueprint(int id)
+        public CharacterBlueprintBase GetCharacterBlueprint(int id)
         {
             throw new NotImplementedException();
         }
 
         public ItemBlueprintBase GetItemBlueprint(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TBlueprint GetCharacterBlueprint<TBlueprint>(int id)
+            where TBlueprint: CharacterBlueprintBase
+        {
+            throw new NotImplementedException();
+        }
+
+        public TBlueprint GetItemBlueprint<TBlueprint>(int id)
+            where TBlueprint: ItemBlueprintBase
         {
             throw new NotImplementedException();
         }
@@ -66,7 +78,7 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public void AddCharacterBlueprint(CharacterBlueprint blueprint)
+        public void AddCharacterBlueprint(CharacterBlueprintBase blueprint)
         {
             throw new NotImplementedException();
         }
@@ -103,7 +115,7 @@ namespace Mud.Server.Tests.Mocking
             return character;
         }
 
-        public ICharacter AddCharacter(Guid guid, CharacterBlueprint blueprint, IRoom room)
+        public ICharacter AddCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room)
         {
             throw new NotImplementedException();
         }

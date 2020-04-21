@@ -83,6 +83,8 @@
     <Compile Include="AutoMapperProfile.cs" />
     <Compile Include="DataContracts\AdminData.cs" />
     <Compile Include="DataContracts\CharacterData.cs" />
+    <Compile Include="DataContracts\CurrentQuestData.cs" />
+    <Compile Include="DataContracts\CurrentQuestObjectiveData.cs" />
     <Compile Include="DataContracts\EquipedItemData.cs" />
     <Compile Include="DataContracts\ItemData.cs" />
     <Compile Include="DataContracts\LoginData.cs" />

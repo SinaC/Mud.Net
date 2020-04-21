@@ -72,6 +72,13 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoBogus, Version=2.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoBogus.2.8.1\lib\net40\AutoBogus.dll</HintPath>
+    </Reference>
+    <Reference Include="Bogus, Version=28.4.4.0, Culture=neutral, PublicKeyToken=fa1bb3f3f218129a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bogus.28.4.4\lib\net40\Bogus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="SimpleInjector, Version=4.9.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.4.9.2\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
@@ -99,6 +106,7 @@
     <Compile Include="PlayerCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContainerTests.cs" />
+    <Compile Include="WorldTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">

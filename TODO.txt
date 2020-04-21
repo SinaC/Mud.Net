@@ -1,3 +1,12 @@
+move MapItemData in ItemBase
+
+quest save completed quests
+      quest tree (prereq)
+      repeteable or not quests
+      CharacterQuestor
+
+aura/cd: SecondsLeft should be used (decreased in pulse methods) instead of Start + Duration  without this modification, it will be almost impossible to save
+
 better command parser: should be able to specify something like
     [command] [room.character] -> first parameter will be parsed as a character found in room
     [command] [world.character] -> first parameter will be parsed as a character found in world

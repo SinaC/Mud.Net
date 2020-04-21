@@ -76,7 +76,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            CharacterBlueprint characterBlueprint = World.GetCharacterBlueprint(parameters[0].AsNumber);
+            CharacterBlueprintBase characterBlueprint = World.GetCharacterBlueprint(parameters[0].AsNumber);
             if (characterBlueprint == null)
             {
                 Send("No character with that id.");

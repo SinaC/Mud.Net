@@ -9,15 +9,27 @@ namespace Mud.Server
 {
     public enum ActOptions
     {
-        ToRoom, // everyone in the room except Character
-        ToCharacter, // only to Character
-        ToAll, // everyone in the room
-        ToGroup // everyone in the group (leader is not in group)
+        /// <summary>
+        /// Everyone in the room except Character
+        /// </summary>
+        ToRoom,
+        /// <summary>
+        /// Only to Character
+        /// </summary>
+        ToCharacter,
+        /// <summary>
+        /// Everyone in the room
+        /// </summary>
+        ToAll,
+        /// <summary>
+        /// Everyone in the group (leader is not in group)
+        /// </summary>
+        ToGroup
     }
 
     public interface ICharacter : IEntity, IContainer
     {
-        CharacterBlueprint Blueprint { get; }
+        CharacterBlueprintBase Blueprint { get; }
 
         IRoom Room { get; }
         ICharacter Fighting { get; }
@@ -70,8 +82,7 @@ namespace Mud.Server
         // Quest
         IEnumerable<IQuest> Quests { get; }
         void AddQuest(IQuest quest);
-        void CompleteQuest(IQuest quest);
-        void AbandonQuest(IQuest quest);
+        void RemoveQuest(IQuest quest);
         bool IsQuestObjective(ICharacter questingCharacter);
 
         // Group/Follower
@@ -153,6 +164,9 @@ namespace Mud.Server
 
         // Equipment
         EquipedItem SearchEquipmentSlot(IEquipable item, bool replace);
+
+        // CharacterData
+        void FillCharacterData(CharacterData characterData);
     }
 
     public class EquipedItem
