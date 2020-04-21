@@ -20,6 +20,11 @@ namespace Mud.Server.Quest
             ? $"{TargetName,-20}: complete"
             : $"{TargetName,-20}: {Count,3} / {Total,3} ({((Count * 100) / Total):D}%)";
 
+        public void Reset()
+        {
+            Count = 0;
+        }
+
         #endregion
     }
 
@@ -47,6 +52,10 @@ namespace Mud.Server.Quest
 
     public class LocationQuestObjective : IQuestObjective
     {
+
+        public RoomBlueprint Blueprint { get; set; }
+        public bool Explored { get; set; }
+
         #region IQuestObjective
 
         public int Id { get; set; }
@@ -57,9 +66,11 @@ namespace Mud.Server.Quest
             ? $"{Blueprint.Name,-20}: explored"
             : $"{Blueprint.Name,-20}: not explored";
 
-        #endregion
+        public void Reset()
+        {
+            Explored = false;
+        }
 
-        public RoomBlueprint Blueprint { get; set; }
-        public bool Explored { get; set; }
+        #endregion
     }
 }

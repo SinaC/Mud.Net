@@ -3,7 +3,6 @@ move MapItemData in ItemBase
 quest time limit
       save completed quests
       quest tree (prereq)
-      quest item: cannot be dropped, must be destroyed -> will affect objective completion
 
 better command parser: should be able to specify something like
     [command] [room.character] -> first parameter will be parsed as a character found in room

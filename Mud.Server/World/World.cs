@@ -401,7 +401,7 @@ namespace Mud.Server.World
             character.ChangeRoom(null);
             //
             character.OnRemoved();
-            //_characters.Remove(character); will removed in cleanup step
+            //_characters.Remove(character); will be removed in cleanup step
         }
 
         public void RemoveItem(IItem item)
@@ -418,7 +418,7 @@ namespace Mud.Server.World
                     RemoveItem(itemInContainer);
             }
             item.OnRemoved();
-            //_items.Remove(item); will removed in cleanup step
+            //_items.Remove(item); will be removed in cleanup step
         }
 
         public void RemoveRoom(IRoom room)

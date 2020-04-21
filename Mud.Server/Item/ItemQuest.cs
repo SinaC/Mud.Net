@@ -35,7 +35,7 @@ namespace Mud.Server.Item
             if (container is ICharacter character && character.Impersonable)
             {
                 foreach (IQuest quest in character.Quests)
-                    quest.Update(this);
+                    quest.Update(this, false);
             }
         }
 

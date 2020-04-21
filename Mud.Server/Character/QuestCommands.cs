@@ -24,7 +24,7 @@ namespace Mud.Server.Character
                     int id = 0;
                     foreach (IQuest quest in Quests)
                     {
-                        sb.Append(BuildQuestSummary(quest, id));
+                        BuildQuestSummary(sb, quest, id);
                         id++;
                     }
                 }
@@ -44,9 +44,7 @@ namespace Mud.Server.Character
                     return true;
                 }
                 StringBuilder sb = new StringBuilder();
-                sb.AppendFormatLine($"{quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
-                sb.AppendLine(quest.Blueprint.Description);
-                sb.Append(BuildQuestObjectives(quest));
+                BuildQuestSummary(sb, quest, null);
                 Page(sb);
                 return true;
             }
@@ -233,28 +231,26 @@ namespace Mud.Server.Character
 
         #region Helpers
 
-        private StringBuilder BuildQuestSummary(IQuest quest, int id)
+        private void BuildQuestSummary(StringBuilder sb, IQuest quest, int? id)
         {
-            StringBuilder sb = new StringBuilder();
             if (id >= 0)
                 sb.AppendFormatLine($"{id + 1,2}) {quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
             else
                 sb.AppendFormatLine($"{quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
             if (!quest.IsCompleted)
-                sb.Append(BuildQuestObjectives(quest));
-            return sb;
+                BuildQuestObjectives(sb, quest);
         }
 
-        private StringBuilder BuildQuestObjectives(IQuest quest)
+        private void BuildQuestObjectives(StringBuilder sb, IQuest quest)
         {
-            StringBuilder sb = new StringBuilder();
             foreach (IQuestObjective objective in quest.Objectives)
+            {
                 // TODO: 2 columns ?
                 if (objective.IsCompleted)
                     sb.AppendFormatLine($"     %g%{objective.CompletionState}%x%");
                 else
                     sb.AppendFormatLine($"     {objective.CompletionState}");
-            return sb;
+            }
         }
 
         #endregion

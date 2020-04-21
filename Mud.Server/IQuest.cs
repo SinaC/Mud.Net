@@ -10,12 +10,13 @@ namespace Mud.Server
     {
         QuestBlueprint Blueprint { get; }
 
+        ICharacter Character { get; }
         ICharacter Giver { get; } // TODO: quest may be ended with a different NPC
 
         IEnumerable<IQuestObjective> Objectives { get; }
         void GenerateKillLoot(ICharacter victim, IContainer container);
         void Update(ICharacter victim);
-        void Update(IItemQuest item);
+        void Update(IItemQuest item, bool force);
         void Update(IRoom room);
 
         bool IsCompleted { get; }
@@ -23,6 +24,7 @@ namespace Mud.Server
         DateTime? CompletionTime { get; }
         void Complete();
         void Abandon();
+        void Reset();
 
         CurrentQuestData GenerateQuestData();
     }
@@ -32,5 +34,7 @@ namespace Mud.Server
         int Id { get; }
         bool IsCompleted { get; }
         string CompletionState { get; }
+
+        void Reset();
     }
 }

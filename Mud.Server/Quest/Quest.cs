@@ -16,7 +16,6 @@ namespace Mud.Server.Quest
     public class Quest : IQuest
     {
         private readonly List<IQuestObjective> _objectives;
-        private readonly ICharacter _character;
 
         protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
         protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
@@ -24,7 +23,7 @@ namespace Mud.Server.Quest
 
         public Quest(QuestBlueprint blueprint, ICharacter character, ICharacter giver) // TODO: giver should be ICharacterQuestor
         {
-            _character = character;
+            Character = character;
             StartTime = DateTime.Now;
             Blueprint = blueprint;
             Giver = giver;
@@ -34,7 +33,7 @@ namespace Mud.Server.Quest
 
         public Quest(CurrentQuestData questData, ICharacter character)
         {
-            _character = character;
+            Character = character;
             QuestBlueprint questBlueprint = World.GetQuestBlueprint(questData.QuestId);
             // TODO: quid if blueprint is null?
             Blueprint = questBlueprint;
@@ -73,6 +72,8 @@ namespace Mud.Server.Quest
 
         public QuestBlueprint Blueprint { get; }
 
+        public ICharacter Character { get; }
+
         public ICharacter Giver { get; }
 
         public IEnumerable<IQuestObjective> Objectives => _objectives;
@@ -92,7 +93,7 @@ namespace Mud.Server.Quest
                     if (World.GetItemBlueprint(loot) is ItemQuestBlueprint questItemBlueprint)
                     {
                         World.AddItemQuest(Guid.NewGuid(), questItemBlueprint, container);
-                        Log.Default.WriteLine(LogLevels.Debug, $"Loot objective {loot} generated for {_character.DisplayName}");
+                        Log.Default.WriteLine(LogLevels.Debug, $"Loot objective {loot} generated for {Character.DisplayName}");
                     }
                     else
                         Log.Default.WriteLine(LogLevels.Warning, $"Loot objective {loot} doesn't exist (or is not quest item) for quest {Blueprint.Id}");
@@ -109,24 +110,32 @@ namespace Mud.Server.Quest
             foreach (KillQuestObjective objective in _objectives.OfType<KillQuestObjective>().Where(x => !x.IsCompleted && x.Blueprint.Id == victim.Blueprint.Id))
             {
                 objective.Count++;
-                _character.Send($"%y%Quest {Blueprint.Title}: {objective.CompletionState}%x%");
+                Character.Send($"%y%Quest {Blueprint.Title}: {objective.CompletionState}%x%");
                 if (IsCompleted)
-                    _character.Send($"%R%Quest {Blueprint.Title}: complete%x%");
+                    Character.Send($"%R%Quest {Blueprint.Title}: complete%x%");
             }
         }
 
-        public void Update(IItemQuest item)
+        public void Update(IItemQuest item, bool force)
         {
             if (item.Blueprint == null)
                 return;
+            // if forced, reset completion state and recount item in inventory
+            if (force)
+            {
+                foreach (ItemQuestObjective objective in _objectives.OfType<ItemQuestObjective>().Where(x => x.Blueprint.Id == item.Blueprint.Id))
+                    objective.Count = Character.Content.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == item.Blueprint.Id);
+                return;
+            }
+            //
             if (IsCompleted)
                 return;
             foreach (ItemQuestObjective objective in _objectives.OfType<ItemQuestObjective>().Where(x => !x.IsCompleted && x.Blueprint.Id == item.Blueprint.Id))
             {
                 objective.Count++;
-                _character.Send($"%y%Quest {Blueprint.Title}: {objective.CompletionState}%x%");
+                Character.Send($"%y%Quest {Blueprint.Title}: {objective.CompletionState}%x%");
                 if (IsCompleted)
-                    _character.Send($"%R%Quest {Blueprint.Title}: complete%x%");
+                    Character.Send($"%R%Quest {Blueprint.Title}: complete%x%");
             }
         }
 
@@ -139,9 +148,9 @@ namespace Mud.Server.Quest
             foreach (LocationQuestObjective objective in _objectives.OfType<LocationQuestObjective>().Where(x => !x.IsCompleted && x.Blueprint.Id == room.Blueprint.Id))
             {
                 objective.Explored = true;
-                _character.Send($"%y%Quest {Blueprint.Title}: {objective.CompletionState}%x%");
+                Character.Send($"%y%Quest {Blueprint.Title}: {objective.CompletionState}%x%");
                 if (IsCompleted)
-                    _character.Send($"%R%Quest {Blueprint.Title}: complete%x%");
+                    Character.Send($"%R%Quest {Blueprint.Title}: complete%x%");
             }
         }
 
@@ -160,18 +169,18 @@ namespace Mud.Server.Quest
             int goldGain = Blueprint.Gold;
 
             // XP: http://wow.gamepedia.com/Experience_point#Quest_XP
-            if (_character.Level < Settings.MaxLevel)
+            if (Character.Level < Settings.MaxLevel)
             {
                 int factorPercentage = 100;
-                if (_character.Level == Blueprint.Level + 6)
+                if (Character.Level == Blueprint.Level + 6)
                     factorPercentage = 80;
-                else if (_character.Level == Blueprint.Level + 7)
+                else if (Character.Level == Blueprint.Level + 7)
                     factorPercentage = 60;
-                else if (_character.Level == Blueprint.Level + 8)
+                else if (Character.Level == Blueprint.Level + 8)
                     factorPercentage = 40;
-                else if (_character.Level == Blueprint.Level + 9)
+                else if (Character.Level == Blueprint.Level + 9)
                     factorPercentage = 20;
-                else if (_character.Level >= Blueprint.Level + 10)
+                else if (Character.Level >= Blueprint.Level + 10)
                     factorPercentage = 10;
                 xpGain = (Blueprint.Experience*factorPercentage)/100;
             }
@@ -179,11 +188,11 @@ namespace Mud.Server.Quest
                 goldGain = Blueprint.Experience*6;
 
             // Display
-            _character.Send("%y%You receive {0} exp and {1} gold.%x%", xpGain, goldGain);
+            Character.Send("%y%You receive {0} exp and {1} gold.%x%", xpGain, goldGain);
 
             // Give rewards
             if (xpGain > 0)
-                _character.GainExperience(xpGain);
+                Character.GainExperience(xpGain);
             // TODO: goldGain
 
             CompletionTime = DateTime.Now;
@@ -194,6 +203,16 @@ namespace Mud.Server.Quest
             // TODO: xp loss ?
             if (Blueprint.ShouldQuestItemBeDestroyed && Blueprint.ItemObjectives != null)
                 DestroyQuestItems();
+        }
+
+        public void Reset()
+        {
+            foreach (IQuestObjective objective in _objectives)
+            {
+                objective.Reset();
+                if (objective is ItemQuestObjective itemQuestObjective)
+                    itemQuestObjective.Count = Character.Content.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == itemQuestObjective.Blueprint.Id);
+            }
         }
 
         public CurrentQuestData GenerateQuestData()
@@ -224,7 +243,7 @@ namespace Mud.Server.Quest
                 case LocationQuestObjective questObjectiveLocation:
                     return questObjectiveLocation.Explored ? 1: 0;
                 default:
-                    string msg = $"Cannot convert quest objective {questObjective.Id} type {questObjective.GetType().Name.ToString()} to count";
+                    string msg = $"Cannot convert quest objective {questObjective.Id} type {questObjective.GetType().Name} to count";
                     Log.Default.WriteLine(LogLevels.Error, msg);
                     Wiznet.Wiznet(msg, WiznetFlags.Bugs);
                     break;
@@ -290,10 +309,10 @@ namespace Mud.Server.Quest
         private void DestroyQuestItems()
         {
             // Gather quest items
-            List<IItem> questItems = _character.Content.Where(x => x.Blueprint != null && Blueprint.ItemObjectives.Any(i => i.ItemBlueprintId == x.Blueprint.Id)).ToList();
+            List<IItem> questItems = Character.Content.Where(x => x.Blueprint != null && Blueprint.ItemObjectives.Any(i => i.ItemBlueprintId == x.Blueprint.Id)).ToList();
             foreach (IItem questItem in questItems)
             {
-                Log.Default.WriteLine(LogLevels.Debug, "Destroying quest item {0} in {1}", questItem.DebugName, _character.DebugName);
+                Log.Default.WriteLine(LogLevels.Debug, "Destroying quest item {0} in {1}", questItem.DebugName, Character.DebugName);
                 World.RemoveItem(questItem);
             }
         }
