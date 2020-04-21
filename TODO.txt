@@ -3,6 +3,7 @@ move MapItemData in ItemBase
 quest save completed quests
       quest tree (prereq)
       repeteable or not quests
+      CharacterQuestor
 
 aura/cd: SecondsLeft should be used (decreased in pulse methods) instead of Start + Duration  without this modification, it will be almost impossible to save
 
