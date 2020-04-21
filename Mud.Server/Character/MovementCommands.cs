@@ -406,8 +406,7 @@ namespace Mud.Server.Character
                 else
                     Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} up.", this);
                 // Autolook if impersonated/incarnated
-                if (ImpersonatedBy != null || IncarnatedBy != null)
-                    DisplayRoom();
+                AutoLook();
             }
             else if (Position == Positions.Resting
                      || Position == Positions.Sitting)

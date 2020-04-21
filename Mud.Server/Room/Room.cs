@@ -85,6 +85,10 @@ namespace Mud.Server.Room
 
         public IEnumerable<ICharacter> People => _people.Where(x => x.IsValid);
 
+        public IEnumerable<INonPlayableCharacter> NonPlayableCharacters => People.OfType<INonPlayableCharacter>();
+
+        public IEnumerable<IPlayableCharacter> PlayableCharacters => People.OfType<IPlayableCharacter>();
+
         public IExit[] Exits { get; }
 
         public IExit Exit(ExitDirections direction)

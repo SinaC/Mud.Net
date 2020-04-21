@@ -36,9 +36,6 @@ namespace Mud.Server
         // Combat
         void GainExperience(long experience); // add/substract experience
 
-        // Look
-        void AutoLook();
-
         // CharacterData
         void FillCharacterData(CharacterData characterData);
     }

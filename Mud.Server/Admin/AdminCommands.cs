@@ -83,7 +83,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            ICharacter character = World.AddCharacter(Guid.NewGuid(), characterBlueprint, Impersonating.Room);
+            INonPlayableCharacter character = World.AddNonPlayableCharacter(Guid.NewGuid(), characterBlueprint, Impersonating.Room);
             if (character == null)
             {
                 Send("Character cannot be created.");
@@ -144,7 +144,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            ICharacter victim = FindHelpers.FindByName(Impersonating.Room.People, parameters[0]);
+            IPlayableCharacter victim = FindHelpers.FindByName(Impersonating.Room.PlayableCharacters, parameters[0]);
             if (victim == null)
             {
                 Send(StringHelpers.CharacterNotFound);
@@ -160,7 +160,7 @@ namespace Mud.Server.Admin
             Wiznet.Wiznet($"{DisplayName} slayed {victim.DebugName}.", WiznetFlags.Punish);
 
             victim.Act(ActOptions.ToAll, "{0:N} slay{0:v} {1} in cold blood!", Impersonating, victim);
-            victim.RawKilled(Impersonating, false);
+            victim.Slay(Impersonating);
 
             return true;
         }
@@ -225,7 +225,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            ICharacter victim = FindHelpers.FindByName(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), parameters[0]);
+            IPlayableCharacter victim = FindHelpers.FindByName(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), parameters[0]);
             if (victim == null)
             {
                 Send("That impersonated player is not here.");

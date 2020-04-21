@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
@@ -10,10 +9,9 @@ using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Item;
 using Mud.Server.Quest;
 
-namespace Mud.Server.Character
+namespace Mud.Server.Character.NonPlayableCharacter
 {
     public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {
@@ -49,10 +47,11 @@ namespace Mud.Server.Character
 
         public override string DebugName => $"{DisplayName}[{Blueprint.Id}]";
 
-        public override string RelativeDisplayName(IPlayableCharacter beholder, bool capitalizeFirstLetter = false)
+        public override string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false)
         {
             StringBuilder displayName = new StringBuilder();
-            if (IsQuestObjective(beholder))
+            IPlayableCharacter playableBeholder = beholder as IPlayableCharacter;
+            if (playableBeholder != null && IsQuestObjective(playableBeholder))
                 displayName.Append(StringHelpers.QuestPrefix);
             if (beholder.CanSee(this))
                 displayName.Append(DisplayName);
@@ -60,6 +59,8 @@ namespace Mud.Server.Character
                 displayName.Append("Someone");
             else
                 displayName.Append("someone");
+            if (playableBeholder?.ImpersonatedBy is IAdmin)
+                displayName.Append($" [{Blueprint?.Id.ToString() ?? " ??? "}]");
             return displayName.ToString();
         }
 

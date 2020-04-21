@@ -33,9 +33,9 @@ namespace Mud.Server.Item
                 item.ChangeEquipedBy(null);
             }
             // Check victim loot table (only if victim is NPC)
-            if (!victim.Impersonable)
+            if (victim is INonPlayableCharacter nonPlayableCharacterVictim)
             {
-                List<int> loots = victim.Blueprint?.LootTable?.GenerateLoots();
+                List<int> loots = nonPlayableCharacterVictim.Blueprint?.LootTable?.GenerateLoots();
                 if (loots != null && loots.Any())
                 {
                     foreach (int loot in loots)
@@ -48,14 +48,14 @@ namespace Mud.Server.Item
             : this(guid, blueprint, room, victim)
         {
             // Check killer quest table (only if killer is PC and victim is NPC) // TODO: only visible for people on quest???
-            if (killer != null && killer.Impersonable && !victim.Impersonable && victim.Blueprint != null)
+            if (killer != null && killer is IPlayableCharacter playableCharacterKiller && victim is INonPlayableCharacter nonPlayableCharacterVictim)
             {
-                foreach (IQuest quest in killer.Quests)
+                foreach (IQuest quest in playableCharacterKiller.Quests)
                 {
                     // Update kill objectives
-                    quest.Update(victim);
+                    quest.Update(nonPlayableCharacterVictim);
                     // Generate loot on corpse
-                    quest.GenerateKillLoot(victim, this);
+                    quest.GenerateKillLoot(nonPlayableCharacterVictim, this);
                 }
             }
         }

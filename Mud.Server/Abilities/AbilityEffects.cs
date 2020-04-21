@@ -36,7 +36,7 @@ namespace Mud.Server.Abilities
                         break;
                     case CombatHelpers.AttackResults.Critical:
                         // TODO http://wow.gamepedia.com/Critical_strike
-                        if (victim.ImpersonatedBy != null) // PVP
+                        if (victim is IPlayableCharacter playableCharacterVictim && playableCharacterVictim.ImpersonatedBy != null) // PVP
                             damage = (damage * 150) / 200;
                         else // PVE
                             damage *= 2;

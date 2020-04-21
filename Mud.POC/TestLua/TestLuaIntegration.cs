@@ -49,7 +49,7 @@ end");
 
             // TODO: replace 'scripts' with parameter in ICharacter and initialize this in AddCharacter or in Character ctor
             List<CharacterScript> scripts = new List<CharacterScript>();
-            foreach (ICharacter character in World.Characters.Where(x => x.Blueprint.ScriptTableName != null))
+            foreach (INonPlayableCharacter character in World.NonPlayableCharacters.Where(x => x.Blueprint.ScriptTableName != null))
             {
                 string scriptName = character.Blueprint.ScriptTableName;
                 var mobScript = lua[scriptName];

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -93,6 +94,8 @@ namespace Mud.Server.Tests.Mocking
         public IEnumerable<IRoom> Rooms => _rooms;
 
         public IEnumerable<ICharacter> Characters => _characters;
+        public IEnumerable<INonPlayableCharacter> NonPlayableCharacters => Characters.OfType<INonPlayableCharacter>();
+        public IEnumerable<IPlayableCharacter> PlayableCharacters => Characters.OfType<IPlayableCharacter>();
 
         public IEnumerable<IItem> Items => _items;
 
@@ -108,16 +111,18 @@ namespace Mud.Server.Tests.Mocking
             return room;
         }
 
-        public ICharacter AddCharacter(Guid guid, CharacterData characterData, IRoom room)
+        public IPlayableCharacter AddPlayableCharacter(Guid guid, CharacterData characterData, IPlayer player, IRoom room)
         {
-            ICharacter character = new Character.Character(guid, characterData, room);
+            IPlayableCharacter character = new Character.PlayableCharacter.PlayableCharacter(guid, characterData, player, room);
             _characters.Add(character);
             return character;
         }
 
-        public ICharacter AddCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room)
+        public INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room)
         {
-            throw new NotImplementedException();
+            INonPlayableCharacter character = new Character.NonPlayableCharacter.NonPlayableCharacter(guid, blueprint, room);
+            _characters.Add(character);
+            return character;
         }
 
         public IItemContainer AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container)

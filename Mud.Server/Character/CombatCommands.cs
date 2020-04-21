@@ -30,7 +30,7 @@ namespace Mud.Server.Character
                 return true;
             }
 
-            if (target.Impersonable)
+            if (target is IPlayableCharacter)
             {
                 Send("You must MURDER a player!");
                 return true;
@@ -40,10 +40,17 @@ namespace Mud.Server.Character
             //if (is_safe(ch, victim))
             //    return;
 
-            if (target.Fighting != null && IsSameGroup(target.Fighting))
+            IPlayableCharacter playableCharacter = this as IPlayableCharacter;
+
+            if (target.Fighting != null)
             {
-                Send("Kill stealing is not permitted.");
-                return true;
+                // if not in same group, don't allow kill stealing
+                bool isInSameGroup = playableCharacter != null && target.Fighting is IPlayableCharacter fightingPlayableCharacter && playableCharacter.IsSameGroup(fightingPlayableCharacter);
+                if (!isInSameGroup)
+                {
+                    Send("Kill stealing is not permitted.");
+                    return true;
+                }
             }
 
             //if (IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim)
@@ -58,59 +65,8 @@ namespace Mud.Server.Character
                 return true;
             }
 
-            ImpersonatedBy?.SetGlobalCooldown(1);
-            //TODO: check_killer( ch, victim );
-
-            // Starts fight
-            MultiHit(target);
-            return true;
-        }
-
-        [Command("murder", Category = "Combat", Priority = 999/*low priority*/, NoShortcut = true)]
-        protected virtual bool DoMurder(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (parameters.Length == 0)
-            {
-                Send("Murder whom?");
-                return true;
-            }
-
-            ICharacter target = FindHelpers.FindByName(Room.People, parameters[0]);
-            if (target == null)
-            {
-                Send(StringHelpers.CharacterNotFound);
-                return true;
-            }
-
-            if (target == this)
-            {
-                Send("You hit yourself. Ouch!");
-                return true;
-            }
-
-            // TODO
-            //if (is_safe(ch, victim))
-            //    return;
-
-            if (target.Fighting != null && IsSameGroup(target.Fighting))
-            {
-                Send("Kill stealing is not permitted.");
-                return true;
-            }
-
-            //if (IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim)
-            //{
-            //    act("$N is your beloved master.", ch, NULL, victim, TO_CHAR);
-            //    return;
-            //}
-
-            if (Position == Positions.Fighting)
-            {
-                Send("You do the best you can!");
-                return true;
-            }
-
-            ImpersonatedBy?.SetGlobalCooldown(1);
+            if (playableCharacter != null)
+                playableCharacter.ImpersonatedBy?.SetGlobalCooldown(1);
             //TODO: check_killer( ch, victim );
 
             // Starts fight

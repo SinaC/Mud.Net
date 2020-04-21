@@ -94,22 +94,12 @@ namespace Mud.Server.Entity
             return true;
         }
 
-        public virtual string RelativeDisplayName(INonPlayableCharacter beholder, bool capitalizeFirstLetter = false)
+        public virtual string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false)
         {
             return DisplayName; // no behavior by default
         }
 
-        public virtual string RelativeDisplayName(IPlayableCharacter beholder, bool capitalizeFirstLetter = false)
-        {
-            return DisplayName; // no behavior by default
-        }
-
-        public virtual string RelativeDescription(INonPlayableCharacter beholder)
-        {
-            return Description; // no behavior by default
-        }
-
-        public virtual string RelativeDescription(IPlayableCharacter beholder)
+        public virtual string RelativeDescription(ICharacter beholder)
         {
             return Description; // no behavior by default
         }

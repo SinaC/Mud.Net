@@ -113,6 +113,7 @@ namespace Mud.Server
         bool Move(ExitDirections direction, bool checkFighting, bool follow = false);
         bool Enter(IItemPortal portal, bool follow = false);
         void ChangeRoom(IRoom destination);
+        void AutoLook();
 
         // Combat
         bool Heal(ICharacter source, IAbility ability, int amount, bool visible);

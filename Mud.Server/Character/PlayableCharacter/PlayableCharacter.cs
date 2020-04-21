@@ -12,9 +12,9 @@ using Mud.Server.Input;
 using Mud.Server.Item;
 using Mud.Server.Quest;
 
-namespace Mud.Server.Character
+namespace Mud.Server.Character.PlayableCharacter
 {
-    public class PlayableCharacter : CharacterBase, IPlayableCharacter
+    public partial class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(PlayableCharacter)));
 
@@ -115,11 +115,11 @@ namespace Mud.Server.Character
 
         public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
         {
-            if (methodInfo.Attribute is CharacterCommandAttribute characterCommandAttribute)
+            if (methodInfo.Attribute is PlayableCharacterCommandAttribute playableCharacterCommandAttribute)
             {
-                if (characterCommandAttribute.MustBeImpersonated && ImpersonatedBy == null)
+                if (ImpersonatedBy == null)
                 {
-                    Send($"You must be impersonated to use '{characterCommandAttribute.Name}'.");
+                    Send($"You must be impersonated to use '{playableCharacterCommandAttribute.Name}'.");
                     return false;
                 }
             }
@@ -149,6 +149,21 @@ namespace Mud.Server.Character
         public override string DisplayName => StringHelpers.UpperFirstLetter(Name);
 
         public override string DebugName => DisplayName;
+
+        public override string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false)
+        {
+            StringBuilder displayName = new StringBuilder();
+            if (beholder.CanSee(this))
+                displayName.Append(DisplayName);
+            else if (capitalizeFirstLetter)
+                displayName.Append("Someone");
+            else
+                displayName.Append("someone");
+            if (beholder is IPlayableCharacter playableBeholder && playableBeholder?.ImpersonatedBy is IAdmin)
+                displayName.Append($" [{ImpersonatedBy?.DisplayName ?? " ??? "}]");
+            return displayName.ToString();
+        }
+
 
         public override void OnRemoved() // called before removing a character from the game
         {

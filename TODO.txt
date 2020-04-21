@@ -1,9 +1,5 @@
-
-what are the differences between a PC and a NPC
-transform ICharacter into
- ICharacter, INonPlayableCharacter, IPlayableCharacter
-transform Character into 
- Character, NonPlayableCharacter, PlayableCharacter
+test group
+     kill steal
 
 move MapItemData in ItemBase
 

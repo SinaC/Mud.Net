@@ -145,7 +145,7 @@ namespace Mud.Server.World
 
         public IPlayableCharacter AddPlayableCharacter(Guid guid, CharacterData characterData, IPlayer player, IRoom room) // PC
         {
-            IPlayableCharacter character = new Character.PlayableCharacter(guid, characterData, player, room);
+            IPlayableCharacter character = new Character.PlayableCharacter.PlayableCharacter(guid, characterData, player, room);
             _characters.Add(character);
             return character;
         }
@@ -154,7 +154,7 @@ namespace Mud.Server.World
         {
             if (blueprint == null)
                 throw new ArgumentNullException(nameof(blueprint));
-            INonPlayableCharacter character = new Character.NonPlayableCharacter(guid, blueprint, room);
+            INonPlayableCharacter character = new Character.NonPlayableCharacter.NonPlayableCharacter(guid, blueprint, room);
             _characters.Add(character);
             return character;
         }
@@ -344,12 +344,12 @@ namespace Mud.Server.World
             character.StopFighting(true);
 
             // Remove from group if in a group + stop following
-            if (character.Leader != null)
+            if (character is IPlayableCharacter playableCharacter && playableCharacter.Leader != null)
             {
-                ICharacter leader = character.Leader;
-                leader.StopFollower(character);
+                IPlayableCharacter leader = playableCharacter.Leader;
+                leader.StopFollower(playableCharacter);
                 if (leader.GroupMembers.Any(x => x == character))
-                    leader.RemoveGroupMember(character, false);
+                    leader.RemoveGroupMember(playableCharacter, false);
             }
             // TODO: if leader of a group
 

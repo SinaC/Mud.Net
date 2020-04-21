@@ -290,10 +290,10 @@ namespace Mud.Server.Helpers
         public static AttackResults WhiteMeleeAttack(ICharacter attacker, ICharacter victim, bool notMainWield)
         {
             //http://wow.gamepedia.com/Attack_table#Player_melee_and_ranged_attacks
-            if (attacker.ImpersonatedBy != null)
-                return MeleeAttackFromImpersonated(attacker, victim, notMainWield, true, false, false);
+            if (attacker is IPlayableCharacter playableCharacter)
+                return MeleeAttackFromImpersonated(playableCharacter, victim, notMainWield, true, false, false);
             else
-                return MeleeAttackFromNotImpersonated(attacker, victim, notMainWield, false, false);
+                return MeleeAttackFromNotImpersonated(attacker as INonPlayableCharacter, victim, notMainWield, false, false);
 
             //// TODO: if victim can't see this, chance are divided by 2
         }
@@ -305,22 +305,22 @@ namespace Mud.Server.Helpers
             //http://wow.gamepedia.com/Glancing_blow#Glancing_blow_implications_-_crit_cap
             //http://wow.gamepedia.com/Hit#Special_attacks
             // according to --^ yellow damage cannot land glancing blow neither critical strike + miss chance is reduced to 8% (dual wield or not)
-            if (attacker.ImpersonatedBy != null)
-                return MeleeAttackFromImpersonated(attacker, victim, false, false, cannotMiss, cannotBeDodgedParriedBlocked);
+            if (attacker is IPlayableCharacter playableCharacter)
+                return MeleeAttackFromImpersonated(playableCharacter, victim, false, false, cannotMiss, cannotBeDodgedParriedBlocked);
             else
-                return MeleeAttackFromNotImpersonated(attacker, victim, false, cannotMiss, cannotBeDodgedParriedBlocked);
+                return MeleeAttackFromNotImpersonated(attacker as INonPlayableCharacter, victim, false, cannotMiss, cannotBeDodgedParriedBlocked);
         }
 
         public static AttackResults SpellAttack(ICharacter attacker, ICharacter victim, bool cannotMiss)
         {
-            if (attacker.ImpersonatedBy != null)
-                return SpellAttackFromImpersonated(attacker, victim);
+            if (attacker is IPlayableCharacter playableCharacter)
+                return SpellAttackFromImpersonated(playableCharacter, victim);
             else
-                return SpellAttackFromNotImpersonated(attacker, victim);
+                return SpellAttackFromNotImpersonated(attacker as INonPlayableCharacter, victim);
         }
 
         // PC attacking a NPC/PC
-        private static AttackResults MeleeAttackFromImpersonated(ICharacter attacker, ICharacter victim, bool notMainWield, bool allowGlancingBlow /*yellow melee don't do glancing blow*/, bool cannotMiss, bool cannotBeDodgedParriedBlocked)
+        private static AttackResults MeleeAttackFromImpersonated(IPlayableCharacter attacker, ICharacter victim, bool notMainWield, bool allowGlancingBlow /*yellow melee don't do glancing blow*/, bool cannotMiss, bool cannotBeDodgedParriedBlocked)
         {
             int deltaLevel = attacker.Level - victim.Level;
             // following values must be / 10 to get %age
@@ -501,7 +501,7 @@ namespace Mud.Server.Helpers
             return AttackResults.Hit;
         }
 
-        private static AttackResults SpellAttackFromImpersonated(ICharacter attacker, ICharacter victim)
+        private static AttackResults SpellAttackFromImpersonated(IPlayableCharacter attacker, ICharacter victim)
         {
             int deltaLevel = attacker.Level - victim.Level;
             // miss chance
@@ -520,7 +520,7 @@ namespace Mud.Server.Helpers
         }
 
         // NPC attacking a PC
-        private static AttackResults MeleeAttackFromNotImpersonated(ICharacter attacker, ICharacter victim, bool notMainWield, bool cannotMiss, bool cannotBeDodgedParriedBlocked)
+        private static AttackResults MeleeAttackFromNotImpersonated(INonPlayableCharacter attacker, ICharacter victim, bool notMainWield, bool cannotMiss, bool cannotBeDodgedParriedBlocked)
         {
             int deltaLevel = attacker.Level - victim.Level;
             // following values must be / 10 to get %age
@@ -708,7 +708,7 @@ namespace Mud.Server.Helpers
             return AttackResults.Hit;
         }
 
-        private static AttackResults SpellAttackFromNotImpersonated(ICharacter attacker, ICharacter victim)
+        private static AttackResults SpellAttackFromNotImpersonated(INonPlayableCharacter attacker, ICharacter victim)
         {
             int deltaLevel = attacker.Level - victim.Level;
             int missChance;

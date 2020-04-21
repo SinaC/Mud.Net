@@ -9,7 +9,6 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Abilities;
-using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
@@ -88,18 +87,6 @@ namespace Mud.Server.Character
         }
 
         #endregion
-
-        public override string RelativeDisplayName(INonPlayableCharacter beholder, bool capitalizeFirstLetter = false)
-        {
-            StringBuilder displayName = new StringBuilder();
-            if (beholder.CanSee(this))
-                displayName.Append(DisplayName);
-            else if (capitalizeFirstLetter)
-                displayName.Append("Someone");
-            else
-                displayName.Append("someone");
-            return displayName.ToString();
-        }
 
         // TODO: override RelativeDescription ?
 
@@ -602,12 +589,12 @@ namespace Mud.Server.Character
             {
                 Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction); // TODO: sneak/invis
 
-                SetGlobalCooldown(1);
+                if (this is IPlayableCharacter playableCharacter)
+                    playableCharacter.ImpersonatedBy?.SetGlobalCooldown(1);
                 ChangeRoom(toRoom);
 
                 // Autolook if impersonated/incarnated
-                if (AutomaticallyDisplayRoom)
-                    DisplayRoom();
+                AutoLook();
 
                 Act(ActOptions.ToRoom, "{0} has arrived.", this); // TODO: sneak/invis
 
@@ -658,6 +645,13 @@ namespace Mud.Server.Character
             Room?.Leave(this);
             Room = destination;
             destination?.Enter(this);
+        }
+
+        // Move
+        public void AutoLook()
+        {
+            if (this is IPlayableCharacter || this.IncarnatedBy != null)
+                DisplayRoom();
         }
 
         // Combat
@@ -732,9 +726,8 @@ namespace Mud.Server.Character
             if (KnownAbilities.Any(x => x.Ability == AbilityManager.DualWieldAbility))
             {
                 IItemWeapon wielded2 = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand)?.Item as IItemWeapon;
-                if (wielded2 == null)
-                    return true;
-                OneHit(enemy, wielded2, wielded2.DamageType, true);
+                if (wielded2 != null)
+                    OneHit(enemy, wielded2, wielded2.DamageType, true);
             }
             if (Fighting != enemy) // stop multihit if different enemy or no enemy
                 return true;
@@ -743,9 +736,8 @@ namespace Mud.Server.Character
             if (KnownAbilities.Any(x => x.Ability == AbilityManager.ThirdWieldAbility))
             {
                 IItemWeapon wielded3 = Equipments.Where(x => x.Slot == EquipmentSlots.MainHand).ElementAtOrDefault(1)?.Item as IItemWeapon;
-                if (wielded3 == null)
-                    return true;
-                OneHit(enemy, wielded3, wielded3.DamageType, true);
+                if (wielded3 != null)
+                    OneHit(enemy, wielded3, wielded3.DamageType, true);
             }
             if (Fighting != enemy) // stop multihit if different enemy or no enemy
                 return true;
@@ -754,9 +746,8 @@ namespace Mud.Server.Character
             if (KnownAbilities.Any(x => x.Ability == AbilityManager.FourthWieldAbility))
             {
                 IItemWeapon wielded4 = Equipments.Where(x => x.Slot == EquipmentSlots.OffHand).ElementAtOrDefault(1)?.Item as IItemWeapon;
-                if (wielded4 == null)
-                    return true;
-                OneHit(enemy, wielded4, wielded4.DamageType, true);
+                if (wielded4 != null)
+                    OneHit(enemy, wielded4, wielded4.DamageType, true);
             }
             if (Fighting != enemy) // stop multihit if different enemy or no enemy
                 return true;
@@ -886,11 +877,6 @@ namespace Mud.Server.Character
             _cooldowns.Remove(ability);
             if (verbose)
                 Send("%c%{0} is available.%x%", ability.Name);
-        }
-
-        public void AutoLook()
-        {
-            DisplayRoom();
         }
 
         // Equipment
@@ -1333,16 +1319,10 @@ namespace Mud.Server.Character
             {
                 if (this == source)
                 {
-                    //Act(ActOptions.ToCharacter, "Your {0} is absorbed.", name);
-                    //Act(ActOptions.ToRoom, "{0} {1} is absorbed.", source, name);
                     Act(ActOptions.ToAll, "{0:P} {1} is absorbed.", source, name);
                 }
                 else
                 {
-                    //if (Room == source.Room)
-                    //    source.Act(ActOptions.ToCharacter, "Your {0} is absorbed.", name);
-                    //Act(ActOptions.ToCharacter, "{0}'s {1} is absorbed.", source, name);
-                    //ActToNotVictim(source, "{0}'s {1} is absorbed by {2}.", source, name, this);
                     Act(ActOptions.ToAll, "{0:P} {1} is absorbed by {2}.", source, name, this);
                 }
             }
@@ -1350,16 +1330,10 @@ namespace Mud.Server.Character
             {
                 if (this == source)
                 {
-                    //Act(ActOptions.ToCharacter, "You absorb some damage.");
-                    //Act(ActOptions.ToRoom, "{0} absorbs some damage.", source);
                     Act(ActOptions.ToAll, "{0:P} absorb{0:v} some damage.", this);
                 }
                 else
                 {
-                    //if (Room == source.Room)
-                    //    source.Act(ActOptions.ToCharacter, "{0} absorbs your damage.", this);
-                    //Act(ActOptions.ToCharacter, "You absorb damage from {0}.", source);
-                    //ActToNotVictim(source, "{0} absorbs damage from {1}.", this, source);
                     Act(ActOptions.ToAll, "{0:P} absorb{0:v} damage from {1}", this, source);
                 }
             }
@@ -1369,14 +1343,10 @@ namespace Mud.Server.Character
         {
             if (!string.IsNullOrWhiteSpace(name))
             {
-                //Act(ActOptions.ToCharacter, "{0} is absorbed.", name);
-                //Act(ActOptions.ToRoom, "{0} is absorbed by {1}.", name, this);
                 Act(ActOptions.ToAll, "{0} absorb{0:v} damage from {1}.", this, name);
             }
             else
             {
-                //Act(ActOptions.ToCharacter, "You absorb damage.");
-                //Act(ActOptions.ToRoom, "{0} absorbs damage.", this);
                 Act(ActOptions.ToAll, "{0} absorb{0:v} some damage.", this);
             }
         }
@@ -1390,16 +1360,14 @@ namespace Mud.Server.Character
             {
                 if (this == source)
                 {
-                    //Act(ActOptions.ToCharacter, "Your {0} {1} yourself.[{2}]", name, damagePhraseOther, damage);
-                    //Act(ActOptions.ToRoom, "{0} {1} {2} {0:m}self.[{3}]", source, name, damagePhraseOther, damage);
-                    Act(ActOptions.ToAll, "{0:P} {1} {2} {0:f}.[{3}]", source, name, damagePhraseOther, damage);
+                    Act(ActOptions.ToAll, "{0:P} {1} {2} {0:f}.[dmg:{3}]", source, name, damagePhraseOther, damage);
                 }
                 else
                 {
-                    Act(ActOptions.ToCharacter, "{0}'s {1} {2} you.[{3}]", source, name, damagePhraseOther, damage);
+                    Act(ActOptions.ToCharacter, "{0}'s {1} {2} you.[dmg:{3}]", source, name, damagePhraseOther, damage);
                     if (Room == source.Room)
-                        source.Act(ActOptions.ToCharacter, "Your {0} {1} {2}.[{3}]", name, damagePhraseSelf, this, damage);
-                    ActToNotVictim(source, "{0}'s {1} {2} {3}.[{4}]", source, name, damagePhraseOther, this, damage);
+                        source.Act(ActOptions.ToCharacter, "Your {0} {1} {2}.[dmg:{3}]", name, damagePhraseSelf, this, damage);
+                    ActToNotVictim(source, "{0}'s {1} {2} {3}.[dmg:{4}]", source, name, damagePhraseOther, this, damage);
                     // TODO: damagePhraseOther and damagePhraseSelf should be merge and include {0:v}
                     //Act(ActOptions.ToAll, "{0:P} {1} {2} {3}.[{4}]", source, name, damagePhraseOther, this, damage);
                 }
@@ -1408,15 +1376,15 @@ namespace Mud.Server.Character
             {
                 if (this == source)
                 {
-                    Act(ActOptions.ToCharacter, "You {0} yourself.[{1}]", damagePhraseSelf, damage);
-                    Act(ActOptions.ToRoom, "{0} {1} {0:m}self.[{2}]", source, damagePhraseOther, damage);
+                    Act(ActOptions.ToCharacter, "You {0} yourself.[dmg:{1}]", damagePhraseSelf, damage);
+                    Act(ActOptions.ToRoom, "{0} {1} {0:m}self.[dmg:{2}]", source, damagePhraseOther, damage);
                 }
                 else
                 {
-                    Act(ActOptions.ToCharacter, "{0} {1} you.[{2}]", source, damagePhraseOther, damage);
+                    Act(ActOptions.ToCharacter, "{0} {1} you.[dmg:{2}]", source, damagePhraseOther, damage);
                     if (Room == source.Room)
-                        source.Act(ActOptions.ToCharacter, "You {0} {1}.[{2}]", damagePhraseSelf, this, damage);
-                    ActToNotVictim(source, "{0} {1} {2}.[{3}]", source, damagePhraseOther, this, damage);
+                        source.Act(ActOptions.ToCharacter, "You {0} {1}.[dmg:{2}]", damagePhraseSelf, this, damage);
+                    ActToNotVictim(source, "{0} {1} {2}.[dmg:{3}]", source, damagePhraseOther, this, damage);
                     // TODO: damagePhraseOther and damagePhraseSelf should be merge and include {0:v}
                 }
             }
@@ -1429,15 +1397,15 @@ namespace Mud.Server.Character
 
             if (!string.IsNullOrWhiteSpace(name))
             {
-                Act(ActOptions.ToCharacter, "{0} {1} you.[{2}]", name, damagePhraseSelf, damage);
-                Act(ActOptions.ToRoom, "{0} {1} {2}.[{3}]", name, damagePhraseOther, this, damage);
+                Act(ActOptions.ToCharacter, "{0} {1} you.[dmg:{2}]", name, damagePhraseSelf, damage);
+                Act(ActOptions.ToRoom, "{0} {1} {2}.[dmg:{3}]", name, damagePhraseOther, this, damage);
                 // TODO: damagePhraseOther and damagePhraseSelf should be merge and include {0:v}
             }
             else
             {
                 Log.Default.WriteLine(LogLevels.Warning, "ICharacter.NonCombatDamage: no ability");
-                Act(ActOptions.ToCharacter, "Something {0} you.[{1}]", damagePhraseOther, damage);
-                Act(ActOptions.ToRoom, "Something {0} {1}.[{2}]", damagePhraseOther, this, damage);
+                Act(ActOptions.ToCharacter, "Something {0} you.[dmg:{1}]", damagePhraseOther, damage);
+                Act(ActOptions.ToRoom, "Something {0} {1}.[dmg:{2}]", damagePhraseOther, this, damage);
                 // TODO: damagePhraseOther and damagePhraseSelf should be merge and include {0:v}
             }
         }
@@ -1448,30 +1416,30 @@ namespace Mud.Server.Character
             {
                 if (this == source)
                 {
-                    Act(ActOptions.ToCharacter, "Your {0} %W%heals%x% yourself.[{1}]", ability, amount);
-                    Act(ActOptions.ToRoom, "{0} {1} %W%heals%x% {0:m}self.[{2}]", this, ability, amount);
+                    Act(ActOptions.ToCharacter, "Your {0} %W%heals%x% yourself.[heal:{1}]", ability, amount);
+                    Act(ActOptions.ToRoom, "{0} {1} %W%heals%x% {0:m}self.[heal:{2}]", this, ability, amount);
                 }
                 else
                 {
-                    Act(ActOptions.ToCharacter, "{0}'s {1} %W%heals%x% you.[{2}]", source, ability, amount);
+                    Act(ActOptions.ToCharacter, "{0}'s {1} %W%heals%x% you.[heal:{2}]", source, ability, amount);
                     if (Room == source.Room)
-                        source.Act(ActOptions.ToCharacter, "Your {0} %W%heals%x% {1}.[{2}]", ability, this, amount);
-                    ActToNotVictim(source, "{0}'s {1} %W%heals%x% {2}.[{3}]", source, ability, this, amount);
+                        source.Act(ActOptions.ToCharacter, "Your {0} %W%heals%x% {1}.[heal:{2}]", ability, this, amount);
+                    ActToNotVictim(source, "{0}'s {1} %W%heals%x% {2}.[heal:{3}]", source, ability, this, amount);
                 }
             }
             else
             {
                 if (this == source)
                 {
-                    Act(ActOptions.ToCharacter, "You %W%heal%x% yourself.[{0}]", amount);
-                    Act(ActOptions.ToRoom, "{0} %W%heals%x% {0:m}self.[{1}]", this, amount);
+                    Act(ActOptions.ToCharacter, "You %W%heal%x% yourself.[heal:{0}]", amount);
+                    Act(ActOptions.ToRoom, "{0} %W%heals%x% {0:m}self.[heal:{1}]", this, amount);
                 }
                 else
                 {
-                    Act(ActOptions.ToCharacter, "{0} heals you.[{1}]", source, amount);
+                    Act(ActOptions.ToCharacter, "{0} heals you.[heal:{1}]", source, amount);
                     if (Room == source.Room)
-                        source.Act(ActOptions.ToCharacter, "You heal {0}.[{1}]", this, amount);
-                    ActToNotVictim(source, "{0} heals {1}.[{2}]", source, this, amount);
+                        source.Act(ActOptions.ToCharacter, "You heal {0}.[heal:{1}]", this, amount);
+                    ActToNotVictim(source, "{0} heals {1}.[heal:{2}]", source, this, amount);
                 }
             }
         }

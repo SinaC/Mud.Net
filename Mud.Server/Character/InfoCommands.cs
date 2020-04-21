@@ -245,6 +245,7 @@ namespace Mud.Server.Character
         protected virtual bool DoScore(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: score all will display everything (every resources, every stats)
+            IPlayableCharacter playableCharacter = this as IPlayableCharacter;
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine();
@@ -252,8 +253,8 @@ namespace Mud.Server.Character
             string form = string.Empty;
             if (Form != Forms.Normal)
                 form = $"%m% [Form: {Form}]%x%";
-            if (ImpersonatedBy != null)
-                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + " (" + ImpersonatedBy.DisplayName + ")" + form, form == string.Empty ? 56 : 62) + "|");
+            if (playableCharacter != null)
+                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + " (" + playableCharacter.DisplayName + ")" + form, form == string.Empty ? 56 : 62) + "|");
             else
                 sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + form, form == string.Empty ? 56 : 62) + "|");
             sb.AppendLine("+---------------------------+----------------------------+");
@@ -262,7 +263,10 @@ namespace Mud.Server.Character
             sb.AppendFormatLine("| %c%Agility   : %W%[{0,5}/{1,5}]%x% | %c%Class  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Agility], GetBasePrimaryAttribute(PrimaryAttributeTypes.Agility), Class?.DisplayName ?? "(none)");
             sb.AppendFormatLine("| %c%Stamina   : %W%[{0,5}/{1,5}]%x% | %c%Sex    : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Stamina], GetBasePrimaryAttribute(PrimaryAttributeTypes.Stamina), Sex);
             sb.AppendFormatLine("| %c%Intellect : %W%[{0,5}/{1,5}]%x% | %c%Level  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Intellect], GetBasePrimaryAttribute(PrimaryAttributeTypes.Intellect), Level);
-            sb.AppendFormatLine("| %c%Spirit    : %W%[{0,5}/{1,5}]%x% | %c%NxtLvl : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Spirit], GetBasePrimaryAttribute(PrimaryAttributeTypes.Spirit), ExperienceToLevel);
+            if (playableCharacter != null)
+                sb.AppendFormatLine("| %c%Spirit    : %W%[{0,5}/{1,5}]%x% | %c%NxtLvl : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Spirit], GetBasePrimaryAttribute(PrimaryAttributeTypes.Spirit), playableCharacter.ExperienceToLevel);
+            else
+                sb.AppendFormatLine("| %c%Spirit    : %W%[{0,5}/{1,5}]%x% |                       |", this[PrimaryAttributeTypes.Spirit], GetBasePrimaryAttribute(PrimaryAttributeTypes.Spirit));
             sb.AppendLine("+---------------------------+--+-------------------------+");
             sb.AppendLine("| %W%Resources%x%                    | %W%Offensive%x%               |");
             // TODO: don't display both Attack Power and Spell Power
@@ -431,7 +435,7 @@ namespace Mud.Server.Character
         private void DisplayRoom() // equivalent to act_info.C:do_look("auto")
         {
             // Room name
-            if (ImpersonatedBy is IAdmin)
+            if (this is IPlayableCharacter playableCharacter && playableCharacter.ImpersonatedBy is IAdmin)
                 Send($"%c%{Room.DisplayName} [{Room.Blueprint?.Id.ToString() ?? "???"}]%x%");
             else
                 Send("%c%{0}%x%", Room.DisplayName);
@@ -625,7 +629,7 @@ namespace Mud.Server.Character
                             message.Append(" (CLOSED)");
                         if (exit.IsHidden)
                             message.Append(" [HIDDEN]");
-                        if (ImpersonatedBy is IAdmin)
+                        if (this is IPlayableCharacter playableCharacter && playableCharacter.ImpersonatedBy is IAdmin)
                             message.Append($" [{exit.Destination.Blueprint?.Id.ToString() ?? "???"}]");
                         message.AppendLine();
                     }
@@ -694,7 +698,7 @@ namespace Mud.Server.Character
         {
             StringBuilder peopleInRoom = new StringBuilder();
             foreach (ICharacter victim in room.People.Where(CanSee))
-                peopleInRoom.AppendFormatLine(" - {0}", victim.DisplayName); // TODO: use RelativeDisplayName ???
+                peopleInRoom.AppendFormatLine(" - {0}", victim.RelativeDisplayName(this)); // TODO: use RelativeDisplayName ???
             return peopleInRoom;
         }
 

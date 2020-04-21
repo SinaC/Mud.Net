@@ -200,10 +200,10 @@ namespace Mud.Server.TestApplication
             DependencyContainer.Current.GetInstance<IWorld>().AddExit(room2, room1, null, ExitDirections.North);
 
             //ICharacter mob1 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), "Mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, room1); // playable
-            ICharacter mob2 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob2Blueprint, room1);
-            ICharacter mob3 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob3Blueprint, room2);
-            ICharacter mob4 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob4Blueprint, room2);
-            ICharacter mob5 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob5Blueprint, room2);
+            ICharacter mob2 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, room1);
+            ICharacter mob3 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob3Blueprint, room2);
+            ICharacter mob4 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob4Blueprint, room2);
+            ICharacter mob5 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, room2);
 
             IItemContainer item1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, room1);
             IItemContainer item1Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, room2);
@@ -411,10 +411,10 @@ namespace Mud.Server.TestApplication
             IRoom templeSquare = DependencyContainer.Current.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
             //ICharacter mob1 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
-            ICharacter mob2 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
-            ICharacter mob3 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
-            ICharacter mob4 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
-            ICharacter mob5 = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
+            ICharacter mob2 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
+            ICharacter mob3 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
+            ICharacter mob4 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
+            ICharacter mob5 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
             IItemContainer item1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
             IItemContainer item1Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
@@ -535,7 +535,7 @@ namespace Mud.Server.TestApplication
             player.ProcessCommand("unknown"); // INVALID
             player.ProcessCommand("/test");
 
-            ICharacter character = DependencyContainer.Current.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), new CharacterData
+            IPlayableCharacter character = DependencyContainer.Current.GetInstance<IWorld>().AddPlayableCharacter(Guid.NewGuid(), new CharacterData
             {
                 Name = "toto",
                 Class = DependencyContainer.Current.GetInstance<IClassManager>()["Mage"].Name,
@@ -544,7 +544,7 @@ namespace Mud.Server.TestApplication
                 Level = 1,
                 Experience = 0,
                 RoomId = room.Blueprint.Id
-            }, room);
+            }, player, room);
             character.ProcessCommand("look");
             character.ProcessCommand("tell"); // INVALID because Player commands are not accessible by Character
             character.ProcessCommand("unknown"); // INVALID

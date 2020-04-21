@@ -51,8 +51,8 @@ namespace Mud.POC.TestLua
             });
 
             World.AddRoom(Guid.NewGuid(), World.GetRoomBlueprint(1), World.Areas.First());
-            ICharacter bigBadMob = World.AddCharacter(Guid.NewGuid(), World.GetCharacterBlueprint(1), World.Rooms.First());
-            ICharacter weakMob = World.AddCharacter(Guid.NewGuid(), World.GetCharacterBlueprint(2), World.Rooms.First());
+            ICharacter bigBadMob = World.AddNonPlayableCharacter(Guid.NewGuid(), World.GetCharacterBlueprint(1), World.Rooms.First());
+            ICharacter weakMob = World.AddNonPlayableCharacter(Guid.NewGuid(), World.GetCharacterBlueprint(2), World.Rooms.First());
         }
     }
 }
