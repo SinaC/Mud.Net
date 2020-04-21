@@ -42,7 +42,7 @@ namespace Mud.Server.Admin
             int id = 0;
             foreach (IQuest quest in whom.Quests)
             {
-                BuildQuestSummary(sb, quest, id);
+                BuildQuestInfo(sb, quest, id);
                 id++;
             }
             Page(sb);
@@ -82,26 +82,14 @@ namespace Mud.Server.Admin
         }
 
         //
-        private void BuildQuestSummary(StringBuilder sb, IQuest quest, int? id)
+        private void BuildQuestInfo(StringBuilder sb, IQuest quest, int id)
         {
-            if (id >= 0)
-                sb.AppendFormatLine($"{id + 1,2}) {quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
-            else
-                sb.AppendFormatLine($"{quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
-            if (!quest.IsCompleted)
-                BuildQuestObjectives(sb, quest);
-        }
-
-        private void BuildQuestObjectives(StringBuilder sb, IQuest quest)
-        {
+            sb.AppendFormat($"{id + 1,2}) {quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
+            if (quest.Blueprint.TimeLimit > 0)
+                sb.Append($" Time left : {StringHelpers.FormatDelay(quest.SecondsLeft)}");
+            sb.AppendLine();
             foreach (IQuestObjective objective in quest.Objectives)
-            {
-                // TODO: 2 columns ?
-                if (objective.IsCompleted)
-                    sb.AppendFormatLine($"     %g%{objective.CompletionState}%x%");
-                else
-                    sb.AppendFormatLine($"     {objective.CompletionState}");
-            }
+                sb.AppendFormatLine($"     {objective.CompletionState}");
         }
     }
 }

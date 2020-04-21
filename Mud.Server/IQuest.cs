@@ -18,13 +18,16 @@ namespace Mud.Server
         void Update(ICharacter victim);
         void Update(IItemQuest item, bool force);
         void Update(IRoom room);
+        void Reset();
+        void Timeout();
+        bool UpdateSecondsLeft(int seconds); // true if timed out
 
         bool IsCompleted { get; }
         DateTime StartTime { get; }
+        int SecondsLeft { get; }
         DateTime? CompletionTime { get; }
         void Complete();
         void Abandon();
-        void Reset();
 
         CurrentQuestData GenerateQuestData();
     }

@@ -82,8 +82,7 @@ namespace Mud.Server
         // Quest
         IEnumerable<IQuest> Quests { get; }
         void AddQuest(IQuest quest);
-        void CompleteQuest(IQuest quest);
-        void AbandonQuest(IQuest quest);
+        void RemoveQuest(IQuest quest);
         bool IsQuestObjective(ICharacter questingCharacter);
 
         // Group/Follower

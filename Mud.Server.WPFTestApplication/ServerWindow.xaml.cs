@@ -1491,6 +1491,7 @@ namespace Mud.Server.WPFTestApplication
                 Level = 10,
                 Experience = 10000,
                 Gold = 20,
+                TimeLimit = 5,
                 LocationObjectives = new List<QuestLocationObjectiveBlueprint>
                 {
                     new QuestLocationObjectiveBlueprint

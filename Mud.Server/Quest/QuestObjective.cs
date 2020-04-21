@@ -17,7 +17,7 @@ namespace Mud.Server.Quest
         public bool IsCompleted => Count >= Total;
 
         public string CompletionState => IsCompleted
-            ? $"{TargetName,-20}: complete"
+            ? $"{TargetName,-20}: complete ({Count,3} / {Total,3})"
             : $"{TargetName,-20}: {Count,3} / {Total,3} ({((Count * 100) / Total):D}%)";
 
         public void Reset()

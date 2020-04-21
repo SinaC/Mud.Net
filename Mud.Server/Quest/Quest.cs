@@ -25,6 +25,7 @@ namespace Mud.Server.Quest
         {
             Character = character;
             StartTime = DateTime.Now;
+            SecondsLeft = blueprint.TimeLimit * 60;
             Blueprint = blueprint;
             Giver = giver;
             _objectives = new List<IQuestObjective>();
@@ -38,6 +39,7 @@ namespace Mud.Server.Quest
             // TODO: quid if blueprint is null?
             Blueprint = questBlueprint;
             StartTime = questData.StartTime;
+            SecondsLeft = questData.SecondsLeft;
             CompletionTime = questData.CompletionTime;
 
             CharacterQuestorBlueprint characterQuestorBlueprint = World.GetCharacterBlueprint<CharacterQuestorBlueprint>(questData.GiverId);
@@ -96,7 +98,11 @@ namespace Mud.Server.Quest
                         Log.Default.WriteLine(LogLevels.Debug, $"Loot objective {loot} generated for {Character.DisplayName}");
                     }
                     else
-                        Log.Default.WriteLine(LogLevels.Warning, $"Loot objective {loot} doesn't exist (or is not quest item) for quest {Blueprint.Id}");
+                    {
+                        string msg = $"Loot objective {loot} doesn't exist (or is not quest item) for quest {Blueprint.Id}";
+                        Log.Default.WriteLine(LogLevels.Warning, msg);
+                        Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+                    }
                 }
             }
         }
@@ -110,9 +116,9 @@ namespace Mud.Server.Quest
             foreach (KillQuestObjective objective in _objectives.OfType<KillQuestObjective>().Where(x => !x.IsCompleted && x.Blueprint.Id == victim.Blueprint.Id))
             {
                 objective.Count++;
-                Character.Send($"%y%Quest {Blueprint.Title}: {objective.CompletionState}%x%");
+                Character.Send($"%y%Quest '{Blueprint.Title}': {objective.CompletionState}%x%");
                 if (IsCompleted)
-                    Character.Send($"%R%Quest {Blueprint.Title}: complete%x%");
+                    Character.Send($"%R%Quest '{Blueprint.Title}': complete%x%");
             }
         }
 
@@ -133,9 +139,9 @@ namespace Mud.Server.Quest
             foreach (ItemQuestObjective objective in _objectives.OfType<ItemQuestObjective>().Where(x => !x.IsCompleted && x.Blueprint.Id == item.Blueprint.Id))
             {
                 objective.Count++;
-                Character.Send($"%y%Quest {Blueprint.Title}: {objective.CompletionState}%x%");
+                Character.Send($"%y%Quest '{Blueprint.Title}': {objective.CompletionState}%x%");
                 if (IsCompleted)
-                    Character.Send($"%R%Quest {Blueprint.Title}: complete%x%");
+                    Character.Send($"%R%Quest '{Blueprint.Title}': complete%x%");
             }
         }
 
@@ -148,15 +154,39 @@ namespace Mud.Server.Quest
             foreach (LocationQuestObjective objective in _objectives.OfType<LocationQuestObjective>().Where(x => !x.IsCompleted && x.Blueprint.Id == room.Blueprint.Id))
             {
                 objective.Explored = true;
-                Character.Send($"%y%Quest {Blueprint.Title}: {objective.CompletionState}%x%");
+                Character.Send($"%y%Quest '{Blueprint.Title}': {objective.CompletionState}%x%");
                 if (IsCompleted)
-                    Character.Send($"%R%Quest {Blueprint.Title}: complete%x%");
+                    Character.Send($"%R%Quest '{Blueprint.Title}': complete%x%");
             }
+        }
+
+        public void Reset()
+        {
+            foreach (IQuestObjective objective in _objectives)
+            {
+                objective.Reset();
+                if (objective is ItemQuestObjective itemQuestObjective)
+                    itemQuestObjective.Count = Character.Content.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == itemQuestObjective.Blueprint.Id);
+            }
+        }
+
+        public void Timeout()
+        {
+            Character.Send($"%R%You have run out of time for quest '{Blueprint.Title}'.%x%");
+            if (Blueprint.ShouldQuestItemBeDestroyed && Blueprint.ItemObjectives != null)
+                DestroyQuestItems();
+        }
+
+        public bool UpdateSecondsLeft(int seconds)
+        {
+            SecondsLeft = Math.Max(SecondsLeft + seconds, 0);
+            return SecondsLeft == 0;
         }
 
         public bool IsCompleted => Objectives == null || Objectives.All(x => x.IsCompleted);
 
         public DateTime StartTime { get; }
+        public int SecondsLeft { get; private set; }
         public DateTime? CompletionTime { get; private set; }
 
         public void Complete()
@@ -205,22 +235,13 @@ namespace Mud.Server.Quest
                 DestroyQuestItems();
         }
 
-        public void Reset()
-        {
-            foreach (IQuestObjective objective in _objectives)
-            {
-                objective.Reset();
-                if (objective is ItemQuestObjective itemQuestObjective)
-                    itemQuestObjective.Count = Character.Content.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == itemQuestObjective.Blueprint.Id);
-            }
-        }
-
         public CurrentQuestData GenerateQuestData()
         {
             return new CurrentQuestData
             {
                 QuestId = Blueprint.Id,
                 StartTime = StartTime,
+                SecondsLeft = SecondsLeft,
                 CompletionTime = CompletionTime,
                 GiverId = Giver.Blueprint.Id,
                 GiverRoomId = Giver.Room?.Blueprint.Id ?? 0,

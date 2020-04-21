@@ -14,6 +14,9 @@ namespace Mud.Repository.Filesystem.DataContracts
         public DateTime StartTime { get; set; }
 
         [DataMember]
+        public int SecondsLeft { get; set; }
+
+        [DataMember]
         public DateTime? CompletionTime { get; set; }
 
         [DataMember]

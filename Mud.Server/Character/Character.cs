@@ -370,33 +370,8 @@ namespace Mud.Server.Character
             _quests.Add(quest);
         }
 
-        public void CompleteQuest(IQuest quest)
+        public void RemoveQuest(IQuest quest)
         {
-            if (_quests.All(q => q.Blueprint.Id != quest.Blueprint.Id))
-            {
-                Log.Default.WriteLine(LogLevels.Warning, $"ICharacter.CompleteQuest: unassigned quest {quest.Blueprint.Id} for {DebugName}");
-                return;
-            }
-            if (!quest.IsCompleted)
-            {
-                Send("Quest {0} is not finished!", quest.Blueprint.Title);
-                return;
-            }
-            Send("You complete {0} successfully.", quest.Blueprint.Title);
-
-            quest.Complete();
-            _quests.Remove(quest);
-        }
-
-        public void AbandonQuest(IQuest quest)
-        {
-            if (_quests.All(q => q.Blueprint.Id != quest.Blueprint.Id))
-            {
-                Log.Default.WriteLine(LogLevels.Warning, $"ICharacter.CompleteQuest: unassigned quest {quest.Blueprint.Id} for {DebugName}");
-                return;
-            }
-            Send("You abandon {0}!", quest.Blueprint.Title);
-            quest.Abandon();
             _quests.Remove(quest);
         }
 
