@@ -10,7 +10,7 @@ using Mud.Server.Input;
 
 namespace Mud.Server.Character
 {
-    public partial class Character
+    public partial class CharacterBase
     {
         [Command("use", Category = "Ability", Priority = 2)]
         [Command("cast", Category = "Ability", Priority = 2)]

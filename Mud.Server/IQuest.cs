@@ -10,12 +10,12 @@ namespace Mud.Server
     {
         QuestBlueprint Blueprint { get; }
 
-        ICharacter Character { get; }
-        ICharacter Giver { get; } // TODO: quest may be ended with a different NPC
+        IPlayableCharacter Character { get; }
+        INonPlayableCharacter Giver { get; } // TODO: quest may be ended with a different NPC
 
         IEnumerable<IQuestObjective> Objectives { get; }
-        void GenerateKillLoot(ICharacter victim, IContainer container);
-        void Update(ICharacter victim);
+        void GenerateKillLoot(INonPlayableCharacter victim, IContainer container);
+        void Update(INonPlayableCharacter victim);
         void Update(IItemQuest item, bool force);
         void Update(IRoom room);
         void Reset();

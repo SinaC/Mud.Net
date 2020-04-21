@@ -10,7 +10,7 @@ using Mud.Server.Input;
 
 namespace Mud.Server.Character
 {
-    public partial class Character
+    public partial class CharacterBase
     {
         [Command("follow", Category = "Group")]
         protected virtual bool DoFollow(string rawParameters, params CommandParameter[] parameters)

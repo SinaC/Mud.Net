@@ -1,3 +1,10 @@
+
+what are the differences between a PC and a NPC
+transform ICharacter into
+ ICharacter, INonPlayableCharacter, IPlayableCharacter
+transform Character into 
+ Character, NonPlayableCharacter, PlayableCharacter
+
 move MapItemData in ItemBase
 
 quest save completed quests
@@ -75,12 +82,6 @@ use new act formatting: h, b, v whereas possible
 wield2h/wield2h2
 
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
-
-what are the differences between a PC and a NPC
-transform ICharacter into
- ICharacter, INonPlayableCharacter, IPlayableCharacter
-transform Character into 
- Character, NonPlayableCharacter, PlayableCharacter
 
 aura/periodic aura can have multiply affects/effects
 isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + filter on isValid + remove them during Cleanup phease (--> no more clone of auras needed while modifying/clearing auras, same goes with periodic aura)

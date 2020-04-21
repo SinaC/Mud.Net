@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using Mud.Domain;
 using Mud.Server.Abilities;
-using Mud.Server.Blueprints.Character;
+using Mud.Server.Helpers;
+using Mud.Server.Input;
 using Mud.Server.Item;
 
 namespace Mud.Server
@@ -29,8 +30,6 @@ namespace Mud.Server
 
     public interface ICharacter : IEntity, IContainer
     {
-        CharacterBlueprintBase Blueprint { get; }
-
         IRoom Room { get; }
         ICharacter Fighting { get; }
 
@@ -48,14 +47,12 @@ namespace Mud.Server
 
         // Attributes
         Sex Sex { get; }
-        long Experience { get; }
         int Level { get; }
         int HitPoints { get; }
         int this[ResourceKinds resource] { get; }
         int this[PrimaryAttributeTypes attribute] { get; }
         int this[SecondaryAttributeTypes attribute] { get; }
         IEnumerable<ResourceKinds> CurrentResourceKinds { get; }
-        long ExperienceToLevel { get; }
 
         // Form
         Forms Form { get; }
@@ -67,34 +64,8 @@ namespace Mud.Server
         IEnumerable<IPeriodicAura> PeriodicAuras { get; }
         IEnumerable<IAura> Auras { get; }
 
-        // Group/Follower
-        ICharacter Leader { get; }
-        IEnumerable<ICharacter> GroupMembers { get; } //!! leader is not be member of its own group and only leader stores GroupMembers
-        bool IsSameGroup(ICharacter character); // check is 'this' and 'character' are in the same group
-
-        // Impersonation/Controller
-        bool Impersonable { get; }
-        IPlayer ImpersonatedBy { get; }
-
         ICharacter Slave { get; } // who is our slave (related to charm command/spell)
         ICharacter ControlledBy { get; } // who is our master (related to charm command/spell)
-
-        // Quest
-        IEnumerable<IQuest> Quests { get; }
-        void AddQuest(IQuest quest);
-        void RemoveQuest(IQuest quest);
-        bool IsQuestObjective(ICharacter questingCharacter);
-
-        // Group/Follower
-        bool ChangeLeader(ICharacter leader);
-        bool AddGroupMember(ICharacter member, bool silent);
-        bool RemoveGroupMember(ICharacter member, bool silent);
-        bool AddFollower(ICharacter follower);
-        bool StopFollower(ICharacter follower);
-
-        // Impersonation/Controller
-        bool ChangeImpersonation(IPlayer player); // if non-null, start impersonation, else, stop impersonation
-        bool ChangeController(ICharacter master); // if non-null, start slavery, else, stop slavery
 
         // Act
         void Act(ActOptions option, string format, params object[] arguments);
@@ -130,6 +101,9 @@ namespace Mud.Server
         void AddAura(IAura aura, bool recompute);
         void RemoveAura(IAura aura, bool recompute);
 
+        // Controller
+        bool ChangeController(ICharacter master); // if non-null, start slavery, else, stop slavery 
+
         // Recompute
         void Reset(); // Reset attributes, remove auras, periodic auras
         void ResetAttributes(bool resetHitPoints);
@@ -148,9 +122,8 @@ namespace Mud.Server
         bool WeaponDamage(ICharacter source, IItemWeapon weapon, int damage, SchoolTypes damageType, bool visible); // damage from weapon(or bare hands) of known source
         bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage from ability of known source
         bool UnknownSourceDamage(IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage with unknown source or no source
-        bool RawKilled(ICharacter killer, bool killingPayoff); // kill 'this' + create corpse (if killingPayoff is true, xp gain/loss)
+        void Slay(IPlayableCharacter killer);
         void KillingPayoff(ICharacter victim);
-        void GainExperience(long experience); // add/substract experience
 
         // Ability
         IDictionary<IAbility, DateTime> AbilitiesInCooldown { get; }
@@ -159,21 +132,13 @@ namespace Mud.Server
         void SetCooldown(IAbility ability);
         void ResetCooldown(IAbility ability, bool verbose);
 
-        // Look
-        void AutoLook();
-
         // Equipment
         EquipedItem SearchEquipmentSlot(IEquipable item, bool replace);
-
-        // CharacterData
-        void FillCharacterData(CharacterData characterData);
     }
 
     public class EquipedItem
     {
-        public static readonly EquipedItem NullObject = new EquipedItem(EquipmentSlots.None);
-
-        public EquipmentSlots Slot { get; private set; }
+        public EquipmentSlots Slot { get; }
         public IEquipable Item { get; set; }
 
         public EquipedItem(EquipmentSlots slot)

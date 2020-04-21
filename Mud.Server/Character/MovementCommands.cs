@@ -9,7 +9,7 @@ using Mud.Server.Item;
 
 namespace Mud.Server.Character
 {
-    public partial class Character
+    public partial class CharacterBase
     {
         [Command("north", Category = "Movement", Priority = 0)]
         protected virtual bool DoNorth(string rawParameters, params CommandParameter[] parameters)

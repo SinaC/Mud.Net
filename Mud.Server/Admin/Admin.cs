@@ -157,8 +157,8 @@ namespace Mud.Server.Admin
 
         private string BuildIncarnatePrompt()
         {
-            if (Incarnating is ICharacter character)
-                return BuildCharacterPrompt(character);
+            if (Incarnating is IPlayableCharacter playableCharacter)
+                return BuildCharacterPrompt(playableCharacter);
             return $"{Incarnating.DisplayName}>";
         }
     }

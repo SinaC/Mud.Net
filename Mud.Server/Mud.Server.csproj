@@ -92,13 +92,15 @@
     <Compile Include="Admin\IncarnateCommand.cs" />
     <Compile Include="Admin\InfoCommands.cs" />
     <Compile Include="Character\AbilityCommands.cs" />
-    <Compile Include="Character\Character.cs" />
+    <Compile Include="Character\CharacterBase.cs" />
     <Compile Include="Character\CombatCommands.cs" />
     <Compile Include="Character\CommunicationCommands.cs" />
     <Compile Include="Character\GroupCommands.cs" />
     <Compile Include="Character\InfoCommands.cs" />
     <Compile Include="Character\MovementCommands.cs" />
     <Compile Include="Character\ItemCommands.cs" />
+    <Compile Include="Character\NonPlayableCharacter.cs" />
+    <Compile Include="Character\PlayableCharacter.cs" />
     <Compile Include="Character\QuestCommands.cs" />
     <Compile Include="Character\TestCommands.cs" />
     <Compile Include="Classes\ClassBase.cs" />
@@ -127,7 +129,9 @@
     <Compile Include="IEquipable.cs" />
     <Compile Include="IExit.cs" />
     <Compile Include="IItem.cs" />
+    <Compile Include="INonPlayableCharacter.cs" />
     <Compile Include="IPeriodicAura.cs" />
+    <Compile Include="IPlayableCharacter.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="IPlayerManager.cs" />
     <Compile Include="IQuest.cs" />

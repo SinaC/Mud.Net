@@ -16,7 +16,7 @@ namespace Mud.Server.Item
 
         #region ItemBase
 
-        public override bool IsQuestObjective(ICharacter questingCharacter)
+        public override bool IsQuestObjective(IPlayableCharacter questingCharacter)
         {
             return questingCharacter.Quests.Where(q => !q.IsCompleted).SelectMany(q => q.Objectives).OfType<ItemQuestObjective>().Any(o => o.Blueprint.Id == Blueprint.Id);
         }
@@ -32,7 +32,7 @@ namespace Mud.Server.Item
 
         private void UpdateQuestObjective(IContainer container)
         {
-            if (container is ICharacter character && character.Impersonable)
+            if (container is IPlayableCharacter character)
             {
                 foreach (IQuest quest in character.Quests)
                     quest.Update(this, false);

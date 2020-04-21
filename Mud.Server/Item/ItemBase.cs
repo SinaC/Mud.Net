@@ -40,7 +40,19 @@ namespace Mud.Server.Item
 
         public override string DebugName => Blueprint == null ? DisplayName : $"{DisplayName}[{Blueprint.Id}]";
 
-        public override string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false)
+        public override string RelativeDisplayName(INonPlayableCharacter beholder, bool capitalizeFirstLetter = false)
+        {
+            StringBuilder displayName = new StringBuilder();
+            if (beholder.CanSee(this))
+                displayName.Append(DisplayName);
+            else if (capitalizeFirstLetter)
+                displayName.Append("Something");
+            else
+                displayName.Append("something");
+            return displayName.ToString();
+        }
+
+        public override string RelativeDisplayName(IPlayableCharacter beholder, bool capitalizeFirstLetter = false)
         {
             StringBuilder displayName = new StringBuilder();
             if (IsQuestObjective(beholder))
@@ -57,7 +69,7 @@ namespace Mud.Server.Item
             return displayName.ToString();
         }
 
-        public override string RelativeDescription(ICharacter beholder) // Add (Quest) to description if beholder is on a quest with 'this' as objective
+        public override string RelativeDescription(IPlayableCharacter beholder) // Add (Quest) to description if beholder is on a quest with 'this' as objective
         {
             StringBuilder description = new StringBuilder();
             if (IsQuestObjective(beholder))
@@ -90,7 +102,7 @@ namespace Mud.Server.Item
 
         public virtual int Cost { get; }
 
-        public virtual bool IsQuestObjective(ICharacter questingCharacter)
+        public virtual bool IsQuestObjective(IPlayableCharacter questingCharacter)
         {
             return false; // by default, an item is not a quest objective
         }

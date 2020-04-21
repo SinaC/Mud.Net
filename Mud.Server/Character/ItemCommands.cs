@@ -9,7 +9,7 @@ using Mud.Server.Item;
 
 namespace Mud.Server.Character
 {
-    public partial class Character
+    public partial class CharacterBase
     {
         [Command("wear", Category = "Item")]
         // Wear item

@@ -4,7 +4,7 @@ using Mud.Server.Input;
 
 namespace Mud.Server.Character
 {
-    public partial class Character
+    public partial class CharacterBase
     {
         [Command("say", Category = "Communication")]
         protected virtual bool DoSay(string rawParameters, params CommandParameter[] parameters)

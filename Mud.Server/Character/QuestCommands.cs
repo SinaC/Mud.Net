@@ -8,7 +8,7 @@ using Mud.Server.Input;
 
 namespace Mud.Server.Character
 {
-    public partial class Character
+    public partial class CharacterBase
     {
         [CharacterCommand("quest", Category = "Quest", Priority = 1)]
         protected virtual bool DoQuest(string rawParameters, params CommandParameter[] parameters)

@@ -18,9 +18,13 @@ namespace Mud.Server
 
         bool ChangeIncarnation(IAdmin admin);
 
-        string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false); // Use to get DisplayName relative to Beholder. If Beholder cannot see 'this', it will return Someone or Something. It 'this' is quest objective, (Quest) will be prefixed
+        string RelativeDisplayName(INonPlayableCharacter beholder, bool capitalizeFirstLetter = false); // Use to get DisplayName relative to Beholder. If Beholder cannot see 'this', it will return Someone or Something. It 'this' is quest objective, (Quest) will be prefixed
 
-        string RelativeDescription(ICharacter beholder); // Add (Quest) to description if beholder is on a quest with 'this' as objective
+        string RelativeDisplayName(IPlayableCharacter beholder, bool capitalizeFirstLetter = false); // Use to get DisplayName relative to Beholder. If Beholder cannot see 'this', it will return Someone or Something. It 'this' is quest objective, (Quest) will be prefixed
+
+        string RelativeDescription(INonPlayableCharacter beholder); // Add (Quest) to description if beholder is on a quest with 'this' as objective
+
+        string RelativeDescription(IPlayableCharacter beholder); // Add (Quest) to description if beholder is on a quest with 'this' as objective
 
         void OnRemoved(); // called before removing an item from the game
     }

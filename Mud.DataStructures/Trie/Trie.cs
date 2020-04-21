@@ -191,6 +191,19 @@ namespace Mud.DataStructures.Trie
         }
 
         /// <summary>
+        /// Adds the elements of the specified collection to the <see cref="Trie{TValue}"/>.
+        /// </summary>
+        /// <param name="collection">The collection whose elements should be added to the <see cref="Trie{TValue}"/>. The items should have unique keys.</param>
+        /// <exception cref="T:System.ArgumentException">An element with the same charKey already exists in the <see cref="Trie{TValue}"/>.</exception>
+        public void AddRange(IEnumerable<KeyValuePair<string, TValue>> collection)
+        {
+            foreach (var item in collection)
+            {
+                Add(item.Key, item.Value);
+            }
+        }
+
+        /// <summary>
         /// Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1"/>.
         /// </summary>
         /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only. </exception>

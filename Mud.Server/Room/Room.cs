@@ -108,9 +108,9 @@ namespace Mud.Server.Room
             // TODO: check if not already in room
             _people.Add(character);
             // Update location quest
-            if (character.Impersonable)
+            if (character is IPlayableCharacter playableCharacter)
             {
-                foreach(IQuest quest in character.Quests)
+                foreach(IQuest quest in playableCharacter.Quests)
                     quest.Update(this);
             }
             return true;

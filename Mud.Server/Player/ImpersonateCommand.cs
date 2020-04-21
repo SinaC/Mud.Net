@@ -40,7 +40,7 @@ namespace Mud.Server.Player
                 Log.Default.WriteLine(LogLevels.Error, msg);
                 Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             }
-            ICharacter avatar = World.AddCharacter(Guid.NewGuid(), characterData, location);
+            IPlayableCharacter avatar = World.AddPlayableCharacter(Guid.NewGuid(), characterData, this, location);
             Send("%M%You start impersonating %C%{0}%x%.", avatar.DisplayName);
             avatar.ChangeImpersonation(this);
             Impersonating = avatar;

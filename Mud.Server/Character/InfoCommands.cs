@@ -12,7 +12,7 @@ using Mud.Server.Item;
 
 namespace Mud.Server.Character
 {
-    public partial class Character
+    public partial class CharacterBase
     {
         // 0/ if sleeping/blind/room is dark
         // 1/ else if no parameter, look in room
