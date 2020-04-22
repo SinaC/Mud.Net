@@ -25,8 +25,12 @@ namespace Mud.Server.TestApplication
     {
         private static void Main(string[] args)
         {
+            // Initialize settings
+            ISettings settings = new Settings.Settings();
+            DependencyContainer.Current.RegisterInstance<ISettings>(settings);
+
             // Initialize log
-            Log.Default.Initialize(ConfigurationManager.AppSettings["logpath"], "server.log");
+            Log.Default.Initialize(settings.LogPath, "server.test.log");
 
             // Initialize IOC container
             DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
@@ -40,7 +44,6 @@ namespace Mud.Server.TestApplication
             DependencyContainer.Current.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<ISettings, Settings.Settings>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager());
 

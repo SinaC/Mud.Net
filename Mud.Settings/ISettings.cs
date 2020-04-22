@@ -4,7 +4,12 @@
     {
         string LogPath { get; }
 
+        int TelnetPort { get; }
+
+        bool UseMongo { get; }
+
         string ConnectionString { get; }
+
         string PlayerRepositoryPath { get; }
         string AdminRepositoryPath { get; }
         string LoginRepositoryFilename { get; }
