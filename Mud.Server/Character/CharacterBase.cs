@@ -1777,7 +1777,7 @@ namespace Mud.Server.Character
                         if (target == character)
                             result.Append("You");
                         else
-                            result.Append(StringHelpers.UpperFirstLetter(StringHelpers.Subjects[character.Sex]));
+                            result.Append(StringHelpers.Subjects[character.Sex].UpperFirstLetter());
                         break;
                     // you/him/her/it
                     case 'm':
@@ -1790,7 +1790,7 @@ namespace Mud.Server.Character
                         if (target == character)
                             result.Append("You");
                         else
-                            result.Append(StringHelpers.UpperFirstLetter(StringHelpers.Objectives[character.Sex]));
+                            result.Append(StringHelpers.Objectives[character.Sex].UpperFirstLetter());
                         break;
                     // your/his/her/its
                     case 's':
@@ -1803,7 +1803,7 @@ namespace Mud.Server.Character
                         if (target == character)
                             result.Append("Your");
                         else
-                            result.Append(StringHelpers.UpperFirstLetter(StringHelpers.Possessives[character.Sex]));
+                            result.Append(StringHelpers.Possessives[character.Sex].UpperFirstLetter());
                         break;
                     // yourself/himself/herself/itself (almost same as 'm' + self)
                     case 'f':
@@ -1817,7 +1817,7 @@ namespace Mud.Server.Character
                         if (target == character)
                             result.Append("your");
                         else
-                            result.Append(StringHelpers.UpperFirstLetter(StringHelpers.Objectives[character.Sex]));
+                            result.Append(StringHelpers.Objectives[character.Sex].UpperFirstLetter());
                         result.Append("self");
                         break;
                     // is/are

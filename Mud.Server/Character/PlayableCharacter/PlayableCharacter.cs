@@ -8,6 +8,7 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
@@ -149,7 +150,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         #endregion
 
-        public override string DisplayName => StringHelpers.UpperFirstLetter(Name);
+        public override string DisplayName => Name.UpperFirstLetter();
 
         public override string DebugName => $"{DisplayName}[{ImpersonatedBy?.DisplayName ?? "???"}]";
 

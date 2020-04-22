@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -88,7 +89,7 @@ namespace Mud.Server.Player
         private Lazy<TableGenerator<CharacterData>> LazyAvatarTableGenerator => new Lazy<TableGenerator<CharacterData>>(() =>
         {
             TableGenerator<CharacterData> generator = new TableGenerator<CharacterData>();
-            generator.AddColumn("Name", 14, data => StringHelpers.UpperFirstLetter(data.Name));
+            generator.AddColumn("Name", 14, data => data.Name.UpperFirstLetter());
             generator.AddColumn("Level", 7, data => data.Level.ToString());
             generator.AddColumn("Class", 12, data => ClassManager[data.Class]?.DisplayName ?? "none");
             generator.AddColumn("Race", 12, data => RaceManager[data.Race]?.DisplayName ?? "none");

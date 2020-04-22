@@ -207,7 +207,7 @@ namespace Mud.Server.Admin
                 IExit exit = room.Exit(direction);
                 if (exit?.Destination != null)
                 {
-                    sb.Append(StringHelpers.UpperFirstLetter(direction.ToString()));
+                    sb.Append(StringExtensions.UpperFirstLetter(direction.ToString()));
                     sb.Append(" - ");
                     sb.Append(exit.Destination.DisplayName);
                     if (exit.IsClosed)

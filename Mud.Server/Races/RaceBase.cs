@@ -3,7 +3,7 @@ using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Abilities;
-using Mud.Server.Helpers;
+using Mud.Server.Common;
 
 namespace Mud.Server.Races
 {
@@ -39,7 +39,7 @@ namespace Mud.Server.Races
 
         public abstract string Name { get; }
 
-        public string DisplayName => StringHelpers.UpperFirstLetter(Name);
+        public string DisplayName => Name.UpperFirstLetter();
 
         public abstract string ShortName { get; }
 

@@ -11,6 +11,7 @@ using Mud.Server.Actor;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Common;
 
 namespace Mud.Server.Player
 {
@@ -28,6 +29,7 @@ namespace Mud.Server.Player
         protected IServerPlayerCommand ServerPlayerCommand => DependencyContainer.Current.GetInstance<IServerPlayerCommand>();
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
         protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
+        protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
 
         protected Player()
         {
@@ -83,12 +85,12 @@ namespace Mud.Server.Player
                         return false;
                     }
                     commandLine = LastCommand;
-                    LastCommandTimestamp = DateTime.Now;
+                    LastCommandTimestamp = TimeHandler.CurrentTime;
                 }
                 else
                 {
                     LastCommand = commandLine;
-                    LastCommandTimestamp = DateTime.Now;
+                    LastCommandTimestamp = TimeHandler.CurrentTime;
                 }
 
                 // Extract command and parameters
@@ -178,7 +180,7 @@ namespace Mud.Server.Player
         public Guid Id { get; }
         public string Name { get; }
 
-        public string DisplayName => StringHelpers.UpperFirstLetter(Name);
+        public string DisplayName => Name.UpperFirstLetter();
 
         public int GlobalCooldown { get; protected set; } // delay (in Pulse) before next action
 

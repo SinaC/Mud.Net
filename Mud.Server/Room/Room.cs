@@ -8,7 +8,6 @@ using Mud.Domain.Extensions;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
 using Mud.Server.Entity;
-using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Room
@@ -42,7 +41,7 @@ namespace Mud.Server.Room
 
         #endregion
 
-        public override string DisplayName => StringHelpers.UpperFirstLetter(Name);
+        public override string DisplayName => Name.UpperFirstLetter();
 
         public override string DebugName => $"{DisplayName}[{Blueprint.Id}]";
 

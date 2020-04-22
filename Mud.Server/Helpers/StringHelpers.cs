@@ -13,29 +13,6 @@ namespace Mud.Server.Helpers
         public static string QuestPrefix = "%R%(QUEST)%x%";
         public static string PagingInstructions = "[Paging : (Enter), (N)ext, (P)revious, (Q)uit, (A)ll]";
 
-
-        #region Color tags
-
-        // TODO: better tags such as <r> or #r for red
-
-        public static string Reset = "%x%";
-        public static string Red = "%r%";
-        public static string Green = "%g%";
-        public static string Yellow = "%y%";
-        public static string Blue = "%b%";
-        public static string Magenta = "%m%";
-        public static string Cyan = "%c%";
-        public static string Gray = "%w%";
-        public static string LightRed = "%R%";
-        public static string LightGreen = "%G%";
-        public static string LightYellow = "%Y%";
-        public static string LightBlue = "%B%";
-        public static string LightMagenta = "%M%";
-        public static string LightCyan = "%C%";
-        public static string White = "%W%";
-
-        #endregion
-
         //https://genderneutralpronoun.wordpress.com/tag/ze-and-zir/
         public static readonly IDictionary<Sex, string> Subjects = new Dictionary<Sex, string>
         {
@@ -57,6 +34,46 @@ namespace Mud.Server.Helpers
             {Sex.Male, "his"},
             {Sex.Female, "her"},
         };
+
+        public static string ResourceColor(ResourceKinds resource)
+        {
+            switch (resource)
+            {
+                case ResourceKinds.Mana:
+                    return "%B%Mana%x%";
+                case ResourceKinds.Energy:
+                    return "%y%Energy%x%";
+                case ResourceKinds.Rage:
+                    return "%r%Rage%x%";
+                case ResourceKinds.Runic:
+                    return "%c%Runic%x%";
+                default:
+                    return string.Empty;
+            }
+        }
+
+        public static string SchoolTypeColor(SchoolTypes schoolType)
+        {
+            switch (schoolType)
+            {
+                case SchoolTypes.Arcane:
+                    return "%B%Arcane%x%";
+                case SchoolTypes.Fire:
+                    return "%R%Fire%x%";
+                case SchoolTypes.Frost:
+                    return "%C%Frost%x%";
+                case SchoolTypes.Holy:
+                    return "%Y%Holy%x%";
+                case SchoolTypes.Nature:
+                    return "%G%Nature%x%";
+                case SchoolTypes.Physical:
+                    return "%W%Physical%x%";
+                case SchoolTypes.Shadow:
+                    return "%M%Shadow%x%";
+                default:
+                    return "(none)";
+            }
+        }
 
         public static string ShortExitDirections(ExitDirections exitDirections)
         {
@@ -141,17 +158,6 @@ namespace Mud.Server.Helpers
             return "does %b%U%r%N%g%S%y%P%c%E%m%A%r%K%b%A%g%B%y%L%c%E %x%things to";
         }
 
-        public static string UpperFirstLetter(string text, string ifNull = "???")
-        {
-            if (text == null)
-                return ifNull;
-
-            if (text.Length > 1)
-                return char.ToUpper(text[0]) + text.Substring(1);
-
-            return text.ToUpper();
-        }
-
         public static string FormatDelay(int delay)
         {
             if (delay < 60)
@@ -178,56 +184,6 @@ namespace Mud.Server.Helpers
                 return hours + " hour" + (hours != 1 ? "s" : string.Empty);
             int days = (hours + 24 - 1) / 24;
             return days + " day" + (days != 1 ? "s" : string.Empty);
-        }
-
-        public static string CenterText(string text, int length)
-        {
-            if (text.Length >= length)
-                return text;
-            int space = length - text.Length;
-            int left = space/2;
-            //int right = space/2 + (space%2);
-            return text.PadLeft(left + text.Length).PadRight(length);
-        }
-
-        public static string ResourceColor(ResourceKinds resource)
-        {
-            switch (resource)
-            {
-                case ResourceKinds.Mana:
-                    return "%B%Mana%x%";
-                case ResourceKinds.Energy:
-                    return "%y%Energy%x%";
-                case ResourceKinds.Rage:
-                    return "%r%Rage%x%";
-                case ResourceKinds.Runic:
-                    return "%c%Runic%x%";
-                default:
-                    return string.Empty;
-            }
-        }
-
-        public static string SchoolTypeColor(SchoolTypes schoolType)
-        {
-            switch (schoolType)
-            {
-                case SchoolTypes.Arcane:
-                    return "%B%Arcane%x%";
-                case SchoolTypes.Fire:
-                    return "%R%Fire%x%";
-                case SchoolTypes.Frost:
-                    return "%C%Frost%x%";
-                case SchoolTypes.Holy:
-                    return "%Y%Holy%x%";
-                case SchoolTypes.Nature:
-                    return "%G%Nature%x%";
-                case SchoolTypes.Physical:
-                    return "%W%Physical%x%";
-                case SchoolTypes.Shadow:
-                    return "%M%Shadow%x%";
-                default:
-                    return "(none)";
-            }
         }
     }
 }

@@ -14,8 +14,6 @@ using Mud.Logger;
 using Mud.Network;
 using Mud.Server.Abilities;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Character.NonPlayableCharacter;
-using Mud.Server.Character.PlayableCharacter;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;

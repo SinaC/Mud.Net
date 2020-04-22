@@ -82,7 +82,7 @@ namespace Mud.Server.Player
                     return AvatarCreationStates.NameChoice;
                 }
                 _name = input;
-                player.Send("Are you sure '{0}' is the name of your avatar? (y/n/quit)", StringHelpers.UpperFirstLetter(_name));
+                player.Send("Are you sure '{0}' is the name of your avatar? (y/n/quit)", _name.UpperFirstLetter());
                 return AvatarCreationStates.NameConfirmation;
             }
             player.Send("Please enter a name (type quit to stop creation):");
@@ -168,7 +168,7 @@ namespace Mud.Server.Player
                 player.Save();
                 UniquenessManager.AddAvatarName(_name);
                 // TODO: better wording
-                player.Send("Your avatar is created. Name: {0} Sex: {1} Race: {2} Class: {3}.", StringHelpers.UpperFirstLetter(_name), _sex, _race.DisplayName, _class.DisplayName);
+                player.Send("Your avatar is created. Name: {0} Sex: {1} Race: {2} Class: {3}.", _name.UpperFirstLetter(), _sex, _race.DisplayName, _class.DisplayName);
                 player.Send("Would you like to impersonate it now? (y/n)");
                 return AvatarCreationStates.ImmediateImpersonate;
             }
@@ -186,7 +186,7 @@ namespace Mud.Server.Player
                 player.ProcessCommand("/impersonate " + _name);
                 return AvatarCreationStates.CreationComplete;
             }
-            player.Send("Avatar {0} created but not impersonated. Use /impersonate {0} to enter game or use /list to see your avatar list.", StringHelpers.UpperFirstLetter(_name));
+            player.Send("Avatar {0} created but not impersonated. Use /impersonate {0} to enter game or use /list to see your avatar list.", _name.UpperFirstLetter());
             // else, NOP
             return AvatarCreationStates.CreationComplete;
         }
