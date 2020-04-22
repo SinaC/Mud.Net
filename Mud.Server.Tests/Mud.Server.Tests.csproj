@@ -72,13 +72,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoBogus, Version=2.8.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoBogus.2.8.1\lib\net40\AutoBogus.dll</HintPath>
-    </Reference>
-    <Reference Include="Bogus, Version=28.4.4.0, Culture=neutral, PublicKeyToken=fa1bb3f3f218129a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bogus.28.4.4\lib\net40\Bogus.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="SimpleInjector, Version=4.9.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.4.9.2\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
@@ -112,10 +105,6 @@
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
       <Project>{B9D5A4DD-8418-4E00-BC90-582359F7F05D}</Project>
       <Name>Mud.Container</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj">
-      <Project>{2c853490-7908-4e36-b906-72eba82b4236}</Project>
-      <Name>Mud.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
       <Project>{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}</Project>

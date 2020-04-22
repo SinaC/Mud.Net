@@ -38,6 +38,8 @@ namespace Mud.Settings
         //
         public int CorpseBlueprintId => IntSetting("CorpseBlueprintId", 999999);
 
+        public int DefaultRoomId => IntSetting("DefaultRoomId", 3001);
+
         // Pulse
         public int PulsePerSeconds => IntSetting("PulsePerSeconds", 4);
 

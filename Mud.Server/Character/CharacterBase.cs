@@ -648,10 +648,10 @@ namespace Mud.Server.Character
         }
 
         // Move
-        public void AutoLook()
+        public void AutoLook() // TODO: will be replaced with abstract method once DisplayRoom will be added in IRoom
         {
-            if (this is IPlayableCharacter || this.IncarnatedBy != null)
-                DisplayRoom();
+            if (this is IPlayableCharacter || IncarnatedBy != null)
+                DisplayRoom(); // TODO: move to IRoom
         }
 
         // Combat
