@@ -1,22 +1,30 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using System.IO;
 
 namespace Mud.Settings
 {
     public class Settings : ISettings
     {
+        private const string SettingsPathKey = "SettingsPath";
+
         #region ISettings
 
-        public string LogPath => ConfigurationManager.AppSettings["logpath"];
+        public string LogPath => this["logpath"];
 
-        public string ConnectionString => ConfigurationManager.AppSettings["ConnectionString"];
+        public int TelnetPort => IntSetting("port", 11000);
 
-        public string PlayerRepositoryPath => ConfigurationManager.AppSettings["PlayerRepositoryPath"];
+        public bool UseMongo => BoolSetting("UseMongo", false);
 
-        public string AdminRepositoryPath => ConfigurationManager.AppSettings["AdminRepositoryPath"];
+        public string ConnectionString => this["ConnectionString"];
 
-        public string LoginRepositoryFilename => ConfigurationManager.AppSettings["LoginRepositoryFilename"];
+        public string PlayerRepositoryPath => this["PlayerRepositoryPath"];
 
-        public string ImportAreaPath => ConfigurationManager.AppSettings["ImportAreaPath"];
+        public string AdminRepositoryPath => this["AdminRepositoryPath"];
+
+        public string LoginRepositoryFilename => this["LoginRepositoryFilename"];
+
+        public string ImportAreaPath => this["ImportAreaPath"];
 
         // Add <IMP> or <CTRL> before forwarding a message
         public bool PrefixForwardedMessages => BoolSetting("PrefixForwardedMessages", false);
@@ -56,9 +64,15 @@ namespace Mud.Settings
         #endregion
 
         //
-        private bool BoolSetting(string key, bool defaultValue) => SafeConvertToBool(ConfigurationManager.AppSettings[key]) ?? defaultValue;
+        private readonly Lazy<Configuration> _lazyCustomConfig = new Lazy<Configuration>(() => ReadCustomConfig(ConfigurationManager.AppSettings[SettingsPathKey]));
 
-        private int IntSetting(string key, int defaultValue) => SafeConvertToInt(ConfigurationManager.AppSettings[key]) ?? defaultValue;
+        //
+        private string this[string key] => _lazyCustomConfig.Value.AppSettings.Settings[key]?.Value;
+
+        //
+        private bool BoolSetting(string key, bool defaultValue) => SafeConvertToBool(this[key]) ?? defaultValue;
+
+        private int IntSetting(string key, int defaultValue) => SafeConvertToInt(this[key]) ?? defaultValue;
 
         private static bool? SafeConvertToBool(string s)
         {
@@ -76,6 +90,18 @@ namespace Mud.Settings
             if (int.TryParse(s, out i))
                 return i;
             return null;
+        }
+
+        private static Configuration ReadCustomConfig(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ConfigurationErrorsException($"{SettingsPathKey} not found in app.config");
+            if (File.Exists(path))
+                return ConfigurationManager.OpenMappedExeConfiguration(new ExeConfigurationFileMap
+                {
+                    ExeConfigFilename = path
+                }, ConfigurationUserLevel.None);
+            throw new ConfigurationErrorsException($"Settings file '{path}' not doesn't exist");
         }
     }
 }

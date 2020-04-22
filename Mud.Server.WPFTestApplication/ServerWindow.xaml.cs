@@ -42,8 +42,12 @@ namespace Mud.Server.WPFTestApplication
         {
             _serverWindowInstance = this;
 
+            // Initialize settings
+            ISettings settings = new Settings.Settings();
+            DependencyContainer.Current.RegisterInstance<ISettings>(settings);
+
             // Initialize log
-            Log.Default.Initialize(ConfigurationManager.AppSettings["logpath"], "server.log");
+            Log.Default.Initialize(settings.LogPath, "server.log");
 
             // Initialize IOC container
             DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
@@ -57,11 +61,10 @@ namespace Mud.Server.WPFTestApplication
             DependencyContainer.Current.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<ISettings, Settings.Settings>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager());
 
-            if (ConfigurationManager.AppSettings["UseMongo"] == "true")
+            if (settings.UseMongo)
             {
                 DependencyContainer.Current.Register<ILoginRepository, Repository.Mongo.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
                 DependencyContainer.Current.Register<IPlayerRepository, Repository.Mongo.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
@@ -190,7 +193,7 @@ namespace Mud.Server.WPFTestApplication
             }
 
             //
-            INetworkServer telnetServer = new TelnetServer(11000);
+            INetworkServer telnetServer = new TelnetServer(DependencyContainer.Current.GetInstance<ISettings>().TelnetPort);
             Server.Initialize(new List<INetworkServer> { telnetServer, this });
             Server.Start();
 
@@ -1024,7 +1027,7 @@ namespace Mud.Server.WPFTestApplication
 
         private static void CreateWorld()
         {
-            string path = ConfigurationManager.AppSettings["ImportAreaPath"];
+            string path =  DependencyContainer.Current.GetInstance<ISettings>().ImportAreaPath;
 
             Importer.Mystery.MysteryImporter mysteryImporter = new Importer.Mystery.MysteryImporter();
             mysteryImporter.Load(System.IO.Path.Combine(path, "midgaard.are"));

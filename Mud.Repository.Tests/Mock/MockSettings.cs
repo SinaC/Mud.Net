@@ -1,15 +1,15 @@
 ﻿using Mud.Settings;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Repository.Tests.Mock
 {
     public class MockSettings : ISettings
     {
         public string LogPath => throw new NotImplementedException();
+
+        public int TelnetPort => throw new NotImplementedException();
+
+        public bool UseMongo => throw new NotImplementedException();
 
         public string ConnectionString => throw new NotImplementedException();
 
