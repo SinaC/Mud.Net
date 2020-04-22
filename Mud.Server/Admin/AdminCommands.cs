@@ -381,26 +381,9 @@ namespace Mud.Server.Admin
             }
 
             // Display
-            StringBuilder sb = CommandTableGenerator.Value.Generate($"Commands for {type.Name}", query);
+            StringBuilder sb = TableGenerators.CommandMethodInfoTableGenerator.Value.Generate($"Commands for {type.Name}", query);
             Page(sb);
             return true;
         }
-
-        private static string ConvertBool(bool value) => value ? "%y%yes%x%" : "no";
-
-        private static string ConvertPriority(int priority) => priority > 0 ? $"%y%{priority}%x%" : $"{priority}";
-
-        private static readonly Lazy<TableGenerator<CommandMethodInfo>> CommandTableGenerator = new Lazy<TableGenerator<CommandMethodInfo>>(() =>
-        {
-            TableGenerator<CommandMethodInfo> generator = new TableGenerator<CommandMethodInfo>();
-            generator.AddColumn("Method", 20, x => x.MethodInfo.Name, new TableGenerator<CommandMethodInfo>.ColumnOptions {MergeIdenticalValue = true});
-            generator.AddColumn("Command", 20, x => x.Attribute.Name);
-            generator.AddColumn("Category", 15, x => x.Attribute.Category);
-            generator.AddColumn("Prio", 5, x => ConvertPriority(x.Attribute.Priority));
-            generator.AddColumn("S?", 5, x => ConvertBool(x.Attribute.NoShortcut));
-            generator.AddColumn("H?", 5, x => ConvertBool(x.Attribute.Hidden));
-            generator.AddColumn("F?", 5, x => ConvertBool(x.Attribute.AddCommandInParameters));
-            return generator;
-        });
     }
 }

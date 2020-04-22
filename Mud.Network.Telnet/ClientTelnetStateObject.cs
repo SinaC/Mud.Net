@@ -69,8 +69,11 @@ namespace Mud.Network.Telnet
 
         public void Disconnect()
         {
-            State = ClientStates.Disconnected;
-            Server.CloseConnection(this);
+            if (State != ClientStates.Disconnected)
+            {
+                State = ClientStates.Disconnected;
+                Server.CloseConnection(this);
+            }
         }
 
         #endregion

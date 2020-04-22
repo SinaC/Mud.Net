@@ -70,7 +70,6 @@ namespace Mud.Server.Common
         public StringBuilder Generate(string title, IEnumerable<T> items)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine();
 
             BuildTable(title, sb, items);
 

@@ -169,9 +169,10 @@ namespace Mud.Server.Character
             //
             Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, item);
             StringBuilder sbItem = new StringBuilder();
-            sbItem.AppendLine(FormatItem(item, true));
             if (item is IContainer container) // if container, display content
                 AppendContainerContent(sbItem, container);
+            else
+                sbItem.AppendLine(FormatItem(item, true));
             Send(sbItem);
             return true;
         }
