@@ -58,13 +58,7 @@ namespace Mud.Server.Player
                 Send("You don't have any avatar available. Use createavatar to create one.");
                 return true;
             }
-            TableGenerator<CharacterData> generator = new TableGenerator<CharacterData>("Avatars");
-            generator.AddColumn("Name", 14, data => StringHelpers.UpperFirstLetter(data.Name));
-            generator.AddColumn("Level", 7, data => data.Level.ToString());
-            generator.AddColumn("Class", 12, data => ClassManager[data.Class]?.DisplayName ?? "none");
-            generator.AddColumn("Race", 12, data => RaceManager[data.Race]?.DisplayName ?? "none");
-            generator.AddColumn("Location", 40, data => World.Rooms.FirstOrDefault(x => x.Blueprint.Id == data.RoomId)?.DisplayName ?? "In the void");
-            StringBuilder sb = generator.Generate(_avatarList);
+            StringBuilder sb = AvatarTableGenerator.Value.Generate(_avatarList);
             Send(sb);
             return true;
         }
@@ -89,5 +83,17 @@ namespace Mud.Server.Player
             //TODO UniquenessManager.RemoveAvatarName(avatarName)
             throw new NotImplementedException();
         }
+
+        //
+        private Lazy<TableGenerator<CharacterData>> AvatarTableGenerator => new Lazy<TableGenerator<CharacterData>>(() =>
+        {
+            TableGenerator<CharacterData> generator = new TableGenerator<CharacterData>("Avatars");
+            generator.AddColumn("Name", 14, data => StringHelpers.UpperFirstLetter(data.Name));
+            generator.AddColumn("Level", 7, data => data.Level.ToString());
+            generator.AddColumn("Class", 12, data => ClassManager[data.Class]?.DisplayName ?? "none");
+            generator.AddColumn("Race", 12, data => RaceManager[data.Race]?.DisplayName ?? "none");
+            generator.AddColumn("Location", 40, data => World.Rooms.FirstOrDefault(x => x.Blueprint.Id == data.RoomId)?.DisplayName ?? "In the void");
+            return generator;
+        });
     }
 }

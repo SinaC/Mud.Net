@@ -41,7 +41,7 @@ namespace Mud.Server.Character
                 return true;
             }
 
-            Act(ActOptions.ToAll, "{0:n} {1}", rawParameters);
+            Act(ActOptions.ToAll, "{0:n} {1}", this, rawParameters);
             return true;
         }
 
@@ -64,7 +64,8 @@ namespace Mud.Server.Character
             string what = CommandHelpers.JoinParameters(parameters.Skip(1));
 
             Act(ActOptions.ToCharacter, "You whisper '{0}' to {1:n}.", what, whom);
-            whom.Act(ActOptions.ToCharacter, "{0:n} whispers you '{1}'.", this, what);
+            if (this != whom)
+                whom.Act(ActOptions.ToCharacter, "{0:n} whispers you '{1}'.", this, what); // TODO: when used on ourself (player is pouet), pouet whispers you 'blabla'
             ActToNotVictim(whom, "{0:n} whispers something to {1:n}.", this, whom);
             // ActOptions.ToAll cannot be used because 'something' is sent except for 'this' and 'whom'
 
@@ -80,7 +81,7 @@ namespace Mud.Server.Character
                 return true;
             }
 
-            Act(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), "{0:N} shout{0:v} {1}", this, rawParameters);
+            Act(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), "{0:N} shout{0:v} '{1}'", this, rawParameters);
             return true;
         }
     }

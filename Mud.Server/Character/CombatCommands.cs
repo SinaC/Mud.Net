@@ -63,8 +63,7 @@ namespace Mud.Server.Character
                 return true;
             }
 
-            if (playableCharacter != null)
-                playableCharacter.ImpersonatedBy?.SetGlobalCooldown(1);
+            playableCharacter?.ImpersonatedBy?.SetGlobalCooldown(1);
             //TODO: check_killer( ch, victim );
 
             // Starts fight
@@ -82,7 +81,6 @@ namespace Mud.Server.Character
             }
             IRoom from = Room;
 
-            bool successful = false;
             // Try 6 times to find an exit
             for (int attempt = 0; attempt < 6; attempt++)
             {
@@ -99,14 +97,12 @@ namespace Mud.Server.Character
                         //
                         Send("You flee from combat!");
                         Act(ActOptions.ToRoom, "{0} has fled!", this);
-                        successful = true;
-                        break;
+                        return true;
                     }
                 }
             }
 
-            if (!successful)
-                Send("PANIC! You couldn't escape!");
+            Send("PANIC! You couldn't escape!");
             return true;
         }
     }

@@ -12,41 +12,37 @@ namespace Mud.Settings
 
         public string LogPath => this["logpath"];
 
+        //
         public int TelnetPort => IntSetting("port", 11000);
 
+        //
         public bool UseMongo => BoolSetting("UseMongo", false);
-
         public string ConnectionString => this["ConnectionString"];
 
+        //
         public string PlayerRepositoryPath => this["PlayerRepositoryPath"];
-
         public string AdminRepositoryPath => this["AdminRepositoryPath"];
-
         public string LoginRepositoryFilename => this["LoginRepositoryFilename"];
-
         public string ImportAreaPath => this["ImportAreaPath"];
 
         // Add <IMP> or <CTRL> before forwarding a message
         public bool PrefixForwardedMessages => BoolSetting("PrefixForwardedMessages", false);
-
         // Forward messages received by a slaved character
         public bool ForwardSlaveMessages => BoolSetting("ForwardSlaveMessages", false);
-
         // If a NPC has dot/hot from a source in another room, they are removed on next Pulse
         public bool RemovePeriodicAurasInNotInSameRoom => BoolSetting("RemovePeriodicAurasInNotInSameRoom", false);
 
         //
-        public int CorpseBlueprintId => IntSetting("CorpseBlueprintId", 999999);
+        public bool PerformSanityCheck => BoolSetting("PerformSanityCheck", false);
 
+        //
+        public int CorpseBlueprintId => IntSetting("CorpseBlueprintId", 999999);
         public int DefaultRoomId => IntSetting("DefaultRoomId", 3001);
 
         // Pulse
         public int PulsePerSeconds => IntSetting("PulsePerSeconds", 4);
-
         public int PulsePerMinutes => PulsePerSeconds * 60;
-
         public int PulseDelay => 1000 / PulsePerSeconds;
-
         // automatic combat (in pulse per seconds)
         public int PulseViolence => 3 * PulsePerSeconds;
 
@@ -55,12 +51,10 @@ namespace Mud.Settings
 
         //
         public int IdleMinutesBeforeUnimpersonate => IntSetting("IdleMinutesBeforeUnimpersonate", 10);
-
         public int IdleMinutesBeforeDisconnect => IntSetting("IdleMinutesBeforeDisconnect", 20);
 
         //
         public int MaxLevel => IntSetting("MaxLevel", 60);
-
         public int MaxAvatarCount => IntSetting("MaxAvatarCount", 10);
 
         #endregion

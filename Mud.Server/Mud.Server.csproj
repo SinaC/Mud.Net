@@ -96,6 +96,7 @@
     <Compile Include="Character\CombatCommands.cs" />
     <Compile Include="Character\CommunicationCommands.cs" />
     <Compile Include="Character\MiscCommands.cs" />
+    <Compile Include="Character\PlayableCharacter\CommunicationCommands.cs" />
     <Compile Include="Character\PlayableCharacter\CombatCommands.cs" />
     <Compile Include="Character\PlayableCharacter\GroupCommands.cs" />
     <Compile Include="Character\InfoCommands.cs" />

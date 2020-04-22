@@ -67,7 +67,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     return true;
                 }
                 StringBuilder sb = new StringBuilder();
-                sb.AppendFormatLine("{0}'s group:", leader.DisplayName);
+                sb.AppendFormatLine("{0}'s group:", leader.DisplayName); // No RelativeDisplayName because we always see people in our group
                 AppendCharacterGroupMemberInfo(sb, leader, true);
                 foreach (IPlayableCharacter member in leader.GroupMembers)
                     AppendCharacterGroupMemberInfo(sb, member, false);
@@ -98,7 +98,7 @@ namespace Mud.Server.Character.PlayableCharacter
             IPlayableCharacter newMember = whom as IPlayableCharacter;
             if (newMember == null) // not found
             {
-                Send($"You cannot groupe {whom.DisplayName}");
+                Send($"You cannot group {whom.DisplayName}");
                 return true;
             }
             if (newMember == this)

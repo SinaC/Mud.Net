@@ -1,6 +1,18 @@
 test group
      kill steal
 
+Syntax display uniformization
+Syntax: xpbonus <player> <exp>
+Syntax: incarnate
+        incarnate room <id|name>
+        incarnate item name
+        incarnate char name
+Command could return an enum: Successfull|SyntaxError|InvalidTarget    when SyntaxError is returned, an help file with related command syntax could be displayed
+
+remove Send(..., bool addTrailingNewLine)
+auto paging if data to send to too big?
+check if RelativeDisplayName should be used instead of DisplayName in Command (check if CanSee should be used)
+
 move MapItemData in ItemBase
 
 quest save completed quests
@@ -26,7 +38,7 @@ look no arg
      extradescription
      direction
 
-multitable generator
+multitable generator, paging a table should repeat the header at the beginning of each page
 
 autosac, autoloot, auto...
 prompt

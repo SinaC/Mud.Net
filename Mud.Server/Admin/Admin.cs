@@ -108,7 +108,7 @@ namespace Mud.Server.Admin
             StringBuilder sb = base.PerformSanityCheck();
 
             sb.AppendLine("--Admin--");
-            sb.AppendLine($"Incarnating: {Incarnating?.DisplayName ?? "none"}");
+            sb.AppendLine($"Incarnating: {Incarnating?.DebugName ?? "none"}");
             sb.AppendLine($"Level: {Level}");
             sb.AppendLine($"WiznetFlags: {WiznetFlags}");
 
@@ -159,7 +159,7 @@ namespace Mud.Server.Admin
         {
             if (Incarnating is IPlayableCharacter playableCharacter)
                 return BuildCharacterPrompt(playableCharacter);
-            return $"{Incarnating.DisplayName}>";
+            return $"{Incarnating.DebugName}>";
         }
     }
 }

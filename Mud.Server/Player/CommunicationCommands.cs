@@ -50,6 +50,7 @@ namespace Mud.Server.Player
         }
 
         [Command("gossip", Category = "Communication")]
+        [Command("ooc", Category = "Communication")]
         protected virtual bool DoGossip(string rawParameters, params CommandParameter[] parameters)
         {
             Send("%m%You gossip '%M%{0}%m%'%x%", rawParameters);

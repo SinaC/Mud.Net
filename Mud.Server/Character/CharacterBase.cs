@@ -190,7 +190,7 @@ namespace Mud.Server.Character
             }
             if (ControlledBy != null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeController: {0} is not already controlled by {1}", DebugName, ControlledBy.DisplayName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeController: {0} is not already controlled by {1}", DebugName, ControlledBy.DebugName);
                 return false;
             }
 
@@ -622,7 +622,11 @@ namespace Mud.Server.Character
             ChangeRoom(destination);
 
             if (AutomaticallyDisplayRoom)
-                DisplayRoom();
+            {
+                StringBuilder sb = new StringBuilder();
+                AppendRoom(sb, Room);
+                Send(sb);
+            }
 
             Act(ActOptions.ToRoom, "{0:N} arrived through {1}.", this, portal);
 
@@ -651,7 +655,11 @@ namespace Mud.Server.Character
         public void AutoLook() // TODO: will be replaced with abstract method once DisplayRoom will be added in IRoom
         {
             if (this is IPlayableCharacter || IncarnatedBy != null)
-                DisplayRoom(); // TODO: move to IRoom
+            {
+                StringBuilder sb = new StringBuilder();
+                AppendRoom(sb, Room);
+                Send(sb);
+            }
         }
 
         // Combat
@@ -786,7 +794,7 @@ namespace Mud.Server.Character
 
         public bool WeaponDamage(ICharacter source, IItemWeapon weapon, int damage, SchoolTypes damageType, bool visible) // damage from weapon(or bare hands) of known source
         {
-            return GenericDamage(source, weapon?.DisplayName, damage, damageType, visible);
+            return GenericDamage(source, weapon?.RelativeDisplayName(weapon.EquipedBy), damage, damageType, visible);
         }
 
         public bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool visible) // damage from ability of known source

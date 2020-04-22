@@ -30,7 +30,9 @@ namespace Mud.Server.Character
             if (string.IsNullOrWhiteSpace(rawParameters))
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(1): room");
-                DisplayRoom();
+                StringBuilder sb = new StringBuilder();
+                AppendRoom(sb, Room);
+                Send(sb);
                 return true;
             }
             // 2: container in room then inventory then equipment
@@ -39,24 +41,29 @@ namespace Mud.Server.Character
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): container in room, inventory, equipment");
                 // look in container
                 if (parameters.Length == 1)
-                    Send("Look in what?");
-                else
                 {
-                    // search in room, then in inventory(unequiped), then in equipement
-                    IItem containerItem = FindHelpers.FindItemHere(this, parameters[1]);
-                    if (containerItem == null)
-                        Send(StringHelpers.ItemNotFound);
-                    else
-                    {
-                        Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): found in {0}", containerItem.ContainedInto.DebugName);
-                        IContainer container = containerItem as IContainer;
-                        if (container != null)
-                            DisplayContainerContent(container);
-                        // TODO: drink container
-                        else
-                            Send("This is not a container.");
-                    }
+                    Send("Look in what?");
+                    return true;
                 }
+                // search in room, then in inventory(unequiped), then in equipement
+                IItem containerItem = FindHelpers.FindItemHere(this, parameters[1]);
+                if (containerItem == null)
+                {
+                    Send(StringHelpers.ItemNotFound);
+                    return true;
+                }
+
+                Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): found in {0}", containerItem.ContainedInto.DebugName);
+                IContainer container = containerItem as IContainer;
+                if (container == null)
+                {
+                    Send("This is not a container.");
+                    return true;
+                }
+                // TODO: drink container
+                StringBuilder sb = new StringBuilder();
+                AppendContainerContent(sb, container);
+                Send(sb);
                 return true;
             }
             // 3: character in room
@@ -64,7 +71,13 @@ namespace Mud.Server.Character
             if (victim != null)
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(3): character in room");
-                DisplayCharacter(victim, true); // TODO: always peeking ???
+                if (this == victim)
+                    Act(ActOptions.ToRoom, "{0} looks at {0:m}self.", this);
+                else
+                    Act(ActOptions.ToRoom, "{0} looks at {1}.", this, victim);
+                StringBuilder sb = new StringBuilder();
+                AppendCharacter(sb, victim, true); // TODO: always peeking ???
+                Send(sb);
                 return true;
             }
             // 4:search among inventory/equipment/room.content if an item has extra description or name equals to parameters
@@ -104,10 +117,11 @@ namespace Mud.Server.Character
                     Send(exit.Description ?? "Nothing special there.");
                     if (exit.Keywords.Any())
                     {
+                        string exitName = exit.Keywords.FirstOrDefault() ?? "door";
                         if (exit.IsClosed)
-                            Act(ActOptions.ToCharacter, "The {0} is closed.", exit);
+                            Send("The {0} is closed.", exitName);
                         else if (exit.IsDoor)
-                            Act(ActOptions.ToCharacter, "The {0} is open.", exit);
+                            Send("The {0} is open.", exitName);
                     }
                 }
                 return true;
@@ -120,7 +134,9 @@ namespace Mud.Server.Character
         [Command("exits", Category = "Information")]
         protected virtual bool DoExits(string rawParameters, params CommandParameter[] parameters)
         {
-            DisplayExits(false);
+            StringBuilder sb = new StringBuilder();
+            AppendExits(sb, false);
+            Send(sb);
             return true;
         }
 
@@ -132,27 +148,31 @@ namespace Mud.Server.Character
                 Send("Examine what or whom?");
                 return true;
             }
-            //
+            // character
             ICharacter victim = FindHelpers.FindByName(Room.People, parameters[0]);
             if (victim != null)
             {
                 Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, victim);
-                DisplayCharacter(victim, true);
+                StringBuilder sbCharacter = new StringBuilder();
+                AppendCharacter(sbCharacter, victim, true);
                 // TODO: display race and size
+                Send(sbCharacter);
+                return true;
             }
-            else
+            // item
+            IItem item = FindHelpers.FindItemHere(this, parameters[0]);
+            if (item == null)
             {
-                IItem item = FindHelpers.FindItemHere(this, parameters[0]);
-                if (item != null)
-                {
-                    Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, item);
-                    DisplayItem(item);
-                    if (item is IContainer container) // if container, display content
-                        DisplayContainerContent(container);
-                }
-                else
-                    Send("You don't see any {0}.", parameters[0]);
+                Send("You don't see any {0}.", parameters[0]);
+                return true;
             }
+            //
+            Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, item);
+            StringBuilder sbItem = new StringBuilder();
+            sbItem.AppendLine(FormatItem(item, true));
+            if (item is IContainer container) // if container, display content
+                AppendContainerContent(sbItem, container);
+            Send(sbItem);
             return true;
         }
 
@@ -162,13 +182,10 @@ namespace Mud.Server.Character
             StringBuilder sb = new StringBuilder(1024);
             // Current room
             sb.AppendLine("Right here you see:");
-            //Send("Right here you see:");
             StringBuilder currentScan = ScanRoom(Room);
             if (currentScan.Length == 0)
-                //Send("None"); // should never happen, 'this' is in the room
-                sb.AppendLine("None");
+                sb.AppendLine("None");// should never happen, 'this' is in the room
             else
-            //Send(currentScan); // no need to add CRLF
                 sb.Append(currentScan);
             // Scan in one direction for each distance, then starts with another direction
             foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
@@ -183,7 +200,6 @@ namespace Mud.Server.Character
                     if (roomScan.Length > 0)
                     {
                         sb.AppendFormatLine("%c%{0} %r%{1}%x% from here you see:", distance, direction);
-                        //Send(roomScan); // no need to add CRLF
                         sb.Append(roomScan);
                     }
                     currentRoom = destination;
@@ -324,29 +340,28 @@ namespace Mud.Server.Character
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormatLine($"[{Room.Area.DisplayName}].");
+            //
+            IEnumerable<IPlayer> players;
+            string notFound;
             if (parameters.Length == 0)
             {
-                sb.AppendLine("Peoples near you:");
-                bool found = false;
-                foreach (IPlayer player in Room.Area.Players.Where(x => CanSee(x.Impersonating)))
-                {
-                    sb.AppendFormatLine("{0,-28} {1}", player.Impersonating.DisplayName, player.Impersonating.Room.DisplayName);
-                    found = true;
-                }
-                if (!found)
-                    sb.AppendLine("None");
+                sb.AppendLine("Players near you:");
+                players = Room.Area.Players.Where(x => CanSee(x.Impersonating));
+                notFound = "None";
             }
             else
             {
-                bool found = false;
-                foreach (IPlayer player in Room.Area.Players.Where(x => CanSee(x.Impersonating) && FindHelpers.StringListStartsWith(x.Impersonating.Keywords, parameters[0].Tokens)))
-                {
-                    sb.AppendFormatLine("{0,-28} {1}", player.Impersonating.DisplayName, player.Impersonating.Room.DisplayName);
-                    found = true;
-                }
-                if (!found)
-                    sb.AppendLine($"You didn't find any {parameters[0]}.");
+                players = Room.Area.Players.Where(x => CanSee(x.Impersonating) && FindHelpers.StringListStartsWith(x.Impersonating.Keywords, parameters[0].Tokens));
+                notFound = $"You didn't find any {parameters[0]}.";
             }
+            bool found = false;
+            foreach (IPlayer player in players)
+            {
+                sb.AppendFormatLine("{0,-28} {1}", player.Impersonating.DisplayName, player.Impersonating.Room.DisplayName);
+                found = true;
+            }
+            if (!found)
+                sb.AppendLine(notFound);
             Send(sb);
             return true;
         }
@@ -354,33 +369,34 @@ namespace Mud.Server.Character
         [Command("inventory", Category = "Information")]
         protected virtual bool DoInventory(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("You are carrying:");
-            DisplayItems(Content, true, true);
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("You are carrying:");
+            AppendItems(sb, Content, true, true);
+            Send(sb);
             return true;
         }
 
         [Command("equipment", Category = "Information")]
         protected virtual bool DoEquipment(string rawParameters, params CommandParameter[] parameters)
         {
-            Send("You are using:");
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("You are using:");
             if (Equipments.All(x => x.Item == null))
-                Send("Nothing");
+                sb.AppendLine("Nothing");
             else
             {
-                StringBuilder sb = new StringBuilder();
-                //foreach (EquipedItem equipedItem in Equipments.Where(x => x.Item != null))
                 foreach (EquipedItem equipedItem in Equipments)
                 {
                     string where = EquipmentSlotsToString(equipedItem);
                     sb.Append(where);
-                    //sb.AppendLine(FormatItem(equipedItem.Item, true));
                     if (equipedItem.Item == null)
                         sb.AppendLine("nothing");
                     else
                         sb.AppendLine(FormatItem(equipedItem.Item, true));
                 }
-                Send(sb);
             }
+
+            Send(sb);
             return true;
         }
 
@@ -397,6 +413,12 @@ namespace Mud.Server.Character
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
+                return true;
+            }
+
+            if (whom == this)
+            {
+                Send("You are such a badass.");
                 return true;
             }
 
@@ -432,18 +454,18 @@ namespace Mud.Server.Character
         }
 
         // Helpers
-        private void DisplayRoom() // equivalent to act_info.C:do_look("auto")
+        private void AppendRoom(StringBuilder sb, IRoom room) // equivalent to act_info.C:do_look("auto")
         {
             // Room name
             if (this is IPlayableCharacter playableCharacter && playableCharacter.ImpersonatedBy is IAdmin)
-                Send($"%c%{Room.DisplayName} [{Room.Blueprint?.Id.ToString() ?? "???"}]%x%");
+                sb.AppendFormatLine($"%c%{room.DisplayName} [{room.Blueprint?.Id.ToString() ?? "???"}]%x%");
             else
-                Send("%c%{0}%x%", Room.DisplayName);
+                sb.AppendFormatLine("%c%{0}%x%", room.DisplayName);
             // Room description
-            Send(Room.Description, false); // false: don't add trailing NewLine
+            sb.Append(room.Description);
             // Exits
-            DisplayExits(true);
-            DisplayItems(Room.Content.Where(CanSee), false, false);
+            AppendExits(sb, true);
+            AppendItems(sb, Room.Content.Where(CanSee), false, false);
             foreach (ICharacter victim in Room.People.Where(x => x != this))
             {
                 //  (see act_info.C:714 show_char_to_char)
@@ -454,7 +476,6 @@ namespace Mud.Server.Character
                     // TODO: display position (see act_info.C:505 -> 612)
 
                     // last case of POS_STANDING
-                    StringBuilder sb = new StringBuilder();
                     sb.Append(victim.RelativeDisplayName(this));
                     switch (victim.Position)
                     {
@@ -477,7 +498,7 @@ namespace Mud.Server.Character
                             sb.Append(" is here, fighting ");
                             if (victim.Fighting == null)
                             {
-                                Log.Default.WriteLine(LogLevels.Warning, "{0} position is fighting but fighting is null.", victim.DisplayName);
+                                Log.Default.WriteLine(LogLevels.Warning, "{0} position is fighting but fighting is null.", victim.DebugName);
                                 sb.Append("thing air??");
                             }
                             else if (victim.Fighting == this)
@@ -486,37 +507,27 @@ namespace Mud.Server.Character
                                 sb.AppendFormat("{0}.", victim.Fighting.RelativeDisplayName(this));
                             else
                             {
-                                Log.Default.WriteLine(LogLevels.Warning, "{0} is fighting {1} in a different room.", victim.DisplayName, victim.Fighting.DisplayName);
+                                Log.Default.WriteLine(LogLevels.Warning, "{0} is fighting {1} in a different room.", victim.DebugName, victim.Fighting.DebugName);
                                 sb.Append("someone who left??");
                             }
                             break;
                     }
                     sb.AppendLine();
-                    //Send("{0} is here.", victim.RelativeDisplayName(this));
-                    Send(sb);
                 }
                 else
                     ; // TODO: INFRARED (see act_info.C:728)
             }
         }
 
-        private void DisplayContainerContent(IContainer container)
+        private void AppendContainerContent(StringBuilder sb, IContainer container)
         {
             // TODO: check if closed
-            Send("{0} holds:", container.DisplayName);
-            DisplayItems(container.Content, true, true);
+            sb.AppendFormatLine("{0} holds:", container.RelativeDisplayName(this));
+            AppendItems(sb, container.Content, true, true);
         }
 
-        private void DisplayCharacter(ICharacter victim, bool peekInventory) // equivalent to act_info.C:show_char_to_char_1
+        private void AppendCharacter(StringBuilder sb, ICharacter victim, bool peekInventory) // equivalent to act_info.C:show_char_to_char_1
         {
-            if (this == victim)
-                Act(ActOptions.ToRoom, "{0} looks at {0:m}self.", this);
-            else
-            {
-                //victim.Act(ActOptions.ToCharacter, "{0} looks at you.", this);
-                //ActToNotVictim(victim, "{0} looks at {1}.", this, victim);
-                Act(ActOptions.ToRoom, "{0} looks at {1}.", this, victim);
-            }
             //
             string condition = "is here.";
             if (victim[SecondaryAttributeTypes.MaxHitPoints] > 0)
@@ -539,40 +550,32 @@ namespace Mud.Server.Character
                 else
                     condition = "is bleeding to death.";
             }
-            Send($"{victim.RelativeDisplayName(this)} {condition}");
+            sb.AppendLine($"{victim.RelativeDisplayName(this)} {condition}");
 
             //
             if (victim.Equipments.Any(x => x.Item != null))
             {
-                Act(ActOptions.ToCharacter, "{0} is using:", victim);
+                sb.AppendLine($"{victim.RelativeDisplayName(this)} is using:");
                 foreach (EquipedItem equipedItem in victim.Equipments.Where(x => x.Item != null))
                 {
                     string where = EquipmentSlotsToString(equipedItem);
-                    StringBuilder sb = new StringBuilder(where);
-                    sb.AppendLine(FormatItem(equipedItem.Item, true));
-                    Send(sb);
+                    string what = FormatItem(equipedItem.Item, true);
+                    sb.AppendLine($"{where}{what}");
                 }
             }
 
             if (peekInventory)
             {
-                Send("You peek at the inventory:");
+                sb.AppendLine("You peek at the inventory:");
                 IEnumerable<IItem> items = this == victim
                     ? victim.Content
                     : victim.Content.Where(CanSee); // don't display 'invisible item' when inspecting someone else
-                DisplayItems(items, true, true);
+                AppendItems(sb, items, true, true);
             }
         }
 
-        private void DisplayItem(IItem item)
+        private void AppendItems(StringBuilder sb, IEnumerable<IItem> items, bool shortDisplay, bool displayNothing) // equivalent to act_info.C:show_list_to_char
         {
-            string formattedItem = FormatItem(item, true);
-            Send(formattedItem);
-        }
-
-        private void DisplayItems(IEnumerable<IItem> items, bool shortDisplay, bool displayNothing) // equivalent to act_info.C:show_list_to_char
-        {
-            StringBuilder sb = new StringBuilder();
             var enumerable = items as IItem[] ?? items.ToArray();
             if (displayNothing && !enumerable.Any())
                 sb.AppendLine("Nothing.");
@@ -588,16 +591,14 @@ namespace Mud.Server.Character
                         sb.AppendFormatLine("     {0}", groupedFormattedItem.Key);
                 }
             }
-            Send(sb);
         }
 
-        private void DisplayExits(bool compact)
+        private void AppendExits(StringBuilder sb, bool compact)
         {
-            StringBuilder message = new StringBuilder();
             if (compact)
-                message.Append("[Exits:");
+                sb.Append("[Exits:");
             else
-                message.AppendLine("Obvious exits:");
+                sb.AppendLine("Obvious exits:");
             bool exitFound = false;
             foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
             {
@@ -606,32 +607,32 @@ namespace Mud.Server.Character
                 {
                     if (compact)
                     {
-                        message.Append(" ");
+                        sb.Append(" ");
                         if (exit.IsHidden)
-                            message.Append("[");
+                            sb.Append("[");
                         if (exit.IsClosed)
-                            message.Append("(");
-                        message.AppendFormat("{0}", direction.ToString().ToLowerInvariant());
+                            sb.Append("(");
+                        sb.AppendFormat("{0}", direction.ToString().ToLowerInvariant());
                         if (exit.IsClosed)
-                            message.Append(")");
+                            sb.Append(")");
                         if (exit.IsHidden)
-                            message.Append("]");
+                            sb.Append("]");
                     }
                     else
                     {
-                        message.Append(StringHelpers.UpperFirstLetter(direction.ToString()));
-                        message.Append(" - ");
+                        sb.Append(StringHelpers.UpperFirstLetter(direction.ToString()));
+                        sb.Append(" - ");
                         if (exit.IsClosed)
-                            message.Append("A closed door");
+                            sb.Append("A closed door");
                         else
-                            message.Append(exit.Destination.DisplayName); // TODO: too dark to tell
+                            sb.Append(exit.Destination.DisplayName); // TODO: too dark to tell
                         if (exit.IsClosed)
-                            message.Append(" (CLOSED)");
+                            sb.Append(" (CLOSED)");
                         if (exit.IsHidden)
-                            message.Append(" [HIDDEN]");
+                            sb.Append(" [HIDDEN]");
                         if (this is IPlayableCharacter playableCharacter && playableCharacter.ImpersonatedBy is IAdmin)
-                            message.Append($" [{exit.Destination.Blueprint?.Id.ToString() ?? "???"}]");
-                        message.AppendLine();
+                            sb.Append($" [{exit.Destination.Blueprint?.Id.ToString() ?? "???"}]");
+                        sb.AppendLine();
                     }
                     exitFound = true;
                 }
@@ -639,13 +640,12 @@ namespace Mud.Server.Character
             if (!exitFound)
             {
                 if (compact)
-                    message.AppendLine(" none");
+                    sb.AppendLine(" none");
                 else
-                    message.AppendLine("None.");
+                    sb.AppendLine("None.");
             }
             if (compact)
-                message.AppendLine("]");
-            Send(message);
+                sb.AppendLine("]");
         }
 
         private bool FindItemByExtraDescriptionOrName(CommandParameter parameter, out string description) // Find by extra description then name (search in inventory, then equipment, then in room)
@@ -705,11 +705,11 @@ namespace Mud.Server.Character
         private string FormatItem(IItem item, bool shortDisplay) // TODO: (see act_info.C:170 format_obj_to_char)
         {
             return shortDisplay
-                ? item.RelativeDisplayName(this) //item.DisplayName
+                ? item.RelativeDisplayName(this)
                 : item.RelativeDescription(this);
         }
 
-        private static string EquipmentSlotsToString(EquipedItem equipedItem)
+        private string EquipmentSlotsToString(EquipedItem equipedItem)
         {
             switch (equipedItem.Slot)
             {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Mud.Domain;
 using Mud.Logger;
@@ -22,59 +21,50 @@ namespace Mud.Server.Player
                     return true;
                 }
                 Send("Your current aliases are:");
-                foreach (KeyValuePair<string, string> alias in Aliases.OrderBy(x => x.Key))
-                    Send("     {0}: {1}", alias.Key, alias.Value);
+                foreach (KeyValuePair<string, string> aliasToDisplay in Aliases.OrderBy(x => x.Key))
+                    Send("     {0}: {1}", aliasToDisplay.Key, aliasToDisplay.Value);
                 return true;
             }
             if (parameters.Length == 1)
             {
-                string alias = parameters[0].Value.ToLowerInvariant();
+                string aliasToRemove = parameters[0].Value.ToLowerInvariant();
                 string cmd;
-                if (Aliases.TryGetValue(alias, out cmd))
-                    Send($"{alias} is aliases to {cmd}.");
+                if (Aliases.TryGetValue(aliasToRemove, out cmd))
+                    Send($"{aliasToRemove} is aliases to {cmd}.");
                 else
                     Send("That alias is not defined.");
                 return true;
             }
-            if (parameters.Length == 2)
-            {
-                // TODO: else add alias (!!! cannot set an alias on alias or delete :p)
-                string alias = parameters[0].Value.ToLowerInvariant().Trim();
-                string newCmd = parameters[1].Value;
 
-                if (alias.StartsWith("alias") || alias.StartsWith("unalias"))
-                {
-                    Send("Sorry, that word is reserved.");
-                    return true;
-                }
-                if (alias.Any(c => c == '\'' || c == '"' || c == ' '))
-                {
-                    Send("Aliases with that kind of characters are not allowed!");
-                    return true;
-                }
-                if (alias.StartsWith("delete"))
-                {
-                    Send("That shall not be done.");
-                    return true;
-                }
-                string oldCmd;
-                if (_aliases.TryGetValue(alias, out oldCmd))
-                {
-                    _aliases[alias] = newCmd;
-                    Send($"{alias} is now realiased to '{newCmd}'.");
-                }
-                else
-                {
-                    _aliases.Add(alias, newCmd);
-                    Send($"{alias} is now aliased to '{newCmd}'.");
-                }
+            string alias = parameters[0].Value.ToLowerInvariant().Trim();
+            if (alias.StartsWith("alias") || alias.StartsWith("unalias"))
+            {
+                Send("Sorry, that word is reserved.");
                 return true;
             }
-            Send("Syntax:" + Environment.NewLine +
-                    " alias" + Environment.NewLine +
-                    " alias <alias>" + Environment.NewLine +
-                    " alias <alias> <command>");
+            if (alias.Any(c => c == '\'' || c == '"' || c == ' '))
+            {
+                Send("Aliases with that kind of characters are not allowed!");
+                return true;
+            }
+            if (alias.StartsWith("delete"))
+            {
+                Send("That shall not be done.");
+                return true;
+            }
+            string newCmd = CommandHelpers.JoinParameters(parameters.Skip(1)); // merge parameters except first one
+            if (_aliases.TryGetValue(alias, out _))
+            {
+                _aliases[alias] = newCmd;
+                Send($"{alias} is now realiased to '{newCmd}'.");
+            }
+            else
+            {
+                _aliases.Add(alias, newCmd);
+                Send($"{alias} is now aliased to '{newCmd}'.");
+            }
             return true;
+
         }
 
         [Command("unmacro", Category = "Misc")]
