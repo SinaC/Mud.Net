@@ -753,7 +753,7 @@ namespace Mud.Server.Server
                     foreach (IPeriodicAura pa in clonePeriodicAuras)
                     {
                         // On NPC, remove hot/dot from unknown source or source not in the same room
-                        if (character is INonPlayableCharacter && (pa.Source == null || pa.Source.Room != character.Room))
+                        if (Settings.RemovePeriodicAurasInNotInSameRoom && character is INonPlayableCharacter && (pa.Source == null || pa.Source.Room != character.Room))
                         {
                             pa.OnVanished();
                             character.RemovePeriodicAura(pa);

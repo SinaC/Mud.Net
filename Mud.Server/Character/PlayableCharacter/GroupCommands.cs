@@ -20,10 +20,16 @@ namespace Mud.Server.Character.PlayableCharacter
                 Send("Follow whom?");
                 return true;
             }
-            IPlayableCharacter newLeader = FindHelpers.FindByName(Room.PlayableCharacters.Where(CanSee), parameters[0]);
-            if (newLeader == null)
+            ICharacter whom = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
+            if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
+                return true;
+            }
+            IPlayableCharacter newLeader = whom as IPlayableCharacter;
+            if (newLeader == null)
+            {
+                Send($"You cannot follow {whom.DisplayName}");
                 return true;
             }
             // TODO: charmed ?
@@ -83,10 +89,16 @@ namespace Mud.Server.Character.PlayableCharacter
                 return true;
             }
             // Search in room a new member to add
-            IPlayableCharacter newMember = FindHelpers.FindByName(Room.PlayableCharacters.Where(CanSee), parameters[0]);
-            if (newMember == null) // not found
+            ICharacter whom = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
+            if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
+                return true;
+            }
+            IPlayableCharacter newMember = whom as IPlayableCharacter;
+            if (newMember == null) // not found
+            {
+                Send($"You cannot groupe {whom.DisplayName}");
                 return true;
             }
             if (newMember == this)

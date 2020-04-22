@@ -1,11 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server.Character.PlayableCharacter
 {
@@ -20,7 +15,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 return true;
             }
 
-            IPlayableCharacter target = FindHelpers.FindByName(Room.PlayableCharacters, parameters[0]);
+            ICharacter target = FindHelpers.FindByName(Room.People, parameters[0]);
             if (target == null)
             {
                 Send(StringHelpers.CharacterNotFound);

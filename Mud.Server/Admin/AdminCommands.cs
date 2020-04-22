@@ -66,8 +66,8 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [AdminCommand("cload", Category = "Admin", MustBeImpersonated = true)]
-        [AdminCommand("mload", Category = "Admin", MustBeImpersonated = true)]
+        [AdminCommand("cload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
+        [AdminCommand("mload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
         protected virtual bool DoCload(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0 || !parameters[0].IsNumber)
@@ -99,8 +99,8 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [AdminCommand("iload", Category = "Admin", MustBeImpersonated = true)]
-        [AdminCommand("oload", Category = "Admin", MustBeImpersonated = true)]
+        [AdminCommand("iload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
+        [AdminCommand("oload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
         protected virtual bool DoIload(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0 || !parameters[0].IsNumber)
@@ -135,7 +135,7 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [AdminCommand("slay", Category = "Admin", NoShortcut = true, MustBeImpersonated = true)]
+        [AdminCommand("slay", Category = "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
         protected virtual bool DoSlay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -143,14 +143,12 @@ namespace Mud.Server.Admin
                 Send("Slay whom?");
                 return true;
             }
-
-            IPlayableCharacter victim = FindHelpers.FindByName(Impersonating.Room.PlayableCharacters, parameters[0]);
+            ICharacter victim = FindHelpers.FindByName(Impersonating.Room.People, parameters[0]);
             if (victim == null)
             {
                 Send(StringHelpers.CharacterNotFound);
                 return true;
             }
-
             if (victim == Impersonating)
             {
                 Send("Suicide is a mortal sin.");
@@ -165,7 +163,7 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [AdminCommand("purge", Category = "Admin", NoShortcut = true, MustBeImpersonated = true)]
+        [AdminCommand("purge", Category = "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
         protected virtual bool DoPurge(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

@@ -1,6 +1,5 @@
 ﻿using Mud.Domain;
 using Mud.Domain.Extensions;
-using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -41,7 +40,6 @@ namespace Mud.Server.Character
             //    return;
 
             IPlayableCharacter playableCharacter = this as IPlayableCharacter;
-
             if (target.Fighting != null)
             {
                 // if not in same group, don't allow kill stealing

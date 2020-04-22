@@ -7,6 +7,8 @@ namespace Mud.Server.Input
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)] // TODO: multiple category
     public class CommandAttribute : Attribute
     {
+        public const int DefaultPriority = 0;
+
         public string Name { get; }
         public int Priority { get; set; } // Lower value means higher priority
         public bool Hidden { get; set; } // Not displayed in command list
@@ -17,7 +19,7 @@ namespace Mud.Server.Input
         public CommandAttribute(string name)
         {
             Name = name;
-            Priority = 999;
+            Priority = DefaultPriority;
             Hidden = false;
             Category = string.Empty;
             NoShortcut = false;
