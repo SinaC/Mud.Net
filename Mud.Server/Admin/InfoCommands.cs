@@ -512,7 +512,7 @@ namespace Mud.Server.Admin
             if (parameters[0].Value == "class")
             {
                 // Name, ShortName, DisplayName, ResourceKinds
-                StringBuilder sb = ClassesTableGenerator.Value.Generate(ClassManager.Classes);
+                StringBuilder sb = TableGenerators.ClassTableGenerator.Value.Generate("Classes", ClassManager.Classes);
                 Page(sb);
                 return true;
             }
@@ -521,7 +521,7 @@ namespace Mud.Server.Admin
             if (parameters[0].Value == "race")
             {
                 // Name, ShortName, DisplayName
-                StringBuilder sb = RacesTableGenerator.Value.Generate(RaceManager.Races);
+                StringBuilder sb = TableGenerators.RaceTableGenerator.Value.Generate("Races", RaceManager.Races);
                 Page(sb);
                 return true;
             }
@@ -530,7 +530,7 @@ namespace Mud.Server.Admin
             IClass matchingClass = ClassManager.Classes.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingClass != null)
             {
-                 StringBuilder sb = AbilitiesAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingClass.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name), new[] {
+                 StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingClass.DisplayName, matchingClass.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name), new[] {
                     matchingClass.DisplayName,
                     $"ShortName: {matchingClass.ShortName}",
                     $"Resource(s): {string.Join(",", matchingClass.ResourceKinds?.Select(x => x.ToString()))}"});
@@ -542,7 +542,7 @@ namespace Mud.Server.Admin
             IRace matchingRace = RaceManager.Races.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingRace != null)
             {
-                StringBuilder sb = AbilitiesAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingRace.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name), new[] {
+                StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingRace.DisplayName, matchingRace.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name), new[] {
                     matchingRace.DisplayName,
                     $"ShortName: {matchingRace.ShortName}" });
                 Page(sb);
@@ -560,7 +560,7 @@ namespace Mud.Server.Admin
             if (parameters.Length == 0)
             {
                 // no filter
-                StringBuilder sb = AbilitiesTableGenerator.Value.Generate(AbilityManager.Abilities
+                StringBuilder sb = TableGenerators.FullInfoAbilityTableGenerator.Value.Generate("Abilities", AbilityManager.Abilities
                     .Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed)
                     .OrderBy(x => x.Name));
                 Page(sb);
@@ -571,7 +571,7 @@ namespace Mud.Server.Admin
             IClass matchingClass = ClassManager.Classes.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingClass != null)
             {
-                StringBuilder sb = AbilitiesAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingClass.Abilities
+                StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders($"Abilities for {matchingClass.DisplayName}", matchingClass.Abilities
                     .OrderBy(x => x.Level)
                     .ThenBy(x => x.Ability.Name),
                     new[] { matchingClass.DisplayName });
@@ -583,7 +583,7 @@ namespace Mud.Server.Admin
             IRace matchingRace = RaceManager.Races.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingRace != null)
             {
-                StringBuilder sb = AbilitiesAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingRace.Abilities
+                StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders($"Abilities for {matchingRace.DisplayName}", matchingRace.Abilities
                     .OrderBy(x => x.Level)
                     .ThenBy(x => x.Ability.Name),
                     new[] { matchingRace.DisplayName });
@@ -631,115 +631,7 @@ namespace Mud.Server.Admin
         }
 
         //
-
-        private static readonly Lazy<TableGenerator<IClass>> ClassesTableGenerator = new Lazy<TableGenerator<IClass>>(() =>
-        {
-            TableGenerator<IClass> generator = new TableGenerator<IClass>("Classes");
-            generator.AddColumn("Name", 15, x => x.Name);
-            generator.AddColumn("ShortName", 10, x => x.ShortName);
-            generator.AddColumn("DisplayName", 20, x => x.DisplayName);
-            generator.AddColumn("Resource(s)", 30, x => string.Join(",", (x.ResourceKinds ?? Enumerable.Empty<ResourceKinds>())?.Select(StringHelpers.ResourceColor)));
-            generator.AddColumn("#Abilities", 12, x =>
-            {
-                int count = x.Abilities.Count();
-                return count == 0
-                    ? "---"
-                    : count.ToString();
-            });
-            return generator;
-        });
-
-        private static readonly Lazy<TableGenerator<IRace>> RacesTableGenerator = new Lazy<TableGenerator<IRace>>(() =>
-        {
-            TableGenerator<IRace> generator = new TableGenerator<IRace>("Races");
-            generator.AddColumn("Name", 15, x => x.Name);
-            generator.AddColumn("ShortName", 10, x => x.ShortName);
-            generator.AddColumn("DisplayName", 20, x => x.DisplayName);
-            generator.AddColumn("#Abilities", 12, x =>
-            {
-                int count = x.Abilities.Count();
-                return count == 0
-                    ? "---"
-                    : count.ToString();
-            });
-            return generator;
-        });
-
-        private static readonly Lazy<TableGenerator<IAbility>> AbilitiesTableGenerator = new Lazy<TableGenerator<IAbility>>(() =>
-        {
-            // Merge resource and cost if free cost ability
-            TableGenerator<IAbility> generator = new TableGenerator<IAbility>("Abilities");
-            generator.AddColumn("Name", 23, x => x.Name);
-            generator.AddColumn("Resource", 10,
-                x =>
-                {
-                    if ((x.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
-                        return "%m%passive ability%x%";
-                    if (x.CostType == AmountOperators.Percentage || x.CostType == AmountOperators.Fixed)
-                        return StringHelpers.ResourceColor(x.ResourceKind);
-                    return "%W%free cost ability%x%";
-                },
-                new TableGenerator<IAbility>.ColumnOptions
-                {
-                    GetMergeLengthFunc = x =>
-                    {
-                        if ((x.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
-                            return 1;
-                        if (x.CostType == AmountOperators.Percentage || x.CostType == AmountOperators.Fixed)
-                            return 0;
-                        return 1;
-                    }
-                });
-            generator.AddColumn("Cost", 8, x => x.CostAmount.ToString(),
-                new TableGenerator<IAbility>.ColumnOptions
-                {
-                    GetTrailingSpaceFunc = x => x.CostType == AmountOperators.Percentage ? "% " : " "
-                });
-            generator.AddColumn("Type", 10, x => x.Kind.ToString());
-            generator.AddColumn("Cooldown", 10, x => x.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Cooldown) : "---");
-            generator.AddColumn("Flags", 20, x => x.Flags.ToString());
-            return generator;
-        });
-
-        private static readonly Lazy<TableGenerator<AbilityAndLevel>> AbilitiesAndLevelTableGenerator = new Lazy<TableGenerator<AbilityAndLevel>>(() =>
-        {
-            // Merge resource and cost if free cost ability
-            TableGenerator<AbilityAndLevel> generator = new TableGenerator<AbilityAndLevel>("Abilities");
-            generator.AddColumn("Lvl", 5, x => x.Level.ToString());
-            generator.AddColumn("Name", 23, x => x.Ability.Name);
-            generator.AddColumn("Resource", 10,
-                x =>
-                {
-                    if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
-                        return "%m%passive ability%x%";
-                    if (x.Ability.CostType == AmountOperators.Percentage || x.Ability.CostType == AmountOperators.Fixed)
-                        return StringHelpers.ResourceColor(x.Ability.ResourceKind);
-                    return "%W%free cost ability%x%";
-                },
-                new TableGenerator<AbilityAndLevel>.ColumnOptions
-                {
-                    GetMergeLengthFunc = x =>
-                    {
-                        if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
-                            return 1;
-                        if (x.Ability.CostType == AmountOperators.Percentage || x.Ability.CostType == AmountOperators.Fixed)
-                            return 0;
-                        return 1;
-                    }
-                });
-            generator.AddColumn("Cost", 8, x => x.Ability.CostAmount.ToString(),
-                new TableGenerator<AbilityAndLevel>.ColumnOptions
-                {
-                    GetTrailingSpaceFunc = x => x.Ability.CostType == AmountOperators.Percentage ? "% " : " "
-                });
-            generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
-            generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
-            generator.AddColumn("Flags", 20, x => x.Ability.Flags.ToString());
-            return generator;
-        });
-
-        //
-
+ 
         private string BuildPath(IRoom origin, IRoom destination)
         {
             if (origin == destination)

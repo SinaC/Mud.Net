@@ -348,24 +348,25 @@ namespace Mud.Server.Admin
             }
 
             string specifier = parameters[0].Value.ToLowerInvariant();
-            IReadOnlyTrie<CommandMethodInfo> commands;
+            Type type;
             if ("admin".StartsWith(specifier))
-                commands = CommandHelpers.GetCommands(typeof(Admin));
+                type = typeof(Admin);
             else if ("player".StartsWith(specifier))
-                commands = CommandHelpers.GetCommands(typeof(Player.Player));
+                type = typeof(Player.Player);
             else if ("pc".StartsWith(specifier))
-                commands = CommandHelpers.GetCommands(typeof(Character.PlayableCharacter.PlayableCharacter));
+                type = typeof(Character.PlayableCharacter.PlayableCharacter);
             else if ("npc".StartsWith(specifier))
-                commands = CommandHelpers.GetCommands(typeof(Character.NonPlayableCharacter.NonPlayableCharacter));
+                type = typeof(Character.NonPlayableCharacter.NonPlayableCharacter);
             else if ("item".StartsWith(specifier))
-                commands = CommandHelpers.GetCommands(typeof(Item.ItemBase<>));
+                type = typeof(Item.ItemBase<>);
             else if ("room".StartsWith(specifier))
-                commands = CommandHelpers.GetCommands(typeof(Room.Room));
+                type = typeof(Room.Room);
             else
             {
                 Send("Syntax: commanddebug admin|player|pc|npc|item|room");
                 return true;
             }
+            IReadOnlyTrie<CommandMethodInfo> commands = CommandHelpers.GetCommands(type);
             // Filter?
             IEnumerable<CommandMethodInfo> query;
             if (parameters.Length > 1)
@@ -380,7 +381,7 @@ namespace Mud.Server.Admin
             }
 
             // Display
-            StringBuilder sb = CommandTableGenerator.Value.Generate(query);
+            StringBuilder sb = CommandTableGenerator.Value.Generate($"Commands for {type.Name}", query);
             Page(sb);
             return true;
         }
@@ -391,7 +392,7 @@ namespace Mud.Server.Admin
 
         private static readonly Lazy<TableGenerator<CommandMethodInfo>> CommandTableGenerator = new Lazy<TableGenerator<CommandMethodInfo>>(() =>
         {
-            TableGenerator<CommandMethodInfo> generator = new TableGenerator<CommandMethodInfo>("Commands");
+            TableGenerator<CommandMethodInfo> generator = new TableGenerator<CommandMethodInfo>();
             generator.AddColumn("Method", 20, x => x.MethodInfo.Name, new TableGenerator<CommandMethodInfo>.ColumnOptions {MergeIdenticalValue = true});
             generator.AddColumn("Command", 20, x => x.Attribute.Name);
             generator.AddColumn("Category", 15, x => x.Attribute.Category);

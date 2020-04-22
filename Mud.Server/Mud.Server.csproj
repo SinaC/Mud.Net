@@ -117,6 +117,7 @@
     <Compile Include="Helpers\CombatHelpers.cs" />
     <Compile Include="Helpers\ComplexTableGenerator.cs" />
     <Compile Include="Helpers\TableGenerator.cs" />
+    <Compile Include="Helpers\TableGenerators.cs" />
     <Compile Include="IAdminManager.cs" />
     <Compile Include="IArea.cs" />
     <Compile Include="IClass.cs" />

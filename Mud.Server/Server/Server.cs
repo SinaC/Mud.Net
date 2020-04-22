@@ -20,6 +20,7 @@ using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Settings;
+using System.Reflection;
 
 namespace Mud.Server.Server
 {
@@ -52,6 +53,8 @@ namespace Mud.Server.Server
         protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
         protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
         protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
+        protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
+        protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
         protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
         protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();
@@ -81,36 +84,44 @@ namespace Mud.Server.Server
                 Log.Default.WriteLine(LogLevels.Error, "ItemCorpseBlueprint (id:{0}) doesn't exist or is not an corpse item !!!", Settings.CorpseBlueprintId);
             }
 
-            // Perform some validity/sanity checks
-            foreach (IClass c in ClassManager.Classes)
-            {
-                if (c.ResourceKinds == null || !c.ResourceKinds.Any())
-                    Log.Default.WriteLine(LogLevels.Warning, "Class {0} doesn't have any allowed resources");
-                else
-                {
-                    foreach (AbilityAndLevel abilityAndLevel in c.Abilities)
-                        if (abilityAndLevel.Ability.ResourceKind != ResourceKinds.None && !c.ResourceKinds.Contains(abilityAndLevel.Ability.ResourceKind))
-                            Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityAndLevel.Ability.Name, abilityAndLevel.Ability.ResourceKind);
-                }
-            }
-            long totalExperience = 0;
-            long previousExpToLevel = 0;
-            for (int lvl = 1; lvl < 100; lvl++)
-            {
-                long expToLevel;
-                bool found = CombatHelpers.ExperienceToNextLevel.TryGetValue(lvl, out expToLevel);
-                if (!found)
-                    Log.Default.WriteLine(LogLevels.Error, "No experience to next level found for level {0}", lvl);
-                else if (expToLevel < previousExpToLevel)
-                    Log.Default.WriteLine(LogLevels.Error, "Experience to next level for level {0} is lower than previous level", lvl);
-                else
-                    previousExpToLevel = expToLevel;
-                totalExperience += expToLevel;
-            }
-            Log.Default.WriteLine(LogLevels.Info, "Total experience from 1 to 100 = {0:n0}", totalExperience);
-
             if (Settings.PerformSanityCheck)
-                CommandsSanityCheck();
+            {
+                // Perform some validity/sanity checks
+                foreach (IClass c in ClassManager.Classes)
+                {
+                    if (c.ResourceKinds == null || !c.ResourceKinds.Any())
+                        Log.Default.WriteLine(LogLevels.Warning, "Class {0} doesn't have any allowed resources");
+                    else
+                    {
+                        foreach (AbilityAndLevel abilityAndLevel in c.Abilities)
+                            if (abilityAndLevel.Ability.ResourceKind != ResourceKinds.None && !c.ResourceKinds.Contains(abilityAndLevel.Ability.ResourceKind))
+                                Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityAndLevel.Ability.Name, abilityAndLevel.Ability.ResourceKind);
+                    }
+                }
+                long totalExperience = 0;
+                long previousExpToLevel = 0;
+                for (int lvl = 1; lvl < 100; lvl++)
+                {
+                    long expToLevel;
+                    bool found = CombatHelpers.ExperienceToNextLevel.TryGetValue(lvl, out expToLevel);
+                    if (!found)
+                        Log.Default.WriteLine(LogLevels.Error, "No experience to next level found for level {0}", lvl);
+                    else if (expToLevel < previousExpToLevel)
+                        Log.Default.WriteLine(LogLevels.Error, "Experience to next level for level {0} is lower than previous level", lvl);
+                    else
+                        previousExpToLevel = expToLevel;
+                    totalExperience += expToLevel;
+                }
+                Log.Default.WriteLine(LogLevels.Info, "Total experience from 1 to 100 = {0:n0}", totalExperience);
+            }
+
+            if (Settings.DumpConfig)
+            {
+                DumpCommands();
+                DumpClasses();
+                DumpRaces();
+                DumpAbilities();
+            }
 
             // TODO: other sanity checks
             // TODO: check room/item/character id uniqueness
@@ -706,17 +717,23 @@ namespace Mud.Server.Server
             }
         }
 
-        private void CommandsSanityCheck()
+        private void DumpCommands()
         {
-            CommandsSanityCheck(typeof(Admin.Admin));
-            CommandsSanityCheck(typeof(Player.Player));
-            CommandsSanityCheck(typeof(NonPlayableCharacter));
-            CommandsSanityCheck(typeof(PlayableCharacter));
-            CommandsSanityCheck(typeof(Item.ItemBase<>));
-            CommandsSanityCheck(typeof(Room.Room));
+            //DumpCommandByType(typeof(Admin.Admin));
+            //DumpCommandByType(typeof(Player.Player));
+            //DumpCommandByType(typeof(NonPlayableCharacter));
+            //DumpCommandByType(typeof(PlayableCharacter));
+            //DumpCommandByType(typeof(Item.ItemBase<>));
+            //DumpCommandByType(typeof(Room.Room));
+            Type actorBaseType = typeof(Actor.ActorBase);
+            var actorTypes = Assembly.GetExecutingAssembly().GetTypes()
+                .Where(x => x.IsClass && !x.IsAbstract && actorBaseType.IsAssignableFrom(x))
+                .ToList();
+            foreach (Type actorType in actorTypes)
+                DumpCommandByType(actorType);
         }
 
-        private void CommandsSanityCheck(Type t)
+        private void DumpCommandByType(Type t)
         {
             for (char c = 'a'; c <= 'z'; c++)
             {
@@ -726,19 +743,28 @@ namespace Mud.Server.Server
                     Log.Default.WriteLine(LogLevels.Debug, $"No commands for {t.Name} prefix '{c}'"); // Dump in log
                 else
                 {
-                    TableGenerator<CommandMethodInfo> generator = new TableGenerator<CommandMethodInfo>($"Commands for {t.Name} prefix '{c}'");
-                    generator.AddColumn("Method", 20, x => x.MethodInfo.Name, new TableGenerator<CommandMethodInfo>.ColumnOptions {MergeIdenticalValue = true});
-                    generator.AddColumn("Command", 20, x => x.Attribute.Name);
-                    generator.AddColumn("Category", 15, x => x.Attribute.Category);
-                    generator.AddColumn("Prio", 5, x => x.Attribute.Priority.ToString());
-                    generator.AddColumn("S?", 5, x => x.Attribute.NoShortcut ? "yes" : "no");
-                    generator.AddColumn("H?", 5, x => x.Attribute.Hidden ? "yes" : "no");
-                    generator.AddColumn("F?", 5, x => x.Attribute.AddCommandInParameters ? "yes" : "no");
-                    generator.AddColumn("Type", 35, x => x.Attribute.GetType().Name);
-                    StringBuilder sb = generator.Generate(query);
+                    StringBuilder sb = TableGenerators.CommandMethodInfoTableGenerator.Value.Generate($"Commands for {t.Name} prefix '{c}'", query);
                     Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
                 }
             }
+        }
+
+        private void DumpClasses()
+        {
+            StringBuilder sb = TableGenerators.ClassTableGenerator.Value.Generate($"Classes", ClassManager.Classes.OrderBy(x => x.Name));
+            Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
+        }
+
+        private void DumpRaces()
+        {
+            StringBuilder sb = TableGenerators.RaceTableGenerator.Value.Generate($"Races", RaceManager.Races.OrderBy(x => x.Name));
+            Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
+        }
+
+        private void DumpAbilities()
+        {
+            StringBuilder sb = TableGenerators.FullInfoAbilityTableGenerator.Value.Generate("Abilities", AbilityManager.Abilities.OrderBy(x => x.Name));
+            Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 
         private void HandleShutdown()
