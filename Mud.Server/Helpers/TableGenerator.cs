@@ -6,45 +6,32 @@ using Mud.Server.Common;
 
 namespace Mud.Server.Helpers
 {
+    // TODO: add title as Generator parameter
     // TODO: multi table
+    // TODO: typed column:
+    //   AddBooleanColumn: automatically convert to Yes/No
+    //   AddIntColumn: automatically convert to string
+    //   AddDelayColumn: automatically call StringHelpers.FormatDelay
     public class TableGenerator<T>
     {
         public static readonly Func<T, string> AlignLeftFunc = T => null;
 
+        public class ColumnOptions
+        {
+            public bool MergeIdenticalValue { get; set; } = false;
+            public bool AlignLeft { get; set; }
+            public bool SeparatorAfterIdenticalValue { get; set; } = false;
+            public Func<T, int> GetMergeLengthFunc { get; set; } = t => 0;
+            public Func<T, string> GetTrailingSpaceFunc { get; set; } = t => " ";
+        }
+
         private class Column
         {
-            public string Header { get; }
-            public int Width { get; }
+            public string Header { get; set; }
+            public int Width { get; set; }
+            public Func<T,string> GetValueFunc { get; set; }
 
-            public Func<T, string> GetValueFunc { get; }
-            public Func<T, int> GetMergeLengthFunc { get; } = t => 0;
-            public Func<T, string> GetTrailingSpaceFunc { get; } = t => " ";
-
-            public Column(string header, int width, Func<T, string> getValueFunc)
-            {
-                Header = header;
-                Width = width;
-                GetValueFunc = getValueFunc;
-            }
-
-            public Column(string header, int width, Func<T, string> getValueFunc, Func<T, int> getMergeLengthFunc)
-                : this(header, width, getValueFunc)
-            {
-                GetMergeLengthFunc = getMergeLengthFunc;
-            }
-
-            public Column(string header, int width, Func<T, string> getValueFunc, Func<T, string> getTrailingSpaceFunc)
-                : this(header, width, getValueFunc)
-            {
-                GetTrailingSpaceFunc = getTrailingSpaceFunc;
-            }
-
-            public Column(string header, int width, Func<T, string> getValueFunc, Func<T, int> getMergeLengthFunc, Func<T, string> getTrailingSpaceFunc)
-                : this(header, width, getValueFunc)
-            {
-                GetMergeLengthFunc = getMergeLengthFunc;
-                GetTrailingSpaceFunc = getTrailingSpaceFunc;
-            }
+            public ColumnOptions Options { get; set; }
         }
 
         private readonly string _title;
@@ -58,25 +45,12 @@ namespace Mud.Server.Helpers
 
         public void AddColumn(string header, int width, Func<T, string> getValueFunc)
         {
-            Column column = new Column(header, width, getValueFunc);
-            _columns.Add(column);
+            AddColumn(header, width, getValueFunc, new ColumnOptions());
         }
 
-        public void AddColumn(string header, int width, Func<T, string> getValueFunc, Func<T, int> getMergeLengthFunc)
+        public void AddColumn(string header, int width, Func<T, string> getValueFunc, ColumnOptions options)
         {
-            Column column = new Column(header, width, getValueFunc, getMergeLengthFunc);
-            _columns.Add(column);
-        }
-
-        public void AddColumn(string header, int width, Func<T, string> getValueFunc, Func<T, string> getTrailingSpaceFunc)
-        {
-            Column column = new Column(header, width, getValueFunc, getTrailingSpaceFunc);
-            _columns.Add(column);
-        }
-
-        public void AddColumn(string header, int width, Func<T, string> getValueFunc, Func<T, int> getMergeLengthFunc, Func<T, string> getTrailingSpaceFunc)
-        {
-            Column column = new Column(header, width, getValueFunc, getMergeLengthFunc, getTrailingSpaceFunc);
+            Column column = new Column { Header = header, Width = width, GetValueFunc = getValueFunc, Options = options};
             _columns.Add(column);
         }
 
@@ -172,39 +146,63 @@ namespace Mud.Server.Helpers
             //<-- can be precomputed
 
             // Values
+            string[] previousValues = new string[_columns.Count];
             foreach (T item in items)
             {
+                // TODO: if hasToMergeIdenticalValue was true for any column and is false now and SeparatorAfterIdenticalValue is true, add separator
                 for (int index = 0; index < _columns.Count; index++)
                 {
                     Column column = _columns[index];
 
                     string value = column.GetValueFunc(item);
-                    string trailingSpace = column.GetTrailingSpaceFunc(item);
+                    bool hasToMergeIdenticalValue = column.Options.MergeIdenticalValue && value == previousValues[index];
+                    string trailingSpace = column.Options.AlignLeft 
+                        ? AlignLeftFunc(item)
+                        : column.Options.GetTrailingSpaceFunc(item);
                     int columnWidth = column.Width;
-                    int mergeLength = column.GetMergeLengthFunc(item);
+                    int mergeLength = column.Options.GetMergeLengthFunc(item);
                     if (mergeLength > 0)
                     {
-                        // if cell is merged, increase articially column width
+                        // if cell is merged, increase artificially column width
                         for (int i = index + 1; i < index + 1 + mergeLength; i++)
                             columnWidth += 1 + _columns[i].Width;
+                        //for (int i = 0; i < mergeLength; i++) // reset previous values
+                        //    previousValues[index + i] = null;
                         index += mergeLength;
                     }
 
                     sb.Append('|');
                     if (trailingSpace == null) // if not trailing space, align on left
                     {
-                        sb.Append(' ');
-                        sb.Append(value);
-                        for (int i = value.LengthNoColor() - 1; i < columnWidth - 2; i++)
+                        if (hasToMergeIdenticalValue)
+                        {
+                            sb.Append(' ', columnWidth);
+                        }
+                        else
+                        {
                             sb.Append(' ');
+                            sb.Append(value);
+                            for (int i = value.LengthNoColor() - 1; i < columnWidth - 2; i++)
+                                sb.Append(' ');
+                        }
                     }
                     else // if trailing space, align on right
                     {
-                        for (int i = 1 + value.LengthNoColor() + trailingSpace.LengthNoColor() - 1; i < columnWidth; i++)
-                            sb.Append(' ');
-                        sb.Append(value);
-                        sb.Append(trailingSpace);
+                        if (hasToMergeIdenticalValue)
+                        {
+                            sb.Append(' ', columnWidth);
+                        }
+                        else
+                        {
+                            for (int i = 1 + value.LengthNoColor() + trailingSpace.LengthNoColor() - 1; i < columnWidth; i++)
+                                sb.Append(' ');
+                            sb.Append(value);
+                            sb.Append(trailingSpace);
+                        }
                     }
+
+                    // store previous value
+                    previousValues[index] = value;
                 }
                 sb.AppendLine("|");
             }

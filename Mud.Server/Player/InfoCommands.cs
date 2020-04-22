@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
@@ -46,14 +47,8 @@ namespace Mud.Server.Player
         [Command("areas", Category = "Information", Priority = 10)]
         protected virtual bool DoAreas(string rawParameters, params CommandParameter[] parameters)
         {
-            TableGenerator<IArea> generator = new TableGenerator<IArea>("Areas");
-            generator.AddColumn("Name", 30, area => area.DisplayName, TableGenerator<IArea>.AlignLeftFunc);
-            generator.AddColumn("Min", 5, area => area.MinLevel.ToString());
-            generator.AddColumn("Max", 5, area => area.MaxLevel.ToString());
-            generator.AddColumn("Builders", 15, area => area.Builders, TableGenerator<IArea>.AlignLeftFunc);
-            generator.AddColumn("Credits", 45, area => area.Credits, TableGenerator<IArea>.AlignLeftFunc);
-            generator.AddColumn("Ids", 16, area => $"{area.Rooms.Min(x => x.Blueprint.Id)}-{area.Rooms.Max(x => x.Blueprint.Id)}");
-            StringBuilder sb = generator.Generate(World.Areas);
+            
+            StringBuilder sb = AreaTableGenerator.Value.Generate(World.Areas);
             Page(sb);
             return true;
         }
@@ -96,5 +91,18 @@ namespace Mud.Server.Player
 
             return true;
         }
+
+        //
+        private static readonly Lazy<TableGenerator<IArea>> AreaTableGenerator = new Lazy<TableGenerator<IArea>>(() =>
+        {
+            TableGenerator<IArea> generator = new TableGenerator<IArea>("Areas");
+            generator.AddColumn("Name", 30, area => area.DisplayName, new TableGenerator<IArea>.ColumnOptions {AlignLeft = true});
+            generator.AddColumn("Min", 5, area => area.MinLevel.ToString());
+            generator.AddColumn("Max", 5, area => area.MaxLevel.ToString());
+            generator.AddColumn("Builders", 15, area => area.Builders, new TableGenerator<IArea>.ColumnOptions {AlignLeft = true});
+            generator.AddColumn("Credits", 45, area => area.Credits, new TableGenerator<IArea>.ColumnOptions {AlignLeft = true});
+            generator.AddColumn("Ids", 16, area => $"{area.Rooms.Min(x => x.Blueprint.Id)}-{area.Rooms.Max(x => x.Blueprint.Id)}");
+            return generator;
+        });
     }
 }

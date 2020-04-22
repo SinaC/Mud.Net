@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Mud.Logger;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
@@ -17,51 +18,64 @@ namespace Mud.Server.Admin
 
                     Send("%M%You stop incarnating %C%{0}%x%.", Incarnating.DisplayName);
                     StopIncarnating();
+                    return true;
                 }
-                else
-                    Send("Syntax: Incarnate <room|item|mob> <name|id>");
+                Send("Syntax: Incarnate");
+                Send("        Incarnate room name|id");
+                Send("        Incarnate item name");
+                Send("        Incarnate mob name");
+                return true;
             }
-            else if (parameters.Length == 1)
-                Send("Syntax: Incarnate <room|item|mob> <name|id>");
-            else if (parameters.Length == 2)
+            //
+            if (parameters.Length == 1)
             {
-                IEntity incarnateTarget = null;
-                string kind = parameters[0].Value;
-                if ("room".StartsWith(kind))
-                {
-                    if (parameters[1].IsNumber)
-                    {
-                        int id = parameters[1].AsNumber;
-                        incarnateTarget = World.Rooms.FirstOrDefault(x => x.Blueprint?.Id == id);
-                    }
-                    else
-                        incarnateTarget = FindHelpers.FindByName(World.Rooms, parameters[1]);
-                }
-                else if ("item".StartsWith(kind))
-                    incarnateTarget = FindHelpers.FindByName(World.Items, parameters[1]);
-                else if ("mob".StartsWith(kind))
-                    incarnateTarget = FindHelpers.FindByName(World.Characters, parameters[1]);
-                if (incarnateTarget == null)
-                    Send("Target not found");
-                else
-                {
-                    //Log.Default.WriteLine(LogLevels.Info, $"{DisplayName} incarnates {incarnateTarget.DisplayName}");
-                    if (Incarnating != null)
-                    {
-                        Wiznet.Wiznet($"{DisplayName} stops incarnating {Incarnating.DebugName}.", Domain.WiznetFlags.Incarnate);
-
-                        Send("%M%You stop incarnating %C%{0}%x%.", Incarnating.DisplayName);
-                        Incarnating.ChangeIncarnation(null);
-                    }
-
-                    Wiznet.Wiznet($"{DisplayName} starts incarnating {incarnateTarget.DebugName}.", Domain.WiznetFlags.Incarnate);
-
-                    Send("%M%You start incarnating %C%{0}%x%.", incarnateTarget.DisplayName);
-                    incarnateTarget.ChangeIncarnation(this);
-                    Incarnating = incarnateTarget;
-                    PlayerState = PlayerStates.Impersonating;
-                }
+                Send("Syntax: Incarnate");
+                Send("        Incarnate room name|id");
+                Send("        Incarnate item name");
+                Send("        Incarnate mob name");
+                return true;
             }
+            //
+            IEntity incarnateTarget = null;
+            string kind = parameters[0].Value;
+            if ("room".StartsWith(kind))
+            {
+                if (parameters[1].IsNumber)
+                {
+                    int id = parameters[1].AsNumber;
+                    incarnateTarget = World.Rooms.FirstOrDefault(x => x.Blueprint?.Id == id);
+                }
+                else
+                    incarnateTarget = FindHelpers.FindByName(World.Rooms, parameters[1]);
+            }
+            else if ("item".StartsWith(kind))
+                incarnateTarget = FindHelpers.FindByName(World.Items, parameters[1]);
+            else if ("mob".StartsWith(kind))
+                incarnateTarget = FindHelpers.FindByName(World.Characters, parameters[1]);
+            if (incarnateTarget == null)
+            {
+                Send("Target not found.");
+                return true;
+            }
+            //
+            if (Incarnating != null)
+            {
+                string msgStop = $"{DisplayName} stops incarnating {Incarnating.DebugName}.";
+                Log.Default.WriteLine(LogLevels.Info, msgStop);
+                Wiznet.Wiznet(msgStop, Domain.WiznetFlags.Incarnate);
+
+                Send("%M%You stop incarnating %C%{0}%x%.", Incarnating.DisplayName);
+                Incarnating.ChangeIncarnation(null);
+            }
+
+            string msStartsg = $"{DisplayName} starts incarnating {incarnateTarget.DebugName}.";
+            Log.Default.WriteLine(LogLevels.Info, msStartsg);
+            Wiznet.Wiznet(msStartsg, Domain.WiznetFlags.Incarnate);
+
+            Send("%M%You start incarnating %C%{0}%x%.", incarnateTarget.DisplayName);
+            incarnateTarget.ChangeIncarnation(this);
+            Incarnating = incarnateTarget;
+            PlayerState = PlayerStates.Impersonating;
             return true;
         }
     }

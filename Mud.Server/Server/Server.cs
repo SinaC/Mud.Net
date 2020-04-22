@@ -14,6 +14,8 @@ using Mud.Logger;
 using Mud.Network;
 using Mud.Server.Abilities;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Character.NonPlayableCharacter;
+using Mud.Server.Character.PlayableCharacter;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -106,6 +108,9 @@ namespace Mud.Server.Server
                 totalExperience += expToLevel;
             }
             Log.Default.WriteLine(LogLevels.Info, "Total experience from 1 to 100 = {0:n0}", totalExperience);
+
+            if (Settings.PerformSanityCheck)
+                CommandsSanityCheck();
 
             // TODO: other sanity checks
             // TODO: check room/item/character id uniqueness
@@ -698,6 +703,41 @@ namespace Mud.Server.Server
                 }
                 else
                     Log.Default.WriteLine(LogLevels.Error, "ProcessOutput: playing client without Player");
+            }
+        }
+
+        private void CommandsSanityCheck()
+        {
+            CommandsSanityCheck(typeof(Admin.Admin));
+            CommandsSanityCheck(typeof(Player.Player));
+            CommandsSanityCheck(typeof(NonPlayableCharacter));
+            CommandsSanityCheck(typeof(PlayableCharacter));
+            CommandsSanityCheck(typeof(Item.ItemBase<>));
+            CommandsSanityCheck(typeof(Room.Room));
+        }
+
+        private void CommandsSanityCheck(Type t)
+        {
+            for (char c = 'a'; c <= 'z'; c++)
+            {
+                CommandMethodInfo[] query = CommandHelpers.GetCommands(t).GetByPrefix(c.ToString()).OrderBy(x => x.Value.Attribute.Priority).Select(x => x.Value).ToArray();
+
+                if (query.Length == 0)
+                    Log.Default.WriteLine(LogLevels.Debug, $"No commands for {t.Name} prefix '{c}'"); // Dump in log
+                else
+                {
+                    TableGenerator<CommandMethodInfo> generator = new TableGenerator<CommandMethodInfo>($"Commands for {t.Name} prefix '{c}'");
+                    generator.AddColumn("Method", 20, x => x.MethodInfo.Name, new TableGenerator<CommandMethodInfo>.ColumnOptions {MergeIdenticalValue = true});
+                    generator.AddColumn("Command", 20, x => x.Attribute.Name);
+                    generator.AddColumn("Category", 15, x => x.Attribute.Category);
+                    generator.AddColumn("Prio", 5, x => x.Attribute.Priority.ToString());
+                    generator.AddColumn("S?", 5, x => x.Attribute.NoShortcut ? "yes" : "no");
+                    generator.AddColumn("H?", 5, x => x.Attribute.Hidden ? "yes" : "no");
+                    generator.AddColumn("F?", 5, x => x.Attribute.AddCommandInParameters ? "yes" : "no");
+                    generator.AddColumn("Type", 35, x => x.Attribute.GetType().Name);
+                    StringBuilder sb = generator.Generate(query);
+                    Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
+                }
             }
         }
 

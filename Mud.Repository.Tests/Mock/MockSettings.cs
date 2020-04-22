@@ -27,6 +27,8 @@ namespace Mud.Repository.Tests.Mock
 
         public bool RemovePeriodicAurasInNotInSameRoom => throw new NotImplementedException();
 
+        public bool PerformSanityCheck => throw new NotImplementedException();
+
         public int CorpseBlueprintId => throw new NotImplementedException();
 
         public int DefaultRoomId => throw new NotImplementedException();

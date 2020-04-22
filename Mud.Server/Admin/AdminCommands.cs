@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -335,5 +337,69 @@ namespace Mud.Server.Admin
 
             return true;
         }
+
+        [Command("commanddebug", Priority = 10, Category = "Admin")]
+        protected virtual bool DoCommandDebug(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Send("Syntax: commanddebug admin|player|pc|npc|item|room");
+                return true;
+            }
+
+            string specifier = parameters[0].Value.ToLowerInvariant();
+            IReadOnlyTrie<CommandMethodInfo> commands;
+            if ("admin".StartsWith(specifier))
+                commands = CommandHelpers.GetCommands(typeof(Admin));
+            else if ("player".StartsWith(specifier))
+                commands = CommandHelpers.GetCommands(typeof(Player.Player));
+            else if ("pc".StartsWith(specifier))
+                commands = CommandHelpers.GetCommands(typeof(Character.PlayableCharacter.PlayableCharacter));
+            else if ("npc".StartsWith(specifier))
+                commands = CommandHelpers.GetCommands(typeof(Character.NonPlayableCharacter.NonPlayableCharacter));
+            else if ("item".StartsWith(specifier))
+                commands = CommandHelpers.GetCommands(typeof(Item.ItemBase<>));
+            else if ("room".StartsWith(specifier))
+                commands = CommandHelpers.GetCommands(typeof(Room.Room));
+            else
+            {
+                Send("Syntax: commanddebug admin|player|pc|npc|item|room");
+                return true;
+            }
+            // Filter?
+            IEnumerable<CommandMethodInfo> query;
+            if (parameters.Length > 1)
+            {
+                // Filter using Trie, then order by priority
+                query = commands.GetByPrefix(parameters[1].Value).OrderBy(x => x.Value.Attribute.Priority).Select(x => x.Value);
+            }
+            else
+            {
+                // No filter and order by MethodInfo name
+                query = commands.Values.OrderBy(x => x.MethodInfo.Name);
+            }
+
+            // Display
+            StringBuilder sb = CommandTableGenerator.Value.Generate(query);
+            Page(sb);
+            return true;
+        }
+
+        private static string ConvertBool(bool value) => value ? "%y%yes%x%" : "no";
+
+        private static string ConvertPriority(int priority) => priority > 0 ? $"%y%{priority}%x%" : $"{priority}";
+
+        private static readonly Lazy<TableGenerator<CommandMethodInfo>> CommandTableGenerator = new Lazy<TableGenerator<CommandMethodInfo>>(() =>
+        {
+            TableGenerator<CommandMethodInfo> generator = new TableGenerator<CommandMethodInfo>("Commands");
+            generator.AddColumn("Method", 20, x => x.MethodInfo.Name, new TableGenerator<CommandMethodInfo>.ColumnOptions {MergeIdenticalValue = true});
+            generator.AddColumn("Command", 20, x => x.Attribute.Name);
+            generator.AddColumn("Category", 15, x => x.Attribute.Category);
+            generator.AddColumn("Prio", 5, x => ConvertPriority(x.Attribute.Priority));
+            generator.AddColumn("S?", 5, x => ConvertBool(x.Attribute.NoShortcut));
+            generator.AddColumn("H?", 5, x => ConvertBool(x.Attribute.Hidden));
+            generator.AddColumn("F?", 5, x => ConvertBool(x.Attribute.AddCommandInParameters));
+            return generator;
+        });
     }
 }

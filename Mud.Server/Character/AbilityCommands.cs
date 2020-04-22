@@ -99,42 +99,45 @@ namespace Mud.Server.Character
                 .OrderBy(x => x.Level)
                 .ThenBy(x => x.Ability.Name);
 
-            StringBuilder sb = AbilitiesAndLevelTableGeneratorInstance.Value.Generate(abilities);
+            StringBuilder sb = AbilitiesAndLevelTableGenerator.Value.Generate(abilities);
             Page(sb);
         }
 
-        private static readonly Lazy<TableGenerator<AbilityAndLevel>> AbilitiesAndLevelTableGeneratorInstance = new Lazy<TableGenerator<AbilityAndLevel>>(() => AbilitiesAndLevelTableGenerator);
-
-        private static TableGenerator<AbilityAndLevel> AbilitiesAndLevelTableGenerator
+        private static readonly Lazy<TableGenerator<AbilityAndLevel>> AbilitiesAndLevelTableGenerator = new Lazy<TableGenerator<AbilityAndLevel>>(() =>
         {
-            get
-            {
-                TableGenerator<AbilityAndLevel> generator = new TableGenerator<AbilityAndLevel>("Abilities");
-                generator.AddColumn("Lvl", 5, x => x.Level.ToString());
-                generator.AddColumn("Name", 23, x => x.Ability.Name);
-                generator.AddColumn("Resource", 10,
-                    x =>
-                    {
-                        if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
-                            return "%m%passive ability%x%";
-                        if (x.Ability.CostType == AmountOperators.Percentage || x.Ability.CostType == AmountOperators.Fixed)
-                            return StringHelpers.ResourceColor(x.Ability.ResourceKind);
-                        return "%W%free cost ability%x%";
-                    },
-                    x =>
+            // Merge resource and cost if free cost ability
+            TableGenerator<AbilityAndLevel> generator = new TableGenerator<AbilityAndLevel>("Abilities");
+            generator.AddColumn("Lvl", 5, x => x.Level.ToString());
+            generator.AddColumn("Name", 23, x => x.Ability.Name);
+            generator.AddColumn("Resource", 10,
+                x =>
+                {
+                    if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
+                        return "%m%passive ability%x%";
+                    if (x.Ability.CostType == AmountOperators.Percentage || x.Ability.CostType == AmountOperators.Fixed)
+                        return StringHelpers.ResourceColor(x.Ability.ResourceKind);
+                    return "%W%free cost ability%x%";
+                },
+                new TableGenerator<AbilityAndLevel>.ColumnOptions
+                {
+                    GetMergeLengthFunc = x =>
                     {
                         if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
                             return 1;
                         if (x.Ability.CostType == AmountOperators.Percentage || x.Ability.CostType == AmountOperators.Fixed)
                             return 0;
                         return 1;
-                    });
-                generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
-                generator.AddColumn("Cost", 8, x => x.Ability.CostAmount.ToString(), x => x.Ability.CostType == AmountOperators.Percentage ? "% " : " ");
-                generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
-                return generator;
-            }
-        }
+                    }
+                });
+            generator.AddColumn("Cost", 8, x => x.Ability.CostAmount.ToString(),
+                new TableGenerator<AbilityAndLevel>.ColumnOptions
+                {
+                    GetTrailingSpaceFunc = x => x.Ability.CostType == AmountOperators.Percentage ? "% " : " "
+                });
+            generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
+            generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
+            return generator;
+        });
 
         #endregion
     }

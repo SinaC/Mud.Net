@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
@@ -17,6 +18,8 @@ namespace Mud.Server.Character.PlayableCharacter
     public partial class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(PlayableCharacter)));
+
+        protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
 
         private readonly List<IPlayableCharacter> _groupMembers;
         private readonly List<IQuest> _quests;
@@ -148,7 +151,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         public override string DisplayName => StringHelpers.UpperFirstLetter(Name);
 
-        public override string DebugName => DisplayName;
+        public override string DebugName => $"{DisplayName}[{ImpersonatedBy?.DisplayName ?? "???"}]";
 
         public override string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false)
         {
@@ -159,7 +162,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 displayName.Append("Someone");
             else
                 displayName.Append("someone");
-            if (beholder is IPlayableCharacter playableBeholder && playableBeholder?.ImpersonatedBy is IAdmin)
+            if (beholder is IPlayableCharacter playableBeholder && playableBeholder.ImpersonatedBy is IAdmin)
                 displayName.Append($" [{ImpersonatedBy?.DisplayName ?? " ??? "}]");
             return displayName.ToString();
         }
@@ -328,7 +331,7 @@ namespace Mud.Server.Character.PlayableCharacter
             newMember.ChangeLeader(this); // this is not mandatory (should be done by caller)
             if (!silent)
             {
-                foreach (ICharacter member in _groupMembers)
+                foreach (IPlayableCharacter member in _groupMembers)
                     member.Send("{0} joins group.", newMember.DisplayName);
             }
             if (!silent)
@@ -351,7 +354,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 Send("{0} leaves group.", oldMember.DebugName);
             if (!silent)
             {
-                foreach (ICharacter member in _groupMembers)
+                foreach (IPlayableCharacter member in _groupMembers)
                     member.Send("{0} leaves group.", member.DebugName);
             }
             if (!silent)

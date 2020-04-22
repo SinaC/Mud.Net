@@ -352,6 +352,7 @@ namespace Mud.Server.Player
 
         protected void LoadPlayerData(PlayerData data)
         {
+            PagingLineCount = data.PagingLineCount;
             _aliases.Clear();
             _avatarList.Clear();
             if (data?.Aliases != null)

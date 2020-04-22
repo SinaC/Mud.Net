@@ -133,9 +133,11 @@ namespace Mud.Server.Actor
         [Command("commands", Priority = 0)]
         protected virtual bool DoCommands(string rawParameters, params CommandParameter[] parameters)
         {
-            // TODO: group trie by value and display set of key linked to this value
+            // TODO: group trie by value (group by DoXXX) and display set of key linked to this value
 
             IEnumerable<KeyValuePair<string, CommandMethodInfo>> filteredCommands = Commands.Where(x => !x.Value.Attribute.Hidden && IsCommandAvailable(x.Value.Attribute));
+
+            // If a parameter is specified, filter on category
             if (parameters.Length > 0)
                 filteredCommands = filteredCommands.Where(x => FindHelpers.StringStartsWith(x.Value.Attribute.Category, parameters[0].Value));
 
