@@ -148,21 +148,21 @@ namespace Mud.Server.Helpers
 
             // In area
             //  players
-            ICharacter inAreaPlayer = FindByName(asker.Room.Area.Characters.Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
+            IPlayableCharacter inAreaPlayer = FindByName(asker.Room.Area.Characters.OfType<IPlayableCharacter>().Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
             if (inAreaPlayer != null)
                 return inAreaPlayer;
             //  characters
-            ICharacter inAreaCharacter = FindByName(asker.Room.Area.Characters.Where(asker.CanSee), parameter);
+            INonPlayableCharacter inAreaCharacter = FindByName(asker.Room.Area.Characters.OfType<INonPlayableCharacter>().Where(asker.CanSee), parameter);
             if (inAreaCharacter != null)
                 return inAreaCharacter;
 
             // In world
             //  players
-            ICharacter inWorldPlayer = FindByName(World.Characters.Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
+            IPlayableCharacter inWorldPlayer = FindByName(World.Characters.OfType<IPlayableCharacter>().Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
             if (inWorldPlayer != null)
                 return inWorldPlayer;
             //  characters
-            ICharacter inWorldCharacter = FindByName(World.Characters.Where(asker.CanSee), parameter);
+            INonPlayableCharacter inWorldCharacter = FindByName(World.Characters.OfType<INonPlayableCharacter>().Where(asker.CanSee), parameter);
             return inWorldCharacter;
         }
 

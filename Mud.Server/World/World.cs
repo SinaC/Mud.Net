@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Aura;
@@ -113,6 +112,10 @@ namespace Mud.Server.World
 
         public IEnumerable<ICharacter> Characters => _characters.Where(x => x.IsValid);
 
+        public IEnumerable<INonPlayableCharacter> NonPlayableCharacters => Characters.OfType<INonPlayableCharacter>();
+
+        public IEnumerable<IPlayableCharacter> PlayableCharacters => Characters.OfType<IPlayableCharacter>();
+
         public IEnumerable<IItem> Items => _items.Where(x => x.IsValid);
 
         public IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits)
@@ -140,18 +143,18 @@ namespace Mud.Server.World
             return from2To;
         }
 
-        public ICharacter AddCharacter(Guid guid, CharacterData characterData, IRoom room) // PC
+        public IPlayableCharacter AddPlayableCharacter(Guid guid, CharacterData characterData, IPlayer player, IRoom room) // PC
         {
-            ICharacter character = new Character.Character(guid, characterData, room);
+            IPlayableCharacter character = new Character.PlayableCharacter.PlayableCharacter(guid, characterData, player, room);
             _characters.Add(character);
             return character;
         }
 
-        public ICharacter AddCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
+        public INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
         {
             if (blueprint == null)
                 throw new ArgumentNullException(nameof(blueprint));
-            ICharacter character = new Character.Character(guid, blueprint, room);
+            INonPlayableCharacter character = new Character.NonPlayableCharacter.NonPlayableCharacter(guid, blueprint, room);
             _characters.Add(character);
             return character;
         }
@@ -335,18 +338,18 @@ namespace Mud.Server.World
             victim.AddPeriodicAura(periodicAura);
             return periodicAura;
         }
-        
+
         public void RemoveCharacter(ICharacter character)
         {
             character.StopFighting(true);
 
             // Remove from group if in a group + stop following
-            if (character.Leader != null)
+            if (character is IPlayableCharacter playableCharacter && playableCharacter.Leader != null)
             {
-                ICharacter leader = character.Leader;
-                leader.StopFollower(character);
+                IPlayableCharacter leader = playableCharacter.Leader;
+                leader.StopFollower(playableCharacter);
                 if (leader.GroupMembers.Any(x => x == character))
-                    leader.RemoveGroupMember(character, false);
+                    leader.RemoveGroupMember(playableCharacter, false);
             }
             // TODO: if leader of a group
 

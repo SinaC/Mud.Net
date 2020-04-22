@@ -66,8 +66,8 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [AdminCommand("cload", Category = "Admin", MustBeImpersonated = true)]
-        [AdminCommand("mload", Category = "Admin", MustBeImpersonated = true)]
+        [AdminCommand("cload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
+        [AdminCommand("mload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
         protected virtual bool DoCload(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0 || !parameters[0].IsNumber)
@@ -83,7 +83,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            ICharacter character = World.AddCharacter(Guid.NewGuid(), characterBlueprint, Impersonating.Room);
+            INonPlayableCharacter character = World.AddNonPlayableCharacter(Guid.NewGuid(), characterBlueprint, Impersonating.Room);
             if (character == null)
             {
                 Send("Character cannot be created.");
@@ -99,8 +99,8 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [AdminCommand("iload", Category = "Admin", MustBeImpersonated = true)]
-        [AdminCommand("oload", Category = "Admin", MustBeImpersonated = true)]
+        [AdminCommand("iload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
+        [AdminCommand("oload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
         protected virtual bool DoIload(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0 || !parameters[0].IsNumber)
@@ -135,7 +135,7 @@ namespace Mud.Server.Admin
             return true;
         }
 
-        [AdminCommand("slay", Category = "Admin", NoShortcut = true, MustBeImpersonated = true)]
+        [AdminCommand("slay", Category = "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
         protected virtual bool DoSlay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -143,14 +143,12 @@ namespace Mud.Server.Admin
                 Send("Slay whom?");
                 return true;
             }
-
             ICharacter victim = FindHelpers.FindByName(Impersonating.Room.People, parameters[0]);
             if (victim == null)
             {
                 Send(StringHelpers.CharacterNotFound);
                 return true;
             }
-
             if (victim == Impersonating)
             {
                 Send("Suicide is a mortal sin.");
@@ -160,12 +158,12 @@ namespace Mud.Server.Admin
             Wiznet.Wiznet($"{DisplayName} slayed {victim.DebugName}.", WiznetFlags.Punish);
 
             victim.Act(ActOptions.ToAll, "{0:N} slay{0:v} {1} in cold blood!", Impersonating, victim);
-            victim.RawKilled(Impersonating, false);
+            victim.Slay(Impersonating);
 
             return true;
         }
 
-        [AdminCommand("purge", Category = "Admin", NoShortcut = true, MustBeImpersonated = true)]
+        [AdminCommand("purge", Category = "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
         protected virtual bool DoPurge(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -225,7 +223,7 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            ICharacter victim = FindHelpers.FindByName(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), parameters[0]);
+            IPlayableCharacter victim = FindHelpers.FindByName(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), parameters[0]);
             if (victim == null)
             {
                 Send("That impersonated player is not here.");

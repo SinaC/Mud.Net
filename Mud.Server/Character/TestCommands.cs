@@ -5,7 +5,7 @@ using Mud.Server.Input;
 
 namespace Mud.Server.Character
 {
-    public partial class Character
+    public partial class CharacterBase
     // TODO: remove   test commands
     {
         [Command("test", Category = "!!Test!!")]

@@ -29,18 +29,18 @@ namespace Mud.Server.Player
             CharacterData characterData = _avatarList.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (characterData == null)
             {
-                Send("Avatar not found. Use listavatar to display your avatar list.");
+                Send("Avatar not found. Use 'listavatar' to display your avatar list.");
                 return true;
             }
             IRoom location = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == characterData.RoomId);
             if (location == null)
             {
+                location = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRoomId);
                 string msg = $"Invalid roomId {characterData.RoomId} for character {characterData.Name}!!";
-                location = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3001); // TODO: default room in IWorld
                 Log.Default.WriteLine(LogLevels.Error, msg);
                 Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             }
-            ICharacter avatar = World.AddCharacter(Guid.NewGuid(), characterData, location);
+            IPlayableCharacter avatar = World.AddPlayableCharacter(Guid.NewGuid(), characterData, this, location);
             Send("%M%You start impersonating %C%{0}%x%.", avatar.DisplayName);
             avatar.ChangeImpersonation(this);
             Impersonating = avatar;

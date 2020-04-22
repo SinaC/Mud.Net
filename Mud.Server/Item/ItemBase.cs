@@ -43,24 +43,24 @@ namespace Mud.Server.Item
         public override string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false)
         {
             StringBuilder displayName = new StringBuilder();
-            if (IsQuestObjective(beholder))
+            IPlayableCharacter playableBeholder = beholder as IPlayableCharacter;
+            if (playableBeholder != null && IsQuestObjective(playableBeholder))
                 displayName.Append(StringHelpers.QuestPrefix);
             if (beholder.CanSee(this))
                 displayName.Append(DisplayName);
-            // TODO: if player1 (without quest q1) is looking at player2 (with quest q1 and quest item qi1), player1 should not receive something
             else if (capitalizeFirstLetter)
                 displayName.Append("Something");
             else
                 displayName.Append("something");
-            if (beholder.ImpersonatedBy is IAdmin)
-                displayName.Append($"[Id: {Blueprint.Id}]");
+            if (playableBeholder?.ImpersonatedBy is IAdmin)
+                displayName.Append($" [{Blueprint?.Id.ToString() ?? " ??? "}]");
             return displayName.ToString();
         }
 
         public override string RelativeDescription(ICharacter beholder) // Add (Quest) to description if beholder is on a quest with 'this' as objective
         {
             StringBuilder description = new StringBuilder();
-            if (IsQuestObjective(beholder))
+            if (beholder is IPlayableCharacter playableBeholder && IsQuestObjective(playableBeholder))
                 description.Append(StringHelpers.QuestPrefix);
             description.Append(Description);
             return description.ToString();
@@ -90,7 +90,7 @@ namespace Mud.Server.Item
 
         public virtual int Cost { get; }
 
-        public virtual bool IsQuestObjective(ICharacter questingCharacter)
+        public virtual bool IsQuestObjective(IPlayableCharacter questingCharacter)
         {
             return false; // by default, an item is not a quest objective
         }

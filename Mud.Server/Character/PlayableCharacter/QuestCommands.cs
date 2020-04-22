@@ -6,11 +6,11 @@ using Mud.Server.Blueprints.Quest;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
-namespace Mud.Server.Character
+namespace Mud.Server.Character.PlayableCharacter
 {
-    public partial class Character
+    public partial class PlayableCharacter
     {
-        [CharacterCommand("quest", Category = "Quest", Priority = 1)]
+        [PlayableCharacterCommand("quest", Category = "Quest", Priority = 1)]
         protected virtual bool DoQuest(string rawParameters, params CommandParameter[] parameters)
         {
             // no param -> quest info
@@ -91,8 +91,8 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [CharacterCommand("qcomplete", Category = "Quest", Priority = 2)]
-        [CharacterCommand("questcomplete", Category = "Quest", Priority = 2)]
+        [PlayableCharacterCommand("qcomplete", Category = "Quest", Priority = 2)]
+        [PlayableCharacterCommand("questcomplete", Category = "Quest", Priority = 2)]
         protected virtual bool DoQuestComplete(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -125,8 +125,8 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [CharacterCommand("qabandon", Category = "Quest", Priority = 3)]
-        [CharacterCommand("questabandon", Category = "Quest", Priority = 3)]
+        [PlayableCharacterCommand("qabandon", Category = "Quest", Priority = 3)]
+        [PlayableCharacterCommand("questabandon", Category = "Quest", Priority = 3)]
         protected virtual bool DoQuestAbandon(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -149,8 +149,8 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [CharacterCommand("qget", Category = "Quest", Priority = 4)]
-        [CharacterCommand("questget", Category = "Quest", Priority = 4)]
+        [PlayableCharacterCommand("qget", Category = "Quest", Priority = 4)]
+        [PlayableCharacterCommand("questget", Category = "Quest", Priority = 4)]
         protected virtual bool DoQuestGet(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -159,7 +159,7 @@ namespace Mud.Server.Character
                 return true;
             }
 
-            if (!Room.People.Any(x => x.Blueprint is CharacterQuestorBlueprint))
+            if (!Room.NonPlayableCharacters.Any(x => x.Blueprint is CharacterQuestorBlueprint))
             {
                 Send("You cannot get any quest here.");
                 return true;
@@ -170,7 +170,7 @@ namespace Mud.Server.Character
             {
                 bool found = false;
                 // Search quest giver with wanted quest
-                foreach (ICharacter questGiver in Room.People.Where(x => x.Blueprint is CharacterQuestorBlueprint))
+                foreach (INonPlayableCharacter questGiver in Room.NonPlayableCharacters.Where(x => x.Blueprint is CharacterQuestorBlueprint))
                 {
                     CharacterQuestorBlueprint questGiverBlueprint = questGiver.Blueprint as CharacterQuestorBlueprint;
                     if (questGiverBlueprint?.QuestBlueprints?.Any() == true)
@@ -190,7 +190,7 @@ namespace Mud.Server.Character
             // get quest
             string questTitle = parameters[0].Value.ToLowerInvariant();
             // Search quest giver with wanted quest
-            foreach (ICharacter questGiver in Room.People.Where(x => x.Blueprint is CharacterQuestorBlueprint))
+            foreach (INonPlayableCharacter questGiver in Room.NonPlayableCharacters.Where(x => x.Blueprint is CharacterQuestorBlueprint))
             {
                 CharacterQuestorBlueprint questGiverBlueprint = questGiver.Blueprint as CharacterQuestorBlueprint;
                 if (questGiverBlueprint?.QuestBlueprints?.Any() == true)
@@ -210,8 +210,8 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [CharacterCommand("qlist", Category = "Quest", Priority = 5)]
-        [CharacterCommand("questlist", Category = "Quest", Priority = 5)]
+        [PlayableCharacterCommand("qlist", Category = "Quest", Priority = 5)]
+        [PlayableCharacterCommand("questlist", Category = "Quest", Priority = 5)]
         protected virtual bool DoQuestList(string rawParameters, params CommandParameter[] parameters)
         {
             // Display quests available in this.Room
@@ -219,7 +219,7 @@ namespace Mud.Server.Character
             sb.AppendLine("Available quests:");
             bool questGiverFound = false;
             bool questAvailable = false;
-            foreach (ICharacter questGiver in Room.People.Where(x => x.Blueprint is CharacterQuestorBlueprint))
+            foreach (INonPlayableCharacter questGiver in Room.NonPlayableCharacters.Where(x => x.Blueprint is CharacterQuestorBlueprint))
             {
                 CharacterQuestorBlueprint questGiverBlueprint = questGiver.Blueprint as CharacterQuestorBlueprint;
                 if (questGiverBlueprint?.QuestBlueprints?.Any() == true)
@@ -247,7 +247,7 @@ namespace Mud.Server.Character
 
         #region Helpers
 
-        private IQuest GetQuest(QuestBlueprint questBlueprint, ICharacter questGiver)
+        private IQuest GetQuest(QuestBlueprint questBlueprint, INonPlayableCharacter questGiver)
         {
             IQuest quest = new Quest.Quest(questBlueprint, this, questGiver);
             AddQuest(quest);

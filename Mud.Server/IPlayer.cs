@@ -30,7 +30,7 @@ namespace Mud.Server
 
         PlayerStates PlayerState { get; }
 
-        ICharacter Impersonating { get; }
+        IPlayableCharacter Impersonating { get; }
 
         IEnumerable<Domain.CharacterData> Avatars { get; }
 

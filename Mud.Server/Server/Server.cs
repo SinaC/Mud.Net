@@ -753,7 +753,7 @@ namespace Mud.Server.Server
                     foreach (IPeriodicAura pa in clonePeriodicAuras)
                     {
                         // On NPC, remove hot/dot from unknown source or source not in the same room
-                        if (character.ImpersonatedBy == null && (pa.Source == null || pa.Source.Room != character.Room))
+                        if (Settings.RemovePeriodicAurasInNotInSameRoom && character is INonPlayableCharacter && (pa.Source == null || pa.Source.Room != character.Room))
                         {
                             pa.OnVanished();
                             character.RemovePeriodicAura(pa);
@@ -867,10 +867,10 @@ namespace Mud.Server.Server
                         {
                             Log.Default.WriteLine(LogLevels.Debug, "Stop fighting between {0} and {1}, because not in same room", character.DebugName, victim.DebugName);
                             character.StopFighting(false);
-                            if (!character.Impersonable)
+                            if (character is INonPlayableCharacter nonPlayableCharacter)
                             {
-                                Log.Default.WriteLine(LogLevels.Debug, "Non-impersonable character stop fighting, resetting it");
-                                character.Reset();
+                                Log.Default.WriteLine(LogLevels.Debug, "Non-playable character stop fighting, resetting it");
+                                nonPlayableCharacter.Reset();
                             }
                         }
                     }
@@ -905,11 +905,11 @@ namespace Mud.Server.Server
             }
         }
 
-        private void HandleCharacters()
+        private void HandlePlayableCharacters()
         {
-            foreach (ICharacter character in World.Characters)
+            foreach (IPlayableCharacter character in World.Characters.OfType<IPlayableCharacter>())
             {
-                if (character.Impersonable && character.ImpersonatedBy == null) // TODO: remove after x minutes
+                if (character.ImpersonatedBy == null) // TODO: remove after x minutes
                     Log.Default.WriteLine(LogLevels.Warning, "Impersonable {0} is not impersonated", character.DebugName);
 
                 //
@@ -952,7 +952,7 @@ namespace Mud.Server.Server
             pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleCooldowns);
             pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleQuests);
             pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandlePlayers);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandleCharacters);
+            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandlePlayableCharacters);
             pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandleItems);
             pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandleRooms);
 

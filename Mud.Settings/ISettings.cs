@@ -23,6 +23,7 @@
         bool RemovePeriodicAurasInNotInSameRoom { get; }
 
         int CorpseBlueprintId { get; }
+        int DefaultRoomId { get; }
 
         int PulsePerSeconds { get; }
         int PulsePerMinutes { get; }

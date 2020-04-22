@@ -21,7 +21,7 @@ namespace Mud.Server.Quest
         protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
-        public Quest(QuestBlueprint blueprint, ICharacter character, ICharacter giver) // TODO: giver should be ICharacterQuestor
+        public Quest(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
         {
             Character = character;
             StartTime = DateTime.Now;
@@ -32,7 +32,7 @@ namespace Mud.Server.Quest
             BuildObjectives(blueprint, character);
         }
 
-        public Quest(CurrentQuestData questData, ICharacter character)
+        public Quest(CurrentQuestData questData, IPlayableCharacter character)
         {
             Character = character;
             QuestBlueprint questBlueprint = World.GetQuestBlueprint(questData.QuestId);
@@ -44,7 +44,7 @@ namespace Mud.Server.Quest
 
             CharacterQuestorBlueprint characterQuestorBlueprint = World.GetCharacterBlueprint<CharacterQuestorBlueprint>(questData.GiverId);
             // TODO: quid if blueprint is null?
-            Giver = World.Characters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id && x.Room?.Blueprint?.Id == questData.GiverRoomId) ?? World.Characters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id);
+            Giver = World.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id && x.Room?.Blueprint?.Id == questData.GiverRoomId) ?? World.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id);
 
             _objectives = new List<IQuestObjective>();
             BuildObjectives(questBlueprint, character);
@@ -74,13 +74,13 @@ namespace Mud.Server.Quest
 
         public QuestBlueprint Blueprint { get; }
 
-        public ICharacter Character { get; }
+        public IPlayableCharacter Character { get; }
 
-        public ICharacter Giver { get; }
+        public INonPlayableCharacter Giver { get; }
 
         public IEnumerable<IQuestObjective> Objectives => _objectives;
 
-        public void GenerateKillLoot(ICharacter victim, IContainer container)
+        public void GenerateKillLoot(INonPlayableCharacter victim, IContainer container)
         {
             if (victim.Blueprint == null)
                 return;
@@ -107,7 +107,7 @@ namespace Mud.Server.Quest
             }
         }
 
-        public void Update(ICharacter victim)
+        public void Update(INonPlayableCharacter victim)
         {
             if (victim.Blueprint == null)
                 return;

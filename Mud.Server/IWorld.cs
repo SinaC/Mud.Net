@@ -41,6 +41,8 @@ namespace Mud.Server
         IEnumerable<IArea> Areas { get; }
         IEnumerable<IRoom> Rooms { get; }
         IEnumerable<ICharacter> Characters { get; }
+        IEnumerable<INonPlayableCharacter> NonPlayableCharacters { get; }
+        IEnumerable<IPlayableCharacter> PlayableCharacters { get; }
         IEnumerable<IItem> Items { get; }
 
         IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits);
@@ -49,8 +51,8 @@ namespace Mud.Server
 
         IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction);
 
-        ICharacter AddCharacter(Guid guid, CharacterData characterData, IRoom room); // Impersonable
-        ICharacter AddCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room); // Non-impersonable
+        IPlayableCharacter AddPlayableCharacter(Guid guid, CharacterData characterData, IPlayer player, IRoom room);
+        INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room);
 
         IItemContainer AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container);
         IItemArmor AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container);

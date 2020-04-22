@@ -237,12 +237,14 @@ namespace Mud.Server.Admin
                     Send(StringHelpers.NotFound);
                 else
                 {
+                    INonPlayableCharacter nonPlayableVictim = victim as INonPlayableCharacter;
+                    IPlayableCharacter playableVictim = victim as IPlayableCharacter;
                     StringBuilder sb = new StringBuilder();
-                    if (victim.Blueprint != null)
+                    if (nonPlayableVictim?.Blueprint != null)
                     {
-                        sb.AppendFormatLine("Blueprint: {0}", victim.Blueprint.Id);
+                        sb.AppendFormatLine("Blueprint: {0}", nonPlayableVictim.Blueprint.Id);
                         // TODO: display blueprint
-                        if (victim.Blueprint is CharacterQuestorBlueprint characterQuestorBlueprint)
+                        if (nonPlayableVictim.Blueprint is CharacterQuestorBlueprint characterQuestorBlueprint)
                         {
                             sb.AppendLine($"Quest giver: {characterQuestorBlueprint.QuestBlueprints?.Count ?? 0}");
                             foreach (var questBlueprint in characterQuestorBlueprint.QuestBlueprints ?? Enumerable.Empty<QuestBlueprint>())
@@ -263,10 +265,10 @@ namespace Mud.Server.Admin
                     sb.AppendFormatLine("Name: {0}", victim.Name);
                     sb.AppendFormatLine("DisplayName: {0}", victim.DisplayName);
                     sb.AppendFormatLine("Description: {0}", victim.Description);
-                    if (victim.Leader != null)
-                        sb.AppendFormatLine("Leader: {0}", victim.Leader.DisplayName);
-                    if (victim.GroupMembers.Any())
-                        foreach (ICharacter member in victim.GroupMembers)
+                    if (playableVictim?.Leader != null)
+                        sb.AppendFormatLine("Leader: {0}", playableVictim.Leader.DisplayName);
+                    if (playableVictim?.GroupMembers.Any() == true)
+                        foreach (ICharacter member in playableVictim.GroupMembers)
                             sb.AppendFormatLine("Group member: {0}", member.DisplayName);
                     if (victim.Slave != null)
                         sb.AppendFormatLine("Slave: {0}", victim.Slave.DisplayName);
@@ -274,10 +276,8 @@ namespace Mud.Server.Admin
                         sb.AppendFormatLine("Incarnated by {0}", victim.IncarnatedBy.DisplayName);
                     else
                         sb.AppendFormatLine("Incarnatable: {0}", victim.Incarnatable);
-                    if (victim.ImpersonatedBy != null)
-                        sb.AppendFormatLine("Impersonated by {0}", victim.ImpersonatedBy.DisplayName);
-                    else
-                        sb.AppendFormatLine("Impersonable: {0}", victim.Impersonable);
+                    if (playableVictim?.ImpersonatedBy != null)
+                        sb.AppendFormatLine("Impersonated by {0}", playableVictim.ImpersonatedBy.DisplayName);
                     if (victim.ControlledBy != null)
                         sb.AppendFormatLine("Controlled by {0}", victim.ControlledBy.DisplayName);
                     if (victim.Fighting != null)
@@ -287,7 +287,8 @@ namespace Mud.Server.Admin
                     sb.AppendFormatLine("Room: {0} [vnum: {1}]", victim.Room.DisplayName, victim.Room.Blueprint?.Id ?? -1);
                     sb.AppendFormatLine("Race: {0} Class: {1}", victim.Race?.DisplayName ?? "(none)", victim.Class?.DisplayName ?? "(none)");
                     sb.AppendFormatLine("Level: {0} Sex: {1}", victim.Level, victim.Sex);
-                    sb.AppendFormatLine("Experience: {0} NextLevel: {1}", victim.Experience, victim.ExperienceToLevel);
+                    if (playableVictim != null)
+                        sb.AppendFormatLine("Experience: {0} NextLevel: {1}", playableVictim.Experience, playableVictim.ExperienceToLevel);
                     sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim[SecondaryAttributeTypes.MaxHitPoints]);
                     sb.AppendLine("Attributes:");
                     foreach (PrimaryAttributeTypes primaryAttribute in EnumHelpers.GetValues<PrimaryAttributeTypes>())
@@ -430,13 +431,13 @@ namespace Mud.Server.Admin
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"Searching characters '{parameters[0].Value}'");
-            List<ICharacter> characters = FindHelpers.FindAllByName(World.Characters, parameters[0]).OrderBy(x => x.Blueprint?.Id).ToList();
+            List<INonPlayableCharacter> characters = FindHelpers.FindAllByName(World.NonPlayableCharacters, parameters[0]).OrderBy(x => x.Blueprint?.Id).ToList();
             if (characters.Count == 0)
                 sb.AppendLine("No matches");
             else
             {
                 sb.AppendLine("Id         DisplayName                    Room");
-                foreach (ICharacter character in characters)
+                foreach (INonPlayableCharacter character in characters)
                     sb.AppendLine($"{character.Blueprint?.Id.ToString() ?? "Player",-10} {character.DisplayName,-30} {character.Room?.DebugName ?? "none"}");
             }
             Page(sb);

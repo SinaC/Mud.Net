@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -745,19 +744,34 @@ namespace Mud.Server.WPFTestApplication
             }
             else if (data.ItemType == "armor")
             {
-                blueprint = new ItemArmorBlueprint
-                {
-                    Id = data.VNum,
-                    Name = data.Name,
-                    ShortDescription = data.ShortDescr,
-                    Description = data.Description,
-                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
-                    Cost = Convert.ToInt32(data.Cost),
-                    Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data),
-                    Armor = Convert.ToInt32(data.Values[0]) + Convert.ToInt32(data.Values[1]) + Convert.ToInt32(data.Values[2]) + Convert.ToInt32(data.Values[3]), // TODO
-                    ArmorKind = ArmorKinds.Leather // TODO
-                };
+                WearLocations wearLocations = ConvertWearLocation(data);
+                if (wearLocations == WearLocations.Shield)
+                    blueprint = new ItemShieldBlueprint
+                    {
+                        Id = data.VNum,
+                        Name = data.Name,
+                        ShortDescription = data.ShortDescr,
+                        Description = data.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                        Cost = Convert.ToInt32(data.Cost),
+                        Weight = data.Weight,
+                        WearLocation = ConvertWearLocation(data),
+                        Armor = Convert.ToInt32(data.Values[0]) + Convert.ToInt32(data.Values[1]) + Convert.ToInt32(data.Values[2]) + Convert.ToInt32(data.Values[3]), // TODO
+                    };
+                else 
+                    blueprint = new ItemArmorBlueprint
+                    {
+                        Id = data.VNum,
+                        Name = data.Name,
+                        ShortDescription = data.ShortDescr,
+                        Description = data.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                        Cost = Convert.ToInt32(data.Cost),
+                        Weight = data.Weight,
+                        WearLocation = ConvertWearLocation(data),
+                        Armor = Convert.ToInt32(data.Values[0]) + Convert.ToInt32(data.Values[1]) + Convert.ToInt32(data.Values[2]) + Convert.ToInt32(data.Values[3]), // TODO
+                        ArmorKind = ArmorKinds.Leather // TODO
+                    };
             }
             else if (data.ItemType == "light")
             {
@@ -1114,7 +1128,7 @@ namespace Mud.Server.WPFTestApplication
 
             // Handle resets
             // TODO: handle rom resets
-            ICharacter lastCharacter = null;
+            INonPlayableCharacter lastCharacter = null;
             IItemContainer lastContainer = null;
             Dictionary<string, int> itemTypes = new Dictionary<string, int>();
             foreach (Importer.Mystery.RoomData importedRoom in mysteryImporter.Rooms.Where(x => x.Resets.Any()))
@@ -1130,7 +1144,7 @@ namespace Mud.Server.WPFTestApplication
                                 CharacterBlueprintBase blueprint = World.GetCharacterBlueprint(reset.Arg1);
                                 if (blueprint != null)
                                 {
-                                    lastCharacter = World.AddCharacter(Guid.NewGuid(), blueprint, room);
+                                    lastCharacter = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, room);
                                     Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} added");
                                 }
                                 else
@@ -1400,11 +1414,11 @@ namespace Mud.Server.WPFTestApplication
             IRoom commonSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the common square");
 
             //ICharacter mob1 = World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Druid"], Repository.RaceManager["Insectoid"], Sex.Male, templeOfMota); // playable
-            ICharacter mob2 = World.AddCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
-            ICharacter mob3 = World.AddCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
+            ICharacter mob2 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
+            ICharacter mob3 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
             //ICharacter mob4 = World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
             //ICharacter mob4 = World.AddCharacter(Guid.NewGuid(), "mob4", Repository.ClassManager["Warrior"], Repository.RaceManager["Dwarf"], Sex.Female, templeSquare); // playable
-            ICharacter mob5 = World.AddCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
+            ICharacter mob5 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
             IItemContainer item1 = World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
             IItemContainer item1Dup1 = World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
@@ -1537,7 +1551,7 @@ namespace Mud.Server.WPFTestApplication
                 }
             };
             World.AddCharacterBlueprint(mob10Blueprint);
-            ICharacter mob10 = World.AddCharacter(Guid.NewGuid(), mob10Blueprint, commonSquare);
+            ICharacter mob10 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob10Blueprint, commonSquare);
 
             // Give quest 1 and 2 to mob1
             //IQuest quest1 = new Quest.Quest(questBlueprint1, mob1, mob2);

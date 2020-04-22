@@ -4,7 +4,8 @@ using Mud.Domain;
 using Mud.Server;
 using Mud.Server.Area;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Character;
+using Mud.Server.Character.PlayableCharacter;
+using Mud.Server.Player;
 using Mud.Server.Room;
 using NLua;
 
@@ -22,14 +23,18 @@ namespace Mud.POC.TestLua
             void Act(string action);
         }
 
-        public class TestCharacter : Character, ITestCharacter
+        public class TestCharacter : PlayableCharacter, ITestCharacter
         {
             public void Act(string action)
             {
             }
 
             public TestCharacter()
-                : base(Guid.NewGuid(), new CharacterData { Name = "test", Class = "Thief", Race = "Dwarf" }, new Room(Guid.NewGuid(), new RoomBlueprint { Name = "test" }, new Area("area", 1, 99, "buiders", "credits")))
+                : base(
+                      Guid.NewGuid(), 
+                      new CharacterData { Name = "test", Class = "Thief", Race = "Dwarf" },
+                      new Player( Guid.NewGuid(), "SinaC"),
+                      new Room(Guid.NewGuid(), new RoomBlueprint { Name = "test" }, new Area("area", 1, 99, "buiders", "credits")))
             {
             }
 

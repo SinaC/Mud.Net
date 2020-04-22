@@ -35,11 +35,11 @@ namespace Mud.Server.Admin
             }
 
             string command = CommandHelpers.JoinParameters(parameters.Skip(1));
-            victim.Send("{0} forces you to '{1}'.", Name, command);
-            victim.ProcessCommand(command);
-            Send("Ok.");
-
+            victim.Send("{0} forces you to '{1}'.", DisplayName, command);
+            Send("You force {0} to '{1}'.", victim.DisplayName, command);
             Wiznet.Wiznet($"{DisplayName} forces {victim.DebugName} to {command}", Domain.WiznetFlags.Punish);
+
+            victim.ProcessCommand(command);
 
             return true;
         }

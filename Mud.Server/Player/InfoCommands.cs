@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -50,7 +51,8 @@ namespace Mud.Server.Player
             generator.AddColumn("Min", 5, area => area.MinLevel.ToString());
             generator.AddColumn("Max", 5, area => area.MaxLevel.ToString());
             generator.AddColumn("Builders", 15, area => area.Builders, TableGenerator<IArea>.AlignLeftFunc);
-            generator.AddColumn("Credits", 40, area => area.Credits, TableGenerator<IArea>.AlignLeftFunc);
+            generator.AddColumn("Credits", 45, area => area.Credits, TableGenerator<IArea>.AlignLeftFunc);
+            generator.AddColumn("Ids", 16, area => $"{area.Rooms.Min(x => x.Blueprint.Id)}-{area.Rooms.Max(x => x.Blueprint.Id)}");
             StringBuilder sb = generator.Generate(World.Areas);
             Page(sb);
             return true;

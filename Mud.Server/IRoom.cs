@@ -13,6 +13,8 @@ namespace Mud.Server
         IArea Area { get; }
 
         IEnumerable<ICharacter> People { get; }
+        IEnumerable<INonPlayableCharacter> NonPlayableCharacters { get; }
+        IEnumerable<IPlayableCharacter> PlayableCharacters { get; }
         IExit[] Exits { get; } // fixed length
 
         IExit Exit(ExitDirections direction);

@@ -85,6 +85,10 @@ namespace Mud.Server.Room
 
         public IEnumerable<ICharacter> People => _people.Where(x => x.IsValid);
 
+        public IEnumerable<INonPlayableCharacter> NonPlayableCharacters => People.OfType<INonPlayableCharacter>();
+
+        public IEnumerable<IPlayableCharacter> PlayableCharacters => People.OfType<IPlayableCharacter>();
+
         public IExit[] Exits { get; }
 
         public IExit Exit(ExitDirections direction)
@@ -108,9 +112,9 @@ namespace Mud.Server.Room
             // TODO: check if not already in room
             _people.Add(character);
             // Update location quest
-            if (character.Impersonable)
+            if (character is IPlayableCharacter playableCharacter)
             {
-                foreach(IQuest quest in character.Quests)
+                foreach(IQuest quest in playableCharacter.Quests)
                     quest.Update(this);
             }
             return true;

@@ -8,11 +8,11 @@ using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 
-namespace Mud.Server.Character
+namespace Mud.Server.Character.PlayableCharacter
 {
-    public partial class Character
+    public partial class PlayableCharacter
     {
-        [Command("follow", Category = "Group")]
+        [PlayableCharacterCommand("follow", Category = "Group")]
         protected virtual bool DoFollow(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -20,10 +20,16 @@ namespace Mud.Server.Character
                 Send("Follow whom?");
                 return true;
             }
-            ICharacter newLeader = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
-            if (newLeader == null)
+            ICharacter whom = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
+            if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
+                return true;
+            }
+            IPlayableCharacter newLeader = whom as IPlayableCharacter;
+            if (newLeader == null)
+            {
+                Send($"You cannot follow {whom.DisplayName}");
                 return true;
             }
             // TODO: charmed ?
@@ -43,12 +49,12 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("group", Category = "Group")]
+        [PlayableCharacterCommand("group", Category = "Group")]
         protected virtual bool DoGroup(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
-                ICharacter leader = null;
+                IPlayableCharacter leader = null;
                 // Member of a group
                 if (Leader != null && Leader.GroupMembers.Any(x => x == this))
                     leader = Leader;
@@ -63,7 +69,7 @@ namespace Mud.Server.Character
                 StringBuilder sb = new StringBuilder();
                 sb.AppendFormatLine("{0}'s group:", leader.DisplayName);
                 AppendCharacterGroupMemberInfo(sb, leader, true);
-                foreach (ICharacter member in leader.GroupMembers)
+                foreach (IPlayableCharacter member in leader.GroupMembers)
                     AppendCharacterGroupMemberInfo(sb, member, false);
                 Send(sb);
                 return true;
@@ -76,17 +82,23 @@ namespace Mud.Server.Character
                 return true;
             }
             // Remove from group if target is already in the group
-            ICharacter oldMember = FindHelpers.FindByName(GroupMembers.Where(CanSee), parameters[0]);
+            IPlayableCharacter oldMember = FindHelpers.FindByName(GroupMembers.Where(CanSee), parameters[0]);
             if (oldMember != null)
             {
                 RemoveGroupMember(oldMember, false);
                 return true;
             }
             // Search in room a new member to add
-            ICharacter newMember = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
-            if (newMember == null) // not found
+            ICharacter whom = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
+            if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
+                return true;
+            }
+            IPlayableCharacter newMember = whom as IPlayableCharacter;
+            if (newMember == null) // not found
+            {
+                Send($"You cannot groupe {whom.DisplayName}");
                 return true;
             }
             if (newMember == this)
@@ -113,7 +125,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("leave", Category = "Group", Priority = 5)]
+        [PlayableCharacterCommand("leave", Category = "Group", Priority = 5)]
         protected virtual bool DoLeave(string rawParameters, params CommandParameter[] parameters)
         {
             // Member leaving
@@ -122,7 +134,7 @@ namespace Mud.Server.Character
             // Leader leaving -> change leader
             else if (GroupMembers.Any())
             {
-                ICharacter newLeader = GroupMembers.FirstOrDefault();
+                IPlayableCharacter newLeader = GroupMembers.FirstOrDefault();
                 if (newLeader == null)
                 {
                     Log.Default.WriteLine(LogLevels.Error, "DoLeave: problem with group, leader leaving but no other group member found.");
@@ -131,8 +143,8 @@ namespace Mud.Server.Character
                 // New leader has no leader
                 newLeader.ChangeLeader(null);
                 // Remove member from old leader and add it to new leader
-                IReadOnlyCollection<ICharacter> members = new ReadOnlyCollection<ICharacter>(GroupMembers.Where(x => x != newLeader).ToList()); // clone because RemoveGroupMember will modify GroupMembers
-                foreach (ICharacter member in members)
+                IReadOnlyCollection<IPlayableCharacter> members = new ReadOnlyCollection<IPlayableCharacter>(GroupMembers.Where(x => x != newLeader).ToList()); // clone because RemoveGroupMember will modify GroupMembers
+                foreach (IPlayableCharacter member in members)
                 {
                     RemoveGroupMember(member, true);
                     newLeader.AddGroupMember(member, true);
@@ -146,9 +158,9 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("gtell", Category = "Group")] // TODO: multiple category +Communication
-        [Command("groupsay", Category = "Group", Priority = 50)]
-        [Command("gsay", Category = "Group")] // TODO: multiple category +Communication
+        [PlayableCharacterCommand("gtell", Category = "Group")] // TODO: multiple category +Communication
+        [PlayableCharacterCommand("groupsay", Category = "Group", Priority = 50)]
+        [PlayableCharacterCommand("gsay", Category = "Group")] // TODO: multiple category +Communication
         protected virtual bool DoGroupSay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -161,34 +173,8 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("order", Category = "Group")]
-        protected virtual bool DoOrder(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (parameters.Length == 0)
-            {
-                Send("Order what?");
-                return true;
-            }
-            if (Slave == null)
-            {
-                Send("You have no followers here.");
-                return true;
-            }
-            if (Slave.Room != Room)
-            {
-                Send(StringHelpers.CharacterNotFound);
-                return true;
-            }
-            Slave.Send("{0} orders you to '{1}'.", DisplayName, rawParameters);
-            Slave.ProcessCommand(rawParameters);
-            SetGlobalCooldown(3);
-            //Send("You order {0} to {1}.", Slave.Name, rawParameters);
-            Send("Ok.");
-            return true;
-        }
-
         //******************************************** Helpers ********************************************
-        private void AppendCharacterGroupMemberInfo(StringBuilder sb, ICharacter member, bool isLeader)
+        private void AppendCharacterGroupMemberInfo(StringBuilder sb, IPlayableCharacter member, bool isLeader)
         {
             // TODO: add class, mana, xp, ...
             if (member.Level >= Settings.MaxLevel)

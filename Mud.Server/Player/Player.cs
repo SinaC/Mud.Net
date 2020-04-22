@@ -11,7 +11,6 @@ using Mud.Server.Actor;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Item;
 
 namespace Mud.Server.Player
 {
@@ -187,7 +186,7 @@ namespace Mud.Server.Player
 
         public PlayerStates PlayerState { get; protected set; }
 
-        public ICharacter Impersonating { get; private set; }
+        public IPlayableCharacter Impersonating { get; private set; }
 
         public IEnumerable<CharacterData> Avatars => _avatarList;
 
@@ -338,7 +337,7 @@ namespace Mud.Server.Player
             return executedSuccessfully;
         }
 
-        protected string BuildCharacterPrompt(ICharacter character) // TODO: custom prompt defined by player
+        protected string BuildCharacterPrompt(IPlayableCharacter character) // TODO: custom prompt defined by player
         {
             StringBuilder sb = new StringBuilder("<");
             sb.Append($"{character.HitPoints}/{character[SecondaryAttributeTypes.MaxHitPoints]}Hp");
@@ -401,7 +400,7 @@ namespace Mud.Server.Player
                 // Add quest to impersonated character is any
                 QuestBlueprint questBlueprint1 = World.GetQuestBlueprint(1);
                 QuestBlueprint questBlueprint2 = World.GetQuestBlueprint(2);
-                ICharacter questor = World.Characters.FirstOrDefault(x => x.Name.ToLowerInvariant().Contains("questor"));
+                INonPlayableCharacter questor = World.NonPlayableCharacters.FirstOrDefault(x => x.Name.ToLowerInvariant().Contains("questor"));
 
                 IQuest quest1 = new Quest.Quest(questBlueprint1, Impersonating, questor);
                 Impersonating.AddQuest(quest1);

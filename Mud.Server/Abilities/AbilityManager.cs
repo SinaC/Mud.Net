@@ -106,6 +106,7 @@ namespace Mud.Server.Abilities
                 source.Send("You don't know any abilities of that name.");
                 return false;
             }
+            IPlayableCharacter playableCharacterSource = source as IPlayableCharacter;
             //1/ Check flags
             if ((ability.Flags & AbilityFlags.RequiresMainHand) == AbilityFlags.RequiresMainHand && !source.Equipments.Any(x => x.Slot == EquipmentSlots.MainHand && x.Item != null))
             {
@@ -212,21 +213,28 @@ namespace Mud.Server.Abilities
                 case AbilityTargets.Group:
                 {
                     // Source + group members
-                    targets = new List<ICharacter>(source.GroupMembers)
+                    targets = new List<ICharacter>
                     {
                         source
                     };
+                    if (playableCharacterSource != null)
+                        targets.AddRange(playableCharacterSource.GroupMembers);
                     break;
                 }
                 case AbilityTargets.Room:
                 {
-                        // Friendly -> everyone in room
-                        // Harmful -> everyone not in group
-                        // Any -> everyone in room
+                    // Friendly -> everyone in room
+                    // Harmful -> everyone not in group
+                    // Any -> everyone in room
                     if (ability.Behavior == AbilityBehaviors.Friendly)
                         targets = source.Room.People.ToList();
                     else if (ability.Behavior == AbilityBehaviors.Harmful)
-                        targets = source.Room.People.Where(x => x != source && !source.GroupMembers.Contains(x)).ToList();
+                    {
+                        if (playableCharacterSource != null)
+                            targets = source.Room.People.Where(x => x != source && !playableCharacterSource.GroupMembers.Contains(x)).ToList();
+                        else
+                            targets = source.Room.People.Where(x => x != source).ToList();
+                    }
                     else
                         targets = source.Room.People.ToList();
                     break;
@@ -246,7 +254,8 @@ namespace Mud.Server.Abilities
             foreach (ICharacter target in clone)
                 ProcessOnOneTarget(source, target, ability, (ability.Flags & AbilityFlags.CannotMiss) == AbilityFlags.CannotMiss, (ability.Flags & AbilityFlags.CannotBeDodgedParriedBlocked) == AbilityFlags.CannotBeDodgedParriedBlocked);
             //8/ Set global cooldown
-            source.ImpersonatedBy?.SetGlobalCooldown(ability.GlobalCooldown);
+            if (playableCharacterSource != null)
+                playableCharacterSource.ImpersonatedBy?.SetGlobalCooldown(ability.GlobalCooldown);
             // TODO: if ability cannot be used because an effect cannot be casted (ex. power word: shield with weakened soul is still affecting)
             //9/ Set cooldown
             if (ability.Cooldown > 0)
