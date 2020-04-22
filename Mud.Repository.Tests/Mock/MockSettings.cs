@@ -29,6 +29,8 @@ namespace Mud.Repository.Tests.Mock
 
         public bool PerformSanityCheck => throw new NotImplementedException();
 
+        public bool DumpConfig => throw new NotImplementedException();
+
         public int CorpseBlueprintId => throw new NotImplementedException();
 
         public int DefaultRoomId => throw new NotImplementedException();

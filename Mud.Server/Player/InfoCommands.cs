@@ -48,7 +48,7 @@ namespace Mud.Server.Player
         protected virtual bool DoAreas(string rawParameters, params CommandParameter[] parameters)
         {
             
-            StringBuilder sb = AreaTableGenerator.Value.Generate(World.Areas);
+            StringBuilder sb = TableGenerators.AreaTableGenerator.Value.Generate("Areas", World.Areas);
             Page(sb);
             return true;
         }
@@ -90,19 +90,6 @@ namespace Mud.Server.Player
             PagingLineCount = lineCount;
 
             return true;
-        }
-
-        //
-        private static readonly Lazy<TableGenerator<IArea>> AreaTableGenerator = new Lazy<TableGenerator<IArea>>(() =>
-        {
-            TableGenerator<IArea> generator = new TableGenerator<IArea>("Areas");
-            generator.AddColumn("Name", 30, area => area.DisplayName, new TableGenerator<IArea>.ColumnOptions {AlignLeft = true});
-            generator.AddColumn("Min", 5, area => area.MinLevel.ToString());
-            generator.AddColumn("Max", 5, area => area.MaxLevel.ToString());
-            generator.AddColumn("Builders", 15, area => area.Builders, new TableGenerator<IArea>.ColumnOptions {AlignLeft = true});
-            generator.AddColumn("Credits", 45, area => area.Credits, new TableGenerator<IArea>.ColumnOptions {AlignLeft = true});
-            generator.AddColumn("Ids", 16, area => $"{area.Rooms.Min(x => x.Blueprint.Id)}-{area.Rooms.Max(x => x.Blueprint.Id)}");
-            return generator;
-        });
+        }       
     }
 }

@@ -33,7 +33,8 @@ namespace Mud.Settings
         public bool RemovePeriodicAurasInNotInSameRoom => BoolSetting("RemovePeriodicAurasInNotInSameRoom", false);
 
         //
-        public bool PerformSanityCheck => BoolSetting("PerformSanityCheck", false);
+        public bool PerformSanityCheck => BoolSetting("PerformSanityCheck", true);
+        public bool DumpConfig => BoolSetting("DumpConfig", false);
 
         //
         public int CorpseBlueprintId => IntSetting("CorpseBlueprintId", 999999);

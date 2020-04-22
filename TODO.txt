@@ -39,6 +39,7 @@ look no arg
      direction
 
 multitable generator, paging a table should repeat the header at the beginning of each page
+move table generator code to Mud.Server.Common
 
 autosac, autoloot, auto...
 prompt

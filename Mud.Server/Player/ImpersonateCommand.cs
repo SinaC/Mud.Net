@@ -58,7 +58,7 @@ namespace Mud.Server.Player
                 Send("You don't have any avatar available. Use createavatar to create one.");
                 return true;
             }
-            StringBuilder sb = AvatarTableGenerator.Value.Generate(_avatarList);
+            StringBuilder sb = AvatarTableGenerator.Generate("Avatars", _avatarList);
             Send(sb);
             return true;
         }
@@ -84,10 +84,10 @@ namespace Mud.Server.Player
             throw new NotImplementedException();
         }
 
-        //
-        private Lazy<TableGenerator<CharacterData>> AvatarTableGenerator => new Lazy<TableGenerator<CharacterData>>(() =>
+        // TODO: crappy workaround because ClassManager, RaceManager and World are needed
+        private Lazy<TableGenerator<CharacterData>> LazyAvatarTableGenerator => new Lazy<TableGenerator<CharacterData>>(() =>
         {
-            TableGenerator<CharacterData> generator = new TableGenerator<CharacterData>("Avatars");
+            TableGenerator<CharacterData> generator = new TableGenerator<CharacterData>();
             generator.AddColumn("Name", 14, data => StringHelpers.UpperFirstLetter(data.Name));
             generator.AddColumn("Level", 7, data => data.Level.ToString());
             generator.AddColumn("Class", 12, data => ClassManager[data.Class]?.DisplayName ?? "none");
@@ -95,5 +95,8 @@ namespace Mud.Server.Player
             generator.AddColumn("Location", 40, data => World.Rooms.FirstOrDefault(x => x.Blueprint.Id == data.RoomId)?.DisplayName ?? "In the void");
             return generator;
         });
+
+        private TableGenerator<CharacterData> _avatarTableGenerator;
+        private TableGenerator<CharacterData> AvatarTableGenerator => _avatarTableGenerator = _avatarTableGenerator ?? LazyAvatarTableGenerator.Value;
     }
 }

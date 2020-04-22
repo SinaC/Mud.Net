@@ -34,12 +34,10 @@ namespace Mud.Server.Helpers
             public ColumnOptions Options { get; set; }
         }
 
-        private readonly string _title;
         private readonly List<Column> _columns;
 
-        public TableGenerator(string title)
+        public TableGenerator()
         {
-            _title = title;
             _columns = new List<Column>();
         }
 
@@ -56,7 +54,7 @@ namespace Mud.Server.Helpers
 
         public int Width => 1 + _columns.Sum(x => x.Width) + _columns.Count;
 
-        public StringBuilder GenerateWithPreHeaders(IEnumerable<T> items, IEnumerable<string> preHeaders) // TODO: will be replaced by multi-table
+        public StringBuilder GenerateWithPreHeaders(string title, IEnumerable<T> items, IEnumerable<string> preHeaders) // TODO: will be replaced by multi-table
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine();
@@ -65,17 +63,17 @@ namespace Mud.Server.Helpers
             foreach (string preHeader in preHeaders)
                 AddPreHeaderLine(sb, preHeader);
 
-            BuildTable(sb, items);
+            BuildTable(title, sb, items);
 
             return sb;
         }
 
-        public StringBuilder Generate(IEnumerable<T> items)
+        public StringBuilder Generate(string title, IEnumerable<T> items)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine();
 
-            BuildTable(sb, items);
+            BuildTable(title, sb, items);
 
             return sb;
         }
@@ -113,7 +111,7 @@ namespace Mud.Server.Helpers
             sb.AppendLine("+");
         }
 
-        private void BuildTable(StringBuilder sb, IEnumerable<T> items)
+        private void BuildTable(string title, StringBuilder sb, IEnumerable<T> items)
         {
             int width = Width;
 
@@ -123,8 +121,8 @@ namespace Mud.Server.Helpers
 
             // title
             sb.Append("| ");
-            sb.Append(_title);
-            for (int i = 3 + _title.LengthNoColor(); i < width; i++)
+            sb.Append(title);
+            for (int i = 3 + title.LengthNoColor(); i < width; i++)
                 sb.Append(' ');
             sb.AppendLine("|");
 
