@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace Mud.Server.Helpers
+namespace Mud.Server.Common
 {
     //TODO
 

@@ -270,9 +270,9 @@ namespace Mud.Server.Character
             if (Form != Forms.Normal)
                 form = $"%m% [Form: {Form}]%x%";
             if (playableCharacter != null)
-                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + " (" + playableCharacter.DisplayName + ")" + form, form == string.Empty ? 56 : 62) + "|");
+                sb.AppendLine("|" + StringExtensions.CenterText(DisplayName + " (" + playableCharacter.DisplayName + ")" + form, form == string.Empty ? 56 : 62) + "|");
             else
-                sb.AppendLine("|" + StringHelpers.CenterText(DisplayName + form, form == string.Empty ? 56 : 62) + "|");
+                sb.AppendLine("|" + StringExtensions.CenterText(DisplayName + form, form == string.Empty ? 56 : 62) + "|");
             sb.AppendLine("+---------------------------+----------------------------+");
             sb.AppendLine("| %W%Attributes%x%                |                            |");
             sb.AppendFormatLine("| %c%Strength  : %W%[{0,5}/{1,5}]%x% | %c%Race   : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Strength], GetBasePrimaryAttribute(PrimaryAttributeTypes.Strength), Race?.DisplayName ?? "(none)");
@@ -620,7 +620,7 @@ namespace Mud.Server.Character
                     }
                     else
                     {
-                        sb.Append(StringHelpers.UpperFirstLetter(direction.ToString()));
+                        sb.Append(StringExtensions.UpperFirstLetter(direction.ToString()));
                         sb.Append(" - ");
                         if (exit.IsClosed)
                             sb.Append("A closed door");

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Mud.Server.Common;
 
-namespace Mud.Server.Helpers
+namespace Mud.Server.Common
 {
     // TODO: add title as Generator parameter
     // TODO: multi table

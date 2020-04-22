@@ -4,6 +4,7 @@ using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -36,7 +37,7 @@ namespace Mud.Server.Item
 
         #endregion
 
-        public override string DisplayName => Blueprint == null ? StringHelpers.UpperFirstLetter(Name) : Blueprint.ShortDescription;
+        public override string DisplayName => Blueprint == null ? Name.UpperFirstLetter() : Blueprint.ShortDescription;
 
         public override string DebugName => Blueprint == null ? DisplayName : $"{DisplayName}[{Blueprint.Id}]";
 

@@ -26,11 +26,9 @@ better command parser: should be able to specify something like
     [command] [room.character] -> first parameter will be parsed as a character found in room
     [command] [world.character] -> first parameter will be parsed as a character found in world
     [command] [room.item|room.character|inventory.item|equipment.item] -> first will be parsed as an item in room, a character in room, an item in inventory, an item in equipement
-
 wear item
      all
      all.item
-
 look no arg
      in|on|into container
      character
@@ -39,7 +37,6 @@ look no arg
      direction
 
 multitable generator, paging a table should repeat the header at the beginning of each page
-move table generator code to Mud.Server.Common
 
 autosac, autoloot, auto...
 prompt
@@ -88,7 +85,6 @@ min pos to initiate command  see interp.C:935
 use more StringBuilder
 check if everywhere if Act should replace Send
 use new act formatting: h, b, v whereas possible
-wield2h/wield2h2
 
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 

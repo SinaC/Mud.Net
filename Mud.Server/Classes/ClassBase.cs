@@ -3,7 +3,7 @@ using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Abilities;
-using Mud.Server.Helpers;
+using Mud.Server.Common;
 
 namespace Mud.Server.Classes
 {
@@ -17,7 +17,7 @@ namespace Mud.Server.Classes
 
         public abstract string Name { get; }
 
-        public string DisplayName => StringHelpers.UpperFirstLetter(Name);
+        public string DisplayName => Name.UpperFirstLetter();
 
         public abstract string ShortName { get; }
 

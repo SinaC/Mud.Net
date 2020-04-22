@@ -6,36 +6,37 @@ using Mud.Logger;
 
 namespace Mud.Network.Telnet
 {
-    // Convert %c% into ansi color
+    // Convert %x% into ansi color
     public static class AnsiHelpers
     {
         //https://github.com/SyntaxColoring/ansitext/blob/master/source/ansitext.d
         private static readonly string ResetColorTag = Encoding.ASCII.GetString(new byte[] { 27 }) + "[0m";
-        private static readonly string NormalColorTag = Encoding.ASCII.GetString(new byte[] {27}) + "[0;{0}m";
-        private static readonly string LightColorTag = Encoding.ASCII.GetString(new byte[] { 27 }) + "[1;{0}m";
+        private static readonly string NormalColorTagFormat = Encoding.ASCII.GetString(new byte[] {27}) + "[0;{0}m";
+        private static readonly string LightColorTagFormat = Encoding.ASCII.GetString(new byte[] { 27 }) + "[1;{0}m";
+        // Will replace %x% using ColorMap searching for x and replacing with Ansi color -> strongly related to Color tags found in Server.Common
         private static readonly Regex Regex = new Regex(@"\%(\w)\%", RegexOptions.Compiled);
 
         private static readonly IReadOnlyDictionary<string, string> ColorMap = new Dictionary<string, string>(StringComparer.Ordinal)
         {
             {"x", ResetColorTag},
 
-            {"r", string.Format(NormalColorTag, 31)},
-            {"g", string.Format(NormalColorTag, 32)},
-            {"y", string.Format(NormalColorTag, 33)},
-            {"b", string.Format(NormalColorTag, 34)},
-            {"m", string.Format(NormalColorTag, 35)},
-            {"c", string.Format(NormalColorTag, 36)},
-            {"w", string.Format(NormalColorTag, 37)},
+            {"r", string.Format(NormalColorTagFormat, 31)},
+            {"g", string.Format(NormalColorTagFormat, 32)},
+            {"y", string.Format(NormalColorTagFormat, 33)},
+            {"b", string.Format(NormalColorTagFormat, 34)},
+            {"m", string.Format(NormalColorTagFormat, 35)},
+            {"c", string.Format(NormalColorTagFormat, 36)},
+            {"w", string.Format(NormalColorTagFormat, 37)},
 
-            {"R", string.Format(LightColorTag, 31)},
-            {"G", string.Format(LightColorTag, 32)},
-            {"Y", string.Format(LightColorTag, 33)},
-            {"B", string.Format(LightColorTag, 34)},
-            {"M", string.Format(LightColorTag, 35)},
-            {"C", string.Format(LightColorTag, 36)},
-            {"W", string.Format(LightColorTag, 37)},
+            {"R", string.Format(LightColorTagFormat, 31)},
+            {"G", string.Format(LightColorTagFormat, 32)},
+            {"Y", string.Format(LightColorTagFormat, 33)},
+            {"B", string.Format(LightColorTagFormat, 34)},
+            {"M", string.Format(LightColorTagFormat, 35)},
+            {"C", string.Format(LightColorTagFormat, 36)},
+            {"W", string.Format(LightColorTagFormat, 37)},
 
-            {"D", string.Format(LightColorTag, 30)},
+            {"D", string.Format(LightColorTagFormat, 30)},
 
             //{"bold", String.Format(NormalColorTag, 1)},
             //{"italics", String.Format(NormalColorTag, 3)},

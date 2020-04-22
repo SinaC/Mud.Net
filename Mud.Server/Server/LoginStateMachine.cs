@@ -5,8 +5,8 @@ using System.Text;
 using Mud.Container;
 using Mud.Repository;
 using Mud.Network;
-using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Common;
 
 namespace Mud.Server.Server
 {
@@ -73,7 +73,7 @@ namespace Mud.Server.Server
                 // Else, name confirmation
                 if (known)
                 {
-                    Send(client, "Welcome back, {0}! Please enter your password:", StringHelpers.UpperFirstLetter(input));
+                    Send(client, "Welcome back, {0}! Please enter your password:", input.UpperFirstLetter());
                     _username = input;
                     _isAdmin = isAdmin;
                     _isNewPlayer = false;

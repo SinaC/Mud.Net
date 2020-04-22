@@ -20,11 +20,12 @@ namespace Mud.Server.Quest
         protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
         protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
+        protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
 
         public Quest(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
         {
             Character = character;
-            StartTime = DateTime.Now;
+            StartTime = TimeHandler.CurrentTime;
             SecondsLeft = blueprint.TimeLimit * 60;
             Blueprint = blueprint;
             Giver = giver;
@@ -225,7 +226,7 @@ namespace Mud.Server.Quest
                 Character.GainExperience(xpGain);
             // TODO: goldGain
 
-            CompletionTime = DateTime.Now;
+            CompletionTime = TimeHandler.CurrentTime;
         }
 
         public void Abandon()
