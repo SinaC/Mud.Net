@@ -133,6 +133,7 @@ namespace Mud.Server.Actor
         [Command("commands", Priority = 0)]
         protected virtual bool DoCommands(string rawParameters, params CommandParameter[] parameters)
         {
+            const int columnCount = 5;
             // TODO: group trie by value (group by DoXXX) and display set of key linked to this value
 
             IEnumerable<KeyValuePair<string, CommandMethodInfo>> filteredCommands = Commands.Where(x => !x.Value.Attribute.Hidden && IsCommandAvailable(x.Value.Attribute));
@@ -153,12 +154,12 @@ namespace Mud.Server.Actor
                     .OrderBy(x => x.Value.Attribute.Priority)
                     .ThenBy(x => x.Key))
                 {
-                    if ((++index % 6) == 0)
+                    if ((++index % columnCount) == 0)
                         sb.AppendFormatLine("{0,-14}", kv.Key);
                     else
                         sb.AppendFormat("{0,-14}", kv.Key);
                 }
-                if (index > 0 && index % 6 != 0)
+                if (index > 0 && index % columnCount != 0)
                     sb.AppendLine();
             }
             Page(sb);

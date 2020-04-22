@@ -230,7 +230,7 @@ namespace Mud.Network.Telnet
                 if (bytesRead == 0)
                 {
                     // Something goes wrong, close connection
-                    CloseConnection(client);
+                    CloseConnection(client); // this will cause a recursive call because ClientDisconnected call cause CloseConnection
                 }
                 else
                 {
@@ -379,12 +379,16 @@ namespace Mud.Network.Telnet
             //
             Socket clientSocket = client.ClientSocket;
 
-            Log.Default.WriteLine(LogLevels.Info, "Client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " has disconnected");
-            
-            // Close socket
-            clientSocket.Shutdown(SocketShutdown.Both);
-            clientSocket.Close();
-            ClientDisconnected?.Invoke(client);
+            // Only if not connected
+            if (clientSocket.Connected)
+            {
+                Log.Default.WriteLine(LogLevels.Info, "Client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " has disconnected");
+
+                // Close socket
+                clientSocket.Shutdown(SocketShutdown.Both);
+                clientSocket.Close();
+                ClientDisconnected?.Invoke(client); // this will cause a recursive call
+            }
         }
 
         private static string ByteArrayToString(byte[] ba, int length)
@@ -436,5 +440,5 @@ namespace Mud.Network.Telnet
         }
 
         #endregion
-        }
+    }
 }
