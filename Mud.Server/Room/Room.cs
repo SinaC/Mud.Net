@@ -14,7 +14,7 @@ namespace Mud.Server.Room
 {
     public class Room : EntityBase, IRoom
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> RoomCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(Room)));
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> RoomCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => GetCommands<Room>());
 
         private readonly List<ICharacter> _people;
         private readonly List<IItem> _content;
@@ -136,7 +136,7 @@ namespace Mud.Server.Room
         }
 
         [Command("look", Category = "Information")]
-        protected virtual bool DoLook(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoLook(string rawParameters, params CommandParameter[] parameters)
         {
             //TODO: better 'UI'
             StringBuilder sb = new StringBuilder();
@@ -148,7 +148,7 @@ namespace Mud.Server.Room
                 sb.AppendFormatLine($"{item.DisplayName}");
             //
             Send(sb);
-            return true;
+            return CommandExecutionResults.Ok;
         }
     }
 }

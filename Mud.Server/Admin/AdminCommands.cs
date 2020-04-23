@@ -15,74 +15,72 @@ namespace Mud.Server.Admin
     public partial class Admin
     {
         [AdminCommand("promote", Category = "Admin", Priority = 999, NoShortcut = true, MinLevel = AdminLevels.Supremacy, CannotBeImpersonated = true)]
-        protected virtual bool DoPromote(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <player name> <level>")]
+        protected virtual CommandExecutionResults DoPromote(string rawParameters, params CommandParameter[] parameters)
         {
-            if (parameters.Length != 2)
-            {
-                Send("Syntax: promote <player> <level>");
-                return true;
-            }
+            if (parameters.Length < 2)
+                return CommandExecutionResults.SyntaxError;
 
             // whom
             IPlayer player = FindHelpers.FindByName(PlayerManager.Players, parameters[0], true);
             if (player == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             if (player == this)
             {
                 Send("You cannot promote yourself.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             if (player is IAdmin)
             {
                 Send("{0} is already Admin", player.DisplayName);
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // what
             AdminLevels level;
             if (!EnumHelpers.TryFindByName(parameters[1].Value, out level))
             {
-                Send("{0} is not a valid admin levels. Values are : {1}", parameters[1].Value, string.Join(",", EnumHelpers.GetValues<AdminLevels>().Select(x => x.ToString())));
-                return true;
+                Send("{0} is not a valid admin levels. Values are : {1}", parameters[1].Value, string.Join(", ", EnumHelpers.GetValues<AdminLevels>().Select(x => x.ToString())));
+                return CommandExecutionResults.InvalidParameter;
             }
 
             ServerAdminCommand.Promote(player, level);
-
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [AdminCommand("shutdown", Category = "Admin", Priority = 999 /*low priority*/, NoShortcut = true, MinLevel = AdminLevels.Implementor, CannotBeImpersonated = true)]
-        protected virtual bool DoShutdown(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <delay>")]
+        protected virtual CommandExecutionResults DoShutdown(string rawParameters, params CommandParameter[] parameters)
         {
             int seconds;
             if (parameters.Length == 0 || !int.TryParse(parameters[0].Value, out seconds))
-                Send("Syntax: shutdown <delay>");
-            else if (seconds < 30)
+                return CommandExecutionResults.SyntaxError;
+            if (seconds < 30)
+            {
                 Send("You cannot shutdown that fast.");
-            else
-                ServerAdminCommand.Shutdown(seconds);
-            return true;
+                return CommandExecutionResults.InvalidParameter;
+            }
+            ServerAdminCommand.Shutdown(seconds);
+            return CommandExecutionResults.Ok;
         }
 
         [AdminCommand("cload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
         [AdminCommand("mload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
-        protected virtual bool DoCload(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <id>")]
+        protected virtual CommandExecutionResults DoCload(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0 || !parameters[0].IsNumber)
-            {
-                Send("Syntax: cload <id>");
-                return true;
-            }
+                return CommandExecutionResults.SyntaxError;
 
             CharacterBlueprintBase characterBlueprint = World.GetCharacterBlueprint(parameters[0].AsNumber);
             if (characterBlueprint == null)
             {
                 Send("No character with that id.");
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             INonPlayableCharacter character = World.AddNonPlayableCharacter(Guid.NewGuid(), characterBlueprint, Impersonating.Room);
@@ -90,7 +88,7 @@ namespace Mud.Server.Admin
             {
                 Send("Character cannot be created.");
                 Wiznet.Wiznet($"DoCload: character with id {parameters[0].AsNumber} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
-                return true;
+                return CommandExecutionResults.Error;
             }
 
             Wiznet.Wiznet($"{DisplayName} loads {character.DebugName}.", WiznetFlags.Load);
@@ -98,24 +96,22 @@ namespace Mud.Server.Admin
             Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1:n}!", Impersonating, character);
             Send("Ok.");
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [AdminCommand("iload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
         [AdminCommand("oload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
-        protected virtual bool DoIload(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <id>")]
+        protected virtual CommandExecutionResults DoIload(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0 || !parameters[0].IsNumber)
-            {
-                Send("Syntax: iload <id>");
-                return true;
-            }
+                return CommandExecutionResults.SyntaxError;
 
             ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(parameters[0].AsNumber);
             if (itemBlueprint == null)
             {
                 Send("No item with that id.");
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             IContainer container = itemBlueprint.WearLocation == WearLocations.None
@@ -126,35 +122,33 @@ namespace Mud.Server.Admin
             {
                 Send("Item cannot be created.");
                 Wiznet.Wiznet($"DoIload: item with id {parameters[0].AsNumber} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
-                return true;
+                return CommandExecutionResults.Error;
             }
 
             Wiznet.Wiznet($"{DisplayName} loads {item.DebugName}.", WiznetFlags.Load);
 
             Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1}!", Impersonating, item);
             Send("Ok.");
-
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [AdminCommand("slay", Category = "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
-        protected virtual bool DoSlay(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <character>")]
+        protected virtual CommandExecutionResults DoSlay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-            {
-                Send("Slay whom?");
-                return true;
-            }
+                return CommandExecutionResults.SyntaxError;
+
             ICharacter victim = FindHelpers.FindByName(Impersonating.Room.People, parameters[0]);
             if (victim == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             if (victim == Impersonating)
             {
                 Send("Suicide is a mortal sin.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             Wiznet.Wiznet($"{DisplayName} slayed {victim.DebugName}.", WiznetFlags.Punish);
@@ -162,23 +156,21 @@ namespace Mud.Server.Admin
             victim.Act(ActOptions.ToAll, "{0:N} slay{0:v} {1} in cold blood!", Impersonating, victim);
             victim.Slay(Impersonating);
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [AdminCommand("purge", Category = "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
-        protected virtual bool DoPurge(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <item>")]
+        protected virtual CommandExecutionResults DoPurge(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-            {
-                Send("Purge what?");
-                return true;
-            }
+                return CommandExecutionResults.SyntaxError;
 
             IItem item = FindHelpers.FindItemHere(Impersonating, parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             Wiznet.Wiznet($"{DisplayName} purges {item.DebugName}.", WiznetFlags.Punish);
@@ -186,24 +178,22 @@ namespace Mud.Server.Admin
             Impersonating.Act(ActOptions.ToAll, "{0:N} purge{0:v} {1}!", Impersonating, item);
             World.RemoveItem(item);
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [AdminCommand("goto", Category = "Admin", MustBeImpersonated = true)]
-        protected virtual bool DoGoto(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <location>")]
+        protected virtual CommandExecutionResults DoGoto(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-            {
-                Send("Goto where?");
-                return true;
-            }
+                return CommandExecutionResults.SyntaxError;
 
             //
             IRoom where = FindHelpers.FindLocation(Impersonating, parameters[0]);
             if (where == null)
             {
                 Send("No such location.");
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             if (Impersonating.Fighting != null)
@@ -213,36 +203,34 @@ namespace Mud.Server.Admin
             Impersonating.Act(Impersonating.Room.People.Where(x => x != Impersonating && x.CanSee(Impersonating)), "{0} appears in a swirling mist.", Impersonating);
             Impersonating.AutoLook();
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("xpbonus", Category = "Admin")]
-        protected virtual bool DpXpBonus(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <player name> <experience>")]
+        protected virtual CommandExecutionResults DpXpBonus(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length < 2)
-            {
-                Send("Syntax: xpgain <character> <experience>");
-                return true;
-            }
+                return CommandExecutionResults.SyntaxError;
 
             IPlayableCharacter victim = FindHelpers.FindByName(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), parameters[0]);
             if (victim == null)
             {
                 Send("That impersonated player is not here.");
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             int experience = parameters[1].AsNumber;
             if (experience < 1)
             {
                 Send("Experience must be greater than 1.");
-                return true;
+                return CommandExecutionResults.InvalidParameter;
             }
 
             if (victim.Level >= Settings.MaxLevel)
             {
                 Send($"{DisplayName} is already at max level.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             Wiznet.Wiznet($"{DisplayName} give experience [{experience}] to {victim.DebugName}.", WiznetFlags.Help);
@@ -252,38 +240,36 @@ namespace Mud.Server.Admin
 
             //
             victim.ImpersonatedBy.Save();
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("transfer", Category = "Admin")]
-        protected virtual bool DoTransfer(string rawParameters, params CommandParameter[] parameters)
+        [Syntax(
+            "[cmd] <character> (if impersonated)",
+            "[cmd] <character> <location>")]
+        protected virtual CommandExecutionResults DoTransfer(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-            {
-                Send("Transfer whom (and where)?");
-                return true;
-            }
+                return CommandExecutionResults.SyntaxError;
             if (Impersonating == null && parameters.Length == 1)
             {
                 Send("Transfer without specifying location can only be used when impersonating.");
-                return true;
+                return CommandExecutionResults.InvalidParameter;
             }
 
             // TODO: IsAll ?
 
             IRoom where;
             if (Impersonating != null)
-            {
                 where = parameters.Length == 1
                     ? Impersonating.Room
                     : FindHelpers.FindLocation(Impersonating, parameters[1]);
-            }
             else
                 where = FindHelpers.FindLocation(parameters[1]);
             if (where == null)
             {
                 Send("No such location.");
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             ICharacter whom;
@@ -294,7 +280,7 @@ namespace Mud.Server.Admin
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             if (whom.Fighting != null)
@@ -312,40 +298,42 @@ namespace Mud.Server.Admin
             whom.AutoLook();
 
             Send("Ok");
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("sanitycheck", Category = "Admin")]
-        protected virtual bool DoSanityCheck(string rawParameters, params CommandParameter[] parameters)
+
+        protected virtual CommandExecutionResults DoSanityCheck(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-            {
-                Send("Perform sanity check on which player/admin?");
-                return true;
-            }
+                return CommandExecutionResults.SyntaxError;
 
             IPlayer whom = FindHelpers.FindByName(PlayerManager.Players, parameters[0]);
 
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             StringBuilder info = whom.PerformSanityCheck();
             Page(info);
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("commanddebug", Priority = 10, Category = "Admin")]
-        protected virtual bool DoCommandDebug(string rawParameters, params CommandParameter[] parameters)
+        [Syntax(
+            "[cmd] admin", 
+            "[cmd] player",
+            "[cmd] pc",
+            "[cmd] npc",
+            "[cmd] item",
+            "[cmd] room")]
+        protected virtual CommandExecutionResults DoCommandDebug(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-            {
-                Send("Syntax: commanddebug admin|player|pc|npc|item|room");
-                return true;
-            }
+                return CommandExecutionResults.SyntaxError;
 
             string specifier = parameters[0].Value.ToLowerInvariant();
             Type type;
@@ -362,10 +350,7 @@ namespace Mud.Server.Admin
             else if ("room".StartsWith(specifier))
                 type = typeof(Room.Room);
             else
-            {
-                Send("Syntax: commanddebug admin|player|pc|npc|item|room");
-                return true;
-            }
+                return CommandExecutionResults.SyntaxError;
             IReadOnlyTrie<CommandMethodInfo> commands = CommandHelpers.GetCommands(type);
             // Filter?
             IEnumerable<CommandMethodInfo> query;
@@ -383,7 +368,7 @@ namespace Mud.Server.Admin
             // Display
             StringBuilder sb = TableGenerators.CommandMethodInfoTableGenerator.Value.Generate($"Commands for {type.Name}", query);
             Page(sb);
-            return true;
+            return CommandExecutionResults.Ok;
         }
     }
 }

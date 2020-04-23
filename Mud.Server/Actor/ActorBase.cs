@@ -55,29 +55,36 @@ namespace Mud.Server.Actor
                             return false;
                         }
                         MethodInfo methodInfo = entry.Value.MethodInfo;
-                        bool executedSuccessfully;
+                        object rawExecutionResult;
                         if (entry.Value.Attribute?.AddCommandInParameters == true)
                         {
                             // Insert command as first parameter
-                            CommandParameter[] enhancedParameters = new CommandParameter[parameters?.Length + 1 ?? 1];
+                            CommandParameter[] enhancedParameters = new CommandParameter[(parameters?.Length ?? 0) + 1];
                             if (parameters != null)
                                 Array.ConstrainedCopy(parameters, 0, enhancedParameters, 1, parameters.Length);
                             enhancedParameters[0] = new CommandParameter(command, 1);
                             string enhancedRawParameters = command + " " + rawParameters;
                             //
-                            executedSuccessfully = (bool) methodInfo.Invoke(this, new object[] {enhancedRawParameters, enhancedParameters});
+                            rawExecutionResult = methodInfo.Invoke(this, new object[] {enhancedRawParameters, enhancedParameters});
                         }
                         else
-                            executedSuccessfully = (bool) methodInfo.Invoke(this, new object[] {rawParameters, parameters});
-                        if (!executedSuccessfully)
+                            rawExecutionResult = methodInfo.Invoke(this, new object[] {rawParameters, parameters});
+                        CommandExecutionResults executionResult = ConvertToCommandExecutionResults(entry.Key, rawExecutionResult);
+                        // !!no AfterCommand executed if Error has been returned by Command
+                        if (executionResult == CommandExecutionResults.Error)
                         {
                             Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
                             return false;
                         }
+                        else if (executionResult == CommandExecutionResults.SyntaxError)
+                        {
+                            StringBuilder syntax = BuildCommandSyntax(entry.Value);
+                            Send(syntax);
+                        }
                         bool afterExecute = ExecuteAfterCommand(entry.Value, rawParameters, parameters);
                         if (!afterExecute)
                         {
-                            Log.Default.WriteLine(LogLevels.Info, $"ExecuteBeforeCommand returned false for command {entry.Value.MethodInfo.Name} and parameters {rawParameters}");
+                            Log.Default.WriteLine(LogLevels.Info, $"ExecuteAfterCommand returned false for command {entry.Value.MethodInfo.Name} and parameters {rawParameters}");
                             return false;
                         }
                         return true;
@@ -131,7 +138,10 @@ namespace Mud.Server.Actor
 
         [Command("cmd", Priority = 0)]
         [Command("commands", Priority = 0)]
-        protected virtual bool DoCommands(string rawParameters, params CommandParameter[] parameters)
+        [Syntax(
+            "[cmd]",
+            "[cmd] <category>")]
+        protected virtual CommandExecutionResults DoCommands(string rawParameters, params CommandParameter[] parameters)
         {
             const int columnCount = 5;
             // TODO: group trie by value (group by DoXXX) and display set of key linked to this value
@@ -163,12 +173,79 @@ namespace Mud.Server.Actor
                     sb.AppendLine();
             }
             Page(sb);
-            return true;
+            return CommandExecutionResults.Ok;
+        }
+
+        [Command("syntax", Priority = 999)]
+        [Syntax("[cmd] <command>")]
+        protected virtual CommandExecutionResults DoSyntax(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+                return CommandExecutionResults.SyntaxError;
+
+            string commandNameToFind = parameters[0].Value.ToLowerInvariant();
+            var commands = Commands.GetByPrefix(commandNameToFind).Where(x => !x.Value.Attribute.Hidden && IsCommandAvailable(x.Value.Attribute));
+
+            bool found = false;
+            StringBuilder sb = new StringBuilder();
+            foreach (var group in commands.GroupBy(x => x.Value.MethodInfo.Name)) // group by command
+            {
+                string[] namesByPriority = group.OrderBy(x => x.Value.Attribute.Priority).Select(x => x.Value.Attribute.Name).ToArray(); // order by priority
+                string title = string.Join(", ", namesByPriority.Select(x => $"%C%{x}%x%"));
+                sb.AppendLine($"Command{(namesByPriority.Length > 1 ? "s" : string.Empty)} {title}:");
+                string commandNames = string.Join("|", namesByPriority);
+                foreach (string syntax in group.SelectMany(x => x.Value.Syntax.Syntax))
+                {
+                    // TODO: enrich argument such as <character>, <player name>, ...
+                    string enrichedSyntax = syntax.Replace("[cmd]", commandNames);
+                    sb.AppendLine("     Syntax: " + enrichedSyntax);
+                }
+                found = true;
+            }
+            if (found)
+            {
+                Page(sb);
+                return CommandExecutionResults.Ok;
+            }
+            Send("No command found.");
+            return CommandExecutionResults.TargetNotFound;
         }
 
         protected virtual bool IsCommandAvailable(CommandAttribute attribute)
         {
             return true;
+        }
+
+        protected static IReadOnlyTrie<CommandMethodInfo> GetCommands<T>()
+            where T : ActorBase
+        {
+            return CommandHelpers.GetCommands(typeof(T));
+        }
+
+        private StringBuilder BuildCommandSyntax(CommandMethodInfo commandMethodInfo)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (string syntax in commandMethodInfo.Syntax.Syntax)
+            {
+                // TODO: enrich argument such as <character>, <player name>, ...
+                string enrichedSyntax = syntax.Replace("[cmd]", commandMethodInfo.Attribute.Name);
+                sb.AppendLine("Syntax: " + enrichedSyntax);
+            }
+            return sb;
+        }
+
+        private CommandExecutionResults ConvertToCommandExecutionResults(string command, object rawResult)
+        {
+            if (rawResult == null)
+                return CommandExecutionResults.Ok;
+            if (rawResult is bool boolResult)
+                return boolResult
+                    ? CommandExecutionResults.Ok
+                    : CommandExecutionResults.Error;
+            if (rawResult is CommandExecutionResults commandExecutionResult)
+                return commandExecutionResult;
+            Log.Default.WriteLine(LogLevels.Error, "Command {0} return type {1} is not convertible to CommandExecutionResults", command, rawResult.GetType().Name);
+            return CommandExecutionResults.Ok;
         }
     }
 }

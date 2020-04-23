@@ -163,7 +163,6 @@ namespace Mud.Server.Helpers
             return generator;
         });
 
-
         private static string ConvertBool(bool value) => value ? "%y%yes%x%" : "no";
 
         private static string ConvertPriority(int priority) => priority != CommandAttribute.DefaultPriority ? $"%y%{priority}%x%" : $"{priority}";
@@ -178,6 +177,7 @@ namespace Mud.Server.Helpers
             generator.AddColumn("S?", 5, x => ConvertBool(x.Attribute.NoShortcut));
             generator.AddColumn("H?", 5, x => ConvertBool(x.Attribute.Hidden));
             generator.AddColumn("F?", 5, x => ConvertBool(x.Attribute.AddCommandInParameters));
+            generator.AddColumn("R?", 3, x => x.MethodInfo.ReturnType == typeof(CommandExecutionResults) ? "" : "%r%!!!%x%");
             return generator;
         });
     }

@@ -8,5 +8,6 @@ namespace Mud.Server
         void Initialize(List<INetworkServer> networkServers);
         void Start();
         void Stop();
+        void Dump();
     }
 }

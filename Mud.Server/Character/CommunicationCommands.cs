@@ -7,58 +7,62 @@ namespace Mud.Server.Character
     public partial class CharacterBase
     {
         [Command("say", Category = "Communication")]
-        protected virtual bool DoSay(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <message>")]
+        protected virtual CommandExecutionResults DoSay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Say what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             Act(ActOptions.ToAll, "%g%{0:N} say{0:v} '%x%{1}%g%'%x%", this, rawParameters);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("yell", Category = "Communication")]
-        protected virtual bool DoYell(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <message>")]
+        protected virtual CommandExecutionResults DoYell(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Yell what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             Act(Room.Area.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), "%G%{0:n} yell{0:v} '%x%{1}%G%'%x%", this, rawParameters);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("emote", Category = "Communication")]
-        protected virtual bool DoEmote(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <message>")]
+        protected virtual CommandExecutionResults DoEmote(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Emote what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             Act(ActOptions.ToAll, "{0:n} {1}", this, rawParameters);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("whisper", Category = "Communication")]
-        protected virtual bool DoWhisper(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <character> <message>")]
+        protected virtual CommandExecutionResults DoWhisper(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length <= 1)
             {
                 Send("Whisper whom what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             ICharacter whom = FindHelpers.FindByName(Room.People, parameters[0]);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             string what = CommandHelpers.JoinParameters(parameters.Skip(1));
@@ -69,20 +73,21 @@ namespace Mud.Server.Character
             ActToNotVictim(whom, "{0:n} whispers something to {1:n}.", this, whom);
             // ActOptions.ToAll cannot be used because 'something' is sent except for 'this' and 'whom'
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("shout", Category = "Communication")]
-        protected virtual bool DoShout(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <message>")]
+        protected virtual CommandExecutionResults DoShout(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Shout what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             Act(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), "{0:N} shout{0:v} '{1}'", this, rawParameters);
-            return true;
+            return CommandExecutionResults.Ok;
         }
     }
 }

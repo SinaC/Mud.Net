@@ -22,7 +22,7 @@
         bool RemovePeriodicAurasInNotInSameRoom { get; }
 
         bool PerformSanityCheck { get; }
-        bool DumpConfig { get; }
+        bool DumpOnInitialize { get; }
 
         int CorpseBlueprintId { get; }
         int DefaultRoomId { get; }

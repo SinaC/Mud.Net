@@ -13,24 +13,25 @@ namespace Mud.Server.Character.PlayableCharacter
     public partial class PlayableCharacter
     {
         [PlayableCharacterCommand("follow", Category = "Group")]
-        protected virtual bool DoFollow(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <character>")]
+        protected virtual CommandExecutionResults DoFollow(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Follow whom?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             ICharacter whom = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             IPlayableCharacter newLeader = whom as IPlayableCharacter;
             if (newLeader == null)
             {
                 Send($"You cannot follow {whom.DisplayName}");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             // TODO: charmed ?
             if (newLeader == this)
@@ -38,19 +39,22 @@ namespace Mud.Server.Character.PlayableCharacter
                 if (Leader == null)
                 {
                     Send("You already follow yourself.");
-                    return true;
+                    return CommandExecutionResults.InvalidTarget;
                 }
                 Leader.StopFollower(this);
-                return true;
+                return CommandExecutionResults.Ok;
             }
 
             Leader?.StopFollower(this);
             newLeader.AddFollower(this);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [PlayableCharacterCommand("group", Category = "Group")]
-        protected virtual bool DoGroup(string rawParameters, params CommandParameter[] parameters)
+        [Syntax(
+            "[cmd]",
+            "[cmd] <character>")]
+        protected virtual CommandExecutionResults DoGroup(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -64,7 +68,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 if (leader == null)
                 {
                     Send("You are not in a group.");
-                    return true;
+                    return CommandExecutionResults.NoExecution;
                 }
                 StringBuilder sb = new StringBuilder();
                 sb.AppendFormatLine("{0}'s group:", leader.DisplayName); // No RelativeDisplayName because we always see people in our group
@@ -72,61 +76,61 @@ namespace Mud.Server.Character.PlayableCharacter
                 foreach (IPlayableCharacter member in leader.GroupMembers)
                     AppendCharacterGroupMemberInfo(sb, member, false);
                 Send(sb);
-                return true;
+                return CommandExecutionResults.Ok;
             }
 
             // Try to add/remove someone in group
             if (Leader != null)
             {
                 Send("You are not the group leader.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
             // Remove from group if target is already in the group
             IPlayableCharacter oldMember = FindHelpers.FindByName(GroupMembers.Where(CanSee), parameters[0]);
             if (oldMember != null)
             {
                 RemoveGroupMember(oldMember, false);
-                return true;
+                return CommandExecutionResults.Ok;
             }
             // Search in room a new member to add
             ICharacter whom = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             IPlayableCharacter newMember = whom as IPlayableCharacter;
             if (newMember == null) // not found
             {
                 Send($"You cannot group {whom.DisplayName}");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             if (newMember == this)
             {
                 Send("You cannot group yourself.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             if (newMember.Leader != this)
             {
                 Act(ActOptions.ToCharacter, "{0} is not following you.", newMember);
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             if (newMember.GroupMembers.Any())
             {
                 Act(ActOptions.ToCharacter, "{0} is already in a group", newMember);
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             if (GroupMembers.Any(x => x == newMember))
             {
                 Act(ActOptions.ToCharacter, "{0} is already in your group.", newMember);
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             AddGroupMember(newMember, false);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [PlayableCharacterCommand("leave", Category = "Group", Priority = 5)]
-        protected virtual bool DoLeave(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoLeave(string rawParameters, params CommandParameter[] parameters)
         {
             // Member leaving
             if (Leader != null && Leader.GroupMembers.Any(x => x == this))
@@ -138,7 +142,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 if (newLeader == null)
                 {
                     Log.Default.WriteLine(LogLevels.Error, "DoLeave: problem with group, leader leaving but no other group member found.");
-                    return true;
+                    return CommandExecutionResults.Error;
                 }
                 // New leader has no leader
                 newLeader.ChangeLeader(null);
@@ -155,22 +159,23 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             else
                 Send("You are not in a group.");
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [PlayableCharacterCommand("gtell", Category = "Group")] // TODO: multiple category +Communication
         [PlayableCharacterCommand("groupsay", Category = "Group", Priority = 50)]
         [PlayableCharacterCommand("gsay", Category = "Group")] // TODO: multiple category +Communication
-        protected virtual bool DoGroupSay(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <message>")]
+        protected virtual CommandExecutionResults DoGroupSay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Say your group what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             Act(ActOptions.ToGroup, "%g%{0:n} says the group '%x%{1}%g%'%x%", this, parameters[0].Value);
             Send($"%g%You say to the group: '%x%{parameters[0].Value}%g%'%x%");
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         //******************************************** Helpers ********************************************

@@ -8,31 +8,32 @@ namespace Mud.Server.Character
     public partial class CharacterBase
     {
         [Command("kill", Category = "Combat")]
-        protected virtual bool DoKill(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <character>")]
+        protected virtual CommandExecutionResults DoKill(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Kill whom?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             ICharacter target = FindHelpers.FindByName(Room.People, parameters[0]);
             if (target == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             if (target == this)
             {
                 Send("You hit yourself. Ouch!");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             if (target is IPlayableCharacter)
             {
                 Send("You must MURDER a player!");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // TODO
@@ -47,7 +48,7 @@ namespace Mud.Server.Character
                 if (!isInSameGroup)
                 {
                     Send("Kill stealing is not permitted.");
-                    return true;
+                    return CommandExecutionResults.InvalidTarget;
                 }
             }
 
@@ -60,7 +61,7 @@ namespace Mud.Server.Character
             if (Position == Positions.Fighting)
             {
                 Send("You do the best you can!");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
 
             playableCharacter?.ImpersonatedBy?.SetGlobalCooldown(1);
@@ -68,16 +69,16 @@ namespace Mud.Server.Character
 
             // Starts fight
             MultiHit(target);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("flee", Category = "Combat")]
-        protected virtual bool DoFlee(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoFlee(string rawParameters, params CommandParameter[] parameters)
         {
             if (Fighting == null)
             {
                 Send("You aren't fighting anyone.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
             IRoom from = Room;
 
@@ -97,13 +98,13 @@ namespace Mud.Server.Character
                         //
                         Send("You flee from combat!");
                         Act(ActOptions.ToRoom, "{0} has fled!", this);
-                        return true;
+                        return CommandExecutionResults.Ok;
                     }
                 }
             }
 
             Send("PANIC! You couldn't escape!");
-            return true;
+            return CommandExecutionResults.Ok;
         }
     }
 }

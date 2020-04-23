@@ -575,33 +575,41 @@ namespace Mud.Server.Character
             // private room, size, swim room, guild room
 
             if (checkFighting && Fighting != null)
+            {
                 Send("No way! You are still fighting!");
-            else if (ControlledBy != null && ControlledBy.Room == Room) // Slave cannot leave a room without Master
+                return false;
+            }
+            if (ControlledBy != null && ControlledBy.Room == Room)
+            { // Slave cannot leave a room without Master
                 Send("What?  And leave your beloved master?");
-            else if (exit == null || toRoom == null) // Check if existing exit
+                return false;
+            }
+            if (exit == null || toRoom == null) // Check if existing exit
             {
                 Send("You almost goes {0}, but suddenly realize that there's no exit there.", direction);
                 Act(ActOptions.ToRoom, "{0} looks like {0:e}'s about to go {1}, but suddenly stops short and looks confused.", this, direction);
+                return false;
             }
-            else if (exit.IsClosed)
-                Act(ActOptions.ToCharacter, "The {0} is closed.", exit);
-            else
+            if (exit.IsClosed)
             {
-                Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction); // TODO: sneak/invis
-
-                if (this is IPlayableCharacter playableCharacter)
-                    playableCharacter.ImpersonatedBy?.SetGlobalCooldown(1);
-                ChangeRoom(toRoom);
-
-                // Autolook if impersonated/incarnated
-                AutoLook();
-
-                Act(ActOptions.ToRoom, "{0} has arrived.", this); // TODO: sneak/invis
-
-                // Followers: no circular follows
-                if (fromRoom != toRoom)
-                    MoveFollow(fromRoom, toRoom, direction);
+                Act(ActOptions.ToCharacter, "The {0} is closed.", exit);
+                return false;
             }
+            Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction); // TODO: sneak/invis
+
+            if (this is IPlayableCharacter playableCharacter)
+                playableCharacter.ImpersonatedBy?.SetGlobalCooldown(1);
+            ChangeRoom(toRoom);
+
+            // Autolook if impersonated/incarnated
+            AutoLook();
+
+            Act(ActOptions.ToRoom, "{0} has arrived.", this); // TODO: sneak/invis
+
+            // Followers: no circular follows
+            if (fromRoom != toRoom)
+                MoveFollow(fromRoom, toRoom, direction);
+
             return true;
         }
 

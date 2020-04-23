@@ -9,32 +9,30 @@ namespace Mud.Server.Admin
     public partial class Admin
     {
         [Command("delete", Category = "Misc", Priority = 999, NoShortcut = true)]
-        protected override bool DoDelete(string rawParameters, params CommandParameter[] parameters)
+        protected override CommandExecutionResults DoDelete(string rawParameters, params CommandParameter[] parameters)
         {
             Send("An admin cannot be deleted in game!!!");
-            return true;
+            return CommandExecutionResults.NoExecution;
         }
 
         [Command("questdisplay", Category = "Misc")]
-        protected virtual bool DoQuestDisplay(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <character>")]
+        protected virtual CommandExecutionResults DoQuestDisplay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-            {
-                Send("Display quests for whom?");
-                return true;
-            }
+                return CommandExecutionResults.SyntaxError;
 
             IPlayableCharacter whom = FindHelpers.FindByName(World.PlayableCharacters.Where(x => x.ImpersonatedBy != null), parameters[0]);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             if (!whom.Quests.Any())
             {
                 Send($"No quest to display on {DisplayName}");
-                return true;
+                return CommandExecutionResults.Ok;
             }
 
             StringBuilder sb = new StringBuilder();
@@ -46,29 +44,27 @@ namespace Mud.Server.Admin
                 id++;
             }
             Page(sb);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("questreset", Category = "Misc")]
-        protected virtual bool DoQuestReset(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <character>")]
+        protected virtual CommandExecutionResults DoQuestReset(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
-            {
-                Send("Display quests for whom?");
-                return true;
-            }
+                return CommandExecutionResults.SyntaxError;
 
             IPlayableCharacter whom = FindHelpers.FindByName(World.PlayableCharacters.Where(x => x.ImpersonatedBy != null), parameters[0]);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             if (!whom.Quests.Any())
             {
                 Send($"No quest to reset on {DisplayName}");
-                return true;
+                return CommandExecutionResults.Ok;
             }
 
             foreach (IQuest quest in whom.Quests)
@@ -78,7 +74,7 @@ namespace Mud.Server.Admin
                 quest.Reset();
             }
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         //

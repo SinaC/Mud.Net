@@ -22,7 +22,15 @@ namespace Mud.Server.Character
         // 5/ else, if an extra description can be found in room (matching 1st parameter), display it
         // 6/ else, if 1st parameter is a direction, display if there is an exit/door
         [Command("look", Category = "Information", Priority = 0)]
-        protected virtual bool DoLook(string rawParameters, params CommandParameter[] parameters)
+        [Syntax(
+            "[cmd]",
+            "[cmd] in <container>",
+            "[cmd] in <corpse>",
+            "[cmd] <character>",
+            "[cmd] <item>",
+            "[cmd] <keyword>",
+            "[cmd] <direction>")]
+        protected virtual CommandExecutionResults DoLook(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: 0/ sleeping/blind/dark room (see act_info.C:1413 -> 1436)
 
@@ -33,7 +41,7 @@ namespace Mud.Server.Character
                 StringBuilder sb = new StringBuilder();
                 AppendRoom(sb, Room);
                 Send(sb);
-                return true;
+                return CommandExecutionResults.Ok;
             }
             // 2: container in room then inventory then equipment
             if (parameters[0].Value == "in" || parameters[0].Value == "on" || parameters[0].Value == "into")
@@ -43,14 +51,14 @@ namespace Mud.Server.Character
                 if (parameters.Length == 1)
                 {
                     Send("Look in what?");
-                    return true;
+                    return CommandExecutionResults.SyntaxErrorNoDisplay;
                 }
                 // search in room, then in inventory(unequiped), then in equipement
                 IItem containerItem = FindHelpers.FindItemHere(this, parameters[1]);
                 if (containerItem == null)
                 {
                     Send(StringHelpers.ItemNotFound);
-                    return true;
+                    return CommandExecutionResults.TargetNotFound;
                 }
 
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): found in {0}", containerItem.ContainedInto.DebugName);
@@ -58,13 +66,13 @@ namespace Mud.Server.Character
                 if (container == null)
                 {
                     Send("This is not a container.");
-                    return true;
+                    return CommandExecutionResults.InvalidTarget;
                 }
                 // TODO: drink container
                 StringBuilder sb = new StringBuilder();
                 AppendContainerContent(sb, container);
                 Send(sb);
-                return true;
+                return CommandExecutionResults.Ok;
             }
             // 3: character in room
             ICharacter victim = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
@@ -78,16 +86,16 @@ namespace Mud.Server.Character
                 StringBuilder sb = new StringBuilder();
                 AppendCharacter(sb, victim, true); // TODO: always peeking ???
                 Send(sb);
-                return true;
+                return CommandExecutionResults.Ok;
             }
-            // 4:search among inventory/equipment/room.content if an item has extra description or name equals to parameters
+            // 4: search among inventory/equipment/room.content if an item has extra description or name equals to parameters
             string itemDescription;
             bool itemFound = FindItemByExtraDescriptionOrName(parameters[0], out itemDescription);
             if (itemFound)
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(4): item in inventory+equipment+room -> {0}", itemDescription);
                 Send(itemDescription, false);
-                return true;
+                return CommandExecutionResults.Ok;
             }
             // 5: extra description in room
             if (Room.ExtraDescriptions != null && Room.ExtraDescriptions.Any())
@@ -100,7 +108,7 @@ namespace Mud.Server.Character
                             && ++count == parameters[0].Count)
                     {
                         Send(extraDescription.Value, false);
-                        return true;
+                        return CommandExecutionResults.Ok;
                     }
                 }
             }
@@ -124,29 +132,32 @@ namespace Mud.Server.Character
                             Send("The {0} is open.", exitName);
                     }
                 }
-                return true;
+                return CommandExecutionResults.Ok;
             }
             //
             Send(StringHelpers.ItemNotFound);
-            return true;
+            return CommandExecutionResults.TargetNotFound;
         }
 
         [Command("exits", Category = "Information")]
-        protected virtual bool DoExits(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoExits(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             AppendExits(sb, false);
             Send(sb);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("examine", Category = "Information")]
-        protected virtual bool DoExamine(string rawParameters, params CommandParameter[] parameters)
+        [Syntax(
+            "[cmd] <container>",
+            "[cmd] <corpse>")]
+        protected virtual CommandExecutionResults DoExamine(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Examine what or whom?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             // character
             ICharacter victim = FindHelpers.FindByName(Room.People, parameters[0]);
@@ -157,14 +168,14 @@ namespace Mud.Server.Character
                 AppendCharacter(sbCharacter, victim, true);
                 // TODO: display race and size
                 Send(sbCharacter);
-                return true;
+                return CommandExecutionResults.Ok;
             }
             // item
             IItem item = FindHelpers.FindItemHere(this, parameters[0]);
             if (item == null)
             {
                 Send("You don't see any {0}.", parameters[0]);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             //
             Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, item);
@@ -174,11 +185,11 @@ namespace Mud.Server.Character
             else
                 sbItem.AppendLine(FormatItem(item, true));
             Send(sbItem);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("scan", Category = "Information")]
-        protected virtual bool DoScan(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoScan(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder(1024);
             // Current room
@@ -207,11 +218,11 @@ namespace Mud.Server.Character
                 }
             }
             Send(sb);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("affects", Category = "Information")]
-        protected virtual bool DoAffects(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoAffects(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             if (_auras.Any() || _periodicAuras.Any())
@@ -254,12 +265,12 @@ namespace Mud.Server.Character
             }
             else
                 sb.AppendLine("%c%You are not affected by any spells.%x%");
-            Send(sb);
-            return true;
+            Page(sb);
+            return CommandExecutionResults.Ok;
         }
 
         [Command("score", Category = "Information", Priority = 2)]
-        protected virtual bool DoScore(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoScore(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: score all will display everything (every resources, every stats)
             IPlayableCharacter playableCharacter = this as IPlayableCharacter;
@@ -333,11 +344,14 @@ namespace Mud.Server.Character
             //generator.AddRow();
             //sb = generator.Generate();
             //Send(sb);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("where", Category = "Information")]
-        protected virtual bool DoWhere(string rawParameters, params CommandParameter[] parameters)
+        [Syntax(
+            "[cmd]",
+            "[cmd] <player name>")]
+        protected virtual CommandExecutionResults DoWhere(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormatLine($"[{Room.Area.DisplayName}].");
@@ -364,21 +378,21 @@ namespace Mud.Server.Character
             if (!found)
                 sb.AppendLine(notFound);
             Send(sb);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("inventory", Category = "Information")]
-        protected virtual bool DoInventory(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoInventory(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("You are carrying:");
             AppendItems(sb, Content, true, true);
             Send(sb);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("equipment", Category = "Information")]
-        protected virtual bool DoEquipment(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoEquipment(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("You are using:");
@@ -398,29 +412,30 @@ namespace Mud.Server.Character
             }
 
             Send(sb);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("consider", Category = "Information")]
-        protected virtual bool DoConsider(string rawParameters, params CommandParameter[] parameters)
+        [Syntax("[cmd] <character>")]
+        protected virtual CommandExecutionResults DoConsider(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Consider killing whom?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             ICharacter whom = FindHelpers.FindByName(Room.People, parameters[0]);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             if (whom == this)
             {
                 Send("You are such a badass.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             CombatHelpers.CombatDifficulties difficulty = CombatHelpers.GetConColor(Level, whom.Level);
@@ -451,7 +466,7 @@ namespace Mud.Server.Character
                     break;
             }
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         // Helpers

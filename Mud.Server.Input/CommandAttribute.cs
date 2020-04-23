@@ -59,6 +59,29 @@ namespace Mud.Server.Input
         }
     }
 
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    public class SyntaxAttribute : Attribute
+    {
+        public string[] Syntax { get; }
+
+        public SyntaxAttribute(params string[] syntax)
+        {
+            Syntax = syntax;
+        }
+    }
+
+    public enum CommandExecutionResults 
+    {
+        Ok,
+        SyntaxError, // will display command syntax
+        SyntaxErrorNoDisplay, // will NOT display command syntax
+        TargetNotFound, // item/character/room/... has not been found
+        InvalidParameter, // parameter invalid such as negative number
+        InvalidTarget, // target cannot be used for this command
+        NoExecution, //
+        Error // will display an error in log and AfterCommand will not be executed
+    }
+
     public class CommandAttributeEqualityComparer : IEqualityComparer<CommandAttribute>
     {
         public bool Equals(CommandAttribute x, CommandAttribute y)
@@ -75,4 +98,4 @@ namespace Mud.Server.Input
             return obj.Name.GetHashCode();
         }
     }
-    }
+}

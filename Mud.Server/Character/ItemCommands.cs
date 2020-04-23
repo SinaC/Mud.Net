@@ -12,16 +12,19 @@ namespace Mud.Server.Character
     public partial class CharacterBase
     {
         [Command("wear", Category = "Item")]
+        [Syntax(
+            "[cmd] <item>",
+            "[cmd] all")]
         // Wear item
         // Wear all
         // Wear all.item
-        protected virtual bool DoWear(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoWear(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: bug with shield + second hand
             if (parameters.Length == 0)
             {
                 Send("Wear, wield, or hold what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             // wear all, wear all.item
             if (parameters[0].IsAll)
@@ -44,123 +47,132 @@ namespace Mud.Server.Character
 
                     if (itemEquipped)
                         RecomputeAttributes();
+                    return CommandExecutionResults.Ok;
                 }
                 else
+                {
                     Send(StringHelpers.ItemInventoryNotFound);
-                return true;
+                    return CommandExecutionResults.TargetNotFound;
+                }
             }
             // wear item
             IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             IEquipable equipable = item as IEquipable;
             if (equipable == null)
             {
                 Send("It cannot be equiped.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             WearItem(equipable, true);
             RecomputeAttributes();
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("wield", Category = "Item")]
+        [Syntax("[cmd] <weapon>")]
         // Wield item
-        protected virtual bool DoWield(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoWield(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Wield what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             IEquipable equipable = item as IEquipable;
             if (equipable == null)
             {
                 Send("It cannot be wielded.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             if (!(item is IItemWeapon))
             {
                 Send("Only weapons can be wielded.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             //
             WearItem(equipable, true);
             RecomputeAttributes();
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("hold", Category = "Item")]
+        [Syntax("[cmd] <item>")]
         // Hold item
-        protected virtual bool DoHold(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoHold(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Hold what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             IEquipable equipable = item as IEquipable;
             if (equipable == null || equipable.WearLocation != WearLocations.Hold || equipable.WearLocation != WearLocations.Shield)
             {
                 Send("It cannot be hold.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             //
             WearItem(equipable, true);
             RecomputeAttributes();
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("remove", Category = "Item")]
+        [Syntax("[cmd] <item>")]
         // Remove item
-        protected virtual bool DoRemove(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoRemove(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Remove what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             //
             EquipedItem equipmentSlot = FindHelpers.FindByName(Equipments.Where(x => x.Item != null && CanSee(x.Item)), x => x.Item, parameters[0]);
             if (equipmentSlot?.Item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             //
             RemoveItem(equipmentSlot);
             RecomputeAttributes();
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("get", Category = "Item")]
+        [Syntax(
+            "[cmd] <item>",
+            "[cmd] <item> <container>")]
         // Get item
         // Get item [from] container
         // Get all
         // Get all.item
         // Get all [from] container
         // Get all.item [from] container
-        protected virtual bool DoGet(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoGet(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Get what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             CommandParameter whatParameter = parameters[0];
             // get item, get all, get all.item
@@ -183,45 +195,45 @@ namespace Mud.Server.Character
                     {
                         foreach (IItem itemInList in list)
                             GetItem(itemInList);
-                        return true;
+                        return CommandExecutionResults.Ok;
                     }
                     if (allDot)
                     {
                         Send("I see nothing like that here.");
-                        return true;
+                        return CommandExecutionResults.TargetNotFound;
                     }
                     Send("I see nothing here.");
-                    return true;
+                    return CommandExecutionResults.TargetNotFound;
                 }
                 // get item
                 IItem itemInRoom = FindHelpers.FindByName(Room.Content.Where(CanSee), parameters[0]);
                 if (itemInRoom == null)
                 {
                     Send("I see no {0} here.", parameters[0]);
-                    return true;
+                    return CommandExecutionResults.TargetNotFound;
                 }
                 GetItem(itemInRoom);
-                return true;
+                return CommandExecutionResults.Ok;
             }
             // get item [from] container, get all [from] container, get all.item [from] container
             CommandParameter whereParameter = FindHelpers.StringEquals(parameters[1].Value, "from") ? parameters[2] : parameters[1];
             if (whereParameter.IsAll)
             {
                 Send("You can't do that");
-                return true;
+                return CommandExecutionResults.InvalidParameter;
             }
             // search container
             IItem containerItem = FindHelpers.FindItemHere(this, whereParameter);
             if (containerItem == null)
             {
                 Send("I see no {0} here.", whereParameter);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             IContainer container = containerItem as IContainer;
             if (container == null)
             {
                 Send("That's not a container.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             // TODO: check if closed
             if (whatParameter.IsAll) // get all [from] container, get all.item [from] container
@@ -240,37 +252,40 @@ namespace Mud.Server.Character
                 {
                     foreach (IItem itemInList in list)
                         GetItem(itemInList, container);
-                    return true;
+                    return CommandExecutionResults.Ok;
                 }
                 if (allDot)
                 {
                     Send("I see nothing like that in the {0}.", whereParameter);
-                    return true;
+                    return CommandExecutionResults.TargetNotFound;
                 }
                 Send("I see nothing in the {0}.", whereParameter);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             // get item [from] container
             IItem item = FindHelpers.FindByName(container.Content.Where(CanSee), whatParameter);
             if (item == null)
             {
                 Send("I see nothing like that in the {0}.", whereParameter);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             GetItem(item, container);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("drop", Category = "Item")]
+        [Syntax(
+            "[cmd] <item>",
+            "[cmd] all")]
         // Drop item
         // Drop all
         // Drop all.item
-        protected virtual bool DoDrop(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoDrop(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Drop what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             // drop all, drop all.item
             if (parameters[0].IsAll)
@@ -285,61 +300,65 @@ namespace Mud.Server.Character
                 {
                     foreach (IItem itemInList in list)
                         DropItem(itemInList);
+                    return CommandExecutionResults.Ok;
                 }
                 else
+                {
                     Send(StringHelpers.ItemInventoryNotFound);
-                return true;
+                    return CommandExecutionResults.TargetNotFound;
+                }
             }
             // drop item
             IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             if (item is ItemQuest)
             {
                 Act(ActOptions.ToCharacter, "You cannot drop quest items.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             DropItem(item);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("give", Category = "Item")]
+        [Syntax("[cmd] <item> <character>")]
         // Give item victim
-        protected virtual bool DoGive(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoGive(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length < 2)
             {
                 Send("Give what to whom?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             IItem what = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
             if (what == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             ICharacter whom = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[1]);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             if (!whom.CanSee(what))
             {
                 Act(ActOptions.ToCharacter, "{0:n} can't see it.", whom);
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             if (what is ItemQuest)
             {
                 Act(ActOptions.ToCharacter, "You cannot give quest items.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // Give item to victim
@@ -351,20 +370,21 @@ namespace Mud.Server.Character
             whom.Act(ActOptions.ToCharacter, "{0} gives you {1}.", this, what);
             Act(ActOptions.ToCharacter, "You give {0} to {1}.", what, whom);
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("put", Category = "Item")]
+        [Syntax("[cmd] <item> <container>")]
         // Put item container
         // Put item [in] container
         // Put all.item container
         // Put all.item [in] container
-        protected virtual bool DoPut(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoPut(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length < 2)
             {
                 Send("Put what in what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             // Extract parameters
@@ -375,19 +395,19 @@ namespace Mud.Server.Character
             if (whereParameter.IsAll)
             {
                 Send("You can't do that");
-                return true;
+                return CommandExecutionResults.InvalidParameter;
             }
             IItem where = FindHelpers.FindItemHere(this, whereParameter);
             if (where == null)
             {
                 Send(StringHelpers.ItemNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             IContainer container = where as IContainer;
             if (container == null)
             {
                 Send("That's not a container.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // TODO: check if container is closed
@@ -403,20 +423,23 @@ namespace Mud.Server.Character
                 {
                     foreach (IItem itemInList in list)
                         PutItem(itemInList, container);
+                    return CommandExecutionResults.Ok;
                 }
                 else
+                {
                     Send(StringHelpers.ItemInventoryNotFound);
-                return true;
+                    return CommandExecutionResults.TargetNotFound;
+                }
             }
             // put item [in] container
             IItem item = FindHelpers.FindByName(Content.Where(CanSee), whatParameter);
             if (item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             PutItem(item, container);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         //********************************************************************

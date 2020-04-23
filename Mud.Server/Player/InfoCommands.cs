@@ -8,7 +8,7 @@ namespace Mud.Server.Player
     public partial class Player
     {
         [Command("who", Category = "Information")]
-        protected virtual bool DoWho(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoWho(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: title, additional informations
             StringBuilder sb = new StringBuilder();
@@ -39,21 +39,23 @@ namespace Mud.Server.Player
             }
             //
             Page(sb);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("areas", Category = "Information", Priority = 10)]
-        protected virtual bool DoAreas(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoAreas(string rawParameters, params CommandParameter[] parameters)
         {
-            
             StringBuilder sb = TableGenerators.AreaTableGenerator.Value.Generate("Areas", World.Areas);
             Page(sb);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("scroll", Category = "Information")]
         [Command("page", Category = "Information")]
-        protected virtual bool DoPage(string rawParameters, params CommandParameter[] parameters)
+        [Syntax(
+            "[cmd]",
+            "[cmd] <number>")]
+        protected virtual CommandExecutionResults DoPage(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -61,13 +63,13 @@ namespace Mud.Server.Player
                     Send("You do not page long messages.");
                 else
                     Send($"You currently display {PagingLineCount} lines per page.");
-                return true;
+                return CommandExecutionResults.Ok;
             }
 
             if (!parameters[0].IsNumber)
             {
                 Send("You must provide a number.");
-                return true;
+                return CommandExecutionResults.InvalidParameter;
             }
 
             int lineCount = parameters[0].AsNumber;
@@ -75,19 +77,19 @@ namespace Mud.Server.Player
             {
                 Send("Paging disabled");
                 PagingLineCount = 0;
-                return true;
+                return CommandExecutionResults.Ok;
             }
 
             if (lineCount < 10 || lineCount > 100)
             {
                 Send("Please provide a reasonable number.");
-                return true;
+                return CommandExecutionResults.InvalidParameter;
             }
 
             Send($"Scroll set to {lineCount} lines.");
             PagingLineCount = lineCount;
 
-            return true;
+            return CommandExecutionResults.Ok;
         }       
     }
 }

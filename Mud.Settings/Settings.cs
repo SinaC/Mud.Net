@@ -34,7 +34,7 @@ namespace Mud.Settings
 
         //
         public bool PerformSanityCheck => BoolSetting("PerformSanityCheck", true);
-        public bool DumpConfig => BoolSetting("DumpConfig", false);
+        public bool DumpOnInitialize => BoolSetting("DumpOnInitialize", false);
 
         //
         public int CorpseBlueprintId => IntSetting("CorpseBlueprintId", 999999);
