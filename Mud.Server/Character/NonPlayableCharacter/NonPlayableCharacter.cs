@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
@@ -109,7 +110,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         protected override int ModifyCriticalDamage(int damage) => damage * 2; // TODO http://wow.gamepedia.com/Critical_strike
 
-        protected override bool RawKilled(ICharacter killer, bool killingPayoff)
+        protected override bool RawKilled(ICharacter killer, bool killingPayoff) // TODO: refactor, same code in PlayableCharacter
         {
             if (!IsValid)
             {
@@ -122,15 +123,15 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 wiznetMsg = $"{DebugName} got toasted by {killer.DebugName ?? "???"} at {Room?.DebugName ?? "???"}";
             else
                 wiznetMsg = $"{DebugName} got toasted by an unknown source at {Room?.DebugName ?? "???"}";
-            Wiznet.Wiznet(wiznetMsg, WiznetFlags.Deaths);
+            Wiznet.Wiznet(wiznetMsg, WiznetFlags.MobDeaths);
 
             StopFighting(true);
             // Remove periodic auras
-            List<IPeriodicAura> periodicAuras = new List<IPeriodicAura>(PeriodicAuras); // clone
+            IReadOnlyCollection<IPeriodicAura> periodicAuras = new ReadOnlyCollection<IPeriodicAura>(PeriodicAuras.ToList()); // clone
             foreach (IPeriodicAura pa in periodicAuras)
                 RemovePeriodicAura(pa);
             // Remove auras
-            List<IAura> auras = new List<IAura>(Auras); // clone
+            IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(Auras.ToList()); // clone
             foreach (IAura aura in auras)
                 RemoveAura(aura, false);
             // no need to recompute

@@ -90,15 +90,24 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CharacterSerializationTests.cs" />
+    <Compile Include="EquipedItemSerializationTests.cs" />
+    <Compile Include="Mocking\AbilityManagerMock.cs" />
+    <Compile Include="Mocking\ClassManagerMock.cs" />
     <Compile Include="Mocking\ClientMock.cs" />
     <Compile Include="CommandParsingTests.cs" />
     <Compile Include="Mocking\LogMock.cs" />
     <Compile Include="Mocking\PlayerManagerMock.cs" />
+    <Compile Include="Mocking\RaceManagerMock.cs" />
     <Compile Include="Mocking\ServerMock.cs" />
+    <Compile Include="Mocking\SettingsMock.cs" />
+    <Compile Include="Mocking\TimeHandlerMock.cs" />
     <Compile Include="Mocking\WorldMock.cs" />
     <Compile Include="PlayerCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContainerTests.cs" />
+    <Compile Include="ItemSerializationTests.cs" />
+    <Compile Include="TestBase.cs" />
     <Compile Include="WorldTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +138,10 @@
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
       <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>
       <Name>Mud.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
+      <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
+      <Name>Mud.Settings</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

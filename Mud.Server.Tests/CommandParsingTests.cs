@@ -4,7 +4,7 @@ using Mud.Server.Tests.Mocking;
 namespace Mud.Server.Tests
 {
     [TestClass]
-    public class CommandParsingTests
+    public class CommandParsingTests : TestBase
     {
         private WorldMock _world;
         private PlayerManagerMock _playerManagerMock;
@@ -14,7 +14,7 @@ namespace Mud.Server.Tests
             IPlayer player = _playerManagerMock.AddPlayer(new ClientMock(), playerName);
             return player;
         }
-        
+
         /*
          * player.ProcessCommand("test");
             player.ProcessCommand("test arg1");
@@ -31,7 +31,7 @@ namespace Mud.Server.Tests
             player.ProcessCommand("unknown"); // INVALID
             player.ProcessCommand("/test");
 
-            ICharacter character = world.AddCharacter(Guid.NewGuid(), "Character", room);
+            ICharacter character = _world.AddCharacter(Guid.NewGuid(), "Character", room);
             character.ProcessCommand("look");
             character.ProcessCommand("tell"); // INVALID because Player commands are not accessible by Character
             character.ProcessCommand("unknown"); // INVALID
@@ -48,7 +48,7 @@ namespace Mud.Server.Tests
             player.ProcessCommand("tell");
             player.ProcessCommand("look"); // INVALID because Character commands are not accessible by Player unless if impersonating
 
-            IAdmin admin = world.AddAdmin(Guid.NewGuid(), "Admin");
+            IAdmin admin = _world.AddAdmin(Guid.NewGuid(), "Admin");
             admin.ProcessCommand("incarnate");
             admin.ProcessCommand("unknown"); // INVALID
          * */

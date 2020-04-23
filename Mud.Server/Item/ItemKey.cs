@@ -1,4 +1,5 @@
 ﻿using System;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
@@ -9,5 +10,12 @@ namespace Mud.Server.Item
             : base(guid, blueprint, containedInto)
         {
         }
+
+        public ItemKey(Guid guid, ItemKeyBlueprint blueprint, ItemData itemData, IContainer containedInto)
+            : base(guid, blueprint, itemData, containedInto)
+        {
+        }
+
+        // No additional datas
     }
 }

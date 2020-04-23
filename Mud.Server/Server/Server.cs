@@ -19,6 +19,7 @@ using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Settings;
 using System.Reflection;
+using Mud.Server.Item;
 
 namespace Mud.Server.Server
 {
@@ -762,13 +763,13 @@ namespace Mud.Server.Server
             Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 
-        private void DumpAbilities()
+        private void DumpAbilities(int pulseCount)
         {
             StringBuilder sb = TableGenerators.FullInfoAbilityTableGenerator.Value.Generate("Abilities", AbilityManager.Abilities.OrderBy(x => x.Name));
             Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 
-        private void HandleShutdown()
+        private void HandleShutdown(int pulseCount)
         {
             if (_pulseBeforeShutdown >= 0)
             {
@@ -805,7 +806,7 @@ namespace Mud.Server.Server
             }
         }
 
-        private void HandlePeriodicAuras()
+        private void HandlePeriodicAuras(int pulseCount)
         {
             // TODO: remove aura with amount == 0 ?
             // Remove dot/hot on non-impersonated if source is not the in same room (or source is inexistant)
@@ -844,7 +845,7 @@ namespace Mud.Server.Server
             }
         }
 
-        private void HandleAuras() 
+        private void HandleAuras(int pulseCount) 
         {
             // TODO: remove aura with amount == 0 ?
             // Take aura that will expired
@@ -872,7 +873,7 @@ namespace Mud.Server.Server
             }
         }
 
-        private void HandleCooldowns() 
+        private void HandleCooldowns(int pulseCount) 
         {
             // TODO: filter on character with expired cooldowns
             foreach (ICharacter character in World.Characters.Where(x => x.HasAbilitiesInCooldown))
@@ -890,7 +891,7 @@ namespace Mud.Server.Server
             }
         }
 
-        private void HandleQuests()
+        private void HandleQuests(int pulseCount)
         {
             foreach (IPlayer player in Players.Where(x => x.Impersonating?.Quests?.Any(y => y.Blueprint.TimeLimit > 0) == true))
             {
@@ -899,7 +900,7 @@ namespace Mud.Server.Server
                     IReadOnlyCollection<IQuest> clone = new ReadOnlyCollection<IQuest>(player.Impersonating.Quests.Where(x => x.Blueprint.TimeLimit > 0).ToList());
                     foreach (IQuest quest in clone)
                     {
-                        bool timedOut = quest.UpdateSecondsLeft(-1);
+                        bool timedOut = quest.DecreasePulseLeft(pulseCount);
                         if (timedOut)
                         {
                             quest.Timeout();
@@ -916,7 +917,7 @@ namespace Mud.Server.Server
 
         // TODO: 'Optimize' following function using area info such as players count
 
-        private void HandleViolence()
+        private void HandleViolence(int pulseCount)
         {
             foreach (ICharacter character in World.Characters.Where(x => x.Fighting != null))
             {
@@ -943,63 +944,113 @@ namespace Mud.Server.Server
                     }
                     catch (Exception ex)
                     {
-                        Log.Default.WriteLine(LogLevels.Error, "Exception while handling violence of {0}. Exception: {1}", character.DebugName, ex);
+                        Log.Default.WriteLine(LogLevels.Error, "Exception while handling violence {0}. Exception: {1}", character.DebugName, ex);
                     }
                 }
             }
         }
 
-        private void HandlePlayers()
+        private void HandlePlayers(int pulseCount)
         {
             foreach (PlayingClient playingClient in _players.Values)
             {
-                //
-                playingClient.Client.WriteData("--TICK--"+Environment.NewLine); // TODO: only if user want tick info
+                try
+                {
+                    //
+                    playingClient.Client.WriteData("--TICK--" + Environment.NewLine); // TODO: only if user want tick info
 
-                // If idle for too long, unimpersonate or disconnect
-                TimeSpan ts = CurrentTime - playingClient.LastReceivedDataTimestamp;
-                if (ts.TotalMinutes > Settings.IdleMinutesBeforeUnimpersonate && playingClient.Player.Impersonating != null)
-                {
-                    playingClient.Client.WriteData("Idle for too long, unimpersonating..." + Environment.NewLine);
-                    playingClient.Player.Impersonating.StopFighting(true);
-                    playingClient.Player.StopImpersonating();
+                    // If idle for too long, unimpersonate or disconnect
+                    TimeSpan ts = CurrentTime - playingClient.LastReceivedDataTimestamp;
+                    if (ts.TotalMinutes > Settings.IdleMinutesBeforeUnimpersonate && playingClient.Player.Impersonating != null)
+                    {
+                        playingClient.Client.WriteData("Idle for too long, unimpersonating..." + Environment.NewLine);
+                        playingClient.Player.Impersonating.StopFighting(true);
+                        playingClient.Player.StopImpersonating();
+                    }
+                    else if (ts.TotalMinutes > Settings.IdleMinutesBeforeDisconnect)
+                    {
+                        playingClient.Client.WriteData("Idle for too long, disconnecting..." + Environment.NewLine);
+                        ClientPlayingOnDisconnected(playingClient.Client);
+                    }
                 }
-                else if (ts.TotalMinutes > Settings.IdleMinutesBeforeDisconnect)
+                catch (Exception ex)
                 {
-                    playingClient.Client.WriteData("Idle for too long, disconnecting..." + Environment.NewLine);
-                    ClientPlayingOnDisconnected(playingClient.Client);
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling player {0}. Exception: {1}", playingClient.Player.Name, ex);
                 }
             }
         }
 
-        private void HandlePlayableCharacters()
+        private void HandlePlayableCharacters(int pulseCount)
         {
             foreach (IPlayableCharacter character in World.Characters.OfType<IPlayableCharacter>())
             {
-                if (character.ImpersonatedBy == null) // TODO: remove after x minutes
-                    Log.Default.WriteLine(LogLevels.Warning, "Impersonable {0} is not impersonated", character.DebugName);
-
-                //
-                character.UpdateResources();
-            }
-        }
-
-        private void HandleItems()
-        {
-            foreach (IItem item in World.Items.Where(x => x.DecayPulseLeft > 0))
-            {
-                //Log.Default.WriteLine(LogLevels.Debug, $"HandleItems {item.DebugName} with {item.DecayPulseLeft} pulse left");
-                item.DecreaseDecayPulseLeft();
-                if (item.DecayPulseLeft == 0)
+                try
                 {
-                    Log.Default.WriteLine(LogLevels.Debug, "Item {0} decayed", item.DebugName);
-                    // TODO: if it's a player corpse, move items to room (except quest item)
-                    World.RemoveItem(item);
+                    if (character.ImpersonatedBy == null) // TODO: remove after x minutes
+                        Log.Default.WriteLine(LogLevels.Warning, "Impersonable {0} is not impersonated", character.DebugName);
+
+                    //
+                    character.UpdateResources();
+                }
+                catch (Exception ex)
+                { 
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling character {0}. Exception: {1}", character.DebugName, ex);
                 }
             }
         }
 
-        private void HandleRooms()
+        private void HandleItems(int pulseCount)
+        {
+            //Log.Default.WriteLine(LogLevels.Debug, "HandleItems {0} {1}", CurrentTime, DateTime.Now);
+            foreach (IItem item in World.Items.Where(x => x.DecayPulseLeft > 0))
+            {
+                try
+                {
+                    //Log.Default.WriteLine(LogLevels.Debug, $"HandleItems {item.DebugName} with {item.DecayPulseLeft} pulse left");
+                    item.DecreaseDecayPulseLeft(pulseCount);
+                    if (item.DecayPulseLeft == 0)
+                    {
+                        Log.Default.WriteLine(LogLevels.Debug, "Item {0} decays", item.DebugName);
+                        // Display message to character or room
+                        if (item.ContainedInto is ICharacter wasOnCharacter)
+                            wasOnCharacter.Act(ActOptions.ToCharacter, "{0:N} decays into dust.", item);
+                        else if (item.ContainedInto is IRoom wasInRoom)
+                        {
+                            foreach (ICharacter character in wasInRoom.People)
+                                character.Act(ActOptions.ToCharacter, "{0:N} decays into dust.", item);
+                        }
+
+                        // If container or playable character corpse, move items to contained into (except quest item)
+                        if (item is IContainer container) // container
+                        {
+                            bool moveItems = true;
+                            if (item is IItemCorpse itemCorpse && !itemCorpse.IsPlayableCharacterCorpse) // don't perform if NPC corpse
+                                moveItems = false;
+                            if (moveItems)
+                            {
+                                Log.Default.WriteLine(LogLevels.Debug, "Move item content to room");
+                                IContainer newContainer = item.ContainedInto;
+                                if (newContainer == null)
+                                    Log.Default.WriteLine(LogLevels.Error, "Item was in the void");
+                                else
+                                {
+                                    IReadOnlyCollection<IItem> clone = new ReadOnlyCollection<IItem>(container.Content.Where(x => !(x is IItemQuest)).ToList()); // except quest item
+                                    foreach (IItem itemInCorpse in clone)
+                                        itemInCorpse.ChangeContainer(newContainer);
+                                }
+                            }
+                        }
+                        World.RemoveItem(item);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling item {0}. Exception: {1}", item.DebugName, ex);
+                }
+            }
+        }
+
+        private void HandleRooms(int pulseCount)
         {
             // TODO
         }
@@ -1018,10 +1069,10 @@ namespace Mud.Server.Server
             pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleAuras);
             pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleCooldowns);
             pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleQuests);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandlePlayers);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandlePlayableCharacters);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandleItems);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds*60, HandleRooms);
+            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds * 5, HandleItems);
+            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds * 60, HandlePlayers);
+            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds * 60, HandlePlayableCharacters);
+            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds * 60, HandleRooms);
 
             try
             {
@@ -1040,7 +1091,7 @@ namespace Mud.Server.Server
                     ProcessInput();
 
                     //DoPulse();
-                    HandleShutdown();
+                    HandleShutdown(1);
                     pulseManager.Pulse();
 
                     ProcessOutput();

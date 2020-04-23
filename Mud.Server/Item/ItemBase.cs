@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Actor;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Entity;
@@ -25,7 +28,13 @@ namespace Mud.Server.Item
             containedInto.PutInContainer(this);
             Weight = blueprint.Weight;
             Cost = blueprint.Cost;
-            IsWearable = true; // TODO
+        }
+
+        protected ItemBase(Guid guid, TBlueprint blueprint, ItemData itemData, IContainer containedInto)
+            : this(guid, blueprint, containedInto)
+        {
+            // TODO: copy other fields
+            DecayPulseLeft = itemData.DecayPulseLeft;
         }
 
         #region IItem
@@ -84,8 +93,6 @@ namespace Mud.Server.Item
 
         public IReadOnlyDictionary<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
 
-        public bool IsWearable { get; protected set; } // TODO:
-
         public int DecayPulseLeft { get; protected set; } // 0: means no decay
 
         public virtual int Weight { get; }
@@ -111,34 +118,19 @@ namespace Mud.Server.Item
             return true;
         }
 
-        public void DecreaseDecayPulseLeft()
+        public void DecreaseDecayPulseLeft(int pulseCount)
         {
             if (DecayPulseLeft > 0)
-                DecayPulseLeft--;
+                DecayPulseLeft = Math.Max(0, DecayPulseLeft - pulseCount);
         }
 
-        public ItemData MapItemData()
+        public virtual ItemData MapItemData()
         {
             return new ItemData
             {
                 ItemId = Blueprint.Id,
-                Contains = MapContent()
+                DecayPulseLeft = DecayPulseLeft
             };
-        }
-
-        public ItemData[] MapContent()
-        {
-            List<ItemData> contains = new List<ItemData>();
-            if (this is IItemContainer container)
-            {
-                foreach (IItem subItem in container.Content)
-                {
-                    ItemData subItemData = subItem.MapItemData();
-                    contains.Add(subItemData);
-                }
-            }
-
-            return contains.ToArray();
         }
 
         #endregion

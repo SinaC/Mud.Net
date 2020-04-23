@@ -2,6 +2,7 @@
 
 namespace Mud.Repository.Filesystem.DataContracts
 {
+    [DataContract(Namespace = "")]
     public class PairData<TKey, TValue>
     {
         [DataMember]

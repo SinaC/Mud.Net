@@ -395,6 +395,8 @@ namespace Mud.Server.Admin
             else
                 sb.AppendLine("Cannot be equiped");
             sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
+            if (item.DecayPulseLeft > 0)
+                sb.AppendFormatLine("Decay in {0}", StringHelpers.FormatDelay(item.DecayPulseLeft / Settings.PulsePerSeconds));
             if (item is IItemArmor armor)
                 sb.AppendFormatLine("Armor type: {0} Armor value: {1}", armor.ArmorKind, armor.Armor);
             if (item is IItemContainer container)
@@ -402,9 +404,6 @@ namespace Mud.Server.Admin
             //
             if (item is IItemCorpse corpse)
                 sb.AppendLine("No additional informations");
-            //
-            if (item is IItemLight light)
-                sb.AppendFormatLine("Time left: {0}", light.TimeLeft);
             //
             if (item is IItemWeapon weapon)
                 sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3}", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType);

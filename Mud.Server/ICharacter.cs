@@ -149,9 +149,8 @@ namespace Mud.Server
         {
             return new EquipedItemData
             {
-                ItemId = Item.Blueprint.Id,
                 Slot = Slot,
-                Contains = Item.MapContent()
+                Item = Item.MapItemData()
             };
         }
     }

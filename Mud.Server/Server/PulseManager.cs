@@ -11,7 +11,7 @@ namespace Mud.Server.Server
         {
             public int PulseCurrentValue { get; set; }
             public int PulseResetValue { get; set; }
-            public Action PulseAction { get; set; }
+            public Action<int> PulseAction { get; set; }
         }
 
         private readonly List<PulseEntry> _entries;
@@ -21,7 +21,7 @@ namespace Mud.Server.Server
             _entries = new List<PulseEntry>();
         }
 
-        public void Add(int initialValue, int resetValue, Action method)
+        public void Add(int initialValue, int resetValue, Action<int> method)
         {
             _entries.Add(new PulseEntry
             {
@@ -42,7 +42,7 @@ namespace Mud.Server.Server
                 {
                     entry.PulseCurrentValue = entry.PulseResetValue;
                     sw.Restart();
-                    entry.PulseAction();
+                    entry.PulseAction(entry.PulseResetValue);
                     sw.Stop();
                     Log.Default.WriteLine(LogLevels.Trace, $"PULSE: {entry.PulseAction.Method.Name} in {sw.ElapsedMilliseconds} ms");
                 }

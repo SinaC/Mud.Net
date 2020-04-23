@@ -4,5 +4,6 @@
     {
         // TODO: any methods ???
         // maybe  character name / impersonated or not
+        bool IsPlayableCharacterCorpse { get; }
     }
 }

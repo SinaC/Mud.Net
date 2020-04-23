@@ -12,7 +12,12 @@ namespace Mud.Server.Item
             : base(guid, blueprint, containedInto)
         {
             WearLocation = blueprint.WearLocation;
-            IsWearable = true;
+        }
+
+        public ItemEquipableBase(Guid guid, TBlueprint blueprint, ItemData itemData, IContainer containedInto)
+            : base(guid, blueprint, itemData, containedInto)
+        {
+            WearLocation = blueprint.WearLocation;
         }
 
         public WearLocations WearLocation { get; }

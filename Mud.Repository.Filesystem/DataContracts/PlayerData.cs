@@ -1,9 +1,11 @@
 ﻿using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace Mud.Repository.Filesystem.DataContracts
 {
     [DataContract(Namespace = "")]
     [KnownType(typeof(AdminData))]
+    [XmlInclude(typeof(AdminData))]
     public class PlayerData
     {
         [DataMember]

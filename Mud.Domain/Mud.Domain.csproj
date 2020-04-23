@@ -76,6 +76,8 @@
     <Compile Include="CurrentQuestObjectiveData.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="EquipedItemData.cs" />
+    <Compile Include="ItemCorpseData.cs" />
+    <Compile Include="ItemContainerData.cs" />
     <Compile Include="ItemData.cs" />
     <Compile Include="ExitDirections.cs" />
     <Compile Include="Extensions\ExitDirectionsExtensions.cs" />

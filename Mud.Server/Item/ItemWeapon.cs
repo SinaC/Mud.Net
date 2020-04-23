@@ -15,6 +15,15 @@ namespace Mud.Server.Item
             DamageType = blueprint.DamageType;
         }
 
+        public ItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, ItemData itemData, IContainer containedInto)
+            : base(guid, blueprint, itemData, containedInto)
+        {
+            Type = blueprint.Type;
+            DiceCount = blueprint.DiceCount;
+            DiceValue = blueprint.DiceValue;
+            DamageType = blueprint.DamageType;
+        }
+
         #region IItemWeapon
 
         public WeaponTypes Type { get; }

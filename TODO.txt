@@ -1,3 +1,9 @@
+refactor RawKilled: found in NonPlayableCharacter and PlayableCharacter
+IEquipable should not exist -> every item with a wear location should be equipable even if it's a furniture or a bag
+When adding a container in a container, check if there is no cycle
+
+ItemLight duration is not handled
+
 test group
      kill steal
 
@@ -11,7 +17,6 @@ check if RelativeDisplayName should be used instead of DisplayName in Command (c
 quest save completed quests
       quest tree (prereq)
       repeteable or not quests
-      CharacterQuestor
 
 aura/cd: SecondsLeft should be used (decreased in pulse methods) instead of Start + Duration  without this modification, it will be almost impossible to save
 

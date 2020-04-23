@@ -26,7 +26,7 @@ namespace Mud.Server.Quest
         {
             Character = character;
             StartTime = TimeHandler.CurrentTime;
-            SecondsLeft = blueprint.TimeLimit * 60;
+            PulseLeft = blueprint.TimeLimit * Settings.PulsePerMinutes;
             Blueprint = blueprint;
             Giver = giver;
             _objectives = new List<IQuestObjective>();
@@ -42,7 +42,7 @@ namespace Mud.Server.Quest
             // TODO: quid if blueprint is null?
             Blueprint = questBlueprint;
             StartTime = questData.StartTime;
-            SecondsLeft = questData.SecondsLeft;
+            PulseLeft = questData.PulseLeft;
             CompletionTime = questData.CompletionTime;
 
             CharacterQuestorBlueprint characterQuestorBlueprint = World.GetCharacterBlueprint<CharacterQuestorBlueprint>(questData.GiverId);
@@ -180,16 +180,16 @@ namespace Mud.Server.Quest
                 DestroyQuestItems();
         }
 
-        public bool UpdateSecondsLeft(int seconds)
+        public bool DecreasePulseLeft(int pulseCount)
         {
-            SecondsLeft = Math.Max(SecondsLeft + seconds, 0);
-            return SecondsLeft == 0;
+            PulseLeft = Math.Max(PulseLeft - pulseCount, 0);
+            return PulseLeft == 0;
         }
 
         public bool IsCompleted => Objectives == null || Objectives.All(x => x.IsCompleted);
 
         public DateTime StartTime { get; }
-        public int SecondsLeft { get; private set; }
+        public int PulseLeft { get; private set; }
         public DateTime? CompletionTime { get; private set; }
 
         public void Complete()
@@ -244,7 +244,7 @@ namespace Mud.Server.Quest
             {
                 QuestId = Blueprint.Id,
                 StartTime = StartTime,
-                SecondsLeft = SecondsLeft,
+                PulseLeft = PulseLeft,
                 CompletionTime = CompletionTime,
                 GiverId = Giver.Blueprint.Id,
                 GiverRoomId = Giver.Room?.Blueprint.Id ?? 0,

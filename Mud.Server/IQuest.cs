@@ -20,11 +20,11 @@ namespace Mud.Server
         void Update(IRoom room);
         void Reset();
         void Timeout();
-        bool UpdateSecondsLeft(int seconds); // true if timed out
+        bool DecreasePulseLeft(int pulseCount); // true if timed out
 
         bool IsCompleted { get; }
         DateTime StartTime { get; }
-        int SecondsLeft { get; }
+        int PulseLeft { get; }
         DateTime? CompletionTime { get; }
         void Complete();
         void Abandon();

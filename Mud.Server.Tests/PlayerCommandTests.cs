@@ -6,18 +6,10 @@ using Mud.Server.Tests.Mocking;
 namespace Mud.Server.Tests
 {
     [TestClass]
-    public class PlayerCommandTests
+    public class PlayerCommandTests : TestBase
     {
         private WorldMock _world;
         private PlayerManagerMock playerManager;
-
-        [AssemblyInitialize]
-        public static void AssemblyInitialize(TestContext context)
-        {
-            DependencyContainer.Current.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
-        }
 
         private Tuple<IPlayer,IRoom, IPlayableCharacter> CreatePlayerRoomCharacter(string playerName, string roomName, string characterName)
         {

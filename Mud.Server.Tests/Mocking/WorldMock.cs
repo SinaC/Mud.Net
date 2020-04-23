@@ -11,7 +11,7 @@ using Mud.Server.Item;
 
 namespace Mud.Server.Tests.Mocking
 {
-    public class WorldMock : IWorld
+    internal class WorldMock : IWorld
     {
         private readonly List<ICharacter> _characters;
         private readonly List<IRoom> _rooms;
@@ -127,27 +127,37 @@ namespace Mud.Server.Tests.Mocking
 
         public IItemContainer AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container)
         {
-            throw new NotImplementedException();
+            IItemContainer item = new ItemContainer(guid, blueprint, container);
+            _items.Add(item);
+            return item;
         }
 
         public IItemArmor AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container)
         {
-            throw new NotImplementedException();
+            IItemArmor item = new ItemArmor(guid, blueprint, container);
+            _items.Add(item);
+            return item;
         }
 
         public IItemWeapon AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container)
         {
-            throw new NotImplementedException();
+            IItemWeapon item = new ItemWeapon(guid, blueprint, container);
+            _items.Add(item);
+            return item;
         }
 
         public IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container)
         {
-            throw new NotImplementedException();
+            IItemLight itemLight = new ItemLight(guid, blueprint, container);
+            _items.Add(itemLight);
+            return itemLight;
         }
 
         public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
         {
-            throw new NotImplementedException();
+            IItemCorpse itemCorpse = new ItemCorpse(guid, blueprint, room, victim);
+            _items.Add(itemCorpse);
+            return itemCorpse;
         }
 
         public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim, ICharacter killer)
@@ -157,35 +167,52 @@ namespace Mud.Server.Tests.Mocking
 
         public IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container)
         {
-            throw new NotImplementedException();
+            IItemShield item = new ItemShield(guid, blueprint, container);
+            _items.Add(item);
+            return item;
         }
 
         public IItemFurniture AddItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer container)
         {
-            throw new NotImplementedException();
+            IItemFurniture item = new ItemFurniture(guid, blueprint, container);
+            _items.Add(item);
+            return item;
         }
 
         public IItemJewelry AddItemJewelry(Guid guid, ItemJewelryBlueprint blueprint, IContainer container)
         {
-            throw new NotImplementedException();
+            IItemJewelry item = new ItemJewelry(guid, blueprint, container);
+            _items.Add(item);
+            return item;
         }
 
         public IItemQuest AddItemQuest(Guid guid, ItemQuestBlueprint blueprint, IContainer container)
         {
-            throw new NotImplementedException();
+            IItemQuest item = new ItemQuest(guid, blueprint, container);
+            _items.Add(item);
+            return item;
         }
 
         public IItemKey AddItemKey(Guid guid, ItemKeyBlueprint blueprint, IContainer container)
         {
-            throw new NotImplementedException();
+            IItemKey item = new ItemKey(guid, blueprint, container);
+            _items.Add(item);
+            return item;
         }
 
         public IItemPortal AddItemPortal(Guid guid, ItemPortalBlueprint blueprint, IRoom destination, IContainer container)
         {
-            throw new NotImplementedException();
+            IItemPortal item = new ItemPortal(guid, blueprint, destination, container);
+            _items.Add(item);
+            return item;
         }
 
         public IItem AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IItem AddItem(Guid guid, ItemData itemData, IContainer container)
         {
             throw new NotImplementedException();
         }

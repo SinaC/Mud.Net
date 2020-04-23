@@ -13,6 +13,13 @@ namespace Mud.Server.Item
             ArmorKind = blueprint.ArmorKind;
         }
 
+        public ItemArmor(Guid guid, ItemArmorBlueprint blueprint, ItemData itemData, IContainer containedInto)
+            : base(guid, blueprint, itemData, containedInto)
+        {
+            Armor = blueprint.Armor;
+            ArmorKind = blueprint.ArmorKind;
+        }
+
         public int Armor { get; }
         public ArmorKinds ArmorKind { get; }
     }

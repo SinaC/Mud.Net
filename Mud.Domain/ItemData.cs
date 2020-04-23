@@ -4,7 +4,7 @@
     {
         public int ItemId { get; set; }
 
-        public ItemData[] Contains { get; set; }
+        public int DecayPulseLeft { get; set; }
 
         //TODO: enchantments/auras
     }

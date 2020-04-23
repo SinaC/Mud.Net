@@ -6,7 +6,7 @@ namespace Mud.Server.Tests.Mocking
 {
     // TODO
 
-    public class ServerMock : IServer
+    internal class ServerMock : IServer
     {
         public DateTime CurrentTime { get; private set; }
 

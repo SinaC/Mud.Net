@@ -1,27 +1,27 @@
 ﻿using System;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
 {
     public class ItemLight : ItemEquipableBase<ItemLightBlueprint>, IItemLight
     {
+        private const int Infinite = -1;
+
         public ItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)
         {
-            TimeLeft = blueprint.DurationHours;
+            DecayPulseLeft = blueprint.DurationHours == Infinite
+                ? 0 // infinite
+                : blueprint.DurationHours * Settings.PulsePerMinutes*60;
         }
 
-        #region IItemLight
-
-        // -1: infinite
-        public int TimeLeft { get; private set; }
-
-        public void Consume()
+        public ItemLight(Guid guid, ItemLightBlueprint blueprint, ItemData itemData, IContainer containedInto)
+            : base(guid, blueprint, itemData, containedInto)
         {
-            if (TimeLeft >= 0)
-                TimeLeft--;
+            // Don't overwrite DecayPulseLeft
         }
 
-        #endregion
+        // No additional datas
     }
 }
