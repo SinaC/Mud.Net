@@ -129,6 +129,9 @@ namespace Mud.Server.Player
         [Command("quit", Category = "Misc", Priority = 999/*low priority*/, NoShortcut = true)]
         protected virtual CommandExecutionResults DoQuit(string rawParameters, params CommandParameter[] parameters)
         {
+            // TODO
+            // cannot quit while affected by an harmful aura/ periodic aura
+            // while leaving(or reconnecting) aura should be removed ? maybe an additional flag saying if timer should decrease while disconnected ?
             if (Impersonating != null)
             {
                 if (Impersonating.Fighting != null)

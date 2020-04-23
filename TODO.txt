@@ -1,6 +1,9 @@
 test group
      kill steal
 
+cannot quit while affected by an harmful aura/periodic aura
+while leaving(or reconnecting) aura should be removed ? maybe an additional flag saying if timer should decrease while disconnected ?
+
 remove Send(..., bool addTrailingNewLine)
 auto paging if data to send to too big?
 check if RelativeDisplayName should be used instead of DisplayName in Command (check if CanSee should be used)
