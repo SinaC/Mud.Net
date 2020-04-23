@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Common;
@@ -15,26 +16,26 @@ namespace Mud.Server.Player
         [Syntax(
             "[cmd]",
             "[cmd] <avatar name>")]
-        protected virtual bool DoImpersonate(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoImpersonate(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 if (Impersonating == null)
                 {
                     Send("Impersonate whom?");
-                    return true;
+                    return CommandExecutionResults.SyntaxErrorNoDisplay;
                 }
                 Send("You stop impersonating {0}.", Impersonating.DisplayName);
                 UpdateCharacterDataFromImpersonated();
                 StopImpersonating();
                 Save();
-                return true;
+                return CommandExecutionResults.Ok;
             }
             CharacterData characterData = _avatarList.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (characterData == null)
             {
                 Send("Avatar not found. Use 'listavatar' to display your avatar list.");
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             IRoom location = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == characterData.RoomId);
             if (location == null)
@@ -51,39 +52,39 @@ namespace Mud.Server.Player
             PlayerState = PlayerStates.Impersonating;
             avatar.AutoLook();
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("listavatar", Category = "Avatar")]
-        protected virtual bool DoList(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoList(string rawParameters, params CommandParameter[] parameters)
         {
             if (!_avatarList.Any())
             {
                 Send("You don't have any avatar available. Use createavatar to create one.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
-            StringBuilder sb = AvatarTableGenerator.Generate("Avatars", _avatarList);
+            StringBuilder sb = AvatarTableGenerator.Value.Generate("Avatars", _avatarList);
             Send(sb);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [PlayerCommand("createavatar", Category = "Avatar", CannotBeImpersonated = true)]
-        protected virtual bool DoCreateAvatar(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoCreateAvatar(string rawParameters, params CommandParameter[] parameters)
         {
             if (_avatarList.Count >= Settings.MaxAvatarCount)
             {
                 Send("Max. avatar count reached. Delete one before creating a new one.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
 
             Send("Please choose an avatar name (type quit to stop and cancel creation).");
             CurrentStateMachine = new AvatarCreationStateMachine();
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [PlayerCommand("deleteavatar", Category = "Avatar", CannotBeImpersonated = true)]
         [Syntax("[cmd] <avatar name>")]
-        protected virtual bool DoDeleteAvatar(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoDeleteAvatar(string rawParameters, params CommandParameter[] parameters)
         {
             //TODO UniquenessManager.RemoveAvatarName(avatarName)
             throw new NotImplementedException();
@@ -91,18 +92,18 @@ namespace Mud.Server.Player
 
         // Helpers
         // TODO: crappy workaround because ClassManager, RaceManager and World are needed
-        private Lazy<TableGenerator<CharacterData>> LazyAvatarTableGenerator => new Lazy<TableGenerator<CharacterData>>(() =>
+        private readonly static Lazy<TableGenerator<CharacterData>> AvatarTableGenerator = new Lazy<TableGenerator<CharacterData>>(() =>
         {
+            IClassManager classManager = DependencyContainer.Current.GetInstance<IClassManager>();
+            IRaceManager raceManager = DependencyContainer.Current.GetInstance<IRaceManager>();
+            IWorld world = DependencyContainer.Current.GetInstance<IWorld>();
             TableGenerator<CharacterData> generator = new TableGenerator<CharacterData>();
             generator.AddColumn("Name", 14, data => data.Name.UpperFirstLetter());
             generator.AddColumn("Level", 7, data => data.Level.ToString());
-            generator.AddColumn("Class", 12, data => ClassManager[data.Class]?.DisplayName ?? "none");
-            generator.AddColumn("Race", 12, data => RaceManager[data.Race]?.DisplayName ?? "none");
-            generator.AddColumn("Location", 40, data => World.Rooms.FirstOrDefault(x => x.Blueprint.Id == data.RoomId)?.DisplayName ?? "In the void");
+            generator.AddColumn("Class", 12, data => classManager[data.Class]?.DisplayName ?? "none");
+            generator.AddColumn("Race", 12, data => raceManager[data.Race]?.DisplayName ?? "none");
+            generator.AddColumn("Location", 40, data => world.Rooms.FirstOrDefault(x => x.Blueprint.Id == data.RoomId)?.DisplayName ?? "In the void");
             return generator;
         });
-
-        private TableGenerator<CharacterData> _avatarTableGenerator;
-        private TableGenerator<CharacterData> AvatarTableGenerator => _avatarTableGenerator = _avatarTableGenerator ?? LazyAvatarTableGenerator.Value;
     }
 }

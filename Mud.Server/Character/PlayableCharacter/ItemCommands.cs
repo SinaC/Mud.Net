@@ -12,18 +12,18 @@ namespace Mud.Server.Character.PlayableCharacter
         [PlayableCharacterCommand("destroy", Category = "Item", Priority = 50, NoShortcut = true)]
         [Syntax("[cmd] <item>")]
         // Destroy item
-        protected virtual bool DoDestroy(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoDestroy(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Destroy what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             // Remove from inventory
             item.ChangeContainer(null);
@@ -39,7 +39,7 @@ namespace Mud.Server.Character.PlayableCharacter
             RecomputeAttributes();
 
             Send($"You destroy {item.RelativeDisplayName(this)}.");
-            return true;
+            return CommandExecutionResults.Ok;
         }
     }
 }

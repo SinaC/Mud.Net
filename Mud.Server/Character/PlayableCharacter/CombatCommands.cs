@@ -8,25 +8,25 @@ namespace Mud.Server.Character.PlayableCharacter
     {
         [PlayableCharacterCommand("murder", Category = "Combat", Priority = 999/*low priority*/, NoShortcut = true)]
         [Syntax("[cmd] <character>")]
-        protected virtual bool DoMurder(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoMurder(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Murder whom?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             ICharacter target = FindHelpers.FindByName(Room.People, parameters[0]);
             if (target == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             if (target == this)
             {
                 Send("You hit yourself. Ouch!");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // TODO
@@ -39,7 +39,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 if (!isInSameGroup)
                 {
                     Send("Kill stealing is not permitted.");
-                    return true;
+                    return CommandExecutionResults.InvalidTarget;
                 }
             }
 
@@ -52,7 +52,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (Position == Positions.Fighting)
             {
                 Send("You do the best you can!");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
 
             ImpersonatedBy?.SetGlobalCooldown(1);
@@ -60,7 +60,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
             // Starts fight
             MultiHit(target);
-            return true;
+            return CommandExecutionResults.Ok;
         }
     }
 }

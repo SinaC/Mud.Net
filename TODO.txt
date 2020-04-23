@@ -1,6 +1,3 @@
-Command could return an enum: Successfull|SyntaxError|InvalidTarget    when SyntaxError is returned, an help file with related command syntax could be displayed
-
-========
 test group
      kill steal
 
@@ -17,7 +14,7 @@ quest save completed quests
 
 aura/cd: SecondsLeft should be used (decreased in pulse methods) instead of Start + Duration  without this modification, it will be almost impossible to save
 
-better command parser: should be able to specify something like
+better command parser: should be able to specify something like     will be possible with SyntaxAttribute
     [command] [room.character] -> first parameter will be parsed as a character found in room
     [command] [world.character] -> first parameter will be parsed as a character found in world
     [command] [room.item|room.character|inventory.item|equipment.item] -> first will be parsed as an item in room, a character in room, an item in inventory, an item in equipement
@@ -35,8 +32,6 @@ multitable generator, paging a table should repeat the header at the beginning o
 
 autosac, autoloot, auto...
 prompt
-
-CommandAttribute: description and syntax properties -> sometimes a method has multiple command attributes but will have only one description/syntax/arguments
 
 merge IAdminRepository and IPlayerRepository -> IAccountRepository
 

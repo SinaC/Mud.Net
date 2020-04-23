@@ -18,7 +18,7 @@ namespace Mud.Server.Character.PlayableCharacter
             "[cmd] get <quest name>",
             "[cmd] get all",
             "[cmd] list")]
-        protected virtual bool DoQuest(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoQuest(string rawParameters, params CommandParameter[] parameters)
         {
             // no param -> quest info
             if (parameters.Length == 0)
@@ -37,7 +37,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     }
                 }
                 Page(sb);
-                return true;
+                return CommandExecutionResults.Ok;
             }
 
             // quest id
@@ -49,53 +49,43 @@ namespace Mud.Server.Character.PlayableCharacter
                 if (quest == null)
                 {
                     Send("No such quest.");
-                    return true;
+                    return CommandExecutionResults.InvalidParameter;
                 }
                 StringBuilder sb = new StringBuilder();
                 BuildQuestSummary(sb, quest, null);
                 Page(sb);
-                return true;
+                return CommandExecutionResults.Ok;
             }
 
             // quest abandon id
             if ("abandon".StartsWith(parameters[0].Value))
             {
                 var subCommandParameters = CommandHelpers.SkipParameters(parameters, 1);
-                DoQuestAbandon(subCommandParameters.rawParameters, subCommandParameters.parameters);
-                return true;
+                return DoQuestAbandon(subCommandParameters.rawParameters, subCommandParameters.parameters);
             }
 
             // quest complete id
             if ("complete".StartsWith(parameters[0].Value))
             {
                 var subCommandParameters = CommandHelpers.SkipParameters(parameters, 1);
-                DoQuestComplete(subCommandParameters.rawParameters, subCommandParameters.parameters);
-                return true;
+                return DoQuestComplete(subCommandParameters.rawParameters, subCommandParameters.parameters);
             }
 
             // quest get all|title
             if ("get".StartsWith(parameters[0].Value))
             {
                 var subCommandParameters = CommandHelpers.SkipParameters(parameters, 1);
-                DoQuestGet(subCommandParameters.rawParameters, subCommandParameters.parameters);
-                return true;
+                return DoQuestGet(subCommandParameters.rawParameters, subCommandParameters.parameters);
             }
 
             // quest list
             if ("list".StartsWith(parameters[0].Value))
             {
                 var subCommandParameters = CommandHelpers.SkipParameters(parameters, 1);
-                DoQuestList(subCommandParameters.rawParameters, subCommandParameters.parameters);
-                return true;
+                return DoQuestList(subCommandParameters.rawParameters, subCommandParameters.parameters);
             }
 
-            Send("Syntax: quest ");
-            Send("        quest id");
-            Send("        quest abandon id");
-            Send("        quest complete id");
-            Send("        quest get all|title");
-            Send("        quest list");
-            return true;
+            return CommandExecutionResults.SyntaxError;
         }
 
         [PlayableCharacterCommand("qcomplete", Category = "Quest", Priority = 2)]
@@ -103,12 +93,12 @@ namespace Mud.Server.Character.PlayableCharacter
         [Syntax(
             "[cmd] <id>",
             "[cmd] all")]
-        protected virtual bool DoQuestComplete(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoQuestComplete(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Complete which quest?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             // all
             if (parameters[0].IsAll)
@@ -122,6 +112,7 @@ namespace Mud.Server.Character.PlayableCharacter
                         Send("You complete '{0}' successfully.", questToComplete.Blueprint.Title);
                     }
                 }
+                return CommandExecutionResults.Ok;
             }
             // id
             int id = parameters[0].AsNumber;
@@ -129,49 +120,49 @@ namespace Mud.Server.Character.PlayableCharacter
             if (quest == null)
             {
                 Send("No such quest.");
-                return true;
+                return CommandExecutionResults.InvalidParameter;
             }
             if (Room.NonPlayableCharacters.All(x => x != quest.Giver))
             {
                 Send($"You must be near {quest.Giver.DisplayName} to complete this quest.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
             if (!quest.IsCompleted)
             {
                 Send("Quest '{0}' is not finished!", quest.Blueprint.Title);
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             //
             quest.Complete();
             _quests.Remove(quest);
 
             Send("You complete '{0}' successfully.", quest.Blueprint.Title);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [PlayableCharacterCommand("qabandon", Category = "Quest", Priority = 3)]
         [PlayableCharacterCommand("questabandon", Category = "Quest", Priority = 3)]
         [Syntax("[cmd] <id>")]
-        protected virtual bool DoQuestAbandon(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoQuestAbandon(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Abandon which quest?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             int id = parameters[0].AsNumber;
             IQuest quest = id > 0 ? Quests.ElementAtOrDefault(id - 1) : null;
             if (quest == null)
             {
                 Send("No such quest.");
-                return true;
+                return CommandExecutionResults.InvalidParameter;
             }
             //
             quest.Abandon();
             _quests.Remove(quest);
 
             Send("You abandon '{0}'!", quest.Blueprint.Title);
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [PlayableCharacterCommand("qget", Category = "Quest", Priority = 4)]
@@ -179,18 +170,18 @@ namespace Mud.Server.Character.PlayableCharacter
         [Syntax(
             "[cmd] <quest name>",
             "[cmd] all")]
-        protected virtual bool DoQuestGet(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoQuestGet(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Get which quest?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             if (!Room.NonPlayableCharacters.Any(x => x.Blueprint is CharacterQuestorBlueprint))
             {
                 Send("You cannot get any quest here.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
 
             // get all
@@ -212,7 +203,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 }
                 if (!found)
                     Send("You are already running all available quests here.");
-                return true;
+                return CommandExecutionResults.Ok;
             }
 
             // get quest
@@ -228,19 +219,19 @@ namespace Mud.Server.Character.PlayableCharacter
                         if (questBlueprint.Title.ToLowerInvariant().StartsWith(questTitle))
                         {
                             GetQuest(questBlueprint, questGiver);
-                            return true;
+                            return CommandExecutionResults.Ok;
                         }
                     }
                 }
             }
             //
             Send("No such quest can be get here.");
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [PlayableCharacterCommand("qlist", Category = "Quest", Priority = 5)]
         [PlayableCharacterCommand("questlist", Category = "Quest", Priority = 5)]
-        protected virtual bool DoQuestList(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoQuestList(string rawParameters, params CommandParameter[] parameters)
         {
             // Display quests available in this.Room
             StringBuilder sb = new StringBuilder();
@@ -262,15 +253,15 @@ namespace Mud.Server.Character.PlayableCharacter
             }
 
             if (!questGiverFound)
-                Send("You cannot get any quest here.");
-            else
             {
-                if (!questAvailable)
-                    sb.AppendLine("No quest available for the moment.");
-                Page(sb);
+                Send("You cannot get any quest here.");
+                return CommandExecutionResults.NoExecution;
             }
 
-            return true;
+            if (!questAvailable)
+                sb.AppendLine("No quest available for the moment.");
+            Page(sb);
+            return CommandExecutionResults.Ok;
         }
 
         #region Helpers

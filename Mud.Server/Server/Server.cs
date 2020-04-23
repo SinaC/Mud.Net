@@ -113,13 +113,8 @@ namespace Mud.Server.Server
                 Log.Default.WriteLine(LogLevels.Info, "Total experience from 1 to 100 = {0:n0}", totalExperience);
             }
 
-            if (Settings.DumpConfig)
-            {
-                DumpCommands();
-                DumpClasses();
-                DumpRaces();
-                DumpAbilities();
-            }
+            if (Settings.DumpOnInitialize)
+                Dump();
 
             // TODO: other sanity checks
             // TODO: check room/item/character id uniqueness
@@ -163,6 +158,14 @@ namespace Mud.Server.Server
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Aggregate exception while stopping. Exception: {0}", ex.Flatten());
             }
+        }
+
+        public void Dump()
+        {
+            DumpCommands();
+            DumpClasses();
+            DumpRaces();
+            DumpClasses();
         }
 
         #endregion

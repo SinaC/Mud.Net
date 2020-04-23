@@ -9,57 +9,57 @@ namespace Mud.Server.Player
     {
         [Command("tell", Category = "Communication")]
         [Syntax("[cmd] <player name> <message>")]
-        protected virtual bool DoTell(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoTell(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length < 2)
             {
                 Send("Tell whom what ?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             IPlayer whom = PlayerManager.GetPlayer(parameters[0], true);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             string what = CommandHelpers.JoinParameters(parameters.Skip(1));
             InnerTell(whom, what);
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("reply", Category = "Communication")]
         [Syntax("[cmd] <message>")]
-        protected virtual bool DoReply(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoReply(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Reply what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             if (LastTeller == null)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             IPlayer whom = LastTeller;
             string what = CommandHelpers.JoinParameters(parameters);
             InnerTell(whom, what);
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("gossip", Category = "Communication")]
         [Command("ooc", Category = "Communication")]
         [Syntax("[cmd] <message>")]
-        protected virtual bool DoGossip(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoGossip(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Gossip what ?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             Send("%m%You gossip '%M%{0}%m%'%x%", rawParameters);
@@ -68,17 +68,17 @@ namespace Mud.Server.Player
             foreach (IPlayer player in PlayerManager.Players.Where(x => x != this))
                 player.Send(other);
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("question", Category = "Communication")]
         [Syntax("[cmd] <message>")]
-        protected virtual bool DoQuestion(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoQuestion(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Ask what ?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             string what = parameters[0].Value;
@@ -88,17 +88,17 @@ namespace Mud.Server.Player
             foreach (IPlayer player in PlayerManager.Players.Where(x => x != this))
                 player.Send(phrase);
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("answer", Category = "Communication")]
         [Syntax("[cmd] <message>")]
-        protected virtual bool DoAnswer(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoAnswer(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Answer what ?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             string what = parameters[0].Value;
@@ -108,11 +108,11 @@ namespace Mud.Server.Player
             foreach (IPlayer player in PlayerManager.Players.Where(x => x != this))
                 player.Send(phrase);
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("afk", Category = "Communication")]
-        protected virtual bool DoAfk(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoAfk(string rawParameters, params CommandParameter[] parameters)
         {
             if (IsAfk)
             {
@@ -123,11 +123,11 @@ namespace Mud.Server.Player
             else
                 Send("You are now in %G%AFK%x% mode.");
             IsAfk = !IsAfk;
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("replay", Category = "Communication")]
-        protected virtual bool DoReplay(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoReplay(string rawParameters, params CommandParameter[] parameters)
         {
             if (DelayedTells.Any())
             {
@@ -139,7 +139,7 @@ namespace Mud.Server.Player
             }
             else
                 Send("You have no tells to replay.");
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         // Helpers

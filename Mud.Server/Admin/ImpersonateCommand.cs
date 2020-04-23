@@ -8,13 +8,13 @@ namespace Mud.Server.Admin
         [Syntax(
             "[cmd]",
             "[cmd] <character>")]
-        protected override bool DoImpersonate(string rawParameters, params CommandParameter[] parameters)
+        protected override CommandExecutionResults DoImpersonate(string rawParameters, params CommandParameter[] parameters)
         {
             if (Incarnating != null)
                 Send("You are already incarnating {0}.", Incarnating.DisplayName);
             else
                 return base.DoImpersonate(rawParameters, parameters);
-            return true;
+            return CommandExecutionResults.Ok;
         }
     }
 }

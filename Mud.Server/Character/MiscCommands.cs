@@ -7,22 +7,22 @@ namespace Mud.Server.Character
     {
         [Command("order", Category = "Group")]
         [Syntax("[cmd] <command>")]
-        protected virtual bool DoOrder(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoOrder(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Order what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             if (Slave == null)
             {
                 Send("You have no followers here.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
             if (Slave.Room != Room)
             {
                 Send(StringHelpers.CharacterNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             Slave.Send("{0} orders you to '{1}'.", DisplayName, rawParameters);
             Slave.ProcessCommand(rawParameters);
@@ -30,7 +30,7 @@ namespace Mud.Server.Character
                 playableCharacter.ImpersonatedBy?.SetGlobalCooldown(3);
             //Send("You order {0} to {1}.", Slave.Name, rawParameters);
             Send("Ok.");
-            return true;
+            return CommandExecutionResults.Ok;
         }
     }
 }

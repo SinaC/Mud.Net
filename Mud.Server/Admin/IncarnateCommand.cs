@@ -13,7 +13,7 @@ namespace Mud.Server.Admin
             "[cmd] room <name|id>",
             "[cmd] item name",
             "[cmd] mob name")]
-        protected virtual bool DoIncarnate(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoIncarnate(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -23,23 +23,13 @@ namespace Mud.Server.Admin
 
                     Send("%M%You stop incarnating %C%{0}%x%.", Incarnating.DisplayName);
                     StopIncarnating();
-                    return true;
+                    return CommandExecutionResults.Ok;
                 }
-                Send("Syntax: Incarnate");
-                Send("        Incarnate room name|id");
-                Send("        Incarnate item name");
-                Send("        Incarnate mob name");
-                return true;
+                return CommandExecutionResults.SyntaxError;
             }
             //
             if (parameters.Length == 1)
-            {
-                Send("Syntax: Incarnate");
-                Send("        Incarnate room name|id");
-                Send("        Incarnate item name");
-                Send("        Incarnate mob name");
-                return true;
-            }
+                return CommandExecutionResults.SyntaxError;
             //
             IEntity incarnateTarget = null;
             string kind = parameters[0].Value;
@@ -60,7 +50,7 @@ namespace Mud.Server.Admin
             if (incarnateTarget == null)
             {
                 Send("Target not found.");
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
             //
             if (Incarnating != null)
@@ -81,7 +71,7 @@ namespace Mud.Server.Admin
             incarnateTarget.ChangeIncarnation(this);
             Incarnating = incarnateTarget;
             PlayerState = PlayerStates.Impersonating;
-            return true;
+            return CommandExecutionResults.Ok;
         }
     }
 }

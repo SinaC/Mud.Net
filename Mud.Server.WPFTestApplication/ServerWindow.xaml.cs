@@ -228,6 +228,10 @@ namespace Mud.Server.WPFTestApplication
                 foreach (IPlayer p in PlayerManager.Players)
                     OutputText(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.DisplayName : ""));
             }
+            else if (input == "dump")
+            {
+                Server.Dump();
+            }
             else if (input.StartsWith("promote"))
             {
                 string[] tokens = input.Split(' ');
@@ -235,7 +239,7 @@ namespace Mud.Server.WPFTestApplication
                 {
                     OutputText("A player name must be specified");
                 }
-                else 
+                else
                 {
                     string playerName = tokens[1];
                     if (AdminManager.Admins.Any(x => x.Name == playerName))

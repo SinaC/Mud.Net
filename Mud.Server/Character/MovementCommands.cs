@@ -12,79 +12,89 @@ namespace Mud.Server.Character
     public partial class CharacterBase
     {
         [Command("north", Category = "Movement", Priority = 0)]
-        protected virtual bool DoNorth(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoNorth(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.North, true);
+            Move(ExitDirections.North, true);
+            return CommandExecutionResults.Ok;
         }
 
         [Command("east", Category = "Movement", Priority = 0)]
-        protected virtual bool DoEast(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoEast(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.East, true);
+            Move(ExitDirections.East, true);
+            return CommandExecutionResults.Ok;
         }
 
         [Command("south", Category = "Movement", Priority = 0)]
-        protected virtual bool DoSouth(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSouth(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.South, true);
+            Move(ExitDirections.South, true);
+            return CommandExecutionResults.Ok;
         }
 
         [Command("west", Category = "Movement", Priority = 0)]
-        protected virtual bool DoWest(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoWest(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.West, true);
+            Move(ExitDirections.West, true);
+            return CommandExecutionResults.Ok;
         }
 
         [Command("up", Category = "Movement", Priority = 0)]
-        protected virtual bool DoUp(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoUp(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.Up, true);
+            Move(ExitDirections.Up, true);
+            return CommandExecutionResults.Ok;
         }
 
         [Command("down", Category = "Movement", Priority = 0)]
-        protected virtual bool DoDown(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoDown(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.Down, true);
+            Move(ExitDirections.Down, true);
+            return CommandExecutionResults.Ok;
         }
 
         [Command("northeast", Category = "Movement", Priority = 1)]
         [Command("ne", Category = "Movement", Priority = 0)]
-        protected virtual bool DoNorthEast(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoNorthEast(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.NorthEast, true);
+            Move(ExitDirections.NorthEast, true);
+            return CommandExecutionResults.Ok;
         }
 
         [Command("northwest", Category = "Movement", Priority = 1)]
         [Command("nw", Category = "Movement", Priority = 0)]
-        protected virtual bool DoNorthWest(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoNorthWest(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.NorthWest, true);
+            Move(ExitDirections.NorthWest, true);
+            return CommandExecutionResults.Ok;
         }
 
         [Command("southeast", Category = "Movement", Priority = 1)]
         [Command("se", Category = "Movement", Priority = 0)]
-        protected virtual bool DoSouthEast(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSouthEast(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.SouthEast, true);
+            Move(ExitDirections.SouthEast, true);
+            return CommandExecutionResults.Ok;
         }
 
         [Command("southwest", Category = "Movement", Priority = 1)]
         [Command("sw", Category = "Movement", Priority = 0)]
-        protected virtual bool DoSouthWest(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSouthWest(string rawParameters, params CommandParameter[] parameters)
         {
-            return Move(ExitDirections.SouthWest, true);
+            Move(ExitDirections.SouthWest, true);
+            return CommandExecutionResults.Ok;
         }
 
         [Command("open", Category = "Movement")]
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
-        protected virtual bool DoOpen(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoOpen(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Open what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             // Search item: in room, then inventory, then in equipment
             IItem item = FindHelpers.FindByName(
@@ -98,32 +108,32 @@ namespace Mud.Server.Character
                 {
                     // TODO: no open/close/lock/unlock on portal for now
                     Send(StringHelpers.NotYetImplemented);
-                    return true;
+                    return CommandExecutionResults.Error;
                 }
                 if (item is IItemContainer itemContainer)
                 {
                     // TODO: no open/close/lock/unlock on container for now
                     Send(StringHelpers.NotYetImplemented);
-                    return true;
+                    return CommandExecutionResults.Error;
                 }
                 Send("That's not a container.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // No item found, search door
             ExitDirections exitDirection;
             IExit exit = VerboseFindDoor(parameters[0], out exitDirection);
             if (exit == null)
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             if (!exit.IsClosed)
             {
                 Send("It's already open.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             if (exit.IsLocked)
             {
                 Send("It's locked.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // Open this side side
@@ -140,19 +150,19 @@ namespace Mud.Server.Character
             }
             else
                 Log.Default.WriteLine(LogLevels.Warning, $"Non bidirectional exit in room {Room.Blueprint.Id} direction {exitDirection}");
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("close", Category = "Movement")]
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
-        protected virtual bool DoClose(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoClose(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Close what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             // Search item: in room, then inventory, then in equipment
             IItem item = FindHelpers.FindByName(
@@ -166,27 +176,27 @@ namespace Mud.Server.Character
                 {
                     // TODO: no open/close/lock/unlock on portal for now
                     Send(StringHelpers.NotYetImplemented);
-                    return true;
+                    return CommandExecutionResults.Error;
                 }
                 if (item is IItemContainer itemContainer)
                 {
                     // TODO: no open/close/lock/unlock on container for now
                     Send(StringHelpers.NotYetImplemented);
-                    return true;
+                    return CommandExecutionResults.Error;
                 }
                 Send("That's not a container.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // No item found, search door
             ExitDirections exitDirection;
             IExit exit = VerboseFindDoor(parameters[0], out exitDirection);
             if (exit == null)
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             if (exit.IsClosed)
             {
                 Send("It's already closed.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // Close this side
@@ -203,19 +213,19 @@ namespace Mud.Server.Character
             }
             else
                 Log.Default.WriteLine(LogLevels.Warning, $"Non bidirectional exit in room {Room.Blueprint.Id} direction {exitDirection}");
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("unlock", Category = "Movement")]
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
-        protected virtual bool DoUnlock(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoUnlock(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Unlock what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             // Search item: in room, then inventory, then in equipment
@@ -230,44 +240,44 @@ namespace Mud.Server.Character
                 {
                     // TODO: no open/close/lock/unlock on portal for now
                     Send(StringHelpers.NotYetImplemented);
-                    return true;
+                    return CommandExecutionResults.Error;
                 }
                 if (item is IItemContainer itemContainer)
                 {
                     // TODO: no open/close/lock/unlock on container for now
                     Send(StringHelpers.NotYetImplemented);
-                    return true;
+                    return CommandExecutionResults.Error;
                 }
                 Send("That's not a container.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // No item found, search door
             ExitDirections exitDirection;
             IExit exit = VerboseFindDoor(parameters[0], out exitDirection);
             if (exit == null)
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             if (!exit.IsClosed)
             {
                 Send("It's not closed.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             if (exit.Blueprint.Key <= 0)
             {
                 Send("It can't be unlocked.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             // search key
             bool keyFound = Content.OfType<IItemKey>().Any(x => x.Blueprint.Id == exit.Blueprint.Key);
             if (!keyFound)
             {
                 Send("You lack the key.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
             if (!exit.IsLocked)
             {
                 Send("It's already unlocked.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
             // Unlock this side
             exit.Unlock();
@@ -281,19 +291,19 @@ namespace Mud.Server.Character
             else
                 Log.Default.WriteLine(LogLevels.Warning, $"Non bidirectional exit in room {Room.Blueprint.Id} direction {exitDirection}");
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("lock", Category = "Movement")]
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
-        protected virtual bool DoLock(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoLock(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Lock what?");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             // Search item: in room, then inventory, then in equipment
@@ -308,44 +318,44 @@ namespace Mud.Server.Character
                 {
                     // TODO: no open/close/lock/unlock on portal for now
                     Send(StringHelpers.NotYetImplemented);
-                    return true;
+                    return CommandExecutionResults.Error;
                 }
                 if (item is IItemContainer itemContainer)
                 {
                     // TODO: no open/close/lock/unlock on container for now
                     Send(StringHelpers.NotYetImplemented);
-                    return true;
+                    return CommandExecutionResults.Error;
                 }
                 Send("That's not a container.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // No item found, search door
             ExitDirections exitDirection;
             IExit exit = VerboseFindDoor(parameters[0], out exitDirection);
             if (exit == null)
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             if (!exit.IsClosed)
             {
                 Send("It's not closed.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             if (exit.Blueprint.Key <= 0)
             {
                 Send("It can't be locked.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
             // search key
             bool keyFound = Content.OfType<IItemKey>().Any(x => x.Blueprint.Id == exit.Blueprint.Key);
             if (!keyFound)
             {
                 Send("You lack the key.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
             if (exit.IsLocked)
             {
                 Send("It's already locked.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
             // Unlock this side
             exit.Lock();
@@ -359,24 +369,24 @@ namespace Mud.Server.Character
             else
                 Log.Default.WriteLine(LogLevels.Warning, $"Non bidirectional exit in room {Room.Blueprint.Id} direction {exitDirection}");
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("stand", Category = "Movement")]
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
-        protected virtual bool DoStand(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoStand(string rawParameters, params CommandParameter[] parameters)
         {
             if (Position == Positions.Fighting)
             {
                 Send("Maybe you should finish fighting first?");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
             if (Position == Positions.Standing)
             {
                 Send("You are already standing.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
 
             // Search valid furniture if any
@@ -387,20 +397,20 @@ namespace Mud.Server.Character
                 if (item == null)
                 {
                     Send(StringHelpers.ItemNotFound);
-                    return true;
+                    return CommandExecutionResults.TargetNotFound;
                 }
 
                 furniture = item as IItemFurniture;
                 if (furniture == null || !furniture.CanStand)
                 {
                     Send("You can't seem to find a place to stand.");
-                    return true;
+                    return CommandExecutionResults.InvalidTarget;
                 }
 
                 if (1 + furniture.People.Count() > furniture.MaxPeople)
                 {
                     Act(ActOptions.ToCharacter, "There is no more room to stand on {0}.", furniture);
-                    return true;
+                    return CommandExecutionResults.InvalidTarget;
                 }
 
                 //
@@ -437,24 +447,24 @@ namespace Mud.Server.Character
             }
             ChangePosition(Positions.Standing);
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("sit", Category = "Movement")]
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
-        protected virtual bool DoSit(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSit(string rawParameters, params CommandParameter[] parameters)
         {
             if (Position == Positions.Fighting)
             {
                 Send("Maybe you should finish fighting first?");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
             if (Position == Positions.Sitting)
             {
                 Send("You are already sitting.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
 
             // Search valid furniture if any
@@ -465,20 +475,20 @@ namespace Mud.Server.Character
                 if (item == null)
                 {
                     Send(StringHelpers.ItemNotFound);
-                    return true;
+                    return CommandExecutionResults.TargetNotFound;
                 }
 
                 furniture = item as IItemFurniture;
                 if (furniture == null || !furniture.CanSit)
                 {
                     Send("You can't sit on that.");
-                    return true;
+                    return CommandExecutionResults.InvalidTarget;
                 }
 
                 if (1 + furniture.People.Count() > furniture.MaxPeople)
                 {
                     Act(ActOptions.ToCharacter, "There is no more room on {0}.", furniture);
-                    return true;
+                    return CommandExecutionResults.InvalidTarget;
                 }
                 //
                 ChangeFurniture(furniture);
@@ -522,24 +532,24 @@ namespace Mud.Server.Character
             }
             ChangePosition(Positions.Sitting);
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("rest", Category = "Movement")]
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
-        protected virtual bool DoRest(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoRest(string rawParameters, params CommandParameter[] parameters)
         {
             if (Position == Positions.Fighting)
             {
                 Send("Maybe you should finish fighting first?");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
             if (Position == Positions.Resting)
             {
                 Send("You are already resting.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
 
             // Search valid furniture if any
@@ -550,20 +560,20 @@ namespace Mud.Server.Character
                 if (item == null)
                 {
                     Send(StringHelpers.ItemNotFound);
-                    return true;
+                    return CommandExecutionResults.TargetNotFound;
                 }
 
                 furniture = item as IItemFurniture;
                 if (furniture == null || !furniture.CanRest)
                 {
                     Send("You can't rest on that.");
-                    return true;
+                    return CommandExecutionResults.InvalidTarget;
                 }
 
                 if (1 + furniture.People.Count() > furniture.MaxPeople)
                 {
                     Act(ActOptions.ToCharacter, "There is no more room on {0}.", furniture);
-                    return true;
+                    return CommandExecutionResults.InvalidTarget;
                 }
                 //
                 ChangeFurniture(furniture);
@@ -607,24 +617,24 @@ namespace Mud.Server.Character
             }
             ChangePosition(Positions.Resting);
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("sleep", Category = "Movement")]
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
-        protected virtual bool DoSleep(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSleep(string rawParameters, params CommandParameter[] parameters)
         {
             if (Position == Positions.Fighting)
             {
                 Send("Maybe you should finish fighting first?");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
             if (Position == Positions.Sleeping)
             {
                 Send("You are already sleeping.");
-                return true;
+                return CommandExecutionResults.NoExecution;
             }
 
             // If already on a furniture and no parameter specified, use that furniture
@@ -636,7 +646,7 @@ namespace Mud.Server.Character
                 if (item == null)
                 {
                     Send(StringHelpers.ItemNotFound);
-                    return true;
+                    return CommandExecutionResults.TargetNotFound;
                 }
 
                 furniture = item as IItemFurniture;
@@ -650,14 +660,14 @@ namespace Mud.Server.Character
                 if (!furniture.CanSleep)
                 {
                     Send("You can't sleep on that.");
-                    return true;
+                    return CommandExecutionResults.InvalidTarget;
                 }
 
                 // If already on furniture, don't count
                 if (furniture != Furniture && 1 + furniture.People.Count() > furniture.MaxPeople)
                 {
                     Act(ActOptions.ToCharacter, "There is no more room on {0} for you.", furniture);
-                    return true;
+                    return CommandExecutionResults.InvalidTarget;
                 }
                 ChangeFurniture(furniture);
             }
@@ -675,33 +685,35 @@ namespace Mud.Server.Character
                 Act(ActOptions.ToAll, "{0:N} go{0:v} to sleep.", this);
             ChangePosition(Positions.Sleeping);
 
-            return true;
+            return CommandExecutionResults.Ok;
         }
 
         [Command("enter", Category = "Movement")]
         [Syntax("[cmd] <portal>")]
-        protected virtual bool DoEnter(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoEnter(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Nope, can't do it.");
-                return true;
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
             IItem item = FindHelpers.FindItemHere(this, parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemNotFound);
-                return true;
+                return CommandExecutionResults.TargetNotFound;
             }
 
             if (!(item is IItemPortal portal))
             {
                 Send("You can't seem to find a way in.");
-                return true;
+                return CommandExecutionResults.InvalidTarget;
             }
 
-            return Enter(portal);
+            Enter(portal);
+
+            return CommandExecutionResults.Ok;
         }
 
         // Helpers
