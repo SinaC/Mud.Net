@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Mud.Repository.Filesystem.DataContracts
 {
@@ -10,6 +9,6 @@ namespace Mud.Repository.Filesystem.DataContracts
         public int ItemId { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public List<ItemData> Contains { get; set; }
+        public ItemData[] Contains { get; set; }
     }
 }

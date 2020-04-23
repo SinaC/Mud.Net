@@ -8,8 +8,6 @@ remove Send(..., bool addTrailingNewLine)
 auto paging if data to send to too big?
 check if RelativeDisplayName should be used instead of DisplayName in Command (check if CanSee should be used)
 
-move MapItemData in ItemBase
-
 quest save completed quests
       quest tree (prereq)
       repeteable or not quests

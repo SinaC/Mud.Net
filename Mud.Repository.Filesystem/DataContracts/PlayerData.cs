@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Mud.Repository.Filesystem.DataContracts
 {
@@ -14,9 +13,9 @@ namespace Mud.Repository.Filesystem.DataContracts
         public int PagingLineCount { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public List<PairData<string, string>> Aliases { get; set; }
+        public PairData<string, string>[] Aliases { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public List<CharacterData> Characters { get; set; }
+        public CharacterData[] Characters { get; set; }
     }
 }

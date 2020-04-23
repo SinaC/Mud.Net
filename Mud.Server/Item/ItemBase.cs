@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Mud.DataStructures.Trie;
+using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
@@ -114,6 +115,30 @@ namespace Mud.Server.Item
         {
             if (DecayPulseLeft > 0)
                 DecayPulseLeft--;
+        }
+
+        public ItemData MapItemData()
+        {
+            return new ItemData
+            {
+                ItemId = Blueprint.Id,
+                Contains = MapContent()
+            };
+        }
+
+        public ItemData[] MapContent()
+        {
+            List<ItemData> contains = new List<ItemData>();
+            if (this is IItemContainer container)
+            {
+                foreach (IItem subItem in container.Content)
+                {
+                    ItemData subItemData = subItem.MapItemData();
+                    contains.Add(subItemData);
+                }
+            }
+
+            return contains.ToArray();
         }
 
         #endregion

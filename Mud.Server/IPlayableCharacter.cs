@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mud.Domain;
 
 namespace Mud.Server
 {
     public interface IPlayableCharacter : ICharacter
     {
+        DateTime CreationTime { get; }
+
         long ExperienceToLevel { get; }
 
         // Attributes
@@ -36,7 +39,7 @@ namespace Mud.Server
         // Combat
         void GainExperience(long experience); // add/substract experience
 
-        // CharacterData
-        void FillCharacterData(CharacterData characterData);
+        // Mapping
+        CharacterData MapCharacterData();
     }
 }

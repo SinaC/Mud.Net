@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Mud.Domain
 {
@@ -21,11 +20,11 @@ namespace Mud.Domain
 
         public long Experience { get; set; }
 
-        public List<EquipedItemData> Equipments { get; set; }
+        public EquipedItemData[] Equipments { get; set; }
 
-        public List<ItemData> Inventory { get; set; }
+        public ItemData[] Inventory { get; set; }
 
-        public List<CurrentQuestData> CurrentQuests { get; set; }
+        public CurrentQuestData[] CurrentQuests { get; set; }
 
         // TODO: aura, cooldown, ...
     }

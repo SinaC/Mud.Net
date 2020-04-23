@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Mud.Domain
 {
@@ -17,6 +16,6 @@ namespace Mud.Domain
 
         public int GiverRoomId { get; set; }
 
-        public List<CurrentQuestObjectiveData> Objectives { get; set; }
+        public CurrentQuestObjectiveData[] Objectives { get; set; }
     }
 }

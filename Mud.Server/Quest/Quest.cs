@@ -36,6 +36,8 @@ namespace Mud.Server.Quest
         public Quest(CurrentQuestData questData, IPlayableCharacter character)
         {
             Character = character;
+
+            // Extract informations from QuestData
             QuestBlueprint questBlueprint = World.GetQuestBlueprint(questData.QuestId);
             // TODO: quid if blueprint is null?
             Blueprint = questBlueprint;
@@ -250,7 +252,7 @@ namespace Mud.Server.Quest
                 {
                     ObjectiveId = x.Id,
                     Count = ComputeObjectiveCurrentQuestObjectiveDataCount(x)
-                }).ToList()
+                }).ToArray()
             };
         }
 

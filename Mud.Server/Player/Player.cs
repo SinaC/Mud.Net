@@ -376,7 +376,7 @@ namespace Mud.Server.Player
             data.PagingLineCount = PagingLineCount;
             data.Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value);
             // TODO: copy from Impersonated to CharacterData
-            data.Characters = _avatarList;
+            data.Characters = _avatarList.ToArray();
         }
 
         protected void UpdateCharacterDataFromImpersonated()
@@ -386,13 +386,15 @@ namespace Mud.Server.Player
                 Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated while not impersonated.");
                 return;
             }
-            CharacterData characterData = _avatarList.FirstOrDefault(x => FindHelpers.StringEquals(x.Name, Impersonating.Name));
-            if (characterData == null)
+            int index = _avatarList.FindIndex(x => FindHelpers.StringEquals(x.Name, Impersonating.Name));
+            if (index < 0)
             {
-                Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated: unknown avatar {Impersonating.Name} for player {DisplayName}");
+                Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated: unknown avatar {0} for player {1}", Impersonating.Name, DisplayName);
                 return;
             }
-            Impersonating.FillCharacterData(characterData);
+
+            CharacterData updatedCharacterData = Impersonating.MapCharacterData();
+            _avatarList[index] = updatedCharacterData; // replace with new character data
         }
 
         [Command("test", Category = "!!Test!!")]

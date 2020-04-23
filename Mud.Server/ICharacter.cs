@@ -144,5 +144,15 @@ namespace Mud.Server
         {
             Slot = slot;
         }
+
+        public EquipedItemData MapEquipedData()
+        {
+            return new EquipedItemData
+            {
+                ItemId = Item.Blueprint.Id,
+                Slot = Slot,
+                Contains = Item.MapContent()
+            };
+        }
     }
 }
