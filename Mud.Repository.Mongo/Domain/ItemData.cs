@@ -1,5 +1,4 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using System.Collections.Generic;
 
 namespace Mud.Repository.Mongo.Domain
 {
@@ -9,6 +8,6 @@ namespace Mud.Repository.Mongo.Domain
         [BsonId]
         public int ItemId { get; set; }
 
-        public List<ItemData> Contains { get; set; }
+        public ItemData[] Contains { get; set; }
     }
 }

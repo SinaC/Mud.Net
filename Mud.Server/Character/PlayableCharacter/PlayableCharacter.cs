@@ -33,6 +33,8 @@ namespace Mud.Server.Character.PlayableCharacter
 
             ImpersonatedBy = player;
 
+            // Extract informations from CharacterData
+            CreationTime = data.CreationTime;
             Class = ClassManager[data.Class];
             if (Class == null)
             {
@@ -234,14 +236,16 @@ namespace Mud.Server.Character.PlayableCharacter
 
         #endregion
 
+        public DateTime CreationTime { get; protected set; }
+
         public long ExperienceToLevel =>
             Level >= Settings.MaxLevel
                 ? 0
                 : CombatHelpers.CumulativeExperienceByLevel[Level] + CombatHelpers.ExperienceToNextLevel[Level] - Experience;
 
-        public long Experience { get; private set; }
+        public long Experience { get; protected set; }
 
-        public IPlayableCharacter Leader { get; private set; }
+        public IPlayableCharacter Leader { get; protected set; }
 
         public IEnumerable<IPlayableCharacter> GroupMembers => _groupMembers.Where(x => x.IsValid);
 
@@ -258,7 +262,7 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Impersonation/Controller
-        public IPlayer ImpersonatedBy { get; private set; }
+        public IPlayer ImpersonatedBy { get; protected set; }
 
         // Quest
         public IEnumerable<IQuest> Quests => _quests;
@@ -457,30 +461,26 @@ namespace Mud.Server.Character.PlayableCharacter
             }
         }
 
-        // CharacterData
-        public void FillCharacterData(CharacterData characterData)
+        public CharacterData MapCharacterData()
         {
-            characterData.Name = Name;
-            characterData.Sex = Sex;
-            characterData.Class = Class?.Name ?? string.Empty;
-            characterData.Race = Race?.Name ?? string.Empty;
-            characterData.Level = Level;
-            characterData.RoomId = Room?.Blueprint?.Id ?? 0;
-            characterData.Experience = Experience;
-            List<EquipedItemData> equipedItemDatas = new List<EquipedItemData>();
-            foreach (EquipedItem equipedItem in Equipments.Where(x => x.Item != null))
-                equipedItemDatas.Add(MapEquipedData(equipedItem));
-            characterData.Equipments = equipedItemDatas;
-            List<ItemData> itemDatas = new List<ItemData>();
-            foreach (IItem item in Content)
-                itemDatas.Add(MapItemData(item));
-            characterData.Inventory = itemDatas;
-            List<CurrentQuestData> currentQuestDatas = new List<CurrentQuestData>();
-            foreach (IQuest quest in Quests)
-                currentQuestDatas.Add(quest.GenerateQuestData());
-            characterData.CurrentQuests = currentQuestDatas;
-            // TODO: aura, cooldown, ...
+            CharacterData data = new CharacterData
+            {
+                Name = Name,
+                CreationTime = CreationTime,
+                Sex = Sex,
+                Class = Class?.Name ?? string.Empty,
+                Race = Race?.Name ?? string.Empty,
+                Level = Level,
+                RoomId = Room?.Blueprint?.Id ?? 0,
+                Experience = Experience,
+                Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquipedData()).ToArray(),
+                Inventory = Content.Select(x => x.MapItemData()).ToArray(),
+                CurrentQuests = Quests.Select(x => x.GenerateQuestData()).ToArray(),
+                // TODO: aura, cooldown, ...
+            };
+            return data;
         }
+
 
         #endregion
 
@@ -609,6 +609,7 @@ namespace Mud.Server.Character.PlayableCharacter
             // TODO
         }
 
+        // TODO: move this in ItemBase
         private IItem MapItemData(ItemData itemData, IContainer container)
         {
             ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(itemData.ItemId);
@@ -640,40 +641,6 @@ namespace Mud.Server.Character.PlayableCharacter
                 Wiznet.Wiznet(msg, WiznetFlags.Bugs);
             }
             return null;
-        }
-
-        private EquipedItemData MapEquipedData(EquipedItem equipedItem)
-        {
-            return new EquipedItemData
-            {
-                ItemId = equipedItem.Item.Blueprint.Id,
-                Slot = equipedItem.Slot,
-                Contains = MapContent(equipedItem.Item)
-            };
-        }
-
-        private List<ItemData> MapContent(IItem item)
-        {
-            List<ItemData> contains = new List<ItemData>();
-            if (item is IItemContainer container)
-            {
-                foreach (IItem subItem in container.Content)
-                {
-                    ItemData subItemData = MapItemData(subItem);
-                    contains.Add(subItemData);
-                }
-            }
-
-            return contains;
-        }
-
-        private ItemData MapItemData(IItem item)
-        {
-            return new ItemData
-            {
-                ItemId = item.Blueprint.Id,
-                Contains = MapContent(item)
-            };
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server
@@ -21,5 +22,9 @@ namespace Mud.Server
         bool ChangeContainer(IContainer container);
 
         void DecreaseDecayPulseLeft();
+
+        // Mapping
+        ItemData MapItemData();
+        ItemData[] MapContent();
     }
 }

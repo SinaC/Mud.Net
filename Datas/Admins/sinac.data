@@ -51,7 +51,20 @@
       </Equipments>
       <Inventory>
         <ItemData>
-          <ItemId>9</ItemId>
+          <ItemId>1</ItemId>
+          <Contains>
+            <ItemData>
+              <ItemId>3364</ItemId>
+              <Contains />
+            </ItemData>
+            <ItemData>
+              <ItemId>6</ItemId>
+              <Contains />
+            </ItemData>
+          </Contains>
+        </ItemData>
+        <ItemData>
+          <ItemId>3</ItemId>
           <Contains />
         </ItemData>
         <ItemData>
@@ -59,21 +72,8 @@
           <Contains />
         </ItemData>
         <ItemData>
-          <ItemId>3</ItemId>
+          <ItemId>9</ItemId>
           <Contains />
-        </ItemData>
-        <ItemData>
-          <ItemId>1</ItemId>
-          <Contains>
-            <ItemData>
-              <ItemId>6</ItemId>
-              <Contains />
-            </ItemData>
-            <ItemData>
-              <ItemId>3364</ItemId>
-              <Contains />
-            </ItemData>
-          </Contains>
         </ItemData>
       </Inventory>
       <CurrentQuests>
@@ -106,7 +106,7 @@
         <CurrentQuestData>
           <QuestId>2</QuestId>
           <StartTime>2020-04-21T10:06:35.4657832+02:00</StartTime>
-          <SecondsLeft>34</SecondsLeft>
+          <SecondsLeft>29</SecondsLeft>
           <CompletionTime xsi:nil="true" />
           <GiverId>10</GiverId>
           <GiverRoomId>3025</GiverRoomId>
@@ -210,11 +210,11 @@
       </Equipments>
       <Inventory>
         <ItemData>
-          <ItemId>7</ItemId>
+          <ItemId>2</ItemId>
           <Contains />
         </ItemData>
         <ItemData>
-          <ItemId>2</ItemId>
+          <ItemId>7</ItemId>
           <Contains />
         </ItemData>
       </Inventory>

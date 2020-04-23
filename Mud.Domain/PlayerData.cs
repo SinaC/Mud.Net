@@ -10,6 +10,6 @@ namespace Mud.Domain
 
         public Dictionary<string, string> Aliases { get; set; }
 
-        public List<CharacterData> Characters { get; set; }
+        public CharacterData[] Characters { get; set; }
     }
 }

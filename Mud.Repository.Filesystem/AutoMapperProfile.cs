@@ -64,9 +64,9 @@ namespace Mud.Repository.Filesystem
             CreateMap<DataContracts.CurrentQuestObjectiveData, Domain.CurrentQuestObjectiveData>();
         }
 
-        private List<DataContracts.PairData<TKey, TValue>> MapFromDictionary<TKey, TValue>(Dictionary<TKey, TValue> dictionary) => dictionary.Select(x => new DataContracts.PairData<TKey, TValue>(x.Key, x.Value)).ToList();
+        private DataContracts.PairData<TKey, TValue>[] MapFromDictionary<TKey, TValue>(Dictionary<TKey, TValue> dictionary) => dictionary.Select(x => new DataContracts.PairData<TKey, TValue>(x.Key, x.Value)).ToArray();
 
-        private Dictionary<TKey, TValue> MapToDictionary<TKey, TValue>(List<DataContracts.PairData<TKey, TValue>> list) => list.ToDictionary(x => x.Key, x => x.Value);
+        private Dictionary<TKey, TValue> MapToDictionary<TKey, TValue>(DataContracts.PairData<TKey, TValue>[] array) => array.ToDictionary(x => x.Key, x => x.Value);
 
         private Domain.WiznetFlags MapWiznetFlags(int flags)
         {

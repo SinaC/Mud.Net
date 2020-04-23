@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Mud.Repository.Filesystem.DataContracts
@@ -26,6 +25,6 @@ namespace Mud.Repository.Filesystem.DataContracts
         public int GiverRoomId { get; set; }
 
         [DataMember]
-        public List<CurrentQuestObjectiveData> Objectives { get; set; }
+        public CurrentQuestObjectiveData[] Objectives { get; set; }
     }
 }
