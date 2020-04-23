@@ -53,6 +53,9 @@ namespace Mud.Server.Player
 
         [Command("scroll", Category = "Information")]
         [Command("page", Category = "Information")]
+        [Syntax(
+            "[cmd]",
+            "[cmd] <number>")]
         protected virtual bool DoPage(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

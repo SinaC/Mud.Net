@@ -17,7 +17,7 @@ namespace Mud.Server.Player
 {
     public partial class Player : ActorBase, IPlayer
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(Player)));
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => GetCommands<Player>());
 
         private readonly List<string> _delayedTells;
         private readonly List<CharacterData> _avatarList;
@@ -41,7 +41,7 @@ namespace Mud.Server.Player
 
             CurrentStateMachine = null;
             DeletionConfirmationNeeded = false;
-            PagingLineCount = 25;
+            PagingLineCount = 24;
         }
 
         public Player(Guid id, string name)

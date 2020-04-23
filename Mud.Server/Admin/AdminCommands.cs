@@ -15,6 +15,7 @@ namespace Mud.Server.Admin
     public partial class Admin
     {
         [AdminCommand("promote", Category = "Admin", Priority = 999, NoShortcut = true, MinLevel = AdminLevels.Supremacy, CannotBeImpersonated = true)]
+        [Syntax("[cmd] <player name> <level>")]
         protected virtual bool DoPromote(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length != 2)
@@ -56,6 +57,7 @@ namespace Mud.Server.Admin
         }
 
         [AdminCommand("shutdown", Category = "Admin", Priority = 999 /*low priority*/, NoShortcut = true, MinLevel = AdminLevels.Implementor, CannotBeImpersonated = true)]
+        [Syntax("[cmd] <delay>")]
         protected virtual bool DoShutdown(string rawParameters, params CommandParameter[] parameters)
         {
             int seconds;
@@ -70,6 +72,7 @@ namespace Mud.Server.Admin
 
         [AdminCommand("cload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
         [AdminCommand("mload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
+        [Syntax("[cmd] <id>")]
         protected virtual bool DoCload(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0 || !parameters[0].IsNumber)
@@ -103,6 +106,7 @@ namespace Mud.Server.Admin
 
         [AdminCommand("iload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
         [AdminCommand("oload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
+        [Syntax("[cmd] <id>")]
         protected virtual bool DoIload(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0 || !parameters[0].IsNumber)
@@ -138,6 +142,7 @@ namespace Mud.Server.Admin
         }
 
         [AdminCommand("slay", Category = "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
+        [Syntax("[cmd] <character>")]
         protected virtual bool DoSlay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -166,6 +171,7 @@ namespace Mud.Server.Admin
         }
 
         [AdminCommand("purge", Category = "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
+        [Syntax("[cmd] <item>")]
         protected virtual bool DoPurge(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -190,6 +196,7 @@ namespace Mud.Server.Admin
         }
 
         [AdminCommand("goto", Category = "Admin", MustBeImpersonated = true)]
+        [Syntax("[cmd] <location>")]
         protected virtual bool DoGoto(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -217,6 +224,7 @@ namespace Mud.Server.Admin
         }
 
         [Command("xpbonus", Category = "Admin")]
+        [Syntax("[cmd] <player name> <experience>")]
         protected virtual bool DpXpBonus(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length < 2)
@@ -256,6 +264,9 @@ namespace Mud.Server.Admin
         }
 
         [Command("transfer", Category = "Admin")]
+        [Syntax(
+            "[cmd] <character> (if impersonated)",
+            "[cmd] <character> <location>")]
         protected virtual bool DoTransfer(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -273,11 +284,9 @@ namespace Mud.Server.Admin
 
             IRoom where;
             if (Impersonating != null)
-            {
                 where = parameters.Length == 1
                     ? Impersonating.Room
                     : FindHelpers.FindLocation(Impersonating, parameters[1]);
-            }
             else
                 where = FindHelpers.FindLocation(parameters[1]);
             if (where == null)
@@ -316,6 +325,7 @@ namespace Mud.Server.Admin
         }
 
         [Command("sanitycheck", Category = "Admin")]
+
         protected virtual bool DoSanityCheck(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -339,6 +349,13 @@ namespace Mud.Server.Admin
         }
 
         [Command("commanddebug", Priority = 10, Category = "Admin")]
+        [Syntax(
+            "[cmd] admin", 
+            "[cmd] player",
+            "[cmd] pc",
+            "[cmd] npc",
+            "[cmd] item",
+            "[cmd] room")]
         protected virtual bool DoCommandDebug(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

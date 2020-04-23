@@ -13,6 +13,7 @@ namespace Mud.Server.Character
     {
         [Command("use", Category = "Ability", Priority = 2)]
         [Command("cast", Category = "Ability", Priority = 2)]
+        [Syntax("[cmd] <ability> <target>")]
         protected virtual bool DoCast(string rawParameters, params CommandParameter[] parameters)
         {
             AbilityManager.Process(this, parameters);
@@ -20,6 +21,9 @@ namespace Mud.Server.Character
         }
 
         [Command("abilities", Category = "Ability")]
+        [Syntax(
+            "[cmd]",
+            "[cmd] all")]
         protected virtual bool DoAbilities(string rawParameters, params CommandParameter[] parameters)
         {
             bool displayAll = parameters.Length > 0 && parameters[0].IsAll; // Display spells below level or all ?
@@ -30,6 +34,9 @@ namespace Mud.Server.Character
         }
 
         [Command("spells", Category = "Ability")]
+        [Syntax(
+            "[cmd]",
+            "[cmd] all")]
         protected virtual bool DoSpells(string rawParameters, params CommandParameter[] parameters)
 
         {
@@ -41,6 +48,9 @@ namespace Mud.Server.Character
         }
 
         [Command("skills", Category = "Ability")]
+        [Syntax(
+            "[cmd]",
+            "[cmd] all")]
         protected virtual bool DoSkills(string rawParameters, params CommandParameter[] parameters)
 
         {
@@ -53,6 +63,9 @@ namespace Mud.Server.Character
 
         [Command("cd", Category = "Ability")]
         [Command("cooldowns", Category = "Ability")]
+        [Syntax(
+            "[cmd]",
+            "[cmd] <ability>")]
         protected virtual bool DoCooldowns(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

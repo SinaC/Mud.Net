@@ -14,7 +14,7 @@ namespace Mud.Server.Item
     public abstract class ItemBase<TBlueprint> : EntityBase, IItem
         where TBlueprint : ItemBlueprintBase
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> ItemCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(ItemBase<TBlueprint>)));
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> ItemCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => GetCommands<ItemBase<TBlueprint>>());
 
         protected ItemBase(Guid guid, TBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint.Name, blueprint.Description)

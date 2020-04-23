@@ -11,6 +11,13 @@ namespace Mud.Server.Character.PlayableCharacter
     public partial class PlayableCharacter
     {
         [PlayableCharacterCommand("quest", Category = "Quest", Priority = 1)]
+        [Syntax(
+            "[cmd]",
+            "[cmd] <id>",
+            "[cmd] abandon <id>",
+            "[cmd] get <quest name>",
+            "[cmd] get all",
+            "[cmd] list")]
         protected virtual bool DoQuest(string rawParameters, params CommandParameter[] parameters)
         {
             // no param -> quest info
@@ -93,6 +100,9 @@ namespace Mud.Server.Character.PlayableCharacter
 
         [PlayableCharacterCommand("qcomplete", Category = "Quest", Priority = 2)]
         [PlayableCharacterCommand("questcomplete", Category = "Quest", Priority = 2)]
+        [Syntax(
+            "[cmd] <id>",
+            "[cmd] all")]
         protected virtual bool DoQuestComplete(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -100,6 +110,20 @@ namespace Mud.Server.Character.PlayableCharacter
                 Send("Complete which quest?");
                 return true;
             }
+            // all
+            if (parameters[0].IsAll)
+            {
+                foreach (IQuest questToComplete in Quests.Where(x => x.IsCompleted))
+                {
+                    if (Room.NonPlayableCharacters.Any(x => x == questToComplete.Giver))
+                    {
+                        questToComplete.Complete();
+                        _quests.Remove(questToComplete);
+                        Send("You complete '{0}' successfully.", questToComplete.Blueprint.Title);
+                    }
+                }
+            }
+            // id
             int id = parameters[0].AsNumber;
             IQuest quest = id > 0 ? Quests.ElementAtOrDefault(id - 1) : null;
             if (quest == null)
@@ -107,7 +131,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 Send("No such quest.");
                 return true;
             }
-            if (Room.People.All(x => x != quest.Giver))
+            if (Room.NonPlayableCharacters.All(x => x != quest.Giver))
             {
                 Send($"You must be near {quest.Giver.DisplayName} to complete this quest.");
                 return true;
@@ -127,6 +151,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         [PlayableCharacterCommand("qabandon", Category = "Quest", Priority = 3)]
         [PlayableCharacterCommand("questabandon", Category = "Quest", Priority = 3)]
+        [Syntax("[cmd] <id>")]
         protected virtual bool DoQuestAbandon(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -151,6 +176,9 @@ namespace Mud.Server.Character.PlayableCharacter
 
         [PlayableCharacterCommand("qget", Category = "Quest", Priority = 4)]
         [PlayableCharacterCommand("questget", Category = "Quest", Priority = 4)]
+        [Syntax(
+            "[cmd] <quest name>",
+            "[cmd] all")]
         protected virtual bool DoQuestGet(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

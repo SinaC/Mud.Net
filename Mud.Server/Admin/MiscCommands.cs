@@ -16,6 +16,7 @@ namespace Mud.Server.Admin
         }
 
         [Command("questdisplay", Category = "Misc")]
+        [Syntax("[cmd] <character>")]
         protected virtual bool DoQuestDisplay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -50,6 +51,7 @@ namespace Mud.Server.Admin
         }
 
         [Command("questreset", Category = "Misc")]
+        [Syntax("[cmd] <character>")]
         protected virtual bool DoQuestReset(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

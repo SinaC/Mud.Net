@@ -14,7 +14,7 @@ namespace Mud.Server.Room
 {
     public class Room : EntityBase, IRoom
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> RoomCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(Room)));
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> RoomCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => GetCommands<Room>());
 
         private readonly List<ICharacter> _people;
         private readonly List<IItem> _content;

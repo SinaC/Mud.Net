@@ -18,7 +18,7 @@ namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(PlayableCharacter)));
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => GetCommands<PlayableCharacter>());
 
         protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
 

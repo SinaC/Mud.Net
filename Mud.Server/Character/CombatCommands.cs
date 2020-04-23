@@ -8,6 +8,7 @@ namespace Mud.Server.Character
     public partial class CharacterBase
     {
         [Command("kill", Category = "Combat")]
+        [Syntax("[cmd] <character>")]
         protected virtual bool DoKill(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

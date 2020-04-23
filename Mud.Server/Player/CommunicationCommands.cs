@@ -8,6 +8,7 @@ namespace Mud.Server.Player
     public partial class Player
     {
         [Command("tell", Category = "Communication")]
+        [Syntax("[cmd] <player name> <message>")]
         protected virtual bool DoTell(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length < 2)
@@ -29,6 +30,7 @@ namespace Mud.Server.Player
         }
 
         [Command("reply", Category = "Communication")]
+        [Syntax("[cmd] <message>")]
         protected virtual bool DoReply(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -51,8 +53,15 @@ namespace Mud.Server.Player
 
         [Command("gossip", Category = "Communication")]
         [Command("ooc", Category = "Communication")]
+        [Syntax("[cmd] <message>")]
         protected virtual bool DoGossip(string rawParameters, params CommandParameter[] parameters)
         {
+            if (parameters.Length == 0)
+            {
+                Send("Gossip what ?");
+                return true;
+            }
+
             Send("%m%You gossip '%M%{0}%m%'%x%", rawParameters);
 
             string other = $"%m%{DisplayName} gossips '%M%{rawParameters}%m%'%x%";
@@ -63,6 +72,7 @@ namespace Mud.Server.Player
         }
 
         [Command("question", Category = "Communication")]
+        [Syntax("[cmd] <message>")]
         protected virtual bool DoQuestion(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -82,6 +92,7 @@ namespace Mud.Server.Player
         }
 
         [Command("answer", Category = "Communication")]
+        [Syntax("[cmd] <message>")]
         protected virtual bool DoAnswer(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

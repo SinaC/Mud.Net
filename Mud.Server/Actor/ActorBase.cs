@@ -131,6 +131,9 @@ namespace Mud.Server.Actor
 
         [Command("cmd", Priority = 0)]
         [Command("commands", Priority = 0)]
+        [Syntax(
+            "[cmd]",
+            "[cmd] <category>")]
         protected virtual bool DoCommands(string rawParameters, params CommandParameter[] parameters)
         {
             const int columnCount = 5;
@@ -166,9 +169,50 @@ namespace Mud.Server.Actor
             return true;
         }
 
+        [Command("syntax", Priority = 999)]
+        [Syntax("[cmd] <command>")]
+        protected virtual bool DoSyntax(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Send("Syntax about which command?");
+                return true;
+            }
+
+            string commandNameToFind = parameters[0].Value.ToLowerInvariant();
+            IEnumerable<KeyValuePair<string, CommandMethodInfo>> commands = Commands.Where(x => !x.Value.Attribute.Hidden && IsCommandAvailable(x.Value.Attribute) && FindHelpers.StringStartsWith(x.Value.Attribute.Name, parameters[0].Value));
+
+            bool found = false;
+            StringBuilder sb = new StringBuilder();
+            foreach (var group in commands.GroupBy(x => x.Value.MethodInfo.Name)) // group by command
+            {
+                string[] namesByPriority = group.OrderBy(x => x.Value.Attribute.Priority).Select(x => x.Value.Attribute.Name).ToArray(); // order by priority
+                string title = string.Join(", ", namesByPriority.Select(x => $"%C%{x}%x%"));
+                sb.AppendLine($"Command{(namesByPriority.Length > 1 ? "s" : string.Empty)} {title}:");
+                string commandNames = string.Join("|", namesByPriority);
+                foreach (string syntax in group.SelectMany(x => x.Value.Syntax.Syntax))
+                {
+                    // TODO: enrich argument such as <character>, <player name>, ...
+                    string enrichedSyntax = syntax.Replace("[cmd]", commandNames);
+                    sb.AppendLine("     Syntax: " + enrichedSyntax);
+                }
+                found = true;
+            }
+            if (!found)
+                sb.AppendLine("No command found.");
+            Page(sb);
+            return true;
+        }
+
         protected virtual bool IsCommandAvailable(CommandAttribute attribute)
         {
             return true;
+        }
+
+        protected static IReadOnlyTrie<CommandMethodInfo> GetCommands<T>()
+            where T : ActorBase
+        {
+            return CommandHelpers.GetCommands(typeof(T));
         }
     }
 }

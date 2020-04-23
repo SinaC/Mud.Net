@@ -22,6 +22,14 @@ namespace Mud.Server.Character
         // 5/ else, if an extra description can be found in room (matching 1st parameter), display it
         // 6/ else, if 1st parameter is a direction, display if there is an exit/door
         [Command("look", Category = "Information", Priority = 0)]
+        [Syntax(
+            "[cmd]",
+            "[cmd] in <container>",
+            "[cmd] in <corpse>",
+            "[cmd] <character>",
+            "[cmd] <item>",
+            "[cmd] <keyword>",
+            "[cmd] <direction>")]
         protected virtual bool DoLook(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: 0/ sleeping/blind/dark room (see act_info.C:1413 -> 1436)
@@ -80,7 +88,7 @@ namespace Mud.Server.Character
                 Send(sb);
                 return true;
             }
-            // 4:search among inventory/equipment/room.content if an item has extra description or name equals to parameters
+            // 4: search among inventory/equipment/room.content if an item has extra description or name equals to parameters
             string itemDescription;
             bool itemFound = FindItemByExtraDescriptionOrName(parameters[0], out itemDescription);
             if (itemFound)
@@ -141,6 +149,9 @@ namespace Mud.Server.Character
         }
 
         [Command("examine", Category = "Information")]
+        [Syntax(
+            "[cmd] <container>",
+            "[cmd] <corpse>")]
         protected virtual bool DoExamine(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -337,6 +348,9 @@ namespace Mud.Server.Character
         }
 
         [Command("where", Category = "Information")]
+        [Syntax(
+            "[cmd]",
+            "[cmd] <player name>")]
         protected virtual bool DoWhere(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -402,6 +416,7 @@ namespace Mud.Server.Character
         }
 
         [Command("consider", Category = "Information")]
+        [Syntax("[cmd] <character>")]
         protected virtual bool DoConsider(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

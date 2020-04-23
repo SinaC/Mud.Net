@@ -162,12 +162,27 @@ namespace Mud.Server.Input
         public static IReadOnlyTrie<CommandMethodInfo> GetCommands(Type type)
         // TODO: should be generic on T: IActor
         {
+            //var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
+            //    .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())
+            //    .SelectMany(x => x.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().Distinct(new CommandAttributeEqualityComparer()),
+            //        (methodInfo, attribute) => new TrieEntry<CommandMethodInfo>(attribute.Name, new CommandMethodInfo(attribute, methodInfo)));
+            //Trie<CommandMethodInfo> trie = new Trie<CommandMethodInfo>(commands);
+            //return trie;
             var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
-                .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())
-                .SelectMany(x => x.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().Distinct(new CommandAttributeEqualityComparer()),
-                    (methodInfo, attribute) => new TrieEntry<CommandMethodInfo>(attribute.Name, new CommandMethodInfo(attribute, methodInfo)));
+               .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())
+               .Select(x => new { methodInfo = x, attributes = GetCommandAttributes(x) })
+               .SelectMany(x => x.attributes.commandAttributes,
+                   (x, commandAttribute) => new TrieEntry<CommandMethodInfo>(commandAttribute.Name, new CommandMethodInfo(commandAttribute, x.methodInfo, x.attributes.syntaxCommandAttribute)));
             Trie<CommandMethodInfo> trie = new Trie<CommandMethodInfo>(commands);
             return trie;
+        }
+
+        private static (IEnumerable<CommandAttribute> commandAttributes, SyntaxAttribute syntaxCommandAttribute) GetCommandAttributes(MethodInfo methodInfo)
+        {
+            IEnumerable<CommandAttribute> commandAttributes = methodInfo.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().Distinct(new CommandAttributeEqualityComparer());
+            SyntaxAttribute syntaxCommandAttribute = methodInfo.GetCustomAttribute(typeof(SyntaxAttribute)) as SyntaxAttribute;
+
+            return (commandAttributes, syntaxCommandAttribute);
         }
     }
 }

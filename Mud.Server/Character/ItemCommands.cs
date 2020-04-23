@@ -12,6 +12,9 @@ namespace Mud.Server.Character
     public partial class CharacterBase
     {
         [Command("wear", Category = "Item")]
+        [Syntax(
+            "[cmd] <item>",
+            "[cmd] all")]
         // Wear item
         // Wear all
         // Wear all.item
@@ -68,6 +71,7 @@ namespace Mud.Server.Character
         }
 
         [Command("wield", Category = "Item")]
+        [Syntax("[cmd] <weapon>")]
         // Wield item
         protected virtual bool DoWield(string rawParameters, params CommandParameter[] parameters)
         {
@@ -100,6 +104,7 @@ namespace Mud.Server.Character
         }
 
         [Command("hold", Category = "Item")]
+        [Syntax("[cmd] <item>")]
         // Hold item
         protected virtual bool DoHold(string rawParameters, params CommandParameter[] parameters)
         {
@@ -127,6 +132,7 @@ namespace Mud.Server.Character
         }
 
         [Command("remove", Category = "Item")]
+        [Syntax("[cmd] <item>")]
         // Remove item
         protected virtual bool DoRemove(string rawParameters, params CommandParameter[] parameters)
         {
@@ -149,6 +155,9 @@ namespace Mud.Server.Character
         }
 
         [Command("get", Category = "Item")]
+        [Syntax(
+            "[cmd] <item>",
+            "[cmd] <item> <container>")]
         // Get item
         // Get item [from] container
         // Get all
@@ -262,6 +271,9 @@ namespace Mud.Server.Character
         }
 
         [Command("drop", Category = "Item")]
+        [Syntax(
+            "[cmd] <item>",
+            "[cmd] all")]
         // Drop item
         // Drop all
         // Drop all.item
@@ -307,6 +319,7 @@ namespace Mud.Server.Character
         }
 
         [Command("give", Category = "Item")]
+        [Syntax("[cmd] <item> <character>")]
         // Give item victim
         protected virtual bool DoGive(string rawParameters, params CommandParameter[] parameters)
         {
@@ -355,6 +368,7 @@ namespace Mud.Server.Character
         }
 
         [Command("put", Category = "Item")]
+        [Syntax("[cmd] <item> <container>")]
         // Put item container
         // Put item [in] container
         // Put all.item container

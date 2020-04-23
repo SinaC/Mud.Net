@@ -8,6 +8,11 @@ namespace Mud.Server.Admin
     public partial class Admin
     {
         [AdminCommand("incarnate", Category = "Admin", CannotBeImpersonated = true)]
+        [Syntax(
+            "[cmd]",
+            "[cmd] room <name|id>",
+            "[cmd] item name",
+            "[cmd] mob name")]
         protected virtual bool DoIncarnate(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

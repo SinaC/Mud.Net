@@ -7,6 +7,7 @@ namespace Mud.Server.Character
     public partial class CharacterBase
     {
         [Command("say", Category = "Communication")]
+        [Syntax("[cmd] <message>")]
         protected virtual bool DoSay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -20,6 +21,7 @@ namespace Mud.Server.Character
         }
 
         [Command("yell", Category = "Communication")]
+        [Syntax("[cmd] <message>")]
         protected virtual bool DoYell(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -33,6 +35,7 @@ namespace Mud.Server.Character
         }
 
         [Command("emote", Category = "Communication")]
+        [Syntax("[cmd] <message>")]
         protected virtual bool DoEmote(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -46,6 +49,7 @@ namespace Mud.Server.Character
         }
 
         [Command("whisper", Category = "Communication")]
+        [Syntax("[cmd] <character> <message>")]
         protected virtual bool DoWhisper(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length <= 1)
@@ -73,6 +77,7 @@ namespace Mud.Server.Character
         }
 
         [Command("shout", Category = "Communication")]
+        [Syntax("[cmd] <message>")]
         protected virtual bool DoShout(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

@@ -59,6 +59,17 @@ namespace Mud.Server.Input
         }
     }
 
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    public class SyntaxAttribute : Attribute
+    {
+        public string[] Syntax { get; }
+
+        public SyntaxAttribute(params string[] syntax)
+        {
+            Syntax = syntax;
+        }
+    }
+
     public class CommandAttributeEqualityComparer : IEqualityComparer<CommandAttribute>
     {
         public bool Equals(CommandAttribute x, CommandAttribute y)
@@ -75,4 +86,4 @@ namespace Mud.Server.Input
             return obj.Name.GetHashCode();
         }
     }
-    }
+}

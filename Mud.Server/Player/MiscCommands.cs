@@ -11,6 +11,10 @@ namespace Mud.Server.Player
     {
         [Command("macro", Category = "Misc")]
         [Command("alias", Category = "Misc")]
+        [Syntax(
+            "[cmd]",
+            "[cmd] <word>",
+            "[cmd] <word> <substitution>")]
         protected virtual bool DoAlias(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -69,6 +73,7 @@ namespace Mud.Server.Player
 
         [Command("unmacro", Category = "Misc")]
         [Command("unalias", Category = "Misc")]
+        [Syntax("[cmd] <word>")]
         protected virtual bool DoUnAlias(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -142,6 +147,7 @@ namespace Mud.Server.Player
         }
 
         [Command("password", Category = "Misc", Priority = 999, NoShortcut = true)]
+        [Syntax("[cmd] <old-password> <new-password>")]
         protected virtual bool DoPassword(string rawParameters, params CommandParameter[] parameters)
         {
             if (Impersonating != null)
@@ -179,6 +185,7 @@ namespace Mud.Server.Player
         }
 
         [Command("delete", Category = "Misc", Priority = 999, NoShortcut = true)]
+        [Syntax("[cmd] <password>")]
         protected virtual bool DoDelete(string rawParameters, params CommandParameter[] parameters)
         {
             if (Impersonating != null)
@@ -223,6 +230,7 @@ namespace Mud.Server.Player
         }
 
         [Command("bug", Category = "Misc", Priority = 50)]
+        [Syntax("[cmd] <message>")]
         protected virtual bool DoBug(string rawParameters, params CommandParameter[] parameters)
         {
             if (string.IsNullOrWhiteSpace(rawParameters))
@@ -238,6 +246,7 @@ namespace Mud.Server.Player
         }
 
         [Command("typo", Category = "Misc", Priority = 50)]
+        [Syntax("[cmd] <message>")]
         protected virtual bool DoTypo(string rawParameters, params CommandParameter[] parameters)
         {
             if (string.IsNullOrWhiteSpace(rawParameters))

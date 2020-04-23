@@ -7,6 +7,9 @@ namespace Mud.Server.Admin
     public partial class Admin
     {
         [Command("force", Category = "Punish")]
+        [Syntax(
+            "[cmd] <character> <command>",
+            "[cmd] all <command>")]
         protected virtual bool DoForce(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length < 2)
@@ -20,31 +23,47 @@ namespace Mud.Server.Admin
                 return true;
             }
 
-            ICharacter victim = Impersonating == null
-                ? FindHelpers.FindByName(World.Characters, parameters[0])
-                : FindHelpers.FindChararacterInWorld(Impersonating, parameters[0]);
-            if (victim == null)
-            {
-                Send(StringHelpers.CharacterNotFound);
-                return true;
-            }
-            if (victim == Impersonating || victim == Incarnating)
-            {
-                Send("Aye aye, right away!");
-                return true;
-            }
-
             string command = CommandHelpers.JoinParameters(parameters.Skip(1));
-            victim.Send("{0} forces you to '{1}'.", DisplayName, command);
-            Send("You force {0} to '{1}'.", victim.DisplayName, command);
-            Wiznet.Wiznet($"{DisplayName} forces {victim.DebugName} to {command}", Domain.WiznetFlags.Punish);
+            if (parameters[0].IsAll)
+            {
+                Send("You force everyone to '{1}'.", command);
+                Wiznet.Wiznet($"{DisplayName} forces everyone to {command}", Domain.WiznetFlags.Punish);
 
-            victim.ProcessCommand(command);
+                foreach (ICharacter victim in World.Characters.Where(x => x != this))
+                {
+                    victim.Send("{0} forces you to '{1}'.", DisplayName, command);
+                    victim.ProcessCommand(command);
+                }
+            }
+            else
+            {
+                ICharacter victim = Impersonating == null
+                    ? FindHelpers.FindByName(World.Characters, parameters[0])
+                    : FindHelpers.FindChararacterInWorld(Impersonating, parameters[0]);
+                if (victim == null)
+                {
+                    Send(StringHelpers.CharacterNotFound);
+                    return true;
+                }
+                if (victim == Impersonating || victim == Incarnating)
+                {
+                    Send("Aye aye, right away!");
+                    return true;
+                }
+
+                victim.Send("{0} forces you to '{1}'.", DisplayName, command);
+                Send("You force {0} to '{1}'.", victim.DisplayName, command);
+                Wiznet.Wiznet($"{DisplayName} forces {victim.DebugName} to {command}", Domain.WiznetFlags.Punish);
+
+                victim.ProcessCommand(command);
+            }
 
             return true;
         }
 
         [Command("addlag", Category = "Punish")]
+        [Syntax("[cmd] <player name> <tick>")]
+
         protected virtual bool DoAddLag(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -81,6 +100,7 @@ namespace Mud.Server.Admin
         }
 
         [Command("snoop", Category = "Punish")]
+        [Syntax("[cmd] <player name>")]
         protected virtual bool DoSnoop(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

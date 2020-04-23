@@ -13,6 +13,7 @@ namespace Mud.Server.Character.PlayableCharacter
     public partial class PlayableCharacter
     {
         [PlayableCharacterCommand("follow", Category = "Group")]
+        [Syntax("[cmd] <character>")]
         protected virtual bool DoFollow(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -50,6 +51,9 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         [PlayableCharacterCommand("group", Category = "Group")]
+        [Syntax(
+            "[cmd]",
+            "[cmd] <character>")]
         protected virtual bool DoGroup(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -161,6 +165,7 @@ namespace Mud.Server.Character.PlayableCharacter
         [PlayableCharacterCommand("gtell", Category = "Group")] // TODO: multiple category +Communication
         [PlayableCharacterCommand("groupsay", Category = "Group", Priority = 50)]
         [PlayableCharacterCommand("gsay", Category = "Group")] // TODO: multiple category +Communication
+        [Syntax("[cmd] <message>")]
         protected virtual bool DoGroupSay(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

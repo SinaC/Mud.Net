@@ -12,6 +12,9 @@ namespace Mud.Server.Player
     public partial class Player
     {
         [Command("impersonate", Category = "Avatar")]
+        [Syntax(
+            "[cmd]",
+            "[cmd] <avatar name>")]
         protected virtual bool DoImpersonate(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -79,12 +82,14 @@ namespace Mud.Server.Player
         }
 
         [PlayerCommand("deleteavatar", Category = "Avatar", CannotBeImpersonated = true)]
+        [Syntax("[cmd] <avatar name>")]
         protected virtual bool DoDeleteAvatar(string rawParameters, params CommandParameter[] parameters)
         {
             //TODO UniquenessManager.RemoveAvatarName(avatarName)
             throw new NotImplementedException();
         }
 
+        // Helpers
         // TODO: crappy workaround because ClassManager, RaceManager and World are needed
         private Lazy<TableGenerator<CharacterData>> LazyAvatarTableGenerator => new Lazy<TableGenerator<CharacterData>>(() =>
         {

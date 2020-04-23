@@ -6,6 +6,7 @@ namespace Mud.Server.Admin
     {
         [Command("atalk", Category = "Communication")]
         [Command("admintalk", Category = "Communication")]
+        [Syntax("[cmd] <message>")]
         protected virtual bool DoAdminTalk(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

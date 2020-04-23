@@ -10,6 +10,7 @@ namespace Mud.Server.Character.PlayableCharacter
     {
 
         [PlayableCharacterCommand("destroy", Category = "Item", Priority = 50, NoShortcut = true)]
+        [Syntax("[cmd] <item>")]
         // Destroy item
         protected virtual bool DoDestroy(string rawParameters, params CommandParameter[] parameters)
         {

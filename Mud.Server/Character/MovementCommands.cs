@@ -76,6 +76,9 @@ namespace Mud.Server.Character
         }
 
         [Command("open", Category = "Movement")]
+        [Syntax(
+            "[cmd] <container|portal>",
+            "[cmd] <direction|door>")]
         protected virtual bool DoOpen(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -141,6 +144,9 @@ namespace Mud.Server.Character
         }
 
         [Command("close", Category = "Movement")]
+        [Syntax(
+            "[cmd] <container|portal>",
+            "[cmd] <direction|door>")]
         protected virtual bool DoClose(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -201,6 +207,9 @@ namespace Mud.Server.Character
         }
 
         [Command("unlock", Category = "Movement")]
+        [Syntax(
+            "[cmd] <container|portal>",
+            "[cmd] <direction|door>")]
         protected virtual bool DoUnlock(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -276,6 +285,9 @@ namespace Mud.Server.Character
         }
 
         [Command("lock", Category = "Movement")]
+        [Syntax(
+            "[cmd] <container|portal>",
+            "[cmd] <direction|door>")]
         protected virtual bool DoLock(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -351,6 +363,9 @@ namespace Mud.Server.Character
         }
 
         [Command("stand", Category = "Movement")]
+        [Syntax(
+            "[cmd]",
+            "[cmd] <furniture>")]
         protected virtual bool DoStand(string rawParameters, params CommandParameter[] parameters)
         {
             if (Position == Positions.Fighting)
@@ -426,6 +441,9 @@ namespace Mud.Server.Character
         }
 
         [Command("sit", Category = "Movement")]
+        [Syntax(
+            "[cmd]",
+            "[cmd] <furniture>")]
         protected virtual bool DoSit(string rawParameters, params CommandParameter[] parameters)
         {
             if (Position == Positions.Fighting)
@@ -508,6 +526,9 @@ namespace Mud.Server.Character
         }
 
         [Command("rest", Category = "Movement")]
+        [Syntax(
+            "[cmd]",
+            "[cmd] <furniture>")]
         protected virtual bool DoRest(string rawParameters, params CommandParameter[] parameters)
         {
             if (Position == Positions.Fighting)
@@ -590,6 +611,9 @@ namespace Mud.Server.Character
         }
 
         [Command("sleep", Category = "Movement")]
+        [Syntax(
+            "[cmd]",
+            "[cmd] <furniture>")]
         protected virtual bool DoSleep(string rawParameters, params CommandParameter[] parameters)
         {
             if (Position == Positions.Fighting)
@@ -655,6 +679,7 @@ namespace Mud.Server.Character
         }
 
         [Command("enter", Category = "Movement")]
+        [Syntax("[cmd] <portal>")]
         protected virtual bool DoEnter(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)

@@ -1,13 +1,8 @@
+Command could return an enum: Successfull|SyntaxError|InvalidTarget    when SyntaxError is returned, an help file with related command syntax could be displayed
+
+========
 test group
      kill steal
-
-Syntax display uniformization
-Syntax: xpbonus <player> <exp>
-Syntax: incarnate
-        incarnate room <id|name>
-        incarnate item name
-        incarnate char name
-Command could return an enum: Successfull|SyntaxError|InvalidTarget    when SyntaxError is returned, an help file with related command syntax could be displayed
 
 remove Send(..., bool addTrailingNewLine)
 auto paging if data to send to too big?

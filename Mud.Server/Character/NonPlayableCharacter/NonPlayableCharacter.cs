@@ -15,7 +15,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 {
     public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> NonPlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(NonPlayableCharacter)));
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> NonPlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => GetCommands<NonPlayableCharacter>());
 
         public NonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
             : base(guid, blueprint.Name, blueprint.Description)
