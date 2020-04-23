@@ -180,7 +180,7 @@ namespace Mud.Server.Actor
             }
 
             string commandNameToFind = parameters[0].Value.ToLowerInvariant();
-            IEnumerable<KeyValuePair<string, CommandMethodInfo>> commands = Commands.Where(x => !x.Value.Attribute.Hidden && IsCommandAvailable(x.Value.Attribute) && FindHelpers.StringStartsWith(x.Value.Attribute.Name, parameters[0].Value));
+            var commands = Commands.GetByPrefix(commandNameToFind).Where(x => !x.Value.Attribute.Hidden && IsCommandAvailable(x.Value.Attribute));
 
             bool found = false;
             StringBuilder sb = new StringBuilder();
