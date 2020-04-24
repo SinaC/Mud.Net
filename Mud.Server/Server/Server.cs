@@ -19,7 +19,9 @@ using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Settings;
 using System.Reflection;
+using Mud.Server.Blueprints.Quest;
 using Mud.Server.Item;
+using Mud.Server.Quest;
 
 namespace Mud.Server.Server
 {
@@ -83,43 +85,16 @@ namespace Mud.Server.Server
                 Log.Default.WriteLine(LogLevels.Error, "ItemCorpseBlueprint (id:{0}) doesn't exist or is not an corpse item !!!", Settings.CorpseBlueprintId);
             }
 
+            // Perform some validity/sanity checks
             if (Settings.PerformSanityCheck)
-            {
-                // Perform some validity/sanity checks
-                foreach (IClass c in ClassManager.Classes)
-                {
-                    if (c.ResourceKinds == null || !c.ResourceKinds.Any())
-                        Log.Default.WriteLine(LogLevels.Warning, "Class {0} doesn't have any allowed resources");
-                    else
-                    {
-                        foreach (AbilityAndLevel abilityAndLevel in c.Abilities)
-                            if (abilityAndLevel.Ability.ResourceKind != ResourceKinds.None && !c.ResourceKinds.Contains(abilityAndLevel.Ability.ResourceKind))
-                                Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityAndLevel.Ability.Name, abilityAndLevel.Ability.ResourceKind);
-                    }
-                }
-                long totalExperience = 0;
-                long previousExpToLevel = 0;
-                for (int lvl = 1; lvl < 100; lvl++)
-                {
-                    long expToLevel;
-                    bool found = CombatHelpers.ExperienceToNextLevel.TryGetValue(lvl, out expToLevel);
-                    if (!found)
-                        Log.Default.WriteLine(LogLevels.Error, "No experience to next level found for level {0}", lvl);
-                    else if (expToLevel < previousExpToLevel)
-                        Log.Default.WriteLine(LogLevels.Error, "Experience to next level for level {0} is lower than previous level", lvl);
-                    else
-                        previousExpToLevel = expToLevel;
-                    totalExperience += expToLevel;
-                }
-                Log.Default.WriteLine(LogLevels.Info, "Total experience from 1 to 100 = {0:n0}", totalExperience);
-            }
+                SanityChecks();
 
+            // Dump config
             if (Settings.DumpOnInitialize)
                 Dump();
 
             // TODO: other sanity checks
             // TODO: check room/item/character id uniqueness
-            // TODO: check quest objectives id
 
             // Initialize UniquenessManager
             UniquenessManager.Initialize();
@@ -717,6 +692,92 @@ namespace Mud.Server.Server
                 else
                     Log.Default.WriteLine(LogLevels.Error, "ProcessOutput: playing client without Player");
             }
+        }
+
+        private void SanityChecks()
+        {
+            SanityCheckExperience();
+            SanityCheckQuests();
+            SanityCheckClasses();
+            SanityCheckRaces();
+            SanityCheckRooms();
+            SanityCheckItems();
+            SanityCheckCharacters();
+        }
+
+        private void SanityCheckExperience()
+        {
+            long totalExperience = 0;
+            long previousExpToLevel = 0;
+            for (int lvl = 1; lvl < 100; lvl++)
+            {
+                long expToLevel;
+                bool found = CombatHelpers.ExperienceToNextLevel.TryGetValue(lvl, out expToLevel);
+                if (!found)
+                    Log.Default.WriteLine(LogLevels.Error, "No experience to next level found for level {0}", lvl);
+                else if (expToLevel < previousExpToLevel)
+                    Log.Default.WriteLine(LogLevels.Error, "Experience to next level for level {0} is lower than previous level", lvl);
+                else
+                    previousExpToLevel = expToLevel;
+                totalExperience += expToLevel;
+            }
+            Log.Default.WriteLine(LogLevels.Info, "Total experience from 1 to 100 = {0:n0}", totalExperience);
+        }
+
+        private void SanityCheckClasses()
+        {
+            foreach (IClass c in ClassManager.Classes)
+            {
+                if (c.ResourceKinds == null || !c.ResourceKinds.Any())
+                    Log.Default.WriteLine(LogLevels.Warning, "Class {0} doesn't have any allowed resources");
+                else
+                {
+                    foreach (AbilityAndLevel abilityAndLevel in c.Abilities)
+                        if (abilityAndLevel.Ability.ResourceKind != ResourceKinds.None && !c.ResourceKinds.Contains(abilityAndLevel.Ability.ResourceKind))
+                            Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityAndLevel.Ability.Name, abilityAndLevel.Ability.ResourceKind);
+                }
+            }
+            Log.Default.WriteLine(LogLevels.Info, "#Classes: {}", ClassManager.Classes.Count());
+        }
+
+        private void SanityCheckRaces()
+        {
+            Log.Default.WriteLine(LogLevels.Info, "#Races: {}", RaceManager.Races.Count());
+        }
+
+        private void SanityCheckQuests()
+        {
+            foreach (QuestBlueprint questBlueprint in World.QuestBlueprints)
+            {
+                if (questBlueprint.ItemObjectives?.Count == 0 && questBlueprint.KillObjectives?.Count == 0 && questBlueprint.LocationObjectives?.Count == 0)
+                    Log.Default.WriteLine(LogLevels.Error, "Quest id {0} doesn't have any objectives.", questBlueprint.Id);
+                else
+                {
+                    var duplicateIds = (questBlueprint.ItemObjectives ?? Enumerable.Empty<QuestItemObjectiveBlueprint>()).Select(x => x.Id).Union((questBlueprint.KillObjectives ?? Enumerable.Empty<QuestKillObjectiveBlueprint>()).Select(x => x.Id)).Union((questBlueprint.LocationObjectives ?? Enumerable.Empty<QuestLocationObjectiveBlueprint>()).Select(x => x.Id))
+                        .GroupBy(x => x, (id, ids) => new { objectiveId = id, count = ids.Count() }).Where(x => x.count > 1);
+                    foreach (var duplicateId in duplicateIds)
+                        Log.Default.WriteLine(LogLevels.Error, "Quest id {0} has objectives with duplicate id {1} count {2}", questBlueprint.Id, duplicateId.objectiveId, duplicateId.count);
+                }
+            }
+            Log.Default.WriteLine(LogLevels.Info, "#QuestBlueprints: {}", World.QuestBlueprints.Count);
+        }
+
+        private void SanityCheckRooms()
+        {
+            Log.Default.WriteLine(LogLevels.Info, "#RoomBlueprints: {}", World.RoomBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#Rooms: {}", World.Rooms.Count());
+        }
+
+        private void SanityCheckItems()
+        {
+            Log.Default.WriteLine(LogLevels.Info, "#ItemBlueprints: {}", World.ItemBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#Items: {}", World.Items.Count());
+        }
+
+        private void SanityCheckCharacters()
+        {
+            Log.Default.WriteLine(LogLevels.Info, "#CharacterBlueprints: {}", World.CharacterBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#Characters: {}", World.Characters.Count());
         }
 
         private void DumpCommands()

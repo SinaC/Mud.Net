@@ -1052,22 +1052,21 @@ namespace Mud.Server.WPFTestApplication
             mysteryImporter.Parse();
             mysteryImporter.Load(System.IO.Path.Combine(path, "amazon.are"));
             mysteryImporter.Parse();
-            //MysteryImporter importer = new MysteryImporter();
-            //string path = @"D:\GitHub\OldMud\area";
-            //string fileList = Path.Combine(path, "area.lst");
-            //string[] areaFilenames = File.ReadAllLines(fileList);
+
+            //string fileList = System.IO.Path.Combine(path, "area.lst");
+            //string[] areaFilenames = System.IO.File.ReadAllLines(fileList);
             //foreach (string areaFilename in areaFilenames.Where(x => !x.Contains("limbo")))
             //{
             //    if (areaFilename.Contains("$"))
             //        break;
-            //    string areaFullName = Path.Combine(path, areaFilename);
-            //    importer.Load(areaFullName);
-            //    importer.Parse();
+            //    string areaFullName = System.IO.Path.Combine(path, areaFilename);
+            //    mysteryImporter.Load(areaFullName);
+            //    mysteryImporter.Parse();
             //}
 
 
-            foreach (KeyValuePair<string, int> kv in mysteryImporter.Objects.GroupBy(o => o.ItemType).ToDictionary(g => g.Key, g => g.Count()).OrderBy(x => x.Value))
-                Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", kv.Key, kv.Value);
+            foreach (var itemTypeAndCount in mysteryImporter.Objects.GroupBy(o => o.ItemType, (itemType, list) => new {itemType, count = list.Count()}).OrderBy(x => x.count))
+                Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", itemTypeAndCount.itemType, itemTypeAndCount.count);
 
             Dictionary<int, IArea> areasByVnums = new Dictionary<int, IArea>();
             Dictionary<int, IRoom> roomsByVNums = new Dictionary<int, IRoom>();
