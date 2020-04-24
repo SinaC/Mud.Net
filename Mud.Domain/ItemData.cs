@@ -6,6 +6,8 @@
 
         public int DecayPulseLeft { get; set; }
 
+        public ItemFlags ItemFlags { get; set; }
+
         //TODO: enchantments/auras
     }
 }

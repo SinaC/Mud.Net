@@ -17,6 +17,8 @@ namespace Mud.Server
         int Weight { get; }
         int Cost { get; }
 
+        ItemFlags ItemFlags { get; }
+
         bool IsQuestObjective(IPlayableCharacter questingCharacter);
 
         bool ChangeContainer(IContainer container);

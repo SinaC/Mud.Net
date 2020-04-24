@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AutoBogus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
@@ -22,7 +23,8 @@ namespace Mud.Server.Tests
             ItemData itemData = new ItemData
             {
                 ItemId = armorBlueprint.Id,
-                DecayPulseLeft = 10
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
             IItem armor = World.AddItem(Guid.NewGuid(), itemData, room);
@@ -30,6 +32,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(armor, typeof(IItemArmor));
             Assert.AreEqual(armorBlueprint.Id, armor.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, armor.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, armor.ItemFlags);
         }
 
         // Container
@@ -44,7 +47,8 @@ namespace Mud.Server.Tests
             ItemContainerData itemData = new ItemContainerData
             {
                 ItemId = containerBlueprint.Id,
-                DecayPulseLeft = 10
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
             IItem container = world.AddItem(Guid.NewGuid(), itemData, room);
@@ -52,6 +56,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint.Id, container.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, container.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, container.ItemFlags);
             Assert.AreEqual(0, (container as IItemContainer).Content.Count());
         }
 
@@ -68,13 +73,15 @@ namespace Mud.Server.Tests
             ItemContainerData itemData = new ItemContainerData
             {
                 ItemId = containerBlueprint.Id,
-                DecayPulseLeft = 10,
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
                 Contains = new ItemData[]
                 {
                     new ItemData
                     {
                         ItemId = lightBlueprint.Id,
-                        DecayPulseLeft = 20
+                        DecayPulseLeft = AutoFaker.Generate<int>(),
+                        ItemFlags = AutoFaker.Generate<ItemFlags>(),
                     }
                 }
             };
@@ -84,6 +91,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint.Id, container.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, container.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, container.ItemFlags);
             Assert.AreEqual(1, (container as IItemContainer).Content.Count());
             Assert.AreEqual(lightBlueprint.Id, (container as IItemContainer).Content.First().Blueprint.Id);
             Assert.AreEqual(itemData.Contains[0].DecayPulseLeft, (container as IItemContainer).Content.First().DecayPulseLeft);
@@ -104,18 +112,21 @@ namespace Mud.Server.Tests
             ItemContainerData itemData = new ItemContainerData
             {
                 ItemId = containerBlueprint.Id,
-                DecayPulseLeft = 10,
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
                 Contains = new ItemData[]
                 {
                     new ItemData
                     {
                         ItemId = lightBlueprint.Id,
-                        DecayPulseLeft = 20
+                        DecayPulseLeft = AutoFaker.Generate<int>(),
+                        ItemFlags = AutoFaker.Generate<ItemFlags>(),
                     },
                     new ItemData
                     {
                         ItemId = portalBlueprint.Id,
-                        DecayPulseLeft = 30
+                        DecayPulseLeft = AutoFaker.Generate<int>(),
+                        ItemFlags = AutoFaker.Generate<ItemFlags>(),
                     }
                 }
             };
@@ -125,10 +136,11 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint.Id, container.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, container.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, container.ItemFlags);
             Assert.AreEqual(2, (container as IItemContainer).Content.Count());
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == lightBlueprint.Id));
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == portalBlueprint.Id));
-            Assert.AreEqual(20+30, (container as IItemContainer).Content.Sum(x => x.DecayPulseLeft));
+            Assert.AreEqual(itemData.Contains.Sum(x => x.DecayPulseLeft), (container as IItemContainer).Content.Sum(x => x.DecayPulseLeft));
         }
 
         [TestMethod]
@@ -152,37 +164,43 @@ namespace Mud.Server.Tests
             ItemContainerData itemData = new ItemContainerData
             {
                 ItemId = containerBlueprint1.Id,
-                DecayPulseLeft = 10,
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
                 Contains = new ItemData[]
                 {
                     new ItemData
                     {
                         ItemId = lightBlueprint.Id,
-                        DecayPulseLeft = 20
+                        DecayPulseLeft = AutoFaker.Generate<int>(),
+                        ItemFlags = AutoFaker.Generate<ItemFlags>(),
                     },
                     new ItemData
                     {
                         ItemId = portalBlueprint.Id,
-                        DecayPulseLeft = 30
+                        DecayPulseLeft = AutoFaker.Generate<int>(),
+                        ItemFlags = AutoFaker.Generate<ItemFlags>(),
                     },
                     new ItemContainerData
                     {
                         ItemId = containerBlueprint2.Id,
-                        DecayPulseLeft = 40,
+                        DecayPulseLeft = AutoFaker.Generate<int>(),
+                        ItemFlags = AutoFaker.Generate<ItemFlags>(),
                         Contains = new ItemData[]
                         {
                             new ItemData
                             {
                                 ItemId = jewelryBlueprint.Id,
-                                DecayPulseLeft = 50
+                                DecayPulseLeft = AutoFaker.Generate<int>(),
+                                ItemFlags = AutoFaker.Generate<ItemFlags>(),
                             },
                             new ItemData
                             {
                                 ItemId = armorBlueprint.Id,
-                                DecayPulseLeft = 60
+                                DecayPulseLeft = AutoFaker.Generate<int>(),
+                                ItemFlags = AutoFaker.Generate<ItemFlags>(),
                             }
                         }
-                    }, 
+                    },
                 }
             };
 
@@ -191,6 +209,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint1.Id, container.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, container.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, container.ItemFlags);
             Assert.AreEqual(3, (container as IItemContainer).Content.Count());
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == lightBlueprint.Id));
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == portalBlueprint.Id));
@@ -215,7 +234,8 @@ namespace Mud.Server.Tests
             ItemCorpseData itemData = new ItemCorpseData
             {
                 ItemId = corpseBlueprint.Id,
-                DecayPulseLeft = 10,
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
                 IsPlayableCharacterCorpse = false,
                 CorpseName = "test"
             };
@@ -225,6 +245,7 @@ namespace Mud.Server.Tests
             Assert.IsNotNull(item);
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
             Assert.IsFalse((item as IItemCorpse).IsPlayableCharacterCorpse);
+            Assert.AreEqual(itemData.ItemFlags, item.ItemFlags);
             Assert.AreEqual("corpse of "+ itemData.CorpseName, item.Name);
             Assert.AreEqual(0, (item as IItemCorpse).Content.Count());
             Assert.AreEqual(itemData.DecayPulseLeft, item.DecayPulseLeft);
@@ -241,7 +262,8 @@ namespace Mud.Server.Tests
             ItemCorpseData itemData = new ItemCorpseData
             {
                 ItemId = corpseBlueprint.Id,
-                DecayPulseLeft = 10,
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
                 IsPlayableCharacterCorpse = true,
                 CorpseName = "test"
             };
@@ -251,6 +273,7 @@ namespace Mud.Server.Tests
             Assert.IsNotNull(item);
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
             Assert.IsTrue((item as IItemCorpse).IsPlayableCharacterCorpse);
+            Assert.AreEqual(itemData.ItemFlags, item.ItemFlags);
             Assert.AreEqual("corpse of " + itemData.CorpseName, item.Name);
             Assert.AreEqual(0, (item as IItemCorpse).Content.Count());
             Assert.AreEqual(itemData.DecayPulseLeft, item.DecayPulseLeft);
@@ -269,7 +292,8 @@ namespace Mud.Server.Tests
             ItemCorpseData itemData = new ItemCorpseData
             {
                 ItemId = corpseBlueprint.Id,
-                DecayPulseLeft = 10,
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
                 IsPlayableCharacterCorpse = false,
                 CorpseName = "test",
                 Contains = new ItemData[]
@@ -277,7 +301,8 @@ namespace Mud.Server.Tests
                     new ItemData
                     {
                         ItemId = lightBlueprint.Id,
-                        DecayPulseLeft = 20
+                        DecayPulseLeft = AutoFaker.Generate<int>(),
+                        ItemFlags = AutoFaker.Generate<ItemFlags>(),
                     }, 
                 }
             };
@@ -287,11 +312,12 @@ namespace Mud.Server.Tests
             Assert.IsNotNull(item);
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
             Assert.IsFalse((item as IItemCorpse).IsPlayableCharacterCorpse);
+            Assert.AreEqual(itemData.ItemFlags, item.ItemFlags);
             Assert.AreEqual("corpse of " + itemData.CorpseName, item.Name);
             Assert.AreEqual(itemData.DecayPulseLeft, item.DecayPulseLeft);
             Assert.AreEqual(1, (item as IItemCorpse).Content.Count());
             Assert.AreEqual(lightBlueprint.Id, (item as IItemCorpse).Content.First().Blueprint.Id);
-            Assert.AreEqual(20, (item as IItemCorpse).Content.First().DecayPulseLeft);
+            Assert.AreEqual(itemData.Contains[0].DecayPulseLeft, (item as IItemCorpse).Content.First().DecayPulseLeft);
         }
 
         // Furniture
@@ -306,7 +332,8 @@ namespace Mud.Server.Tests
             ItemData itemData = new ItemData
             {
                 ItemId = furnitureBlueprint.Id,
-                DecayPulseLeft = 10
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
             IItem furniture = World.AddItem(Guid.NewGuid(), itemData, room);
@@ -314,6 +341,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(furniture, typeof(IItemFurniture));
             Assert.AreEqual(furnitureBlueprint.Id, furniture.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, furniture.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, furniture.ItemFlags);
         }
 
         // Jewelry
@@ -328,7 +356,8 @@ namespace Mud.Server.Tests
             ItemData itemData = new ItemData
             {
                 ItemId = jewelryBlueprint.Id,
-                DecayPulseLeft = 10
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
             IItem jewelry = World.AddItem(Guid.NewGuid(), itemData, room);
@@ -336,6 +365,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(jewelry, typeof(IItemJewelry));
             Assert.AreEqual(jewelryBlueprint.Id, jewelry.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, jewelry.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, jewelry.ItemFlags);
         }
 
         // Key
@@ -350,7 +380,8 @@ namespace Mud.Server.Tests
             ItemData itemData = new ItemData
             {
                 ItemId = keyBlueprint.Id,
-                DecayPulseLeft = 10
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
             IItem key = World.AddItem(Guid.NewGuid(), itemData, room);
@@ -358,6 +389,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(key, typeof(IItemKey));
             Assert.AreEqual(keyBlueprint.Id, key.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, key.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, key.ItemFlags);
         }
 
         // Light
@@ -372,7 +404,8 @@ namespace Mud.Server.Tests
             ItemData itemData = new ItemData
             {
                 ItemId = lightBlueprint.Id,
-                DecayPulseLeft = 10
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
             IItem light = World.AddItem(Guid.NewGuid(), itemData, room);
@@ -380,6 +413,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(light, typeof(IItemLight));
             Assert.AreEqual(lightBlueprint.Id, light.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, light.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, light.ItemFlags);
         }
 
         // Portal
@@ -395,7 +429,8 @@ namespace Mud.Server.Tests
             ItemData itemData = new ItemData
             {
                 ItemId = portalBlueprint.Id,
-                DecayPulseLeft = 10
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
             IItem portal = World.AddItem(Guid.NewGuid(), itemData, room1);
@@ -403,6 +438,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(portal, typeof(IItemPortal));
             Assert.AreEqual(portalBlueprint.Id, portal.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, portal.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, portal.ItemFlags);
             Assert.IsNotNull((portal as IItemPortal).Destination);
             Assert.AreEqual(room2, (portal as IItemPortal).Destination);
         }
@@ -419,7 +455,8 @@ namespace Mud.Server.Tests
             ItemData itemData = new ItemData
             {
                 ItemId = questBlueprint.Id,
-                DecayPulseLeft = 10
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
             IItem quest = World.AddItem(Guid.NewGuid(), itemData, room);
@@ -427,6 +464,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(quest, typeof(IItemQuest));
             Assert.AreEqual(questBlueprint.Id, quest.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, quest.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, quest.ItemFlags);
         }
 
         // Shield
@@ -441,7 +479,8 @@ namespace Mud.Server.Tests
             ItemData itemData = new ItemData
             {
                 ItemId = shieldBlueprint.Id,
-                DecayPulseLeft = 10
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
             IItem shield = World.AddItem(Guid.NewGuid(), itemData, room);
@@ -449,6 +488,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(shield, typeof(IItemShield));
             Assert.AreEqual(shieldBlueprint.Id, shield.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, shield.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, shield.ItemFlags);
         }
 
         // Weapon
@@ -463,7 +503,8 @@ namespace Mud.Server.Tests
             ItemData itemData = new ItemData
             {
                 ItemId = weaponBlueprint.Id,
-                DecayPulseLeft = 10
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
             IItem weapon = World.AddItem(Guid.NewGuid(), itemData, room);
@@ -471,6 +512,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(weapon, typeof(IItemWeapon));
             Assert.AreEqual(weaponBlueprint.Id, weapon.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, weapon.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, weapon.ItemFlags);
         }
     }
 }

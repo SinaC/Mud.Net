@@ -166,6 +166,9 @@ namespace Mud.Server.Admin
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
 
+            // TODO: purge all (npc + item)
+            // TODO: purge npc
+
             IItem item = FindHelpers.FindItemHere(Impersonating, parameters[0]);
             if (item == null)
             {
@@ -173,9 +176,15 @@ namespace Mud.Server.Admin
                 return CommandExecutionResults.TargetNotFound;
             }
 
+            if (item.ItemFlags.HasFlag(ItemFlags.NoPurge))
+            {
+                Send("It can't be purged.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+
             Wiznet.Wiznet($"{DisplayName} purges {item.DebugName}.", WiznetFlags.Punish);
 
-            Impersonating.Act(ActOptions.ToAll, "{0:N} purge{0:v} {1}!", Impersonating, item);
+            Impersonating.Act(ActOptions.ToAll, "{0:N} purge{0:v} {1}.", Impersonating, item);
             World.RemoveItem(item);
 
             return CommandExecutionResults.Ok;

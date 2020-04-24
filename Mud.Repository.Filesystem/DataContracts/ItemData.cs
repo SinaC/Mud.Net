@@ -16,5 +16,7 @@ namespace Mud.Repository.Filesystem.DataContracts
         [DataMember]
         public int DecayPulseLeft { get; set; }
 
+        [DataMember]
+        public int ItemFlags { get; set; }
     }
 }

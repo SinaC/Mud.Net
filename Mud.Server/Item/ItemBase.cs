@@ -25,6 +25,7 @@ namespace Mud.Server.Item
             containedInto.PutInContainer(this);
             Weight = blueprint.Weight;
             Cost = blueprint.Cost;
+            ItemFlags = blueprint.ItemFlags;
         }
 
         protected ItemBase(Guid guid, TBlueprint blueprint, ItemData itemData, IContainer containedInto)
@@ -32,6 +33,7 @@ namespace Mud.Server.Item
         {
             // TODO: copy other fields
             DecayPulseLeft = itemData.DecayPulseLeft;
+            ItemFlags = itemData.ItemFlags;
         }
 
         #region IItem
@@ -96,6 +98,9 @@ namespace Mud.Server.Item
 
         public virtual int Cost { get; }
 
+        public ItemFlags ItemFlags { get; protected set; }
+
+
         public virtual bool IsQuestObjective(IPlayableCharacter questingCharacter)
         {
             return false; // by default, an item is not a quest objective
@@ -126,7 +131,8 @@ namespace Mud.Server.Item
             return new ItemData
             {
                 ItemId = Blueprint.Id,
-                DecayPulseLeft = DecayPulseLeft
+                DecayPulseLeft = DecayPulseLeft,
+                ItemFlags = ItemFlags
             };
         }
 

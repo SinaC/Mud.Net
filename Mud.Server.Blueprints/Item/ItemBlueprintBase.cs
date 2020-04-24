@@ -44,6 +44,9 @@ namespace Mud.Server.Blueprints.Item
         [DataMember]
         public WearLocations WearLocation { get; set; }
 
+        [DataMember]
+        public ItemFlags ItemFlags { get; set; }
+
         public static Dictionary<string,string> BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
         {
             Dictionary<string,string> result = new Dictionary<string, string>();

@@ -1,3 +1,8 @@
+purge all (npc+item)
+      npc
+
+ItemFlags to use RotDeath, Indestructible, Humming, Glowing, Invisible
+
 refactor RawKilled: found in NonPlayableCharacter and PlayableCharacter
 IEquipable should not exist -> every item with a wear location should be equipable even if it's a furniture or a bag
 When adding a container in a container, check if there is no cycle

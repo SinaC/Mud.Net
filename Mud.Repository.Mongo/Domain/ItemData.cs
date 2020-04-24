@@ -9,5 +9,7 @@ namespace Mud.Repository.Mongo.Domain
         public int ItemId { get; set; }
 
         public int DecayPulseLeft { get; set; }
+
+        public int ItemFlags { get; set; }
     }
 }

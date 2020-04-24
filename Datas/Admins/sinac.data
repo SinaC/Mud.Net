@@ -16,7 +16,7 @@
     <CharacterData>
       <CreationTime>2020-04-20T16:00:00</CreationTime>
       <Name>sinac</Name>
-      <RoomId>3014</RoomId>
+      <RoomId>3041</RoomId>
       <Race>troll</Race>
       <Class>druid</Class>
       <Level>60</Level>
@@ -27,7 +27,8 @@
           <Slot>1</Slot>
           <Item>
             <ItemId>3365</ItemId>
-            <DecayPulseLeft>14384980</DecayPulseLeft>
+            <DecayPulseLeft>14384880</DecayPulseLeft>
+            <ItemFlags>96</ItemFlags>
           </Item>
         </EquipedItemData>
         <EquipedItemData>
@@ -35,6 +36,7 @@
           <Item>
             <ItemId>3356</ItemId>
             <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>0</ItemFlags>
           </Item>
         </EquipedItemData>
         <EquipedItemData>
@@ -42,6 +44,15 @@
           <Item>
             <ItemId>3353</ItemId>
             <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>0</ItemFlags>
+          </Item>
+        </EquipedItemData>
+        <EquipedItemData>
+          <Slot>9</Slot>
+          <Item>
+            <ItemId>3360</ItemId>
+            <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>0</ItemFlags>
           </Item>
         </EquipedItemData>
         <EquipedItemData>
@@ -49,51 +60,86 @@
           <Item>
             <ItemId>3364</ItemId>
             <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>0</ItemFlags>
+          </Item>
+        </EquipedItemData>
+        <EquipedItemData>
+          <Slot>11</Slot>
+          <Item>
+            <ItemId>3364</ItemId>
+            <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>0</ItemFlags>
           </Item>
         </EquipedItemData>
         <EquipedItemData>
           <Slot>15</Slot>
           <Item>
-            <ItemId>3350</ItemId>
+            <ItemId>3005</ItemId>
             <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>32</ItemFlags>
           </Item>
         </EquipedItemData>
         <EquipedItemData>
           <Slot>16</Slot>
-          <Item xsi:type="ItemContainerData">
-            <ItemId>11321</ItemId>
+          <Item>
+            <ItemId>3350</ItemId>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <Contains>
-              <ItemData>
-                <ItemId>6</ItemId>
-                <DecayPulseLeft>0</DecayPulseLeft>
-              </ItemData>
-              <ItemData>
-                <ItemId>3</ItemId>
-                <DecayPulseLeft>0</DecayPulseLeft>
-              </ItemData>
-            </Contains>
+            <ItemFlags>0</ItemFlags>
           </Item>
         </EquipedItemData>
       </Equipments>
       <Inventory>
+        <ItemData>
+          <ItemId>3353</ItemId>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+        </ItemData>
+        <ItemData>
+          <ItemId>3364</ItemId>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+        </ItemData>
+        <ItemData>
+          <ItemId>3350</ItemId>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+        </ItemData>
         <ItemData xsi:type="ItemContainerData">
           <ItemId>1</ItemId>
           <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
           <Contains>
             <ItemData xsi:type="ItemContainerData">
               <ItemId>3032</ItemId>
               <DecayPulseLeft>0</DecayPulseLeft>
+              <ItemFlags>0</ItemFlags>
             </ItemData>
             <ItemData>
               <ItemId>3</ItemId>
               <DecayPulseLeft>0</DecayPulseLeft>
+              <ItemFlags>0</ItemFlags>
             </ItemData>
           </Contains>
         </ItemData>
         <ItemData>
           <ItemId>7</ItemId>
           <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+        </ItemData>
+        <ItemData>
+          <ItemId>3350</ItemId>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+        </ItemData>
+        <ItemData>
+          <ItemId>3353</ItemId>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+        </ItemData>
+        <ItemData>
+          <ItemId>3356</ItemId>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
         </ItemData>
       </Inventory>
       <CurrentQuests>

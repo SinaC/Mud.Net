@@ -28,8 +28,17 @@ namespace Mud.Server.Item
                 DecayPulseLeft = Settings.PulsePerMinutes * 5;
             else
                 DecayPulseLeft = Settings.PulsePerMinutes;
-            foreach (IItem item in inventory) // TODO: check stay death flag
+            foreach (IItem item in inventory)
+            {
+                // TODO: check stay death flag
+                if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
+                {
+                    // TODO
+                    //item.DecayPulseLeft = Random(5,10)
+                    //item.ItemFlags &= ~ItemFlags.RotDeath;
+                }
                 item.ChangeContainer(this);
+            }
             foreach (IEquipable item in victim.Equipments.Where(x => x.Item != null).Select(x => x.Item))
             {
                 item.ChangeContainer(this);

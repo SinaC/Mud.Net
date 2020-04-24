@@ -29,6 +29,7 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)));
 
             CreateMap<Domain.ItemData, DataContracts.ItemData>()
+                .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
                 .Include<Domain.ItemContainerData, DataContracts.ItemContainerData>()
                 .Include<Domain.ItemCorpseData, DataContracts.ItemCorpseData>();
             CreateMap<Domain.ItemContainerData, DataContracts.ItemContainerData>();
@@ -55,6 +56,7 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)));
 
             CreateMap<DataContracts.ItemData, Domain.ItemData>()
+                .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
                 .Include<DataContracts.ItemContainerData, Domain.ItemContainerData>()
                 .Include<DataContracts.ItemCorpseData, Domain.ItemCorpseData>();
             CreateMap<DataContracts.ItemContainerData, Domain.ItemContainerData>();
@@ -252,6 +254,16 @@ namespace Mud.Repository.Filesystem
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid EquipmentSlots {slot} while writing pfile");
                     return 0;
             }
+        }
+
+        private Domain.ItemFlags MapItemFlags(int flags)
+        {
+            return (Domain.ItemFlags)flags;
+        }
+
+        private int MapItemFlags(Domain.ItemFlags flags)
+        {
+            return (int)flags;
         }
     }
 }
