@@ -8,7 +8,7 @@ namespace Mud.Domain
 
         public DateTime StartTime { get; set; }
 
-        public int SecondsLeft { get; set; }
+        public int PulseLeft { get; set; }
 
         public DateTime? CompletionTime { get; set; }
 

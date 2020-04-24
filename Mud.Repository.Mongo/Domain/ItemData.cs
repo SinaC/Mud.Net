@@ -2,12 +2,12 @@
 
 namespace Mud.Repository.Mongo.Domain
 {
-    [BsonKnownTypes(typeof(EquipedItemData))]
+    [BsonKnownTypes(typeof(ItemContainerData), typeof(ItemCorpseData))]
     public class ItemData
     {
         [BsonId]
         public int ItemId { get; set; }
 
-        public ItemData[] Contains { get; set; }
+        public int DecayPulseLeft { get; set; }
     }
 }

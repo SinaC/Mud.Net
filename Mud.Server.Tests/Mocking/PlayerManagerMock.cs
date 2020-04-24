@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Mud.Server.Tests.Mocking
 {
-    public class PlayerManagerMock : IPlayerManager
+    internal class PlayerManagerMock : IPlayerManager
     {
         private List<IPlayer> _players = new List<IPlayer>();
 

@@ -18,7 +18,6 @@ namespace Mud.Repository.Mongo
         {
             CreateMap<Mud.Domain.PlayerData, Domain.PlayerData>()
                 .Include<Mud.Domain.AdminData, Domain.AdminData>();
-
             CreateMap<Mud.Domain.AdminData, Domain.AdminData>()
                 .ForMember(x => x.Level, expression => expression.MapFrom(x => MapAdminLevel(x.Level)))
                 .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
@@ -27,7 +26,10 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)));
 
             CreateMap<Mud.Domain.ItemData, Domain.ItemData>()
-                .Include<Mud.Domain.EquipedItemData, Domain.EquipedItemData>();
+                .Include<Mud.Domain.ItemContainerData, Domain.ItemContainerData>()
+                .Include<Mud.Domain.ItemCorpseData, Domain.ItemCorpseData>();
+            CreateMap<Mud.Domain.ItemContainerData, Domain.ItemContainerData>();
+            CreateMap<Mud.Domain.ItemCorpseData, Domain.ItemCorpseData>();
 
             CreateMap<Mud.Domain.EquipedItemData, Domain.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
@@ -41,7 +43,6 @@ namespace Mud.Repository.Mongo
         {
             CreateMap<Domain.PlayerData, Mud.Domain.PlayerData>()
                 .Include<Domain.AdminData, Mud.Domain.AdminData>();
-
             CreateMap<Domain.AdminData, Mud.Domain.AdminData>()
                 .ForMember(x => x.Level, expression => expression.MapFrom(x => MapAdminLevel(x.Level)))
                 .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
@@ -50,7 +51,10 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)));
 
             CreateMap<Domain.ItemData, Mud.Domain.ItemData>()
-                .Include<Domain.EquipedItemData, Mud.Domain.EquipedItemData>();
+                .Include<Domain.ItemContainerData, Mud.Domain.ItemContainerData>()
+                .Include<Domain.ItemCorpseData, Mud.Domain.ItemCorpseData>();
+            CreateMap<Domain.ItemContainerData, Mud.Domain.ItemContainerData>();
+            CreateMap<Domain.ItemCorpseData, Mud.Domain.ItemCorpseData>();
 
             CreateMap<Domain.EquipedItemData, Mud.Domain.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));

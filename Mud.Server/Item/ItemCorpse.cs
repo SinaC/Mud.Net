@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
@@ -20,7 +22,8 @@ namespace Mud.Server.Item
             // TODO: custom short description
             Description = "The corpse of " + _corpseName + " is laying here.";
             _content = new List<IItem>();
-            List<IItem> inventory = new List<IItem>(victim.Content); // clone
+
+            IReadOnlyCollection<IItem> inventory = new ReadOnlyCollection<IItem>(victim.Content.ToList()); // clone
             if (inventory.Any())
                 DecayPulseLeft = Settings.PulsePerMinutes * 5;
             else
@@ -32,10 +35,13 @@ namespace Mud.Server.Item
                 item.ChangeContainer(this);
                 item.ChangeEquipedBy(null);
             }
+
+            IsPlayableCharacterCorpse = victim is IPlayableCharacter;
+
             // Check victim loot table (only if victim is NPC)
-            if (victim is INonPlayableCharacter nonPlayableCharacterVictim)
+            if (victim is INonPlayableCharacter nonPlayableCharacterVictom)
             {
-                List<int> loots = nonPlayableCharacterVictim.Blueprint?.LootTable?.GenerateLoots();
+                List<int> loots = nonPlayableCharacterVictom.Blueprint?.LootTable?.GenerateLoots();
                 if (loots != null && loots.Any())
                 {
                     foreach (int loot in loots)
@@ -60,7 +66,46 @@ namespace Mud.Server.Item
             }
         }
 
+        public ItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, ItemCorpseData itemCorpseData, IContainer containedInto)
+            : base(guid, blueprint, itemCorpseData, containedInto)
+        {
+            _corpseName = itemCorpseData.CorpseName;
+            Name = "corpse of " + _corpseName;
+            // TODO: custom short description
+            Description = "The corpse of " + _corpseName + " is laying here.";
+            _content = new List<IItem>();
+
+            IsPlayableCharacterCorpse = itemCorpseData.IsPlayableCharacterCorpse;
+            if (itemCorpseData.Contains?.Length > 0)
+            {
+                foreach (ItemData itemData in itemCorpseData.Contains)
+                    World.AddItem(Guid.NewGuid(), itemData, this);
+            }
+        }
+
         public override int Weight => base.Weight + _content.Sum(x => x.Weight);
+
+        #region IItemCorpse
+
+        #region ItemBase
+
+        public override ItemData MapItemData()
+        {
+            return new ItemCorpseData
+            {
+                ItemId = Blueprint.Id,
+                DecayPulseLeft = DecayPulseLeft,
+                Contains = MapContent(),
+                CorpseName = _corpseName,
+                IsPlayableCharacterCorpse = IsPlayableCharacterCorpse
+            };
+        }
+
+        #endregion
+
+        public bool IsPlayableCharacterCorpse { get; protected set; }
+
+        #endregion
 
         #region IContainer
 
@@ -79,5 +124,12 @@ namespace Mud.Server.Item
         }
 
         #endregion
+
+        private ItemData[] MapContent()
+        {
+            if (Content.Any())
+                return Content.Select(x => x.MapItemData()).ToArray();
+            return null;
+        }
     }
 }

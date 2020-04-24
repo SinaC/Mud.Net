@@ -72,6 +72,13 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoBogus, Version=2.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoBogus.2.8.1\lib\net40\AutoBogus.dll</HintPath>
+    </Reference>
+    <Reference Include="Bogus, Version=29.0.2.0, Culture=neutral, PublicKeyToken=fa1bb3f3f218129a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bogus.29.0.2\lib\net40\Bogus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="SimpleInjector, Version=4.9.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.4.9.2\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
@@ -90,15 +97,25 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CharacterDeserializationTests.cs" />
+    <Compile Include="ItemDeserializationTests.cs" />
+    <Compile Include="Mocking\AbilityManagerMock.cs" />
+    <Compile Include="Mocking\ClassManagerMock.cs" />
     <Compile Include="Mocking\ClientMock.cs" />
     <Compile Include="CommandParsingTests.cs" />
     <Compile Include="Mocking\LogMock.cs" />
     <Compile Include="Mocking\PlayerManagerMock.cs" />
+    <Compile Include="Mocking\RaceManagerMock.cs" />
     <Compile Include="Mocking\ServerMock.cs" />
+    <Compile Include="Mocking\SettingsMock.cs" />
+    <Compile Include="Mocking\TimeHandlerMock.cs" />
     <Compile Include="Mocking\WorldMock.cs" />
     <Compile Include="PlayerCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContainerTests.cs" />
+    <Compile Include="ItemSerializationTests.cs" />
+    <Compile Include="TestBase.cs" />
+    <Compile Include="WiznetMock.cs" />
     <Compile Include="WorldTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +139,10 @@
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
+      <Project>{D1A7D787-0FE7-4281-9458-D2C8F728E404}</Project>
+      <Name>Mud.Server.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
       <Project>{3E2BD396-17B9-423E-9114-9E215B468267}</Project>
       <Name>Mud.Server.Input</Name>
@@ -129,6 +150,10 @@
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
       <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>
       <Name>Mud.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
+      <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
+      <Name>Mud.Settings</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

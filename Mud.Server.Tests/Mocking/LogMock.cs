@@ -2,7 +2,7 @@
 
 namespace Mud.Server.Tests.Mocking
 {
-    public class LogMock : ILog
+    internal class LogMock : ILog
     {
         public LogLevels LastLogLevel { get; private set; }
         public string LastLogLine { get; private set; }

@@ -8,7 +8,19 @@ namespace Mud.Server.Item
 {
     public class ItemFurniture : ItemBase<ItemFurnitureBlueprint>, IItemFurniture
     {
-        public ItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer containedInto) : base(guid, blueprint, containedInto)
+        public ItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer containedInto)
+            : base(guid, blueprint, containedInto)
+        {
+            MaxPeople = blueprint.MaxPeople;
+            MaxWeight = blueprint.MaxWeight;
+            FurnitureActions = blueprint.FurnitureActions;
+            FurniturePlacePreposition = blueprint.FurniturePlacePreposition;
+            HealBonus = blueprint.HealBonus;
+            ResourceBonus = blueprint.ResourceBonus;
+        }
+
+        public ItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, ItemData itemData, IContainer containedInto)
+            : base(guid, blueprint, itemData, containedInto)
         {
             MaxPeople = blueprint.MaxPeople;
             MaxWeight = blueprint.MaxWeight;

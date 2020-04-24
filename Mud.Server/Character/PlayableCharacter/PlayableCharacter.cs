@@ -61,12 +61,16 @@ namespace Mud.Server.Character.PlayableCharacter
             // Equiped items
             if (data.Equipments != null)
             {
+                // Create item in inventory and try to equip it
                 foreach (EquipedItemData equipedItemData in data.Equipments)
                 {
+                    // Create in inventory
+                    var item = World.AddItem(Guid.NewGuid(), equipedItemData.Item as ItemData, this);
+
+                    // Try to equip it
                     EquipedItem equipedItem = SearchEquipmentSlot(equipedItemData.Slot, false);
                     if (equipedItem != null)
                     {
-                        IItem item = MapItemData(equipedItemData, this);
                         if (item is IEquipable equipable)
                         {
                             equipedItem.Item = equipable;
@@ -75,14 +79,14 @@ namespace Mud.Server.Character.PlayableCharacter
                         }
                         else
                         {
-                            string msg = $"Item blueprint Id {equipedItemData.ItemId} cannot be equipped anymore in slot {equipedItemData.Slot} for character {data.Name}.";
-                            Log.Default.WriteLine(LogLevels.Error, msg, equipedItemData.ItemId, equipedItemData.Slot);
+                            string msg = $"Item blueprint Id {equipedItemData.Item.ItemId} cannot be equipped anymore in slot {equipedItemData.Slot} for character {data.Name}.";
+                            Log.Default.WriteLine(LogLevels.Error, msg, equipedItemData.Item.ItemId, equipedItemData.Slot);
                             Wiznet.Wiznet(msg, WiznetFlags.Bugs);
                         }
                     }
                     else
                     {
-                        string msg = $"Item blueprint Id {equipedItemData.ItemId} was supposed to be equipped in first empty slot {equipedItemData.Slot} for character {data.Name}.";
+                        string msg = $"Item blueprint Id {equipedItemData.Item.ItemId} was supposed to be equipped in first empty slot {equipedItemData.Slot} for character {data.Name} but this slot doesn't exist anymore.";
                         Log.Default.WriteLine(LogLevels.Error, msg);
                         Wiznet.Wiznet(msg, WiznetFlags.Bugs);
                     }
@@ -92,7 +96,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (data.Inventory != null)
             {
                 foreach (ItemData itemData in data.Inventory)
-                    MapItemData(itemData, this);
+                    World.AddItem(Guid.NewGuid(), itemData, this);
             }
             // Quests
             if (data.CurrentQuests != null)
@@ -494,7 +498,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         protected override int ModifyCriticalDamage(int damage) => (damage * 150) / 200; // TODO http://wow.gamepedia.com/Critical_strike
 
-        protected override bool RawKilled(ICharacter killer, bool killingPayoff)
+        protected override bool RawKilled(ICharacter killer, bool killingPayoff) // TODO: refactor, same code in NonPlayableCharacter
         {
             if (!IsValid)
             {
@@ -507,15 +511,15 @@ namespace Mud.Server.Character.PlayableCharacter
                 wiznetMsg = $"{DebugName} got toasted by {killer.DebugName ?? "???"} at {Room?.DebugName ?? "???"}";
             else
                 wiznetMsg = $"{DebugName} got toasted by an unknown source at {Room?.DebugName ?? "???"}";
-            Wiznet.Wiznet(wiznetMsg, WiznetFlags.MobDeaths);
+            Wiznet.Wiznet(wiznetMsg, WiznetFlags.Deaths);
 
             StopFighting(true);
             // Remove periodic auras
-            List<IPeriodicAura> periodicAuras = new List<IPeriodicAura>(PeriodicAuras); // clone
+            IReadOnlyCollection<IPeriodicAura> periodicAuras = new ReadOnlyCollection<IPeriodicAura>(PeriodicAuras.ToList()); // clone
             foreach (IPeriodicAura pa in periodicAuras)
                 RemovePeriodicAura(pa);
             // Remove auras
-            List<IAura> auras = new List<IAura>(Auras); // clone
+            IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(Auras.ToList()); // clone
             foreach (IAura aura in auras)
                 RemoveAura(aura, false);
             // no need to recompute
@@ -607,40 +611,6 @@ namespace Mud.Server.Character.PlayableCharacter
         private void DeathPayoff() // Lose xp/reputation..
         {
             // TODO
-        }
-
-        // TODO: move this in ItemBase
-        private IItem MapItemData(ItemData itemData, IContainer container)
-        {
-            ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(itemData.ItemId);
-            if (itemBlueprint != null)
-            {
-                IItem item = World.AddItem(Guid.NewGuid(), itemBlueprint, container);
-
-                if (itemData.Contains?.Any() == true) // if contains items
-                {
-                    if (item is IItemContainer itemContainer)
-                    {
-                        foreach (ItemData subItemData in itemData.Contains)
-                            MapItemData(subItemData, itemContainer); // recursive call
-                    }
-                    else
-                    {
-                        string msg = $"Item blueprint id {itemData.ItemId} contains item(s) but is not a container anymore";
-                        Log.Default.WriteLine(LogLevels.Error, msg);
-                        Wiznet.Wiznet(msg, WiznetFlags.Bugs);
-                    }
-                }
-
-                return item;
-            }
-            else
-            {
-                string msg = $"Item blueprint Id {itemData.ItemId} doesn't exist anymore";
-                Log.Default.WriteLine(LogLevels.Error, msg);
-                Wiznet.Wiznet(msg, WiznetFlags.Bugs);
-            }
-            return null;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Mud.Server.Blueprints.Character;
@@ -103,7 +104,8 @@ namespace Mud.Server.Character.PlayableCharacter
             // all
             if (parameters[0].IsAll)
             {
-                foreach (IQuest questToComplete in Quests.Where(x => x.IsCompleted))
+                IReadOnlyCollection<IQuest> clone = new ReadOnlyCollection<IQuest>(Quests.Where(x => x.IsCompleted).ToList());
+                foreach (IQuest questToComplete in clone)
                 {
                     if (Room.NonPlayableCharacters.Any(x => x == questToComplete.Giver))
                     {
@@ -178,7 +180,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
-            if (!Room.NonPlayableCharacters.Any(x => x.Blueprint is CharacterQuestorBlueprint))
+            if (!Room.GetNonPlayableCharacters<CharacterQuestorBlueprint>().Any())
             {
                 Send("You cannot get any quest here.");
                 return CommandExecutionResults.NoExecution;
@@ -188,15 +190,13 @@ namespace Mud.Server.Character.PlayableCharacter
             if (parameters[0].IsAll)
             {
                 bool found = false;
-                // Search quest giver with wanted quest
-                foreach (INonPlayableCharacter questGiver in Room.NonPlayableCharacters.Where(x => x.Blueprint is CharacterQuestorBlueprint))
+                foreach (var questGiver in Room.GetNonPlayableCharacters<CharacterQuestorBlueprint>())
                 {
-                    CharacterQuestorBlueprint questGiverBlueprint = questGiver.Blueprint as CharacterQuestorBlueprint;
-                    if (questGiverBlueprint?.QuestBlueprints?.Any() == true)
+                    if (questGiver.blueprint?.QuestBlueprints?.Any() == true)
                     {
-                        foreach (QuestBlueprint questBlueprint in GetAvailableQuestBlueprints(questGiverBlueprint))
+                        foreach (QuestBlueprint questBlueprint in GetAvailableQuestBlueprints(questGiver.blueprint))
                         {
-                            GetQuest(questBlueprint, questGiver);
+                            GetQuest(questBlueprint, questGiver.character);
                             found = true;
                         }
                     }
@@ -209,16 +209,15 @@ namespace Mud.Server.Character.PlayableCharacter
             // get quest
             string questTitle = parameters[0].Value.ToLowerInvariant();
             // Search quest giver with wanted quest
-            foreach (INonPlayableCharacter questGiver in Room.NonPlayableCharacters.Where(x => x.Blueprint is CharacterQuestorBlueprint))
+            foreach (var questGiver in Room.GetNonPlayableCharacters<CharacterQuestorBlueprint>())
             {
-                CharacterQuestorBlueprint questGiverBlueprint = questGiver.Blueprint as CharacterQuestorBlueprint;
-                if (questGiverBlueprint?.QuestBlueprints?.Any() == true)
+                if (questGiver.blueprint?.QuestBlueprints?.Any() == true)
                 {
-                    foreach (QuestBlueprint questBlueprint in GetAvailableQuestBlueprints(questGiverBlueprint))
+                    foreach (QuestBlueprint questBlueprint in GetAvailableQuestBlueprints(questGiver.blueprint))
                     {
                         if (questBlueprint.Title.ToLowerInvariant().StartsWith(questTitle))
                         {
-                            GetQuest(questBlueprint, questGiver);
+                            GetQuest(questBlueprint, questGiver.character);
                             return CommandExecutionResults.Ok;
                         }
                     }
@@ -238,12 +237,11 @@ namespace Mud.Server.Character.PlayableCharacter
             sb.AppendLine("Available quests:");
             bool questGiverFound = false;
             bool questAvailable = false;
-            foreach (INonPlayableCharacter questGiver in Room.NonPlayableCharacters.Where(x => x.Blueprint is CharacterQuestorBlueprint))
+            foreach (var questGiver in Room.GetNonPlayableCharacters<CharacterQuestorBlueprint>())
             {
-                CharacterQuestorBlueprint questGiverBlueprint = questGiver.Blueprint as CharacterQuestorBlueprint;
-                if (questGiverBlueprint?.QuestBlueprints?.Any() == true)
+                if (questGiver.blueprint?.QuestBlueprints?.Any() == true)
                 {
-                    foreach (QuestBlueprint questBlueprint in GetAvailableQuestBlueprints(questGiverBlueprint))
+                    foreach (QuestBlueprint questBlueprint in GetAvailableQuestBlueprints(questGiver.blueprint))
                     {
                         sb.AppendLine($"Quest '{questBlueprint.Title}' [lvl:{questBlueprint.Level}]");
                         questAvailable = true;
@@ -290,7 +288,7 @@ namespace Mud.Server.Character.PlayableCharacter
             else
                 sb.Append($"{quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
             if (quest.Blueprint.TimeLimit > 0)
-                sb.Append($" Time left: {StringHelpers.FormatDelay(quest.SecondsLeft)}");
+                sb.Append($" Time left: {StringHelpers.FormatDelay(quest.PulseLeft / Settings.PulsePerSeconds)}");
             sb.AppendLine();
             if (!quest.IsCompleted)
                 BuildQuestObjectives(sb, quest);

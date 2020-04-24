@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Quest;
 
@@ -10,8 +11,14 @@ namespace Mud.Server.Item
         public ItemQuest(Guid guid, ItemQuestBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)
         {
-            UpdateQuestObjective(containedInto);
-            IsWearable = false;
+            UpdateQuestObjective(containedInto, false);
+        }
+
+        public ItemQuest(Guid guid, ItemQuestBlueprint blueprint, ItemData itemData, IContainer containedInto)
+            : base(guid, blueprint, itemData, containedInto)
+        {
+            // don't call UpdateQuestObjective because it will increase objective item count each time the player reconnect
+            // could maybe call it with force = true
         }
 
         #region ItemBase
@@ -26,19 +33,20 @@ namespace Mud.Server.Item
             // TODO: cannot be get if not on that quest
             bool baseResult = base.ChangeContainer(container);
             if (baseResult)
-                UpdateQuestObjective(container);
+                UpdateQuestObjective(container, false);
             return baseResult;
         }
 
-        private void UpdateQuestObjective(IContainer container)
+        #endregion
+
+        private void UpdateQuestObjective(IContainer container, bool force)
         {
             if (container is IPlayableCharacter character)
             {
                 foreach (IQuest quest in character.Quests)
-                    quest.Update(this, false);
+                    quest.Update(this, force);
             }
         }
 
-        #endregion
     }
 }

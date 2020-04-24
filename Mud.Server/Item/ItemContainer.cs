@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
 {
-    public class ItemContainer : ItemBase<ItemContainerBlueprint>, IItemContainer
+    public class ItemContainer : ItemEquipableBase<ItemContainerBlueprint>, IItemContainer
     {
         private readonly List<IItem> _content;
 
@@ -18,7 +19,36 @@ namespace Mud.Server.Item
             WeightMultiplier = blueprint.WeightMultiplier;
         }
 
+        public ItemContainer(Guid guid, ItemContainerBlueprint blueprint, ItemContainerData itemContainerData, IContainer containedInto)
+            : base(guid, blueprint, itemContainerData, containedInto)
+        {
+            _content = new List<IItem>();
+            // TODO: key, flags
+            ItemCount = blueprint.ItemCount;
+            WeightMultiplier = blueprint.WeightMultiplier;
+
+            if (itemContainerData.Contains?.Length > 0)
+            {
+                foreach (ItemData itemData in itemContainerData.Contains)
+                    World.AddItem(Guid.NewGuid(), itemData, this);
+            }
+        }
+
         #region IItem
+
+        #region ItemBase
+
+        public override ItemData MapItemData()
+        {
+            return new ItemContainerData
+            {
+                ItemId = Blueprint.Id,
+                DecayPulseLeft = DecayPulseLeft,
+                Contains = MapContent(),
+            };
+        }
+
+        #endregion
 
         public override int Weight => base.Weight + _content.Sum(x => x.Weight)*WeightMultiplier;
 
@@ -54,5 +84,12 @@ namespace Mud.Server.Item
         #endregion
 
         #endregion
+
+        private ItemData[] MapContent()
+        {
+            if (Content.Any())
+                return Content.Select(x => x.MapItemData()).ToArray();
+            return null;
+        }
     }
 }

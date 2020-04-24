@@ -5,6 +5,7 @@ using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.Extensions;
+using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
 using Mud.Server.Entity;
@@ -87,6 +88,13 @@ namespace Mud.Server.Room
         public IEnumerable<INonPlayableCharacter> NonPlayableCharacters => People.OfType<INonPlayableCharacter>();
 
         public IEnumerable<IPlayableCharacter> PlayableCharacters => People.OfType<IPlayableCharacter>();
+
+        public IEnumerable<(INonPlayableCharacter character, TBlueprint blueprint)> GetNonPlayableCharacters<TBlueprint>()
+            where TBlueprint : CharacterBlueprintBase
+        {
+            foreach (var character in NonPlayableCharacters.Where(x => x.Blueprint is TBlueprint))
+                yield return (character, character.Blueprint as TBlueprint);
+        }
 
         public IExit[] Exits { get; }
 

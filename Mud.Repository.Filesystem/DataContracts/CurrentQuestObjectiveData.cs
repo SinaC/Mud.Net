@@ -2,7 +2,7 @@
 
 namespace Mud.Repository.Filesystem.DataContracts
 {
-    [DataContract]
+    [DataContract(Namespace = "")]
     public class CurrentQuestObjectiveData
     {
         [DataMember]

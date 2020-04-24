@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Aura;
@@ -25,6 +27,8 @@ namespace Mud.Server.World
         private readonly List<IRoom> _rooms;
         private readonly List<ICharacter> _characters;
         private readonly List<IItem> _items;
+
+        private IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
         public World()
         {
@@ -304,12 +308,78 @@ namespace Mud.Server.World
             return null;
         }
 
+        public IItem AddItem(Guid guid, ItemData itemData, IContainer container)
+        {
+            ItemBlueprintBase blueprint = GetItemBlueprint(itemData.ItemId);
+            if (blueprint == null)
+            {
+                string msg = $"Item blueprint Id {itemData.ItemId} doesn't exist anymore";
+                Log.Default.WriteLine(LogLevels.Error, msg);
+                Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+
+                return null;
+            }
+
+            IItem item = null;
+            switch (blueprint)
+            {
+                case ItemArmorBlueprint armorBlueprint:
+                    item = new ItemArmor(guid, armorBlueprint, itemData, container); // no specific ItemData
+                    break;
+                case ItemContainerBlueprint containerBlueprint:
+                    item = new ItemContainer(guid, containerBlueprint, itemData as ItemContainerData, container);
+                    break;
+                case ItemCorpseBlueprint corpseBlueprint:
+                    item = new ItemCorpse(guid, corpseBlueprint, itemData as ItemCorpseData, container);
+                    break;
+                case ItemFurnitureBlueprint furnitureBlueprint:
+                    item = new ItemFurniture(guid, furnitureBlueprint, itemData, container);
+                    break;
+                case ItemJewelryBlueprint jewelryBlueprint:
+                    item = new ItemJewelry (guid, jewelryBlueprint, itemData, container);
+                    break;
+                case ItemKeyBlueprint keyBlueprint:
+                    item = new ItemKey(guid, keyBlueprint, itemData, container);
+                    break;
+                case ItemLightBlueprint lightBlueprint:
+                    item = new ItemLight(guid, lightBlueprint, itemData, container);
+                    break;
+                case ItemPortalBlueprint portalBlueprint:
+                    {
+                        IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
+                        item = new ItemPortal(guid, portalBlueprint, itemData, destination, container);
+                    }
+                    break;
+                case ItemQuestBlueprint questBlueprint:
+                    item = new ItemQuest(guid, questBlueprint, itemData, container);
+                    break;
+                case ItemShieldBlueprint shieldBlueprint:
+                    item = new ItemShield(guid, shieldBlueprint, itemData, container);
+                    break;
+                case ItemWeaponBlueprint weaponBlueprint:
+                    item = new ItemWeapon(guid, weaponBlueprint, itemData, container);
+                    break;
+            }
+
+            if (item != null)
+            {
+                _items.Add(item);
+                return item;
+            }
+            // TODO: other blueprint
+            Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Invalid blueprint type {0}", blueprint.GetType().FullName);
+            return null;
+        }
+
         public IItem AddItem(Guid guid, int blueprintId, IContainer container)
         {
             ItemBlueprintBase blueprint = GetItemBlueprint(blueprintId);
             if (blueprint == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: unknown blueprintId {0}", blueprintId);
+                string msg = $"Item blueprint Id {blueprintId} doesn't exist anymore";
+                Log.Default.WriteLine(LogLevels.Error, msg);
+                Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+
                 return null;
             }
             IItem item = AddItem(guid, blueprint, container);
@@ -354,7 +424,7 @@ namespace Mud.Server.World
             // TODO: if leader of a group
 
             // Search IPeriodicAura with character as Source and nullify Source
-            List<ICharacter> charactersWithPeriodicAuras = _characters.Where(x => x.PeriodicAuras.Any(pa => pa.Source == character)).ToList(); // clone
+            IReadOnlyCollection<ICharacter> charactersWithPeriodicAuras = new ReadOnlyCollection<ICharacter>(_characters.Where(x => x.PeriodicAuras.Any(pa => pa.Source == character)).ToList()); // clone
             foreach (ICharacter characterWithPeriodicAuras in charactersWithPeriodicAuras)
             {
                 foreach (IPeriodicAura pa in characterWithPeriodicAuras.PeriodicAuras.Where(x => x.Source == character))
@@ -362,7 +432,7 @@ namespace Mud.Server.World
             }
 
             // Search IAura with character as Source and nullify Source
-            List<ICharacter> charactersWithAuras = _characters.Where(x => x.Auras.Any(a => a.Source == character)).ToList(); // clone
+            IReadOnlyCollection<ICharacter> charactersWithAuras = new ReadOnlyCollection<ICharacter>(_characters.Where(x => x.Auras.Any(a => a.Source == character)).ToList()); // clone
             foreach (ICharacter characterWithAuras in charactersWithAuras)
             {
                 foreach (IAura aura in characterWithAuras.Auras.Where(x => x.Source == character))
@@ -370,7 +440,7 @@ namespace Mud.Server.World
             }
 
             // Remove periodic auras on character
-            List<IPeriodicAura> periodicAuras = new List<IPeriodicAura>(character.PeriodicAuras); // clone
+            IReadOnlyCollection<IPeriodicAura> periodicAuras = new ReadOnlyCollection<IPeriodicAura>(character.PeriodicAuras.ToList()); // clone
             foreach (IPeriodicAura pa in periodicAuras)
             {
                 pa.ResetSource();
@@ -378,7 +448,7 @@ namespace Mud.Server.World
             }
 
             // Remove auras
-            List<IAura> auras = new List<IAura>(character.Auras); // clone
+            IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // clone
             foreach (IAura aura in auras)
             {
                 aura.ResetSource();
@@ -389,13 +459,13 @@ namespace Mud.Server.World
             // Remove content
             if (character.Content.Any())
             {
-                List<IItem> clonedInventory = new List<IItem>(character.Content); // clone because GetFromContainer change Content collection
+                IReadOnlyCollection<IItem> clonedInventory = new ReadOnlyCollection<IItem>(character.Content.ToList()); // clone because GetFromContainer change Content collection
                 foreach (IItem item in clonedInventory)
                     RemoveItem(item);
                 // Remove equipments
                 if (character.Equipments.Any(x => x.Item != null))
                 {
-                    List<IEquipable> equipment = new List<IEquipable>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item));
+                    IReadOnlyCollection<IEquipable> equipment = new ReadOnlyCollection<IEquipable>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item).ToList()); // clone
                     foreach (IEquipable item in equipment)
                         RemoveItem(item);
                 }
@@ -416,7 +486,7 @@ namespace Mud.Server.World
             // If container, remove content
             if (item is IContainer container)
             {
-                List<IItem> content = new List<IItem>(container.Content); // clone to be sure
+                IReadOnlyCollection<IItem> content = new ReadOnlyCollection<IItem>(container.Content.ToList()); // clone to be sure
                 foreach (IItem itemInContainer in content)
                     RemoveItem(itemInContainer);
             }

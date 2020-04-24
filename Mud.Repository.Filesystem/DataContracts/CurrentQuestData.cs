@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Mud.Repository.Filesystem.DataContracts
 {
-    [DataContract]
+    [DataContract(Namespace = "")]
     public class CurrentQuestData
     {
         [DataMember]
@@ -13,7 +13,7 @@ namespace Mud.Repository.Filesystem.DataContracts
         public DateTime StartTime { get; set; }
 
         [DataMember]
-        public int SecondsLeft { get; set; }
+        public int PulseLeft { get; set; }
 
         [DataMember]
         public DateTime? CompletionTime { get; set; }

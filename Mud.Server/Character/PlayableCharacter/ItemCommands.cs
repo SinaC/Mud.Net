@@ -35,10 +35,11 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             //
             Log.Default.WriteLine(LogLevels.Debug, "Manually destroying item {0} in {1}", item.DebugName, DebugName);
+            Send($"You destroy {item.RelativeDisplayName(this)}.");
+
             World.RemoveItem(item);
             RecomputeAttributes();
 
-            Send($"You destroy {item.RelativeDisplayName(this)}.");
             return CommandExecutionResults.Ok;
         }
     }

@@ -29,7 +29,7 @@ namespace Mud.Repository.Tests
             var internalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.PlayerData, Filesystem.DataContracts.PlayerData>(original);
             var externalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.DataContracts.PlayerData, Domain.PlayerData>(internalPlayerData);
 
-            externalPlayerData.Name = "poeut";
+            externalPlayerData.Name = AutoFaker.Generate<string>();
 
             original.WithDeepEqual(externalPlayerData).Assert();
             Assert.Fail();
@@ -55,7 +55,7 @@ namespace Mud.Repository.Tests
             var internalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.AdminData, Filesystem.DataContracts.AdminData>(original);
             var externalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.DataContracts.AdminData, Domain.AdminData>(internalAdminData);
 
-            externalAdminData.Name = "poeut";
+            externalAdminData.Name = AutoFaker.Generate<string>();
 
             original.WithDeepEqual(externalAdminData).Assert();
         }

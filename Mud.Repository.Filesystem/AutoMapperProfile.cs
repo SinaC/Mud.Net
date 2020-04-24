@@ -21,7 +21,6 @@ namespace Mud.Repository.Filesystem
             CreateMap<Domain.PlayerData, DataContracts.PlayerData>()
                 .Include<Domain.AdminData, DataContracts.AdminData>()
                 .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapFromDictionary(x.Aliases)));
-
             CreateMap<Domain.AdminData, DataContracts.AdminData>()
                 .ForMember(x => x.Level, expression => expression.MapFrom(x => MapAdminLevel(x.Level)))
                 .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
@@ -30,7 +29,10 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)));
 
             CreateMap<Domain.ItemData, DataContracts.ItemData>()
-                .Include<Domain.EquipedItemData, DataContracts.EquipedItemData>();
+                .Include<Domain.ItemContainerData, DataContracts.ItemContainerData>()
+                .Include<Domain.ItemCorpseData, DataContracts.ItemCorpseData>();
+            CreateMap<Domain.ItemContainerData, DataContracts.ItemContainerData>();
+            CreateMap<Domain.ItemCorpseData, DataContracts.ItemCorpseData>();
 
             CreateMap<Domain.EquipedItemData, DataContracts.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
@@ -45,7 +47,6 @@ namespace Mud.Repository.Filesystem
             CreateMap<DataContracts.PlayerData, Domain.PlayerData>()
                 .Include<DataContracts.AdminData, Domain.AdminData>()
                 .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapToDictionary(x.Aliases)));
-
             CreateMap<DataContracts.AdminData, Domain.AdminData>()
                 .ForMember(x => x.Level, expression => expression.MapFrom(x => MapAdminLevel(x.Level)))
                 .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
@@ -54,7 +55,10 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)));
 
             CreateMap<DataContracts.ItemData, Domain.ItemData>()
-                .Include<DataContracts.EquipedItemData, Domain.EquipedItemData>();
+                .Include<DataContracts.ItemContainerData, Domain.ItemContainerData>()
+                .Include<DataContracts.ItemCorpseData, Domain.ItemCorpseData>();
+            CreateMap<DataContracts.ItemContainerData, Domain.ItemContainerData>();
+            CreateMap<DataContracts.ItemCorpseData, Domain.ItemCorpseData>();
 
             CreateMap<DataContracts.EquipedItemData, Domain.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));

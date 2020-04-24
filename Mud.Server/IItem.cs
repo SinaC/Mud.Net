@@ -21,10 +21,9 @@ namespace Mud.Server
 
         bool ChangeContainer(IContainer container);
 
-        void DecreaseDecayPulseLeft();
+        void DecreaseDecayPulseLeft(int pulseCount);
 
         // Mapping
         ItemData MapItemData();
-        ItemData[] MapContent();
     }
 }

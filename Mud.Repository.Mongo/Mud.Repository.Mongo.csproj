@@ -130,6 +130,8 @@
     <Compile Include="Domain\CurrentQuestData.cs" />
     <Compile Include="Domain\CurrentQuestObjectiveData.cs" />
     <Compile Include="Domain\EquipedItemData.cs" />
+    <Compile Include="Domain\ItemContainerData.cs" />
+    <Compile Include="Domain\ItemCorpseData.cs" />
     <Compile Include="Domain\ItemData.cs" />
     <Compile Include="Domain\LoginData.cs" />
     <Compile Include="Domain\PlayerData.cs" />

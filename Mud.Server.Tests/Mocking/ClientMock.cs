@@ -3,7 +3,7 @@ using Mud.Network;
 
 namespace Mud.Server.Tests.Mocking
 {
-    public class ClientMock : IClient
+    internal class ClientMock : IClient
     {
         public List<string> WrittenData { get; set; }
         public List<string> ReceivedData { get; set; }
