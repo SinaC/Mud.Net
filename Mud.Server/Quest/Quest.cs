@@ -46,8 +46,23 @@ namespace Mud.Server.Quest
             CompletionTime = questData.CompletionTime;
 
             CharacterQuestorBlueprint characterQuestorBlueprint = World.GetCharacterBlueprint<CharacterQuestorBlueprint>(questData.GiverId);
-            // TODO: quid if blueprint is null?
-            Giver = World.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id && x.Room?.Blueprint?.Id == questData.GiverRoomId) ?? World.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id);
+            if (characterQuestorBlueprint == null)
+            {
+                string msg = $"Quest giver blueprint id {questData.GiverId} not found!!!";
+                Log.Default.WriteLine(LogLevels.Error, msg);
+                Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+            }
+            else
+            {
+                Giver = World.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id && x.Room?.Blueprint?.Id == questData.GiverRoomId) ?? World.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id);
+                if (Giver == null)
+                {
+                    string msg = $"Quest giver blueprint id {questData.GiverId} room blueprint Id {questData.GiverRoomId} not found!!!";
+                    Log.Default.WriteLine(LogLevels.Error, msg);
+                    Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+                }
+            }
+            // TODO: if Giver is null, player will not be able to complete quest
 
             _objectives = new List<IQuestObjective>();
             BuildObjectives(questBlueprint, character);

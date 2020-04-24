@@ -52,7 +52,6 @@ namespace Mud.Server.Quest
 
     public class LocationQuestObjective : IQuestObjective
     {
-
         public RoomBlueprint Blueprint { get; set; }
         public bool Explored { get; set; }
 

@@ -37,6 +37,7 @@ namespace Mud.Server.Player
                 Send("Avatar not found. Use 'listavatar' to display your avatar list.");
                 return CommandExecutionResults.TargetNotFound;
             }
+            // TODO: move room extraction in World.AddPlayableCharacter and remove Room parameter
             IRoom location = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == characterData.RoomId);
             if (location == null)
             {

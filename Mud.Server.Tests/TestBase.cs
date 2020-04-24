@@ -24,6 +24,7 @@ namespace Mud.Server.Tests
             Container.DependencyContainer.Current.RegisterInstance<IClassManager>(new ClassManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IWorld>(new WorldMock());
+            Container.DependencyContainer.Current.RegisterInstance<IWiznet>(new WiznetMock());
         }
     }
 }

@@ -194,7 +194,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(3, (container as IItemContainer).Content.Count());
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == lightBlueprint.Id));
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == portalBlueprint.Id));
-            Assert.AreEqual(1, (itemData as ItemContainerData).Contains.Count(x => x.ItemId == containerBlueprint2.Id));
+            Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == containerBlueprint2.Id));
             IItem nestedContainer = (container as IItemContainer).Content.Single(x => x.Blueprint.Id == containerBlueprint2.Id);
             Assert.IsInstanceOfType(nestedContainer, typeof(IItemContainer));
             Assert.IsNotNull((nestedContainer as IItemContainer).Content);

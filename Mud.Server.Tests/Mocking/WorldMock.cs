@@ -79,13 +79,13 @@ namespace Mud.Server.Tests.Mocking
         public TBlueprint GetCharacterBlueprint<TBlueprint>(int id)
             where TBlueprint: CharacterBlueprintBase
         {
-            throw new NotImplementedException();
+            return _characterBlueprints.OfType<TBlueprint>().FirstOrDefault(x => x.Id == id);
         }
 
         public TBlueprint GetItemBlueprint<TBlueprint>(int id)
             where TBlueprint: ItemBlueprintBase
         {
-            throw new NotImplementedException();
+            return _itemBlueprints.OfType<TBlueprint>().FirstOrDefault(x => x.Id == id);
         }
 
         public void AddQuestBlueprint(QuestBlueprint blueprint)

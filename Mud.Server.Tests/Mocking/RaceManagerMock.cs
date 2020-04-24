@@ -3,6 +3,7 @@ using Mud.Server.Abilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Server.Common;
 
 namespace Mud.Server.Tests.Mocking
 {
@@ -28,7 +29,7 @@ namespace Mud.Server.Tests.Mocking
 
         public IEnumerable<AbilityAndLevel> Abilities => Enumerable.Empty<AbilityAndLevel>();
 
-        public IEnumerable<EquipmentSlots> EquipmentSlots => Enumerable.Empty<EquipmentSlots>();
+        public IEnumerable<EquipmentSlots> EquipmentSlots => EnumHelpers.GetValues<EquipmentSlots>().SelectMany(x => Enumerable.Repeat(x, 2)); // two of each
 
         public int GetPrimaryAttributeModifier(PrimaryAttributeTypes primaryAttribute) => 10;
     }
