@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Settings", "Mud.Setting
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Tests", "Mud.Repository.Tests\Mud.Repository.Tests.csproj", "{C41805E5-1006-44B7-9B6F-7E25DDE637C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Settings.ConfigurationManager", "Mud.Settings.ConfigurationManager\Mud.Settings.ConfigurationManager.csproj", "{4DED3775-6A0B-4D42-B799-9BEBC13F507A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -329,6 +331,18 @@ Global
 		{C41805E5-1006-44B7-9B6F-7E25DDE637C1}.Release|x64.Build.0 = Release|Any CPU
 		{C41805E5-1006-44B7-9B6F-7E25DDE637C1}.Release|x86.ActiveCfg = Release|Any CPU
 		{C41805E5-1006-44B7-9B6F-7E25DDE637C1}.Release|x86.Build.0 = Release|Any CPU
+		{4DED3775-6A0B-4D42-B799-9BEBC13F507A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DED3775-6A0B-4D42-B799-9BEBC13F507A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DED3775-6A0B-4D42-B799-9BEBC13F507A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4DED3775-6A0B-4D42-B799-9BEBC13F507A}.Debug|x64.Build.0 = Debug|Any CPU
+		{4DED3775-6A0B-4D42-B799-9BEBC13F507A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4DED3775-6A0B-4D42-B799-9BEBC13F507A}.Debug|x86.Build.0 = Debug|Any CPU
+		{4DED3775-6A0B-4D42-B799-9BEBC13F507A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DED3775-6A0B-4D42-B799-9BEBC13F507A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DED3775-6A0B-4D42-B799-9BEBC13F507A}.Release|x64.ActiveCfg = Release|Any CPU
+		{4DED3775-6A0B-4D42-B799-9BEBC13F507A}.Release|x64.Build.0 = Release|Any CPU
+		{4DED3775-6A0B-4D42-B799-9BEBC13F507A}.Release|x86.ActiveCfg = Release|Any CPU
+		{4DED3775-6A0B-4D42-B799-9BEBC13F507A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

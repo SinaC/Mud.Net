@@ -2,7 +2,7 @@
 using System.Configuration;
 using System.IO;
 
-namespace Mud.Settings
+namespace Mud.Settings.ConfigurationManager
 {
     public class Settings : ISettings
     {
@@ -61,7 +61,7 @@ namespace Mud.Settings
         #endregion
 
         //
-        private readonly Lazy<Configuration> _lazyCustomConfig = new Lazy<Configuration>(() => ReadCustomConfig(ConfigurationManager.AppSettings[SettingsPathKey]));
+        private readonly Lazy<Configuration> _lazyCustomConfig = new Lazy<Configuration>(() => ReadCustomConfig(System.Configuration.ConfigurationManager.AppSettings[SettingsPathKey]));
 
         //
         private string this[string key] => _lazyCustomConfig.Value.AppSettings.Settings[key]?.Value;
@@ -94,7 +94,7 @@ namespace Mud.Settings
             if (string.IsNullOrWhiteSpace(path))
                 throw new ConfigurationErrorsException($"{SettingsPathKey} not found in app.config");
             if (File.Exists(path))
-                return ConfigurationManager.OpenMappedExeConfiguration(new ExeConfigurationFileMap
+                return System.Configuration.ConfigurationManager.OpenMappedExeConfiguration(new ExeConfigurationFileMap
                 {
                     ExeConfigFilename = path
                 }, ConfigurationUserLevel.None);

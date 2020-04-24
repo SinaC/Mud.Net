@@ -152,6 +152,10 @@
       <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>
       <Name>Mud.Server</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Settings.ConfigurationManager\Mud.Settings.ConfigurationManager.csproj">
+      <Project>{4ded3775-6a0b-4d42-b799-9bebc13f507a}</Project>
+      <Name>Mud.Settings.ConfigurationManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
       <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
       <Name>Mud.Settings</Name>
