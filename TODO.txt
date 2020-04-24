@@ -1,5 +1,3 @@
-sanity check on quest: every objectives in a quest have different id
-
 remove AddItemXXX in IWorld
 
 refactor RawKilled: found in NonPlayableCharacter and PlayableCharacter
