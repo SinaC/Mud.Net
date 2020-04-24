@@ -12,7 +12,7 @@ namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter
     {
-        [PlayableCharacterCommand("follow", Category = "Group")]
+        [PlayableCharacterCommand("follow", "Group")]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoFollow(string rawParameters, params CommandParameter[] parameters)
         {
@@ -50,7 +50,7 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.Ok;
         }
 
-        [PlayableCharacterCommand("group", Category = "Group")]
+        [PlayableCharacterCommand("group", "Group")]
         [Syntax(
             "[cmd]",
             "[cmd] <character>")]
@@ -129,7 +129,7 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.Ok;
         }
 
-        [PlayableCharacterCommand("leave", Category = "Group", Priority = 5)]
+        [PlayableCharacterCommand("leave", "Group", Priority = 5)]
         protected virtual CommandExecutionResults DoLeave(string rawParameters, params CommandParameter[] parameters)
         {
             // Member leaving
@@ -162,9 +162,9 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.Ok;
         }
 
-        [PlayableCharacterCommand("gtell", Category = "Group")] // TODO: multiple category +Communication
-        [PlayableCharacterCommand("groupsay", Category = "Group", Priority = 50)]
-        [PlayableCharacterCommand("gsay", Category = "Group")] // TODO: multiple category +Communication
+        [PlayableCharacterCommand("gtell", "Group", "Communication")]
+        [PlayableCharacterCommand("groupsay", "Group", "Communication", Priority = 50)]
+        [PlayableCharacterCommand("gsay", "Group", "Communication")]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoGroupSay(string rawParameters, params CommandParameter[] parameters)
         {

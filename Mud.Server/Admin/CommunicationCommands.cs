@@ -4,8 +4,8 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [Command("atalk", Category = "Communication")]
-        [Command("admintalk", Category = "Communication")]
+        [Command("atalk", "Communication")]
+        [Command("admintalk", "Communication")]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoAdminTalk(string rawParameters, params CommandParameter[] parameters)
         {

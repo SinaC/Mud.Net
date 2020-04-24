@@ -9,8 +9,8 @@ namespace Mud.Server.Player
     // TODO: find a better filename
     public partial class Player
     {
-        [Command("macro", Category = "Misc")]
-        [Command("alias", Category = "Misc")]
+        [Command("macro", "Misc")]
+        [Command("alias", "Misc")]
         [Syntax(
             "[cmd]",
             "[cmd] <word>",
@@ -76,8 +76,8 @@ namespace Mud.Server.Player
 
         }
 
-        [Command("unmacro", Category = "Misc")]
-        [Command("unalias", Category = "Misc")]
+        [Command("unmacro", "Misc")]
+        [Command("unalias", "Misc")]
         [Syntax("[cmd] <word>")]
         protected virtual CommandExecutionResults DoUnAlias(string rawParameters, params CommandParameter[] parameters)
         {
@@ -98,7 +98,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.InvalidParameter;
         }
 
-        [Command("save", Category = "Misc", Priority = 999 /*low priority*/, NoShortcut = true)]
+        [Command("save", "Misc", Priority = 999 /*low priority*/, NoShortcut = true)]
         protected virtual CommandExecutionResults DoSave(string rawParameters, params CommandParameter[] parameters)
         {
             if (Impersonating != null)
@@ -126,7 +126,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Error;
         }
 
-        [Command("quit", Category = "Misc", Priority = 999/*low priority*/, NoShortcut = true)]
+        [Command("quit", "Misc", Priority = 999/*low priority*/, NoShortcut = true)]
         protected virtual CommandExecutionResults DoQuit(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO
@@ -155,7 +155,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [Command("password", Category = "Misc", Priority = 999, NoShortcut = true)]
+        [Command("password", "Misc", Priority = 999, NoShortcut = true)]
         [Syntax("[cmd] <old-password> <new-password>")]
         protected virtual CommandExecutionResults DoPassword(string rawParameters, params CommandParameter[] parameters)
         {
@@ -190,7 +190,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [Command("delete", Category = "Misc", Priority = 999, NoShortcut = true)]
+        [Command("delete", "Misc", Priority = 999, NoShortcut = true)]
         [Syntax("[cmd] <password>")]
         protected virtual CommandExecutionResults DoDelete(string rawParameters, params CommandParameter[] parameters)
         {
@@ -232,7 +232,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [Command("bug", Category = "Misc", Priority = 50)]
+        [Command("bug", "Misc", Priority = 50)]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoBug(string rawParameters, params CommandParameter[] parameters)
         {
@@ -248,7 +248,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [Command("typo", Category = "Misc", Priority = 50)]
+        [Command("typo", "Misc", Priority = 50)]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoTypo(string rawParameters, params CommandParameter[] parameters)
         {

@@ -11,7 +11,7 @@ namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter
     {
-        [PlayableCharacterCommand("quest", Category = "Quest", Priority = 1)]
+        [PlayableCharacterCommand("quest", "Quest", Priority = 1)]
         [Syntax(
             "[cmd]",
             "[cmd] <id>",
@@ -89,8 +89,8 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.SyntaxError;
         }
 
-        [PlayableCharacterCommand("qcomplete", Category = "Quest", Priority = 2)]
-        [PlayableCharacterCommand("questcomplete", Category = "Quest", Priority = 2)]
+        [PlayableCharacterCommand("qcomplete", "Quest", Priority = 2)]
+        [PlayableCharacterCommand("questcomplete", "Quest", Priority = 2)]
         [Syntax(
             "[cmd] <id>",
             "[cmd] all")]
@@ -142,8 +142,8 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.Ok;
         }
 
-        [PlayableCharacterCommand("qabandon", Category = "Quest", Priority = 3)]
-        [PlayableCharacterCommand("questabandon", Category = "Quest", Priority = 3)]
+        [PlayableCharacterCommand("qabandon", "Quest", Priority = 3)]
+        [PlayableCharacterCommand("questabandon", "Quest", Priority = 3)]
         [Syntax("[cmd] <id>")]
         protected virtual CommandExecutionResults DoQuestAbandon(string rawParameters, params CommandParameter[] parameters)
         {
@@ -167,8 +167,8 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.Ok;
         }
 
-        [PlayableCharacterCommand("qget", Category = "Quest", Priority = 4)]
-        [PlayableCharacterCommand("questget", Category = "Quest", Priority = 4)]
+        [PlayableCharacterCommand("qget", "Quest", Priority = 4)]
+        [PlayableCharacterCommand("questget", "Quest", Priority = 4)]
         [Syntax(
             "[cmd] <quest name>",
             "[cmd] all")]
@@ -228,8 +228,8 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.Ok;
         }
 
-        [PlayableCharacterCommand("qlist", Category = "Quest", Priority = 5)]
-        [PlayableCharacterCommand("questlist", Category = "Quest", Priority = 5)]
+        [PlayableCharacterCommand("qlist", "Quest", Priority = 5)]
+        [PlayableCharacterCommand("questlist", "Quest", Priority = 5)]
         protected virtual CommandExecutionResults DoQuestList(string rawParameters, params CommandParameter[] parameters)
         {
             // Display quests available in this.Room

@@ -5,7 +5,7 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [Command("order", Category = "Group")]
+        [Command("order", "Group")]
         [Syntax("[cmd] <command>")]
         protected virtual CommandExecutionResults DoOrder(string rawParameters, params CommandParameter[] parameters)
         {

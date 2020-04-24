@@ -160,7 +160,6 @@ namespace Mud.Server.Input
         }
 
         public static IReadOnlyTrie<CommandMethodInfo> GetCommands(Type type)
-        // TODO: should be generic on T: IActor
         {
             //var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
             //    .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())

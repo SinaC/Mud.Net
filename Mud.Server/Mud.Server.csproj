@@ -78,7 +78,6 @@
     <Compile Include="Abilities\AbilityEffects.cs" />
     <Compile Include="Abilities\AbilityManager.cs" />
     <Compile Include="Abilities\Ability.cs" />
-    <Compile Include="Abilities\ToRemoveAbilities.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
     <Compile Include="Admin\CommunicationCommands.cs" />
     <Compile Include="Admin\MiscCommands.cs" />

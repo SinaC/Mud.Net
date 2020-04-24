@@ -397,7 +397,7 @@ namespace Mud.Server.Player
             _avatarList[index] = updatedCharacterData; // replace with new character data
         }
 
-        [Command("test", Category = "!!Test!!")]
+        [Command("test", "!!Test!!")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
             if (Impersonating != null)

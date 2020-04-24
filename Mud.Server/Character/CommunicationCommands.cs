@@ -6,7 +6,7 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [Command("say", Category = "Communication")]
+        [Command("say", "Communication")]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoSay(string rawParameters, params CommandParameter[] parameters)
         {
@@ -20,7 +20,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("yell", Category = "Communication")]
+        [Command("yell", "Communication")]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoYell(string rawParameters, params CommandParameter[] parameters)
         {
@@ -34,7 +34,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("emote", Category = "Communication")]
+        [Command("emote", "Communication")]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoEmote(string rawParameters, params CommandParameter[] parameters)
         {
@@ -48,7 +48,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("whisper", Category = "Communication")]
+        [Command("whisper", "Communication")]
         [Syntax("[cmd] <character> <message>")]
         protected virtual CommandExecutionResults DoWhisper(string rawParameters, params CommandParameter[] parameters)
         {
@@ -76,7 +76,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("shout", Category = "Communication")]
+        [Command("shout", "Communication")]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoShout(string rawParameters, params CommandParameter[] parameters)
         {

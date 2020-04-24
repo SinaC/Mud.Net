@@ -12,7 +12,7 @@ namespace Mud.Server.Player
 {
     public partial class Player
     {
-        [Command("impersonate", Category = "Avatar")]
+        [Command("impersonate", "Avatar")]
         [Syntax(
             "[cmd]",
             "[cmd] <avatar name>")]
@@ -56,7 +56,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [Command("listavatar", Category = "Avatar")]
+        [Command("listavatar", "Avatar")]
         protected virtual CommandExecutionResults DoList(string rawParameters, params CommandParameter[] parameters)
         {
             if (!_avatarList.Any())
@@ -69,7 +69,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [PlayerCommand("createavatar", Category = "Avatar", CannotBeImpersonated = true)]
+        [PlayerCommand("createavatar", "Avatar", CannotBeImpersonated = true)]
         protected virtual CommandExecutionResults DoCreateAvatar(string rawParameters, params CommandParameter[] parameters)
         {
             if (_avatarList.Count >= Settings.MaxAvatarCount)
@@ -83,7 +83,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [PlayerCommand("deleteavatar", Category = "Avatar", CannotBeImpersonated = true)]
+        [PlayerCommand("deleteavatar", "Avatar", CannotBeImpersonated = true)]
         [Syntax("[cmd] <avatar name>")]
         protected virtual CommandExecutionResults DoDeleteAvatar(string rawParameters, params CommandParameter[] parameters)
         {

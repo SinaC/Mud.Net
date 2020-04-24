@@ -11,7 +11,7 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [Command("wear", Category = "Item")]
+        [Command("wear", "Item")]
         [Syntax(
             "[cmd] <item>",
             "[cmd] all")]
@@ -20,7 +20,6 @@ namespace Mud.Server.Character
         // Wear all.item
         protected virtual CommandExecutionResults DoWear(string rawParameters, params CommandParameter[] parameters)
         {
-            // TODO: bug with shield + second hand
             if (parameters.Length == 0)
             {
                 Send("Wear, wield, or hold what?");
@@ -73,7 +72,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("wield", Category = "Item")]
+        [Command("wield", "Item")]
         [Syntax("[cmd] <weapon>")]
         // Wield item
         protected virtual CommandExecutionResults DoWield(string rawParameters, params CommandParameter[] parameters)
@@ -106,7 +105,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("hold", Category = "Item")]
+        [Command("hold", "Item")]
         [Syntax("[cmd] <item>")]
         // Hold item
         protected virtual CommandExecutionResults DoHold(string rawParameters, params CommandParameter[] parameters)
@@ -134,7 +133,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("remove", Category = "Item")]
+        [Command("remove", "Item")]
         [Syntax("[cmd] <item>")]
         // Remove item
         protected virtual CommandExecutionResults DoRemove(string rawParameters, params CommandParameter[] parameters)
@@ -157,7 +156,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("get", Category = "Item")]
+        [Command("get", "Item")]
         [Syntax(
             "[cmd] <item>",
             "[cmd] <item> <container>")]
@@ -273,7 +272,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("drop", Category = "Item")]
+        [Command("drop", "Item")]
         [Syntax(
             "[cmd] <item>",
             "[cmd] all")]
@@ -324,7 +323,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("give", Category = "Item")]
+        [Command("give", "Item")]
         [Syntax("[cmd] <item> <character>")]
         // Give item victim
         protected virtual CommandExecutionResults DoGive(string rawParameters, params CommandParameter[] parameters)
@@ -373,7 +372,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("put", Category = "Item")]
+        [Command("put", "Item")]
         [Syntax("[cmd] <item> <container>")]
         // Put item container
         // Put item [in] container

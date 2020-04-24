@@ -7,7 +7,7 @@ namespace Mud.Server.Player
 {
     public partial class Player
     {
-        [Command("tell", Category = "Communication")]
+        [Command("tell", "Communication")]
         [Syntax("[cmd] <player name> <message>")]
         protected virtual CommandExecutionResults DoTell(string rawParameters, params CommandParameter[] parameters)
         {
@@ -29,7 +29,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [Command("reply", Category = "Communication")]
+        [Command("reply", "Communication")]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoReply(string rawParameters, params CommandParameter[] parameters)
         {
@@ -51,8 +51,8 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [Command("gossip", Category = "Communication")]
-        [Command("ooc", Category = "Communication")]
+        [Command("gossip", "Communication")]
+        [Command("ooc", "Communication")]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoGossip(string rawParameters, params CommandParameter[] parameters)
         {
@@ -71,7 +71,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [Command("question", Category = "Communication")]
+        [Command("question", "Communication")]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoQuestion(string rawParameters, params CommandParameter[] parameters)
         {
@@ -91,7 +91,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [Command("answer", Category = "Communication")]
+        [Command("answer", "Communication")]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoAnswer(string rawParameters, params CommandParameter[] parameters)
         {
@@ -111,7 +111,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [Command("afk", Category = "Communication")]
+        [Command("afk", "Communication")]
         protected virtual CommandExecutionResults DoAfk(string rawParameters, params CommandParameter[] parameters)
         {
             if (IsAfk)
@@ -126,7 +126,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [Command("replay", Category = "Communication")]
+        [Command("replay", "Communication")]
         protected virtual CommandExecutionResults DoReplay(string rawParameters, params CommandParameter[] parameters)
         {
             if (DelayedTells.Any())

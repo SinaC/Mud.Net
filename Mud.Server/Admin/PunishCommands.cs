@@ -6,7 +6,7 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [Command("force", Category = "Punish")]
+        [Command("force", "Punish")]
         [Syntax(
             "[cmd] <character> <command>",
             "[cmd] all <command>")]
@@ -57,7 +57,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("addlag", Category = "Punish")]
+        [Command("addlag", "Punish")]
         [Syntax("[cmd] <player name> <tick>")]
 
         protected virtual CommandExecutionResults DoAddLag(string rawParameters, params CommandParameter[] parameters)
@@ -93,7 +93,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("snoop", Category = "Punish")]
+        [Command("snoop", "Punish")]
         [Syntax("[cmd] <player name>")]
         protected virtual CommandExecutionResults DoSnoop(string rawParameters, params CommandParameter[] parameters)
         {

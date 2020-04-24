@@ -16,7 +16,7 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [Command("who", Category = "Information")]
+        [Command("who", "Information")]
 
         protected override CommandExecutionResults DoWho(string rawParameters, params CommandParameter[] parameters)
         {
@@ -67,7 +67,15 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("abilities", Category = "Information")]
+        [Command("areas", "Information", Priority = 10)]
+        protected override CommandExecutionResults DoAreas(string rawParameters, params CommandParameter[] parameters)
+        {
+            StringBuilder sb = TableGenerators.FullInfoAreaTableGenerator.Value.Generate("Areas", World.Areas);
+            Page(sb);
+            return CommandExecutionResults.Ok;
+        }
+
+        [Command("abilities", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] <class>",
@@ -81,7 +89,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("spells", Category = "Information")]
+        [Command("spells", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] <class>",
@@ -95,7 +103,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("skills", Category = "Information")]
+        [Command("skills", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] <class>",
@@ -109,7 +117,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("wiznet", Category = "Information")]
+        [Command("wiznet", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] all",
@@ -154,7 +162,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("stat", Category = "Information")]
+        [Command("stat", "Information")]
         protected virtual CommandExecutionResults DoStat(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -176,7 +184,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("rstat", Category = "Information")]
+        [Command("rstat", "Information")]
         [Syntax("[cmd] <id>")]
         protected virtual CommandExecutionResults DoRstat(string rawParameters, params CommandParameter[] parameters)
         {
@@ -237,8 +245,8 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("cstat", Category = "Information")]
-        [Command("mstat", Category = "Information")]
+        [Command("cstat", "Information")]
+        [Command("mstat", "Information")]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoCstat(string rawParameters, params CommandParameter[] parameters)
         {
@@ -352,8 +360,8 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("istat", Category = "Information")]
-        [Command("ostat", Category = "Information")]
+        [Command("istat", "Information")]
+        [Command("ostat", "Information")]
         [Syntax("[cmd] <item>")]
         protected virtual CommandExecutionResults DoIstat(string rawParameters, params CommandParameter[] parameters)
         {
@@ -433,8 +441,8 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("cfind", Category = "Information")]
-        [Command("mfind", Category = "Information")]
+        [Command("cfind", "Information")]
+        [Command("mfind", "Information")]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoCfind(string rawParameters, params CommandParameter[] parameters)
         {
@@ -457,8 +465,8 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("ifind", Category = "Information")]
-        [Command("ofind", Category = "Information")]
+        [Command("ifind", "Information")]
+        [Command("ofind", "Information")]
         [Syntax("[cmd] <item>")]
         protected virtual CommandExecutionResults DoIfind(string rawParameters, params CommandParameter[] parameters)
         {
@@ -481,7 +489,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [AdminCommand("path", Category = "Information", MustBeImpersonated = true)]
+        [AdminCommand("path", "Information", MustBeImpersonated = true)]
         [Syntax("[cmd] <location>")]
         protected virtual CommandExecutionResults DoPath(string rawParameters, params CommandParameter[] parameters)
         {
@@ -500,7 +508,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("info", Category = "Information")]
+        [Command("info", "Information")]
         [Syntax(
             "[cmd] race",
             "[cmd] class",

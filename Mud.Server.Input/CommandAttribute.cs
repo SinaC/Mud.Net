@@ -8,20 +8,21 @@ namespace Mud.Server.Input
     public class CommandAttribute : Attribute
     {
         public const int DefaultPriority = 500;
+        public const string DefaultCategory = "";
 
         public string Name { get; }
         public int Priority { get; set; } // Lower value means higher priority
         public bool Hidden { get; set; } // Not displayed in command list
-        public string Category { get; set; }
         public bool NoShortcut { get; set; } // Command must be fully typed
         public bool AddCommandInParameters { get; set; } // Command must be added in parameter list
+        public string[] Categories { get; set; }
 
-        public CommandAttribute(string name)
+        public CommandAttribute(string name, params string[] categories)
         {
             Name = name;
             Priority = DefaultPriority;
             Hidden = false;
-            Category = string.Empty;
+            Categories = categories ?? new [] { DefaultCategory };
             NoShortcut = false;
             AddCommandInParameters = false;
         }
@@ -30,8 +31,8 @@ namespace Mud.Server.Input
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class PlayableCharacterCommandAttribute : CommandAttribute // Must be impersonated
     {
-        public PlayableCharacterCommandAttribute(string name)
-            : base(name)
+        public PlayableCharacterCommandAttribute(string name, params string[] categories)
+            : base(name, categories)
         {
         }
     }
@@ -42,8 +43,8 @@ namespace Mud.Server.Input
         public bool MustBeImpersonated { get; set; }
         public bool CannotBeImpersonated { get; set; }
 
-        public PlayerCommandAttribute(string name)
-            : base(name)
+        public PlayerCommandAttribute(string name, params string[] categories)
+            : base(name, categories)
         {
         }
     }
@@ -53,8 +54,8 @@ namespace Mud.Server.Input
     {
         public AdminLevels MinLevel { get; set; }
 
-        public AdminCommandAttribute(string name) 
-            : base(name)
+        public AdminCommandAttribute(string name, params string[] categories)
+            : base(name, categories)
         {
         }
     }

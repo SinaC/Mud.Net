@@ -8,7 +8,7 @@ namespace Mud.Server.Character
     public partial class CharacterBase
     // TODO: remove   test commands
     {
-        [Command("test", Category = "!!Test!!")]
+        [Command("test", "!!Test!!")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
             Send("Character: DoTest");
@@ -95,7 +95,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("act", Category = "!!Test!!")]
+        [Command("act", "!!Test!!")]
         protected virtual bool DoAct(string rawParameters, params CommandParameter[] parameters)
         {
             ICharacter victim = Room.People.FirstOrDefault(x => x != this);
@@ -116,7 +116,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("charm", Category = "!!Test!!")]
+        [Command("charm", "!!Test!!")]
         protected virtual bool DoCharm(string rawParameters, params CommandParameter[] parameters)
         {
             if (ControlledBy != null)

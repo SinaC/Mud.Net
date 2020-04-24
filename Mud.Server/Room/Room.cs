@@ -136,14 +136,14 @@ namespace Mud.Server.Room
 
         #endregion
 
-        [Command("test", Category = "!!Test!!")]
+        [Command("test", "!!Test!!")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
             Send("Room: DoTest");
             return true;
         }
 
-        [Command("look", Category = "Information")]
+        [Command("look", "Information")]
         protected virtual CommandExecutionResults DoLook(string rawParameters, params CommandParameter[] parameters)
         {
             //TODO: better 'UI'

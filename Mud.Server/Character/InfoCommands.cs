@@ -21,7 +21,7 @@ namespace Mud.Server.Character
         // 4/ else if an item can be found in inventory+room (matching 1st parameter), display item description or extra description
         // 5/ else, if an extra description can be found in room (matching 1st parameter), display it
         // 6/ else, if 1st parameter is a direction, display if there is an exit/door
-        [Command("look", Category = "Information", Priority = 0)]
+        [Command("look", "Information", Priority = 0)]
         [Syntax(
             "[cmd]",
             "[cmd] in <container>",
@@ -139,7 +139,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.TargetNotFound;
         }
 
-        [Command("exits", Category = "Information")]
+        [Command("exits", "Information")]
         protected virtual CommandExecutionResults DoExits(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -148,7 +148,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("examine", Category = "Information")]
+        [Command("examine", "Information")]
         [Syntax(
             "[cmd] <container>",
             "[cmd] <corpse>")]
@@ -188,7 +188,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("scan", Category = "Information")]
+        [Command("scan", "Information")]
         protected virtual CommandExecutionResults DoScan(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder(1024);
@@ -221,7 +221,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("affects", Category = "Information")]
+        [Command("affects", "Information")]
         protected virtual CommandExecutionResults DoAffects(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -269,7 +269,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("score", Category = "Information", Priority = 2)]
+        [Command("score", "Information", Priority = 2)]
         protected virtual CommandExecutionResults DoScore(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: score all will display everything (every resources, every stats)
@@ -347,7 +347,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("where", Category = "Information")]
+        [Command("where", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] <player name>")]
@@ -381,7 +381,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("inventory", Category = "Information")]
+        [Command("inventory", "Information")]
         protected virtual CommandExecutionResults DoInventory(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -391,7 +391,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("equipment", Category = "Information")]
+        [Command("equipment", "Information")]
         protected virtual CommandExecutionResults DoEquipment(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -415,7 +415,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("consider", Category = "Information")]
+        [Command("consider", "Information")]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoConsider(string rawParameters, params CommandParameter[] parameters)
         {

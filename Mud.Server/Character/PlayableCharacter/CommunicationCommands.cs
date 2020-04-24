@@ -4,7 +4,7 @@ namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter
     {
-        [PlayableCharacterCommand("pray", Category = "Communication")]
+        [PlayableCharacterCommand("pray", "Communication")]
         [Syntax("[cmd] <msg>")]
         protected virtual CommandExecutionResults DoPray(string rawParameters, params CommandParameter[] parameters)
         {

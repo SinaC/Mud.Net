@@ -1,6 +1,14 @@
+ActorBase:157  group by any category
+
 refactor RawKilled: found in NonPlayableCharacter and PlayableCharacter
 IEquipable should not exist -> every item with a wear location should be equipable even if it's a furniture or a bag
 When adding a container in a container, check if there is no cycle
+
+CommandAttribute: multiple categories
+  add new property: Categories string[]
+  Category will be only used as pure setter, initializing Categories with new string[]{category}
+
+refactor damage functions in OneHit, Ability, DamageHelpers
 
 test group
      kill steal

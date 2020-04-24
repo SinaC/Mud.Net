@@ -7,7 +7,7 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [AdminCommand("incarnate", Category = "Admin", CannotBeImpersonated = true)]
+        [AdminCommand("incarnate", "Admin", CannotBeImpersonated = true)]
         [Syntax(
             "[cmd]",
             "[cmd] room <name|id>",

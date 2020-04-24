@@ -150,11 +150,11 @@ namespace Mud.Server.Actor
 
             // If a parameter is specified, filter on category
             if (parameters.Length > 0)
-                filteredCommands = filteredCommands.Where(x => FindHelpers.StringStartsWith(x.Value.Attribute.Category, parameters[0].Value));
+                filteredCommands = filteredCommands.Where(x => x.Value.Attribute.Categories.Any(category => FindHelpers.StringStartsWith(category, parameters[0].Value)));
 
             StringBuilder sb = new StringBuilder("Available commands:" + Environment.NewLine);
             foreach (IGrouping<string, KeyValuePair<string, CommandMethodInfo>> group in filteredCommands
-                .GroupBy(x => x.Value.Attribute.Category)
+                .GroupBy(x => string.Join(",", x.Value.Attribute.Categories)) // TODO: group by any category
                 .OrderBy(g => g.Key))
             {
                 if (!string.IsNullOrEmpty(group.Key))
@@ -216,11 +216,7 @@ namespace Mud.Server.Actor
             return true;
         }
 
-        protected static IReadOnlyTrie<CommandMethodInfo> GetCommands<T>()
-            where T : ActorBase
-        {
-            return CommandHelpers.GetCommands(typeof(T));
-        }
+        protected static IReadOnlyTrie<CommandMethodInfo> GetCommands<T>() => CommandHelpers.GetCommands(typeof(T));
 
         private StringBuilder BuildCommandSyntax(CommandMethodInfo commandMethodInfo)
         {

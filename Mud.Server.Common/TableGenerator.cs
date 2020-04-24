@@ -5,7 +5,6 @@ using System.Text;
 
 namespace Mud.Server.Common
 {
-    // TODO: add title as Generator parameter
     // TODO: multi table
     // TODO: typed column:
     //   AddBooleanColumn: automatically convert to Yes/No
@@ -19,7 +18,7 @@ namespace Mud.Server.Common
         {
             public bool MergeIdenticalValue { get; set; } = false;
             public bool AlignLeft { get; set; }
-            public bool SeparatorAfterIdenticalValue { get; set; } = false;
+            public bool SeparatorAfterIdenticalValue { get; set; } = false; // TODO: will add a horizontal separator after 2 or more identical consecutive values
             public Func<T, int> GetMergeLengthFunc { get; set; } = t => 0;
             public Func<T, string> GetTrailingSpaceFunc { get; set; } = t => " ";
         }

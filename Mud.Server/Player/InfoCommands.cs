@@ -7,7 +7,7 @@ namespace Mud.Server.Player
 {
     public partial class Player
     {
-        [Command("who", Category = "Information")]
+        [Command("who", "Information")]
         protected virtual CommandExecutionResults DoWho(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: title, additional informations
@@ -42,7 +42,7 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [Command("areas", Category = "Information", Priority = 10)]
+        [Command("areas", "Information", Priority = 10)]
         protected virtual CommandExecutionResults DoAreas(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = TableGenerators.AreaTableGenerator.Value.Generate("Areas", World.Areas);
@@ -50,8 +50,8 @@ namespace Mud.Server.Player
             return CommandExecutionResults.Ok;
         }
 
-        [Command("scroll", Category = "Information")]
-        [Command("page", Category = "Information")]
+        [Command("scroll", "Information")]
+        [Command("page", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] <number>")]

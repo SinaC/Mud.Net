@@ -14,7 +14,7 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [AdminCommand("promote", Category = "Admin", Priority = 999, NoShortcut = true, MinLevel = AdminLevels.Supremacy, CannotBeImpersonated = true)]
+        [AdminCommand("promote", "Admin", Priority = 999, NoShortcut = true, MinLevel = AdminLevels.Supremacy, CannotBeImpersonated = true)]
         [Syntax("[cmd] <player name> <level>")]
         protected virtual CommandExecutionResults DoPromote(string rawParameters, params CommandParameter[] parameters)
         {
@@ -52,7 +52,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [AdminCommand("shutdown", Category = "Admin", Priority = 999 /*low priority*/, NoShortcut = true, MinLevel = AdminLevels.Implementor, CannotBeImpersonated = true)]
+        [AdminCommand("shutdown", "Admin", Priority = 999 /*low priority*/, NoShortcut = true, MinLevel = AdminLevels.Implementor, CannotBeImpersonated = true)]
         [Syntax("[cmd] <delay>")]
         protected virtual CommandExecutionResults DoShutdown(string rawParameters, params CommandParameter[] parameters)
         {
@@ -68,8 +68,8 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [AdminCommand("cload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
-        [AdminCommand("mload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
+        [AdminCommand("cload", "Admin", Priority = 10, MustBeImpersonated = true)]
+        [AdminCommand("mload", "Admin", Priority = 10, MustBeImpersonated = true)]
         [Syntax("[cmd] <id>")]
         protected virtual CommandExecutionResults DoCload(string rawParameters, params CommandParameter[] parameters)
         {
@@ -99,8 +99,8 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [AdminCommand("iload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
-        [AdminCommand("oload", Category = "Admin", Priority = 10, MustBeImpersonated = true)]
+        [AdminCommand("iload", "Admin", Priority = 10, MustBeImpersonated = true)]
+        [AdminCommand("oload", "Admin", Priority = 10, MustBeImpersonated = true)]
         [Syntax("[cmd] <id>")]
         protected virtual CommandExecutionResults DoIload(string rawParameters, params CommandParameter[] parameters)
         {
@@ -132,7 +132,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [AdminCommand("slay", Category = "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
+        [AdminCommand("slay", "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoSlay(string rawParameters, params CommandParameter[] parameters)
         {
@@ -159,7 +159,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [AdminCommand("purge", Category = "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
+        [AdminCommand("purge", "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
         [Syntax("[cmd] <item>")]
         protected virtual CommandExecutionResults DoPurge(string rawParameters, params CommandParameter[] parameters)
         {
@@ -181,7 +181,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [AdminCommand("goto", Category = "Admin", MustBeImpersonated = true)]
+        [AdminCommand("goto", "Admin", MustBeImpersonated = true)]
         [Syntax("[cmd] <location>")]
         protected virtual CommandExecutionResults DoGoto(string rawParameters, params CommandParameter[] parameters)
         {
@@ -206,7 +206,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("xpbonus", Category = "Admin")]
+        [Command("xpbonus", "Admin")]
         [Syntax("[cmd] <player name> <experience>")]
         protected virtual CommandExecutionResults DpXpBonus(string rawParameters, params CommandParameter[] parameters)
         {
@@ -243,7 +243,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("transfer", Category = "Admin")]
+        [Command("transfer", "Admin")]
         [Syntax(
             "[cmd] <character> (if impersonated)",
             "[cmd] <character> <location>")]
@@ -301,7 +301,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("sanitycheck", Category = "Admin")]
+        [Command("sanitycheck", "Admin")]
 
         protected virtual CommandExecutionResults DoSanityCheck(string rawParameters, params CommandParameter[] parameters)
         {
@@ -322,7 +322,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("commanddebug", Priority = 10, Category = "Admin")]
+        [Command("commanddebug", "Admin", Priority = 10)]
         [Syntax(
             "[cmd] admin", 
             "[cmd] player",

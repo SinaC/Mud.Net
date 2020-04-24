@@ -4,7 +4,7 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [Command("impersonate", Category = "Avatar", Priority = 0)]
+        [Command("impersonate", "Avatar", Priority = 0)]
         [Syntax(
             "[cmd]",
             "[cmd] <character>")]

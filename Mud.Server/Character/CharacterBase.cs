@@ -1533,7 +1533,7 @@ namespace Mud.Server.Character
                 string commandName = abilityAndLevel.Ability.Name.ToLower();
                 CommandAttribute ca = new CommandAttribute(commandName)
                 {
-                    Category = "Skill",
+                    Categories = new[] {"Skill"},
                     Hidden = false,
                     Priority = 1,
                     AddCommandInParameters = true // !! this is mandatory

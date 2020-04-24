@@ -11,81 +11,81 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [Command("north", Category = "Movement", Priority = 0)]
+        [Command("north", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoNorth(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.North, true);
             return CommandExecutionResults.Ok;
         }
 
-        [Command("east", Category = "Movement", Priority = 0)]
+        [Command("east", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoEast(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.East, true);
             return CommandExecutionResults.Ok;
         }
 
-        [Command("south", Category = "Movement", Priority = 0)]
+        [Command("south", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoSouth(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.South, true);
             return CommandExecutionResults.Ok;
         }
 
-        [Command("west", Category = "Movement", Priority = 0)]
+        [Command("west", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoWest(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.West, true);
             return CommandExecutionResults.Ok;
         }
 
-        [Command("up", Category = "Movement", Priority = 0)]
+        [Command("up", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoUp(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.Up, true);
             return CommandExecutionResults.Ok;
         }
 
-        [Command("down", Category = "Movement", Priority = 0)]
+        [Command("down", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoDown(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.Down, true);
             return CommandExecutionResults.Ok;
         }
 
-        [Command("northeast", Category = "Movement", Priority = 1)]
-        [Command("ne", Category = "Movement", Priority = 0)]
+        [Command("northeast", "Movement", Priority = 1)]
+        [Command("ne", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoNorthEast(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.NorthEast, true);
             return CommandExecutionResults.Ok;
         }
 
-        [Command("northwest", Category = "Movement", Priority = 1)]
-        [Command("nw", Category = "Movement", Priority = 0)]
+        [Command("northwest", "Movement", Priority = 1)]
+        [Command("nw", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoNorthWest(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.NorthWest, true);
             return CommandExecutionResults.Ok;
         }
 
-        [Command("southeast", Category = "Movement", Priority = 1)]
-        [Command("se", Category = "Movement", Priority = 0)]
+        [Command("southeast", "Movement", Priority = 1)]
+        [Command("se", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoSouthEast(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.SouthEast, true);
             return CommandExecutionResults.Ok;
         }
 
-        [Command("southwest", Category = "Movement", Priority = 1)]
-        [Command("sw", Category = "Movement", Priority = 0)]
+        [Command("southwest", "Movement", Priority = 1)]
+        [Command("sw", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoSouthWest(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.SouthWest, true);
             return CommandExecutionResults.Ok;
         }
 
-        [Command("open", Category = "Movement")]
+        [Command("open", "Movement")]
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
@@ -153,7 +153,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("close", Category = "Movement")]
+        [Command("close", "Movement")]
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
@@ -216,7 +216,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("unlock", Category = "Movement")]
+        [Command("unlock", "Movement")]
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
@@ -294,7 +294,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("lock", Category = "Movement")]
+        [Command("lock", "Movement")]
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
@@ -372,7 +372,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("stand", Category = "Movement")]
+        [Command("stand", "Movement")]
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
@@ -450,7 +450,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("sit", Category = "Movement")]
+        [Command("sit", "Movement")]
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
@@ -535,7 +535,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("rest", Category = "Movement")]
+        [Command("rest", "Movement")]
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
@@ -620,7 +620,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("sleep", Category = "Movement")]
+        [Command("sleep", "Movement")]
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
@@ -688,7 +688,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("enter", Category = "Movement")]
+        [Command("enter", "Movement")]
         [Syntax("[cmd] <portal>")]
         protected virtual CommandExecutionResults DoEnter(string rawParameters, params CommandParameter[] parameters)
         {
