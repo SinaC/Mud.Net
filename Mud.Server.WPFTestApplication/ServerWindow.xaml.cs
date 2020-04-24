@@ -1463,7 +1463,7 @@ namespace Mud.Server.WPFTestApplication
                 Experience = 50000,
                 Gold = 20,
                 ShouldQuestItemBeDestroyed = true,
-                KillObjectives = new List<QuestKillObjectiveBlueprint>
+                KillObjectives = new QuestKillObjectiveBlueprint[]
                 {
                     new QuestKillObjectiveBlueprint
                     {
@@ -1472,7 +1472,7 @@ namespace Mud.Server.WPFTestApplication
                         Count = 3
                     }
                 },
-                ItemObjectives = new List<QuestItemObjectiveBlueprint>
+                ItemObjectives = new QuestItemObjectiveBlueprint[]
                 {
                     new QuestItemObjectiveBlueprint
                     {
@@ -1487,7 +1487,7 @@ namespace Mud.Server.WPFTestApplication
                         Count = 2
                     }
                 },
-                LocationObjectives = new List<QuestLocationObjectiveBlueprint>
+                LocationObjectives = new QuestLocationObjectiveBlueprint[]
                 {
                     new QuestLocationObjectiveBlueprint
                     {
@@ -1512,7 +1512,7 @@ namespace Mud.Server.WPFTestApplication
                 Experience = 10000,
                 Gold = 20,
                 TimeLimit = 5,
-                LocationObjectives = new List<QuestLocationObjectiveBlueprint>
+                LocationObjectives = new QuestLocationObjectiveBlueprint[]
                 {
                     new QuestLocationObjectiveBlueprint
                     {
@@ -1547,7 +1547,7 @@ namespace Mud.Server.WPFTestApplication
                 Description = "Tenth mob (neutral questor) is here",
                 Sex = Sex.Neutral,
                 Level = 60,
-                QuestBlueprints = new List<QuestBlueprint>
+                QuestBlueprints = new QuestBlueprint[]
                 {
                     questBlueprint1,
                     questBlueprint2

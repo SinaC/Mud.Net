@@ -269,7 +269,7 @@ namespace Mud.Server.Tests
                 Gold = 20000,
                 Title = "Quest1",
                 Level = 20,
-                ItemObjectives = new List<QuestItemObjectiveBlueprint>
+                ItemObjectives = new []
                 {
                     new QuestItemObjectiveBlueprint
                     {
@@ -278,7 +278,7 @@ namespace Mud.Server.Tests
                         Count = 5
                     }
                 },
-                KillObjectives = new List<QuestKillObjectiveBlueprint>
+                KillObjectives = new []
                 {
                     new QuestKillObjectiveBlueprint
                     {
@@ -287,7 +287,7 @@ namespace Mud.Server.Tests
                         Count = 3
                     }
                 },
-                LocationObjectives = new List<QuestLocationObjectiveBlueprint>
+                LocationObjectives = new []
                 {
                     new QuestLocationObjectiveBlueprint
                     {
@@ -300,7 +300,7 @@ namespace Mud.Server.Tests
             CharacterQuestorBlueprint questorBlueprint = new CharacterQuestorBlueprint
             {
                 Id = 999, Name = "Questor", ShortDescription = "QuestorShort", Description = "QuestDesc",
-                QuestBlueprints = new List<QuestBlueprint> { questBlueprint1 },
+                QuestBlueprints = new [] { questBlueprint1 },
             };
             world.AddCharacterBlueprint(questorBlueprint);
             world.AddNonPlayableCharacter(Guid.NewGuid(), questorBlueprint, room);

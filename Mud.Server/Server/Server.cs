@@ -748,7 +748,7 @@ namespace Mud.Server.Server
         {
             foreach (QuestBlueprint questBlueprint in World.QuestBlueprints)
             {
-                if (questBlueprint.ItemObjectives?.Count == 0 && questBlueprint.KillObjectives?.Count == 0 && questBlueprint.LocationObjectives?.Count == 0)
+                if (questBlueprint.ItemObjectives?.Length == 0 && questBlueprint.KillObjectives?.Length == 0 && questBlueprint.LocationObjectives?.Length == 0)
                     Log.Default.WriteLine(LogLevels.Error, "Quest id {0} doesn't have any objectives.", questBlueprint.Id);
                 else
                 {

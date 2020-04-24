@@ -8,6 +8,6 @@ namespace Mud.Server.Blueprints.Character
     public class CharacterQuestorBlueprint : CharacterBlueprintBase
     {
         [DataMember]
-        public List<QuestBlueprint> QuestBlueprints { get; set; }
+        public QuestBlueprint[] QuestBlueprints { get; set; }
     }
 }

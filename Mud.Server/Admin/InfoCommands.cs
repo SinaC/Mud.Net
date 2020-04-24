@@ -271,7 +271,7 @@ namespace Mud.Server.Admin
                 // TODO: display blueprint
                 if (nonPlayableVictim.Blueprint is CharacterQuestorBlueprint characterQuestorBlueprint)
                 {
-                    sb.AppendLine($"Quest giver: {characterQuestorBlueprint.QuestBlueprints?.Count ?? 0}");
+                    sb.AppendLine($"Quest giver: {characterQuestorBlueprint.QuestBlueprints?.Length ?? 0}");
                     foreach (var questBlueprint in characterQuestorBlueprint.QuestBlueprints ?? Enumerable.Empty<QuestBlueprint>())
                     {
                         sb.AppendLine($"  Quest: {questBlueprint.Id}");

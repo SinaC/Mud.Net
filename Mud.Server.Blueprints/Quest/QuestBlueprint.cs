@@ -14,18 +14,15 @@ namespace Mud.Server.Blueprints.Quest
         public int TimeLimit { get; set; } // 0 means no limit, in minutes
 
         public Dictionary<int, QuestKillLootTable<int>> KillLootTable { get; set; }
-        public List<QuestItemObjectiveBlueprint> ItemObjectives { get; set; }
-        public List<QuestKillObjectiveBlueprint> KillObjectives { get; set; }
-        public List<QuestLocationObjectiveBlueprint> LocationObjectives { get; set; }
+        public QuestItemObjectiveBlueprint[] ItemObjectives { get; set; }
+        public QuestKillObjectiveBlueprint[] KillObjectives { get; set; }
+        public QuestLocationObjectiveBlueprint[] LocationObjectives { get; set; }
 
         // TODO: rewards: loot
 
         public QuestBlueprint()
         {
             KillLootTable = new Dictionary<int, QuestKillLootTable<int>>();
-            ItemObjectives = new List<QuestItemObjectiveBlueprint>();
-            KillObjectives = new List<QuestKillObjectiveBlueprint>();
-            LocationObjectives = new List<QuestLocationObjectiveBlueprint>();
         }
     }
 }
