@@ -112,7 +112,7 @@ namespace Mud.Server.Quest
                 {
                     if (World.GetItemBlueprint(loot) is ItemQuestBlueprint questItemBlueprint)
                     {
-                        World.AddItemQuest(Guid.NewGuid(), questItemBlueprint, container);
+                        World.AddItem(Guid.NewGuid(), questItemBlueprint, container);
                         Log.Default.WriteLine(LogLevels.Debug, $"Loot objective {loot} generated for {Character.DisplayName}");
                     }
                     else

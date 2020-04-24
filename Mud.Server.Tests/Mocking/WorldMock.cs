@@ -144,34 +144,6 @@ namespace Mud.Server.Tests.Mocking
             return character;
         }
 
-        public IItemContainer AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container)
-        {
-            IItemContainer item = new ItemContainer(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
-
-        public IItemArmor AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container)
-        {
-            IItemArmor item = new ItemArmor(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
-
-        public IItemWeapon AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container)
-        {
-            IItemWeapon item = new ItemWeapon(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
-
-        public IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container)
-        {
-            IItemLight itemLight = new ItemLight(guid, blueprint, container);
-            _items.Add(itemLight);
-            return itemLight;
-        }
-
         public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
         {
             IItemCorpse itemCorpse = new ItemCorpse(guid, blueprint, room, victim);
@@ -184,51 +156,55 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container)
-        {
-            IItemShield item = new ItemShield(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
-
-        public IItemFurniture AddItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer container)
-        {
-            IItemFurniture item = new ItemFurniture(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
-
-        public IItemJewelry AddItemJewelry(Guid guid, ItemJewelryBlueprint blueprint, IContainer container)
-        {
-            IItemJewelry item = new ItemJewelry(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
-
-        public IItemQuest AddItemQuest(Guid guid, ItemQuestBlueprint blueprint, IContainer container)
-        {
-            IItemQuest item = new ItemQuest(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
-
-        public IItemKey AddItemKey(Guid guid, ItemKeyBlueprint blueprint, IContainer container)
-        {
-            IItemKey item = new ItemKey(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
-
-        public IItemPortal AddItemPortal(Guid guid, ItemPortalBlueprint blueprint, IRoom destination, IContainer container)
-        {
-            IItemPortal item = new ItemPortal(guid, blueprint, destination, container);
-            _items.Add(item);
-            return item;
-        }
-
         public IItem AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container)
         {
-            throw new NotImplementedException();
+            IItem item = null;
+            switch (blueprint)
+            {
+                case ItemArmorBlueprint armorBlueprint:
+                    item = new ItemArmor(guid, armorBlueprint, container); // no specific ItemData
+                    break;
+                case ItemContainerBlueprint containerBlueprint:
+                    item = new ItemContainer(guid, containerBlueprint, container);
+                    break;
+                case ItemCorpseBlueprint corpseBlueprint:
+                    break;
+                case ItemFurnitureBlueprint furnitureBlueprint:
+                    item = new ItemFurniture(guid, furnitureBlueprint, container);
+                    break;
+                case ItemJewelryBlueprint jewelryBlueprint:
+                    item = new ItemJewelry(guid, jewelryBlueprint, container);
+                    break;
+                case ItemKeyBlueprint keyBlueprint:
+                    item = new ItemKey(guid, keyBlueprint, container);
+                    break;
+                case ItemLightBlueprint lightBlueprint:
+                    item = new ItemLight(guid, lightBlueprint, container);
+                    break;
+                case ItemPortalBlueprint portalBlueprint:
+                    {
+                        IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
+                        item = new ItemPortal(guid, portalBlueprint, destination, container);
+                    }
+                    break;
+                case ItemQuestBlueprint questBlueprint:
+                    item = new ItemQuest(guid, questBlueprint, container);
+                    break;
+                case ItemShieldBlueprint shieldBlueprint:
+                    item = new ItemShield(guid, shieldBlueprint, container);
+                    break;
+                case ItemWeaponBlueprint weaponBlueprint:
+                    item = new ItemWeapon(guid, weaponBlueprint, container);
+                    break;
+            }
+
+            if (item != null)
+            {
+                _items.Add(item);
+                return item;
+            }
+
+            return item;
         }
 
         public IItem AddItem(Guid guid, ItemData itemData, IContainer container) // almost same method in real implementation

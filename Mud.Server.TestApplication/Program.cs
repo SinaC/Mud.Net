@@ -207,15 +207,15 @@ namespace Mud.Server.TestApplication
             ICharacter mob4 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob4Blueprint, room2);
             ICharacter mob5 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, room2);
 
-            IItemContainer item1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, room1);
-            IItemContainer item1Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, room2);
-            IItemWeapon item2 = DependencyContainer.Current.GetInstance<IWorld>().AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
-            IItemArmor item3 = DependencyContainer.Current.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
-            //IItemLight item4 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
-            //IItemWeapon item5 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
-            //IItemContainer item1Dup2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
-            IItemArmor item3Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
-            IItemLight item4Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            IItemContainer item1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, room1) as IItemContainer;
+            IItemContainer item1Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, room2) as IItemContainer;
+            IItemWeapon item2 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
+            IItemArmor item3 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1) as IItemArmor;
+            //IItemLight item4 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item4Blueprint, mob1);
+            //IItemWeapon item5 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item5Blueprint, mob1);
+            //IItemContainer item1Dup2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, mob1);
+            IItemArmor item3Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item3Blueprint, mob3) as IItemArmor;
+            IItemLight item4Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item4Blueprint, mob4) as IItemLight;
             // Equip weapon on mob2
             mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
             item2.ChangeContainer(null);
@@ -418,15 +418,15 @@ namespace Mud.Server.TestApplication
             ICharacter mob4 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
             ICharacter mob5 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
-            IItemContainer item1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemContainer item1Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemWeapon item2 = DependencyContainer.Current.GetInstance<IWorld>().AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
-            IItemArmor item3 = DependencyContainer.Current.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
-            //IItemLight item4 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
-            //IItemWeapon item5 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
-            //IItemContainer item1Dup2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
-            IItemArmor item3Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
-            IItemLight item4Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            IItemContainer item1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
+            IItemContainer item1Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
+            IItemWeapon item2 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
+            IItemArmor item3 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1) as IItemArmor;
+            //IItemLight item4 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item4Blueprint, mob1);
+            //IItemWeapon item5 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item5Blueprint, mob1);
+            //IItemContainer item1Dup2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, mob1);
+            IItemArmor item3Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item3Blueprint, mob3) as IItemArmor;
+            IItemLight item4Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item4Blueprint, mob4) as IItemLight;
             // Equip weapon on mob2
             mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
             item2.ChangeContainer(null);

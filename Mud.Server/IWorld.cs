@@ -54,18 +54,9 @@ namespace Mud.Server
         IPlayableCharacter AddPlayableCharacter(Guid guid, CharacterData characterData, IPlayer player, IRoom room);
         INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room);
 
-        IItemContainer AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container);
-        IItemArmor AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container);
-        IItemWeapon AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container);
-        IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container);
         IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim);
         IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, ICharacter killer);
-        IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container);
-        IItemFurniture AddItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer container);
-        IItemJewelry AddItemJewelry(Guid guid, ItemJewelryBlueprint blueprint, IContainer container);
-        IItemQuest AddItemQuest(Guid guid, ItemQuestBlueprint blueprint, IContainer container);
-        IItemKey AddItemKey(Guid guid, ItemKeyBlueprint blueprint, IContainer container);
-        IItemPortal AddItemPortal(Guid guid, ItemPortalBlueprint blueprint, IRoom destination, IContainer container);
+
         IItem AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container);
         IItem AddItem(Guid guid, ItemData itemData, IContainer container);
         IItem AddItem(Guid guid, int blueprintId, IContainer container);

@@ -1423,18 +1423,18 @@ namespace Mud.Server.WPFTestApplication
             //ICharacter mob4 = World.AddCharacter(Guid.NewGuid(), "mob4", Repository.ClassManager["Warrior"], Repository.RaceManager["Dwarf"], Sex.Female, templeSquare); // playable
             ICharacter mob5 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
-            IItemContainer item1 = World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemContainer item1Dup1 = World.AddItemContainer(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemWeapon item2 = World.AddItemWeapon(Guid.NewGuid(), item2Blueprint, mob2);
-            IItemArmor item3 = World.AddItemArmor(Guid.NewGuid(), item3Blueprint, item1Dup1);
-            //IItemLight item4 = World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob1);
-            //IItemWeapon item5 = World.AddItemWeapon(Guid.NewGuid(), item5Blueprint, mob1);
-            //IItemContainer item1Dup2 = World.AddItemContainer(Guid.NewGuid(), item1Blueprint, mob1);
-            IItemArmor item3Dup1 = World.AddItemArmor(Guid.NewGuid(), item3Blueprint, mob3);
-            //IItemLight item4Dup1 = World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
-            IItemWeapon item6 = World.AddItemWeapon(Guid.NewGuid(), item6Blueprint, templeSquare);
-            IItemShield item7 = World.AddItemShield(Guid.NewGuid(), item7Blueprint, templeOfMota);
-            World.AddItemQuest(Guid.NewGuid(), questItem2Blueprint, templeSquare);
+            World.AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItemContainer item1Dup1 = World.AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
+            IItemWeapon item2 = World.AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
+            World.AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1);
+            //World.AddItem(Guid.NewGuid(), item4Blueprint, mob1);
+            //World.AddItem(Guid.NewGuid(), item5Blueprint, mob1);
+            //World.AddItem(Guid.NewGuid(), item1Blueprint, mob1);
+            World.AddItem(Guid.NewGuid(), item3Blueprint, mob3);
+            //World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            World.AddItem(Guid.NewGuid(), item6Blueprint, templeSquare);
+            World.AddItem(Guid.NewGuid(), item7Blueprint, templeOfMota);
+            World.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare);
 
             // Equip weapon on mob2
             mob2.Equipments.First(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
