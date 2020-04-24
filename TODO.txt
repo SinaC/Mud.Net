@@ -1,7 +1,6 @@
-unit tests for item deserialize
-unit tests for character/equiped item serialize/deserialize
-
 sanity check on quest: every objectives in a quest have different id
+
+remove AddItemXXX in IWorld
 
 refactor RawKilled: found in NonPlayableCharacter and PlayableCharacter
 IEquipable should not exist -> every item with a wear location should be equipable even if it's a furniture or a bag

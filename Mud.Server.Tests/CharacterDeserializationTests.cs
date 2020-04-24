@@ -55,7 +55,7 @@ namespace Mud.Server.Tests
         }
 
         [TestMethod]
-        public void CharacterData_Inventory_NoEquipmentQuest_To_PlayableCharacter_Test()
+        public void CharacterData_Inventory_To_PlayableCharacter_Test()
         {
             var world = World;
             IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
@@ -144,7 +144,7 @@ namespace Mud.Server.Tests
         }
 
         [TestMethod]
-        public void CharacterData_Equipment_NoInventoryQuest_To_PlayableCharacter_Test()
+        public void CharacterData_Equipment_To_PlayableCharacter_Test()
         {
             var world = World;
             IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
@@ -250,7 +250,7 @@ namespace Mud.Server.Tests
         }
 
         [TestMethod]
-        public void CharacterData_Quest_NoEquipmentInventory_To_PlayableCharacter_Test()
+        public void CharacterData_Quest_To_PlayableCharacter_Test()
         {
             var world = World;
             RoomBlueprint roomBlueprint = new RoomBlueprint {Id = 1, Name = "room1"};
