@@ -42,7 +42,7 @@ namespace Mud.Server.WPFTestApplication
             _serverWindowInstance = this;
 
             // Initialize settings
-            ISettings settings = new Settings.Settings();
+            ISettings settings = new Settings.ConfigurationManager.Settings();
             DependencyContainer.Current.RegisterInstance<ISettings>(settings);
 
             // Initialize log

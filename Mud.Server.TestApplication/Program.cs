@@ -25,7 +25,7 @@ namespace Mud.Server.TestApplication
         private static void Main(string[] args)
         {
             // Initialize settings
-            ISettings settings = new Settings.Settings();
+            ISettings settings = new Settings.ConfigurationManager.Settings();
             DependencyContainer.Current.RegisterInstance<ISettings>(settings);
 
             // Initialize log
