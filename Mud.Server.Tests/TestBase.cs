@@ -7,6 +7,14 @@ namespace Mud.Server.Tests
     [TestClass]
     public abstract class TestBase
     {
+        protected IWorld World => Container.DependencyContainer.Current.GetInstance<IWorld>();
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            (Container.DependencyContainer.Current.GetInstance<IWorld>() as WorldMock).Clear();
+        }
+
         [AssemblyInitialize]
         public static void AssemblyInitialize(TestContext context)
         {
@@ -15,6 +23,7 @@ namespace Mud.Server.Tests
             Container.DependencyContainer.Current.RegisterInstance<IRaceManager>(new RaceManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IClassManager>(new ClassManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManagerMock());
+            Container.DependencyContainer.Current.RegisterInstance<IWorld>(new WorldMock());
         }
     }
 }

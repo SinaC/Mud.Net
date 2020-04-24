@@ -1023,9 +1023,7 @@ namespace Mud.Server.Server
                         // If container or playable character corpse, move items to contained into (except quest item)
                         if (item is IContainer container) // container
                         {
-                            bool moveItems = true;
-                            if (item is IItemCorpse itemCorpse && !itemCorpse.IsPlayableCharacterCorpse) // don't perform if NPC corpse
-                                moveItems = false;
+                            bool moveItems = !(item is IItemCorpse itemCorpse && !itemCorpse.IsPlayableCharacterCorpse); // don't perform if NPC corpse
                             if (moveItems)
                             {
                                 Log.Default.WriteLine(LogLevels.Debug, "Move item content to room");

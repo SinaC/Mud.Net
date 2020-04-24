@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="CharacterSerializationTests.cs" />
     <Compile Include="EquipedItemSerializationTests.cs" />
+    <Compile Include="ItemDeserializationTests.cs" />
     <Compile Include="Mocking\AbilityManagerMock.cs" />
     <Compile Include="Mocking\ClassManagerMock.cs" />
     <Compile Include="Mocking\ClientMock.cs" />
