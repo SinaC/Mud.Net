@@ -149,25 +149,29 @@ namespace Mud.Server.Actor
             IEnumerable<KeyValuePair<string, CommandMethodInfo>> filteredCommands = Commands.Where(x => !x.Value.Attribute.Hidden && IsCommandAvailable(x.Value.Attribute));
 
             // If a parameter is specified, filter on category
+            Func<string, bool> filterOnCategoryFunc = _ => true;
             if (parameters.Length > 0)
-                filteredCommands = filteredCommands.Where(x => x.Value.Attribute.Categories.Any(category => FindHelpers.StringStartsWith(category, parameters[0].Value)));
+                filterOnCategoryFunc = category => FindHelpers.StringStartsWith(category, parameters[0].Value);
 
+            // Grouped by category
+            // if a command has multiple categories, it will appear in each category
             StringBuilder sb = new StringBuilder("Available commands:" + Environment.NewLine);
-            foreach (IGrouping<string, KeyValuePair<string, CommandMethodInfo>> group in filteredCommands
-                .GroupBy(x => string.Join(",", x.Value.Attribute.Categories)) // TODO: group by any category
-                .OrderBy(g => g.Key))
+            foreach(var cmdByCategory in filteredCommands
+                .SelectMany(x => x.Value.Attribute.Categories.Where(filterOnCategoryFunc), (kv, category) => new {category, cmi = kv.Value})
+                .GroupBy(x => x.category, (category, group) => new {category, commands = group.Select(x => x.cmi)})
+                .OrderBy(g => g.category))
             {
-                if (!string.IsNullOrEmpty(group.Key))
-                    sb.AppendLine("%W%" + group.Key + ":%x%");
+                if (!string.IsNullOrEmpty(cmdByCategory.category))
+                    sb.AppendLine("%W%" + cmdByCategory.category + ":%x%");
                 int index = 0;
-                foreach (KeyValuePair<string, CommandMethodInfo> kv in group
-                    .OrderBy(x => x.Value.Attribute.Priority)
-                    .ThenBy(x => x.Key))
+                foreach(CommandMethodInfo cmi in cmdByCategory.commands
+                    .OrderBy(x => x.Attribute.Priority)
+                    .ThenBy(x => x.Attribute.Name))
                 {
                     if ((++index % columnCount) == 0)
-                        sb.AppendFormatLine("{0,-14}", kv.Key);
+                        sb.AppendFormatLine("{0,-14}", cmi.Attribute.Name);
                     else
-                        sb.AppendFormat("{0,-14}", kv.Key);
+                        sb.AppendFormat("{0,-14}", cmi.Attribute.Name);
                 }
                 if (index > 0 && index % columnCount != 0)
                     sb.AppendLine();
