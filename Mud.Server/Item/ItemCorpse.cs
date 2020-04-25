@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Common;
 
 namespace Mud.Server.Item
 {
@@ -11,6 +13,8 @@ namespace Mud.Server.Item
     {
         private readonly string _corpseName;
         private readonly List<IItem> _content;
+
+        private IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
 
         public override string DisplayName => "The corpse of " + _corpseName;
 
@@ -23,29 +27,41 @@ namespace Mud.Server.Item
             Description = "The corpse of " + _corpseName + " is laying here.";
             _content = new List<IItem>();
 
-            IReadOnlyCollection<IItem> inventory = new ReadOnlyCollection<IItem>(victim.Content.ToList()); // clone
-            if (inventory.Any())
-                DecayPulseLeft = Settings.PulsePerMinutes * 5;
+            IsPlayableCharacterCorpse = victim is IPlayableCharacter;
+
+            if (IsPlayableCharacterCorpse)
+            {
+                DecayPulseLeft = RandomManager.Randomizer.Next(25, 40) * Settings.PulsePerMinutes;
+                ItemFlags |= ItemFlags.NoPurge;
+            }
             else
-                DecayPulseLeft = Settings.PulsePerMinutes;
+                DecayPulseLeft = RandomManager.Randomizer.Next(3, 6) * Settings.PulsePerMinutes;
+
+            // Clone inventory
+            IReadOnlyCollection<IItem> inventory = new ReadOnlyCollection<IItem>(victim.Content.ToList());
+            // Fill corpse with inventory
             foreach (IItem item in inventory)
             {
                 // TODO: check stay death flag
                 if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
                 {
-                    // TODO
-                    //item.DecayPulseLeft = Random(5,10)
-                    //item.ItemFlags &= ~ItemFlags.RotDeath;
+                    item.SetDecayPulseLeft(RandomManager.Randomizer.Next(5, 10) * Settings.PulsePerMinutes);
+                    item.RemoveItemFlags(ItemFlags.RotDeath);
                 }
                 item.ChangeContainer(this);
             }
+            // Fill corpse with equipment
             foreach (IEquipable item in victim.Equipments.Where(x => x.Item != null).Select(x => x.Item))
             {
+                // TODO: check stay death flag
+                if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
+                {
+                    item.SetDecayPulseLeft(RandomManager.Randomizer.Next(5, 10) * Settings.PulsePerMinutes);
+                    item.RemoveItemFlags(ItemFlags.RotDeath);
+                }
                 item.ChangeContainer(this);
                 item.ChangeEquipedBy(null);
             }
-
-            IsPlayableCharacterCorpse = victim is IPlayableCharacter;
 
             // Check victim loot table (only if victim is NPC)
             if (victim is INonPlayableCharacter nonPlayableCharacterVictom)

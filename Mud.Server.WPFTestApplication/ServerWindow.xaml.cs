@@ -1488,13 +1488,14 @@ namespace Mud.Server.WPFTestApplication
             ICharacter mob5 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
             World.AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemContainer item1Dup1 = World.AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
-            IItemWeapon item2 = World.AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
+            IItemContainer item1Dup1 = World.AddItem(Guid.NewGuid(), item1Blueprint, mob5) as IItemContainer;
             World.AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1);
+            IItemWeapon item2 = World.AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
             //World.AddItem(Guid.NewGuid(), item4Blueprint, mob1);
             //World.AddItem(Guid.NewGuid(), item5Blueprint, mob1);
             //World.AddItem(Guid.NewGuid(), item1Blueprint, mob1);
-            World.AddItem(Guid.NewGuid(), item3Blueprint, mob3);
+            IItem item3OnMob3 = World.AddItem(Guid.NewGuid(), item3Blueprint, mob3);
+            item3OnMob3.AddItemFlags(ItemFlags.RotDeath);
             //World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             World.AddItem(Guid.NewGuid(), item6Blueprint, templeSquare);
             World.AddItem(Guid.NewGuid(), item7Blueprint, templeOfMota);

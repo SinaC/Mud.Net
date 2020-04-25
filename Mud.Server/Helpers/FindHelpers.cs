@@ -166,6 +166,40 @@ namespace Mud.Server.Helpers
             return inWorldCharacter;
         }
 
+        public static INonPlayableCharacter FindNonPlayableChararacterInWorld(ICharacter asker, CommandParameter parameter) // equivalent to get_char_world in handler.C:3511
+        {
+            // In room
+            INonPlayableCharacter inRoom = FindByName(asker.Room.NonPlayableCharacters.Where(asker.CanSee), parameter);
+            if (inRoom != null)
+                return inRoom;
+
+            // In area
+            INonPlayableCharacter inAreaCharacter = FindByName(asker.Room.Area.Characters.OfType<INonPlayableCharacter>().Where(asker.CanSee), parameter);
+            if (inAreaCharacter != null)
+                return inAreaCharacter;
+
+            // In world
+            INonPlayableCharacter inWorldCharacter = FindByName(World.Characters.OfType<INonPlayableCharacter>().Where(asker.CanSee), parameter);
+            return inWorldCharacter;
+        }
+
+        public static IPlayableCharacter FindPlayableChararacterInWorld(ICharacter asker, CommandParameter parameter) // equivalent to get_char_world in handler.C:3511
+        {
+            // In room
+            IPlayableCharacter inRoom = FindByName(asker.Room.PlayableCharacters.Where(asker.CanSee), parameter);
+            if (inRoom != null)
+                return inRoom;
+
+            // In area
+            IPlayableCharacter inAreaPlayer = FindByName(asker.Room.Area.Characters.OfType<IPlayableCharacter>().Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
+            if (inAreaPlayer != null)
+                return inAreaPlayer;
+
+            // In world
+            IPlayableCharacter inWorldPlayer = FindByName(World.Characters.OfType<IPlayableCharacter>().Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
+            return inWorldPlayer;
+        }
+
         // FindItem
         public static IItem FindItemInWorld(ICharacter asker, CommandParameter parameter) // equivalent to get_obj_world in handler.C:3702
         {

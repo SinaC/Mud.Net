@@ -25,6 +25,12 @@ namespace Mud.Server
 
         void DecreaseDecayPulseLeft(int pulseCount);
 
+        void AddItemFlags(ItemFlags itemFlags);
+
+        void RemoveItemFlags(ItemFlags itemFlags);
+
+        void SetDecayPulseLeft(int pulseCount);
+
         // Mapping
         ItemData MapItemData();
     }

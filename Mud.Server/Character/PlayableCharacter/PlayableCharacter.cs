@@ -262,7 +262,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     return true;
                 return false;
             }
-            return true; // TODO: invis/blind
+            return base.CanSee(target);
         }
 
         // Impersonation/Controller

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
@@ -160,15 +161,56 @@ namespace Mud.Server.Admin
         }
 
         [AdminCommand("purge", "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
-        [Syntax("[cmd] <item>")]
+        [Syntax(
+            "[cmd] all",
+            "[cmd] <character>",
+            "[cmd] <item>")]
         protected virtual CommandExecutionResults DoPurge(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
 
-            // TODO: purge all (npc + item)
-            // TODO: purge npc
+            // purge room
+            if (parameters[0].IsAll)
+            {
+                // Purge non playable characters (TODO: what if npc was wearing NoPurge items?)
+                IReadOnlyCollection<INonPlayableCharacter> nonPlayableCharacters = new ReadOnlyCollection<INonPlayableCharacter>(Impersonating.Room.NonPlayableCharacters.ToList()); // clone
+                foreach (INonPlayableCharacter nonPlayableCharacter in nonPlayableCharacters)
+                    World.RemoveCharacter(nonPlayableCharacter);
+                // Purge items (with NoPurge flag)
+                IReadOnlyCollection<IItem> items = new ReadOnlyCollection<IItem>(Impersonating.Room.Content.Where(x => !x.ItemFlags.HasFlag(ItemFlags.NoPurge)).ToList()); // clone
+                foreach (IItem itemToPurge in items)
+                    World.RemoveItem(itemToPurge);
+                Impersonating.Act(ActOptions.ToRoom, "{0} purge{0:v} the room!", Impersonating);
+                Send("Ok.");
+                return CommandExecutionResults.Ok;
+            }
 
+            // non playable character
+            INonPlayableCharacter nonPlayableCharacterVictim = FindHelpers.FindNonPlayableChararacterInWorld(Impersonating, parameters[0]);
+            if (nonPlayableCharacterVictim != null)
+            {
+                nonPlayableCharacterVictim.Act(ActOptions.ToRoom, "{0} purge{0:v} {1}.", Impersonating, nonPlayableCharacterVictim);
+                World.RemoveCharacter(nonPlayableCharacterVictim);
+            }
+
+            // playable character
+            IPlayableCharacter playableCharacterVictim = FindHelpers.FindPlayableChararacterInWorld(Impersonating, parameters[0]);
+            if (playableCharacterVictim != null)
+            {
+                if (playableCharacterVictim == this)
+                {
+                    Send("Ho ho ho.");
+                    return CommandExecutionResults.InvalidTarget;
+                }
+                playableCharacterVictim.Act(ActOptions.ToRoom, "{0} disintegrate{0:v} {1}.", Impersonating, playableCharacterVictim);
+                playableCharacterVictim.StopFighting(true);
+                if (playableCharacterVictim.ImpersonatedBy != null)
+                    playableCharacterVictim.ChangeImpersonation(null);
+                World.RemoveCharacter(playableCharacterVictim);
+            }
+
+            // item
             IItem item = FindHelpers.FindItemHere(Impersonating, parameters[0]);
             if (item == null)
             {

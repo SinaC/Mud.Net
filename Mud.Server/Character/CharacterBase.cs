@@ -277,6 +277,7 @@ namespace Mud.Server.Character
 
         public virtual bool CanSee(IItem target)
         {
+            //if (target.ItemFlags.HasFlag(ItemFlags.Invisible) && !CanSeeInvisible) return false
             return true; // TODO: invis/blind
         }
 

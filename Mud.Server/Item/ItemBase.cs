@@ -126,6 +126,21 @@ namespace Mud.Server.Item
                 DecayPulseLeft = Math.Max(0, DecayPulseLeft - pulseCount);
         }
 
+        public void SetDecayPulseLeft(int pulseCount) 
+        {
+            DecayPulseLeft = pulseCount;
+        }
+
+        public void AddItemFlags(ItemFlags itemFlags)
+        {
+            ItemFlags |= itemFlags;
+        }
+
+        public void RemoveItemFlags(ItemFlags itemFlags)
+        {
+            ItemFlags &= ~itemFlags;
+        }
+
         public virtual ItemData MapItemData()
         {
             return new ItemData
