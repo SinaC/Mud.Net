@@ -180,7 +180,8 @@ namespace Mud.Server.Tests
                         Item = new ItemData
                         {
                             ItemId = lightBlueprint.Id,
-                            DecayPulseLeft = 10
+                            DecayPulseLeft = AutoFaker.Generate<int>(),
+                            ItemFlags = AutoFaker.Generate<ItemFlags>(),
                         },
                     },
                     new EquipedItemData
@@ -189,13 +190,15 @@ namespace Mud.Server.Tests
                         Item = new ItemContainerData
                         {
                             ItemId = containerBlueprint.Id,
-                            DecayPulseLeft = 20,
+                            DecayPulseLeft = AutoFaker.Generate<int>(),
+                            ItemFlags = AutoFaker.Generate<ItemFlags>(),
                             Contains = new ItemData[]
                             {
                                 new ItemData
                                 {
                                     ItemId = portalBlueprint.Id,
-                                    DecayPulseLeft = 30
+                                    DecayPulseLeft = AutoFaker.Generate<int>(),
+                                    ItemFlags = AutoFaker.Generate<ItemFlags>(),
                                 }
                             }
                         },
@@ -206,7 +209,8 @@ namespace Mud.Server.Tests
                         Item = new ItemData
                         {
                             ItemId = jewelryBlueprint.Id,
-                            DecayPulseLeft = 40
+                            DecayPulseLeft = AutoFaker.Generate<int>(),
+                            ItemFlags = AutoFaker.Generate<ItemFlags>(),
                         },
                     },
                     new EquipedItemData
@@ -215,7 +219,8 @@ namespace Mud.Server.Tests
                         Item = new ItemData
                         {
                             ItemId = armorBlueprint.Id,
-                            DecayPulseLeft = 50
+                            DecayPulseLeft = AutoFaker.Generate<int>(),
+                            ItemFlags = AutoFaker.Generate<ItemFlags>(),
                         },
                     },
                 },

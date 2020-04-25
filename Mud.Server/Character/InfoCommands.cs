@@ -720,9 +720,17 @@ namespace Mud.Server.Character
 
         private string FormatItem(IItem item, bool shortDisplay) // TODO: (see act_info.C:170 format_obj_to_char)
         {
-            return shortDisplay
-                ? item.RelativeDisplayName(this)
-                : item.RelativeDescription(this);
+            // TODO: StringBuilder as param ?
+            StringBuilder sb = new StringBuilder();
+            if (item.ItemFlags.HasFlag(ItemFlags.Glowing))
+                sb.Append("%Y%(Glowing)%x%");
+            if (item.ItemFlags.HasFlag(ItemFlags.Humming))
+                sb.Append("%y%(Humming)%x%");
+            if (shortDisplay)
+                sb.Append(item.RelativeDisplayName(this));
+            else
+                sb.Append(item.RelativeDescription(this));
+            return sb.ToString();
         }
 
         private string EquipmentSlotsToString(EquipedItem equipedItem)

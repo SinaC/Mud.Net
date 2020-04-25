@@ -405,6 +405,7 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
             if (item.DecayPulseLeft > 0)
                 sb.AppendFormatLine("Decay in {0}", StringHelpers.FormatDelay(item.DecayPulseLeft / Settings.PulsePerSeconds));
+            sb.AppendFormatLine("Flags: {0}", item.ItemFlags);
             if (item is IItemArmor armor)
                 sb.AppendFormatLine("Armor type: {0} Armor value: {1}", armor.ArmorKind, armor.Armor);
             if (item is IItemContainer container)

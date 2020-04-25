@@ -707,6 +707,50 @@ namespace Mud.Server.WPFTestApplication
             return SchoolTypes.Physical;
         }
 
+        private static ItemFlags ConvertMysteryItemExtraFlags(Importer.Mystery.ObjectData data)
+        {
+            ItemFlags itemFlags = ItemFlags.None;
+
+            if ((data.WearFlags & Importer.Mystery.MysteryImporter.A) != Importer.Mystery.MysteryImporter.A) itemFlags |= ItemFlags.NoTake; // WearFlags A means TAKE
+
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A) itemFlags |= ItemFlags.Glowing; // A ITEM_GLOW
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B) itemFlags |= ItemFlags.Humming; // B ITEM_HUM
+            // C ITEM_DARK
+            // D ITEM_STAY_DEATH
+            // E ITEM_EVIL
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F) itemFlags |= ItemFlags.Invisible; // F ITEM_INVIS
+            // G ITEM_MAGIC
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H) itemFlags |= ItemFlags.NoDrop; // H ITEM_NODROP
+            // I ITEM_BLESS
+            // J ITEM_ANTI_GOOD
+            // K ITEM_ANTI_EVIL
+            // L ITEM_ANTI_NEUTRAL
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.M) == Importer.Mystery.MysteryImporter.M) itemFlags |= ItemFlags.NoRemove; // M ITEM_NOREMOVE
+            // N ITEM_INVENTORY
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.O) == Importer.Mystery.MysteryImporter.O) itemFlags |= ItemFlags.NoPurge; // O ITEM_NOPURGE
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.P) == Importer.Mystery.MysteryImporter.P) itemFlags |= ItemFlags.RotDeath; // P ITEM_ROT_DEATH
+            // Q ITEM_VIS_DEATH
+            // R ITEM_DONATED
+            // S ITEM_UNIQUE
+            // T ITEM_NOLOCATE
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.U) == Importer.Mystery.MysteryImporter.U) itemFlags |= ItemFlags.MeltOnDrop; // U ITEM_MELT_DROP
+            // V ITEM_HAD_TIMER
+            // W ITEM_SELL_EXTRACT
+            // X ITEM_NOSAC
+            // Y ITEM_BURN_PROOF
+            // Z ITEM_NOUNCURSE
+            // aa ITEM_NOIDENT
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.bb) == Importer.Mystery.MysteryImporter.bb) itemFlags |= ItemFlags.Indestructible; // bb ITEM_NOCOND
+
+            return itemFlags;
+        }
+
+        private static ItemFlags ConvertRomItemExtraFlags(Importer.Rom.ObjectData data)
+        {
+            // TODO
+            return ItemFlags.None;
+        }
+
         private static ItemBlueprintBase CreateItemBlueprint(Importer.Mystery.ObjectData data)
         {
             ItemBlueprintBase blueprint;
@@ -728,6 +772,7 @@ namespace Mud.Server.WPFTestApplication
                     // Values[3] slash/pierce/bash/... attack_table in const.C
                     // Values[4] flaming/sharp/... weapon_type2 in tables.C
                     DamageType = ConvertWeaponDamageType(data.Values[3], data.Values[4]),
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "container")
@@ -744,6 +789,7 @@ namespace Mud.Server.WPFTestApplication
                     WearLocation = ConvertWearLocation(data),
                     ItemCount = Convert.ToInt32(data.Values[3]),
                     WeightMultiplier = Convert.ToInt32(data.Values[4]),
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "armor")
@@ -761,6 +807,7 @@ namespace Mud.Server.WPFTestApplication
                         Weight = data.Weight,
                         WearLocation = ConvertWearLocation(data),
                         Armor = Convert.ToInt32(data.Values[0]) + Convert.ToInt32(data.Values[1]) + Convert.ToInt32(data.Values[2]) + Convert.ToInt32(data.Values[3]), // TODO
+                        ItemFlags = ConvertMysteryItemExtraFlags(data)
                     };
                 else 
                     blueprint = new ItemArmorBlueprint
@@ -774,7 +821,8 @@ namespace Mud.Server.WPFTestApplication
                         Weight = data.Weight,
                         WearLocation = ConvertWearLocation(data),
                         Armor = Convert.ToInt32(data.Values[0]) + Convert.ToInt32(data.Values[1]) + Convert.ToInt32(data.Values[2]) + Convert.ToInt32(data.Values[3]), // TODO
-                        ArmorKind = ArmorKinds.Leather // TODO
+                        ArmorKind = ArmorKinds.Leather, // TODO
+                        ItemFlags = ConvertMysteryItemExtraFlags(data)
                     };
             }
             else if (data.ItemType == "light")
@@ -790,6 +838,7 @@ namespace Mud.Server.WPFTestApplication
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
                     DurationHours = Convert.ToInt32(data.Values[2]),
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "furniture")
@@ -809,12 +858,13 @@ namespace Mud.Server.WPFTestApplication
                     FurnitureActions = ConvertFurnitureActions(data.Values[2]),
                     FurniturePlacePreposition = ConvertFurniturePreposition(data.Values[2]),
                     HealBonus = Convert.ToInt32(data.Values[3]),
-                    ResourceBonus = Convert.ToInt32(data.Values[4])
+                    ResourceBonus = Convert.ToInt32(data.Values[4]),
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "fountain")
             {
-                blueprint = new ItemFurnitureBlueprint
+                blueprint = new ItemFurnitureBlueprint // TODO: fountain
                 {
                     Id = data.VNum,
                     Name = data.Name,
@@ -827,7 +877,8 @@ namespace Mud.Server.WPFTestApplication
                     MaxPeople = 0,
                     MaxWeight = 0,
                     HealBonus = 0,
-                    ResourceBonus = 0
+                    ResourceBonus = 0,
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "jewelry" || data.ItemType == "treasure")
@@ -841,7 +892,8 @@ namespace Mud.Server.WPFTestApplication
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data)
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "key")
@@ -855,7 +907,8 @@ namespace Mud.Server.WPFTestApplication
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data)
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "portal")
@@ -870,7 +923,8 @@ namespace Mud.Server.WPFTestApplication
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
-                    Destination = Convert.ToInt32(data.Values[3])
+                    Destination = Convert.ToInt32(data.Values[3]),
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
                 };
             }
             else
@@ -883,6 +937,7 @@ namespace Mud.Server.WPFTestApplication
                 World.AddItemBlueprint(blueprint);
             return blueprint;
         }
+
         private static ItemBlueprintBase CreateItemBlueprint(Importer.Rom.ObjectData data)
         {
             ItemBlueprintBase blueprint;
@@ -902,6 +957,7 @@ namespace Mud.Server.WPFTestApplication
                     DiceCount = Convert.ToInt32(data.Values[1]),
                     DiceValue = Convert.ToInt32(data.Values[2]),
                     // TODO: damage type Values[3]
+                    ItemFlags = ConvertRomItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "container")
@@ -918,6 +974,7 @@ namespace Mud.Server.WPFTestApplication
                     WearLocation = ConvertWearLocation(data),
                     ItemCount = Convert.ToInt32(data.Values[3]),
                     WeightMultiplier = Convert.ToInt32(data.Values[4]),
+                    ItemFlags = ConvertRomItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "armor")
@@ -933,7 +990,8 @@ namespace Mud.Server.WPFTestApplication
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
                     Armor = Convert.ToInt32(data.Values[0]) + Convert.ToInt32(data.Values[1]) + Convert.ToInt32(data.Values[2]) + Convert.ToInt32(data.Values[3]), // TODO
-                    ArmorKind = ArmorKinds.Leather // TODO
+                    ArmorKind = ArmorKinds.Leather, // TODO
+                    ItemFlags = ConvertRomItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "light")
@@ -949,6 +1007,7 @@ namespace Mud.Server.WPFTestApplication
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
                     DurationHours = Convert.ToInt32(data.Values[2]),
+                    ItemFlags = ConvertRomItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "furniture")
@@ -968,12 +1027,13 @@ namespace Mud.Server.WPFTestApplication
                     FurnitureActions = ConvertFurnitureActions(data.Values[2]),
                     FurniturePlacePreposition = ConvertFurniturePreposition(data.Values[2]),
                     HealBonus = Convert.ToInt32(data.Values[3]),
-                    ResourceBonus = Convert.ToInt32(data.Values[4])
+                    ResourceBonus = Convert.ToInt32(data.Values[4]),
+                    ItemFlags = ConvertRomItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "fountain")
             {
-                blueprint = new ItemFurnitureBlueprint
+                blueprint = new ItemFurnitureBlueprint // TODO: fountain
                 {
                     Id = data.VNum,
                     Name = data.Name,
@@ -986,7 +1046,8 @@ namespace Mud.Server.WPFTestApplication
                     MaxPeople = 0,
                     MaxWeight = 0,
                     HealBonus = 0,
-                    ResourceBonus = 0
+                    ResourceBonus = 0,
+                    ItemFlags = ConvertRomItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "jewelry" || data.ItemType == "treasure")
@@ -1000,7 +1061,8 @@ namespace Mud.Server.WPFTestApplication
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data)
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = ConvertRomItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "key")
@@ -1014,7 +1076,8 @@ namespace Mud.Server.WPFTestApplication
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data)
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = ConvertRomItemExtraFlags(data)
                 };
             }
             else if (data.ItemType == "portal")
@@ -1029,7 +1092,8 @@ namespace Mud.Server.WPFTestApplication
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
-                    Destination = Convert.ToInt32(data.Values[3])
+                    Destination = Convert.ToInt32(data.Values[3]),
+                    ItemFlags = ConvertRomItemExtraFlags(data)
                 };
             }
             else
@@ -1050,8 +1114,8 @@ namespace Mud.Server.WPFTestApplication
             Importer.Mystery.MysteryImporter mysteryImporter = new Importer.Mystery.MysteryImporter();
             mysteryImporter.Load(System.IO.Path.Combine(path, "midgaard.are"));
             mysteryImporter.Parse();
-            mysteryImporter.Load(System.IO.Path.Combine(path, "amazon.are"));
-            mysteryImporter.Parse();
+            //mysteryImporter.Load(System.IO.Path.Combine(path, "amazon.are"));
+            //mysteryImporter.Parse();
 
             //string fileList = System.IO.Path.Combine(path, "area.lst");
             //string[] areaFilenames = System.IO.File.ReadAllLines(fileList);
@@ -1424,13 +1488,14 @@ namespace Mud.Server.WPFTestApplication
             ICharacter mob5 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
             World.AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemContainer item1Dup1 = World.AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
-            IItemWeapon item2 = World.AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
+            IItemContainer item1Dup1 = World.AddItem(Guid.NewGuid(), item1Blueprint, mob5) as IItemContainer;
             World.AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1);
+            IItemWeapon item2 = World.AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
             //World.AddItem(Guid.NewGuid(), item4Blueprint, mob1);
             //World.AddItem(Guid.NewGuid(), item5Blueprint, mob1);
             //World.AddItem(Guid.NewGuid(), item1Blueprint, mob1);
-            World.AddItem(Guid.NewGuid(), item3Blueprint, mob3);
+            IItem item3OnMob3 = World.AddItem(Guid.NewGuid(), item3Blueprint, mob3);
+            item3OnMob3.AddItemFlags(ItemFlags.RotDeath);
             //World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             World.AddItem(Guid.NewGuid(), item6Blueprint, templeSquare);
             World.AddItem(Guid.NewGuid(), item7Blueprint, templeOfMota);

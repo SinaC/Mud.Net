@@ -26,6 +26,7 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)));
 
             CreateMap<Mud.Domain.ItemData, Domain.ItemData>()
+                .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
                 .Include<Mud.Domain.ItemContainerData, Domain.ItemContainerData>()
                 .Include<Mud.Domain.ItemCorpseData, Domain.ItemCorpseData>();
             CreateMap<Mud.Domain.ItemContainerData, Domain.ItemContainerData>();
@@ -51,6 +52,7 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)));
 
             CreateMap<Domain.ItemData, Mud.Domain.ItemData>()
+                .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
                 .Include<Domain.ItemContainerData, Mud.Domain.ItemContainerData>()
                 .Include<Domain.ItemCorpseData, Mud.Domain.ItemCorpseData>();
             CreateMap<Domain.ItemContainerData, Mud.Domain.ItemContainerData>();
@@ -244,6 +246,16 @@ namespace Mud.Repository.Mongo
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid EquipmentSlots {slot} while writing pfile");
                     return 0;
             }
+        }
+
+        private Mud.Domain.ItemFlags MapItemFlags(int flags)
+        {
+            return (Mud.Domain.ItemFlags)flags;
+        }
+
+        private int MapItemFlags(Mud.Domain.ItemFlags flags)
+        {
+            return (int)flags;
         }
     }
 }

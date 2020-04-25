@@ -11,19 +11,29 @@ namespace Mud.Server.Tests
     [TestClass]
     public class ItemSerializationTests : TestBase
     {
+        //public void Test() 
+        //{
+        // Cannot specify a parameter to transfer to Faker
+        //    var faker = new Bogus.Faker<ItemData>()
+        //        .RuleFor(x => x.DecayPulseLeft, x => x.Random.Int())
+        //        .RuleFor(x => x.ItemFlags, x => x.PickRandom<ItemFlags>());
+        //    faker.Generate( x => x.ItemId = 5 );
+        //}
+
         // Armor
         [TestMethod]
         public void ItemArmor_To_ItemData_Test()
         {
             IWorld world = World;
             IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemArmor armor = World.AddItem(Guid.NewGuid(), new ItemArmorBlueprint { Id = 1, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Armor = 150, ArmorKind = ArmorKinds.Mail }, room) as IItemArmor;
+            IItemArmor armor = World.AddItem(Guid.NewGuid(), new ItemArmorBlueprint { Id = 1, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Armor = 150, ArmorKind = ArmorKinds.Mail, ItemFlags = ItemFlags.Glowing }, room) as IItemArmor;
 
             ItemData itemData = armor.MapItemData(); // no specific ItemData
 
             Assert.IsInstanceOfType(itemData, typeof(ItemData));
             Assert.AreEqual(armor.Blueprint.Id, itemData.ItemId);
             Assert.AreEqual(armor.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(armor.ItemFlags, itemData.ItemFlags);
         }
 
         // Container
@@ -39,6 +49,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(itemData, typeof(ItemContainerData));
             Assert.AreEqual(container.Blueprint.Id, itemData.ItemId);
             Assert.AreEqual(container.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(container.ItemFlags, itemData.ItemFlags);
             Assert.IsNull((itemData as ItemContainerData).Contains);
         }
 
@@ -55,6 +66,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(itemData, typeof(ItemContainerData));
             Assert.AreEqual(container.Blueprint.Id, itemData.ItemId);
             Assert.AreEqual(container.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(container.ItemFlags, itemData.ItemFlags);
             Assert.IsNotNull((itemData as ItemContainerData).Contains);
             Assert.AreEqual(1, (itemData as ItemContainerData).Contains.Length);
             Assert.AreEqual(1, (itemData as ItemContainerData).Contains[0].ItemId);
@@ -75,6 +87,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(itemData, typeof(ItemContainerData));
             Assert.AreEqual(container.Blueprint.Id, itemData.ItemId);
             Assert.AreEqual(container.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(container.ItemFlags, itemData.ItemFlags);
             Assert.IsNotNull((itemData as ItemContainerData).Contains);
             Assert.AreEqual(2, (itemData as ItemContainerData).Contains.Length);
             Assert.AreEqual(1, (itemData as ItemContainerData).Contains.Count(x => x.ItemId == 1));
@@ -99,6 +112,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(itemData, typeof(ItemContainerData));
             Assert.AreEqual(container1.Blueprint.Id, itemData.ItemId);
             Assert.AreEqual(container1.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(container1.ItemFlags, itemData.ItemFlags);
             Assert.IsNotNull((itemData as ItemContainerData).Contains);
             Assert.AreEqual(3, (itemData as ItemContainerData).Contains.Length);
             Assert.AreEqual(1, (itemData as ItemContainerData).Contains.Count(x => x.ItemId == 1));
@@ -126,7 +140,8 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(itemData, typeof(ItemCorpseData));
             Assert.IsFalse((itemData as ItemCorpseData).IsPlayableCharacterCorpse);
             Assert.AreEqual(corpse.Blueprint.Id, itemData.ItemId);
-            Assert.AreEqual(corpse.DecayPulseLeft, (itemData as ItemCorpseData).DecayPulseLeft);
+            Assert.AreEqual(corpse.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(corpse.ItemFlags, itemData.ItemFlags);
             Assert.AreEqual(character.DisplayName, (itemData as ItemCorpseData).CorpseName);
             Assert.IsNull((itemData as ItemCorpseData).Contains);
         }
@@ -144,7 +159,8 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(itemData, typeof(ItemCorpseData));
             Assert.IsTrue((itemData as ItemCorpseData).IsPlayableCharacterCorpse);
             Assert.AreEqual(corpse.Blueprint.Id, itemData.ItemId);
-            Assert.AreEqual(corpse.DecayPulseLeft, (itemData as ItemCorpseData).DecayPulseLeft);
+            Assert.AreEqual(corpse.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(corpse.ItemFlags, itemData.ItemFlags);
             Assert.AreEqual(character.DisplayName, (itemData as ItemCorpseData).CorpseName);
             Assert.IsNull((itemData as ItemCorpseData).Contains);
         }
@@ -162,7 +178,8 @@ namespace Mud.Server.Tests
 
             Assert.IsInstanceOfType(itemData, typeof(ItemCorpseData));
             Assert.IsFalse((itemData as ItemCorpseData).IsPlayableCharacterCorpse);
-            Assert.AreEqual(corpse.DecayPulseLeft, (itemData as ItemCorpseData).DecayPulseLeft);
+            Assert.AreEqual(corpse.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(corpse.ItemFlags, itemData.ItemFlags);
             Assert.AreEqual(character.DisplayName, (itemData as ItemCorpseData).CorpseName);
             Assert.IsNotNull((itemData as ItemCorpseData).Contains);
             Assert.AreEqual(1, (itemData as ItemCorpseData).Contains.Length);
@@ -175,13 +192,14 @@ namespace Mud.Server.Tests
         {
             IWorld world = World;
             IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemFurniture furniture = world.AddItem(Guid.NewGuid(), new ItemFurnitureBlueprint { Id = 1, Name = "Furniture", ShortDescription = "FurnitureShort", Description = "FurnitureDesc", FurnitureActions = FurnitureActions.Sleep, FurniturePlacePreposition = FurniturePlacePrepositions.On, MaxPeople = 10 }, room) as IItemFurniture;
+            IItemFurniture furniture = world.AddItem(Guid.NewGuid(), new ItemFurnitureBlueprint { Id = 1, Name = "Furniture", ShortDescription = "FurnitureShort", Description = "FurnitureDesc", ItemFlags = ItemFlags.NoTake, FurnitureActions = FurnitureActions.Sleep, FurniturePlacePreposition = FurniturePlacePrepositions.On, MaxPeople = 10 }, room) as IItemFurniture;
 
             ItemData itemData = furniture.MapItemData(); // no specific ItemData
 
             Assert.IsInstanceOfType(itemData, typeof(ItemData));
             Assert.AreEqual(furniture.Blueprint.Id, itemData.ItemId);
             Assert.AreEqual(furniture.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(furniture.ItemFlags, itemData.ItemFlags);
         }
 
         // Jewelry
@@ -190,13 +208,14 @@ namespace Mud.Server.Tests
         {
             IWorld world = World;
             IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemJewelry jewelry = world.AddItem(Guid.NewGuid(), new ItemJewelryBlueprint { Id = 1, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc"}, room) as IItemJewelry;
+            IItemJewelry jewelry = world.AddItem(Guid.NewGuid(), new ItemJewelryBlueprint { Id = 1, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc", ItemFlags = ItemFlags.Glowing}, room) as IItemJewelry;
 
             ItemData itemData = jewelry.MapItemData(); // no specific ItemData
 
             Assert.IsInstanceOfType(itemData, typeof(ItemData));
             Assert.AreEqual(jewelry.Blueprint.Id, itemData.ItemId);
             Assert.AreEqual(jewelry.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(jewelry.ItemFlags, itemData.ItemFlags);
         }
 
         // Key
@@ -220,13 +239,14 @@ namespace Mud.Server.Tests
         {
             IWorld world = World;
             IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemLight light = world.AddItem(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 }, room) as IItemLight;
+            IItemLight light = world.AddItem(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", ItemFlags = ItemFlags.Glowing, DurationHours = 5 }, room) as IItemLight;
 
             ItemData itemData = light.MapItemData(); // no specific ItemData
 
             Assert.IsInstanceOfType(itemData, typeof(ItemData));
             Assert.AreEqual(light.Blueprint.Id, itemData.ItemId);
             Assert.AreEqual(light.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(light.ItemFlags, itemData.ItemFlags);
         }
 
         // Portal
@@ -280,13 +300,14 @@ namespace Mud.Server.Tests
         {
             IWorld world = World;
             IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemWeapon weapon = world.AddItem(Guid.NewGuid(), new ItemWeaponBlueprint { Id = 1, Name = "Weapon", ShortDescription = "WeaponShort", Description = "WeaponDesc", DamageType = SchoolTypes.Fire, DiceCount = 10, DiceValue = 20 }, room) as IItemWeapon;
+            IItemWeapon weapon = world.AddItem(Guid.NewGuid(), new ItemWeaponBlueprint { Id = 1, Name = "Weapon", ShortDescription = "WeaponShort", Description = "WeaponDesc", ItemFlags = ItemFlags.Indestructible | ItemFlags.NoDrop, DamageType = SchoolTypes.Fire, DiceCount = 10, DiceValue = 20 }, room) as IItemWeapon;
 
             ItemData itemData = weapon.MapItemData(); // no specific ItemData
 
             Assert.IsInstanceOfType(itemData, typeof(ItemData));
             Assert.AreEqual(weapon.Blueprint.Id, itemData.ItemId);
             Assert.AreEqual(weapon.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(weapon.ItemFlags, itemData.ItemFlags);
         }
     }
 }

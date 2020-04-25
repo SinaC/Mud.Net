@@ -17,11 +17,19 @@ namespace Mud.Server
         int Weight { get; }
         int Cost { get; }
 
+        ItemFlags ItemFlags { get; }
+
         bool IsQuestObjective(IPlayableCharacter questingCharacter);
 
         bool ChangeContainer(IContainer container);
 
         void DecreaseDecayPulseLeft(int pulseCount);
+
+        void AddItemFlags(ItemFlags itemFlags);
+
+        void RemoveItemFlags(ItemFlags itemFlags);
+
+        void SetDecayPulseLeft(int pulseCount);
 
         // Mapping
         ItemData MapItemData();

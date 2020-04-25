@@ -151,12 +151,15 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.TargetNotFound;
             }
             //
-            RemoveItem(equipmentSlot);
+            bool removed = RemoveItem(equipmentSlot);
+            if (!removed)
+                return CommandExecutionResults.InvalidTarget;
             RecomputeAttributes();
             return CommandExecutionResults.Ok;
         }
 
         [Command("get", "Item")]
+        [Command("take", "Item")]
         [Syntax(
             "[cmd] <item>",
             "[cmd] <item> <container>")]
@@ -466,16 +469,12 @@ namespace Mud.Server.Character
             if (replace && equipmentSlot.Item != null)
             {
                 IEquipable removeItem = equipmentSlot.Item;
-                //Act(ActOptions.ToCharacter, "You remove {0}.", removeItem);
-                //Act(ActOptions.ToRoom, "{0} removes {1}.", this, removeItem);
                 Act(ActOptions.ToAll, "{0:N} remove{0:v} {1}.", this, removeItem);
                 //equipmentSlot.Item = null  already done by ChangeEquipedBy
                 removeItem.ChangeEquipedBy(null);
                 removeItem.ChangeContainer(this);
             }
             // TODO: different phrase depending on wear location
-            //Act(ActOptions.ToCharacter, "You wear {0}.", item);
-            //Act(ActOptions.ToRoom, "{0} wears {1}.", this, item);
             Act(ActOptions.ToAll, "{0:N} wear{0:v} {1}.", this, item);
             equipmentSlot.Item = item; // equip
             item.ChangeContainer(null); // remove from inventory
@@ -485,29 +484,53 @@ namespace Mud.Server.Character
 
         private bool DropItem(IItem item)
         {
-            //Act(ActOptions.ToCharacter, "You drop {0}.", item);
-            //Act(ActOptions.ToRoom, "{0} drops {1}.", this, item);
+            //
+            if (item.ItemFlags.HasFlag(ItemFlags.NoDrop))
+            {
+                Send("You can't let go of it.");
+                return false;
+            }
+
+            //
             Act(ActOptions.ToAll, "{0:N} drop{0:v} {1}.", this, item);
             item.ChangeContainer(Room);
+
+            //
+            if (item.ItemFlags.HasFlag(ItemFlags.MeltOnDrop))
+            {
+                Act(ActOptions.ToAll, "{0} dissolves into smoke.", item);
+                World.RemoveItem(item);
+            }
+
             return true;
         }
 
         private bool GetItem(IItem item) // equivalent to get_obj in act_obj.C:211
         {
+            //
+            if (item.ItemFlags.HasFlag(ItemFlags.NoTake))
+            {
+                Send("You can't take that.");
+                return false;
+            }
+
             // TODO: check if someone is using it as Furniture
             // TODO: check weight + item count
-            //Act(ActOptions.ToCharacter, "You get {0}.", item);
-            //Act(ActOptions.ToRoom, "{0} gets {1}.", this, item);
             Act(ActOptions.ToAll, "{0:N} get{0:v} {1}.", this, item);
             item.ChangeContainer(this);
             return true;
         }
 
         private bool GetItem(IItem item, IContainer container)
-        {
+        {           
+            //
+            if (item.ItemFlags.HasFlag(ItemFlags.NoTake))
+            {
+                Send("You can't take that.");
+                return false;
+            }
+
             // TODO: check weight + item count
-            //Act(ActOptions.ToCharacter, "You get {0} from {1}.", item, container);
-            //Act(ActOptions.ToRoom, "{0} gets {1} from {2}.", this, item, container);
             Act(ActOptions.ToAll, "{0:N} get{0:v} {1} from {2}.", this, item, container);
             item.ChangeContainer(this);
             return true;
@@ -515,9 +538,14 @@ namespace Mud.Server.Character
 
         private bool RemoveItem(EquipedItem equipmentSlot)
         {
+            //
+            if (equipmentSlot.Item.ItemFlags.HasFlag(ItemFlags.NoRemove))
+            {
+                Act(ActOptions.ToCharacter, "You cannot remove {0}.", equipmentSlot.Item);
+                return false;
+            }
+
             // TODO: check weight + item count
-            //Act(ActOptions.ToCharacter, "You stop using {0}.", equipmentSlot.Item);
-            //Act(ActOptions.ToRoom, "{0} stops using {1}.", this, equipmentSlot.Item);
             Act(ActOptions.ToAll, "{0:N} stop{0:v} using {1}.", this, equipmentSlot.Item);
             equipmentSlot.Item.ChangeContainer(this); // add in inventory
             equipmentSlot.Item.ChangeEquipedBy(null); // clear equiped by
@@ -526,7 +554,13 @@ namespace Mud.Server.Character
         }
 
         private bool PutItem(IItem item, IContainer container)
-        {
+        {//
+            if (item.ItemFlags.HasFlag(ItemFlags.NoDrop))
+            {
+                Send("You can't let go of it.");
+                return false;
+            }
+
             // TODO: check weight + item count
             Act(ActOptions.ToAll, "{0:N} put{0:v} {1} in {2}.", this, item, container);
             item.ChangeContainer(container);
