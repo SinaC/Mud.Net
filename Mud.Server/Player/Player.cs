@@ -343,6 +343,7 @@ namespace Mud.Server.Player
         {
             StringBuilder sb = new StringBuilder("<");
             sb.Append($"{character.HitPoints}/{character[SecondaryAttributeTypes.MaxHitPoints]}Hp");
+            sb.Append($" {character.MovePoints}/{character[SecondaryAttributeTypes.MaxMovePoints]}Mv");
             foreach (ResourceKinds resourceKinds in character.CurrentResourceKinds)
                 sb.Append($" {character[resourceKinds]}/{character.GetMaxResource(resourceKinds)}{resourceKinds}");
             sb.Append($" {character.ExperienceToLevel}Nxt");

@@ -1,44 +1,61 @@
-﻿using Mud.Server.Input;
+﻿using Mud.Server.Helpers;
+using Mud.Server.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Mud.Server.Tests.Mocking
 {
     internal class AbilityManagerMock : IAbilityManager
     {
-        public IAbility this[int id] => throw new NotImplementedException();
+        private List<IAbility> _abilities = new List<IAbility>();
 
-        public IAbility this[string name] => throw new NotImplementedException();
+        public IAbility this[int id] => _abilities.SingleOrDefault(x => x.Id == id);
 
-        public IAbility WeakenedSoulAbility => throw new NotImplementedException();
+        public IAbility this[string name] => _abilities.SingleOrDefault(x => x.Name == name);
 
-        public IAbility ParryAbility => throw new NotImplementedException();
+        public IAbility WeakenedSoulAbility => this["Weakened Soul"];
 
-        public IAbility DodgerAbility => throw new NotImplementedException();
+        public IAbility ParryAbility => this["Parry"];
 
-        public IAbility ShieldBlockAbility => throw new NotImplementedException();
+        public IAbility DodgeAbility => this["Dodge"];
 
-        public IAbility DualWieldAbility => throw new NotImplementedException();
+        public IAbility ShieldBlockAbility => this["Shield Block"];
 
-        public IAbility ThirdWieldAbility => throw new NotImplementedException();
+        public IAbility DualWieldAbility => this["Dual Wield"];
 
-        public IAbility FourthWieldAbility => throw new NotImplementedException();
+        public IAbility ThirdWieldAbility => this["Third Wield"];
 
-        public IEnumerable<IAbility> Abilities => throw new NotImplementedException();
+        public IAbility FourthWieldAbility => this["Fourth Wield"];
+
+        public IEnumerable<IAbility> Abilities => _abilities;
 
         public bool Process(ICharacter source, params CommandParameter[] parameters)
         {
             throw new NotImplementedException();
         }
 
-        public bool Process(ICharacter source, ICharacter target, IAbility ability)
+        public IAbility Search(CommandParameter parameter, bool includePassive = false)
+        {
+            return _abilities.Where(x =>
+                     (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed
+                     && (!includePassive || (x.Flags & AbilityFlags.Passive) != AbilityFlags.Passive)
+                     && FindHelpers.StringStartsWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
+        }
+
+        public void AddAbility(IAbility ability)
+        {
+            _abilities.Add(ability);
+        }
+
+        public bool Process(ICharacter source, ICharacter target, IAbility ability, int level)
         {
             throw new NotImplementedException();
         }
 
-        public IAbility Search(CommandParameter parameter, bool includePassive = false)
+        public void Clear()
         {
-            throw new NotImplementedException();
+            _abilities.Clear();
         }
     }
 }

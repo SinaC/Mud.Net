@@ -183,7 +183,7 @@ namespace Mud.Server.TestApplication
                 Type = WeaponTypes.Sword1H,
                 DiceCount = 5,
                 DiceValue = 40,
-                DamageType = SchoolTypes.Physical,
+                DamageType = SchoolTypes.Pierce,
                 WearLocation = WearLocations.Wield
             };
             //
@@ -396,7 +396,7 @@ namespace Mud.Server.TestApplication
                 Type = WeaponTypes.Sword1H,
                 DiceCount = 5,
                 DiceValue = 40,
-                DamageType = SchoolTypes.Physical,
+                DamageType = SchoolTypes.Pierce,
                 WearLocation = WearLocations.Wield
             };
 

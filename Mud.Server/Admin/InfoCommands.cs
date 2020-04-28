@@ -213,6 +213,7 @@ namespace Mud.Server.Admin
             else
                 sb.AppendLine("No blueprint");
             sb.AppendFormatLine("Name: {0}", room.Blueprint?.Name ?? "(none)");
+            sb.AppendFormatLine("Flags: {0}", room.RoomFlags);
             sb.AppendFormatLine("DisplayName: {0}", room.DisplayName);
             sb.AppendFormatLine("Description: {0}", room.Description);
             if (room.ExtraDescriptions != null)
@@ -241,6 +242,7 @@ namespace Mud.Server.Admin
                 // TODO: content
                 // TODO: people
             }
+            AppendAuras(sb, room.Auras);
             Send(sb);
             return CommandExecutionResults.Ok;
         }
@@ -315,6 +317,12 @@ namespace Mud.Server.Admin
             if (playableVictim != null)
                 sb.AppendFormatLine("Experience: {0} NextLevel: {1}", playableVictim.Experience, playableVictim.ExperienceToLevel);
             sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim[SecondaryAttributeTypes.MaxHitPoints]);
+            sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim[SecondaryAttributeTypes.MaxMovePoints]);
+            sb.AppendFormatLine("Flags: {0}", victim.CharacterFlags);
+            sb.AppendFormatLine("Immunites: {0}", victim.Immunities);
+            sb.AppendFormatLine("Resistances: {0}", victim.Resistances);
+            sb.AppendFormatLine("Vulnerabilities: {0}", victim.Vulnerabilities);
+            sb.AppendFormatLine("Alignment: {0}", victim.Alignment);
             sb.AppendLine("Attributes:");
             foreach (PrimaryAttributeTypes primaryAttribute in EnumHelpers.GetValues<PrimaryAttributeTypes>())
                 sb.AppendFormatLine("{0}: Current: {1} Base: {2}", primaryAttribute, victim[primaryAttribute], victim.GetBasePrimaryAttribute(primaryAttribute));
@@ -340,14 +348,7 @@ namespace Mud.Server.Admin
                         pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
                         pa.TickDelay,
                         pa.SecondsLeft);
-            foreach (IAura aura in victim.Auras)
-                sb.AppendFormatLine("{0} from {1} modifies {2} by {3}{4} for {5} seconds.",
-                    aura.Ability?.Name ?? "(none)",
-                    aura.Source?.DisplayName ?? "(none)",
-                    aura.Modifier,
-                    aura.Amount,
-                    aura.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
-                    aura.SecondsLeft);
+            AppendAuras(sb, victim.Auras);
             if (victim.KnownAbilities.Any())
             {
                 sb.AppendLine("Abilities:");
@@ -402,9 +403,10 @@ namespace Mud.Server.Admin
                 sb.AppendFormatLine("Equiped by {0} on {1}", equipable.EquipedBy?.DebugName ?? "(none)", equipable.WearLocation);
             else
                 sb.AppendLine("Cannot be equiped");
+            sb.AppendFormatLine("Level: {0}", item.Level);
             sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
             if (item.DecayPulseLeft > 0)
-                sb.AppendFormatLine("Decay in {0}", StringHelpers.FormatDelay(item.DecayPulseLeft / Settings.PulsePerSeconds));
+                sb.AppendFormatLine("Decay in {0}", StringHelpers.FormatDelay(item.DecayPulseLeft / Pulse.PulsePerSeconds));
             sb.AppendFormatLine("Flags: {0}", item.ItemFlags);
             if (item is IItemArmor armor)
                 sb.AppendFormatLine("Armor type: {0} Armor value: {1}", armor.ArmorKind, armor.Armor);
@@ -438,6 +440,7 @@ namespace Mud.Server.Admin
                 sb.AppendFormatLine("Destination: {0}", portal.Destination?.DebugName ?? "???");
             // TODO: other item type
             //
+            AppendAuras(sb, item.Auras);
             Send(sb);
             return CommandExecutionResults.Ok;
         }
@@ -641,8 +644,37 @@ namespace Mud.Server.Admin
             return sb.ToString();
         }
 
+        private void AppendAuras(StringBuilder sb, IEnumerable<IAura> auras)
+        {
+            foreach (IAura aura in auras)
+                sb.AppendFormatLine("{0} from {1} modifies {2} by {3}{4} for {5} seconds.",
+                    aura.Ability?.Name ?? "(none)",
+                    aura.Source?.DisplayName ?? "(none)",
+                    aura.Modifier,
+                    aura.Amount,
+                    AmountOperatorsToString(aura.AmountOperator),
+                    StringHelpers.FormatDelay(aura.PulseLeft/Pulse.PulsePerSeconds));
+
+        }
+
+        private string AmountOperatorsToString(AmountOperators op)
+        {
+            switch (op)
+            {
+                case AmountOperators.None:
+                    return string.Empty;
+                case AmountOperators.Fixed:
+                    return "+/-";
+                case AmountOperators.Flags:
+                    return "flags";
+                case AmountOperators.Percentage:
+                    return "%";
+            }
+            return "???";
+        }
+
         //
- 
+
         private string BuildPath(IRoom origin, IRoom destination)
         {
             if (origin == destination)

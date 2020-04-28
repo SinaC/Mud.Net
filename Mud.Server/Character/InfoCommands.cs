@@ -234,14 +234,14 @@ namespace Mud.Server.Character
                     if (aura.Modifier == AuraModifiers.None)
                         sb.AppendFormatLine("%B%{0}%x% for %c%{1}%x%",
                             aura.Ability == null ? "Unknown" : aura.Ability.Name,
-                            StringHelpers.FormatDelay(aura.SecondsLeft));
+                            StringHelpers.FormatDelay(aura.PulseLeft / Pulse.PulsePerSeconds));
                     else
                         sb.AppendFormatLine("%B%{0}%x% modifies %W%{1}%x% by %m%{2}{3}%x% for %c%{4}%x%",
                             aura.Ability == null ? "Unknown" : aura.Ability.Name,
                             aura.Modifier,
                             aura.Amount,
                             aura.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
-                            StringHelpers.FormatDelay(aura.SecondsLeft));
+                            StringHelpers.FormatDelay(aura.PulseLeft / Pulse.PulsePerSeconds));
                 }
                 // Periodic auras
                 foreach (IPeriodicAura pa in _periodicAuras.Where(x => x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
@@ -298,13 +298,14 @@ namespace Mud.Server.Character
             sb.AppendLine("+---------------------------+--+-------------------------+");
             sb.AppendLine("| %W%Resources%x%                    | %W%Offensive%x%               |");
             // TODO: don't display both Attack Power and Spell Power
-            sb.AppendFormatLine("| %g%Hit    : %W%[{0,8}/{1,8}]%x% | %g%Attack Power : %W%[{2,6}]%x% |", HitPoints, this[SecondaryAttributeTypes.MaxHitPoints], this[SecondaryAttributeTypes.AttackPower]);
-            List<string> resources = CurrentResourceKinds.Fill(3).Select(x => x == ResourceKinds.None
+            sb.AppendFormatLine("| %g%Hit    : %W%[{0,8}/{1,8}]%x% | %g%Move  : %W%[{2,6}/{3,6}]%x% |", HitPoints, this[SecondaryAttributeTypes.MaxHitPoints], MovePoints, this[SecondaryAttributeTypes.MaxMovePoints]);
+            List<string> resources = CurrentResourceKinds.Fill(4).Select(x => x == ResourceKinds.None
                 ? "                            "
                 : $"%g%{x,-7}:     %W%[{this[x],6}/{GetMaxResource(x),6}]%x%").ToList();
-            sb.AppendFormatLine("| {0} | %g%Spell Power  : %W%[{1,6}]%x% |", resources[0], this[SecondaryAttributeTypes.SpellPower]);
-            sb.AppendFormatLine("| {0} | %g%Attack Speed : %W%[{1,6}]%x% |", resources[1], this[SecondaryAttributeTypes.AttackSpeed]);
-            sb.AppendFormatLine("| {0} | %g%Armor        : %W%[{1,6}]%x% |", resources[2], this[SecondaryAttributeTypes.Armor]);
+            sb.AppendFormatLine("| {0} | %g%Attack Power : %W%[{1,6}]%x% |", resources[0], this[SecondaryAttributeTypes.AttackPower]);
+            sb.AppendFormatLine("| {0} | %g%Spell Power  : %W%[{1,6}]%x% |", resources[1], this[SecondaryAttributeTypes.SpellPower]);
+            sb.AppendFormatLine("| {0} | %g%Attack Speed : %W%[{1,6}]%x% |", resources[2], this[SecondaryAttributeTypes.AttackSpeed]);
+            sb.AppendFormatLine("| {0} | %g%Armor        : %W%[{1,6}]%x% |", resources[3], this[SecondaryAttributeTypes.Armor]);
             sb.AppendLine("+------------------------------+-------------------------+");
             sb.AppendLine("| %W%Defensive%x%                    |                         |");
             sb.AppendFormatLine("| %g%Dodge              : %W%[{0,5}]%x% |                         |", this[SecondaryAttributeTypes.Dodge]);
@@ -366,7 +367,7 @@ namespace Mud.Server.Character
             }
             else
             {
-                players = Room.Area.Players.Where(x => CanSee(x.Impersonating) && FindHelpers.StringListStartsWith(x.Impersonating.Keywords, parameters[0].Tokens));
+                players = Room.Area.Players.Where(x => CanSee(x.Impersonating) && FindHelpers.StringListsStartsWith(x.Impersonating.Keywords, parameters[0].Tokens));
                 notFound = $"You didn't find any {parameters[0]}.";
             }
             bool found = false;
@@ -386,7 +387,7 @@ namespace Mud.Server.Character
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("You are carrying:");
-            AppendItems(sb, Content, true, true);
+            AppendItems(sb, Inventory, true, true);
             Send(sb);
             return CommandExecutionResults.Ok;
         }
@@ -584,8 +585,8 @@ namespace Mud.Server.Character
             {
                 sb.AppendLine("You peek at the inventory:");
                 IEnumerable<IItem> items = this == victim
-                    ? victim.Content
-                    : victim.Content.Where(CanSee); // don't display 'invisible item' when inspecting someone else
+                    ? victim.Inventory
+                    : victim.Inventory.Where(CanSee); // don't display 'invisible item' when inspecting someone else
                 AppendItems(sb, items, true, true);
             }
         }
@@ -668,7 +669,7 @@ namespace Mud.Server.Character
         {
             description = null;
             int count = 0;
-            foreach (IItem item in Content.Where(CanSee)
+            foreach (IItem item in Inventory.Where(CanSee)
                 .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item))
                 .Concat(Room.Content.Where(CanSee)))
             {
@@ -684,7 +685,7 @@ namespace Mud.Server.Character
                         }
                 }
                 // Search in item keywords
-                if (FindHelpers.StringListStartsWith(item.Keywords, parameter.Tokens)
+                if (FindHelpers.StringListsStartsWith(item.Keywords, parameter.Tokens)
                     && ++count == parameter.Count)
                 {
                     description = FormatItem(item, false) + Environment.NewLine;

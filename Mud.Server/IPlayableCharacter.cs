@@ -26,6 +26,9 @@ namespace Mud.Server
         void AddQuest(IQuest quest);
         void RemoveQuest(IQuest quest);
 
+        // Room
+        IRoom RecallRoom { get; }
+
         // Group/Follower
         bool ChangeLeader(IPlayableCharacter leader);
         bool AddGroupMember(IPlayableCharacter member, bool silent);

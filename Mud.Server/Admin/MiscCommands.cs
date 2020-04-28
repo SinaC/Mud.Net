@@ -82,7 +82,7 @@ namespace Mud.Server.Admin
         {
             sb.AppendFormat($"{id + 1,2}) {quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
             if (quest.Blueprint.TimeLimit > 0)
-                sb.Append($" Time left : {StringHelpers.FormatDelay(quest.PulseLeft / Settings.PulsePerSeconds)}");
+                sb.Append($" Time left : {StringHelpers.FormatDelay(quest.PulseLeft / Pulse.PulsePerSeconds)}");
             sb.AppendLine();
             foreach (IQuestObjective objective in quest.Objectives)
                 sb.AppendFormatLine($"     {objective.CompletionState}");

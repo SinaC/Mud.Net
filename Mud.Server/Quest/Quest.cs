@@ -8,6 +8,7 @@ using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Common;
 using Mud.Server.Item;
 using Mud.Settings;
 
@@ -26,7 +27,7 @@ namespace Mud.Server.Quest
         {
             Character = character;
             StartTime = TimeHandler.CurrentTime;
-            PulseLeft = blueprint.TimeLimit * Settings.PulsePerMinutes;
+            PulseLeft = blueprint.TimeLimit * Pulse.PulsePerMinutes;
             Blueprint = blueprint;
             Giver = giver;
             _objectives = new List<IQuestObjective>();
@@ -96,6 +97,14 @@ namespace Mud.Server.Quest
 
         public INonPlayableCharacter Giver { get; }
 
+        public bool IsCompleted => Objectives == null || Objectives.All(x => x.IsCompleted);
+
+        public DateTime StartTime { get; }
+
+        public int PulseLeft { get; private set; }
+
+        public DateTime? CompletionTime { get; private set; }
+
         public IEnumerable<IQuestObjective> Objectives => _objectives;
 
         public void GenerateKillLoot(INonPlayableCharacter victim, IContainer container)
@@ -148,7 +157,7 @@ namespace Mud.Server.Quest
             if (force)
             {
                 foreach (ItemQuestObjective objective in _objectives.OfType<ItemQuestObjective>().Where(x => x.Blueprint.Id == item.Blueprint.Id))
-                    objective.Count = Character.Content.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == item.Blueprint.Id);
+                    objective.Count = Character.Inventory.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == item.Blueprint.Id);
                 return;
             }
             //
@@ -184,7 +193,7 @@ namespace Mud.Server.Quest
             {
                 objective.Reset();
                 if (objective is ItemQuestObjective itemQuestObjective)
-                    itemQuestObjective.Count = Character.Content.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == itemQuestObjective.Blueprint.Id);
+                    itemQuestObjective.Count = Character.Inventory.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == itemQuestObjective.Blueprint.Id);
             }
         }
 
@@ -197,15 +206,12 @@ namespace Mud.Server.Quest
 
         public bool DecreasePulseLeft(int pulseCount)
         {
+            if (PulseLeft < 0)
+                return false;
             PulseLeft = Math.Max(PulseLeft - pulseCount, 0);
             return PulseLeft == 0;
         }
 
-        public bool IsCompleted => Objectives == null || Objectives.All(x => x.IsCompleted);
-
-        public DateTime StartTime { get; }
-        public int PulseLeft { get; private set; }
-        public DateTime? CompletionTime { get; private set; }
 
         public void Complete()
         {
@@ -303,7 +309,7 @@ namespace Mud.Server.Quest
                         {
                             Id = itemObjective.Id,
                             Blueprint = itemBlueprint,
-                            Count = character.Content.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == itemObjective.ItemBlueprintId), // should always be 0
+                            Count = character.Inventory.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == itemObjective.ItemBlueprintId), // should always be 0
                             Total = itemObjective.Count
                         });
                     else
@@ -348,7 +354,7 @@ namespace Mud.Server.Quest
         private void DestroyQuestItems()
         {
             // Gather quest items
-            List<IItem> questItems = Character.Content.Where(x => x.Blueprint != null && Blueprint.ItemObjectives.Any(i => i.ItemBlueprintId == x.Blueprint.Id)).ToList();
+            List<IItem> questItems = Character.Inventory.Where(x => x.Blueprint != null && Blueprint.ItemObjectives.Any(i => i.ItemBlueprintId == x.Blueprint.Id)).ToList();
             foreach (IItem questItem in questItems)
             {
                 Log.Default.WriteLine(LogLevels.Debug, "Destroying quest item {0} in {1}", questItem.DebugName, Character.DebugName);

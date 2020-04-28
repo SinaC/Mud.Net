@@ -282,6 +282,9 @@ namespace Mud.Server.Character.PlayableCharacter
             _quests.Remove(quest);
         }
 
+        // Room
+        public IRoom RecallRoom => World.GetDefaultRecallRoom(); // TODO: could be different from default one
+
         // Group
         public bool IsSameGroup(IPlayableCharacter character)
         {
@@ -478,7 +481,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 RoomId = Room?.Blueprint?.Id ?? 0,
                 Experience = Experience,
                 Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquipedData()).ToArray(),
-                Inventory = Content.Select(x => x.MapItemData()).ToArray(),
+                Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
                 CurrentQuests = Quests.Select(x => x.GenerateQuestData()).ToArray(),
                 // TODO: aura, cooldown, ...
             };
@@ -498,13 +501,15 @@ namespace Mud.Server.Character.PlayableCharacter
 
         protected override int ModifyCriticalDamage(int damage) => (damage * 150) / 200; // TODO http://wow.gamepedia.com/Critical_strike
 
-        protected override bool RawKilled(ICharacter killer, bool killingPayoff) // TODO: refactor, same code in NonPlayableCharacter
+        protected override bool RawKilled(IEntity killer, bool killingPayoff) // TODO: refactor, same code in NonPlayableCharacter
         {
             if (!IsValid)
             {
                 Log.Default.WriteLine(LogLevels.Error, "RawKilled: {0} is not valid anymore", DebugName);
                 return false;
             }
+
+            ICharacter characterKiller = killer as ICharacter;
 
             string wiznetMsg;
             if (killer != null)
@@ -528,8 +533,8 @@ namespace Mud.Server.Character.PlayableCharacter
             ActToNotVictim(this, "You hear {0}'s death cry.", this);
 
             // Gain/lose xp/reputation   damage.C:32
-            if (killingPayoff)
-                killer?.KillingPayoff(this);
+            if (killingPayoff && characterKiller != null)
+                characterKiller?.KillingPayoff(this);
             DeathPayoff();
 
             // Create corpse
@@ -537,8 +542,8 @@ namespace Mud.Server.Character.PlayableCharacter
             if (itemCorpseBlueprint != null)
             {
                 IItemCorpse corpse;
-                if (killer != null)
-                    corpse = World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this, killer);
+                if (characterKiller != null)
+                    corpse = World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this, characterKiller);
                 else
                     corpse = World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this);
             }
@@ -564,6 +569,26 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         protected override bool AutomaticallyDisplayRoom => true;
+
+        protected override bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
+        {
+            // Compute move and check if enough move left
+            int moveCost = RandomManager.Range(1, 6); // TODO: dependends on room sector
+            if (CharacterFlags.HasFlag(CharacterFlags.Flying))
+                moveCost /= 2; // flying is less exhausting
+            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+                moveCost *= 2; // being slowed is more exhausting
+            if (MovePoints < moveCost)
+            {
+                Send("You are too exhausted.");
+                return false;
+            }
+            MovePoints -= moveCost;
+
+            // Delay player by one pulse
+            ImpersonatedBy?.SetGlobalCooldown(1);
+            return true;
+        }
 
         protected override void MoveFollow(IRoom fromRoom, IRoom toRoom, ExitDirections direction)
         {

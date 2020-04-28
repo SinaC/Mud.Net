@@ -183,9 +183,9 @@ namespace Mud.Server.Character.PlayableCharacter
         {
             // TODO: add class, mana, xp, ...
             if (member.Level >= Settings.MaxLevel)
-                sb.AppendFormatLine("[{0,3}]{1} {2,-30} {3,5}/{4,5}hp", member.Level, isLeader ? "L" : " ", member.DisplayName, member.HitPoints, member[SecondaryAttributeTypes.MaxHitPoints]);
+                sb.AppendFormatLine("[{0,3}]{1} {2,-30} {3,5}/{4,5}hp {5,5}/{6,5}Mv", member.Level, isLeader ? "L" : " ", member.DisplayName, member.HitPoints, member[SecondaryAttributeTypes.MaxHitPoints], member.MovePoints, member[SecondaryAttributeTypes.MaxMovePoints]);
             else
-                sb.AppendFormatLine("[{0,3}]{1} {2,-30} {3,5}/{4,5}hp {6}Nxt", member.Level, isLeader ? "L" : " ", member.DisplayName, member.HitPoints, member[SecondaryAttributeTypes.MaxHitPoints], member.ExperienceToLevel);
+                sb.AppendFormatLine("[{0,3}]{1} {2,-30} {3,5}/{4,5}hp {5,5}/{6,5}Mv {7}Nxt", member.Level, isLeader ? "L" : " ", member.DisplayName, member.HitPoints, member[SecondaryAttributeTypes.MaxHitPoints], member.MovePoints, member[SecondaryAttributeTypes.MaxMovePoints], member.ExperienceToLevel);
         }
     }
 }

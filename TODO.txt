@@ -1,4 +1,26 @@
-ItemFlags to use: Indestructible, Invisible
+Alias should be available when impersonated: add aliases to PlayableCharacter
+Ability wears off message
+Move AddAura in aura manager
+AddAura: additional param combine, when adding already existing aura (see affect_join)
+Add AddOrModifyAura to refactor test on GetAura then AddAura or Aura.Modify
+UnitTests on Rom24Effects
+Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
+Skill practice %
+
+DONE:
+Move, Resistances, Alignment added
+Rom24 various flags added
+Rom24 most spells added
+.Net Random removed from RandomManager 
+Move CanSee in IEntity
+ICharacter.Inventory is the same as Content 
+AddAura duration in pulse and not second (-1: permanent)
+    change aura/quest/... duration to TimeSpan
+
+
+Aura with multiple modifiers
+
+When an item quest objective is complete, quest item should be NoTake
 
 refactor RawKilled: found in NonPlayableCharacter and PlayableCharacter
 IEquipable should not exist -> every item with a wear location should be equipable even if it's a furniture or a bag
@@ -19,6 +41,7 @@ check if RelativeDisplayName should be used instead of DisplayName in Command (c
 quest save completed quests
       quest tree (prereq)
       repeteable or not quests
+      autogenerate
 
 aura/cd: SecondsLeft should be used (decreased in pulse methods) instead of Start + Duration  without this modification, it will be almost impossible to save
 

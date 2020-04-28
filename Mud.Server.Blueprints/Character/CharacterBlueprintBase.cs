@@ -30,6 +30,21 @@ namespace Mud.Server.Blueprints.Character
         [DataMember]
         public int Level { get; set; }
 
+        [DataMember]
+        public CharacterFlags CharacterFlags { get; set; } // TODO: assign
+
+        [DataMember]
+        public IRVFlags Immunities { get; set; } // TODO: assign
+
+        [DataMember]
+        public IRVFlags Resistances { get; set; } // TODO: assign
+
+        [DataMember]
+        public IRVFlags Vulnerabilities { get; set; } // TODO: assign
+
+        [DataMember]
+        public int Alignment { get; set; }
+
         // TODO: race, class, flags, armor, damage, ...
 
         [DataMember]

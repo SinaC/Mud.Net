@@ -391,10 +391,16 @@ namespace Mud.Server.WPFTestApplication
                 LongDescription = data.LongDescr,
                 ShortDescription = data.ShortDescr,
                 Sex = sex,
+                Alignment = data.Alignment,
+                Immunities = ConvertMysteryIRV(data.ImmFlags),
+                Resistances = ConvertMysteryIRV(data.ResFlags),
+                Vulnerabilities = ConvertMysteryIRV(data.VulnFlags),
+                // TODO: CharacterFlags, Immunities, Resistances, Vulnerabilities, ...
             };
             World.AddCharacterBlueprint(blueprint);
             return blueprint;
         }
+
         private static CharacterNormalBlueprint CreateCharacterBlueprint(Importer.Rom.MobileData data)
         {
             Sex sex = Sex.Neutral;
@@ -436,6 +442,38 @@ namespace Mud.Server.WPFTestApplication
                 flags |= ExitFlags.Hard;
             if ((exitInfo & Importer.Mystery.MysteryImporter.M) == Importer.Mystery.MysteryImporter.M)
                 flags |= ExitFlags.Hidden;
+            return flags;
+        }
+
+        private static IRVFlags ConvertMysteryIRV(long value)
+        {
+            IRVFlags flags = 0;
+            if ((value & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A) flags |= IRVFlags.Summon;
+            if ((value & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B) flags |= IRVFlags.Charm;
+            if ((value & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C) flags |= IRVFlags.Magic;
+            if ((value & Importer.Mystery.MysteryImporter.D) == Importer.Mystery.MysteryImporter.D) flags |= IRVFlags.Weapon;
+            if ((value & Importer.Mystery.MysteryImporter.E) == Importer.Mystery.MysteryImporter.E) flags |= IRVFlags.Bash;
+            if ((value & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F) flags |= IRVFlags.Pierce;
+            if ((value & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G) flags |= IRVFlags.Slash;
+            if ((value & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H) flags |= IRVFlags.Fire;
+            if ((value & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I) flags |= IRVFlags.Cold;
+            if ((value & Importer.Mystery.MysteryImporter.J) == Importer.Mystery.MysteryImporter.J) flags |= IRVFlags.Lightning;
+            if ((value & Importer.Mystery.MysteryImporter.K) == Importer.Mystery.MysteryImporter.K) flags |= IRVFlags.Acid;
+            if ((value & Importer.Mystery.MysteryImporter.L) == Importer.Mystery.MysteryImporter.L) flags |= IRVFlags.Poison;
+            if ((value & Importer.Mystery.MysteryImporter.M) == Importer.Mystery.MysteryImporter.M) flags |= IRVFlags.Negative;
+            if ((value & Importer.Mystery.MysteryImporter.N) == Importer.Mystery.MysteryImporter.N) flags |= IRVFlags.Holy;
+            if ((value & Importer.Mystery.MysteryImporter.O) == Importer.Mystery.MysteryImporter.O) flags |= IRVFlags.Energy;
+            if ((value & Importer.Mystery.MysteryImporter.P) == Importer.Mystery.MysteryImporter.P) flags |= IRVFlags.Mental;
+            if ((value & Importer.Mystery.MysteryImporter.Q) == Importer.Mystery.MysteryImporter.Q) flags |= IRVFlags.Disease;
+            if ((value & Importer.Mystery.MysteryImporter.R) == Importer.Mystery.MysteryImporter.R) flags |= IRVFlags.Drowning;
+            if ((value & Importer.Mystery.MysteryImporter.S) == Importer.Mystery.MysteryImporter.S) flags |= IRVFlags.Light;
+            if ((value & Importer.Mystery.MysteryImporter.T) == Importer.Mystery.MysteryImporter.T) flags |= IRVFlags.Sound;
+            // U 
+            // V PARALYSIS
+            if ((value & Importer.Mystery.MysteryImporter.X) == Importer.Mystery.MysteryImporter.X) flags |= IRVFlags.Wood;
+            if ((value & Importer.Mystery.MysteryImporter.Y) == Importer.Mystery.MysteryImporter.Y) flags |= IRVFlags.Silver;
+            if ((value & Importer.Mystery.MysteryImporter.Z) == Importer.Mystery.MysteryImporter.Z) flags |= IRVFlags.Iron;
+
             return flags;
         }
 
@@ -654,95 +692,97 @@ namespace Mud.Server.WPFTestApplication
 
         private static SchoolTypes ConvertWeaponDamageType(object attackTableValue, object weaponType2Value)
         {
+            // TODO
             string attackTable = (string)attackTableValue;
             int weaponType2 = weaponType2Value == null ? 0 : Convert.ToInt32(weaponType2Value);
             if (attackTable == "acid") // Acid
-                return SchoolTypes.Nature;
+                return SchoolTypes.Acid;
             if (attackTable == "wrath") // Wrath
-                return SchoolTypes.Arcane;
+                return SchoolTypes.Energy;
             if (attackTable == "magic") // Magic
-                return SchoolTypes.Arcane;
+                return SchoolTypes.Energy;
             if (attackTable == "divine") // Divine power
                 return SchoolTypes.Holy;
             if (attackTable == "shbite") // Shocking bite
-                return SchoolTypes.Nature;
+                return SchoolTypes.Lightning;
             if (attackTable == "flbite") // Flaming bite
                 return SchoolTypes.Fire;
             if (attackTable == "frbite") // Frost bite
-                return SchoolTypes.Frost;
+                return SchoolTypes.Cold;
             if (attackTable == "acbite") // Acidic bite
-                return SchoolTypes.Nature;
+                return SchoolTypes.Acid;
             if (attackTable == "drain") // Life drain
-                return SchoolTypes.Shadow;
+                return SchoolTypes.Negative;
             if (attackTable == "slime") // Slime
-                return SchoolTypes.Nature;
+                return SchoolTypes.Acid;
             if (attackTable == "shock") // Shock
-                return SchoolTypes.Nature;
+                return SchoolTypes.Lightning;
             if (attackTable == "flame") // Flame
                 return SchoolTypes.Fire;
             if (attackTable == "chill") // Chill
-                return SchoolTypes.Frost;
+                return SchoolTypes.Cold;
 
             // originally a flag but converted to a single value
             if ((weaponType2 & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A) // Flaming
                 return SchoolTypes.Fire;
             if ((weaponType2 & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B) // Frost
-                return SchoolTypes.Fire;
+                return SchoolTypes.Cold;
             if ((weaponType2 & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C) // Vampiric
-                return SchoolTypes.Shadow;
+                return SchoolTypes.Negative;
             // D: Sharp
             // E: Vorpal
             // F: Two-hands
             if ((weaponType2 & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G) // Shocking
-                return SchoolTypes.Nature;
+                return SchoolTypes.Lightning;
             if ((weaponType2 & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H) // Poison
-                return SchoolTypes.Nature;
+                return SchoolTypes.Poison;
             if ((weaponType2 & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I) // Holy
                 return SchoolTypes.Holy;
             // J: Weighted
             if ((weaponType2 & Importer.Mystery.MysteryImporter.K) == Importer.Mystery.MysteryImporter.K) // Necrotism
-                return SchoolTypes.Shadow;
+                return SchoolTypes.Negative;
 
             //
-            return SchoolTypes.Physical;
+            return SchoolTypes.None;
         }
 
-        private static ItemFlags ConvertMysteryItemExtraFlags(Importer.Mystery.ObjectData data)
+        private static (ItemFlags, bool) ConvertMysteryItemExtraFlags(Importer.Mystery.ObjectData data)
         {
             ItemFlags itemFlags = ItemFlags.None;
 
-            if ((data.WearFlags & Importer.Mystery.MysteryImporter.A) != Importer.Mystery.MysteryImporter.A) itemFlags |= ItemFlags.NoTake; // WearFlags A means TAKE
+            bool noTake = false;
+            if ((data.WearFlags & Importer.Mystery.MysteryImporter.A) != Importer.Mystery.MysteryImporter.A) noTake = true; // WearFlags A means TAKE
 
             if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A) itemFlags |= ItemFlags.Glowing; // A ITEM_GLOW
             if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B) itemFlags |= ItemFlags.Humming; // B ITEM_HUM
-            // C ITEM_DARK
-            // D ITEM_STAY_DEATH
-            // E ITEM_EVIL
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F) itemFlags |= ItemFlags.Invisible; // F ITEM_INVIS
-            // G ITEM_MAGIC
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C) itemFlags |= ItemFlags.Dark; // C ITEM_DARK
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.D) == Importer.Mystery.MysteryImporter.D) itemFlags |= ItemFlags.Lock; // D ITEM_LOCK
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.E) == Importer.Mystery.MysteryImporter.E) itemFlags |= ItemFlags.Evil; // E ITEM_EVIL
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F) itemFlags |= ItemFlags.Invis; // F ITEM_INVIS
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G) itemFlags |= ItemFlags.Magic; // G ITEM_MAGIC
             if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H) itemFlags |= ItemFlags.NoDrop; // H ITEM_NODROP
-            // I ITEM_BLESS
-            // J ITEM_ANTI_GOOD
-            // K ITEM_ANTI_EVIL
-            // L ITEM_ANTI_NEUTRAL
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I) itemFlags |= ItemFlags.Bless; // I ITEM_BLESS
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.J) == Importer.Mystery.MysteryImporter.J) itemFlags |= ItemFlags.AntiGood; // J ITEM_ANTI_GOOD
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.K) == Importer.Mystery.MysteryImporter.K) itemFlags |= ItemFlags.AntiEvil; // K ITEM_ANTI_EVIL
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.L) == Importer.Mystery.MysteryImporter.L) itemFlags |= ItemFlags.AntiNeutral; // L ITEM_ANTI_NEUTRAL
             if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.M) == Importer.Mystery.MysteryImporter.M) itemFlags |= ItemFlags.NoRemove; // M ITEM_NOREMOVE
-            // N ITEM_INVENTORY
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.N) == Importer.Mystery.MysteryImporter.N) itemFlags |= ItemFlags.Inventory; // N ITEM_INVENTORY
             if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.O) == Importer.Mystery.MysteryImporter.O) itemFlags |= ItemFlags.NoPurge; // O ITEM_NOPURGE
             if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.P) == Importer.Mystery.MysteryImporter.P) itemFlags |= ItemFlags.RotDeath; // P ITEM_ROT_DEATH
-            // Q ITEM_VIS_DEATH
-            // R ITEM_DONATED
-            // S ITEM_UNIQUE
-            // T ITEM_NOLOCATE
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.Q) == Importer.Mystery.MysteryImporter.Q) itemFlags |= ItemFlags.VisibleDeath; // Q ITEM_VIS_DEATH
+            //if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.R) == Importer.Mystery.MysteryImporter.R) itemFlags |= ItemFlags.; // R ITEM_DONATED
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.S) == Importer.Mystery.MysteryImporter.S) itemFlags |= ItemFlags.NonMetal; // S NONMETAL
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.T) == Importer.Mystery.MysteryImporter.T) itemFlags |= ItemFlags.NoLocate; // T ITEM_NOLOCATE
             if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.U) == Importer.Mystery.MysteryImporter.U) itemFlags |= ItemFlags.MeltOnDrop; // U ITEM_MELT_DROP
-            // V ITEM_HAD_TIMER
-            // W ITEM_SELL_EXTRACT
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.V) == Importer.Mystery.MysteryImporter.V) itemFlags |= ItemFlags.HadTimer; // V ITEM_HAD_TIMER
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.W) == Importer.Mystery.MysteryImporter.W) itemFlags |= ItemFlags.SellExtract; // W ITEM_SELL_EXTRACT
             // X ITEM_NOSAC
-            // Y ITEM_BURN_PROOF
-            // Z ITEM_NOUNCURSE
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.Y) == Importer.Mystery.MysteryImporter.Y) itemFlags |= ItemFlags.BurnProof; // Y ITEM_BURN_PROOF
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.Z) == Importer.Mystery.MysteryImporter.Z) itemFlags |= ItemFlags.NoUncurse; // Z ITEM_NOUNCURSE
             // aa ITEM_NOIDENT
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.bb) == Importer.Mystery.MysteryImporter.bb) itemFlags |= ItemFlags.Indestructible; // bb ITEM_NOCOND
+            //if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.bb) == Importer.Mystery.MysteryImporter.bb) itemFlags |= ItemFlags.Indestructible; // bb ITEM_NOCOND
 
-            return itemFlags;
+            return (itemFlags, noTake);
         }
 
         private static ItemFlags ConvertRomItemExtraFlags(Importer.Rom.ObjectData data)
@@ -753,6 +793,7 @@ namespace Mud.Server.WPFTestApplication
 
         private static ItemBlueprintBase CreateItemBlueprint(Importer.Mystery.ObjectData data)
         {
+            (ItemFlags itemFlags, bool noTake) extraFlags = ConvertMysteryItemExtraFlags(data);
             ItemBlueprintBase blueprint;
             if (data.ItemType == "weapon")
             {
@@ -764,6 +805,7 @@ namespace Mud.Server.WPFTestApplication
                     Description = data.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
                     Type = ConvertWeaponType(data.Values[0]),
@@ -772,7 +814,8 @@ namespace Mud.Server.WPFTestApplication
                     // Values[3] slash/pierce/bash/... attack_table in const.C
                     // Values[4] flaming/sharp/... weapon_type2 in tables.C
                     DamageType = ConvertWeaponDamageType(data.Values[3], data.Values[4]),
-                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
                 };
             }
             else if (data.ItemType == "container")
@@ -785,11 +828,13 @@ namespace Mud.Server.WPFTestApplication
                     Description = data.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
                     ItemCount = Convert.ToInt32(data.Values[3]),
                     WeightMultiplier = Convert.ToInt32(data.Values[4]),
-                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
                 };
             }
             else if (data.ItemType == "armor")
@@ -804,10 +849,12 @@ namespace Mud.Server.WPFTestApplication
                         Description = data.Description,
                         ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                         Cost = Convert.ToInt32(data.Cost),
+                        Level = data.Level,
                         Weight = data.Weight,
                         WearLocation = ConvertWearLocation(data),
                         Armor = Convert.ToInt32(data.Values[0]) + Convert.ToInt32(data.Values[1]) + Convert.ToInt32(data.Values[2]) + Convert.ToInt32(data.Values[3]), // TODO
-                        ItemFlags = ConvertMysteryItemExtraFlags(data)
+                        ItemFlags = extraFlags.itemFlags,
+                        NoTake = extraFlags.noTake,
                     };
                 else 
                     blueprint = new ItemArmorBlueprint
@@ -818,11 +865,13 @@ namespace Mud.Server.WPFTestApplication
                         Description = data.Description,
                         ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                         Cost = Convert.ToInt32(data.Cost),
+                        Level = data.Level,
                         Weight = data.Weight,
                         WearLocation = ConvertWearLocation(data),
                         Armor = Convert.ToInt32(data.Values[0]) + Convert.ToInt32(data.Values[1]) + Convert.ToInt32(data.Values[2]) + Convert.ToInt32(data.Values[3]), // TODO
                         ArmorKind = ArmorKinds.Leather, // TODO
-                        ItemFlags = ConvertMysteryItemExtraFlags(data)
+                        ItemFlags = extraFlags.itemFlags,
+                        NoTake = extraFlags.noTake,
                     };
             }
             else if (data.ItemType == "light")
@@ -835,10 +884,12 @@ namespace Mud.Server.WPFTestApplication
                     Description = data.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
                     DurationHours = Convert.ToInt32(data.Values[2]),
-                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
                 };
             }
             else if (data.ItemType == "furniture")
@@ -851,6 +902,7 @@ namespace Mud.Server.WPFTestApplication
                     Description = data.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
                     MaxPeople = Convert.ToInt32(data.Values[0]),
@@ -859,7 +911,8 @@ namespace Mud.Server.WPFTestApplication
                     FurniturePlacePreposition = ConvertFurniturePreposition(data.Values[2]),
                     HealBonus = Convert.ToInt32(data.Values[3]),
                     ResourceBonus = Convert.ToInt32(data.Values[4]),
-                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
                 };
             }
             else if (data.ItemType == "fountain")
@@ -872,13 +925,15 @@ namespace Mud.Server.WPFTestApplication
                     Description = data.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
                     MaxPeople = 0,
                     MaxWeight = 0,
                     HealBonus = 0,
                     ResourceBonus = 0,
-                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
                 };
             }
             else if (data.ItemType == "jewelry" || data.ItemType == "treasure")
@@ -891,9 +946,11 @@ namespace Mud.Server.WPFTestApplication
                     Description = data.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
-                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
                 };
             }
             else if (data.ItemType == "key")
@@ -906,9 +963,11 @@ namespace Mud.Server.WPFTestApplication
                     Description = data.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
-                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
                 };
             }
             else if (data.ItemType == "portal")
@@ -921,10 +980,12 @@ namespace Mud.Server.WPFTestApplication
                     Description = data.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
                     Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
                     Destination = Convert.ToInt32(data.Values[3]),
-                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
                 };
             }
             else
@@ -1422,7 +1483,7 @@ namespace Mud.Server.WPFTestApplication
                 Type = WeaponTypes.Sword1H,
                 DiceCount = 5,
                 DiceValue = 40,
-                DamageType = SchoolTypes.Physical,
+                DamageType = SchoolTypes.Slash,
                 WearLocation = WearLocations.Wield
             };
             World.AddItemBlueprint(item5Blueprint);

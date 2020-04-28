@@ -7,30 +7,78 @@ namespace Mud.Server.Common
 {
     public class RandomManager : IRandomManager
     {
-        public Random Randomizer { get; }
+        private Random _randomizer { get; }
 
         public RandomManager()
         {
-            Randomizer = new Random();
+            _randomizer = new Random();
         }
 
         public RandomManager(int seed)
         {
-            Randomizer = new Random(seed);
+            _randomizer = new Random(seed);
+        }
+
+        public int Next(int maxExcluded)
+        {
+            return _randomizer.Next(maxExcluded);
+        }
+
+        public int Next(int minIncluded, int maxExcluded)
+        {
+            return _randomizer.Next(minIncluded, maxExcluded);
         }
 
         public bool Chance(int percentage)
         {
-            return 1 + Randomizer.Next(100) <= percentage;
+            return 1 + _randomizer.Next(100) < percentage;
         }
 
         public int Dice(int count, int value)
         {
-            //return Enumerable.Range(0, count).Sum(x => Randomizer.Next(value)+1);
-            return Randomizer.Next(count, count*value + 1); // faster :)
+            //return Enumerable.Range(0, count).Sum(x => _randomizer.Next(value)+1);
+            return _randomizer.Next(count, count*value + 1); // faster :)
         }
 
-        public T Random<T>(IEnumerable<IOccurancy<T>> occurancies)
+        public int Range(int min, int max)
+        {
+            return _randomizer.Next(min, max+1);
+        }
+
+        public int Fuzzy(int number)
+        {
+            switch (_randomizer.Next(4))
+            {
+                case 0: number -= 1; break;
+                case 3: number += 1; break;
+            }
+            return Math.Max(1, number);
+        }
+
+        public T Random<T>()
+            where T : Enum
+        {
+            return Random<T>(EnumHelpers.GetValues<T>());
+        }
+
+        public T Random<T>(IEnumerable<T> values) // https://stackoverflow.com/questions/648196/random-row-from-linq-to-sql/648240#648240
+        {
+            T current = default;
+            int count = 0;
+            foreach (T element in values)
+            {
+                count++;
+                if (_randomizer.Next(count) == 0)
+                    current = element;
+            }
+            if (count == 0)
+            {
+                throw new InvalidOperationException("Sequence was empty");
+            }
+            return current;
+        }
+
+        public T RandomOccurancy<T>(IEnumerable<IOccurancy<T>> occurancies)
         {
             IList<IOccurancy<T>> list = occurancies as IList<IOccurancy<T>> ?? occurancies.ToList();
 
@@ -38,7 +86,7 @@ namespace Mud.Server.Common
             if (sum <= 0)
                 return default;
 
-            int random = Randomizer.Next(sum);
+            int random = _randomizer.Next(sum);
 
             int range = 0;
             foreach (IOccurancy<T> occurancy in list)
@@ -51,11 +99,11 @@ namespace Mud.Server.Common
             return default;
         }
 
-        public T Random<T>(IEnumerable<IOccurancy<T>> occurancies, IEnumerable<T> history)
+        public T RandomOccurancy<T>(IEnumerable<IOccurancy<T>> occurancies, IEnumerable<T> history)
         {
             IEnumerable<IOccurancy<T>> list = (occurancies as IList<IOccurancy<T>> ?? occurancies.ToList()).Where(x => !history.Contains(x.Value));
 
-            return Random(list);
+            return RandomOccurancy(list);
         }
 
         public int SumOccurancies<T>(IEnumerable<IOccurancy<T>> occurancies)
@@ -63,7 +111,7 @@ namespace Mud.Server.Common
             return occurancies.Aggregate(0, (n, i) => n + i.Occurancy);
         }
 
-        public T Random<T, U>(IEnumerable<T> occurancies)
+        public T RandomOccurancy<T, U>(IEnumerable<T> occurancies)
             where T : IOccurancy<U>
         {
             IList<T> list = occurancies as IList<T> ?? occurancies.ToList();
@@ -72,7 +120,7 @@ namespace Mud.Server.Common
             if (sum <= 0)
                 return default;
 
-            int random = Randomizer.Next(sum);
+            int random = _randomizer.Next(sum);
 
             int range = 0;
             foreach (T occurancy in list)

@@ -9,7 +9,7 @@ namespace Mud.Server
         IAbility Ability { get; }
 
         // Source of Aura
-        ICharacter Source { get; } // TODO: entity
+        IEntity Source { get; }
 
         // Modifier
         AuraModifiers Modifier { get; }
@@ -18,14 +18,14 @@ namespace Mud.Server
         int Amount { get; }
         AmountOperators AmountOperator { get; }
 
+        // Level
+        int Level { get; }
+
         // Start time
         DateTime StartTime { get; }
 
-        // Total left
-        int TotalSeconds { get; }
-
-        // Seconds left
-        int SecondsLeft { get; }
+        // Pulse left
+        int PulseLeft { get; } // -1: infinite
 
         // Reset source
         void ResetSource();
@@ -36,11 +36,20 @@ namespace Mud.Server
         // Refresh with a new aura
         void Refresh(IAura aura);
 
+        // Change level, amount and pulse
+        void Modify(int? level, int? amount, TimeSpan? ts);
+
+        // Change level, amount, pulse and ability
+        void Modify(int? level, int? amount, TimeSpan? ts, IAbility ability);
+
         // Called when dispelled
         void OnDispelled(IEntity dispelSource);
 
         // Called when vanished
         void OnVanished();
+
+        // Decrease pulse left
+        bool DecreasePulseLeft(int pulseCount); // true if timed out
     }
 
     // TODO ???

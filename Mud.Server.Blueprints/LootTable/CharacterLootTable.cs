@@ -41,13 +41,13 @@ namespace Mud.Server.Blueprints.LootTable
         {
             List<CharacterLootTableEntry<T>> history = new List<CharacterLootTableEntry<T>>();
             List<T> lootList = new List<T>();
-            int lootCount = RandomManager.Randomizer.Next(MinLoot, MaxLoot + 1);
+            int lootCount = RandomManager.Next(MinLoot, MaxLoot + 1);
             //Log.Default.WriteLine(LogLevels.Debug, "#Loot: {0}", lootCount);
             if (Entries != null)
             {
                 for (int loop = 1; loop <= lootCount; loop++)
                 {
-                    CharacterLootTableEntry<T> randomEntry = RandomManager.Random<CharacterLootTableEntry<T>, TreasureTable<T>>(Entries);
+                    CharacterLootTableEntry<T> randomEntry = RandomManager.RandomOccurancy<CharacterLootTableEntry<T>, TreasureTable<T>>(Entries);
                     if (randomEntry != null)
                     {
                         //Log.Default.WriteLine(LogLevels.Debug, "Table: {0}", randomEntry.Value.Name);

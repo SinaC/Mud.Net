@@ -32,6 +32,7 @@ namespace Mud.Server
         ICharacter Fighting { get; }
 
         IEnumerable<EquipedItem> Equipments { get; }
+        IEnumerable<IItem> Inventory { get; } // same as IContainer.Content
 
         // Furniture (sleep/sit/stand)
         IItemFurniture Furniture { get; }
@@ -47,6 +48,12 @@ namespace Mud.Server
         Sex Sex { get; }
         int Level { get; }
         int HitPoints { get; }
+        int MovePoints { get; }
+        CharacterFlags CharacterFlags { get; }
+        IRVFlags Immunities { get; }
+        IRVFlags Resistances { get; }
+        IRVFlags Vulnerabilities { get; }
+        int Alignment { get; }
         int this[ResourceKinds resource] { get; }
         int this[PrimaryAttributeTypes attribute] { get; }
         int this[SecondaryAttributeTypes attribute] { get; }
@@ -58,10 +65,7 @@ namespace Mud.Server
         // Abilities
         IEnumerable<AbilityAndLevel> KnownAbilities { get; }
 
-        // Auras
-        IEnumerable<IPeriodicAura> PeriodicAuras { get; }
-        IEnumerable<IAura> Auras { get; }
-
+        // Slave
         ICharacter Slave { get; } // who is our slave (related to charm command/spell)
         ICharacter ControlledBy { get; } // who is our master (related to charm command/spell)
 
@@ -83,29 +87,31 @@ namespace Mud.Server
         bool CanSee(ICharacter target);
         bool CanSee(IItem target);
         bool CanSee(IExit exit);
+        bool CanSee(IRoom room);
 
         // Attributes
         int GetBasePrimaryAttribute(PrimaryAttributeTypes attribute);
         int GetMaxResource(ResourceKinds resource);
-        void ChangeResource(ResourceKinds resource, int amount);
-        void UpdateResources();
+        void UpdateResource(ResourceKinds resource, int amount);
+        void UpdateMovePoints(int amount);
+        void UpdateAlignment(int amount);
+        void RegenResources();
+        bool IsEvil { get; }
+        bool IsGood { get; }
+        bool IsNeutral { get; }
+        void AddCharacterFlags(CharacterFlags characterFlags);
+        void RemoveCharacterFlags(CharacterFlags characterFlags);
 
         // Form
         bool ChangeForm(Forms form);
 
-        // Auras
-        void AddPeriodicAura(IPeriodicAura aura);
-        void RemovePeriodicAura(IPeriodicAura aura);
-        void AddAura(IAura aura, bool recompute);
-        void RemoveAura(IAura aura, bool recompute);
-
         // Controller
+        bool ChangeSlave(ICharacter slave); // if non-null, start slavery, else, stop slavery 
         bool ChangeController(ICharacter master); // if non-null, start slavery, else, stop slavery 
 
         // Recompute
-        void Reset(); // Reset attributes, remove auras, periodic auras
-        void ResetAttributes(bool resetHitPoints);
-        void RecomputeAttributes();
+        void ResetAttributes(bool resetHitAndMovePoints);
+
 
         // Move
         bool Move(ExitDirections direction, bool checkFighting, bool follow = false);
@@ -114,12 +120,14 @@ namespace Mud.Server
         void AutoLook();
 
         // Combat
-        bool Heal(ICharacter source, IAbility ability, int amount, bool visible);
+        ResistanceLevels CheckResistance(SchoolTypes damageType);
+        bool Heal(IEntity source, IAbility ability, int amount, bool visible);
+        bool UnknownSourceHeal(IAbility ability, int amount, bool visible);
         bool MultiHit(ICharacter enemy);
         bool StartFighting(ICharacter enemy);
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
         bool WeaponDamage(ICharacter source, IItemWeapon weapon, int damage, SchoolTypes damageType, bool visible); // damage from weapon(or bare hands) of known source
-        bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage from ability of known source
+        bool AbilityDamage(IEntity source, IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage from ability of known source
         bool UnknownSourceDamage(IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage with unknown source or no source
         void Slay(IPlayableCharacter killer);
         void KillingPayoff(ICharacter victim);

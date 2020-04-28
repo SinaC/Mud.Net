@@ -118,6 +118,16 @@ namespace Mud.Server.Tests.Mocking
 
         public IEnumerable<IItem> Items => _items;
 
+        public IRoom GetRandomRoom(ICharacter character)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IRoom GetDefaultRecallRoom()
+        {
+            throw new NotImplementedException();
+        }
+
         public IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits)
         {
             throw new NotImplementedException();
@@ -268,17 +278,23 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool visible)
+        public IAura AddAura(IEntity entity, IAbility ability, IEntity source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int level, TimeSpan ts, bool visible)
         {
             throw new NotImplementedException();
         }
 
-        public IPeriodicAura AddPeriodicAura(ICharacter victim, IAbility ability, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
+        public IAura AddAura<T>(IEntity entity, IAbility ability, IEntity source, AuraModifiers modifier, T value, int level, TimeSpan ts, bool recompute)
+            where T : Enum
         {
             throw new NotImplementedException();
         }
 
-        public IPeriodicAura AddPeriodicAura(ICharacter victim, IAbility ability, ICharacter source, SchoolTypes school, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
+        public IPeriodicAura AddPeriodicAura(IEntity entity, IAbility ability, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPeriodicAura AddPeriodicAura(IEntity entity, IAbility ability, IEntity source, SchoolTypes school, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
         {
             throw new NotImplementedException();
         }

@@ -54,25 +54,26 @@ namespace Mud.Server.Helpers
 
         public static string SchoolTypeColor(SchoolTypes schoolType)
         {
-            switch (schoolType)
-            {
-                case SchoolTypes.Arcane:
-                    return "%B%Arcane%x%";
-                case SchoolTypes.Fire:
-                    return "%R%Fire%x%";
-                case SchoolTypes.Frost:
-                    return "%C%Frost%x%";
-                case SchoolTypes.Holy:
-                    return "%Y%Holy%x%";
-                case SchoolTypes.Nature:
-                    return "%G%Nature%x%";
-                case SchoolTypes.Physical:
-                    return "%W%Physical%x%";
-                case SchoolTypes.Shadow:
-                    return "%M%Shadow%x%";
-                default:
-                    return "(none)";
-            }
+            //switch (schoolType)
+            //{
+            //    case SchoolTypes.Arcane:
+            //        return "%B%Arcane%x%";
+            //    case SchoolTypes.Fire:
+            //        return "%R%Fire%x%";
+            //    case SchoolTypes.Frost:
+            //        return "%C%Frost%x%";
+            //    case SchoolTypes.Holy:
+            //        return "%Y%Holy%x%";
+            //    case SchoolTypes.Nature:
+            //        return "%G%Nature%x%";
+            //    case SchoolTypes.Physical:
+            //        return "%W%Physical%x%";
+            //    case SchoolTypes.Shadow:
+            //        return "%M%Shadow%x%";
+            //    default:
+            //        return "(none)";
+            //}
+            return "(none)"; // TODO
         }
 
         public static string ShortExitDirections(ExitDirections exitDirections)

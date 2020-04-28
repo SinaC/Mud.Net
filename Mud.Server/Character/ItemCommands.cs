@@ -32,9 +32,9 @@ namespace Mud.Server.Character
                 // We have to clone list because it'll be modified when wearing an item
                 IReadOnlyCollection<IEquipable> list; // list must be cloned because it'll be modified when wearing an item
                 if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item
-                    list = new ReadOnlyCollection<IEquipable>(FindHelpers.FindAllByName(Content.Where(CanSee).OfType<IEquipable>(), whatParameter).ToList());
+                    list = new ReadOnlyCollection<IEquipable>(FindHelpers.FindAllByName(Inventory.Where(CanSee).OfType<IEquipable>(), whatParameter).ToList());
                 else // get all
-                    list = new ReadOnlyCollection<IEquipable>(Content.Where(CanSee).OfType<IEquipable>().ToList());
+                    list = new ReadOnlyCollection<IEquipable>(Inventory.Where(CanSee).OfType<IEquipable>().ToList());
                 bool itemEquipped = false;
                 if (list.Any())
                 {
@@ -55,7 +55,7 @@ namespace Mud.Server.Character
                 }
             }
             // wear item
-            IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
+            IItem item = FindHelpers.FindByName(Inventory.Where(CanSee), parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
@@ -82,7 +82,7 @@ namespace Mud.Server.Character
                 Send("Wield what?");
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
-            IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
+            IItem item = FindHelpers.FindByName(Inventory.Where(CanSee), parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
@@ -115,7 +115,7 @@ namespace Mud.Server.Character
                 Send("Hold what?");
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
-            IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
+            IItem item = FindHelpers.FindByName(Inventory.Where(CanSee), parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
@@ -295,9 +295,9 @@ namespace Mud.Server.Character
                 CommandParameter whatParameter = parameters[0];
                 IReadOnlyCollection<IItem> list; // list must be cloned because it'll be modified when dropping an item
                 if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // drop all.item
-                    list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Content.Where(x => CanSee(x) && !(x is ItemQuest)), whatParameter).ToList());
+                    list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Inventory.Where(x => CanSee(x) && !(x is ItemQuest)), whatParameter).ToList());
                 else // drop all
-                    list = new ReadOnlyCollection<IItem>(Content.Where(x => CanSee(x) && !(x is ItemQuest)).ToList());
+                    list = new ReadOnlyCollection<IItem>(Inventory.Where(x => CanSee(x) && !(x is ItemQuest)).ToList());
                 if (list.Any())
                 {
                     foreach (IItem itemInList in list)
@@ -311,7 +311,7 @@ namespace Mud.Server.Character
                 }
             }
             // drop item
-            IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
+            IItem item = FindHelpers.FindByName(Inventory.Where(CanSee), parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
@@ -337,7 +337,7 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
-            IItem what = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
+            IItem what = FindHelpers.FindByName(Inventory.Where(CanSee), parameters[0]);
             if (what == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
@@ -418,9 +418,9 @@ namespace Mud.Server.Character
                 // TODO: same code as above (***) except source collection (container.Content)
                 IReadOnlyCollection<IItem> list; // list must be cloned because it'll be modified when putting an item
                 if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // put all.item [in] container
-                    list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Content.Where(CanSee), whatParameter).ToList());
+                    list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Inventory.Where(CanSee), whatParameter).ToList());
                 else // put all [in] container
-                    list = new ReadOnlyCollection<IItem>(Content.Where(CanSee).ToList());
+                    list = new ReadOnlyCollection<IItem>(Inventory.Where(CanSee).ToList());
                 if (list.Any())
                 {
                     foreach (IItem itemInList in list)
@@ -434,7 +434,7 @@ namespace Mud.Server.Character
                 }
             }
             // put item [in] container
-            IItem item = FindHelpers.FindByName(Content.Where(CanSee), whatParameter);
+            IItem item = FindHelpers.FindByName(Inventory.Where(CanSee), whatParameter);
             if (item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
@@ -508,7 +508,7 @@ namespace Mud.Server.Character
         private bool GetItem(IItem item) // equivalent to get_obj in act_obj.C:211
         {
             //
-            if (item.ItemFlags.HasFlag(ItemFlags.NoTake))
+            if (item.NoTake)
             {
                 Send("You can't take that.");
                 return false;
@@ -524,7 +524,7 @@ namespace Mud.Server.Character
         private bool GetItem(IItem item, IContainer container)
         {           
             //
-            if (item.ItemFlags.HasFlag(ItemFlags.NoTake))
+            if (item.NoTake)
             {
                 Send("You can't take that.");
                 return false;

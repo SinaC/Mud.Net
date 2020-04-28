@@ -13,7 +13,13 @@ namespace Mud.Server
         IPlayableCharacter Character { get; }
         INonPlayableCharacter Giver { get; } // TODO: quest may be ended with a different NPC
 
+        bool IsCompleted { get; }
+        DateTime StartTime { get; }
+        int PulseLeft { get; }
+        DateTime? CompletionTime { get; }
+
         IEnumerable<IQuestObjective> Objectives { get; }
+
         void GenerateKillLoot(INonPlayableCharacter victim, IContainer container);
         void Update(INonPlayableCharacter victim);
         void Update(IItemQuest item, bool force);
@@ -21,11 +27,6 @@ namespace Mud.Server
         void Reset();
         void Timeout();
         bool DecreasePulseLeft(int pulseCount); // true if timed out
-
-        bool IsCompleted { get; }
-        DateTime StartTime { get; }
-        int PulseLeft { get; }
-        DateTime? CompletionTime { get; }
         void Complete();
         void Abandon();
 

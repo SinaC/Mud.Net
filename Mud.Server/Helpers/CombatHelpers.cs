@@ -468,7 +468,7 @@ namespace Mud.Server.Helpers
             }
 
             //
-            int roll = DependencyContainer.Current.GetInstance<IRandomManager>().Randomizer.Next(1000);
+            int roll = DependencyContainer.Current.GetInstance<IRandomManager>().Next(1000);
             Log.Default.WriteLine(LogLevels.Debug, $"MeleeAttackFromImpersonated: Roll: {roll} Miss: {miss} Dodge: {dodge}/{bonusDodge} Parry: {parry}/{bonusParry} Glance: {glance}[{allowGlancingBlow}] Block: {block}/{bonusBlock} Crit: {critical}/{malusCritical}");
             int cumulativeSum = 0;
             //
@@ -509,12 +509,12 @@ namespace Mud.Server.Helpers
             // -7 -> 44
             // -3 -> 0
             int missChance = (Math.Min(0, Math.Max(-10, deltaLevel)) - 3)*11;
-            if (DependencyContainer.Current.GetInstance<IRandomManager>().Randomizer.Next(100) <= missChance)
+            if (DependencyContainer.Current.GetInstance<IRandomManager>().Chance(missChance))
                 return AttackResults.Miss;
             // crit chance
             int deltaCritical = Math.Min(0, Math.Max(-10, deltaLevel));
             int critical = Math.Max(0, attacker[SecondaryAttributeTypes.Critical] - deltaCritical);
-            if (DependencyContainer.Current.GetInstance<IRandomManager>().Randomizer.Next(100) <= critical)
+            if (DependencyContainer.Current.GetInstance<IRandomManager>().Chance(critical))
                 return AttackResults.Critical;
             return AttackResults.Hit;
         }
@@ -677,7 +677,7 @@ namespace Mud.Server.Helpers
             }
 
             //
-            int roll = DependencyContainer.Current.GetInstance<IRandomManager>().Randomizer.Next(1000);
+            int roll = DependencyContainer.Current.GetInstance<IRandomManager>().Next(1000);
             Log.Default.WriteLine(LogLevels.Debug, $"MeleeAttackFromNotImpersonated: Roll: {roll} Miss: {miss} Dodge: {dodge}/{bonusDodge} Parry: {parry}/{bonusParry} Block: {block}/{bonusBlock} Crit: {critical} Crush: {crushing}");
             int cumulativeSum = 0;
             //
@@ -738,7 +738,7 @@ namespace Mud.Server.Helpers
                 missChance = 3;
             else
                 missChance = 0;
-            if (DependencyContainer.Current.GetInstance<IRandomManager>().Randomizer.Next(100) <= missChance)
+            if (DependencyContainer.Current.GetInstance<IRandomManager>().Chance(missChance))
                 return AttackResults.Miss;
             // no critical
             return AttackResults.Hit;

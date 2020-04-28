@@ -1,6 +1,7 @@
 ﻿using System;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Common;
 
 namespace Mud.Server.Item
 {
@@ -13,7 +14,7 @@ namespace Mud.Server.Item
         {
             DecayPulseLeft = blueprint.DurationHours == Infinite
                 ? 0 // infinite
-                : blueprint.DurationHours * Settings.PulsePerMinutes*60;
+                : blueprint.DurationHours * Pulse.PulsePerMinutes*60;
         }
 
         public ItemLight(Guid guid, ItemLightBlueprint blueprint, ItemData itemData, IContainer containedInto)

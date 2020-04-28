@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Mud.Domain;
 
-namespace Mud.Server.Tests
+namespace Mud.Server.Tests.Mocking
 {
     internal class WiznetMock : IWiznet
     {

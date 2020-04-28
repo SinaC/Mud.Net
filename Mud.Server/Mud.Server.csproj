@@ -78,6 +78,9 @@
     <Compile Include="Abilities\AbilityEffects.cs" />
     <Compile Include="Abilities\AbilityManager.cs" />
     <Compile Include="Abilities\Ability.cs" />
+    <Compile Include="Abilities\Rom24\Rom24Spells.cs" />
+    <Compile Include="Abilities\Rom24\Rom24Common.cs" />
+    <Compile Include="Abilities\Rom24\Rom24Effects.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
     <Compile Include="Admin\CommunicationCommands.cs" />
     <Compile Include="Admin\MiscCommands.cs" />

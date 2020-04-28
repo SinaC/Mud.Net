@@ -1,35 +1,31 @@
 ﻿using System;
 using Mud.Container;
 using Mud.Domain;
+using Mud.Server.Common;
 
 namespace Mud.Server.Aura
 {
+    // TODO: Aura with multiple modifiers
+    // TODO: permanent aura: TotalSeconds = -1
+    // TODO: change TotalSeconds to PulseLeft
     public class Aura : IAura
     {
         protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
 
         #region IAura
 
-        public IAbility Ability { get; }
-        public ICharacter Source { get; private set; }
+        public IAbility Ability { get; private set; }
+        public IEntity Source { get; private set; }
         public AuraModifiers Modifier { get; }
-        public int Amount { get; private set; }
-        public AmountOperators AmountOperator { get; }
+        public int Amount { get; private set; } // can be a flag
+        public AmountOperators AmountOperator { get; } // Amount is a flag is AmountOperator is Flags
+        public int Level { get; private set; }
         public DateTime StartTime { get; private set; }
-        public int TotalSeconds { get; private set; }
-
-        public int SecondsLeft
-        {
-            get
-            {
-                TimeSpan ts = TimeHandler.CurrentTime - StartTime;
-                return TotalSeconds - (int)Math.Ceiling(ts.TotalSeconds);
-            }
-        }
+        public int PulseLeft { get; private set; }
 
         #endregion
 
-        public Aura(IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds)
+        public Aura(IAbility ability, IEntity source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int level, TimeSpan ts)
         {
             StartTime = TimeHandler.CurrentTime;
 
@@ -38,7 +34,8 @@ namespace Mud.Server.Aura
             Modifier = modifier;
             Amount = amount;
             AmountOperator = amountOperator;
-            TotalSeconds = totalSeconds;
+            Level = level;
+            PulseLeft = Pulse.FromTimeSpan(ts);
         }
 
         // Reset source
@@ -70,7 +67,25 @@ namespace Mud.Server.Aura
 
             // Refresh aura values
             Amount = aura.Amount;
-            TotalSeconds = aura.TotalSeconds;
+            PulseLeft = aura.PulseLeft;
+        }
+
+        // Change level, amount and pulseCount
+        public void Modify(int? level, int? amount, TimeSpan? ts)
+        {
+            if (level.HasValue)
+                Level = Math.Max(1, level.Value);
+            if (amount.HasValue)
+                Amount = amount.Value;
+            if (ts.HasValue)
+                PulseLeft = Pulse.FromTimeSpan(ts.Value);
+        }
+
+        // Change level, amount, pulseCount and ability
+        public void Modify(int? level, int? amount, TimeSpan? ts, IAbility ability)
+        {
+            Modify(level, amount, ts);
+            Ability = ability;
         }
 
         // Called when dispelled
@@ -81,6 +96,15 @@ namespace Mud.Server.Aura
         // Called when vanished
         public virtual void OnVanished()
         {
+        }
+
+        // Decrease pulse left
+        public bool DecreasePulseLeft(int pulseCount)  // true if timed out
+        {
+            if (PulseLeft < 0)
+                return false;
+            PulseLeft = Math.Max(PulseLeft - pulseCount, 0);
+            return PulseLeft == 0;
         }
     }
 }

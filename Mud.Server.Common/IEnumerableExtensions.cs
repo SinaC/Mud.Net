@@ -23,23 +23,23 @@ namespace Mud.Server.Common
 
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
         {
-            return source.Shuffle(DependencyContainer.Current.GetInstance<IRandomManager>().Randomizer);
+            return source.Shuffle(DependencyContainer.Current.GetInstance<IRandomManager>().Next);
         }
 
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rng)
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Func<int, int, int> randomNextFunc)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
-            if (rng == null) throw new ArgumentNullException(nameof(rng));
+            if (randomNextFunc == null) throw new ArgumentNullException(nameof(randomNextFunc));
 
-            return source.ShuffleIterator(rng);
+            return source.ShuffleIterator(randomNextFunc);
         }
 
-        private static IEnumerable<T> ShuffleIterator<T>(this IEnumerable<T> source, Random rng)
+        private static IEnumerable<T> ShuffleIterator<T>(this IEnumerable<T> source, Func<int, int, int> randomNextFunc)
         {
             var buffer = source.ToList();
             for (int i = 0; i < buffer.Count; i++)
             {
-                int j = rng.Next(i, buffer.Count);
+                int j = randomNextFunc(i, buffer.Count);
                 yield return buffer[j];
 
                 buffer[j] = buffer[i];

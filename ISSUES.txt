@@ -1,0 +1,2 @@
+when fighting multiple mobs
+	when one mob dies and try to flee, we are not considered as fightning until next tick

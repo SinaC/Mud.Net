@@ -23,8 +23,10 @@ namespace Mud.Server.Item
             Blueprint = blueprint;
             ContainedInto = containedInto;
             containedInto.PutInContainer(this);
+            Level = blueprint.Level;
             Weight = blueprint.Weight;
             Cost = blueprint.Cost;
+            NoTake = blueprint.NoTake;
             ItemFlags = blueprint.ItemFlags;
         }
 
@@ -50,6 +52,13 @@ namespace Mud.Server.Item
 
         public override string DebugName => Blueprint == null ? DisplayName : $"{DisplayName}[{Blueprint.Id}]";
 
+        // Recompute
+        public override void RecomputeAttributes()
+        {
+            // TODO
+        }
+
+        //
         public override string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false)
         {
             StringBuilder displayName = new StringBuilder();
@@ -94,12 +103,15 @@ namespace Mud.Server.Item
 
         public int DecayPulseLeft { get; protected set; } // 0: means no decay
 
+        public int Level { get; }
+
         public virtual int Weight { get; }
 
         public virtual int Cost { get; }
 
-        public ItemFlags ItemFlags { get; protected set; }
+        public bool NoTake { get; }
 
+        public ItemFlags ItemFlags { get; protected set; }
 
         public virtual bool IsQuestObjective(IPlayableCharacter questingCharacter)
         {
@@ -139,6 +151,11 @@ namespace Mud.Server.Item
         public void RemoveItemFlags(ItemFlags itemFlags)
         {
             ItemFlags &= ~itemFlags;
+        }
+
+        public void ClearItemFlags()
+        {
+            ItemFlags = ItemFlags.None;
         }
 
         public virtual ItemData MapItemData()

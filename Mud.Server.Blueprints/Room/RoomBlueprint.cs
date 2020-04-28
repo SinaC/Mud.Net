@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Mud.Domain;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Mud.Server.Blueprints.Room
@@ -17,6 +18,9 @@ namespace Mud.Server.Blueprints.Room
 
         [DataMember]
         public Dictionary<string, string> ExtraDescriptions { get; set; } // keyword -> description
+
+        [DataMember]
+        public RoomFlags RoomFlags { get; set; } // TODO: assign
 
         [DataMember]
         public ExitBlueprint[] Exits { get; set; } // TODO: fixed length or list (+ add direction in ExitBlueprint)

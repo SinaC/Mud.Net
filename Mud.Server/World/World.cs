@@ -11,8 +11,10 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Common;
 using Mud.Server.Item;
 using Mud.Server.Room;
+using Mud.Settings;
 
 namespace Mud.Server.World
 {
@@ -29,6 +31,8 @@ namespace Mud.Server.World
         private readonly List<IItem> _items;
 
         private IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
+        private IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
+        private ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
 
         public World()
         {
@@ -121,6 +125,22 @@ namespace Mud.Server.World
         public IEnumerable<IPlayableCharacter> PlayableCharacters => Characters.OfType<IPlayableCharacter>();
 
         public IEnumerable<IItem> Items => _items.Where(x => x.IsValid);
+
+        public IRoom GetRandomRoom(ICharacter character) 
+        {
+            INonPlayableCharacter nonPlayableCharacter = character as INonPlayableCharacter;
+            return RandomManager.Random(Rooms.Where(x =>
+                character.CanSee(x)
+                && !x.RoomFlags.HasFlag(RoomFlags.Safe)
+                && !x.RoomFlags.HasFlag(RoomFlags.Private)
+                && !x.RoomFlags.HasFlag(RoomFlags.Solitary)
+                && (nonPlayableCharacter == null || nonPlayableCharacter.ActFlags.HasFlag(ActFlags.Aggressive) || !x.RoomFlags.HasFlag(RoomFlags.Law))));
+        }
+
+        public IRoom GetDefaultRecallRoom() 
+        {
+            return _rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
+        }
 
         public IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits)
         {
@@ -300,24 +320,33 @@ namespace Mud.Server.World
             return item;
         }
 
-        public IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool recompute)
+        public IAura AddAura(IEntity target, IAbility ability, IEntity source, AuraModifiers modifier, int amount, AmountOperators amountOperator,  int level, TimeSpan ts, bool recompute)
         {
-            IAura aura = new Aura.Aura(ability, source, modifier, amount, amountOperator, totalSeconds);
-            victim.AddAura(aura, recompute);
+            IAura aura = new Aura.Aura(ability, source, modifier, amount, amountOperator, level, ts);
+            target.AddAura(aura, recompute);
             return aura;
         }
 
-        public IPeriodicAura AddPeriodicAura(ICharacter victim, IAbility ability, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
+        public IAura AddAura<T>(IEntity target, IAbility ability, IEntity source, AuraModifiers modifier, T value, int level, TimeSpan ts, bool recompute)
+            where T : Enum
         {
-            IPeriodicAura periodicAura = new PeriodicAura(ability, PeriodicAuraTypes.Heal, source, amount, amountOperator, tickVisible, tickDelay, totalTicks);
-            victim.AddPeriodicAura(periodicAura);
+            //https://stackoverflow.com/questions/16960555/how-do-i-cast-a-generic-enum-to-int
+            IAura aura = new Aura.Aura(ability, source, modifier, (int)(object)value, AmountOperators.Flags, level, ts);
+            target.AddAura(aura, recompute);
+            return aura;
+        }
+
+        public IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
+        {
+            IPeriodicAura periodicAura = new PeriodicAura(ability, PeriodicAuraTypes.Heal, source, amount, amountOperator, level, tickVisible, tickDelay, totalTicks);
+            target.AddPeriodicAura(periodicAura);
             return periodicAura;
         }
 
-        public IPeriodicAura AddPeriodicAura(ICharacter victim, IAbility ability, ICharacter source, SchoolTypes school, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
+        public IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, SchoolTypes school, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
         {
-            IPeriodicAura periodicAura = new PeriodicAura(ability, PeriodicAuraTypes.Damage, source, school, amount, amountOperator, tickVisible, tickDelay, totalTicks);
-            victim.AddPeriodicAura(periodicAura);
+            IPeriodicAura periodicAura = new PeriodicAura(ability, PeriodicAuraTypes.Damage, source, school, amount, amountOperator, level, tickVisible, tickDelay, totalTicks);
+            target.AddPeriodicAura(periodicAura);
             return periodicAura;
         }
 
@@ -369,9 +398,9 @@ namespace Mud.Server.World
             // no need to recompute
 
             // Remove content
-            if (character.Content.Any())
+            if (character.Inventory.Any())
             {
-                IReadOnlyCollection<IItem> clonedInventory = new ReadOnlyCollection<IItem>(character.Content.ToList()); // clone because GetFromContainer change Content collection
+                IReadOnlyCollection<IItem> clonedInventory = new ReadOnlyCollection<IItem>(character.Inventory.ToList()); // clone because GetFromContainer change Content collection
                 foreach (IItem item in clonedInventory)
                     RemoveItem(item);
                 // Remove equipments

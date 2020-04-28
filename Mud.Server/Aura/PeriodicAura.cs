@@ -16,10 +16,11 @@ namespace Mud.Server.Aura
 
         public IAbility Ability { get; }
         public PeriodicAuraTypes AuraType { get; }
-        public ICharacter Source { get; private set; }
+        public IEntity Source { get; private set; }
         public SchoolTypes School { get; }
         public int Amount { get; private set; }
         public AmountOperators AmountOperator { get; }
+        public int Level { get; }
         public bool TickVisible { get; }
         public int TotalTicks { get; }
         public int TickDelay { get; private set; }
@@ -36,7 +37,7 @@ namespace Mud.Server.Aura
 
         #endregion
 
-        public PeriodicAura(IAbility ability, PeriodicAuraTypes auraType, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
+        public PeriodicAura(IAbility ability, PeriodicAuraTypes auraType, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
         {
             _startTime = TimeHandler.CurrentTime;
             _lastTickElapsed = TimeHandler.CurrentTime;
@@ -46,14 +47,15 @@ namespace Mud.Server.Aura
             Source = source;
             Amount = amount;
             AmountOperator = amountOperator;
+            Level = level;
             TickVisible = tickVisible;
             TickDelay = tickDelay;
             TicksLeft = totalTicks;
             TotalTicks = totalTicks;
         }
 
-        public PeriodicAura(IAbility ability, PeriodicAuraTypes auraType, ICharacter source, SchoolTypes school, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks)
-            : this(ability, auraType, source, amount, amountOperator, tickVisible, tickDelay, totalTicks)
+        public PeriodicAura(IAbility ability, PeriodicAuraTypes auraType, IEntity source, SchoolTypes school, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
+            : this(ability, auraType, source, amount, amountOperator, level, tickVisible, tickDelay, totalTicks)
         {
             School = school;
         }
@@ -97,8 +99,10 @@ namespace Mud.Server.Aura
                 {
                     if (Source == null)
                         victim.UnknownSourceDamage(Ability, amount, School, TickVisible);
+                    else if (Source is ICharacter character)
+                        victim.AbilityDamage(character, Ability, amount, School, TickVisible);
                     else
-                        victim.AbilityDamage(Source, Ability, amount, School, TickVisible);
+                        victim.UnknownSourceDamage(Ability, amount, School, TickVisible);
                 }
             }
             return TicksLeft == 0;

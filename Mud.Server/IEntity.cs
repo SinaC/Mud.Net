@@ -16,12 +16,33 @@ namespace Mud.Server
         bool Incarnatable { get; }
         IAdmin IncarnatedBy { get; }
 
+        // Auras
+        IEnumerable<IPeriodicAura> PeriodicAuras { get; }
+        IEnumerable<IAura> Auras { get; }
+
+        // Recompute
+        void Reset(); // Reset attributes, remove auras, periodic auras
+        void RecomputeAttributes();
+
+        // Auras
+        IAura GetAura(int abilityId);
+        IAura GetAura(string abilityName);
+        IAura GetAura(IAbility ability);
+        void AddPeriodicAura(IPeriodicAura aura);
+        void RemovePeriodicAura(IPeriodicAura aura);
+        void AddAura(IAura aura, bool recompute);
+        void RemoveAura(IAura aura, bool recompute);
+        void RemoveAuras(Func<IAura, bool> filterFunc, bool recompute);
+
+        // Incarnation
         bool ChangeIncarnation(IAdmin admin);
 
+        // Display
         string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false); // Use to get DisplayName relative to Beholder. If Beholder cannot see 'this', it will return Someone or Something. It 'this' is quest objective, (Quest) will be prefixed
 
         string RelativeDescription(ICharacter beholder); // Add (Quest) to description if beholder is on a quest with 'this' as objective
 
+        //
         void OnRemoved(); // called before removing an item from the game
     }
 }

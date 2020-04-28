@@ -17,7 +17,7 @@ namespace Mud.Server
         PeriodicAuraTypes AuraType { get; }
 
         // Source of Aura
-        ICharacter Source { get; } // TODO: entity
+        IEntity Source { get; }
 
         // Damage type (if AuraType is damage)
         SchoolTypes School { get; }
@@ -25,6 +25,9 @@ namespace Mud.Server
         // Amount + %/fixed
         int Amount { get; }
         AmountOperators AmountOperator { get; }
+
+        // Level
+        int Level { get; }
 
         // Is damage/heal phrase visible
         bool TickVisible { get; }

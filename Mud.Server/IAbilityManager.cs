@@ -7,7 +7,7 @@ namespace Mud.Server
     {
         IAbility WeakenedSoulAbility { get; }
         IAbility ParryAbility { get; }
-        IAbility DodgerAbility { get; }
+        IAbility DodgeAbility { get; }
         IAbility ShieldBlockAbility { get; }
         IAbility DualWieldAbility { get; }
         IAbility ThirdWieldAbility { get; }
@@ -23,6 +23,7 @@ namespace Mud.Server
         bool Process(ICharacter source, params CommandParameter[] parameters);
 
         // TEST: TO REMOVE
-        bool Process(ICharacter source, ICharacter target, IAbility ability);
+        void AddAbility(IAbility ability);
+        bool Process(ICharacter source, ICharacter target, IAbility ability, int level);
     }
 }

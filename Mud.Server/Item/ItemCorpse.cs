@@ -31,21 +31,21 @@ namespace Mud.Server.Item
 
             if (IsPlayableCharacterCorpse)
             {
-                DecayPulseLeft = RandomManager.Randomizer.Next(25, 40) * Settings.PulsePerMinutes;
+                DecayPulseLeft = RandomManager.Range(25, 40) * Pulse.PulsePerMinutes;
                 ItemFlags |= ItemFlags.NoPurge;
             }
             else
-                DecayPulseLeft = RandomManager.Randomizer.Next(3, 6) * Settings.PulsePerMinutes;
+                DecayPulseLeft = RandomManager.Range(3, 6) * Pulse.PulsePerMinutes;
 
             // Clone inventory
-            IReadOnlyCollection<IItem> inventory = new ReadOnlyCollection<IItem>(victim.Content.ToList());
+            IReadOnlyCollection<IItem> inventory = new ReadOnlyCollection<IItem>(victim.Inventory.ToList());
             // Fill corpse with inventory
             foreach (IItem item in inventory)
             {
                 // TODO: check stay death flag
                 if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
                 {
-                    item.SetDecayPulseLeft(RandomManager.Randomizer.Next(5, 10) * Settings.PulsePerMinutes);
+                    item.SetDecayPulseLeft(RandomManager.Range(5, 10) * Pulse.PulsePerMinutes);
                     item.RemoveItemFlags(ItemFlags.RotDeath);
                 }
                 item.ChangeContainer(this);
@@ -56,7 +56,7 @@ namespace Mud.Server.Item
                 // TODO: check stay death flag
                 if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
                 {
-                    item.SetDecayPulseLeft(RandomManager.Randomizer.Next(5, 10) * Settings.PulsePerMinutes);
+                    item.SetDecayPulseLeft(RandomManager.Range(5, 10) * Pulse.PulsePerMinutes);
                     item.RemoveItemFlags(ItemFlags.RotDeath);
                 }
                 item.ChangeContainer(this);

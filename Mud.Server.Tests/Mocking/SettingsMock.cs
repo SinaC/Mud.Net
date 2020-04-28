@@ -33,15 +33,11 @@ namespace Mud.Server.Tests.Mocking
 
         public int CorpseBlueprintId => throw new NotImplementedException();
 
+        public int LightBallBlueprintId => throw new NotImplementedException();
+
         public int DefaultRoomId => throw new NotImplementedException();
 
-        public int PulsePerSeconds => 4;
-
-        public int PulsePerMinutes => PulsePerSeconds * 60;
-
-        public int PulseDelay => throw new NotImplementedException();
-
-        public int PulseViolence => throw new NotImplementedException();
+        public int DefaultRecallRoomId => throw new NotImplementedException();
 
         public bool CheckLoginPassword => throw new NotImplementedException();
 

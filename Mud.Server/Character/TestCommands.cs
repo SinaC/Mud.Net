@@ -1,7 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Mud.Container;
 using Mud.Domain;
+using Mud.Server.Abilities.Rom24;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Settings;
 
 namespace Mud.Server.Character
 {
@@ -18,9 +23,9 @@ namespace Mud.Server.Character
             {
                 //AbilityDamage(this, null, 500, SchoolTypes.Fire, true);
                 //World.AddAura(this, null, this, AuraModifiers.Dodge, 200 /*to be sure :p*/, AmountOperators.Fixed, 60*60, true);
-                World.AddAura(this, null, this, AuraModifiers.Dodge, 30, AmountOperators.Fixed, 60 * 60, true);
-                World.AddAura(this, null, this, AuraModifiers.Parry, 30, AmountOperators.Fixed, 60 * 60, true);
-                World.AddAura(this, null, this, AuraModifiers.Block, 30, AmountOperators.Fixed, 60 * 60, true);
+                World.AddAura(this, null, this, AuraModifiers.Dodge, 30, AmountOperators.Fixed, 60 * 60, TimeSpan.FromSeconds(40), true);
+                World.AddAura(this, null, this, AuraModifiers.Parry, 30, AmountOperators.Fixed, 60 * 60, TimeSpan.FromSeconds(40), true);
+                World.AddAura(this, null, this, AuraModifiers.Block, 30, AmountOperators.Fixed, 60 * 60, TimeSpan.FromSeconds(40), true);
                 //World.AddAura(this, null, this, AuraModifiers.Armor, 100000, AmountOperators.Fixed, 60 * 60, true);
             }
             else
@@ -54,38 +59,38 @@ namespace Mud.Server.Character
                 }
                 else if (parameters[0].Value == "0")
                 {
-                    World.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
-                    World.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
-                    World.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
-                    World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
-                    World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
-                    World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, SchoolTypes.Mental, 75, AmountOperators.Fixed, 40, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, SchoolTypes.Fire, 75, AmountOperators.Fixed, 40, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, SchoolTypes.Cold, 75, AmountOperators.Fixed, 40, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, 40, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, 40, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, 40, true, 3, 8);
                 }
                 else if (parameters[0].Value == "1")
-                    victim.UnknownSourceDamage(null, 100, SchoolTypes.Frost, true);
+                    victim.UnknownSourceDamage(null, 100, SchoolTypes.Lightning, true);
                 else if (parameters[0].Value == "2")
-                    victim.UnknownSourceDamage(null, 100, SchoolTypes.Frost, true);
+                    victim.UnknownSourceDamage(null, 100, SchoolTypes.Sound, true);
                 else if (parameters[0].Value == "3")
-                    World.AddPeriodicAura(victim, null, this, SchoolTypes.Arcane, 75, AmountOperators.Fixed, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, SchoolTypes.Holy, 75, AmountOperators.Fixed, 40, true, 3, 8);
                 else if (parameters[0].Value == "4")
-                    World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, true, 3, 8);
+                    World.AddPeriodicAura(victim, null, this, 10, AmountOperators.Percentage, 40, true, 3, 8);
                 else if (parameters[0].Value == "5")
                 {
-                    World.AddAura(victim, null, this, AuraModifiers.Stamina, 15, AmountOperators.Percentage, 70, true);
-                    World.AddAura(victim, null, this, AuraModifiers.Characteristics, -10, AmountOperators.Fixed, 30, true);
-                    World.AddAura(victim, null, this, AuraModifiers.AttackPower, 150, AmountOperators.Fixed, 90, true);
+                    World.AddAura(victim, null, this, AuraModifiers.Stamina, 15, AmountOperators.Percentage, 70, TimeSpan.FromSeconds(40), true);
+                    World.AddAura(victim, null, this, AuraModifiers.Characteristics, -10, AmountOperators.Fixed, 30, TimeSpan.FromSeconds(40), true);
+                    World.AddAura(victim, null, this, AuraModifiers.AttackPower, 150, AmountOperators.Fixed, 90, TimeSpan.FromSeconds(40), true);
                 }
                 else if (parameters[0].Value == "6")
                 {
-                    AbilityManager.Process(this, victim, AbilityManager["Shadow Word: Pain"]);
+                    AbilityManager.Process(this, victim, AbilityManager["Shadow Word: Pain"], 40);
                 }
                 else if (parameters[0].Value == "7")
                 {
-                    AbilityManager.Process(this, victim, AbilityManager["Rupture"]);
+                    AbilityManager.Process(this, victim, AbilityManager["Rupture"], 40);
                 }
                 else if (parameters[0].Value == "8")
                 {
-                    AbilityManager.Process(this, victim, AbilityManager["Trash"]);
+                    AbilityManager.Process(this, victim, AbilityManager["Trash"], 40);
                 }
                 else
                 {
@@ -101,7 +106,7 @@ namespace Mud.Server.Character
             ICharacter victim = Room.People.FirstOrDefault(x => x != this);
             if (victim == null)
                 return true;
-            IItem item = Content.FirstOrDefault();
+            IItem item = Inventory.FirstOrDefault();
             if (item == null)
                 return true;
             Send("Victim: {0}", victim.DisplayName);
@@ -149,6 +154,37 @@ namespace Mud.Server.Character
                 }
                 else
                     Send(StringHelpers.CharacterNotFound);
+            }
+
+            return true;
+        }
+
+        [Command("rom24", "!!Test!!")]
+        protected virtual bool DoRom24(string rawParameters, params CommandParameter[] parameters)
+        {
+            Rom24Spells rom24Spells = new Rom24Spells(DependencyContainer.Current.GetInstance<ISettings>(), DependencyContainer.Current.GetInstance<IWorld>(), DependencyContainer.Current.GetInstance<IAbilityManager>(), DependencyContainer.Current.GetInstance<IRandomManager>());
+
+            // no param: Earthquake
+            if (parameters.Length == 0)
+            {
+                rom24Spells.SpellEarthquake(rom24Spells.CreateDummyAbility("earthquake"), Level, this);
+                return true;
+            }
+
+            // 1 item param: 
+            IItem item = FindHelpers.FindItemHere(this, parameters[0]);
+            if (item != null)
+            {
+                rom24Spells.SpellContinualLight(rom24Spells.CreateDummyAbility("continual light"), Level, this, item);
+                return true;
+            }
+
+            // 1 character param:
+            ICharacter victim = FindHelpers.FindByName(Room.NonPlayableCharacters, parameters[0]);
+            if (victim != null)
+            {
+                rom24Spells.SpellAcidBlast(rom24Spells.CreateDummyAbility("acid blast"), Level, this, victim);
+                return true;
             }
 
             return true;

@@ -31,10 +31,16 @@ namespace Mud.Server.Blueprints.Item
         public string Description { get; set; }
 
         [DataMember]
+        public int Level { get; set; }
+
+        [DataMember]
         public int Weight { get; set; }
 
         [DataMember]
         public int Cost { get; set; }
+
+        [DataMember]
+        public bool NoTake { get; set; }
 
         [DataMember]
         public Dictionary<string, string> ExtraDescriptions { get; set; } // keyword -> description

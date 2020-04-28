@@ -38,14 +38,9 @@ namespace Mud.Settings.ConfigurationManager
 
         //
         public int CorpseBlueprintId => IntSetting("CorpseBlueprintId", 999999);
+        public int LightBallBlueprintId => IntSetting("CorpseBlueprintId", 21);
         public int DefaultRoomId => IntSetting("DefaultRoomId", 3001);
-
-        // Pulse
-        public int PulsePerSeconds => IntSetting("PulsePerSeconds", 4);
-        public int PulsePerMinutes => PulsePerSeconds * 60;
-        public int PulseDelay => 1000 / PulsePerSeconds;
-        // automatic combat (in pulse per seconds)
-        public int PulseViolence => 3 * PulsePerSeconds;
+        public int DefaultRecallRoomId => IntSetting("DefaultRoomId", 3001);
 
         //
         public bool CheckLoginPassword => BoolSetting("CheckLoginPassword", false);

@@ -45,6 +45,9 @@ namespace Mud.Server
         IEnumerable<IPlayableCharacter> PlayableCharacters { get; }
         IEnumerable<IItem> Items { get; }
 
+        IRoom GetRandomRoom(ICharacter character);
+        IRoom GetDefaultRecallRoom();
+
         IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits);
 
         IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area);
@@ -61,9 +64,11 @@ namespace Mud.Server
         IItem AddItem(Guid guid, ItemData itemData, IContainer container);
         IItem AddItem(Guid guid, int blueprintId, IContainer container);
 
-        IAura AddAura(ICharacter victim, IAbility ability, ICharacter source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int totalSeconds, bool recompute);
-        IPeriodicAura AddPeriodicAura(ICharacter victim, IAbility ability, ICharacter source, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks); // Hot
-        IPeriodicAura AddPeriodicAura(ICharacter victim, IAbility ability, ICharacter source, SchoolTypes school, int amount, AmountOperators amountOperator, bool tickVisible, int tickDelay, int totalTicks); // Dot
+        IAura AddAura(IEntity target, IAbility ability, IEntity source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int level, TimeSpan ts, bool recompute);
+        IAura AddAura<T>(IEntity target, IAbility ability, IEntity source, AuraModifiers modifier, T value, int level, TimeSpan ts, bool recompute)
+            where T:Enum;
+        IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks); // Hot
+        IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, SchoolTypes school, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks); // Dot
 
         void RemoveCharacter(ICharacter character);
         void RemoveItem(IItem item);

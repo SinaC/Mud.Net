@@ -11,6 +11,8 @@ namespace Mud.Server
 
         IReadOnlyDictionary<string, string> ExtraDescriptions { get; } // keyword -> description
 
+        RoomFlags RoomFlags { get; }
+
         IArea Area { get; }
 
         IEnumerable<ICharacter> People { get; }
@@ -24,6 +26,8 @@ namespace Mud.Server
 
         IExit Exit(ExitDirections direction);
         IRoom GetRoom(ExitDirections direction);
+
+        bool IsPrivate();
 
         bool Enter(ICharacter character);
         bool Leave(ICharacter character);

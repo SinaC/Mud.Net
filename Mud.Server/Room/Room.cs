@@ -46,6 +46,13 @@ namespace Mud.Server.Room
 
         public override string DebugName => $"{DisplayName}[{Blueprint.Id}]";
 
+        // Recompute
+        public override void RecomputeAttributes()
+        {
+            // TODO
+        }
+
+        //
         public override void OnRemoved()
         {
             base.OnRemoved();
@@ -81,6 +88,8 @@ namespace Mud.Server.Room
 
         public IReadOnlyDictionary<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
 
+        public RoomFlags RoomFlags { get; private set; }
+
         public IArea Area { get; }
 
         public IEnumerable<ICharacter> People => _people.Where(x => x.IsValid);
@@ -107,6 +116,19 @@ namespace Mud.Server.Room
         {
             IExit exit = Exit(direction);
             return exit?.Destination;
+        }
+
+        public bool IsPrivate()
+        {
+            // TODO: ownership
+            int count = People.Count();
+            if (RoomFlags.HasFlag(RoomFlags.Private) && count >= 2)
+                return true;
+            if (RoomFlags.HasFlag(RoomFlags.Solitary) && count >= 1)
+                return true;
+            if (RoomFlags.HasFlag(RoomFlags.ImpOnly))
+                return true;
+            return false;
         }
 
         public bool Enter(ICharacter character)

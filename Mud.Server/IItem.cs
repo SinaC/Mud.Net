@@ -14,8 +14,10 @@ namespace Mud.Server
 
         int DecayPulseLeft { get; } // 0: means no decay
 
+        int Level { get; }
         int Weight { get; }
         int Cost { get; }
+        bool NoTake { get; }
 
         ItemFlags ItemFlags { get; }
 
@@ -28,6 +30,8 @@ namespace Mud.Server
         void AddItemFlags(ItemFlags itemFlags);
 
         void RemoveItemFlags(ItemFlags itemFlags);
+
+        void ClearItemFlags();
 
         void SetDecayPulseLeft(int pulseCount);
 

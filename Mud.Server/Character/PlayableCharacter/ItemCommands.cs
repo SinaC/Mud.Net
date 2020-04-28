@@ -19,7 +19,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 Send("Destroy what?");
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
-            IItem item = FindHelpers.FindByName(Content.Where(CanSee), parameters[0]);
+            IItem item = FindHelpers.FindByName(Inventory.Where(CanSee), parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);

@@ -30,7 +30,7 @@ namespace Mud.Server.Blueprints.LootTable
 
         public T GenerateLoot()
         {
-            T randomId = RandomManager.Random(Entries);
+            T randomId = RandomManager.RandomOccurancy(Entries);
             if (randomId.Equals(default))
                 Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: no loot found");
             return randomId;
@@ -43,7 +43,7 @@ namespace Mud.Server.Blueprints.LootTable
                 Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: No entries");
                 return default(T); // max occurancy reached, no loot
             }
-            TreasureTableEntry<T> randomEntry = RandomManager.Random<TreasureTableEntry<T>, T>(Entries);
+            TreasureTableEntry<T> randomEntry = RandomManager.RandomOccurancy<TreasureTableEntry<T>, T>(Entries);
             if (randomEntry == null)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: no loot found");

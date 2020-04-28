@@ -25,13 +25,9 @@
         bool DumpOnInitialize { get; }
 
         int CorpseBlueprintId { get; }
+        int LightBallBlueprintId { get; }
         int DefaultRoomId { get; }
-
-        int PulsePerSeconds { get; }
-        int PulsePerMinutes { get; }
-        int PulseDelay { get; }
-        // automatic combat (in pulse per seconds)
-        int PulseViolence { get; }
+        int DefaultRecallRoomId { get; }
 
         bool CheckLoginPassword { get; }
 

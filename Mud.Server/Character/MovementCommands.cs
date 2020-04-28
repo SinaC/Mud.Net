@@ -99,7 +99,7 @@ namespace Mud.Server.Character
             // Search item: in room, then inventory, then in equipment
             IItem item = FindHelpers.FindByName(
                 Room.Content.Where(CanSee)
-                .Concat(Content.Where(CanSee))
+                .Concat(Inventory.Where(CanSee))
                 .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item)),
                 parameters[0]);
             if (item != null)
@@ -167,7 +167,7 @@ namespace Mud.Server.Character
             // Search item: in room, then inventory, then in equipment
             IItem item = FindHelpers.FindByName(
                 Room.Content.Where(CanSee)
-                .Concat(Content.Where(CanSee))
+                .Concat(Inventory.Where(CanSee))
                 .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item)),
                 parameters[0]);
             if (item != null)
@@ -231,7 +231,7 @@ namespace Mud.Server.Character
             // Search item: in room, then inventory, then in equipment
             IItem item = FindHelpers.FindByName(
                 Room.Content.Where(CanSee)
-                .Concat(Content.Where(CanSee))
+                .Concat(Inventory.Where(CanSee))
                 .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item)),
                 parameters[0]);
             if (item != null)
@@ -268,7 +268,7 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.InvalidTarget;
             }
             // search key
-            bool keyFound = Content.OfType<IItemKey>().Any(x => x.Blueprint.Id == exit.Blueprint.Key);
+            bool keyFound = Inventory.OfType<IItemKey>().Any(x => x.Blueprint.Id == exit.Blueprint.Key);
             if (!keyFound)
             {
                 Send("You lack the key.");
@@ -309,7 +309,7 @@ namespace Mud.Server.Character
             // Search item: in room, then inventory, then in equipment
             IItem item = FindHelpers.FindByName(
                 Room.Content.Where(CanSee)
-                .Concat(Content.Where(CanSee))
+                .Concat(Inventory.Where(CanSee))
                 .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item)),
                 parameters[0]);
             if (item != null)
@@ -346,7 +346,7 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.InvalidTarget;
             }
             // search key
-            bool keyFound = Content.OfType<IItemKey>().Any(x => x.Blueprint.Id == exit.Blueprint.Key);
+            bool keyFound = Inventory.OfType<IItemKey>().Any(x => x.Blueprint.Id == exit.Blueprint.Key);
             if (!keyFound)
             {
                 Send("You lack the key.");

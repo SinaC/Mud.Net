@@ -22,11 +22,11 @@ namespace Mud.Domain
     [Flags]
     public enum FurnitureActions
     {
-        None  = 0x0000,
-        Stand = 0x0001,
-        Sit   = 0x0002,
-        Rest  = 0x0004,
-        Sleep = 0x0008,
+        None  = 0x00000000,
+        Stand = 0x00000001,
+        Sit   = 0x00000002,
+        Rest  = 0x00000004,
+        Sleep = 0x00000008,
     }
 
     public enum FurniturePlacePrepositions
@@ -77,19 +77,35 @@ namespace Mud.Domain
     //}
 
     [Flags]
-    public enum ItemFlags
+    public enum ItemFlags // NoTake
     {
-        None            = 0x0000,
-        NoTake          = 0x0001, // Cannot take item
-        NoDrop          = 0x0002, // Cannot be dropped once in inventory (cannot be put in container) [can be uncursed]
-        NoRemove        = 0x0004, // Cannot be removed once equiped [can be uncursed]
-        RotDeath        = 0x0008, // Disappear when holder dies
-        Indestructible  = 0x0010, // No condition
-        Humming         = 0x0020, // Humming
-        Glowing         = 0x0040, // Glowing
-        Invisible       = 0x0080, // Invisible
-        MeltOnDrop      = 0x0100, // Melt when dropped
-        NoPurge         = 0x0200, // Not deleted when purge command is used
+        None            = 0x00000000,
+        Glowing         = 0x00000001,
+        Humming         = 0x00000002,
+        Dark            = 0x00000004,
+        Lock            = 0x00000008,
+        Evil            = 0x00000010,
+        Invis           = 0x00000020,
+        Magic           = 0x00000040,
+        NoDrop          = 0x00000080, // Cannot be dropped once in inventory (cannot be put in container) [can be uncursed]
+        Bless           = 0x00000100,
+        AntiGood        = 0x00000200,
+        AntiEvil        = 0x00000400,
+        AntiNeutral     = 0x00000800,
+        NoRemove        = 0x00001000, // Cannot be removed once equiped [can be uncursed]
+        Inventory       = 0x00002000,
+        NoPurge         = 0x00004000,
+        RotDeath        = 0x00008000, // Disappear when holder dies
+        VisibleDeath    = 0x00010000, // Visible when holder dies
+        // not used
+        NonMetal        = 0x00040000,
+        NoLocate        = 0x00080000,
+        MeltOnDrop      = 0x00100000, // Melt when dropped
+        HadTimer        = 0x00200000,
+        SellExtract     = 0x00400000,
+        // not used
+        BurnProof       = 0x01000000,
+        NoUncurse       = 0x02000000,
     }
 
     public enum WearLocations
@@ -163,14 +179,28 @@ namespace Mud.Domain
 
     public enum SchoolTypes
     {
-        None        = 0,
-        Physical    = 1,
-        Arcane      = 2,
-        Fire        = 3,
-        Frost       = 4,
-        Nature      = 5,
-        Shadow      = 6,
-        Holy        = 7,
+        None            = 0,
+        // Physical
+        Bash = 1,
+        Pierce          = 2,
+        Slash           = 3,
+        // Magic
+        Fire            = 4,
+        Cold            = 5,
+        Lightning       = 6,
+        Acid            = 7,
+        Poison          = 8,
+        Negative        = 9,
+        Holy            = 10,
+        Energy          = 11,
+        Mental          = 12,
+        Disease         = 13,
+        Drowning        = 14,
+        Light           = 15,
+        Other           = 16,
+        Harm            = 17,
+        Charm           = 18,
+        Sound           = 19,
     }
 
     public enum DispelTypes
@@ -182,6 +212,35 @@ namespace Mud.Domain
         Curse       = 4,
     }
 
+    [Flags]
+    public enum IRVFlags
+    {
+        None        = 0x00000000,
+        Summon      = 0x00000001,
+        Charm       = 0x00000002,
+        Magic       = 0x00000004,
+        Weapon      = 0x00000008,
+        Bash        = 0x00000010,
+        Pierce      = 0x00000020,
+        Slash       = 0x00000040,
+        Fire        = 0x00000080,
+        Cold        = 0x00000100,
+        Lightning   = 0x00000200,
+        Acid        = 0x00000400,
+        Poison      = 0x00000800,
+        Negative    = 0x00001000,
+        Holy        = 0x00002000,
+        Energy      = 0x00004000,
+        Mental      = 0x00008000,
+        Disease     = 0x00010000,
+        Drowning    = 0x00020000,
+        Light       = 0x00040000,
+        Sound       = 0x00080000,
+        Wood        = 0x00100000,
+        Silver      = 0x00200000,
+        Iron        = 0x00400000,
+    }
+
     public enum PrimaryAttributeTypes
     {
         Strength    = 0,
@@ -189,9 +248,11 @@ namespace Mud.Domain
         Stamina     = 2,
         Intellect   = 3,
         Spirit      = 4,
+        // From Rom24
+        Dexterity   = 5,
     }
 
-    public enum SecondaryAttributeTypes // dependent on primary attribute, aura and items (computed in Recompute)
+    public enum SecondaryAttributeTypes // dependent on primary attribute, aura and items (evaluated in Recompute)
     {
         MaxHitPoints    = 0,
         AttackSpeed     = 1,
@@ -202,6 +263,71 @@ namespace Mud.Domain
         Dodge           = 6,
         Parry           = 7,
         Block           = 8,
+        // From Rom24
+        SavingThrow     = 9,
+        HitRoll         = 10,
+        DamRoll         = 11,
+        MaxMovePoints   = 12,
+    }
+
+    [Flags]
+    public enum CharacterFlags
+    {
+        Blind           = 0x00000001,
+        Invisible       = 0x00000002,
+        DetectEvil      = 0x00000004,
+        DetectInvis     = 0x00000008,
+        DetectMagic     = 0x00000010,
+        DetectHidden    = 0x00000020,
+        DetectGood      = 0x00000040,
+        Sanctuary       = 0x00000080,
+        FaerieFire      = 0x00000100,
+        Infrared        = 0x00000200,
+        Curse           = 0x00000400,
+        // Unused
+        Poison          = 0x00001000,
+        ProtectEvil     = 0x00002000,
+        ProtectGood     = 0x00004000,
+        Sneak           = 0x00008000,
+        Hide            = 0x00010000,
+        Sleep           = 0x00020000,
+        Charm           = 0x00040000,
+        Flying          = 0x00080000,
+        PassDoor        = 0x00100000,
+        Haste           = 0x00200000,
+        Calm            = 0x00400000,
+        Plague          = 0x00800000,
+        Weaken          = 0x01000000,
+        DarkVision      = 0x02000000,
+        Berserk         = 0x04000000,
+        Swim            = 0x08000000,
+        Regeneration    = 0x10000000,
+        Slow            = 0x20000000,
+    }
+
+    [Flags]
+    public enum RoomFlags
+    {
+        Dark        = 0x00000001,
+        // not used
+        NoMob       = 0x00000004,
+        Indoors     = 0x00000008,
+        // not used
+        // not used
+        // not used
+        // not used
+        // not used
+        Private     = 0x00000200,
+        Safe        = 0x00000400,
+        Solitary    = 0x00000800,
+        // PetShop
+        NoRecall    = 0x00002000,
+        ImpOnly     = 0x00004000,
+        // GodsOnly
+        // HeroesOnly
+        // NewbiesOnly
+        Law         = 0x00040000,
+        Nowhere     = 0x00080000,
     }
 
     public enum ResourceKinds
@@ -223,6 +349,7 @@ namespace Mud.Domain
         None        = 0,
         Fixed       = 1,
         Percentage  = 2,
+        Flags       = 3,
     }
 
     public enum AuraModifiers
@@ -245,6 +372,27 @@ namespace Mud.Domain
         Dodge           = 15,
         Parry           = 16,
         Block           = 17,
+        // From Rom24
+        CharacterFlags  = 18,
+        SavingThrow     = 19,
+        HitRoll         = 20,
+        DamRoll         = 21,
+        Immunities      = 22,
+        Resistances     = 23,
+        Vulnerabilities = 24,
+        Sex             = 25,
+        ItemFlags       = 26,
+        Dexterity       = 27,
+        MaxMovePoints   = 28
+    }
+
+    public enum ResistanceLevels 
+    {
+        None        = 0,
+        Normal      = 1,
+        Immune      = 2,
+        Resistant   = 3,
+        Vulnerable  = 4
     }
 
     public enum AdminLevels
@@ -260,20 +408,37 @@ namespace Mud.Domain
     }
 
     [Flags]
+    public enum ActFlags 
+    {
+        Sentinel        = 0x00000001,
+        Scavenger       = 0x00000002,
+        Aggressive      = 0x00000003,
+        StayArea        = 0x00000008,
+        Wimpy           = 0x00000010,
+        Pet             = 0x00000020,
+        Undead          = 0x00000040,
+        Noalign         = 0x00000080,
+        Nopurge         = 0x00000100,
+        Outdoors        = 0x00000200,
+        Indoors         = 0x00000400,
+        UpdateAlways    = 0x00000800,
+    }
+
+    [Flags]
     public enum WiznetFlags
     {
-        None      = 0x0000,
-        Incarnate = 0x0001,
-        Punish    = 0x0002,
-        Logins    = 0x0004,
-        Deaths    = 0x0008,
-        MobDeaths = 0x0010,
-        Levels    = 0x0020,
-        Snoops    = 0x0040,
-        Bugs      = 0x0080,
-        Typos     = 0x0100,
-        Help      = 0x0200,
-        Load      = 0x0400,
-        Promote   = 0x0800
+        None      = 0x00000000,
+        Incarnate = 0x00000001,
+        Punish    = 0x00000002,
+        Logins    = 0x00000004,
+        Deaths    = 0x00000008,
+        MobDeaths = 0x00000010,
+        Levels    = 0x00000020,
+        Snoops    = 0x00000040,
+        Bugs      = 0x00000080,
+        Typos     = 0x00000100,
+        Help      = 0x00000200,
+        Load      = 0x00000400,
+        Promote   = 0x00000800
     }
 }

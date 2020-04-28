@@ -141,6 +141,7 @@ namespace Mud.Server.Server
             DumpClasses();
             DumpRaces();
             DumpClasses();
+            DumpAbilities();
         }
 
         #endregion
@@ -237,7 +238,7 @@ namespace Mud.Server.Server
                 Broadcast($"%R%Shutdown in {minutes} minute{(minutes > 1 ? "s" : string.Empty)}%x%");
             else
                 Broadcast($"%R%Shutdown in {seconds} second{(seconds > 1 ? "s" : string.Empty)}%x%");
-            _pulseBeforeShutdown = seconds * Settings.PulsePerSeconds;
+            _pulseBeforeShutdown = seconds * Pulse.PulsePerSeconds;
         }
 
         public void Promote(IPlayer player, AdminLevels level)
@@ -823,7 +824,7 @@ namespace Mud.Server.Server
             Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 
-        private void DumpAbilities(int pulseCount)
+        private void DumpAbilities()
         {
             StringBuilder sb = TableGenerators.FullInfoAbilityTableGenerator.Value.Generate("Abilities", AbilityManager.Abilities.OrderBy(x => x.Name));
             Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
@@ -834,29 +835,29 @@ namespace Mud.Server.Server
             if (_pulseBeforeShutdown >= 0)
             {
                 _pulseBeforeShutdown--;
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*60*15)
+                if (_pulseBeforeShutdown == Pulse.PulsePerMinutes*15)
                     Broadcast("%R%Shutdown in 15 minutes%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*60*10)
+                if (_pulseBeforeShutdown == Pulse.PulsePerMinutes*10)
                     Broadcast("%R%Shutdown in 10 minutes%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*60*5)
+                if (_pulseBeforeShutdown == Pulse.PulsePerMinutes*5)
                     Broadcast("%R%Shutdown in 5 minutes%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*60)
+                if (_pulseBeforeShutdown == Pulse.PulsePerMinutes)
                     Broadcast("%R%Shutdown in 1 minute%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*30)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*30)
                     Broadcast("%R%Shutdown in 30 seconds%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*15)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*15)
                     Broadcast("%R%Shutdown in 15 seconds%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*10)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*10)
                     Broadcast("%R%Shutdown in 10 seconds%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*5)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*5)
                     Broadcast("%R%Shutdown in 5%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*4)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*4)
                     Broadcast("%R%Shutdown in 4%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*3)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*3)
                     Broadcast("%R%Shutdown in 3%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*2)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*2)
                     Broadcast("%R%Shutdown in 2%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*1)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*1)
                     Broadcast("%R%Shutdown in 1%x%");
                 else if (_pulseBeforeShutdown == 0)
                 {
@@ -881,7 +882,8 @@ namespace Mud.Server.Server
                     foreach (IPeriodicAura pa in clonePeriodicAuras)
                     {
                         // On NPC, remove hot/dot from unknown source or source not in the same room
-                        if (Settings.RemovePeriodicAurasInNotInSameRoom && character is INonPlayableCharacter && (pa.Source == null || pa.Source.Room != character.Room))
+                        ICharacter sourceAsCharacter = pa.Source as ICharacter;
+                        if (Settings.RemovePeriodicAurasInNotInSameRoom && character is INonPlayableCharacter && (pa.Source == null || sourceAsCharacter == null || sourceAsCharacter.Room != character.Room))
                         {
                             pa.OnVanished();
                             character.RemovePeriodicAura(pa);
@@ -907,21 +909,21 @@ namespace Mud.Server.Server
 
         private void HandleAuras(int pulseCount) 
         {
-            // TODO: remove aura with amount == 0 ?
-            // Take aura that will expired
-            //IReadOnlyCollection<ICharacter> cloneAuras = new ReadOnlyCollection<ICharacter>(World.Characters().Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)).ToList());
-            //foreach (ICharacter character in cloneAuras)
-            foreach (ICharacter character in World.Characters.Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)))
+            foreach (ICharacter character in World.Characters.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
             {
                 try
                 {
-                    IReadOnlyCollection<IAura> cloneAuras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // must be cloned because collection may be modified during foreach
                     bool needsRecompute = false;
-                    foreach (IAura aura in cloneAuras.Where(x => x.SecondsLeft <= 0))
+                    IReadOnlyCollection<IAura> cloneAuras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // must be cloned because collection may be modified during foreach
+                    foreach (IAura aura in cloneAuras.Where(x => x.PulseLeft > 0))
                     {
-                        aura.OnVanished();
-                        character.RemoveAura(aura, false); // recompute once each aura has been processed
-                        needsRecompute = true;
+                        bool timedOut = aura.DecreasePulseLeft(pulseCount);
+                        if (timedOut)
+                        {
+                            aura.OnVanished();
+                            character.RemoveAura(aura, false); // recompute once each aura has been processed
+                            needsRecompute = true;
+                        }
                     }
                     if (needsRecompute)
                         character.RecomputeAttributes();
@@ -1050,7 +1052,7 @@ namespace Mud.Server.Server
                         Log.Default.WriteLine(LogLevels.Warning, "Impersonable {0} is not impersonated", character.DebugName);
 
                     //
-                    character.UpdateResources();
+                    character.RegenResources();
                 }
                 catch (Exception ex)
                 { 
@@ -1122,15 +1124,15 @@ namespace Mud.Server.Server
         private void GameLoopTask()
         {
             PulseManager pulseManager = new PulseManager();
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulseViolence, HandleViolence);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandlePeriodicAuras);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleAuras);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleCooldowns);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleQuests);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds * 5, HandleItems);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds * 60, HandlePlayers);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds * 60, HandlePlayableCharacters);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds * 60, HandleRooms);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulseViolence, HandleViolence);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandlePeriodicAuras);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleAuras);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleCooldowns);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleQuests);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 5, HandleItems);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandlePlayers);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandlePlayableCharacters);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleRooms);
 
             try
             {
@@ -1158,13 +1160,13 @@ namespace Mud.Server.Server
 
                     sw.Stop();
                     long elapsedMs = sw.ElapsedMilliseconds; // in milliseconds
-                    if (elapsedMs < Settings.PulseDelay)
+                    if (elapsedMs < Pulse.PulseDelay)
                     {
                         //long elapsedTick = sw.ElapsedTicks; // 1 tick = 1 second/Stopwatch.Frequency
                         //long elapsedNs = sw.Elapsed.Ticks; // 1 tick = 1 nanosecond
                         //Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}Ms {1}Ticks {2}Ns", elapsedMs, elapsedTick, elapsedNs);
                         //Thread.Sleep(250 - (int) elapsedMs);
-                        int sleepTime = Settings.PulseDelay - (int) elapsedMs;
+                        int sleepTime = Pulse.PulseDelay - (int) elapsedMs;
                         _cancellationTokenSource.Token.WaitHandle.WaitOne(sleepTime);
                     }
                     else

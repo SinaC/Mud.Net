@@ -8,6 +8,7 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Quest;
@@ -26,6 +27,11 @@ namespace Mud.Server.Character.NonPlayableCharacter
             // TODO: race, class, flags, armor, damage, ...
             Sex = blueprint.Sex;
             Level = blueprint.Level;
+            CharacterFlags = blueprint.CharacterFlags;
+            Immunities = blueprint.Immunities;
+            Resistances = blueprint.Resistances;
+            Vulnerabilities = blueprint.Vulnerabilities;
+            Alignment = blueprint.Alignment.Range(-1000, 1000);
 
             Room = room;
             room.Enter(this);
@@ -90,6 +96,8 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         public CharacterBlueprintBase Blueprint { get; }
 
+        public ActFlags ActFlags { get; protected set; }
+
         public bool IsQuestObjective(IPlayableCharacter questingCharacter)
         {
             // If 'this' is NPC and in object list or in kill loot table
@@ -108,15 +116,22 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         protected override IReadOnlyTrie<CommandMethodInfo> StaticCommands => NonPlayableCharacterCommands.Value;
 
+        protected override bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
+        {
+            return true;
+        }
+
         protected override int ModifyCriticalDamage(int damage) => damage * 2; // TODO http://wow.gamepedia.com/Critical_strike
 
-        protected override bool RawKilled(ICharacter killer, bool killingPayoff) // TODO: refactor, same code in PlayableCharacter
+        protected override bool RawKilled(IEntity killer, bool killingPayoff) // TODO: refactor, same code in PlayableCharacter
         {
             if (!IsValid)
             {
                 Log.Default.WriteLine(LogLevels.Error, "RawKilled: {0} is not valid anymore", DebugName);
                 return false;
             }
+
+            ICharacter characterKiller = killer as ICharacter;
 
             string wiznetMsg;
             if (killer != null)
@@ -140,15 +155,15 @@ namespace Mud.Server.Character.NonPlayableCharacter
             ActToNotVictim(this, "You hear {0}'s death cry.", this);
 
             // Gain/lose xp/reputation   damage.C:32
-            if (killingPayoff)
-                killer?.KillingPayoff(this);
+            if (killingPayoff && characterKiller != null)
+                characterKiller?.KillingPayoff(this);
 
             // Create corpse
             ItemCorpseBlueprint itemCorpseBlueprint = World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
             if (itemCorpseBlueprint != null)
             {
-                if (killer != null)
-                    World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this, killer);
+                if (characterKiller != null)
+                    World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this, characterKiller);
                 else
                     World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this);
             }
