@@ -11,5 +11,7 @@ namespace Mud.Repository.Mongo.Domain
         public int DecayPulseLeft { get; set; }
 
         public int ItemFlags { get; set; }
+
+        public AuraData[] Auras { get; set; }
     }
 }

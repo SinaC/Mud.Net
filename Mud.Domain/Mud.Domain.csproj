@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminData.cs" />
+    <Compile Include="AuraData.cs" />
     <Compile Include="CharacterData.cs" />
     <Compile Include="CurrentQuestObjectiveData.cs" />
     <Compile Include="Enums.cs" />

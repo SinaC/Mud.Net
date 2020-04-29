@@ -104,7 +104,14 @@ namespace Mud.Server.Character.PlayableCharacter
                 foreach (CurrentQuestData questData in data.CurrentQuests)
                     _quests.Add(new Quest.Quest(questData, this));
             }
+            // Auras
+            if (data.Auras != null)
+            {
+                foreach (AuraData auraData in data.Auras)
+                    _auras.Add(new Aura.Aura(auraData));
+            }
 
+            //
             Room = room;
             room.Enter(this);
 
@@ -482,8 +489,9 @@ namespace Mud.Server.Character.PlayableCharacter
                 Experience = Experience,
                 Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquipedData()).ToArray(),
                 Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
-                CurrentQuests = Quests.Select(x => x.GenerateQuestData()).ToArray(),
-                // TODO: aura, cooldown, ...
+                CurrentQuests = Quests.Select(x => x.MapQuestData()).ToArray(),
+                Auras = Auras.Select(x => x.MapAuraData()).ToArray()
+                // TODO: cooldown, ...
             };
             return data;
         }

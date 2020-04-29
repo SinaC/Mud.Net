@@ -8,6 +8,6 @@
 
         public ItemFlags ItemFlags { get; set; }
 
-        //TODO: enchantments/auras
+        public AuraData[] Auras { get; set; }
     }
 }

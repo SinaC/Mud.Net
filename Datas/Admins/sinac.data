@@ -27,8 +27,9 @@
           <Slot>1</Slot>
           <Item>
             <ItemId>3365</ItemId>
-            <DecayPulseLeft>14384860</DecayPulseLeft>
+            <DecayPulseLeft>14384820</DecayPulseLeft>
             <ItemFlags>96</ItemFlags>
+            <Auras />
           </Item>
         </EquipedItemData>
         <EquipedItemData>
@@ -37,6 +38,7 @@
             <ItemId>3356</ItemId>
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>0</ItemFlags>
+            <Auras />
           </Item>
         </EquipedItemData>
         <EquipedItemData>
@@ -45,6 +47,7 @@
             <ItemId>3353</ItemId>
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>0</ItemFlags>
+            <Auras />
           </Item>
         </EquipedItemData>
         <EquipedItemData>
@@ -53,6 +56,7 @@
             <ItemId>3360</ItemId>
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>0</ItemFlags>
+            <Auras />
           </Item>
         </EquipedItemData>
         <EquipedItemData>
@@ -61,6 +65,7 @@
             <ItemId>3364</ItemId>
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>0</ItemFlags>
+            <Auras />
           </Item>
         </EquipedItemData>
         <EquipedItemData>
@@ -69,6 +74,7 @@
             <ItemId>3364</ItemId>
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>0</ItemFlags>
+            <Auras />
           </Item>
         </EquipedItemData>
         <EquipedItemData>
@@ -77,6 +83,7 @@
             <ItemId>3005</ItemId>
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>32</ItemFlags>
+            <Auras />
           </Item>
         </EquipedItemData>
         <EquipedItemData>
@@ -85,6 +92,7 @@
             <ItemId>3350</ItemId>
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>0</ItemFlags>
+            <Auras />
           </Item>
         </EquipedItemData>
       </Equipments>
@@ -93,21 +101,25 @@
           <ItemId>3356</ItemId>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
+          <Auras />
         </ItemData>
         <ItemData>
           <ItemId>3353</ItemId>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
+          <Auras />
         </ItemData>
         <ItemData>
           <ItemId>3350</ItemId>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
+          <Auras />
         </ItemData>
         <ItemData>
           <ItemId>7</ItemId>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
+          <Auras />
         </ItemData>
         <ItemData xsi:type="ItemContainerData">
           <ItemId>1</ItemId>
@@ -118,6 +130,7 @@
               <ItemId>3</ItemId>
               <DecayPulseLeft>0</DecayPulseLeft>
               <ItemFlags>0</ItemFlags>
+              <Auras />
             </ItemData>
             <ItemData xsi:type="ItemContainerData">
               <ItemId>3032</ItemId>
@@ -130,16 +143,19 @@
           <ItemId>3350</ItemId>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
+          <Auras />
         </ItemData>
         <ItemData>
           <ItemId>3364</ItemId>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
+          <Auras />
         </ItemData>
         <ItemData>
           <ItemId>3353</ItemId>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
+          <Auras />
         </ItemData>
       </Inventory>
       <CurrentQuests>
@@ -170,6 +186,16 @@
           </Objectives>
         </CurrentQuestData>
       </CurrentQuests>
+      <Auras>
+        <AuraData>
+          <AbilitiId>108</AbilitiId>
+          <Modifier>7</Modifier>
+          <Amount>15</Amount>
+          <AmountOperator>2</AmountOperator>
+          <Level>60</Level>
+          <PulseLeft>36</PulseLeft>
+        </AuraData>
+      </Auras>
     </CharacterData>
     <CharacterData>
       <CreationTime>2020-04-20T16:00:00</CreationTime>

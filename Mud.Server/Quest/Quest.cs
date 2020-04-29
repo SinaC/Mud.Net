@@ -259,7 +259,7 @@ namespace Mud.Server.Quest
                 DestroyQuestItems();
         }
 
-        public CurrentQuestData GenerateQuestData()
+        public CurrentQuestData MapQuestData()
         {
             return new CurrentQuestData
             {

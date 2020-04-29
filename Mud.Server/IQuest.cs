@@ -30,7 +30,7 @@ namespace Mud.Server
         void Complete();
         void Abandon();
 
-        CurrentQuestData GenerateQuestData();
+        CurrentQuestData MapQuestData();
     }
 
     public interface IQuestObjective

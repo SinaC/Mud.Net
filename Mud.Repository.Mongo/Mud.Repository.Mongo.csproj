@@ -126,6 +126,7 @@
     <Compile Include="AdminRepository.cs" />
     <Compile Include="AutoMapperProfile.cs" />
     <Compile Include="Domain\AdminData.cs" />
+    <Compile Include="Domain\AuraData.cs" />
     <Compile Include="Domain\CharacterData.cs" />
     <Compile Include="Domain\CurrentQuestData.cs" />
     <Compile Include="Domain\CurrentQuestObjectiveData.cs" />

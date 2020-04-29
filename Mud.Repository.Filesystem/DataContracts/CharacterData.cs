@@ -30,15 +30,18 @@ namespace Mud.Repository.Filesystem.DataContracts
         [DataMember]
         public long Experience { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public EquipedItemData[] Equipments { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public ItemData[] Inventory { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public CurrentQuestData[] CurrentQuests { get; set; }
 
-        // TODO: aura, cooldown, ...
+        [DataMember]
+        public AuraData[] Auras { get; set; }
+
+        // TODO: cooldown, ...
     }
 }

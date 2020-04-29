@@ -1,16 +1,47 @@
 ﻿using System;
+using System.Linq;
 using Mud.Container;
 using Mud.Domain;
+using Mud.Logger;
 using Mud.Server.Common;
 
 namespace Mud.Server.Aura
 {
     // TODO: Aura with multiple modifiers
-    // TODO: permanent aura: TotalSeconds = -1
-    // TODO: change TotalSeconds to PulseLeft
     public class Aura : IAura
     {
-        protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
+        private const int NoAbilityId = -1;
+
+        private IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
+
+        public Aura(IAbility ability, IEntity source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int level, TimeSpan ts)
+        {
+            Ability = ability;
+            Source = source;
+            Modifier = modifier;
+            Amount = amount;
+            AmountOperator = amountOperator;
+            Level = level;
+            PulseLeft = Pulse.FromTimeSpan(ts);
+        }
+
+        public Aura(AuraData auraData)
+        {
+            if (auraData.AbilitiId == NoAbilityId)
+                Ability = null;
+            else
+            {
+                Ability = AbilityManager.Abilities.FirstOrDefault(x => x.Id == auraData.AbilitiId);
+                if (Ability == null)
+                    Log.Default.WriteLine(LogLevels.Error, "Aura ability id {0} doesn't exist anymore", auraData.AbilitiId);
+            }
+            // TODO: source
+            Modifier = auraData.Modifier;
+            Amount = auraData.Amount;
+            AmountOperator = auraData.AmountOperator;
+            Level = auraData.Level;
+            PulseLeft = auraData.PulseLeft;
+        }
 
         #region IAura
 
@@ -20,23 +51,7 @@ namespace Mud.Server.Aura
         public int Amount { get; private set; } // can be a flag
         public AmountOperators AmountOperator { get; } // Amount is a flag is AmountOperator is Flags
         public int Level { get; private set; }
-        public DateTime StartTime { get; private set; }
         public int PulseLeft { get; private set; }
-
-        #endregion
-
-        public Aura(IAbility ability, IEntity source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int level, TimeSpan ts)
-        {
-            StartTime = TimeHandler.CurrentTime;
-
-            Ability = ability;
-            Source = source;
-            Modifier = modifier;
-            Amount = amount;
-            AmountOperator = amountOperator;
-            Level = level;
-            PulseLeft = Pulse.FromTimeSpan(ts);
-        }
 
         // Reset source
         public void ResetSource()
@@ -63,8 +78,6 @@ namespace Mud.Server.Aura
         // Refresh with a new aura
         public void Refresh(IAura aura)
         {
-            StartTime = TimeHandler.CurrentTime;
-
             // Refresh aura values
             Amount = aura.Amount;
             PulseLeft = aura.PulseLeft;
@@ -106,5 +119,22 @@ namespace Mud.Server.Aura
             PulseLeft = Math.Max(PulseLeft - pulseCount, 0);
             return PulseLeft == 0;
         }
+
+        //
+        public AuraData MapAuraData()
+        {
+            return new AuraData
+            {
+                AbilitiId = Ability?.Id ?? NoAbilityId,
+                // TODO: source
+                Modifier = Modifier,
+                Amount = Amount,
+                AmountOperator = AmountOperator,
+                Level = Level,
+                PulseLeft = PulseLeft
+            };
+        }
+
+        #endregion
     }
 }

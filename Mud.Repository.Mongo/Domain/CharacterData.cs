@@ -26,6 +26,8 @@ namespace Mud.Repository.Mongo.Domain
 
         public CurrentQuestData[] CurrentQuests { get; set; }
 
-        // TODO: aura, cooldown, ...
+        public AuraData[] Auras { get; set; }
+
+        // TODO: cooldown, ...
     }
 }

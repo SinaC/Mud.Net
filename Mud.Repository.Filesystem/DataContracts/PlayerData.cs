@@ -14,10 +14,10 @@ namespace Mud.Repository.Filesystem.DataContracts
         [DataMember]
         public int PagingLineCount { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public PairData<string, string>[] Aliases { get; set; }
 
-        [DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public CharacterData[] Characters { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
@@ -30,12 +31,19 @@ namespace Mud.Server.Item
             ItemFlags = blueprint.ItemFlags;
         }
 
-        protected ItemBase(Guid guid, TBlueprint blueprint, ItemData itemData, IContainer containedInto)
+        protected ItemBase(Guid guid, TBlueprint blueprint, ItemData data, IContainer containedInto)
             : this(guid, blueprint, containedInto)
         {
             // TODO: copy other fields
-            DecayPulseLeft = itemData.DecayPulseLeft;
-            ItemFlags = itemData.ItemFlags;
+            DecayPulseLeft = data.DecayPulseLeft;
+            ItemFlags = data.ItemFlags;
+            // Auras
+            if (data.Auras != null)
+            {
+                foreach (AuraData auraData in data.Auras)
+                    _auras.Add(new Aura.Aura(auraData));
+            }
+
         }
 
         #region IItem
@@ -164,7 +172,8 @@ namespace Mud.Server.Item
             {
                 ItemId = Blueprint.Id,
                 DecayPulseLeft = DecayPulseLeft,
-                ItemFlags = ItemFlags
+                ItemFlags = ItemFlags,
+                Auras = Auras.Select(x => x.MapAuraData()).ToArray()
             };
         }
 

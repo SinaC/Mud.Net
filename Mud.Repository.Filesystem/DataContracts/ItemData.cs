@@ -18,5 +18,8 @@ namespace Mud.Repository.Filesystem.DataContracts
 
         [DataMember]
         public int ItemFlags { get; set; }
+
+        [DataMember]
+        public AuraData[] Auras { get; set; }
     }
 }

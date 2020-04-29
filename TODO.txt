@@ -6,6 +6,7 @@ Add AddOrModifyAura to refactor test on GetAura then AddAura or Aura.Modify
 UnitTests on Rom24Effects
 Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
 Skill practice %
+Refactor Ability
 
 DONE:
 Move, Resistances, Alignment added
@@ -16,7 +17,9 @@ Move CanSee in IEntity
 ICharacter.Inventory is the same as Content 
 AddAura duration in pulse and not second (-1: permanent)
     change aura/quest/... duration to TimeSpan
+Save aura in CharacterData/ItemData
 
+-----------------------------------------------------
 
 Aura with multiple modifiers
 

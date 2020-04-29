@@ -82,6 +82,7 @@
     <Compile Include="AdminRepository.cs" />
     <Compile Include="AutoMapperProfile.cs" />
     <Compile Include="DataContracts\AdminData.cs" />
+    <Compile Include="DataContracts\AuraData.cs" />
     <Compile Include="DataContracts\CharacterData.cs" />
     <Compile Include="DataContracts\CurrentQuestData.cs" />
     <Compile Include="DataContracts\CurrentQuestObjectiveData.cs" />

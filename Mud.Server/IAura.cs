@@ -21,9 +21,6 @@ namespace Mud.Server
         // Level
         int Level { get; }
 
-        // Start time
-        DateTime StartTime { get; }
-
         // Pulse left
         int PulseLeft { get; } // -1: infinite
 
@@ -50,6 +47,9 @@ namespace Mud.Server
 
         // Decrease pulse left
         bool DecreasePulseLeft(int pulseCount); // true if timed out
+
+        // Serialization
+        AuraData MapAuraData();
     }
 
     // TODO ???
