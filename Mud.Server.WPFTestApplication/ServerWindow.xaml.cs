@@ -690,60 +690,63 @@ namespace Mud.Server.WPFTestApplication
             return WeaponTypes.Fist;
         }
 
-        private static SchoolTypes ConvertWeaponDamageType(object attackTableValue, object weaponType2Value)
+        private static (SchoolTypes schoolType, WeaponFlags weaponFlags) ConvertWeaponDamageType(object attackTableValue, object weaponType2Value)
         {
-            // TODO
+            SchoolTypes schoolType = SchoolTypes.None;
             string attackTable = (string)attackTableValue;
             int weaponType2 = weaponType2Value == null ? 0 : Convert.ToInt32(weaponType2Value);
             if (attackTable == "acid") // Acid
-                return SchoolTypes.Acid;
+                schoolType = SchoolTypes.Acid;
             if (attackTable == "wrath") // Wrath
-                return SchoolTypes.Energy;
+                schoolType = SchoolTypes.Energy;
             if (attackTable == "magic") // Magic
-                return SchoolTypes.Energy;
+                schoolType = SchoolTypes.Energy;
             if (attackTable == "divine") // Divine power
-                return SchoolTypes.Holy;
+                schoolType = SchoolTypes.Holy;
             if (attackTable == "shbite") // Shocking bite
-                return SchoolTypes.Lightning;
+                schoolType = SchoolTypes.Lightning;
             if (attackTable == "flbite") // Flaming bite
-                return SchoolTypes.Fire;
+                schoolType = SchoolTypes.Fire;
             if (attackTable == "frbite") // Frost bite
-                return SchoolTypes.Cold;
+                schoolType = SchoolTypes.Cold;
             if (attackTable == "acbite") // Acidic bite
-                return SchoolTypes.Acid;
+                schoolType = SchoolTypes.Acid;
             if (attackTable == "drain") // Life drain
-                return SchoolTypes.Negative;
+                schoolType = SchoolTypes.Negative;
             if (attackTable == "slime") // Slime
-                return SchoolTypes.Acid;
+                schoolType = SchoolTypes.Acid;
             if (attackTable == "shock") // Shock
-                return SchoolTypes.Lightning;
+                schoolType = SchoolTypes.Lightning;
             if (attackTable == "flame") // Flame
-                return SchoolTypes.Fire;
+                schoolType = SchoolTypes.Fire;
             if (attackTable == "chill") // Chill
-                return SchoolTypes.Cold;
+                schoolType = SchoolTypes.Cold;
 
+            WeaponFlags weaponFlags = WeaponFlags.None;
             // originally a flag but converted to a single value
             if ((weaponType2 & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A) // Flaming
-                return SchoolTypes.Fire;
+                weaponFlags |= WeaponFlags.Flaming;
             if ((weaponType2 & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B) // Frost
-                return SchoolTypes.Cold;
+                weaponFlags |= WeaponFlags.Frost;
             if ((weaponType2 & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C) // Vampiric
-                return SchoolTypes.Negative;
-            // D: Sharp
-            // E: Vorpal
-            // F: Two-hands
+                weaponFlags |= WeaponFlags.Vampiric;
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.D) == Importer.Mystery.MysteryImporter.D) // Sharp
+                weaponFlags |= WeaponFlags.Sharp;
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.E) == Importer.Mystery.MysteryImporter.E) // Vorpal
+                weaponFlags |= WeaponFlags.Vorpal;
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F) // Two-hands
+                weaponFlags |= WeaponFlags.TwoHands;
             if ((weaponType2 & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G) // Shocking
-                return SchoolTypes.Lightning;
+                weaponFlags |= WeaponFlags.Shocking;
             if ((weaponType2 & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H) // Poison
-                return SchoolTypes.Poison;
+                weaponFlags |= WeaponFlags.Poison;
             if ((weaponType2 & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I) // Holy
-                return SchoolTypes.Holy;
+                weaponFlags |= WeaponFlags.Holy;
             // J: Weighted
-            if ((weaponType2 & Importer.Mystery.MysteryImporter.K) == Importer.Mystery.MysteryImporter.K) // Necrotism
-                return SchoolTypes.Negative;
+            // K: Necrotism
 
             //
-            return SchoolTypes.None;
+            return (schoolType, weaponFlags);
         }
 
         private static (ItemFlags, bool) ConvertMysteryItemExtraFlags(Importer.Mystery.ObjectData data)
@@ -797,6 +800,7 @@ namespace Mud.Server.WPFTestApplication
             ItemBlueprintBase blueprint;
             if (data.ItemType == "weapon")
             {
+                (SchoolTypes damageType, WeaponFlags weaponFlags) weaponInfo = ConvertWeaponDamageType(data.Values[3], data.Values[4]);
                 blueprint = new ItemWeaponBlueprint
                 {
                     Id = data.VNum,
@@ -813,7 +817,8 @@ namespace Mud.Server.WPFTestApplication
                     DiceValue = Convert.ToInt32(data.Values[2]),
                     // Values[3] slash/pierce/bash/... attack_table in const.C
                     // Values[4] flaming/sharp/... weapon_type2 in tables.C
-                    DamageType = ConvertWeaponDamageType(data.Values[3], data.Values[4]),
+                    DamageType = weaponInfo.damageType,
+                    Flags = weaponInfo.weaponFlags,
                     ItemFlags = extraFlags.itemFlags,
                     NoTake = extraFlags.noTake,
                 };

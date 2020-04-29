@@ -77,7 +77,7 @@ namespace Mud.Domain
     //}
 
     [Flags]
-    public enum ItemFlags // NoTake
+    public enum ItemFlags
     {
         None            = 0x00000000,
         Glowing         = 0x00000001,
@@ -177,6 +177,20 @@ namespace Mud.Domain
         Sword2H     = 9,
     }
 
+    public enum WeaponFlags
+    {
+        None        = 0x00000000,
+        Flaming     = 0x00000001,
+        Frost       = 0x00000002,
+        Vampiric    = 0x00000004,
+        Sharp       = 0x00000008,
+        Vorpal      = 0x00000010,
+        TwoHands    = 0x00000020, // TODO: remove
+        Shocking    = 0x00000040,
+        Poison      = 0x00000080,
+        Holy        = 0x00000100,
+    }
+
     public enum SchoolTypes
     {
         None            = 0,
@@ -270,6 +284,24 @@ namespace Mud.Domain
         MaxMovePoints   = 12,
     }
 
+    public enum CharacterAttributes // must be ordered, starts at 0 and can't contain holes
+    {
+        Strength = 0,
+        Intelligence = 1,
+        Wisdom = 2,
+        Dexterity = 3,
+        Constitution = 4,
+        MaxHitPoints = 5,
+        SavingThrow = 6,
+        HitRoll = 7,
+        DamRoll = 8,
+        MaxMovePoints = 9,
+        ArmorBash = 10,
+        ArmorPierce = 11,
+        ArmorSlash = 12,
+        ArmorMagic = 13
+    }
+
     [Flags]
     public enum CharacterFlags
     {
@@ -308,6 +340,7 @@ namespace Mud.Domain
     [Flags]
     public enum RoomFlags
     {
+        None        = 0x00000000,
         Dark        = 0x00000001,
         // not used
         NoMob       = 0x00000004,
@@ -384,6 +417,35 @@ namespace Mud.Domain
         ItemFlags       = 26,
         Dexterity       = 27,
         MaxMovePoints   = 28
+    }
+
+    public enum CharacterAttributeAffectLocations
+    {
+        None            = 0,
+        Strength        = 1,
+        Intelligence    = 2,
+        Wisdom          = 3,
+        Dexterity       = 4,
+        Constitution    = 5,
+        Characteristics = 6, // Strength + Intelligence + Wisdom + Dexterity + Constitution
+        MaxHitPoints    = 7,
+        SavingThrow     = 8,
+        HitRoll         = 9,
+        DamRoll         = 10,
+        MaxMovePoints   = 11,
+        ArmorBash       = 12,
+        ArmorPierce     = 13,
+        ArmorSlash      = 14,
+        ArmorMagic      = 15,
+        AllArmor        = 16,
+    }
+
+    public enum IRVAffectLocations
+    {
+        None                = 0,
+        Immunities          = 1,
+        Resistances         = 2,
+        Vulnerabilities     = 3,
     }
 
     public enum ResistanceLevels 

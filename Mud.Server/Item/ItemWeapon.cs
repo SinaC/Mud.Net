@@ -13,6 +13,7 @@ namespace Mud.Server.Item
             DiceCount = blueprint.DiceCount;
             DiceValue = blueprint.DiceValue;
             DamageType = blueprint.DamageType;
+            Flags = blueprint.Flags;
         }
 
         public ItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, ItemData itemData, IContainer containedInto)
@@ -22,6 +23,7 @@ namespace Mud.Server.Item
             DiceCount = blueprint.DiceCount;
             DiceValue = blueprint.DiceValue;
             DamageType = blueprint.DamageType;
+            Flags = blueprint.Flags;
         }
 
         #region IItemWeapon
@@ -30,7 +32,7 @@ namespace Mud.Server.Item
         public int DiceCount { get; }
         public int DiceValue { get; }
         public SchoolTypes DamageType { get; }
-        // TODO: special type, damage string (see 2nd col  in const.C:208), proc
+        public WeaponFlags Flags { get; }
 
         #endregion
     }

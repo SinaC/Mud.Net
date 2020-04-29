@@ -1,3 +1,7 @@
+ongoing
+Aura with multiple modifiers
+
+todo
 Alias should be available when impersonated: add aliases to PlayableCharacter
 Ability wears off message
 Move AddAura in aura manager
@@ -20,8 +24,9 @@ AddAura duration in pulse and not second (-1: permanent)
 Save aura in CharacterData/ItemData
 
 -----------------------------------------------------
+Redo modifiable list
 
-Aura with multiple modifiers
+PlayableCharacter can be immortal or not -> don't link immortality from ImpersonatedBy is IAdmin
 
 When an item quest objective is complete, quest item should be NoTake
 

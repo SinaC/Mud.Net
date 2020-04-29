@@ -82,6 +82,33 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Affects\Aura.cs" />
+    <Compile Include="Affects\CharacterAttributeAffect.cs" />
+    <Compile Include="Affects\CharacterFlagsAffect.cs" />
+    <Compile Include="Affects\CharacterIRVAffect.cs" />
+    <Compile Include="Affects\CharacterSexAffect.cs" />
+    <Compile Include="Affects\EntityBase.cs" />
+    <Compile Include="Affects\FlagAffectBase.cs" />
+    <Compile Include="Affects\IAffect.cs" />
+    <Compile Include="Affects\IAura.cs" />
+    <Compile Include="Affects\ICharacter.cs" />
+    <Compile Include="Affects\ICharacterAffect.cs" />
+    <Compile Include="Affects\IEntity.cs" />
+    <Compile Include="Affects\IItem.cs" />
+    <Compile Include="Affects\IItemAffect.cs" />
+    <Compile Include="Affects\IItemWeapon.cs" />
+    <Compile Include="Affects\IRoom.cs" />
+    <Compile Include="Affects\IRoomAffect.cs" />
+    <Compile Include="Affects\IAbility.cs" />
+    <Compile Include="Affects\ItemBase.cs" />
+    <Compile Include="Affects\ItemDummy.cs" />
+    <Compile Include="Affects\ItemFlagsAffect.cs" />
+    <Compile Include="Affects\ItemWeapon.cs" />
+    <Compile Include="Affects\ItemWeaponFlagsAffect.cs" />
+    <Compile Include="Affects\Misc.cs" />
+    <Compile Include="Affects\Room.cs" />
+    <Compile Include="Affects\RoomFlagsAffect.cs" />
+    <Compile Include="Affects\Character.cs" />
     <Compile Include="NewMud\Behaviors\Behavior.cs" />
     <Compile Include="NewMud\Behaviors\BehaviorManager.cs" />
     <Compile Include="NewMud\Behaviors\MovableBehavior.cs" />
@@ -125,6 +152,10 @@
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
+      <Project>{D1A7D787-0FE7-4281-9458-D2C8F728E404}</Project>
+      <Name>Mud.Server.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
       <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>
