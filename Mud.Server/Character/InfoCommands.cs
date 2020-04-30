@@ -229,21 +229,8 @@ namespace Mud.Server.Character
             {
                 sb.AppendLine("%c%You are affected by the following auras:%x%");
                 // Auras
-                foreach (IAura aura in _auras.Where(x => x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
-                {
-                    //if (aura.Modifier == AuraModifiers.None)
-                    //    sb.AppendFormatLine("%B%{0}%x% for %c%{1}%x%",
-                    //        aura.Ability == null ? "Unknown" : aura.Ability.Name,
-                    //        StringHelpers.FormatDelay(aura.PulseLeft / Pulse.PulsePerSeconds));
-                    //else
-                    //    sb.AppendFormatLine("%B%{0}%x% modifies %W%{1}%x% by %m%{2}{3}%x% for %c%{4}%x%",
-                    //        aura.Ability == null ? "Unknown" : aura.Ability.Name,
-                    //        aura.Modifier,
-                    //        aura.Amount,
-                    //        aura.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
-                    //        StringHelpers.FormatDelay(aura.PulseLeft / Pulse.PulsePerSeconds));
-                    aura.Append(sb, false);
-                }
+                foreach (IAura aura in _auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden) || x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
+                    aura.Append(sb);
                 // TODO
                 //// Periodic auras
                 //foreach (IPeriodicAura pa in _periodicAuras.Where(x => x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
@@ -274,6 +261,36 @@ namespace Mud.Server.Character
         [Command("score", "Information", Priority = 2)]
         protected virtual CommandExecutionResults DoScore(string rawParameters, params CommandParameter[] parameters)
         {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("+--------------------------------------------------------+"); // length 1 + 56 + 1
+            sb.AppendLine("|" + StringExtensions.CenterText(DisplayName, 56) + "|");
+            sb.AppendLine("+------------------------------+-------------------------+");
+            sb.AppendLine("| %W%Attributes%x%                   |                         |");
+            sb.AppendFormatLine("| %c%Strength     : %W%[{0,5}/{1,5}]%x% | %c%Race   : %W%{2,14}%x% |", CurrentAttributes(CharacterAttributes.Strength), BaseAttributes(CharacterAttributes.Strength), Race?.DisplayName ?? "(none)");
+            sb.AppendFormatLine("| %c%Intelligence : %W%[{0,5}/{1,5}]%x% | %c%Class  : %W%{2,14}%x% |", CurrentAttributes(CharacterAttributes.Intelligence), BaseAttributes(CharacterAttributes.Intelligence), Class?.DisplayName ?? "(none)");
+            sb.AppendFormatLine("| %c%Wisdom       : %W%[{0,5}/{1,5}]%x% | %c%Sex    : %W%{2,14}%x% |", CurrentAttributes(CharacterAttributes.Wisdom), BaseAttributes(CharacterAttributes.Wisdom), Sex);
+            sb.AppendFormatLine("| %c%Dexterity    : %W%[{0,5}/{1,5}]%x% | %c%Level  : %W%{2,14}%x% |", CurrentAttributes(CharacterAttributes.Dexterity), BaseAttributes(CharacterAttributes.Dexterity), Level);
+            if (this is PlayableCharacter.PlayableCharacter pc)
+                sb.AppendFormatLine("| %c%Constitution : %W%[{0,5}/{1,5}]%x% | %c%NxtLvl : %W%{2,14}%x% |", CurrentAttributes(CharacterAttributes.Constitution), BaseAttributes(CharacterAttributes.Constitution), pc.ExperienceToLevel);
+            else
+                sb.AppendFormatLine("| %c%Constitution : %W%[{0,5}/{1,5}]%x% |                       |", CurrentAttributes(CharacterAttributes.Constitution), BaseAttributes(CharacterAttributes.Constitution), Level);
+            sb.AppendLine("+------------------------------+-------------------------+");
+            sb.AppendLine("| %W%Resources%x%                    | %W%Defensive%x%              |");
+            sb.AppendFormatLine("| %g%Hp     : %W%[{0,8}/{1,8}]%x% | %g%Bash         : %W%[{2,6}]%x% |", HitPoints, MaxHitPoints, CurrentAttributes(CharacterAttributes.ArmorBash));
+            sb.AppendFormatLine("| %g%Move   : %W%[{0,8}/{1,8}]%x% | %g%Pierce       : %W%[{2,6}]%x% |", MovePoints, CurrentAttributes(CharacterAttributes.MaxMovePoints), CurrentAttributes(CharacterAttributes.ArmorPierce));
+            List<string> resources = CurrentResourceKinds.Fill(3).Select(x => x == ResourceKinds.None
+                ? "                            "
+                : $"%g%{x,-7}: %W%[{this[x],8}/{GetMaxResource(x),8}]%x%").ToList();
+            sb.AppendFormatLine("| {0} | %g%Slash        : %W%[{1,6}]%x% |", resources[0], CurrentAttributes(CharacterAttributes.ArmorSlash));
+            sb.AppendFormatLine("| {0} | %g%Exotic       : %W%[{1,6}]%x% |", resources[1], CurrentAttributes(CharacterAttributes.ArmorMagic));
+            sb.AppendFormatLine("| {0} | %g%Saves        : %W%[{1,6}]%x% |", resources[2], CurrentAttributes(CharacterAttributes.SavingThrow));
+            sb.AppendLine("+------------------------------+-------------------------+");
+            sb.AppendFormatLine("| %g%Hit:  %W%{1,6}%x%    %g%Dam:  %W%{1,6}%x% |                       |", CurrentAttributes(CharacterAttributes.HitRoll), CurrentAttributes(CharacterAttributes.DamRoll));
+            sb.AppendLine("+------------------------------+-------------------------+");
+            // TODO: resistances, gold, item, weight
+
+            Send(sb);
+            //
             // REDO
             // TODO: score all will display everything (every resources, every stats)
             //IPlayableCharacter playableCharacter = this as IPlayableCharacter;

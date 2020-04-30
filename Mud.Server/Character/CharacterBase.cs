@@ -38,6 +38,7 @@ namespace Mud.Server.Character
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
 
         protected int MaxHitPoints => _currentAttributes[(int) CharacterAttributes.MaxHitPoints];
+        protected int MaxMovePoints => _currentAttributes[(int)CharacterAttributes.MaxMovePoints];
 
         protected CharacterBase(Guid guid, string name, string description)
             : base(guid, name, description)
@@ -337,7 +338,7 @@ namespace Mud.Server.Character
 
         public void UpdateMovePoints(int amount)
         {
-            MovePoints = (MovePoints + amount).Range(0, _currentAttributes[(int)CharacterAttributes.MaxMovePoints]);
+            MovePoints = (MovePoints + amount).Range(0, MaxMovePoints);
         }
 
         public void UpdateAlignment(int amount) 
@@ -346,36 +347,103 @@ namespace Mud.Server.Character
             // TODO: impact on items ?
         }
 
-        public void RegenResources()
+        public virtual void RegenResources()
         {
-            // TODO: use real formulas (rage decrease and other increase)
-            if (HitPoints < MaxHitPoints)
+            // Hp/Move
+            int hpGain;
+            int moveGain;
+            int manaGain;
+            if (this is INonPlayableCharacter)
             {
-                int regen = MaxHitPoints / 20;
-                if (Furniture?.HealBonus > 0)
-                    regen = (regen * Furniture.HealBonus) / 100;
-                HitPoints = Math.Min(MaxHitPoints, HitPoints + regen);
-            }
-            if (MovePoints < _currentAttributes[(int)CharacterAttributes.MaxMovePoints])
-            {
-                int regen = _currentAttributes[(int)CharacterAttributes.MaxMovePoints] / 20;
-                if (Furniture?.HealBonus > 0)
-                    regen = (regen * Furniture.HealBonus) / 100;
-                MovePoints = Math.Min(_currentAttributes[(int)CharacterAttributes.MaxMovePoints], MovePoints + regen);
-            }
-            foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
-            {
-                int max = GetMaxResource(resource);
-                int current = this[resource];
-                if (current < max)
+                hpGain = 5 + Level;
+                moveGain = Level;
+                manaGain = 5 + Level;
+                switch (Position)
                 {
-                    int regen = max / 20; // base value:  // + 5% of max value
-                    if (Furniture?.ResourceBonus > 0)
-                        regen = (regen * Furniture.ResourceBonus) / 100;
-                    current += regen;
+                    case Positions.Sleeping:
+                        hpGain = (3 * hpGain) / 2;
+                        manaGain = (3 * manaGain) / 2;
+                        break;
+                    case Positions.Resting:
+                        // nop
+                        break;
+                    case Positions.Fighting:
+                        hpGain /= 3;
+                        manaGain /= 3;
+                        break;
+                    default:
+                        hpGain /= 2;
+                        manaGain /= 2;
+                        break;
                 }
-                this[resource] = current.Range(0, max); // keep value in valid range
             }
+            else if (this is IPlayableCharacter)
+            {
+                hpGain = Math.Max(3, CurrentAttributes(CharacterAttributes.Constitution) - 3 + Level / 2);
+                moveGain = Math.Max(15, Level);
+                manaGain = (CurrentAttributes(CharacterAttributes.Wisdom) + CurrentAttributes(CharacterAttributes.Intelligence) + Level) / 2;
+                // TODO: hp/mana: class bonus
+                // TODO: hp: fast healing skill
+                // TODO: mana: meditation
+                switch (Position)
+                {
+                    case Positions.Sleeping:
+                        moveGain += CurrentAttributes(CharacterAttributes.Dexterity);
+                        break;
+                    case Positions.Resting:
+                        hpGain /= 2;
+                        moveGain += CurrentAttributes(CharacterAttributes.Dexterity) / 2;
+                        manaGain /= 2;
+                        break;
+                    case Positions.Fighting:
+                        hpGain /= 6;
+                        manaGain /= 6;
+                        break;
+                    default:
+                        hpGain /= 4;
+                        manaGain /= 4;
+                        break;
+                }
+                // TODO: hunger    /= 2
+                // TODO: thirsty   /= 2
+            }
+            else
+            {
+                hpGain = 10; // should never be used
+                moveGain = 10;
+                manaGain = 10;
+            }
+            // TODO: room heal rate
+            if (Furniture != null && Furniture?.HealBonus != 0)
+            {
+                hpGain = (hpGain * Furniture.HealBonus) / 100;
+                moveGain = (moveGain * Furniture.HealBonus) / 100;
+            }
+            if (Furniture != null && Furniture?.ResourceBonus != 0)
+                manaGain = (manaGain * Furniture.ResourceBonus) / 100;
+            if (CurrentCharacterFlags.HasFlag(CharacterFlags.Poison))
+            {
+                hpGain /= 4;
+                moveGain /= 4;
+                manaGain /= 4;
+            }
+            if (CurrentCharacterFlags.HasFlag(CharacterFlags.Plague))
+            {
+                hpGain /= 8;
+                moveGain /= 8;
+                manaGain /= 8;
+            }
+            if (CurrentCharacterFlags.HasFlag(CharacterFlags.Haste) || CurrentCharacterFlags.HasFlag(CharacterFlags.Slow))
+            {
+                hpGain /= 2;
+                hpGain /= 2;
+                manaGain /= 2;
+            }
+            HitPoints = Math.Min(HitPoints + hpGain, MaxHitPoints);
+            MovePoints = Math.Min(MovePoints + moveGain, MaxMovePoints);
+            UpdateResource(ResourceKinds.Mana, manaGain);
+
+            // Other resources
         }
 
         public void AddBaseCharacterFlags(CharacterFlags characterFlags)
@@ -425,8 +493,8 @@ namespace Mud.Server.Character
                 ApplyAuras(Room);
 
             // 2) Apply equipment auras
-            foreach (IItem equipment in Equipments)
-                ApplyAuras(equipment);
+            foreach (EquipedItem equipment in Equipments.Where(x => x.Item != null))
+                ApplyAuras(equipment.Item);
 
             // 3) Apply own auras
             ApplyAuras(this);
@@ -1785,7 +1853,8 @@ namespace Mud.Server.Character
             CurrentImmunities = BaseImmunities;
             CurrentResistances = BaseResistances;
             CurrentVulnerabilities = BaseVulnerabilities;
-
+            for (int i = 0; i < _baseAttributes.Length; i++)
+                _currentAttributes[i] = _baseAttributes[i];
             CurrentSex = BaseSex;
         }
 

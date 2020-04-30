@@ -1,19 +1,17 @@
 ongoing
-Aura with multiple modifiers
+Refactor Ability
 
 todo
 don't save invalid auras
 Alias should be available when impersonated: add aliases to PlayableCharacter
 Ability wears off message
 Move AddAura in aura manager
-AddAura: additional param combine, when adding already existing aura (see affect_join)
-Add AddOrModifyAura to refactor test on GetAura then AddAura or Aura.Modify
 UnitTests on Rom24Effects
 Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
 Skill practice %
-Refactor Ability
 redo DoScore, DoAffects
 check if IStat, MStat and RStat display new informations
+AddAura: additional param combine, when adding already existing aura (see affect_join)
 
 DONE:
 Move, Resistances, Alignment added
@@ -25,6 +23,8 @@ ICharacter.Inventory is the same as Content
 AddAura duration in pulse and not second (-1: permanent)
     change aura/quest/... duration to TimeSpan
 Save aura in CharacterData/ItemData
+Aura with multiple modifiers
+Add AddOrModifyAura to refactor test on GetAura then AddAura or Aura.Modify
 
 -----------------------------------------------------
 Redo modifiable list

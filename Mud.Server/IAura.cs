@@ -21,7 +21,12 @@ namespace Mud.Server
 
         IEnumerable<IAffect> Affects { get; } // affects linked to this aura
 
+        T AddOrUpdate<T>(Func<T, bool> filterFunc, Func<T> createFunc, Action<T> updateFunc)
+            where T : IAffect;
+
         bool DecreasePulseLeft(int pulseCount); // return true if timed out
+
+        void DecreaseLevel();
 
         void OnRemoved(); // set IsValid, Ability, Source
 
@@ -29,7 +34,7 @@ namespace Mud.Server
         // TODO: method to 'merge' affect
 
         // Display
-        void Append(StringBuilder sb, bool displayHidden);
+        void Append(StringBuilder sb);
 
         // Serialization
         AuraData MapAuraData();

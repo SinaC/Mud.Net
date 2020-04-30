@@ -644,16 +644,8 @@ namespace Mud.Server.Admin
 
         private void AppendAuras(StringBuilder sb, IEnumerable<IAura> auras)
         {
-            //foreach (IAura aura in auras)
-            //    sb.AppendFormatLine("{0} from {1} modifies {2} by {3}{4} for {5} seconds.",
-            //        aura.Ability?.Name ?? "(none)",
-            //        aura.Source?.DisplayName ?? "(none)",
-            //        aura.Modifier,
-            //        aura.Amount,
-            //        AmountOperatorsToString(aura.AmountOperator),
-            //        StringHelpers.FormatDelay(aura.PulseLeft/Pulse.PulsePerSeconds));
             foreach (IAura aura in auras)
-                aura.Append(sb, true); // TODO: even display hidden auras
+                aura.Append(sb);
         }
 
         private string CostAmountOperatorsToString(CostAmountOperators op)

@@ -304,7 +304,8 @@ namespace Mud.Server.Abilities.Rom24
             if (Rom24Common.SavesSpell(level, victim, SchoolTypes.Other))
                 return;
             Sex newSex = RandomManager.Random(EnumHelpers.GetValues<Sex>().Where(x => x != victim.Sex));
-            World.AddAura<Sex>(victim, ability, caster, AuraModifiers.Sex, newSex, level, TimeSpan.FromMinutes(2 * level), true);
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(2 * level), AuraFlags.None, true,
+                new CharacterSexAffect { Value = newSex });
             victim.Send("You feel different.");
             victim.Act(ActOptions.ToRoom, "{0:N} doesn't look like $mself anymore...", victim);
         }
@@ -337,7 +338,8 @@ namespace Mud.Server.Abilities.Rom24
             caster.ChangeSlave(victim);
 
             int duration = RandomManager.Fuzzy(level / 4);
-            World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.Charm, level, TimeSpan.FromMinutes(duration), true);
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                new CharacterFlagsAffect { Modifier = CharacterFlags.Charm, Operator = AffectOperators.Or });
 
             victim.Act(ActOptions.ToCharacter, "Isn't {0} just so nice?", caster);
             if (caster != victim)
@@ -360,11 +362,15 @@ namespace Mud.Server.Abilities.Rom24
             if (!savesSpell)
             {
                 victim.Act(ActOptions.ToRoom, "{0} turns blue and shivers.", victim);
-                IAura existing = victim.GetAura(ability);
-                if (existing != null)
-                    existing.Modify(null, existing.Amount - 1, Pulse.FromPulse(existing.PulseLeft) + TimeSpan.FromMinutes(6));
+                IAura existingAura = victim.GetAura(ability);
+                if (existingAura != null)
+                    existingAura.AddOrUpdate<CharacterAttributeAffect>( // TODO: update duration
+                        x => x.Location == CharacterAttributeAffectLocations.Strength,
+                        () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
+                        x => x.Modifier -= 1);
                 else
-                    World.AddAura(victim, ability, caster, AuraModifiers.Strength, -1, AmountOperators.Fixed, level, TimeSpan.FromMinutes(6), true); // TODO: additional param to combine aura
+                    World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(6), AuraFlags.None, true,
+                        new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
             }
         }
 
@@ -505,7 +511,8 @@ namespace Mud.Server.Abilities.Rom24
                         caster.Act(ActOptions.ToCharacter, "The holy aura of {0} is too powerful for you to overcome.");
                     return;
                 }
-                World.AddAura(item, ability, caster, AuraModifiers.SavingThrow, 1, AmountOperators.Fixed, level, TimeSpan.FromMinutes(2 * level), true);
+                World.AddAura(item, ability, caster, level, TimeSpan.FromMinutes(2 * level), AuraFlags.None, true,
+                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = 1, Operator = AffectOperators.Add });
                 caster.Act(ActOptions.ToAll, "{0} glows with a malevolent aura.", item);
                 return;
             }
@@ -519,9 +526,9 @@ namespace Mud.Server.Abilities.Rom24
                 if (caster != victim)
                     caster.Act(ActOptions.ToCharacter, "{0:N} looks very uncomfortable.", victim);
                 int duration = 2 * level;
-                World.AddAura(victim, ability, caster, AuraModifiers.HitRoll, -level / 8, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-                World.AddAura(victim, ability, caster, AuraModifiers.SavingThrow, level / 8, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-                victim.Recompute();
+                World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(2 * level), AuraFlags.None, true,
+                    new CharacterAttributeAffect { Operator = AffectOperators.Add, Modifier = level / 8, Location = CharacterAttributeAffectLocations.HitRoll },
+                    new CharacterAttributeAffect { Operator = AffectOperators.Add, Modifier = -level / 8, Location = CharacterAttributeAffectLocations.SavingThrow });
                 return;
             }
         }
@@ -552,27 +559,27 @@ namespace Mud.Server.Abilities.Rom24
 
         public void SpellDetectEvil(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectEvil, "You can already sense evil.", "{0:N} can already detect evil.", "Your eyes tingle.", "Ok.");
+            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectEvil, level, "You can already sense evil.", "{0:N} can already detect evil.", "Your eyes tingle.", "Ok.");
         }
 
         public void SpellDetectGood(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectGood, "You can already sense good.", "{0:N} can already detect good.", "Your eyes tingle.", "Ok.");
+            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectGood, level, "You can already sense good.", "{0:N} can already detect good.", "Your eyes tingle.", "Ok.");
         }
 
         public void SpellDetectHidden(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectHidden, "You are already as alert as you can be.", "{0:N} can already sense hidden lifeforms.", "Your awareness improves.", "Ok.");
+            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectHidden, level, "You are already as alert as you can be.", "{0:N} can already sense hidden lifeforms.", "Your awareness improves.", "Ok.");
         }
 
         public void SpellDetectInvis(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectInvis, "You can already see invisible.", "{0:N} can already see invisible things.", "Your eyes tingle.", "Ok.");
+            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectInvis, level, "You can already see invisible.", "{0:N} can already see invisible things.", "Your eyes tingle.", "Ok.");
         }
 
         public void SpellDetectMagic(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectMagic, "You can already sense magical auras.", "{0:N} can already detect magic.", "Your eyes tingle.", "Ok.");
+            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectMagic, level, "You can already sense magical auras.", "{0:N} can already detect magic.", "Your eyes tingle.", "Ok.");
         }
 
         public void SpellDetectPoison(IAbility ability, int level, ICharacter caster, IItem item)
@@ -674,20 +681,23 @@ namespace Mud.Server.Abilities.Rom24
             //    return;
             //}
 
-            IAura existingAcAura = null;
-            int acBonus = 0; // this means they have no bonus
+            IAura existingAura = null;
             int fail = 25; // base 25% chance of failure
 
             // find existing bonuses
             foreach (IAura aura in armor.Auras)
-                if (aura.Modifier == AuraModifiers.Armor)
+            {
+                if (aura.Ability == ability)
+                    existingAura = aura;
+                bool found = false;
+                foreach (CharacterAttributeAffect characterAttributeAffect in aura.Affects.OfType<CharacterAttributeAffect>().Where(x => x.Location == CharacterAttributeAffectLocations.AllArmor))
                 {
-                    existingAcAura = aura;
-                    acBonus += aura.Amount;
-                    fail += 5 * (acBonus * acBonus);
+                    fail += 5 * (characterAttributeAffect.Modifier * characterAttributeAffect.Modifier);
+                    found = true;
                 }
-                else // things get a little harder
+                if (!found) // things get a little harder
                     fail += 20;
+            }
             // apply other modifiers
             fail -= level;
             if (armor.CurrentItemFlags.HasFlag(ItemFlags.Bless))
@@ -730,11 +740,15 @@ namespace Mud.Server.Abilities.Rom24
                 amount = -2;
             }
             // TODO: change item level (+1)
-            armor.AddBaseItemFlags(ItemFlags.Magic);
-            if (existingAcAura != null)
-                existingAcAura.Modify(Math.Max(existingAcAura.Level, level), existingAcAura.Amount + amount, null);
+            armor.AddBaseItemFlags(ItemFlags.Magic); // Permanently change item flags
+            if (existingAura != null)
+                existingAura.AddOrUpdate<CharacterAttributeAffect>(
+                        x => x.Location == CharacterAttributeAffectLocations.AllArmor,
+                        () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = amount, Operator = AffectOperators.Add },
+                        x => x.Modifier -= amount);
             else
-                World.AddAura(armor, ability, caster, AuraModifiers.Armor, amount, AmountOperators.Fixed, level, Pulse.Infinite, false);
+                World.AddAura(armor, ability, caster, level, Pulse.Infinite, AuraFlags.Permanent, false,
+                   new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = amount, Operator = AffectOperators.Add });
             armor.Recompute();
         }
 
@@ -746,28 +760,23 @@ namespace Mud.Server.Abilities.Rom24
             //    return;
             //}
 
-            IAura existingHitRollAura = null;
-            IAura existingDamRollAura = null;
-            int hitBonus = 0; // this means they have no bonus
-            int damBonus = 0; // this means they have no bonus
+            IAura existingAura = null;
             int fail = 25; // base 25% chance of failure
 
             // find existing bonuses
             foreach (IAura aura in weapon.Auras)
-                if (aura.Modifier == AuraModifiers.HitRoll)
+            {
+                if (aura.Ability == ability)
+                    existingAura = aura;
+                bool found = false;
+                foreach (CharacterAttributeAffect characterAttributeAffect in aura.Affects.OfType<CharacterAttributeAffect>().Where(x => x.Location == CharacterAttributeAffectLocations.HitRoll || x.Location == CharacterAttributeAffectLocations.DamRoll))
                 {
-                    existingHitRollAura = aura;
-                    hitBonus += aura.Amount;
-                    fail += 5 * (hitBonus * hitBonus);
+                    fail += 5 * (characterAttributeAffect.Modifier * characterAttributeAffect.Modifier);
+                    found = true;
                 }
-                else if (aura.Modifier == AuraModifiers.DamRoll)
-                {
-                    existingDamRollAura = aura;
-                    damBonus += aura.Amount;
-                    fail += 5 * (damBonus * damBonus);
-                }
-                else // things get a little harder
+                if (!found) // things get a little harder
                     fail += 20;
+            }
             // apply other modifiers
             fail -= 3 * level / 2;
             if (weapon.CurrentItemFlags.HasFlag(ItemFlags.Bless))
@@ -810,15 +819,22 @@ namespace Mud.Server.Abilities.Rom24
                 amount = 2;
             }
             // TODO: change item level (+1)
-            weapon.AddBaseItemFlags(ItemFlags.Magic);
-            if (existingHitRollAura != null)
-                existingHitRollAura.Modify(Math.Max(existingHitRollAura.Level, level), existingHitRollAura.Amount + amount, Pulse.Infinite);
+            weapon.AddBaseItemFlags(ItemFlags.Magic); // Permanently change item flags
+            if (existingAura != null)
+            {
+                existingAura.AddOrUpdate<CharacterAttributeAffect>(
+                        x => x.Location == CharacterAttributeAffectLocations.HitRoll,
+                        () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = amount, Operator = AffectOperators.Add },
+                        x => x.Modifier += amount);
+                existingAura.AddOrUpdate<CharacterAttributeAffect>(
+                        x => x.Location == CharacterAttributeAffectLocations.DamRoll,
+                        () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = amount, Operator = AffectOperators.Add },
+                        x => x.Modifier += amount);
+            }
             else
-                World.AddAura(weapon, ability, caster, AuraModifiers.HitRoll, amount, AmountOperators.Fixed, level, Pulse.Infinite, false);
-            if (existingDamRollAura != null)
-                existingDamRollAura.Modify(Math.Max(existingDamRollAura.Level, level), existingDamRollAura.Amount + amount, Pulse.Infinite);
-            else
-                World.AddAura(weapon, ability, caster, AuraModifiers.DamRoll, amount, AmountOperators.Fixed, level, Pulse.Infinite, false);
+                World.AddAura(weapon, ability, caster, level, Pulse.Infinite, AuraFlags.Permanent, false,
+                   new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = amount, Operator = AffectOperators.Add },
+                   new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = amount, Operator = AffectOperators.Add });
             weapon.Recompute();
         }
 
@@ -874,8 +890,8 @@ namespace Mud.Server.Abilities.Rom24
             }
 
             int duration = RandomManager.Fuzzy(level / 4);
-            World.AddAura<ItemFlags>(item, ability, caster, AuraModifiers.ItemFlags, ItemFlags.BurnProof, level, TimeSpan.FromMinutes(duration), true);
-
+            World.AddAura(item, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                new ItemFlagsAffect { Modifier = ItemFlags.BurnProof, Operator = AffectOperators.Or });
             caster.Act(ActOptions.ToCharacter, "You protect {0} from fire.", item);
             caster.Act(ActOptions.ToRoom, "{0} is surrounded by a protective aura.", item);
         }
@@ -892,7 +908,8 @@ namespace Mud.Server.Abilities.Rom24
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.FaerieFire))
                 return;
-            World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.FaerieFire, level, TimeSpan.FromMinutes(level), true);
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(level), AuraFlags.None, true,
+                new CharacterFlagsAffect { Modifier = CharacterFlags.FaerieFire, Operator = AffectOperators.Or });
             victim.Act(ActOptions.ToAll, "{0:N} are surrounded by a pink outline.", victim);
         }
 
@@ -906,7 +923,7 @@ namespace Mud.Server.Abilities.Rom24
             foreach (ICharacter victim in caster.Room.People.Where(x => x != caster && !Rom24Common.SavesSpell(level, x, SchoolTypes.Other))) // && ich->invis_level <= 0
             {
                 victim.RemoveAuras(x => x.Ability == invis || x.Ability == massInvis || x.Ability == sneak, false);
-                victim.RemoveBaseCharacterFlags(CharacterFlags.Hide | CharacterFlags.Invisible | CharacterFlags.Sneak);
+                victim.RemoveBaseCharacterFlags(CharacterFlags.Hide | CharacterFlags.Invisible | CharacterFlags.Sneak); // TODO: what if it's a racial ?
                 victim.Recompute();
                 victim.Act(ActOptions.ToAll, "{0:N} is revealed!", victim);
             }
@@ -927,7 +944,8 @@ namespace Mud.Server.Abilities.Rom24
                     caster.Act(ActOptions.ToCharacter, "{0:N} doesn't need your help to fly.");
                 return;
             }
-            World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.Flying, level, TimeSpan.FromMinutes(level + 3), true);
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(level + 3), AuraFlags.None, true,
+                new CharacterFlagsAffect { Modifier = CharacterFlags.Flying, Operator = AffectOperators.Or });
             caster.Act(ActOptions.ToAll, "{0:P} feet rise off the ground.", victim);
         }
 
@@ -960,11 +978,11 @@ namespace Mud.Server.Abilities.Rom24
             }
 
             int duration = level / 3;
-            int amount = level / 6;
-            World.AddAura(victim, ability, caster, AuraModifiers.HitRoll, amount, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-            World.AddAura(victim, ability, caster, AuraModifiers.DamRoll, amount, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-            World.AddAura(victim, ability, caster, AuraModifiers.Armor, (10 * level) / 12, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-            victim.Recompute();
+            int modifier = level / 6;
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                new CharacterAttributeAffect { Operator = AffectOperators.Add, Modifier = modifier, Location = CharacterAttributeAffectLocations.HitRoll },
+                new CharacterAttributeAffect { Operator = AffectOperators.Add, Modifier = modifier, Location = CharacterAttributeAffectLocations.DamRoll },
+                new CharacterAttributeAffect { Operator = AffectOperators.Add, Modifier = (10 * level) / 12, Location = CharacterAttributeAffectLocations.AllArmor });
 
             victim.Send("You are filled with holy wrath!");
             victim.Act(ActOptions.ToRoom, "{0:N} gets a wild look in $s eyes!", victim);
@@ -1019,7 +1037,8 @@ namespace Mud.Server.Abilities.Rom24
                 return;
             }
             int modifier = 1 + (level >= 18 ? 1 : 0) + (level >= 25 ? 1 : 0) + (level >= 32 ? 1 : 0);
-            World.AddAura(victim, ability, caster, AuraModifiers.Strength, modifier, AmountOperators.Fixed, level, TimeSpan.FromMinutes(level), true);
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(level), AuraFlags.None, true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = modifier, Operator = AffectOperators.Add });
             victim.Act(ActOptions.ToAll, "{0:P} muscles surge with heightened power.", victim);
         }
 
@@ -1057,10 +1076,10 @@ namespace Mud.Server.Abilities.Rom24
             int duration = victim == caster
                 ? level / 2
                 : level / 4;
-            int amount = 1 + (level >= 18 ? 1 : 0) + (level >= 25 ? 1 : 0) + (level >= 32 ? 1 : 0);
-            World.AddAura(victim, ability, caster, AuraModifiers.Dexterity, amount, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-            World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.Haste, level, TimeSpan.FromMinutes(duration), false);
-            victim.Recompute();
+            int modifier = 1 + (level >= 18 ? 1 : 0) + (level >= 25 ? 1 : 0) + (level >= 32 ? 1 : 0);
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
+                new CharacterFlagsAffect { Modifier = CharacterFlags.Haste, Operator = AffectOperators.Or });
             victim.Send("You feel yourself moving more quickly.");
             victim.Act(ActOptions.ToRoom, "{0:N} is moving more quickly.", victim);
             if (caster != victim)
@@ -1246,7 +1265,7 @@ namespace Mud.Server.Abilities.Rom24
 
         public void SpellInfravision(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.Infrared, "You can already see in the dark", "{0} already has infravision.", "Your eyes glow red.", "{0:P} eyes glow red.");
+            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.Infrared, 2*level, "You can already see in the dark", "{0} already has infravision.", "Your eyes glow red.", "{0:P} eyes glow red.");
         }
 
         public void SpellInvis(IAbility ability, int level, ICharacter caster, IEntity target)
@@ -1260,7 +1279,8 @@ namespace Mud.Server.Abilities.Rom24
                 }
 
                 caster.Act(ActOptions.ToAll, "{0} fades out of sight.", item);
-                World.AddAura<ItemFlags>(item, ability, caster, AuraModifiers.ItemFlags, ItemFlags.Invis, level, TimeSpan.FromMinutes(level + 12), true);
+                World.AddAura(item, ability, caster, level, TimeSpan.FromMinutes(level + 12), AuraFlags.None, true,
+                    new ItemFlagsAffect { Modifier = ItemFlags.Invis, Operator = AffectOperators.Or });
                 return;
             }
             if (target is ICharacter victim)
@@ -1269,7 +1289,8 @@ namespace Mud.Server.Abilities.Rom24
                     return;
 
                 victim.Act(ActOptions.ToRoom, "{0:N} fades out of existence.", victim);
-                World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.Invisible, level, TimeSpan.FromMinutes(level + 12), true);
+                World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(level + 12), AuraFlags.None, true,
+                    new CharacterFlagsAffect { Modifier = CharacterFlags.Invisible, Operator = AffectOperators.Or });
                 victim.Send("You fade out of existence.");
             }
         }
@@ -1377,7 +1398,8 @@ namespace Mud.Server.Abilities.Rom24
 
         public void SpellPassDoor(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.PassDoor, "You are already out of phase.", "{0:N} is already shifted out of phase.", "You turn translucent.", "{0} turns translucent.");
+            int duration = RandomManager.Fuzzy(level / 4);
+            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.PassDoor, duration, "You are already out of phase.", "{0:N} is already shifted out of phase.", "You turn translucent.", "{0} turns translucent.");
         }
 
         public void SpellPlague(IAbility ability, int level, ICharacter caster, ICharacter victim)
@@ -1391,7 +1413,8 @@ namespace Mud.Server.Abilities.Rom24
                     caster.Send("{0:N} seems to be unaffected.", victim);
             }
 
-            World.AddAura(victim, ability, caster, AuraModifiers.Strength, -5, AmountOperators.Fixed, (3 * level) / 4, TimeSpan.FromMinutes(level), true);
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes((3 * level) / 4), AuraFlags.None, true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add });
             victim.Act(ActOptions.ToAll, "{0:N} scream{0:V} in agony as plague sores erupt from {0:s} skin.", victim);
         }
 
@@ -1415,8 +1438,9 @@ namespace Mud.Server.Abilities.Rom24
                 }
 
                 int duration = level;
-                World.AddAura(victim, ability, caster, AuraModifiers.Strength, -2, AmountOperators.Fixed, level, TimeSpan.FromMinutes(level), false);
-                World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.Poison, level, TimeSpan.FromMinutes(level), false);
+                World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(level), AuraFlags.None, true,
+                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
+                    new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
                 victim.Send("You feel very sick.");
                 victim.Act(ActOptions.ToRoom, "{0:N} looks very ill.", victim);
             }
@@ -1432,10 +1456,9 @@ namespace Mud.Server.Abilities.Rom24
             }
 
             int duration = 24;
-            World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.ProtectEvil, level, TimeSpan.FromMinutes(duration), false);
-            World.AddAura(victim, ability, caster, AuraModifiers.SavingThrow, -1, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-            victim.Recompute();
-
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
+                new CharacterFlagsAffect { Modifier = CharacterFlags.ProtectEvil, Operator = AffectOperators.Or });
             victim.Send("You feel holy and pure.");
             caster.Act(ActOptions.ToCharacter, "{0:N} is protected from evil.", victim);
         }
@@ -1450,10 +1473,9 @@ namespace Mud.Server.Abilities.Rom24
             }
 
             int duration = 24;
-            World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.ProtectGood, level, TimeSpan.FromMinutes(duration), false);
-            World.AddAura(victim, ability, caster, AuraModifiers.SavingThrow, -1, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-            victim.Recompute();
-
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
+                new CharacterFlagsAffect { Modifier = CharacterFlags.ProtectGood, Operator = AffectOperators.Or });
             victim.Send("You feel aligned with darkness.");
             caster.Act(ActOptions.ToCharacter, "{0:N} is protected from good.", victim);
         }
@@ -1548,7 +1570,8 @@ namespace Mud.Server.Abilities.Rom24
 
         public void SpellSanctuary(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.Sanctuary, "You are already in sanctuary.", "{0:N} is already in sanctuary.", "You are surrounded by a white aura.", "{0:N} is surrounded by a white aura.");
+            int duration = level / 6;
+            GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.Sanctuary, duration, "You are already in sanctuary.", "{0:N} is already in sanctuary.", "You are surrounded by a white aura.", "{0:N} is surrounded by a white aura.");
         }
 
         public void SpellShield(IAbility ability, int level, ICharacter caster, ICharacter victim)
@@ -1562,7 +1585,8 @@ namespace Mud.Server.Abilities.Rom24
                 return;
             }
 
-            World.AddAura(victim, ability, caster, AuraModifiers.Armor, -20, AmountOperators.Fixed, level, TimeSpan.FromMinutes(8 + level), true);
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(8+level), AuraFlags.None, true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -10, Operator = AffectOperators.Add });
             caster.Act(ActOptions.ToRoom, "{0:N} {0:b} surrounded by a force shield.", victim);
         }
 
@@ -1588,7 +1612,8 @@ namespace Mud.Server.Abilities.Rom24
                 || Rom24Common.SavesSpell(level - 4, victim, SchoolTypes.Charm))
                 return;
 
-            World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.Sleep, level, TimeSpan.FromMinutes(4 + level), true);
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(4 + level), AuraFlags.None, true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -10, Operator = AffectOperators.Add });
 
             if (victim.Position > Positions.Sleeping)
             {
@@ -1633,9 +1658,10 @@ namespace Mud.Server.Abilities.Rom24
             }
 
             int duration = level / 2;
-            int amount = -1 - (level >= 18 ? 1 : 0) - (level >= 25 ? 1 : 0) - (level >= 32 ? 1 : 0);
-            World.AddAura(victim, ability, caster, AuraModifiers.Dexterity, amount, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-            World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.Slow, level, TimeSpan.FromMinutes(duration), false);
+            int modifier = -1 - (level >= 18 ? 1 : 0) - (level >= 25 ? 1 : 0) - (level >= 32 ? 1 : 0);
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
+                new CharacterFlagsAffect { Modifier = CharacterFlags.Slow, Operator = AffectOperators.Or });
             victim.Recompute();
         }
 
@@ -1650,7 +1676,8 @@ namespace Mud.Server.Abilities.Rom24
                 return;
             }
 
-            World.AddAura(victim, ability, caster, AuraModifiers.Armor, -40, AmountOperators.Fixed, level, TimeSpan.FromMinutes(level), true);
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(level), AuraFlags.None, true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -40, Operator = AffectOperators.Add });
             caster.Act(ActOptions.ToAll, "{0:P} skin turns to stone.", victim);
         }
 
@@ -1734,8 +1761,9 @@ namespace Mud.Server.Abilities.Rom24
                 return;
 
             int duration = level / 2;
-            World.AddAura(victim, ability, caster, AuraModifiers.Strength, -level / 5, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-            World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.Weaken, level, TimeSpan.FromMinutes(duration), false);
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -level/5, Operator = AffectOperators.Add },
+                new CharacterFlagsAffect { Modifier = CharacterFlags.Weaken, Operator = AffectOperators.Or });
             victim.Recompute();
             victim.Send("You feel your strength slip away.");
             victim.Act(ActOptions.ToRoom, "{0:N} looks tired and weak.", victim);
@@ -1815,7 +1843,7 @@ namespace Mud.Server.Abilities.Rom24
             return savesSpell;
         }
 
-        private void GenericCharacterFlagsAbility(IAbility ability, int level, ICharacter caster, ICharacter victim, CharacterFlags characterFlags, string selfAlreadyAffected, string notSelfAlreadyAffected, string success, string notSelfSuccess)
+        private void GenericCharacterFlagsAbility(IAbility ability, int level, ICharacter caster, ICharacter victim, CharacterFlags characterFlags, int duration, string selfAlreadyAffected, string notSelfAlreadyAffected, string success, string notSelfSuccess)
         {
             if (victim.CurrentCharacterFlags.HasFlag(characterFlags))
             {
@@ -1825,7 +1853,8 @@ namespace Mud.Server.Abilities.Rom24
                     caster.Act(ActOptions.ToCharacter, notSelfAlreadyAffected, victim);
                 return;
             }
-            World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, characterFlags, level, TimeSpan.FromMinutes(level), true);
+            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                new CharacterFlagsAffect { Modifier = characterFlags, Operator = AffectOperators.Or });
             victim.Send(success);
             if (victim != caster)
                 victim.Act(ActOptions.ToRoom, notSelfSuccess, victim);
@@ -1992,7 +2021,7 @@ namespace Mud.Server.Abilities.Rom24
                     return CheckDispelReturnValues.Dispelled;
                 }
                 else
-                    aura.Modify(aura.Level - 1, null, null);
+                    aura.DecreaseLevel();
                 found = true;
             }
             return found

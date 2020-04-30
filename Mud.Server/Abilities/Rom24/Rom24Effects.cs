@@ -90,11 +90,16 @@ namespace Mud.Server.Abilities.Rom24
                     viewer.Act(ActOptions.ToAll, msg, item);
                 if (item is IItemArmor) // etch it
                 {
-                    IAura armorAura = item.Auras.FirstOrDefault(x => x.Modifier == AuraModifiers.Armor);
-                    if (armorAura != null)
-                        armorAura.Modify(Math.Max(armorAura.Level, level), armorAura.Amount + 1, Pulse.Infinite, ability);
+                    IAura existingAura = item.GetAura(ability);
+                    if (existingAura != null)
+                        existingAura.AddOrUpdate<CharacterAttributeAffect>(
+                            x => x.Location == CharacterAttributeAffectLocations.AllArmor,
+                            () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = 1, Operator = AffectOperators.Add },
+                            x => x.Modifier += 1);
                     else
-                        World.AddAura(item, ability, source, AuraModifiers.Armor, +1, AmountOperators.Fixed, level, Pulse.Infinite, true);
+                        World.AddAura(item, ability, source, level, Pulse.Infinite, AuraFlags.Permanent, false,
+                            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = 1, Operator = AffectOperators.Add });
+                    item.Recompute();
                     return;
                 }
                 // destroy container, dump the contents and apply fire effect on them
@@ -151,13 +156,17 @@ namespace Mud.Server.Abilities.Rom24
                 if (!Rom24Common.SavesSpell(level / 4 + damage / 20, victim, SchoolTypes.Cold))
                 {
                     victim.Send("A chill sinks deep into your bones.");
-                    victim.Act(ActOptions.ToRoom, "{0} turns blue and shivers.", victim);
-                    IAbility chillTouch = AbilityManager["Chill Touch"];
-                    IAura aura = victim.GetAura(chillTouch);
-                    if (aura != null)
-                        aura.Modify(Math.Max(aura.Level, level), -1, TimeSpan.FromMinutes(6));
+                    victim.Act(ActOptions.ToRoom, "{0:N} turns blue and shivers.", victim);
+                    IAbility chillTouchAbility = AbilityManager["Chill Touch"];
+                    IAura chillTouchAura = victim.GetAura(chillTouchAbility);
+                    if (chillTouchAura != null)
+                        chillTouchAura.AddOrUpdate<CharacterAttributeAffect>( // TODO: update duration
+                            x => x.Location == CharacterAttributeAffectLocations.Strength,
+                            () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
+                            x => x.Modifier -= 1);
                     else
-                        World.AddAura(victim, chillTouch, source, AuraModifiers.Strength, -1, AmountOperators.Fixed, level, TimeSpan.FromMinutes(6), false);
+                        World.AddAura(victim, chillTouchAbility, source, level, TimeSpan.FromMinutes(6), AuraFlags.None, false,
+                            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
                 }
                 // hunger! (warmth sucked out)
                 // TODO: gain_condition(victim,COND_HUNGER,dam/20); if NPC
@@ -347,16 +356,23 @@ namespace Mud.Server.Abilities.Rom24
                     victim.Send("You feel poison coursing through your veins.");
                     victim.Act(ActOptions.ToRoom, "{0} looks very ill.", victim);
                     int duration = level / 2;
-                    IAbility poison = AbilityManager["Poison"];
-                    IAura aura = victim.GetAura(poison);
-                    if (aura != null)
-                        aura.Modify(Math.Max(aura.Level, level), level / 2, TimeSpan.FromMinutes(6));
+                    IAbility poisonAbility = AbilityManager["Poison"];
+                    IAura poisonAura = victim.GetAura(poisonAbility);
+                    if (poisonAura != null) // TODO: update duration
+                    {
+                        poisonAura.AddOrUpdate<CharacterAttributeAffect>(
+                            x => x.Location == CharacterAttributeAffectLocations.Strength,
+                            () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
+                            x => x.Modifier -= 1);
+                        poisonAura.AddOrUpdate<CharacterFlagsAffect>(
+                            x => x.Modifier == CharacterFlags.Poison,
+                            () => new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                            null);
+                    }
                     else
-                        World.AddAura(victim, poison, source, AuraModifiers.Strength, -1, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-                    // TODO: merge next aura with previous aura in aura with 2 effects
-                    // TODO: with this code, Strength effect will be refreshed but not Poison one
-                    if (!victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Poison))
-                        World.AddAura<CharacterFlags>(victim, poison, source, AuraModifiers.CharacterFlags, CharacterFlags.Poison, level, TimeSpan.FromMinutes(duration), false);
+                        World.AddAura(victim, ability, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
+                            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
+                            new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
                 }
                 // equipment
                 foreach (IItem itemOnVictim in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)))
