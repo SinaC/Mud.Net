@@ -2,6 +2,7 @@ ongoing
 Aura with multiple modifiers
 
 todo
+don't save invalid auras
 Alias should be available when impersonated: add aliases to PlayableCharacter
 Ability wears off message
 Move AddAura in aura manager
@@ -11,6 +12,8 @@ UnitTests on Rom24Effects
 Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
 Skill practice %
 Refactor Ability
+redo DoScore, DoAffects
+check if IStat, MStat and RStat display new informations
 
 DONE:
 Move, Resistances, Alignment added

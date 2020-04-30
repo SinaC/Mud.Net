@@ -323,35 +323,26 @@ namespace Mud.Server.World
             return item;
         }
 
-        public IAura AddAura(IEntity target, IAbility ability, IEntity source, AuraModifiers modifier, int amount, AmountOperators amountOperator,  int level, TimeSpan ts, bool recompute)
+        public IAura AddAura(IEntity target, IAbility ability, IEntity source, int level, TimeSpan ts, AuraFlags auraFlags, bool recompute, params IAffect[] affects)
         {
-            IAura aura = new Aura.Aura(ability, source, modifier, amount, amountOperator, level, ts);
+            IAura aura = new Aura.Aura(ability, source, auraFlags, level, ts, affects);
             target.AddAura(aura, recompute);
             return aura;
         }
 
-        public IAura AddAura<T>(IEntity target, IAbility ability, IEntity source, AuraModifiers modifier, T value, int level, TimeSpan ts, bool recompute)
-            where T : Enum
-        {
-            //https://stackoverflow.com/questions/16960555/how-do-i-cast-a-generic-enum-to-int
-            IAura aura = new Aura.Aura(ability, source, modifier, (int)(object)value, AmountOperators.Flags, level, ts);
-            target.AddAura(aura, recompute);
-            return aura;
-        }
+        //public IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
+        //{
+        //    IPeriodicAura periodicAura = new PeriodicAura(ability, PeriodicAuraTypes.Heal, source, amount, amountOperator, level, tickVisible, tickDelay, totalTicks);
+        //    target.AddPeriodicAura(periodicAura);
+        //    return periodicAura;
+        //}
 
-        public IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
-        {
-            IPeriodicAura periodicAura = new PeriodicAura(ability, PeriodicAuraTypes.Heal, source, amount, amountOperator, level, tickVisible, tickDelay, totalTicks);
-            target.AddPeriodicAura(periodicAura);
-            return periodicAura;
-        }
-
-        public IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, SchoolTypes school, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
-        {
-            IPeriodicAura periodicAura = new PeriodicAura(ability, PeriodicAuraTypes.Damage, source, school, amount, amountOperator, level, tickVisible, tickDelay, totalTicks);
-            target.AddPeriodicAura(periodicAura);
-            return periodicAura;
-        }
+        //public IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, SchoolTypes school, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
+        //{
+        //    IPeriodicAura periodicAura = new PeriodicAura(ability, PeriodicAuraTypes.Damage, source, school, amount, amountOperator, level, tickVisible, tickDelay, totalTicks);
+        //    target.AddPeriodicAura(periodicAura);
+        //    return periodicAura;
+        //}
 
         public void RemoveCharacter(ICharacter character)
         {
@@ -375,13 +366,13 @@ namespace Mud.Server.World
                     pa.ResetSource();
             }
 
-            // Search IAura with character as Source and nullify Source
-            IReadOnlyCollection<ICharacter> charactersWithAuras = new ReadOnlyCollection<ICharacter>(_characters.Where(x => x.Auras.Any(a => a.Source == character)).ToList()); // clone
-            foreach (ICharacter characterWithAuras in charactersWithAuras)
-            {
-                foreach (IAura aura in characterWithAuras.Auras.Where(x => x.Source == character))
-                    aura.ResetSource();
-            }
+            //// Search IAura with character as Source and nullify Source
+            //IReadOnlyCollection<ICharacter> charactersWithAuras = new ReadOnlyCollection<ICharacter>(_characters.Where(x => x.Auras.Any(a => a.Source == character)).ToList()); // clone
+            //foreach (ICharacter characterWithAuras in charactersWithAuras)
+            //{
+            //    foreach (IAura aura in characterWithAuras.Auras.Where(x => x.Source == character))
+            //        aura.ResetSource();
+            //}
 
             // Remove periodic auras on character
             IReadOnlyCollection<IPeriodicAura> periodicAuras = new ReadOnlyCollection<IPeriodicAura>(character.PeriodicAuras.ToList()); // clone
@@ -395,7 +386,7 @@ namespace Mud.Server.World
             IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // clone
             foreach (IAura aura in auras)
             {
-                aura.ResetSource();
+                aura.OnRemoved();
                 character.RemoveAura(aura, false);
             }
             // no need to recompute
@@ -434,12 +425,31 @@ namespace Mud.Server.World
                 foreach (IItem itemInContainer in content)
                     RemoveItem(itemInContainer);
             }
+            // Remove auras
+            IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(item.Auras.ToList()); // clone
+            foreach (IAura aura in auras)
+            {
+                aura.OnRemoved();
+                item.RemoveAura(aura, false);
+            }
+            // no need to recompute
+            //
             item.OnRemoved();
             //_items.Remove(item); will be removed in cleanup step
         }
 
         public void RemoveRoom(IRoom room)
         {
+            //// Remove auras
+            //IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(room.Auras.ToList()); // clone
+            //foreach (IAura aura in auras)
+            //{
+            //    aura.OnRemoved();
+            //    room.RemoveAura(aura, false);
+            //}
+            //// no need to recompute
+            ////
+            //room.OnRemoved();
             throw new NotImplementedException();
         }
 

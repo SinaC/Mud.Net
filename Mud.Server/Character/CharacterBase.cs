@@ -9,6 +9,7 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Abilities;
+using Mud.Server.Aura;
 using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
@@ -419,17 +420,16 @@ namespace Mud.Server.Character
             // Reset current attributes
             ResetAttributes();
 
-            // TODO: apply auras
-            //// 1) Apply room auras
-            //if (Room != null)
-            //    ApplyAuras(Room);
+            // 1) Apply room auras
+            if (Room != null)
+                ApplyAuras(Room);
 
-            //// 2) Apply equipment auras
-            //foreach (IItem equipment in Equipments)
-            //    ApplyAuras(equipment);
+            // 2) Apply equipment auras
+            foreach (IItem equipment in Equipments)
+                ApplyAuras(equipment);
 
-            //// 3) Apply own auras
-            //ApplyAuras(this);
+            // 3) Apply own auras
+            ApplyAuras(this);
 
             // Keep attributes in valid range
             HitPoints = Math.Min(HitPoints, MaxHitPoints);
@@ -961,6 +961,107 @@ namespace Mud.Server.Character
             return null;
         }
 
+        // Affects
+        public void ApplyAffect(CharacterFlagsAffect affect)
+        {
+            switch (affect.Operator)
+            {
+                case AffectOperators.Add:
+                case AffectOperators.Or:
+                    CurrentCharacterFlags |= affect.Modifier;
+                    break;
+                case AffectOperators.Assign:
+                    CurrentCharacterFlags = affect.Modifier;
+                    break;
+                case AffectOperators.Nor:
+                    CurrentCharacterFlags &= ~affect.Modifier;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void ApplyAffect(CharacterIRVAffect affect)
+        {
+            switch (affect.Location)
+            {
+                case IRVAffectLocations.Immunities:
+                    switch (affect.Operator)
+                    {
+                        case AffectOperators.Add:
+                        case AffectOperators.Or:
+                            CurrentImmunities |= affect.Modifier;
+                            break;
+                        case AffectOperators.Assign:
+                            CurrentImmunities = affect.Modifier;
+                            break;
+                        case AffectOperators.Nor:
+                            CurrentImmunities &= ~affect.Modifier;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case IRVAffectLocations.Resistances:
+                    switch (affect.Operator)
+                    {
+                        case AffectOperators.Add:
+                        case AffectOperators.Or:
+                            CurrentResistances |= affect.Modifier;
+                            break;
+                        case AffectOperators.Assign:
+                            CurrentResistances = affect.Modifier;
+                            break;
+                        case AffectOperators.Nor:
+                            CurrentResistances &= ~affect.Modifier;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case IRVAffectLocations.Vulnerabilities:
+                    switch (affect.Operator)
+                    {
+                        case AffectOperators.Add:
+                        case AffectOperators.Or:
+                            CurrentResistances |= affect.Modifier;
+                            break;
+                        case AffectOperators.Assign:
+                            CurrentResistances = affect.Modifier;
+                            break;
+                        case AffectOperators.Nor:
+                            CurrentResistances &= ~affect.Modifier;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+            }
+        }
+
+        public void ApplyAffect(CharacterAttributeAffect affect)
+        {
+            switch (affect.Operator)
+            {
+                case AffectOperators.Add:
+                    _currentAttributes[(int)affect.Location] += affect.Modifier;
+                    break;
+                case AffectOperators.Assign:
+                    _currentAttributes[(int)affect.Location] = affect.Modifier;
+                    break;
+                case AffectOperators.Or:
+                case AffectOperators.Nor:
+                default:
+                    // Error
+                    break;
+            }
+        }
+
+        public void ApplyAffect(CharacterSexAffect affect)
+        {
+            CurrentSex = affect.Value;
+        }
+
         #endregion
 
         protected abstract int NoWeaponDamage { get; }
@@ -1157,33 +1258,34 @@ namespace Mud.Server.Character
             // TODO: damage modifier
             // TODO: check immunity/resist/vuln
 
-            // Check absorb
             fullyAbsorbed = false;
-            if (damage > 0 && _auras.Any(x => x.Modifier == AuraModifiers.DamageAbsorb))
-            {
-                bool needsRecompute = false;
-                // Process every absorb aura until 0 damage left or 0 absorb aura left
-                IReadOnlyCollection<IAura> absorbs = new ReadOnlyCollection<IAura>(_auras.Where(x => x.Modifier == AuraModifiers.DamageAbsorb).ToList());
-                foreach (IAura absorb in absorbs)
-                {
-                    // Process absorb
-                    damage = absorb.Absorb(damage);
-                    if (damage == 0) // full absorb
-                    {
-                        fullyAbsorbed = true;
-                        Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] totally absorbed by {1}", damage, absorb.Ability == null ? "<<??>>" : absorb.Ability.Name);
-                        break; // no need to check other absorb
-                    }
-                    else // partial absorb
-                    {
-                        Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] partially absorbed [{1}] by {2}", damage, absorb.Amount, absorb.Ability == null ? "<<??>>" : absorb.Ability.Name);
-                        needsRecompute = true;
-                        RemoveAura(absorb, false); // recompute when everything is done
-                    }
-                }
-                if (needsRecompute)
-                    Recompute();
-            }
+            //// Check absorb
+            //fullyAbsorbed = false;
+            //if (damage > 0 && _auras.Any(x => x.Modifier == AuraModifiers.DamageAbsorb))
+            //{
+            //    bool needsRecompute = false;
+            //    // Process every absorb aura until 0 damage left or 0 absorb aura left
+            //    IReadOnlyCollection<IAura> absorbs = new ReadOnlyCollection<IAura>(_auras.Where(x => x.Modifier == AuraModifiers.DamageAbsorb).ToList());
+            //    foreach (IAura absorb in absorbs)
+            //    {
+            //        // Process absorb
+            //        damage = absorb.Absorb(damage);
+            //        if (damage == 0) // full absorb
+            //        {
+            //            fullyAbsorbed = true;
+            //            Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] totally absorbed by {1}", damage, absorb.Ability == null ? "<<??>>" : absorb.Ability.Name);
+            //            break; // no need to check other absorb
+            //        }
+            //        else // partial absorb
+            //        {
+            //            Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] partially absorbed [{1}] by {2}", damage, absorb.Amount, absorb.Ability == null ? "<<??>>" : absorb.Ability.Name);
+            //            needsRecompute = true;
+            //            RemoveAura(absorb, false); // recompute when everything is done
+            //        }
+            //    }
+            //    if (needsRecompute)
+            //        Recompute();
+            //}
 
             // Armor reduce physical damage (http://wow.gamepedia.com/Armor#Armor_damage_reduction_formula)
             if (damageTypes <= SchoolTypes.Slash) // Physical
@@ -1213,31 +1315,31 @@ namespace Mud.Server.Character
         protected int ModifyHeal(int heal, out bool fullyAbsorbed)
         {
             fullyAbsorbed = false;
-            if (heal > 0 && _auras.Any(x => x.Modifier == AuraModifiers.HealAbsorb))
-            {
-                bool needsRecompute = false;
-                // Process every absorb aura until 0 damage left or 0 absorb aura left
-                IReadOnlyCollection<IAura> absorbs = new ReadOnlyCollection<IAura>(_auras.Where(x => x.Modifier == AuraModifiers.HealAbsorb).ToList());
-                foreach (IAura absorb in absorbs)
-                {
-                    // Process absorb
-                    heal = absorb.Absorb(heal);
-                    if (heal == 0) // full absorb
-                    {
-                        fullyAbsorbed = true;
-                        Log.Default.WriteLine(LogLevels.Debug, "Heal [{0}] totally absorbed by {1}", heal, absorb.Ability == null ? "<<??>>" : absorb.Ability.Name);
-                        break; // no need to check other absorb
-                    }
-                    else // partial absorb
-                    {
-                        Log.Default.WriteLine(LogLevels.Debug, "Heal [{0}] partially absorbed [{1}] by {2}", heal, absorb.Amount, absorb.Ability == null ? "<<??>>" : absorb.Ability.Name);
-                        needsRecompute = true;
-                        RemoveAura(absorb, false); // recompute when everything is done
-                    }
-                }
-                if (needsRecompute)
-                    Recompute();
-            }
+            //if (heal > 0 && _auras.Any(x => x.Modifier == AuraModifiers.HealAbsorb))
+            //{
+            //    bool needsRecompute = false;
+            //    // Process every absorb aura until 0 damage left or 0 absorb aura left
+            //    IReadOnlyCollection<IAura> absorbs = new ReadOnlyCollection<IAura>(_auras.Where(x => x.Modifier == AuraModifiers.HealAbsorb).ToList());
+            //    foreach (IAura absorb in absorbs)
+            //    {
+            //        // Process absorb
+            //        heal = absorb.Absorb(heal);
+            //        if (heal == 0) // full absorb
+            //        {
+            //            fullyAbsorbed = true;
+            //            Log.Default.WriteLine(LogLevels.Debug, "Heal [{0}] totally absorbed by {1}", heal, absorb.Ability == null ? "<<??>>" : absorb.Ability.Name);
+            //            break; // no need to check other absorb
+            //        }
+            //        else // partial absorb
+            //        {
+            //            Log.Default.WriteLine(LogLevels.Debug, "Heal [{0}] partially absorbed [{1}] by {2}", heal, absorb.Amount, absorb.Ability == null ? "<<??>>" : absorb.Ability.Name);
+            //            needsRecompute = true;
+            //            RemoveAura(absorb, false); // recompute when everything is done
+            //        }
+            //    }
+            //    if (needsRecompute)
+            //        Recompute();
+            //}
 
             return heal;
         }
@@ -1685,6 +1787,19 @@ namespace Mud.Server.Character
             CurrentVulnerabilities = BaseVulnerabilities;
 
             CurrentSex = BaseSex;
+        }
+
+        private void ApplyAuras(IEntity entity)
+        {
+            if (!entity.IsValid)
+                return;
+            foreach (IAura aura in entity.Auras.Where(x => x.IsValid))
+            {
+                foreach (ICharacterAffect affect in aura.Affects.OfType<ICharacterAffect>())
+                {
+                    affect.Apply(this);
+                }
+            }
         }
 
         #region Act

@@ -5,6 +5,7 @@ using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Aura;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Entity;
@@ -62,23 +63,17 @@ namespace Mud.Server.Item
         // Recompute
         public override void Recompute()
         {
+            // 0) Reset
             ResetAttributes();
 
-            // TODO: apply auras
-            //// 1/ Apply auras from room containing item if in a room
-            //if (ContainedIn is IRoom room && room.IsValid)
-            //{
-            //    ApplyAuras<IItem>(room, this);
-            //}
+            // 1) Apply auras from room containing item if in a room
+            if (ContainedInto is IRoom room && room.IsValid)
+            {
+                ApplyAuras<IItem>(room, this);
+            }
 
-            //// 2/ Apply auras from charcter equiping item if equiped by a character
-            //if (EquipedBy != null && EquipedBy.IsValid)
-            //{
-            //    ApplyAuras<IItem>(EquipedBy, this);
-            //}
-
-            //// 3/ Apply own auras
-            //ApplyAuras<IItem>(this, this);
+            // 2) Apply own auras
+            ApplyAuras<IItem>(this, this);
         }
 
         //
@@ -180,9 +175,23 @@ namespace Mud.Server.Item
             Recompute();
         }
 
-        protected virtual void ResetAttributes()
+        public void ApplyAffect(ItemFlagsAffect affect)
         {
-            CurrentItemFlags = BaseItemFlags;
+            switch (affect.Operator)
+            {
+                case AffectOperators.Add:
+                case AffectOperators.Or:
+                    CurrentItemFlags |= affect.Modifier;
+                    break;
+                case AffectOperators.Assign:
+                    CurrentItemFlags = affect.Modifier;
+                    break;
+                case AffectOperators.Nor:
+                    CurrentItemFlags &= ~affect.Modifier;
+                    break;
+                default:
+                    break;
+            }
         }
 
         public virtual ItemData MapItemData()
@@ -197,5 +206,24 @@ namespace Mud.Server.Item
         }
 
         #endregion
+
+        protected virtual void ResetAttributes()
+        {
+            CurrentItemFlags = BaseItemFlags;
+        }
+
+        protected void ApplyAuras<T>(IEntity source, T target)
+            where T : IItem
+        {
+            if (!source.IsValid)
+                return;
+            foreach (IAura aura in source.Auras.Where(x => x.IsValid))
+            {
+                foreach (IItemAffect<T> affect in aura.Affects.OfType<IItemAffect<T>>())
+                {
+                    affect.Apply(target);
+                }
+            }
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace Mud.Server.Abilities
 
         // Cost
         public ResourceKinds ResourceKind { get; }
-        public AmountOperators CostType { get; }
+        public CostAmountOperators CostType { get; }
         public int CostAmount { get; }
 
         // GCD/CD/Duration
@@ -41,12 +41,13 @@ namespace Mud.Server.Abilities
         // Flags
         public AbilityFlags Flags { get; }
 
-        // Effect list
-        public List<AbilityEffect> Effects { get; } // IReadOnlyCollection
+        //// Effect list
+        //public List<AbilityEffect> Effects { get; } // IReadOnlyCollection
 
         #endregion
 
-        public Ability(int id, string name, AbilityTargets target, AbilityBehaviors behavior, AbilityKinds kind, ResourceKinds resourceKind, AmountOperators costType, int costAmount, int globalCooldown, int cooldown, int duration, SchoolTypes school, AbilityMechanics mechanic, DispelTypes dispelType, AbilityFlags flags, params AbilityEffect[] effects)
+        //public Ability(int id, string name, AbilityTargets target, AbilityBehaviors behavior, AbilityKinds kind, ResourceKinds resourceKind, CostAmountOperators costType, int costAmount, int globalCooldown, int cooldown, int duration, SchoolTypes school, AbilityMechanics mechanic, DispelTypes dispelType, AbilityFlags flags, params AbilityEffect[] effects)
+        public Ability(int id, string name, AbilityTargets target, AbilityBehaviors behavior, AbilityKinds kind, ResourceKinds resourceKind, CostAmountOperators costType, int costAmount, int globalCooldown, int cooldown, int duration, SchoolTypes school, AbilityMechanics mechanic, DispelTypes dispelType, AbilityFlags flags)
         {
             Id = id;
             Name = name;
@@ -63,7 +64,7 @@ namespace Mud.Server.Abilities
             Mechanic = mechanic;
             DispelType = dispelType;
             Flags = flags;
-            Effects = effects?.ToList();
+            //Effects = effects?.ToList();
         }
     }
 }

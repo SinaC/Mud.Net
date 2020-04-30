@@ -328,24 +328,24 @@ namespace Mud.Server.Admin
                 sb.AppendFormatLine("{0}: Current: {1} Base: {2}", attribute, victim.CurrentAttributes(attribute), victim.BaseAttributes(attribute));
             foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>().Where(x => x != ResourceKinds.None))
                 sb.AppendFormatLine("{0}: {1}", resourceKind, victim[resourceKind]);
-            foreach (IPeriodicAura pa in victim.PeriodicAuras)
-                if (pa.AuraType == PeriodicAuraTypes.Damage)
-                    sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds.",
-                        pa.Ability?.Name ?? "(none)",
-                        pa.Source?.DisplayName ?? "(none)",
-                        pa.Amount,
-                        pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
-                        pa.School,
-                        pa.TickDelay,
-                        pa.SecondsLeft);
-                else
-                    sb.AppendFormatLine("{0} from {1}: {2}{3} heal every {4} seconds for {5} seconds.",
-                        pa.Ability?.Name ?? "(none)",
-                        pa.Source?.DisplayName ?? "(none)",
-                        pa.Amount,
-                        pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
-                        pa.TickDelay,
-                        pa.SecondsLeft);
+            //foreach (IPeriodicAura pa in victim.PeriodicAuras)
+            //    if (pa.AuraType == PeriodicAuraTypes.Damage)
+            //        sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds.",
+            //            pa.Ability?.Name ?? "(none)",
+            //            pa.Source?.DisplayName ?? "(none)",
+            //            pa.Amount,
+            //            pa.AmountOperator == CostAmountOperators.Fixed ? string.Empty : "%",
+            //            pa.School,
+            //            pa.TickDelay,
+            //            pa.SecondsLeft);
+            //    else
+            //        sb.AppendFormatLine("{0} from {1}: {2}{3} heal every {4} seconds for {5} seconds.",
+            //            pa.Ability?.Name ?? "(none)",
+            //            pa.Source?.DisplayName ?? "(none)",
+            //            pa.Amount,
+            //            pa.AmountOperator == CostAmountOperators.Fixed ? string.Empty : "%",
+            //            pa.TickDelay,
+            //            pa.SecondsLeft);
             AppendAuras(sb, victim.Auras);
             if (victim.KnownAbilities.Any())
             {
@@ -644,28 +644,27 @@ namespace Mud.Server.Admin
 
         private void AppendAuras(StringBuilder sb, IEnumerable<IAura> auras)
         {
+            //foreach (IAura aura in auras)
+            //    sb.AppendFormatLine("{0} from {1} modifies {2} by {3}{4} for {5} seconds.",
+            //        aura.Ability?.Name ?? "(none)",
+            //        aura.Source?.DisplayName ?? "(none)",
+            //        aura.Modifier,
+            //        aura.Amount,
+            //        AmountOperatorsToString(aura.AmountOperator),
+            //        StringHelpers.FormatDelay(aura.PulseLeft/Pulse.PulsePerSeconds));
             foreach (IAura aura in auras)
-                sb.AppendFormatLine("{0} from {1} modifies {2} by {3}{4} for {5} seconds.",
-                    aura.Ability?.Name ?? "(none)",
-                    aura.Source?.DisplayName ?? "(none)",
-                    aura.Modifier,
-                    aura.Amount,
-                    AmountOperatorsToString(aura.AmountOperator),
-                    StringHelpers.FormatDelay(aura.PulseLeft/Pulse.PulsePerSeconds));
-
+                aura.Append(sb, true); // TODO: even display hidden auras
         }
 
-        private string AmountOperatorsToString(AmountOperators op)
+        private string CostAmountOperatorsToString(CostAmountOperators op)
         {
             switch (op)
             {
-                case AmountOperators.None:
+                case CostAmountOperators.None:
                     return string.Empty;
-                case AmountOperators.Fixed:
+                case CostAmountOperators.Fixed:
                     return "+/-";
-                case AmountOperators.Flags:
-                    return "flags";
-                case AmountOperators.Percentage:
+                case CostAmountOperators.Percentage:
                     return "%";
             }
             return "???";

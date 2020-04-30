@@ -1,5 +1,6 @@
 ﻿using System;
 using Mud.Domain;
+using Mud.Server.Aura;
 using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
@@ -28,6 +29,30 @@ namespace Mud.Server.Item
 
         #region IItemWeapon
 
+        #region IItem
+
+        public override void Recompute() // overriding recompute and calling base will cause every collection to be iterate twice
+        {
+            base.Recompute();
+
+            // 1/ Apply auras from room containing item if in a room
+            if (ContainedInto is IRoom room && room.IsValid)
+            {
+                ApplyAuras<IItemWeapon>(ContainedInto, this);
+            }
+
+            // 2/ Apply auras from charcter equiping item if equiped by a character
+            if (EquipedBy != null && EquipedBy.IsValid)
+            {
+                ApplyAuras<IItemWeapon>(EquipedBy, this);
+            }
+
+            // 3/ Apply own auras
+            ApplyAuras<IItemWeapon>(this, this);
+        }
+
+        #endregion
+
         public WeaponTypes Type { get; }
         public int DiceCount { get; }
         public int DiceValue { get; }
@@ -36,30 +61,26 @@ namespace Mud.Server.Item
         public WeaponFlags BaseWeaponFlags { get; protected set; }
         public WeaponFlags CurrentWeaponFlags { get; protected set; }
 
+        public void ApplyAffect(ItemWeaponFlagsAffect affect)
+        {
+            switch (affect.Operator)
+            {
+                case AffectOperators.Add:
+                case AffectOperators.Or:
+                    CurrentWeaponFlags |= affect.Modifier;
+                    break;
+                case AffectOperators.Assign:
+                    CurrentWeaponFlags = affect.Modifier;
+                    break;
+                case AffectOperators.Nor:
+                    CurrentWeaponFlags &= ~affect.Modifier;
+                    break;
+            }
+        }
+
         #endregion
 
         #region ItemBase
-
-        public override void Recompute() // overriding recompute and calling base will cause every collection to be iterate twice
-        {
-            base.Recompute();
-
-            // TODO: apply auras
-            //// 1/ Apply auras from room containing item if in a room
-            //if (ContainedIn is IRoom room && room.IsValid)
-            //{
-            //    ApplyAuras<IItemWeapon>(ContainedIn, this);
-            //}
-
-            //// 2/ Apply auras from charcter equiping item if equiped by a character
-            //if (EquipedBy != null && EquipedBy.IsValid)
-            //{
-            //    ApplyAuras<IItemWeapon>(EquipedBy, this);
-            //}
-
-            //// 3/ Apply own auras
-            //ApplyAuras<IItemWeapon>(this, this);
-        }
 
         protected override void ResetAttributes()
         {

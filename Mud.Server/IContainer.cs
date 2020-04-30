@@ -2,7 +2,7 @@
 
 namespace Mud.Server
 {
-    public interface IContainer : IEntity
+    public interface IContainer : IEntity // TODO: must really inherits from IEntity ?
     {
         IEnumerable<IItem> Content { get; }
 

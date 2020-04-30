@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mud.Domain;
 using Mud.Server.Abilities;
+using Mud.Server.Aura;
 using Mud.Server.Item;
 
 namespace Mud.Server
@@ -144,6 +145,12 @@ namespace Mud.Server
 
         // Equipment
         EquipedItem SearchEquipmentSlot(IEquipable item, bool replace);
+
+        // Affects
+        void ApplyAffect(CharacterFlagsAffect affect);
+        void ApplyAffect(CharacterIRVAffect affect);
+        void ApplyAffect(CharacterAttributeAffect affect);
+        void ApplyAffect(CharacterSexAffect affect);
     }
 
     public class EquipedItem

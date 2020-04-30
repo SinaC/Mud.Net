@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
@@ -7,22 +9,27 @@ using Mud.Server.Common;
 
 namespace Mud.Server.Aura
 {
-    // TODO: Aura with multiple modifiers
     public class Aura : IAura
     {
         private const int NoAbilityId = -1;
 
         private IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
 
-        public Aura(IAbility ability, IEntity source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int level, TimeSpan ts)
+        private readonly List<IAffect> _affects;
+
+        public Aura(IAbility ability, IEntity source, AuraFlags flags, int level, TimeSpan ts, params IAffect[] affects)
         {
+            IsValid = true;
+
             Ability = ability;
             Source = source;
-            Modifier = modifier;
-            Amount = amount;
-            AmountOperator = amountOperator;
+            AuraFlags = flags;
             Level = level;
             PulseLeft = Pulse.FromTimeSpan(ts);
+            _affects = (affects ?? Enumerable.Empty<IAffect>()).ToList();
+
+            if (ability?.Flags.HasFlag(AbilityFlags.AuraIsHidden) == true)
+                AuraFlags |= AuraFlags.Hidden;
         }
 
         public Aura(AuraData auraData)
@@ -36,103 +43,63 @@ namespace Mud.Server.Aura
                     Log.Default.WriteLine(LogLevels.Error, "Aura ability id {0} doesn't exist anymore", auraData.AbilitiId);
             }
             // TODO: source
-            Modifier = auraData.Modifier;
-            Amount = auraData.Amount;
-            AmountOperator = auraData.AmountOperator;
+            AuraFlags = auraData.AuraFlags;
             Level = auraData.Level;
             PulseLeft = auraData.PulseLeft;
+            // TODO: other affects
         }
 
         #region IAura
 
-        public IAbility Ability { get; private set; }
-        public IEntity Source { get; private set; }
-        public AuraModifiers Modifier { get; }
-        public int Amount { get; private set; } // can be a flag
-        public AmountOperators AmountOperator { get; } // Amount is a flag is AmountOperator is Flags
+        public bool IsValid { get; private set; }
+
         public int Level { get; private set; }
+
         public int PulseLeft { get; private set; }
 
-        // Reset source
-        public void ResetSource()
+        public IAbility Ability { get; private set; }
+
+        public IEntity Source { get; private set; }
+
+        public AuraFlags AuraFlags { get; private set; }
+
+        public IEnumerable<IAffect> Affects => _affects;
+
+        public void Append(StringBuilder sb, bool displayHidden)
         {
+            // TODO admin see hidden auras
+            // TODO: nicer look like
+            //    sb.AppendFormatLine("%B%{0}%x% modifies %W%{1}%x% by %m%{2}{3}%x% for %c%{4}%x%",
+            //        aura.Ability == null ? "Unknown" : aura.Ability.Name,
+            //        aura.Modifier,
+            //        aura.Amount,
+            //        aura.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
+            //        StringHelpers.FormatDelay(aura.PulseLeft / Pulse.PulsePerSeconds));
+            sb.AppendFormat("{0}(level {1}) duration {2} flags {3} source {4}", Ability?.Name ?? "???", Level, PulseLeft, AuraFlags, Source?.Name ?? "???");
+            foreach (IAffect affect in Affects)
+            {
+                sb.Append("    ");
+                affect.Append(sb);
+                sb.AppendLine();
+            }
+        }
+
+        public bool DecreasePulseLeft(int pulseCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnRemoved()
+        {
+            IsValid = false;
+            Ability = null;
             Source = null;
         }
 
-        // Absorb, returns remaining damage/heal (only for absorb Aura)
-        public int Absorb(int amount)
-        {
-            if (amount <= Amount) // Full absorb
-            {
-                Amount -= amount;
-                return 0;
-            }
-            else // Partial absorb
-            {
-                int remaining = amount - Amount;
-                Amount = 0;
-                return remaining;
-            }
-        }
-
-        // Refresh with a new aura
-        public void Refresh(IAura aura)
-        {
-            // Refresh aura values
-            Amount = aura.Amount;
-            PulseLeft = aura.PulseLeft;
-        }
-
-        // Change level, amount and pulseCount
-        public void Modify(int? level, int? amount, TimeSpan? ts)
-        {
-            if (level.HasValue)
-                Level = Math.Max(1, level.Value);
-            if (amount.HasValue)
-                Amount = amount.Value;
-            if (ts.HasValue)
-                PulseLeft = Pulse.FromTimeSpan(ts.Value);
-        }
-
-        // Change level, amount, pulseCount and ability
-        public void Modify(int? level, int? amount, TimeSpan? ts, IAbility ability)
-        {
-            Modify(level, amount, ts);
-            Ability = ability;
-        }
-
-        // Called when dispelled
-        public virtual void OnDispelled(IEntity dispelSource)
-        {
-        }
-
-        // Called when vanished
-        public virtual void OnVanished()
-        {
-        }
-
-        // Decrease pulse left
-        public bool DecreasePulseLeft(int pulseCount)  // true if timed out
-        {
-            if (PulseLeft < 0)
-                return false;
-            PulseLeft = Math.Max(PulseLeft - pulseCount, 0);
-            return PulseLeft == 0;
-        }
-
-        //
         public AuraData MapAuraData()
         {
-            return new AuraData
-            {
-                AbilitiId = Ability?.Id ?? NoAbilityId,
-                // TODO: source
-                Modifier = Modifier,
-                Amount = Amount,
-                AmountOperator = AmountOperator,
-                Level = Level,
-                PulseLeft = PulseLeft
-            };
+            // TODO
+            throw new NotImplementedException();
         }
 
         #endregion

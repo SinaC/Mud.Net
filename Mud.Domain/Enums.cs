@@ -348,48 +348,6 @@ namespace Mud.Domain
         //DeathRune
     }
 
-    public enum AmountOperators
-    {
-        None        = 0,
-        Fixed       = 1,
-        Percentage  = 2,
-        Flags       = 3,
-    }
-
-    public enum AuraModifiers
-    {
-        None            = 0,
-        Strength        = 1,
-        Agility         = 2,
-        Stamina         = 3,
-        Intellect       = 4,
-        Spirit          = 5,
-        Characteristics = 6,
-        AttackSpeed     = 7,
-        AttackPower     = 8,
-        SpellPower      = 9,
-        MaxHitPoints    = 10,
-        DamageAbsorb    = 11,
-        HealAbsorb      = 12,
-        Armor           = 13,
-        Critical        = 14,
-        Dodge           = 15,
-        Parry           = 16,
-        Block           = 17,
-        // From Rom24
-        CharacterFlags  = 18,
-        SavingThrow     = 19,
-        HitRoll         = 20,
-        DamRoll         = 21,
-        Immunities      = 22,
-        Resistances     = 23,
-        Vulnerabilities = 24,
-        Sex             = 25,
-        ItemFlags       = 26,
-        Dexterity       = 27,
-        MaxMovePoints   = 28
-    }
-
     public enum CharacterAttributeAffectLocations
     {
         None            = 0,
@@ -440,6 +398,13 @@ namespace Mud.Domain
         Implementor = 7,
     }
 
+    public enum CostAmountOperators
+    {
+        None = 0,
+        Fixed = 1,
+        Percentage = 2
+    }
+
     [Flags]
     public enum ActFlags 
     {
@@ -456,6 +421,25 @@ namespace Mud.Domain
         Indoors         = 0x00000400,
         UpdateAlways    = 0x00000800,
     }
+
+    [Flags]
+    public enum AuraFlags
+    {
+        None = 0x0,
+        StayDeath = 0x1, // Remains even if affected dies
+        NoDispel = 0x2, // Can't be dispelled
+        Permanent = 0x4, // No duration
+        Hidden = 0x8, // Not displayed
+    }
+
+    public enum AffectOperators
+    {
+        Add = 0,
+        Or = 1,
+        Assign = 2,
+        Nor = 3
+    }
+
 
     [Flags]
     public enum WiznetFlags

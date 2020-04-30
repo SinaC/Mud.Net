@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Server.Aura;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
 
@@ -19,18 +20,20 @@ namespace Mud.Server
         IEnumerable<ICharacter> People { get; }
         IEnumerable<INonPlayableCharacter> NonPlayableCharacters { get; }
         IEnumerable<IPlayableCharacter> PlayableCharacters { get; }
-
         IEnumerable<(INonPlayableCharacter character, TBlueprint blueprint)> GetNonPlayableCharacters<TBlueprint>()
             where TBlueprint : CharacterBlueprintBase;
+
+        bool IsPrivate { get; }
 
         IExit[] Exits { get; } // fixed length
 
         IExit Exit(ExitDirections direction);
         IRoom GetRoom(ExitDirections direction);
 
-        bool IsPrivate();
-
         bool Enter(ICharacter character);
         bool Leave(ICharacter character);
+
+        // Affects
+        void ApplyAffect(RoomFlagsAffect affect);
     }
 }

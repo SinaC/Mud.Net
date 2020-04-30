@@ -219,20 +219,22 @@ namespace Mud.Server.Entity
                 Log.Default.WriteLine(LogLevels.Error, "IEntity.AddAura: {0} is not valid anymore", DebugName);
                 return;
             }
-            //IAura same = _auras.FirstOrDefault(x => ReferenceEquals(x.Ability, aura.Ability) && x.Modifier == aura.Modifier && x.Source == aura.Source);
-            IAura same = _auras.FirstOrDefault(x => x.Ability == aura.Ability && x.Modifier == aura.Modifier && x.Source == aura.Source);
-            if (same != null)
-            {
-                Log.Default.WriteLine(LogLevels.Info, "IEntity.AddAura: Refresh: {0} {1}| recompute: {2}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
-                same.Refresh(aura);
-            }
-            else
-            {
-                Log.Default.WriteLine(LogLevels.Info, "IEntity.AddAura: Add: {0} {1}| recompute: {2}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
-                _auras.Add(aura);
-                if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
-                    Send("You are now affected by {0}.", aura.Ability == null ? "Something" : aura.Ability.Name);
-            }
+            ////IAura same = _auras.FirstOrDefault(x => ReferenceEquals(x.Ability, aura.Ability) && x.Modifier == aura.Modifier && x.Source == aura.Source);
+            //IAura same = _auras.FirstOrDefault(x => x.Ability == aura.Ability && x.Modifier == aura.Modifier && x.Source == aura.Source);
+            //if (same != null)
+            //{
+            //    Log.Default.WriteLine(LogLevels.Info, "IEntity.AddAura: Refresh: {0} {1}| recompute: {2}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
+            //    same.Refresh(aura);
+            //}
+            //else
+            //{
+            //    Log.Default.WriteLine(LogLevels.Info, "IEntity.AddAura: Add: {0} {1}| recompute: {2}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
+            //    _auras.Add(aura);
+            //    if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
+            //        Send("You are now affected by {0}.", aura.Ability == null ? "Something" : aura.Ability.Name);
+            //}
+            Log.Default.WriteLine(LogLevels.Info, "IEntity.AddAura: Add: {0} {1}| recompute: {2}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
+            _auras.Add(aura);
             if (recompute)
                 Recompute();
         }
@@ -244,7 +246,7 @@ namespace Mud.Server.Entity
             if (!removed)
                 Log.Default.WriteLine(LogLevels.Warning, "ICharacter.RemoveAura: Trying to remove unknown aura");
             else if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
-                Send("{0} vanishes.", aura.Ability == null ? "Something" : aura.Ability.Name);
+                Send("{0} vanishes.", aura.Ability == null ? "Something" : aura.Ability.Name); // TODO: ability wears off message
             if (recompute && removed)
                 Recompute();
         }

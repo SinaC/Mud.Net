@@ -42,8 +42,7 @@ namespace Mud.Repository.Filesystem
             CreateMap<Domain.CurrentQuestObjectiveData, DataContracts.CurrentQuestObjectiveData>();
 
             CreateMap<Domain.AuraData, DataContracts.AuraData>()
-                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapAuraModifier(x.Modifier)))
-                .ForMember(x => x.AmountOperator, expression => expression.MapFrom(x => MapAmountOperator(x.AmountOperator)));
+                .ForMember(x => x.AuraFlags, expression => expression.MapFrom(x => MapAuraFlags(x.AuraFlags)));
         }
 
         private void InternalToExternal()
@@ -72,8 +71,7 @@ namespace Mud.Repository.Filesystem
             CreateMap<DataContracts.CurrentQuestObjectiveData, Domain.CurrentQuestObjectiveData>();
 
             CreateMap<DataContracts.AuraData, Domain.AuraData>()
-                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapAuraModifier(x.Modifier)))
-                .ForMember(x => x.AmountOperator, expression => expression.MapFrom(x => MapAmountOperator(x.AmountOperator)));
+                .ForMember(x => x.AuraFlags, expression => expression.MapFrom(x => MapAuraFlags(x.AuraFlags)));
         }
 
         private DataContracts.PairData<TKey, TValue>[] MapFromDictionary<TKey, TValue>(Dictionary<TKey, TValue> dictionary) => dictionary.Select(x => new DataContracts.PairData<TKey, TValue>(x.Key, x.Value)).ToArray();
@@ -272,110 +270,14 @@ namespace Mud.Repository.Filesystem
             return (int)flags;
         }
 
-        private Domain.AuraModifiers MapAuraModifier(int modifier)
+        private Domain.AuraFlags MapAuraFlags(int flags)
         {
-            switch (modifier)
-            {
-                case 0: return Domain.AuraModifiers.None;
-                case 1: return Domain.AuraModifiers.Strength;
-                case 2: return Domain.AuraModifiers.Agility;
-                case 3: return Domain.AuraModifiers.Stamina;
-                case 4: return Domain.AuraModifiers.Intellect;
-                case 5: return Domain.AuraModifiers.Spirit;
-                case 6: return Domain.AuraModifiers.Characteristics;
-                case 7: return Domain.AuraModifiers.AttackSpeed;
-                case 8: return Domain.AuraModifiers.AttackPower;
-                case 9: return Domain.AuraModifiers.SpellPower;
-                case 10: return Domain.AuraModifiers.MaxHitPoints;
-                case 11: return Domain.AuraModifiers.DamageAbsorb;
-                case 12: return Domain.AuraModifiers.HealAbsorb;
-                case 13: return Domain.AuraModifiers.Armor;
-                case 14: return Domain.AuraModifiers.Critical;
-                case 15: return Domain.AuraModifiers.Dodge;
-                case 16: return Domain.AuraModifiers.Parry;
-                case 17: return Domain.AuraModifiers.Block;
-                case 18: return Domain.AuraModifiers.CharacterFlags;
-                case 19: return Domain.AuraModifiers.SavingThrow;
-                case 20: return Domain.AuraModifiers.HitRoll;
-                case 21: return Domain.AuraModifiers.DamRoll;
-                case 22: return Domain.AuraModifiers.Immunities;
-                case 23: return Domain.AuraModifiers.Resistances;
-                case 24: return Domain.AuraModifiers.Vulnerabilities;
-                case 25: return Domain.AuraModifiers.Sex;
-                case 26: return Domain.AuraModifiers.ItemFlags;
-                case 27: return Domain.AuraModifiers.Dexterity;
-                case 28: return Domain.AuraModifiers.MaxMovePoints;
-                default:
-                    Log.Default.WriteLine(LogLevels.Error, $"Invalid AuraModifier {modifier} while reading pfile");
-                    return Domain.AuraModifiers.None;
-            }
+            return (Domain.AuraFlags) flags;
         }
 
-        private int MapAuraModifier(Domain.AuraModifiers modifier)
+        private int MapAuraFlags(Domain.AuraFlags flags)
         {
-            switch (modifier)
-            {
-                case Domain.AuraModifiers.None: return 0;
-                case Domain.AuraModifiers.Strength: return 1;
-                case Domain.AuraModifiers.Agility: return 2;
-                case Domain.AuraModifiers.Stamina: return 3;
-                case Domain.AuraModifiers.Intellect: return 4;
-                case Domain.AuraModifiers.Spirit: return 5;
-                case Domain.AuraModifiers.Characteristics: return 6;
-                case Domain.AuraModifiers.AttackSpeed: return 7;
-                case Domain.AuraModifiers.AttackPower: return 8;
-                case Domain.AuraModifiers.SpellPower: return 9;
-                case Domain.AuraModifiers.MaxHitPoints: return 10;
-                case Domain.AuraModifiers.DamageAbsorb: return 11;
-                case Domain.AuraModifiers.HealAbsorb: return 12;
-                case Domain.AuraModifiers.Armor: return 13;
-                case Domain.AuraModifiers.Critical: return 14;
-                case Domain.AuraModifiers.Dodge: return 15;
-                case Domain.AuraModifiers.Parry: return 16;
-                case Domain.AuraModifiers.Block: return 17;
-                case Domain.AuraModifiers.CharacterFlags: return 18;
-                case Domain.AuraModifiers.SavingThrow: return 19;
-                case Domain.AuraModifiers.HitRoll: return 20;
-                case Domain.AuraModifiers.DamRoll: return 21;
-                case Domain.AuraModifiers.Immunities: return 22;
-                case Domain.AuraModifiers.Resistances: return 23;
-                case Domain.AuraModifiers.Vulnerabilities: return 24;
-                case Domain.AuraModifiers.Sex: return 25;
-                case Domain.AuraModifiers.ItemFlags: return 26;
-                case Domain.AuraModifiers.Dexterity: return 27;
-                case Domain.AuraModifiers.MaxMovePoints: return 28;
-                default:
-                    Log.Default.WriteLine(LogLevels.Error, $"Invalid AuraModifier {modifier} while writing pfile");
-                    return 0;
-            }
-        }
-
-        private Domain.AmountOperators MapAmountOperator(int op)
-        {
-            switch (op)
-            {
-                case 0: return Domain.AmountOperators.None;
-                case 1: return Domain.AmountOperators.Fixed;
-                case 2: return Domain.AmountOperators.Percentage;
-                case 3: return Domain.AmountOperators.Flags;
-                default:
-                    Log.Default.WriteLine(LogLevels.Error, $"Invalid AuraOperator {op} while reading pfile");
-                    return Domain.AmountOperators.None;
-            }
-        }
-
-        private int MapAmountOperator(Domain.AmountOperators op)
-        {
-            switch (op)
-            {
-                case Domain.AmountOperators.None: return 0;
-                case Domain.AmountOperators.Fixed: return 1;
-                case Domain.AmountOperators.Percentage: return 2;
-                case Domain.AmountOperators.Flags: return 3;
-                default:
-                    Log.Default.WriteLine(LogLevels.Error, $"Invalid AuraOperator {op} while writing pfile");
-                    return 0;
-            }
+            return (int) flags;
         }
     }
 }

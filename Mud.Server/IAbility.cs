@@ -75,7 +75,7 @@ namespace Mud.Server
 
         // Cost
         ResourceKinds ResourceKind { get; }
-        AmountOperators CostType { get; }
+        CostAmountOperators CostType { get; }
         int CostAmount { get; }
 
         // GCD/CD/Duration
@@ -91,6 +91,6 @@ namespace Mud.Server
         // Flags
         AbilityFlags Flags { get; }
 
-        List<AbilityEffect> Effects { get; }
+        //List<AbilityEffect> Effects { get; }
     }
 }

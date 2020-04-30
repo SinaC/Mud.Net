@@ -231,37 +231,39 @@ namespace Mud.Server.Character
                 // Auras
                 foreach (IAura aura in _auras.Where(x => x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
                 {
-                    if (aura.Modifier == AuraModifiers.None)
-                        sb.AppendFormatLine("%B%{0}%x% for %c%{1}%x%",
-                            aura.Ability == null ? "Unknown" : aura.Ability.Name,
-                            StringHelpers.FormatDelay(aura.PulseLeft / Pulse.PulsePerSeconds));
-                    else
-                        sb.AppendFormatLine("%B%{0}%x% modifies %W%{1}%x% by %m%{2}{3}%x% for %c%{4}%x%",
-                            aura.Ability == null ? "Unknown" : aura.Ability.Name,
-                            aura.Modifier,
-                            aura.Amount,
-                            aura.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
-                            StringHelpers.FormatDelay(aura.PulseLeft / Pulse.PulsePerSeconds));
+                    //if (aura.Modifier == AuraModifiers.None)
+                    //    sb.AppendFormatLine("%B%{0}%x% for %c%{1}%x%",
+                    //        aura.Ability == null ? "Unknown" : aura.Ability.Name,
+                    //        StringHelpers.FormatDelay(aura.PulseLeft / Pulse.PulsePerSeconds));
+                    //else
+                    //    sb.AppendFormatLine("%B%{0}%x% modifies %W%{1}%x% by %m%{2}{3}%x% for %c%{4}%x%",
+                    //        aura.Ability == null ? "Unknown" : aura.Ability.Name,
+                    //        aura.Modifier,
+                    //        aura.Amount,
+                    //        aura.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
+                    //        StringHelpers.FormatDelay(aura.PulseLeft / Pulse.PulsePerSeconds));
+                    aura.Append(sb, false);
                 }
-                // Periodic auras
-                foreach (IPeriodicAura pa in _periodicAuras.Where(x => x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
-                {
-                    if (pa.AuraType == PeriodicAuraTypes.Damage)
-                        sb.AppendFormatLine("%B%{0}%x% %W%deals {1}{2}%x% {3} damage every %g%{4}%x% for %c%{5}%x%",
-                            pa.Ability == null ? "Unknown" : pa.Ability.Name,
-                            pa.Amount,
-                            pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
-                            StringHelpers.SchoolTypeColor(pa.School),
-                            StringHelpers.FormatDelay(pa.TickDelay),
-                            StringHelpers.FormatDelay(pa.SecondsLeft));
-                    else
-                        sb.AppendFormatLine("%B%{0}%x% %W%heals {1}{2}%x% hp every %g%{3}%x% for %c%{4}%x%",
-                            pa.Ability == null ? "Unknown" : pa.Ability.Name,
-                            pa.Amount,
-                            pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
-                            StringHelpers.FormatDelay(pa.TickDelay),
-                            StringHelpers.FormatDelay(pa.SecondsLeft));
-                }
+                // TODO
+                //// Periodic auras
+                //foreach (IPeriodicAura pa in _periodicAuras.Where(x => x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
+                //{
+                //    if (pa.AuraType == PeriodicAuraTypes.Damage)
+                //        sb.AppendFormatLine("%B%{0}%x% %W%deals {1}{2}%x% {3} damage every %g%{4}%x% for %c%{5}%x%",
+                //            pa.Ability == null ? "Unknown" : pa.Ability.Name,
+                //            pa.Amount,
+                //            pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
+                //            StringHelpers.SchoolTypeColor(pa.School),
+                //            StringHelpers.FormatDelay(pa.TickDelay),
+                //            StringHelpers.FormatDelay(pa.SecondsLeft));
+                //    else
+                //        sb.AppendFormatLine("%B%{0}%x% %W%heals {1}{2}%x% hp every %g%{3}%x% for %c%{4}%x%",
+                //            pa.Ability == null ? "Unknown" : pa.Ability.Name,
+                //            pa.Amount,
+                //            pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
+                //            StringHelpers.FormatDelay(pa.TickDelay),
+                //            StringHelpers.FormatDelay(pa.SecondsLeft));
+                //}
             }
             else
                 sb.AppendLine("%c%You are not affected by any spells.%x%");

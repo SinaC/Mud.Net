@@ -23,49 +23,49 @@ namespace Mud.Server.Abilities
 
         private readonly List<IAbility> _abilities = new List<IAbility> // TODO: dictionary on id + Trie on name
         {
-            // Linked to Power Word: Shield (cannot be used/casted)
-            new Ability(WeakenedSoulAbilityId, "Weakened Soul", AbilityTargets.Target, AbilityBehaviors.None, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.CannotBeUsed),
-            //
-            new Ability(10, "Bear Form", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.AuraIsHidden, new ChangeFormEffect(Forms.Bear)),
-            new Ability(11, "Cat Form", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.AuraIsHidden, new ChangeFormEffect(Forms.Cat)),
-            new Ability(19, "Shadow Form", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.AuraIsHidden, new ChangeFormEffect(Forms.Shadow)),
-            //
-            new Ability(100, "Wrath", AbilityTargets.Target, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 4, 4, 0, 0, SchoolTypes.Energy, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new DamageAbilityEffect(149, CharacterAttributes.Intelligence, SchoolTypes.Energy)),
-            new Ability(101, "Thrash(bear)", AbilityTargets.Room, AbilityBehaviors.Harmful, AbilityKinds.Skill, ResourceKinds.Rage, AmountOperators.Fixed, 50, 4, 0, 15, SchoolTypes.Slash, AbilityMechanics.Bleeding, DispelTypes.None, AbilityFlags.RequireBearForm, new DamageAbilityEffect(513, CharacterAttributes.Strength, SchoolTypes.Slash), new DotAbilityEffect(365, CharacterAttributes.Strength, SchoolTypes.Pierce, 3)),
-            new Ability(102, "Thrash(cat)", AbilityTargets.Room, AbilityBehaviors.Harmful, AbilityKinds.Skill, ResourceKinds.Energy, AmountOperators.Fixed, 50, 4, 0, 15, SchoolTypes.Pierce, AbilityMechanics.Bleeding, DispelTypes.None, AbilityFlags.RequireCatForm, new DamageAbilityEffect(513, CharacterAttributes.Strength, SchoolTypes.Pierce), new DotAbilityEffect(365, CharacterAttributes.Strength, SchoolTypes.Pierce, 3)),
-            new Ability(103, "Shadow Word: Pain", AbilityTargets.Target, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 1, 1, 0, 18, SchoolTypes.Negative, AbilityMechanics.None, DispelTypes.Magic, AbilityFlags.None, new DamageAbilityEffect(475, CharacterAttributes.Intelligence, SchoolTypes.Negative), new DotAbilityEffect(475, CharacterAttributes.Intelligence, SchoolTypes.Negative, 3)),
-            new Ability(104, "Rupture", AbilityTargets.Target, AbilityBehaviors.Harmful, AbilityKinds.Skill, ResourceKinds.Energy, AmountOperators.Fixed, 25, 4, 0, 8 /* TODO: multiplied by combo*/, SchoolTypes.Pierce, AbilityMechanics.Bleeding, DispelTypes.None, AbilityFlags.None, new DotAbilityEffect(685, CharacterAttributes.Strength, SchoolTypes.Pierce, 2)),
-            new Ability(105, "Renew", AbilityTargets.TargetOrSelf, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 2, 4, 0, 12, SchoolTypes.Holy, AbilityMechanics.None, DispelTypes.Magic, AbilityFlags.None, new HealAbilityEffect(22, CharacterAttributes.Intelligence), new HotAbilityEffect(44, CharacterAttributes.Intelligence, 3)),
-            new Ability(106, "Power Word: Shield", AbilityTargets.TargetOrSelf, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 2, 1, 6, 15, SchoolTypes.Holy, AbilityMechanics.Shielded, DispelTypes.Magic, AbilityFlags.None, new PowerWordShieldEffect()),
-            // TODO: + %maxHP should only be done on friendly target
-            new Ability(107, "Death Coil", AbilityTargets.TargetOrSelf, AbilityBehaviors.Any, AbilityKinds.Spell, ResourceKinds.Runic, AmountOperators.Fixed, 30, 4, 0, 30, SchoolTypes.Negative, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new DamageOrHealEffect(0.88m, 0.88m*5, CharacterAttributes.Strength, SchoolTypes.Negative), new AuraAbilityEffect(AuraModifiers.MaxHitPoints, 3, AmountOperators.Percentage)),
-            new Ability(108, "Berserking", AbilityTargets.Self, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 4, 3*60, 10, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackSpeed, 15, AmountOperators.Percentage)),
-            new Ability(109, "Battle Shout", AbilityTargets.Group, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 4, 0, 1*60*60, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackPower, 10, AmountOperators.Percentage)),
-            new Ability(110, "Swiftmend", AbilityTargets.TargetOrSelf, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 14, 1, 30, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new HealAbilityEffect(700,CharacterAttributes.Intelligence)),
+            //// Linked to Power Word: Shield (cannot be used/casted)
+            //new Ability(WeakenedSoulAbilityId, "Weakened Soul", AbilityTargets.Target, AbilityBehaviors.None, AbilityKinds.Spell, ResourceKinds.None, CostAmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.CannotBeUsed),
+            ////
+            //new Ability(10, "Bear Form", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Spell, ResourceKinds.None, CostAmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.AuraIsHidden, new ChangeFormEffect(Forms.Bear)),
+            //new Ability(11, "Cat Form", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Spell, ResourceKinds.None, CostAmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.AuraIsHidden, new ChangeFormEffect(Forms.Cat)),
+            //new Ability(19, "Shadow Form", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Spell, ResourceKinds.None, CostAmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.AuraIsHidden, new ChangeFormEffect(Forms.Shadow)),
+            ////
+            //new Ability(100, "Wrath", AbilityTargets.Target, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.Mana, CostAmountOperators.Percentage, 4, 4, 0, 0, SchoolTypes.Energy, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new DamageAbilityEffect(149, CharacterAttributes.Intelligence, SchoolTypes.Energy)),
+            //new Ability(101, "Thrash(bear)", AbilityTargets.Room, AbilityBehaviors.Harmful, AbilityKinds.Skill, ResourceKinds.Rage, CostAmountOperators.Fixed, 50, 4, 0, 15, SchoolTypes.Slash, AbilityMechanics.Bleeding, DispelTypes.None, AbilityFlags.RequireBearForm, new DamageAbilityEffect(513, CharacterAttributes.Strength, SchoolTypes.Slash), new DotAbilityEffect(365, CharacterAttributes.Strength, SchoolTypes.Pierce, 3)),
+            //new Ability(102, "Thrash(cat)", AbilityTargets.Room, AbilityBehaviors.Harmful, AbilityKinds.Skill, ResourceKinds.Energy, CostAmountOperators.Fixed, 50, 4, 0, 15, SchoolTypes.Pierce, AbilityMechanics.Bleeding, DispelTypes.None, AbilityFlags.RequireCatForm, new DamageAbilityEffect(513, CharacterAttributes.Strength, SchoolTypes.Pierce), new DotAbilityEffect(365, CharacterAttributes.Strength, SchoolTypes.Pierce, 3)),
+            //new Ability(103, "Shadow Word: Pain", AbilityTargets.Target, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.Mana, CostAmountOperators.Percentage, 1, 1, 0, 18, SchoolTypes.Negative, AbilityMechanics.None, DispelTypes.Magic, AbilityFlags.None, new DamageAbilityEffect(475, CharacterAttributes.Intelligence, SchoolTypes.Negative), new DotAbilityEffect(475, CharacterAttributes.Intelligence, SchoolTypes.Negative, 3)),
+            //new Ability(104, "Rupture", AbilityTargets.Target, AbilityBehaviors.Harmful, AbilityKinds.Skill, ResourceKinds.Energy, CostAmountOperators.Fixed, 25, 4, 0, 8 /* TODO: multiplied by combo*/, SchoolTypes.Pierce, AbilityMechanics.Bleeding, DispelTypes.None, AbilityFlags.None, new DotAbilityEffect(685, CharacterAttributes.Strength, SchoolTypes.Pierce, 2)),
+            //new Ability(105, "Renew", AbilityTargets.TargetOrSelf, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.Mana, CostAmountOperators.Percentage, 2, 4, 0, 12, SchoolTypes.Holy, AbilityMechanics.None, DispelTypes.Magic, AbilityFlags.None, new HealAbilityEffect(22, CharacterAttributes.Intelligence), new HotAbilityEffect(44, CharacterAttributes.Intelligence, 3)),
+            //new Ability(106, "Power Word: Shield", AbilityTargets.TargetOrSelf, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.Mana, CostAmountOperators.Percentage, 2, 1, 6, 15, SchoolTypes.Holy, AbilityMechanics.Shielded, DispelTypes.Magic, AbilityFlags.None, new PowerWordShieldEffect()),
+            //// TODO: + %maxHP should only be done on friendly target
+            //new Ability(107, "Death Coil", AbilityTargets.TargetOrSelf, AbilityBehaviors.Any, AbilityKinds.Spell, ResourceKinds.Runic, CostAmountOperators.Fixed, 30, 4, 0, 30, SchoolTypes.Negative, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new DamageOrHealEffect(0.88m, 0.88m*5, CharacterAttributes.Strength, SchoolTypes.Negative), new AuraAbilityEffect(AuraModifiers.MaxHitPoints, 3, CostAmountOperators.Percentage)),
+            //new Ability(108, "Berserking", AbilityTargets.Self, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.None, CostAmountOperators.None, 0, 4, 3*60, 10, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackSpeed, 15, CostAmountOperators.Percentage)),
+            //new Ability(109, "Battle Shout", AbilityTargets.Group, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.None, CostAmountOperators.None, 0, 4, 0, 1*60*60, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.AttackPower, 10, CostAmountOperators.Percentage)),
+            //new Ability(110, "Swiftmend", AbilityTargets.TargetOrSelf, AbilityBehaviors.Friendly, AbilityKinds.Spell, ResourceKinds.Mana, CostAmountOperators.Percentage, 14, 1, 30, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.None, new HealAbilityEffect(700,CharacterAttributes.Intelligence)),
 
-            new Ability(ParryAbilityId, "Parry", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
-            new Ability(DodgeAbilityId, "Dodge", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
-            new Ability(ShieldBlockAbilityId, "Shield Block", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
-            new Ability(DualWieldAbilityId, "Dual wield", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
-            new Ability(ThirdWieldAbilityId, "Third wield", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
-            new Ability(FourthWieldAbilityId, "Fourth wield", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, AmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
+            //new Ability(ParryAbilityId, "Parry", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, CostAmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
+            //new Ability(DodgeAbilityId, "Dodge", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, CostAmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
+            //new Ability(ShieldBlockAbilityId, "Shield Block", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, CostAmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
+            //new Ability(DualWieldAbilityId, "Dual wield", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, CostAmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
+            //new Ability(ThirdWieldAbilityId, "Third wield", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, CostAmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
+            //new Ability(FourthWieldAbilityId, "Fourth wield", AbilityTargets.Self, AbilityBehaviors.None, AbilityKinds.Skill, ResourceKinds.None, CostAmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.Passive),
 
-            new Ability(8888, "Smite", AbilityTargets.Target, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.Mana, AmountOperators.Percentage, 1, 1, 2, 0, SchoolTypes.Holy, AbilityMechanics.None, DispelTypes.None, AbilityFlags.CannotMiss, new DamageRangeAbilityEffect(516, 577, SchoolTypes.Holy), new HealSourceAbilityEffect(0.69m, CharacterAttributes.MaxHitPoints)),
+            //new Ability(8888, "Smite", AbilityTargets.Target, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.Mana, CostAmountOperators.Percentage, 1, 1, 2, 0, SchoolTypes.Holy, AbilityMechanics.None, DispelTypes.None, AbilityFlags.CannotMiss, new DamageRangeAbilityEffect(516, 577, SchoolTypes.Holy), new HealSourceAbilityEffect(0.69m, CharacterAttributes.MaxHitPoints)),
 
-            new Ability(999999, "Test", AbilityTargets.TargetOrSelf, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.None, AmountOperators.None, 0, 5, 0, 60, SchoolTypes.Negative, AbilityMechanics.Shielded, DispelTypes.Magic, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.HealAbsorb, 200000, AmountOperators.Fixed))
+            //new Ability(999999, "Test", AbilityTargets.TargetOrSelf, AbilityBehaviors.Harmful, AbilityKinds.Spell, ResourceKinds.None, CostAmountOperators.None, 0, 5, 0, 60, SchoolTypes.Negative, AbilityMechanics.Shielded, DispelTypes.Magic, AbilityFlags.None, new AuraAbilityEffect(AuraModifiers.HealAbsorb, 200000, CostAmountOperators.Fixed))
         };
 
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
         public AbilityManager()
         {
-            WeakenedSoulAbility = this[WeakenedSoulAbilityId];
-            ParryAbility = this[ParryAbilityId];
-            DodgeAbility = this[DodgeAbilityId];
-            ShieldBlockAbility = this[ShieldBlockAbilityId];
-            DualWieldAbility = this[DualWieldAbilityId];
-            ThirdWieldAbility = this[ThirdWieldAbilityId];
-            FourthWieldAbility = this[FourthWieldAbilityId];
+            //WeakenedSoulAbility = this[WeakenedSoulAbilityId];
+            //ParryAbility = this[ParryAbilityId];
+            //DodgeAbility = this[DodgeAbilityId];
+            //ShieldBlockAbility = this[ShieldBlockAbilityId];
+            //DualWieldAbility = this[DualWieldAbilityId];
+            //ThirdWieldAbility = this[ThirdWieldAbilityId];
+            //FourthWieldAbility = this[FourthWieldAbilityId];
         }
 
         #region IAbilityManager
@@ -143,7 +143,7 @@ namespace Mud.Server.Abilities
             }
             //3/ Check resource
             int cost = ability.CostAmount; // default value (always overwritten if significant)
-            if (ability.ResourceKind != ResourceKinds.None && ability.CostAmount > 0 && ability.CostType != AmountOperators.None)
+            if (ability.ResourceKind != ResourceKinds.None && ability.CostAmount > 0 && ability.CostType != CostAmountOperators.None)
             {
                 if (!source.CurrentResourceKinds.Contains(ability.ResourceKind)) // TODO: not sure about this test
                 {
@@ -151,9 +151,9 @@ namespace Mud.Server.Abilities
                     return false;
                 }
                 int resourceLeft = source[ability.ResourceKind];
-                if (ability.CostType == AmountOperators.Fixed)
+                if (ability.CostType == CostAmountOperators.Fixed)
                     cost = ability.CostAmount;
-                else //ability.CostType == AmountOperators.Percentage
+                else //ability.CostType == CostAmountOperators.Percentage
                 {
                     int maxResource = source.GetMaxResource(ability.ResourceKind);
                     cost = maxResource*ability.CostAmount/100;
@@ -247,7 +247,7 @@ namespace Mud.Server.Abilities
             //5/ Say ability
             SayAbility(ability, source);
             //6/ Pay resource cost
-            if (ability.ResourceKind != ResourceKinds.None && ability.CostAmount > 0 && ability.CostType != AmountOperators.None)
+            if (ability.ResourceKind != ResourceKinds.None && ability.CostAmount > 0 && ability.CostType != CostAmountOperators.None)
                 source.UpdateResource(ability.ResourceKind, -cost);
             //7/ Perform effect(s) on target(s)
             int level = source.Level;
@@ -283,8 +283,12 @@ namespace Mud.Server.Abilities
 
         private void ProcessOnOneTarget(ICharacter source, ICharacter victim, IAbility ability, int level, bool cannotMiss, bool cannotBeDodgedParriedBlocked)
         {
-            if (ability?.Effects == null || ability.Effects.Count == 0 || !source.IsValid || !victim.IsValid)
+            return;
+            if (!source.IsValid || !victim.IsValid)
                 return;
+            // TODO
+            //if (ability?.Effects == null || ability.Effects.Count == 0 || !source.IsValid || !victim.IsValid)
+            //    return;
 
             // Miss/Dodge/Parray/Block check (only for harmful ability)
             CombatHelpers.AttackResults attackResult = CombatHelpers.AttackResults.Hit;
@@ -360,9 +364,10 @@ namespace Mud.Server.Abilities
                 else
                     Log.Default.WriteLine(LogLevels.Error, $"Ability {ability.Name} has an invalid kind: {ability.Kind}");
             }
-            // Apply effects
-            foreach (AbilityEffect effect in ability.Effects)
-                effect.Process(source, victim, ability, level, attackResult);
+            // TODO
+            //// Apply effects
+            //foreach (AbilityEffect effect in ability.Effects)
+            //    effect.Process(source, victim, ability, level, attackResult);
         }
 
         private IAbility Search(IEnumerable<AbilityAndLevel> abilities, int level, CommandParameter parameter)
@@ -376,7 +381,7 @@ namespace Mud.Server.Abilities
                 .ElementAtOrDefault(parameter.Count - 1);
         }
 
-        private static Dictionary<string, string> SyllableTable = new Dictionary<string, string> // TODO: use Trie ?
+        private static readonly Dictionary<string, string> SyllableTable = new Dictionary<string, string> // TODO: use Trie ?
         {
             { " ",      " "     },
             { "ar",     "abra"      },

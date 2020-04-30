@@ -6,14 +6,12 @@
 
         // TODO: source
 
-        public AuraModifiers Modifier { get; set; }
-
-        public int Amount { get; set; }
-
-        public AmountOperators AmountOperator { get; set; }
-
         public int Level { get; set; }
 
         public int PulseLeft { get; set; }
+
+        public AuraFlags AuraFlags { get; set; }
+
+        // TODO: affects
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Server.Aura;
 using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server
@@ -32,6 +33,9 @@ namespace Mud.Server
 
         void AddBaseItemFlags(ItemFlags itemFlags);
         void RemoveBaseItemFlags(ItemFlags itemFlags);
+
+        // Affects
+        void ApplyAffect(ItemFlagsAffect affect);
 
         // Mapping
         ItemData MapItemData();

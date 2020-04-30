@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Server.Aura;
 
 namespace Mud.Server.Item
 {
@@ -11,5 +12,7 @@ namespace Mud.Server.Item
 
         WeaponFlags BaseWeaponFlags { get; }
         WeaponFlags CurrentWeaponFlags { get; }
+
+        void ApplyAffect(ItemWeaponFlagsAffect affect);
     }
 }

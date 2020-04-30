@@ -1,61 +1,37 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Mud.Domain;
 
 namespace Mud.Server
 {
     public interface IAura
     {
-        // Ability
-        IAbility Ability { get; }
+        bool IsValid { get; } // auras are not removed immediately but in cleanup step
 
-        // Source of Aura
-        IEntity Source { get; }
-
-        // Modifier
-        AuraModifiers Modifier { get; }
-
-        // Amount + %/fixed
-        int Amount { get; }
-        AmountOperators AmountOperator { get; }
-
-        // Level
         int Level { get; }
 
-        // Pulse left
-        int PulseLeft { get; } // -1: infinite
+        int PulseLeft { get; } // irrelevant if AuraFlags.Permanent is set
 
-        // Reset source
-        void ResetSource();
+        IAbility Ability { get; }
 
-        // Absorb, returns remaining damage (only for absorb Aura)
-        int Absorb(int amount);
+        IEntity Source { get; }
 
-        // Refresh with a new aura
-        void Refresh(IAura aura);
+        AuraFlags AuraFlags { get; }
 
-        // Change level, amount and pulse
-        void Modify(int? level, int? amount, TimeSpan? ts);
+        IEnumerable<IAffect> Affects { get; } // affects linked to this aura
 
-        // Change level, amount, pulse and ability
-        void Modify(int? level, int? amount, TimeSpan? ts, IAbility ability);
+        bool DecreasePulseLeft(int pulseCount); // return true if timed out
 
-        // Called when dispelled
-        void OnDispelled(IEntity dispelSource);
+        void OnRemoved(); // set IsValid, Ability, Source
 
-        // Called when vanished
-        void OnVanished();
+        // TODO: search affect method
+        // TODO: method to 'merge' affect
 
-        // Decrease pulse left
-        bool DecreasePulseLeft(int pulseCount); // true if timed out
+        // Display
+        void Append(StringBuilder sb, bool displayHidden);
 
         // Serialization
         AuraData MapAuraData();
     }
-
-    // TODO ???
-    //public interface IAbsorbAura : IAura
-    //{
-    //    // Absorb, returns remaining damage (only for absorb Aura)
-    //    int Absorb(int damage);
-    //}
 }

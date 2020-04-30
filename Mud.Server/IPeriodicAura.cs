@@ -24,7 +24,7 @@ namespace Mud.Server
 
         // Amount + %/fixed
         int Amount { get; }
-        AmountOperators AmountOperator { get; }
+        //AmountOperators AmountOperator { get; }
 
         // Level
         int Level { get; }

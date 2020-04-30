@@ -920,13 +920,15 @@ namespace Mud.Server.Server
                         bool timedOut = aura.DecreasePulseLeft(pulseCount);
                         if (timedOut)
                         {
-                            aura.OnVanished();
+                            //TODO: aura.OnVanished();
+                            // TODO: Set Validity to false
                             character.RemoveAura(aura, false); // recompute once each aura has been processed
                             needsRecompute = true;
                         }
                     }
                     if (needsRecompute)
                         character.Recompute();
+                    // TODO: remove invalid auras
                 }
                 catch (Exception ex)
                 {

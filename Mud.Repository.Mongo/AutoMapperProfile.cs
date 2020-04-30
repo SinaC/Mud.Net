@@ -39,8 +39,7 @@ namespace Mud.Repository.Mongo
             CreateMap<Mud.Domain.CurrentQuestObjectiveData, Domain.CurrentQuestObjectiveData>();
 
             CreateMap<Mud.Domain.AuraData, Domain.AuraData>()
-                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapAuraModifier(x.Modifier)))
-                .ForMember(x => x.AmountOperator, expression => expression.MapFrom(x => MapAmountOperator(x.AmountOperator)));
+                .ForMember(x => x.AuraFlags, expression => expression.MapFrom(x => MapAuraFlags(x.AuraFlags)));
         }
 
         private void InternalToExternal()
@@ -68,8 +67,7 @@ namespace Mud.Repository.Mongo
             CreateMap<Domain.CurrentQuestObjectiveData, Mud.Domain.CurrentQuestObjectiveData>();
 
             CreateMap<Domain.AuraData, Mud.Domain.AuraData>()
-                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapAuraModifier(x.Modifier)))
-                .ForMember(x => x.AmountOperator, expression => expression.MapFrom(x => MapAmountOperator(x.AmountOperator)));
+                .ForMember(x => x.AuraFlags, expression => expression.MapFrom(x => MapAuraFlags(x.AuraFlags)));
         }
 
         private Mud.Domain.WiznetFlags MapWiznetFlags(int flags)
@@ -264,110 +262,14 @@ namespace Mud.Repository.Mongo
             return (int)flags;
         }
 
-        private Mud.Domain.AuraModifiers MapAuraModifier(int modifier)
+        private Mud.Domain.AuraFlags MapAuraFlags(int flags)
         {
-            switch (modifier)
-            {
-                case 0: return Mud.Domain.AuraModifiers.None;
-                case 1: return Mud.Domain.AuraModifiers.Strength;
-                case 2: return Mud.Domain.AuraModifiers.Agility;
-                case 3: return Mud.Domain.AuraModifiers.Stamina;
-                case 4: return Mud.Domain.AuraModifiers.Intellect;
-                case 5: return Mud.Domain.AuraModifiers.Spirit;
-                case 6: return Mud.Domain.AuraModifiers.Characteristics;
-                case 7: return Mud.Domain.AuraModifiers.AttackSpeed;
-                case 8: return Mud.Domain.AuraModifiers.AttackPower;
-                case 9: return Mud.Domain.AuraModifiers.SpellPower;
-                case 10: return Mud.Domain.AuraModifiers.MaxHitPoints;
-                case 11: return Mud.Domain.AuraModifiers.DamageAbsorb;
-                case 12: return Mud.Domain.AuraModifiers.HealAbsorb;
-                case 13: return Mud.Domain.AuraModifiers.Armor;
-                case 14: return Mud.Domain.AuraModifiers.Critical;
-                case 15: return Mud.Domain.AuraModifiers.Dodge;
-                case 16: return Mud.Domain.AuraModifiers.Parry;
-                case 17: return Mud.Domain.AuraModifiers.Block;
-                case 18: return Mud.Domain.AuraModifiers.CharacterFlags;
-                case 19: return Mud.Domain.AuraModifiers.SavingThrow;
-                case 20: return Mud.Domain.AuraModifiers.HitRoll;
-                case 21: return Mud.Domain.AuraModifiers.DamRoll;
-                case 22: return Mud.Domain.AuraModifiers.Immunities;
-                case 23: return Mud.Domain.AuraModifiers.Resistances;
-                case 24: return Mud.Domain.AuraModifiers.Vulnerabilities;
-                case 25: return Mud.Domain.AuraModifiers.Sex;
-                case 26: return Mud.Domain.AuraModifiers.ItemFlags;
-                case 27: return Mud.Domain.AuraModifiers.Dexterity;
-                case 28: return Mud.Domain.AuraModifiers.MaxMovePoints;
-                default:
-                    Log.Default.WriteLine(LogLevels.Error, $"Invalid AuraModifier {modifier} while reading pfile");
-                    return Mud.Domain.AuraModifiers.None;
-            }
+            return (Mud.Domain.AuraFlags)flags;
         }
 
-        private int MapAuraModifier(Mud.Domain.AuraModifiers modifier)
+        private int MapAuraFlags(Mud.Domain.AuraFlags flags)
         {
-            switch (modifier)
-            {
-                case Mud.Domain.AuraModifiers.None: return 0;
-                case Mud.Domain.AuraModifiers.Strength: return 1;
-                case Mud.Domain.AuraModifiers.Agility: return 2;
-                case Mud.Domain.AuraModifiers.Stamina: return 3;
-                case Mud.Domain.AuraModifiers.Intellect: return 4;
-                case Mud.Domain.AuraModifiers.Spirit: return 5;
-                case Mud.Domain.AuraModifiers.Characteristics: return 6;
-                case Mud.Domain.AuraModifiers.AttackSpeed: return 7;
-                case Mud.Domain.AuraModifiers.AttackPower: return 8;
-                case Mud.Domain.AuraModifiers.SpellPower: return 9;
-                case Mud.Domain.AuraModifiers.MaxHitPoints: return 10;
-                case Mud.Domain.AuraModifiers.DamageAbsorb: return 11;
-                case Mud.Domain.AuraModifiers.HealAbsorb: return 12;
-                case Mud.Domain.AuraModifiers.Armor: return 13;
-                case Mud.Domain.AuraModifiers.Critical: return 14;
-                case Mud.Domain.AuraModifiers.Dodge: return 15;
-                case Mud.Domain.AuraModifiers.Parry: return 16;
-                case Mud.Domain.AuraModifiers.Block: return 17;
-                case Mud.Domain.AuraModifiers.CharacterFlags: return 18;
-                case Mud.Domain.AuraModifiers.SavingThrow: return 19;
-                case Mud.Domain.AuraModifiers.HitRoll: return 20;
-                case Mud.Domain.AuraModifiers.DamRoll: return 21;
-                case Mud.Domain.AuraModifiers.Immunities: return 22;
-                case Mud.Domain.AuraModifiers.Resistances: return 23;
-                case Mud.Domain.AuraModifiers.Vulnerabilities: return 24;
-                case Mud.Domain.AuraModifiers.Sex: return 25;
-                case Mud.Domain.AuraModifiers.ItemFlags: return 26;
-                case Mud.Domain.AuraModifiers.Dexterity: return 27;
-                case Mud.Domain.AuraModifiers.MaxMovePoints: return 28;
-                default:
-                    Log.Default.WriteLine(LogLevels.Error, $"Invalid AuraModifier {modifier} while writing pfile");
-                    return 0;
-            }
-        }
-
-        private Mud.Domain.AmountOperators MapAmountOperator(int op)
-        {
-            switch (op)
-            {
-                case 0: return Mud.Domain.AmountOperators.None;
-                case 1: return Mud.Domain.AmountOperators.Fixed;
-                case 2: return Mud.Domain.AmountOperators.Percentage;
-                case 3: return Mud.Domain.AmountOperators.Flags;
-                default:
-                    Log.Default.WriteLine(LogLevels.Error, $"Invalid AuraOperator {op} while reading pfile");
-                    return Mud.Domain.AmountOperators.None;
-            }
-        }
-
-        private int MapAmountOperator(Mud.Domain.AmountOperators op)
-        {
-            switch (op)
-            {
-                case Mud.Domain.AmountOperators.None: return 0;
-                case Mud.Domain.AmountOperators.Fixed: return 1;
-                case Mud.Domain.AmountOperators.Percentage: return 2;
-                case Mud.Domain.AmountOperators.Flags: return 3;
-                default:
-                    Log.Default.WriteLine(LogLevels.Error, $"Invalid AuraOperator {op} while writing pfile");
-                    return 0;
-            }
+            return (int)flags;
         }
     }
 }

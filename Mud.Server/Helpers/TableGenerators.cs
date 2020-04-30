@@ -20,7 +20,7 @@ namespace Mud.Server.Helpers
                 {
                     if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
                         return "%m%passive ability%x%";
-                    if (x.Ability.CostType == AmountOperators.Percentage || x.Ability.CostType == AmountOperators.Fixed)
+                    if (x.Ability.CostType == CostAmountOperators.Percentage || x.Ability.CostType == CostAmountOperators.Fixed)
                         return StringHelpers.ResourceColor(x.Ability.ResourceKind);
                     return "%W%free cost ability%x%";
                 },
@@ -30,7 +30,7 @@ namespace Mud.Server.Helpers
                     {
                         if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
                             return 1;
-                        if (x.Ability.CostType == AmountOperators.Percentage || x.Ability.CostType == AmountOperators.Fixed)
+                        if (x.Ability.CostType == CostAmountOperators.Percentage || x.Ability.CostType == CostAmountOperators.Fixed)
                             return 0;
                         return 1;
                     }
@@ -38,7 +38,7 @@ namespace Mud.Server.Helpers
             generator.AddColumn("Cost", 8, x => x.Ability.CostAmount.ToString(),
                 new TableGenerator<AbilityAndLevel>.ColumnOptions
                 {
-                    GetTrailingSpaceFunc = x => x.Ability.CostType == AmountOperators.Percentage ? "% " : " "
+                    GetTrailingSpaceFunc = x => x.Ability.CostType == CostAmountOperators.Percentage ? "% " : " "
                 });
             generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
             generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
@@ -113,7 +113,7 @@ namespace Mud.Server.Helpers
                 {
                     if ((x.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
                         return "%m%passive ability%x%";
-                    if (x.CostType == AmountOperators.Percentage || x.CostType == AmountOperators.Fixed)
+                    if (x.CostType == CostAmountOperators.Percentage || x.CostType == CostAmountOperators.Fixed)
                         return StringHelpers.ResourceColor(x.ResourceKind);
                     return "%W%free cost ability%x%";
                 },
@@ -123,7 +123,7 @@ namespace Mud.Server.Helpers
                     {
                         if ((x.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
                             return 1;
-                        if (x.CostType == AmountOperators.Percentage || x.CostType == AmountOperators.Fixed)
+                        if (x.CostType == CostAmountOperators.Percentage || x.CostType == CostAmountOperators.Fixed)
                             return 0;
                         return 1;
                     }
@@ -131,7 +131,7 @@ namespace Mud.Server.Helpers
             generator.AddColumn("Cost", 8, x => x.CostAmount.ToString(),
                 new TableGenerator<IAbility>.ColumnOptions
                 {
-                    GetTrailingSpaceFunc = x => x.CostType == AmountOperators.Percentage ? "% " : " "
+                    GetTrailingSpaceFunc = x => x.CostType == CostAmountOperators.Percentage ? "% " : " "
                 });
             generator.AddColumn("Type", 10, x => x.Kind.ToString());
             generator.AddColumn("Cooldown", 10, x => x.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Cooldown) : "---");
@@ -150,7 +150,7 @@ namespace Mud.Server.Helpers
                 {
                     if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
                         return "%m%passive ability%x%";
-                    if (x.Ability.CostType == AmountOperators.Percentage || x.Ability.CostType == AmountOperators.Fixed)
+                    if (x.Ability.CostType == CostAmountOperators.Percentage || x.Ability.CostType == CostAmountOperators.Fixed)
                         return StringHelpers.ResourceColor(x.Ability.ResourceKind);
                     return "%W%free cost ability%x%";
                 },
@@ -160,7 +160,7 @@ namespace Mud.Server.Helpers
                     {
                         if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
                             return 1;
-                        if (x.Ability.CostType == AmountOperators.Percentage || x.Ability.CostType == AmountOperators.Fixed)
+                        if (x.Ability.CostType == CostAmountOperators.Percentage || x.Ability.CostType == CostAmountOperators.Fixed)
                             return 0;
                         return 1;
                     }
@@ -168,7 +168,7 @@ namespace Mud.Server.Helpers
             generator.AddColumn("Cost", 8, x => x.Ability.CostAmount.ToString(),
                 new TableGenerator<AbilityAndLevel>.ColumnOptions
                 {
-                    GetTrailingSpaceFunc = x => x.Ability.CostType == AmountOperators.Percentage ? "% " : " "
+                    GetTrailingSpaceFunc = x => x.Ability.CostType == CostAmountOperators.Percentage ? "% " : " "
                 });
             generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
             generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");

@@ -159,11 +159,11 @@ namespace Mud.Server.Helpers
             return "does %b%U%r%N%g%S%y%P%c%E%m%A%r%K%b%A%g%B%y%L%c%E %x%things to";
         }
 
-        public static string FormatDelay(int delay)
+        public static string FormatDelay(int delayInSeconds)
         {
-            if (delay < 60)
-                return delay + " second" + (delay != 1 ? "s" : string.Empty);
-            int minutes = (delay + 60 - 1)/60; // -> ceil(x/60)
+            if (delayInSeconds < 60)
+                return delayInSeconds + " second" + (delayInSeconds != 1 ? "s" : string.Empty);
+            int minutes = (delayInSeconds + 60 - 1)/60; // -> ceil(x/60)
             if (minutes < 60)
                 return minutes + " minute" + (minutes != 1 ? "s" : string.Empty);
             int hours = (minutes + 60 - 1)/60; // -> ceil(x/60)
@@ -173,11 +173,11 @@ namespace Mud.Server.Helpers
             return days + " day" + (days != 1 ? "s" : string.Empty);
         }
 
-        public static string FormatDelayShort(int delay)
+        public static string FormatDelayShort(int delayInSeconds)
         {
-            if (delay < 60)
-                return delay + " sec";
-            int minutes = (delay + 60 - 1) / 60; // -> ceil(x/60)
+            if (delayInSeconds < 60)
+                return delayInSeconds + " sec";
+            int minutes = (delayInSeconds + 60 - 1) / 60; // -> ceil(x/60)
             if (minutes < 60)
                 return minutes + " min";
             int hours = (minutes + 60 - 1) / 60; // -> ceil(x/60)
@@ -185,6 +185,18 @@ namespace Mud.Server.Helpers
                 return hours + " hour" + (hours != 1 ? "s" : string.Empty);
             int days = (hours + 24 - 1) / 24;
             return days + " day" + (days != 1 ? "s" : string.Empty);
+        }
+
+        public static string PrettyPrint(this AffectOperators op)
+        {
+            switch (op)
+            {
+                case AffectOperators.Add: return "by";
+                case AffectOperators.Or: return "by adding";
+                case AffectOperators.Assign: return "by setting to";
+                case AffectOperators.Nor: return "by removing";
+            }
+            return "???";
         }
     }
 }

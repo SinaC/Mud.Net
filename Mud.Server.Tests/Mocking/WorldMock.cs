@@ -278,26 +278,20 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IAura AddAura(IEntity entity, IAbility ability, IEntity source, AuraModifiers modifier, int amount, AmountOperators amountOperator, int level, TimeSpan ts, bool visible)
+        public IAura AddAura(IEntity target, IAbility ability, IEntity source, int level, TimeSpan ts, AuraFlags auraFlags, bool recompute, params IAffect[] affects)
         {
             throw new NotImplementedException();
         }
 
-        public IAura AddAura<T>(IEntity entity, IAbility ability, IEntity source, AuraModifiers modifier, T value, int level, TimeSpan ts, bool recompute)
-            where T : Enum
-        {
-            throw new NotImplementedException();
-        }
+        //public IPeriodicAura AddPeriodicAura(IEntity entity, IAbility ability, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public IPeriodicAura AddPeriodicAura(IEntity entity, IAbility ability, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IPeriodicAura AddPeriodicAura(IEntity entity, IAbility ability, IEntity source, SchoolTypes school, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
-        {
-            throw new NotImplementedException();
-        }
+        //public IPeriodicAura AddPeriodicAura(IEntity entity, IAbility ability, IEntity source, SchoolTypes school, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public void RemoveCharacter(ICharacter character)
         {

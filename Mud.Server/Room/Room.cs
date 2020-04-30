@@ -6,6 +6,7 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
+using Mud.Server.Aura;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
@@ -50,9 +51,19 @@ namespace Mud.Server.Room
         // Recompute
         public override void Recompute()
         {
-            CurrentRoomFlags = BaseRoomFlags;
+            // 0) Reset
+            ResetAttributes();
 
-            // TODO apply auras
+            // 1) Apply own auras
+            ApplyAuras(this);
+
+            // 2) Apply people auras
+            foreach (ICharacter character in People)
+                ApplyAuras(character);
+
+            // 3) Apply content auras
+            foreach (IItem item in Content)
+                ApplyAuras(item);
         }
 
         //
@@ -109,6 +120,22 @@ namespace Mud.Server.Room
                 yield return (character, character.Blueprint as TBlueprint);
         }
 
+        public bool IsPrivate
+        {
+            get
+            {
+                // TODO: ownership
+                int count = People.Count();
+                if (CurrentRoomFlags.HasFlag(RoomFlags.Private) && count >= 2)
+                    return true;
+                if (CurrentRoomFlags.HasFlag(RoomFlags.Solitary) && count >= 1)
+                    return true;
+                if (CurrentRoomFlags.HasFlag(RoomFlags.ImpOnly))
+                    return true;
+                return false;
+            }
+        }
+
         public IExit[] Exits { get; }
 
         public IExit Exit(ExitDirections direction)
@@ -120,19 +147,6 @@ namespace Mud.Server.Room
         {
             IExit exit = Exit(direction);
             return exit?.Destination;
-        }
-
-        public bool IsPrivate()
-        {
-            // TODO: ownership
-            int count = People.Count();
-            if (CurrentRoomFlags.HasFlag(RoomFlags.Private) && count >= 2)
-                return true;
-            if (CurrentRoomFlags.HasFlag(RoomFlags.Solitary) && count >= 1)
-                return true;
-            if (CurrentRoomFlags.HasFlag(RoomFlags.ImpOnly))
-                return true;
-            return false;
         }
 
         public bool Enter(ICharacter character)
@@ -162,7 +176,45 @@ namespace Mud.Server.Room
             return removed;
         }
 
+        public void ApplyAffect(RoomFlagsAffect affect)
+        {
+            switch (affect.Operator)
+            {
+                case AffectOperators.Add:
+                case AffectOperators.Or:
+                    CurrentRoomFlags |= affect.Modifier;
+                    break;
+                case AffectOperators.Assign:
+                    CurrentRoomFlags = affect.Modifier;
+                    break;
+                case AffectOperators.Nor:
+                    CurrentRoomFlags &= ~affect.Modifier;
+                    break;
+                default:
+                    break;
+            }
+            return;
+        }
+
         #endregion
+
+        protected virtual void ResetAttributes()
+        {
+            CurrentRoomFlags = BaseRoomFlags;
+        }
+
+        protected void ApplyAuras(IEntity entity)
+        {
+            if (!entity.IsValid)
+                return;
+            foreach (IAura aura in entity.Auras.Where(x => x.IsValid))
+            {
+                foreach (IRoomAffect affect in aura.Affects.OfType<IRoomAffect>())
+                {
+                    affect.Apply(this);
+                }
+            }
+        }
 
         [Command("test", "!!Test!!")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)

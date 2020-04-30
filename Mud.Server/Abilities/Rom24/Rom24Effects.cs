@@ -4,6 +4,7 @@ using Mud.Server.Common;
 using Mud.Server.Item;
 using System;
 using System.Linq;
+using Mud.Server.Aura;
 
 namespace Mud.Server.Abilities.Rom24
 {
@@ -234,8 +235,9 @@ namespace Mud.Server.Abilities.Rom24
                     victim.Act(ActOptions.ToRoom, "{0} is blinded by smoke!", victim);
                     IAbility fireBreath = AbilityManager["Fire Breath"];
                     int duration = RandomManager.Range(1, level / 10);
-                    World.AddAura(victim, fireBreath, source, AuraModifiers.HitRoll, -4, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-                    World.AddAura<CharacterFlags>(victim, fireBreath, source, AuraModifiers.CharacterFlags, CharacterFlags.Blind, level, TimeSpan.FromMinutes(duration), false);
+                    World.AddAura(victim, fireBreath, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
+                        new CharacterAttributeAffect {Operator = AffectOperators.Add, Modifier = -4, Location = CharacterAttributeAffectLocations.HitRoll},
+                        new CharacterFlagsAffect {Operator = AffectOperators.Or, Modifier = CharacterFlags.Blind});
                 }
                 // getting thirsty
                 // TODO: gain_condition(victim,COND_THIRST,dam/20); if NPC

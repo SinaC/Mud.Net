@@ -11,18 +11,14 @@ namespace Mud.Repository.Filesystem.DataContracts
         // TODO: source
 
         [DataMember]
-        public int Modifier { get; set; }
-
-        [DataMember]
-        public int Amount { get; set; }
-
-        [DataMember]
-        public int AmountOperator { get; set; }
-
-        [DataMember]
         public int Level { get; set; }
 
         [DataMember]
         public int PulseLeft { get; set; }
+
+        [DataMember]
+        public int AuraFlags { get; set; }
+
+        // TODO: affects
     }
 }
