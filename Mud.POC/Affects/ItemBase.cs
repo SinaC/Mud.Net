@@ -5,11 +5,17 @@ namespace Mud.POC.Affects
 {
     public abstract class ItemBase : EntityBase, IItem
     {
-        public ItemBase(string name, IEntity containedIn, ICharacter equipedBy)
+        protected ItemBase(string name, IEntity containedIn, ICharacter equipedBy)
             : base(name)
         {
             ContainedIn = containedIn;
             EquipedBy = equipedBy;
+        }
+
+        protected ItemBase(string name, IEntity containedIn, ICharacter equipedBy, ItemFlags itemFlags)
+            : this(name, containedIn, equipedBy)
+        {
+            BaseItemFlags = itemFlags;
         }
 
         public IEntity ContainedIn { get; private set; }

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
+using Mud.Domain;
 
 namespace Mud.POC.Affects
 {
@@ -23,15 +25,21 @@ namespace Mud.POC.Affects
 
         void OnRemoved(); // set IsValid, Ability, Source
 
+        // Display
         void Append(StringBuilder sb);
+
+        // Serialization
+        AuraData MapAuraData();
     }
 
+    [Flags]
     public enum AuraFlags
     {
-        StayDeath = 0, // Remains even if affected dies
-        NoDispel = 1, // Can't be dispelled
-        Permanent = 2, // No duration
-        Hidden = 3, // Not displayed
+        None = 0x0,
+        StayDeath = 0x1, // Remains even if affected dies
+        NoDispel = 0x2, // Can't be dispelled
+        Permanent = 0x4, // No duration
+        Hidden = 0x8, // Not displayed
     }
 
 }

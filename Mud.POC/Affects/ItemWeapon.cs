@@ -9,6 +9,12 @@ namespace Mud.POC.Affects
         {
         }
 
+        public ItemWeapon(string name, IEntity containedInto, ICharacter equipedBy, ItemFlags itemFlags, WeaponFlags weaponFlags)
+            : base(name, containedInto, equipedBy, itemFlags)
+        {
+            BaseWeaponFlags = weaponFlags;
+        }
+
         public WeaponFlags BaseWeaponFlags { get; protected set; }
 
         public WeaponFlags CurrentWeaponFlags { get; protected set; }
