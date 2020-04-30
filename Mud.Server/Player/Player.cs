@@ -342,13 +342,13 @@ namespace Mud.Server.Player
         protected string BuildCharacterPrompt(IPlayableCharacter character) // TODO: custom prompt defined by player
         {
             StringBuilder sb = new StringBuilder("<");
-            sb.Append($"{character.HitPoints}/{character[SecondaryAttributeTypes.MaxHitPoints]}Hp");
-            sb.Append($" {character.MovePoints}/{character[SecondaryAttributeTypes.MaxMovePoints]}Mv");
+            sb.Append($"{character.HitPoints}/{character.CurrentAttributes(CharacterAttributes.MaxHitPoints)}Hp");
+            sb.Append($" {character.MovePoints}/{character.CurrentAttributes(CharacterAttributes.MaxMovePoints)}Mv");
             foreach (ResourceKinds resourceKinds in character.CurrentResourceKinds)
                 sb.Append($" {character[resourceKinds]}/{character.GetMaxResource(resourceKinds)}{resourceKinds}");
             sb.Append($" {character.ExperienceToLevel}Nxt");
             if (character.Fighting != null)
-                sb.Append($" {(int)(100d*character.Fighting.HitPoints/character.Fighting[SecondaryAttributeTypes.MaxHitPoints])}%");
+                sb.Append($" {(int)(100d*character.Fighting.HitPoints/character.Fighting.CurrentAttributes(CharacterAttributes.MaxHitPoints))}%");
             sb.Append(">");
             return sb.ToString();
         }

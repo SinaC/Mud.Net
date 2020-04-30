@@ -32,6 +32,6 @@ namespace Mud.Server.Tests.Mocking
 
         public IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form) => Enumerable.Empty<ResourceKinds>();
 
-        public int GetPrimaryAttributeByLevel(PrimaryAttributeTypes primaryAttribute, int level) => level;
+        public int GetAttributeByLevel(CharacterAttributes attribute, int level) => level;
     }
 }

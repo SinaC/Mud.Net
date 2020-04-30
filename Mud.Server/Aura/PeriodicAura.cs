@@ -92,7 +92,7 @@ namespace Mud.Server.Aura
 
                 int amount = Amount;
                 if (AmountOperator == AmountOperators.Percentage)
-                    amount = victim[SecondaryAttributeTypes.MaxHitPoints] * Amount / 100; // percentage of max hit points
+                    amount = victim.CurrentAttributes(CharacterAttributes.MaxHitPoints) * Amount / 100; // percentage of max hit points
                 if (AuraType == PeriodicAuraTypes.Heal)
                     victim.Heal(Source, Ability, amount, TickVisible);
                 else if (AuraType == PeriodicAuraTypes.Damage)

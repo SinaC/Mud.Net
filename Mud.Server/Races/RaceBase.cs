@@ -47,7 +47,7 @@ namespace Mud.Server.Races
 
         public virtual IEnumerable<EquipmentSlots> EquipmentSlots => _basicSlots;
 
-        public abstract int GetPrimaryAttributeModifier(PrimaryAttributeTypes primaryAttribute);
+        public abstract int GetAttributeModifier(CharacterAttributes attribute);
 
         #endregion
 

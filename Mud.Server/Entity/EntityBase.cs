@@ -113,7 +113,7 @@ namespace Mud.Server.Entity
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "IEntity.ResetAttributes: {0} is not valid anymore", DebugName);
+                Log.Default.WriteLine(LogLevels.Error, "IEntity.Reset: {0} is not valid anymore", DebugName);
                 return;
             }
 
@@ -122,7 +122,7 @@ namespace Mud.Server.Entity
             _auras.Clear();
         }
 
-        public abstract void RecomputeAttributes();
+        public abstract void Recompute();
 
         // Auras
         public IAura GetAura(int abilityId)
@@ -234,7 +234,7 @@ namespace Mud.Server.Entity
                     Send("You are now affected by {0}.", aura.Ability == null ? "Something" : aura.Ability.Name);
             }
             if (recompute)
-                RecomputeAttributes();
+                Recompute();
         }
 
         public void RemoveAura(IAura aura, bool recompute)
@@ -246,7 +246,7 @@ namespace Mud.Server.Entity
             else if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
                 Send("{0} vanishes.", aura.Ability == null ? "Something" : aura.Ability.Name);
             if (recompute && removed)
-                RecomputeAttributes();
+                Recompute();
         }
 
         public void RemoveAuras(Func<IAura, bool> filterFunc, bool recompute)
@@ -254,7 +254,7 @@ namespace Mud.Server.Entity
             Log.Default.WriteLine(LogLevels.Info, "IEntity.RemoveAuras: {0} | recompute: {1}", DebugName, recompute);
             _auras.RemoveAll(x => filterFunc(x));
             if (recompute)
-                RecomputeAttributes();
+                Recompute();
         }
 
         public virtual string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false)

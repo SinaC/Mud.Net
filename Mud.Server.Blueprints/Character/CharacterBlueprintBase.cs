@@ -45,6 +45,8 @@ namespace Mud.Server.Blueprints.Character
         [DataMember]
         public IRVFlags Vulnerabilities { get; set; } // TODO: assign
 
+        // TODO CharacterAttributes
+
         [DataMember]
         public int Alignment { get; set; }
 

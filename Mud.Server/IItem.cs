@@ -19,7 +19,8 @@ namespace Mud.Server
         int Cost { get; }
         bool NoTake { get; }
 
-        ItemFlags ItemFlags { get; }
+        ItemFlags BaseItemFlags { get; }
+        ItemFlags CurrentItemFlags { get; }
 
         bool IsQuestObjective(IPlayableCharacter questingCharacter);
 
@@ -27,13 +28,10 @@ namespace Mud.Server
 
         void DecreaseDecayPulseLeft(int pulseCount);
 
-        void AddItemFlags(ItemFlags itemFlags);
-
-        void RemoveItemFlags(ItemFlags itemFlags);
-
-        void ClearItemFlags();
-
         void SetDecayPulseLeft(int pulseCount);
+
+        void AddBaseItemFlags(ItemFlags itemFlags);
+        void RemoveBaseItemFlags(ItemFlags itemFlags);
 
         // Mapping
         ItemData MapItemData();

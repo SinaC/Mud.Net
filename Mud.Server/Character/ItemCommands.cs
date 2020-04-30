@@ -45,14 +45,11 @@ namespace Mud.Server.Character
                     }
 
                     if (itemEquipped)
-                        RecomputeAttributes();
+                        Recompute();
                     return CommandExecutionResults.Ok;
                 }
-                else
-                {
-                    Send(StringHelpers.ItemInventoryNotFound);
-                    return CommandExecutionResults.TargetNotFound;
-                }
+                Send(StringHelpers.ItemInventoryNotFound);
+                return CommandExecutionResults.TargetNotFound;
             }
             // wear item
             IItem item = FindHelpers.FindByName(Inventory.Where(CanSee), parameters[0]);
@@ -68,7 +65,7 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.InvalidTarget;
             }
             WearItem(equipable, true);
-            RecomputeAttributes();
+            Recompute();
             return CommandExecutionResults.Ok;
         }
 
@@ -101,7 +98,7 @@ namespace Mud.Server.Character
             }
             //
             WearItem(equipable, true);
-            RecomputeAttributes();
+            Recompute();
             return CommandExecutionResults.Ok;
         }
 
@@ -129,7 +126,7 @@ namespace Mud.Server.Character
             }
             //
             WearItem(equipable, true);
-            RecomputeAttributes();
+            Recompute();
             return CommandExecutionResults.Ok;
         }
 
@@ -154,7 +151,7 @@ namespace Mud.Server.Character
             bool removed = RemoveItem(equipmentSlot);
             if (!removed)
                 return CommandExecutionResults.InvalidTarget;
-            RecomputeAttributes();
+            Recompute();
             return CommandExecutionResults.Ok;
         }
 
@@ -365,8 +362,8 @@ namespace Mud.Server.Character
 
             // Give item to victim
             what.ChangeContainer(whom);
-            whom.RecomputeAttributes();
-            RecomputeAttributes();
+            whom.Recompute();
+            Recompute();
 
             ActToNotVictim(whom, "{0} gives {1} to {2}.", this, what, whom);
             whom.Act(ActOptions.ToCharacter, "{0} gives you {1}.", this, what);
@@ -485,7 +482,7 @@ namespace Mud.Server.Character
         private bool DropItem(IItem item)
         {
             //
-            if (item.ItemFlags.HasFlag(ItemFlags.NoDrop))
+            if (item.CurrentItemFlags.HasFlag(ItemFlags.NoDrop))
             {
                 Send("You can't let go of it.");
                 return false;
@@ -496,7 +493,7 @@ namespace Mud.Server.Character
             item.ChangeContainer(Room);
 
             //
-            if (item.ItemFlags.HasFlag(ItemFlags.MeltOnDrop))
+            if (item.CurrentItemFlags.HasFlag(ItemFlags.MeltOnDrop))
             {
                 Act(ActOptions.ToAll, "{0} dissolves into smoke.", item);
                 World.RemoveItem(item);
@@ -539,7 +536,7 @@ namespace Mud.Server.Character
         private bool RemoveItem(EquipedItem equipmentSlot)
         {
             //
-            if (equipmentSlot.Item.ItemFlags.HasFlag(ItemFlags.NoRemove))
+            if (equipmentSlot.Item.CurrentItemFlags.HasFlag(ItemFlags.NoRemove))
             {
                 Act(ActOptions.ToCharacter, "You cannot remove {0}.", equipmentSlot.Item);
                 return false;
@@ -555,7 +552,7 @@ namespace Mud.Server.Character
 
         private bool PutItem(IItem item, IContainer container)
         {//
-            if (item.ItemFlags.HasFlag(ItemFlags.NoDrop))
+            if (item.CurrentItemFlags.HasFlag(ItemFlags.NoDrop))
             {
                 Send("You can't let go of it.");
                 return false;

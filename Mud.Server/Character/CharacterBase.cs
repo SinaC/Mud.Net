@@ -26,9 +26,8 @@ namespace Mud.Server.Character
         private readonly List<IItem> _inventory;
         private readonly List<EquipedItem> _equipments;
         // TODO: replace int[] with Dictionary<enum,int> ?
-        private readonly int[] _basePrimaryAttributes; // modified when levelling
-        private readonly int[] _currentPrimaryAttributes; // = base attribute + buff
-        private readonly int[] _secondaryAttributes; // secondary attributes (in recompute)
+        private readonly int[] _baseAttributes;
+        private readonly int[] _currentAttributes;
         private readonly int[] _maxResources;
         private readonly int[] _currentResources;
         private readonly Dictionary<IAbility, DateTime> _cooldowns; // Key: ability.Id, Value: Next ability availability
@@ -37,7 +36,7 @@ namespace Mud.Server.Character
         protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
 
-        protected int MaxHitPoints => _secondaryAttributes[(int) SecondaryAttributeTypes.MaxHitPoints];
+        protected int MaxHitPoints => _currentAttributes[(int) CharacterAttributes.MaxHitPoints];
 
         protected CharacterBase(Guid guid, string name, string description)
             : base(guid, name, description)
@@ -45,9 +44,8 @@ namespace Mud.Server.Character
             _fullCommands = new Trie<CommandMethodInfo>();
             _inventory = new List<IItem>();
             _equipments = new List<EquipedItem>();
-            _basePrimaryAttributes = new int[EnumHelpers.GetCount<PrimaryAttributeTypes>()];
-            _currentPrimaryAttributes = new int[EnumHelpers.GetCount<PrimaryAttributeTypes>()];
-            _secondaryAttributes = new int[EnumHelpers.GetCount<SecondaryAttributeTypes>()];
+            _baseAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
+            _currentAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
             _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _currentResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _cooldowns = new Dictionary<IAbility, DateTime>(new CompareIAbility());
@@ -95,7 +93,7 @@ namespace Mud.Server.Character
             if (result)
             {
                 RecomputeKnownAbilities();
-                RecomputeAttributes();
+                Recompute();
                 RecomputeCommands();
             }
             return result;
@@ -144,28 +142,26 @@ namespace Mud.Server.Character
         public int Level { get; protected set; }
         public int HitPoints { get; protected set; }
         public int MovePoints { get; protected set; }
-        public CharacterFlags CharacterFlags { get; protected set; }
-        public IRVFlags Immunities { get; protected set; }
-        public IRVFlags Resistances { get; protected set; }
-        public IRVFlags Vulnerabilities { get; protected set; }
+        public CharacterFlags BaseCharacterFlags { get; protected set; }
+        public CharacterFlags CurrentCharacterFlags { get; protected set; }
+        public IRVFlags BaseImmunities { get; protected set; }
+        public IRVFlags CurrentImmunities { get; protected set; }
+        public IRVFlags BaseResistances { get; protected set; }
+        public IRVFlags CurrentResistances { get; protected set; }
+        public IRVFlags BaseVulnerabilities { get; protected set; }
+        public IRVFlags CurrentVulnerabilities { get; protected set; }
+        public Sex BaseSex { get; protected set; }
+        public Sex CurrentSex { get; protected set; }
         public int Alignment { get; protected set; }
+
+        public bool IsEvil => Alignment <= -350;
+        public bool IsGood => Alignment >= 350;
+        public bool IsNeutral => !IsEvil && !IsGood;
 
         public int this[ResourceKinds resource]
         {
             get => _currentResources[(int) resource];
             private set => _currentResources[(int) resource] = value;
-        }
-
-        public int this[PrimaryAttributeTypes attribute]
-        {
-            get => _currentPrimaryAttributes[(int) attribute];
-            private set => _currentPrimaryAttributes[(int) attribute] = value;
-        }
-
-        public int this[SecondaryAttributeTypes attribute]
-        {
-            get => _secondaryAttributes[(int) attribute];
-            private set => _secondaryAttributes[(int) attribute] = value;
         }
 
         public IEnumerable<ResourceKinds> CurrentResourceKinds { get; private set; }
@@ -264,7 +260,7 @@ namespace Mud.Server.Character
         {
             foreach (EquipedItem equipmentSlot in _equipments.Where(x => x.Item == item))
                 equipmentSlot.Item = null;
-            RecomputeAttributes();
+            Recompute();
             return true;
         }
 
@@ -327,7 +323,9 @@ namespace Mud.Server.Character
         }
 
         // Attributes
-        public int GetBasePrimaryAttribute(PrimaryAttributeTypes attribute) => _basePrimaryAttributes[(int) attribute];
+        public int BaseAttributes(CharacterAttributes attribute) => _baseAttributes[(int)attribute];
+
+        public int CurrentAttributes(CharacterAttributes attribute) => _currentAttributes[(int)attribute];
 
         public int GetMaxResource(ResourceKinds resource) => _maxResources[(int) resource];
 
@@ -335,9 +333,10 @@ namespace Mud.Server.Character
         {
             this[resource] = (this[resource] + amount).Range(0, _maxResources[(int)resource]);
         }
+
         public void UpdateMovePoints(int amount)
         {
-            MovePoints = (MovePoints + amount).Range(0, this[SecondaryAttributeTypes.MaxMovePoints]);
+            MovePoints = (MovePoints + amount).Range(0, _currentAttributes[(int)CharacterAttributes.MaxMovePoints]);
         }
 
         public void UpdateAlignment(int amount) 
@@ -356,12 +355,12 @@ namespace Mud.Server.Character
                     regen = (regen * Furniture.HealBonus) / 100;
                 HitPoints = Math.Min(MaxHitPoints, HitPoints + regen);
             }
-            if (MovePoints < this[SecondaryAttributeTypes.MaxMovePoints])
+            if (MovePoints < _currentAttributes[(int)CharacterAttributes.MaxMovePoints])
             {
-                int regen = this[SecondaryAttributeTypes.MaxMovePoints] / 20;
+                int regen = _currentAttributes[(int)CharacterAttributes.MaxMovePoints] / 20;
                 if (Furniture?.HealBonus > 0)
                     regen = (regen * Furniture.HealBonus) / 100;
-                MovePoints = Math.Min(this[SecondaryAttributeTypes.MaxMovePoints], HitPoints + regen);
+                MovePoints = Math.Min(_currentAttributes[(int)CharacterAttributes.MaxMovePoints], MovePoints + regen);
             }
             foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
             {
@@ -378,21 +377,17 @@ namespace Mud.Server.Character
             }
         }
 
-        public bool IsEvil => Alignment <= -350;
-
-        public bool IsGood => Alignment >= 350;
-        public bool IsNeutral => !IsEvil && !IsGood;
-
-        public void AddCharacterFlags(CharacterFlags characterFlags)
+        public void AddBaseCharacterFlags(CharacterFlags characterFlags)
         {
-            CharacterFlags |= CharacterFlags;
+            BaseCharacterFlags |= characterFlags;
+            Recompute();
         }
 
-        public void RemoveCharacterFlags(CharacterFlags characterFlags)
+        public void RemoveBaseCharacterFlags(CharacterFlags characterFlags)
         {
-            CharacterFlags &= ~CharacterFlags;
+            BaseCharacterFlags &= ~characterFlags;
+            Recompute();
         }
-
 
         // Form
         public bool ChangeForm(Forms form)
@@ -406,7 +401,7 @@ namespace Mud.Server.Character
             Form = form;
 
             RecomputeKnownAbilities();
-            RecomputeAttributes();
+            Recompute();
             RecomputeCommands();
             RecomputeCurrentResourceKinds();
 
@@ -419,140 +414,25 @@ namespace Mud.Server.Character
         }
 
         // Recompute
-        public override void Reset() // Reset attributes, remove auras, periodic auras
-        {
-            base.Reset();
-
-            ResetAttributes(true);
-        }
-
-        public override void RecomputeAttributes()
+        public override void Recompute()
         {
             // Reset current attributes
-            for (int i = 0; i < _currentPrimaryAttributes.Length; i++)
-                _currentPrimaryAttributes[i] = _basePrimaryAttributes[i];
-            // Apply auras on primary attributes
-            // TODO: aura from equipment/room/group
-            foreach (IAura aura in Auras)
-            {
-                switch (aura.Modifier)
-                {
-                    case AuraModifiers.Strength:
-                        ModifyAttribute(PrimaryAttributeTypes.Strength, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Agility:
-                        ModifyAttribute(PrimaryAttributeTypes.Agility, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Stamina:
-                        ModifyAttribute(PrimaryAttributeTypes.Stamina, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Intellect:
-                        ModifyAttribute(PrimaryAttributeTypes.Intellect, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Spirit:
-                        ModifyAttribute(PrimaryAttributeTypes.Spirit, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Characteristics:
-                        ModifyAttribute(PrimaryAttributeTypes.Strength, aura.AmountOperator, aura.Amount);
-                        ModifyAttribute(PrimaryAttributeTypes.Agility, aura.AmountOperator, aura.Amount);
-                        ModifyAttribute(PrimaryAttributeTypes.Stamina, aura.AmountOperator, aura.Amount);
-                        ModifyAttribute(PrimaryAttributeTypes.Intellect, aura.AmountOperator, aura.Amount);
-                        ModifyAttribute(PrimaryAttributeTypes.Spirit, aura.AmountOperator, aura.Amount);
-                        break;
-                }
-            }
-            // Recompute datas depending on attributes and abilities
-            // TODO: correct formulas
-            this[SecondaryAttributeTypes.MaxHitPoints] = this[PrimaryAttributeTypes.Stamina]*50 + 1000;
-            this[SecondaryAttributeTypes.AttackPower] = this[PrimaryAttributeTypes.Strength]*2 + 50;
-            this[SecondaryAttributeTypes.SpellPower] = this[PrimaryAttributeTypes.Intellect] + 50;
-            this[SecondaryAttributeTypes.Critical] = 5;
-            this[SecondaryAttributeTypes.Dodge] = 3;
-            this[SecondaryAttributeTypes.Parry] = 10;
-            this[SecondaryAttributeTypes.Block] = 5;
-            this[SecondaryAttributeTypes.AttackSpeed] = 20;
-            this[SecondaryAttributeTypes.Armor] = ComputeArmorFromEquipments();
-            this[SecondaryAttributeTypes.MaxMovePoints] = 100 + Level * 5;
-            //
-            // Recompute max resources
-            // TODO: correct values
-            _maxResources[(int) ResourceKinds.Mana] = Level*2000;
-            _maxResources[(int) ResourceKinds.Energy] = 100;
-            _maxResources[(int) ResourceKinds.Rage] = 100;
-            _maxResources[(int) ResourceKinds.Runic] = 120;
-            // TODO: runes
-            // Apply aura on compute attributes
-            foreach (IAura aura in Auras)
-            {
-                switch (aura.Modifier)
-                {
-                    case AuraModifiers.MaxHitPoints:
-                        ModifyAttribute(SecondaryAttributeTypes.MaxHitPoints, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.AttackPower:
-                        ModifyAttribute(SecondaryAttributeTypes.AttackPower, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.SpellPower:
-                        ModifyAttribute(SecondaryAttributeTypes.SpellPower, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.AttackSpeed:
-                        ModifyAttribute(SecondaryAttributeTypes.AttackSpeed, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Armor:
-                        ModifyAttribute(SecondaryAttributeTypes.Armor, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Critical:
-                        ModifyAttribute(SecondaryAttributeTypes.Critical, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Dodge:
-                        ModifyAttribute(SecondaryAttributeTypes.Dodge, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Parry:
-                        ModifyAttribute(SecondaryAttributeTypes.Parry, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.Block:
-                        ModifyAttribute(SecondaryAttributeTypes.Block, aura.AmountOperator, aura.Amount);
-                        break;
-                    case AuraModifiers.CharacterFlags:
-                        CharacterFlags |= (CharacterFlags)aura.Amount; // flags
-                        break;
-                    case AuraModifiers.Immunities:
-                        Immunities |= (IRVFlags)aura.Amount; // flags
-                        break;
-                    case AuraModifiers.Resistances:
-                        Resistances |= (IRVFlags)aura.Amount; // flags
-                        break;
-                    case AuraModifiers.Vulnerabilities:
-                        Vulnerabilities |= (IRVFlags)aura.Amount; // flags
-                        break;
-                    default:
-                        Log.Default.WriteLine(LogLevels.Error, "CharacterBase.RecomputeAttributes: aura on unknown attribute: {0}", aura.Modifier);
-                        break;
-                }
-            }
+            ResetAttributes();
+
+            // TODO: apply auras
+            //// 1) Apply room auras
+            //if (Room != null)
+            //    ApplyAuras(Room);
+
+            //// 2) Apply equipment auras
+            //foreach (IItem equipment in Equipments)
+            //    ApplyAuras(equipment);
+
+            //// 3) Apply own auras
+            //ApplyAuras(this);
+
             // Keep attributes in valid range
             HitPoints = Math.Min(HitPoints, MaxHitPoints);
-            // TODO: keep other attributes in valid range
-        }
-
-        public void ResetAttributes(bool resetHitAndMovePoints)
-        {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "ResetAttributes: {0} is not valid anymore", DebugName);
-                return;
-            }
-
-            RecomputeAttributes();
-
-            if (resetHitAndMovePoints)
-            {
-                HitPoints = MaxHitPoints;
-                MovePoints = this[SecondaryAttributeTypes.MaxMovePoints];
-            }
-            for (int i = 0; i < _currentResources.Length; i++)
-                _currentResources[i] = _maxResources[i];
-            //this[resource] = 10; // TEST
         }
 
         // Move
@@ -674,20 +554,20 @@ namespace Mud.Server.Character
             ResistanceLevels defaultResistance = ResistanceLevels.Normal;
             if (damageType <= SchoolTypes.Slash) // Physical
             {
-                if (Immunities.HasFlag(IRVFlags.Weapon))
+                if (CurrentImmunities.HasFlag(IRVFlags.Weapon))
                     defaultResistance = ResistanceLevels.Immune;
-                else if (Resistances.HasFlag(IRVFlags.Weapon))
+                else if (CurrentResistances.HasFlag(IRVFlags.Weapon))
                     defaultResistance = ResistanceLevels.Resistant;
-                else if (Vulnerabilities.HasFlag(IRVFlags.Weapon))
+                else if (CurrentVulnerabilities.HasFlag(IRVFlags.Weapon))
                     defaultResistance = ResistanceLevels.Normal;
             }
             else // Magic
             {
-                if (Immunities.HasFlag(IRVFlags.Magic))
+                if (CurrentImmunities.HasFlag(IRVFlags.Magic))
                     defaultResistance = ResistanceLevels.Immune;
-                else if (Resistances.HasFlag(IRVFlags.Magic))
+                else if (CurrentResistances.HasFlag(IRVFlags.Magic))
                     defaultResistance = ResistanceLevels.Resistant;
-                else if (Vulnerabilities.HasFlag(IRVFlags.Magic))
+                else if (CurrentVulnerabilities.HasFlag(IRVFlags.Magic))
                     defaultResistance = ResistanceLevels.Normal;
             }
             switch (damageType)
@@ -751,11 +631,11 @@ namespace Mud.Server.Character
             }
             // Following code has been reworked because Rom24 was testing on currently computed resistance (imm) instead of defaultResistance (def)
             ResistanceLevels resistance = ResistanceLevels.None;
-            if (Immunities.HasFlag(irvFlags))
+            if (CurrentImmunities.HasFlag(irvFlags))
                 resistance = ResistanceLevels.Immune;
-            else if (Resistances.HasFlag(irvFlags) && defaultResistance != ResistanceLevels.Immune)
+            else if (CurrentResistances.HasFlag(irvFlags) && defaultResistance != ResistanceLevels.Immune)
                 resistance = ResistanceLevels.Resistant;
-            else if (Vulnerabilities.HasFlag(irvFlags))
+            else if (CurrentVulnerabilities.HasFlag(irvFlags))
             {
                 if (defaultResistance == ResistanceLevels.Immune)
                     resistance = ResistanceLevels.Resistant;
@@ -855,7 +735,7 @@ namespace Mud.Server.Character
 
             // TODO: TEST purpose
             //int attackCount = Math.Max(1, 1 + this[SecondaryAttributeTypes.AttackSpeed] / 21);
-            int attackCount = Math.Max(1, 1 + this[SecondaryAttributeTypes.AttackSpeed]);
+            int attackCount = 1;//Math.Max(1, 1 + this[SecondaryAttributeTypes.AttackSpeed]);
 
             // Main hand
             for (int i = 0; i < attackCount; i++)
@@ -1140,27 +1020,6 @@ namespace Mud.Server.Character
 
         protected abstract bool RawKilled(IEntity killer, bool killingPayoff);
 
-        protected void ModifyAttribute(PrimaryAttributeTypes attribute, AmountOperators op, int amount)
-        {
-            if (op == AmountOperators.Percentage)
-                amount = _basePrimaryAttributes[(int) attribute]*amount/100;
-            this[attribute] += amount;
-        }
-
-        protected void ModifyAttribute(SecondaryAttributeTypes attribute, AmountOperators op, int amount)
-        {
-            if (op == AmountOperators.Percentage)
-                amount = _secondaryAttributes[(int) attribute]*amount/100;
-            this[attribute] += amount;
-        }
-
-        //protected int ModifyAttribute(int baseValue, AmountOperators op, int amount)
-        //{
-        //    if (op == AmountOperators.Percentage)
-        //        amount = baseValue*amount/100;
-        //    return baseValue + amount;
-        //}
-
         protected void ResetCooldowns()
         {
             _cooldowns.Clear();
@@ -1323,7 +1182,7 @@ namespace Mud.Server.Character
                     }
                 }
                 if (needsRecompute)
-                    RecomputeAttributes();
+                    Recompute();
             }
 
             // Armor reduce physical damage (http://wow.gamepedia.com/Armor#Armor_damage_reduction_formula)
@@ -1331,14 +1190,14 @@ namespace Mud.Server.Character
             {
                 // 1 -> 59
                 //decimal damageReduction = (decimal)this[ComputedAttributeTypes.Armor] / (this[ComputedAttributeTypes.Armor] + 400 + 85 * sourceLevel);
-                decimal denominator = this[SecondaryAttributeTypes.Armor] + 400 + 85*sourceLevel;
+                decimal denominator = _currentAttributes[(int)CharacterAttributes.ArmorBash]/*TODO other armor*/ + 400 + 85*sourceLevel;
                 if (sourceLevel >= 60)
                     denominator += 4.5m*(sourceLevel - 59);
                 if (sourceLevel >= 80)
                     denominator += 20*(sourceLevel - 80);
                 if (sourceLevel >= 85)
                     denominator += 22*(sourceLevel - 85);
-                decimal damageReduction = (decimal)this[SecondaryAttributeTypes.Armor]/denominator;
+                decimal damageReduction = (decimal)_currentAttributes[(int)CharacterAttributes.ArmorBash]/ denominator;/*TODO other armor*/
                 if (damageReduction > 0)
                 {
                     //decimal damageAbsorption = HitPoints/(1.0m - damageReduction);
@@ -1377,7 +1236,7 @@ namespace Mud.Server.Character
                     }
                 }
                 if (needsRecompute)
-                    RecomputeAttributes();
+                    Recompute();
             }
 
             return heal;
@@ -1404,7 +1263,7 @@ namespace Mud.Server.Character
             // http://wow.gamepedia.com/Attack_power
             int damage;
             if (weapon != null)
-                damage = RandomManager.Dice(weapon.DiceCount, weapon.DiceValue) + this[SecondaryAttributeTypes.AttackPower] / 14; // TODO: use weapon dps and weapon speed
+                damage = RandomManager.Dice(weapon.DiceCount, weapon.DiceValue) + _currentAttributes[(int)CharacterAttributes.DamRoll]; // TODO: use weapon dps and weapon speed
             else
             {
                 // TEST
@@ -1676,8 +1535,9 @@ namespace Mud.Server.Character
 
         protected void RecomputeBaseAttributes()
         {
-            for (int i = 0; i < _basePrimaryAttributes.Length; i++)
-                _basePrimaryAttributes[i] = (Class?.GetPrimaryAttributeByLevel((PrimaryAttributeTypes) i, Level) ?? 10*Level) + (Race?.GetPrimaryAttributeModifier((PrimaryAttributeTypes) i) ?? 0);
+            for (int i = 0; i < _baseAttributes.Length; i++)
+                //_baseAttributes[i] = (Class?.GetPrimaryAttributeByLevel((PrimaryAttributeTypes) i, Level) ?? 10*Level) + (Race?.GetPrimaryAttributeModifier((PrimaryAttributeTypes) i) ?? 0);
+                _baseAttributes[i] = 15; // TODO
         }
 
         // TODO: Should recompute attributes/commands afterwards
@@ -1813,6 +1673,18 @@ namespace Mud.Server.Character
             // TODO: wimpy, ... // fight.C:2264
 
             return true;
+        }
+
+        protected virtual void ResetAttributes()
+        {
+            // TODO: NPC/PC should take base values from race
+
+            CurrentCharacterFlags = BaseCharacterFlags;
+            CurrentImmunities = BaseImmunities;
+            CurrentResistances = BaseResistances;
+            CurrentVulnerabilities = BaseVulnerabilities;
+
+            CurrentSex = BaseSex;
         }
 
         #region Act

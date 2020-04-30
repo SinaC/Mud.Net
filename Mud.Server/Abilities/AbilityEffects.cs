@@ -15,9 +15,9 @@ namespace Mud.Server.Abilities
 
         public abstract bool Process(ICharacter source, ICharacter victim, IAbility ability, int level, CombatHelpers.AttackResults attackResult);
 
-        protected int ComputeAttributeBasedAmount(ICharacter source, SecondaryAttributeTypes attribute, decimal factor)
+        protected int ComputeAttributeBasedAmount(ICharacter source, CharacterAttributes attribute, decimal factor)
         {
-            return (int)Math.Ceiling(factor * source[attribute] / 100.0m);
+            return 10; // TODO //;(int)Math.Ceiling(factor * source[attribute] / 100.0m);
         }
 
         protected void PerformDamage(ICharacter source, ICharacter victim, IAbility ability, CombatHelpers.AttackResults attackResult, int damage, SchoolTypes damageType)
@@ -73,10 +73,10 @@ namespace Mud.Server.Abilities
     public class DamageAbilityEffect : AbilityEffect
     {
         public decimal Factor { get; }
-        public SecondaryAttributeTypes Attribute { get; }
+        public CharacterAttributes Attribute { get; }
         public SchoolTypes School { get; }
 
-        public DamageAbilityEffect(decimal factor, SecondaryAttributeTypes attribute, SchoolTypes school)
+        public DamageAbilityEffect(decimal factor, CharacterAttributes attribute, SchoolTypes school)
         {
             Factor = factor;
             Attribute = attribute;
@@ -115,9 +115,9 @@ namespace Mud.Server.Abilities
     public class HealAbilityEffect : AbilityEffect
     {
         public decimal Factor { get; }
-        public SecondaryAttributeTypes Attribute { get; }
+        public CharacterAttributes Attribute { get; }
 
-        public HealAbilityEffect(decimal factor, SecondaryAttributeTypes attribute)
+        public HealAbilityEffect(decimal factor, CharacterAttributes attribute)
         {
             Factor = factor;
             Attribute = attribute;
@@ -134,9 +134,9 @@ namespace Mud.Server.Abilities
     public class HealSourceAbilityEffect : AbilityEffect
     {
         public decimal Factor { get; }
-        public SecondaryAttributeTypes Attribute { get; }
+        public CharacterAttributes Attribute { get; }
 
-        public HealSourceAbilityEffect(decimal factor, SecondaryAttributeTypes attribute)
+        public HealSourceAbilityEffect(decimal factor, CharacterAttributes attribute)
         {
             Factor = factor;
             Attribute = attribute;
@@ -173,11 +173,11 @@ namespace Mud.Server.Abilities
     public class DotAbilityEffect : AbilityEffect
     {
         public decimal Factor { get; }
-        public SecondaryAttributeTypes Attribute { get; }
+        public CharacterAttributes Attribute { get; }
         public SchoolTypes School { get; }
         public int TickDelay { get; }
 
-        public DotAbilityEffect(decimal factor, SecondaryAttributeTypes attribute, SchoolTypes school, int tickDelay)
+        public DotAbilityEffect(decimal factor, CharacterAttributes attribute, SchoolTypes school, int tickDelay)
         {
             Factor = factor;
             Attribute = attribute;
@@ -197,10 +197,10 @@ namespace Mud.Server.Abilities
     public class HotAbilityEffect : AbilityEffect
     {
         public decimal Factor { get; }
-        public SecondaryAttributeTypes Attribute { get; }
+        public CharacterAttributes Attribute { get; }
         public int TickDelay { get; }
 
-        public HotAbilityEffect(decimal factor, SecondaryAttributeTypes attribute, int tickDelay)
+        public HotAbilityEffect(decimal factor, CharacterAttributes attribute, int tickDelay)
         {
             Factor = factor;
             Attribute = attribute;
@@ -220,10 +220,10 @@ namespace Mud.Server.Abilities
     {
         public decimal DamageFactor { get; }
         public decimal HealFactor { get; }
-        public SecondaryAttributeTypes Attribute { get; }
+        public CharacterAttributes Attribute { get; }
         public SchoolTypes School { get; }
 
-        public DamageOrHealEffect(decimal damageFactor, decimal healFactor, SecondaryAttributeTypes attribute, SchoolTypes school)
+        public DamageOrHealEffect(decimal damageFactor, decimal healFactor, CharacterAttributes attribute, SchoolTypes school)
         {
             DamageFactor = damageFactor;
             HealFactor = healFactor;
@@ -290,7 +290,7 @@ namespace Mud.Server.Abilities
                 source.Act(ActOptions.ToCharacter, "{0} cannot be targeted by {1}.", victim, ability.Name);
                 return false;
             }
-            int amount = ComputeAttributeBasedAmount(source, SecondaryAttributeTypes.SpellPower, 45.9m);
+            int amount = ComputeAttributeBasedAmount(source, CharacterAttributes.Intelligence, 45.9m);
             World.AddAura(victim, ability, source, AuraModifiers.DamageAbsorb, amount, AmountOperators.Fixed, level, TimeSpan.FromSeconds(ability.Duration), true);
             World.AddAura(victim, AbilityManager.WeakenedSoulAbility, source, AuraModifiers.None, 0, AmountOperators.None, level, TimeSpan.FromSeconds(15), true);
             return true;

@@ -1,6 +1,5 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common;
-using System;
 using System.Linq;
 
 namespace Mud.Server.Abilities.Rom24
@@ -16,8 +15,8 @@ namespace Mud.Server.Abilities.Rom24
 
         public bool SavesSpell(int level, ICharacter victim, SchoolTypes damageType)
         {
-            int save = 50 + (victim.Level - level) * 5 - victim[SecondaryAttributeTypes.SavingThrow] * 2;
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Berserk))
+            int save = 50 + (victim.Level - level) * 5 - victim.CurrentAttributes(CharacterAttributes.SavingThrow) * 2;
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Berserk))
                 save += victim.Level / 2;
             ResistanceLevels resist = victim.CheckResistance(damageType);
             switch (resist)
@@ -61,7 +60,7 @@ namespace Mud.Server.Abilities.Rom24
             if (victim is INonPlayableCharacter npcVictim)
             {
                 // safe room ?
-                if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
+                if (victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe))
                     return true;
                 // TODO: No fight in a shop -> send_to_char("The shopkeeper wouldn't like that.\n\r",ch);
                 // TODO: Can't killer trainer, practicer, healer, changer, questor  -> send_to_char("I don't think Mota would approve.\n\r",ch);
@@ -73,7 +72,7 @@ namespace Mud.Server.Abilities.Rom24
                     if (npcVictim.ActFlags.HasFlag(ActFlags.Pet))
                         return true;
                     // no charmed creatures unless owner
-                    if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm) && (area || caster != victim.ControlledBy))
+                    if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm) && (area || caster != victim.ControlledBy))
                         return true;
                     // TODO: legal kill? -- cannot hit mob fighting non-group member
                     //if (victim->fighting != NULL && !is_same_group(ch,victim->fighting)) -> true
@@ -94,10 +93,10 @@ namespace Mud.Server.Abilities.Rom24
                 if (caster is INonPlayableCharacter npcCaster)
                 {
                     // charmed mobs and pets cannot attack players while owned
-                    if (caster.CharacterFlags.HasFlag(CharacterFlags.Charm) && caster.ControlledBy != null && caster.ControlledBy.Fighting != victim)
+                    if (caster.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm) && caster.ControlledBy != null && caster.ControlledBy.Fighting != victim)
                         return true;
                     // safe room
-                    if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
+                    if (victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe))
                         return true;
                     // TODO:  legal kill? -- mobs only hit players grouped with opponent
                     //if (ch->fighting != NULL && !is_same_group(ch->fighting, victim))
@@ -133,7 +132,7 @@ namespace Mud.Server.Abilities.Rom24
             // Killing npc
             if (victim is INonPlayableCharacter npcVictim)
             {
-                if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
+                if (victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe))
                 {
                     character.Send("Not in the room.");
                     return true;
@@ -151,7 +150,7 @@ namespace Mud.Server.Abilities.Rom24
                         return true;
                     }
                     // no charmed creatures unless owner
-                    if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm) && character != victim.ControlledBy)
+                    if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm) && character != victim.ControlledBy)
                     {
                         character.Send("You don't own that monster.");
                         return true;
@@ -165,13 +164,13 @@ namespace Mud.Server.Abilities.Rom24
                 if (character is INonPlayableCharacter npcCaster)
                 {
                     // safe room
-                    if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
+                    if (victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe))
                     {
                         character.Send("Not in the room.");
                         return true;
                     }
                     // charmed mobs and pets cannot attack players while owned
-                    if (character.CharacterFlags.HasFlag(CharacterFlags.Charm) && character.ControlledBy != null && character.ControlledBy.Fighting != victim)
+                    if (character.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm) && character.ControlledBy != null && character.ControlledBy.Fighting != victim)
                     {
                         character.Send("Players are your friends!");
                         return true;

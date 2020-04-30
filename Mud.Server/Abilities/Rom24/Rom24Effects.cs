@@ -33,7 +33,7 @@ namespace Mud.Server.Abilities.Rom24
             {
                 foreach (IItem itemInRoom in room.Content)
                     AcidEffect(itemInRoom, ability, source, level, damage);
-                room.RecomputeAttributes();
+                room.Recompute();
                 return;
             }
             if (target is ICharacter victim) // do the effect on a victim
@@ -41,13 +41,13 @@ namespace Mud.Server.Abilities.Rom24
                 // let's toast some gear
                 foreach (IItem itemOnVictim in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)))
                     AcidEffect(itemOnVictim, ability, source, level, damage);
-                victim.RecomputeAttributes();
+                victim.Recompute();
                 return;
             }
             if (target is IItem item) // toast an object
             {
-                if (item.ItemFlags.HasFlag(ItemFlags.BurnProof)
-                    || item.ItemFlags.HasFlag(ItemFlags.NoPurge)
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof)
+                    || item.CurrentItemFlags.HasFlag(ItemFlags.NoPurge)
                     || RandomManager.Range(0, 4) == 0)
                     return;
                 // Affects only corpse, container, armor, clothing, wand, staff and scroll
@@ -58,7 +58,7 @@ namespace Mud.Server.Abilities.Rom24
                     chance = (chance - 25) / 2 + 25;
                 if (chance > 50)
                     chance = (chance - 50) / 2 + 50;
-                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
                     chance -= 5;
                 chance -= item.Level * 2;
                 // TODO: if staff/wand -> chance-=10
@@ -121,7 +121,7 @@ namespace Mud.Server.Abilities.Rom24
                     }
                     World.RemoveItem(item); // destroy item
                     if (dropItemTargetRoom != null)
-                        dropItemTargetRoom.RecomputeAttributes();
+                        dropItemTargetRoom.Recompute();
                     return;
                 }
                 //
@@ -141,7 +141,7 @@ namespace Mud.Server.Abilities.Rom24
             {
                 foreach (IItem itemInRoom in room.Content)
                     ColdEffect(itemInRoom, ability, source, level, damage);
-                room.RecomputeAttributes();
+                room.Recompute();
                 return;
             }
             if (target is ICharacter victim) // whack a character
@@ -163,13 +163,13 @@ namespace Mud.Server.Abilities.Rom24
                 // let's toast some gear
                 foreach (IItem itemOnVictim in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)))
                     ColdEffect(itemOnVictim, ability, source, level, damage);
-                victim.RecomputeAttributes();
+                victim.Recompute();
                 return;
             }
             if (target is IItem item) // toast an object
             {
-                if (item.ItemFlags.HasFlag(ItemFlags.BurnProof)
-                    || item.ItemFlags.HasFlag(ItemFlags.NoPurge)
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof)
+                    || item.CurrentItemFlags.HasFlag(ItemFlags.NoPurge)
                     || RandomManager.Range(0, 4) == 0)
                     return;
                 // Affects only potion and drink container
@@ -180,7 +180,7 @@ namespace Mud.Server.Abilities.Rom24
                     chance = (chance - 25) / 2 + 25;
                 if (chance > 50)
                     chance = (chance - 50) / 2 + 50;
-                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
                     chance -= 5;
                 chance -= item.Level * 2;
                 //if (item is IItemPotion)
@@ -207,7 +207,7 @@ namespace Mud.Server.Abilities.Rom24
                 //
                 World.RemoveItem(item); // destroy item
                 if (itemContainedInto != null)
-                    itemContainedInto.RecomputeAttributes();
+                    itemContainedInto.Recompute();
             }
             Log.Default.WriteLine(LogLevels.Error, "ColdEffect: unknown EntityType {0}", target.GetType());
             return;
@@ -222,13 +222,13 @@ namespace Mud.Server.Abilities.Rom24
             {
                 foreach (IItem itemInRoom in room.Content)
                     FireEffect(itemInRoom, ability, source, level, damage);
-                room.RecomputeAttributes();
+                room.Recompute();
                 return;
             }
             if (target is ICharacter victim) // do the effect on a victim
             {
                 // chance of blindness
-                if (!victim.CharacterFlags.HasFlag(CharacterFlags.Blind) && !Rom24Common.SavesSpell(level / 4 + damage / 20, victim, SchoolTypes.Fire))
+                if (!victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Blind) && !Rom24Common.SavesSpell(level / 4 + damage / 20, victim, SchoolTypes.Fire))
                 {
                     victim.Send("Your eyes tear up from smoke...you can't see a thing!");
                     victim.Act(ActOptions.ToRoom, "{0} is blinded by smoke!", victim);
@@ -242,13 +242,13 @@ namespace Mud.Server.Abilities.Rom24
                 // let's toast some gear
                 foreach (IItem itemOnVictim in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)))
                     FireEffect(itemOnVictim, ability, source, level, damage);
-                victim.RecomputeAttributes();
+                victim.Recompute();
                 return;
             }
             if (target is IItem item) // toast an object
             {
-                if (item.ItemFlags.HasFlag(ItemFlags.BurnProof)
-                    || item.ItemFlags.HasFlag(ItemFlags.NoPurge)
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof)
+                    || item.CurrentItemFlags.HasFlag(ItemFlags.NoPurge)
                     || RandomManager.Range(0, 4) == 0)
                     return;
                 // Affects only container, potion, scroll, staff, wand, food, pill
@@ -259,7 +259,7 @@ namespace Mud.Server.Abilities.Rom24
                     chance = (chance - 25) / 2 + 25;
                 if (chance > 50)
                     chance = (chance - 50) / 2 + 50;
-                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
                     chance -= 5;
                 chance -= item.Level * 2;
                 //TODO: IItemPotion chance += 25
@@ -314,7 +314,7 @@ namespace Mud.Server.Abilities.Rom24
                     }
                     World.RemoveItem(item); // destroy item
                     if (dropItemTargetRoom != null)
-                        dropItemTargetRoom.RecomputeAttributes();
+                        dropItemTargetRoom.Recompute();
                     return;
                 }
                 //
@@ -334,7 +334,7 @@ namespace Mud.Server.Abilities.Rom24
             {
                 foreach (IItem itemInRoom in room.Content)
                     PoisonEffect(itemInRoom, ability, source, level, damage);
-                room.RecomputeAttributes();
+                room.Recompute();
                 return;
             }
             if (target is ICharacter victim) // do the effect on a victim
@@ -353,13 +353,13 @@ namespace Mud.Server.Abilities.Rom24
                         World.AddAura(victim, poison, source, AuraModifiers.Strength, -1, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
                     // TODO: merge next aura with previous aura in aura with 2 effects
                     // TODO: with this code, Strength effect will be refreshed but not Poison one
-                    if (!victim.CharacterFlags.HasFlag(CharacterFlags.Poison))
+                    if (!victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Poison))
                         World.AddAura<CharacterFlags>(victim, poison, source, AuraModifiers.CharacterFlags, CharacterFlags.Poison, level, TimeSpan.FromMinutes(duration), false);
                 }
                 // equipment
                 foreach (IItem itemOnVictim in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)))
                     PoisonEffect(itemOnVictim, ability, source, level, damage);
-                victim.RecomputeAttributes();
+                victim.Recompute();
                 return;
             }
             if (target is IItem item) // do some poisoning
@@ -369,7 +369,7 @@ namespace Mud.Server.Abilities.Rom24
                     chance = (chance - 25) / 2 + 25;
                 if (chance > 50)
                     chance = (chance - 50) / 2 + 50;
-                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
                     chance -= 5;
                 chance -= item.Level * 2;
                 chance = chance.Range(5, 95);
@@ -391,7 +391,7 @@ namespace Mud.Server.Abilities.Rom24
             {
                 foreach (IItem itemInRoom in room.Content)
                     ShockEffect(itemInRoom, ability, source, level, damage);
-                room.RecomputeAttributes();
+                room.Recompute();
                 return;
             }
             if (target is ICharacter victim) // do the effect on a victim
@@ -405,7 +405,7 @@ namespace Mud.Server.Abilities.Rom24
                 // toast some gear
                 foreach (IItem itemOnVictim in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)))
                     PoisonEffect(itemOnVictim, ability, source, level, damage);
-                victim.RecomputeAttributes();
+                victim.Recompute();
                 return;
             }
             if (target is IItem item) // toast an object
@@ -415,7 +415,7 @@ namespace Mud.Server.Abilities.Rom24
                     chance = (chance - 25) / 2 + 25;
                 if (chance > 50)
                     chance = (chance - 50) / 2 + 50;
-                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
                     chance -= 5;
                 chance -= item.Level * 2;
                 chance = chance.Range(5, 95);
@@ -433,7 +433,7 @@ namespace Mud.Server.Abilities.Rom24
                 //
                 World.RemoveItem(item); // destroy item
                 if (itemContainedInto != null)
-                    itemContainedInto.RecomputeAttributes();
+                    itemContainedInto.Recompute();
             }
             Log.Default.WriteLine(LogLevels.Error, "ShockEffect: unknown EntityType {0}", target.GetType());
             return;

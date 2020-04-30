@@ -255,35 +255,6 @@ namespace Mud.Domain
         Iron        = 0x00400000,
     }
 
-    public enum PrimaryAttributeTypes
-    {
-        Strength    = 0,
-        Agility     = 1,
-        Stamina     = 2,
-        Intellect   = 3,
-        Spirit      = 4,
-        // From Rom24
-        Dexterity   = 5,
-    }
-
-    public enum SecondaryAttributeTypes // dependent on primary attribute, aura and items (evaluated in Recompute)
-    {
-        MaxHitPoints    = 0,
-        AttackSpeed     = 1,
-        AttackPower     = 2,
-        SpellPower      = 3,
-        Armor           = 4,
-        Critical        = 5,
-        Dodge           = 6,
-        Parry           = 7,
-        Block           = 8,
-        // From Rom24
-        SavingThrow     = 9,
-        HitRoll         = 10,
-        DamRoll         = 11,
-        MaxMovePoints   = 12,
-    }
-
     public enum CharacterAttributes // must be ordered, starts at 0 and can't contain holes
     {
         Strength = 0,

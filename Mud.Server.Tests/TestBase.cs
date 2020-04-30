@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Mud.Server.Common;
 using Mud.Server.Tests.Mocking;
 using Mud.Settings;
 
@@ -25,6 +26,7 @@ namespace Mud.Server.Tests
             Container.DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IWorld>(new WorldMock());
             Container.DependencyContainer.Current.RegisterInstance<IWiznet>(new WiznetMock());
+            Container.DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager());
         }
     }
 }

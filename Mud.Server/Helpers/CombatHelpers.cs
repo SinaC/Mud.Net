@@ -452,10 +452,14 @@ namespace Mud.Server.Helpers
                 miss += 190;
 
             //
-            int dodge = Math.Max(0, victim[SecondaryAttributeTypes.Dodge]*10 + bonusDodge); // dodge is in %
-            int parry = Math.Max(0, victim[SecondaryAttributeTypes.Parry]*10 + bonusParry); // parry is in %
-            int block = Math.Max(0, victim[SecondaryAttributeTypes.Block]*10 + bonusBlock); // block is in %
-            int critical = Math.Max(0, attacker[SecondaryAttributeTypes.Critical] - malusCritical);
+            //int dodge = Math.Max(0, victim[SecondaryAttributeTypes.Dodge]*10 + bonusDodge); // dodge is in %
+            //int parry = Math.Max(0, victim[SecondaryAttributeTypes.Parry]*10 + bonusParry); // parry is in %
+            //int block = Math.Max(0, victim[SecondaryAttributeTypes.Block]*10 + bonusBlock); // block is in %
+            //int critical = Math.Max(0, attacker[SecondaryAttributeTypes.Critical] - malusCritical);
+            int dodge = 10;
+            int parry = 10;
+            int block = 10;
+            int critical = 10;
 
             // check flags
             if (cannotMiss)
@@ -513,7 +517,7 @@ namespace Mud.Server.Helpers
                 return AttackResults.Miss;
             // crit chance
             int deltaCritical = Math.Min(0, Math.Max(-10, deltaLevel));
-            int critical = Math.Max(0, attacker[SecondaryAttributeTypes.Critical] - deltaCritical);
+            int critical = Math.Max(0, 10/*TODO*/ - deltaCritical); // TODO
             if (DependencyContainer.Current.GetInstance<IRandomManager>().Chance(critical))
                 return AttackResults.Critical;
             return AttackResults.Hit;
@@ -661,10 +665,14 @@ namespace Mud.Server.Helpers
                 miss += 190;
 
             //
-            int dodge = Math.Max(0, victim[SecondaryAttributeTypes.Dodge]*10 + bonusDodge); // dodge is in %
-            int parry = Math.Max(0, victim[SecondaryAttributeTypes.Parry]*10 + bonusParry); // parry is in %
-            int block = Math.Max(0, victim[SecondaryAttributeTypes.Block]*10 + bonusBlock); // block is in %
-            int critical = attacker[SecondaryAttributeTypes.Critical];
+            //int dodge = Math.Max(0, victim[SecondaryAttributeTypes.Dodge]*10 + bonusDodge); // dodge is in %
+            //int parry = Math.Max(0, victim[SecondaryAttributeTypes.Parry]*10 + bonusParry); // parry is in %
+            //int block = Math.Max(0, victim[SecondaryAttributeTypes.Block]*10 + bonusBlock); // block is in %
+            //int critical = attacker[SecondaryAttributeTypes.Critical];
+            int dodge = 10;
+            int parry = 10;
+            int block = 10;
+            int critical = 10;
 
             // check flags
             if (cannotMiss)

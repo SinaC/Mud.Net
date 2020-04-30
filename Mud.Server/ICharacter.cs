@@ -49,14 +49,23 @@ namespace Mud.Server
         int Level { get; }
         int HitPoints { get; }
         int MovePoints { get; }
-        CharacterFlags CharacterFlags { get; }
-        IRVFlags Immunities { get; }
-        IRVFlags Resistances { get; }
-        IRVFlags Vulnerabilities { get; }
+        CharacterFlags BaseCharacterFlags { get; }
+        CharacterFlags CurrentCharacterFlags { get; }
+        IRVFlags BaseImmunities { get; }
+        IRVFlags CurrentImmunities { get; }
+        IRVFlags BaseResistances { get; }
+        IRVFlags CurrentResistances { get; }
+        IRVFlags BaseVulnerabilities { get; }
+        IRVFlags CurrentVulnerabilities { get; }
+        Sex BaseSex { get; }
+        Sex CurrentSex { get; }
         int Alignment { get; }
+
+        bool IsEvil { get; }
+        bool IsGood { get; }
+        bool IsNeutral { get; }
+
         int this[ResourceKinds resource] { get; }
-        int this[PrimaryAttributeTypes attribute] { get; }
-        int this[SecondaryAttributeTypes attribute] { get; }
         IEnumerable<ResourceKinds> CurrentResourceKinds { get; }
 
         // Form
@@ -90,17 +99,15 @@ namespace Mud.Server
         bool CanSee(IRoom room);
 
         // Attributes
-        int GetBasePrimaryAttribute(PrimaryAttributeTypes attribute);
+        int BaseAttributes(CharacterAttributes attribute);
+        int CurrentAttributes(CharacterAttributes attribute);
         int GetMaxResource(ResourceKinds resource);
         void UpdateResource(ResourceKinds resource, int amount);
         void UpdateMovePoints(int amount);
         void UpdateAlignment(int amount);
         void RegenResources();
-        bool IsEvil { get; }
-        bool IsGood { get; }
-        bool IsNeutral { get; }
-        void AddCharacterFlags(CharacterFlags characterFlags);
-        void RemoveCharacterFlags(CharacterFlags characterFlags);
+        void AddBaseCharacterFlags(CharacterFlags characterFlags);
+        void RemoveBaseCharacterFlags(CharacterFlags characterFlags);
 
         // Form
         bool ChangeForm(Forms form);
@@ -108,10 +115,6 @@ namespace Mud.Server
         // Controller
         bool ChangeSlave(ICharacter slave); // if non-null, start slavery, else, stop slavery 
         bool ChangeController(ICharacter master); // if non-null, start slavery, else, stop slavery 
-
-        // Recompute
-        void ResetAttributes(bool resetHitAndMovePoints);
-
 
         // Move
         bool Move(ExitDirections direction, bool checkFighting, bool follow = false);

@@ -38,7 +38,7 @@ namespace Mud.Server.Character.PlayableCharacter
             Send($"You destroy {item.RelativeDisplayName(this)}.");
 
             World.RemoveItem(item);
-            RecomputeAttributes();
+            Recompute();
 
             return CommandExecutionResults.Ok;
         }

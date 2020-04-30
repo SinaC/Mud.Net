@@ -16,7 +16,7 @@ namespace Mud.Server.Item
     public abstract class ItemBase<TBlueprint> : EntityBase, IItem
         where TBlueprint : ItemBlueprintBase
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> ItemCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => GetCommands<ItemBase<TBlueprint>>());
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> ItemCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<ItemBase<TBlueprint>>);
 
         protected ItemBase(Guid guid, TBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint.Name, blueprint.Description)
@@ -28,7 +28,7 @@ namespace Mud.Server.Item
             Weight = blueprint.Weight;
             Cost = blueprint.Cost;
             NoTake = blueprint.NoTake;
-            ItemFlags = blueprint.ItemFlags;
+            BaseItemFlags = blueprint.ItemFlags;
         }
 
         protected ItemBase(Guid guid, TBlueprint blueprint, ItemData data, IContainer containedInto)
@@ -36,14 +36,13 @@ namespace Mud.Server.Item
         {
             // TODO: copy other fields
             DecayPulseLeft = data.DecayPulseLeft;
-            ItemFlags = data.ItemFlags;
+            BaseItemFlags = data.ItemFlags;
             // Auras
             if (data.Auras != null)
             {
                 foreach (AuraData auraData in data.Auras)
                     _auras.Add(new Aura.Aura(auraData));
             }
-
         }
 
         #region IItem
@@ -61,9 +60,25 @@ namespace Mud.Server.Item
         public override string DebugName => Blueprint == null ? DisplayName : $"{DisplayName}[{Blueprint.Id}]";
 
         // Recompute
-        public override void RecomputeAttributes()
+        public override void Recompute()
         {
-            // TODO
+            ResetAttributes();
+
+            // TODO: apply auras
+            //// 1/ Apply auras from room containing item if in a room
+            //if (ContainedIn is IRoom room && room.IsValid)
+            //{
+            //    ApplyAuras<IItem>(room, this);
+            //}
+
+            //// 2/ Apply auras from charcter equiping item if equiped by a character
+            //if (EquipedBy != null && EquipedBy.IsValid)
+            //{
+            //    ApplyAuras<IItem>(EquipedBy, this);
+            //}
+
+            //// 3/ Apply own auras
+            //ApplyAuras<IItem>(this, this);
         }
 
         //
@@ -119,7 +134,9 @@ namespace Mud.Server.Item
 
         public bool NoTake { get; }
 
-        public ItemFlags ItemFlags { get; protected set; }
+        public ItemFlags BaseItemFlags { get; protected set; }
+
+        public ItemFlags CurrentItemFlags { get; protected set; }
 
         public virtual bool IsQuestObjective(IPlayableCharacter questingCharacter)
         {
@@ -151,19 +168,21 @@ namespace Mud.Server.Item
             DecayPulseLeft = pulseCount;
         }
 
-        public void AddItemFlags(ItemFlags itemFlags)
+        public void AddBaseItemFlags(ItemFlags itemFlags)
         {
-            ItemFlags |= itemFlags;
+            BaseItemFlags |= itemFlags;
+            Recompute();
         }
 
-        public void RemoveItemFlags(ItemFlags itemFlags)
+        public void RemoveBaseItemFlags(ItemFlags itemFlags)
         {
-            ItemFlags &= ~itemFlags;
+            BaseItemFlags &= ~itemFlags;
+            Recompute();
         }
 
-        public void ClearItemFlags()
+        protected virtual void ResetAttributes()
         {
-            ItemFlags = ItemFlags.None;
+            CurrentItemFlags = BaseItemFlags;
         }
 
         public virtual ItemData MapItemData()
@@ -172,7 +191,7 @@ namespace Mud.Server.Item
             {
                 ItemId = Blueprint.Id,
                 DecayPulseLeft = DecayPulseLeft,
-                ItemFlags = ItemFlags,
+                ItemFlags = BaseItemFlags, // Current will be recompute with auras
                 Auras = Auras.Select(x => x.MapAuraData()).ToArray()
             };
         }

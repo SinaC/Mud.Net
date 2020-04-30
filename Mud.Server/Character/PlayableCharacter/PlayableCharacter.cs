@@ -18,7 +18,7 @@ namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => GetCommands<PlayableCharacter>());
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<PlayableCharacter>);
 
         protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
 
@@ -65,7 +65,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 foreach (EquipedItemData equipedItemData in data.Equipments)
                 {
                     // Create in inventory
-                    var item = World.AddItem(Guid.NewGuid(), equipedItemData.Item as ItemData, this);
+                    var item = World.AddItem(Guid.NewGuid(), equipedItemData.Item, this);
 
                     // Try to equip it
                     EquipedItem equipedItem = SearchEquipmentSlot(equipedItemData.Slot, false);
@@ -117,7 +117,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
             RecomputeBaseAttributes();
             RecomputeKnownAbilities();
-            ResetAttributes(true);
+            ResetAttributes();
             RecomputeCommands();
             RecomputeCurrentResourceKinds();
         }
@@ -430,7 +430,7 @@ namespace Mud.Server.Character.PlayableCharacter
             Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeImpersonation: {0} old: {1}; new {2}", DebugName, ImpersonatedBy == null ? "<<none>>" : ImpersonatedBy.DisplayName, player == null ? "<<none>>" : player.DisplayName);
             ImpersonatedBy = player;
             RecomputeKnownAbilities();
-            RecomputeAttributes();
+            Recompute();
             RecomputeCommands();
             return true;
         }
@@ -465,11 +465,10 @@ namespace Mud.Server.Character.PlayableCharacter
                 {
                     RecomputeBaseAttributes();
                     RecomputeKnownAbilities();
-                    RecomputeAttributes();
+                    Recompute();
                     RecomputeCommands();
                     // Bonus -> reset cooldown and set resource to max
                     ResetCooldowns();
-                    ResetAttributes(true);
                     ImpersonatedBy?.Save(); // Force a save when a level is gained
                 }
             }
@@ -565,7 +564,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (ImpersonatedBy != null) // If impersonated, no real death
             {
                 // TODO: teleport player to hall room/graveyard  see fight.C:3952
-                ResetAttributes(false); // don't reset hp
+                Recompute(); // don't reset hp
             }
             else // If not impersonated, remove from game
             {
@@ -582,9 +581,9 @@ namespace Mud.Server.Character.PlayableCharacter
         {
             // Compute move and check if enough move left
             int moveCost = RandomManager.Range(1, 6); // TODO: dependends on room sector
-            if (CharacterFlags.HasFlag(CharacterFlags.Flying))
+            if (CurrentCharacterFlags.HasFlag(CharacterFlags.Flying))
                 moveCost /= 2; // flying is less exhausting
-            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+            if (CurrentCharacterFlags.HasFlag(CharacterFlags.Slow))
                 moveCost *= 2; // being slowed is more exhausting
             if (MovePoints < moveCost)
             {

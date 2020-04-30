@@ -1561,7 +1561,7 @@ namespace Mud.Server.WPFTestApplication
             //World.AddItem(Guid.NewGuid(), item5Blueprint, mob1);
             //World.AddItem(Guid.NewGuid(), item1Blueprint, mob1);
             IItem item3OnMob3 = World.AddItem(Guid.NewGuid(), item3Blueprint, mob3);
-            item3OnMob3.AddItemFlags(ItemFlags.RotDeath);
+            item3OnMob3.AddBaseItemFlags(ItemFlags.RotDeath);
             //World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
             World.AddItem(Guid.NewGuid(), item6Blueprint, templeSquare);
             World.AddItem(Guid.NewGuid(), item7Blueprint, templeOfMota);

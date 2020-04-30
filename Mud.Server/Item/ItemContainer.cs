@@ -44,7 +44,9 @@ namespace Mud.Server.Item
             {
                 ItemId = Blueprint.Id,
                 DecayPulseLeft = DecayPulseLeft,
+                ItemFlags = BaseItemFlags,
                 Contains = MapContent(),
+                Auras = Auras.Select(x => x.MapAuraData()).ToArray()
             };
         }
 

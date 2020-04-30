@@ -17,7 +17,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 {
     public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> NonPlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => GetCommands<NonPlayableCharacter>());
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> NonPlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<NonPlayableCharacter>);
 
         public NonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
             : base(guid, blueprint.Name, blueprint.Description)
@@ -27,10 +27,11 @@ namespace Mud.Server.Character.NonPlayableCharacter
             // TODO: race, class, flags, armor, damage, ...
             Sex = blueprint.Sex;
             Level = blueprint.Level;
-            CharacterFlags = blueprint.CharacterFlags;
-            Immunities = blueprint.Immunities;
-            Resistances = blueprint.Resistances;
-            Vulnerabilities = blueprint.Vulnerabilities;
+            // TODO CharacterAttributes
+            BaseCharacterFlags = blueprint.CharacterFlags;
+            BaseImmunities = blueprint.Immunities;
+            BaseResistances = blueprint.Resistances;
+            BaseVulnerabilities = blueprint.Vulnerabilities;
             Alignment = blueprint.Alignment.Range(-1000, 1000);
 
             Room = room;
@@ -38,7 +39,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
             RecomputeBaseAttributes();
             RecomputeKnownAbilities();
-            ResetAttributes(true);
+            ResetAttributes();
             RecomputeCommands();
             RecomputeCurrentResourceKinds();
             BuildEquipmentSlots();
@@ -110,7 +111,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
         #region CharacterBase
 
         // http://wow.gamepedia.com/Attack_power (Mob attack power)
-        protected override int NoWeaponDamage => (Level * this[SecondaryAttributeTypes.AttackPower]) / 14; // TODO: simulate weapon dps using level
+        protected override int NoWeaponDamage => (Level * 50) / 14; // TODO: simulate weapon dps using level
 
         protected override int HitPointMinValue => 0;
 
@@ -133,12 +134,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
             ICharacter characterKiller = killer as ICharacter;
 
-            string wiznetMsg;
-            if (killer != null)
-                wiznetMsg = $"{DebugName} got toasted by {killer.DebugName ?? "???"} at {Room?.DebugName ?? "???"}";
-            else
-                wiznetMsg = $"{DebugName} got toasted by an unknown source at {Room?.DebugName ?? "???"}";
-            Wiznet.Wiznet(wiznetMsg, WiznetFlags.MobDeaths);
+            Wiznet.Wiznet($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.MobDeaths);
 
             StopFighting(true);
             // Remove periodic auras
@@ -155,7 +151,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             ActToNotVictim(this, "You hear {0}'s death cry.", this);
 
             // Gain/lose xp/reputation   damage.C:32
-            if (killingPayoff && characterKiller != null)
+            if (killingPayoff)
                 characterKiller?.KillingPayoff(this);
 
             // Create corpse

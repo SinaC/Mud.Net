@@ -13,7 +13,7 @@ namespace Mud.Server.Item
             DiceCount = blueprint.DiceCount;
             DiceValue = blueprint.DiceValue;
             DamageType = blueprint.DamageType;
-            Flags = blueprint.Flags;
+            BaseWeaponFlags = blueprint.Flags;
         }
 
         public ItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, ItemData itemData, IContainer containedInto)
@@ -23,7 +23,7 @@ namespace Mud.Server.Item
             DiceCount = blueprint.DiceCount;
             DiceValue = blueprint.DiceValue;
             DamageType = blueprint.DamageType;
-            Flags = blueprint.Flags;
+            BaseWeaponFlags = blueprint.Flags;
         }
 
         #region IItemWeapon
@@ -32,7 +32,41 @@ namespace Mud.Server.Item
         public int DiceCount { get; }
         public int DiceValue { get; }
         public SchoolTypes DamageType { get; }
-        public WeaponFlags Flags { get; }
+
+        public WeaponFlags BaseWeaponFlags { get; protected set; }
+        public WeaponFlags CurrentWeaponFlags { get; protected set; }
+
+        #endregion
+
+        #region ItemBase
+
+        public override void Recompute() // overriding recompute and calling base will cause every collection to be iterate twice
+        {
+            base.Recompute();
+
+            // TODO: apply auras
+            //// 1/ Apply auras from room containing item if in a room
+            //if (ContainedIn is IRoom room && room.IsValid)
+            //{
+            //    ApplyAuras<IItemWeapon>(ContainedIn, this);
+            //}
+
+            //// 2/ Apply auras from charcter equiping item if equiped by a character
+            //if (EquipedBy != null && EquipedBy.IsValid)
+            //{
+            //    ApplyAuras<IItemWeapon>(EquipedBy, this);
+            //}
+
+            //// 3/ Apply own auras
+            //ApplyAuras<IItemWeapon>(this, this);
+        }
+
+        protected override void ResetAttributes()
+        {
+            base.ResetAttributes();
+
+            CurrentWeaponFlags = BaseWeaponFlags;
+        }
 
         #endregion
     }

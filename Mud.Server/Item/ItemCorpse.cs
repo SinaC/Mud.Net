@@ -32,7 +32,7 @@ namespace Mud.Server.Item
             if (IsPlayableCharacterCorpse)
             {
                 DecayPulseLeft = RandomManager.Range(25, 40) * Pulse.PulsePerMinutes;
-                ItemFlags |= ItemFlags.NoPurge;
+                BaseItemFlags |= ItemFlags.NoPurge;
             }
             else
                 DecayPulseLeft = RandomManager.Range(3, 6) * Pulse.PulsePerMinutes;
@@ -43,10 +43,10 @@ namespace Mud.Server.Item
             foreach (IItem item in inventory)
             {
                 // TODO: check stay death flag
-                if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.RotDeath))
                 {
                     item.SetDecayPulseLeft(RandomManager.Range(5, 10) * Pulse.PulsePerMinutes);
-                    item.RemoveItemFlags(ItemFlags.RotDeath);
+                    item.RemoveBaseItemFlags(ItemFlags.RotDeath);
                 }
                 item.ChangeContainer(this);
             }
@@ -54,10 +54,10 @@ namespace Mud.Server.Item
             foreach (IEquipable item in victim.Equipments.Where(x => x.Item != null).Select(x => x.Item))
             {
                 // TODO: check stay death flag
-                if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.RotDeath))
                 {
                     item.SetDecayPulseLeft(RandomManager.Range(5, 10) * Pulse.PulsePerMinutes);
-                    item.RemoveItemFlags(ItemFlags.RotDeath);
+                    item.RemoveBaseItemFlags(ItemFlags.RotDeath);
                 }
                 item.ChangeContainer(this);
                 item.ChangeEquipedBy(null);
@@ -120,6 +120,8 @@ namespace Mud.Server.Item
             {
                 ItemId = Blueprint.Id,
                 DecayPulseLeft = DecayPulseLeft,
+                ItemFlags = BaseItemFlags,
+                Auras = Auras.Select(x => x.MapAuraData()).ToArray(),
                 Contains = MapContent(),
                 CorpseName = _corpseName,
                 IsPlayableCharacterCorpse = IsPlayableCharacterCorpse

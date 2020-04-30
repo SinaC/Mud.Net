@@ -36,7 +36,7 @@ namespace Mud.Server.Races
 
         public override IEnumerable<EquipmentSlots> EquipmentSlots => _slots;
 
-        public override int GetPrimaryAttributeModifier(PrimaryAttributeTypes primaryAttribute)
+        public override int GetAttributeModifier(CharacterAttributes attribute)
         {
             return 0; // TODO: http://wow.gamepedia.com/Base_attributes#Racial_modifiers
         }

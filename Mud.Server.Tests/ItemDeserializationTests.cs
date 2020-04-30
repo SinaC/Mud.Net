@@ -32,7 +32,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(armor, typeof(IItemArmor));
             Assert.AreEqual(armorBlueprint.Id, armor.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, armor.DecayPulseLeft);
-            Assert.AreEqual(itemData.ItemFlags, armor.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, armor.BaseItemFlags);
         }
 
         // Container
@@ -56,7 +56,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint.Id, container.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, container.DecayPulseLeft);
-            Assert.AreEqual(itemData.ItemFlags, container.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, container.BaseItemFlags);
             Assert.AreEqual(0, (container as IItemContainer).Content.Count());
         }
 
@@ -91,7 +91,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint.Id, container.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, container.DecayPulseLeft);
-            Assert.AreEqual(itemData.ItemFlags, container.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, container.BaseItemFlags);
             Assert.AreEqual(1, (container as IItemContainer).Content.Count());
             Assert.AreEqual(lightBlueprint.Id, (container as IItemContainer).Content.First().Blueprint.Id);
             Assert.AreEqual(itemData.Contains[0].DecayPulseLeft, (container as IItemContainer).Content.First().DecayPulseLeft);
@@ -136,7 +136,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint.Id, container.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, container.DecayPulseLeft);
-            Assert.AreEqual(itemData.ItemFlags, container.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, container.BaseItemFlags);
             Assert.AreEqual(2, (container as IItemContainer).Content.Count());
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == lightBlueprint.Id));
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == portalBlueprint.Id));
@@ -209,7 +209,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint1.Id, container.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, container.DecayPulseLeft);
-            Assert.AreEqual(itemData.ItemFlags, container.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, container.BaseItemFlags);
             Assert.AreEqual(3, (container as IItemContainer).Content.Count());
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == lightBlueprint.Id));
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == portalBlueprint.Id));
@@ -245,7 +245,7 @@ namespace Mud.Server.Tests
             Assert.IsNotNull(item);
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
             Assert.IsFalse((item as IItemCorpse).IsPlayableCharacterCorpse);
-            Assert.AreEqual(itemData.ItemFlags, item.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, item.BaseItemFlags);
             Assert.AreEqual("corpse of "+ itemData.CorpseName, item.Name);
             Assert.AreEqual(0, (item as IItemCorpse).Content.Count());
             Assert.AreEqual(itemData.DecayPulseLeft, item.DecayPulseLeft);
@@ -273,7 +273,7 @@ namespace Mud.Server.Tests
             Assert.IsNotNull(item);
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
             Assert.IsTrue((item as IItemCorpse).IsPlayableCharacterCorpse);
-            Assert.AreEqual(itemData.ItemFlags, item.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, item.BaseItemFlags);
             Assert.AreEqual("corpse of " + itemData.CorpseName, item.Name);
             Assert.AreEqual(0, (item as IItemCorpse).Content.Count());
             Assert.AreEqual(itemData.DecayPulseLeft, item.DecayPulseLeft);
@@ -312,7 +312,7 @@ namespace Mud.Server.Tests
             Assert.IsNotNull(item);
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
             Assert.IsFalse((item as IItemCorpse).IsPlayableCharacterCorpse);
-            Assert.AreEqual(itemData.ItemFlags, item.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, item.BaseItemFlags);
             Assert.AreEqual("corpse of " + itemData.CorpseName, item.Name);
             Assert.AreEqual(itemData.DecayPulseLeft, item.DecayPulseLeft);
             Assert.AreEqual(1, (item as IItemCorpse).Content.Count());
@@ -341,7 +341,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(furniture, typeof(IItemFurniture));
             Assert.AreEqual(furnitureBlueprint.Id, furniture.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, furniture.DecayPulseLeft);
-            Assert.AreEqual(itemData.ItemFlags, furniture.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, furniture.BaseItemFlags);
         }
 
         // Jewelry
@@ -365,7 +365,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(jewelry, typeof(IItemJewelry));
             Assert.AreEqual(jewelryBlueprint.Id, jewelry.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, jewelry.DecayPulseLeft);
-            Assert.AreEqual(itemData.ItemFlags, jewelry.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, jewelry.BaseItemFlags);
         }
 
         // Key
@@ -389,7 +389,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(key, typeof(IItemKey));
             Assert.AreEqual(keyBlueprint.Id, key.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, key.DecayPulseLeft);
-            Assert.AreEqual(itemData.ItemFlags, key.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, key.BaseItemFlags);
         }
 
         // Light
@@ -413,7 +413,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(light, typeof(IItemLight));
             Assert.AreEqual(lightBlueprint.Id, light.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, light.DecayPulseLeft);
-            Assert.AreEqual(itemData.ItemFlags, light.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, light.BaseItemFlags);
         }
 
         // Portal
@@ -438,7 +438,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(portal, typeof(IItemPortal));
             Assert.AreEqual(portalBlueprint.Id, portal.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, portal.DecayPulseLeft);
-            Assert.AreEqual(itemData.ItemFlags, portal.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, portal.BaseItemFlags);
             Assert.IsNotNull((portal as IItemPortal).Destination);
             Assert.AreEqual(room2, (portal as IItemPortal).Destination);
         }
@@ -464,7 +464,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(quest, typeof(IItemQuest));
             Assert.AreEqual(questBlueprint.Id, quest.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, quest.DecayPulseLeft);
-            Assert.AreEqual(itemData.ItemFlags, quest.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, quest.BaseItemFlags);
         }
 
         // Shield
@@ -488,7 +488,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(shield, typeof(IItemShield));
             Assert.AreEqual(shieldBlueprint.Id, shield.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, shield.DecayPulseLeft);
-            Assert.AreEqual(itemData.ItemFlags, shield.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, shield.BaseItemFlags);
         }
 
         // Weapon
@@ -512,7 +512,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(weapon, typeof(IItemWeapon));
             Assert.AreEqual(weaponBlueprint.Id, weapon.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, weapon.DecayPulseLeft);
-            Assert.AreEqual(itemData.ItemFlags, weapon.ItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, weapon.BaseItemFlags);
         }
     }
 }

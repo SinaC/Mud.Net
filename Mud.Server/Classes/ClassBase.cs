@@ -27,7 +27,7 @@ namespace Mud.Server.Classes
 
         public abstract IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form);
 
-        public abstract int GetPrimaryAttributeByLevel(PrimaryAttributeTypes primaryAttribute, int level);
+        public abstract int GetAttributeByLevel(CharacterAttributes attribute, int level);
 
         #endregion
 

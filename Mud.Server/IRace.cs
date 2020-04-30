@@ -14,7 +14,7 @@ namespace Mud.Server
 
         IEnumerable<EquipmentSlots> EquipmentSlots { get; }
 
-        int GetPrimaryAttributeModifier(PrimaryAttributeTypes primaryAttribute);
+        int GetAttributeModifier(CharacterAttributes attribute);
 
         // TODO: specific behaviour such as 120% xp for human, infrared for dwarf, ...
         // TODO: xp/level, ...

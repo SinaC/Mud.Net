@@ -926,7 +926,7 @@ namespace Mud.Server.Server
                         }
                     }
                     if (needsRecompute)
-                        character.RecomputeAttributes();
+                        character.Recompute();
                 }
                 catch (Exception ex)
                 {

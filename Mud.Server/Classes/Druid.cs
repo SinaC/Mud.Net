@@ -46,7 +46,7 @@ namespace Mud.Server.Classes
             }
         }
 
-        public override int GetPrimaryAttributeByLevel(PrimaryAttributeTypes primaryAttribute, int level)
+        public override int GetAttributeByLevel(CharacterAttributes attribute, int level)
         {
             return level*10; // TODO: http://wow.gamepedia.com/Base_attributes
         }

@@ -10,7 +10,7 @@ namespace Mud.Server.Races
 
         public override string ShortName => "Dwa";
 
-        public override int GetPrimaryAttributeModifier(PrimaryAttributeTypes primaryAttribute)
+        public override int GetAttributeModifier(CharacterAttributes attribute)
         {
             return 0; // TODO: http://wow.gamepedia.com/Base_attributes#Racial_modifiers
         }

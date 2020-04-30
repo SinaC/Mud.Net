@@ -131,10 +131,10 @@ namespace Mud.Server.World
             INonPlayableCharacter nonPlayableCharacter = character as INonPlayableCharacter;
             return RandomManager.Random(Rooms.Where(x =>
                 character.CanSee(x)
-                && !x.RoomFlags.HasFlag(RoomFlags.Safe)
-                && !x.RoomFlags.HasFlag(RoomFlags.Private)
-                && !x.RoomFlags.HasFlag(RoomFlags.Solitary)
-                && (nonPlayableCharacter == null || nonPlayableCharacter.ActFlags.HasFlag(ActFlags.Aggressive) || !x.RoomFlags.HasFlag(RoomFlags.Law))));
+                && !x.CurrentRoomFlags.HasFlag(RoomFlags.Safe)
+                && !x.CurrentRoomFlags.HasFlag(RoomFlags.Private)
+                && !x.CurrentRoomFlags.HasFlag(RoomFlags.Solitary)
+                && (nonPlayableCharacter == null || nonPlayableCharacter.ActFlags.HasFlag(ActFlags.Aggressive) || !x.CurrentRoomFlags.HasFlag(RoomFlags.Law))));
         }
 
         public IRoom GetDefaultRecallRoom() 
@@ -154,6 +154,7 @@ namespace Mud.Server.World
             if (blueprint == null)
                 throw new ArgumentNullException(nameof(blueprint));
             IRoom room = new Room.Room(Guid.NewGuid(), blueprint, area);
+            room.Recompute();
             _rooms.Add(room);
             return room;
         }
@@ -170,6 +171,7 @@ namespace Mud.Server.World
         public IPlayableCharacter AddPlayableCharacter(Guid guid, CharacterData characterData, IPlayer player, IRoom room) // PC
         {
             IPlayableCharacter character = new Character.PlayableCharacter.PlayableCharacter(guid, characterData, player, room);
+            character.Recompute();
             _characters.Add(character);
             return character;
         }
@@ -295,6 +297,7 @@ namespace Mud.Server.World
 
             if (item != null)
             {
+                item.Recompute();
                 _items.Add(item);
                 return item;
             }

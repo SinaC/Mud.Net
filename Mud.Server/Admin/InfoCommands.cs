@@ -213,7 +213,7 @@ namespace Mud.Server.Admin
             else
                 sb.AppendLine("No blueprint");
             sb.AppendFormatLine("Name: {0}", room.Blueprint?.Name ?? "(none)");
-            sb.AppendFormatLine("Flags: {0}", room.RoomFlags);
+            sb.AppendFormatLine("Flags: {0}/{1}", room.CurrentRoomFlags, room.BaseRoomFlags);
             sb.AppendFormatLine("DisplayName: {0}", room.DisplayName);
             sb.AppendFormatLine("Description: {0}", room.Description);
             if (room.ExtraDescriptions != null)
@@ -316,18 +316,16 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Level: {0} Sex: {1}", victim.Level, victim.Sex);
             if (playableVictim != null)
                 sb.AppendFormatLine("Experience: {0} NextLevel: {1}", playableVictim.Experience, playableVictim.ExperienceToLevel);
-            sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim[SecondaryAttributeTypes.MaxHitPoints]);
-            sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim[SecondaryAttributeTypes.MaxMovePoints]);
-            sb.AppendFormatLine("Flags: {0}", victim.CharacterFlags);
-            sb.AppendFormatLine("Immunites: {0}", victim.Immunities);
-            sb.AppendFormatLine("Resistances: {0}", victim.Resistances);
-            sb.AppendFormatLine("Vulnerabilities: {0}", victim.Vulnerabilities);
+            sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim.CurrentAttributes(CharacterAttributes.MaxHitPoints));
+            sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim.CurrentAttributes(CharacterAttributes.MaxMovePoints));
+            sb.AppendFormatLine("Flags: {0}|{1}", victim.CurrentCharacterFlags, victim.BaseCharacterFlags);
+            sb.AppendFormatLine("Immunites: {0}|{1}", victim.CurrentImmunities, victim.BaseImmunities);
+            sb.AppendFormatLine("Resistances: {0}|{1}", victim.CurrentResistances, victim.BaseResistances);
+            sb.AppendFormatLine("Vulnerabilities: {0}|{1}", victim.CurrentVulnerabilities, victim.BaseVulnerabilities);
             sb.AppendFormatLine("Alignment: {0}", victim.Alignment);
             sb.AppendLine("Attributes:");
-            foreach (PrimaryAttributeTypes primaryAttribute in EnumHelpers.GetValues<PrimaryAttributeTypes>())
-                sb.AppendFormatLine("{0}: Current: {1} Base: {2}", primaryAttribute, victim[primaryAttribute], victim.GetBasePrimaryAttribute(primaryAttribute));
-            foreach (SecondaryAttributeTypes secondary in EnumHelpers.GetValues<SecondaryAttributeTypes>())
-                sb.AppendFormatLine("{0}: {1}", secondary, victim[secondary]);
+            foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
+                sb.AppendFormatLine("{0}: Current: {1} Base: {2}", attribute, victim.CurrentAttributes(attribute), victim.BaseAttributes(attribute));
             foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>().Where(x => x != ResourceKinds.None))
                 sb.AppendFormatLine("{0}: {1}", resourceKind, victim[resourceKind]);
             foreach (IPeriodicAura pa in victim.PeriodicAuras)
@@ -407,7 +405,7 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
             if (item.DecayPulseLeft > 0)
                 sb.AppendFormatLine("Decay in {0}", StringHelpers.FormatDelay(item.DecayPulseLeft / Pulse.PulsePerSeconds));
-            sb.AppendFormatLine("Flags: {0}", item.ItemFlags);
+            sb.AppendFormatLine("Flags: {0}|{1}", item.CurrentItemFlags, item.BaseItemFlags);
             if (item is IItemArmor armor)
                 sb.AppendFormatLine("Armor type: {0} Armor value: {1}", armor.ArmorKind, armor.Armor);
             if (item is IItemContainer container)
@@ -417,7 +415,7 @@ namespace Mud.Server.Admin
                 sb.AppendLine("No additional informations");
             //
             if (item is IItemWeapon weapon)
-                sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3}", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType);
+                sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3} {4}|{5}", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType, weapon.CurrentWeaponFlags, weapon.BaseWeaponFlags);
             //
             if (item is IItemFurniture furniture)
             {

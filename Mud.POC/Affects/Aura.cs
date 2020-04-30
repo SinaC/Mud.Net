@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mud.Domain;
 
 namespace Mud.POC.Affects
 {
     public class Aura : IAura
     {
-        private List<IAffect> _affects;
+        private readonly List<IAffect> _affects;
 
         public Aura(IAbility ability, IEntity source, AuraFlags flags, int level, int pulseLeft, params IAffect[] affects)
         {
@@ -54,6 +55,12 @@ namespace Mud.POC.Affects
         public void OnRemoved()
         {
             IsValid = false;
+        }
+
+        public AuraData MapAuraData()
+        {
+            // TODO
+            throw new NotImplementedException();
         }
     }
 }

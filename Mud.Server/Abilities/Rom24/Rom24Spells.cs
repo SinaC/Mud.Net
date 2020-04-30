@@ -68,12 +68,12 @@ namespace Mud.Server.Abilities.Rom24
             // item
             if (target is IItem item)
             {
-                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
                 {
                     caster.Act(ActOptions.ToCharacter, "{0:N} is already blessed.");
                     return;
                 }
-                if (item.ItemFlags.HasFlag(ItemFlags.Evil))
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.Evil))
                 {
                     IAura evilAura = item.GetAura("Curse");
                     if (!Rom24Common.SavesDispel(level, evilAura?.Level ?? item.Level, 0))
@@ -81,7 +81,7 @@ namespace Mud.Server.Abilities.Rom24
                         if (evilAura != null)
                             item.RemoveAura(evilAura, false);
                         caster.Act(ActOptions.ToAll, "{0} glows a pale blue.", item);
-                        item.RemoveItemFlags(ItemFlags.Evil);
+                        item.RemoveBaseItemFlags(ItemFlags.Evil);
                         return;
                     }
                     caster.Act(ActOptions.ToCharacter, "The evil of {0} is too powerful for you to overcome.", item);
@@ -108,14 +108,14 @@ namespace Mud.Server.Abilities.Rom24
                 int duration = 6 + level;
                 World.AddAura(victim, ability, caster, AuraModifiers.HitRoll, level / 8, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
                 World.AddAura(victim, ability, caster, AuraModifiers.SavingThrow, -level / 8, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-                victim.RecomputeAttributes();
+                victim.Recompute();
                 return;
             }
         }
 
         public void SpellBlindness(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Blind) || Rom24Common.SavesSpell(level, victim, SchoolTypes.None))
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Blind) || Rom24Common.SavesSpell(level, victim, SchoolTypes.None))
                 return;
 
             int duration = 1 + level;
@@ -176,11 +176,11 @@ namespace Mud.Server.Abilities.Rom24
                 INonPlayableCharacter npcVictim = victim as INonPlayableCharacter;
 
                 // IsNpc, immune magic or undead
-                if (victim != null && (victim.Immunities.HasFlag(IRVFlags.Magic) || npcVictim.ActFlags.HasFlag(ActFlags.Undead)))
+                if (victim != null && (victim.CurrentImmunities.HasFlag(IRVFlags.Magic) || npcVictim.ActFlags.HasFlag(ActFlags.Undead)))
                     continue;
 
                 // Is affected by berserk, calm or frenzy
-                if (victim.CharacterFlags.HasFlag(CharacterFlags.Berserk) || victim.CharacterFlags.HasFlag(CharacterFlags.Calm) || victim.GetAura("Frenzy") != null)
+                if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Berserk) || victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Calm) || victim.GetAura("Frenzy") != null)
                     continue;
 
                 victim.Send("A wave of calm passes over you.");
@@ -195,13 +195,13 @@ namespace Mud.Server.Abilities.Rom24
                 World.AddAura(victim, ability, caster, AuraModifiers.HitRoll, modifier, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
                 World.AddAura(victim, ability, caster, AuraModifiers.DamRoll, modifier, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
                 World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.Calm, level, TimeSpan.FromMinutes(duration), false);
-                victim.RecomputeAttributes();
+                victim.Recompute();
             }
         }
 
         public void SpellCancellation(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if ((caster is IPlayableCharacter && victim is INonPlayableCharacter && !caster.CharacterFlags.HasFlag(CharacterFlags.Charm) && caster.ControlledBy == victim)
+            if ((caster is IPlayableCharacter && victim is INonPlayableCharacter && !caster.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm) && caster.ControlledBy == victim)
                 || (caster is INonPlayableCharacter && victim is IPlayableCharacter))
             {
                 caster.Send("You failed, try dispel magic.");
@@ -316,14 +316,14 @@ namespace Mud.Server.Abilities.Rom24
                 return;
             }
 
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm)
-                || caster.CharacterFlags.HasFlag(CharacterFlags.Charm)
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm)
+                || caster.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm)
                 || level < victim.Level
-                || victim.Immunities.HasFlag(IRVFlags.Charm)
+                || victim.CurrentImmunities.HasFlag(IRVFlags.Charm)
                 || Rom24Common.SavesSpell(level, victim, SchoolTypes.Charm))
                 return;
 
-            if (victim.Room.RoomFlags.HasFlag(RoomFlags.Law))
+            if (victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Law))
             {
                 caster.Send("The mayor does not allow charming in the city limits.");
                 return;
@@ -385,13 +385,13 @@ namespace Mud.Server.Abilities.Rom24
             // item
             if (item != null)
             {
-                if (item.ItemFlags.HasFlag(ItemFlags.Glowing))
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.Glowing))
                 {
                     caster.Act(ActOptions.ToCharacter, "{0} is already glowing.", item);
                     return;
                 }
 
-                item.AddItemFlags(ItemFlags.Glowing);
+                item.AddBaseItemFlags(ItemFlags.Glowing);
                 caster.Act(ActOptions.ToAll, "{0} glows with a white light.", item);
                 return;
             }
@@ -481,12 +481,12 @@ namespace Mud.Server.Abilities.Rom24
             // item
             if (target is IItem item)
             {
-                if (item.ItemFlags.HasFlag(ItemFlags.Evil))
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.Evil))
                 {
                     caster.Act(ActOptions.ToCharacter, "{0} is already filled with evil.", item);
                     return;
                 }
-                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
                 {
                     IAura blessAura = item.GetAura("Bless");
                     if (!Rom24Common.SavesDispel(level, blessAura?.Level ?? item.Level, 0))
@@ -494,7 +494,7 @@ namespace Mud.Server.Abilities.Rom24
                         if (blessAura != null)
                             item.RemoveAura(blessAura, false);
                         caster.Act(ActOptions.ToAll, "{0} glows with a red aura.", item);
-                        item.RemoveItemFlags(ItemFlags.Bless);
+                        item.RemoveBaseItemFlags(ItemFlags.Bless);
                         return;
                     }
                     else
@@ -509,7 +509,7 @@ namespace Mud.Server.Abilities.Rom24
             if (target is ICharacter victim)
             {
                 IAura curseAura = victim.GetAura("Curse");
-                if (curseAura != null || victim.CharacterFlags.HasFlag(CharacterFlags.Curse) || Rom24Common.SavesSpell(level, victim, SchoolTypes.Negative))
+                if (curseAura != null || victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Curse) || Rom24Common.SavesSpell(level, victim, SchoolTypes.Negative))
                     return;
                 victim.Send("You feel unclean.");
                 if (caster != victim)
@@ -517,7 +517,7 @@ namespace Mud.Server.Abilities.Rom24
                 int duration = 2 * level;
                 World.AddAura(victim, ability, caster, AuraModifiers.HitRoll, -level / 8, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
                 World.AddAura(victim, ability, caster, AuraModifiers.SavingThrow, level / 8, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-                victim.RecomputeAttributes();
+                victim.Recompute();
                 return;
             }
         }
@@ -630,9 +630,9 @@ namespace Mud.Server.Abilities.Rom24
             }
 
             bool found = TryDispels(level, victim);
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Sanctuary) && !Rom24Common.SavesDispel(level, victim.Level, -1) && victim.GetAura("Sanctuary") == null)
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Sanctuary) && !Rom24Common.SavesDispel(level, victim.Level, -1) && victim.GetAura("Sanctuary") == null)
             {
-                victim.RemoveCharacterFlags(CharacterFlags.Sanctuary);
+                victim.RemoveBaseCharacterFlags(CharacterFlags.Sanctuary);
                 victim.Act(ActOptions.ToRoom, "The white aura around {0:n}'s body vanishes.", victim);
                 found = true;
             }
@@ -655,7 +655,7 @@ namespace Mud.Server.Abilities.Rom24
             // Damage people in room
             foreach (ICharacter victim in caster.Room.People.Where(x => x != caster && !Rom24Common.IsSafeSpell(caster, x, true)))
             {
-                int damage = victim.CharacterFlags.HasFlag(CharacterFlags.Flying)
+                int damage = victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Flying)
                     ? 0 // no damage but starts fight
                     : level + RandomManager.Dice(2, 8);
                 victim.AbilityDamage(caster, ability, damage, SchoolTypes.Bash, true);
@@ -686,9 +686,9 @@ namespace Mud.Server.Abilities.Rom24
                     fail += 20;
             // apply other modifiers
             fail -= level;
-            if (armor.ItemFlags.HasFlag(ItemFlags.Bless))
+            if (armor.CurrentItemFlags.HasFlag(ItemFlags.Bless))
                 fail -= 15;
-            if (armor.ItemFlags.HasFlag(ItemFlags.Glowing))
+            if (armor.CurrentItemFlags.HasFlag(ItemFlags.Glowing))
                 fail -= 5;
             fail = fail.Range(5, 85);
             // the moment of truth
@@ -704,8 +704,8 @@ namespace Mud.Server.Abilities.Rom24
                 caster.Act(ActOptions.ToCharacter, "{0} glows brightly, then fades...oops.!", armor);
                 caster.Act(ActOptions.ToRoom, "{0} glows brightly, then fades.", armor);
                 armor.RemoveAuras(_ => true, false);
-                armor.ClearItemFlags();
-                armor.RecomputeAttributes();
+                armor.RemoveBaseItemFlags(armor.BaseItemFlags); // clear
+                armor.Recompute();
                 return;
             }
             if (result <= fail) // failed, no bad result
@@ -722,16 +722,16 @@ namespace Mud.Server.Abilities.Rom24
             else // exceptional enchant
             {
                 caster.Act(ActOptions.ToAll, "{0} glows a brillant gold!", armor);
-                armor.AddItemFlags(ItemFlags.Glowing);
+                armor.AddBaseItemFlags(ItemFlags.Glowing);
                 amount = -2;
             }
             // TODO: change item level (+1)
-            armor.AddItemFlags(ItemFlags.Magic);
+            armor.AddBaseItemFlags(ItemFlags.Magic);
             if (existingAcAura != null)
                 existingAcAura.Modify(Math.Max(existingAcAura.Level, level), existingAcAura.Amount + amount, null);
             else
                 World.AddAura(armor, ability, caster, AuraModifiers.Armor, amount, AmountOperators.Fixed, level, Pulse.Infinite, false);
-            armor.RecomputeAttributes();
+            armor.Recompute();
         }
 
         public void SpellEnchantWeapon(IAbility ability, int level, ICharacter caster, IItemWeapon weapon)
@@ -766,9 +766,9 @@ namespace Mud.Server.Abilities.Rom24
                     fail += 20;
             // apply other modifiers
             fail -= 3 * level / 2;
-            if (weapon.ItemFlags.HasFlag(ItemFlags.Bless))
+            if (weapon.CurrentItemFlags.HasFlag(ItemFlags.Bless))
                 fail -= 15;
-            if (weapon.ItemFlags.HasFlag(ItemFlags.Glowing))
+            if (weapon.CurrentItemFlags.HasFlag(ItemFlags.Glowing))
                 fail -= 5;
             fail = fail.Range(5, 95);
             // the moment of truth
@@ -784,8 +784,8 @@ namespace Mud.Server.Abilities.Rom24
                 caster.Act(ActOptions.ToCharacter, "{0} glows brightly, then fades...oops.!", weapon);
                 caster.Act(ActOptions.ToRoom, "{0:N} glows brightly, then fades.", weapon);
                 weapon.RemoveAuras(_ => true, false);
-                weapon.ClearItemFlags();
-                weapon.RecomputeAttributes();
+                weapon.RemoveBaseItemFlags(weapon.BaseItemFlags); // clear
+                weapon.Recompute();
                 return;
             }
             if (result <= fail) // failed, no bad result
@@ -802,11 +802,11 @@ namespace Mud.Server.Abilities.Rom24
             else // exceptional enchant
             {
                 caster.Act(ActOptions.ToAll, "{0:N} glows a brillant blue!", weapon);
-                weapon.AddItemFlags(ItemFlags.Glowing);
+                weapon.AddBaseItemFlags(ItemFlags.Glowing);
                 amount = 2;
             }
             // TODO: change item level (+1)
-            weapon.AddItemFlags(ItemFlags.Magic);
+            weapon.AddBaseItemFlags(ItemFlags.Magic);
             if (existingHitRollAura != null)
                 existingHitRollAura.Modify(Math.Max(existingHitRollAura.Level, level), existingHitRollAura.Amount + amount, Pulse.Infinite);
             else
@@ -815,7 +815,7 @@ namespace Mud.Server.Abilities.Rom24
                 existingDamRollAura.Modify(Math.Max(existingDamRollAura.Level, level), existingDamRollAura.Amount + amount, Pulse.Infinite);
             else
                 World.AddAura(weapon, ability, caster, AuraModifiers.DamRoll, amount, AmountOperators.Fixed, level, Pulse.Infinite, false);
-            weapon.RecomputeAttributes();
+            weapon.Recompute();
         }
 
         public void SpellEnergyDrain(IAbility ability, int level, ICharacter caster, ICharacter victim)
@@ -863,7 +863,7 @@ namespace Mud.Server.Abilities.Rom24
 
         public void SpellFireproof(IAbility ability, int level, ICharacter caster, IItem item)
         {
-            if (item.ItemFlags.HasFlag(ItemFlags.BurnProof))
+            if (item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof))
             {
                 caster.Act(ActOptions.ToCharacter, "{0} is already protected from burning.", item);
                 return;
@@ -886,7 +886,7 @@ namespace Mud.Server.Abilities.Rom24
 
         public void SpellFaerieFire(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.FaerieFire))
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.FaerieFire))
                 return;
             World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.FaerieFire, level, TimeSpan.FromMinutes(level), true);
             victim.Act(ActOptions.ToAll, "{0:N} are surrounded by a pink outline.", victim);
@@ -902,8 +902,8 @@ namespace Mud.Server.Abilities.Rom24
             foreach (ICharacter victim in caster.Room.People.Where(x => x != caster && !Rom24Common.SavesSpell(level, x, SchoolTypes.Other))) // && ich->invis_level <= 0
             {
                 victim.RemoveAuras(x => x.Ability == invis || x.Ability == massInvis || x.Ability == sneak, false);
-                victim.RemoveCharacterFlags(CharacterFlags.Hide | CharacterFlags.Invisible | CharacterFlags.Sneak);
-                victim.RecomputeAttributes();
+                victim.RemoveBaseCharacterFlags(CharacterFlags.Hide | CharacterFlags.Invisible | CharacterFlags.Sneak);
+                victim.Recompute();
                 victim.Act(ActOptions.ToAll, "{0:N} is revealed!", victim);
             }
         }
@@ -915,7 +915,7 @@ namespace Mud.Server.Abilities.Rom24
 
         public void SpellFly(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Flying))
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Flying))
             {
                 if (victim == caster)
                     caster.Send("You are already airborne.");
@@ -929,7 +929,7 @@ namespace Mud.Server.Abilities.Rom24
 
         public void SpellFrenzy(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Berserk) || victim.GetAura("Frenzy") != null)
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Berserk) || victim.GetAura("Frenzy") != null)
             {
                 if (victim == caster)
                     caster.Send("You are already in a frenzy.");
@@ -938,7 +938,7 @@ namespace Mud.Server.Abilities.Rom24
                 return;
             }
 
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Calm) || victim.GetAura("Calm") != null)
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Calm) || victim.GetAura("Calm") != null)
             {
                 if (victim == caster)
                     caster.Send("Why don't you just relax for a while?");
@@ -960,7 +960,7 @@ namespace Mud.Server.Abilities.Rom24
             World.AddAura(victim, ability, caster, AuraModifiers.HitRoll, amount, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
             World.AddAura(victim, ability, caster, AuraModifiers.DamRoll, amount, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
             World.AddAura(victim, ability, caster, AuraModifiers.Armor, (10 * level) / 12, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-            victim.RecomputeAttributes();
+            victim.Recompute();
 
             victim.Send("You are filled with holy wrath!");
             victim.Act(ActOptions.ToRoom, "{0:N} gets a wild look in $s eyes!", victim);
@@ -972,15 +972,15 @@ namespace Mud.Server.Abilities.Rom24
             if (victim == caster
                 || victim.Room == null
                 || !caster.CanSee(victim.Room)
-                || victim.Room.RoomFlags.HasFlag(RoomFlags.Safe)
-                || victim.Room.RoomFlags.HasFlag(RoomFlags.Private)
-                || victim.Room.RoomFlags.HasFlag(RoomFlags.Solitary)
-                || victim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
-                || caster.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
+                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe)
+                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Private)
+                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Solitary)
+                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall)
+                || caster.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall)
                 || victim.Level >= level + 3
                 // TODO: clan check
                 // TODO: hero level check 
-                || (npcVictim != null && npcVictim.Immunities.HasFlag(IRVFlags.Summon))
+                || (npcVictim != null && npcVictim.CurrentImmunities.HasFlag(IRVFlags.Summon))
                 || (npcVictim != null && Rom24Common.SavesSpell(level, victim, SchoolTypes.Other)))
             {
                 caster.Send("You failed.");
@@ -1030,7 +1030,7 @@ namespace Mud.Server.Abilities.Rom24
 
         public void SpellHaste(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Haste) || victim.GetAura("Haste") != null)  // TODO: Npc OffFlags.Fast
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Haste) || victim.GetAura("Haste") != null)  // TODO: Npc OffFlags.Fast
             {
                 if (victim == caster)
                     caster.Send("You can't move any faster!");
@@ -1038,7 +1038,7 @@ namespace Mud.Server.Abilities.Rom24
                     caster.Act(ActOptions.ToCharacter, "{0:N} is already moving as fast as {0:e} can.", victim);
                 return;
             }
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Slow))
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Slow))
             {
                 if (TryDispel(level, victim, AbilityManager["Slow"]) != CheckDispelReturnValues.Dispelled)
                 {
@@ -1056,7 +1056,7 @@ namespace Mud.Server.Abilities.Rom24
             int amount = 1 + (level >= 18 ? 1 : 0) + (level >= 25 ? 1 : 0) + (level >= 32 ? 1 : 0);
             World.AddAura(victim, ability, caster, AuraModifiers.Dexterity, amount, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
             World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.Haste, level, TimeSpan.FromMinutes(duration), false);
-            victim.RecomputeAttributes();
+            victim.Recompute();
             victim.Send("You feel yourself moving more quickly.");
             victim.Act(ActOptions.ToRoom, "{0:N} is moving more quickly.", victim);
             if (caster != victim)
@@ -1075,22 +1075,22 @@ namespace Mud.Server.Abilities.Rom24
         {
             bool fail = true;
             int damage = 0;
-            if (!Rom24Common.SavesSpell(level + 2, victim, SchoolTypes.Fire) && !victim.Immunities.HasFlag(IRVFlags.Fire))
+            if (!Rom24Common.SavesSpell(level + 2, victim, SchoolTypes.Fire) && !victim.CurrentImmunities.HasFlag(IRVFlags.Fire))
             {
                 // Check equipments
                 foreach (IItem item in victim.Equipments.Where(x => x.Item != null))
                 {
-                    if (!item.ItemFlags.HasFlag(ItemFlags.BurnProof)
-                        && !item.ItemFlags.HasFlag(ItemFlags.NonMetal)
+                    if (!item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof)
+                        && !item.CurrentItemFlags.HasFlag(ItemFlags.NonMetal)
                         && RandomManager.Range(1, 2 * level) > item.Level
                         && !Rom24Common.SavesSpell(level, victim, SchoolTypes.Fire))
                     {
                         switch (item)
                         {
                             case ItemArmor itemArmor:
-                                if (!itemArmor.ItemFlags.HasFlag(ItemFlags.NoDrop) // remove the item
-                                    && !itemArmor.ItemFlags.HasFlag(ItemFlags.NoRemove)
-                                    && itemArmor.Weight / 10 < RandomManager.Range(1, 2 * victim[PrimaryAttributeTypes.Dexterity]))
+                                if (!itemArmor.CurrentItemFlags.HasFlag(ItemFlags.NoDrop) // remove the item
+                                    && !itemArmor.CurrentItemFlags.HasFlag(ItemFlags.NoRemove)
+                                    && itemArmor.Weight / 10 < RandomManager.Range(1, 2 * victim.CurrentAttributes(CharacterAttributes.Dexterity)))
                                 {
                                     itemArmor.ChangeEquipedBy(null);
                                     itemArmor.ChangeContainer(victim.Room);
@@ -1109,8 +1109,8 @@ namespace Mud.Server.Abilities.Rom24
                             case IItemWeapon itemWeapon:
                                 if (itemWeapon.DamageType != SchoolTypes.Fire)
                                 {
-                                    if (!itemWeapon.ItemFlags.HasFlag(ItemFlags.NoDrop) // remove the item
-                                        && !itemWeapon.ItemFlags.HasFlag(ItemFlags.NoRemove))
+                                    if (!itemWeapon.CurrentItemFlags.HasFlag(ItemFlags.NoDrop) // remove the item
+                                        && !itemWeapon.CurrentItemFlags.HasFlag(ItemFlags.NoRemove))
                                     {
                                         itemWeapon.ChangeEquipedBy(null);
                                         itemWeapon.ChangeContainer(victim.Room);
@@ -1133,15 +1133,15 @@ namespace Mud.Server.Abilities.Rom24
                 // Check inventory
                 foreach (IItem item in victim.Inventory)
                 {
-                    if (!item.ItemFlags.HasFlag(ItemFlags.BurnProof)
-                        && !item.ItemFlags.HasFlag(ItemFlags.NonMetal)
+                    if (!item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof)
+                        && !item.CurrentItemFlags.HasFlag(ItemFlags.NonMetal)
                         && RandomManager.Range(1, 2 * level) > item.Level
                         && !Rom24Common.SavesSpell(level, victim, SchoolTypes.Fire))
                     {
                         switch (item)
                         {
                             case ItemArmor itemArmor:
-                                if (!itemArmor.ItemFlags.HasFlag(ItemFlags.NoDrop)) // drop it if we can
+                                if (!itemArmor.CurrentItemFlags.HasFlag(ItemFlags.NoDrop)) // drop it if we can
                                 {
                                     itemArmor.ChangeContainer(victim.Room);
                                     victim.Act(ActOptions.ToRoom, "{0:N} yelps and throws {1} to the ground!", victim, itemArmor);
@@ -1157,7 +1157,7 @@ namespace Mud.Server.Abilities.Rom24
                                 }
                                 break;
                             case IItemWeapon itemWeapon:
-                                if (!itemWeapon.ItemFlags.HasFlag(ItemFlags.NoDrop)) // drop it if we can
+                                if (!itemWeapon.CurrentItemFlags.HasFlag(ItemFlags.NoDrop)) // drop it if we can
                                 {
                                     itemWeapon.ChangeContainer(victim.Room);
                                     victim.Act(ActOptions.ToRoom, "{0:N} throws a burning hot {1} to the ground!", victim, itemWeapon);
@@ -1249,7 +1249,7 @@ namespace Mud.Server.Abilities.Rom24
         {
             if (target is IItem item)
             {
-                if (item.ItemFlags.HasFlag(ItemFlags.Invis))
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.Invis))
                 {
                     caster.Send("{0} is already invisible.", item);
                     return;
@@ -1261,7 +1261,7 @@ namespace Mud.Server.Abilities.Rom24
             }
             if (target is ICharacter victim)
             {
-                if (victim.CharacterFlags.HasFlag(CharacterFlags.Invisible))
+                if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Invisible))
                     return;
 
                 victim.Act(ActOptions.ToRoom, "{0:N} fades out of existence.", victim);
@@ -1305,7 +1305,7 @@ namespace Mud.Server.Abilities.Rom24
                 ? 200
                 : level * 2;
             int number = 0;
-            IEnumerable<IItem> foundItems = FindHelpers.FindAllByName(World.Items.Where(x => caster.CanSee(x) && !x.ItemFlags.HasFlag(ItemFlags.NoLocate) && x.Level <= caster.Level && RandomManager.Range(1,100) <= 2*level), parameter, false);
+            IEnumerable<IItem> foundItems = FindHelpers.FindAllByName(World.Items.Where(x => caster.CanSee(x) && !x.CurrentItemFlags.HasFlag(ItemFlags.NoLocate) && x.Level <= caster.Level && RandomManager.Range(1,100) <= 2*level), parameter, false);
             foreach (IItem item in foundItems)
             {
                 IItem outOfItemContainer = item;
@@ -1420,8 +1420,8 @@ namespace Mud.Server.Abilities.Rom24
 
         public void SpellProtectionEvil(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.ProtectGood)
-                || victim.CharacterFlags.HasFlag(CharacterFlags.ProtectEvil))
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.ProtectGood)
+                || victim.CurrentCharacterFlags.HasFlag(CharacterFlags.ProtectEvil))
             {
                 caster.Act(ActOptions.ToCharacter, "{0:N} {0:b} already protected.", victim);
                 return;
@@ -1430,7 +1430,7 @@ namespace Mud.Server.Abilities.Rom24
             int duration = 24;
             World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.ProtectEvil, level, TimeSpan.FromMinutes(duration), false);
             World.AddAura(victim, ability, caster, AuraModifiers.SavingThrow, -1, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-            victim.RecomputeAttributes();
+            victim.Recompute();
 
             victim.Send("You feel holy and pure.");
             caster.Act(ActOptions.ToCharacter, "{0:N} is protected from evil.", victim);
@@ -1438,8 +1438,8 @@ namespace Mud.Server.Abilities.Rom24
 
         public void SpellProtectionGood(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.ProtectGood)
-                || victim.CharacterFlags.HasFlag(CharacterFlags.ProtectEvil))
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.ProtectGood)
+                || victim.CurrentCharacterFlags.HasFlag(CharacterFlags.ProtectEvil))
             {
                 caster.Act(ActOptions.ToCharacter, "{0:N} {0:b} already protected.", victim);
                 return;
@@ -1448,7 +1448,7 @@ namespace Mud.Server.Abilities.Rom24
             int duration = 24;
             World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.ProtectGood, level, TimeSpan.FromMinutes(duration), false);
             World.AddAura(victim, ability, caster, AuraModifiers.SavingThrow, -1, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
-            victim.RecomputeAttributes();
+            victim.Recompute();
 
             victim.Send("You feel aligned with darkness.");
             caster.Act(ActOptions.ToCharacter, "{0:N} is protected from good.", victim);
@@ -1492,7 +1492,7 @@ namespace Mud.Server.Abilities.Rom24
         public void SpellRefresh(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             victim.UpdateMovePoints(level);
-            if (victim.MovePoints == victim[SecondaryAttributeTypes.MaxMovePoints])
+            if (victim.MovePoints == victim.CurrentAttributes(CharacterAttributes.MaxMovePoints))
                 victim.Send("You feel fully refreshed!");
             else
                 victim.Send("You feel less tired.");
@@ -1505,12 +1505,12 @@ namespace Mud.Server.Abilities.Rom24
             // item
             if (target is IItem item)
             {
-                if (item.ItemFlags.HasFlag(ItemFlags.NoDrop) || item.ItemFlags.HasFlag(ItemFlags.NoRemove))
+                if (item.CurrentItemFlags.HasFlag(ItemFlags.NoDrop) || item.CurrentItemFlags.HasFlag(ItemFlags.NoRemove))
                 {
-                    if (!item.ItemFlags.HasFlag(ItemFlags.NoUncurse) && !Rom24Common.SavesDispel(level + 2, item.Level, 0))
+                    if (!item.CurrentItemFlags.HasFlag(ItemFlags.NoUncurse) && !Rom24Common.SavesDispel(level + 2, item.Level, 0))
                     {
-                        item.RemoveItemFlags(ItemFlags.NoRemove);
-                        item.RemoveItemFlags(ItemFlags.NoDrop);
+                        item.RemoveBaseItemFlags(ItemFlags.NoRemove);
+                        item.RemoveBaseItemFlags(ItemFlags.NoDrop);
                         caster.Act(ActOptions.ToAll, "{0:N} glows blue.", item);
                         return;
                     }
@@ -1530,11 +1530,11 @@ namespace Mud.Server.Abilities.Rom24
                 }
 
                 // attempt to remove curse on one item in inventory or equipment
-                foreach (IItem carriedItem in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)).Where(x => (x.ItemFlags.HasFlag(ItemFlags.NoDrop) || x.ItemFlags.HasFlag(ItemFlags.NoRemove)) && !x.ItemFlags.HasFlag(ItemFlags.NoUncurse)))
+                foreach (IItem carriedItem in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)).Where(x => (x.CurrentItemFlags.HasFlag(ItemFlags.NoDrop) || x.CurrentItemFlags.HasFlag(ItemFlags.NoRemove)) && !x.CurrentItemFlags.HasFlag(ItemFlags.NoUncurse)))
                     if (!Rom24Common.SavesDispel(level, carriedItem.Level, 0))
                     {
-                        carriedItem.RemoveItemFlags(ItemFlags.NoRemove);
-                        carriedItem.RemoveItemFlags(ItemFlags.NoDrop);
+                        carriedItem.RemoveBaseItemFlags(ItemFlags.NoRemove);
+                        carriedItem.RemoveBaseItemFlags(ItemFlags.NoDrop);
                         victim.Act(ActOptions.ToAll, "{0:P} {1} glows blue.", victim, carriedItem);
                         break;
                     }
@@ -1578,7 +1578,7 @@ namespace Mud.Server.Abilities.Rom24
 
         public void SpellSleep(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Sleep)
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Sleep)
                 || (victim is INonPlayableCharacter npcVictim && npcVictim.ActFlags.HasFlag(ActFlags.Undead))
                 || level + 2 < victim.Level
                 || Rom24Common.SavesSpell(level - 4, victim, SchoolTypes.Charm))
@@ -1596,7 +1596,7 @@ namespace Mud.Server.Abilities.Rom24
 
         public void SpellSlow(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Slow)
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Slow)
                 || victim.GetAura(ability) != null)
             {
                 if (victim == caster)
@@ -1606,7 +1606,7 @@ namespace Mud.Server.Abilities.Rom24
                 return;
             }
 
-            if (victim.Immunities.HasFlag(IRVFlags.Magic)
+            if (victim.CurrentImmunities.HasFlag(IRVFlags.Magic)
                 || Rom24Common.SavesSpell(level, victim, SchoolTypes.Other))
             {
                 if (victim != caster)
@@ -1615,7 +1615,7 @@ namespace Mud.Server.Abilities.Rom24
                 return;
             }
 
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Haste))
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Haste))
             {
                 if (TryDispel(level, victim, AbilityManager["Haste"]) != CheckDispelReturnValues.Dispelled)
                 {
@@ -1632,7 +1632,7 @@ namespace Mud.Server.Abilities.Rom24
             int amount = -1 - (level >= 18 ? 1 : 0) - (level >= 25 ? 1 : 0) - (level >= 32 ? 1 : 0);
             World.AddAura(victim, ability, caster, AuraModifiers.Dexterity, amount, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
             World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.Slow, level, TimeSpan.FromMinutes(duration), false);
-            victim.RecomputeAttributes();
+            victim.Recompute();
         }
 
         public void SpellStoneSkin(IAbility ability, int level, ICharacter caster, ICharacter victim)
@@ -1656,16 +1656,16 @@ namespace Mud.Server.Abilities.Rom24
             IPlayableCharacter pcVictim = victim as IPlayableCharacter;
             if (victim == caster
                 || victim.Room == null
-                || caster.Room.RoomFlags.HasFlag(RoomFlags.Safe)
-                || victim.Room.RoomFlags.HasFlag(RoomFlags.Safe)
-                || victim.Room.RoomFlags.HasFlag(RoomFlags.Private)
-                || victim.Room.RoomFlags.HasFlag(RoomFlags.Solitary)
-                || victim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
+                || caster.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe)
+                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe)
+                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Private)
+                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Solitary)
+                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall)
                 || npcVictim?.ActFlags.HasFlag(ActFlags.Aggressive) == true
                 || victim.Level >= level+3
                 || pcVictim?.ImpersonatedBy is IAdmin
                 || victim.Fighting != null
-                || npcVictim?.Immunities.HasFlag(IRVFlags.Summon) == true
+                || npcVictim?.CurrentImmunities.HasFlag(IRVFlags.Summon) == true
                 //TODO: shop || nonPlayableCharacterVictim
                 //TODO: plr_nosummon || playableCharacterVictim
                 || (npcVictim != null && Rom24Common.SavesSpell(level, victim, SchoolTypes.Other)))
@@ -1684,8 +1684,8 @@ namespace Mud.Server.Abilities.Rom24
         public void SpellTeleport(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.Room == null
-                || victim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
-                || (victim != caster && victim.Immunities.HasFlag(IRVFlags.Summon))
+                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall)
+                || (victim != caster && victim.CurrentImmunities.HasFlag(IRVFlags.Summon))
                 || (victim is IPlayableCharacter pcVictim && pcVictim.Fighting != null)
                 || (victim != caster && Rom24Common.SavesSpell(level - 5, victim, SchoolTypes.Other)))
             {
@@ -1726,13 +1726,13 @@ namespace Mud.Server.Abilities.Rom24
 
         public void SpellWeaken(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Weaken) || victim.GetAura(ability) != null || Rom24Common.SavesSpell(level, victim, SchoolTypes.Other))
+            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Weaken) || victim.GetAura(ability) != null || Rom24Common.SavesSpell(level, victim, SchoolTypes.Other))
                 return;
 
             int duration = level / 2;
             World.AddAura(victim, ability, caster, AuraModifiers.Strength, -level / 5, AmountOperators.Fixed, level, TimeSpan.FromMinutes(duration), false);
             World.AddAura<CharacterFlags>(victim, ability, caster, AuraModifiers.CharacterFlags, CharacterFlags.Weaken, level, TimeSpan.FromMinutes(duration), false);
-            victim.RecomputeAttributes();
+            victim.Recompute();
             victim.Send("You feel your strength slip away.");
             victim.Act(ActOptions.ToRoom, "{0:N} looks tired and weak.", victim);
         }
@@ -1750,8 +1750,8 @@ namespace Mud.Server.Abilities.Rom24
                 return;
             }
 
-            if (pcVictim.CharacterFlags.HasFlag(CharacterFlags.Curse)
-                || pcVictim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall))
+            if (pcVictim.CurrentCharacterFlags.HasFlag(CharacterFlags.Curse)
+                || pcVictim.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall))
             {
                 pcVictim.Send("Spell failed.");
                 return;
@@ -1760,7 +1760,7 @@ namespace Mud.Server.Abilities.Rom24
             if (pcVictim.Fighting != null)
                 pcVictim.StopFighting(true);
 
-            pcVictim.UpdateMovePoints(-pcVictim[SecondaryAttributeTypes.MaxMovePoints] / 2);
+            pcVictim.UpdateMovePoints(-pcVictim.CurrentAttributes(CharacterAttributes.MaxMovePoints) / 2);
             pcVictim.Act(ActOptions.ToRoom, "{0:N} disappears", pcVictim);
             pcVictim.ChangeRoom(recallRoom);
             pcVictim.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pcVictim);
@@ -1813,7 +1813,7 @@ namespace Mud.Server.Abilities.Rom24
 
         private void GenericCharacterFlagsAbility(IAbility ability, int level, ICharacter caster, ICharacter victim, CharacterFlags characterFlags, string selfAlreadyAffected, string notSelfAlreadyAffected, string success, string notSelfSuccess)
         {
-            if (victim.CharacterFlags.HasFlag(characterFlags))
+            if (victim.CurrentCharacterFlags.HasFlag(characterFlags))
             {
                 if (victim == caster)
                     caster.Send(selfAlreadyAffected);

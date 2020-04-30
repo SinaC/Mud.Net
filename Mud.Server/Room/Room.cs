@@ -5,6 +5,7 @@ using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.Extensions;
+using Mud.Logger;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
@@ -15,7 +16,7 @@ namespace Mud.Server.Room
 {
     public class Room : EntityBase, IRoom
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> RoomCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => GetCommands<Room>());
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> RoomCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<Room>);
 
         private readonly List<ICharacter> _people;
         private readonly List<IItem> _content;
@@ -47,9 +48,11 @@ namespace Mud.Server.Room
         public override string DebugName => $"{DisplayName}[{Blueprint.Id}]";
 
         // Recompute
-        public override void RecomputeAttributes()
+        public override void Recompute()
         {
-            // TODO
+            CurrentRoomFlags = BaseRoomFlags;
+
+            // TODO apply auras
         }
 
         //
@@ -88,7 +91,8 @@ namespace Mud.Server.Room
 
         public IReadOnlyDictionary<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
 
-        public RoomFlags RoomFlags { get; private set; }
+        public RoomFlags BaseRoomFlags { get; protected set; }
+        public RoomFlags CurrentRoomFlags { get; protected set; }
 
         public IArea Area { get; }
 
@@ -122,11 +126,11 @@ namespace Mud.Server.Room
         {
             // TODO: ownership
             int count = People.Count();
-            if (RoomFlags.HasFlag(RoomFlags.Private) && count >= 2)
+            if (CurrentRoomFlags.HasFlag(RoomFlags.Private) && count >= 2)
                 return true;
-            if (RoomFlags.HasFlag(RoomFlags.Solitary) && count >= 1)
+            if (CurrentRoomFlags.HasFlag(RoomFlags.Solitary) && count >= 1)
                 return true;
-            if (RoomFlags.HasFlag(RoomFlags.ImpOnly))
+            if (CurrentRoomFlags.HasFlag(RoomFlags.ImpOnly))
                 return true;
             return false;
         }
@@ -138,8 +142,10 @@ namespace Mud.Server.Room
             //    Log.Default.WriteLine(LogLevels.Error, $"IRoom.Enter: Character {character.DebugName} is already in Room {character.Room.DebugName}");
             //    return false;
             //}
-            // TODO: check if not already in room
-            _people.Add(character);
+            if (_people.Contains(character))
+                Log.Default.WriteLine(LogLevels.Error, $"IRoom.Enter: Character {character.DebugName} is already in Room {character.Room.DebugName}");
+            else
+                _people.Add(character);
             // Update location quest
             if (character is IPlayableCharacter playableCharacter)
             {

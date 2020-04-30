@@ -22,7 +22,7 @@ namespace Mud.Server
 
         // Recompute
         void Reset(); // Reset attributes, remove auras, periodic auras
-        void RecomputeAttributes();
+        void Recompute();
 
         // Auras
         IAura GetAura(int abilityId);
