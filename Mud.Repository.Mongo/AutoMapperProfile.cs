@@ -40,6 +40,32 @@ namespace Mud.Repository.Mongo
 
             CreateMap<Mud.Domain.AuraData, Domain.AuraData>()
                 .ForMember(x => x.AuraFlags, expression => expression.MapFrom(x => MapAuraFlags(x.AuraFlags)));
+
+            CreateMap<Mud.Domain.AffectDataBase, Domain.AffectDataBase>()
+                .Include<Mud.Domain.CharacterAttributeAffectData, Domain.CharacterAttributeAffectData>()
+                .Include<Mud.Domain.CharacterFlagsAffectData, Domain.CharacterFlagsAffectData>()
+                .Include<Mud.Domain.CharacterIRVAffectData, Domain.CharacterIRVAffectData>()
+                .Include<Mud.Domain.CharacterSexAffectData, Domain.CharacterSexAffectData>()
+                .Include<Mud.Domain.ItemFlagsAffectData, Domain.ItemFlagsAffectData>()
+                .Include<Mud.Domain.ItemWeaponFlagsAffectData, Domain.ItemWeaponFlagsAffectData>();
+            CreateMap<Mud.Domain.CharacterAttributeAffectData, Domain.CharacterAttributeAffectData>()
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
+                .ForMember(x => x.Location, expression => expression.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
+            CreateMap<Mud.Domain.CharacterFlagsAffectData, Domain.CharacterFlagsAffectData>()
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
+                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapCharacterFlags(x.Modifier)));
+            CreateMap<Mud.Domain.CharacterIRVAffectData, Domain.CharacterIRVAffectData>()
+                .ForMember(x => x.Location, expression => expression.MapFrom(x => MapIRVAffectLocations(x.Location)))
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
+                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapIRVFlags(x.Modifier)));
+            CreateMap<Mud.Domain.CharacterSexAffectData, Domain.CharacterSexAffectData>()
+                .ForMember(x => x.Value, expression => expression.MapFrom(x => MapSex(x.Value)));
+            CreateMap<Mud.Domain.ItemFlagsAffectData, Domain.ItemFlagsAffectData>()
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
+                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapItemFlags(x.Modifier)));
+            CreateMap<Mud.Domain.ItemWeaponFlagsAffectData, Domain.ItemWeaponFlagsAffectData>()
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
+                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapWeaponFlags(x.Modifier)));
         }
 
         private void InternalToExternal()
@@ -68,6 +94,32 @@ namespace Mud.Repository.Mongo
 
             CreateMap<Domain.AuraData, Mud.Domain.AuraData>()
                 .ForMember(x => x.AuraFlags, expression => expression.MapFrom(x => MapAuraFlags(x.AuraFlags)));
+
+            CreateMap<Domain.AffectDataBase, Mud.Domain.AffectDataBase>()
+                .Include<Domain.CharacterAttributeAffectData, Mud.Domain.CharacterAttributeAffectData>()
+                .Include<Domain.CharacterFlagsAffectData, Mud.Domain.CharacterFlagsAffectData>()
+                .Include<Domain.CharacterIRVAffectData, Mud.Domain.CharacterIRVAffectData>()
+                .Include<Domain.CharacterSexAffectData, Mud.Domain.CharacterSexAffectData>()
+                .Include<Domain.ItemFlagsAffectData, Mud.Domain.ItemFlagsAffectData>()
+                .Include<Domain.ItemWeaponFlagsAffectData, Mud.Domain.ItemWeaponFlagsAffectData>();
+            CreateMap<Domain.CharacterAttributeAffectData, Mud.Domain.CharacterAttributeAffectData>()
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
+                .ForMember(x => x.Location, expression => expression.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
+            CreateMap<Domain.CharacterFlagsAffectData, Mud.Domain.CharacterFlagsAffectData>()
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
+                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapCharacterFlags(x.Modifier)));
+            CreateMap<Domain.CharacterIRVAffectData, Mud.Domain.CharacterIRVAffectData>()
+                .ForMember(x => x.Location, expression => expression.MapFrom(x => MapIRVAffectLocations(x.Location)))
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
+                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapIRVFlags(x.Modifier)));
+            CreateMap<Domain.CharacterSexAffectData, Mud.Domain.CharacterSexAffectData>()
+                .ForMember(x => x.Value, expression => expression.MapFrom(x => MapSex(x.Value)));
+            CreateMap<Domain.ItemFlagsAffectData, Mud.Domain.ItemFlagsAffectData>()
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
+                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapItemFlags(x.Modifier)));
+            CreateMap<Domain.ItemWeaponFlagsAffectData, Mud.Domain.ItemWeaponFlagsAffectData>()
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
+                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapWeaponFlags(x.Modifier)));
         }
 
         private Mud.Domain.WiznetFlags MapWiznetFlags(int flags)
@@ -268,6 +320,154 @@ namespace Mud.Repository.Mongo
         }
 
         private int MapAuraFlags(Mud.Domain.AuraFlags flags)
+        {
+            return (int)flags;
+        }
+
+        private Mud.Domain.AffectOperators MapAffectOperators(int op)
+        {
+            switch (op)
+            {
+                case 0:
+                    return Mud.Domain.AffectOperators.Add;
+                case 1:
+                    return Mud.Domain.AffectOperators.Or;
+                case 2:
+                    return Mud.Domain.AffectOperators.Assign;
+                case 3:
+                    return Mud.Domain.AffectOperators.Nor;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid AffectOperators {op} while reading pfile");
+                    return 0;
+            }
+        }
+
+        private int MapAffectOperators(Mud.Domain.AffectOperators op)
+        {
+            switch (op)
+            {
+                case Mud.Domain.AffectOperators.Add:
+                    return 0;
+                case Mud.Domain.AffectOperators.Or:
+                    return 1;
+                case Mud.Domain.AffectOperators.Assign:
+                    return 2;
+                case Mud.Domain.AffectOperators.Nor:
+                    return 3;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid AffectOperators {op} while writing pfile");
+                    return 0;
+            }
+        }
+
+        private Mud.Domain.CharacterAttributeAffectLocations MapCharacterAttributeAffectLocations(int location)
+        {
+            switch (location)
+            {
+                case 0: return Mud.Domain.CharacterAttributeAffectLocations.None;
+                case 1: return Mud.Domain.CharacterAttributeAffectLocations.Strength;
+                case 2: return Mud.Domain.CharacterAttributeAffectLocations.Intelligence;
+                case 3: return Mud.Domain.CharacterAttributeAffectLocations.Wisdom;
+                case 4: return Mud.Domain.CharacterAttributeAffectLocations.Dexterity;
+                case 5: return Mud.Domain.CharacterAttributeAffectLocations.Constitution;
+                case 6: return Mud.Domain.CharacterAttributeAffectLocations.Characteristics;
+                case 7: return Mud.Domain.CharacterAttributeAffectLocations.MaxHitPoints;
+                case 8: return Mud.Domain.CharacterAttributeAffectLocations.SavingThrow;
+                case 9: return Mud.Domain.CharacterAttributeAffectLocations.HitRoll;
+                case 10: return Mud.Domain.CharacterAttributeAffectLocations.DamRoll;
+                case 11: return Mud.Domain.CharacterAttributeAffectLocations.MaxMovePoints;
+                case 12: return Mud.Domain.CharacterAttributeAffectLocations.ArmorBash;
+                case 13: return Mud.Domain.CharacterAttributeAffectLocations.ArmorPierce;
+                case 14: return Mud.Domain.CharacterAttributeAffectLocations.ArmorSlash;
+                case 15: return Mud.Domain.CharacterAttributeAffectLocations.ArmorMagic;
+                case 16: return Mud.Domain.CharacterAttributeAffectLocations.AllArmor;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid CharacterAttributeAffectLocations {location} while reading pfile");
+                    return Mud.Domain.CharacterAttributeAffectLocations.None;
+            }
+        }
+
+        private int MapCharacterAttributeAffectLocations(Mud.Domain.CharacterAttributeAffectLocations location)
+        {
+            switch (location)
+            {
+                case Mud.Domain.CharacterAttributeAffectLocations.None: return 0;
+                case Mud.Domain.CharacterAttributeAffectLocations.Strength: return 1;
+                case Mud.Domain.CharacterAttributeAffectLocations.Intelligence: return 2;
+                case Mud.Domain.CharacterAttributeAffectLocations.Wisdom: return 3;
+                case Mud.Domain.CharacterAttributeAffectLocations.Dexterity: return 4;
+                case Mud.Domain.CharacterAttributeAffectLocations.Constitution: return 5;
+                case Mud.Domain.CharacterAttributeAffectLocations.Characteristics: return 6; // Strength + Intelligence + Wisdom + Dexterity + Constitution
+                case Mud.Domain.CharacterAttributeAffectLocations.MaxHitPoints: return 7;
+                case Mud.Domain.CharacterAttributeAffectLocations.SavingThrow: return 8;
+                case Mud.Domain.CharacterAttributeAffectLocations.HitRoll: return 9;
+                case Mud.Domain.CharacterAttributeAffectLocations.DamRoll: return 10;
+                case Mud.Domain.CharacterAttributeAffectLocations.MaxMovePoints: return 11;
+                case Mud.Domain.CharacterAttributeAffectLocations.ArmorBash: return 12;
+                case Mud.Domain.CharacterAttributeAffectLocations.ArmorPierce: return 13;
+                case Mud.Domain.CharacterAttributeAffectLocations.ArmorSlash: return 14;
+                case Mud.Domain.CharacterAttributeAffectLocations.ArmorMagic: return 15;
+                case Mud.Domain.CharacterAttributeAffectLocations.AllArmor: return 16;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid CharacterAttributeAffectLocations {location} while writing pfile");
+                    return 0;
+            }
+        }
+
+        private Mud.Domain.CharacterFlags MapCharacterFlags(int flags)
+        {
+            return (Mud.Domain.CharacterFlags)flags;
+        }
+
+        private int MapCharacterFlags(Mud.Domain.CharacterFlags flags)
+        {
+            return (int)flags;
+        }
+
+        private Mud.Domain.IRVAffectLocations MapIRVAffectLocations(int location)
+        {
+            switch (location)
+            {
+                case 0: return Mud.Domain.IRVAffectLocations.None;
+                case 1: return Mud.Domain.IRVAffectLocations.Immunities;
+                case 2: return Mud.Domain.IRVAffectLocations.Resistances;
+                case 3: return Mud.Domain.IRVAffectLocations.Vulnerabilities;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid IRVAffectLocations {location} while reading pfile");
+                    return 0;
+            }
+        }
+
+        private int MapIRVAffectLocations(Mud.Domain.IRVAffectLocations location)
+        {
+            switch (location)
+            {
+                case Mud.Domain.IRVAffectLocations.None: return 0;
+                case Mud.Domain.IRVAffectLocations.Immunities: return 1;
+                case Mud.Domain.IRVAffectLocations.Resistances: return 2;
+                case Mud.Domain.IRVAffectLocations.Vulnerabilities: return 2;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid IRVAffectLocations {location} while writing pfile");
+                    return 0;
+            }
+        }
+
+        private Mud.Domain.IRVFlags MapIRVFlags(int flags)
+        {
+            return (Mud.Domain.IRVFlags)flags;
+        }
+
+        private int MapIRVFlags(Mud.Domain.IRVFlags flags)
+        {
+            return (int)flags;
+        }
+
+        private Mud.Domain.WeaponFlags MapWeaponFlags(int flags)
+        {
+            return (Mud.Domain.WeaponFlags)flags;
+        }
+
+        private int MapWeaponFlags(Mud.Domain.WeaponFlags flags)
         {
             return (int)flags;
         }

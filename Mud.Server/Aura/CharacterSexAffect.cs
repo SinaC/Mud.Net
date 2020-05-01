@@ -12,9 +12,26 @@ namespace Mud.Server.Aura
             sb.AppendFormat("%c%modifies %y%sex %cby setting to %y%{0}", Value);
         }
 
+        public CharacterSexAffect()
+        {
+        }
+
+        public CharacterSexAffect(CharacterSexAffectData data)
+        {
+            Value = data.Value;
+        }
+
         public void Apply(ICharacter character)
         {
             character.ApplyAffect(this);
+        }
+
+        public AffectDataBase MapAffectData()
+        {
+            return new CharacterSexAffectData
+            {
+                Value = Value
+            };
         }
     }
 }

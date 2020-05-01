@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Mud.POC.Affects
+﻿namespace Mud.POC.Affects
 {
     public interface IRoomAffect : IAffect
     {

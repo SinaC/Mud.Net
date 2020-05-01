@@ -12,6 +12,6 @@
 
         public AuraFlags AuraFlags { get; set; }
 
-        // TODO: affects
+        public AffectDataBase[] Affects { get; set; }
     }
 }

@@ -17,5 +17,7 @@ namespace Mud.Server.Aura
         {
             sb.AppendFormat("%c%modifies %y%{0} %c{1} %y%{2}", Target, Operator.PrettyPrint(), Modifier);
         }
+
+        public abstract AffectDataBase MapAffectData();
     }
 }

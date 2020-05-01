@@ -19,6 +19,7 @@ namespace Mud.Repository.Filesystem.DataContracts
         [DataMember]
         public int AuraFlags { get; set; }
 
-        // TODO: affects
+        [DataMember]
+        public AffectDataBase[] Affects { get; set; }
     }
 }

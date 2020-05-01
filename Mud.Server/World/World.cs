@@ -5,7 +5,6 @@ using System.Linq;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Aura;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;

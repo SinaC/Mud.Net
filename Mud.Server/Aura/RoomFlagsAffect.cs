@@ -10,6 +10,11 @@ namespace Mud.Server.Aura
         {
             room.ApplyAffect(this);
         }
+
+        public override AffectDataBase MapAffectData()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
 }

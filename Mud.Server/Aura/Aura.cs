@@ -15,6 +15,7 @@ namespace Mud.Server.Aura
         private const int NoAbilityId = -1;
 
         private IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
+        private IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
         private readonly List<IAffect> _affects;
 
@@ -52,8 +53,36 @@ namespace Mud.Server.Aura
             AuraFlags = auraData.AuraFlags;
             Level = auraData.Level;
             PulseLeft = auraData.PulseLeft;
-            // TODO: affects
             _affects = new List<IAffect>();
+            foreach (AffectDataBase affectData in auraData.Affects)
+            {
+                switch (affectData)
+                {
+                    case CharacterAttributeAffectData characterAttributeAffectData:
+                        _affects.Add(new CharacterAttributeAffect(characterAttributeAffectData));
+                        break;
+                    case CharacterFlagsAffectData characterFlagsAffectData:
+                        _affects.Add(new CharacterFlagsAffect(characterFlagsAffectData));
+                        break;
+                    case CharacterIRVAffectData characterIRVAffectData:
+                        _affects.Add(new CharacterIRVAffect(characterIRVAffectData));
+                        break;
+                    case CharacterSexAffectData characterSexAffectData:
+                        _affects.Add(new CharacterSexAffect(characterSexAffectData));
+                        break;
+                    case ItemFlagsAffectData itemFlagsAffectData:
+                        _affects.Add(new ItemFlagsAffect(itemFlagsAffectData));
+                        break;
+                    case ItemWeaponFlagsAffectData itemWeaponFlagsAffectData:
+                        _affects.Add(new ItemWeaponFlagsAffect(itemWeaponFlagsAffectData));
+                        break;
+                    default:
+                        string msg = $"Unexepcted AuraAffect type {affectData.GetType()}";
+                        Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+                        Log.Default.WriteLine(LogLevels.Error, msg);
+                        break;
+                }
+            }
         }
 
         #region IAura
@@ -135,10 +164,16 @@ namespace Mud.Server.Aura
             }
         }
 
-        public AuraData MapAuraData()
+        public virtual AuraData MapAuraData()
         {
-            // TODO
-            throw new NotImplementedException();
+            return new AuraData
+            {
+                AbilitiId = Ability?.Id ?? NoAbilityId,
+                Level = Level,
+                PulseLeft = PulseLeft,
+                AuraFlags = AuraFlags,
+                Affects = Affects.Select(x => x.MapAffectData()).ToArray()
+            };
         }
 
         #endregion

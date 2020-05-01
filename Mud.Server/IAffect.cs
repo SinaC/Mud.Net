@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Mud.Domain;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server
 {
@@ -10,7 +7,7 @@ namespace Mud.Server
     {
         void Append(StringBuilder sb);
 
-        // TODO: join/merge/update method, allow to 'merge' 2 'identical' affects
+        AffectDataBase MapAffectData();
     }
 
     public interface IRoomAffect : IAffect

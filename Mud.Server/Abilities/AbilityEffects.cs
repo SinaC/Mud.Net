@@ -1,11 +1,4 @@
-﻿using System;
-using System.Linq;
-using Mud.Container;
-using Mud.Domain;
-using Mud.Server.Common;
-using Mud.Server.Helpers;
-
-namespace Mud.Server.Abilities
+﻿namespace Mud.Server.Abilities
 {
     //public abstract class AbilityEffect
     //{

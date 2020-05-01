@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mud.POC.Affects
+﻿namespace Mud.POC.Affects
 {
     public interface ICharacterAffect : IAffect
     {
