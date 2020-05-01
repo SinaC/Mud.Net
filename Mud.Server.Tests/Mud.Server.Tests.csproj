@@ -110,6 +110,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CharacterAffectTests.cs" />
     <Compile Include="CharacterDeserializationTests.cs" />
     <Compile Include="ItemDeserializationTests.cs" />
     <Compile Include="Mocking\AbilityManagerMock.cs" />

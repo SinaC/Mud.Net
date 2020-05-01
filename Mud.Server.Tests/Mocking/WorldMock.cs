@@ -260,7 +260,7 @@ namespace Mud.Server.Tests.Mocking
                     item = new ItemShield(guid, shieldBlueprint, itemData, container);
                     break;
                 case ItemWeaponBlueprint weaponBlueprint:
-                    item = new ItemWeapon(guid, weaponBlueprint, itemData, container);
+                    item = new ItemWeapon(guid, weaponBlueprint, itemData as ItemWeaponData, container);
                     break;
             }
 

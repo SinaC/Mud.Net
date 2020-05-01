@@ -1,9 +1,9 @@
 ongoing
-Full character/item data save
 Refactor Ability
 
 todo
-don't save invalid auras
+Enum string representation instead of int in Repository
+don't save invalid auras, better use of IsValid on Aura -> store an Aura list in World this will avoid looping on all room/character/item to check aura
 Alias should be available when impersonated: add aliases to PlayableCharacter
 Ability wears off message
 Move AddAura in aura manager
@@ -27,6 +27,7 @@ Save aura in CharacterData/ItemData
 Aura with multiple modifiers
 Add AddOrModifyAura to refactor test on GetAura then AddAura or Aura.Modify
 Affects save
+Full character/item data save
 
 -----------------------------------------------------
 Redo modifiable list

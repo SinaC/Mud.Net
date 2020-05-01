@@ -301,7 +301,7 @@ namespace Mud.Server.Abilities.Rom24
             }
             if (Rom24Common.SavesSpell(level, victim, SchoolTypes.Other))
                 return;
-            Sex newSex = RandomManager.Random(EnumHelpers.GetValues<Sex>().Where(x => x != victim.Sex));
+            Sex newSex = RandomManager.Random(EnumHelpers.GetValues<Sex>().Where(x => x != victim.CurrentSex));
             World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(2 * level), AuraFlags.None, true,
                 new CharacterSexAffect { Value = newSex });
             victim.Send("You feel different.");
@@ -362,7 +362,7 @@ namespace Mud.Server.Abilities.Rom24
                 victim.Act(ActOptions.ToRoom, "{0} turns blue and shivers.", victim);
                 IAura existingAura = victim.GetAura(ability);
                 if (existingAura != null)
-                    existingAura.AddOrUpdate<CharacterAttributeAffect>( // TODO: update duration
+                    existingAura.AddOrUpdateAffect<CharacterAttributeAffect>( // TODO: update duration
                         x => x.Location == CharacterAttributeAffectLocations.Strength,
                         () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
                         x => x.Modifier -= 1);
@@ -740,7 +740,7 @@ namespace Mud.Server.Abilities.Rom24
             // TODO: change item level (+1)
             armor.AddBaseItemFlags(ItemFlags.Magic); // Permanently change item flags
             if (existingAura != null)
-                existingAura.AddOrUpdate<CharacterAttributeAffect>(
+                existingAura.AddOrUpdateAffect<CharacterAttributeAffect>(
                         x => x.Location == CharacterAttributeAffectLocations.AllArmor,
                         () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = amount, Operator = AffectOperators.Add },
                         x => x.Modifier -= amount);
@@ -820,11 +820,11 @@ namespace Mud.Server.Abilities.Rom24
             weapon.AddBaseItemFlags(ItemFlags.Magic); // Permanently change item flags
             if (existingAura != null)
             {
-                existingAura.AddOrUpdate<CharacterAttributeAffect>(
+                existingAura.AddOrUpdateAffect<CharacterAttributeAffect>(
                         x => x.Location == CharacterAttributeAffectLocations.HitRoll,
                         () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = amount, Operator = AffectOperators.Add },
                         x => x.Modifier += amount);
-                existingAura.AddOrUpdate<CharacterAttributeAffect>(
+                existingAura.AddOrUpdateAffect<CharacterAttributeAffect>(
                         x => x.Location == CharacterAttributeAffectLocations.DamRoll,
                         () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = amount, Operator = AffectOperators.Add },
                         x => x.Modifier += amount);

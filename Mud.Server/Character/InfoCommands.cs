@@ -268,7 +268,7 @@ namespace Mud.Server.Character
             sb.AppendLine("| %W%Attributes%x%                   |                         |");
             sb.AppendFormatLine("| %c%Strength     : %W%[{0,5}/{1,5}]%x% | %c%Race   : %W%{2,14}%x% |", CurrentAttributes(CharacterAttributes.Strength), BaseAttributes(CharacterAttributes.Strength), Race?.DisplayName ?? "(none)");
             sb.AppendFormatLine("| %c%Intelligence : %W%[{0,5}/{1,5}]%x% | %c%Class  : %W%{2,14}%x% |", CurrentAttributes(CharacterAttributes.Intelligence), BaseAttributes(CharacterAttributes.Intelligence), Class?.DisplayName ?? "(none)");
-            sb.AppendFormatLine("| %c%Wisdom       : %W%[{0,5}/{1,5}]%x% | %c%Sex    : %W%{2,14}%x% |", CurrentAttributes(CharacterAttributes.Wisdom), BaseAttributes(CharacterAttributes.Wisdom), Sex);
+            sb.AppendFormatLine("| %c%Wisdom       : %W%[{0,5}/{1,5}]%x% | %c%Sex    : %W%{2,14}%x% |", CurrentAttributes(CharacterAttributes.Wisdom), BaseAttributes(CharacterAttributes.Wisdom), CurrentSex);
             sb.AppendFormatLine("| %c%Dexterity    : %W%[{0,5}/{1,5}]%x% | %c%Level  : %W%{2,14}%x% |", CurrentAttributes(CharacterAttributes.Dexterity), BaseAttributes(CharacterAttributes.Dexterity), Level);
             if (this is PlayableCharacter.PlayableCharacter pc)
                 sb.AppendFormatLine("| %c%Constitution : %W%[{0,5}/{1,5}]%x% | %c%NxtLvl : %W%{2,14}%x% |", CurrentAttributes(CharacterAttributes.Constitution), BaseAttributes(CharacterAttributes.Constitution), pc.ExperienceToLevel);

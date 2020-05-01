@@ -159,12 +159,12 @@ namespace Mud.POC
         {
             phrase = phrase.Replace("$n", target.CanSee(character) ? character.Name : "someone"); // TODO: short description is NPC
             phrase = phrase.Replace("$N", target.CanSee(victim) ? victim.Name : "someone"); // TODO: short description is NPC
-            phrase = phrase.Replace("$e", _subjects[character.Sex]);
-            phrase = phrase.Replace("$E", _subjects[victim.Sex]);
-            phrase = phrase.Replace("$m", _objectives[character.Sex]);
-            phrase = phrase.Replace("$M", _objectives[victim.Sex]);
-            phrase = phrase.Replace("$s", _possessives[character.Sex]);
-            phrase = phrase.Replace("$S", _possessives[victim.Sex]);
+            phrase = phrase.Replace("$e", _subjects[character.CurrentSex]);
+            phrase = phrase.Replace("$E", _subjects[victim.CurrentSex]);
+            phrase = phrase.Replace("$m", _objectives[character.CurrentSex]);
+            phrase = phrase.Replace("$M", _objectives[victim.CurrentSex]);
+            phrase = phrase.Replace("$s", _possessives[character.CurrentSex]);
+            phrase = phrase.Replace("$S", _possessives[victim.CurrentSex]);
 
             return phrase;
         }

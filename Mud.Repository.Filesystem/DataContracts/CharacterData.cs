@@ -42,6 +42,21 @@ namespace Mud.Repository.Filesystem.DataContracts
         [DataMember]
         public AuraData[] Auras { get; set; }
 
+        [DataMember]
+        public int CharacterFlags { get; set; }
+
+        [DataMember]
+        public int Immunities { get; set; }
+
+        [DataMember]
+        public int Resistances { get; set; }
+
+        [DataMember]
+        public int Vulnerabilities { get; set; }
+
+        [DataMember]
+        public PairData<int,int>[] Attributes { get; set; } // TODO: this could create duplicate key exception while deserializing if CharacterAttribute is not found anymore
+
         // TODO: cooldown, ...
     }
 }

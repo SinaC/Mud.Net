@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Mud.Repository.Mongo.Domain
 {
@@ -27,6 +28,16 @@ namespace Mud.Repository.Mongo.Domain
         public CurrentQuestData[] CurrentQuests { get; set; }
 
         public AuraData[] Auras { get; set; }
+
+        public int CharacterFlags { get; set; }
+
+        public int Immunities { get; set; }
+
+        public int Resistances { get; set; }
+
+        public int Vulnerabilities { get; set; }
+
+        public Dictionary<int, int> Attributes { get; set; } // TODO: this could create duplicate key exception while deserializing if CharacterAttribute is not found anymore
 
         // TODO: cooldown, ...
     }

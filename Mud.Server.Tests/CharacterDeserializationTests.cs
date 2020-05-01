@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoBogus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,6 +9,7 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Character.PlayableCharacter;
+using Mud.Server.Common;
 using Mud.Server.Item;
 using Mud.Server.Quest;
 
@@ -34,7 +36,12 @@ namespace Mud.Server.Tests
                 Class = AutoFaker.Generate<string>(), // ClassMock will generate Class at runtime
                 Level = AutoFaker.Generate<int>(),
                 Sex = AutoFaker.Generate<Sex>(),
-                Experience = AutoFaker.Generate<long>()
+                Experience = AutoFaker.Generate<long>(),
+                CharacterFlags = AutoFaker.Generate<CharacterFlags>(),
+                Immunities = AutoFaker.Generate<IRVFlags>(),
+                Resistances = AutoFaker.Generate<IRVFlags>(),
+                Vulnerabilities = AutoFaker.Generate<IRVFlags>(),
+                Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>())
             };
 
             PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, player, room);
@@ -46,11 +53,16 @@ namespace Mud.Server.Tests
             Assert.AreEqual(characterData.Race, playableCharacter.Race.Name);
             Assert.AreEqual(characterData.Class, playableCharacter.Class.Name);
             Assert.AreEqual(characterData.Level, playableCharacter.Level);
-            Assert.AreEqual(characterData.Sex, playableCharacter.Sex);
+            Assert.AreEqual(characterData.Sex, playableCharacter.BaseSex);
             Assert.AreEqual(characterData.Experience, playableCharacter.Experience);
             Assert.AreEqual(0, playableCharacter.Equipments.Count(x => x.Item != null));
             Assert.AreEqual(0, playableCharacter.Inventory.Count());
             Assert.AreEqual(0, playableCharacter.Quests.Count());
+            Assert.AreEqual(characterData.CharacterFlags, playableCharacter.BaseCharacterFlags);
+            Assert.AreEqual(characterData.Immunities, playableCharacter.BaseImmunities);
+            Assert.AreEqual(characterData.Resistances, playableCharacter.BaseResistances);
+            Assert.AreEqual(characterData.Vulnerabilities, playableCharacter.BaseVulnerabilities);
+            Assert.AreEqual(characterData.Attributes.Sum(x => (int)x.Key ^ x.Value), EnumHelpers.GetValues<CharacterAttributes>().Sum(x => (int)x ^ playableCharacter.BaseAttributes(x)));
         }
 
         [TestMethod]
@@ -126,7 +138,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(characterData.Race, playableCharacter.Race.Name);
             Assert.AreEqual(characterData.Class, playableCharacter.Class.Name);
             Assert.AreEqual(characterData.Level, playableCharacter.Level);
-            Assert.AreEqual(characterData.Sex, playableCharacter.Sex);
+            Assert.AreEqual(characterData.Sex, playableCharacter.BaseSex);
             Assert.AreEqual(characterData.Experience, playableCharacter.Experience);
             Assert.AreEqual(0, playableCharacter.Equipments.Count(x => x.Item != null));
             Assert.AreEqual(0, playableCharacter.Quests.Count());
@@ -234,7 +246,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(characterData.Race, playableCharacter.Race.Name);
             Assert.AreEqual(characterData.Class, playableCharacter.Class.Name);
             Assert.AreEqual(characterData.Level, playableCharacter.Level);
-            Assert.AreEqual(characterData.Sex, playableCharacter.Sex);
+            Assert.AreEqual(characterData.Sex, playableCharacter.BaseSex);
             Assert.AreEqual(characterData.Experience, playableCharacter.Experience);
             Assert.AreEqual(0, playableCharacter.Quests.Count());
             Assert.AreEqual(0 , playableCharacter.Inventory.Count());
@@ -357,7 +369,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(characterData.Race, playableCharacter.Race.Name);
             Assert.AreEqual(characterData.Class, playableCharacter.Class.Name);
             Assert.AreEqual(characterData.Level, playableCharacter.Level);
-            Assert.AreEqual(characterData.Sex, playableCharacter.Sex);
+            Assert.AreEqual(characterData.Sex, playableCharacter.BaseSex);
             Assert.AreEqual(characterData.Experience, playableCharacter.Experience);
             Assert.AreEqual(0, playableCharacter.Equipments.Count(x => x.Item != null));
             Assert.AreEqual(0, playableCharacter.Inventory.Count());

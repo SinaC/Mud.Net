@@ -92,7 +92,7 @@ namespace Mud.Server.Abilities.Rom24
                 {
                     IAura existingAura = item.GetAura(ability);
                     if (existingAura != null)
-                        existingAura.AddOrUpdate<CharacterAttributeAffect>(
+                        existingAura.AddOrUpdateAffect<CharacterAttributeAffect>(
                             x => x.Location == CharacterAttributeAffectLocations.AllArmor,
                             () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = 1, Operator = AffectOperators.Add },
                             x => x.Modifier += 1);
@@ -160,7 +160,7 @@ namespace Mud.Server.Abilities.Rom24
                     IAbility chillTouchAbility = AbilityManager["Chill Touch"];
                     IAura chillTouchAura = victim.GetAura(chillTouchAbility);
                     if (chillTouchAura != null)
-                        chillTouchAura.AddOrUpdate<CharacterAttributeAffect>( // TODO: update duration
+                        chillTouchAura.AddOrUpdateAffect<CharacterAttributeAffect>( // TODO: update duration
                             x => x.Location == CharacterAttributeAffectLocations.Strength,
                             () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
                             x => x.Modifier -= 1);
@@ -360,11 +360,11 @@ namespace Mud.Server.Abilities.Rom24
                     IAura poisonAura = victim.GetAura(poisonAbility);
                     if (poisonAura != null) // TODO: update duration
                     {
-                        poisonAura.AddOrUpdate<CharacterAttributeAffect>(
+                        poisonAura.AddOrUpdateAffect<CharacterAttributeAffect>(
                             x => x.Location == CharacterAttributeAffectLocations.Strength,
                             () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
                             x => x.Modifier -= 1);
-                        poisonAura.AddOrUpdate<CharacterFlagsAffect>(
+                        poisonAura.AddOrUpdateAffect<CharacterFlagsAffect>(
                             x => x.Modifier == CharacterFlags.Poison,
                             () => new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
                             null);

@@ -33,6 +33,7 @@ namespace Mud.Server.Player
         protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
         protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
         protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
+        protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
 
         public override bool IsFinalStateReached => State == AvatarCreationStates.CreationComplete || State == AvatarCreationStates.Quit;
 
@@ -157,12 +158,40 @@ namespace Mud.Server.Player
                 IRoom startingRoom = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota"); // todo: mud school
                 CharacterData characterData = new CharacterData
                 {
+                    CreationTime = TimeHandler.CurrentTime,
                     Name = _name,
-                    Sex = _sex,
+                    RoomId = startingRoom?.Blueprint.Id ?? 3001, // TODO
                     Race = _race.Name,
                     Class = _class.Name,
                     Level = 1,
-                    RoomId = startingRoom?.Blueprint.Id ?? 3001, // TODO
+                    Sex = _sex,
+                    Experience = 0,
+                    //TODO: Equipments
+                    //TODO: Inventory
+                    //TODO: CurrentQuests
+                    //TODO: Auras
+                    //TODO: CharacterFlags: from race
+                    //TODO: Immunities: from race
+                    //TODO: Resistances: from race
+                    //TODO: Vulnerabilities: from race
+                    //TODO: Attributes: from race/class
+                    Attributes = new Dictionary<CharacterAttributes, int>
+                    {
+                        {CharacterAttributes.Strength, 13 },
+                        {CharacterAttributes.Intelligence, 13 },
+                        {CharacterAttributes.Wisdom, 13 },
+                        {CharacterAttributes.Dexterity, 13 },
+                        {CharacterAttributes.Constitution, 13 },
+                        {CharacterAttributes.MaxHitPoints, 100 },
+                        {CharacterAttributes.SavingThrow, 0 },
+                        {CharacterAttributes.HitRoll, 0 },
+                        {CharacterAttributes.DamRoll, 0 },
+                        {CharacterAttributes.MaxMovePoints, 100 },
+                        {CharacterAttributes.ArmorBash, 0 },
+                        {CharacterAttributes.ArmorPierce, 0 },
+                        {CharacterAttributes.ArmorSlash, 0 },
+                        {CharacterAttributes.ArmorMagic, 0 },
+                    }
                 };
                 player.AddAvatar(characterData);
                 player.Save();

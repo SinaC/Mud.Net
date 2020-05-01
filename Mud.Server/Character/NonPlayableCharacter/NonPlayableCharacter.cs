@@ -25,19 +25,19 @@ namespace Mud.Server.Character.NonPlayableCharacter
             Blueprint = blueprint;
 
             // TODO: race, class, flags, armor, damage, ...
-            Sex = blueprint.Sex;
             Level = blueprint.Level;
-            // TODO CharacterAttributes
+
             BaseCharacterFlags = blueprint.CharacterFlags;
             BaseImmunities = blueprint.Immunities;
             BaseResistances = blueprint.Resistances;
             BaseVulnerabilities = blueprint.Vulnerabilities;
+            BaseSex = blueprint.Sex;
             Alignment = blueprint.Alignment.Range(-1000, 1000);
+            RecomputeBaseAttributes(null);
 
             Room = room;
             room.Enter(this);
 
-            RecomputeBaseAttributes();
             RecomputeKnownAbilities();
             ResetAttributes();
             RecomputeCommands();

@@ -69,7 +69,7 @@ namespace Mud.Server.Admin
 
             foreach (IQuest quest in whom.Quests)
             {
-                Send($"Resetting quest '{quest.Blueprint?.Title}' for '{whom.DisplayName}");
+                Send($"Resetting quest '{quest.Blueprint?.Title}' for '{whom.DisplayName}'");
                 whom.Send($"%y%The quest ''{quest.Blueprint?.Title}' has been reset.%x%");
                 quest.Reset();
             }

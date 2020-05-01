@@ -46,7 +46,6 @@ namespace Mud.Server
         IRace Race { get; }
 
         // Attributes
-        Sex Sex { get; }
         int Level { get; }
         int HitPoints { get; }
         int MovePoints { get; }

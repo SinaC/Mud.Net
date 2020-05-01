@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Mud.Logger;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Mud.Repository.Mongo
 {
@@ -23,14 +25,22 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
 
             CreateMap<Mud.Domain.CharacterData, Domain.CharacterData>()
-                .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)));
+                .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)))
+                .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => MapCharacterFlags(x.CharacterFlags)))
+                .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
+                .ForMember(x => x.Resistances, expression => expression.MapFrom(x => MapIRVFlags(x.Resistances)))
+                .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => MapIRVFlags(x.Vulnerabilities)))
+                .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapFromDictionary(x.Attributes)));
 
             CreateMap<Mud.Domain.ItemData, Domain.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
                 .Include<Mud.Domain.ItemContainerData, Domain.ItemContainerData>()
-                .Include<Mud.Domain.ItemCorpseData, Domain.ItemCorpseData>();
+                .Include<Mud.Domain.ItemCorpseData, Domain.ItemCorpseData>()
+                .Include<Mud.Domain.ItemWeaponData, Domain.ItemWeaponData>();
             CreateMap<Mud.Domain.ItemContainerData, Domain.ItemContainerData>();
             CreateMap<Mud.Domain.ItemCorpseData, Domain.ItemCorpseData>();
+            CreateMap<Mud.Domain.ItemWeaponData, Domain.ItemWeaponData>()
+                .ForMember(x => x.WeaponFlags, expression => expression.MapFrom(x => MapWeaponFlags(x.WeaponFlags)));
 
             CreateMap<Mud.Domain.EquipedItemData, Domain.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
@@ -77,14 +87,22 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
 
             CreateMap<Domain.CharacterData, Mud.Domain.CharacterData>()
-                .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)));
+                .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)))
+                .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => MapCharacterFlags(x.CharacterFlags)))
+                .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
+                .ForMember(x => x.Resistances, expression => expression.MapFrom(x => MapIRVFlags(x.Resistances)))
+                .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => MapIRVFlags(x.Vulnerabilities)))
+                .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapToDictionary(x.Attributes)));
 
             CreateMap<Domain.ItemData, Mud.Domain.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
                 .Include<Domain.ItemContainerData, Mud.Domain.ItemContainerData>()
-                .Include<Domain.ItemCorpseData, Mud.Domain.ItemCorpseData>();
+                .Include<Domain.ItemCorpseData, Mud.Domain.ItemCorpseData>()
+                .Include<Domain.ItemWeaponData, Mud.Domain.ItemWeaponData>();
             CreateMap<Domain.ItemContainerData, Mud.Domain.ItemContainerData>();
             CreateMap<Domain.ItemCorpseData, Mud.Domain.ItemCorpseData>();
+            CreateMap<Domain.ItemWeaponData, Mud.Domain.ItemWeaponData>()
+                .ForMember(x => x.WeaponFlags, expression => expression.MapFrom(x => MapWeaponFlags(x.WeaponFlags)));
 
             CreateMap<Domain.EquipedItemData, Mud.Domain.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
@@ -121,6 +139,11 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
                 .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapWeaponFlags(x.Modifier)));
         }
+
+        private Dictionary<int, int> MapFromDictionary(Dictionary<Mud.Domain.CharacterAttributes, int> dictionary) => dictionary?.ToDictionary(x => MapCharacterAttributes(x.Key), x => x.Value);
+
+        private Dictionary<Mud.Domain.CharacterAttributes, int> MapToDictionary(Dictionary<int, int> dictionary) => dictionary?.ToDictionary(x => MapCharacterAttributes(x.Key), x => x.Value);
+
 
         private Mud.Domain.WiznetFlags MapWiznetFlags(int flags)
         {
@@ -471,5 +494,54 @@ namespace Mud.Repository.Mongo
         {
             return (int)flags;
         }
+
+        private Mud.Domain.CharacterAttributes MapCharacterAttributes(int attr)
+        {
+            switch (attr)
+            {
+                case 0: return Mud.Domain.CharacterAttributes.Strength;
+                case 1: return Mud.Domain.CharacterAttributes.Intelligence;
+                case 2: return Mud.Domain.CharacterAttributes.Wisdom;
+                case 3: return Mud.Domain.CharacterAttributes.Dexterity;
+                case 4: return Mud.Domain.CharacterAttributes.Constitution;
+                case 5: return Mud.Domain.CharacterAttributes.MaxHitPoints;
+                case 6: return Mud.Domain.CharacterAttributes.SavingThrow;
+                case 7: return Mud.Domain.CharacterAttributes.HitRoll;
+                case 8: return Mud.Domain.CharacterAttributes.DamRoll;
+                case 9: return Mud.Domain.CharacterAttributes.MaxMovePoints;
+                case 10: return Mud.Domain.CharacterAttributes.ArmorBash;
+                case 11: return Mud.Domain.CharacterAttributes.ArmorPierce;
+                case 12: return Mud.Domain.CharacterAttributes.ArmorSlash;
+                case 13: return Mud.Domain.CharacterAttributes.ArmorMagic;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid CharacterAttributes {attr} while reading pfile");
+                    return Mud.Domain.CharacterAttributes.Strength;
+            }
+        }
+
+        private int MapCharacterAttributes(Mud.Domain.CharacterAttributes attr)
+        {
+            switch (attr)
+            {
+                case Mud.Domain.CharacterAttributes.Strength: return 0;
+                case Mud.Domain.CharacterAttributes.Intelligence: return 1;
+                case Mud.Domain.CharacterAttributes.Wisdom: return 2;
+                case Mud.Domain.CharacterAttributes.Dexterity: return 3;
+                case Mud.Domain.CharacterAttributes.Constitution: return 4;
+                case Mud.Domain.CharacterAttributes.MaxHitPoints: return 5;
+                case Mud.Domain.CharacterAttributes.SavingThrow: return 6;
+                case Mud.Domain.CharacterAttributes.HitRoll: return 7;
+                case Mud.Domain.CharacterAttributes.DamRoll: return 8;
+                case Mud.Domain.CharacterAttributes.MaxMovePoints: return 9;
+                case Mud.Domain.CharacterAttributes.ArmorBash: return 10;
+                case Mud.Domain.CharacterAttributes.ArmorPierce: return 11;
+                case Mud.Domain.CharacterAttributes.ArmorSlash: return 12;
+                case Mud.Domain.CharacterAttributes.ArmorMagic: return 13;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid CharacterAttributes {attr} while writing pfile");
+                    return 0;
+            }
+        }
+
     }
 }

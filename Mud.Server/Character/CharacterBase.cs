@@ -139,7 +139,6 @@ namespace Mud.Server.Character
         public IRace Race { get; protected set; }
 
         // Attributes
-        public Sex Sex { get; protected set; }
         public int Level { get; protected set; }
         public int HitPoints { get; protected set; }
         public int MovePoints { get; protected set; }
@@ -357,6 +356,8 @@ namespace Mud.Server.Character
                 hpGain = 5 + Level;
                 moveGain = Level;
                 manaGain = 5 + Level;
+                if (CurrentCharacterFlags.HasFlag(CharacterFlags.Regeneration))
+                    hpGain *= 2;
                 switch (Position)
                 {
                     case Positions.Sleeping:
@@ -381,6 +382,8 @@ namespace Mud.Server.Character
                 hpGain = Math.Max(3, CurrentAttributes(CharacterAttributes.Constitution) - 3 + Level / 2);
                 moveGain = Math.Max(15, Level);
                 manaGain = (CurrentAttributes(CharacterAttributes.Wisdom) + CurrentAttributes(CharacterAttributes.Intelligence) + Level) / 2;
+                if (CurrentCharacterFlags.HasFlag(CharacterFlags.Regeneration))
+                    hpGain *= 2;
                 // TODO: hp/mana: class bonus
                 // TODO: hp: fast healing skill
                 // TODO: mana: meditation
@@ -1108,13 +1111,86 @@ namespace Mud.Server.Character
 
         public void ApplyAffect(CharacterAttributeAffect affect)
         {
+            if (affect.Location == CharacterAttributeAffectLocations.None)
+                return;
+            if (affect.Location == CharacterAttributeAffectLocations.Characteristics)
+            {
+                switch (affect.Operator)
+                {
+                    case AffectOperators.Add:
+                        _currentAttributes[(int)CharacterAttributes.Strength] += affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.Intelligence] += affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.Wisdom] += affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.Dexterity] += affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.Constitution] += affect.Modifier;
+                        break;
+                    case AffectOperators.Assign:
+                        _currentAttributes[(int)CharacterAttributes.Strength] = affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.Intelligence] = affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.Wisdom] = affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.Dexterity] = affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.Constitution] = affect.Modifier;
+                        break;
+                    case AffectOperators.Or:
+                    case AffectOperators.Nor:
+                    default:
+                        // Error
+                        break;
+                }
+                return;
+            }
+            if (affect.Location == CharacterAttributeAffectLocations.AllArmor)
+            {
+                switch (affect.Operator)
+                {
+                    case AffectOperators.Add:
+                        _currentAttributes[(int)CharacterAttributes.ArmorBash] += affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.ArmorPierce] += affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.ArmorSlash] += affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.ArmorMagic] += affect.Modifier;
+                        break;
+                    case AffectOperators.Assign:
+                        _currentAttributes[(int)CharacterAttributes.ArmorBash] = affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.ArmorPierce] = affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.ArmorSlash] = affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.ArmorMagic] = affect.Modifier;
+                        break;
+                    case AffectOperators.Or:
+                    case AffectOperators.Nor:
+                    default:
+                        // Error
+                        break;
+                }
+                return;
+            }
+            CharacterAttributes attribute;
+            switch (affect.Location)
+            {
+                case CharacterAttributeAffectLocations.Strength: attribute = CharacterAttributes.Strength; break;
+                case CharacterAttributeAffectLocations.Intelligence: attribute = CharacterAttributes.Intelligence; break;
+                case CharacterAttributeAffectLocations.Wisdom: attribute = CharacterAttributes.Wisdom; break;
+                case CharacterAttributeAffectLocations.Dexterity: attribute = CharacterAttributes.Dexterity; break;
+                case CharacterAttributeAffectLocations.Constitution: attribute = CharacterAttributes.Constitution; break;
+                case CharacterAttributeAffectLocations.MaxHitPoints: attribute = CharacterAttributes.MaxHitPoints; break;
+                case CharacterAttributeAffectLocations.SavingThrow: attribute = CharacterAttributes.SavingThrow; break;
+                case CharacterAttributeAffectLocations.HitRoll: attribute = CharacterAttributes.HitRoll; break;
+                case CharacterAttributeAffectLocations.DamRoll: attribute = CharacterAttributes.DamRoll; break;
+                case CharacterAttributeAffectLocations.MaxMovePoints: attribute = CharacterAttributes.MaxMovePoints; break;
+                case CharacterAttributeAffectLocations.ArmorBash: attribute = CharacterAttributes.ArmorBash; break;
+                case CharacterAttributeAffectLocations.ArmorPierce: attribute = CharacterAttributes.ArmorPierce; break;
+                case CharacterAttributeAffectLocations.ArmorSlash: attribute = CharacterAttributes.ArmorSlash; break;
+                case CharacterAttributeAffectLocations.ArmorMagic: attribute = CharacterAttributes.ArmorMagic; break;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"CharacterBase.ApplyAffect: Unexpected CharacterAttributeAffectLocations {affect.Location}");
+                    return;
+            }
             switch (affect.Operator)
             {
                 case AffectOperators.Add:
-                    _currentAttributes[(int)affect.Location] += affect.Modifier;
+                    _currentAttributes[(int)attribute] += affect.Modifier;
                     break;
                 case AffectOperators.Assign:
-                    _currentAttributes[(int)affect.Location] = affect.Modifier;
+                    _currentAttributes[(int)attribute] = affect.Modifier;
                     break;
                 case AffectOperators.Or:
                 case AffectOperators.Nor:
@@ -1702,11 +1778,24 @@ namespace Mud.Server.Character
             }
         }
 
-        protected void RecomputeBaseAttributes()
+        protected void RecomputeBaseAttributes(IDictionary<CharacterAttributes, int> attributes)
         {
-            for (int i = 0; i < _baseAttributes.Length; i++)
+            // TODO: use race/class if not values
+            //for (int i = 0; i < _baseAttributes.Length; i++)
                 //_baseAttributes[i] = (Class?.GetPrimaryAttributeByLevel((PrimaryAttributeTypes) i, Level) ?? 10*Level) + (Race?.GetPrimaryAttributeModifier((PrimaryAttributeTypes) i) ?? 0);
-                _baseAttributes[i] = 15; // TODO
+                //_baseAttributes[i] = 15 + i; // TODO
+            foreach(var attribute in EnumHelpers.GetValues<CharacterAttributes>())
+            {
+                int attributeValue;
+                if (attributes != null)
+                {
+                    if (!attributes.TryGetValue(attribute, out attributeValue))
+                        attributeValue = 15 + Level; // TODO: better defaulting :)
+                }
+                else
+                    attributeValue = 15 + Level; // TODO: better defaulting :)
+                _baseAttributes[(int)attribute] = attributeValue;
+            }
         }
 
         // TODO: Should recompute attributes/commands afterwards
@@ -2018,53 +2107,53 @@ namespace Mud.Server.Character
                         if (target == character)
                             result.Append("you");
                         else
-                            result.Append(StringHelpers.Subjects[character.Sex]);
+                            result.Append(StringHelpers.Subjects[character.CurrentSex]);
                         break;
                     case 'E':
                         if (target == character)
                             result.Append("You");
                         else
-                            result.Append(StringHelpers.Subjects[character.Sex].UpperFirstLetter());
+                            result.Append(StringHelpers.Subjects[character.CurrentSex].UpperFirstLetter());
                         break;
                     // you/him/her/it
                     case 'm':
                         if (target == character)
                             result.Append("you");
                         else
-                            result.Append(StringHelpers.Objectives[character.Sex]);
+                            result.Append(StringHelpers.Objectives[character.CurrentSex]);
                         break;
                     case 'M':
                         if (target == character)
                             result.Append("You");
                         else
-                            result.Append(StringHelpers.Objectives[character.Sex].UpperFirstLetter());
+                            result.Append(StringHelpers.Objectives[character.CurrentSex].UpperFirstLetter());
                         break;
                     // your/his/her/its
                     case 's':
                         if (target == character)
                             result.Append("your");
                         else
-                            result.Append(StringHelpers.Possessives[character.Sex]);
+                            result.Append(StringHelpers.Possessives[character.CurrentSex]);
                         break;
                     case 'S':
                         if (target == character)
                             result.Append("Your");
                         else
-                            result.Append(StringHelpers.Possessives[character.Sex].UpperFirstLetter());
+                            result.Append(StringHelpers.Possessives[character.CurrentSex].UpperFirstLetter());
                         break;
                     // yourself/himself/herself/itself (almost same as 'm' + self)
                     case 'f':
                         if (target == character)
                             result.Append("your");
                         else
-                            result.Append(StringHelpers.Objectives[character.Sex]);
+                            result.Append(StringHelpers.Objectives[character.CurrentSex]);
                         result.Append("self");
                         break;
                     case 'F':
                         if (target == character)
                             result.Append("your");
                         else
-                            result.Append(StringHelpers.Objectives[character.Sex].UpperFirstLetter());
+                            result.Append(StringHelpers.Objectives[character.CurrentSex].UpperFirstLetter());
                         result.Append("self");
                         break;
                     // is/are

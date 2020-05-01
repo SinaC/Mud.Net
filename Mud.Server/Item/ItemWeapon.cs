@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Mud.Domain;
 using Mud.Server.Aura;
 using Mud.Server.Blueprints.Item;
@@ -17,14 +18,14 @@ namespace Mud.Server.Item
             BaseWeaponFlags = blueprint.Flags;
         }
 
-        public ItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, ItemData itemData, IContainer containedInto)
+        public ItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, ItemWeaponData itemData, IContainer containedInto)
             : base(guid, blueprint, itemData, containedInto)
         {
             Type = blueprint.Type;
             DiceCount = blueprint.DiceCount;
             DiceValue = blueprint.DiceValue;
             DamageType = blueprint.DamageType;
-            BaseWeaponFlags = blueprint.Flags;
+            BaseWeaponFlags = itemData.WeaponFlags;
         }
 
         #region IItemWeapon
@@ -81,6 +82,18 @@ namespace Mud.Server.Item
         #endregion
 
         #region ItemBase
+
+        public override ItemData MapItemData()
+        {
+            return new ItemWeaponData
+            {
+                ItemId = Blueprint.Id,
+                DecayPulseLeft = DecayPulseLeft,
+                ItemFlags = BaseItemFlags,
+                WeaponFlags = BaseWeaponFlags,
+                Auras = Auras.Select(x => x.MapAuraData()).ToArray(),
+            };
+        }
 
         protected override void ResetAttributes()
         {

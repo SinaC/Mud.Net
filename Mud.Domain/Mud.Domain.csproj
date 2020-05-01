@@ -88,6 +88,7 @@
     <Compile Include="ExitDirections.cs" />
     <Compile Include="Extensions\ExitDirectionsExtensions.cs" />
     <Compile Include="ItemFlagsAffectData.cs" />
+    <Compile Include="ItemWeaponData.cs" />
     <Compile Include="ItemWeaponFlagsAffectData.cs" />
     <Compile Include="PlayerData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

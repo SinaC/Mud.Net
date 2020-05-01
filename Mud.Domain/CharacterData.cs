@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Mud.Domain
 {
@@ -27,6 +28,16 @@ namespace Mud.Domain
         public CurrentQuestData[] CurrentQuests { get; set; }
 
         public AuraData[] Auras { get; set; }
+
+        public CharacterFlags CharacterFlags { get; set; }
+
+        public IRVFlags Immunities { get; set; }
+
+        public IRVFlags Resistances { get; set; }
+
+        public IRVFlags Vulnerabilities { get; set; }
+
+        public Dictionary<CharacterAttributes, int> Attributes { get; set; }
 
         // TODO: cooldown, ...
     }

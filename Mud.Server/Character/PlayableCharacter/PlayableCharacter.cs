@@ -51,9 +51,15 @@ namespace Mud.Server.Character.PlayableCharacter
                 Race = RaceManager.Races.First();
                 Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
             }
-            Sex = data.Sex;
             Level = data.Level;
             Experience = data.Experience;
+
+            BaseCharacterFlags = data.CharacterFlags;
+            BaseImmunities = data.Immunities;
+            BaseResistances = data.Resistances;
+            BaseVulnerabilities = data.Vulnerabilities;
+            BaseSex = data.Sex;
+            RecomputeBaseAttributes(data.Attributes);
 
             // Must be built before equiping
             BuildEquipmentSlots();
@@ -115,7 +121,7 @@ namespace Mud.Server.Character.PlayableCharacter
             Room = room;
             room.Enter(this);
 
-            RecomputeBaseAttributes();
+            //RecomputeBaseAttributes();
             RecomputeKnownAbilities();
             ResetAttributes();
             RecomputeCommands();
@@ -463,7 +469,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 }
                 if (recompute)
                 {
-                    RecomputeBaseAttributes();
+                    //RecomputeBaseAttributes();
                     RecomputeKnownAbilities();
                     Recompute();
                     RecomputeCommands();
@@ -480,7 +486,7 @@ namespace Mud.Server.Character.PlayableCharacter
             {
                 Name = Name,
                 CreationTime = CreationTime,
-                Sex = Sex,
+                Sex = BaseSex,
                 Class = Class?.Name ?? string.Empty,
                 Race = Race?.Name ?? string.Empty,
                 Level = Level,
@@ -489,7 +495,12 @@ namespace Mud.Server.Character.PlayableCharacter
                 Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquipedData()).ToArray(),
                 Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
                 CurrentQuests = Quests.Select(x => x.MapQuestData()).ToArray(),
-                Auras = Auras.Select(x => x.MapAuraData()).ToArray()
+                Auras = Auras.Select(x => x.MapAuraData()).ToArray(),
+                CharacterFlags = BaseCharacterFlags,
+                Immunities = BaseImmunities,
+                Resistances = BaseResistances,
+                Vulnerabilities = BaseVulnerabilities,
+                Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => BaseAttributes(x))
                 // TODO: cooldown, ...
             };
             return data;

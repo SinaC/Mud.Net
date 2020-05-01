@@ -26,14 +26,22 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
 
             CreateMap<Domain.CharacterData, DataContracts.CharacterData>()
-                .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)));
+                .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)))
+                .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => MapCharacterFlags(x.CharacterFlags)))
+                .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
+                .ForMember(x => x.Resistances, expression => expression.MapFrom(x => MapIRVFlags(x.Resistances)))
+                .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => MapIRVFlags(x.Vulnerabilities)))
+                .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapFromDictionary(x.Attributes)));
 
             CreateMap<Domain.ItemData, DataContracts.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
                 .Include<Domain.ItemContainerData, DataContracts.ItemContainerData>()
-                .Include<Domain.ItemCorpseData, DataContracts.ItemCorpseData>();
+                .Include<Domain.ItemCorpseData, DataContracts.ItemCorpseData>()
+                .Include<Domain.ItemWeaponData, DataContracts.ItemWeaponData>();
             CreateMap<Domain.ItemContainerData, DataContracts.ItemContainerData>();
             CreateMap<Domain.ItemCorpseData, DataContracts.ItemCorpseData>();
+            CreateMap<Domain.ItemWeaponData, DataContracts.ItemWeaponData>()
+                .ForMember(x => x.WeaponFlags, expression => expression.MapFrom(x => MapWeaponFlags(x.WeaponFlags)));
 
             CreateMap<Domain.EquipedItemData, DataContracts.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
@@ -81,14 +89,22 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
 
             CreateMap<DataContracts.CharacterData, Domain.CharacterData>()
-                .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)));
+                .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)))
+                .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => MapCharacterFlags(x.CharacterFlags)))
+                .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
+                .ForMember(x => x.Resistances, expression => expression.MapFrom(x => MapIRVFlags(x.Resistances)))
+                .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => MapIRVFlags(x.Vulnerabilities)))
+                .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapToDictionary(x.Attributes)));
 
             CreateMap<DataContracts.ItemData, Domain.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
                 .Include<DataContracts.ItemContainerData, Domain.ItemContainerData>()
-                .Include<DataContracts.ItemCorpseData, Domain.ItemCorpseData>();
+                .Include<DataContracts.ItemCorpseData, Domain.ItemCorpseData>()
+                .Include<DataContracts.ItemWeaponData, Domain.ItemWeaponData>();
             CreateMap<DataContracts.ItemContainerData, Domain.ItemContainerData>();
             CreateMap<DataContracts.ItemCorpseData, Domain.ItemCorpseData>();
+            CreateMap<DataContracts.ItemWeaponData, Domain.ItemWeaponData>()
+                .ForMember(x => x.WeaponFlags, expression => expression.MapFrom(x => MapWeaponFlags(x.WeaponFlags)));
 
             CreateMap<DataContracts.EquipedItemData, Domain.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
@@ -126,9 +142,13 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapWeaponFlags(x.Modifier)));
         }
 
-        private DataContracts.PairData<TKey, TValue>[] MapFromDictionary<TKey, TValue>(Dictionary<TKey, TValue> dictionary) => dictionary.Select(x => new DataContracts.PairData<TKey, TValue>(x.Key, x.Value)).ToArray();
+        private DataContracts.PairData<TKey, TValue>[] MapFromDictionary<TKey, TValue>(Dictionary<TKey, TValue> dictionary) => dictionary?.Select(x => new DataContracts.PairData<TKey, TValue>(x.Key, x.Value)).ToArray();
 
-        private Dictionary<TKey, TValue> MapToDictionary<TKey, TValue>(DataContracts.PairData<TKey, TValue>[] array) => array.ToDictionary(x => x.Key, x => x.Value);
+        private Dictionary<TKey, TValue> MapToDictionary<TKey, TValue>(DataContracts.PairData<TKey, TValue>[] array) => array?.ToDictionary(x => x.Key, x => x.Value);
+
+        private DataContracts.PairData<int, int>[] MapFromDictionary(Dictionary<Domain.CharacterAttributes, int> dictionary) => dictionary?.Select(x => new DataContracts.PairData<int, int>(MapCharacterAttributes(x.Key), x.Value)).ToArray();
+
+        private Dictionary<Domain.CharacterAttributes, int> MapToDictionary(DataContracts.PairData<int, int>[] array) => array?.ToDictionary(x => MapCharacterAttributes(x.Key), x => x.Value);
 
         private Domain.WiznetFlags MapWiznetFlags(int flags)
         {
@@ -478,6 +498,54 @@ namespace Mud.Repository.Filesystem
         private int MapWeaponFlags(Domain.WeaponFlags flags)
         {
             return (int)flags;
+        }
+
+        private Domain.CharacterAttributes MapCharacterAttributes(int attr)
+        {
+            switch (attr)
+            {
+                case 0: return Domain.CharacterAttributes.Strength;
+                case 1: return Domain.CharacterAttributes.Intelligence;
+                case 2: return Domain.CharacterAttributes.Wisdom;
+                case 3: return Domain.CharacterAttributes.Dexterity;
+                case 4: return Domain.CharacterAttributes.Constitution;
+                case 5: return Domain.CharacterAttributes.MaxHitPoints;
+                case 6: return Domain.CharacterAttributes.SavingThrow;
+                case 7: return Domain.CharacterAttributes.HitRoll;
+                case 8: return Domain.CharacterAttributes.DamRoll;
+                case 9: return Domain.CharacterAttributes.MaxMovePoints;
+                case 10: return Domain.CharacterAttributes.ArmorBash;
+                case 11: return Domain.CharacterAttributes.ArmorPierce;
+                case 12: return Domain.CharacterAttributes.ArmorSlash;
+                case 13: return Domain.CharacterAttributes.ArmorMagic;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid CharacterAttributes {attr} while reading pfile");
+                    return Domain.CharacterAttributes.Strength;
+            }
+        }
+
+        private int MapCharacterAttributes(Domain.CharacterAttributes attr)
+        {
+            switch (attr)
+            {
+                case Domain.CharacterAttributes.Strength: return 0;
+                case Domain.CharacterAttributes.Intelligence: return 1;
+                case Domain.CharacterAttributes.Wisdom: return 2;
+                case Domain.CharacterAttributes.Dexterity: return 3;
+                case Domain.CharacterAttributes.Constitution: return 4;
+                case Domain.CharacterAttributes.MaxHitPoints: return 5;
+                case Domain.CharacterAttributes.SavingThrow: return 6;
+                case Domain.CharacterAttributes.HitRoll: return 7;
+                case Domain.CharacterAttributes.DamRoll: return 8;
+                case Domain.CharacterAttributes.MaxMovePoints: return 9;
+                case Domain.CharacterAttributes.ArmorBash: return 10;
+                case Domain.CharacterAttributes.ArmorPierce: return 11;
+                case Domain.CharacterAttributes.ArmorSlash: return 12;
+                case Domain.CharacterAttributes.ArmorMagic: return 13;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid CharacterAttributes {attr} while writing pfile");
+                    return 0;
+            }
         }
     }
 }

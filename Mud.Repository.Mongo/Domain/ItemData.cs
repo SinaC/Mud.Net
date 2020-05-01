@@ -2,7 +2,7 @@
 
 namespace Mud.Repository.Mongo.Domain
 {
-    [BsonKnownTypes(typeof(ItemContainerData), typeof(ItemCorpseData))]
+    [BsonKnownTypes(typeof(ItemContainerData), typeof(ItemCorpseData), typeof(ItemWeaponData))]
     public class ItemData
     {
         [BsonId]

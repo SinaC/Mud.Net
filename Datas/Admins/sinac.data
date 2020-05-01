@@ -27,7 +27,7 @@
           <Slot>1</Slot>
           <Item>
             <ItemId>3365</ItemId>
-            <DecayPulseLeft>14384820</DecayPulseLeft>
+            <DecayPulseLeft>14384500</DecayPulseLeft>
             <ItemFlags>96</ItemFlags>
             <Auras />
           </Item>
@@ -79,68 +79,35 @@
         </EquipedItemData>
         <EquipedItemData>
           <Slot>15</Slot>
-          <Item>
+          <Item xsi:type="ItemWeaponData">
             <ItemId>3005</ItemId>
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>32</ItemFlags>
             <Auras />
+            <WeaponFlags>0</WeaponFlags>
           </Item>
         </EquipedItemData>
         <EquipedItemData>
           <Slot>16</Slot>
-          <Item>
+          <Item xsi:type="ItemWeaponData">
             <ItemId>3350</ItemId>
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>0</ItemFlags>
             <Auras />
+            <WeaponFlags>0</WeaponFlags>
           </Item>
         </EquipedItemData>
       </Equipments>
       <Inventory>
-        <ItemData>
-          <ItemId>3356</ItemId>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>6</ItemId>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
           <Auras />
+          <WeaponFlags>0</WeaponFlags>
         </ItemData>
         <ItemData>
           <ItemId>3353</ItemId>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3350</ItemId>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>7</ItemId>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData xsi:type="ItemContainerData">
-          <ItemId>1</ItemId>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Contains>
-            <ItemData>
-              <ItemId>3</ItemId>
-              <DecayPulseLeft>0</DecayPulseLeft>
-              <ItemFlags>0</ItemFlags>
-              <Auras />
-            </ItemData>
-            <ItemData xsi:type="ItemContainerData">
-              <ItemId>3032</ItemId>
-              <DecayPulseLeft>0</DecayPulseLeft>
-              <ItemFlags>0</ItemFlags>
-            </ItemData>
-          </Contains>
-        </ItemData>
-        <ItemData>
-          <ItemId>3350</ItemId>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
           <Auras />
@@ -151,8 +118,54 @@
           <ItemFlags>0</ItemFlags>
           <Auras />
         </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+          <Auras />
+          <WeaponFlags>0</WeaponFlags>
+        </ItemData>
+        <ItemData xsi:type="ItemContainerData">
+          <ItemId>1</ItemId>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+          <Auras />
+          <Contains>
+            <ItemData xsi:type="ItemContainerData">
+              <ItemId>3032</ItemId>
+              <DecayPulseLeft>0</DecayPulseLeft>
+              <ItemFlags>0</ItemFlags>
+              <Auras />
+            </ItemData>
+            <ItemData>
+              <ItemId>3</ItemId>
+              <DecayPulseLeft>0</DecayPulseLeft>
+              <ItemFlags>0</ItemFlags>
+              <Auras />
+            </ItemData>
+          </Contains>
+        </ItemData>
+        <ItemData>
+          <ItemId>7</ItemId>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+          <Auras />
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+          <Auras />
+          <WeaponFlags>0</WeaponFlags>
+        </ItemData>
         <ItemData>
           <ItemId>3353</ItemId>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+          <Auras />
+        </ItemData>
+        <ItemData>
+          <ItemId>3356</ItemId>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
           <Auras />
@@ -169,11 +182,11 @@
           <Objectives>
             <CurrentQuestObjectiveData>
               <ObjectiveId>1</ObjectiveId>
-              <Count>1</Count>
+              <Count>0</Count>
             </CurrentQuestObjectiveData>
             <CurrentQuestObjectiveData>
               <ObjectiveId>2</ObjectiveId>
-              <Count>1</Count>
+              <Count>0</Count>
             </CurrentQuestObjectiveData>
             <CurrentQuestObjectiveData>
               <ObjectiveId>0</ObjectiveId>
@@ -181,21 +194,74 @@
             </CurrentQuestObjectiveData>
             <CurrentQuestObjectiveData>
               <ObjectiveId>3</ObjectiveId>
-              <Count>1</Count>
+              <Count>0</Count>
             </CurrentQuestObjectiveData>
           </Objectives>
         </CurrentQuestData>
       </CurrentQuests>
-      <Auras>
-        <AuraData>
-          <AbilitiId>108</AbilitiId>
-          <Modifier>7</Modifier>
-          <Amount>15</Amount>
-          <AmountOperator>2</AmountOperator>
-          <Level>60</Level>
-          <PulseLeft>36</PulseLeft>
-        </AuraData>
-      </Auras>
+      <Auras />
+      <CharacterFlags>0</CharacterFlags>
+      <Immunities>0</Immunities>
+      <Resistances>0</Resistances>
+      <Vulnerabilities>0</Vulnerabilities>
+      <Attributes>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>75</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>75</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>75</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>75</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>4</Key>
+          <Value>75</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>5</Key>
+          <Value>75</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>6</Key>
+          <Value>75</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>7</Key>
+          <Value>75</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>8</Key>
+          <Value>75</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>9</Key>
+          <Value>75</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>10</Key>
+          <Value>75</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>11</Key>
+          <Value>75</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>12</Key>
+          <Value>75</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>13</Key>
+          <Value>75</Value>
+        </PairDataOfInt32Int32>
+      </Attributes>
     </CharacterData>
     <CharacterData>
       <CreationTime>2020-04-20T16:00:00</CreationTime>
@@ -209,6 +275,10 @@
       <Equipments />
       <Inventory />
       <CurrentQuests />
+      <CharacterFlags>0</CharacterFlags>
+      <Immunities>0</Immunities>
+      <Resistances>0</Resistances>
+      <Vulnerabilities>0</Vulnerabilities>
     </CharacterData>
     <CharacterData>
       <CreationTime>2020-04-20T16:00:00</CreationTime>
@@ -222,6 +292,10 @@
       <Equipments />
       <Inventory />
       <CurrentQuests />
+      <CharacterFlags>0</CharacterFlags>
+      <Immunities>0</Immunities>
+      <Resistances>0</Resistances>
+      <Vulnerabilities>0</Vulnerabilities>
     </CharacterData>
     <CharacterData>
       <CreationTime>2020-04-20T16:00:00</CreationTime>
@@ -235,6 +309,10 @@
       <Equipments />
       <Inventory />
       <CurrentQuests />
+      <CharacterFlags>0</CharacterFlags>
+      <Immunities>0</Immunities>
+      <Resistances>0</Resistances>
+      <Vulnerabilities>0</Vulnerabilities>
     </CharacterData>
   </Characters>
   <Level>7</Level>

@@ -21,7 +21,7 @@ namespace Mud.Server
 
         IEnumerable<IAffect> Affects { get; } // affects linked to this aura
 
-        T AddOrUpdate<T>(Func<T, bool> filterFunc, Func<T> createFunc, Action<T> updateFunc)
+        T AddOrUpdateAffect<T>(Func<T, bool> filterFunc, Func<T> createFunc, Action<T> updateFunc)
             where T : IAffect;
 
         bool DecreasePulseLeft(int pulseCount); // return true if timed out

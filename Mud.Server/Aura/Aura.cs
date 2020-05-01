@@ -54,33 +54,36 @@ namespace Mud.Server.Aura
             Level = auraData.Level;
             PulseLeft = auraData.PulseLeft;
             _affects = new List<IAffect>();
-            foreach (AffectDataBase affectData in auraData.Affects)
+            if (auraData.Affects != null)
             {
-                switch (affectData)
+                foreach (AffectDataBase affectData in auraData.Affects)
                 {
-                    case CharacterAttributeAffectData characterAttributeAffectData:
-                        _affects.Add(new CharacterAttributeAffect(characterAttributeAffectData));
-                        break;
-                    case CharacterFlagsAffectData characterFlagsAffectData:
-                        _affects.Add(new CharacterFlagsAffect(characterFlagsAffectData));
-                        break;
-                    case CharacterIRVAffectData characterIRVAffectData:
-                        _affects.Add(new CharacterIRVAffect(characterIRVAffectData));
-                        break;
-                    case CharacterSexAffectData characterSexAffectData:
-                        _affects.Add(new CharacterSexAffect(characterSexAffectData));
-                        break;
-                    case ItemFlagsAffectData itemFlagsAffectData:
-                        _affects.Add(new ItemFlagsAffect(itemFlagsAffectData));
-                        break;
-                    case ItemWeaponFlagsAffectData itemWeaponFlagsAffectData:
-                        _affects.Add(new ItemWeaponFlagsAffect(itemWeaponFlagsAffectData));
-                        break;
-                    default:
-                        string msg = $"Unexepcted AuraAffect type {affectData.GetType()}";
-                        Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
-                        Log.Default.WriteLine(LogLevels.Error, msg);
-                        break;
+                    switch (affectData)
+                    {
+                        case CharacterAttributeAffectData characterAttributeAffectData:
+                            _affects.Add(new CharacterAttributeAffect(characterAttributeAffectData));
+                            break;
+                        case CharacterFlagsAffectData characterFlagsAffectData:
+                            _affects.Add(new CharacterFlagsAffect(characterFlagsAffectData));
+                            break;
+                        case CharacterIRVAffectData characterIRVAffectData:
+                            _affects.Add(new CharacterIRVAffect(characterIRVAffectData));
+                            break;
+                        case CharacterSexAffectData characterSexAffectData:
+                            _affects.Add(new CharacterSexAffect(characterSexAffectData));
+                            break;
+                        case ItemFlagsAffectData itemFlagsAffectData:
+                            _affects.Add(new ItemFlagsAffect(itemFlagsAffectData));
+                            break;
+                        case ItemWeaponFlagsAffectData itemWeaponFlagsAffectData:
+                            _affects.Add(new ItemWeaponFlagsAffect(itemWeaponFlagsAffectData));
+                            break;
+                        default:
+                            string msg = $"Unexpected AuraAffect type {affectData.GetType()}";
+                            Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+                            Log.Default.WriteLine(LogLevels.Error, msg);
+                            break;
+                    }
                 }
             }
         }
@@ -101,7 +104,7 @@ namespace Mud.Server.Aura
 
         public IEnumerable<IAffect> Affects => _affects;
 
-        public T AddOrUpdate<T>(Func<T, bool> filterFunc, Func<T> createFunc, Action<T> updateFunc)
+        public T AddOrUpdateAffect<T>(Func<T, bool> filterFunc, Func<T> createFunc, Action<T> updateFunc)
             where T : IAffect
         {
             T affect = _affects.OfType<T>().FirstOrDefault(x => filterFunc(x));
