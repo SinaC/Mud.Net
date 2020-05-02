@@ -30,6 +30,8 @@ namespace Mud.Server.Room
             _content = new List<IItem>();
             Exits = new IExit[ExitDirectionsExtensions.ExitCount];
 
+            BaseRoomFlags = blueprint.RoomFlags;
+
             Area = area;
             Area.AddRoom(this);
         }

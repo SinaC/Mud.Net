@@ -12,6 +12,10 @@
 
         AbilityFlags AbilityFlags { get; }
 
+        string CharacterDispelMessage { get; }
+
+        string ItemDispelMessage { get; }
+
         AbilityMethodInfo AbilityMethodInfo { get; }
     }
 }

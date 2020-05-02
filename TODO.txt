@@ -2,21 +2,23 @@ ongoing
 Refactor Ability in POC project
     Ability can be created from method with [Spell] attribute
     Or with old system using AbilityEffect
+Ability level by class/race
 
 handled:
-SpellLocateObject(IAbility ability, int level, ICharacter caster, string parameter) -> AbilityTargets.None
+SpellMassInvis(IAbility ability, int level, ICharacter caster) -> AbilityTargets.None
 SpellCauseSerious(IAbility ability, int level, ICharacter caster, ICharacter victim) -> AbilityTargets.CharacterOffensive
 SpellArmor(IAbility ability, int level, ICharacter caster, ICharacter victim) -> AbilityTargets.CharacterDefensive
 SpellDetectEvil(IAbility ability, int level, ICharacter caster, ICharacter victim) -> AbilityTargets.CharacterSelf
 SpellFireproof(IAbility ability, int level, ICharacter caster, IItem item) -> AbilityTargets.ItemInventory
 SpellCurse(IAbility ability, int level, ICharacter caster, IEntity target) -> AbilityTargets.ItemHereOrCharacterOffensive
 SpellBless(IAbility ability, int level, ICharacter caster, IEntity target) -> AbilityTargets.ItemInventoryOrCharacterDefensive
+SpellLocateObject(IAbility ability, int level, ICharacter caster, string parameter) -> AbilityTargets.Custom
+SpellContinualLight(IAbility ability, int level, ICharacter caster, IItem item) -> AbilityTargets.OptionalItemInventory
+SpellEnchantArmor(IAbility ability, int level, ICharacter caster, IItemArmor armor) -> AbilityTargets.ArmorInventory
+SpellEnchantWeapon(IAbility ability, int level, ICharacter caster, IItemWeapon weapon) -> AbilityTargets.WeaponInventory
 
 to handle:
 SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCharacter victim) // victim is NPC
-SpellContinualLight(IAbility ability, int level, ICharacter caster, IItem item) // item is optional
-SpellEnchantArmor(IAbility ability, int level, ICharacter caster, IItemArmor armor) // specific item type
-SpellEnchantWeapon(IAbility ability, int level, ICharacter caster, IItemWeapon weapon) // specific item type
 SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 TODO:
@@ -53,7 +55,7 @@ check if IStat, MStat and RStat display new informations
 
 Redo modifiable list
 
-PlayableCharacter can be immortal or not -> don't link immortality from ImpersonatedBy is IAdmin
+PlayableCharacter can be immortal or not -> don't link immortality to ImpersonatedBy is IAdmin
 
 When an item quest objective is complete, quest item should be NoTake
 

@@ -2,7 +2,7 @@
 {
     public enum AbilityTargets
     {
-        // Target will be 'computed' by spell
+        // No target
         None, // TAR_IGNORE
         // Fighting if no parameter, character in room if parameter specified
         CharacterOffensive, // TAR_CHAR_OFFENSIVE
@@ -16,5 +16,13 @@
         ItemHereOrCharacterOffensive, // TAR_OBJ_CHAR_OFF
         // Itself if no parameter, character in room or item in inventory if parameter specified
         ItemInventoryOrCharacterDefensive, //TAR_OBJ_CHAR_DEF
+        // Target will be 'computed' by spell
+        Custom,
+        // Optional item in inventory
+        OptionalItemInventory,
+        // Armor in inventory
+        ArmorInventory,
+        // Weapon in inventory
+        WeaponInventory,
     }
 }

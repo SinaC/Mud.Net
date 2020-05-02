@@ -500,11 +500,12 @@ namespace Mud.Server.Tests
             ItemWeaponBlueprint weaponBlueprint = new ItemWeaponBlueprint { Id = 1, Name = "Weapon", ShortDescription = "WeaponShort", Description = "WeaponDesc", DamageType = SchoolTypes.Fire, DiceCount = 10, DiceValue = 20 };
             world.AddItemBlueprint(weaponBlueprint);
 
-            ItemData itemData = new ItemData
+            ItemWeaponData itemData = new ItemWeaponData
             {
                 ItemId = weaponBlueprint.Id,
                 DecayPulseLeft = AutoFaker.Generate<int>(),
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                WeaponFlags = AutoFaker.Generate<WeaponFlags>()
             };
 
             IItem weapon = World.AddItem(Guid.NewGuid(), itemData, room);
@@ -513,6 +514,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(weaponBlueprint.Id, weapon.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, weapon.DecayPulseLeft);
             Assert.AreEqual(itemData.ItemFlags, weapon.BaseItemFlags);
+            Assert.AreEqual(itemData.WeaponFlags, (weapon as IItemWeapon).BaseWeaponFlags);
         }
     }
 }

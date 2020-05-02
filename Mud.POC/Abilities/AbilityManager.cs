@@ -1,4 +1,5 @@
 ﻿using Mud.Container;
+using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -13,18 +14,20 @@ namespace Mud.POC.Abilities
 {
     public class AbilityManager : IAbilityManager
     {
-        private IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
+        private IRandomManager RandomManager { get; }
 
         private List<IAbility> _abilities;
 
-        public AbilityManager()
+        public AbilityManager(IRandomManager randomManager)
         {
+            RandomManager = randomManager;
+
             _abilities = new List<IAbility>();
 
             // Reflection to gather every methods with Spell/Skill attributes
-            var abilityInfos = Assembly.GetExecutingAssembly()
-                .GetTypes()
-                .SelectMany(x => x.GetMethods(BindingFlags.Static), (t, m) => new { type = t, method = m, attribute = m.GetCustomAttribute(typeof(AbilityAttribute), false) as AbilityAttribute })
+            var abilityInfos = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .SelectMany(x => x.GetMethods(BindingFlags.Static | BindingFlags.Public), (t, m) => new { type = t, method = m, attribute = m.GetCustomAttribute(typeof(AbilityAttribute), false) as AbilityAttribute})
                 .Where(x => x.attribute != null);
             foreach (var abilityInfo in abilityInfos)
             {
@@ -43,9 +46,13 @@ namespace Mud.POC.Abilities
                 //}
                 _abilities.Add(ability);
             }
+
+            // TODO: check uniqueness of ability (name and id)
         }
 
-        public IAbility this[string name] => throw new NotImplementedException();
+        public IEnumerable<IAbility> Abilities => _abilities;
+
+        public IAbility this[string name] => _abilities.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, name));
 
         public CommandExecutionResults Cast(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
         {
@@ -62,6 +69,7 @@ namespace Mud.POC.Abilities
                 caster.Send("You don't know any spells of that name.");
                 return CommandExecutionResults.InvalidParameter;
             }
+
             // 2) get target
             ICharacter victim = null;
             IItem item = null;
@@ -213,14 +221,7 @@ namespace Mud.POC.Abilities
                         }
                     }
                     else
-                    {
                         target = FindByName(caster.Room.People, parameters[1]);
-                        if (target == null)
-                        {
-                            caster.Send("They aren't here.");
-                            return CommandExecutionResults.TargetNotFound;
-                        }
-                    }
                     if (target != null)
                     {
                         // TODO: check if safe/charm/...
@@ -240,14 +241,7 @@ namespace Mud.POC.Abilities
                     if (parameters.Length < 2)
                         target = caster;
                     else
-                    {
                         target = FindByName(caster.Room.People, parameters[1]);
-                        if (target == null)
-                        {
-                            caster.Send("They aren't here.");
-                            return CommandExecutionResults.TargetNotFound;
-                        }
-                    }
                     if (target != null)
                     {
                         // TODO: check if safe/charm/...
@@ -263,6 +257,61 @@ namespace Mud.POC.Abilities
                     }
                     // victim or item (target) found
                     break;
+                case AbilityTargets.Custom:
+                    break;
+                case AbilityTargets.OptionalItemInventory:
+                    if (parameters.Length >= 2)
+                    {
+                        item = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                        if (item == null)
+                        {
+                            caster.Send("You are not carrying that.");
+                            return CommandExecutionResults.TargetNotFound;
+                        }
+                    }
+                    // item found
+                    break;
+                case AbilityTargets.ArmorInventory:
+                    if (parameters.Length < 2)
+                    {
+                        caster.Send("What should the spell be cast upon?");
+                        return CommandExecutionResults.SyntaxErrorNoDisplay;
+                    }
+                    item = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                    if (item == null)
+                    {
+                        caster.Send("You are not carrying that.");
+                        return CommandExecutionResults.TargetNotFound;
+                    }
+                    if (!(item is IItemArmor))
+                    {
+                        caster.Send("That isn't an armor.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
+                    // item found
+                    break;
+                case AbilityTargets.WeaponInventory:
+                    if (parameters.Length < 2)
+                    {
+                        caster.Send("What should the spell be cast upon?");
+                        return CommandExecutionResults.SyntaxErrorNoDisplay;
+                    }
+                    item = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                    if (item == null)
+                    {
+                        caster.Send("You are not carrying that.");
+                        return CommandExecutionResults.TargetNotFound;
+                    }
+                    if (!(item is IItemWeapon))
+                    {
+                        caster.Send("That isn't an armor.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
+                    // item found
+                    break;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, "Unexpected AbilityTarget {0}", abilityTarget);
+                    return CommandExecutionResults.Error;
             }
             return CommandExecutionResults.Ok;
         }
@@ -272,7 +321,7 @@ namespace Mud.POC.Abilities
             switch (ability.Target)
             {
                 case AbilityTargets.None:
-                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, rawParameters });
+                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster });
                     break;
                 case AbilityTargets.CharacterOffensive:
                     ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, victim });
@@ -281,7 +330,7 @@ namespace Mud.POC.Abilities
                     ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, victim });
                     break;
                 case AbilityTargets.CharacterSelf:
-                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, victim }); // TODO: is victim optional ?
+                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, victim });
                     break;
                 case AbilityTargets.ItemInventory:
                     ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, item });
@@ -291,6 +340,24 @@ namespace Mud.POC.Abilities
                     break;
                 case AbilityTargets.ItemInventoryOrCharacterDefensive:
                     ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
+                    break;
+                case AbilityTargets.Custom:
+                    if (parameters.Length > 1)
+                    {
+                        var newParameters = CommandHelpers.SkipParameters(parameters, 1);
+                        ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, newParameters.rawParameters });
+                    }
+                    else
+                        ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, string.Empty});
+                    break;
+                case AbilityTargets.OptionalItemInventory:
+                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, item });
+                    break;
+                case AbilityTargets.ArmorInventory:
+                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, item });
+                    break;
+                case AbilityTargets.WeaponInventory:
+                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, item });
                     break;
             }
         }

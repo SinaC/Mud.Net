@@ -110,6 +110,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Affects\ItemWeaponAffectTests.cs" />
+    <Compile Include="Affects\RoomAffectTests.cs" />
     <Compile Include="CharacterAffectTests.cs" />
     <Compile Include="CharacterDeserializationTests.cs" />
     <Compile Include="ItemDeserializationTests.cs" />
