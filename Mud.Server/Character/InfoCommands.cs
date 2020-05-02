@@ -104,7 +104,7 @@ namespace Mud.Server.Character
                 int count = 0;
                 foreach (KeyValuePair<string, string> extraDescription in Room.ExtraDescriptions)
                 {
-                    if (parameters[0].Tokens.All(x => FindHelpers.StringStartsWith(extraDescription.Key, x))
+                    if (parameters[0].Tokens.All(x => StringCompareHelpers.StringStartsWith(extraDescription.Key, x))
                             && ++count == parameters[0].Count)
                     {
                         Send(extraDescription.Value, false);
@@ -388,7 +388,7 @@ namespace Mud.Server.Character
             }
             else
             {
-                players = Room.Area.Players.Where(x => CanSee(x.Impersonating) && FindHelpers.StringListsStartsWith(x.Impersonating.Keywords, parameters[0].Tokens));
+                players = Room.Area.Players.Where(x => CanSee(x.Impersonating) && StringCompareHelpers.StringListsStartsWith(x.Impersonating.Keywords, parameters[0].Tokens));
                 notFound = $"You didn't find any {parameters[0]}.";
             }
             bool found = false;
@@ -699,7 +699,7 @@ namespace Mud.Server.Character
                 if (item.ExtraDescriptions != null)
                 {
                     foreach (KeyValuePair<string, string> extraDescription in item.ExtraDescriptions)
-                        if (parameter.Tokens.All(x => FindHelpers.StringStartsWith(extraDescription.Key, x))
+                        if (parameter.Tokens.All(x => StringCompareHelpers.StringStartsWith(extraDescription.Key, x))
                             && ++count == parameter.Count)
                         {
                             description = extraDescription.Value;
@@ -707,7 +707,7 @@ namespace Mud.Server.Character
                         }
                 }
                 // Search in item keywords
-                if (FindHelpers.StringListsStartsWith(item.Keywords, parameter.Tokens)
+                if (StringCompareHelpers.StringListsStartsWith(item.Keywords, parameter.Tokens)
                     && ++count == parameter.Count)
                 {
                     description = FormatItem(item, false) + Environment.NewLine;

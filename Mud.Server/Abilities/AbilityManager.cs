@@ -5,6 +5,7 @@ using System.Text;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
@@ -82,14 +83,14 @@ namespace Mud.Server.Abilities
 
         public IAbility this[int id] =>_abilities.FirstOrDefault(x => x.Id == id);
 
-        public IAbility this[string name] => _abilities.FirstOrDefault(x => FindHelpers.StringEquals(x.Name, name));
+        public IAbility this[string name] => _abilities.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, name));
 
         public IAbility Search(CommandParameter parameter, bool includePassive = false)
         {
             return _abilities.Where(x =>
                 (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed
                 && (!includePassive || (x.Flags & AbilityFlags.Passive) != AbilityFlags.Passive)
-                && FindHelpers.StringStartsWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
+                && StringCompareHelpers.StringStartsWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
         }
 
         public bool Process(ICharacter source, params CommandParameter[] parameters)
@@ -376,7 +377,7 @@ namespace Mud.Server.Abilities
                 (x.Ability.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed
                 && (x.Ability.Flags & AbilityFlags.Passive) != AbilityFlags.Passive
                 && x.Level <= level
-                && FindHelpers.StringStartsWith(x.Ability.Name, parameter.Value))
+                && StringCompareHelpers.StringStartsWith(x.Ability.Name, parameter.Value))
                 .Select(x => x.Ability)
                 .ElementAtOrDefault(parameter.Count - 1);
         }

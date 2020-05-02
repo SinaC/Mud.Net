@@ -167,8 +167,9 @@ namespace Mud.Server.Input
             //        (methodInfo, attribute) => new TrieEntry<CommandMethodInfo>(attribute.Name, new CommandMethodInfo(attribute, methodInfo)));
             //Trie<CommandMethodInfo> trie = new Trie<CommandMethodInfo>(commands);
             //return trie;
+            Type commandAttributeType = typeof(CommandAttribute);
             var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
-               .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())
+               .Where(x => x.GetCustomAttributes(commandAttributeType, false).Any())
                .Select(x => new { methodInfo = x, attributes = GetCommandAttributes(x) })
                .SelectMany(x => x.attributes.commandAttributes,
                    (x, commandAttribute) => new TrieEntry<CommandMethodInfo>(commandAttribute.Name, new CommandMethodInfo(commandAttribute, x.methodInfo, x.attributes.syntaxCommandAttribute)));

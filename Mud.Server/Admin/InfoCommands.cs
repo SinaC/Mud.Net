@@ -540,7 +540,7 @@ namespace Mud.Server.Admin
             }
 
             // class name
-            IClass matchingClass = ClassManager.Classes.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            IClass matchingClass = ClassManager.Classes.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingClass != null)
             {
                  StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingClass.DisplayName, matchingClass.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name), new[] {
@@ -552,7 +552,7 @@ namespace Mud.Server.Admin
             }
 
             // race name
-            IRace matchingRace = RaceManager.Races.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            IRace matchingRace = RaceManager.Races.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingRace != null)
             {
                 StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingRace.DisplayName, matchingRace.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name), new[] {
@@ -580,7 +580,7 @@ namespace Mud.Server.Admin
             }
 
             // filter on class?
-            IClass matchingClass = ClassManager.Classes.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            IClass matchingClass = ClassManager.Classes.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingClass != null)
             {
                 StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders($"Abilities for {matchingClass.DisplayName}", matchingClass.Abilities
@@ -592,7 +592,7 @@ namespace Mud.Server.Admin
             }
 
             // filter on race?
-            IRace matchingRace = RaceManager.Races.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            IRace matchingRace = RaceManager.Races.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingRace != null)
             {
                 StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders($"Abilities for {matchingRace.DisplayName}", matchingRace.Abilities

@@ -387,7 +387,7 @@ namespace Mud.Server.Player
                 Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated while not impersonated.");
                 return;
             }
-            int index = _avatarList.FindIndex(x => FindHelpers.StringEquals(x.Name, Impersonating.Name));
+            int index = _avatarList.FindIndex(x => StringCompareHelpers.StringEquals(x.Name, Impersonating.Name));
             if (index < 0)
             {
                 Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated: unknown avatar {0} for player {1}", Impersonating.Name, DisplayName);

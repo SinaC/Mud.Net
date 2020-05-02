@@ -1,17 +1,31 @@
 ongoing
-Refactor Ability
+Refactor Ability in POC project
+    Ability can be created from method with [Spell] attribute
+    Or with old system using AbilityEffect
 
-todo
-Enum string representation instead of int in Repository
+handled:
+SpellLocateObject(IAbility ability, int level, ICharacter caster, string parameter) -> AbilityTargets.None
+SpellCauseSerious(IAbility ability, int level, ICharacter caster, ICharacter victim) -> AbilityTargets.CharacterOffensive
+SpellArmor(IAbility ability, int level, ICharacter caster, ICharacter victim) -> AbilityTargets.CharacterDefensive
+SpellDetectEvil(IAbility ability, int level, ICharacter caster, ICharacter victim) -> AbilityTargets.CharacterSelf
+SpellFireproof(IAbility ability, int level, ICharacter caster, IItem item) -> AbilityTargets.ItemInventory
+SpellCurse(IAbility ability, int level, ICharacter caster, IEntity target) -> AbilityTargets.ItemHereOrCharacterOffensive
+SpellBless(IAbility ability, int level, ICharacter caster, IEntity target) -> AbilityTargets.ItemInventoryOrCharacterDefensive
+
+to handle:
+SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCharacter victim) // victim is NPC
+SpellContinualLight(IAbility ability, int level, ICharacter caster, IItem item) // item is optional
+SpellEnchantArmor(IAbility ability, int level, ICharacter caster, IItemArmor armor) // specific item type
+SpellEnchantWeapon(IAbility ability, int level, ICharacter caster, IItemWeapon weapon) // specific item type
+SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
+
+TODO:
 don't save invalid auras, better use of IsValid on Aura -> store an Aura list in World this will avoid looping on all room/character/item to check aura
-Alias should be available when impersonated: add aliases to PlayableCharacter
 Ability wears off message
 Move AddAura in aura manager
 UnitTests on Rom24Effects
 Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
 Skill practice %
-redo DoScore, DoAffects
-check if IStat, MStat and RStat display new informations
 AddAura: additional param combine, when adding already existing aura (see affect_join)
 
 DONE:
@@ -30,6 +44,13 @@ Affects save
 Full character/item data save
 
 -----------------------------------------------------
+Add ctor to every manager with other manager as parameter to easy unit tests
+Alias should be available when impersonated: add aliases to PlayableCharacter
+Replace out parameter with C#7-tuple if possible
+Enum string representation instead of int in Repository
+redo DoScore, DoAffects
+check if IStat, MStat and RStat display new informations
+
 Redo modifiable list
 
 PlayableCharacter can be immortal or not -> don't link immortality from ImpersonatedBy is IAdmin

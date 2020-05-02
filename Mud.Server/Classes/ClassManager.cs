@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 
 namespace Mud.Server.Classes
@@ -25,7 +26,7 @@ namespace Mud.Server.Classes
 
         public IEnumerable<IClass> Classes => _classes;
 
-        public IClass this[string name] => _classes.FirstOrDefault(x => FindHelpers.StringEquals(x.Name, name));
+        public IClass this[string name] => _classes.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, name));
 
         #endregion
     }

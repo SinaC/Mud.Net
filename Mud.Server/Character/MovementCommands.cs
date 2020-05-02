@@ -754,7 +754,7 @@ namespace Mud.Server.Character
             foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
             {
                 IExit exit = Room.Exit(direction);
-                if (exit?.Destination != null && exit.IsDoor && exit.Keywords.Any(k => FindHelpers.StringStartsWith(k, parameter.Value)))
+                if (exit?.Destination != null && exit.IsDoor && exit.Keywords.Any(k => StringCompareHelpers.StringStartsWith(k, parameter.Value)))
                 {
                     exitDirection = direction;
                     return true;

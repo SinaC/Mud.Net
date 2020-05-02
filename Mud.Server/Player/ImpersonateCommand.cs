@@ -31,7 +31,7 @@ namespace Mud.Server.Player
                 Save();
                 return CommandExecutionResults.Ok;
             }
-            CharacterData characterData = _avatarList.FirstOrDefault(x => FindHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            CharacterData characterData = _avatarList.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (characterData == null)
             {
                 Send("Avatar not found. Use 'listavatar' to display your avatar list.");

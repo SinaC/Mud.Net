@@ -151,7 +151,7 @@ namespace Mud.Server.Actor
             // If a parameter is specified, filter on category
             Func<string, bool> filterOnCategoryFunc = _ => true;
             if (parameters.Length > 0)
-                filterOnCategoryFunc = category => FindHelpers.StringStartsWith(category, parameters[0].Value);
+                filterOnCategoryFunc = category => StringCompareHelpers.StringStartsWith(category, parameters[0].Value);
 
             // Grouped by category
             // if a command has multiple categories, it will appear in each category

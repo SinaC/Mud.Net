@@ -69,7 +69,7 @@ namespace Mud.Server.Player
                     player.Send("Please enter a VALID name (type quit to stop creation):");
                     return AvatarCreationStates.NameChoice;
                 }
-                if (player.Avatars.Any(x => FindHelpers.StringEquals(x.Name, input)))
+                if (player.Avatars.Any(x => StringCompareHelpers.StringEquals(x.Name, input)))
                 {
                     player.Send("You already have an avatar with that name.");
                     player.Send("Please enter a name (type quit to stop creation):");
@@ -132,7 +132,7 @@ namespace Mud.Server.Player
                 player.Send("Creation cancelled.");
                 return AvatarCreationStates.Quit;
             }
-            List<IRace> races = RaceManager.Races.Where(x => FindHelpers.StringStartsWith(x.Name, input)).ToList();
+            List<IRace> races = RaceManager.Races.Where(x => StringCompareHelpers.StringStartsWith(x.Name, input)).ToList();
             if (races.Count == 1)
             {
                 _race = races[0];
@@ -151,7 +151,7 @@ namespace Mud.Server.Player
                 player.Send("Creation cancelled.");
                 return AvatarCreationStates.Quit;
             }
-            List<IClass> classes = ClassManager.Classes.Where(x => FindHelpers.StringStartsWith(x.Name, input)).ToList();
+            List<IClass> classes = ClassManager.Classes.Where(x => StringCompareHelpers.StringStartsWith(x.Name, input)).ToList();
             if (classes.Count == 1)
             {
                 _class = classes[0];

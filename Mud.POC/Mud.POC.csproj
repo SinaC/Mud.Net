@@ -82,6 +82,20 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abilities\Ability.cs" />
+    <Compile Include="Abilities\AbilityAttribute.cs" />
+    <Compile Include="Abilities\AbilityFlags.cs" />
+    <Compile Include="Abilities\AbilityManager.cs" />
+    <Compile Include="Abilities\AbilityMethodInfo.cs" />
+    <Compile Include="Abilities\AbilityTargets.cs" />
+    <Compile Include="Abilities\IAbility.cs" />
+    <Compile Include="Abilities\IAbilityManager.cs" />
+    <Compile Include="Abilities\ICharacter.cs" />
+    <Compile Include="Abilities\IEntity.cs" />
+    <Compile Include="Abilities\IItem.cs" />
+    <Compile Include="Abilities\IRoom.cs" />
+    <Compile Include="Abilities\KnownAbility.cs" />
+    <Compile Include="Abilities\Spells.cs" />
     <Compile Include="Affects\Aura.cs" />
     <Compile Include="Affects\CharacterAttributeAffect.cs" />
     <Compile Include="Affects\CharacterFlagsAffect.cs" />
@@ -156,6 +170,10 @@
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
       <Project>{D1A7D787-0FE7-4281-9458-D2C8F728E404}</Project>
       <Name>Mud.Server.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
+      <Project>{3E2BD396-17B9-423E-9114-9E215B468267}</Project>
+      <Name>Mud.Server.Input</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
       <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>

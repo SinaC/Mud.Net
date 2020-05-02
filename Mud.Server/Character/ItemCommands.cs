@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
@@ -215,7 +216,7 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.Ok;
             }
             // get item [from] container, get all [from] container, get all.item [from] container
-            CommandParameter whereParameter = FindHelpers.StringEquals(parameters[1].Value, "from") ? parameters[2] : parameters[1];
+            CommandParameter whereParameter = StringCompareHelpers.StringEquals(parameters[1].Value, "from") ? parameters[2] : parameters[1];
             if (whereParameter.IsAll)
             {
                 Send("You can't do that");
@@ -388,7 +389,7 @@ namespace Mud.Server.Character
 
             // Extract parameters
             CommandParameter whatParameter = parameters[0];
-            CommandParameter whereParameter = FindHelpers.StringEquals(parameters[1].Value, "in") ? parameters[2] : parameters[1];
+            CommandParameter whereParameter = StringCompareHelpers.StringEquals(parameters[1].Value, "in") ? parameters[2] : parameters[1];
 
             // search container
             if (whereParameter.IsAll)

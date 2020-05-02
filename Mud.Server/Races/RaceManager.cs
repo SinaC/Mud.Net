@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 
 namespace Mud.Server.Races
@@ -25,7 +26,7 @@ namespace Mud.Server.Races
 
         public IEnumerable<IRace> Races => _races;
 
-        public IRace this[string name] => _races.FirstOrDefault(x => FindHelpers.StringEquals(x.Name, name));
+        public IRace this[string name] => _races.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, name));
 
         #endregion
     }

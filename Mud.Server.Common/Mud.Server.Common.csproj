@@ -84,6 +84,7 @@
     <Compile Include="Pulse.cs" />
     <Compile Include="RandomManager.cs" />
     <Compile Include="StringBuilderExtensions.cs" />
+    <Compile Include="StringCompareHelpers.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TableGenerator.cs" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Mud.Server.Helpers;
+﻿using Mud.Server.Common;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace Mud.Server.Tests.Mocking
             return _abilities.Where(x =>
                      (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed
                      && (!includePassive || (x.Flags & AbilityFlags.Passive) != AbilityFlags.Passive)
-                     && FindHelpers.StringStartsWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
+                     && StringCompareHelpers.StringStartsWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
         }
 
         public void AddAbility(IAbility ability)

@@ -1822,11 +1822,109 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
+        public void SpellFireBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
+        {
+            caster.ActToNotVictim(victim, "{0} breathes forth a cone of fire.", caster);
+            victim.Act(ActOptions.ToCharacter, "{0} breathes a cone of hot fire over you!", caster);
+            caster.Send("You breath forth a cone of fire.");
 
-        // TODO: acid breath, fire breath, frost breath, gas breath, lightning breath
+            int hp = Math.Max(10, victim.HitPoints);
+            int hpDamage = RandomManager.Range(1 + hp / 9, hp / 5);
+            int diceDamage = RandomManager.Dice(level, 20);
+            int damage = Math.Max(hpDamage + diceDamage / 10, diceDamage + hpDamage / 10);
+
+            BreathAreaEffect(victim, ability, caster, level, damage, SchoolTypes.Fire, Rom24Effects.FireEffect);
+        }
+
+        public void SpellFrostBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
+        {
+            caster.ActToNotVictim(victim, "{0} breathes out a freezing cone of frost!", caster);
+            victim.Act(ActOptions.ToCharacter, "{0} breathes a freezing cone of frost over you!", caster);
+            caster.Send("You breath out a cone of frost.");
+
+            int hp = Math.Max(12, victim.HitPoints);
+            int hpDamage = RandomManager.Range(1 + hp / 11, hp / 6);
+            int diceDamage = RandomManager.Dice(level, 18);
+            int damage = Math.Max(hpDamage + diceDamage / 10, diceDamage + hpDamage / 10);
+
+            BreathAreaEffect(victim, ability, caster, level, damage, SchoolTypes.Cold, Rom24Effects.ColdEffect);
+        }
+
+        public void SpellGasBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
+        {
+            caster.Act(ActOptions.ToRoom, "{0} breathes out a cloud of poisonous gas!", caster);
+            caster.Send("You breath out a cloud of poisonous gas.");
+
+            int hp = Math.Max(16, victim.HitPoints);
+            int hpDamage = RandomManager.Range(1 + hp / 15, hp / 8);
+            int diceDamage = RandomManager.Dice(level, 12);
+            int damage = Math.Max(hpDamage + diceDamage / 10, diceDamage + hpDamage / 10);
+
+            BreathAreaEffect(victim, ability, caster, level, damage, SchoolTypes.Poison, Rom24Effects.PoisonEffect);
+        }
+
+        public void SpellLightningBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
+        {
+            caster.ActToNotVictim(victim, "{0} breathes a bolt of lightning at {1}.", caster, victim);
+            victim.Act(ActOptions.ToCharacter, "{0} breathes a bolt of lightning at you!", caster);
+            caster.Act(ActOptions.ToCharacter, "You breathe a bolt of lightning at {0}.", victim);
+
+            int hp = Math.Max(10, victim.HitPoints);
+            int hpDamage = RandomManager.Range(1 + hp / 9, hp / 5);
+            int diceDamage = RandomManager.Dice(level, 20);
+            int damage = Math.Max(hpDamage + diceDamage / 10, diceDamage + hpDamage / 10);
+
+            if (Rom24Common.SavesSpell(level, victim, SchoolTypes.Lightning))
+            {
+                Rom24Effects.AcidEffect(victim, ability, caster, level / 2, damage / 4);
+                victim.AbilityDamage(caster, ability, damage / 2, SchoolTypes.Lightning, true);
+            }
+            else
+            {
+                Rom24Effects.AcidEffect(victim, ability, caster, level, damage);
+                victim.AbilityDamage(caster, ability, damage, SchoolTypes.Lightning, true);
+            }
+        }
+
         // TODO: general purpose, high explosive
 
         #region Helpers
+
+        private void BreathAreaEffect(ICharacter victim, IAbility ability, ICharacter caster, int level, int damage, SchoolTypes damageType, Action<IEntity, IAbility, ICharacter, int, int> breathAction)
+        {
+            // Room content
+            breathAction(caster.Room, ability, caster, level, damage / 2);
+            // Room people
+            foreach (ICharacter coVictim in caster.Room.People.Where(x => !Rom24Common.IsSafeSpell(caster, x, true) && !(x is INonPlayableCharacter && caster is INonPlayableCharacter && (caster.Fighting != x || x.Fighting != caster))))
+            {
+                if (victim == coVictim) // full damage
+                {
+                    if (Rom24Common.SavesSpell(level, coVictim, damageType))
+                    {
+                        breathAction(coVictim, ability, caster, level / 2, damage / 4);
+                        coVictim.AbilityDamage(caster, ability, damage / 2, damageType, true);
+                    }
+                    else
+                    {
+                        breathAction(coVictim, ability, caster, level, damage);
+                        coVictim.AbilityDamage(caster, ability, damage, damageType, true);
+                    }
+                }
+                else // partial damage
+                {
+                    if (Rom24Common.SavesSpell(level - 2, coVictim, damageType))
+                    {
+                        breathAction(coVictim, ability, caster, level / 4, damage / 8);
+                        coVictim.AbilityDamage(caster, ability, damage / 2, damageType, true);
+                    }
+                    else
+                    {
+                        breathAction(coVictim, ability, caster, level / 2, damage / 4);
+                        coVictim.AbilityDamage(caster, ability, damage / 2, damageType, true);
+                    }
+                }
+            }
+        }
 
         private bool TableBaseDamageSpell(IAbility ability, int level, ICharacter caster, ICharacter victim, SchoolTypes damageType, int[] table) // returns Rom24Common.SavesSpell result
         {
