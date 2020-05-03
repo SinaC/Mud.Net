@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Mud.Server.Tests
+namespace Mud.Server.Tests.Rom24
 {
     [TestClass]
     public class Rom24SpellTests : TestBase
@@ -8,7 +8,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void TestAcidBlast()
         {
-
+            // TODO
         }
     }
 }

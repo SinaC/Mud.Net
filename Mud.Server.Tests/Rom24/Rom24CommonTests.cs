@@ -7,7 +7,7 @@ using Mud.Server.Character.NonPlayableCharacter;
 using Mud.Server.Common;
 using System;
 
-namespace Mud.Server.Tests
+namespace Mud.Server.Tests.Rom24
 {
     [TestClass]
     public class Rom24CommonTests

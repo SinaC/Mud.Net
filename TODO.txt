@@ -47,7 +47,7 @@ Full character/item data save
 
 -----------------------------------------------------
 Add ctor to every manager with other manager as parameter to easy unit tests
-Alias should be available when impersonated: add aliases to PlayableCharacter
+Add aliases to PlayableCharacter
 Replace out parameter with C#7-tuple if possible
 Enum string representation instead of int in Repository
 redo DoScore, DoAffects

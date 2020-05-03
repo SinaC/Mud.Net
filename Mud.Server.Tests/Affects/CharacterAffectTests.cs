@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace Mud.Server.Tests
+namespace Mud.Server.Tests.Affects
 {
     // TODO: CharacterFlagsAffect, CharacterIRVAffect, CharacterSexAffect
     [TestClass]
