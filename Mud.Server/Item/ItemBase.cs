@@ -201,7 +201,7 @@ namespace Mud.Server.Item
                 ItemId = Blueprint.Id,
                 DecayPulseLeft = DecayPulseLeft,
                 ItemFlags = BaseItemFlags, // Current will be recompute with auras
-                Auras = Auras.Select(x => x.MapAuraData()).ToArray()
+                Auras = MapAuraData()
             };
         }
 

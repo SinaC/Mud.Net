@@ -495,7 +495,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquipedData()).ToArray(),
                 Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
                 CurrentQuests = Quests.Select(x => x.MapQuestData()).ToArray(),
-                Auras = Auras.Select(x => x.MapAuraData()).ToArray(),
+                Auras = MapAuraData(),
                 CharacterFlags = BaseCharacterFlags,
                 Immunities = BaseImmunities,
                 Resistances = BaseResistances,
@@ -505,7 +505,6 @@ namespace Mud.Server.Character.PlayableCharacter
             };
             return data;
         }
-
 
         #endregion
 

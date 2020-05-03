@@ -22,7 +22,6 @@ SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCha
 SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 TODO:
-don't save invalid auras, better use of IsValid on Aura -> store an Aura list in World this will avoid looping on all room/character/item to check aura
 Ability wears off message
 Move AddAura in aura manager
 UnitTests on Rom24Effects
@@ -31,6 +30,7 @@ Skill practice %
 AddAura: additional param combine, when adding already existing aura (see affect_join)
 
 DONE:
+Don't save invalid auras, better use of IsValid on Aura -> store an Aura list in World this will avoid looping on all room/character/item to check aura
 Move, Resistances, Alignment added
 Rom24 various flags added
 Rom24 most spells added

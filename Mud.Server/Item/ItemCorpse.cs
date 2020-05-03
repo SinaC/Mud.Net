@@ -121,7 +121,7 @@ namespace Mud.Server.Item
                 ItemId = Blueprint.Id,
                 DecayPulseLeft = DecayPulseLeft,
                 ItemFlags = BaseItemFlags,
-                Auras = Auras.Select(x => x.MapAuraData()).ToArray(),
+                Auras = MapAuraData(),
                 Contains = MapContent(),
                 CorpseName = _corpseName,
                 IsPlayableCharacterCorpse = IsPlayableCharacterCorpse

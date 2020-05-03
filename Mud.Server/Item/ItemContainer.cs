@@ -46,7 +46,7 @@ namespace Mud.Server.Item
                 DecayPulseLeft = DecayPulseLeft,
                 ItemFlags = BaseItemFlags,
                 Contains = MapContent(),
-                Auras = Auras.Select(x => x.MapAuraData()).ToArray()
+                Auras = MapAuraData(),
             };
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Actor;
 using Mud.Server.Input;
@@ -279,5 +280,11 @@ namespace Mud.Server.Entity
         }
 
         #endregion
+
+        protected AuraData[] MapAuraData()
+        {
+            return Auras.Where(x => x.IsValid).Select(x => x.MapAuraData()).ToArray();
+        }
+
     }
 }
