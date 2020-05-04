@@ -18,9 +18,13 @@ namespace Mud.POC.Tests
             var randomManagerMock = new Mock<IRandomManager>();
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
 
-            Assert.AreEqual(typeof(Spells).GetMethods(BindingFlags.Static | BindingFlags.Public).Length + Passives.Abilities.Count, abilityManager.Abilities.Count());
-            Assert.AreEqual(typeof(Spells).GetMethods(BindingFlags.Static | BindingFlags.Public).Length, abilityManager.Abilities.Count(x => !x.AbilityFlags.HasFlag(AbilityFlags.Passive)));
+            Assert.AreEqual(typeof(Spells).GetMethods(BindingFlags.Static | BindingFlags.Public).Length + typeof(Skills).GetMethods(BindingFlags.Static | BindingFlags.Public).Length + Passives.Abilities.Count, abilityManager.Abilities.Count());
+            Assert.AreEqual(typeof(Spells).GetMethods(BindingFlags.Static | BindingFlags.Public).Length, abilityManager.Abilities.Count(x => !x.AbilityFlags.HasFlag(AbilityFlags.Passive) && x.AbilityMethodInfo?.Attribute is SpellAttribute));
+            Assert.AreEqual(typeof(Skills).GetMethods(BindingFlags.Static | BindingFlags.Public).Length, abilityManager.Abilities.Count(x => !x.AbilityFlags.HasFlag(AbilityFlags.Passive) && x.AbilityMethodInfo?.Attribute is SkillAttribute));
             Assert.AreEqual(Passives.Abilities.Count, abilityManager.Abilities.Count(x => x.AbilityFlags.HasFlag(AbilityFlags.Passive)));
+            Assert.AreEqual(abilityManager.Passives.Count(), abilityManager.Abilities.Count(x => x.AbilityFlags.HasFlag(AbilityFlags.Passive)));
+            Assert.AreEqual(abilityManager.Spells.Count(), abilityManager.Abilities.Count(x => !x.AbilityFlags.HasFlag(AbilityFlags.Passive) && x.AbilityMethodInfo?.Attribute is SpellAttribute));
+            Assert.AreEqual(abilityManager.Skills.Count(), abilityManager.Abilities.Count(x => !x.AbilityFlags.HasFlag(AbilityFlags.Passive) && x.AbilityMethodInfo?.Attribute is SkillAttribute));
         }
 
         [TestMethod]
@@ -110,6 +114,36 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Learned = 1, Level = 20 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
+            CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+
+            Assert.AreEqual(CastResults.InvalidParameter, result);
+        }
+
+        [TestMethod]
+        public void Passive_Test()
+        {
+            var randomManagerMock = new Mock<IRandomManager>();
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
+            var characterMock = new Mock<ICharacter>();
+            characterMock.SetupGet(x => x.Level).Returns(100);
+            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Whip"], Learned = 1, Level = 20 } });
+
+            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("whip");
+            CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+
+            Assert.AreEqual(CastResults.InvalidParameter, result);
+        }
+
+        [TestMethod]
+        public void Skill_Test()
+        {
+            var randomManagerMock = new Mock<IRandomManager>();
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
+            var characterMock = new Mock<ICharacter>();
+            characterMock.SetupGet(x => x.Level).Returns(100);
+            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Disarm"], Learned = 1, Level = 20 } });
+
+            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Disarm");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(CastResults.InvalidParameter, result);

@@ -9,14 +9,17 @@ namespace Mud.Domain
         Female      = 2,
     }
 
-    public enum Positions
+    public enum Positions // Order is important
     {
-        Stunned     = 0,
-        Sleeping    = 1,
-        Resting     = 2,
-        Sitting     = 3,
-        Fighting    = 4,
-        Standing    = 5,
+        Dead        = 0,
+        Mortal      = 1,
+        Incap       = 2,
+        Stunned     = 3,
+        Sleeping    = 4,
+        Resting     = 5,
+        Sitting     = 6,
+        Fighting    = 7,
+        Standing    = 8,
     }
 
     [Flags]
@@ -420,6 +423,26 @@ namespace Mud.Domain
         Outdoors        = 0x00000200,
         Indoors         = 0x00000400,
         UpdateAlways    = 0x00000800,
+    }
+
+    [Flags]
+    public enum OffensiveFlags
+    {
+        Area_attack     = 0x00000001,
+        Backstab        = 0x00000002,
+        Bash            = 0x00000003,
+        Berserk         = 0x00000008,
+        Disarm          = 0x00000010,
+        Dodge           = 0x00000020,
+        Fade            = 0x00000040,
+        Fast            = 0x00000080,
+        Kick            = 0x00000100,
+        DirtKick        = 0x00000200,
+        Parry           = 0x00000400,
+        Rescue          = 0x00000800,
+        Tail            = 0x00001000,
+        Trip            = 0x00002000,
+        Crush           = 0x00004000,
     }
 
     [Flags]

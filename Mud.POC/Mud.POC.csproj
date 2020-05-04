@@ -99,6 +99,7 @@
     <Compile Include="Abilities\IItem.cs" />
     <Compile Include="Abilities\IItemArmor.cs" />
     <Compile Include="Abilities\IItemWeapon.cs" />
+    <Compile Include="Abilities\INonPlayableCharacter.cs" />
     <Compile Include="Abilities\IPlayableCharacter.cs" />
     <Compile Include="Abilities\IRace.cs" />
     <Compile Include="Abilities\IRoom.cs" />

@@ -3,7 +3,6 @@ Refactor Ability in POC project
     Ability can be created from method with [Spell] attribute
     Or with old system using AbilityEffect
 
-
 handled:
 SpellMassInvis(IAbility ability, int level, ICharacter caster) -> AbilityTargets.None
 SpellCauseSerious(IAbility ability, int level, ICharacter caster, ICharacter victim) -> AbilityTargets.CharacterOffensive
@@ -16,6 +15,7 @@ SpellLocateObject(IAbility ability, int level, ICharacter caster, string paramet
 SpellContinualLight(IAbility ability, int level, ICharacter caster, IItem item) -> AbilityTargets.OptionalItemInventory
 SpellEnchantArmor(IAbility ability, int level, ICharacter caster, IItemArmor armor) -> AbilityTargets.ArmorInventory
 SpellEnchantWeapon(IAbility ability, int level, ICharacter caster, IItemWeapon weapon) -> AbilityTargets.WeaponInventory
+Skill
 
 to handle:
 SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCharacter victim) // victim is NPC
@@ -23,15 +23,16 @@ SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter vi
 
 TODO:
 unittests CastFromItem/GetItemAbilityTarget
+generate skill command in ICharacter and tes Use
 Add abilities from race/class when PlayableCharacter is created
 Ability wears off message
 Move AddAura in aura manager
 UnitTests on Rom24Effects
 Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
-Skill practice %
 AddAura: additional param combine, when adding already existing aura (see affect_join)
 
 DONE:
+Skill practice %
 Ability info by class/race
 Cast resource/gain exp/check improve
 Don't save invalid auras, better use of IsValid on Aura -> store an Aura list in World this will avoid looping on all room/character/item to check aura

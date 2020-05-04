@@ -22,7 +22,9 @@ namespace Mud.Server.Input
             Name = name;
             Priority = DefaultPriority;
             Hidden = false;
-            Categories = categories ?? new [] { DefaultCategory };
+            Categories = categories?.Length == 0 
+                ? new [] { DefaultCategory }
+                : categories;
             NoShortcut = false;
             AddCommandInParameters = false;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.POC.Affects;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities
@@ -24,6 +25,7 @@ namespace Mud.POC.Abilities
         public IEnumerable<string> Keywords { get; }
         public int Level { get; }
         public int HitPoints { get; }
+        public Positions Position { get; }
         public IClass Class { get; }
         public IRace Race { get; }
         public IRoom Room { get; }
@@ -32,9 +34,22 @@ namespace Mud.POC.Abilities
         public IEnumerable<IItem> Equipments { get; }
         public IEnumerable<KnownAbility> KnownAbilities { get; }
 
+        public int LearnedAbility(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int LearnedAbility(IAbility ability)
+        {
+            throw new NotImplementedException();
+        }
+
         public int this[ResourceKinds resource] => throw new NotImplementedException();
 
         public IEnumerable<ResourceKinds> CurrentResourceKinds { get; }
+
+        public CharacterFlags BaseCharacterFlags { get; }
+        public CharacterFlags CurrentCharacterFlags { get; }
 
         public int BaseAttributes(CharacterAttributes attribute)
         {
@@ -56,13 +71,55 @@ namespace Mud.POC.Abilities
             throw new NotImplementedException();
         }
 
+        public IAura GetAura(int abilityId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAura GetAura(string abilityName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAura GetAura(IAbility ability)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool MultiHit(ICharacter enemy)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool WeaponDamage(ICharacter source, IItemWeapon weapon, int damage, SchoolTypes damageType, bool visible)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AbilityDamage(IEntity source, IAbility ability, int damage, SchoolTypes damageType, bool visible)
+        {
+            throw new NotImplementedException();
+        }
+
+
         public void Send(string msg, params object[] args)
         {
             Log.Default.WriteLine(LogLevels.Debug, msg, args);
         }
 
+        public void Act(ActOptions option, string format, params object[] arguments)
+        {
+            throw new NotImplementedException();
+        }
+
         //
         public long Experience { get; private set; }
+
+        public bool CheckAbilityImprove(IAbility ability, bool abilityUsedSuccessfully, int multiplier)
+        {
+            KnownAbility knownAbility = KnownAbilities.FirstOrDefault(x => x.Ability == ability);
+            return CheckAbilityImprove(knownAbility, abilityUsedSuccessfully, multiplier);
+        }
 
         public bool CheckAbilityImprove(KnownAbility knownAbility, bool abilityUsedSuccessfully, int multiplier)
         {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.POC.Abilities;
 using Mud.Server.Common;
@@ -24,7 +19,7 @@ namespace Mud.POC.Tests
             tableManagerMock.Setup(x => x.GetLearnPercentage(It.IsAny<ICharacter>())).Returns<int>(x => 100);
             IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, tableManagerMock.Object);
 
-            bool improved = character.CheckAbilityImprove(null, true, 1);
+            bool improved = character.CheckAbilityImprove((KnownAbility)null, true, 1);
 
             Assert.IsFalse(improved);
         }

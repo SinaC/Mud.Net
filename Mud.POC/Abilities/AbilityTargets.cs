@@ -24,5 +24,7 @@
         ArmorInventory,
         // Weapon in inventory
         WeaponInventory,
+        // Victim is source.Fighting
+        Fighting,
     }
 }

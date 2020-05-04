@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Mud.POC.Abilities
 {
@@ -7,9 +8,9 @@ namespace Mud.POC.Abilities
     {
         public const int DefaultPulseWaitTime = 12;
 
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public AbilityTargets Target { get; set; }
+        public int Id { get; }
+        public string Name { get; }
+        public AbilityTargets Target { get; }
         public int PulseWaitTime { get; set; }
         public AbilityFlags Flags { get; set; }
         public string CharacterDispelMessage { get; set; }
@@ -37,9 +38,14 @@ namespace Mud.POC.Abilities
 
     public class SkillAttribute : AbilityAttribute
     {
-        public SkillAttribute(int id, string name, AbilityTargets target)
+        public string[] Commands { get; }
+
+        public SkillAttribute(int id, string name, AbilityTargets target, params string[] commands)
             : base(id, name, target)
         {
+            Commands = commands?.Length == 0
+                ? new[] { name }
+                : commands.Select(x => x.ToLowerInvariant()).ToArray();
         }
     }
 }
