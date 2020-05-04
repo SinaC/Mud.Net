@@ -3,6 +3,7 @@ Refactor Ability in POC project
     Ability can be created from method with [Spell] attribute
     Or with old system using AbilityEffect
 
+
 handled:
 SpellMassInvis(IAbility ability, int level, ICharacter caster) -> AbilityTargets.None
 SpellCauseSerious(IAbility ability, int level, ICharacter caster, ICharacter victim) -> AbilityTargets.CharacterOffensive
@@ -21,6 +22,8 @@ SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCha
 SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 TODO:
+unittests CastFromItem/GetItemAbilityTarget
+Add abilities from race/class when PlayableCharacter is created
 Ability wears off message
 Move AddAura in aura manager
 UnitTests on Rom24Effects

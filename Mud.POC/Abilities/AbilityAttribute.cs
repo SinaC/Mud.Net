@@ -12,10 +12,10 @@ namespace Mud.POC.Abilities
         public AbilityTargets Target { get; set; }
         public int PulseWaitTime { get; set; }
         public AbilityFlags Flags { get; set; }
-        public string CharacterDispelMessage { get; private set; }
-        public string ItemDispelMessage { get; private set; }
+        public string CharacterDispelMessage { get; set; }
+        public string ItemDispelMessage { get; set; }
 
-        public AbilityAttribute(int id, string name, AbilityTargets target)
+        protected AbilityAttribute(int id, string name, AbilityTargets target)
         {
             Id = id;
             Name = name;
@@ -35,12 +35,11 @@ namespace Mud.POC.Abilities
         }
     }
 
-    //public class SkillAttribute : AbilityAttribute
-    //{
-    //    public SkillAttribute(int id, string name, AbilityTargets target)
-    //        : base(id, name, target)
-    //    {
-    //        GenerateCommand = true;
-    //    }
-    //}
+    public class SkillAttribute : AbilityAttribute
+    {
+        public SkillAttribute(int id, string name, AbilityTargets target)
+            : base(id, name, target)
+        {
+        }
+    }
 }

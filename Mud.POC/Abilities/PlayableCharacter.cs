@@ -23,6 +23,7 @@ namespace Mud.POC.Abilities
         public string DebugName { get; }
         public IEnumerable<string> Keywords { get; }
         public int Level { get; }
+        public int HitPoints { get; }
         public IClass Class { get; }
         public IRace Race { get; }
         public IRoom Room { get; }

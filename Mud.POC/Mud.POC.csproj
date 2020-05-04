@@ -105,6 +105,7 @@
     <Compile Include="Abilities\KnownAbility.cs" />
     <Compile Include="Abilities\Passives.cs" />
     <Compile Include="Abilities\PlayableCharacter.cs" />
+    <Compile Include="Abilities\Skills.cs" />
     <Compile Include="Abilities\Spells.cs" />
     <Compile Include="Affects\Aura.cs" />
     <Compile Include="Affects\CharacterAttributeAffect.cs" />
