@@ -88,13 +88,16 @@
     <Compile Include="Abilities\AbilityManager.cs" />
     <Compile Include="Abilities\AbilityMethodInfo.cs" />
     <Compile Include="Abilities\AbilityTargets.cs" />
+    <Compile Include="Abilities\AbilityUsage.cs" />
     <Compile Include="Abilities\IAbility.cs" />
     <Compile Include="Abilities\IAbilityManager.cs" />
     <Compile Include="Abilities\ICharacter.cs" />
+    <Compile Include="Abilities\IClass.cs" />
     <Compile Include="Abilities\IEntity.cs" />
     <Compile Include="Abilities\IItem.cs" />
     <Compile Include="Abilities\IItemArmor.cs" />
     <Compile Include="Abilities\IItemWeapon.cs" />
+    <Compile Include="Abilities\IRace.cs" />
     <Compile Include="Abilities\IRoom.cs" />
     <Compile Include="Abilities\KnownAbility.cs" />
     <Compile Include="Abilities\Spells.cs" />

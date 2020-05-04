@@ -66,7 +66,7 @@ namespace Mud.POC.Tests
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Teleport"], Learned = 0, Level = 1 } });
+            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Teleport"], Level = 1, ResourceKinds = Domain.ResourceKinds.Mana, CostAmount = 10, CostAmountOperator = Domain.CostAmountOperators.Fixed, Learned = 0 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Teleport");
             CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
