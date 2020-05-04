@@ -2,31 +2,36 @@
 {
     public class Ability : IAbility
     {
-        public Ability(AbilityMethodInfo abilityMethodInfo)
+        public Ability(int id, string name, AbilityTargets target, int pulseWaitTime, AbilityFlags flags, string characterDispelMessage, string itemDispelMessage)
         {
-            AbilityMethodInfo = abilityMethodInfo;
-            Id = abilityMethodInfo.Attribute.Id;
-            Name = abilityMethodInfo.Attribute.Name;
-            Target = abilityMethodInfo.Attribute.Target;
-            PulseWaitTime = abilityMethodInfo.Attribute.PulseWaitTime;
-            AbilityFlags = abilityMethodInfo.Attribute.Flags;
-            CharacterDispelMessage = abilityMethodInfo.Attribute.CharacterDispelMessage;
-            ItemDispelMessage = abilityMethodInfo.Attribute.ItemDispelMessage;
+            Id = id;
+            Name = name;
+            Target = target;
+            PulseWaitTime = pulseWaitTime;
+            AbilityFlags = flags;
+            CharacterDispelMessage = characterDispelMessage;
+            ItemDispelMessage = itemDispelMessage;
         }
 
-        public int Id { get; private set; }
+        public Ability(AbilityMethodInfo abilityMethodInfo)
+            : this(abilityMethodInfo.Attribute.Id, abilityMethodInfo.Attribute.Name, abilityMethodInfo.Attribute.Target, abilityMethodInfo.Attribute.PulseWaitTime, abilityMethodInfo.Attribute.Flags, abilityMethodInfo.Attribute.CharacterDispelMessage, abilityMethodInfo.Attribute.ItemDispelMessage)
+        {
+            AbilityMethodInfo = abilityMethodInfo;
+        }
 
-        public string Name { get; private set; }
+        public int Id { get; }
 
-        public AbilityTargets Target { get; private set; }
+        public string Name { get; }
 
-        public int PulseWaitTime { get; private set; }
+        public AbilityTargets Target { get; }
 
-        public AbilityFlags AbilityFlags { get; private set; }
+        public int PulseWaitTime { get; }
 
-        public string CharacterDispelMessage { get; private set; }
+        public AbilityFlags AbilityFlags { get; }
 
-        public string ItemDispelMessage { get; private set; }
+        public string CharacterDispelMessage { get; }
+
+        public string ItemDispelMessage { get; }
 
         public AbilityMethodInfo AbilityMethodInfo { get; }
     }

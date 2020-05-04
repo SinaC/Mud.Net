@@ -2,7 +2,6 @@ ongoing
 Refactor Ability in POC project
     Ability can be created from method with [Spell] attribute
     Or with old system using AbilityEffect
-Ability level by class/race
 
 handled:
 SpellMassInvis(IAbility ability, int level, ICharacter caster) -> AbilityTargets.None
@@ -30,6 +29,8 @@ Skill practice %
 AddAura: additional param combine, when adding already existing aura (see affect_join)
 
 DONE:
+Ability info by class/race
+Cast resource/gain exp/check improve
 Don't save invalid auras, better use of IsValid on Aura -> store an Aura list in World this will avoid looping on all room/character/item to check aura
 Move, Resistances, Alignment added
 Rom24 various flags added

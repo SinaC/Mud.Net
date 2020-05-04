@@ -698,6 +698,7 @@ namespace Mud.Server.Server
         {
             SanityCheckExperience();
             SanityCheckQuests();
+            SanityCheckAbilities();
             SanityCheckClasses();
             SanityCheckRaces();
             SanityCheckRooms();
@@ -722,6 +723,17 @@ namespace Mud.Server.Server
                 totalExperience += expToLevel;
             }
             Log.Default.WriteLine(LogLevels.Info, "Total experience from 1 to 100 = {0:n0}", totalExperience);
+        }
+
+        private void SanityCheckAbilities()
+        {
+            var duplicateIds = AbilityManager.Abilities.GroupBy(x => x.Id).Where(x => x.Count() > 1);
+            foreach(var duplicate in duplicateIds)
+                Log.Default.WriteLine(LogLevels.Error, "Ability duplicate id {0}: {1}", duplicate.Key, string.Join(",", duplicate.Select(x => x.Name)));
+
+            var duplicateNames = AbilityManager.Abilities.GroupBy(x => x.Name).Where(x => x.Count() > 1);
+            foreach (var duplicate in duplicateNames)
+                Log.Default.WriteLine(LogLevels.Error, "Ability duplicate name {0}: {1}", duplicate.Key, string.Join(",", duplicate.Select(x => x.Id.ToString())));
         }
 
         private void SanityCheckClasses()

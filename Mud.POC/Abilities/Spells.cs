@@ -2,13 +2,13 @@
 {
     public static class Spells
     {
-        [Spell(60, "Teleport", AbilityTargets.None)]
+        [Spell(60, "Mass invis", AbilityTargets.None)]
         public static void SpellMassInvis(IAbility ability, int level, ICharacter caster)
         {
-            System.Diagnostics.Debug.Print($"Teleport {ability.Name} {level} {caster.Name}");
+            System.Diagnostics.Debug.Print($"Mass Invis {ability.Name} {level} {caster.Name}");
         }
 
-        [Spell(16, "Acid Blast", AbilityTargets.CharacterOffensive)]
+        [Spell(16, "Acid blast", AbilityTargets.CharacterOffensive)]
         public static void SpellAcidBlast(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             System.Diagnostics.Debug.Print($"Acid Blast {ability.Name} {level} {caster.Name} {victim.Name}");
@@ -20,10 +20,10 @@
             System.Diagnostics.Debug.Print($"Armor {ability.Name} {level} {caster.Name} {victim.Name}");
         }
 
-        [Spell(30, "Detect Evil", AbilityTargets.CharacterSelf)]
+        [Spell(30, "Detect evil", AbilityTargets.CharacterSelf)]
         public static void SpellDetectEvil(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            System.Diagnostics.Debug.Print($"Teleport {ability.Name} {level} {caster.Name}");
+            System.Diagnostics.Debug.Print($"Detect evil {ability.Name} {level} {caster.Name}");
         }
 
         [Spell(42, "Identify", AbilityTargets.ItemInventory, PulseWaitTime = 24)]
@@ -44,25 +44,25 @@
             System.Diagnostics.Debug.Print($"Bless {ability.Name} {level} {caster.Name} {target.Name}");
         }
 
-        [Spell(70, "Locate Object", AbilityTargets.Custom)]
+        [Spell(70, "Locate object", AbilityTargets.Custom)]
         public static void SpellLocateObject(IAbility ability, int level, ICharacter caster, string rawParameters)
         {
             System.Diagnostics.Debug.Print($"Locate Object {ability.Name} {level} {caster.Name} {rawParameters}");
         }
 
-        [Spell(1000, "Continual Light", AbilityTargets.OptionalItemInventory)]
+        [Spell(1000, "Continual light", AbilityTargets.OptionalItemInventory)]
         public static void SpellContinualLight(IAbility ability, int level, ICharacter caster, IItem item)
         {
             System.Diagnostics.Debug.Print($"Continual Light {ability.Name} {level} {caster.Name} {item?.Name}");
         }
 
-        [Spell(1001, "Enchant Armor", AbilityTargets.ArmorInventory)]
+        [Spell(1001, "Enchant armor", AbilityTargets.ArmorInventory)]
         public static void SpellEnchantArmor(IAbility ability, int level, ICharacter caster, IItemArmor armor)
         {
             System.Diagnostics.Debug.Print($"Enchant Armor {ability.Name} {level} {caster.Name} {armor.Name}");
         }
 
-        [Spell(1002, "Enchant Weapon", AbilityTargets.WeaponInventory)]
+        [Spell(1002, "Enchant weapon", AbilityTargets.WeaponInventory)]
         public static void SpellEnchantWeapon(IAbility ability, int level, ICharacter caster, IItemWeapon weapon)
         {
             System.Diagnostics.Debug.Print($"Enchant Weapon {ability.Name} {level} {caster.Name} {weapon.Name}");

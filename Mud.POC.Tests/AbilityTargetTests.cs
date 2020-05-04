@@ -3,113 +3,15 @@ using Moq;
 using Mud.POC.Abilities;
 using Mud.Server.Common;
 using Mud.Server.Input;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace Mud.POC.Tests
 {
     [TestClass]
-    public class AbilityTests
+    public class AbilityTargetTests : AbilityTestBase
     {
-        [TestMethod]
-        public void AbilityManager_Ctor_Test()
-        {
-            var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
-
-            Assert.AreEqual(typeof(Spells).GetMethods(BindingFlags.Static | BindingFlags.Public).Count(), abilityManager.Abilities.Count());
-        }
-
-        [TestMethod]
-        public void AbilityManager_Cast_NoParam_Test()
-        {
-            var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
-            var characterMock = new Mock<ICharacter>();
-
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, string.Empty);
-
-            Assert.AreEqual(CommandExecutionResults.SyntaxErrorNoDisplay, result);
-        }
-
-        [TestMethod]
-        public void AbilityManager_Cast_UnknownSpell_Test()
-        {
-            var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
-            var characterMock = new Mock<ICharacter>();
-
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("pouet");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
-
-            Assert.AreEqual(CommandExecutionResults.InvalidParameter, result);
-        }
-
-        [TestMethod]
-        public void AbilityManager_Cast_SpellNotKnown_Test()
-        {
-            var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
-            var characterMock = new Mock<ICharacter>();
-
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Teleport");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
-
-            Assert.AreEqual(CommandExecutionResults.InvalidParameter, result);
-        }
-
-        [TestMethod]
-        public void AbilityManager_Cast_SpellNotYetLearned_Test()
-        {
-            var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
-            var characterMock = new Mock<ICharacter>();
-            characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Teleport"], Level = 1, ResourceKinds = Domain.ResourceKinds.Mana, CostAmount = 10, CostAmountOperator = Domain.CostAmountOperators.Fixed, Learned = 0 } });
-
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Teleport");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
-
-            Assert.AreEqual(CommandExecutionResults.InvalidParameter, result);
-        }
-
-        [TestMethod]
-        public void AbilityManager_Cast_TooLowLevel_Test()
-        {
-            var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
-            var characterMock = new Mock<ICharacter>();
-            characterMock.SetupGet(x => x.Level).Returns(5);
-            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Teleport"], Learned = 1, Level = 20 } });
-
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Teleport");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
-
-            Assert.AreEqual(CommandExecutionResults.InvalidParameter, result);
-        }
-
-        [TestMethod]
-        public void AbilityManager_Cast_Failed_Test()
-        {
-            var randomManagerMock = new Mock<IRandomManager>();
-            randomManagerMock
-                .Setup(x => x.Chance(It.IsAny<int>()))
-                .Returns(false); // always fails
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
-            var characterMock = new Mock<ICharacter>();
-            characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Teleport"], Learned = 1, Level = 1 } });
-
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Teleport");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
-
-            Assert.AreEqual(CommandExecutionResults.NoExecution, result);
-        }
-
         // AbilityTargets.None
         [TestMethod]
-        public void AbilityManager_Cast_TargetNone_NoTargetSpecified_Test()
+        public void TargetNone_NoTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -118,16 +20,17 @@ namespace Mud.POC.Tests
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Teleport"], Learned = 1, Level = 1} });
+            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Learned = 1, Level = 1 } });
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Teleport");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Mass invis"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetNone_AdditionalParameter_Test()
+        public void TargetNone_AdditionalParameter_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -136,17 +39,18 @@ namespace Mud.POC.Tests
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Teleport"], Learned = 1, Level = 1 } });
+            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Learned = 1, Level = 1 } });
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Teleport should not be specified");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis' should not be specified");
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Mass invis"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.IsNull(target);
         }
 
         // AbilityTargets.CharacterOffensive
         [TestMethod]
-        public void AbilityManager_Cast_TargetCharacterOffensive_NoTargetSpecified_NoFighting_Test()
+        public void TargetCharacterOffensive_NoTargetSpecified_NoFighting_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -158,13 +62,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Acid Blast"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Acid Blast'");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Acid Blast"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.SyntaxErrorNoDisplay, result);
+            Assert.AreEqual(AbilityTargetResults.MissingParameter, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetCharacterOffensive_NoTargetSpecified_Fighting_Test()
+        public void TargetCharacterOffensive_NoTargetSpecified_Fighting_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -187,13 +92,14 @@ namespace Mud.POC.Tests
             mob2Mock.SetupGet(x => x.Fighting).Returns(mob1Mock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Acid Blast'");
-            CommandExecutionResults result = abilityManager.Cast(mob1Mock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Acid Blast"], mob1Mock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(mob2Mock.Object, target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetCharacterOffensive_InvalidTargetSpecified_Test()
+        public void TargetCharacterOffensive_InvalidTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -210,13 +116,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Acid Blast' mob2");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Acid Blast"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetCharacterOffensive_CorrectTarget_Test()
+        public void TargetCharacterOffensive_CorrectTarget_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -237,14 +144,15 @@ namespace Mud.POC.Tests
             mob2Mock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Acid Blast' mob2");
-            CommandExecutionResults result = abilityManager.Cast(mob1Mock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Acid Blast"], mob1Mock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(mob2Mock.Object, target);
         }
 
         // AbilityTargets.CharacterDefensive
         [TestMethod]
-        public void AbilityManager_Cast_TargetCharacterDefensive_NoTargetSpecified_Test()
+        public void TargetCharacterDefensive_NoTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -256,13 +164,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Armor"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Armor");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Armor"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(characterMock.Object, target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetCharacterDefensive_TargetSelfSpecified_Test()
+        public void TargetCharacterDefensive_TargetSelfSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -279,13 +188,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Armor mob1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Armor"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(characterMock.Object, target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetCharacterDefensive_TargetSpecified_Test()
+        public void TargetCharacterDefensive_TargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -306,14 +216,15 @@ namespace Mud.POC.Tests
             mob2Mock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Armor mob2");
-            CommandExecutionResults result = abilityManager.Cast(mob1Mock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Armor"], mob1Mock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(mob2Mock.Object, target);
         }
 
         // AbilityTargets.CharacterSelf
         [TestMethod]
-        public void AbilityManager_Cast_TargetCharacterSelf_NoTargetSpecified_Test()
+        public void TargetCharacterSelf_NoTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -325,13 +236,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Detect Evil"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'detect evil'");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["detect evil"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(characterMock.Object, target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetCharacterSelf_TargetSelfSpecified_Test()
+        public void TargetCharacterSelf_TargetSelfSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -348,13 +260,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'detect evil' mob1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["detect evil"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(characterMock.Object, target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetCharacterSelf_TargetNotFoundSpecified_Test()
+        public void TargetCharacterSelf_TargetNotFoundSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -375,13 +288,14 @@ namespace Mud.POC.Tests
             mob2Mock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'detect evil' mob3");
-            CommandExecutionResults result = abilityManager.Cast(mob1Mock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["detect evil"], mob1Mock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.InvalidTarget, result);
+            Assert.AreEqual(AbilityTargetResults.InvalidTarget, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetCharacterSelf_TargetSpecified_Test()
+        public void TargetCharacterSelf_TargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -402,14 +316,15 @@ namespace Mud.POC.Tests
             mob2Mock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'detect evil' mob2");
-            CommandExecutionResults result = abilityManager.Cast(mob1Mock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["detect evil"], mob1Mock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.InvalidTarget, result);
+            Assert.AreEqual(AbilityTargetResults.InvalidTarget, result);
+            Assert.IsNull(target);
         }
 
         // AbilityTargets.ItemInventory
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemInventory_NoTargetSpecified_Test()
+        public void TargetItemInventory_NoTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -421,17 +336,18 @@ namespace Mud.POC.Tests
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Identify"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Identify");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Identify"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.SyntaxErrorNoDisplay, result);
+            Assert.AreEqual(AbilityTargetResults.MissingParameter, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemInventory_TargetNotFoundSpecified_Test()
+        public void TargetItemInventory_TargetNotFoundSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -445,13 +361,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Name).Returns("mob1");
             characterMock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Identify"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Identify mob2");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Identify"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
@@ -469,17 +386,18 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Name).Returns("mob1");
             characterMock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Identify"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Identify mob1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Identify"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemInventory_TargetSpecified_Test()
+        public void TargetItemInventory_TargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -491,17 +409,18 @@ namespace Mud.POC.Tests
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Identify"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Identify item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Identify"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(itemMock.Object, target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemInventory_TargetInRoomSpecified_Test()
+        public void TargetItemInventory_TargetInRoomSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -516,17 +435,18 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Identify"], Learned = 1, Level = 1 } });
             var roomMock = new Mock<IRoom>();
-            roomMock.SetupGet(x => x.Content).Returns(new IItem[] { itemMock.Object });
+            roomMock.SetupGet(x => x.Content).Returns(new[] { itemMock.Object });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Identify item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Identify"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         //  AbilityTargets.ItemHereOrCharacterOffensive
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemHereOrCharacterOffensive_NoTargetSpecified_Test() 
+        public void TargetItemHereOrCharacterOffensive_NoTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -538,17 +458,18 @@ namespace Mud.POC.Tests
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Curse"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Curse");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Curse"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.SyntaxErrorNoDisplay, result);
+            Assert.AreEqual(AbilityTargetResults.MissingParameter, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemHereOrCharacterOffensive_InvalidTargetSpecified_Test()
+        public void TargetItemHereOrCharacterOffensive_InvalidTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -567,13 +488,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Curse item2");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Curse"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemHereOrCharacterOffensive_ItemTargetInRoomSpecified_Test()
+        public void TargetItemHereOrCharacterOffensive_ItemTargetInRoomSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -592,13 +514,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Curse item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Curse"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(itemMock.Object, target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemHereOrCharacterOffensive_ItemTargetInInventorySpecified_Test()
+        public void TargetItemHereOrCharacterOffensive_ItemTargetInInventorySpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -610,20 +533,21 @@ namespace Mud.POC.Tests
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Curse"], Learned = 1, Level = 1 } });
             var roomMock = new Mock<IRoom>();
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Curse item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Curse"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(itemMock.Object, target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemHereOrCharacterOffensive_ItemTargetInEquipmentSpecified_Test()
+        public void TargetItemHereOrCharacterOffensive_ItemTargetInEquipmentSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -635,20 +559,21 @@ namespace Mud.POC.Tests
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Equipments).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Equipments).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Curse"], Learned = 1, Level = 1 } });
             var roomMock = new Mock<IRoom>();
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Curse item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Curse"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(itemMock.Object, target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemHereOrCharacterOffensive_CharacterTargetSpecified_Test()
+        public void TargetItemHereOrCharacterOffensive_CharacterTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -662,21 +587,22 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Name).Returns("mob1");
             characterMock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Equipments).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Equipments).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Curse"], Learned = 1, Level = 1 } });
             var roomMock = new Mock<IRoom>();
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Curse mob1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Curse"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(characterMock.Object, target);
         }
 
         // AbilityTargets.ItemInventoryOrCharacterDefensive
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemInventoryOrCharacterDefensive_NoTargetSpecified_Test()
+        public void TargetItemInventoryOrCharacterDefensive_NoTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -688,17 +614,18 @@ namespace Mud.POC.Tests
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Bless"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Bless");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Bless"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(characterMock.Object, target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemInventoryOrCharacterDefensive_InvalidTargetSpecified_Test()
+        public void TargetItemInventoryOrCharacterDefensive_InvalidTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -717,13 +644,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Bless item2");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Bless"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemInventoryOrCharacterDefensive_ItemTargetInRoomSpecified_Test()
+        public void TargetItemInventoryOrCharacterDefensive_ItemTargetInRoomSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -742,13 +670,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Bless item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Bless"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemInventoryOrCharacterDefensive_ItemTargetInInventorySpecified_Test()
+        public void TargetItemInventoryOrCharacterDefensive_ItemTargetInInventorySpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -760,20 +689,21 @@ namespace Mud.POC.Tests
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Bless"], Learned = 1, Level = 1 } });
             var roomMock = new Mock<IRoom>();
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Bless item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Bless"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(itemMock.Object, target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemInventoryOrCharacterDefensive_ItemTargetInEquipmentSpecified_Test()
+        public void TargetItemInventoryOrCharacterDefensive_ItemTargetInEquipmentSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -785,20 +715,21 @@ namespace Mud.POC.Tests
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Equipments).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Equipments).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Bless"], Learned = 1, Level = 1 } });
             var roomMock = new Mock<IRoom>();
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Bless item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Bless"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetItemInventoryOrCharacterDefensive_CharacterTargetSpecified_Test()
+        public void TargetItemInventoryOrCharacterDefensive_CharacterTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -812,21 +743,22 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Name).Returns("mob1");
             characterMock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Equipments).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Equipments).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Bless"], Learned = 1, Level = 1 } });
             var roomMock = new Mock<IRoom>();
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Bless mob1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Bless"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(characterMock.Object, target);
         }
 
         // AbilityTargets.Custom
         [TestMethod]
-        public void AbilityManager_Cast_TargetCustom_NoParameterSpecified_Test()
+        public void TargetCustom_NoParameterSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -838,17 +770,18 @@ namespace Mud.POC.Tests
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Locate Object"], Learned = 1, Level = 1 } });
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Locate Object");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Locate Object'");
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Locate Object"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetCustom_ParameterSpecified_Test()
+        public void TargetCustom_ParameterSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -860,18 +793,19 @@ namespace Mud.POC.Tests
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Locate Object"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'locate object' item2");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["Locate Object"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.IsNull(target);
         }
 
         // AbilityTargets.OptionalItemInventory
         [TestMethod]
-        public void AbilityManager_Cast_TargetOptionalItemInventory_NoTargetSpecified_Test()
+        public void TargetOptionalItemInventory_NoTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -883,17 +817,18 @@ namespace Mud.POC.Tests
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Continual Light"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'continual light'");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["continual light"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetOptionalItemInventory_TargetNotFoundSpecified_Test()
+        public void TargetOptionalItemInventory_TargetNotFoundSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -907,17 +842,18 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Name).Returns("mob1");
             characterMock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Continual Light"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'continual light' item2");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["continual light"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetOptionalItemInventory_InvalidTargetSpecified_Test()
+        public void TargetOptionalItemInventory_InvalidTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -931,17 +867,18 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Name).Returns("mob1");
             characterMock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Continual Light"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'continual light' mob1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["continual light"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetOptionalItemInventory_TargetSpecified_Test()
+        public void TargetOptionalItemInventory_TargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -953,17 +890,18 @@ namespace Mud.POC.Tests
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Continual Light"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'continual light' item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["continual light"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(itemMock.Object, target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetOptionalItemInventory_TargetInRoomSpecified_Test()
+        public void TargetOptionalItemInventory_TargetInRoomSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -978,17 +916,18 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Continual Light"], Learned = 1, Level = 1 } });
             var roomMock = new Mock<IRoom>();
-            roomMock.SetupGet(x => x.Content).Returns(new IItem[] { itemMock.Object });
+            roomMock.SetupGet(x => x.Content).Returns(new[] { itemMock.Object });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'continual light' item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["continual light"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         // AbilityTargets.ArmorInventory
         [TestMethod]
-        public void AbilityManager_Cast_TargetArmorInventory_NoTargetSpecified_Test()
+        public void TargetArmorInventory_NoTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -1004,13 +943,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Enchant Armor"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'enchant armor'");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["enchant armor"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.SyntaxErrorNoDisplay, result);
+            Assert.AreEqual(AbilityTargetResults.MissingParameter, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetArmorInventory_TargetNotFoundSpecified_Test()
+        public void TargetArmorInventory_TargetNotFoundSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -1028,13 +968,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Enchant Armor"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'enchant armor' item2");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["enchant armor"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetArmorInventory_InvalidTargetSpecified_Test()
+        public void TargetArmorInventory_InvalidTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -1052,13 +993,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Enchant Armor"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'enchant armor' mob1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["enchant armor"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetArmorInventory_TargetNonArmorSpecified_Test()
+        public void TargetArmorInventory_TargetNonArmorSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -1070,17 +1012,18 @@ namespace Mud.POC.Tests
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Enchant Armor"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'enchant armor' item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["enchant armor"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.InvalidTarget, result);
+            Assert.AreEqual(AbilityTargetResults.InvalidTarget, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetArmorInventory_TargetInRoomSpecified_Test()
+        public void TargetArmorInventory_TargetInRoomSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -1098,13 +1041,14 @@ namespace Mud.POC.Tests
             roomMock.SetupGet(x => x.Content).Returns(new IItem[] { itemMock.Object });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'enchant armor' item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["enchant armor"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetArmorInventory_TargetArmorSpecified_Test()
+        public void TargetArmorInventory_TargetArmorSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -1120,14 +1064,15 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Enchant Armor"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'enchant armor' item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["enchant armor"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(itemMock.Object, target);
         }
 
         // AbilityTargets.WeaponInventory
         [TestMethod]
-        public void AbilityManager_Cast_TargetWeaponInventory_NoTargetSpecified_Test()
+        public void TargetWeaponInventory_NoTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -1143,13 +1088,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Enchant Weapon"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'enchant Weapon'");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["enchant weapon"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.SyntaxErrorNoDisplay, result);
+            Assert.AreEqual(AbilityTargetResults.MissingParameter, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetWeaponInventory_TargetNotFoundSpecified_Test()
+        public void TargetWeaponInventory_TargetNotFoundSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -1167,13 +1113,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Enchant Weapon"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'enchant Weapon' item2");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["enchant weapon"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetWeaponInventory_InvalidTargetSpecified_Test()
+        public void TargetWeaponInventory_InvalidTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -1191,13 +1138,14 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Enchant Weapon"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'enchant Weapon' mob1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["enchant weapon"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetWeaponInventory_TargetNonWeaponSpecified_Test()
+        public void TargetWeaponInventory_TargetNonWeaponSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -1209,17 +1157,18 @@ namespace Mud.POC.Tests
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Inventory).Returns(new IItem[] { itemMock.Object });
+            characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Enchant Weapon"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'enchant Weapon' item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["enchant weapon"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.InvalidTarget, result);
+            Assert.AreEqual(AbilityTargetResults.InvalidTarget, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetWeaponInventory_TargetInRoomSpecified_Test()
+        public void TargetWeaponInventory_TargetInRoomSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -1237,13 +1186,14 @@ namespace Mud.POC.Tests
             roomMock.SetupGet(x => x.Content).Returns(new IItem[] { itemMock.Object });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'enchant Weapon' item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["enchant weapon"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
+            Assert.AreEqual(AbilityTargetResults.TargetNotFound, result);
+            Assert.IsNull(target);
         }
 
         [TestMethod]
-        public void AbilityManager_Cast_TargetWeaponInventory_TargetWeaponSpecified_Test()
+        public void TargetWeaponInventory_TargetWeaponSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
@@ -1259,15 +1209,10 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Enchant Weapon"], Learned = 1, Level = 1 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'enchant Weapon' item1");
-            CommandExecutionResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
+            AbilityTargetResults result = abilityManager.GetAbilityTarget(abilityManager["enchant weapon"], characterMock.Object, out IEntity target, args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
-        }
-
-        private (string rawParameters, CommandParameter[] parameters) BuildParameters(string parameters)
-        {
-            var commandParameters = CommandHelpers.SplitParameters(parameters).Select(x => CommandHelpers.ParseParameter(x)).ToArray();
-            return (parameters, commandParameters);
+            Assert.AreEqual(AbilityTargetResults.Ok, result);
+            Assert.AreSame(itemMock.Object, target);
         }
     }
 }

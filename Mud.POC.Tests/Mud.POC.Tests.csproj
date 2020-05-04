@@ -62,7 +62,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbilityTests.cs" />
+    <Compile Include="AbilityCheckImproveTests.cs" />
+    <Compile Include="AbilityTargetTests.cs" />
+    <Compile Include="AbilityTestBase.cs" />
+    <Compile Include="AbilityCastTests.cs" />
     <Compile Include="RoomAffectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ItemWeaponAffectTests.cs" />

@@ -1,14 +1,11 @@
-﻿using Mud.Container;
-using Mud.Logger;
+﻿using Mud.Logger;
 using Mud.Server.Common;
-using Mud.Server.Helpers;
 using Mud.Server.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using Mud.Domain;
 
 namespace Mud.POC.Abilities
 {
@@ -16,7 +13,9 @@ namespace Mud.POC.Abilities
     {
         private IRandomManager RandomManager { get; }
 
-        private List<IAbility> _abilities;
+        private readonly List<IAbility> _abilities;
+
+        private readonly Dictionary<string, IAbility> _abilitiesByName;
 
         public AbilityManager(IRandomManager randomManager)
         {
@@ -27,7 +26,7 @@ namespace Mud.POC.Abilities
             // Reflection to gather every methods with Spell/Skill attributes
             var abilityInfos = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(x => x.GetTypes())
-                .SelectMany(x => x.GetMethods(BindingFlags.Static | BindingFlags.Public), (t, m) => new { type = t, method = m, attribute = m.GetCustomAttribute(typeof(AbilityAttribute), false) as AbilityAttribute})
+                .SelectMany(x => x.GetMethods(BindingFlags.Static | BindingFlags.Public), (t, m) => new { type = t, method = m, attribute = m.GetCustomAttribute(typeof(AbilityAttribute), false) as AbilityAttribute })
                 .Where(x => x.attribute != null);
             foreach (var abilityInfo in abilityInfos)
             {
@@ -46,37 +45,50 @@ namespace Mud.POC.Abilities
                 //}
                 _abilities.Add(ability);
             }
+            // Add passive abilities
+            foreach (IAbility passive in Passives.Abilities)
+                _abilities.Add(passive);
 
-            // TODO: check uniqueness of ability (name and id)
+            // Build abilities by name
+            _abilitiesByName = new Dictionary<string, IAbility>(_abilities.ToDictionary(x => x.Name, x => x), StringComparer.InvariantCultureIgnoreCase);
         }
+
+        #region IAbilityManager
 
         public IEnumerable<IAbility> Abilities => _abilities;
 
-        public IAbility this[string name] => _abilities.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, name));
+        public IAbility this[string name]
+        {
+            get
+            {
+                _abilitiesByName.TryGetValue(name, out IAbility ability);
+                return ability;
+            }
+        }
 
-        public CommandExecutionResults Cast(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        public CastResults Cast(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 caster.Send("Cast which what where?");
-                return CommandExecutionResults.SyntaxErrorNoDisplay;
+                return CastResults.MissingParameter;
             }
 
+            IPlayableCharacter pcCaster = caster as IPlayableCharacter;
+
             // 1) search spell
-            KnownAbility knownAbility = Search(caster.KnownAbilities, caster.Level, parameters[0]);
+            KnownAbility knownAbility = Search(caster.KnownAbilities, caster.Level, x => !x.AbilityFlags.HasFlag(AbilityFlags.Passive), parameters[0]); // filter on non-passive
             if (knownAbility == null)
             {
                 caster.Send("You don't know any spells of that name.");
-                return CommandExecutionResults.InvalidParameter;
+                return CastResults.InvalidParameter;
             }
 
             // 2) get target
-            ICharacter victim = null;
-            IItem item = null;
-            IEntity target = null;
-            CommandExecutionResults getAbilityTargetResult = GetAbilityTarget(knownAbility.Ability.Target, caster, out victim, out item, out target, rawParameters, parameters);
-            if (getAbilityTargetResult != CommandExecutionResults.Ok)
-                return getAbilityTargetResult;
+            IEntity target;
+            AbilityTargetResults targetResult = GetAbilityTarget(knownAbility.Ability, caster, out target, rawParameters, parameters);
+            if (targetResult != AbilityTargetResults.Ok)
+                return MapCastResultToCommandExecutionResult(targetResult);
 
             // 3) check cooldown
             // TODO
@@ -88,97 +100,113 @@ namespace Mud.POC.Abilities
             //}
 
             // 4) check resource costs
-            // TODO: cost depends on NPC/Class/Level/...
-            //int cost = ability.CostAmount; // default value (always overwritten if significant)
-            //if (ability.ResourceKind != ResourceKinds.None && ability.CostAmount > 0 && ability.CostType != CostAmountOperators.None)
-            //{
-            //    if (!caster.CurrentResourceKinds.Contains(ability.ResourceKind)) // TODO: not sure about this test
-            //    {
-            //        caster.Send("You can't use {0} as resource for the moment.", ability.ResourceKind);
-            //        return false;
-            //    }
-            //    int resourceLeft = source[ability.ResourceKind];
-            //    if (ability.CostType == CostAmountOperators.Fixed)
-            //        cost = ability.CostAmount;
-            //    else //ability.CostType == CostAmountOperators.Percentage
-            //    {
-            //        int maxResource = caster.GetMaxResource(ability.ResourceKind);
-            //        cost = maxResource * ability.CostAmount / 100;
-            //    }
-            //    bool enoughResource = cost <= resourceLeft;
-            //    if (!enoughResource)
-            //    {
-            //        caster.Send("You don't have enough {0}.", ability.ResourceKind);
-            //        return false;
-            //    }
-            //}
+            int? cost = null;
+            if (knownAbility.ResourceKind != ResourceKinds.None && knownAbility.CostAmount > 0 && knownAbility.CostAmountOperator != CostAmountOperators.None)
+            {
+                if (!caster.CurrentResourceKinds.Contains(knownAbility.ResourceKind)) // TODO: not sure about this test
+                {
+                    caster.Send("You can't use {0} as resource for the moment.", knownAbility.ResourceKind);
+                    return CastResults.CantUseRequiredResource;
+                }
+                int resourceLeft = caster[knownAbility.ResourceKind];
+                if (knownAbility.CostAmountOperator == CostAmountOperators.Fixed)
+                    cost = knownAbility.CostAmount;
+                else //ability.CostType == CostAmountOperators.Percentage
+                {
+                    int maxResource = caster.GetMaxResource(knownAbility.ResourceKind);
+                    cost = maxResource * knownAbility.CostAmount / 100;
+                }
+                bool enoughResource = cost <= resourceLeft;
+                if (!enoughResource)
+                {
+                    caster.Send("You don't have enough {0}.", knownAbility.ResourceKind);
+                    return CastResults.NotEnoughResource;
+                }
+            }
 
             // 5) check if failed
             if (!RandomManager.Chance(knownAbility.Learned))
             {
                 caster.Send("You lost your concentration.");
-                // TODO: check improve false
-                // TODO: pay half resource
-                return CommandExecutionResults.NoExecution;
+                pcCaster?.CheckAbilityImprove(knownAbility, false, 1);
+                // pay half resource
+                if (cost.HasValue && cost.Value > 1)
+                    caster.UpdateResource(knownAbility.ResourceKind, -cost.Value / 2);
+                return CastResults.Failed;
             }
 
-            // TODO: 6) pay resource
-            //if (ability.ResourceKind != ResourceKinds.None && ability.CostAmount > 0 && ability.CostType != CostAmountOperators.None)
-            //    source.UpdateResource(ability.ResourceKind, -cost);
+            //6) pay resource
+            if (cost.HasValue)
+                caster.UpdateResource(knownAbility.ResourceKind, -cost.Value);
 
             // TODO: 7) say spell if not ventriloquate
 
             // 8) invoke spell
-            InvokeAbility(knownAbility.Ability, caster.Level, caster, victim, item, target, rawParameters, parameters);
-            
+            InvokeAbility(knownAbility.Ability, caster.Level, caster, target, rawParameters, parameters);
+
             // TODO: 9) set GCD
-            // TODO: 10) check improve true
+            // 10) check improve true
+            pcCaster?.CheckAbilityImprove(knownAbility, true, 1);
+
             // TODO: 11) if aggressive: multi hit if still in same room
 
-            return CommandExecutionResults.Ok;
+            return CastResults.Ok;
         }
 
-        private CommandExecutionResults GetAbilityTarget(AbilityTargets abilityTarget, ICharacter caster, out ICharacter victim, out IItem item, out IEntity target, string rawParameters, params CommandParameter[] parameters)
+        public CastResults CastFromItem(IAbility ability, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters)
+        {
+            // 1) check if target is compatible
+            AbilityTargetResults targetResult = GetItemAbilityTarget(ability, caster, ref target);
+            if (targetResult != AbilityTargetResults.Ok)
+                return MapCastResultToCommandExecutionResult(targetResult);
+
+            // 2) invoke spell
+            InvokeAbility(ability, caster.Level, caster, target, rawParameters, parameters);
+
+            // TODO: 3) if aggressive: multi hit if still in same room
+
+            return CastResults.Ok;
+        }
+
+        public AbilityTargetResults GetAbilityTarget(IAbility ability, ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
             target = null;
-            victim = null;
-            item = null;
-            switch (abilityTarget)
+            switch (ability.Target)
             {
                 case AbilityTargets.None:
                     break;
                 case AbilityTargets.CharacterOffensive:
                     if (parameters.Length < 2)
                     {
-                        victim = caster.Fighting;
-                        if (victim == null)
+                        target = caster.Fighting;
+                        if (target == null)
                         {
                             caster.Send("Cast the spell on whom?");
-                            return CommandExecutionResults.SyntaxErrorNoDisplay;
+                            return AbilityTargetResults.MissingParameter;
                         }
                     }
                     else
                     {
-                        victim = FindByName(caster.Room.People, parameters[1]);
-                        if (victim == null)
+                        target = FindByName(caster.Room.People, parameters[1]);
+                        if (target == null)
                         {
                             caster.Send("They aren't here.");
-                            return CommandExecutionResults.TargetNotFound;
+                            return AbilityTargetResults.TargetNotFound;
                         }
                     }
                     // victim found
-                    // TODO: check if safe/charm/...
+                    // TODO: check if safe/charm/...   messages.TargetIsSafe
                     break;
                 case AbilityTargets.CharacterDefensive:
                     if (parameters.Length < 2)
-                        victim = caster;
+                        target = caster;
                     else
                     {
-                        victim = FindByName(caster.Room.People, parameters[1]);
-                        if (victim == null)
+                        target = FindByName(caster.Room.People, parameters[1]);
+                        if (target == null)
                         {
                             caster.Send("They aren't here.");
-                            return CommandExecutionResults.TargetNotFound;
+                            return AbilityTargetResults.TargetNotFound;
                         }
                     }
                     // victim found
@@ -190,23 +218,23 @@ namespace Mud.POC.Abilities
                         if (search != caster)
                         {
                             caster.Send("You cannot cast this spell on another.");
-                            return CommandExecutionResults.InvalidTarget;
+                            return AbilityTargetResults.InvalidTarget;
                         }
                     }
-                    victim = caster;
+                    target = caster;
                     // victim found
                     break;
                 case AbilityTargets.ItemInventory:
                     if (parameters.Length < 2)
                     {
                         caster.Send("What should the spell be cast upon?");
-                        return CommandExecutionResults.SyntaxErrorNoDisplay;
+                        return AbilityTargetResults.MissingParameter;
                     }
-                    item = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
-                    if (item == null)
+                    target = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                    if (target == null)
                     {
                         caster.Send("You are not carrying that.");
-                        return CommandExecutionResults.TargetNotFound;
+                        return AbilityTargetResults.TargetNotFound;
                     }
                     // item found
                     break;
@@ -216,15 +244,15 @@ namespace Mud.POC.Abilities
                         target = caster.Fighting;
                         if (target == null)
                         {
-                            caster.Send("Cast the spell on whom?");
-                            return CommandExecutionResults.SyntaxErrorNoDisplay;
+                            caster.Send("Cast the spell on whom or what?");
+                            return AbilityTargetResults.MissingParameter;
                         }
                     }
                     else
                         target = FindByName(caster.Room.People, parameters[1]);
                     if (target != null)
                     {
-                        // TODO: check if safe/charm/...
+                        // TODO: check if safe/charm/...   messages.TargetIsSafe
                     }
                     else // character not found, search item in room, in inventor, in equipment
                     {
@@ -232,7 +260,7 @@ namespace Mud.POC.Abilities
                         if (target == null)
                         {
                             caster.Send("You don't see that here.");
-                            return CommandExecutionResults.TargetNotFound;
+                            return AbilityTargetResults.TargetNotFound;
                         }
                     }
                     // victim or item (target) found
@@ -242,17 +270,13 @@ namespace Mud.POC.Abilities
                         target = caster;
                     else
                         target = FindByName(caster.Room.People, parameters[1]);
-                    if (target != null)
-                    {
-                        // TODO: check if safe/charm/...
-                    }
-                    else // character not found, search item in room, in inventor, in equipment
+                    if (target == null)
                     {
                         target = FindByName(caster.Inventory, parameters[1]);
                         if (target == null)
                         {
                             caster.Send("You don't see that here.");
-                            return CommandExecutionResults.TargetNotFound;
+                            return AbilityTargetResults.TargetNotFound;
                         }
                     }
                     // victim or item (target) found
@@ -262,11 +286,11 @@ namespace Mud.POC.Abilities
                 case AbilityTargets.OptionalItemInventory:
                     if (parameters.Length >= 2)
                     {
-                        item = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
-                        if (item == null)
+                        target = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                        if (target == null)
                         {
                             caster.Send("You are not carrying that.");
-                            return CommandExecutionResults.TargetNotFound;
+                            return AbilityTargetResults.TargetNotFound;
                         }
                     }
                     // item found
@@ -275,18 +299,19 @@ namespace Mud.POC.Abilities
                     if (parameters.Length < 2)
                     {
                         caster.Send("What should the spell be cast upon?");
-                        return CommandExecutionResults.SyntaxErrorNoDisplay;
+                        return AbilityTargetResults.MissingParameter;
                     }
-                    item = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
-                    if (item == null)
+                    target = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                    if (target == null)
                     {
                         caster.Send("You are not carrying that.");
-                        return CommandExecutionResults.TargetNotFound;
+                        return AbilityTargetResults.TargetNotFound;
                     }
-                    if (!(item is IItemArmor))
+                    if (!(target is IItemArmor))
                     {
+                        target = null;
                         caster.Send("That isn't an armor.");
-                        return CommandExecutionResults.InvalidTarget;
+                        return AbilityTargetResults.InvalidTarget;
                     }
                     // item found
                     break;
@@ -294,29 +319,136 @@ namespace Mud.POC.Abilities
                     if (parameters.Length < 2)
                     {
                         caster.Send("What should the spell be cast upon?");
-                        return CommandExecutionResults.SyntaxErrorNoDisplay;
+                        return AbilityTargetResults.MissingParameter;
                     }
-                    item = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
-                    if (item == null)
+                    target = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                    if (target == null)
                     {
                         caster.Send("You are not carrying that.");
-                        return CommandExecutionResults.TargetNotFound;
+                        return AbilityTargetResults.TargetNotFound;
                     }
-                    if (!(item is IItemWeapon))
+                    if (!(target is IItemWeapon))
                     {
-                        caster.Send("That isn't an armor.");
-                        return CommandExecutionResults.InvalidTarget;
+                        target = null;
+                        caster.Send("That isn't an weapon.");
+                        return AbilityTargetResults.InvalidTarget;
                     }
                     // item found
                     break;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Unexpected AbilityTarget {0}", abilityTarget);
-                    return CommandExecutionResults.Error;
+                    Log.Default.WriteLine(LogLevels.Error, "Unexpected AbilityTarget {0}", ability.Target);
+                    return AbilityTargetResults.Error;
             }
-            return CommandExecutionResults.Ok;
+            return AbilityTargetResults.Ok;
         }
 
-        private void InvokeAbility(IAbility ability, int level, ICharacter caster, ICharacter victim, IItem item, IEntity target, string rawParameters, params CommandParameter[] parameters)
+        public AbilityTargetResults GetItemAbilityTarget(IAbility ability, ICharacter caster, ref IEntity target)
+        {
+            if (target is IRoom)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "AbilityManager.GetItemAbilityTarget: preselected target was IRoom.");
+                return AbilityTargetResults.Error;
+            }
+
+            switch (ability.Target)
+            {
+                case AbilityTargets.None:
+                    break;
+                case AbilityTargets.CharacterOffensive:
+                    if (target == null)
+                        target = caster.Fighting;
+                    if (target == null)
+                    {
+                        caster.Send("You can't do that.");
+                        return AbilityTargetResults.InvalidTarget;
+                    }
+                    // TODO: check if safe -> Something isn't right...
+                    break;
+                case AbilityTargets.CharacterDefensive:
+                    if (target == null)
+                        target = caster;
+                    break;
+                case AbilityTargets.CharacterSelf:
+                    if (target == null)
+                        target = caster;
+                    break;
+                case AbilityTargets.ItemInventory:
+                    if (target == null)
+                    {
+                        caster.Send("You are not carrying that.");
+                        return AbilityTargetResults.TargetNotFound;
+                    }
+                    if (!(target is IItem))
+                    {
+                        caster.Send("You can't do that.");
+                        return AbilityTargetResults.InvalidTarget;
+                    }
+                    break;
+                case AbilityTargets.ItemHereOrCharacterOffensive:
+                    if (target == null)
+                    {
+                        if (caster.Fighting != null)
+                            target = caster.Fighting;
+                        else
+                        {
+                            caster.Send("You can't do that.");
+                            return AbilityTargetResults.InvalidTarget;
+                        }
+                    }
+
+                    if (target is ICharacter victim)
+                    {
+                        // TODO: check if safe -> Something isn't right...
+                    }
+                    break;
+                case AbilityTargets.ItemInventoryOrCharacterDefensive:
+                    if (target == null)
+                        target = caster;
+                    break;
+                case AbilityTargets.Custom:
+                    break;
+                case AbilityTargets.OptionalItemInventory:
+                    if (target != null && !(target is IItem))
+                    {
+                        caster.Send("You can't do that.");
+                        return AbilityTargetResults.InvalidTarget;
+                    }
+                    break;
+                case AbilityTargets.ArmorInventory:
+                    if (target == null)
+                    {
+                        caster.Send("You are not carrying that.");
+                        return AbilityTargetResults.TargetNotFound;
+                    }
+                    if (!(target is IItemArmor))
+                    {
+                        caster.Send("You can't do that.");
+                        return AbilityTargetResults.InvalidTarget;
+                    }
+                    break;
+                case AbilityTargets.WeaponInventory:
+                    if (target == null)
+                    {
+                        caster.Send("You are not carrying that.");
+                        return AbilityTargetResults.TargetNotFound;
+                    }
+                    if (!(target is IItemWeapon))
+                    {
+                        caster.Send("You can't do that.");
+                        return AbilityTargetResults.InvalidTarget;
+                    }
+                    break;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, "Unexpected AbilityTarget {0}", ability.Target);
+                    return AbilityTargetResults.Error;
+            }
+
+            return AbilityTargetResults.Ok;
+        }
+
+        #endregion
+
+        private void InvokeAbility(IAbility ability, int level, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
             switch (ability.Target)
             {
@@ -324,16 +456,16 @@ namespace Mud.POC.Abilities
                     ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster });
                     break;
                 case AbilityTargets.CharacterOffensive:
-                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, victim });
+                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                     break;
                 case AbilityTargets.CharacterDefensive:
-                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, victim });
+                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                     break;
                 case AbilityTargets.CharacterSelf:
-                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, victim });
+                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                     break;
                 case AbilityTargets.ItemInventory:
-                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, item });
+                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                     break;
                 case AbilityTargets.ItemHereOrCharacterOffensive:
                     ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
@@ -348,28 +480,48 @@ namespace Mud.POC.Abilities
                         ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, newParameters.rawParameters });
                     }
                     else
-                        ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, string.Empty});
+                        ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, string.Empty });
                     break;
                 case AbilityTargets.OptionalItemInventory:
-                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, item });
+                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                     break;
                 case AbilityTargets.ArmorInventory:
-                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, item });
+                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                     break;
                 case AbilityTargets.WeaponInventory:
-                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, item });
+                    ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                     break;
             }
         }
 
-        private KnownAbility Search(IEnumerable<KnownAbility> knownAbilities, int level, CommandParameter parameter)
+        private KnownAbility Search(IEnumerable<KnownAbility> knownAbilities, int level, Func<IAbility, bool> abilityFilterFunc, CommandParameter parameter)
         {
             return knownAbilities.Where(x =>
-                !x.Ability.AbilityFlags.HasFlag(AbilityFlags.Passive)
-                && x.Level <= level
-                && x.Learned > 0
+                abilityFilterFunc(x.Ability)
+                && x.Level <= level // high level enough
+                && x.Learned > 0 // practice at least once
                 && StringCompareHelpers.StringStartsWith(x.Ability.Name, parameter.Value))
                 .ElementAtOrDefault(parameter.Count - 1);
+        }
+
+        private CastResults MapCastResultToCommandExecutionResult(AbilityTargetResults result)
+        {
+            {
+                switch (result)
+                {
+                    case AbilityTargetResults.MissingParameter:
+                        return CastResults.MissingParameter;
+                    case AbilityTargetResults.InvalidTarget:
+                        return CastResults.InvalidTarget;
+                    case AbilityTargetResults.TargetNotFound:
+                        return CastResults.TargetNotFound;
+                    case AbilityTargetResults.Error:
+                        return CastResults.Error;
+                    default:
+                        Log.Default.WriteLine(LogLevels.Error, "Unexpected AbilityTargetResults {0}", result);
+                        return CastResults.Error;
+                }
+            }
         }
 
         // TODO: use FindHelpers.

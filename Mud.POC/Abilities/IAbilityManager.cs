@@ -1,9 +1,5 @@
 ﻿using Mud.Server.Input;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.POC.Abilities
 {
@@ -13,6 +9,32 @@ namespace Mud.POC.Abilities
 
         IAbility this[string name] { get; }
 
-        CommandExecutionResults Cast(ICharacter caster, string rawParameters, params CommandParameter[] parameters);
+        CastResults Cast(ICharacter caster, string rawParameters, params CommandParameter[] parameters);
+        CastResults CastFromItem(IAbility ability, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters);
+
+        AbilityTargetResults GetAbilityTarget(IAbility ability, ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters);
+        AbilityTargetResults GetItemAbilityTarget(IAbility ability, ICharacter caster, ref IEntity target);
+    }
+
+    public enum CastResults
+    {
+        Ok = 0,
+        MissingParameter = 1,
+        InvalidParameter = 2,
+        InvalidTarget = 3,
+        TargetNotFound = 4,
+        CantUseRequiredResource = 5,
+        NotEnoughResource = 6,
+        Failed = 7,
+        Error = 8
+    }
+
+    public enum AbilityTargetResults
+    {
+        MissingParameter,
+        InvalidTarget,
+        TargetNotFound,
+        Ok,
+        Error
     }
 }
