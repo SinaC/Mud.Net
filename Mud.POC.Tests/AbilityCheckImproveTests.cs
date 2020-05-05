@@ -17,7 +17,7 @@ namespace Mud.POC.Tests
                 .Returns(true); // always succeed
             var tableManagerMock = new Mock<IAttributeTableManager>();
             tableManagerMock.Setup(x => x.GetLearnPercentage(It.IsAny<ICharacter>())).Returns<int>(x => 100);
-            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, tableManagerMock.Object);
+            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, new Mock<IAbilityManager>().Object, tableManagerMock.Object);
 
             bool improved = character.CheckAbilityImprove((KnownAbility)null, true, 1);
 
@@ -33,7 +33,7 @@ namespace Mud.POC.Tests
                 .Returns(true); // always succeed
             var tableManagerMock = new Mock<IAttributeTableManager>();
             tableManagerMock.Setup(x => x.GetLearnPercentage(It.IsAny<ICharacter>())).Returns<int>(x => 100);
-            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, tableManagerMock.Object);
+            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, new Mock<IAbilityManager>().Object, tableManagerMock.Object);
             KnownAbility ability = new KnownAbility
             {
                 Ability = new Ability(1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
@@ -55,7 +55,7 @@ namespace Mud.POC.Tests
                 .Returns(true); // always succeed
             var tableManagerMock = new Mock<IAttributeTableManager>();
             tableManagerMock.Setup(x => x.GetLearnPercentage(It.IsAny<ICharacter>())).Returns<int>(x => 100);
-            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, tableManagerMock.Object);
+            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, new Mock<IAbilityManager>().Object, tableManagerMock.Object);
             KnownAbility ability = new KnownAbility
             {
                 Ability = new Ability(1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
@@ -80,7 +80,7 @@ namespace Mud.POC.Tests
                 .Returns<int, int>((x, y) => 10000); // always fails
             var tableManagerMock = new Mock<IAttributeTableManager>();
             tableManagerMock.Setup(x => x.GetLearnPercentage(It.IsAny<ICharacter>())).Returns<ICharacter>(x => 100);
-            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, tableManagerMock.Object);
+            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, new Mock<IAbilityManager>().Object, tableManagerMock.Object);
             KnownAbility ability = new KnownAbility
             {
                 Ability = new Ability(1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
@@ -106,7 +106,7 @@ namespace Mud.POC.Tests
                 .Returns<int, int>((x, y) => 0); // always succeed
             var tableManagerMock = new Mock<IAttributeTableManager>();
             tableManagerMock.Setup(x => x.GetLearnPercentage(It.IsAny<ICharacter>())).Returns<ICharacter>(x => 100);
-            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, tableManagerMock.Object);
+            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, new Mock<IAbilityManager>().Object, tableManagerMock.Object);
             KnownAbility ability = new KnownAbility
             {
                 Ability = new Ability(1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
@@ -133,7 +133,7 @@ namespace Mud.POC.Tests
                 .Returns<int, int>((x, y) => x == 1 && y == 3 ? learnedInc : 0); // always succeed, special case if min=1 and max=15
             var tableManagerMock = new Mock<IAttributeTableManager>();
             tableManagerMock.Setup(x => x.GetLearnPercentage(It.IsAny<ICharacter>())).Returns<ICharacter>(x => 100);
-            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, tableManagerMock.Object);
+            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, new Mock<IAbilityManager>().Object, tableManagerMock.Object);
             long baseExp = character.Experience;
             KnownAbility ability = new KnownAbility
             {
@@ -166,7 +166,7 @@ namespace Mud.POC.Tests
                 .Returns<int, int>((x, y) => 0); // always succeed
             var tableManagerMock = new Mock<IAttributeTableManager>();
             tableManagerMock.Setup(x => x.GetLearnPercentage(It.IsAny<ICharacter>())).Returns<ICharacter>(x => 100);
-            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, tableManagerMock.Object);
+            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, new Mock<IAbilityManager>().Object, tableManagerMock.Object);
             long baseExp = character.Experience;
             KnownAbility ability = new KnownAbility
             {
@@ -199,7 +199,7 @@ namespace Mud.POC.Tests
                 .Returns<int, int>((x, y) => 0); // always succeed
             var tableManagerMock = new Mock<IAttributeTableManager>();
             tableManagerMock.Setup(x => x.GetLearnPercentage(It.IsAny<ICharacter>())).Returns<ICharacter>(x => 100);
-            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, tableManagerMock.Object);
+            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, new Mock<IAbilityManager>().Object, tableManagerMock.Object);
             long baseExp = character.Experience;
             KnownAbility ability = new KnownAbility
             {
@@ -233,7 +233,7 @@ namespace Mud.POC.Tests
                 .Returns<int, int>((x, y) => x == 1 && y == 3 ? learnedInc : 0); // always succeed, special case if min=1 and max=15
             var tableManagerMock = new Mock<IAttributeTableManager>();
             tableManagerMock.Setup(x => x.GetLearnPercentage(It.IsAny<ICharacter>())).Returns<ICharacter>(x => 100);
-            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, tableManagerMock.Object);
+            IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, new Mock<IAbilityManager>().Object, tableManagerMock.Object);
             long baseExp = character.Experience;
             KnownAbility ability = new KnownAbility
             {

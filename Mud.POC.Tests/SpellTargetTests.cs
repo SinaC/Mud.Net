@@ -7,7 +7,7 @@ using Mud.Server.Input;
 namespace Mud.POC.Tests
 {
     [TestClass]
-    public class AbilityTargetTests : AbilityTestBase
+    public class SpellTargetTests : AbilityTestBase
     {
         // AbilityTargets.None
         [TestMethod]

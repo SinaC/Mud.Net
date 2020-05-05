@@ -48,6 +48,7 @@ namespace Mud.POC.Abilities
 
         void Send(string msg, params object[] args);
         void Act(ActOptions option, string format, params object[] arguments);
+        void ActToNotVictim(ICharacter victim, string format, params object[] arguments); // to everyone except this and victim
     }
 
     public enum ActOptions

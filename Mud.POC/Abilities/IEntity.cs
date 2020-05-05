@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Mud.DataStructures.Trie;
+using Mud.Server.Input;
+using System.Collections.Generic;
 
 namespace Mud.POC.Abilities
 {
@@ -7,5 +9,7 @@ namespace Mud.POC.Abilities
         string Name { get; }
         string DebugName { get; }
         IEnumerable<string> Keywords { get; } // name tokenize
+
+        IReadOnlyTrie<CommandMethodInfo> Commands { get; }
     }
 }

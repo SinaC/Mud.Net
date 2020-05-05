@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Security.Cryptography;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Common;
@@ -7,12 +8,12 @@ namespace Mud.POC.Abilities
 {
     public static class Skills
     {
-        private static readonly IRandomManager RandomManager = DependencyContainer.Current.GetInstance<IRandomManager>();
+        public static IRandomManager RandomManager { get; set; }
 
         private static readonly int DefaultLevelIfAbilityNotKnown = 53;
 
-        [Skill(5000, "Berserk", AbilityTargets.CharacterSelf, "berserk")]
-        public static bool SkillBerserk(IAbility ability, ICharacter source)
+        [Skill(5000, "Berserk", AbilityTargets.CharacterSelf)]
+        public static UseResults SkillBerserk(IAbility ability, ICharacter source)
         {
             int chance = source.LearnedAbility(ability);
             if (chance == 0
@@ -20,7 +21,7 @@ namespace Mud.POC.Abilities
                 || (source is IPlayableCharacter pcSource && pcSource.Level < (pcSource.KnownAbilities.FirstOrDefault(x => x.Ability == ability)?.Level ?? DefaultLevelIfAbilityNotKnown)))
             {
                 source.Send("You turn red in the face, but nothing happens.");
-                return false;
+                return UseResults.NotKnown;
             }
 
             if (source.CurrentCharacterFlags.HasFlag(CharacterFlags.Berserk)
@@ -28,13 +29,13 @@ namespace Mud.POC.Abilities
                 || source.GetAura("Frenzy") != null)
             {
                 source.Send("You get a little madder.");
-                return false;
+                return UseResults.Failed;
             }
 
             if (source.CurrentCharacterFlags.HasFlag(CharacterFlags.Calm))
             {
                 source.Send("You're feeling to mellow to berserk.");
-                return false;
+                return UseResults.Failed;
             }
 
             // TODO: mana cost 50 ??
@@ -76,6 +77,7 @@ namespace Mud.POC.Abilities
 	            af.location	= APPLY_AC;
 	            affect_to_char(ch,&af);
                 */
+                return UseResults.Ok;
             }
             else
             {
@@ -84,13 +86,12 @@ namespace Mud.POC.Abilities
                 // TODO: move /= 2
                 source.Send("Your pulse speeds up, but nothing happens.");
                 (source as IPlayableCharacter).CheckAbilityImprove(ability, false, 2);
+                return UseResults.Failed;
             }
-
-            return true;
         }
 
-        [Skill(5001, "Bash", AbilityTargets.CharacterOffensive, "bash")]
-        public static bool SkillBash(IAbility ability, ICharacter source, ICharacter victim)
+        [Skill(5001, "Bash", AbilityTargets.CharacterOffensive)]
+        public static UseResults SkillBash(IAbility ability, ICharacter source, ICharacter victim)
         {
             int chance = source.LearnedAbility(ability);
 
@@ -99,19 +100,19 @@ namespace Mud.POC.Abilities
                 || (source is IPlayableCharacter pcSource && pcSource.Level < (pcSource.KnownAbilities.FirstOrDefault(x => x.Ability == ability)?.Level ?? DefaultLevelIfAbilityNotKnown)))
             {
                 source.Send("Bashing? What's that?");
-                return false;
+                return UseResults.NotKnown;
             }
 
             if (victim == source)
             {
                 source.Send("You try to bash your brains out, but fail.");
-                return false;
+                return UseResults.InvalidTarget;
             }
 
             if (victim.Position < Positions.Fighting)
             {
                 source.Act(ActOptions.ToCharacter, "You'll have to let {0:m} get back up first.", victim);
-                return false;
+                return UseResults.InvalidTarget;
             }
 
             // TODO: is safe check
@@ -152,6 +153,8 @@ namespace Mud.POC.Abilities
                 //int damage = RandomManager.Range(2, 2+2* source.Size + chance/2)
                 int damage = 2;
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.Bash, false);
+                // TODO: check_killer(ch,victim);
+                return UseResults.Ok;
             }
             else
             {
@@ -161,14 +164,14 @@ namespace Mud.POC.Abilities
                 (source as IPlayableCharacter).CheckAbilityImprove(ability, false, 1);
                 // TODO: victim.Position = Positions.Resting
                 // TODO: set GCD
+                // TODO: check_killer(ch,victim);
+                return UseResults.Failed;
             }
-            // TODO: check_killer(ch,victim);
 
-            return true;
         }
 
-        [Skill(5002, "Dirt kicking", AbilityTargets.CharacterOffensive, "dirt")]
-        public static bool SkillDirt(IAbility ability, ICharacter source, ICharacter victim) // almost copy/paste from bash
+        [Skill(5002, "Dirt kicking", AbilityTargets.CharacterOffensive)]
+        public static UseResults SkillDirt(IAbility ability, ICharacter source, ICharacter victim) // almost copy/paste from bash
         {
             int chance = source.LearnedAbility(ability);
 
@@ -177,19 +180,19 @@ namespace Mud.POC.Abilities
                 || (source is IPlayableCharacter pcSource && pcSource.Level < (pcSource.KnownAbilities.FirstOrDefault(x => x.Ability == ability)?.Level ?? DefaultLevelIfAbilityNotKnown)))
             {
                 source.Send("You get your feet dirty.");
-                return false;
+                return UseResults.NotKnown;
             }
 
             if (victim == source)
             {
                 source.Send("Very funny.");
-                return false;
+                return UseResults.InvalidTarget;
             }
 
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Blind))
             {
                 source.Act(ActOptions.ToCharacter, "{0:e}'s already been blinded.", victim);
-                return false;
+                return UseResults.InvalidTarget;
             }
 
             // TODO: is safe check
@@ -219,14 +222,17 @@ namespace Mud.POC.Abilities
             // now the attack
             if (RandomManager.Chance(chance))
             {
-                //AFFECT_DATA af;
-                //act("$n is blinded by the dirt in $s eyes!", victim, NULL, NULL, TO_ROOM);
-                //act("$n kicks dirt in your eyes!", ch, NULL, victim, TO_VICT);
-                //damage(ch, victim, number_range(2, 5), gsn_dirt, DAM_NONE, FALSE);
-                //send_to_char("You can't see a thing!\n\r", victim);
-                //check_improve(ch, gsn_dirt, TRUE, 2);
+                victim.Act(ActOptions.ToRoom, "{0:N} is blinded by the dirt in {0:s} eyes!", victim);
+                victim.Act(ActOptions.ToCharacter, "{0:N} kicks dirt in your eyes!", source);
+                victim.Send("You can't see a thing!");
+
+                int damage = RandomManager.Range(2, 5);
+                victim.AbilityDamage(source, ability, damage, SchoolTypes.None, false);
+                (source as IPlayableCharacter).CheckAbilityImprove(ability, true, 2);
                 //WAIT_STATE(ch, skill_table[gsn_dirt].beats);
 
+                // TODO
+                //AFFECT_DATA af;
                 //af.where = TO_AFFECTS;
                 //af.type = gsn_dirt;
                 //af.level = ch->level;
@@ -234,21 +240,22 @@ namespace Mud.POC.Abilities
                 //af.location = APPLY_HITROLL;
                 //af.modifier = -4;
                 //af.bitvector = AFF_BLIND;
-
                 //affect_to_char(victim, &af);
+                // TODO: check_killer(ch,victim);
+                return UseResults.Ok;
             }
             else
             {
-                //damage(ch, victim, 0, gsn_dirt, DAM_NONE, TRUE);
-                //check_improve(ch, gsn_dirt, FALSE, 2);
+                victim.AbilityDamage(source, ability, 0, SchoolTypes.None, true);
+                (source as IPlayableCharacter).CheckAbilityImprove(ability, false, 2);
                 //WAIT_STATE(ch, skill_table[gsn_dirt].beats);
+                // TODO: check_killer(ch,victim);
+                return UseResults.Failed;
             }
-            // TODO check_killer(ch,victim);
-            return true;
         }
 
-        [Skill(5003, "Trip", AbilityTargets.CharacterOffensive, "trip")]
-        public static bool SkillTrip(IAbility ability, ICharacter source, ICharacter victim) // almost copy/paste from bash
+        [Skill(5003, "Trip", AbilityTargets.CharacterOffensive)]
+        public static UseResults SkillTrip(IAbility ability, ICharacter source, ICharacter victim) // almost copy/paste from bash
         {
             int chance = source.LearnedAbility(ability);
 
@@ -257,7 +264,7 @@ namespace Mud.POC.Abilities
                 || (source is IPlayableCharacter pcSource && pcSource.Level < (pcSource.KnownAbilities.FirstOrDefault(x => x.Ability == ability)?.Level ?? DefaultLevelIfAbilityNotKnown)))
             {
                 source.Send("Tripping?  What's that?");
-                return false;
+                return UseResults.NotKnown;
             }
 
             if (victim == source)
@@ -265,7 +272,7 @@ namespace Mud.POC.Abilities
                 source.Send("You fall flat on your face!");
                 source.Act(ActOptions.ToRoom, "{0:N} trips over {0:s} own feet!", source);
                 // TODO: set GCD
-                return false;
+                return UseResults.InvalidTarget;
             }
 
             // TODO: is safe check
@@ -274,13 +281,13 @@ namespace Mud.POC.Abilities
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Flying))
             {
                 source.Act(ActOptions.ToCharacter, "{0:s} feet aren't on the ground.", victim);
-                return false;
+                return UseResults.InvalidTarget;
             }
 
             if (victim.Position < Positions.Fighting)
             {
                 source.Act(ActOptions.ToCharacter, "{0:N} is already down..", victim);
-                return false;
+                return UseResults.InvalidTarget;
             }
 
             // TODO: pet check
@@ -301,29 +308,29 @@ namespace Mud.POC.Abilities
             // now the attack
             if (RandomManager.Chance(chance))
             {
-                //act("$n trips you and you go down!", ch, NULL, victim, TO_VICT);
-                //act("You trip $N and $N goes down!", ch, NULL, victim, TO_CHAR);
-                //act("$n trips $N, sending $M to the ground.", ch, NULL, victim, TO_NOTVICT);
-                //check_improve(ch, gsn_trip, TRUE, 1);
-
+                victim.Act(ActOptions.ToCharacter, "{0:N} trips you and you go down!", source);
+                source.Act(ActOptions.ToCharacter, "You trip {0} and {0} goes down!", victim);
+                source.ActToNotVictim(victim, "{0} trips {1}, sending {1:m} to the ground.", source, victim);
+                (source as IPlayableCharacter).CheckAbilityImprove(ability, true, 1);
                 //DAZE_STATE(victim, 2 * PULSE_VIOLENCE);
                 //WAIT_STATE(ch, skill_table[gsn_trip].beats);
                 //victim->position = POS_RESTING;
-                //damage(ch, victim, number_range(2, 2 + 2 * victim->size), gsn_trip,
-                //    DAM_BASH, TRUE);
+                int damage = 2 + 2/* * victim.Size*/;
+                victim.AbilityDamage(source, ability, damage, SchoolTypes.Bash, true);
+                return UseResults.Ok;
             }
             else
             {
-                //damage(ch, victim, 0, gsn_trip, DAM_BASH, TRUE);
+                victim.AbilityDamage(source, ability, 0, SchoolTypes.Bash, true);
                 //WAIT_STATE(ch, skill_table[gsn_trip].beats * 2 / 3);
-                //check_improve(ch, gsn_trip, FALSE, 1);
+                (source as IPlayableCharacter).CheckAbilityImprove(ability, false, 1);
+                // TODO check_killer(ch,victim);
+                return UseResults.Failed;
             }
-            // TODO check_killer(ch,victim);
-            return true;
         }
 
-        [Skill(5004, "Backstab", AbilityTargets.CharacterOffensive, "backstack", "bs")]
-        public static bool SkillBackstab(IAbility ability, ICharacter source, ICharacter victim)
+        [Skill(5004, "Backstab", AbilityTargets.CharacterOffensive)]
+        public static UseResults SkillBackstab(IAbility ability, ICharacter source, ICharacter victim)
         {
             // TODO: should be done in caller
             //if (arg[0] == '\0')
@@ -335,13 +342,13 @@ namespace Mud.POC.Abilities
             if (source.Fighting != null)
             {
                 source.Send("You are facing the wrong end.");
-                return false;
+                return UseResults.MissingParameter;
             }
 
             if (victim == source)
             {
                 source.Send("How can you sneak up on yourself?");
-                return false;
+                return UseResults.InvalidTarget;
             }
 
             // TODO: is safe check
@@ -351,7 +358,7 @@ namespace Mud.POC.Abilities
             if (victim.HitPoints < victim.CurrentAttributes(CharacterAttributes.MaxHitPoints) / 3)
             {
                 source.Act(ActOptions.ToCharacter, "{0} is hurt and suspicious ... you can't sneak up.", victim);
-                return false;
+                return UseResults.InvalidTarget;
             }
 
             // TODO: check killer
@@ -361,35 +368,35 @@ namespace Mud.POC.Abilities
                 || (learned > 1 && victim.Position <= Positions.Sleeping))
             {
                 (source as IPlayableCharacter)?.CheckAbilityImprove(ability, true, 1);
-                victim.MultiHit(source); // TODO: pass ability
+                victim.MultiHit(source); // TODO: pass ability, some nasty things are done if Backstab is passed as param
+                return UseResults.Ok;
             }
             else
             {
                 (source as IPlayableCharacter)?.CheckAbilityImprove(ability, false, 1);
                 victim.AbilityDamage(source, ability, 0, SchoolTypes.None, true); // Starts fight without doing any damage
+                return UseResults.Failed;
             }
-
-            return true;
         }
 
-        [Skill(5005, "Kick", AbilityTargets.Fighting, "kick")]
-        public static bool SkillKick(IAbility ability, ICharacter source)
+        [Skill(5005, "Kick", AbilityTargets.Fighting)]
+        public static UseResults SkillKick(IAbility ability, ICharacter source)
         {
             KnownAbility knownAbility = source.KnownAbilities.FirstOrDefault(x => x.Ability == ability);
             if (source is IPlayableCharacter pcSource && pcSource.Level < (knownAbility?.Level ?? DefaultLevelIfAbilityNotKnown))
             {
                 source.Send("You better leave the martial arts to fighters.");
-                return false;
+                return UseResults.NotKnown;
             }
 
             if (source is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.Kick))
-                return false;
+                return UseResults.NotKnown;
 
             ICharacter victim = source.Fighting;
             if (victim == null)
             {
                 source.Send("You aren't fighting anyone.");
-                return false;
+                return UseResults.MustBeFighting;
             }
 
             // TODO: gcd
@@ -398,25 +405,27 @@ namespace Mud.POC.Abilities
                 int damage = RandomManager.Range(1, source.Level);
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.Bash, true);
                 (victim as IPlayableCharacter).CheckAbilityImprove(ability, true, 1);
+                //check_killer(ch,victim);
+                return UseResults.Ok;
             }
             else
             {
                 victim.AbilityDamage(source, ability, 0, SchoolTypes.Bash, true);
                 (victim as IPlayableCharacter).CheckAbilityImprove(ability, false, 1);
+                //check_killer(ch,victim);
+                return UseResults.Failed;
             }
-            //check_killer(ch,victim);
-            return true;
         }
 
-        [Skill(5006, "Disarm", AbilityTargets.Fighting, "disarm")]
-        public static bool SkillDisarm(IAbility ability, ICharacter source)
+        [Skill(5006, "Disarm", AbilityTargets.Fighting)]
+        public static UseResults SkillDisarm(IAbility ability, ICharacter source)
         {
             KnownAbility knownAbility = source.KnownAbilities.FirstOrDefault(x => x.Ability == ability);
             int chance = knownAbility?.Learned ?? DefaultLevelIfAbilityNotKnown;
             if (chance == 0)
             {
                 source.Send("You don't know how to disarm opponents.");
-                return false;
+                return UseResults.NotKnown;
             }
 
             // TODO: check if wielding a weapon
@@ -432,7 +441,7 @@ namespace Mud.POC.Abilities
             if (victim == null)
             {
                 source.Send("You aren't fighting anyone.");
-                return false;
+                return UseResults.MustBeFighting;
             }
 
             // TODO: get victim weapon
@@ -477,10 +486,8 @@ namespace Mud.POC.Abilities
                 //    return;
                 //}
 
-                //act("$n DISARMS you and sends your weapon flying!",
-                // ch, NULL, victim, TO_VICT);
-                //act("You disarm $N!", ch, NULL, victim, TO_CHAR);
-                //act("$n disarms $N!", ch, NULL, victim, TO_NOTVICT);
+                victim.Act(ActOptions.ToCharacter, "{0:N} DISARMS you and sends your weapon flying!", source);
+                victim.Act(ActOptions.ToRoom, "{0:N} disarm{0:v} {1}", source, victim);
 
                 //obj_from_char(obj);
                 //if (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_INVENTORY))
@@ -493,6 +500,8 @@ namespace Mud.POC.Abilities
                 //}
 
                 (source as IPlayableCharacter).CheckAbilityImprove(ability, true, 1);
+                // TODO  check_killer(ch, victim);
+                return UseResults.Ok;
             }
             else
             {
@@ -500,9 +509,9 @@ namespace Mud.POC.Abilities
                 source.Act(ActOptions.ToCharacter, "You fail to disarm {0}.", victim);
                 source.Act(ActOptions.ToRoom, "{0:N} tries to disarm {1}, but fails.", source, victim);
                 (source as IPlayableCharacter).CheckAbilityImprove(ability, false, 1);
+                // TODO  check_killer(ch, victim);
+                return UseResults.Failed;
             }
-            // TODO  check_killer(ch, victim);
-            return true;
         }
     }
 }

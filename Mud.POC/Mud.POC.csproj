@@ -135,6 +135,7 @@
     <Compile Include="Affects\Room.cs" />
     <Compile Include="Affects\RoomFlagsAffect.cs" />
     <Compile Include="Affects\Character.cs" />
+    <Compile Include="Abilities\CombatCommands.cs" />
     <Compile Include="NewMud\Behaviors\Behavior.cs" />
     <Compile Include="NewMud\Behaviors\BehaviorManager.cs" />
     <Compile Include="NewMud\Behaviors\MovableBehavior.cs" />
@@ -166,6 +167,10 @@
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
       <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
       <Name>Mud.Container</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
+      <Project>{00B458AF-C87B-4558-8BA7-B21D9626621E}</Project>
+      <Name>Mud.DataStructures</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
       <Project>{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}</Project>

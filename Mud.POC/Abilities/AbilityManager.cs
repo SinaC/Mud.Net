@@ -140,7 +140,7 @@ namespace Mud.POC.Abilities
             // TODO: 7) say spell if not ventriloquate
 
             // 8) invoke spell
-            InvokeAbility(knownAbility.Ability, caster.Level, caster, target, rawParameters, parameters);
+            InvokeSpell(knownAbility.Ability, caster.Level, caster, target, rawParameters, parameters);
 
             // TODO: 9) set GCD
             // 10) check improve true
@@ -159,29 +159,32 @@ namespace Mud.POC.Abilities
                 return MapCastResultToCommandExecutionResult(targetResult);
 
             // 2) invoke spell
-            InvokeAbility(ability, caster.Level, caster, target, rawParameters, parameters);
+            InvokeSpell(ability, caster.Level, caster, target, rawParameters, parameters);
 
             // TODO: 3) if aggressive: multi hit if still in same room
 
             return CastResults.Ok;
         }
 
-        public bool Use(IAbility ability, ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        public UseResults Use(IAbility ability, ICharacter caster, string rawParameters, params CommandParameter[] parameters)
         {
-            // 1) get target
+            // 1) check if it's a skill
+            if (ability == null || ability.AbilityFlags.HasFlag(AbilityFlags.Passive) || !(ability.AbilityMethodInfo?.Attribute is SkillAttribute))
+                return UseResults.Error;
+
+            // 2) get target
             IEntity target;
             AbilityTargetResults targetResult = GetAbilityTarget(ability, caster, out target, rawParameters, parameters);
             if (targetResult != AbilityTargetResults.Ok)
-                return false;
+                return MapUseResultToCommandExecutionResult(targetResult);
 
-            // 2) invoke skill
-            object result = InvokeAbility(ability, caster.Level, caster, target, rawParameters, parameters);
+            // 3) invoke skill
+            object result = InvokeSkill(ability, caster, target, rawParameters, parameters);
 
-            return result == null
-                ? false
-                : (result is bool
-                    ? (bool)result
-                    : false);
+            //
+            return result is UseResults
+                ? (UseResults)result
+                : UseResults.Error;
         }
 
         public AbilityTargetResults GetAbilityTarget(IAbility ability, ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
@@ -480,8 +483,10 @@ namespace Mud.POC.Abilities
 
         #endregion
 
-        private object InvokeAbility(IAbility ability, int level, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters)
+        private object InvokeSpell(IAbility ability, int level, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
+            if (ability == null)
+                return null;
             switch (ability.Target)
             {
                 case AbilityTargets.None:
@@ -518,6 +523,46 @@ namespace Mud.POC.Abilities
             return null;
         }
 
+        private object InvokeSkill(IAbility ability, ICharacter source, IEntity target, string rawParameters, params CommandParameter[] parameters)
+        {
+            if (ability == null)
+                return null;
+            switch (ability.Target)
+            {
+                case AbilityTargets.None:
+                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source });
+                case AbilityTargets.CharacterOffensive:
+                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                case AbilityTargets.CharacterDefensive:
+                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                case AbilityTargets.CharacterSelf:
+                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source });
+                case AbilityTargets.ItemInventory:
+                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                case AbilityTargets.ItemHereOrCharacterOffensive:
+                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                case AbilityTargets.ItemInventoryOrCharacterDefensive:
+                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                case AbilityTargets.Custom:
+                    if (parameters.Length > 1)
+                    {
+                        var newParameters = CommandHelpers.SkipParameters(parameters, 1);
+                        return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, newParameters.rawParameters });
+                    }
+                    else
+                        return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, string.Empty });
+                case AbilityTargets.OptionalItemInventory:
+                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                case AbilityTargets.ArmorInventory:
+                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                case AbilityTargets.WeaponInventory:
+                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                case AbilityTargets.Fighting:
+                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+            }
+            return null;
+        }
+
         private KnownAbility Search(IEnumerable<KnownAbility> knownAbilities, int level, Func<IAbility, bool> abilityFilterFunc, CommandParameter parameter)
         {
             return knownAbilities.Where(x =>
@@ -544,6 +589,26 @@ namespace Mud.POC.Abilities
                     default:
                         Log.Default.WriteLine(LogLevels.Error, "Unexpected AbilityTargetResults {0}", result);
                         return CastResults.Error;
+                }
+            }
+        }
+
+        private UseResults MapUseResultToCommandExecutionResult(AbilityTargetResults result)
+        {
+            {
+                switch (result)
+                {
+                    case AbilityTargetResults.MissingParameter:
+                        return UseResults.MissingParameter;
+                    case AbilityTargetResults.InvalidTarget:
+                        return UseResults.InvalidTarget;
+                    case AbilityTargetResults.TargetNotFound:
+                        return UseResults.TargetNotFound;
+                    case AbilityTargetResults.Error:
+                        return UseResults.Error;
+                    default:
+                        Log.Default.WriteLine(LogLevels.Error, "Unexpected AbilityTargetResults {0}", result);
+                        return UseResults.Error;
                 }
             }
         }

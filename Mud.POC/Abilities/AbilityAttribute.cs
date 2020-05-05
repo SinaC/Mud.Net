@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Mud.POC.Abilities
 {
@@ -38,14 +37,9 @@ namespace Mud.POC.Abilities
 
     public class SkillAttribute : AbilityAttribute
     {
-        public string[] Commands { get; }
-
-        public SkillAttribute(int id, string name, AbilityTargets target, params string[] commands)
+        public SkillAttribute(int id, string name, AbilityTargets target)
             : base(id, name, target)
         {
-            Commands = commands?.Length == 0
-                ? new[] { name }
-                : commands.Select(x => x.ToLowerInvariant()).ToArray();
         }
     }
 }

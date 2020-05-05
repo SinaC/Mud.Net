@@ -22,8 +22,7 @@ SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCha
 SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 TODO:
-unittests CastFromItem/GetItemAbilityTarget
-generate skill command in ICharacter and tes Use
+UnitTests CastFromItem/GetItemAbilityTarget
 Add abilities from race/class when PlayableCharacter is created
 Ability wears off message
 Move AddAura in aura manager
@@ -32,6 +31,7 @@ Add daze to IPlayableCharacter: will be decreased like GCD and affects skill eff
 AddAura: additional param combine, when adding already existing aura (see affect_join)
 
 DONE:
+Generate skill command in ICharacter and tests Use
 Skill practice %
 Ability info by class/race
 Cast resource/gain exp/check improve
