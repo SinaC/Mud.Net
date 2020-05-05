@@ -1,8 +1,3 @@
-ongoing
-Refactor Ability in POC project
-    Ability can be created from method with [Spell] attribute
-    Or with old system using AbilityEffect
-
 handled:
 SpellMassInvis(IAbility ability, int level, ICharacter caster) -> AbilityTargets.None
 SpellCauseSerious(IAbility ability, int level, ICharacter caster, ICharacter victim) -> AbilityTargets.CharacterOffensive
@@ -15,7 +10,7 @@ SpellLocateObject(IAbility ability, int level, ICharacter caster, string paramet
 SpellContinualLight(IAbility ability, int level, ICharacter caster, IItem item) -> AbilityTargets.OptionalItemInventory
 SpellEnchantArmor(IAbility ability, int level, ICharacter caster, IItemArmor armor) -> AbilityTargets.ArmorInventory
 SpellEnchantWeapon(IAbility ability, int level, ICharacter caster, IItemWeapon weapon) -> AbilityTargets.WeaponInventory
-Skill
+SkillKick(IAbility ability, ICharacter source) -> AbilityTargets.Fighting
 
 to handle:
 SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCharacter victim) // victim is NPC
@@ -58,6 +53,17 @@ Replace out parameter with C#7-tuple if possible
 Enum string representation instead of int in Repository
 redo DoScore, DoAffects
 check if IStat, MStat and RStat display new informations
+
+gsn_backstab:
+	reduce thac0 in one_hit
+		thac0 -= 10 * (100 - get_skill(ch,gsn_backstab));
+	damage is higher and depends on dagger or not
+		if ( dt == gsn_backstab && wield != NULL) 
+			if ( wield->value[0] != 2 )
+			    dam *= 2 + (ch->level / 10); 
+			else 
+			    dam *= 2 + (ch->level / 8);
+
 
 Redo modifiable list
 
