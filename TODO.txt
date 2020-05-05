@@ -1,3 +1,4 @@
+READY TO INTEGRATE
 handled:
 SpellMassInvis(IAbility ability, int level, ICharacter caster) -> AbilityTargets.None
 SpellCauseSerious(IAbility ability, int level, ICharacter caster, ICharacter victim) -> AbilityTargets.CharacterOffensive
