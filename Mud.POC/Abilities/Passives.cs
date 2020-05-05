@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Mud.Domain;
+using System.Collections.Generic;
 
 namespace Mud.POC.Abilities
 {
@@ -33,6 +34,6 @@ namespace Mud.POC.Abilities
             Passive(2203, "Haggle"),
         };
 
-        private static IAbility Passive(int id, string name, AbilityFlags flags = AbilityFlags.None) => new Ability(id, name, AbilityTargets.None, 0, AbilityFlags.Passive | flags, null, null);
+        private static IAbility Passive(int id, string name, AbilityFlags flags = AbilityFlags.None) => new Ability(AbilityKinds.Passive, id, name, AbilityTargets.None, 0, flags, null, null);
     }
 }

@@ -84,10 +84,7 @@
   <ItemGroup>
     <Compile Include="Abilities\Ability.cs" />
     <Compile Include="Abilities\AbilityAttribute.cs" />
-    <Compile Include="Abilities\AbilityFlags.cs" />
     <Compile Include="Abilities\AbilityManager.cs" />
-    <Compile Include="Abilities\AbilityMethodInfo.cs" />
-    <Compile Include="Abilities\AbilityTargets.cs" />
     <Compile Include="Abilities\AbilityUsage.cs" />
     <Compile Include="Abilities\AttributeTables.cs" />
     <Compile Include="Abilities\IAbility.cs" />

@@ -463,6 +463,49 @@ namespace Mud.Domain
         Nor = 3
     }
 
+    [Flags]
+    public enum AbilityFlags
+    {
+        None                = 0x00000000,
+        AuraIsHidden        = 0x00000001,
+        CannotMiss          = 0x00000002,
+        CannotBeReflected   = 0x00000004,
+    }
+
+    public enum AbilityKinds
+    {
+        Passive = 0,
+        Spell = 1, // invoked with cast
+        Skill = 2, // invoked with use or command
+    }
+
+    public enum AbilityTargets
+    {
+        // No target
+        None, // TAR_IGNORE
+        // Fighting if no parameter, character in room if parameter specified
+        CharacterOffensive, // TAR_CHAR_OFFENSIVE
+        // Itself if no parameter, character in room if parameter specified
+        CharacterDefensive, // TAR_CHAR_DEFENSIVE
+        // Itself if no parameter, check if parameter == itself if parameter specified
+        CharacterSelf, // TAR_CHAR_SELF
+        // Item in inventory
+        ItemInventory, // TAR_OBJ_INV
+        // Fighting if no parameter, character in room, then item in room, then in inventory, then in equipment if parameter specified
+        ItemHereOrCharacterOffensive, // TAR_OBJ_CHAR_OFF
+        // Itself if no parameter, character in room or item in inventory if parameter specified
+        ItemInventoryOrCharacterDefensive, //TAR_OBJ_CHAR_DEF
+        // Target will be 'computed' by spell
+        Custom,
+        // Optional item in inventory
+        OptionalItemInventory,
+        // Armor in inventory
+        ArmorInventory,
+        // Weapon in inventory
+        WeaponInventory,
+        // Victim is source.Fighting
+        Fighting,
+    }
 
     [Flags]
     public enum WiznetFlags

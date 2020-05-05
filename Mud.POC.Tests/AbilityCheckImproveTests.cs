@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Mud.Domain;
 using Mud.POC.Abilities;
 using Mud.Server.Common;
 
@@ -36,7 +37,7 @@ namespace Mud.POC.Tests
             IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, new Mock<IAbilityManager>().Object, tableManagerMock.Object);
             KnownAbility ability = new KnownAbility
             {
-                Ability = new Ability(1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
+                Ability = new Ability(AbilityKinds.Passive, 1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
                 Learned = 0,
                 Level = 1
             };
@@ -58,7 +59,7 @@ namespace Mud.POC.Tests
             IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, new Mock<IAbilityManager>().Object, tableManagerMock.Object);
             KnownAbility ability = new KnownAbility
             {
-                Ability = new Ability(1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
+                Ability = new Ability(AbilityKinds.Passive, 1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
                 Learned = 100,
                 Level = 1
             };
@@ -83,7 +84,7 @@ namespace Mud.POC.Tests
             IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, new Mock<IAbilityManager>().Object, tableManagerMock.Object);
             KnownAbility ability = new KnownAbility
             {
-                Ability = new Ability(1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
+                Ability = new Ability(AbilityKinds.Passive, 1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
                 Learned = 10,
                 Level = 1,
                 ImproveDifficulityMultiplier = 1
@@ -109,7 +110,7 @@ namespace Mud.POC.Tests
             IPlayableCharacter character = new PlayableCharacter(randomManagerMock.Object, new Mock<IAbilityManager>().Object, tableManagerMock.Object);
             KnownAbility ability = new KnownAbility
             {
-                Ability = new Ability(1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
+                Ability = new Ability(AbilityKinds.Passive, 1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
                 Learned = 10,
                 Level = 1,
                 ImproveDifficulityMultiplier = 1
@@ -137,7 +138,7 @@ namespace Mud.POC.Tests
             long baseExp = character.Experience;
             KnownAbility ability = new KnownAbility
             {
-                Ability = new Ability(1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
+                Ability = new Ability(AbilityKinds.Passive, 1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
                 Learned = 10,
                 Level = 1,
                 ImproveDifficulityMultiplier = 2
@@ -170,7 +171,7 @@ namespace Mud.POC.Tests
             long baseExp = character.Experience;
             KnownAbility ability = new KnownAbility
             {
-                Ability = new Ability(1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
+                Ability = new Ability(AbilityKinds.Passive, 1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
                 Learned = 10,
                 Level = 1,
                 ImproveDifficulityMultiplier = 2
@@ -203,7 +204,7 @@ namespace Mud.POC.Tests
             long baseExp = character.Experience;
             KnownAbility ability = new KnownAbility
             {
-                Ability = new Ability(1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
+                Ability = new Ability(AbilityKinds.Passive, 1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
                 Learned = 10,
                 Level = 1,
                 ImproveDifficulityMultiplier = -2
@@ -237,7 +238,7 @@ namespace Mud.POC.Tests
             long baseExp = character.Experience;
             KnownAbility ability = new KnownAbility
             {
-                Ability = new Ability(1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
+                Ability = new Ability(AbilityKinds.Passive, 1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
                 Learned = 99,
                 Level = 1,
                 ImproveDifficulityMultiplier = 2
