@@ -51,6 +51,7 @@ Affects save
 Full character/item data save
 
 -----------------------------------------------------
+Redo whole combat system
 Add ctor to every manager with other manager as parameter to easy unit tests
 Add aliases to PlayableCharacter
 Replace out parameter with C#7-tuple if possible
