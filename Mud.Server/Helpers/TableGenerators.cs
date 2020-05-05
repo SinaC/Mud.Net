@@ -9,39 +9,40 @@ namespace Mud.Server.Helpers
 {
     public static class TableGenerators
     {
-        public static readonly Lazy<TableGenerator<AbilityAndLevel>> AbilityAndLevelTableGenerator = new Lazy<TableGenerator<AbilityAndLevel>>(() =>
+        public static readonly Lazy<TableGenerator<KnownAbility>> KnownAbilityTableGenerator = new Lazy<TableGenerator<KnownAbility>>(() =>
         {
             // Merge resource and cost if free cost ability
-            TableGenerator<AbilityAndLevel> generator = new TableGenerator<AbilityAndLevel>();
+            TableGenerator<KnownAbility> generator = new TableGenerator<KnownAbility>();
             generator.AddColumn("Lvl", 5, x => x.Level.ToString());
             generator.AddColumn("Name", 23, x => x.Ability.Name);
             generator.AddColumn("Resource", 10,
                 x =>
                 {
-                    if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
+                    if (x.Ability.Kind == AbilityKinds.Passive)
                         return "%m%passive ability%x%";
-                    if (x.Ability.CostType == CostAmountOperators.Percentage || x.Ability.CostType == CostAmountOperators.Fixed)
-                        return StringHelpers.ResourceColor(x.Ability.ResourceKind);
+                    if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
+                        return StringHelpers.ResourceColor(x.ResourceKind);
                     return "%W%free cost ability%x%";
                 },
-                new TableGenerator<AbilityAndLevel>.ColumnOptions
+                new TableGenerator<KnownAbility>.ColumnOptions
                 {
                     GetMergeLengthFunc = x =>
                     {
-                        if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
+                        if (x.Ability.Kind == AbilityKinds.Passive)
                             return 1;
-                        if (x.Ability.CostType == CostAmountOperators.Percentage || x.Ability.CostType == CostAmountOperators.Fixed)
+                        if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
                             return 0;
                         return 1;
                     }
                 });
-            generator.AddColumn("Cost", 8, x => x.Ability.CostAmount.ToString(),
-                new TableGenerator<AbilityAndLevel>.ColumnOptions
+            generator.AddColumn("Cost", 8, x => x.CostAmount.ToString(),
+                new TableGenerator<KnownAbility>.ColumnOptions
                 {
-                    GetTrailingSpaceFunc = x => x.Ability.CostType == CostAmountOperators.Percentage ? "% " : " "
+                    GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage ? "% " : " "
                 });
+            generator.AddColumn("%", 5, x => $"{x.Learned}%");
             generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
-            generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
+            //TODO: generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
             return generator;
         });
 
@@ -107,74 +108,73 @@ namespace Mud.Server.Helpers
         {
             // Merge resource and cost if free cost ability
             TableGenerator<IAbility> generator = new TableGenerator<IAbility>();
+            generator.AddColumn("Id", 6, x => x.Id.ToString());
             generator.AddColumn("Name", 23, x => x.Name);
-            generator.AddColumn("Resource", 10,
-                x =>
-                {
-                    if ((x.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
-                        return "%m%passive ability%x%";
-                    if (x.CostType == CostAmountOperators.Percentage || x.CostType == CostAmountOperators.Fixed)
-                        return StringHelpers.ResourceColor(x.ResourceKind);
-                    return "%W%free cost ability%x%";
-                },
-                new TableGenerator<IAbility>.ColumnOptions
-                {
-                    GetMergeLengthFunc = x =>
-                    {
-                        if ((x.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
-                            return 1;
-                        if (x.CostType == CostAmountOperators.Percentage || x.CostType == CostAmountOperators.Fixed)
-                            return 0;
-                        return 1;
-                    }
-                });
-            generator.AddColumn("Cost", 8, x => x.CostAmount.ToString(),
-                new TableGenerator<IAbility>.ColumnOptions
-                {
-                    GetTrailingSpaceFunc = x => x.CostType == CostAmountOperators.Percentage ? "% " : " "
-                });
             generator.AddColumn("Type", 10, x => x.Kind.ToString());
-            generator.AddColumn("Cooldown", 10, x => x.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Cooldown) : "---");
-            generator.AddColumn("Flags", 20, x => x.Flags.ToString());
+            generator.AddColumn("Target", 15, x => ConvertAbilityTargets(x.Target));
+            generator.AddColumn("GCD", 5, x => x.PulseWaitTime.ToString());
+            generator.AddColumn("Flags", 20, x => x.AbilityFlags.ToString());
+            generator.AddColumn("CharDispel", 20, x => x.CharacterDispelMessage?.ToString() ?? string.Empty);
+            generator.AddColumn("ItemDispel", 20, x => x.ItemDispelMessage?.ToString() ?? string.Empty);
             return generator;
         });
 
-        public static readonly Lazy<TableGenerator<AbilityAndLevel>> FullInfoAbilityAndLevelTableGenerator = new Lazy<TableGenerator<AbilityAndLevel>>(() =>
+        public static readonly Lazy<TableGenerator<AbilityUsage>> FullInfoAbilityUsageTableGenerator = new Lazy<TableGenerator<AbilityUsage>>(() =>
         {
             // Merge resource and cost if free cost ability
-            TableGenerator<AbilityAndLevel> generator = new TableGenerator<AbilityAndLevel>();
+            TableGenerator<AbilityUsage> generator = new TableGenerator<AbilityUsage>();
             generator.AddColumn("Lvl", 5, x => x.Level.ToString());
             generator.AddColumn("Name", 23, x => x.Ability.Name);
             generator.AddColumn("Resource", 10,
                 x =>
                 {
-                    if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
+                    if (x.Ability.Kind == AbilityKinds.Passive)
                         return "%m%passive ability%x%";
-                    if (x.Ability.CostType == CostAmountOperators.Percentage || x.Ability.CostType == CostAmountOperators.Fixed)
-                        return StringHelpers.ResourceColor(x.Ability.ResourceKind);
+                    if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
+                        return StringHelpers.ResourceColor(x.ResourceKind);
                     return "%W%free cost ability%x%";
                 },
-                new TableGenerator<AbilityAndLevel>.ColumnOptions
+                new TableGenerator<AbilityUsage>.ColumnOptions
                 {
                     GetMergeLengthFunc = x =>
                     {
-                        if ((x.Ability.Flags & AbilityFlags.Passive) == AbilityFlags.Passive)
+                        if (x.Ability.Kind == AbilityKinds.Passive)
                             return 1;
-                        if (x.Ability.CostType == CostAmountOperators.Percentage || x.Ability.CostType == CostAmountOperators.Fixed)
+                        if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
                             return 0;
                         return 1;
                     }
                 });
-            generator.AddColumn("Cost", 8, x => x.Ability.CostAmount.ToString(),
-                new TableGenerator<AbilityAndLevel>.ColumnOptions
+            generator.AddColumn("Cost", 8, x => x.CostAmount.ToString(),
+                new TableGenerator<AbilityUsage>.ColumnOptions
                 {
-                    GetTrailingSpaceFunc = x => x.Ability.CostType == CostAmountOperators.Percentage ? "% " : " "
+                    GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage ? "% " : " "
                 });
             generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
-            generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
-            generator.AddColumn("Flags", 20, x => x.Ability.Flags.ToString());
+            generator.AddColumn("Diff", 5, x => x.ImproveDifficulityMultiplier.ToString());
+            generator.AddColumn("Flags", 20, x => x.Ability.AbilityFlags.ToString());
             return generator;
         });
+
+        private static string ConvertAbilityTargets(AbilityTargets target)
+        {
+            switch (target)
+            {
+                case AbilityTargets.None:return "";
+                case AbilityTargets.CharacterOffensive: return "Off";
+                case AbilityTargets.CharacterDefensive: return "Def";
+                case AbilityTargets.CharacterSelf: return "Self";
+                case AbilityTargets.ItemInventory: return "Item";
+                case AbilityTargets.ItemHereOrCharacterOffensive: return "IOff";
+                case AbilityTargets.ItemInventoryOrCharacterDefensive: return "IDef";
+                case AbilityTargets.Custom: return "Custom";
+                case AbilityTargets.OptionalItemInventory: return "Item?";
+                case AbilityTargets.ArmorInventory: return "Armor";
+                case AbilityTargets.WeaponInventory:return "Weapon";
+                case AbilityTargets.Fighting: return "Fighting";
+                default: return target.ToString();
+            }
+        }
 
         private static string ConvertBool(bool value) => value ? "%y%yes%x%" : "no";
 

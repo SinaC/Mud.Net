@@ -82,7 +82,7 @@ namespace Mud.Server.Admin
             "[cmd] <race>")]
         protected virtual CommandExecutionResults DoAbilities(string rawParameters, params CommandParameter[] parameters)
         {
-            bool displayed = DisplayAbilitiesList(x => true, parameters);
+            bool displayed = DisplayAbilitiesList(null, parameters);
 
             if (!displayed)
                 return CommandExecutionResults.SyntaxError;
@@ -96,7 +96,7 @@ namespace Mud.Server.Admin
             "[cmd] <race>")]
         protected virtual CommandExecutionResults DoSpells(string rawParameters, params CommandParameter[] parameters)
         {
-            bool displayed = DisplayAbilitiesList(x => x == AbilityKinds.Spell, parameters);
+            bool displayed = DisplayAbilitiesList(AbilityKinds.Spell, parameters);
 
             if (!displayed)
                 return CommandExecutionResults.SyntaxError;
@@ -110,7 +110,7 @@ namespace Mud.Server.Admin
             "[cmd] <race>")]
         protected virtual CommandExecutionResults DoSkills(string rawParameters, params CommandParameter[] parameters)
         {
-            bool displayed = DisplayAbilitiesList(x => x == AbilityKinds.Spell, parameters);
+            bool displayed = DisplayAbilitiesList(AbilityKinds.Spell, parameters);
 
             if (!displayed)
                 return CommandExecutionResults.SyntaxError;
@@ -350,8 +350,8 @@ namespace Mud.Server.Admin
             if (victim.KnownAbilities.Any())
             {
                 sb.AppendLine("Abilities:");
-                foreach (AbilityAndLevel abilityAndLevel in victim.KnownAbilities.Where(x => (x.Ability.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name))
-                    sb.AppendFormatLine("{0} - {1}[{2}]", abilityAndLevel.Level, abilityAndLevel.Ability.Name, abilityAndLevel.Ability.Id);
+                foreach (KnownAbility knownAbility in victim.KnownAbilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name))
+                    sb.AppendFormatLine("{0} - {1} {2}% [{3}]", knownAbility.Level, knownAbility.Ability.Name, knownAbility.Learned, knownAbility.Ability.Id);
             }
             else
                 sb.AppendLine("No abilities");
@@ -543,10 +543,14 @@ namespace Mud.Server.Admin
             IClass matchingClass = ClassManager.Classes.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingClass != null)
             {
-                 StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingClass.DisplayName, matchingClass.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name), new[] {
-                    matchingClass.DisplayName,
-                    $"ShortName: {matchingClass.ShortName}",
-                    $"Resource(s): {string.Join(",", matchingClass.ResourceKinds?.Select(x => x.ToString()))}"});
+                StringBuilder sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate(
+                    new[]
+                    {
+                        matchingClass.DisplayName,
+                        $"ShortName: {matchingClass.ShortName}",
+                        $"Resource(s): {string.Join(",", matchingClass.ResourceKinds?.Select(x => x.ToString()))}"
+                    },
+                    matchingClass.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
                 Page(sb);
                 return CommandExecutionResults.Ok;
             }
@@ -555,9 +559,13 @@ namespace Mud.Server.Admin
             IRace matchingRace = RaceManager.Races.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingRace != null)
             {
-                StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingRace.DisplayName, matchingRace.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name), new[] {
-                    matchingRace.DisplayName,
-                    $"ShortName: {matchingRace.ShortName}" });
+                StringBuilder sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate(
+                    new[]
+                    {
+                        matchingRace.DisplayName,
+                        $"ShortName: {matchingRace.ShortName}"
+                    },
+                    matchingRace.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
                 Page(sb);
                 return CommandExecutionResults.Ok;
             }
@@ -567,13 +575,26 @@ namespace Mud.Server.Admin
 
         //*********************** Helpers ***************************
 
-        private bool DisplayAbilitiesList(Func<AbilityKinds, bool> filterOnAbilityKind, params CommandParameter[] parameters)
+        private bool DisplayAbilitiesList(AbilityKinds? filterOnAbilityKind, params CommandParameter[] parameters)
         {
+            string title;
+            if (filterOnAbilityKind.HasValue)
+            {
+                switch (filterOnAbilityKind.Value)
+                {
+                    case AbilityKinds.Passive: title = "Passives"; break;
+                    case AbilityKinds.Spell: title = "Spells"; break;
+                    case AbilityKinds.Skill: title = "Skills"; break;
+                    default: title = "???"; break;
+                }
+            }
+            else
+                title = "Abilities";
             if (parameters.Length == 0)
             {
                 // no filter
-                StringBuilder sb = TableGenerators.FullInfoAbilityTableGenerator.Value.Generate("Abilities", AbilityManager.Abilities
-                    .Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed)
+                StringBuilder sb = TableGenerators.FullInfoAbilityTableGenerator.Value.Generate(title, AbilityManager.Abilities
+                    .Where(x => !x.AbilityFlags.HasFlag(AbilityFlags.CannotBeUsed))
                     .OrderBy(x => x.Name));
                 Page(sb);
                 return true;
@@ -583,10 +604,9 @@ namespace Mud.Server.Admin
             IClass matchingClass = ClassManager.Classes.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingClass != null)
             {
-                StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders($"Abilities for {matchingClass.DisplayName}", matchingClass.Abilities
+                StringBuilder sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate($"{title} for {matchingClass.DisplayName}", matchingClass.Abilities
                     .OrderBy(x => x.Level)
-                    .ThenBy(x => x.Ability.Name),
-                    new[] { matchingClass.DisplayName });
+                    .ThenBy(x => x.Ability.Name));
                 Page(sb);
                 return true;
             }
@@ -595,10 +615,9 @@ namespace Mud.Server.Admin
             IRace matchingRace = RaceManager.Races.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingRace != null)
             {
-                StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders($"Abilities for {matchingRace.DisplayName}", matchingRace.Abilities
+                StringBuilder sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate($"{title} for {matchingRace.DisplayName}", matchingRace.Abilities
                     .OrderBy(x => x.Level)
-                    .ThenBy(x => x.Ability.Name),
-                    new[] { matchingRace.DisplayName });
+                    .ThenBy(x => x.Ability.Name));
                 Page(sb);
                 return true;
             }

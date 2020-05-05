@@ -9,7 +9,7 @@ namespace Mud.Server.Classes
 {
     public abstract class ClassBase : IClass
     {
-        private readonly List<AbilityAndLevel> _abilities;
+        private readonly List<AbilityUsage> _abilities;
 
         protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
 
@@ -23,7 +23,7 @@ namespace Mud.Server.Classes
 
         public abstract IEnumerable<ResourceKinds> ResourceKinds { get; }
 
-        public IEnumerable<AbilityAndLevel> Abilities => _abilities;
+        public IEnumerable<AbilityUsage> Abilities => _abilities;
 
         public abstract IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form);
 
@@ -33,36 +33,37 @@ namespace Mud.Server.Classes
 
         protected ClassBase()
         {
-            _abilities = new List<AbilityAndLevel>();
+            _abilities = new List<AbilityUsage>();
         }
 
-        public void AddAbility(int level, int abilityId)
+        protected void AddAbility(int level, string abilityName, int improveDifficulityMultiplier)
         {
-            IAbility ability = AbilityManager[abilityId];
-            if (ability == null)
-            {
-                Log.Default.WriteLine(LogLevels.Warning, "Trying to add unknown ability [id:{0}] to class [{1}]", abilityId, Name);
-                return;
-            }
-            //
-            AddAbility(level, ability);
+            AddAbility(level, abilityName, Domain.ResourceKinds.None, 0, CostAmountOperators.None, improveDifficulityMultiplier);
         }
 
-        public void AddAbility(int level, string abilityName)
+        protected void AddAbility(int level, string abilityName, ResourceKinds resourceKind, int costAmount, CostAmountOperators costAmountOperator, int improveDifficulityMultiplier)
         {
             IAbility ability = AbilityManager[abilityName];
             if (ability == null)
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Trying to add unknown ability [{0}] to class [{1}]", abilityName, Name);
+                Log.Default.WriteLine(LogLevels.Error, "Trying to add unknown ability [{0}] to class [{1}]", abilityName, Name);
                 return;
             }
             //
-            AddAbility(level, ability);
+            AddAbility(level, ability, resourceKind, costAmount, costAmountOperator, improveDifficulityMultiplier);
         }
 
-        protected void AddAbility(int level, IAbility ability)
+        protected void AddAbility(int level, IAbility ability, ResourceKinds resourceKind, int costAmount, CostAmountOperators costAmountOperator, int improveDifficulityMultiplier)
         {
-            _abilities.Add(new AbilityAndLevel(level, ability));
+            _abilities.Add(new AbilityUsage
+            {
+                Ability = ability,
+                Level = level,
+                ResourceKind = resourceKind,
+                CostAmount = costAmount,
+                CostAmountOperator = costAmountOperator,
+                ImproveDifficulityMultiplier = improveDifficulityMultiplier
+            });
         }
     }
 }

@@ -9,6 +9,8 @@ namespace Mud.Server
 
         ActFlags ActFlags { get; }
 
+        OffensiveFlags OffensiveFlags { get; }
+
         bool IsQuestObjective(IPlayableCharacter questingCharacter);
     }
 }

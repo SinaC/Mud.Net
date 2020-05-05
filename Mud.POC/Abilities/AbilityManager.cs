@@ -81,6 +81,9 @@ namespace Mud.POC.Abilities
                 return CastResults.InvalidParameter;
             }
 
+            // 1.1) strip first argument
+            (rawParameters, parameters) = CommandHelpers.SkipParameters(parameters, 1);
+
             // 2) get target
             IEntity target;
             AbilityTargetResults targetResult = GetAbilityTarget(knownAbility.Ability, caster, out target, rawParameters, parameters);
@@ -200,7 +203,7 @@ namespace Mud.POC.Abilities
                 case AbilityTargets.None:
                     break;
                 case AbilityTargets.CharacterOffensive:
-                    if (parameters.Length < 2)
+                    if (parameters.Length < 1)
                     {
                         target = caster.Fighting;
                         if (target == null)
@@ -211,7 +214,7 @@ namespace Mud.POC.Abilities
                     }
                     else
                     {
-                        target = FindByName(caster.Room.People, parameters[1]);
+                        target = FindByName(caster.Room.People, parameters[0]);
                         if (target == null)
                         {
                             caster.Send("They aren't here.");
@@ -222,11 +225,11 @@ namespace Mud.POC.Abilities
                     // TODO: check if safe/charm/...   messages.TargetIsSafe
                     break;
                 case AbilityTargets.CharacterDefensive:
-                    if (parameters.Length < 2)
+                    if (parameters.Length < 1)
                         target = caster;
                     else
                     {
-                        target = FindByName(caster.Room.People, parameters[1]);
+                        target = FindByName(caster.Room.People, parameters[0]);
                         if (target == null)
                         {
                             caster.Send("They aren't here.");
@@ -236,9 +239,9 @@ namespace Mud.POC.Abilities
                     // victim found
                     break;
                 case AbilityTargets.CharacterSelf:
-                    if (parameters.Length >= 2)
+                    if (parameters.Length >= 1)
                     {
-                        ICharacter search = FindByName(caster.Room.People, parameters[1]);
+                        ICharacter search = FindByName(caster.Room.People, parameters[0]);
                         if (search != caster)
                         {
                             caster.Send("You cannot cast this spell on another.");
@@ -249,12 +252,12 @@ namespace Mud.POC.Abilities
                     // victim found
                     break;
                 case AbilityTargets.ItemInventory:
-                    if (parameters.Length < 2)
+                    if (parameters.Length < 1)
                     {
                         caster.Send("What should the spell be cast upon?");
                         return AbilityTargetResults.MissingParameter;
                     }
-                    target = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                    target = FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?
                     if (target == null)
                     {
                         caster.Send("You are not carrying that.");
@@ -263,7 +266,7 @@ namespace Mud.POC.Abilities
                     // item found
                     break;
                 case AbilityTargets.ItemHereOrCharacterOffensive:
-                    if (parameters.Length < 2)
+                    if (parameters.Length < 1)
                     {
                         target = caster.Fighting;
                         if (target == null)
@@ -273,14 +276,14 @@ namespace Mud.POC.Abilities
                         }
                     }
                     else
-                        target = FindByName(caster.Room.People, parameters[1]);
+                        target = FindByName(caster.Room.People, parameters[0]);
                     if (target != null)
                     {
                         // TODO: check if safe/charm/...   messages.TargetIsSafe
                     }
                     else // character not found, search item in room, in inventor, in equipment
                     {
-                        target = FindItemHere(caster, parameters[1]);
+                        target = FindItemHere(caster, parameters[0]);
                         if (target == null)
                         {
                             caster.Send("You don't see that here.");
@@ -290,13 +293,13 @@ namespace Mud.POC.Abilities
                     // victim or item (target) found
                     break;
                 case AbilityTargets.ItemInventoryOrCharacterDefensive:
-                    if (parameters.Length < 2)
+                    if (parameters.Length < 1)
                         target = caster;
                     else
-                        target = FindByName(caster.Room.People, parameters[1]);
+                        target = FindByName(caster.Room.People, parameters[0]);
                     if (target == null)
                     {
-                        target = FindByName(caster.Inventory, parameters[1]);
+                        target = FindByName(caster.Inventory, parameters[0]);
                         if (target == null)
                         {
                             caster.Send("You don't see that here.");
@@ -308,9 +311,9 @@ namespace Mud.POC.Abilities
                 case AbilityTargets.Custom:
                     break;
                 case AbilityTargets.OptionalItemInventory:
-                    if (parameters.Length >= 2)
+                    if (parameters.Length >= 1)
                     {
-                        target = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                        target = FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?
                         if (target == null)
                         {
                             caster.Send("You are not carrying that.");
@@ -320,12 +323,12 @@ namespace Mud.POC.Abilities
                     // item found
                     break;
                 case AbilityTargets.ArmorInventory:
-                    if (parameters.Length < 2)
+                    if (parameters.Length < 1)
                     {
                         caster.Send("What should the spell be cast upon?");
                         return AbilityTargetResults.MissingParameter;
                     }
-                    target = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                    target = FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?
                     if (target == null)
                     {
                         caster.Send("You are not carrying that.");
@@ -340,12 +343,12 @@ namespace Mud.POC.Abilities
                     // item found
                     break;
                 case AbilityTargets.WeaponInventory:
-                    if (parameters.Length < 2)
+                    if (parameters.Length < 1)
                     {
                         caster.Send("What should the spell be cast upon?");
                         return AbilityTargetResults.MissingParameter;
                     }
-                    target = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                    target = FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?
                     if (target == null)
                     {
                         caster.Send("You are not carrying that.");
@@ -366,6 +369,7 @@ namespace Mud.POC.Abilities
                         caster.Send("You aren't fighting anyone.");
                         return AbilityTargetResults.TargetNotFound;
                     }
+                    // victim found
                     break;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, "Unexpected AbilityTarget {0}", ability.Target);

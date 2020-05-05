@@ -30,10 +30,6 @@ namespace Mud.Server.Classes
 
         public Priest()
         {
-            AddAbility(1, "renew");
-            AddAbility(1, "power word: shield");
-            AddAbility(1, "shadow Word: pain");
-            AddAbility(20, "shadow form");
         }
     }
 }

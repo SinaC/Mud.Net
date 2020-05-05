@@ -10,49 +10,46 @@ namespace Mud.Server.Tests.Mocking
     {
         private List<IAbility> _abilities = new List<IAbility>();
 
-        public IAbility this[int id] => _abilities.SingleOrDefault(x => x.Id == id);
-
         public IAbility this[string name] => _abilities.SingleOrDefault(x => x.Name == name);
-
-        public IAbility WeakenedSoulAbility => this["Weakened Soul"];
-
-        public IAbility ParryAbility => this["Parry"];
-
-        public IAbility DodgeAbility => this["Dodge"];
-
-        public IAbility ShieldBlockAbility => this["Shield Block"];
-
-        public IAbility DualWieldAbility => this["Dual Wield"];
-
-        public IAbility ThirdWieldAbility => this["Third Wield"];
-
-        public IAbility FourthWieldAbility => this["Fourth Wield"];
 
         public IEnumerable<IAbility> Abilities => _abilities;
 
-        public bool Process(ICharacter source, params CommandParameter[] parameters)
+        public IEnumerable<IAbility> Spells => _abilities.Where(x => x.Kind == Domain.AbilityKinds.Spell);
+
+        public IEnumerable<IAbility> Skills => _abilities.Where(x => x.Kind == Domain.AbilityKinds.Skill);
+
+        public IEnumerable<IAbility> Passives => _abilities.Where(x => x.Kind == Domain.AbilityKinds.Passive);
+
+        public CastResults Cast(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
         {
             throw new NotImplementedException();
         }
 
-        public IAbility Search(CommandParameter parameter, bool includePassive = false)
+        public CastResults CastFromItem(IAbility ability, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
-            return _abilities.Where(x =>
-                     (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed
-                     && (!includePassive || (x.Flags & AbilityFlags.Passive) != AbilityFlags.Passive)
-                     && StringCompareHelpers.StringStartsWith(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1);
+            throw new NotImplementedException();
         }
 
+        public AbilityTargetResults GetAbilityTarget(IAbility ability, ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AbilityTargetResults GetItemAbilityTarget(IAbility ability, ICharacter caster, ref IEntity target)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UseResults Use(IAbility ability, ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        //
         public void AddAbility(IAbility ability)
         {
             _abilities.Add(ability);
         }
-
-        public bool Process(ICharacter source, ICharacter target, IAbility ability, int level)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Clear()
         {
             _abilities.Clear();

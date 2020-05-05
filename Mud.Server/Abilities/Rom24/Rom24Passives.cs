@@ -1,9 +1,9 @@
 ﻿using Mud.Domain;
 using System.Collections.Generic;
 
-namespace Mud.POC.Abilities
+namespace Mud.Server.Abilities.Rom24
 {
-    public static class Passives
+    public static class Rom24Passives
     {
         public static List<IAbility> Abilities = new List<IAbility>
         {

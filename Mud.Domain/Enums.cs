@@ -470,6 +470,7 @@ namespace Mud.Domain
         AuraIsHidden        = 0x00000001,
         CannotMiss          = 0x00000002,
         CannotBeReflected   = 0x00000004,
+        CannotBeUsed        = 0x00000008,
     }
 
     public enum AbilityKinds

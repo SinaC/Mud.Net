@@ -1,3 +1,22 @@
+TODO:
+AbilityManager should not hardcode Rom24Passives
+AbilityManager reflection to gather abilities will not work because Spells are not static
+    use new system to gather spell/skill/passive: find every class implementing an interface IAbilityImplementation
+    those classes will have a predefined ctor with needed interfaces such as ISettings, IRandomManager, ...
+==> doesn't work because Rom24Spells/Rom24Skills must be instantiated
+remove CharacterBase.RecomputeCommands + StaticCommands + _fullCommands
+Cooldown
+EntityBase.RemoveAura: use virtual method instead of cast on ICharacter/IItem
+Second/Third/Fourth wield in insectoid
+Dictionary to store Character known ability + keep only one LearnedAbility or replace with KnownAbilities getter based on name
+CheckAbilityImprove: %age shoud be computed (or table) based on intelligence
+Unit tests on spell/skill to check if method argument matches AbilityTarget, check if ItemInventoryOrCharacterDefensive have both dispel message
+
+DONE:
+Integration
+Class/Race AddAbility additional parameters
+Add/Merge abilities from race/class when PlayableCharacter is created/connected
+
 READY TO INTEGRATE
 handled:
 SpellMassInvis(IAbility ability, int level, ICharacter caster) -> AbilityTargets.None
@@ -16,10 +35,10 @@ SkillKick(IAbility ability, ICharacter source) -> AbilityTargets.Fighting
 to handle:
 SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCharacter victim) // victim is NPC
 SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
+SpellGate(IAbility ability, int level, ICharacter caster, ICharacter victim) // victim in world
 
 TODO:
 UnitTests CastFromItem/GetItemAbilityTarget
-Add abilities from race/class when PlayableCharacter is created
 Ability wears off message
 Move AddAura in aura manager
 UnitTests on Rom24Effects
@@ -47,6 +66,7 @@ Affects save
 Full character/item data save
 
 -----------------------------------------------------
+CurrentAttributes, CurrentCharacterFlags, CurrentXXX should be accessible with indexers
 Redo whole combat system
 Add ctor to every manager with other manager as parameter to easy unit tests
 Add aliases to PlayableCharacter

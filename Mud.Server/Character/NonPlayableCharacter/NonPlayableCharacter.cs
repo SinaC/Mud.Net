@@ -26,7 +26,8 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
             // TODO: race, class, flags, armor, damage, ...
             Level = blueprint.Level;
-
+            ActFlags = blueprint.ActFlags;
+            OffensiveFlags = blueprint.OffensiveFlags;
             BaseCharacterFlags = blueprint.CharacterFlags;
             BaseImmunities = blueprint.Immunities;
             BaseResistances = blueprint.Resistances;
@@ -98,6 +99,8 @@ namespace Mud.Server.Character.NonPlayableCharacter
         public CharacterBlueprintBase Blueprint { get; }
 
         public ActFlags ActFlags { get; protected set; }
+
+        public OffensiveFlags OffensiveFlags { get; protected set; }
 
         public bool IsQuestObjective(IPlayableCharacter questingCharacter)
         {

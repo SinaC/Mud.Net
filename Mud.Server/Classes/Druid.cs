@@ -55,11 +55,11 @@ namespace Mud.Server.Classes
 
         public Druid()
         {
-            AddAbility(1, "thrash(cat)");
-            AddAbility(1, "bear form");
-            AddAbility(10, "cat form");
-            AddAbility(20, "dodge");
-            AddAbility(20, "swiftmend");
+            // Test class with all skills + Passive
+            foreach (IAbility ability in AbilityManager.Skills)
+                AddAbility(20, ability, Domain.ResourceKinds.None, 0, CostAmountOperators.None, 1);
+            foreach (IAbility ability in AbilityManager.Passives)
+                AddAbility(10, ability, Domain.ResourceKinds.None, 0, CostAmountOperators.None, 1);
         }
     }
 }

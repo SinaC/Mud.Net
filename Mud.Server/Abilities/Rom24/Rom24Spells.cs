@@ -12,17 +12,17 @@ using Mud.Server.Aura;
 
 namespace Mud.Server.Abilities.Rom24
 {
-    public class Rom24Spells
+    public class Rom24Spells : IAbilityList
     {
-        private ISettings Settings { get; }
-        private IWorld World { get; }
         private IAbilityManager AbilityManager { get; }
+        private ISettings Settings { get; }
         private IRandomManager RandomManager { get; }
+        private IWorld World { get; }
 
         private Rom24Common Rom24Common { get; }
         private Rom24Effects Rom24Effects { get; }
 
-        public Rom24Spells(ISettings settings, IWorld world, IAbilityManager abilityManager, IRandomManager randomManager)
+        public Rom24Spells(IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, IWorld world)
         {
             Settings = settings;
             World = world;
@@ -33,17 +33,7 @@ namespace Mud.Server.Abilities.Rom24
             Rom24Effects = new Rom24Effects(world, abilityManager, randomManager);
         }
 
-        public IAbility CreateDummyAbility(string name)
-        {
-            IAbility ability = AbilityManager.Abilities.FirstOrDefault(x => x.Name == name);
-            if (ability == null)
-            {
-                ability = new Ability(AbilityManager.Abilities.Max(x => x.Id) + 1, name, AbilityTargets.Distant, AbilityBehaviors.Any, AbilityKinds.Spell, ResourceKinds.None, CostAmountOperators.None, 0, 0, 0, 0, SchoolTypes.None, AbilityMechanics.None, DispelTypes.None, AbilityFlags.CannotBeUsed);
-                AbilityManager.AddAbility(ability);
-            }
-            return ability;
-        }
-
+        [Spell(1, "Acid Blast", AbilityTargets.CharacterOffensive)]
         public void SpellAcidBlast(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int damage = RandomManager.Dice(level, 12);
@@ -52,6 +42,7 @@ namespace Mud.Server.Abilities.Rom24
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Acid, true);
         }
 
+        [Spell(2, "Armor", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "You feel less armored.")]
         public void SpellArmor(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.GetAura("Armor") != null)
@@ -63,6 +54,7 @@ namespace Mud.Server.Abilities.Rom24
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -20, Operator = AffectOperators.Add });
         }
 
+        [Spell(3, "Bless", AbilityTargets.ItemInventoryOrCharacterDefensive, CharacterDispelMessage = "You feel less righteous.", ItemDispelMessage = "{0}'s holy aura fades.")]
         public void SpellBless(IAbility ability, int level, ICharacter caster, IEntity target)
         {
             // item
@@ -115,6 +107,7 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
+        [Spell(4, "Blindness", AbilityTargets.CharacterOffensive, CharacterDispelMessage = "You can see again.")]
         public void SpellBlindness(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Blind) || Rom24Common.SavesSpell(level, victim, SchoolTypes.None))
@@ -137,16 +130,20 @@ namespace Mud.Server.Abilities.Rom24
             39, 39, 40, 40, 41, 41, 42, 42, 43, 43,
             44, 44, 45, 45, 46, 46, 47, 47, 48, 48
         };
+        [Spell(5, "Burning Hands", AbilityTargets.CharacterOffensive)]
         public void SpellBurningHands(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Fire, BurningsHandsDamageTable);
         }
 
-        public void SpellCallLightning(IAbility ability, int level, ICharacter caster, ICharacter victim)
+        [Spell(6, "Call Lightning", AbilityTargets.None)]
+        public void SpellCallLightning(IAbility ability, int level, ICharacter caster)
         {
             //TODO: no weather implemented
+            caster.Send(StringHelpers.NotYetImplemented);
         }
 
+        [Spell(7, "Calm", AbilityTargets.None, CharacterDispelMessage = "You have lost your peace of mind.")]
         public void SpellCalm(IAbility ability, int level, ICharacter caster)
         {
             // Stops all fighting in the room
@@ -202,6 +199,7 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
+        [Spell(8, "Cancellation", AbilityTargets.CharacterDefensive)]
         public void SpellCancellation(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if ((caster is IPlayableCharacter && victim is INonPlayableCharacter && !caster.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm) && caster.ControlledBy == victim)
@@ -220,24 +218,28 @@ namespace Mud.Server.Abilities.Rom24
                 caster.Send("Spell failed.");
         }
 
+        [Spell(9, "Cause Light", AbilityTargets.CharacterOffensive)]
         public void SpellCauseLight(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int damage = RandomManager.Dice(1, 8) + level / 3;
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Harm, true);
         }
 
+        [Spell(10, "Cause Critical", AbilityTargets.CharacterOffensive)]
         public void SpellCauseCritical(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int damage = RandomManager.Dice(3, 8) + level - 6;
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Harm, true);
         }
 
+        [Spell(11, "Cause Serious", AbilityTargets.CharacterOffensive)]
         public void SpellCauseSerious(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int damage = RandomManager.Dice(2, 8) + level / 2;
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Harm, true);
         }
 
+        [Spell(12, "Chain Lightning", AbilityTargets.CharacterOffensive)]
         public void SpellChainLightning(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
 
@@ -290,6 +292,7 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
+        [Spell(13, "Change Sex", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "Your body feels familiar again.")]
         public void SpellChangeSex(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.GetAura("Change Sex") != null)
@@ -309,6 +312,7 @@ namespace Mud.Server.Abilities.Rom24
             victim.Act(ActOptions.ToRoom, "{0:N} doesn't look like $mself anymore...", victim);
         }
 
+        [Spell(14, "Charm Person", AbilityTargets.CharacterOffensive, CharacterDispelMessage = "You feel more self-confident.")]
         public void SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCharacter victim)
         {
             if (Rom24Common.IsSafe(caster, victim))
@@ -355,6 +359,7 @@ namespace Mud.Server.Abilities.Rom24
             20, 21, 21, 21, 22, 22, 22, 23, 23, 23,
             24, 24, 24, 25, 25, 25, 26, 26, 26, 27
         };
+        [Spell(15, "Chill Touch", AbilityTargets.CharacterOffensive)]
         public void SpellChillTouch(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             bool savesSpell = TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Cold, ChillTouchDamageTable);
@@ -382,6 +387,7 @@ namespace Mud.Server.Abilities.Rom24
             65, 66, 67, 67, 68, 69, 70, 70, 71, 72,
             73, 73, 74, 75, 76, 76, 77, 78, 79, 79
         };
+        [Spell(16, "Colour Spray", AbilityTargets.CharacterOffensive)]
         public void SpellColourSpray(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             bool savesSpell = TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Light, ColourSprayDamageTable);
@@ -389,6 +395,7 @@ namespace Mud.Server.Abilities.Rom24
                 SpellBlindness(AbilityManager["Blindness"], level / 2, caster, victim);
         }
 
+        [Spell(17, "Continual Light", AbilityTargets.OptionalItemInventory)]
         public void SpellContinualLight(IAbility ability, int level, ICharacter caster, IItem item)
         {
             // item
@@ -409,8 +416,10 @@ namespace Mud.Server.Abilities.Rom24
             caster.Act(ActOptions.ToAll, "{0} twiddle{0:v} {0:s} thumbs and {1} appears.", caster, light);
         }
 
+        [Spell(18, "Control Weather", AbilityTargets.Custom)]
         public void SpellControlWeather(IAbility ability, int level, ICharacter caster, string parameter)
         {
+            caster.Send(StringHelpers.NotYetImplemented);
             //TODO: no weather implemented
             //if (!str_cmp(target_name, "better"))
             //    weather_info.change += dice(level / 3, 4);
@@ -423,31 +432,40 @@ namespace Mud.Server.Abilities.Rom24
             //return;
         }
 
+        [Spell(19, "Create Food", AbilityTargets.None)]
         public void SpellCreateFood(IAbility ability, int level, ICharacter caster)
         {
+            caster.Send(StringHelpers.NotYetImplemented);
             //TODO: no food implemented
         }
 
+        [Spell(20, "Create Rose", AbilityTargets.None)]
         public void SpelLCreateRose(IAbility ability, int level, ICharacter caster)
         {
+            caster.Send(StringHelpers.NotYetImplemented);
             //TODO: add rose blueprint
         }
 
+        [Spell(21, "Create Spring", AbilityTargets.None)]
         public void SpellCreateSpring(IAbility ability, int level, ICharacter caster)
         {
+            caster.Send(StringHelpers.NotYetImplemented);
             //TODO: no water implemented
         }
 
         // TODO: no drink container implemented
+        //[Spell(22, "Create Food", AbilityTargets.None)]
         //public void SpellCreateWater(IAbility ability, int level, ICharacter caster, IItemDrinkContainer container)
         //{
         //}
 
+        [Spell(23, "Cure Blindness", AbilityTargets.CharacterDefensive)]
         public void SpellCureBlindness(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericSpellCureAbility("Blindness", level, caster, victim, "You aren't blind.", "{0:N} doesn't appear to be blinded.", "Spell failed.", "Your vision returns!", "{0:N} is no longer blinded.");
         }
 
+        [Spell(24, "Cure Critical", AbilityTargets.CharacterDefensive)]
         public void SpellCureCritical(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int heal = RandomManager.Dice(3, 8) + level - 6;
@@ -457,11 +475,13 @@ namespace Mud.Server.Abilities.Rom24
                 caster.Send("Ok");
         }
 
+        [Spell(25, "Cure Disease", AbilityTargets.CharacterDefensive)]
         public void SpellCureDisease(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericSpellCureAbility("Plague", level, caster, victim, "You aren't ill.", "{0:N} doesn't appear to be diseased.", "Spell failed.", "Your sores vanish.", "{0:N} looks relieved as $s sores vanish.");
         }
 
+        [Spell(26, "Cure Light", AbilityTargets.CharacterDefensive)]
         public void SpellCureLight(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int heal = RandomManager.Dice(1, 8) + level / 3;
@@ -471,11 +491,13 @@ namespace Mud.Server.Abilities.Rom24
                 caster.Send("Ok");
         }
 
+        [Spell(27, "Cure Poison", AbilityTargets.CharacterDefensive)]
         public void SpellCurePoison(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericSpellCureAbility("Poison", level, caster, victim, "You aren't poisoned.", "{0:N} doesn't appear to be poisoned.", "Spell failed.", "A warm feeling runs through your body.", "{0:N} looks much better.");
         }
 
+        [Spell(28, "Cure Serious", AbilityTargets.CharacterDefensive)]
         public void SpellCureSerious(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int heal = RandomManager.Dice(2, 8) + level / 2;
@@ -485,6 +507,7 @@ namespace Mud.Server.Abilities.Rom24
                 caster.Send("Ok");
         }
 
+        [Spell(29, "Curse", AbilityTargets.ItemHereOrCharacterOffensive, CharacterDispelMessage = "The curse wears off.", ItemDispelMessage = "{0} is no longer impure.")]
         public void SpellCurse(IAbility ability, int level, ICharacter caster, IEntity target)
         {
             // item
@@ -534,6 +557,7 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
+        [Spell(30, "Demonfire", AbilityTargets.CharacterOffensive)]
         public void SpellDemonfire(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (caster is IPlayableCharacter && victim.IsEvil)
@@ -558,36 +582,44 @@ namespace Mud.Server.Abilities.Rom24
             SpellCurse(AbilityManager["Curse"], 3*level/4, caster, victim);
         }
 
+        [Spell(31, "Detect Evil", AbilityTargets.CharacterSelf, CharacterDispelMessage = "The red in your vision disappears.")]
         public void SpellDetectEvil(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectEvil, level, "You can already sense evil.", "{0:N} can already detect evil.", "Your eyes tingle.", "Ok.");
         }
 
+        [Spell(32, "Detect Good", AbilityTargets.CharacterSelf, CharacterDispelMessage = "The gold in your vision disappears.")]
         public void SpellDetectGood(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectGood, level, "You can already sense good.", "{0:N} can already detect good.", "Your eyes tingle.", "Ok.");
         }
 
+        [Spell(33, "Detect Hidden", AbilityTargets.CharacterSelf, CharacterDispelMessage = "You feel less aware of your surroundings.")]
         public void SpellDetectHidden(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectHidden, level, "You are already as alert as you can be.", "{0:N} can already sense hidden lifeforms.", "Your awareness improves.", "Ok.");
         }
 
+        [Spell(34, "Detect Invis", AbilityTargets.CharacterSelf, CharacterDispelMessage = "You no longer see invisible objects.")]
         public void SpellDetectInvis(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectInvis, level, "You can already see invisible.", "{0:N} can already see invisible things.", "Your eyes tingle.", "Ok.");
         }
 
+        [Spell(35, "Detect Magic", AbilityTargets.CharacterSelf, CharacterDispelMessage = "The detect magic wears off.")]
         public void SpellDetectMagic(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectMagic, level, "You can already sense magical auras.", "{0:N} can already detect magic.", "Your eyes tingle.", "Ok.");
         }
 
+        [Spell(36, "Detect Poison", AbilityTargets.ItemInventory)]
         public void SpellDetectPoison(IAbility ability, int level, ICharacter caster, IItem item)
         {
+            caster.Send(StringHelpers.NotYetImplemented);
             // TODO: food and drink container are not yet implemented
         }
 
+        [Spell(37, "Dispel Evil", AbilityTargets.CharacterOffensive)]
         public void SpellDispelEvil(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (caster is IPlayableCharacter && victim.IsEvil)
@@ -610,6 +642,7 @@ namespace Mud.Server.Abilities.Rom24
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Holy, true);
         }
 
+        [Spell(38, "Dispel Good", AbilityTargets.CharacterOffensive)]
         public void SpellDispelGood(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (caster is IPlayableCharacter && victim.IsGood)
@@ -632,6 +665,7 @@ namespace Mud.Server.Abilities.Rom24
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Negative, true);
         }
 
+        [Spell(39, "Dispel Magic", AbilityTargets.CharacterOffensive)]
         public void SpellDispelMagic(IAbility ability, int level, ICharacter caster, ICharacter victim) // TODO: check difference with cancellation
         {
             if (Rom24Common.SavesSpell(level, victim, SchoolTypes.Other))
@@ -655,6 +689,7 @@ namespace Mud.Server.Abilities.Rom24
                 caster.Send("Spell failed.");
         }
 
+        [Spell(40, "Earthquake", AbilityTargets.None)]
         public void SpellEarthquake(IAbility ability, int level, ICharacter caster)
         {
             caster.Send("The earth trembles beneath your feet!");
@@ -674,6 +709,7 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
+        [Spell(41, "Enchant Armor", AbilityTargets.ArmorInventory)]
         public void SpellEnchantArmor(IAbility ability, int level, ICharacter caster, IItemArmor armor)
         {
             //if (item.EquipedBy == null)
@@ -753,6 +789,7 @@ namespace Mud.Server.Abilities.Rom24
             armor.Recompute();
         }
 
+        [Spell(42, "Enchant Weapon", AbilityTargets.WeaponInventory)]
         public void SpellEnchantWeapon(IAbility ability, int level, ICharacter caster, IItemWeapon weapon)
         {
             //if (weapon.EquipedBy == null)
@@ -839,6 +876,7 @@ namespace Mud.Server.Abilities.Rom24
             weapon.Recompute();
         }
 
+        [Spell(43, "Energy Drain", AbilityTargets.CharacterOffensive)]
         public void SpellEnergyDrain(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim != caster)
@@ -868,53 +906,18 @@ namespace Mud.Server.Abilities.Rom24
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Negative, true);
         }
 
-        private readonly int[] FireballDamageTable =
-        {
-            0,
-            0,   0,   0,   0,   0,      0,   0,   0,   0,   0,
-            0,   0,   0,   0,  30,     35,  40,  45,  50,  55,
-            60,  65,  70,  75,  80,     82,  84,  86,  88,  90,
-            92,  94,  96,  98, 100,    102, 104, 106, 108, 110,
-            112, 114, 116, 118, 120,    122, 124, 126, 128, 130
-        };
-        public void SpellFireball(IAbility ability, int level, ICharacter caster, ICharacter victim)
-        {
-            TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Fire, FireballDamageTable);
-        }
-
-        public void SpellFireproof(IAbility ability, int level, ICharacter caster, IItem item)
-        {
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof))
-            {
-                caster.Act(ActOptions.ToCharacter, "{0} is already protected from burning.", item);
-                return;
-            }
-
-            int duration = RandomManager.Fuzzy(level / 4);
-            World.AddAura(item, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
-                new ItemFlagsAffect { Modifier = ItemFlags.BurnProof, Operator = AffectOperators.Or });
-            caster.Act(ActOptions.ToCharacter, "You protect {0} from fire.", item);
-            caster.Act(ActOptions.ToRoom, "{0} is surrounded by a protective aura.", item);
-        }
-
-        public void SpellFlamestrike(IAbility ability, int level, ICharacter caster, ICharacter victim)
-        {
-            int damage = RandomManager.Dice(6 + level / 2, 8);
-            if (Rom24Common.SavesSpell(level, victim, SchoolTypes.Fire))
-                damage /= 2;
-            victim.AbilityDamage(caster, ability, damage, SchoolTypes.Fire, true);
-        }
-
+        [Spell(44, "Faerie Fire", AbilityTargets.CharacterOffensive, CharacterDispelMessage = "The pink aura around you fades away.")]
         public void SpellFaerieFire(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.FaerieFire))
                 return;
             World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(level), AuraFlags.None, true,
-                new CharacterAttributeAffect {  Location = CharacterAttributeAffectLocations.AllArmor, Modifier = 2*level, Operator = AffectOperators.Add},
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = 2 * level, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = CharacterFlags.FaerieFire, Operator = AffectOperators.Or });
             victim.Act(ActOptions.ToAll, "{0:N} are surrounded by a pink outline.", victim);
         }
 
+        [Spell(45, "Faerie Fog", AbilityTargets.None)]
         public void SpellFaerieFog(IAbility ability, int level, ICharacter caster)
         {
             caster.Act(ActOptions.ToAll, "{0} conjures a cloud of purple smoke.", caster);
@@ -931,11 +934,54 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
-        public void SpellFloatingDisc(IAbility ability, int level, ICharacter caster)
+        [Spell(46, "Farsight", AbilityTargets.None)]
+        public void SpellFarsight(IAbility ability, int level, ICharacter caster)
         {
-            // TODO: floating equipment location not implemented
+            // TODO: simple call to command scan
+            caster.Send(StringHelpers.NotYetImplemented);
         }
 
+        private readonly int[] FireballDamageTable =
+        {
+            0,
+            0,   0,   0,   0,   0,      0,   0,   0,   0,   0,
+            0,   0,   0,   0,  30,     35,  40,  45,  50,  55,
+            60,  65,  70,  75,  80,     82,  84,  86,  88,  90,
+            92,  94,  96,  98, 100,    102, 104, 106, 108, 110,
+            112, 114, 116, 118, 120,    122, 124, 126, 128, 130
+        };
+        [Spell(47, "Fireball", AbilityTargets.CharacterOffensive)]
+        public void SpellFireball(IAbility ability, int level, ICharacter caster, ICharacter victim)
+        {
+            TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Fire, FireballDamageTable);
+        }
+
+        [Spell(48, "Fireproof", AbilityTargets.CharacterOffensive, ItemDispelMessage = "{0}'s protective aura fades.")]
+        public void SpellFireproof(IAbility ability, int level, ICharacter caster, IItem item)
+        {
+            if (item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof))
+            {
+                caster.Act(ActOptions.ToCharacter, "{0} is already protected from burning.", item);
+                return;
+            }
+
+            int duration = RandomManager.Fuzzy(level / 4);
+            World.AddAura(item, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                new ItemFlagsAffect { Modifier = ItemFlags.BurnProof, Operator = AffectOperators.Or });
+            caster.Act(ActOptions.ToCharacter, "You protect {0} from fire.", item);
+            caster.Act(ActOptions.ToRoom, "{0} is surrounded by a protective aura.", item);
+        }
+
+        [Spell(49, "Flamestrike", AbilityTargets.CharacterOffensive)]
+        public void SpellFlamestrike(IAbility ability, int level, ICharacter caster, ICharacter victim)
+        {
+            int damage = RandomManager.Dice(6 + level / 2, 8);
+            if (Rom24Common.SavesSpell(level, victim, SchoolTypes.Fire))
+                damage /= 2;
+            victim.AbilityDamage(caster, ability, damage, SchoolTypes.Fire, true);
+        }
+
+        [Spell(50, "Fly", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "You slowly float to the ground.")]
         public void SpellFly(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Flying))
@@ -951,6 +997,14 @@ namespace Mud.Server.Abilities.Rom24
             caster.Act(ActOptions.ToAll, "{0:P} feet rise off the ground.", victim);
         }
 
+        [Spell(51, "Floating Disc", AbilityTargets.None)]
+        public void SpellFloatingDisc(IAbility ability, int level, ICharacter caster)
+        {
+            caster.Send(StringHelpers.NotYetImplemented);
+            // TODO: floating equipment location not implemented
+        }
+
+        [Spell(52, "Frenzy", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "Your rage ebbs.")]
         public void SpellFrenzy(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Berserk) || victim.GetAura("Frenzy") != null)
@@ -990,6 +1044,7 @@ namespace Mud.Server.Abilities.Rom24
             victim.Act(ActOptions.ToRoom, "{0:N} gets a wild look in $s eyes!", victim);
         }
 
+        [Spell(53, "Gate", AbilityTargets.None)] // TODO: AbilityTargets.VictimInWorld
         public void SpellGate(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             INonPlayableCharacter npcVictim = victim as INonPlayableCharacter;
@@ -1028,6 +1083,7 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
+        [Spell(54, "Giant Strength", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "You feel weaker.")]
         public void SpellGiantStrength(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.GetAura("Giant Strength") != null)
@@ -1044,6 +1100,7 @@ namespace Mud.Server.Abilities.Rom24
             victim.Act(ActOptions.ToAll, "{0:P} muscles surge with heightened power.", victim);
         }
 
+        [Spell(55, "Harm", AbilityTargets.CharacterOffensive)]
         public void SpellHarm(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int damage = Math.Max(20, victim.HitPoints - RandomManager.Dice(1, 4));
@@ -1053,6 +1110,7 @@ namespace Mud.Server.Abilities.Rom24
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Harm, true);
         }
 
+        [Spell(56, "Haste", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "You feel yourself slow down.")]
         public void SpellHaste(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Haste) || victim.GetAura("Haste") != null)  // TODO: Npc OffFlags.Fast
@@ -1088,6 +1146,7 @@ namespace Mud.Server.Abilities.Rom24
                 caster.Send("Ok.");
         }
 
+        [Spell(57, "Heal", AbilityTargets.CharacterDefensive)]
         public void SpellHeal(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             victim.Heal(caster, ability, 100, true);
@@ -1096,6 +1155,7 @@ namespace Mud.Server.Abilities.Rom24
                 caster.Send("Ok.");
         }
 
+        [Spell(58, "Heat Metal", AbilityTargets.CharacterOffensive)]
         public void SpellHeatMetal(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             bool fail = true;
@@ -1213,6 +1273,7 @@ namespace Mud.Server.Abilities.Rom24
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Fire, true);
         }
 
+        [Spell(59, "Holy Word", AbilityTargets.CharacterOffensive)]
         public void SpellHolyWord(IAbility ability, int level, ICharacter caster)
         {
             IAbility bless = AbilityManager["Bless"];
@@ -1260,17 +1321,20 @@ namespace Mud.Server.Abilities.Rom24
             //TODO: ch->hit /= 2;
         }
 
+        [Spell(60, "Identify", AbilityTargets.ItemInventory)]
         public void SpellIdentify(IAbility ability, int level, ICharacter caster, IItem item)
         {
             // TODO
         }
 
+        [Spell(61, "Infravision", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "You no longer see in the dark.")]
         public void SpellInfravision(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.Infrared, 2*level, "You can already see in the dark", "{0} already has infravision.", "Your eyes glow red.", "{0:P} eyes glow red.");
         }
 
-        public void SpellInvis(IAbility ability, int level, ICharacter caster, IEntity target)
+        [Spell(62, "Invisibility", AbilityTargets.ItemInventoryOrCharacterDefensive, CharacterDispelMessage = "You are no longer invisible.", ItemDispelMessage = "{0} fades into view.")]
+        public void SpellIInvisibilitys(IAbility ability, int level, ICharacter caster, IEntity target)
         {
             if (target is IItem item)
             {
@@ -1297,6 +1361,7 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
+        [Spell(63, "Know Alignment", AbilityTargets.CharacterDefensive)]
         public void SpellKnowAlignment(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int ap = victim.Alignment;
@@ -1320,11 +1385,13 @@ namespace Mud.Server.Abilities.Rom24
             51, 52, 52, 53, 54, 54, 55, 56, 56, 57,
             58, 58, 59, 60, 60, 61, 62, 62, 63, 64
         };
+        [Spell(64, "Lightning Bolt", AbilityTargets.CharacterOffensive)]
         public void SpellLightningBolt(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Lightning, LightningBoltDamageTable);
         }
 
+        [Spell(65, "Locate Object", AbilityTargets.Custom)]
         public void SpellLocateObject(IAbility ability, int level, ICharacter caster, string parameter)
         {
             StringBuilder sb = new StringBuilder();
@@ -1372,11 +1439,13 @@ namespace Mud.Server.Abilities.Rom24
             11, 11, 11, 11, 11, 12, 12, 12, 12, 12,
             13, 13, 13, 13, 13, 14, 14, 14, 14, 14
         };
+        [Spell(66, "Magic Missile", AbilityTargets.CharacterOffensive)]
         public void SpellMagicMissile(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Energy, MagicMissileDamageTable);
         }
 
+        [Spell(67, "Mass Healing", AbilityTargets.CharacterDefensive)]
         public void SpellMassHealing(IAbility ability, int level, ICharacter caster)
         {
             IAbility heal = AbilityManager["Heal"];
@@ -1393,17 +1462,27 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
+        [Spell(68, "Mass Invis", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "You are no longer invisible.")]
         public void SpellMassInvis(IAbility ability, int level, ICharacter caster)
         {
             // TODO: group is important
         }
 
+        [Spell(69, "Nexus", AbilityTargets.None)] // TODO: AbilityTargets.VictimInWorld
+        public void SpellNexus(IAbility ability, int level, ICharacter caster, ICharacter victim)
+        {
+            caster.Send(StringHelpers.NotYetImplemented);
+            // TODO
+        }
+
+        [Spell(70, "Pass Door", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "You feel solid again.")]
         public void SpellPassDoor(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int duration = RandomManager.Fuzzy(level / 4);
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.PassDoor, duration, "You are already out of phase.", "{0:N} is already shifted out of phase.", "You turn translucent.", "{0} turns translucent.");
         }
 
+        [Spell(71, "Plague", AbilityTargets.CharacterOffensive, CharacterDispelMessage = "Your sores vanish.")]
         public void SpellPlague(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (Rom24Common.SavesSpell(level, victim, SchoolTypes.Disease)
@@ -1421,6 +1500,7 @@ namespace Mud.Server.Abilities.Rom24
             victim.Act(ActOptions.ToAll, "{0:N} scream{0:V} in agony as plague sores erupt from {0:s} skin.", victim);
         }
 
+        [Spell(72, "Poison", AbilityTargets.ItemHereOrCharacterOffensive, CharacterDispelMessage = "You feel less sick.", ItemDispelMessage = "The poison on {0} dries up.")]
         public void SpellPoison(IAbility ability, int level, ICharacter caster, IEntity target)
         {
             // item
@@ -1466,6 +1546,14 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
+        [Spell(73, "Portal", AbilityTargets.None)] // TODO: AbilityTargets.VictimInWorld
+        public void SpellPortal(IAbility ability, int level, ICharacter caster, ICharacter victim)
+        {
+            caster.Send(StringHelpers.NotYetImplemented);
+            // TODO
+        }
+
+        [Spell(74, "Protection Evil", AbilityTargets.CharacterSelf, CharacterDispelMessage = "You feel less protected.")]
         public void SpellProtectionEvil(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.ProtectGood)
@@ -1482,6 +1570,7 @@ namespace Mud.Server.Abilities.Rom24
             caster.Act(ActOptions.ToCharacter, "{0:N} is protected from evil.", victim);
         }
 
+        [Spell(75, "Protection Good", AbilityTargets.CharacterSelf, CharacterDispelMessage = "You feel less protected.")]
         public void SpellProtectionGood(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.ProtectGood)
@@ -1498,6 +1587,7 @@ namespace Mud.Server.Abilities.Rom24
             caster.Act(ActOptions.ToCharacter, "{0:N} is protected from good.", victim);
         }
 
+        [Spell(76, "Ray of Truth", AbilityTargets.CharacterOffensive)]
         public void SpellRayOfTruth(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (caster.IsEvil)
@@ -1530,9 +1620,11 @@ namespace Mud.Server.Abilities.Rom24
             SpellBlindness(AbilityManager["Blindness"], (3 * level) / 4, caster, victim);
         }
 
+        //[Spell(77, "Recharge", AbilityTargets.ItemChargeInventory)]
         //TODO: public void SpellRecharge(IAbility ability, int level, ICharacter caster, IItemCharge item)
         // TODO: staff/wand not yet implemented
 
+        [Spell(78, "Refresh", AbilityTargets.CharacterDefensive)]
         public void SpellRefresh(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             victim.UpdateMovePoints(level);
@@ -1544,6 +1636,7 @@ namespace Mud.Server.Abilities.Rom24
                 caster.Send("Ok");
         }
 
+        [Spell(79, "Remove Curse", AbilityTargets.ItemInventoryOrCharacterDefensive)]
         public void SpellRemoveCurse(IAbility ability, int level, ICharacter caster, IEntity target)
         {
             // item
@@ -1586,12 +1679,14 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
+        [Spell(80, "Sanctuary", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "The white aura around your body fades.")]
         public void SpellSanctuary(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int duration = level / 6;
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.Sanctuary, duration, "You are already in sanctuary.", "{0:N} is already in sanctuary.", "You are surrounded by a white aura.", "{0:N} is surrounded by a white aura.");
         }
 
+        [Spell(81, "Shield", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "Your force shield shimmers then fades away.")]
         public void SpellShield(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.GetAura(ability) != null)
@@ -1617,11 +1712,13 @@ namespace Mud.Server.Abilities.Rom24
             48, 48, 49, 49, 50, 50, 51, 51, 52, 52,
             53, 53, 54, 54, 55, 55, 56, 56, 57, 57
         };
+        [Spell(82, "Shocking Grasp", AbilityTargets.CharacterOffensive)]
         public void SpellShockingGrasp(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Lightning, ShockingGraspDamageTable);
         }
 
+        [Spell(83, "Sleep", AbilityTargets.CharacterOffensive, CharacterDispelMessage = "You feel less tired.")]
         public void SpellSleep(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Sleep)
@@ -1642,6 +1739,7 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
+        [Spell(84, "Slow", AbilityTargets.CharacterOffensive, CharacterDispelMessage = "You feel yourself speed up.")]
         public void SpellSlow(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Slow)
@@ -1686,6 +1784,7 @@ namespace Mud.Server.Abilities.Rom24
             caster.Act(ActOptions.ToRoom, "{0} starts to move in slow motion.", victim);
         }
 
+        [Spell(85, "Stone Skin", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "Your skin feels soft again.")]
         public void SpellStoneSkin(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.GetAura(ability) != null)
@@ -1702,6 +1801,7 @@ namespace Mud.Server.Abilities.Rom24
             caster.Act(ActOptions.ToAll, "{0:P} skin turns to stone.", victim);
         }
 
+        [Spell(86, "Summon", AbilityTargets.None)] // TODO: AbilityTargets.VictimInWorld
         public void SpellSummon(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             INonPlayableCharacter npcVictim = victim as INonPlayableCharacter;
@@ -1733,6 +1833,7 @@ namespace Mud.Server.Abilities.Rom24
             victim.AutoLook();
         }
 
+        [Spell(87, "Teleport", AbilityTargets.CharacterSelf)]
         public void SpellTeleport(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.Room == null
@@ -1762,6 +1863,7 @@ namespace Mud.Server.Abilities.Rom24
             victim.AutoLook();
         }
 
+        [Spell(88, "Ventriloquate", AbilityTargets.None)] // TODO: which AbilityTargets
         public void SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter)
         {
             string phraseSuccess = $"%g%{victim.DisplayName} says '%x%{parameter ?? ""}%g%'%x%.";
@@ -1776,6 +1878,7 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
+        [Spell(89, "Weaken", AbilityTargets.CharacterOffensive, CharacterDispelMessage = "You feel stronger.")]
         public void SpellWeaken(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Weaken) || victim.GetAura(ability) != null || Rom24Common.SavesSpell(level, victim, SchoolTypes.Other))
@@ -1790,6 +1893,7 @@ namespace Mud.Server.Abilities.Rom24
             victim.Act(ActOptions.ToRoom, "{0:N} looks tired and weak.", victim);
         }
 
+        [Spell(90, "Word of Recall", AbilityTargets.CharacterSelf)]
         public void SpellWordOfRecall(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             IPlayableCharacter pcVictim = victim as IPlayableCharacter;
@@ -1822,6 +1926,7 @@ namespace Mud.Server.Abilities.Rom24
 
         // NPC Spells
 
+        [Spell(500, "Acid Breath", AbilityTargets.CharacterOffensive)]
         public void SpellAcidBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} spits acid at {1}.", caster, victim);
@@ -1845,6 +1950,7 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
+        [Spell(501, "Fire Breath", AbilityTargets.CharacterOffensive)]
         public void SpellFireBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} breathes forth a cone of fire.", caster);
@@ -1859,6 +1965,7 @@ namespace Mud.Server.Abilities.Rom24
             BreathAreaEffect(victim, ability, caster, level, damage, SchoolTypes.Fire, Rom24Effects.FireEffect);
         }
 
+        [Spell(502, "Frost Breath", AbilityTargets.CharacterOffensive)]
         public void SpellFrostBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} breathes out a freezing cone of frost!", caster);
@@ -1873,19 +1980,21 @@ namespace Mud.Server.Abilities.Rom24
             BreathAreaEffect(victim, ability, caster, level, damage, SchoolTypes.Cold, Rom24Effects.ColdEffect);
         }
 
-        public void SpellGasBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
+        [Spell(503, "Gas Breath", AbilityTargets.None)]
+        public void SpellGasBreath(IAbility ability, int level, ICharacter caster)
         {
             caster.Act(ActOptions.ToRoom, "{0} breathes out a cloud of poisonous gas!", caster);
             caster.Send("You breath out a cloud of poisonous gas.");
 
-            int hp = Math.Max(16, victim.HitPoints);
+            int hp = Math.Max(16, caster.HitPoints);
             int hpDamage = RandomManager.Range(1 + hp / 15, hp / 8);
             int diceDamage = RandomManager.Dice(level, 12);
             int damage = Math.Max(hpDamage + diceDamage / 10, diceDamage + hpDamage / 10);
 
-            BreathAreaEffect(victim, ability, caster, level, damage, SchoolTypes.Poison, Rom24Effects.PoisonEffect);
+            BreathAreaEffect(caster, ability, caster, level, damage, SchoolTypes.Poison, Rom24Effects.PoisonEffect);
         }
 
+        [Spell(504, "Lightning Breath", AbilityTargets.None)]
         public void SpellLightningBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} breathes a bolt of lightning at {1}.", caster, victim);
@@ -1918,7 +2027,7 @@ namespace Mud.Server.Abilities.Rom24
             // Room content
             breathAction(caster.Room, ability, caster, level, damage / 2);
             // Room people
-            foreach (ICharacter coVictim in caster.Room.People.Where(x => !Rom24Common.IsSafeSpell(caster, x, true) && !(x is INonPlayableCharacter && caster is INonPlayableCharacter && (caster.Fighting != x || x.Fighting != caster))))
+            foreach (ICharacter coVictim in caster.Room.People.Where(x => x != caster && !Rom24Common.IsSafeSpell(caster, x, true) && !(x is INonPlayableCharacter && caster is INonPlayableCharacter && (caster.Fighting != x || x.Fighting != caster))))
             {
                 if (victim == coVictim) // full damage
                 {

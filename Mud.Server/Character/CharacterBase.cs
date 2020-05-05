@@ -31,7 +31,7 @@ namespace Mud.Server.Character
         private readonly int[] _maxResources;
         private readonly int[] _currentResources;
         private readonly Dictionary<IAbility, DateTime> _cooldowns; // Key: ability.Id, Value: Next ability availability
-        private readonly List<AbilityAndLevel> _knownAbilities;
+        private readonly List<KnownAbility> _knownAbilities;
 
         protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
@@ -50,7 +50,7 @@ namespace Mud.Server.Character
             _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _currentResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _cooldowns = new Dictionary<IAbility, DateTime>(new CompareIAbility());
-            _knownAbilities = new List<AbilityAndLevel>(); // handled by RecomputeKnownAbilities
+            _knownAbilities = new List<KnownAbility>(); // handled by RecomputeKnownAbilities
 
             Position = Positions.Standing;
             Form = Forms.Normal;
@@ -171,7 +171,7 @@ namespace Mud.Server.Character
 
         // Abilities
 
-        public IEnumerable<AbilityAndLevel> KnownAbilities => _knownAbilities;
+        public IEnumerable<KnownAbility> KnownAbilities => _knownAbilities;
 
 
         // Slave
@@ -801,55 +801,58 @@ namespace Mud.Server.Character
             if (this == enemy || Room != enemy.Room)
                 return false;
 
-            // TODO: more haste -> more attacks (should depend on weapon speed, attack speed, server speed[PulseViolence])
+            // TODO
+            return false;
 
-            // TODO: TEST purpose
-            //int attackCount = Math.Max(1, 1 + this[SecondaryAttributeTypes.AttackSpeed] / 21);
-            int attackCount = 1;//Math.Max(1, 1 + this[SecondaryAttributeTypes.AttackSpeed]);
+            //// TODO: more haste -> more attacks (should depend on weapon speed, attack speed, server speed[PulseViolence])
 
-            // Main hand
-            for (int i = 0; i < attackCount; i++)
-            {
-                // Cannot store wielded between hit (disarm anyone ?)
-                IItemWeapon wielded = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand)?.Item as IItemWeapon;
-                SchoolTypes damageType = wielded?.DamageType ?? SchoolTypes.Slash;
-                OneHit(enemy, wielded, damageType, false);
+            //// TODO: TEST purpose
+            ////int attackCount = Math.Max(1, 1 + this[SecondaryAttributeTypes.AttackSpeed] / 21);
+            //int attackCount = 1;//Math.Max(1, 1 + this[SecondaryAttributeTypes.AttackSpeed]);
 
-                if (Fighting != enemy) // stop multihit if different enemy or no enemy
-                    return true;
-            }
+            //// Main hand
+            //for (int i = 0; i < attackCount; i++)
+            //{
+            //    // Cannot store wielded between hit (disarm anyone ?)
+            //    IItemWeapon wielded = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand)?.Item as IItemWeapon;
+            //    SchoolTypes damageType = wielded?.DamageType ?? SchoolTypes.Slash;
+            //    OneHit(enemy, wielded, damageType, false);
 
-            // Off hand
-            if (KnownAbilities.Any(x => x.Ability == AbilityManager.DualWieldAbility))
-            {
-                IItemWeapon wielded2 = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand)?.Item as IItemWeapon;
-                if (wielded2 != null)
-                    OneHit(enemy, wielded2, wielded2.DamageType, true);
-            }
-            if (Fighting != enemy) // stop multihit if different enemy or no enemy
-                return true;
+            //    if (Fighting != enemy) // stop multihit if different enemy or no enemy
+            //        return true;
+            //}
 
-            // Second main hand
-            if (KnownAbilities.Any(x => x.Ability == AbilityManager.ThirdWieldAbility))
-            {
-                IItemWeapon wielded3 = Equipments.Where(x => x.Slot == EquipmentSlots.MainHand).ElementAtOrDefault(1)?.Item as IItemWeapon;
-                if (wielded3 != null)
-                    OneHit(enemy, wielded3, wielded3.DamageType, true);
-            }
-            if (Fighting != enemy) // stop multihit if different enemy or no enemy
-                return true;
+            //// Off hand
+            //if (KnownAbilities.Any(x => x.Ability == AbilityManager.DualWieldAbility))
+            //{
+            //    IItemWeapon wielded2 = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand)?.Item as IItemWeapon;
+            //    if (wielded2 != null)
+            //        OneHit(enemy, wielded2, wielded2.DamageType, true);
+            //}
+            //if (Fighting != enemy) // stop multihit if different enemy or no enemy
+            //    return true;
 
-            // Second off hand
-            if (KnownAbilities.Any(x => x.Ability == AbilityManager.FourthWieldAbility))
-            {
-                IItemWeapon wielded4 = Equipments.Where(x => x.Slot == EquipmentSlots.OffHand).ElementAtOrDefault(1)?.Item as IItemWeapon;
-                if (wielded4 != null)
-                    OneHit(enemy, wielded4, wielded4.DamageType, true);
-            }
-            if (Fighting != enemy) // stop multihit if different enemy or no enemy
-                return true;
+            //// Second main hand
+            //if (KnownAbilities.Any(x => x.Ability == AbilityManager.ThirdWieldAbility))
+            //{
+            //    IItemWeapon wielded3 = Equipments.Where(x => x.Slot == EquipmentSlots.MainHand).ElementAtOrDefault(1)?.Item as IItemWeapon;
+            //    if (wielded3 != null)
+            //        OneHit(enemy, wielded3, wielded3.DamageType, true);
+            //}
+            //if (Fighting != enemy) // stop multihit if different enemy or no enemy
+            //    return true;
 
-            return true;
+            //// Second off hand
+            //if (KnownAbilities.Any(x => x.Ability == AbilityManager.FourthWieldAbility))
+            //{
+            //    IItemWeapon wielded4 = Equipments.Where(x => x.Slot == EquipmentSlots.OffHand).ElementAtOrDefault(1)?.Item as IItemWeapon;
+            //    if (wielded4 != null)
+            //        OneHit(enemy, wielded4, wielded4.DamageType, true);
+            //}
+            //if (Fighting != enemy) // stop multihit if different enemy or no enemy
+            //    return true;
+
+            //return true;
         }
 
         public bool StartFighting(ICharacter enemy) // equivalent to set_fighting in fight.C:3441
@@ -965,8 +968,9 @@ namespace Mud.Server.Character
 
         public void SetCooldown(IAbility ability)
         {
-            DateTime nextAvailability = TimeHandler.CurrentTime.AddSeconds(ability.Cooldown);
-            _cooldowns[ability] = nextAvailability;
+            // TODO
+            //DateTime nextAvailability = TimeHandler.CurrentTime.AddSeconds(ability.Cooldown);
+            //_cooldowns[ability] = nextAvailability;
         }
 
         public void ResetCooldown(IAbility ability, bool verbose)
@@ -974,6 +978,16 @@ namespace Mud.Server.Character
             _cooldowns.Remove(ability);
             if (verbose)
                 Send("%c%{0} is available.%x%", ability.Name);
+        }
+
+        public int LearnedAbility(string name)
+        {
+            return _knownAbilities.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Ability.Name, name))?.Learned ?? 0;
+        }
+
+        public int LearnedAbility(IAbility ability)
+        {
+            return _knownAbilities.FirstOrDefault(x => x.Ability == ability)?.Learned ?? 0;
         }
 
         // Equipment
@@ -1802,46 +1816,46 @@ namespace Mud.Server.Character
         protected void RecomputeKnownAbilities()
         {
             // Add abilities from Class/Race/...
-            _knownAbilities.Clear();
 
             // Admins know every abilities
             //if (ImpersonatedBy is IAdmin)
             //    _knownAbilities.AddRange(AbilityManager.Abilities.Select(x => new AbilityAndLevel(1,x)));
             //else
-            {
-                if (Class != null)
-                    _knownAbilities.AddRange(Class.Abilities);
-                if (Race != null)
-                    _knownAbilities.AddRange(Race.Abilities);
-                // TODO: if multiple identical abilities, keep only one with lowest level
-            }
+            if (Class != null)
+                MergeAbilities(Class.Abilities);
+            if (Race != null)
+                MergeAbilities(Race.Abilities);
         }
 
         // TODO: should recompute only of different from previous
         protected void RecomputeCommands()
         {
-            // Clear actual commands
+            //// Clear actual commands
+            //_fullCommands.Clear();
+            //// Add Character commands
+            //_fullCommands.AddRange(StaticCommands);
+            //// Add Skill command
+            //List<TrieEntry<CommandMethodInfo>> skillCommands = new List<TrieEntry<CommandMethodInfo>>();
+            //foreach (AbilityAndLevel abilityAndLevel in _knownAbilities.Where(x => x.Level <= Level && x.Ability.Kind == AbilityKinds.Skill && (x.Ability.Flags & AbilityFlags.Passive) != AbilityFlags.Passive && (x.Ability.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed))
+            //{
+            //    string commandName = abilityAndLevel.Ability.Name.ToLower();
+            //    CommandAttribute ca = new CommandAttribute(commandName)
+            //    {
+            //        Categories = new[] {"Skill"},
+            //        Hidden = false,
+            //        Priority = 1,
+            //        AddCommandInParameters = true // !! this is mandatory
+            //    };
+            //    Func<string, CommandParameter[], bool> func = (rawParameters, parameters) => AbilityManager.Process(this, parameters);
+            //    CommandMethodInfo cmi = new CommandMethodInfo(ca, func.Method);
+            //    skillCommands.Add(new TrieEntry<CommandMethodInfo>(commandName, cmi));
+            //}
+            //if (skillCommands.Any())
+            //    _fullCommands.AddRange(skillCommands);
+
+            // TODO: remove this
             _fullCommands.Clear();
-            // Add Character commands
             _fullCommands.AddRange(StaticCommands);
-            // Add Skill command
-            List<TrieEntry<CommandMethodInfo>> skillCommands = new List<TrieEntry<CommandMethodInfo>>();
-            foreach (AbilityAndLevel abilityAndLevel in _knownAbilities.Where(x => x.Level <= Level && x.Ability.Kind == AbilityKinds.Skill && (x.Ability.Flags & AbilityFlags.Passive) != AbilityFlags.Passive && (x.Ability.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed))
-            {
-                string commandName = abilityAndLevel.Ability.Name.ToLower();
-                CommandAttribute ca = new CommandAttribute(commandName)
-                {
-                    Categories = new[] {"Skill"},
-                    Hidden = false,
-                    Priority = 1,
-                    AddCommandInParameters = true // !! this is mandatory
-                };
-                Func<string, CommandParameter[], bool> func = (rawParameters, parameters) => AbilityManager.Process(this, parameters);
-                CommandMethodInfo cmi = new CommandMethodInfo(ca, func.Method);
-                skillCommands.Add(new TrieEntry<CommandMethodInfo>(commandName, cmi));
-            }
-            if (skillCommands.Any())
-                _fullCommands.AddRange(skillCommands);
         }
 
         protected void RecomputeCurrentResourceKinds()
@@ -1955,6 +1969,39 @@ namespace Mud.Server.Character
                 foreach (ICharacterAffect affect in aura.Affects.OfType<ICharacterAffect>())
                 {
                     affect.Apply(this);
+                }
+            }
+        }
+
+        private void MergeAbilities(IEnumerable<AbilityUsage> abilities)
+        {
+            // If multiple identical abilities, keep only one with lowest level
+            foreach (AbilityUsage abilityUsage in abilities)
+            {
+                KnownAbility knownAbility = KnownAbilities.SingleOrDefault(x => x.Ability == abilityUsage.Ability);
+                if (knownAbility != null)
+                {
+                    Log.Default.WriteLine(LogLevels.Debug, "Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
+                    knownAbility.Level = Math.Min(knownAbility.Level, abilityUsage.Level);
+                    knownAbility.ImproveDifficulityMultiplier = Math.Min(knownAbility.ImproveDifficulityMultiplier, abilityUsage.ImproveDifficulityMultiplier);
+                    knownAbility.CostAmount = Math.Min(knownAbility.CostAmount, abilityUsage.CostAmount);
+                    // TODO: what should be we if multiple resource kind or operator ?
+                }
+                else
+                {
+                    Log.Default.WriteLine(LogLevels.Debug, "Adding KnownAbility from AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
+                    knownAbility = new KnownAbility
+                    {
+                        Ability = abilityUsage.Ability,
+                        Level = abilityUsage.Level,
+                        Learned = 1, //TODO remove this 
+                        //Learned = 0, // can be learned but not yet learned
+                        ResourceKind = abilityUsage.ResourceKind,
+                        CostAmount = abilityUsage.CostAmount,
+                        CostAmountOperator = abilityUsage.CostAmountOperator,
+                        ImproveDifficulityMultiplier = abilityUsage.ImproveDifficulityMultiplier
+                    };
+                    _knownAbilities.Add(knownAbility);
                 }
             }
         }

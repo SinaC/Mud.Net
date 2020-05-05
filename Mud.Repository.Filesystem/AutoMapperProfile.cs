@@ -22,7 +22,7 @@ namespace Mud.Repository.Filesystem
                 .Include<Domain.AdminData, DataContracts.AdminData>()
                 .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapFromDictionary(x.Aliases)));
             CreateMap<Domain.AdminData, DataContracts.AdminData>()
-                .ForMember(x => x.Level, expression => expression.MapFrom(x => MapAdminLevel(x.Level)))
+                .ForMember(x => x.AdminLevel, expression => expression.MapFrom(x => MapAdminLevel(x.AdminLevel)))
                 .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
 
             CreateMap<Domain.CharacterData, DataContracts.CharacterData>()
@@ -85,7 +85,7 @@ namespace Mud.Repository.Filesystem
                 .Include<DataContracts.AdminData, Domain.AdminData>()
                 .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapToDictionary(x.Aliases)));
             CreateMap<DataContracts.AdminData, Domain.AdminData>()
-                .ForMember(x => x.Level, expression => expression.MapFrom(x => MapAdminLevel(x.Level)))
+                .ForMember(x => x.AdminLevel, expression => expression.MapFrom(x => MapAdminLevel(x.AdminLevel)))
                 .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
 
             CreateMap<DataContracts.CharacterData, Domain.CharacterData>()

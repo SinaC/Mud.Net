@@ -6,7 +6,7 @@ namespace Mud.Repository.Filesystem.DataContracts
     public class AdminData : PlayerData
     {
         [DataMember]
-        public int Level { get; set; }
+        public int AdminLevel { get; set; }
 
         [DataMember]
         public int WiznetFlags { get; set; }

@@ -30,11 +30,6 @@ namespace Mud.Server.Classes
 
         public Warrior()
         {
-            AddAbility(1, "parry");
-            AddAbility(2, "shield block");
-            AddAbility(10, "dodge");
-            AddAbility(20, "battle shout");
-            AddAbility(50, "rupture"); // test
         }
     }
 }

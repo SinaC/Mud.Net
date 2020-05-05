@@ -229,7 +229,7 @@ namespace Mud.Server.Character
             {
                 sb.AppendLine("%c%You are affected by the following auras:%x%");
                 // Auras
-                foreach (IAura aura in _auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden) || x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
+                foreach (IAura aura in _auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden)))
                     aura.Append(sb);
                 // TODO
                 //// Periodic auras

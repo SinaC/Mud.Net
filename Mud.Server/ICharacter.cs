@@ -72,7 +72,7 @@ namespace Mud.Server
         Forms Form { get; }
 
         // Abilities
-        IEnumerable<AbilityAndLevel> KnownAbilities { get; }
+        IEnumerable<KnownAbility> KnownAbilities { get; }
 
         // Slave
         ICharacter Slave { get; } // who is our slave (related to charm command/spell)
@@ -141,6 +141,8 @@ namespace Mud.Server
         int CooldownSecondsLeft(IAbility ability); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)
         void SetCooldown(IAbility ability);
         void ResetCooldown(IAbility ability, bool verbose);
+        int LearnedAbility(string name); // return ability practice %
+        int LearnedAbility(IAbility ability);
 
         // Equipment
         EquipedItem SearchEquipmentSlot(IEquipable item, bool replace);

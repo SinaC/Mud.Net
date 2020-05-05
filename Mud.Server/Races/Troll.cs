@@ -19,11 +19,6 @@ namespace Mud.Server.Races
 
         public Troll()
         {
-            AddAbility(1, "berserking");
-            AddAbility(5, "test");
-            AddAbility(5, "renew");
-            AddAbility(20, "smite");
-            AddAbility(60, "Power Word: Shield");
         }
     }
 }

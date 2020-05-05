@@ -11,5 +11,10 @@ namespace Mud.POC.Tests
             var commandParameters = CommandHelpers.SplitParameters(parameters).Select(CommandHelpers.ParseParameter).ToArray();
             return (parameters, commandParameters);
         }
+
+        protected (string rawParameters, CommandParameter[] parameters) BuildParametersSkipFirst(string parameters)
+        {
+            return CommandHelpers.SkipParameters(CommandHelpers.SplitParameters(parameters).Select(CommandHelpers.ParseParameter), 1);
+        }
     }
 }

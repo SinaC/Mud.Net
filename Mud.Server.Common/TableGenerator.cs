@@ -52,16 +52,11 @@ namespace Mud.Server.Common
 
         public int Width => 1 + _columns.Sum(x => x.Width) + _columns.Count;
 
-        public StringBuilder GenerateWithPreHeaders(string title, IEnumerable<T> items, IEnumerable<string> preHeaders) // TODO: will be replaced by multi-table
+        public StringBuilder Generate(IEnumerable<string> titles, IEnumerable<T> items)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine();
 
-            AddSeparatorLine(sb);
-            foreach (string preHeader in preHeaders)
-                AddPreHeaderLine(sb, preHeader);
-
-            BuildTable(title, sb, items);
+            BuildTable(titles, sb, items);
 
             return sb;
         }
@@ -70,7 +65,7 @@ namespace Mud.Server.Common
         {
             StringBuilder sb = new StringBuilder();
 
-            BuildTable(title, sb, items);
+            BuildTable(new[] { title }, sb, items);
 
             return sb;
         }
@@ -108,22 +103,19 @@ namespace Mud.Server.Common
             sb.AppendLine("+");
         }
 
-        private void BuildTable(string title, StringBuilder sb, IEnumerable<T> items)
+        private void BuildTable(IEnumerable<string> titles, StringBuilder sb, IEnumerable<T> items)
         {
             int width = Width;
 
             //-->
-            // line before title
+            // line before titles
             AddSeparatorLine(sb);
 
-            // title
-            sb.Append("| ");
-            sb.Append(title);
-            for (int i = 3 + title.LengthNoColor(); i < width; i++)
-                sb.Append(' ');
-            sb.AppendLine("|");
+            // titles
+            foreach (string preHeader in titles ?? Enumerable.Empty<string>())
+                AddPreHeaderLine(sb, preHeader);
 
-            // line after title
+            // line after titles
             AddSeparatorWithColumnsLine(sb);
 
             // column headers
@@ -149,7 +141,7 @@ namespace Mud.Server.Common
                 {
                     Column column = _columns[index];
 
-                    string value = column.GetValueFunc(item);
+                    string value = column.GetValueFunc(item) ?? "!!!";
                     bool hasToMergeIdenticalValue = column.Options.MergeIdenticalValue && value == previousValues[index];
                     string trailingSpace = column.Options.AlignLeft 
                         ? AlignLeftFunc(item)

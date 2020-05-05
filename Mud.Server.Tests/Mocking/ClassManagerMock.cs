@@ -28,7 +28,7 @@ namespace Mud.Server.Tests.Mocking
 
         public IEnumerable<ResourceKinds> ResourceKinds => Enumerable.Empty<ResourceKinds>();
 
-        public IEnumerable<AbilityAndLevel> Abilities => Enumerable.Empty<AbilityAndLevel>();
+        public IEnumerable<AbilityUsage> Abilities => Enumerable.Empty<AbilityUsage>();
 
         public IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form) => Enumerable.Empty<ResourceKinds>();
 

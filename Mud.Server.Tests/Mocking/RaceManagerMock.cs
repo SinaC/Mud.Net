@@ -27,7 +27,7 @@ namespace Mud.Server.Tests.Mocking
 
         public string ShortName => Name;
 
-        public IEnumerable<AbilityAndLevel> Abilities => Enumerable.Empty<AbilityAndLevel>();
+        public IEnumerable<AbilityUsage> Abilities => Enumerable.Empty<AbilityUsage>();
 
         public IEnumerable<EquipmentSlots> EquipmentSlots => EnumHelpers.GetValues<EquipmentSlots>().SelectMany(x => Enumerable.Repeat(x, 2)); // two of each
 

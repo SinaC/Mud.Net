@@ -30,9 +30,6 @@ namespace Mud.Server.Classes
 
         public Thief()
         {
-            AddAbility(1, "dodge");
-            AddAbility(5, "rupture");
-            AddAbility(10, "parry");
         }
     }
 }

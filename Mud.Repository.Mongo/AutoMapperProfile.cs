@@ -21,7 +21,7 @@ namespace Mud.Repository.Mongo
             CreateMap<Mud.Domain.PlayerData, Domain.PlayerData>()
                 .Include<Mud.Domain.AdminData, Domain.AdminData>();
             CreateMap<Mud.Domain.AdminData, Domain.AdminData>()
-                .ForMember(x => x.Level, expression => expression.MapFrom(x => MapAdminLevel(x.Level)))
+                .ForMember(x => x.AdminLevel, expression => expression.MapFrom(x => MapAdminLevel(x.AdminLevel)))
                 .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
 
             CreateMap<Mud.Domain.CharacterData, Domain.CharacterData>()
@@ -83,7 +83,7 @@ namespace Mud.Repository.Mongo
             CreateMap<Domain.PlayerData, Mud.Domain.PlayerData>()
                 .Include<Domain.AdminData, Mud.Domain.AdminData>();
             CreateMap<Domain.AdminData, Mud.Domain.AdminData>()
-                .ForMember(x => x.Level, expression => expression.MapFrom(x => MapAdminLevel(x.Level)))
+                .ForMember(x => x.AdminLevel, expression => expression.MapFrom(x => MapAdminLevel(x.AdminLevel)))
                 .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
 
             CreateMap<Domain.CharacterData, Mud.Domain.CharacterData>()

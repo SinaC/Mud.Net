@@ -74,10 +74,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abilities\AbilityAndLevel.cs" />
-    <Compile Include="Abilities\AbilityEffects.cs" />
+    <Compile Include="Abilities\AbilityAttribute.cs" />
     <Compile Include="Abilities\AbilityManager.cs" />
     <Compile Include="Abilities\Ability.cs" />
+    <Compile Include="Abilities\AbilityUsage.cs" />
+    <Compile Include="Abilities\KnownAbility.cs" />
+    <Compile Include="Abilities\Rom24\Rom24Passives.cs" />
+    <Compile Include="Abilities\Rom24\Rom24Skills.cs" />
     <Compile Include="Abilities\Rom24\Rom24Spells.cs" />
     <Compile Include="Abilities\Rom24\Rom24Common.cs" />
     <Compile Include="Abilities\Rom24\Rom24Effects.cs" />
@@ -116,6 +119,7 @@
     <Compile Include="Character\PlayableCharacter\ItemCommands.cs" />
     <Compile Include="Character\PlayableCharacter\PlayableCharacter.cs" />
     <Compile Include="Character\PlayableCharacter\QuestCommands.cs" />
+    <Compile Include="Character\SkillCommands.cs" />
     <Compile Include="Character\TestCommands.cs" />
     <Compile Include="Classes\ClassBase.cs" />
     <Compile Include="Classes\ClassManager.cs" />
@@ -126,6 +130,7 @@
     <Compile Include="Classes\Warrior.cs" />
     <Compile Include="Helpers\CombatHelpers.cs" />
     <Compile Include="Helpers\TableGenerators.cs" />
+    <Compile Include="IAbilityList.cs" />
     <Compile Include="IAdminManager.cs" />
     <Compile Include="IAffect.cs" />
     <Compile Include="IArea.cs" />

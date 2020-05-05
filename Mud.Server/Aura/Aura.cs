@@ -32,8 +32,6 @@ namespace Mud.Server.Aura
             AuraFlags = flags;
             Level = level;
             PulseLeft = Pulse.FromTimeSpan(ts);
-            if (ability?.Flags.HasFlag(AbilityFlags.AuraIsHidden) == true)
-                AuraFlags |= AuraFlags.Hidden;
 
             _affects = (affects ?? Enumerable.Empty<IAffect>()).ToList();
         }

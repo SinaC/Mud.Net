@@ -744,9 +744,9 @@ namespace Mud.Server.Server
                     Log.Default.WriteLine(LogLevels.Warning, "Class {0} doesn't have any allowed resources");
                 else
                 {
-                    foreach (AbilityAndLevel abilityAndLevel in c.Abilities)
-                        if (abilityAndLevel.Ability.ResourceKind != ResourceKinds.None && !c.ResourceKinds.Contains(abilityAndLevel.Ability.ResourceKind))
-                            Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityAndLevel.Ability.Name, abilityAndLevel.Ability.ResourceKind);
+                    foreach (AbilityUsage abilityUsage in c.Abilities)
+                        if (abilityUsage.ResourceKind != ResourceKinds.None && !c.ResourceKinds.Contains(abilityUsage.ResourceKind))
+                            Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityUsage.Ability.Name, abilityUsage.ResourceKind);
                 }
             }
             Log.Default.WriteLine(LogLevels.Info, "#Classes: {}", ClassManager.Classes.Count());
