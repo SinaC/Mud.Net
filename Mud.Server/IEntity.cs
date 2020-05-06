@@ -25,7 +25,6 @@ namespace Mud.Server
         void Recompute();
 
         // Auras
-        IAura GetAura(int abilityId);
         IAura GetAura(string abilityName);
         IAura GetAura(IAbility ability);
         void AddPeriodicAura(IPeriodicAura aura);

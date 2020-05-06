@@ -400,20 +400,29 @@ namespace Mud.Server.Player
         [Command("test", "!!Test!!")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
-            if (Impersonating != null)
-            {
-                // Add quest to impersonated character is any
-                QuestBlueprint questBlueprint1 = World.GetQuestBlueprint(1);
-                QuestBlueprint questBlueprint2 = World.GetQuestBlueprint(2);
-                INonPlayableCharacter questor = World.NonPlayableCharacters.FirstOrDefault(x => x.Name.ToLowerInvariant().Contains("questor"));
-
-                IQuest quest1 = new Quest.Quest(questBlueprint1, Impersonating, questor);
-                Impersonating.AddQuest(quest1);
-                IQuest quest2 = new Quest.Quest(questBlueprint2, Impersonating, questor);
-                Impersonating.AddQuest(quest2);
-            }
+            TableGenerator<Tuple<string,string,int>> generator = new TableGenerator<Tuple<string, string, int>>();
+            generator.AddColumn("Header1", 10, tuple => tuple.Item1);
+            generator.AddColumn("Header2", 15, tuple => tuple.Item2);
+            generator.AddColumn("Header3", 8, tuple => tuple.Item3.ToString());
+            StringBuilder sb = generator.GenerateTest("Test column duplicate", 3, Enumerable.Range(0, 50).Select(x => new Tuple<string, string, int>("Value1_" + x.ToString(), "Value2_" + (50 - x).ToString(), x)));
+            Send(sb);
 
             return true;
+
+            //if (Impersonating != null)
+            //{
+            //    // Add quest to impersonated character is any
+            //    QuestBlueprint questBlueprint1 = World.GetQuestBlueprint(1);
+            //    QuestBlueprint questBlueprint2 = World.GetQuestBlueprint(2);
+            //    INonPlayableCharacter questor = World.NonPlayableCharacters.FirstOrDefault(x => x.Name.ToLowerInvariant().Contains("questor"));
+
+            //    IQuest quest1 = new Quest.Quest(questBlueprint1, Impersonating, questor);
+            //    Impersonating.AddQuest(quest1);
+            //    IQuest quest2 = new Quest.Quest(questBlueprint2, Impersonating, questor);
+            //    Impersonating.AddQuest(quest2);
+            //}
+
+            //return true;
 
             //IQuest quest1 = new Quest.Quest(questBlueprint1, mob1, mob2);
             //mob1.AddQuest(quest1);

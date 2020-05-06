@@ -127,17 +127,6 @@ namespace Mud.Server.Entity
         public abstract void Recompute();
 
         // Auras
-        public IAura GetAura(int abilityId)
-        {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "IEntity.IsAffected: {0} is not valid anymore", DebugName);
-                return null;
-            }
-
-            return _auras.FirstOrDefault(x => x.Ability?.Id == abilityId);
-        }
-
         public IAura GetAura(string abilityName)
         {
             if (!IsValid)

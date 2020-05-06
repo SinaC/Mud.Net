@@ -38,7 +38,7 @@ namespace Mud.Server.Helpers
             generator.AddColumn("Cost", 8, x => x.CostAmount.ToString(),
                 new TableGenerator<KnownAbility>.ColumnOptions
                 {
-                    GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage ? "% " : " "
+                    GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage ? "%" : " "
                 });
             generator.AddColumn("%", 5, x => $"{x.Learned}%");
             generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
@@ -110,10 +110,10 @@ namespace Mud.Server.Helpers
             TableGenerator<IAbility> generator = new TableGenerator<IAbility>();
             generator.AddColumn("Id", 6, x => x.Id.ToString());
             generator.AddColumn("Name", 23, x => x.Name);
-            generator.AddColumn("Type", 10, x => x.Kind.ToString());
-            generator.AddColumn("Target", 15, x => ConvertAbilityTargets(x.Target));
+            generator.AddColumn("Type", 9, x => x.Kind.ToString());
+            generator.AddColumn("Target", 10, x => ConvertAbilityTargets(x.Target));
             generator.AddColumn("GCD", 5, x => x.PulseWaitTime.ToString());
-            generator.AddColumn("Flags", 20, x => x.AbilityFlags.ToString());
+            generator.AddColumn("Flags", 12, x => x.AbilityFlags.ToString());
             generator.AddColumn("CharDispel", 20, x => x.CharacterDispelMessage?.ToString() ?? string.Empty);
             generator.AddColumn("ItemDispel", 20, x => x.ItemDispelMessage?.ToString() ?? string.Empty);
             return generator;
@@ -148,7 +148,7 @@ namespace Mud.Server.Helpers
             generator.AddColumn("Cost", 8, x => x.CostAmount.ToString(),
                 new TableGenerator<AbilityUsage>.ColumnOptions
                 {
-                    GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage ? "% " : " "
+                    GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage ? "%" : " "
                 });
             generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
             generator.AddColumn("Diff", 5, x => x.DifficulityMultiplier.ToString());
