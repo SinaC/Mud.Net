@@ -64,7 +64,7 @@ namespace Mud.Server.Common
             return sb;
         }
 
-        public StringBuilder GenerateTest(string title, int columnRepetionCount, IEnumerable<T> items)
+        public StringBuilder Generate(string title, int columnRepetionCount, IEnumerable<T> items)
         {
             StringBuilder sb = BuildTable(new[] { title }, columnRepetionCount, items);
             return sb;

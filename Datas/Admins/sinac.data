@@ -19,9 +19,9 @@
       <RoomId>3001</RoomId>
       <Race>insectoid</Race>
       <Class>druid</Class>
-      <Level>20</Level>
+      <Level>5</Level>
       <Sex>1</Sex>
-      <Experience>143000</Experience>
+      <Experience>204110</Experience>
       <Equipments>
         <EquipedItemData>
           <Slot>15</Slot>
@@ -90,7 +90,7 @@
         <AuraData>
           <AbilitiId>3</AbilitiId>
           <Level>20</Level>
-          <PulseLeft>5468</PulseLeft>
+          <PulseLeft>5244</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -108,7 +108,7 @@
         <AuraData>
           <AbilitiId>2</AbilitiId>
           <Level>20</Level>
-          <PulseLeft>4996</PulseLeft>
+          <PulseLeft>4772</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -121,7 +121,7 @@
         <AuraData>
           <AbilitiId>54</AbilitiId>
           <Level>20</Level>
-          <PulseLeft>4040</PulseLeft>
+          <PulseLeft>3816</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -134,7 +134,7 @@
         <AuraData>
           <AbilitiId>74</AbilitiId>
           <Level>20</Level>
-          <PulseLeft>5012</PulseLeft>
+          <PulseLeft>4788</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -151,7 +151,7 @@
         <AuraData>
           <AbilitiId>85</AbilitiId>
           <Level>20</Level>
-          <PulseLeft>4172</PulseLeft>
+          <PulseLeft>3948</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -164,7 +164,7 @@
         <AuraData>
           <AbilitiId>62</AbilitiId>
           <Level>20</Level>
-          <PulseLeft>7080</PulseLeft>
+          <PulseLeft>6856</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -176,7 +176,7 @@
         <AuraData>
           <AbilitiId>81</AbilitiId>
           <Level>20</Level>
-          <PulseLeft>6160</PulseLeft>
+          <PulseLeft>5936</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -189,7 +189,7 @@
         <AuraData>
           <AbilitiId>80</AbilitiId>
           <Level>20</Level>
-          <PulseLeft>696</PulseLeft>
+          <PulseLeft>472</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">

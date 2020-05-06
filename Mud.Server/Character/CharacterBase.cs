@@ -1407,8 +1407,6 @@ namespace Mud.Server.Character
 
         protected abstract int HitPointMinValue { get; }
 
-        protected abstract IReadOnlyTrie<CommandMethodInfo> StaticCommands { get; }
-
         protected abstract int ModifyCriticalDamage(int damage);
 
         protected abstract bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom);
@@ -2145,8 +2143,7 @@ namespace Mud.Server.Character
                     {
                         Ability = abilityUsage.Ability,
                         Level = abilityUsage.Level,
-                        Learned = 100, //TODO remove this 
-                        //Learned = 0, // can be learned but not yet learned
+                        Learned = 0, // can be gained but not yet learned
                         ResourceKind = abilityUsage.ResourceKind,
                         CostAmount = abilityUsage.CostAmount,
                         CostAmountOperator = abilityUsage.CostAmountOperator,

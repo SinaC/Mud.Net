@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mud.Domain;
 using Mud.Server.Abilities;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
@@ -13,7 +14,7 @@ namespace Mud.Server.Character.PlayableCharacter
     public partial class PlayableCharacter
     {
         // TODO: Practice/Gain
-        [Command("Gain", "Ability")]
+        [Command("gain", "Ability")]
         [Syntax(
             "[cmd] list",
             "[cmd] skills|spells|passives",
@@ -26,8 +27,31 @@ namespace Mud.Server.Character.PlayableCharacter
 
             if (StringCompareHelpers.StringStartsWith("list", parameters[0].Value))
             {
-
+                StringBuilder sb = NotLearnedAbilityTableGenerator.Value.Generate("Abilities",  3, KnownAbilities.Where(x => x.Level <= Level && x.Learned == 0).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
+                Send(sb);
+                return CommandExecutionResults.Ok;
             }
+            if (StringCompareHelpers.StringStartsWith("skills", parameters[0].Value))
+            {
+                StringBuilder sb = NotLearnedAbilityTableGenerator.Value.Generate("Abilities", 3, KnownAbilities.Where(x => x.Ability.Kind == AbilityKinds.Skill && x.Level <= Level && x.Learned == 0).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
+                Send(sb);
+                return CommandExecutionResults.Ok;
+            }
+            if (StringCompareHelpers.StringStartsWith("spells", parameters[0].Value))
+            {
+                StringBuilder sb = NotLearnedAbilityTableGenerator.Value.Generate("Abilities", 3, KnownAbilities.Where(x => x.Ability.Kind == AbilityKinds.Spell && x.Level <= Level && x.Learned == 0).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
+                Send(sb);
+                return CommandExecutionResults.Ok;
+            }
+            if (StringCompareHelpers.StringStartsWith("skipassiveslls", parameters[0].Value))
+            {
+                StringBuilder sb = NotLearnedAbilityTableGenerator.Value.Generate("Abilities", 3, KnownAbilities.Where(x => x.Ability.Kind == AbilityKinds.Passive && x.Level <= Level && x.Learned == 0).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
+                Send(sb);
+                return CommandExecutionResults.Ok;
+            }
+            // TODO: convert/revert
+            KnownAbility knownAbility = KnownAbilities.FirstOrDefault(x => x.Level <= Level && x.Learned == 0 && StringCompareHelpers.StringStartsWith(x.Ability.Name, parameters[0].Value));
+            if (knownAbility)
 
             return CommandExecutionResults.Ok;
         }
@@ -45,18 +69,13 @@ namespace Mud.Server.Character.PlayableCharacter
         //    return CommandExecutionResults.Ok;
         //}
 
-        private void DisplayAbilitiesAvailableToLearn(IEnumerable<KnownAbility> abilities)
+        private static readonly Lazy<TableGenerator<KnownAbility>> NotLearnedAbilityTableGenerator = new Lazy<TableGenerator<KnownAbility>>(() =>
         {
-            StringBuilder sb = new StringBuilder();
-            int i = 0;
-            foreach (KnownAbility knownAbility in abilities)
-            {
-
-                //
-                i++;
-                if (i % 3 == 0)
-                    sb.AppendLine();
-            }
-        }
+            TableGenerator<KnownAbility> generator = new TableGenerator<KnownAbility>();
+            generator.AddColumn("Name", 18, x => x.Ability.Name);
+            generator.AddColumn("Lvl", 5, x => x.Level.ToString());
+            generator.AddColumn("Cost", 5, x => x.DifficulityMultiplier.ToString());
+            return generator;
+        });
     }
 }

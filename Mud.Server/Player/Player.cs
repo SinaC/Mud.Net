@@ -404,7 +404,7 @@ namespace Mud.Server.Player
             generator.AddColumn("Header1", 10, tuple => tuple.Item1);
             generator.AddColumn("Header2", 15, tuple => tuple.Item2);
             generator.AddColumn("Header3", 8, tuple => tuple.Item3.ToString());
-            StringBuilder sb = generator.GenerateTest("Test column duplicate", 3, Enumerable.Range(0, 50).Select(x => new Tuple<string, string, int>("Value1_" + x.ToString(), "Value2_" + (50 - x).ToString(), x)));
+            StringBuilder sb = generator.Generate("Test column duplicate", 3, Enumerable.Range(0, 50).Select(x => new Tuple<string, string, int>("Value1_" + x.ToString(), "Value2_" + (50 - x).ToString(), x)));
             Send(sb);
 
             return true;

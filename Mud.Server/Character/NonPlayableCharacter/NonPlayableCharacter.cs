@@ -51,6 +51,12 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         #region IEntity
 
+        #region IActor
+
+        public override IReadOnlyTrie<CommandMethodInfo> Commands => NonPlayableCharacterCommands.Value;
+
+        #endregion
+
         public override string DisplayName => Blueprint.ShortDescription;
 
         public override string DebugName => $"{DisplayName}[{Blueprint.Id}]";
@@ -116,8 +122,6 @@ namespace Mud.Server.Character.NonPlayableCharacter
         protected override int NoWeaponDamage => (Level * 50) / 14; // TODO: simulate weapon dps using level
 
         protected override int HitPointMinValue => 0;
-
-        protected override IReadOnlyTrie<CommandMethodInfo> StaticCommands => NonPlayableCharacterCommands.Value;
 
         protected override bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
         {

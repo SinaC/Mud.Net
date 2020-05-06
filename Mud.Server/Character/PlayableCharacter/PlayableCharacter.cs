@@ -136,6 +136,8 @@ namespace Mud.Server.Character.PlayableCharacter
 
         #region IActor
 
+        public override IReadOnlyTrie<CommandMethodInfo> Commands => PlayableCharacterCommands.Value;
+
         public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
         {
             if (methodInfo.Attribute is PlayableCharacterCommandAttribute playableCharacterCommandAttribute)
@@ -558,7 +560,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 Immunities = BaseImmunities,
                 Resistances = BaseResistances,
                 Vulnerabilities = BaseVulnerabilities,
-                Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => BaseAttributes(x))
+                Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttributes)
                 // TODO: cooldown, ...
             };
             return data;
@@ -571,8 +573,6 @@ namespace Mud.Server.Character.PlayableCharacter
         protected override int NoWeaponDamage => 75; // TODO
 
         protected override int HitPointMinValue => 1; // Cannot be really killed
-
-        protected override IReadOnlyTrie<CommandMethodInfo> StaticCommands => PlayableCharacterCommands.Value;
 
         protected override int ModifyCriticalDamage(int damage) => (damage * 150) / 200; // TODO http://wow.gamepedia.com/Critical_strike
 
