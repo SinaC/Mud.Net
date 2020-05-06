@@ -151,7 +151,7 @@ namespace Mud.Server.Helpers
                     GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage ? "% " : " "
                 });
             generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
-            generator.AddColumn("Diff", 5, x => x.ImproveDifficulityMultiplier.ToString());
+            generator.AddColumn("Diff", 5, x => x.DifficulityMultiplier.ToString());
             generator.AddColumn("Flags", 20, x => x.Ability.AbilityFlags.ToString());
             return generator;
         });
@@ -171,7 +171,8 @@ namespace Mud.Server.Helpers
                 case AbilityTargets.OptionalItemInventory: return "Item?";
                 case AbilityTargets.ArmorInventory: return "Armor";
                 case AbilityTargets.WeaponInventory:return "Weapon";
-                case AbilityTargets.Fighting: return "Fighting";
+                case AbilityTargets.CharacterFighting: return "Fighting";
+                case AbilityTargets.CharacterWorldwide: return "World";
                 default: return target.ToString();
             }
         }

@@ -219,7 +219,9 @@ namespace Mud.Server.Actor
             return true;
         }
 
-        protected static IReadOnlyTrie<CommandMethodInfo> GetCommands<T>() => CommandHelpers.GetCommands(typeof(T));
+        protected static IReadOnlyTrie<CommandMethodInfo> GetCommands<T>()
+            where T : ActorBase
+            => CommandHelpers.GetCommands(typeof(T));
 
         private StringBuilder BuildCommandSyntax(CommandMethodInfo commandMethodInfo)
         {

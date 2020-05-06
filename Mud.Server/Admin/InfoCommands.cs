@@ -11,6 +11,7 @@ using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
+// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Admin
 {
@@ -295,7 +296,7 @@ namespace Mud.Server.Admin
             if (playableVictim?.Leader != null)
                 sb.AppendFormatLine("Leader: {0}", playableVictim.Leader.DisplayName);
             if (playableVictim?.GroupMembers.Any() == true)
-                foreach (ICharacter member in playableVictim.GroupMembers)
+                foreach (IPlayableCharacter member in playableVictim.GroupMembers)
                     sb.AppendFormatLine("Group member: {0}", member.DisplayName);
             if (victim.Slave != null)
                 sb.AppendFormatLine("Slave: {0}", victim.Slave.DisplayName);
@@ -397,7 +398,7 @@ namespace Mud.Server.Admin
                 sb.AppendFormatLine("Incarnatable: {0}", item.Incarnatable);
             if (item.ContainedInto != null)
                 sb.AppendFormatLine("Contained in {0}", item.ContainedInto.DebugName);
-            if (item is IEquipable equipable)
+            if (item is IEquipableItem equipable)
                 sb.AppendFormatLine("Equiped by {0} on {1}", equipable.EquipedBy?.DebugName ?? "(none)", equipable.WearLocation);
             else
                 sb.AppendLine("Cannot be equiped");
@@ -405,7 +406,7 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
             if (item.DecayPulseLeft > 0)
                 sb.AppendFormatLine("Decay in {0}", StringHelpers.FormatDelay(item.DecayPulseLeft / Pulse.PulsePerSeconds));
-            sb.AppendFormatLine("Flags: {0}|{1}", item.CurrentItemFlags, item.BaseItemFlags);
+            sb.AppendFormatLine("Flags: {0} (base: {1})", item.CurrentItemFlags, item.BaseItemFlags);
             if (item is IItemArmor armor)
                 sb.AppendFormatLine("Armor type: {0} Armor value: {1}", armor.ArmorKind, armor.Armor);
             if (item is IItemContainer container)
@@ -415,7 +416,7 @@ namespace Mud.Server.Admin
                 sb.AppendLine("No additional informations");
             //
             if (item is IItemWeapon weapon)
-                sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3} {4}|{5}", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType, weapon.CurrentWeaponFlags, weapon.BaseWeaponFlags);
+                sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3} {4} (base: {5})", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType, weapon.CurrentWeaponFlags, weapon.BaseWeaponFlags);
             //
             if (item is IItemFurniture furniture)
             {
@@ -439,6 +440,7 @@ namespace Mud.Server.Admin
             // TODO: other item type
             //
             AppendAuras(sb, item.Auras);
+            //
             Send(sb);
             return CommandExecutionResults.Ok;
         }
@@ -636,27 +638,27 @@ namespace Mud.Server.Admin
                 if (item.ContainedInto != null)
                 {
                     sb.Append(" in ");
-                    sb.Append("{");
+                    sb.Append("<");
                     sb.Append(DisplayEntityAndContainer(item.ContainedInto));
-                    sb.Append("}");
+                    sb.Append(">");
                 }
                 else
                 {
-                    if (item is IEquipable equipable)
+                    if (item is IEquipableItem equipable)
                     {
                         sb.Append(" equipped by ");
-                        sb.Append("{");
+                        sb.Append("<");
                         sb.Append(DisplayEntityAndContainer(equipable.EquipedBy));
-                        sb.Append("}");
+                        sb.Append(">");
                     }
                 }
             }
 
             if (entity is ICharacter character)
             {
-                sb.Append("{");
+                sb.Append("<");
                 sb.Append(DisplayEntityAndContainer(character.Room));
-                sb.Append("}");
+                sb.Append(">");
             }
             return sb.ToString();
         }

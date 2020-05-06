@@ -1,19 +1,12 @@
 ﻿using Mud.Domain;
-using Mud.Server.Common;
 using System.Linq;
+// ReSharper disable UnusedMember.Global
 
-namespace Mud.Server.Abilities.Rom24
+namespace Mud.Server.Abilities
 {
-    public class Rom24Skills : IAbilityList
+    public partial class AbilityManager
     {
-        public IRandomManager RandomManager { get; }
-
         private readonly int DefaultLevelIfAbilityNotKnown = 53;
-
-        public Rom24Skills(IRandomManager randomManager)
-        {
-            RandomManager = randomManager;
-        }
 
         [Skill(5000, "Berserk", AbilityTargets.CharacterSelf)]
         public UseResults SkillBerserk(IAbility ability, ICharacter source)
@@ -60,7 +53,7 @@ namespace Mud.Server.Abilities.Rom24
                 // TODO: heal level*2
                 source.Send("Your pulse races as you are consumed by rage!");
                 source.Act(ActOptions.ToRoom, "{0:N} gets a wild look in {0:s} eyes.", source);
-                (source as IPlayableCharacter).CheckAbilityImprove(ability, true, 2);
+                (source as IPlayableCharacter)?.CheckAbilityImprove(ability, true, 2);
 
                 /* add affects: berserk, +hit, +dam, +ac
                 af.where	= TO_AFFECTS;
@@ -88,7 +81,7 @@ namespace Mud.Server.Abilities.Rom24
                 // TODO: mana -= 25
                 // TODO: move /= 2
                 source.Send("Your pulse speeds up, but nothing happens.");
-                (source as IPlayableCharacter).CheckAbilityImprove(ability, false, 2);
+                (source as IPlayableCharacter)?.CheckAbilityImprove(ability, false, 2);
                 return UseResults.Failed;
             }
         }
@@ -149,7 +142,7 @@ namespace Mud.Server.Abilities.Rom24
             {
                 source.Act(ActOptions.ToCharacter, "You slam into {0}, and send {0:m} flying!", victim);
                 source.Act(ActOptions.ToRoom, "{0:N} sends {1} sprawling with a powerful bash.", source, victim);
-                (source as IPlayableCharacter).CheckAbilityImprove(ability, true, 1);
+                (source as IPlayableCharacter)?.CheckAbilityImprove(ability, true, 1);
                 // TODO: victim daze
                 // TODO: set GCD
                 // TODO: victim.Position = Positions.Resting
@@ -164,7 +157,7 @@ namespace Mud.Server.Abilities.Rom24
                 victim.AbilityDamage(source, ability, 0, SchoolTypes.Bash, false); // starts a fight
                 victim.Act(ActOptions.ToRoom, "{0:N} fall{0:v} flat on {0:s} face!", source);
                 victim.Act(ActOptions.ToCharacter, "You evade {0:p} bash, causing {0:m} to fall flat on {0:s} face.", source);
-                (source as IPlayableCharacter).CheckAbilityImprove(ability, false, 1);
+                (source as IPlayableCharacter)?.CheckAbilityImprove(ability, false, 1);
                 // TODO: victim.Position = Positions.Resting
                 // TODO: set GCD
                 // TODO: check_killer(ch,victim);
@@ -231,7 +224,7 @@ namespace Mud.Server.Abilities.Rom24
 
                 int damage = RandomManager.Range(2, 5);
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.None, false);
-                (source as IPlayableCharacter).CheckAbilityImprove(ability, true, 2);
+                (source as IPlayableCharacter)?.CheckAbilityImprove(ability, true, 2);
                 //WAIT_STATE(ch, skill_table[gsn_dirt].beats);
 
                 // TODO
@@ -250,7 +243,7 @@ namespace Mud.Server.Abilities.Rom24
             else
             {
                 victim.AbilityDamage(source, ability, 0, SchoolTypes.None, true);
-                (source as IPlayableCharacter).CheckAbilityImprove(ability, false, 2);
+                (source as IPlayableCharacter)?.CheckAbilityImprove(ability, false, 2);
                 //WAIT_STATE(ch, skill_table[gsn_dirt].beats);
                 // TODO: check_killer(ch,victim);
                 return UseResults.Failed;
@@ -314,7 +307,7 @@ namespace Mud.Server.Abilities.Rom24
                 victim.Act(ActOptions.ToCharacter, "{0:N} trips you and you go down!", source);
                 source.Act(ActOptions.ToCharacter, "You trip {0} and {0} goes down!", victim);
                 source.ActToNotVictim(victim, "{0} trips {1}, sending {1:m} to the ground.", source, victim);
-                (source as IPlayableCharacter).CheckAbilityImprove(ability, true, 1);
+                (source as IPlayableCharacter)?.CheckAbilityImprove(ability, true, 1);
                 //DAZE_STATE(victim, 2 * PULSE_VIOLENCE);
                 //WAIT_STATE(ch, skill_table[gsn_trip].beats);
                 //victim->position = POS_RESTING;
@@ -326,7 +319,7 @@ namespace Mud.Server.Abilities.Rom24
             {
                 victim.AbilityDamage(source, ability, 0, SchoolTypes.Bash, true);
                 //WAIT_STATE(ch, skill_table[gsn_trip].beats * 2 / 3);
-                (source as IPlayableCharacter).CheckAbilityImprove(ability, false, 1);
+                (source as IPlayableCharacter)?.CheckAbilityImprove(ability, false, 1);
                 // TODO check_killer(ch,victim);
                 return UseResults.Failed;
             }
@@ -382,7 +375,7 @@ namespace Mud.Server.Abilities.Rom24
             }
         }
 
-        [Skill(5005, "Kick", AbilityTargets.Fighting)]
+        [Skill(5005, "Kick", AbilityTargets.CharacterFighting)]
         public UseResults SkillKick(IAbility ability, ICharacter source)
         {
             KnownAbility knownAbility = source.KnownAbilities.FirstOrDefault(x => x.Ability == ability);
@@ -403,24 +396,24 @@ namespace Mud.Server.Abilities.Rom24
             }
 
             // TODO: gcd
-            if (RandomManager.Chance(knownAbility.Learned))
+            if (RandomManager.Chance(knownAbility?.Learned ?? 0))
             {
                 int damage = RandomManager.Range(1, source.Level);
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.Bash, true);
-                (victim as IPlayableCharacter).CheckAbilityImprove(ability, true, 1);
+                (victim as IPlayableCharacter)?.CheckAbilityImprove(ability, true, 1);
                 //check_killer(ch,victim);
                 return UseResults.Ok;
             }
             else
             {
                 victim.AbilityDamage(source, ability, 0, SchoolTypes.Bash, true);
-                (victim as IPlayableCharacter).CheckAbilityImprove(ability, false, 1);
+                (victim as IPlayableCharacter)?.CheckAbilityImprove(ability, false, 1);
                 //check_killer(ch,victim);
                 return UseResults.Failed;
             }
         }
 
-        [Skill(5006, "Disarm", AbilityTargets.Fighting)]
+        [Skill(5006, "Disarm", AbilityTargets.CharacterFighting)]
         public UseResults SkillDisarm(IAbility ability, ICharacter source)
         {
             KnownAbility knownAbility = source.KnownAbilities.FirstOrDefault(x => x.Ability == ability);
@@ -502,7 +495,7 @@ namespace Mud.Server.Abilities.Rom24
                 //        get_obj(victim, obj, NULL);
                 //}
 
-                (source as IPlayableCharacter).CheckAbilityImprove(ability, true, 1);
+                (source as IPlayableCharacter)?.CheckAbilityImprove(ability, true, 1);
                 // TODO  check_killer(ch, victim);
                 return UseResults.Ok;
             }
@@ -511,7 +504,7 @@ namespace Mud.Server.Abilities.Rom24
                 //TODO gcd WAIT_STATE(ch, skill_table[gsn_disarm].beats);
                 source.Act(ActOptions.ToCharacter, "You fail to disarm {0}.", victim);
                 source.Act(ActOptions.ToRoom, "{0:N} tries to disarm {1}, but fails.", source, victim);
-                (source as IPlayableCharacter).CheckAbilityImprove(ability, false, 1);
+                (source as IPlayableCharacter)?.CheckAbilityImprove(ability, false, 1);
                 // TODO  check_killer(ch, victim);
                 return UseResults.Failed;
             }

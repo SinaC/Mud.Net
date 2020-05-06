@@ -1,7 +1,7 @@
 ﻿using Mud.Domain;
 using System.Collections.Generic;
 
-namespace Mud.Server.Abilities.Rom24
+namespace Mud.Server.Abilities
 {
     public static class Rom24Passives
     {

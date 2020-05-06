@@ -5,7 +5,7 @@ using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
 {
-    public class ItemEquipableBase<TBlueprint> : ItemBase<TBlueprint>, IEquipable
+    public class ItemEquipableBase<TBlueprint> : ItemBase<TBlueprint>, IEquipableItem
         where TBlueprint : ItemBlueprintBase
     {
         public ItemEquipableBase(Guid guid, TBlueprint blueprint, IContainer containedInto) 

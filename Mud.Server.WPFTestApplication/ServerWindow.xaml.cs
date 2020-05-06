@@ -1365,7 +1365,7 @@ namespace Mud.Server.WPFTestApplication
                                         IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
                                         Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
                                         // try to equip
-                                        if (item is IEquipable equipable)
+                                        if (item is IEquipableItem equipable)
                                         {
                                             EquipedItem equipedItem = lastCharacter.SearchEquipmentSlot(equipable, false);
                                             if (equipedItem != null)

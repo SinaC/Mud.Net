@@ -428,7 +428,7 @@ namespace Mud.Domain
     [Flags]
     public enum OffensiveFlags
     {
-        Area_attack     = 0x00000001,
+        AreaAttack      = 0x00000001,
         Backstab        = 0x00000002,
         Bash            = 0x00000003,
         Berserk         = 0x00000008,
@@ -505,7 +505,9 @@ namespace Mud.Domain
         // Weapon in inventory
         WeaponInventory,
         // Victim is source.Fighting
-        Fighting,
+        CharacterFighting,
+        // Victim is somewhere in the world
+        CharacterWorldwide,
     }
 
     [Flags]

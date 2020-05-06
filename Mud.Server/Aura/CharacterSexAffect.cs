@@ -9,7 +9,7 @@ namespace Mud.Server.Aura
 
         public void Append(StringBuilder sb)
         {
-            sb.AppendFormat("%c%modifies %y%sex %cby setting to %y%{0}", Value);
+            sb.AppendFormat("%c%modifies %y%sex %c%by setting to %y%{0}%x%", Value);
         }
 
         public CharacterSexAffect()

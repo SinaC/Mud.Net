@@ -22,10 +22,183 @@
       <Level>20</Level>
       <Sex>1</Sex>
       <Experience>143000</Experience>
-      <Equipments />
-      <Inventory />
+      <Equipments>
+        <EquipedItemData>
+          <Slot>15</Slot>
+          <Item xsi:type="ItemWeaponData">
+            <ItemId>6</ItemId>
+            <Level>2</Level>
+            <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>65</ItemFlags>
+            <Auras>
+              <AuraData>
+                <AbilitiId>72</AbilitiId>
+                <Level>10</Level>
+                <PulseLeft>480</PulseLeft>
+                <AuraFlags>0</AuraFlags>
+                <Affects>
+                  <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
+                    <Operator>1</Operator>
+                    <Modifier>128</Modifier>
+                  </AffectDataBase>
+                </Affects>
+              </AuraData>
+              <AuraData>
+                <AbilitiId>42</AbilitiId>
+                <Level>20</Level>
+                <PulseLeft>-1</PulseLeft>
+                <AuraFlags>4</AuraFlags>
+                <Affects>
+                  <AffectDataBase xsi:type="CharacterAttributeAffectData">
+                    <Operator>0</Operator>
+                    <Location>9</Location>
+                    <Modifier>4</Modifier>
+                  </AffectDataBase>
+                  <AffectDataBase xsi:type="CharacterAttributeAffectData">
+                    <Operator>0</Operator>
+                    <Location>10</Location>
+                    <Modifier>4</Modifier>
+                  </AffectDataBase>
+                </Affects>
+              </AuraData>
+            </Auras>
+            <WeaponFlags>0</WeaponFlags>
+          </Item>
+        </EquipedItemData>
+        <EquipedItemData>
+          <Slot>16</Slot>
+          <Item>
+            <ItemId>7</ItemId>
+            <Level>0</Level>
+            <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>1</ItemFlags>
+            <Auras />
+          </Item>
+        </EquipedItemData>
+      </Equipments>
+      <Inventory>
+        <ItemData xsi:type="ItemContainerData">
+          <ItemId>1</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+          <Auras />
+        </ItemData>
+      </Inventory>
       <CurrentQuests />
-      <Auras />
+      <Auras>
+        <AuraData>
+          <AbilitiId>3</AbilitiId>
+          <Level>20</Level>
+          <PulseLeft>5468</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterAttributeAffectData">
+              <Operator>0</Operator>
+              <Location>9</Location>
+              <Modifier>2</Modifier>
+            </AffectDataBase>
+            <AffectDataBase xsi:type="CharacterAttributeAffectData">
+              <Operator>0</Operator>
+              <Location>8</Location>
+              <Modifier>-2</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilitiId>2</AbilitiId>
+          <Level>20</Level>
+          <PulseLeft>4996</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterAttributeAffectData">
+              <Operator>0</Operator>
+              <Location>16</Location>
+              <Modifier>-20</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilitiId>54</AbilitiId>
+          <Level>20</Level>
+          <PulseLeft>4040</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterAttributeAffectData">
+              <Operator>0</Operator>
+              <Location>1</Location>
+              <Modifier>2</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilitiId>74</AbilitiId>
+          <Level>20</Level>
+          <PulseLeft>5012</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterAttributeAffectData">
+              <Operator>0</Operator>
+              <Location>8</Location>
+              <Modifier>-1</Modifier>
+            </AffectDataBase>
+            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>8192</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilitiId>85</AbilitiId>
+          <Level>20</Level>
+          <PulseLeft>4172</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterAttributeAffectData">
+              <Operator>0</Operator>
+              <Location>16</Location>
+              <Modifier>-40</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilitiId>62</AbilitiId>
+          <Level>20</Level>
+          <PulseLeft>7080</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>2</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilitiId>81</AbilitiId>
+          <Level>20</Level>
+          <PulseLeft>6160</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterAttributeAffectData">
+              <Operator>0</Operator>
+              <Location>16</Location>
+              <Modifier>-20</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilitiId>80</AbilitiId>
+          <Level>20</Level>
+          <PulseLeft>696</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>128</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+      </Auras>
       <CharacterFlags>0</CharacterFlags>
       <Immunities>0</Immunities>
       <Resistances>0</Resistances>
@@ -91,5 +264,5 @@
     </CharacterData>
   </Characters>
   <AdminLevel>7</AdminLevel>
-  <WiznetFlags>1037</WiznetFlags>
+  <WiznetFlags>1165</WiznetFlags>
 </AdminData>

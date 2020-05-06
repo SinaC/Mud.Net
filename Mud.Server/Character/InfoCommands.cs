@@ -9,6 +9,7 @@ using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
+// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
 {
@@ -229,7 +230,7 @@ namespace Mud.Server.Character
             {
                 sb.AppendLine("%c%You are affected by the following auras:%x%");
                 // Auras
-                foreach (IAura aura in _auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden)))
+                foreach (IAura aura in _auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.PulseLeft))
                     aura.Append(sb);
                 // TODO
                 //// Periodic auras
@@ -745,15 +746,40 @@ namespace Mud.Server.Character
         {
             // TODO: StringBuilder as param ?
             StringBuilder sb = new StringBuilder();
+            // Weapon flags
+            if (item is IItemWeapon weapon)
+            {
+                if (weapon.CurrentWeaponFlags.HasFlag(WeaponFlags.Flaming)) sb.Append("%R%(Flaming)%x%");
+                if (weapon.CurrentWeaponFlags.HasFlag(WeaponFlags.Frost)) sb.Append("%C%(Frost)%x%");
+                if (weapon.CurrentWeaponFlags.HasFlag(WeaponFlags.Vampiric)) sb.Append("%D%(Vampiric)%x%");
+                if (weapon.CurrentWeaponFlags.HasFlag(WeaponFlags.Sharp)) sb.Append("%B%(Sharp)%x%");
+                if (weapon.CurrentWeaponFlags.HasFlag(WeaponFlags.Vorpal)) sb.Append("%B%(Vorpal)%x%");
+                // Two-handed not handled
+                if (weapon.CurrentWeaponFlags.HasFlag(WeaponFlags.Shocking)) sb.Append("%Y%(Sparkling)%x%");
+                if (weapon.CurrentWeaponFlags.HasFlag(WeaponFlags.Poison)) sb.Append("%G%(Envenomed)%x%");
+                if (weapon.CurrentWeaponFlags.HasFlag(WeaponFlags.Holy)) sb.Append("%C%(Holy)%x%");
+            }
+
+            // Item flags
+            if (item.CurrentItemFlags.HasFlag(ItemFlags.Invis)) // TODO: and detect invis
+                sb.Append("%y%(Invis)%x%");
+            if (item.CurrentItemFlags.HasFlag(ItemFlags.Evil))// TODO: and detect evil
+                sb.Append("%R%(Evil)%x%");
+            if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless)) // TODO: and detect good
+                sb.Append("%C%(Blessed)%x%");
+            if (item.CurrentItemFlags.HasFlag(ItemFlags.Magic)) // TODO: and detect magic
+                sb.Append("%b%(Magical)%x%");
             if (item.CurrentItemFlags.HasFlag(ItemFlags.Glowing))
                 sb.Append("%Y%(Glowing)%x%");
             if (item.CurrentItemFlags.HasFlag(ItemFlags.Humming))
                 sb.Append("%y%(Humming)%x%");
-            // TODO: other flags
+
+            // Description
             if (shortDisplay)
                 sb.Append(item.RelativeDisplayName(this));
             else
                 sb.Append(item.RelativeDescription(this));
+
             return sb.ToString();
         }
 

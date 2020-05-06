@@ -41,7 +41,6 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
             RecomputeKnownAbilities();
             ResetAttributes();
-            RecomputeCommands();
             RecomputeCurrentResourceKinds();
             BuildEquipmentSlots();
         }

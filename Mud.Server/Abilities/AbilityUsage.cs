@@ -14,14 +14,14 @@ namespace Mud.Server.Abilities
 
         public CostAmountOperators CostAmountOperator { get; set; }
 
-        public int ImproveDifficulityMultiplier { get; set; }
+        public int DifficulityMultiplier { get; set; }
 
         public AbilityUsage()
         {
             ResourceKind = ResourceKinds.None;
             CostAmount = 0;
             CostAmountOperator = CostAmountOperators.None;
-            ImproveDifficulityMultiplier = 1;
+            DifficulityMultiplier = 1;
         }
     }
 }

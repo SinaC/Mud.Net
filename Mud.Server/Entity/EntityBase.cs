@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using Mud.Domain;
@@ -246,9 +247,13 @@ namespace Mud.Server.Entity
                 // TODO: replace with virtual method
                 if (this is ICharacter && !string.IsNullOrWhiteSpace(aura.Ability?.CharacterDispelMessage))
                     Send(aura.Ability.CharacterDispelMessage);
-                // TODO: send to wearer
-                //if (this is IItem && !string.IsNullOrWhiteSpace(aura.Ability?.ItemDispelMessage))
-                //  wearer.Act(ActOptions.ToCharacter, aura.Ability.ItemDispelMessage, this);
+                else if (this is IItem item && !string.IsNullOrWhiteSpace(aura.Ability?.ItemDispelMessage))
+                {
+                    if (item.ContainedInto is ICharacter holder)
+                        holder.Act(ActOptions.ToCharacter, aura.Ability.ItemDispelMessage, this);
+                    else if (item is IEquipableItem equipable)
+                        equipable.EquipedBy?.Act(ActOptions.ToCharacter, aura.Ability.ItemDispelMessage, this);
+                }
                 //Send("{0} vanishes.", aura.Ability == null ? "Something" : aura.Ability.Name); // TODO: ability wears off message
             }
             if (recompute && removed)

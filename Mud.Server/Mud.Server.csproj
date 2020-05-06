@@ -79,11 +79,9 @@
     <Compile Include="Abilities\Ability.cs" />
     <Compile Include="Abilities\AbilityUsage.cs" />
     <Compile Include="Abilities\KnownAbility.cs" />
-    <Compile Include="Abilities\Rom24\Rom24Passives.cs" />
-    <Compile Include="Abilities\Rom24\Rom24Skills.cs" />
-    <Compile Include="Abilities\Rom24\Rom24Spells.cs" />
-    <Compile Include="Abilities\Rom24\Rom24Common.cs" />
-    <Compile Include="Abilities\Rom24\Rom24Effects.cs" />
+    <Compile Include="Abilities\Rom24Passives.cs" />
+    <Compile Include="Abilities\Rom24Skills.cs" />
+    <Compile Include="Abilities\Rom24Spells.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
     <Compile Include="Admin\CommunicationCommands.cs" />
     <Compile Include="Admin\MiscCommands.cs" />
@@ -109,6 +107,7 @@
     <Compile Include="Character\CombatCommands.cs" />
     <Compile Include="Character\CommunicationCommands.cs" />
     <Compile Include="Character\MiscCommands.cs" />
+    <Compile Include="Character\PlayableCharacter\AbilityCommands.cs" />
     <Compile Include="Character\PlayableCharacter\CommunicationCommands.cs" />
     <Compile Include="Character\PlayableCharacter\CombatCommands.cs" />
     <Compile Include="Character\PlayableCharacter\GroupCommands.cs" />
@@ -130,7 +129,6 @@
     <Compile Include="Classes\Warrior.cs" />
     <Compile Include="Helpers\CombatHelpers.cs" />
     <Compile Include="Helpers\TableGenerators.cs" />
-    <Compile Include="IAbilityList.cs" />
     <Compile Include="IAdminManager.cs" />
     <Compile Include="IAffect.cs" />
     <Compile Include="IArea.cs" />
@@ -145,7 +143,7 @@
     <Compile Include="IContainer.cs" />
     <Compile Include="IAura.cs" />
     <Compile Include="IEntity.cs" />
-    <Compile Include="IEquipable.cs" />
+    <Compile Include="IEquipableItem.cs" />
     <Compile Include="IExit.cs" />
     <Compile Include="IItem.cs" />
     <Compile Include="INonPlayableCharacter.cs" />

@@ -362,7 +362,7 @@ namespace Mud.POC.Abilities
                     }
                     // item found
                     break;
-                case AbilityTargets.Fighting:
+                case AbilityTargets.CharacterFighting:
                     target = caster.Fighting;
                     if (target == null)
                     {
@@ -474,7 +474,7 @@ namespace Mud.POC.Abilities
                         return AbilityTargetResults.InvalidTarget;
                     }
                     break;
-                case AbilityTargets.Fighting:
+                case AbilityTargets.CharacterFighting:
                     target = caster.Fighting;
                     if (target == null)
                     {
@@ -526,7 +526,7 @@ namespace Mud.POC.Abilities
                     return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                 case AbilityTargets.WeaponInventory:
                     return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
-                case AbilityTargets.Fighting:
+                case AbilityTargets.CharacterFighting:
                     return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
             }
             return null;
@@ -566,7 +566,7 @@ namespace Mud.POC.Abilities
                     return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
                 case AbilityTargets.WeaponInventory:
                     return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
-                case AbilityTargets.Fighting:
+                case AbilityTargets.CharacterFighting:
                     return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
             }
             return null;

@@ -2,7 +2,7 @@
 
 namespace Mud.Server
 {
-    public interface IEquipable : IItem
+    public interface IEquipableItem : IItem
     {
         WearLocations WearLocation { get; }
 

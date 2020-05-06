@@ -105,7 +105,7 @@ namespace Mud.Server.Aura
         public T AddOrUpdateAffect<T>(Func<T, bool> filterFunc, Func<T> createFunc, Action<T> updateFunc)
             where T : IAffect
         {
-            T affect = _affects.OfType<T>().FirstOrDefault(x => filterFunc(x));
+            T affect = _affects.OfType<T>().FirstOrDefault(filterFunc);
             if (affect == null)
             {
                 if (createFunc != null)
@@ -148,12 +148,12 @@ namespace Mud.Server.Aura
             // TODO admin see hidden auras
 
             // TODO: better formatting with spacing like in score
-            sb.AppendFormatLine("%B%{0}%x% (lvl {1}) {2} left {3}",
+            sb.AppendFormatLine("%B%{0}%x% (lvl {1}) {2} {3}",
                     Ability?.Name ?? "Inherent",
                     Level,
                     AuraFlags.HasFlag(AuraFlags.Permanent)
-                        ? "%r%Permanent%x%"
-                        : $"%y%{StringHelpers.FormatDelay(PulseLeft / Pulse.PulsePerSeconds)}%x%",
+                        ? "%R%Permanent%x%"
+                        : $"%G%{StringHelpers.FormatDelay(PulseLeft / Pulse.PulsePerSeconds)}%x% left",
                     AuraFlags == AuraFlags.None
                         ? ""
                         : AuraFlags.ToString());

@@ -82,7 +82,7 @@ namespace Mud.Server.Races
                 ResourceKind = resourceKind,
                 CostAmount = costAmount,
                 CostAmountOperator = costAmountOperator,
-                ImproveDifficulityMultiplier = improveDifficulityMultiplier
+                DifficulityMultiplier = improveDifficulityMultiplier
             });
         }
     }

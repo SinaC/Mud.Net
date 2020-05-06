@@ -4,33 +4,34 @@ using System.Linq;
 using System.Reflection;
 using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Abilities.Rom24;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
+using Mud.Settings;
 
 namespace Mud.Server.Abilities
 {
-    public class AbilityManager : IAbilityManager
+    public partial class AbilityManager : IAbilityManager
     {
         private IRandomManager RandomManager { get; }
+        private ISettings Settings { get; }
+        private IWorld World { get; }
 
         private readonly List<IAbility> _abilities;
 
         private readonly Dictionary<string, IAbility> _abilitiesByName;
 
-        public AbilityManager(IRandomManager randomManager)
+        public AbilityManager(IRandomManager randomManager, ISettings settings, IWorld world)
         {
             RandomManager = randomManager;
+            Settings = settings;
+            World = world;
 
             _abilities = new List<IAbility>();
 
             // Reflection to gather every methods with Spell/Skill attributes
-            Type iAbilityList = typeof(IAbilityList);
-            var abilityInfos = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes().Where(y => iAbilityList.IsAssignableFrom(y)))
-                .SelectMany(x => x.GetMethods(BindingFlags.Instance | BindingFlags.Public), (t, m) => new { type = t, method = m, attribute = m.GetCustomAttribute(typeof(AbilityAttribute), false) as AbilityAttribute })
+            var abilityInfos = typeof(AbilityManager).GetMethods(BindingFlags.Instance | BindingFlags.Public).Select(m => new {method = m, attribute = m.GetCustomAttribute(typeof(AbilityAttribute), false) as AbilityAttribute })
                 .Where(x => x.attribute != null);
             foreach (var abilityInfo in abilityInfos)
             {
@@ -45,6 +46,11 @@ namespace Mud.Server.Abilities
             // Add passive abilities
             foreach (IAbility passive in Rom24Passives.Abilities) // TODO: should be in above loop
                 _abilities.Add(passive);
+
+            Log.Default.WriteLine(LogLevels.Info, "{0} abilities found", _abilities.Count());
+            Log.Default.WriteLine(LogLevels.Info, "{0} Passives", _abilities.Count(x => x.Kind == AbilityKinds.Passive));
+            Log.Default.WriteLine(LogLevels.Info, "{0} Spells", _abilities.Count(x => x.Kind == AbilityKinds.Spell));
+            Log.Default.WriteLine(LogLevels.Info, "{0} Skills", _abilities.Count(x => x.Kind == AbilityKinds.Skill));
 
             // Check duplicates
             var duplicateIds = _abilities.GroupBy(x => x.Id).Where(g => g.Count() > 1).Select(x => x.Key);
@@ -374,7 +380,7 @@ namespace Mud.Server.Abilities
                     }
                     // item found
                     break;
-                case AbilityTargets.Fighting:
+                case AbilityTargets.CharacterFighting:
                     target = caster.Fighting;
                     if (target == null)
                     {
@@ -382,8 +388,16 @@ namespace Mud.Server.Abilities
                         return AbilityTargetResults.TargetNotFound;
                     }
                     break;
+                case AbilityTargets.CharacterWorldwide:
+                    target = FindHelpers.FindChararacterInWorld(caster, parameters[0]);
+                    if (target == null)
+                    {
+                        caster.Send("You failed.");
+                        return AbilityTargetResults.TargetNotFound;
+                    }
+                    break;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Unexpected AbilityTarget {0}", ability.Target);
+                    Log.Default.WriteLine(LogLevels.Error, "GetAbilityTarget: unexpected AbilityTarget {0}", ability.Target);
                     return AbilityTargetResults.Error;
             }
             return AbilityTargetResults.Ok;
@@ -485,7 +499,7 @@ namespace Mud.Server.Abilities
                         return AbilityTargetResults.InvalidTarget;
                     }
                     break;
-                case AbilityTargets.Fighting:
+                case AbilityTargets.CharacterFighting:
                     target = caster.Fighting;
                     if (target == null)
                     {
@@ -493,8 +507,9 @@ namespace Mud.Server.Abilities
                         return AbilityTargetResults.TargetNotFound;
                     }
                     break;
+                case AbilityTargets.CharacterWorldwide:
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Unexpected AbilityTarget {0}", ability.Target);
+                    Log.Default.WriteLine(LogLevels.Error, "GetItemAbilityTarget: unexpected AbilityTarget {0}", ability.Target);
                     return AbilityTargetResults.Error;
             }
 
@@ -537,7 +552,9 @@ namespace Mud.Server.Abilities
                     return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                 case AbilityTargets.WeaponInventory:
                     return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
-                case AbilityTargets.Fighting:
+                case AbilityTargets.CharacterFighting:
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
+                case AbilityTargets.CharacterWorldwide:
                     return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
             }
             return null;
@@ -577,8 +594,10 @@ namespace Mud.Server.Abilities
                     return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
                 case AbilityTargets.WeaponInventory:
                     return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
-                case AbilityTargets.Fighting:
+                case AbilityTargets.CharacterFighting:
                     return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                case AbilityTargets.CharacterWorldwide:
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target }); // TODO: should never happen
             }
             return null;
         }

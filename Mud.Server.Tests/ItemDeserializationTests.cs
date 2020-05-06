@@ -112,6 +112,7 @@ namespace Mud.Server.Tests
             ItemContainerData itemData = new ItemContainerData
             {
                 ItemId = containerBlueprint.Id,
+                Level = AutoFaker.Generate<int>(),
                 DecayPulseLeft = AutoFaker.Generate<int>(),
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
                 Contains = new ItemData[]
@@ -119,12 +120,14 @@ namespace Mud.Server.Tests
                     new ItemData
                     {
                         ItemId = lightBlueprint.Id,
+                        Level =AutoFaker.Generate<int>(),
                         DecayPulseLeft = AutoFaker.Generate<int>(),
                         ItemFlags = AutoFaker.Generate<ItemFlags>(),
                     },
                     new ItemData
                     {
                         ItemId = portalBlueprint.Id,
+                        Level = AutoFaker.Generate<int>(),
                         DecayPulseLeft = AutoFaker.Generate<int>(),
                         ItemFlags = AutoFaker.Generate<ItemFlags>(),
                     }
@@ -137,10 +140,11 @@ namespace Mud.Server.Tests
             Assert.AreEqual(containerBlueprint.Id, container.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, container.DecayPulseLeft);
             Assert.AreEqual(itemData.ItemFlags, container.BaseItemFlags);
+            Assert.AreEqual(itemData.Level, container.Level);
             Assert.AreEqual(2, (container as IItemContainer).Content.Count());
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == lightBlueprint.Id));
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == portalBlueprint.Id));
-            Assert.AreEqual(itemData.Contains.Sum(x => x.DecayPulseLeft), (container as IItemContainer).Content.Sum(x => x.DecayPulseLeft));
+            Assert.AreEqual(itemData.Contains.Sum(x => x.DecayPulseLeft %100), (container as IItemContainer).Content.Sum(x => x.DecayPulseLeft % 100)); // % avoid overflow
         }
 
         [TestMethod]

@@ -84,7 +84,7 @@ namespace Mud.Server
         void Act(IEnumerable<ICharacter> characters, string format, params object[] arguments); // to every character in provided list
 
         // Equipments
-        bool Unequip(IEquipable item);
+        bool Unequip(IEquipableItem item);
 
         // Furniture
         bool ChangeFurniture(IItemFurniture furniture);
@@ -134,6 +134,9 @@ namespace Mud.Server
         bool UnknownSourceDamage(IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage with unknown source or no source
         void Slay(IPlayableCharacter killer);
         void KillingPayoff(ICharacter victim);
+        bool SavesSpell(int level, SchoolTypes damageType);
+        bool IsSafeSpell(ICharacter caster, bool area);
+        bool IsSafe(ICharacter character);
 
         // Ability
         IDictionary<IAbility, DateTime> AbilitiesInCooldown { get; }
@@ -145,7 +148,7 @@ namespace Mud.Server
         int LearnedAbility(IAbility ability);
 
         // Equipment
-        EquipedItem SearchEquipmentSlot(IEquipable item, bool replace);
+        EquipedItem SearchEquipmentSlot(IEquipableItem item, bool replace);
 
         // Affects
         void ApplyAffect(CharacterFlagsAffect affect);
@@ -157,7 +160,7 @@ namespace Mud.Server
     public class EquipedItem
     {
         public EquipmentSlots Slot { get; }
-        public IEquipable Item { get; set; }
+        public IEquipableItem Item { get; set; }
 
         public EquipedItem(EquipmentSlots slot)
         {

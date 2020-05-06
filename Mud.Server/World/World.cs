@@ -204,36 +204,60 @@ namespace Mud.Server.World
 
         public IItem AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container)
         {
+            IItem item = null;
+
             switch (blueprint)
             {
                 case ItemArmorBlueprint armorBlueprint:
-                    return AddItemArmor(guid, armorBlueprint, container);
+                    item = new ItemArmor(guid, armorBlueprint, container);
+                    break;
                 case ItemContainerBlueprint containerBlueprint:
-                    return AddItemContainer(guid, containerBlueprint, container);
-                case ItemCorpseBlueprint corpseBlueprint:
+                    item = new ItemContainer(guid, containerBlueprint, container);
+                    break;
+                case ItemCorpseBlueprint _:
                     Log.Default.WriteLine(LogLevels.Error, "World.AddItem: CorpseBlueprint cannot be added with this API.");
-                    return null;
+                    break;
                 case ItemFurnitureBlueprint furnitureBlueprint:
-                    return AddItemFurniture(guid, furnitureBlueprint, container);
+                    item = new ItemFurniture(guid, furnitureBlueprint, container);
+                    break;
                 case ItemJewelryBlueprint jewelryBlueprint:
-                    return AddItemJewelry(guid, jewelryBlueprint, container);
+                    item = new ItemJewelry(guid, jewelryBlueprint, container);
+                    break;
                 case ItemKeyBlueprint keyBlueprint:
-                    return AddItemKey(guid, keyBlueprint, container);
+                    item = new ItemKey(guid, keyBlueprint, container);
+                    break;
                 case ItemLightBlueprint lightBlueprint:
-                    return AddItemLight(guid, lightBlueprint, container);
+                    item = new ItemLight(guid, lightBlueprint, container);
+                    break;
                 case ItemPortalBlueprint portalBlueprint:
                 {
                     IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
                     if (destination == null)
-                        Log.Default.WriteLine(LogLevels.Error, "World.AddItem: PortalBlueprint {0} unknown destination {1}", blueprint.Id, portalBlueprint.Destination);
-                    return AddItemPortal(guid, portalBlueprint, destination, container);
-                }
+                    {
+                        destination = Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
+                        Log.Default.WriteLine(LogLevels.Error, "World.AddItem: PortalBlueprint {0} unknown destination {1} setting to recall {2}", blueprint.Id, portalBlueprint.Destination, Settings.DefaultRecallRoomId);
+                    }
+                    item = new ItemPortal(guid, portalBlueprint, destination, container);
+                    break;
+                    }
                 case ItemQuestBlueprint questBlueprint:
-                    return AddItemQuest(guid, questBlueprint, container);
+                    item = new ItemQuest(guid, questBlueprint, container);
+                    break;
                 case ItemShieldBlueprint shieldBlueprint:
-                    return AddItemShield(guid, shieldBlueprint, container);
+                    item = new ItemShield(guid, shieldBlueprint, container);
+                    break;
                 case ItemWeaponBlueprint weaponBlueprint:
-                    return AddItemWeapon(guid, weaponBlueprint, container);
+                    item = new ItemWeapon(guid, weaponBlueprint, container);
+                    break;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, "Unknown Item blueprint type {0}", blueprint.GetType());
+                    break;
+            }
+            if (item != null)
+            {
+                item.Recompute();
+                _items.Add(item);
+                return item;
             }
 
             // TODO: other blueprint
@@ -292,6 +316,9 @@ namespace Mud.Server.World
                 case ItemWeaponBlueprint weaponBlueprint:
                     item = new ItemWeapon(guid, weaponBlueprint, itemData as ItemWeaponData, container);
                     break;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, "Unknown Item blueprint type {0}", blueprint.GetType());
+                    break;
             }
 
             if (item != null)
@@ -317,6 +344,7 @@ namespace Mud.Server.World
                 return null;
             }
             IItem item = AddItem(guid, blueprint, container);
+            item?.Recompute();
             if (item == null)
                 Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Unknown blueprint id {0} or type {1}", blueprintId, blueprint.GetType().FullName);
             return item;
@@ -399,8 +427,8 @@ namespace Mud.Server.World
                 // Remove equipments
                 if (character.Equipments.Any(x => x.Item != null))
                 {
-                    IReadOnlyCollection<IEquipable> equipment = new ReadOnlyCollection<IEquipable>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item).ToList()); // clone
-                    foreach (IEquipable item in equipment)
+                    IReadOnlyCollection<IEquipableItem> equipment = new ReadOnlyCollection<IEquipableItem>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item).ToList()); // clone
+                    foreach (IEquipableItem item in equipment)
                         RemoveItem(item);
                 }
             }
@@ -415,7 +443,7 @@ namespace Mud.Server.World
         {
             //item.ContainedInto?.GetFromContainer(item);
             item.ChangeContainer(null);
-            IEquipable equipable = item as IEquipable;
+            IEquipableItem equipable = item as IEquipableItem;
             equipable?.ChangeEquipedBy(null);
             // If container, remove content
             if (item is IContainer container)
@@ -488,86 +516,86 @@ namespace Mud.Server.World
             return item;
         }
 
-        private IItemArmor AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container)
-        {
-            if (blueprint == null)
-                throw new ArgumentNullException(nameof(blueprint));
-            IItemArmor item = new ItemArmor(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
+        //private IItemArmor AddItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer container)
+        //{
+        //    if (blueprint == null)
+        //        throw new ArgumentNullException(nameof(blueprint));
+        //    IItemArmor item = new ItemArmor(guid, blueprint, container);
+        //    _items.Add(item);
+        //    return item;
+        //}
 
-        private IItemWeapon AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container)
-        {
-            if (blueprint == null)
-                throw new ArgumentNullException(nameof(blueprint));
-            IItemWeapon item = new ItemWeapon(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
+        //private IItemWeapon AddItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer container)
+        //{
+        //    if (blueprint == null)
+        //        throw new ArgumentNullException(nameof(blueprint));
+        //    IItemWeapon item = new ItemWeapon(guid, blueprint, container);
+        //    _items.Add(item);
+        //    return item;
+        //}
 
-        private IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container)
-        {
-            if (blueprint == null)
-                throw new ArgumentNullException(nameof(blueprint));
-            IItemLight item = new ItemLight(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
+        //private IItemLight AddItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer container)
+        //{
+        //    if (blueprint == null)
+        //        throw new ArgumentNullException(nameof(blueprint));
+        //    IItemLight item = new ItemLight(guid, blueprint, container);
+        //    _items.Add(item);
+        //    return item;
+        //}
 
-        private IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container)
-        {
-            if (blueprint == null)
-                throw new ArgumentNullException(nameof(blueprint));
-            IItemShield item = new ItemShield(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
+        //private IItemShield AddItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer container)
+        //{
+        //    if (blueprint == null)
+        //        throw new ArgumentNullException(nameof(blueprint));
+        //    IItemShield item = new ItemShield(guid, blueprint, container);
+        //    _items.Add(item);
+        //    return item;
+        //}
 
-        private IItemFurniture AddItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer container)
-        {
-            if (blueprint == null)
-                throw new ArgumentNullException(nameof(blueprint));
-            IItemFurniture item = new ItemFurniture(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
+        //private IItemFurniture AddItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer container)
+        //{
+        //    if (blueprint == null)
+        //        throw new ArgumentNullException(nameof(blueprint));
+        //    IItemFurniture item = new ItemFurniture(guid, blueprint, container);
+        //    _items.Add(item);
+        //    return item;
+        //}
 
-        private IItemJewelry AddItemJewelry(Guid guid, ItemJewelryBlueprint blueprint, IContainer container)
-        {
-            if (blueprint == null)
-                throw new ArgumentNullException(nameof(blueprint));
-            IItemJewelry item = new ItemJewelry(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
+        //private IItemJewelry AddItemJewelry(Guid guid, ItemJewelryBlueprint blueprint, IContainer container)
+        //{
+        //    if (blueprint == null)
+        //        throw new ArgumentNullException(nameof(blueprint));
+        //    IItemJewelry item = new ItemJewelry(guid, blueprint, container);
+        //    _items.Add(item);
+        //    return item;
+        //}
 
-        private IItemQuest AddItemQuest(Guid guid, ItemQuestBlueprint blueprint, IContainer container)
-        {
-            if (blueprint == null)
-                throw new ArgumentNullException(nameof(blueprint));
-            IItemQuest item = new ItemQuest(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
+        //private IItemQuest AddItemQuest(Guid guid, ItemQuestBlueprint blueprint, IContainer container)
+        //{
+        //    if (blueprint == null)
+        //        throw new ArgumentNullException(nameof(blueprint));
+        //    IItemQuest item = new ItemQuest(guid, blueprint, container);
+        //    _items.Add(item);
+        //    return item;
+        //}
 
-        private IItemKey AddItemKey(Guid guid, ItemKeyBlueprint blueprint, IContainer container)
-        {
-            if (blueprint == null)
-                throw new ArgumentNullException(nameof(blueprint));
-            IItemKey item = new ItemKey(guid, blueprint, container);
-            _items.Add(item);
-            return item;
-        }
+        //private IItemKey AddItemKey(Guid guid, ItemKeyBlueprint blueprint, IContainer container)
+        //{
+        //    if (blueprint == null)
+        //        throw new ArgumentNullException(nameof(blueprint));
+        //    IItemKey item = new ItemKey(guid, blueprint, container);
+        //    _items.Add(item);
+        //    return item;
+        //}
 
-        private IItemPortal AddItemPortal(Guid guid, ItemPortalBlueprint blueprint, IRoom destination, IContainer container)
-        {
-            if (blueprint == null)
-                throw new ArgumentNullException(nameof(blueprint));
-            IItemPortal item = new ItemPortal(guid, blueprint, destination, container);
-            _items.Add(item);
-            return item;
-        }
+        //private IItemPortal AddItemPortal(Guid guid, ItemPortalBlueprint blueprint, IRoom destination, IContainer container)
+        //{
+        //    if (blueprint == null)
+        //        throw new ArgumentNullException(nameof(blueprint));
+        //    IItemPortal item = new ItemPortal(guid, blueprint, destination, container);
+        //    _items.Add(item);
+        //    return item;
+        //}
 
     }
 }

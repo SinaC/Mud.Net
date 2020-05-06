@@ -639,13 +639,14 @@ namespace Mud.Server.Server
             {
                 if (playingClient.Player != null)
                 {
+                    string command = string.Empty;
                     try
                     {
                         if (playingClient.Player.GlobalCooldown > 0) // if player is on GCD, decrease it
                             playingClient.Player.DecreaseGlobalCooldown();
                         else
                         {
-                            string command = playingClient.DequeueReceivedData(); // process one command at a time
+                            command = playingClient.DequeueReceivedData(); // process one command at a time
                             if (command != null)
                             {
                                 if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Next, Quit, All
@@ -659,7 +660,7 @@ namespace Mud.Server.Server
                     }
                     catch (Exception ex)
                     {
-                        Log.Default.WriteLine(LogLevels.Error, "Exception while processing input of {0}. Exception: {1}", playingClient.Player.Name, ex);
+                        Log.Default.WriteLine(LogLevels.Error, "Exception while processing input of {0} [{1}]. Exception: {2}", playingClient.Player.Name, command, ex);
                     }
                 }
                 else

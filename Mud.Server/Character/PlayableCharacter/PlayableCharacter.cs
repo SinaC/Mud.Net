@@ -78,7 +78,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     EquipedItem equipedItem = SearchEquipmentSlot(equipedItemData.Slot, false);
                     if (equipedItem != null)
                     {
-                        if (item is IEquipable equipable)
+                        if (item is IEquipableItem equipable)
                         {
                             equipedItem.Item = equipable;
                             equipable.ChangeContainer(null); // remove from inventory
@@ -125,7 +125,6 @@ namespace Mud.Server.Character.PlayableCharacter
             //RecomputeBaseAttributes();
             RecomputeKnownAbilities();
             ResetAttributes();
-            RecomputeCommands();
             RecomputeCurrentResourceKinds();
         }
 
@@ -438,7 +437,6 @@ namespace Mud.Server.Character.PlayableCharacter
             ImpersonatedBy = player;
             RecomputeKnownAbilities();
             Recompute();
-            RecomputeCommands();
             return true;
         }
 
@@ -473,7 +471,6 @@ namespace Mud.Server.Character.PlayableCharacter
                     //RecomputeBaseAttributes();
                     RecomputeKnownAbilities();
                     Recompute();
-                    RecomputeCommands();
                     // Bonus -> reset cooldown and set resource to max
                     ResetCooldowns();
                     ImpersonatedBy?.Save(); // Force a save when a level is gained
@@ -502,7 +499,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.CheckAbilityImprove: multiplier had invalid value {0}", multiplier);
                 multiplier = 1;
             }
-            int difficultyMultiplier = knownAbility.ImproveDifficulityMultiplier;
+            int difficultyMultiplier = knownAbility.DifficulityMultiplier;
             if (difficultyMultiplier <= 0)
             {
                 Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.CheckAbilityImprove: difficulty multiplier had invalid value {0} for KnownAbility {1} Player {2}", multiplier, knownAbility.Ability, DebugName);

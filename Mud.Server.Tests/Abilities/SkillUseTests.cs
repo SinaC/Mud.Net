@@ -1,11 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Domain;
-using Mud.POC.Abilities;
+using Mud.Server.Abilities;
 using Mud.Server.Common;
 using Mud.Server.Input;
 
-namespace Mud.POC.Tests
+namespace Mud.Server.Tests.Abilities
 {
     [TestClass]
     public class SkillUseTests : AbilityTestBase
@@ -14,7 +14,7 @@ namespace Mud.POC.Tests
         public void NullAbility_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
             IAbility ability = abilityManager["pouet"]; // doesnt exist
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
@@ -30,7 +30,7 @@ namespace Mud.POC.Tests
         public void Passive_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
             IAbility ability = abilityManager["Whip"];
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
@@ -46,7 +46,7 @@ namespace Mud.POC.Tests
         public void Spell_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
             IAbility ability = abilityManager["Mass invis"];
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
@@ -62,9 +62,8 @@ namespace Mud.POC.Tests
         public void Target_CharacterSelf_NoTargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            Skills.RandomManager = randomManagerMock.Object;
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
             IAbility ability = abilityManager["Berserk"];
             var characterMock = new Mock<IPlayableCharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
@@ -83,9 +82,8 @@ namespace Mud.POC.Tests
         public void Target_CharacterSelf_TargetSelfSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            Skills.RandomManager = randomManagerMock.Object;
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
             IAbility ability = abilityManager["Berserk"];
             var characterMock = new Mock<IPlayableCharacter>();
             characterMock.SetupGet(x => x.Name).Returns("mob1");
@@ -109,9 +107,8 @@ namespace Mud.POC.Tests
         public void Target_CharacterSelf_TargetNotFoundSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            Skills.RandomManager = randomManagerMock.Object;
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
             IAbility ability = abilityManager["Berserk"];
             var characterMock = new Mock<IPlayableCharacter>();
             characterMock.SetupGet(x => x.Name).Returns("mob1");
@@ -135,9 +132,8 @@ namespace Mud.POC.Tests
         public void Target_CharacterSelf_TargetSpecified_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            Skills.RandomManager = randomManagerMock.Object;
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
             IAbility ability = abilityManager["Berserk"];
             var characterMock = new Mock<IPlayableCharacter>();
             characterMock.SetupGet(x => x.Name).Returns("mob1");
@@ -165,9 +161,8 @@ namespace Mud.POC.Tests
         public void NotKnown_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            Skills.RandomManager = randomManagerMock.Object;
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
             IAbility ability = abilityManager["Berserk"];
             var characterMock = new Mock<IPlayableCharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);

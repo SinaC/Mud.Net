@@ -3,12 +3,12 @@ using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
 using System.Linq;
+// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter
     {
-
         [PlayableCharacterCommand("destroy", "Item", Priority = 50, NoShortcut = true)]
         [Syntax("[cmd] <item>")]
         // Destroy item
