@@ -30,6 +30,8 @@ namespace Mud.Server.Tests.Mocking
 
         public IEnumerable<AbilityUsage> Abilities => Enumerable.Empty<AbilityUsage>();
 
+        public int MaxPracticePercentage => throw new NotImplementedException();
+
         public IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form) => Enumerable.Empty<ResourceKinds>();
 
         public int GetAttributeByLevel(CharacterAttributes attribute, int level) => level;

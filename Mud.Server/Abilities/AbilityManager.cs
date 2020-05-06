@@ -77,6 +77,8 @@ namespace Mud.Server.Abilities
             }
         }
 
+        public IAbility this[int id] => _abilities.SingleOrDefault(x => x.Id == id);
+
         public IEnumerable<IAbility> Spells => _abilities.Where(x => x.Kind == AbilityKinds.Spell);
         public IEnumerable<IAbility> Skills => _abilities.Where(x => x.Kind == AbilityKinds.Skill);
         public IEnumerable<IAbility> Passives => _abilities.Where(x => x.Kind == AbilityKinds.Passive);
@@ -133,7 +135,7 @@ namespace Mud.Server.Abilities
                         cost = knownAbility.CostAmount;
                         break;
                     case CostAmountOperators.Percentage:
-                        cost = caster.GetMaxResource(knownAbility.ResourceKind) * knownAbility.CostAmount / 100;
+                        cost = caster.MaxResource(knownAbility.ResourceKind) * knownAbility.CostAmount / 100;
                         break;
                     default:
                         Log.Default.WriteLine(LogLevels.Error, "Unexpected CostAmountOperator {0}", knownAbility.CostAmountOperator);

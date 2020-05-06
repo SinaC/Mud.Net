@@ -317,8 +317,8 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Level: {0} Sex: {1} (base: {2})", victim.Level, victim.CurrentSex, victim.BaseSex);
             if (playableVictim != null)
                 sb.AppendFormatLine("Experience: {0} NextLevel: {1}", playableVictim.Experience, playableVictim.ExperienceToLevel);
-            sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim.CurrentAttributes(CharacterAttributes.MaxHitPoints));
-            sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim.CurrentAttributes(CharacterAttributes.MaxMovePoints));
+            sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim.CurrentAttribute(CharacterAttributes.MaxHitPoints));
+            sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim.CurrentAttribute(CharacterAttributes.MaxMovePoints));
             sb.AppendFormatLine("Flags: {0}|{1}", victim.CurrentCharacterFlags, victim.BaseCharacterFlags);
             sb.AppendFormatLine("Immunites: {0} (base: {1})", victim.CurrentImmunities, victim.BaseImmunities);
             sb.AppendFormatLine("Resistances: {0} (base: {1})", victim.CurrentResistances, victim.BaseResistances);
@@ -326,9 +326,14 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Alignment: {0}", victim.Alignment);
             sb.AppendLine("Attributes:");
             foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
-                sb.AppendFormatLine("{0}: {1} (base: {2})", attribute, victim.CurrentAttributes(attribute), victim.BaseAttributes(attribute));
+                sb.AppendFormatLine("{0}: {1} (base: {2})", attribute, victim.CurrentAttribute(attribute), victim.BaseAttribute(attribute));
             foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>().Where(x => x != ResourceKinds.None))
                 sb.AppendFormatLine("{0}: {1}", resourceKind, victim[resourceKind]);
+            if (nonPlayableVictim != null)
+            {
+                sb.AppendFormatLine("Act: {0}", nonPlayableVictim.ActFlags);
+                sb.AppendFormatLine("Offensive: {0}", nonPlayableVictim.OffensiveFlags);
+            }
             //foreach (IPeriodicAura pa in victim.PeriodicAuras)
             //    if (pa.AuraType == PeriodicAuraTypes.Damage)
             //        sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds.",
@@ -351,8 +356,16 @@ namespace Mud.Server.Admin
             if (victim.KnownAbilities.Any())
             {
                 sb.AppendLine("Abilities:");
+                int col = 0;
                 foreach (KnownAbility knownAbility in victim.KnownAbilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name))
-                    sb.AppendFormatLine("{0} - {1} {2}% [{3}]", knownAbility.Level, knownAbility.Ability.Name, knownAbility.Learned, knownAbility.Ability.Id);
+                {
+                    // TODO: formating
+                    sb.AppendFormat("{0} - {1} {2}% [{3}]    ", knownAbility.Level, knownAbility.Ability.Name, knownAbility.Learned, knownAbility.Ability.Id);
+                    if (++col % 3 == 0)
+                        sb.AppendLine();
+                }
+                if (col % 3 != 0)
+                    sb.AppendLine();
             }
             else
                 sb.AppendLine("No abilities");

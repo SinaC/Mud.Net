@@ -1,10 +1,14 @@
-﻿using Mud.Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Mud.POC.Abilities
+namespace Mud.Domain
 {
-    public class KnownAbility
+    public class KnownAbilityData
     {
-        public IAbility Ability { get; set; }
+        public int AbilityId { get; set; }
 
         public ResourceKinds ResourceKind { get; set; }
 
@@ -13,7 +17,7 @@ namespace Mud.POC.Abilities
         public CostAmountOperators CostAmountOperator { get; set; }
 
         public int Level { get; set; } // level at which ability can be learned
-        
+
         public int Learned { get; set; } // practice percentage, 0 means not learned, 100 mean fully learned
 
         public int Rating { get; set; } // how difficult is it to improve/gain/practice

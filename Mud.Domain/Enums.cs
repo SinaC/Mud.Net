@@ -279,6 +279,7 @@ namespace Mud.Domain
     [Flags]
     public enum CharacterFlags
     {
+        None            = 0x00000000,
         Blind           = 0x00000001,
         Invisible       = 0x00000002,
         DetectEvil      = 0x00000004,
@@ -411,10 +412,11 @@ namespace Mud.Domain
     [Flags]
     public enum ActFlags 
     {
+        None            = 0x00000000,
         Sentinel        = 0x00000001,
         Scavenger       = 0x00000002,
-        Aggressive      = 0x00000003,
-        StayArea        = 0x00000008,
+        StayArea        = 0x00000004,
+        Aggressive      = 0x00000008,
         Wimpy           = 0x00000010,
         Pet             = 0x00000020,
         Undead          = 0x00000040,
@@ -423,11 +425,17 @@ namespace Mud.Domain
         Outdoors        = 0x00000200,
         Indoors         = 0x00000400,
         UpdateAlways    = 0x00000800,
+        Train           = 0x00001000,
+        IsHealer        = 0x00002000,
+        Gain            = 0x00004000,
+        Practice        = 0x00008000,
+        Aware           = 0x00010000,
     }
 
     [Flags]
     public enum OffensiveFlags
     {
+        None            = 0x00000000,
         AreaAttack      = 0x00000001,
         Backstab        = 0x00000002,
         Bash            = 0x00000003,
@@ -448,19 +456,19 @@ namespace Mud.Domain
     [Flags]
     public enum AuraFlags
     {
-        None = 0x0,
-        StayDeath = 0x1, // Remains even if affected dies
-        NoDispel = 0x2, // Can't be dispelled
-        Permanent = 0x4, // No duration
-        Hidden = 0x8, // Not displayed
+        None        = 0x0,
+        StayDeath   = 0x1, // Remains even if affected dies
+        NoDispel    = 0x2, // Can't be dispelled
+        Permanent   = 0x4, // No duration
+        Hidden      = 0x8, // Not displayed
     }
 
     public enum AffectOperators
     {
-        Add = 0,
-        Or = 1,
-        Assign = 2,
-        Nor = 3
+        Add     = 0,
+        Or      = 1,
+        Assign  = 2,
+        Nor     = 3
     }
 
     [Flags]
@@ -476,38 +484,38 @@ namespace Mud.Domain
     public enum AbilityKinds
     {
         Passive = 0,
-        Spell = 1, // invoked with cast
-        Skill = 2, // invoked with use or command
+        Spell   = 1, // invoked with cast
+        Skill   = 2, // invoked with use or command
     }
 
     public enum AbilityTargets
     {
         // No target
-        None, // TAR_IGNORE
+        None                                = 0,
         // Fighting if no parameter, character in room if parameter specified
-        CharacterOffensive, // TAR_CHAR_OFFENSIVE
+        CharacterOffensive                  = 1,
         // Itself if no parameter, character in room if parameter specified
-        CharacterDefensive, // TAR_CHAR_DEFENSIVE
+        CharacterDefensive                  = 2,
         // Itself if no parameter, check if parameter == itself if parameter specified
-        CharacterSelf, // TAR_CHAR_SELF
+        CharacterSelf                       = 3,
         // Item in inventory
-        ItemInventory, // TAR_OBJ_INV
+        ItemInventory                       = 4,
         // Fighting if no parameter, character in room, then item in room, then in inventory, then in equipment if parameter specified
-        ItemHereOrCharacterOffensive, // TAR_OBJ_CHAR_OFF
+        ItemHereOrCharacterOffensive        = 5,
         // Itself if no parameter, character in room or item in inventory if parameter specified
-        ItemInventoryOrCharacterDefensive, //TAR_OBJ_CHAR_DEF
+        ItemInventoryOrCharacterDefensive   = 6,
         // Target will be 'computed' by spell
-        Custom,
+        Custom                              = 7,
         // Optional item in inventory
-        OptionalItemInventory,
+        OptionalItemInventory               = 8,
         // Armor in inventory
-        ArmorInventory,
+        ArmorInventory                      = 9,
         // Weapon in inventory
-        WeaponInventory,
+        WeaponInventory                     = 10,
         // Victim is source.Fighting
-        CharacterFighting,
+        CharacterFighting                   = 11,
         // Victim is somewhere in the world
-        CharacterWorldwide,
+        CharacterWorldwide                  = 12,
     }
 
     [Flags]
@@ -525,6 +533,8 @@ namespace Mud.Domain
         Typos     = 0x00000100,
         Help      = 0x00000200,
         Load      = 0x00000400,
-        Promote   = 0x00000800
+        Promote   = 0x00000800,
+        Resets    = 0x00001000, // TODO: use
+        Restore   = 0x00002000,
     }
 }

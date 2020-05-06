@@ -355,6 +355,46 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
+        [Command("restore", "Admin")]
+        [Syntax(
+            "[cmd] <character>",
+            "[cmd] all",
+            "[cmd] (if impersonated)")]
+        protected virtual CommandExecutionResults DoRestore(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0 || parameters[0].Value == "room")
+            {
+                if (Impersonating == null)
+                {
+                    Send("Restore what?");
+                    return CommandExecutionResults.SyntaxErrorNoDisplay;
+                }
+                foreach (ICharacter loopVictim in Impersonating.Room.People)
+                    RestoreOneCharacter(loopVictim);
+                Wiznet.Wiznet($"{DisplayName} has restored room {Impersonating.Room.Blueprint.Id}.", WiznetFlags.Restore);
+                Send("Room restored.");
+                return CommandExecutionResults.Ok;
+            }
+            if (parameters[0].IsAll)
+            {
+                foreach (ICharacter loopVictim in World.PlayableCharacters)
+                    RestoreOneCharacter(loopVictim);
+                Wiznet.Wiznet($"{DisplayName} has restored everyone {Impersonating.Room.Blueprint.Id}.", WiznetFlags.Restore);
+                Send("All active players restored.");
+                return CommandExecutionResults.Ok;
+            }
+            IPlayableCharacter victim = FindHelpers.FindByName(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), parameters[0]);
+            if (victim == null)
+            {
+                Send(StringHelpers.CharacterNotFound);
+                return CommandExecutionResults.TargetNotFound;
+            }
+            RestoreOneCharacter(victim);
+            Wiznet.Wiznet($"{DisplayName} has restored {victim.DisplayName}.", WiznetFlags.Restore);
+            Send("Ok.");
+            return CommandExecutionResults.Ok;
+        }
+
         [Command("sanitycheck", "Admin")]
 
         protected virtual CommandExecutionResults DoSanityCheck(string rawParameters, params CommandParameter[] parameters)
@@ -423,6 +463,18 @@ namespace Mud.Server.Admin
             StringBuilder sb = TableGenerators.CommandMethodInfoTableGenerator.Value.Generate($"Commands for {type.Name}", query);
             Page(sb);
             return CommandExecutionResults.Ok;
+        }
+
+        //
+        private void RestoreOneCharacter(ICharacter victim)
+        {
+            victim.RemoveAuras(_ => true, true); // TODO: harmful auras only ?
+            victim.UpdateHitPoints(victim.CurrentAttribute(CharacterAttributes.MaxHitPoints));
+            victim.UpdateMovePoints(victim.CurrentAttribute(CharacterAttributes.MaxMovePoints));
+            foreach (ResourceKinds resource in victim.CurrentResourceKinds)
+                victim.UpdateResource(resource, victim.MaxResource(resource));
+            // TODO: update_pos
+            victim.Send("{0} has restored you.", Impersonating?.DisplayName ?? DisplayName);
         }
     }
 }

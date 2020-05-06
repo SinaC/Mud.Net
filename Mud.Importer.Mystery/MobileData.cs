@@ -66,6 +66,130 @@
         }
     }
 
+    public enum AffectedBy
+    {
+        AFF_BLIND = MysteryImporter.A,
+        AFF_INVISIBLE = MysteryImporter.B,
+        AFF_DETECT_EVIL = MysteryImporter.C,
+        AFF_DETECT_INVIS = MysteryImporter.D,
+        AFF_DETECT_MAGIC = MysteryImporter.E,
+        AFF_DETECT_HIDDEN = MysteryImporter.F,
+        AFF_DETECT_GOOD = MysteryImporter.G,
+        AFF_SANCTUARY = MysteryImporter.H,
+        AFF_FAERIE_FIRE = MysteryImporter.I,
+        AFF_INFRARED = MysteryImporter.J,
+        AFF_CURSE = MysteryImporter.K,
+        // Modified by SinaC 2001
+        //#define AFF_UNUSED_FLAG		 = MysteryImporter.L,	/* unused */
+        AFF_ROOTED = MysteryImporter.L,
+        AFF_POISON = MysteryImporter.M,
+        AFF_PROTECT_EVIL = MysteryImporter.N,
+        AFF_PROTECT_GOOD = MysteryImporter.O,
+        AFF_SNEAK = MysteryImporter.P,
+        AFF_HIDE = MysteryImporter.Q,
+        AFF_SLEEP = MysteryImporter.R,
+        AFF_CHARM = MysteryImporter.S,
+        AFF_FLYING = MysteryImporter.T,
+        AFF_PASS_DOOR = MysteryImporter.U,
+        AFF_HASTE = MysteryImporter.V,
+        AFF_CALM = MysteryImporter.W,
+        AFF_PLAGUE = MysteryImporter.X,
+        AFF_WEAKEN = MysteryImporter.Y,
+        AFF_DARK_VISION = MysteryImporter.Z,
+        AFF_BERSERK = MysteryImporter.aa,
+        AFF_SWIM = MysteryImporter.bb,
+        AFF_REGENERATION = MysteryImporter.cc,
+        AFF_SLOW = MysteryImporter.dd,
+        // Added by SinaC 2000 for SILENCED people, can't cast spell
+        AFF_SILENCE = MysteryImporter.ee,
+    }
+
+    public enum AffectedBy2
+    {
+        AFF2_WALK_ON_WATER = MysteryImporter.A,
+        AFF2_WATER_BREATH = MysteryImporter.B,
+        AFF2_DETECT_EXITS = MysteryImporter.C,
+        AFF2_MAGIC_MIRROR = MysteryImporter.D,
+        AFF2_FAERIE_FOG = MysteryImporter.E,
+        AFF2_NOEQUIPMENT = MysteryImporter.F,
+        // Added by SinaC 2003
+        AFF2_FREE_MOVEMENT = MysteryImporter.G,
+        AFF2_INCREASED_CASTING = MysteryImporter.H,
+        AFF2_NOSPELL = MysteryImporter.I,
+        AFF2_NECROTISM = MysteryImporter.J,
+        AFF2_HIGHER_MAGIC_ATTRIBUTES = MysteryImporter.K,
+        AFF2_CONFUSION = MysteryImporter.L,
+    }
+
+    public enum Act
+    {
+        ACT_IS_NPC = MysteryImporter.A,     /* Auto set for mobs	*/
+        ACT_SENTINEL = MysteryImporter.B,       /* Stays in one room	*/
+        ACT_SCAVENGER = MysteryImporter.C,      /* Picks up objects	*/
+        ACT_AWARE = MysteryImporter.E,             // can't be backstab
+        ACT_AGGRESSIVE = MysteryImporter.F,         /* Attacks PC's		*/
+        ACT_STAY_AREA = MysteryImporter.G,      /* Won't leave area	*/
+        ACT_WIMPY = MysteryImporter.H,
+        ACT_PET = MysteryImporter.I,        /* Auto set for pets	*/
+        ACT_TRAIN = MysteryImporter.J,      /* Can train PC's	*/
+        ACT_PRACTICE = MysteryImporter.K,       /* Can practice PC's	*/
+        // Added by SinaC 2001
+        ACT_FREE_WANDER = MysteryImporter.L,  /* Can leave an area without being extract, SinaC 2001 */
+        // Added by SinaC 2003, ACT_MOUNTABLE tells if a mob can be mounted using mount/dismount command
+        // ACT_IS_MOUNTED tells if a mob is mounted
+        ACT_MOUNTABLE = MysteryImporter.M,
+        ACT_IS_MOUNTED = MysteryImporter.N,
+        ACT_UNDEAD = MysteryImporter.O,
+        ACT_NOSLEEP = MysteryImporter.P,
+        ACT_CLERIC = MysteryImporter.Q,
+        ACT_MAGE = MysteryImporter.R,
+        ACT_THIEF = MysteryImporter.S,
+        ACT_WARRIOR = MysteryImporter.T,
+        ACT_NOALIGN = MysteryImporter.U,
+        ACT_NOPURGE = MysteryImporter.V,
+        ACT_OUTDOORS = MysteryImporter.W,
+        ACT_INDOORS = MysteryImporter.Y,
+        // Added by SinaC 2003, set if the mob has been created with an ability such as summon elemental, ...
+        ACT_CREATED = MysteryImporter.Z,
+        ACT_IS_HEALER = MysteryImporter.aa,
+        ACT_GAIN = MysteryImporter.bb,
+        ACT_UPDATE_ALWAYS = MysteryImporter.cc,
+        //#define ACT_IS_CHANGER		 = MysteryImporter.dd,
+        // Added by SinaC 2003
+        // ACT_RESERVED is used to mark a mob from script, so that mob can't be a quest target
+        ACT_RESERVED = MysteryImporter.dd,
+        ACT_IS_SAFE = MysteryImporter.ee,
+    }
+
+    public enum Offensive
+    {
+        OFF_AREA_ATTACK = MysteryImporter.A,
+        OFF_BACKSTAB = MysteryImporter.B,
+        OFF_BASH = MysteryImporter.C,
+        OFF_BERSERK = MysteryImporter.D,
+        OFF_DISARM = MysteryImporter.E,
+        OFF_DODGE = MysteryImporter.F,
+        OFF_FADE = MysteryImporter.G,
+        OFF_FAST = MysteryImporter.H,
+        OFF_KICK = MysteryImporter.I,
+        OFF_KICK_DIRT = MysteryImporter.J,
+        OFF_PARRY = MysteryImporter.K,
+        OFF_RESCUE = MysteryImporter.L,
+        OFF_TAIL = MysteryImporter.M,
+        OFF_TRIP = MysteryImporter.N,
+        OFF_CRUSH = MysteryImporter.O,
+
+        ASSIST_ALL = MysteryImporter.P,
+        ASSIST_ALIGN = MysteryImporter.Q,
+        ASSIST_RACE = MysteryImporter.R,
+        ASSIST_PLAYERS = MysteryImporter.S,
+        ASSIST_GUARD = MysteryImporter.T,
+        ASSIST_VNUM = MysteryImporter.U,
+        // Added by SinaC 2000 to add some fun :,,,, counter-attack for mobiles
+        OFF_COUNTER = MysteryImporter.V,
+        OFF_BITE = MysteryImporter.W,
+    }
+
     // position table
     //---------------
     //{	"dead",			"dead"	},
@@ -253,12 +377,12 @@
 
     // afto_type table
     //----------------
-//    {   "char",          AFTO_CHAR,            TRUE    },
-//    {   "object",        AFTO_OBJECT,          TRUE    },
-//    {   "objval",        AFTO_OBJVAL,          TRUE    },
-//    {   "weapon",        AFTO_WEAPON,          TRUE    },
-//    {   "room",          AFTO_ROOM,            TRUE    }, // SinaC 2003
-//    {   NULL,              0,                    0       }
+    //    {   "char",          AFTO_CHAR,            TRUE    },
+    //    {   "object",        AFTO_OBJECT,          TRUE    },
+    //    {   "objval",        AFTO_OBJVAL,          TRUE    },
+    //    {   "weapon",        AFTO_WEAPON,          TRUE    },
+    //    {   "room",          AFTO_ROOM,            TRUE    }, // SinaC 2003
+    //    {   NULL,              0,                    0       }
     // where definitions
     //#define AFTO_CHAR       0
     //#define AFTO_OBJECT     1

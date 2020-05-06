@@ -250,7 +250,7 @@ namespace Mud.Server.Tests.Abilities
             int maxMana = 1500;
             int mana = 1000;
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(mana);
-            characterMock.Setup(x => x.GetMaxResource(It.IsAny<ResourceKinds>())).Returns<int>(kind => maxMana);
+            characterMock.Setup(x => x.MaxResource(It.IsAny<ResourceKinds>())).Returns<int>(kind => maxMana);
             characterMock.Setup(x => x.UpdateResource(It.IsAny<ResourceKinds>(), It.IsAny<int>())).Callback<ResourceKinds, int>((kind, cost) => mana += cost);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");

@@ -1,4 +1,5 @@
 TODO:
+train command
 AbilityManager should not hardcode Rom24Passives
 Cooldown
 Second/Third/Fourth wield in insectoid
@@ -8,13 +9,17 @@ Unit tests on spell/skill to check if method argument matches AbilityTarget, che
 Spell with damage + effect (such as ColourSpray) can lead to strange behaviour -> damage kill victim then blindness is cast on victim  -> Damage should return if character has been killed
 UnitTests CastFromItem/GetItemAbilityTarget
 UnitTests on Rom24Effects
-
+idea: move HP and move in ResourceKinds
+rework resource system, Resource.None = 0 -> index 0 is used for nothing
 
 AbilityTargets not yet handled:
 	SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCharacter victim) // victim is NPC
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+gain/practice command
+restore command
+HP/Move/Resources saved in pfile
 remove CharacterBase.RecomputeCommands + StaticCommands + _fullCommands
 Class/Race AddAbility additional parameters
 Add/Merge abilities from race/class when PlayableCharacter is created/connected
@@ -30,7 +35,7 @@ Don't save invalid auras, better use of IsValid on Aura -> store an Aura list in
 Move, Resistances, Alignment added
 Rom24 various flags added
 Rom24 most spells added
-.Net Random removed from RandomManager 
+.Net Random direct access removed from RandomManager 
 ICharacter.Inventory is the same as Content 
 AddAura duration in pulse and not second (-1: permanent)
     change aura/quest/... duration to TimeSpan
@@ -39,7 +44,7 @@ Aura with multiple modifiers
 Add AddOrModifyAura to refactor test on GetAura then AddAura or Aura.Modify
 Affects save
 Full character/item data save
-TableGenerator with duplicate columns, will allow to split data on 2 big columns
+TableGenerator with duplicate columns
 	 ----------------------
 	|Name  | % || Name  | %|
 	|------+---++-------+--|
@@ -49,11 +54,12 @@ TableGenerator with duplicate columns, will allow to split data on 2 big columns
 	 ----------------------
 
 *************************************************************
+
+
 Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
 AddAura: additional param combine, when adding already existing aura (see affect_join)
 Move CanSee in IEntity
 Move AddAura in aura manager
-train/practice/gain command
 store an Aura list in World this will avoid looping on all room/character/item to check aura
 Save blueprint in Hashtable
 CurrentAttributes, CurrentCharacterFlags, CurrentXXX should be accessible with indexers

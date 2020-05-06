@@ -19,7 +19,19 @@ namespace Mud.Repository.Mongo.Domain
 
         public int Sex { get; set; }
 
+        public int HitPoints { get; set; }
+
+        public int MovePoints { get; set; }
+
+        public Dictionary<int, int> CurrentResources { get; set; }
+
+        public Dictionary<int, int> MaxResources { get; set; }
+
         public long Experience { get; set; }
+
+        public int Trains { get; set; }
+
+        public int Practices { get; set; }
 
         public EquipedItemData[] Equipments { get; set; }
 
@@ -38,6 +50,8 @@ namespace Mud.Repository.Mongo.Domain
         public int Vulnerabilities { get; set; }
 
         public Dictionary<int, int> Attributes { get; set; } // TODO: this could create duplicate key exception while deserializing if CharacterAttribute is not found anymore
+
+        public KnownAbilityData[] KnownAbilities { get; set; }
 
         // TODO: cooldown, ...
     }

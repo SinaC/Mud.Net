@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Mud.Logger;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,7 +31,9 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
                 .ForMember(x => x.Resistances, expression => expression.MapFrom(x => MapIRVFlags(x.Resistances)))
                 .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => MapIRVFlags(x.Vulnerabilities)))
-                .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapFromDictionary(x.Attributes)));
+                .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapFromDictionary(x.Attributes, MapCharacterAttributes)))
+                .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapFromDictionary(x.CurrentResources, MapResourceKind)))
+                .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapFromDictionary(x.MaxResources, MapResourceKind)));
 
             CreateMap<Mud.Domain.ItemData, Domain.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
@@ -76,6 +79,10 @@ namespace Mud.Repository.Mongo
             CreateMap<Mud.Domain.ItemWeaponFlagsAffectData, Domain.ItemWeaponFlagsAffectData>()
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
                 .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapWeaponFlags(x.Modifier)));
+
+            CreateMap<Mud.Domain.KnownAbilityData, Domain.KnownAbilityData>()
+                .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapResourceKind(x.ResourceKind)))
+                .ForMember(x => x.CostAmountOperator, expression => expression.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
         }
 
         private void InternalToExternal()
@@ -92,7 +99,9 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
                 .ForMember(x => x.Resistances, expression => expression.MapFrom(x => MapIRVFlags(x.Resistances)))
                 .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => MapIRVFlags(x.Vulnerabilities)))
-                .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapToDictionary(x.Attributes)));
+                .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapToDictionary(x.Attributes, MapCharacterAttributes)))
+                .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapToDictionary(x.CurrentResources, MapResourceKind)))
+                .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapToDictionary(x.MaxResources, MapResourceKind)));
 
             CreateMap<Domain.ItemData, Mud.Domain.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
@@ -138,11 +147,15 @@ namespace Mud.Repository.Mongo
             CreateMap<Domain.ItemWeaponFlagsAffectData, Mud.Domain.ItemWeaponFlagsAffectData>()
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
                 .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapWeaponFlags(x.Modifier)));
+
+            CreateMap<Domain.KnownAbilityData, Mud.Domain.KnownAbilityData>()
+                .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapResourceKind(x.ResourceKind)))
+                .ForMember(x => x.CostAmountOperator, expression => expression.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
         }
 
-        private Dictionary<int, int> MapFromDictionary(Dictionary<Mud.Domain.CharacterAttributes, int> dictionary) => dictionary?.ToDictionary(x => MapCharacterAttributes(x.Key), x => x.Value);
+        private Dictionary<int, int> MapFromDictionary<T>(Dictionary<T, int> dictionary, Func<T, int> mapKeyFunc) => dictionary?.ToDictionary(x => mapKeyFunc(x.Key), x => x.Value);
 
-        private Dictionary<Mud.Domain.CharacterAttributes, int> MapToDictionary(Dictionary<int, int> dictionary) => dictionary?.ToDictionary(x => MapCharacterAttributes(x.Key), x => x.Value);
+        private Dictionary<T, int> MapToDictionary<T>(Dictionary<int, int> dictionary, Func<int,T> mapKeyFunc) => dictionary?.ToDictionary(x => mapKeyFunc(x.Key), x => x.Value);
 
 
         private Mud.Domain.WiznetFlags MapWiznetFlags(int flags)
@@ -543,5 +556,60 @@ namespace Mud.Repository.Mongo
             }
         }
 
+        private Mud.Domain.ResourceKinds MapResourceKind(int resource)
+        {
+            switch (resource)
+            {
+                case 0: return Mud.Domain.ResourceKinds.None;
+                case 1: return Mud.Domain.ResourceKinds.Mana;
+                case 2: return Mud.Domain.ResourceKinds.Energy;
+                case 3: return Mud.Domain.ResourceKinds.Rage;
+                case 4: return Mud.Domain.ResourceKinds.Runic;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid ResourceKinds {resource} while reading pfile");
+                    return 0;
+            }
+        }
+
+        private int MapResourceKind(Mud.Domain.ResourceKinds resource)
+        {
+            switch (resource)
+            {
+                case Mud.Domain.ResourceKinds.None: return 0;
+                case Mud.Domain.ResourceKinds.Mana: return 1;
+                case Mud.Domain.ResourceKinds.Energy: return 2;
+                case Mud.Domain.ResourceKinds.Rage: return 3;
+                case Mud.Domain.ResourceKinds.Runic: return 4;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid ResourceKinds {resource} while writing pfile");
+                    return 0;
+            }
+        }
+
+        private Mud.Domain.CostAmountOperators MapCostAmountOperator(int op)
+        {
+            switch (op)
+            {
+                case 0: return Mud.Domain.CostAmountOperators.None;
+                case 1: return Mud.Domain.CostAmountOperators.Fixed;
+                case 2: return Mud.Domain.CostAmountOperators.Percentage;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid CostAmountOperators {op} while reading pfile");
+                    return 0;
+            }
+        }
+
+        private int MapCostAmountOperator(Mud.Domain.CostAmountOperators op)
+        {
+            switch (op)
+            {
+                case Mud.Domain.CostAmountOperators.None: return 0;
+                case Mud.Domain.CostAmountOperators.Fixed: return 1;
+                case Mud.Domain.CostAmountOperators.Percentage: return 2;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid CostAmountOperators {op} while writing pfile");
+                    return 0;
+            }
+        }
     }
 }

@@ -14,14 +14,14 @@ namespace Mud.POC.Abilities
 
         public CostAmountOperators CostAmountOperator { get; set; }
 
-        public int ImproveDifficulityMultiplier { get; set; }
+        public int Rating { get; set; }
 
         public AbilityUsage()
         {
             ResourceKinds = ResourceKinds.None;
             CostAmount = 0;
             CostAmountOperator = CostAmountOperators.None;
-            ImproveDifficulityMultiplier = 1;
+            Rating = 1;
         }
     }
 }

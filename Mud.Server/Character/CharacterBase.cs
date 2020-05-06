@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using Mud.Container;
 using Mud.DataStructures.Trie;
@@ -322,15 +323,20 @@ namespace Mud.Server.Character
         }
 
         // Attributes
-        public int BaseAttributes(CharacterAttributes attribute) => _baseAttributes[(int)attribute];
+        public int BaseAttribute(CharacterAttributes attribute) => _baseAttributes[(int)attribute];
 
-        public int CurrentAttributes(CharacterAttributes attribute) => _currentAttributes[(int)attribute];
+        public int CurrentAttribute(CharacterAttributes attribute) => _currentAttributes[(int)attribute];
 
-        public int GetMaxResource(ResourceKinds resource) => _maxResources[(int) resource];
+        public int MaxResource(ResourceKinds resource) => _maxResources[(int) resource];
 
         public void UpdateResource(ResourceKinds resource, int amount)
         {
             this[resource] = (this[resource] + amount).Range(0, _maxResources[(int)resource]);
+        }
+
+        public void UpdateHitPoints(int amount)
+        {
+            HitPoints = (HitPoints + amount).Range(0, MaxHitPoints);
         }
 
         public void UpdateMovePoints(int amount)
@@ -378,9 +384,9 @@ namespace Mud.Server.Character
             }
             else if (this is IPlayableCharacter)
             {
-                hpGain = Math.Max(3, CurrentAttributes(CharacterAttributes.Constitution) - 3 + Level / 2);
+                hpGain = Math.Max(3, CurrentAttribute(CharacterAttributes.Constitution) - 3 + Level / 2);
                 moveGain = Math.Max(15, Level);
-                manaGain = (CurrentAttributes(CharacterAttributes.Wisdom) + CurrentAttributes(CharacterAttributes.Intelligence) + Level) / 2;
+                manaGain = (CurrentAttribute(CharacterAttributes.Wisdom) + CurrentAttribute(CharacterAttributes.Intelligence) + Level) / 2;
                 if (CurrentCharacterFlags.HasFlag(CharacterFlags.Regeneration))
                     hpGain *= 2;
                 // TODO: hp/mana: class bonus
@@ -389,11 +395,11 @@ namespace Mud.Server.Character
                 switch (Position)
                 {
                     case Positions.Sleeping:
-                        moveGain += CurrentAttributes(CharacterAttributes.Dexterity);
+                        moveGain += CurrentAttribute(CharacterAttributes.Dexterity);
                         break;
                     case Positions.Resting:
                         hpGain /= 2;
-                        moveGain += CurrentAttributes(CharacterAttributes.Dexterity) / 2;
+                        moveGain += CurrentAttribute(CharacterAttributes.Dexterity) / 2;
                         manaGain /= 2;
                         break;
                     case Positions.Fighting:
@@ -950,7 +956,7 @@ namespace Mud.Server.Character
         public bool SavesSpell(int level, SchoolTypes damageType)
         {
             ICharacter victim = this;
-            int save = 50 + (victim.Level - level) * 5 - victim.CurrentAttributes(CharacterAttributes.SavingThrow) * 2;
+            int save = 50 + (victim.Level - level) * 5 - victim.CurrentAttribute(CharacterAttributes.SavingThrow) * 2;
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Berserk))
                 save += victim.Level / 2;
             ResistanceLevels resist = victim.CheckResistance(damageType);
@@ -2109,6 +2115,24 @@ namespace Mud.Server.Character
             CurrentSex = BaseSex;
         }
 
+        protected void SetCurrentResource(ResourceKinds resourceKind, int value) 
+        {
+            _currentResources[(int)resourceKind] = value;
+        }
+
+        protected void SetMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)
+        {
+            _maxResources[(int)resourceKind] = value;
+            if (checkCurrent)
+                _currentResources[(int)resourceKind] = Math.Min(_currentResources[(int)resourceKind], _maxResources[(int)resourceKind]);
+        }
+
+        protected void AddKnownAbility(KnownAbility knownAbility)
+        {
+            if (knownAbility.Ability != null && _knownAbilities.All(x => x.Ability?.Id != knownAbility.Ability.Id))
+                _knownAbilities.Add(knownAbility);
+        }
+
         private void ApplyAuras(IEntity entity)
         {
             if (!entity.IsValid)
@@ -2132,7 +2156,7 @@ namespace Mud.Server.Character
                 {
                     Log.Default.WriteLine(LogLevels.Debug, "Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
                     knownAbility.Level = Math.Min(knownAbility.Level, abilityUsage.Level);
-                    knownAbility.DifficulityMultiplier = Math.Min(knownAbility.DifficulityMultiplier, abilityUsage.DifficulityMultiplier);
+                    knownAbility.Rating = Math.Min(knownAbility.Rating, abilityUsage.Rating);
                     knownAbility.CostAmount = Math.Min(knownAbility.CostAmount, abilityUsage.CostAmount);
                     // TODO: what should be we if multiple resource kind or operator ?
                 }
@@ -2147,9 +2171,9 @@ namespace Mud.Server.Character
                         ResourceKind = abilityUsage.ResourceKind,
                         CostAmount = abilityUsage.CostAmount,
                         CostAmountOperator = abilityUsage.CostAmountOperator,
-                        DifficulityMultiplier = abilityUsage.DifficulityMultiplier
+                        Rating = abilityUsage.Rating
                     };
-                    _knownAbilities.Add(knownAbility);
+                    AddKnownAbility(knownAbility);
                 }
             }
         }

@@ -39,13 +39,13 @@ namespace Mud.Server.Aura
         public Aura(AuraData auraData)
             : this()
         {
-            if (auraData.AbilitiId == NoAbilityId)
+            if (auraData.AbilityId == NoAbilityId)
                 Ability = null;
             else
             {
-                Ability = AbilityManager.Abilities.FirstOrDefault(x => x.Id == auraData.AbilitiId);
+                Ability = AbilityManager[auraData.AbilityId];
                 if (Ability == null)
-                    Log.Default.WriteLine(LogLevels.Error, "Aura ability id {0} doesn't exist anymore", auraData.AbilitiId);
+                    Log.Default.WriteLine(LogLevels.Error, "Aura ability id {0} doesn't exist anymore", auraData.AbilityId);
             }
             // TODO: source
             AuraFlags = auraData.AuraFlags;
@@ -169,7 +169,7 @@ namespace Mud.Server.Aura
         {
             return new AuraData
             {
-                AbilitiId = Ability?.Id ?? NoAbilityId,
+                AbilityId = Ability?.Id ?? NoAbilityId,
                 Level = Level,
                 PulseLeft = PulseLeft,
                 AuraFlags = AuraFlags,

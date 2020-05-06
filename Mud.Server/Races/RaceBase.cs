@@ -56,12 +56,12 @@ namespace Mud.Server.Races
             _abilities = new List<AbilityUsage>();
         }
 
-        protected void AddAbility(int level, string abilityName, int improveDifficulityMultiplier)
+        protected void AddAbility(int level, string abilityName, int rating)
         {
-            AddAbility(level, abilityName, ResourceKinds.None, 0, CostAmountOperators.None, improveDifficulityMultiplier);
+            AddAbility(level, abilityName, ResourceKinds.None, 0, CostAmountOperators.None, rating);
         }
 
-        protected void AddAbility(int level, string abilityName, ResourceKinds resourceKind, int costAmount, CostAmountOperators costAmountOperator, int improveDifficulityMultiplier)
+        protected void AddAbility(int level, string abilityName, ResourceKinds resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
         {
             IAbility ability = AbilityManager[abilityName];
             if (ability == null)
@@ -70,10 +70,10 @@ namespace Mud.Server.Races
                 return;
             }
             //
-            AddAbility(level, ability, resourceKind, costAmount, costAmountOperator, improveDifficulityMultiplier);
+            AddAbility(level, ability, resourceKind, costAmount, costAmountOperator, rating);
         }
 
-        protected void AddAbility(int level, IAbility ability, ResourceKinds resourceKind, int costAmount, CostAmountOperators costAmountOperator, int improveDifficulityMultiplier)
+        protected void AddAbility(int level, IAbility ability, ResourceKinds resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
         {
             _abilities.Add(new AbilityUsage
             {
@@ -82,7 +82,7 @@ namespace Mud.Server.Races
                 ResourceKind = resourceKind,
                 CostAmount = costAmount,
                 CostAmountOperator = costAmountOperator,
-                DifficulityMultiplier = improveDifficulityMultiplier
+                Rating = rating
             });
         }
     }

@@ -1167,7 +1167,7 @@ namespace Mud.Server.Abilities
                             case ItemArmor itemArmor:
                                 if (!itemArmor.CurrentItemFlags.HasFlag(ItemFlags.NoDrop) // remove the item
                                     && !itemArmor.CurrentItemFlags.HasFlag(ItemFlags.NoRemove)
-                                    && itemArmor.Weight / 10 < RandomManager.Range(1, 2 * victim.CurrentAttributes(CharacterAttributes.Dexterity)))
+                                    && itemArmor.Weight / 10 < RandomManager.Range(1, 2 * victim.CurrentAttribute(CharacterAttributes.Dexterity)))
                                 {
                                     itemArmor.ChangeEquipedBy(null);
                                     itemArmor.ChangeContainer(victim.Room);
@@ -1622,7 +1622,7 @@ namespace Mud.Server.Abilities
         public void SpellRefresh(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             victim.UpdateMovePoints(level);
-            if (victim.MovePoints == victim.CurrentAttributes(CharacterAttributes.MaxMovePoints))
+            if (victim.MovePoints == victim.CurrentAttribute(CharacterAttributes.MaxMovePoints))
                 victim.Send("You feel fully refreshed!");
             else
                 victim.Send("You feel less tired.");
@@ -1913,7 +1913,7 @@ namespace Mud.Server.Abilities
             if (pcVictim.Fighting != null)
                 pcVictim.StopFighting(true);
 
-            pcVictim.UpdateMovePoints(-pcVictim.CurrentAttributes(CharacterAttributes.MaxMovePoints) / 2);
+            pcVictim.UpdateMovePoints(-pcVictim.CurrentAttribute(CharacterAttributes.MaxMovePoints) / 2);
             pcVictim.Act(ActOptions.ToRoom, "{0:N} disappears", pcVictim);
             pcVictim.ChangeRoom(recallRoom);
             pcVictim.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pcVictim);

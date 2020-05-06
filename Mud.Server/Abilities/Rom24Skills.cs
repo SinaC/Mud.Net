@@ -41,7 +41,7 @@ namespace Mud.Server.Abilities
                 chance += 10;
 
             // Below 50%, hp helps, above hurts
-            int hpPercent = (100 * source.HitPoints) / source.CurrentAttributes(CharacterAttributes.MaxHitPoints);
+            int hpPercent = (100 * source.HitPoints) / source.CurrentAttribute(CharacterAttributes.MaxHitPoints);
             chance += 25 - hpPercent / 2;
 
             //
@@ -121,9 +121,9 @@ namespace Mud.Server.Abilities
             // TODO: carry weight of source and victim
             // TODO: size source and victim
             // stats
-            chance += source.CurrentAttributes(CharacterAttributes.Strength);
-            chance -= (4 * victim.CurrentAttributes(CharacterAttributes.Dexterity)) / 3;
-            chance -= victim.CurrentAttributes(CharacterAttributes.ArmorBash) / 25;
+            chance += source.CurrentAttribute(CharacterAttributes.Strength);
+            chance -= (4 * victim.CurrentAttribute(CharacterAttributes.Dexterity)) / 3;
+            chance -= victim.CurrentAttribute(CharacterAttributes.ArmorBash) / 25;
             // speed
             if ((source as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || source.CurrentCharacterFlags.HasFlag(CharacterFlags.Haste))
                 chance += 10;
@@ -197,8 +197,8 @@ namespace Mud.Server.Abilities
 
             // modifiers
             // dexterity
-            chance += source.CurrentAttributes(CharacterAttributes.Dexterity);
-            chance -= 2 * victim.CurrentAttributes(CharacterAttributes.Dexterity);
+            chance += source.CurrentAttribute(CharacterAttributes.Dexterity);
+            chance -= 2 * victim.CurrentAttribute(CharacterAttributes.Dexterity);
             // speed
             if ((source as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || source.CurrentCharacterFlags.HasFlag(CharacterFlags.Haste))
                 chance += 10;
@@ -291,8 +291,8 @@ namespace Mud.Server.Abilities
             // modifiers
             // TODO: size
             // dexterity
-            chance += source.CurrentAttributes(CharacterAttributes.Dexterity);
-            chance -= (3 * victim.CurrentAttributes(CharacterAttributes.Dexterity)) / 2;
+            chance += source.CurrentAttribute(CharacterAttributes.Dexterity);
+            chance -= (3 * victim.CurrentAttribute(CharacterAttributes.Dexterity)) / 2;
             // speed
             if ((source as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || source.CurrentCharacterFlags.HasFlag(CharacterFlags.Haste))
                 chance += 10;
@@ -351,7 +351,7 @@ namespace Mud.Server.Abilities
             // TODO: check kill stealing
             // TODO: check if wielding a weapon
 
-            if (victim.HitPoints < victim.CurrentAttributes(CharacterAttributes.MaxHitPoints) / 3)
+            if (victim.HitPoints < victim.CurrentAttribute(CharacterAttributes.MaxHitPoints) / 3)
             {
                 source.Act(ActOptions.ToCharacter, "{0} is hurt and suspicious ... you can't sneak up.", victim);
                 return UseResults.InvalidTarget;
@@ -460,8 +460,8 @@ namespace Mud.Server.Abilities
             //    chance = chance * ch_weapon / 100;
             //chance += (ch_vict_weapon / 2 - vict_weapon) / 2;
             // dex vs. strength
-            chance += source.CurrentAttributes(CharacterAttributes.Dexterity);
-            chance -= 2 * victim.CurrentAttributes(CharacterAttributes.Strength);
+            chance += source.CurrentAttribute(CharacterAttributes.Dexterity);
+            chance -= 2 * victim.CurrentAttribute(CharacterAttributes.Strength);
             // level
             chance += (source.Level - victim.Level) * 2;
             // and now the attack

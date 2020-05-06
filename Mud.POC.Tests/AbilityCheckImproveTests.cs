@@ -87,7 +87,7 @@ namespace Mud.POC.Tests
                 Ability = new Ability(AbilityKinds.Passive, 1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
                 Learned = 10,
                 Level = 1,
-                ImproveDifficulityMultiplier = 1
+                Rating = 1
             };
 
             bool improved = character.CheckAbilityImprove(ability, true, 1);
@@ -113,7 +113,7 @@ namespace Mud.POC.Tests
                 Ability = new Ability(AbilityKinds.Passive, 1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
                 Learned = 10,
                 Level = 1,
-                ImproveDifficulityMultiplier = 1
+                Rating = 1
             };
 
             bool improved = character.CheckAbilityImprove(ability, true, 1);
@@ -141,10 +141,10 @@ namespace Mud.POC.Tests
                 Ability = new Ability(AbilityKinds.Passive, 1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
                 Learned = 10,
                 Level = 1,
-                ImproveDifficulityMultiplier = 2
+                Rating = 2
             };
             int baseLearned = ability.Learned;
-            int baseDifficultyMultipler = ability.ImproveDifficulityMultiplier;
+            int baseDifficultyMultipler = ability.Rating;
 
             bool improved = character.CheckAbilityImprove(ability, false, 3);
 
@@ -152,7 +152,7 @@ namespace Mud.POC.Tests
             Assert.AreEqual(baseLearned + 33, ability.Learned);
             Assert.AreEqual(baseExp + 2 * baseDifficultyMultipler, character.Experience);
             Assert.AreEqual(1, ability.Level);
-            Assert.AreEqual(baseDifficultyMultipler, ability.ImproveDifficulityMultiplier);
+            Assert.AreEqual(baseDifficultyMultipler, ability.Rating);
         }
 
         [TestMethod]
@@ -174,10 +174,10 @@ namespace Mud.POC.Tests
                 Ability = new Ability(AbilityKinds.Passive, 1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
                 Learned = 10,
                 Level = 1,
-                ImproveDifficulityMultiplier = 2
+                Rating = 2
             };
             int baseLearned = ability.Learned;
-            int baseDifficultyMultipler = ability.ImproveDifficulityMultiplier;
+            int baseDifficultyMultipler = ability.Rating;
 
             bool improved = character.CheckAbilityImprove(ability, true, 3);
 
@@ -185,7 +185,7 @@ namespace Mud.POC.Tests
             Assert.AreEqual(baseLearned + 1, ability.Learned);
             Assert.AreEqual(baseExp + 2 * baseDifficultyMultipler, character.Experience);
             Assert.AreEqual(1, ability.Level);
-            Assert.AreEqual(baseDifficultyMultipler, ability.ImproveDifficulityMultiplier);
+            Assert.AreEqual(baseDifficultyMultipler, ability.Rating);
         }
 
         [TestMethod]
@@ -207,10 +207,10 @@ namespace Mud.POC.Tests
                 Ability = new Ability(AbilityKinds.Passive, 1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
                 Learned = 10,
                 Level = 1,
-                ImproveDifficulityMultiplier = -2
+                Rating = -2
             };
             int baseLearned = ability.Learned;
-            int baseDifficultyMultipler = ability.ImproveDifficulityMultiplier;
+            int baseDifficultyMultipler = ability.Rating;
 
             bool improved = character.CheckAbilityImprove(ability, true, -3);
 
@@ -218,7 +218,7 @@ namespace Mud.POC.Tests
             Assert.AreEqual(baseLearned + 1, ability.Learned);
             Assert.AreEqual(baseExp + 2 * 1, character.Experience);
             Assert.AreEqual(1, ability.Level);
-            Assert.AreEqual(baseDifficultyMultipler, ability.ImproveDifficulityMultiplier);
+            Assert.AreEqual(baseDifficultyMultipler, ability.Rating);
         }
 
         [TestMethod]
@@ -241,10 +241,10 @@ namespace Mud.POC.Tests
                 Ability = new Ability(AbilityKinds.Passive, 1, "test", AbilityTargets.None, 0, AbilityFlags.None, null, null),
                 Learned = 99,
                 Level = 1,
-                ImproveDifficulityMultiplier = 2
+                Rating = 2
             };
             int baseLearned = ability.Learned;
-            int baseDifficultyMultipler = ability.ImproveDifficulityMultiplier;
+            int baseDifficultyMultipler = ability.Rating;
 
             bool improved = character.CheckAbilityImprove(ability, false, 3);
 
@@ -252,7 +252,7 @@ namespace Mud.POC.Tests
             Assert.AreEqual(100, ability.Learned); // max 100
             Assert.AreEqual(baseExp + 2 * baseDifficultyMultipler, character.Experience);
             Assert.AreEqual(1, ability.Level);
-            Assert.AreEqual(baseDifficultyMultipler, ability.ImproveDifficulityMultiplier);
+            Assert.AreEqual(baseDifficultyMultipler, ability.Rating);
         }
     }
 }

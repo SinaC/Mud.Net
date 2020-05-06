@@ -7,6 +7,7 @@ namespace Mud.Server
     {
         IEnumerable<IAbility> Abilities { get; }
         IAbility this[string name] { get; }
+        IAbility this[int id] { get; }
         IEnumerable<IAbility> Spells { get; }
         IEnumerable<IAbility> Skills { get; }
         IEnumerable<IAbility> Passives { get; }

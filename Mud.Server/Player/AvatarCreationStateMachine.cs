@@ -164,7 +164,21 @@ namespace Mud.Server.Player
                     Class = _class.Name,
                     Level = 1,
                     Sex = _sex,
+                    HitPoints = 100,
+                    MovePoints = 100,
+                    CurrentResources = new Dictionary<ResourceKinds, int> 
+                    {
+                        { ResourceKinds.Mana, 100},
+                        // TODO: other resource
+                    },
+                    MaxResources = new Dictionary<ResourceKinds, int>
+                    {
+                        { ResourceKinds.Mana, 100},
+                        // TODO: other resource
+                    },
                     Experience = 0,
+                    Trains = 0,
+                    Practices = 0,
                     //TODO: Equipments
                     //TODO: Inventory
                     //TODO: CurrentQuests
@@ -190,7 +204,8 @@ namespace Mud.Server.Player
                         {CharacterAttributes.ArmorPierce, 0 },
                         {CharacterAttributes.ArmorSlash, 0 },
                         {CharacterAttributes.ArmorMagic, 0 },
-                    }
+                    },
+                    // TODO: known abilities (they will be updated when playing character)
                 };
                 player.AddAvatar(characterData);
                 player.Save();

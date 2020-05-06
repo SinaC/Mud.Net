@@ -21,6 +21,8 @@ namespace Mud.Server.Classes
             return ResourceKinds; // always mana
         }
 
+        public override int MaxPracticePercentage => 75;
+
         public override int GetAttributeByLevel(CharacterAttributes attribute, int level)
         {
             return level * 10; // TODO: http://wow.gamepedia.com/Base_attributes

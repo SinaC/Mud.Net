@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoBogus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -36,11 +37,19 @@ namespace Mud.Server.Tests
                 Level = AutoFaker.Generate<int>(),
                 Sex = AutoFaker.Generate<Sex>(),
                 Experience = AutoFaker.Generate<long>(),
+                HitPoints = AutoFaker.Generate<int>(),
+                MovePoints = AutoFaker.Generate<int>(),
+                CurrentResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>()),
+                MaxResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>()),
+                Trains = AutoFaker.Generate<int>(),
+                Practices = AutoFaker.Generate<int>(),
                 CharacterFlags = AutoFaker.Generate<CharacterFlags>(),
                 Immunities = AutoFaker.Generate<IRVFlags>(),
                 Resistances = AutoFaker.Generate<IRVFlags>(),
                 Vulnerabilities = AutoFaker.Generate<IRVFlags>(),
-                Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>())
+                Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>()),
+                Auras = AutoFaker.Generate<AuraData[]>(),
+                KnownAbilities = AutoFaker.Generate<KnownAbilityData[]>(), // AbilityManagerMock will generate Ability at runtime // TODO: find a way to automatically (int)AutoFaker.Generate<ushort>() on int fields
             };
 
             PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, player, room);
@@ -54,6 +63,14 @@ namespace Mud.Server.Tests
             Assert.AreEqual(characterData.Level, playableCharacter.Level);
             Assert.AreEqual(characterData.Sex, playableCharacter.BaseSex);
             Assert.AreEqual(characterData.Experience, playableCharacter.Experience);
+            Assert.AreEqual(characterData.HitPoints, playableCharacter.HitPoints);
+            Assert.AreEqual(characterData.MovePoints, playableCharacter.MovePoints);
+            Assert.AreEqual(characterData.CurrentResources[ResourceKinds.Mana], playableCharacter[ResourceKinds.Mana]);
+            Assert.AreEqual(characterData.CurrentResources[ResourceKinds.Energy], playableCharacter[ResourceKinds.Energy]);
+            Assert.AreEqual(characterData.MaxResources[ResourceKinds.Mana], playableCharacter.MaxResource(ResourceKinds.Mana));
+            Assert.AreEqual(characterData.MaxResources[ResourceKinds.Energy], playableCharacter.MaxResource(ResourceKinds.Energy));
+            Assert.AreEqual(characterData.Trains, playableCharacter.Trains);
+            Assert.AreEqual(characterData.Practices, playableCharacter.Practices);
             Assert.AreEqual(0, playableCharacter.Equipments.Count(x => x.Item != null));
             Assert.AreEqual(0, playableCharacter.Inventory.Count());
             Assert.AreEqual(0, playableCharacter.Quests.Count());
@@ -61,7 +78,20 @@ namespace Mud.Server.Tests
             Assert.AreEqual(characterData.Immunities, playableCharacter.BaseImmunities);
             Assert.AreEqual(characterData.Resistances, playableCharacter.BaseResistances);
             Assert.AreEqual(characterData.Vulnerabilities, playableCharacter.BaseVulnerabilities);
-            Assert.AreEqual(characterData.Attributes.Sum(x => (int)x.Key ^ x.Value), EnumHelpers.GetValues<CharacterAttributes>().Sum(x => (int)x ^ playableCharacter.BaseAttributes(x)));
+            Assert.AreEqual(characterData.Attributes.Sum(x => (int)x.Key ^ x.Value), EnumHelpers.GetValues<CharacterAttributes>().Sum(x => (int)x ^ playableCharacter.BaseAttribute(x)));
+            Assert.AreEqual(characterData.Auras.Length, playableCharacter.Auras.Count());
+            Assert.AreEqual(characterData.Auras.SelectMany(x => x.Affects).Count(), playableCharacter.Auras.SelectMany(x => x.Affects).Count()); // can't test AffectData because AutoFaker doesn't handle abstract class
+            Assert.AreEqual(characterData.KnownAbilities.Length, playableCharacter.KnownAbilities.Count());
+            //Assert.AreEqual(ArithmeticOverflow!!!
+            //    characterData.KnownAbilities.Sum(x => (int)x.AbilityId ^ (int)x.ResourceKind ^ (int)x.CostAmount ^ (int)x.CostAmountOperator ^ (int)x.Learned ^ (int)x.Level ^ (int)x.Rating),
+            //    playableCharacter.KnownAbilities.Sum(x => (int)x.Ability.Id ^ (int)x.ResourceKind ^ (int)x.CostAmount ^ (int)x.CostAmountOperator ^ (int)x.Learned ^ (int)x.Level ^ (int)x.Rating));
+            Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().AbilityId, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Ability.Id);
+            Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().ResourceKind, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().ResourceKind);
+            Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().CostAmount, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().CostAmount);
+            Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().CostAmountOperator, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().CostAmountOperator);
+            Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Learned, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Learned);
+            Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Level, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Level);
+            Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Rating, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Rating);
         }
 
         [TestMethod]

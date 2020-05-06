@@ -99,10 +99,11 @@ namespace Mud.Server
         bool CanSee(IRoom room);
 
         // Attributes
-        int BaseAttributes(CharacterAttributes attribute);
-        int CurrentAttributes(CharacterAttributes attribute);
-        int GetMaxResource(ResourceKinds resource);
+        int BaseAttribute(CharacterAttributes attribute);
+        int CurrentAttribute(CharacterAttributes attribute);
+        int MaxResource(ResourceKinds resource);
         void UpdateResource(ResourceKinds resource, int amount);
+        void UpdateHitPoints(int amount);
         void UpdateMovePoints(int amount);
         void UpdateAlignment(int amount);
         void RegenResources();

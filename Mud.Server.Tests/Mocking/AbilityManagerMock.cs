@@ -1,4 +1,5 @@
-﻿using Mud.Server.Input;
+﻿using Mud.Server.Abilities;
+using Mud.Server.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,32 @@ namespace Mud.Server.Tests.Mocking
     {
         private List<IAbility> _abilities = new List<IAbility>();
 
-        public IAbility this[string name] => _abilities.SingleOrDefault(x => x.Name == name);
+        public IAbility this[string name] 
+        {
+            get
+            {
+                IAbility ability = _abilities.SingleOrDefault(x => x.Name == name);
+                if (ability != null)
+                    return ability;
+                int id = _abilities.Count == 0 ? 1 : _abilities.Max(x => x.Id) + 1;
+                ability = new Ability(Domain.AbilityKinds.Passive, id, name, Domain.AbilityTargets.Custom, 12, Domain.AbilityFlags.None, string.Empty, string.Empty);
+                _abilities.Add(ability);
+                return ability;
+            }
+        }
+
+        public IAbility this[int id]
+        {
+            get
+            {
+                IAbility ability = _abilities.SingleOrDefault(x => x.Id == id);
+                if (ability != null)
+                    return ability;
+                ability = new Ability(Domain.AbilityKinds.Passive, id, "ability"+id.ToString(), Domain.AbilityTargets.Custom, 12, Domain.AbilityFlags.None, string.Empty, string.Empty);
+                _abilities.Add(ability);
+                return ability;
+            }
+        }
 
         public IEnumerable<IAbility> Abilities => _abilities;
 

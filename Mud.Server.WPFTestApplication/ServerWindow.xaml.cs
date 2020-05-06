@@ -395,6 +395,9 @@ namespace Mud.Server.WPFTestApplication
                 Immunities = ConvertMysteryIRV(data.ImmFlags),
                 Resistances = ConvertMysteryIRV(data.ResFlags),
                 Vulnerabilities = ConvertMysteryIRV(data.VulnFlags),
+                CharacterFlags = ConvertMysteryCharacterFlags(data.AffectedBy, data.AffectedBy2),
+                ActFlags = ConvertMysteryActFlags(data.Act),
+                OffensiveFlags = ConvertMysteryOffensiveFlags(data.OffFlags),
                 // TODO: CharacterFlags, Immunities, Resistances, Vulnerabilities, ...
             };
             World.AddCharacterBlueprint(blueprint);
@@ -427,6 +430,8 @@ namespace Mud.Server.WPFTestApplication
             return (long)1 << (c - 48);
         }
 
+        private static bool HasBit(long data, long bit) => (data & bit) == bit;
+        
         private static ExitFlags ConvertExitInfo(long exitInfo)
         {
             ExitFlags flags = 0;
@@ -474,6 +479,121 @@ namespace Mud.Server.WPFTestApplication
             if ((value & Importer.Mystery.MysteryImporter.Y) == Importer.Mystery.MysteryImporter.Y) flags |= IRVFlags.Silver;
             if ((value & Importer.Mystery.MysteryImporter.Z) == Importer.Mystery.MysteryImporter.Z) flags |= IRVFlags.Iron;
 
+            return flags;
+        }
+
+        private static CharacterFlags ConvertMysteryCharacterFlags(long affectedBy, long affectedBy2)
+        {
+            CharacterFlags flags = CharacterFlags.None;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_BLIND)) flags |= CharacterFlags.Blind;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_INVISIBLE)) flags |= CharacterFlags.Invisible;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_DETECT_EVIL)) flags |= CharacterFlags.DetectEvil;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_DETECT_INVIS)) flags |= CharacterFlags.DetectInvis;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_DETECT_MAGIC)) flags |= CharacterFlags.DetectMagic;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_DETECT_HIDDEN)) flags |= CharacterFlags.DetectHidden;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_DETECT_GOOD)) flags |= CharacterFlags.DetectGood;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_SANCTUARY)) flags |= CharacterFlags.Sanctuary;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_FAERIE_FIRE)) flags |= CharacterFlags.FaerieFire;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_INFRARED)) flags |= CharacterFlags.Infrared;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_CURSE)) flags |= CharacterFlags.Curse;
+            //if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_ROOTED)) flags |= CharacterFlags.
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_POISON)) flags |= CharacterFlags.Poison;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_PROTECT_EVIL)) flags |= CharacterFlags.ProtectEvil;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_PROTECT_GOOD)) flags |= CharacterFlags.ProtectGood;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_SNEAK)) flags |= CharacterFlags.Sneak;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_HIDE)) flags |= CharacterFlags.Hide;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_SLEEP)) flags |= CharacterFlags.Sleep;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_CHARM)) flags |= CharacterFlags.Charm;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_FLYING)) flags |= CharacterFlags.Flying;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_PASS_DOOR)) flags |= CharacterFlags.PassDoor;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_HASTE)) flags |= CharacterFlags.Haste;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_CALM)) flags |= CharacterFlags.Calm;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_PLAGUE)) flags |= CharacterFlags.Plague;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_WEAKEN)) flags |= CharacterFlags.Weaken;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_DARK_VISION)) flags |= CharacterFlags.DarkVision;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_BERSERK)) flags |= CharacterFlags.Berserk;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_SWIM)) flags |= CharacterFlags.Swim;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_REGENERATION)) flags |= CharacterFlags.Regeneration;
+            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_SLOW)) flags |= CharacterFlags.Slow;
+            //if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_SILENCE)) flags |= CharacterFlags.
+
+            //if (HasBit(affectedBy2, (long)Importer.Mystery.AffectedBy2.AFF2_WALK_ON_WATER      (A)
+            //if (HasBit(affectedBy2, (long)Importer.Mystery.AffectedBy2.AFF2_WATER_BREATH       (B)
+            //if (HasBit(affectedBy2, (long)Importer.Mystery.AffectedBy2.AFF2_DETECT_EXITS       (C)
+            //if (HasBit(affectedBy2, (long)Importer.Mystery.AffectedBy2.AFF2_MAGIC_MIRROR       (D)
+            //if (HasBit(affectedBy2, (long)Importer.Mystery.AffectedBy2.AFF2_FAERIE_FOG         (E)
+            //if (HasBit(affectedBy2, (long)Importer.Mystery.AffectedBy2.AFF2_NOEQUIPMENT        (F)
+            //if (HasBit(affectedBy2, (long)Importer.Mystery.AffectedBy2.AFF2_FREE_MOVEMENT      (G)
+            //if (HasBit(affectedBy2, (long)Importer.Mystery.AffectedBy2.AFF2_INCREASED_CASTING  (H)
+            //if (HasBit(affectedBy2, (long)Importer.Mystery.AffectedBy2.AFF2_NOSPELL            (I)
+            //if (HasBit(affectedBy2, (long)Importer.Mystery.AffectedBy2.AFF2_NECROTISM          (J)
+            //if (HasBit(affectedBy2, (long)Importer.Mystery.AffectedBy2.AFF2_HIGHER_MAGIC_ATTRIBUTES (K)
+            //if (HasBit(affectedBy2, (long)Importer.Mystery.AffectedBy2.AFF2_CONFUSION          (L)
+            return flags;
+        }
+
+        private static ActFlags ConvertMysteryActFlags(long act)
+        {
+            ActFlags flags = ActFlags.None;
+
+            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_IS_NPC)) flags |= ActFlags.
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_SENTINEL)) flags |= ActFlags.Sentinel;
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_SCAVENGER)) flags |= ActFlags.Scavenger;
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_AWARE)) flags |= ActFlags.Aware;
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_AGGRESSIVE)) flags |= ActFlags.Aggressive;
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_STAY_AREA)) flags |= ActFlags.StayArea;
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_WIMPY)) flags |= ActFlags.Wimpy;
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_PET)) flags |= ActFlags.Pet;
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_TRAIN)) flags |= ActFlags.Train;
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_PRACTICE)) flags |= ActFlags.Practice;
+            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_FREE_WANDER
+            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_MOUNTABLE
+            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_IS_MOUNTED
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_UNDEAD)) flags |= ActFlags.Undead;
+            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_NOSLEEP))
+            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_CLERIC
+            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_MAGE = MysteryImporter.R,
+            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_THIEF = MysteryImporter.S,
+            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_WARRIOR = MysteryImporter.T,
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_NOALIGN)) flags |= ActFlags.Noalign;
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_NOPURGE)) flags |= ActFlags.Nopurge;
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_OUTDOORS)) flags |= ActFlags.Outdoors;
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_INDOORS)) flags |= ActFlags.Indoors;
+            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_CREATED
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_IS_HEALER)) flags |= ActFlags.IsHealer;
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_GAIN)) flags |= ActFlags.Gain;
+            if (HasBit(act, (long)Importer.Mystery.Act.ACT_UPDATE_ALWAYS)) flags |= ActFlags.UpdateAlways;
+            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_RESERVED
+            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_IS_SAFE
+            return flags;
+        }
+
+        private static OffensiveFlags ConvertMysteryOffensiveFlags(long off)
+        {
+            OffensiveFlags flags = OffensiveFlags.None;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_AREA_ATTACK)) flags |= OffensiveFlags.AreaAttack;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_BACKSTAB)) flags |= OffensiveFlags.Backstab;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_BASH)) flags |= OffensiveFlags.Bash;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_BERSERK)) flags |= OffensiveFlags.Berserk;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_DISARM)) flags |= OffensiveFlags.Disarm;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_DODGE)) flags |= OffensiveFlags.Dodge;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_FADE)) flags |= OffensiveFlags.Fade;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_FAST)) flags |= OffensiveFlags.Fast;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_KICK)) flags |= OffensiveFlags.Kick;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_KICK_DIRT)) flags |= OffensiveFlags.DirtKick;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_PARRY)) flags |= OffensiveFlags.Parry;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_RESCUE)) flags |= OffensiveFlags.Rescue;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_TAIL)) flags |= OffensiveFlags.Tail;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_TRIP)) flags |= OffensiveFlags.Trip;
+            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_CRUSH)) flags |= OffensiveFlags.Crush;
+            //if (HasBit(off, (long)Importer.Mystery.Offensive.ASSIST_ALL))
+            //if (HasBit(off, (long)Importer.Mystery.Offensive.ASSIST_ALIGN))
+            //if (HasBit(off, (long)Importer.Mystery.Offensive.ASSIST_RACE = MysteryImporter.R,
+            //if (HasBit(off, (long)Importer.Mystery.Offensive.ASSIST_PLAYERS = MysteryImporter.S,
+            //if (HasBit(off, (long)Importer.Mystery.Offensive.ASSIST_GUARD = MysteryImporter.T,
+            //if (HasBit(off, (long)Importer.Mystery.Offensive.ASSIST_VNUM = MysteryImporter.U,
+            //if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_COUNTER = MysteryImporter.V,
+            //if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_BITE = MysteryImporter.W,
             return flags;
         }
 
@@ -587,6 +707,7 @@ namespace Mud.Server.WPFTestApplication
                     return WearLocations.None;
             }
         }
+
         private static WearLocations ConvertWearLocation(Importer.Rom.ObjectData data)
         {
             //#define ITEM_TAKE		(A)

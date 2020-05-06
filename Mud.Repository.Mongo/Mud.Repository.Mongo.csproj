@@ -142,6 +142,7 @@
     <Compile Include="Domain\ItemFlagsAffectData.cs" />
     <Compile Include="Domain\ItemWeaponData.cs" />
     <Compile Include="Domain\ItemWeaponFlagsAffectData.cs" />
+    <Compile Include="Domain\KnownAbilityData.cs" />
     <Compile Include="Domain\LoginData.cs" />
     <Compile Include="Domain\PlayerData.cs" />
     <Compile Include="LoginRepository.cs" />

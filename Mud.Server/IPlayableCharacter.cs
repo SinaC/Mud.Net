@@ -13,6 +13,8 @@ namespace Mud.Server
 
         // Attributes
         long Experience { get; }
+        int Trains { get; }
+        int Practices { get; }
 
         // Group/Follower
         IPlayableCharacter Leader { get; }

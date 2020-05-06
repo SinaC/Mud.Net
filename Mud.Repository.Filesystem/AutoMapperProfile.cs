@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Mud.Logger;
@@ -31,7 +32,9 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
                 .ForMember(x => x.Resistances, expression => expression.MapFrom(x => MapIRVFlags(x.Resistances)))
                 .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => MapIRVFlags(x.Vulnerabilities)))
-                .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapFromDictionary(x.Attributes)));
+                .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapFromDictionary(x.Attributes, MapCharacterAttributes)))
+                .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapFromDictionary(x.CurrentResources, MapResourceKind)))
+                .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapFromDictionary(x.MaxResources, MapResourceKind)));
 
             CreateMap<Domain.ItemData, DataContracts.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
@@ -77,6 +80,10 @@ namespace Mud.Repository.Filesystem
             CreateMap<Domain.ItemWeaponFlagsAffectData, DataContracts.ItemWeaponFlagsAffectData>()
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
                 .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapWeaponFlags(x.Modifier)));
+
+            CreateMap<Domain.KnownAbilityData, DataContracts.KnownAbilityData>()
+                .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapResourceKind(x.ResourceKind)))
+                .ForMember(x => x.CostAmountOperator, expression => expression.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
         }
 
         private void InternalToExternal()
@@ -94,7 +101,9 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
                 .ForMember(x => x.Resistances, expression => expression.MapFrom(x => MapIRVFlags(x.Resistances)))
                 .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => MapIRVFlags(x.Vulnerabilities)))
-                .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapToDictionary(x.Attributes)));
+                .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapToDictionary(x.Attributes, MapCharacterAttributes)))
+                .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapToDictionary(x.CurrentResources, MapResourceKind)))
+                .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapToDictionary(x.MaxResources, MapResourceKind)));
 
             CreateMap<DataContracts.ItemData, Domain.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
@@ -140,15 +149,19 @@ namespace Mud.Repository.Filesystem
             CreateMap<DataContracts.ItemWeaponFlagsAffectData, Domain.ItemWeaponFlagsAffectData>()
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
                 .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapWeaponFlags(x.Modifier)));
+
+            CreateMap<DataContracts.KnownAbilityData, Domain.KnownAbilityData>()
+                .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapResourceKind(x.ResourceKind)))
+                .ForMember(x => x.CostAmountOperator, expression => expression.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
         }
 
-        private DataContracts.PairData<TKey, TValue>[] MapFromDictionary<TKey, TValue>(Dictionary<TKey, TValue> dictionary) => dictionary?.Select(x => new DataContracts.PairData<TKey, TValue>(x.Key, x.Value)).ToArray();
+        private DataContracts.PairData<string, string>[] MapFromDictionary(Dictionary<string, string> dictionary) => dictionary?.Select(x => new DataContracts.PairData<string, string>(x.Key, x.Value)).ToArray();
 
-        private Dictionary<TKey, TValue> MapToDictionary<TKey, TValue>(DataContracts.PairData<TKey, TValue>[] array) => array?.ToDictionary(x => x.Key, x => x.Value);
+        private Dictionary<string, string> MapToDictionary(DataContracts.PairData<string, string>[] array) => array?.ToDictionary(x => x.Key, x => x.Value);
 
-        private DataContracts.PairData<int, int>[] MapFromDictionary(Dictionary<Domain.CharacterAttributes, int> dictionary) => dictionary?.Select(x => new DataContracts.PairData<int, int>(MapCharacterAttributes(x.Key), x.Value)).ToArray();
+        private DataContracts.PairData<int, int>[] MapFromDictionary<T>(Dictionary<T, int> dictionary, Func<T,int> mapKeyFunc) => dictionary?.Select(x => new DataContracts.PairData<int, int>(mapKeyFunc(x.Key), x.Value)).ToArray();
 
-        private Dictionary<Domain.CharacterAttributes, int> MapToDictionary(DataContracts.PairData<int, int>[] array) => array?.ToDictionary(x => MapCharacterAttributes(x.Key), x => x.Value);
+        private Dictionary<T, int> MapToDictionary<T>(DataContracts.PairData<int, int>[] array, Func<int,T> mapKeyFunc) => array?.ToDictionary(x => mapKeyFunc(x.Key), x => x.Value);
 
         private Domain.WiznetFlags MapWiznetFlags(int flags)
         {
@@ -544,6 +557,62 @@ namespace Mud.Repository.Filesystem
                 case Domain.CharacterAttributes.ArmorMagic: return 13;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid CharacterAttributes {attr} while writing pfile");
+                    return 0;
+            }
+        }
+
+        private Domain.ResourceKinds MapResourceKind(int resource)
+        {
+            switch (resource)
+            {
+                case 0: return Domain.ResourceKinds.None;
+                case 1: return Domain.ResourceKinds.Mana;
+                case 2: return Domain.ResourceKinds.Energy;
+                case 3: return Domain.ResourceKinds.Rage;
+                case 4: return Domain.ResourceKinds.Runic;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid ResourceKinds {resource} while reading pfile");
+                    return 0;
+            }
+        }
+
+        private int MapResourceKind(Domain.ResourceKinds resource)
+        {
+            switch (resource)
+            {
+                case Domain.ResourceKinds.None: return 0;
+                case Domain.ResourceKinds.Mana: return 1;
+                case Domain.ResourceKinds.Energy: return 2;
+                case Domain.ResourceKinds.Rage: return 3;
+                case Domain.ResourceKinds.Runic: return 4;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid ResourceKinds {resource} while writing pfile");
+                    return 0;
+            }
+        }
+
+        private Domain.CostAmountOperators MapCostAmountOperator(int op)
+        {
+            switch (op)
+            {
+                case 0: return Domain.CostAmountOperators.None;
+                case 1: return Domain.CostAmountOperators.Fixed;
+                case 2: return Domain.CostAmountOperators.Percentage;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid CostAmountOperators {op} while reading pfile");
+                    return 0;
+            }
+        }
+
+        private int MapCostAmountOperator(Domain.CostAmountOperators op)
+        {
+            switch (op)
+            {
+                case Domain.CostAmountOperators.None: return 0;
+                case Domain.CostAmountOperators.Fixed: return 1;
+                case Domain.CostAmountOperators.Percentage: return 2;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid CostAmountOperators {op} while writing pfile");
                     return 0;
             }
         }
