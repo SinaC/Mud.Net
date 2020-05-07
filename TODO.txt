@@ -1,5 +1,4 @@
 TODO:
-xp/level
 race size, form, parts
 AbilityManager should not hardcode Rom24Passives
 Second/Third/Fourth wield in insectoid
@@ -25,6 +24,7 @@ for ( int i = 0; i < MAX_ABILITY; i++ ) {
   }
 
 DONE:
+xp/level
 Sneak leave/enter
 Train command
 shortcuts to BasicAttributes

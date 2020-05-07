@@ -90,6 +90,8 @@ namespace Mud.Server.Races
             }
         }
 
+        public override int ClassExperiencePercentageMultiplier(IClass c) => 250;
+
         #endregion
 
         public Insectoid()

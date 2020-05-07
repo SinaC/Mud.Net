@@ -37,6 +37,8 @@ namespace Mud.Server.Tests.Mocking
 
         public IRVFlags Vulnerabilities => IRVFlags.None;
 
+        public int ClassExperiencePercentageMultiplier(IClass c) => 100;
+
         public int GetMaxAttribute(CharacterAttributes attribute) => 13;
 
         public int GetStartAttribute(CharacterAttributes attribute) => 18;

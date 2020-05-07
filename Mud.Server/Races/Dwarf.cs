@@ -68,6 +68,15 @@ namespace Mud.Server.Races
             }
         }
 
+        public override int ClassExperiencePercentageMultiplier(IClass c) 
+        {
+            if (c is Classes.Mage)
+                return 150;
+            if (c is Classes.Priest)
+                return 125;
+            return 100;
+        }
+
         #endregion
     }
 }

@@ -317,7 +317,7 @@ namespace Mud.Server.Character.PlayableCharacter
         public long ExperienceToLevel =>
             Level >= Settings.MaxLevel
                 ? 0
-                : CombatHelpers.CumulativeExperienceByLevel[Level] + CombatHelpers.ExperienceToNextLevel[Level] - Experience;
+                : (ExperienceByLevel * Level) - Experience; //CombatHelpers.CumulativeExperienceByLevel[Level] + CombatHelpers.ExperienceToNextLevel[Level] - Experience;
 
         public long Experience { get; protected set; }
 
@@ -800,6 +800,8 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         #endregion
+
+        private int ExperienceByLevel => 1000 * (Race?.ClassExperiencePercentageMultiplier(Class) ?? 100) / 100;
 
         private void DeathPayoff() // Lose xp/reputation..
         {

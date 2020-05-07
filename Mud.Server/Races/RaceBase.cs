@@ -55,6 +55,8 @@ namespace Mud.Server.Races
 
         public abstract int GetMaxAttribute(CharacterAttributes attribute);
 
+        public virtual int ClassExperiencePercentageMultiplier(IClass c) => 100;
+
         #endregion
 
         protected RaceBase()

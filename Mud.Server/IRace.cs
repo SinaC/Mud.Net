@@ -21,6 +21,8 @@ namespace Mud.Server
         int GetStartAttribute(CharacterAttributes attribute);
         int GetMaxAttribute(CharacterAttributes attribute);
 
+        int ClassExperiencePercentageMultiplier(IClass c);
+
         // TODO: specific behaviour such as 120% xp for human, infrared for dwarf, ...
         // TODO: xp/level, ...
     }
