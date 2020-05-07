@@ -97,7 +97,7 @@ namespace Mud.Server.Abilities
         [Spell(4, "Blindness", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You can see again.", DispelRoomMessage = "{0:N} is no longer blinded.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellBlindness(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Blind) || victim.SavesSpell(level, SchoolTypes.None))
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Blind) || victim.SavesSpell(level, SchoolTypes.None))
                 return;
 
             int duration = 1 + level;
@@ -163,11 +163,11 @@ namespace Mud.Server.Abilities
                 INonPlayableCharacter npcVictim = victim as INonPlayableCharacter;
 
                 // IsNpc, immune magic or undead
-                if (npcVictim != null && (npcVictim.CurrentImmunities.HasFlag(IRVFlags.Magic) || npcVictim.ActFlags.HasFlag(ActFlags.Undead)))
+                if (npcVictim != null && (npcVictim.Immunities.HasFlag(IRVFlags.Magic) || npcVictim.ActFlags.HasFlag(ActFlags.Undead)))
                     continue;
 
                 // Is affected by berserk, calm or frenzy
-                if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Berserk) || victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Calm) || victim.GetAura("Frenzy") != null)
+                if (victim.CharacterFlags.HasFlag(CharacterFlags.Berserk) || victim.CharacterFlags.HasFlag(CharacterFlags.Calm) || victim.GetAura("Frenzy") != null)
                     continue;
 
                 victim.Send("A wave of calm passes over you.");
@@ -189,7 +189,7 @@ namespace Mud.Server.Abilities
         [Spell(8, "Cancellation", AbilityTargets.CharacterDefensive)]
         public void SpellCancellation(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if ((caster is IPlayableCharacter && victim is INonPlayableCharacter && !caster.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm) && caster.ControlledBy == victim)
+            if ((caster is IPlayableCharacter && victim is INonPlayableCharacter && !caster.CharacterFlags.HasFlag(CharacterFlags.Charm) && caster.ControlledBy == victim)
                 || (caster is INonPlayableCharacter && victim is IPlayableCharacter))
             {
                 caster.Send("You failed, try dispel magic.");
@@ -293,7 +293,7 @@ namespace Mud.Server.Abilities
             if (victim.SavesSpell(level, SchoolTypes.Other))
                 return;
 
-            Sex newSex = RandomManager.Random(EnumHelpers.GetValues<Sex>().Where(x => x != victim.CurrentSex));
+            Sex newSex = RandomManager.Random(EnumHelpers.GetValues<Sex>().Where(x => x != victim.Sex));
             World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(2 * level), AuraFlags.None, true,
                 new CharacterSexAffect { Value = newSex });
             victim.Send("You feel different.");
@@ -312,10 +312,10 @@ namespace Mud.Server.Abilities
                 return;
             }
 
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm)
-                || caster.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm)
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm)
+                || caster.CharacterFlags.HasFlag(CharacterFlags.Charm)
                 || level < victim.Level
-                || victim.CurrentImmunities.HasFlag(IRVFlags.Charm)
+                || victim.Immunities.HasFlag(IRVFlags.Charm)
                 || victim.SavesSpell(level, SchoolTypes.Charm))
                 return;
 
@@ -530,7 +530,7 @@ namespace Mud.Server.Abilities
             if (target is ICharacter victim)
             {
                 IAura curseAura = victim.GetAura("Curse");
-                if (curseAura != null || victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Curse) || victim.SavesSpell(level, SchoolTypes.Negative))
+                if (curseAura != null || victim.CharacterFlags.HasFlag(CharacterFlags.Curse) || victim.SavesSpell(level, SchoolTypes.Negative))
                     return;
                 victim.Send("You feel unclean.");
                 if (caster != victim)
@@ -685,7 +685,7 @@ namespace Mud.Server.Abilities
             // Damage people in room
             foreach (ICharacter victim in caster.Room.People.Where(x => x != caster && !x.IsSafeSpell(caster, true)))
             {
-                int damage = victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Flying)
+                int damage = victim.CharacterFlags.HasFlag(CharacterFlags.Flying)
                     ? 0 // no damage but starts fight
                     : level + RandomManager.Dice(2, 8);
                 victim.AbilityDamage(caster, ability, damage, SchoolTypes.Bash, true);
@@ -892,7 +892,7 @@ namespace Mud.Server.Abilities
         [Spell(44, "Faerie Fire", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "The pink aura around you fades away.", DispelRoomMessage = "{0:N}'s outline fades.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellFaerieFire(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.FaerieFire))
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.FaerieFire))
                 return;
             World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(level), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = 2 * level, Operator = AffectOperators.Add },
@@ -967,7 +967,7 @@ namespace Mud.Server.Abilities
         [Spell(50, "Fly", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You slowly float to the ground.", DispelRoomMessage = "{0:N} falls to the ground!", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellFly(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Flying))
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Flying))
             {
                 if (victim == caster)
                     caster.Send("You are already airborne.");
@@ -990,7 +990,7 @@ namespace Mud.Server.Abilities
         [Spell(52, "Frenzy", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "Your rage ebbs.", DispelRoomMessage = "{0:N} no longer looks so wild.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellFrenzy(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Berserk) || victim.GetAura("Frenzy") != null)
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Berserk) || victim.GetAura("Frenzy") != null)
             {
                 if (victim == caster)
                     caster.Send("You are already in a frenzy.");
@@ -999,7 +999,7 @@ namespace Mud.Server.Abilities
                 return;
             }
 
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Calm) || victim.GetAura("Calm") != null)
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Calm) || victim.GetAura("Calm") != null)
             {
                 if (victim == caster)
                     caster.Send("Why don't you just relax for a while?");
@@ -1042,7 +1042,7 @@ namespace Mud.Server.Abilities
                 || victim.Level >= level + 3
                 // TODO: clan check
                 // TODO: hero level check 
-                || (npcVictim != null && npcVictim.CurrentImmunities.HasFlag(IRVFlags.Summon))
+                || (npcVictim != null && npcVictim.Immunities.HasFlag(IRVFlags.Summon))
                 || (npcVictim != null && victim.SavesSpell(level, SchoolTypes.Other)))
             {
                 caster.Send("You failed.");
@@ -1096,7 +1096,7 @@ namespace Mud.Server.Abilities
         [Spell(56, "Haste", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You feel yourself slow down.", DispelRoomMessage = "{0:N} is no longer moving so quickly.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellHaste(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Haste)
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Haste)
                 || victim.GetAura("Haste") != null
                 || (victim is INonPlayableCharacter npcVictim && npcVictim.OffensiveFlags.HasFlag(OffensiveFlags.Fast)))
             {
@@ -1106,7 +1106,7 @@ namespace Mud.Server.Abilities
                     caster.Act(ActOptions.ToCharacter, "{0:N} is already moving as fast as {0:e} can.", victim);
                 return;
             }
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Slow))
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Slow))
             {
                 if (TryDispel(level, victim, this["Slow"]) != CheckDispelReturnValues.Dispelled)
                 {
@@ -1145,7 +1145,7 @@ namespace Mud.Server.Abilities
         {
             bool fail = true;
             int damage = 0;
-            if (!victim.SavesSpell(level + 2, SchoolTypes.Fire) && !victim.CurrentImmunities.HasFlag(IRVFlags.Fire))
+            if (!victim.SavesSpell(level + 2, SchoolTypes.Fire) && !victim.Immunities.HasFlag(IRVFlags.Fire))
             {
                 // Check equipments
                 foreach (EquipedItem equipedItem in victim.Equipments.Where(x => x.Item != null))
@@ -1337,7 +1337,7 @@ namespace Mud.Server.Abilities
             }
             if (target is ICharacter victim)
             {
-                if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Invisible))
+                if (victim.CharacterFlags.HasFlag(CharacterFlags.Invisible))
                     return;
 
                 victim.Act(ActOptions.ToRoom, "{0:N} fades out of existence.", victim);
@@ -1544,8 +1544,8 @@ namespace Mud.Server.Abilities
         [Spell(74, "Protection Evil", AbilityTargets.CharacterSelf, CharacterWearOffMessage = "You feel less protected.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellProtectionEvil(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.ProtectGood)
-                || victim.CurrentCharacterFlags.HasFlag(CharacterFlags.ProtectEvil))
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.ProtectGood)
+                || victim.CharacterFlags.HasFlag(CharacterFlags.ProtectEvil))
             {
                 caster.Act(ActOptions.ToCharacter, "{0:N} {0:b} already protected.", victim);
                 return;
@@ -1561,8 +1561,8 @@ namespace Mud.Server.Abilities
         [Spell(75, "Protection Good", AbilityTargets.CharacterSelf, CharacterWearOffMessage = "You feel less protected.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellProtectionGood(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.ProtectGood)
-                || victim.CurrentCharacterFlags.HasFlag(CharacterFlags.ProtectEvil))
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.ProtectGood)
+                || victim.CharacterFlags.HasFlag(CharacterFlags.ProtectEvil))
             {
                 caster.Act(ActOptions.ToCharacter, "{0:N} {0:b} already protected.", victim);
                 return;
@@ -1711,7 +1711,7 @@ namespace Mud.Server.Abilities
         [Spell(83, "Sleep", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You feel less tired.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellSleep(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Sleep)
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Sleep)
                 || (victim is INonPlayableCharacter npcVictim && npcVictim.ActFlags.HasFlag(ActFlags.Undead))
                 || level + 2 < victim.Level
                 || victim.SavesSpell(level - 4, SchoolTypes.Charm))
@@ -1732,7 +1732,7 @@ namespace Mud.Server.Abilities
         [Spell(84, "Slow", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You feel yourself speed up.", DispelRoomMessage = "{0:N} is no longer moving so slowly.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellSlow(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Slow)
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Slow)
                 || victim.GetAura(ability) != null)
             {
                 if (victim == caster)
@@ -1742,7 +1742,7 @@ namespace Mud.Server.Abilities
                 return;
             }
 
-            if (victim.CurrentImmunities.HasFlag(IRVFlags.Magic)
+            if (victim.Immunities.HasFlag(IRVFlags.Magic)
                 || victim.SavesSpell(level, SchoolTypes.Other))
             {
                 if (victim != caster)
@@ -1751,7 +1751,7 @@ namespace Mud.Server.Abilities
                 return;
             }
 
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Haste))
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Haste))
             {
                 if (TryDispel(level, victim, this["Haste"]) != CheckDispelReturnValues.Dispelled)
                 {
@@ -1807,7 +1807,7 @@ namespace Mud.Server.Abilities
                 || victim.Level >= level+3
                 || pcVictim?.ImpersonatedBy is IAdmin
                 || victim.Fighting != null
-                || npcVictim?.CurrentImmunities.HasFlag(IRVFlags.Summon) == true
+                || npcVictim?.Immunities.HasFlag(IRVFlags.Summon) == true
                 //TODO: shop || nonPlayableCharacterVictim
                 //TODO: plr_nosummon || playableCharacterVictim
                 || (npcVictim != null && victim.SavesSpell(level, SchoolTypes.Other)))
@@ -1828,7 +1828,7 @@ namespace Mud.Server.Abilities
         {
             if (victim.Room == null
                 || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall)
-                || (victim != caster && victim.CurrentImmunities.HasFlag(IRVFlags.Summon))
+                || (victim != caster && victim.Immunities.HasFlag(IRVFlags.Summon))
                 || (victim is IPlayableCharacter pcVictim && pcVictim.Fighting != null)
                 || (victim != caster && victim.SavesSpell(level - 5, SchoolTypes.Other)))
             {
@@ -1871,7 +1871,7 @@ namespace Mud.Server.Abilities
         [Spell(89, "Weaken", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You feel stronger.", DispelRoomMessage = "{0:N} looks stronger.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellWeaken(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Weaken) || victim.GetAura(ability) != null || victim.SavesSpell(level, SchoolTypes.Other))
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Weaken) || victim.GetAura(ability) != null || victim.SavesSpell(level, SchoolTypes.Other))
                 return;
 
             int duration = level / 2;
@@ -1897,7 +1897,7 @@ namespace Mud.Server.Abilities
                 return;
             }
 
-            if (pcVictim.CurrentCharacterFlags.HasFlag(CharacterFlags.Curse)
+            if (pcVictim.CharacterFlags.HasFlag(CharacterFlags.Curse)
                 || pcVictim.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall))
             {
                 pcVictim.Send("Spell failed.");
@@ -2219,7 +2219,7 @@ namespace Mud.Server.Abilities
             if (target is ICharacter victim) // do the effect on a victim
             {
                 // chance of blindness
-                if (!victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Blind) && !victim.SavesSpell(level / 4 + damage / 20, SchoolTypes.Fire))
+                if (!victim.CharacterFlags.HasFlag(CharacterFlags.Blind) && !victim.SavesSpell(level / 4 + damage / 20, SchoolTypes.Fire))
                 {
                     victim.Send("Your eyes tear up from smoke...you can't see a thing!");
                     victim.Act(ActOptions.ToRoom, "{0} is blinded by smoke!", victim);
@@ -2488,7 +2488,7 @@ namespace Mud.Server.Abilities
 
         private void GenericCharacterFlagsAbility(IAbility ability, int level, ICharacter caster, ICharacter victim, CharacterFlags characterFlags, int duration, string selfAlreadyAffected, string notSelfAlreadyAffected, string success, string notSelfSuccess)
         {
-            if (victim.CurrentCharacterFlags.HasFlag(characterFlags))
+            if (victim.CharacterFlags.HasFlag(characterFlags))
             {
                 if (victim == caster)
                     caster.Send(selfAlreadyAffected);

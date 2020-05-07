@@ -533,12 +533,6 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Ability
-        public bool CheckAbilityImprove(IAbility ability, bool abilityUsedSuccessfully, int multiplier)
-        {
-            KnownAbility knownAbility = KnownAbilities.FirstOrDefault(x => x.Ability == ability);
-            return CheckAbilityImprove(knownAbility, abilityUsedSuccessfully, multiplier);
-        }
-
         public bool CheckAbilityImprove(KnownAbility knownAbility, bool abilityUsedSuccessfully, int multiplier)
         {
             // Know ability ?
@@ -560,7 +554,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 difficultyMultiplier = 1;
             }
             // TODO: percentage depends on intelligence replace CurrentAttributes(CharacterAttributes.Intelligence) with values from 3 to 85
-            int chance = 10 * AttributeTables.LearnBonus(this) / (multiplier * difficultyMultiplier * 4) + Level;
+            int chance = 10 * TableValues.LearnBonus(this) / (multiplier * difficultyMultiplier * 4) + Level;
             if (RandomManager.Range(1, 1000) > chance)
                 return false;
             // now that the character has a CHANCE to learn, see if they really have
@@ -709,7 +703,7 @@ namespace Mud.Server.Character.PlayableCharacter
             int hitGain = Math.Max(3, this[CharacterAttributes.Constitution] - 3 + Level / 2);
             int moveGain = Math.Max(15, Level);
             int manaGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2;
-            if (CurrentCharacterFlags.HasFlag(CharacterFlags.Regeneration))
+            if (CharacterFlags.HasFlag(CharacterFlags.Regeneration))
                 hitGain *= 2;
             // TODO: hp/mana: class bonus
             // TODO: hp: fast healing skill
@@ -742,9 +736,9 @@ namespace Mud.Server.Character.PlayableCharacter
         {
             // Compute move and check if enough move left
             int moveCost = RandomManager.Range(1, 6); // TODO: dependends on room sector
-            if (CurrentCharacterFlags.HasFlag(CharacterFlags.Flying))
+            if (CharacterFlags.HasFlag(CharacterFlags.Flying))
                 moveCost /= 2; // flying is less exhausting
-            if (CurrentCharacterFlags.HasFlag(CharacterFlags.Slow))
+            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
                 moveCost *= 2; // being slowed is more exhausting
             if (MovePoints < moveCost)
             {
@@ -810,7 +804,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         private void AdvanceLevel()
         {
-            var bonus = AttributeTables.Bonus(this);
+            var bonus = TableValues.Bonus(this);
 
             //
             int addHitpoints = bonus.hitpoint + RandomManager.Range(Class?.MinHitPointGainPerLevel ?? 0, Class?.MaxHitPointGainPerLevel ?? 1);

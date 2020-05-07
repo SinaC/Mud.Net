@@ -49,19 +49,23 @@ namespace Mud.Server
         int Level { get; }
         int HitPoints { get; }
         int MovePoints { get; }
+
         CharacterFlags BaseCharacterFlags { get; }
-        CharacterFlags CurrentCharacterFlags { get; }
+        CharacterFlags CharacterFlags { get; }
 
         IRVFlags BaseImmunities { get; }
-        IRVFlags CurrentImmunities { get; }
-        IRVFlags BaseResistances { get; }
-        IRVFlags CurrentResistances { get; }
-        IRVFlags BaseVulnerabilities { get; }
-        IRVFlags CurrentVulnerabilities { get; }
-        Sex BaseSex { get; }
-        Sex CurrentSex { get; }
-        int Alignment { get; }
+        IRVFlags Immunities { get; }
 
+        IRVFlags BaseResistances { get; }
+        IRVFlags Resistances { get; }
+
+        IRVFlags BaseVulnerabilities { get; }
+        IRVFlags Vulnerabilities { get; }
+
+        Sex BaseSex { get; }
+        Sex Sex { get; }
+
+        int Alignment { get; }
         bool IsEvil { get; }
         bool IsGood { get; }
         bool IsNeutral { get; }
@@ -80,6 +84,7 @@ namespace Mud.Server
 
         // Abilities
         IEnumerable<KnownAbility> KnownAbilities { get; }
+        KnownAbility this[IAbility ability] { get; }
 
         // Slave
         ICharacter Slave { get; } // who is our slave (related to charm command/spell)
@@ -146,13 +151,12 @@ namespace Mud.Server
         bool IsSafe(ICharacter character);
 
         // Ability
+        KnownAbility GetKnownAbility(string name);
         IDictionary<IAbility, DateTime> AbilitiesInCooldown { get; }
         bool HasAbilitiesInCooldown { get; }
         int CooldownSecondsLeft(IAbility ability); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)
         void SetCooldown(IAbility ability);
         void ResetCooldown(IAbility ability, bool verbose);
-        int LearnedAbility(string name); // return ability practice %
-        int LearnedAbility(IAbility ability);
 
         // Equipment
         EquipedItem SearchEquipmentSlot(IEquipableItem item, bool replace);

@@ -1,6 +1,8 @@
-﻿namespace Mud.Server
+﻿using Mud.Domain;
+
+namespace Mud.Server
 {
-    public interface IAttributeTables
+    public interface ITableValues
     {
         (int hit, int dam, int carry, int wield, int learn, int practice, int defensive, int hitpoint, int shock) Bonus(ICharacter character);
         int HitBonus(ICharacter character);
@@ -12,5 +14,7 @@
         int DefensiveBonus(ICharacter character);
         int HitpointBonus(ICharacter character);
         int ShockBonus(ICharacter character);
+
+        int EquipmentSlotMultiplier(EquipmentSlots slot);
     }
 }

@@ -25,6 +25,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
         {
             Blueprint = blueprint;
 
+            Position = Positions.Standing;
             // TODO: race, class, flags, armor, damage, IRV ...
             Level = blueprint.Level;
             ActFlags = blueprint.ActFlags;
@@ -155,7 +156,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             int hitGain = 5 + Level;
             int moveGain = Level;
             int manaGain = 5 + Level;
-            if (CurrentCharacterFlags.HasFlag(CharacterFlags.Regeneration))
+            if (CharacterFlags.HasFlag(CharacterFlags.Regeneration))
                 hitGain *= 2;
             switch (Position)
             {

@@ -314,15 +314,15 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Furniture: {0}", victim.Furniture?.DisplayName ?? "(none)");
             sb.AppendFormatLine("Room: {0} [vnum: {1}]", victim.Room.DisplayName, victim.Room.Blueprint?.Id ?? -1);
             sb.AppendFormatLine("Race: {0} Class: {1}", victim.Race?.DisplayName ?? "(none)", victim.Class?.DisplayName ?? "(none)");
-            sb.AppendFormatLine("Level: {0} Sex: {1} (base: {2})", victim.Level, victim.CurrentSex, victim.BaseSex);
+            sb.AppendFormatLine("Level: {0} Sex: {1} (base: {2})", victim.Level, victim.Sex, victim.BaseSex);
             if (playableVictim != null)
                 sb.AppendFormatLine("Experience: {0} NextLevel: {1}", playableVictim.Experience, playableVictim.ExperienceToLevel);
             sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim[CharacterAttributes.MaxHitPoints]);
             sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim[CharacterAttributes.MaxMovePoints]);
-            sb.AppendFormatLine("Flags: {0}|{1}", victim.CurrentCharacterFlags, victim.BaseCharacterFlags);
-            sb.AppendFormatLine("Immunites: {0} (base: {1})", victim.CurrentImmunities, victim.BaseImmunities);
-            sb.AppendFormatLine("Resistances: {0} (base: {1})", victim.CurrentResistances, victim.BaseResistances);
-            sb.AppendFormatLine("Vulnerabilities: {0} (base: {1})", victim.CurrentVulnerabilities, victim.BaseVulnerabilities);
+            sb.AppendFormatLine("Flags: {0}|{1}", victim.CharacterFlags, victim.BaseCharacterFlags);
+            sb.AppendFormatLine("Immunites: {0} (base: {1})", victim.Immunities, victim.BaseImmunities);
+            sb.AppendFormatLine("Resistances: {0} (base: {1})", victim.Resistances, victim.BaseResistances);
+            sb.AppendFormatLine("Vulnerabilities: {0} (base: {1})", victim.Vulnerabilities, victim.BaseVulnerabilities);
             sb.AppendFormatLine("Alignment: {0}", victim.Alignment);
             sb.AppendLine("Attributes:");
             foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())

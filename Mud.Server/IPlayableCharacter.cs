@@ -46,7 +46,6 @@ namespace Mud.Server
         void GainExperience(long experience); // add/substract experience
 
         // Ability
-        bool CheckAbilityImprove(IAbility ability, bool abilityUsedSuccessfully, int multiplier);
         bool CheckAbilityImprove(KnownAbility ability, bool abilityUsedSuccessfully, int multiplier);
 
         // Mapping

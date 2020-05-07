@@ -66,8 +66,9 @@ namespace Mud.Server.Character
                 Send("It cannot be equiped.");
                 return CommandExecutionResults.InvalidTarget;
             }
-            WearItem(equipable, true);
-            Recompute();
+            bool succeed = WearItem(equipable, true);
+            if (succeed)
+                Recompute();
             return CommandExecutionResults.Ok;
         }
 

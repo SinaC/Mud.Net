@@ -270,7 +270,7 @@ namespace Mud.Server.Character
             sb.AppendLine("| %W%Attributes%x%                   |                         |");
             sb.AppendFormatLine("| %c%Strength     : %W%[{0,5}/{1,5}]%x% | %c%Race   : %W%{2,14}%x% |", this[CharacterAttributes.Strength], BaseAttribute(CharacterAttributes.Strength), Race?.DisplayName ?? "(none)");
             sb.AppendFormatLine("| %c%Intelligence : %W%[{0,5}/{1,5}]%x% | %c%Class  : %W%{2,14}%x% |", this[CharacterAttributes.Intelligence], BaseAttribute(CharacterAttributes.Intelligence), Class?.DisplayName ?? "(none)");
-            sb.AppendFormatLine("| %c%Wisdom       : %W%[{0,5}/{1,5}]%x% | %c%Sex    : %W%{2,14}%x% |", this[CharacterAttributes.Wisdom], BaseAttribute(CharacterAttributes.Wisdom), CurrentSex);
+            sb.AppendFormatLine("| %c%Wisdom       : %W%[{0,5}/{1,5}]%x% | %c%Sex    : %W%{2,14}%x% |", this[CharacterAttributes.Wisdom], BaseAttribute(CharacterAttributes.Wisdom), Sex);
             sb.AppendFormatLine("| %c%Dexterity    : %W%[{0,5}/{1,5}]%x% | %c%Level  : %W%{2,14}%x% |", this[CharacterAttributes.Dexterity], BaseAttribute(CharacterAttributes.Dexterity), Level);
             if (pc != null)
                 sb.AppendFormatLine("| %c%Constitution : %W%[{0,5}/{1,5}]%x% | %c%NxtLvl : %W%{2,14}%x% |", this[CharacterAttributes.Constitution], BaseAttribute(CharacterAttributes.Constitution), pc.ExperienceToLevel);
@@ -767,13 +767,13 @@ namespace Mud.Server.Character
             }
 
             // Item flags
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.Invis)) // TODO: and detect invis
+            if (item.CurrentItemFlags.HasFlag(ItemFlags.Invis) && CharacterFlags.HasFlag(CharacterFlags.DetectInvis))
                 sb.Append("%y%(Invis)%x%");
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.Evil))// TODO: and detect evil
+            if (item.CurrentItemFlags.HasFlag(ItemFlags.Evil) && CharacterFlags.HasFlag(CharacterFlags.DetectEvil))
                 sb.Append("%R%(Evil)%x%");
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless)) // TODO: and detect good
+            if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless) && CharacterFlags.HasFlag(CharacterFlags.DetectGood))
                 sb.Append("%C%(Blessed)%x%");
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.Magic)) // TODO: and detect magic
+            if (item.CurrentItemFlags.HasFlag(ItemFlags.Magic) && CharacterFlags.HasFlag(CharacterFlags.DetectMagic))
                 sb.Append("%b%(Magical)%x%");
             if (item.CurrentItemFlags.HasFlag(ItemFlags.Glowing))
                 sb.Append("%Y%(Glowing)%x%");

@@ -16,17 +16,17 @@
     <CharacterData>
       <CreationTime>2020-05-07T14:08:22.9740442+02:00</CreationTime>
       <Name>sinac</Name>
-      <RoomId>3050</RoomId>
+      <RoomId>3004</RoomId>
       <Race>insectoid</Race>
       <Class>druid</Class>
       <Level>7</Level>
       <Sex>0</Sex>
-      <HitPoints>144</HitPoints>
-      <MovePoints>95</MovePoints>
+      <HitPoints>153</HitPoints>
+      <MovePoints>112</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>5</Value>
+          <Value>20</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -46,14 +46,76 @@
       <Experience>6000</Experience>
       <Trains>22</Trains>
       <Practices>207</Practices>
-      <Equipments />
+      <Equipments>
+        <EquipedItemData>
+          <Slot>1</Slot>
+          <Item>
+            <ItemId>3365</ItemId>
+            <Level>8</Level>
+            <DecayPulseLeft>14384840</DecayPulseLeft>
+            <ItemFlags>65</ItemFlags>
+            <Auras />
+          </Item>
+        </EquipedItemData>
+        <EquipedItemData>
+          <Slot>3</Slot>
+          <Item>
+            <ItemId>3355</ItemId>
+            <Level>5</Level>
+            <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>0</ItemFlags>
+            <Auras />
+          </Item>
+        </EquipedItemData>
+        <EquipedItemData>
+          <Slot>5</Slot>
+          <Item>
+            <ItemId>3353</ItemId>
+            <Level>5</Level>
+            <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>0</ItemFlags>
+            <Auras />
+          </Item>
+        </EquipedItemData>
+        <EquipedItemData>
+          <Slot>11</Slot>
+          <Item>
+            <ItemId>3364</ItemId>
+            <Level>16</Level>
+            <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>64</ItemFlags>
+            <Auras />
+          </Item>
+        </EquipedItemData>
+        <EquipedItemData>
+          <Slot>13</Slot>
+          <Item>
+            <ItemId>3</ItemId>
+            <Level>0</Level>
+            <DecayPulseLeft>1760</DecayPulseLeft>
+            <ItemFlags>0</ItemFlags>
+            <Auras />
+          </Item>
+        </EquipedItemData>
+        <EquipedItemData>
+          <Slot>15</Slot>
+          <Item xsi:type="ItemWeaponData">
+            <ItemId>3350</ItemId>
+            <Level>16</Level>
+            <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>64</ItemFlags>
+            <Auras />
+            <WeaponFlags>0</WeaponFlags>
+          </Item>
+        </EquipedItemData>
+      </Equipments>
       <Inventory />
       <CurrentQuests />
       <Auras>
         <AuraData>
           <AbilityId>2</AbilityId>
           <Level>5</Level>
-          <PulseLeft>5100</PulseLeft>
+          <PulseLeft>4468</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -66,7 +128,7 @@
         <AuraData>
           <AbilityId>3</AbilityId>
           <Level>5</Level>
-          <PulseLeft>2012</PulseLeft>
+          <PulseLeft>1380</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -84,7 +146,7 @@
         <AuraData>
           <AbilityId>81</AbilityId>
           <Level>5</Level>
-          <PulseLeft>2516</PulseLeft>
+          <PulseLeft>1884</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -97,7 +159,7 @@
         <AuraData>
           <AbilityId>85</AbilityId>
           <Level>5</Level>
-          <PulseLeft>760</PulseLeft>
+          <PulseLeft>128</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -110,7 +172,7 @@
         <AuraData>
           <AbilityId>74</AbilityId>
           <Level>5</Level>
-          <PulseLeft>5376</PulseLeft>
+          <PulseLeft>4744</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -127,7 +189,7 @@
         <AuraData>
           <AbilityId>31</AbilityId>
           <Level>5</Level>
-          <PulseLeft>944</PulseLeft>
+          <PulseLeft>312</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -139,7 +201,7 @@
         <AuraData>
           <AbilityId>32</AbilityId>
           <Level>5</Level>
-          <PulseLeft>952</PulseLeft>
+          <PulseLeft>320</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">

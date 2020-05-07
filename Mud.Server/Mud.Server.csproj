@@ -103,7 +103,7 @@
     <Compile Include="Admin\InfoCommands.cs" />
     <Compile Include="Aura\RoomFlagsAffect.cs" />
     <Compile Include="Character\AbilityCommands.cs" />
-    <Compile Include="Character\AttributeTables.cs" />
+    <Compile Include="Character\TableValues.cs" />
     <Compile Include="Character\CharacterBase.cs" />
     <Compile Include="Character\CombatCommands.cs" />
     <Compile Include="Character\CommunicationCommands.cs" />
@@ -134,7 +134,7 @@
     <Compile Include="IAdminManager.cs" />
     <Compile Include="IAffect.cs" />
     <Compile Include="IArea.cs" />
-    <Compile Include="IAttributeTables.cs" />
+    <Compile Include="ITableValues.cs" />
     <Compile Include="IClass.cs" />
     <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Helpers\FindHelpers.cs" />

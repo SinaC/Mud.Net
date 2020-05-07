@@ -1,9 +1,10 @@
 ﻿using Mud.Domain;
+using Mud.Logger;
 using Mud.Server.Common;
 
 namespace Mud.Server.Character
 {
-    public class AttributeTables : IAttributeTables
+    public class TableValues : ITableValues
     {
         public (int hit, int dam, int carry, int wield, int learn, int practice, int defensive, int hitpoint, int shock) Bonus(ICharacter character)
         {
@@ -33,6 +34,33 @@ namespace Mud.Server.Character
         public int HitpointBonus(ICharacter character) => ConstitutionBasedBonus.Get(character[CharacterAttributes.Constitution]).hitpoint;
 
         public int ShockBonus(ICharacter character) => ConstitutionBasedBonus.Get(character[CharacterAttributes.Constitution]).shock;
+
+        public int EquipmentSlotMultiplier(EquipmentSlots slot)
+        {
+            switch (slot)
+            {
+                case EquipmentSlots.None: return 1;
+                case EquipmentSlots.Light: return 1;
+                case EquipmentSlots.Head: return 2;
+                case EquipmentSlots.Amulet: return 1;
+                case EquipmentSlots.Shoulders: return 1;
+                case EquipmentSlots.Chest: return 3;
+                case EquipmentSlots.Cloak: return 2;
+                case EquipmentSlots.Waist: return 1;
+                case EquipmentSlots.Wrists: return 1;
+                case EquipmentSlots.Arms: return 1;
+                case EquipmentSlots.Hands: return 1;
+                case EquipmentSlots.Ring: return 1;
+                case EquipmentSlots.Legs: return 2;
+                case EquipmentSlots.Feet: return 1;
+                case EquipmentSlots.Trinket: return 1;
+                case EquipmentSlots.MainHand: return 1;
+                case EquipmentSlots.OffHand: return 1;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, "Invalid EquipmentSlots {0}", slot);
+                    return 1;
+            }
+        }
 
         private static readonly (int hit, int dam, int carry, int wield)[] StrengthBasedBonus = new (int hit, int dam, int carry, int wield)[]
         {

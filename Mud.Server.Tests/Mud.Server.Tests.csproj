@@ -141,6 +141,7 @@
     <Compile Include="SavesSpellTests.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="Mocking\WiznetMock.cs" />
+    <Compile Include="CharacterTests.cs" />
     <Compile Include="WorldTests.cs" />
   </ItemGroup>
   <ItemGroup>

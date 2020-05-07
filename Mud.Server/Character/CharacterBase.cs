@@ -37,7 +37,7 @@ namespace Mud.Server.Character
 
         protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
-        protected IAttributeTables AttributeTables => DependencyContainer.Current.GetInstance<IAttributeTables>();
+        protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
 
         protected int MaxHitPoints => _currentAttributes[(int) CharacterAttributes.MaxHitPoints];
         protected int MaxMovePoints => _currentAttributes[(int)CharacterAttributes.MaxMovePoints];
@@ -143,18 +143,21 @@ namespace Mud.Server.Character
         public int Level { get; protected set; }
         public int HitPoints { get; protected set; }
         public int MovePoints { get; protected set; }
-        public CharacterFlags BaseCharacterFlags { get; protected set; }
-        public CharacterFlags CurrentCharacterFlags { get; protected set; }
-        public IRVFlags BaseImmunities { get; protected set; }
-        public IRVFlags CurrentImmunities { get; protected set; }
-        public IRVFlags BaseResistances { get; protected set; }
-        public IRVFlags CurrentResistances { get; protected set; }
-        public IRVFlags BaseVulnerabilities { get; protected set; }
-        public IRVFlags CurrentVulnerabilities { get; protected set; }
-        public Sex BaseSex { get; protected set; }
-        public Sex CurrentSex { get; protected set; }
-        public int Alignment { get; protected set; }
 
+        public CharacterFlags BaseCharacterFlags { get; protected set; }
+        public CharacterFlags CharacterFlags { get; protected set; }
+
+        public IRVFlags BaseImmunities { get; protected set; }
+        public IRVFlags Immunities { get; protected set; }
+        public IRVFlags BaseResistances { get; protected set; }
+        public IRVFlags Resistances { get; protected set; }
+        public IRVFlags BaseVulnerabilities { get; protected set; }
+        public IRVFlags Vulnerabilities { get; protected set; }
+
+        public Sex BaseSex { get; protected set; }
+        public Sex Sex { get; protected set; }
+
+        public int Alignment { get; protected set; }
         public bool IsEvil => Alignment <= -350;
         public bool IsGood => Alignment >= 350;
         public bool IsNeutral => !IsEvil && !IsGood;
@@ -184,9 +187,9 @@ namespace Mud.Server.Character
         }
 
         public int this[BasicAttributes attribute] => this[(CharacterAttributes)attribute];
-        public int this[Armors armor] => this[(CharacterAttributes)armor] + (Position > Positions.Sleeping ? AttributeTables.DefensiveBonus(this) : 0);
-        public int HitRoll => this[CharacterAttributes.HitRoll] + AttributeTables.HitBonus(this);
-        public int DamRoll => this[CharacterAttributes.DamRoll] + AttributeTables.DamBonus(this);
+        public int this[Armors armor] => this[(CharacterAttributes)armor] + (Position > Positions.Sleeping ? TableValues.DefensiveBonus(this) : 0);
+        public int HitRoll => this[CharacterAttributes.HitRoll] + TableValues.HitBonus(this);
+        public int DamRoll => this[CharacterAttributes.DamRoll] + TableValues.DamBonus(this);
 
         public int this[ResourceKinds resource]
         {
@@ -220,6 +223,7 @@ namespace Mud.Server.Character
         // Abilities
 
         public IEnumerable<KnownAbility> KnownAbilities => _knownAbilities;
+        public KnownAbility this[IAbility ability] => _knownAbilities.SingleOrDefault(x => x.Ability == ability);
 
 
         // Slave
@@ -414,7 +418,7 @@ namespace Mud.Server.Character
             // TODO: impact on items ?
         }
 
-        public virtual void Regen()
+        public void Regen()
         {
             // Hp/Move
             (int hitGain, int moveGain, int manaGain) gains = RegenBaseValues();
@@ -431,19 +435,19 @@ namespace Mud.Server.Character
             }
             if (Furniture != null && Furniture?.ResourceBonus != 0)
                 manaGain = (manaGain * Furniture.ResourceBonus) / 100;
-            if (CurrentCharacterFlags.HasFlag(CharacterFlags.Poison))
+            if (CharacterFlags.HasFlag(CharacterFlags.Poison))
             {
                 hitGain /= 4;
                 moveGain /= 4;
                 manaGain /= 4;
             }
-            if (CurrentCharacterFlags.HasFlag(CharacterFlags.Plague))
+            if (CharacterFlags.HasFlag(CharacterFlags.Plague))
             {
                 hitGain /= 8;
                 moveGain /= 8;
                 manaGain /= 8;
             }
-            if (CurrentCharacterFlags.HasFlag(CharacterFlags.Haste) || CurrentCharacterFlags.HasFlag(CharacterFlags.Slow))
+            if (CharacterFlags.HasFlag(CharacterFlags.Haste) || CharacterFlags.HasFlag(CharacterFlags.Slow))
             {
                 hitGain /= 2;
                 moveGain /= 2;
@@ -504,7 +508,20 @@ namespace Mud.Server.Character
             foreach (EquipedItem equipment in Equipments.Where(x => x.Item != null))
                 ApplyAuras(equipment.Item);
 
-            // 3) Apply own auras
+            // 3) Apply equipment armor
+            foreach (EquipedItem equipment in Equipments.Where(x => x.Item is IItemArmor))
+            {
+                IItemArmor armor = equipment.Item as IItemArmor;
+                int equipmentSlotMultiplier = TableValues.EquipmentSlotMultiplier(equipment.Slot);
+                // TODO: IItemArmor: Bash/Pierce/Slash/Magic 4 values instead of one value
+                int armorValue = armor.Armor * equipmentSlotMultiplier;
+                this[CharacterAttributes.ArmorBash] -= armorValue;
+                this[CharacterAttributes.ArmorPierce] -= armorValue;
+                this[CharacterAttributes.ArmorSlash] -= armorValue;
+                this[CharacterAttributes.ArmorMagic] -= armorValue;
+            }
+
+            // 4) Apply own auras
             ApplyAuras(this);
 
             // Keep attributes in valid range
@@ -550,14 +567,14 @@ namespace Mud.Server.Character
                 return false;
 
             //
-            if (!CurrentCharacterFlags.HasFlag(CharacterFlags.Sneak))
+            if (!CharacterFlags.HasFlag(CharacterFlags.Sneak))
                 Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction);
             ChangeRoom(toRoom);
 
             // Autolook if impersonated/incarnated
             AutoLook();
 
-            if (!CurrentCharacterFlags.HasFlag(CharacterFlags.Sneak))
+            if (!CharacterFlags.HasFlag(CharacterFlags.Sneak))
                 Act(ActOptions.ToRoom, "{0} has arrived.", this);
 
             // Followers: no circular follows
@@ -632,20 +649,20 @@ namespace Mud.Server.Character
             ResistanceLevels defaultResistance = ResistanceLevels.Normal;
             if (damageType <= SchoolTypes.Slash) // Physical
             {
-                if (CurrentImmunities.HasFlag(IRVFlags.Weapon))
+                if (Immunities.HasFlag(IRVFlags.Weapon))
                     defaultResistance = ResistanceLevels.Immune;
-                else if (CurrentResistances.HasFlag(IRVFlags.Weapon))
+                else if (Resistances.HasFlag(IRVFlags.Weapon))
                     defaultResistance = ResistanceLevels.Resistant;
-                else if (CurrentVulnerabilities.HasFlag(IRVFlags.Weapon))
+                else if (Vulnerabilities.HasFlag(IRVFlags.Weapon))
                     defaultResistance = ResistanceLevels.Normal;
             }
             else // Magic
             {
-                if (CurrentImmunities.HasFlag(IRVFlags.Magic))
+                if (Immunities.HasFlag(IRVFlags.Magic))
                     defaultResistance = ResistanceLevels.Immune;
-                else if (CurrentResistances.HasFlag(IRVFlags.Magic))
+                else if (Resistances.HasFlag(IRVFlags.Magic))
                     defaultResistance = ResistanceLevels.Resistant;
-                else if (CurrentVulnerabilities.HasFlag(IRVFlags.Magic))
+                else if (Vulnerabilities.HasFlag(IRVFlags.Magic))
                     defaultResistance = ResistanceLevels.Normal;
             }
             switch (damageType)
@@ -709,11 +726,11 @@ namespace Mud.Server.Character
             }
             // Following code has been reworked because Rom24 was testing on currently computed resistance (imm) instead of defaultResistance (def)
             ResistanceLevels resistance = ResistanceLevels.None;
-            if (CurrentImmunities.HasFlag(irvFlags))
+            if (Immunities.HasFlag(irvFlags))
                 resistance = ResistanceLevels.Immune;
-            else if (CurrentResistances.HasFlag(irvFlags) && defaultResistance != ResistanceLevels.Immune)
+            else if (Resistances.HasFlag(irvFlags) && defaultResistance != ResistanceLevels.Immune)
                 resistance = ResistanceLevels.Resistant;
-            else if (CurrentVulnerabilities.HasFlag(irvFlags))
+            else if (Vulnerabilities.HasFlag(irvFlags))
             {
                 if (defaultResistance == ResistanceLevels.Immune)
                     resistance = ResistanceLevels.Resistant;
@@ -961,7 +978,7 @@ namespace Mud.Server.Character
         {
             ICharacter victim = this;
             int save = 50 + (victim.Level - level) * 5 - victim[CharacterAttributes.SavingThrow] * 2;
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Berserk))
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Berserk))
                 save += victim.Level / 2;
             ResistanceLevels resist = victim.CheckResistance(damageType);
             switch (resist)
@@ -1008,7 +1025,7 @@ namespace Mud.Server.Character
                     if (npcVictim.ActFlags.HasFlag(ActFlags.Pet))
                         return true;
                     // no charmed creatures unless owner
-                    if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm) && (area || caster != victim.ControlledBy))
+                    if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm) && (area || caster != victim.ControlledBy))
                         return true;
                     // TODO: legal kill? -- cannot hit mob fighting non-group member
                     //if (victim->fighting != NULL && !is_same_group(ch,victim->fighting)) -> true
@@ -1029,7 +1046,7 @@ namespace Mud.Server.Character
                 if (caster is INonPlayableCharacter npcCaster)
                 {
                     // charmed mobs and pets cannot attack players while owned
-                    if (caster.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm) && caster.ControlledBy != null && caster.ControlledBy.Fighting != victim)
+                    if (caster.CharacterFlags.HasFlag(CharacterFlags.Charm) && caster.ControlledBy != null && caster.ControlledBy.Fighting != victim)
                         return true;
                     // safe room
                     if (victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe))
@@ -1087,7 +1104,7 @@ namespace Mud.Server.Character
                         return true;
                     }
                     // no charmed creatures unless owner
-                    if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm) && character != victim.ControlledBy)
+                    if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm) && character != victim.ControlledBy)
                     {
                         character.Send("You don't own that monster.");
                         return true;
@@ -1107,7 +1124,7 @@ namespace Mud.Server.Character
                         return true;
                     }
                     // charmed mobs and pets cannot attack players while owned
-                    if (character.CurrentCharacterFlags.HasFlag(CharacterFlags.Charm) && character.ControlledBy != null && character.ControlledBy.Fighting != victim)
+                    if (character.CharacterFlags.HasFlag(CharacterFlags.Charm) && character.ControlledBy != null && character.ControlledBy.Fighting != victim)
                     {
                         character.Send("Players are your friends!");
                         return true;
@@ -1142,6 +1159,8 @@ namespace Mud.Server.Character
         }
 
         // Ability
+        public KnownAbility GetKnownAbility(string name) => _knownAbilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Ability.Name, name));
+
         public IDictionary<IAbility, DateTime> AbilitiesInCooldown => _cooldowns;
 
         public bool HasAbilitiesInCooldown => _cooldowns.Any();
@@ -1170,16 +1189,6 @@ namespace Mud.Server.Character
             _cooldowns.Remove(ability);
             if (verbose)
                 Send("%c%{0} is available.%x%", ability.Name);
-        }
-
-        public int LearnedAbility(string name)
-        {
-            return _knownAbilities.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Ability.Name, name))?.Learned ?? 0;
-        }
-
-        public int LearnedAbility(IAbility ability)
-        {
-            return _knownAbilities.FirstOrDefault(x => x.Ability == ability)?.Learned ?? 0;
         }
 
         // Equipment
@@ -1244,13 +1253,13 @@ namespace Mud.Server.Character
             {
                 case AffectOperators.Add:
                 case AffectOperators.Or:
-                    CurrentCharacterFlags |= affect.Modifier;
+                    CharacterFlags |= affect.Modifier;
                     break;
                 case AffectOperators.Assign:
-                    CurrentCharacterFlags = affect.Modifier;
+                    CharacterFlags = affect.Modifier;
                     break;
                 case AffectOperators.Nor:
-                    CurrentCharacterFlags &= ~affect.Modifier;
+                    CharacterFlags &= ~affect.Modifier;
                     break;
                 default:
                     break;
@@ -1266,13 +1275,13 @@ namespace Mud.Server.Character
                     {
                         case AffectOperators.Add:
                         case AffectOperators.Or:
-                            CurrentImmunities |= affect.Modifier;
+                            Immunities |= affect.Modifier;
                             break;
                         case AffectOperators.Assign:
-                            CurrentImmunities = affect.Modifier;
+                            Immunities = affect.Modifier;
                             break;
                         case AffectOperators.Nor:
-                            CurrentImmunities &= ~affect.Modifier;
+                            Immunities &= ~affect.Modifier;
                             break;
                         default:
                             break;
@@ -1283,13 +1292,13 @@ namespace Mud.Server.Character
                     {
                         case AffectOperators.Add:
                         case AffectOperators.Or:
-                            CurrentResistances |= affect.Modifier;
+                            Resistances |= affect.Modifier;
                             break;
                         case AffectOperators.Assign:
-                            CurrentResistances = affect.Modifier;
+                            Resistances = affect.Modifier;
                             break;
                         case AffectOperators.Nor:
-                            CurrentResistances &= ~affect.Modifier;
+                            Resistances &= ~affect.Modifier;
                             break;
                         default:
                             break;
@@ -1300,13 +1309,13 @@ namespace Mud.Server.Character
                     {
                         case AffectOperators.Add:
                         case AffectOperators.Or:
-                            CurrentResistances |= affect.Modifier;
+                            Resistances |= affect.Modifier;
                             break;
                         case AffectOperators.Assign:
-                            CurrentResistances = affect.Modifier;
+                            Resistances = affect.Modifier;
                             break;
                         case AffectOperators.Nor:
-                            CurrentResistances &= ~affect.Modifier;
+                            Resistances &= ~affect.Modifier;
                             break;
                         default:
                             break;
@@ -1408,7 +1417,7 @@ namespace Mud.Server.Character
 
         public void ApplyAffect(CharacterSexAffect affect)
         {
-            CurrentSex = affect.Value;
+            Sex = affect.Value;
         }
 
         #endregion
@@ -2089,13 +2098,13 @@ namespace Mud.Server.Character
 
         protected void ResetCurrentAttributes()
         {
-            CurrentCharacterFlags = BaseCharacterFlags;
-            CurrentImmunities = BaseImmunities;
-            CurrentResistances = BaseResistances;
-            CurrentVulnerabilities = BaseVulnerabilities;
+            CharacterFlags = BaseCharacterFlags;
+            Immunities = BaseImmunities;
+            Resistances = BaseResistances;
+            Vulnerabilities = BaseVulnerabilities;
             for (int i = 0; i < _baseAttributes.Length; i++)
                 _currentAttributes[i] = _baseAttributes[i];
-            CurrentSex = BaseSex;
+            Sex = BaseSex;
         }
 
         protected void SetMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)
@@ -2162,7 +2171,7 @@ namespace Mud.Server.Character
             // If multiple identical abilities, keep only one with lowest level
             foreach (AbilityUsage abilityUsage in abilities)
             {
-                KnownAbility knownAbility = KnownAbilities.SingleOrDefault(x => x.Ability == abilityUsage.Ability);
+                KnownAbility knownAbility = this[abilityUsage.Ability];
                 if (knownAbility != null)
                 {
                     Log.Default.WriteLine(LogLevels.Debug, "Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
@@ -2343,53 +2352,53 @@ namespace Mud.Server.Character
                         if (target == character)
                             result.Append("you");
                         else
-                            result.Append(StringHelpers.Subjects[character.CurrentSex]);
+                            result.Append(StringHelpers.Subjects[character.Sex]);
                         break;
                     case 'E':
                         if (target == character)
                             result.Append("You");
                         else
-                            result.Append(StringHelpers.Subjects[character.CurrentSex].UpperFirstLetter());
+                            result.Append(StringHelpers.Subjects[character.Sex].UpperFirstLetter());
                         break;
                     // you/him/her/it
                     case 'm':
                         if (target == character)
                             result.Append("you");
                         else
-                            result.Append(StringHelpers.Objectives[character.CurrentSex]);
+                            result.Append(StringHelpers.Objectives[character.Sex]);
                         break;
                     case 'M':
                         if (target == character)
                             result.Append("You");
                         else
-                            result.Append(StringHelpers.Objectives[character.CurrentSex].UpperFirstLetter());
+                            result.Append(StringHelpers.Objectives[character.Sex].UpperFirstLetter());
                         break;
                     // your/his/her/its
                     case 's':
                         if (target == character)
                             result.Append("your");
                         else
-                            result.Append(StringHelpers.Possessives[character.CurrentSex]);
+                            result.Append(StringHelpers.Possessives[character.Sex]);
                         break;
                     case 'S':
                         if (target == character)
                             result.Append("Your");
                         else
-                            result.Append(StringHelpers.Possessives[character.CurrentSex].UpperFirstLetter());
+                            result.Append(StringHelpers.Possessives[character.Sex].UpperFirstLetter());
                         break;
                     // yourself/himself/herself/itself (almost same as 'm' + self)
                     case 'f':
                         if (target == character)
                             result.Append("your");
                         else
-                            result.Append(StringHelpers.Objectives[character.CurrentSex]);
+                            result.Append(StringHelpers.Objectives[character.Sex]);
                         result.Append("self");
                         break;
                     case 'F':
                         if (target == character)
                             result.Append("your");
                         else
-                            result.Append(StringHelpers.Objectives[character.CurrentSex].UpperFirstLetter());
+                            result.Append(StringHelpers.Objectives[character.Sex].UpperFirstLetter());
                         result.Append("self");
                         break;
                     // is/are

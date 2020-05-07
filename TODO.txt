@@ -10,8 +10,8 @@ AbilityTargets not yet handled:
 	SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCharacter victim) // victim is NPC
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
-
 DONE:
+armor on equipment apply in recompute
 wear off message <> dispel message (see message send in TryDispels)
 Passives not hardcoded anymore in AbilityManager, new attribute [PassiveList] handle this
 xp/level
