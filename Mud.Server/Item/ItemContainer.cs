@@ -43,6 +43,7 @@ namespace Mud.Server.Item
             return new ItemContainerData
             {
                 ItemId = Blueprint.Id,
+                Level = Level,
                 DecayPulseLeft = DecayPulseLeft,
                 ItemFlags = BaseItemFlags,
                 Contains = MapContent(),

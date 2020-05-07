@@ -34,6 +34,9 @@ namespace Mud.Server.Blueprints.Character
         public ActFlags ActFlags { get; set; } // TODO: assign
 
         [DataMember]
+        public OffensiveFlags OffensiveFlags { get; set; } // TODO: assign
+
+        [DataMember]
         public CharacterFlags CharacterFlags { get; set; } // TODO: assign
 
         [DataMember]

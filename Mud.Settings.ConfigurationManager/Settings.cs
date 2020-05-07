@@ -38,7 +38,7 @@ namespace Mud.Settings.ConfigurationManager
 
         //
         public int CorpseBlueprintId => IntSetting("CorpseBlueprintId", 999999);
-        public int LightBallBlueprintId => IntSetting("CorpseBlueprintId", 21);
+        public int LightBallBlueprintId => IntSetting("LightBallBlueprintId", 21);
         public int DefaultRoomId => IntSetting("DefaultRoomId", 3001);
         public int DefaultRecallRoomId => IntSetting("DefaultRoomId", 3001);
 

@@ -16,7 +16,7 @@ namespace Mud.Server.Tests
             var instance1 = container.GetInstance<IId>();
             var instance2 = container.GetInstance<IId>();
 
-            Assert.AreEqual(instance1, instance2);
+            Assert.AreSame(instance1, instance2);
             Assert.AreEqual(instance1.Id, instance2.Id);
         }
 
@@ -30,9 +30,26 @@ namespace Mud.Server.Tests
             var instanceId = container.GetInstance<IId>();
             var instanceAdditional = container.GetInstance<IAdditional>();
 
-            Assert.AreEqual(instanceId, instanceAdditional);
+            Assert.AreSame(instanceId, instanceAdditional);
             Assert.AreEqual(instanceId.Id, ((IId)instanceAdditional).Id);
         }
+
+        [TestMethod]
+        public void TestNoDefaultConstructor()
+        {
+            SimpleInjector.Container container = new SimpleInjector.Container();
+            container.Register<IId, Class2>(Lifestyle.Singleton);
+            container.Register<IAdditional, Class2>(Lifestyle.Singleton);
+
+            var instance = container.GetInstance<Class3>();
+
+            Assert.IsNotNull(instance);
+            Assert.IsNotNull(instance.Id);
+            Assert.IsNotNull(instance.Additional);
+            Assert.IsInstanceOfType(instance.Id, typeof(Class2));
+            Assert.IsInstanceOfType(instance.Additional, typeof(Class2));
+            Assert.AreSame(instance.Id, instance.Additional);
+        }                                                
     }
 
     public interface IId
@@ -61,6 +78,18 @@ namespace Mud.Server.Tests
         public Class2()
         {
             Id = Guid.NewGuid();
+        }
+    }
+
+    internal class Class3
+    {
+        public IId Id { get; private set; }
+        public IAdditional Additional { get; private set; }
+
+        public Class3(IId id, IAdditional additional)
+        {
+            Id = id;
+            Additional = additional;
         }
     }
 }

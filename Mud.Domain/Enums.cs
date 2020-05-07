@@ -260,25 +260,26 @@ namespace Mud.Domain
 
     public enum CharacterAttributes // must be ordered, starts at 0 and can't contain holes
     {
-        Strength = 0,
-        Intelligence = 1,
-        Wisdom = 2,
-        Dexterity = 3,
-        Constitution = 4,
-        MaxHitPoints = 5,
-        SavingThrow = 6,
-        HitRoll = 7,
-        DamRoll = 8,
-        MaxMovePoints = 9,
-        ArmorBash = 10,
-        ArmorPierce = 11,
-        ArmorSlash = 12,
-        ArmorMagic = 13
+        Strength        = 0,
+        Intelligence    = 1,
+        Wisdom          = 2,
+        Dexterity       = 3,
+        Constitution    = 4,
+        MaxHitPoints    = 5,
+        SavingThrow     = 6,
+        HitRoll         = 7,
+        DamRoll         = 8,
+        MaxMovePoints   = 9,
+        ArmorBash       = 10,
+        ArmorPierce     = 11,
+        ArmorSlash      = 12,
+        ArmorMagic      = 13
     }
 
     [Flags]
     public enum CharacterFlags
     {
+        None            = 0x00000000,
         Blind           = 0x00000001,
         Invisible       = 0x00000002,
         DetectEvil      = 0x00000004,
@@ -337,18 +338,10 @@ namespace Mud.Domain
         Nowhere     = 0x00080000,
     }
 
-    public enum ResourceKinds
+    public enum ResourceKinds // must starts at 0 and no hole (is used as index in array)
     {
-        None        = 0,
-        Mana        = 1,
-        Energy      = 2,
-        Rage        = 3,
-        Runic       = 4,
-        // TODO: runes
-        //BloodRune,
-        //FrostRune,
-        //UnholyRune,
-        //DeathRune
+        Mana        = 0,
+        Psy         = 1,
     }
 
     public enum CharacterAttributeAffectLocations
@@ -411,10 +404,11 @@ namespace Mud.Domain
     [Flags]
     public enum ActFlags 
     {
+        None            = 0x00000000,
         Sentinel        = 0x00000001,
         Scavenger       = 0x00000002,
-        Aggressive      = 0x00000003,
-        StayArea        = 0x00000008,
+        StayArea        = 0x00000004,
+        Aggressive      = 0x00000008,
         Wimpy           = 0x00000010,
         Pet             = 0x00000020,
         Undead          = 0x00000040,
@@ -423,12 +417,18 @@ namespace Mud.Domain
         Outdoors        = 0x00000200,
         Indoors         = 0x00000400,
         UpdateAlways    = 0x00000800,
+        Train           = 0x00001000,
+        IsHealer        = 0x00002000,
+        Gain            = 0x00004000,
+        Practice        = 0x00008000,
+        Aware           = 0x00010000,
     }
 
     [Flags]
     public enum OffensiveFlags
     {
-        Area_attack     = 0x00000001,
+        None            = 0x00000000,
+        AreaAttack      = 0x00000001,
         Backstab        = 0x00000002,
         Bash            = 0x00000003,
         Berserk         = 0x00000008,
@@ -448,21 +448,67 @@ namespace Mud.Domain
     [Flags]
     public enum AuraFlags
     {
-        None = 0x0,
-        StayDeath = 0x1, // Remains even if affected dies
-        NoDispel = 0x2, // Can't be dispelled
-        Permanent = 0x4, // No duration
-        Hidden = 0x8, // Not displayed
+        None        = 0x0,
+        StayDeath   = 0x1, // Remains even if affected dies
+        NoDispel    = 0x2, // Can't be dispelled
+        Permanent   = 0x4, // No duration
+        Hidden      = 0x8, // Not displayed
     }
 
     public enum AffectOperators
     {
-        Add = 0,
-        Or = 1,
-        Assign = 2,
-        Nor = 3
+        Add     = 0,
+        Or      = 1,
+        Assign  = 2,
+        Nor     = 3
     }
 
+    [Flags]
+    public enum AbilityFlags
+    {
+        None                = 0x00000000,
+        AuraIsHidden        = 0x00000001,
+        CannotMiss          = 0x00000002,
+        CannotBeReflected   = 0x00000004,
+        CannotBeUsed        = 0x00000008,
+    }
+
+    public enum AbilityKinds
+    {
+        Passive = 0,
+        Spell   = 1, // invoked with cast
+        Skill   = 2, // invoked with use or command
+    }
+
+    public enum AbilityTargets
+    {
+        // No target
+        None                                = 0,
+        // Fighting if no parameter, character in room if parameter specified
+        CharacterOffensive                  = 1,
+        // Itself if no parameter, character in room if parameter specified
+        CharacterDefensive                  = 2,
+        // Itself if no parameter, check if parameter == itself if parameter specified
+        CharacterSelf                       = 3,
+        // Item in inventory
+        ItemInventory                       = 4,
+        // Fighting if no parameter, character in room, then item in room, then in inventory, then in equipment if parameter specified
+        ItemHereOrCharacterOffensive        = 5,
+        // Itself if no parameter, character in room or item in inventory if parameter specified
+        ItemInventoryOrCharacterDefensive   = 6,
+        // Target will be 'computed' by spell
+        Custom                              = 7,
+        // Optional item in inventory
+        OptionalItemInventory               = 8,
+        // Armor in inventory
+        ArmorInventory                      = 9,
+        // Weapon in inventory
+        WeaponInventory                     = 10,
+        // Victim is source.Fighting
+        CharacterFighting                   = 11,
+        // Victim is somewhere in the world
+        CharacterWorldwide                  = 12,
+    }
 
     [Flags]
     public enum WiznetFlags
@@ -479,6 +525,8 @@ namespace Mud.Domain
         Typos     = 0x00000100,
         Help      = 0x00000200,
         Load      = 0x00000400,
-        Promote   = 0x00000800
+        Promote   = 0x00000800,
+        Resets    = 0x00001000, // TODO: use
+        Restore   = 0x00002000,
     }
 }

@@ -19,7 +19,19 @@ namespace Mud.Domain
 
         public Sex Sex { get; set; }
 
+        public int HitPoints { get; set; }
+
+        public int MovePoints { get; set; }
+
+        public Dictionary<ResourceKinds, int> CurrentResources { get; set; }
+
+        public Dictionary<ResourceKinds, int> MaxResources { get; set; }
+
         public long Experience { get; set; }
+
+        public int Trains { get; set; }
+
+        public int Practices { get; set; }
 
         public EquipedItemData[] Equipments { get; set; }
 
@@ -38,6 +50,8 @@ namespace Mud.Domain
         public IRVFlags Vulnerabilities { get; set; }
 
         public Dictionary<CharacterAttributes, int> Attributes { get; set; }
+
+        public KnownAbilityData[] KnownAbilities { get; set; }
 
         // TODO: cooldown, ...
     }

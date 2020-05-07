@@ -51,7 +51,7 @@ namespace Mud.Server.Item
                 item.ChangeContainer(this);
             }
             // Fill corpse with equipment
-            foreach (IEquipable item in victim.Equipments.Where(x => x.Item != null).Select(x => x.Item))
+            foreach (IEquipableItem item in victim.Equipments.Where(x => x.Item != null).Select(x => x.Item))
             {
                 // TODO: check stay death flag
                 if (item.CurrentItemFlags.HasFlag(ItemFlags.RotDeath))
@@ -119,6 +119,7 @@ namespace Mud.Server.Item
             return new ItemCorpseData
             {
                 ItemId = Blueprint.Id,
+                Level = Level,
                 DecayPulseLeft = DecayPulseLeft,
                 ItemFlags = BaseItemFlags,
                 Auras = MapAuraData(),

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Server.Abilities;
 
 namespace Mud.Server
 {
@@ -12,6 +13,8 @@ namespace Mud.Server
 
         // Attributes
         long Experience { get; }
+        int Trains { get; }
+        int Practices { get; }
 
         // Group/Follower
         IPlayableCharacter Leader { get; }
@@ -41,6 +44,10 @@ namespace Mud.Server
 
         // Combat
         void GainExperience(long experience); // add/substract experience
+
+        // Ability
+        bool CheckAbilityImprove(IAbility ability, bool abilityUsedSuccessfully, int multiplier);
+        bool CheckAbilityImprove(KnownAbility ability, bool abilityUsedSuccessfully, int multiplier);
 
         // Mapping
         CharacterData MapCharacterData();

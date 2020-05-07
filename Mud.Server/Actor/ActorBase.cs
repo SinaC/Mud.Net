@@ -197,7 +197,7 @@ namespace Mud.Server.Actor
                 string title = string.Join(", ", namesByPriority.Select(x => $"%C%{x}%x%"));
                 sb.AppendLine($"Command{(namesByPriority.Length > 1 ? "s" : string.Empty)} {title}:");
                 string commandNames = string.Join("|", namesByPriority);
-                foreach (string syntax in group.SelectMany(x => x.Value.Syntax.Syntax))
+                foreach (string syntax in group.SelectMany(x => x.Value.Syntax.Syntax).Distinct())
                 {
                     // TODO: enrich argument such as <character>, <player name>, ...
                     string enrichedSyntax = syntax.Replace("[cmd]", commandNames);
@@ -219,7 +219,9 @@ namespace Mud.Server.Actor
             return true;
         }
 
-        protected static IReadOnlyTrie<CommandMethodInfo> GetCommands<T>() => CommandHelpers.GetCommands(typeof(T));
+        protected static IReadOnlyTrie<CommandMethodInfo> GetCommands<T>()
+            where T : ActorBase
+            => CommandHelpers.GetCommands(typeof(T));
 
         private StringBuilder BuildCommandSyntax(CommandMethodInfo commandMethodInfo)
         {

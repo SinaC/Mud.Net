@@ -16,6 +16,9 @@ namespace Mud.Repository.Filesystem.DataContracts
         public int ItemId { get; set; }
 
         [DataMember]
+        public int Level { get; set; }
+
+        [DataMember]
         public int DecayPulseLeft { get; set; }
 
         [DataMember]

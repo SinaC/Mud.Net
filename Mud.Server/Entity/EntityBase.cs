@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using Mud.Domain;
@@ -126,17 +127,6 @@ namespace Mud.Server.Entity
         public abstract void Recompute();
 
         // Auras
-        public IAura GetAura(int abilityId)
-        {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "IEntity.IsAffected: {0} is not valid anymore", DebugName);
-                return null;
-            }
-
-            return _auras.FirstOrDefault(x => x.Ability?.Id == abilityId);
-        }
-
         public IAura GetAura(string abilityName)
         {
             if (!IsValid)
@@ -177,13 +167,11 @@ namespace Mud.Server.Entity
             {
                 Log.Default.WriteLine(LogLevels.Info, "IEntity.AddPeriodicAura: Add: {0} {1}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
                 _periodicAuras.Add(aura);
-                if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
-                    Send("You are now affected by {0}.", aura.Ability == null ? "Something" : aura.Ability.Name);
+                Send("You are now affected by {0}.", aura.Ability?.Name ?? "Something");
                 if (aura.Source != null && aura.Source != this)
                 {
                     ICharacter characterSource = aura.Source as ICharacter;
-                    if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden && characterSource != null)
-                        characterSource.Act(ActOptions.ToCharacter, "{0} is now affected by {1}", this, aura.Ability == null ? "Something" : aura.Ability.Name);
+                    characterSource.Act(ActOptions.ToCharacter, "{0} is now affected by {1}", this, aura.Ability?.Name ?? "Something");
                     if (aura.AuraType == PeriodicAuraTypes.Damage && characterSource != null && this is ICharacter characterThis)
                     {
                         if (characterThis.Fighting == null)
@@ -203,12 +191,9 @@ namespace Mud.Server.Entity
                 Log.Default.WriteLine(LogLevels.Warning, "IEntity.RemovePeriodicAura: Trying to remove unknown PeriodicAura");
             else
             {
-                if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
-                {
-                    Send("{0} vanishes.", aura.Ability == null ? "Something" : aura.Ability.Name);
-                    if (aura.Source != null && aura.Source != this && aura.Source is ICharacter characterSource)
-                        characterSource.Act(ActOptions.ToCharacter, "{0} vanishes on {1}.", aura.Ability == null ? "Something" : aura.Ability.Name, this);
-                }
+                Send("{0} vanishes.", aura.Ability == null ? "Something" : aura.Ability.Name);
+                if (aura.Source != null && aura.Source != this && aura.Source is ICharacter characterSource)
+                    characterSource.Act(ActOptions.ToCharacter, "{0} vanishes on {1}.", aura.Ability == null ? "Something" : aura.Ability.Name, this);
                 aura.ResetSource();
             }
         }
@@ -246,8 +231,20 @@ namespace Mud.Server.Entity
             bool removed = _auras.Remove(aura);
             if (!removed)
                 Log.Default.WriteLine(LogLevels.Warning, "ICharacter.RemoveAura: Trying to remove unknown aura");
-            else if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
-                Send("{0} vanishes.", aura.Ability == null ? "Something" : aura.Ability.Name); // TODO: ability wears off message
+            else
+            {
+                // TODO: replace with virtual method
+                if (this is ICharacter && !string.IsNullOrWhiteSpace(aura.Ability?.CharacterDispelMessage))
+                    Send(aura.Ability.CharacterDispelMessage);
+                else if (this is IItem item && !string.IsNullOrWhiteSpace(aura.Ability?.ItemDispelMessage))
+                {
+                    if (item.ContainedInto is ICharacter holder)
+                        holder.Act(ActOptions.ToCharacter, aura.Ability.ItemDispelMessage, this);
+                    else if (item is IEquipableItem equipable)
+                        equipable.EquipedBy?.Act(ActOptions.ToCharacter, aura.Ability.ItemDispelMessage, this);
+                }
+                //Send("{0} vanishes.", aura.Ability == null ? "Something" : aura.Ability.Name); // TODO: ability wears off message
+            }
             if (recompute && removed)
                 Recompute();
         }
@@ -256,6 +253,7 @@ namespace Mud.Server.Entity
         {
             Log.Default.WriteLine(LogLevels.Info, "IEntity.RemoveAuras: {0} | recompute: {1}", DebugName, recompute);
             _auras.RemoveAll(x => filterFunc(x));
+            // TODO: call RemoveAura to display dispel message
             if (recompute)
                 Recompute();
         }

@@ -36,6 +36,7 @@ namespace Mud.Server.Item
             : this(guid, blueprint, containedInto)
         {
             // TODO: copy other fields
+            Level = data.Level;
             DecayPulseLeft = data.DecayPulseLeft;
             BaseItemFlags = data.ItemFlags;
             // Auras
@@ -121,7 +122,7 @@ namespace Mud.Server.Item
 
         public int DecayPulseLeft { get; protected set; } // 0: means no decay
 
-        public int Level { get; }
+        public int Level { get; protected set; }
 
         public virtual int Weight { get; }
 
@@ -175,6 +176,11 @@ namespace Mud.Server.Item
             Recompute();
         }
 
+        public void IncreaseLevel()
+        {
+            Level++;
+        }
+
         public void ApplyAffect(ItemFlagsAffect affect)
         {
             switch (affect.Operator)
@@ -199,6 +205,7 @@ namespace Mud.Server.Item
             return new ItemData
             {
                 ItemId = Blueprint.Id,
+                Level = Level,
                 DecayPulseLeft = DecayPulseLeft,
                 ItemFlags = BaseItemFlags, // Current will be recompute with auras
                 Auras = MapAuraData()

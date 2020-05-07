@@ -28,7 +28,23 @@ namespace Mud.Repository.Filesystem.DataContracts
         public int Sex { get; set; }
 
         [DataMember]
+        public int HitPoints { get; set; }
+
+        [DataMember]
+        public int MovePoints { get; set; }
+
+        public PairData<int, int>[] CurrentResources { get; set; }
+
+        public PairData<int, int>[] MaxResources { get; set; }
+
+        [DataMember]
         public long Experience { get; set; }
+
+        [DataMember]
+        public int Trains { get; set; }
+
+        [DataMember]
+        public int Practices { get; set; }
 
         [DataMember]
         public EquipedItemData[] Equipments { get; set; }
@@ -56,6 +72,9 @@ namespace Mud.Repository.Filesystem.DataContracts
 
         [DataMember]
         public PairData<int,int>[] Attributes { get; set; } // TODO: this could create duplicate key exception while deserializing if CharacterAttribute is not found anymore
+
+        [DataMember]
+        public KnownAbilityData[] KnownAbilities { get; set; }
 
         // TODO: cooldown, ...
     }

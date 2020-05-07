@@ -87,6 +87,7 @@ namespace Mud.Server.Item
             return new ItemWeaponData
             {
                 ItemId = Blueprint.Id,
+                Level = Level,
                 DecayPulseLeft = DecayPulseLeft,
                 ItemFlags = BaseItemFlags,
                 WeaponFlags = BaseWeaponFlags,

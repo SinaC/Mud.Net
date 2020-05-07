@@ -6,7 +6,7 @@ namespace Mud.Repository.Filesystem.DataContracts
     public class AuraData
     {
         [DataMember]
-        public int AbilitiId { get; set; }
+        public int AbilityId { get; set; }
 
         // TODO: source
 

@@ -4,6 +4,7 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.Input;
+// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Player
 {

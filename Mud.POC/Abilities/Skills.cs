@@ -1,6 +1,4 @@
 ﻿using System.Linq;
-using System.Security.Cryptography;
-using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Common;
 
@@ -379,7 +377,7 @@ namespace Mud.POC.Abilities
             }
         }
 
-        [Skill(5005, "Kick", AbilityTargets.Fighting)]
+        [Skill(5005, "Kick", AbilityTargets.CharacterFighting)]
         public static UseResults SkillKick(IAbility ability, ICharacter source)
         {
             KnownAbility knownAbility = source.KnownAbilities.FirstOrDefault(x => x.Ability == ability);
@@ -417,7 +415,7 @@ namespace Mud.POC.Abilities
             }
         }
 
-        [Skill(5006, "Disarm", AbilityTargets.Fighting)]
+        [Skill(5006, "Disarm", AbilityTargets.CharacterFighting)]
         public static UseResults SkillDisarm(IAbility ability, ICharacter source)
         {
             KnownAbility knownAbility = source.KnownAbilities.FirstOrDefault(x => x.Ability == ability);

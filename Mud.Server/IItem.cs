@@ -34,6 +34,8 @@ namespace Mud.Server
         void AddBaseItemFlags(ItemFlags itemFlags);
         void RemoveBaseItemFlags(ItemFlags itemFlags);
 
+        void IncreaseLevel();
+
         // Affects
         void ApplyAffect(ItemFlagsAffect affect);
 

@@ -26,7 +26,8 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
             // TODO: race, class, flags, armor, damage, ...
             Level = blueprint.Level;
-
+            ActFlags = blueprint.ActFlags;
+            OffensiveFlags = blueprint.OffensiveFlags;
             BaseCharacterFlags = blueprint.CharacterFlags;
             BaseImmunities = blueprint.Immunities;
             BaseResistances = blueprint.Resistances;
@@ -40,7 +41,6 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
             RecomputeKnownAbilities();
             ResetAttributes();
-            RecomputeCommands();
             RecomputeCurrentResourceKinds();
             BuildEquipmentSlots();
         }
@@ -50,6 +50,12 @@ namespace Mud.Server.Character.NonPlayableCharacter
         #region ICharacter
 
         #region IEntity
+
+        #region IActor
+
+        public override IReadOnlyTrie<CommandMethodInfo> Commands => NonPlayableCharacterCommands.Value;
+
+        #endregion
 
         public override string DisplayName => Blueprint.ShortDescription;
 
@@ -99,6 +105,8 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         public ActFlags ActFlags { get; protected set; }
 
+        public OffensiveFlags OffensiveFlags { get; protected set; }
+
         public bool IsQuestObjective(IPlayableCharacter questingCharacter)
         {
             // If 'this' is NPC and in object list or in kill loot table
@@ -114,8 +122,6 @@ namespace Mud.Server.Character.NonPlayableCharacter
         protected override int NoWeaponDamage => (Level * 50) / 14; // TODO: simulate weapon dps using level
 
         protected override int HitPointMinValue => 0;
-
-        protected override IReadOnlyTrie<CommandMethodInfo> StaticCommands => NonPlayableCharacterCommands.Value;
 
         protected override bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
         {

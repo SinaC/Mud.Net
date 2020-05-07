@@ -16,13 +16,13 @@ namespace Mud.POC.Tests
             var randomManagerMock = new Mock<IRandomManager>();
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
 
-            Assert.AreEqual(typeof(Spells).GetMethods(BindingFlags.Static | BindingFlags.Public).Length + typeof(Skills).GetMethods(BindingFlags.Static | BindingFlags.Public).Length + Passives.Abilities.Count, abilityManager.Abilities.Count());
-            Assert.AreEqual(typeof(Spells).GetMethods(BindingFlags.Static | BindingFlags.Public).Length, abilityManager.Abilities.Count(x => !x.AbilityFlags.HasFlag(AbilityFlags.Passive) && x.AbilityMethodInfo?.Attribute is SpellAttribute));
-            Assert.AreEqual(typeof(Skills).GetMethods(BindingFlags.Static | BindingFlags.Public).Length, abilityManager.Abilities.Count(x => !x.AbilityFlags.HasFlag(AbilityFlags.Passive) && x.AbilityMethodInfo?.Attribute is SkillAttribute));
-            Assert.AreEqual(Passives.Abilities.Count, abilityManager.Abilities.Count(x => x.AbilityFlags.HasFlag(AbilityFlags.Passive)));
-            Assert.AreEqual(abilityManager.Passives.Count(), abilityManager.Abilities.Count(x => x.AbilityFlags.HasFlag(AbilityFlags.Passive)));
-            Assert.AreEqual(abilityManager.Spells.Count(), abilityManager.Abilities.Count(x => !x.AbilityFlags.HasFlag(AbilityFlags.Passive) && x.AbilityMethodInfo?.Attribute is SpellAttribute));
-            Assert.AreEqual(abilityManager.Skills.Count(), abilityManager.Abilities.Count(x => !x.AbilityFlags.HasFlag(AbilityFlags.Passive) && x.AbilityMethodInfo?.Attribute is SkillAttribute));
+            Assert.AreEqual(typeof(Spells).GetMethods(BindingFlags.Static | BindingFlags.Public).Count(m => !m.IsSpecialName) + typeof(Skills).GetMethods(BindingFlags.Static | BindingFlags.Public).Count(m => !m.IsSpecialName) + Passives.Abilities.Count, abilityManager.Abilities.Count());
+            Assert.AreEqual(typeof(Spells).GetMethods(BindingFlags.Static | BindingFlags.Public).Count(m => !m.IsSpecialName), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Spell));
+            Assert.AreEqual(typeof(Skills).GetMethods(BindingFlags.Static | BindingFlags.Public).Count(m => !m.IsSpecialName), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Skill));
+            Assert.AreEqual(Passives.Abilities.Count, abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Passive));
+            Assert.AreEqual(abilityManager.Passives.Count(), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Passive));
+            Assert.AreEqual(abilityManager.Spells.Count(), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Spell));
+            Assert.AreEqual(abilityManager.Skills.Count(), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Skill));
         }
 
         [TestMethod]

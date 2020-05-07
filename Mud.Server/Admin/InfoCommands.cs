@@ -11,6 +11,7 @@ using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
+// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Admin
 {
@@ -82,7 +83,7 @@ namespace Mud.Server.Admin
             "[cmd] <race>")]
         protected virtual CommandExecutionResults DoAbilities(string rawParameters, params CommandParameter[] parameters)
         {
-            bool displayed = DisplayAbilitiesList(x => true, parameters);
+            bool displayed = DisplayAbilitiesList(null, parameters);
 
             if (!displayed)
                 return CommandExecutionResults.SyntaxError;
@@ -96,7 +97,7 @@ namespace Mud.Server.Admin
             "[cmd] <race>")]
         protected virtual CommandExecutionResults DoSpells(string rawParameters, params CommandParameter[] parameters)
         {
-            bool displayed = DisplayAbilitiesList(x => x == AbilityKinds.Spell, parameters);
+            bool displayed = DisplayAbilitiesList(AbilityKinds.Spell, parameters);
 
             if (!displayed)
                 return CommandExecutionResults.SyntaxError;
@@ -110,7 +111,7 @@ namespace Mud.Server.Admin
             "[cmd] <race>")]
         protected virtual CommandExecutionResults DoSkills(string rawParameters, params CommandParameter[] parameters)
         {
-            bool displayed = DisplayAbilitiesList(x => x == AbilityKinds.Spell, parameters);
+            bool displayed = DisplayAbilitiesList(AbilityKinds.Spell, parameters);
 
             if (!displayed)
                 return CommandExecutionResults.SyntaxError;
@@ -295,7 +296,7 @@ namespace Mud.Server.Admin
             if (playableVictim?.Leader != null)
                 sb.AppendFormatLine("Leader: {0}", playableVictim.Leader.DisplayName);
             if (playableVictim?.GroupMembers.Any() == true)
-                foreach (ICharacter member in playableVictim.GroupMembers)
+                foreach (IPlayableCharacter member in playableVictim.GroupMembers)
                     sb.AppendFormatLine("Group member: {0}", member.DisplayName);
             if (victim.Slave != null)
                 sb.AppendFormatLine("Slave: {0}", victim.Slave.DisplayName);
@@ -316,8 +317,8 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Level: {0} Sex: {1} (base: {2})", victim.Level, victim.CurrentSex, victim.BaseSex);
             if (playableVictim != null)
                 sb.AppendFormatLine("Experience: {0} NextLevel: {1}", playableVictim.Experience, playableVictim.ExperienceToLevel);
-            sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim.CurrentAttributes(CharacterAttributes.MaxHitPoints));
-            sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim.CurrentAttributes(CharacterAttributes.MaxMovePoints));
+            sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim.CurrentAttribute(CharacterAttributes.MaxHitPoints));
+            sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim.CurrentAttribute(CharacterAttributes.MaxMovePoints));
             sb.AppendFormatLine("Flags: {0}|{1}", victim.CurrentCharacterFlags, victim.BaseCharacterFlags);
             sb.AppendFormatLine("Immunites: {0} (base: {1})", victim.CurrentImmunities, victim.BaseImmunities);
             sb.AppendFormatLine("Resistances: {0} (base: {1})", victim.CurrentResistances, victim.BaseResistances);
@@ -325,9 +326,14 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Alignment: {0}", victim.Alignment);
             sb.AppendLine("Attributes:");
             foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
-                sb.AppendFormatLine("{0}: {1} (base: {2})", attribute, victim.CurrentAttributes(attribute), victim.BaseAttributes(attribute));
-            foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>().Where(x => x != ResourceKinds.None))
+                sb.AppendFormatLine("{0}: {1} (base: {2})", attribute, victim.CurrentAttribute(attribute), victim.BaseAttribute(attribute));
+            foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>())
                 sb.AppendFormatLine("{0}: {1}", resourceKind, victim[resourceKind]);
+            if (nonPlayableVictim != null)
+            {
+                sb.AppendFormatLine("Act: {0}", nonPlayableVictim.ActFlags);
+                sb.AppendFormatLine("Offensive: {0}", nonPlayableVictim.OffensiveFlags);
+            }
             //foreach (IPeriodicAura pa in victim.PeriodicAuras)
             //    if (pa.AuraType == PeriodicAuraTypes.Damage)
             //        sb.AppendFormatLine("{0} from {1}: {2} {3}{4} damage every {5} seconds for {6} seconds.",
@@ -350,8 +356,16 @@ namespace Mud.Server.Admin
             if (victim.KnownAbilities.Any())
             {
                 sb.AppendLine("Abilities:");
-                foreach (AbilityAndLevel abilityAndLevel in victim.KnownAbilities.Where(x => (x.Ability.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name))
-                    sb.AppendFormatLine("{0} - {1}[{2}]", abilityAndLevel.Level, abilityAndLevel.Ability.Name, abilityAndLevel.Ability.Id);
+                int col = 0;
+                foreach (KnownAbility knownAbility in victim.KnownAbilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name))
+                {
+                    // TODO: formating
+                    sb.AppendFormat("{0} - {1} {2}% [{3}]    ", knownAbility.Level, knownAbility.Ability.Name, knownAbility.Learned, knownAbility.Ability.Id);
+                    if (++col % 3 == 0)
+                        sb.AppendLine();
+                }
+                if (col % 3 != 0)
+                    sb.AppendLine();
             }
             else
                 sb.AppendLine("No abilities");
@@ -397,7 +411,7 @@ namespace Mud.Server.Admin
                 sb.AppendFormatLine("Incarnatable: {0}", item.Incarnatable);
             if (item.ContainedInto != null)
                 sb.AppendFormatLine("Contained in {0}", item.ContainedInto.DebugName);
-            if (item is IEquipable equipable)
+            if (item is IEquipableItem equipable)
                 sb.AppendFormatLine("Equiped by {0} on {1}", equipable.EquipedBy?.DebugName ?? "(none)", equipable.WearLocation);
             else
                 sb.AppendLine("Cannot be equiped");
@@ -405,7 +419,7 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
             if (item.DecayPulseLeft > 0)
                 sb.AppendFormatLine("Decay in {0}", StringHelpers.FormatDelay(item.DecayPulseLeft / Pulse.PulsePerSeconds));
-            sb.AppendFormatLine("Flags: {0}|{1}", item.CurrentItemFlags, item.BaseItemFlags);
+            sb.AppendFormatLine("Flags: {0} (base: {1})", item.CurrentItemFlags, item.BaseItemFlags);
             if (item is IItemArmor armor)
                 sb.AppendFormatLine("Armor type: {0} Armor value: {1}", armor.ArmorKind, armor.Armor);
             if (item is IItemContainer container)
@@ -415,7 +429,7 @@ namespace Mud.Server.Admin
                 sb.AppendLine("No additional informations");
             //
             if (item is IItemWeapon weapon)
-                sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3} {4}|{5}", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType, weapon.CurrentWeaponFlags, weapon.BaseWeaponFlags);
+                sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3} {4} (base: {5})", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType, weapon.CurrentWeaponFlags, weapon.BaseWeaponFlags);
             //
             if (item is IItemFurniture furniture)
             {
@@ -439,6 +453,7 @@ namespace Mud.Server.Admin
             // TODO: other item type
             //
             AppendAuras(sb, item.Auras);
+            //
             Send(sb);
             return CommandExecutionResults.Ok;
         }
@@ -543,10 +558,14 @@ namespace Mud.Server.Admin
             IClass matchingClass = ClassManager.Classes.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingClass != null)
             {
-                 StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingClass.DisplayName, matchingClass.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name), new[] {
-                    matchingClass.DisplayName,
-                    $"ShortName: {matchingClass.ShortName}",
-                    $"Resource(s): {string.Join(",", matchingClass.ResourceKinds?.Select(x => x.ToString()))}"});
+                StringBuilder sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate(
+                    new[]
+                    {
+                        matchingClass.DisplayName,
+                        $"ShortName: {matchingClass.ShortName}",
+                        $"Resource(s): {string.Join(",", matchingClass.ResourceKinds?.Select(x => x.ToString()))}"
+                    },
+                    matchingClass.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
                 Page(sb);
                 return CommandExecutionResults.Ok;
             }
@@ -555,9 +574,13 @@ namespace Mud.Server.Admin
             IRace matchingRace = RaceManager.Races.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingRace != null)
             {
-                StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders(matchingRace.DisplayName, matchingRace.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name), new[] {
-                    matchingRace.DisplayName,
-                    $"ShortName: {matchingRace.ShortName}" });
+                StringBuilder sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate(
+                    new[]
+                    {
+                        matchingRace.DisplayName,
+                        $"ShortName: {matchingRace.ShortName}"
+                    },
+                    matchingRace.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
                 Page(sb);
                 return CommandExecutionResults.Ok;
             }
@@ -567,13 +590,26 @@ namespace Mud.Server.Admin
 
         //*********************** Helpers ***************************
 
-        private bool DisplayAbilitiesList(Func<AbilityKinds, bool> filterOnAbilityKind, params CommandParameter[] parameters)
+        private bool DisplayAbilitiesList(AbilityKinds? filterOnAbilityKind, params CommandParameter[] parameters)
         {
+            string title;
+            if (filterOnAbilityKind.HasValue)
+            {
+                switch (filterOnAbilityKind.Value)
+                {
+                    case AbilityKinds.Passive: title = "Passives"; break;
+                    case AbilityKinds.Spell: title = "Spells"; break;
+                    case AbilityKinds.Skill: title = "Skills"; break;
+                    default: title = "???"; break;
+                }
+            }
+            else
+                title = "Abilities";
             if (parameters.Length == 0)
             {
                 // no filter
-                StringBuilder sb = TableGenerators.FullInfoAbilityTableGenerator.Value.Generate("Abilities", AbilityManager.Abilities
-                    .Where(x => (x.Flags & AbilityFlags.CannotBeUsed) != AbilityFlags.CannotBeUsed)
+                StringBuilder sb = TableGenerators.FullInfoAbilityTableGenerator.Value.Generate(title, AbilityManager.Abilities
+                    .Where(x => !x.AbilityFlags.HasFlag(AbilityFlags.CannotBeUsed))
                     .OrderBy(x => x.Name));
                 Page(sb);
                 return true;
@@ -583,10 +619,9 @@ namespace Mud.Server.Admin
             IClass matchingClass = ClassManager.Classes.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingClass != null)
             {
-                StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders($"Abilities for {matchingClass.DisplayName}", matchingClass.Abilities
+                StringBuilder sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate($"{title} for {matchingClass.DisplayName}", matchingClass.Abilities
                     .OrderBy(x => x.Level)
-                    .ThenBy(x => x.Ability.Name),
-                    new[] { matchingClass.DisplayName });
+                    .ThenBy(x => x.Ability.Name));
                 Page(sb);
                 return true;
             }
@@ -595,10 +630,9 @@ namespace Mud.Server.Admin
             IRace matchingRace = RaceManager.Races.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingRace != null)
             {
-                StringBuilder sb = TableGenerators.FullInfoAbilityAndLevelTableGenerator.Value.GenerateWithPreHeaders($"Abilities for {matchingRace.DisplayName}", matchingRace.Abilities
+                StringBuilder sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate($"{title} for {matchingRace.DisplayName}", matchingRace.Abilities
                     .OrderBy(x => x.Level)
-                    .ThenBy(x => x.Ability.Name),
-                    new[] { matchingRace.DisplayName });
+                    .ThenBy(x => x.Ability.Name));
                 Page(sb);
                 return true;
             }
@@ -617,27 +651,27 @@ namespace Mud.Server.Admin
                 if (item.ContainedInto != null)
                 {
                     sb.Append(" in ");
-                    sb.Append("{");
+                    sb.Append("<");
                     sb.Append(DisplayEntityAndContainer(item.ContainedInto));
-                    sb.Append("}");
+                    sb.Append(">");
                 }
                 else
                 {
-                    if (item is IEquipable equipable)
+                    if (item is IEquipableItem equipable)
                     {
                         sb.Append(" equipped by ");
-                        sb.Append("{");
+                        sb.Append("<");
                         sb.Append(DisplayEntityAndContainer(equipable.EquipedBy));
-                        sb.Append("}");
+                        sb.Append(">");
                     }
                 }
             }
 
             if (entity is ICharacter character)
             {
-                sb.Append("{");
+                sb.Append("<");
                 sb.Append(DisplayEntityAndContainer(character.Room));
-                sb.Append("}");
+                sb.Append(">");
             }
             return sb.ToString();
         }

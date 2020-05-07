@@ -30,7 +30,12 @@ namespace Mud.POC.Abilities
                 .Where(x => x.attribute != null);
             foreach (var abilityInfo in abilityInfos)
             {
-                IAbility ability = new Ability(new AbilityMethodInfo(abilityInfo.attribute, abilityInfo.method));
+                AbilityKinds kind = AbilityKinds.Passive;
+                if (abilityInfo.attribute is SpellAttribute)
+                    kind = AbilityKinds.Spell;
+                else if (abilityInfo.attribute is SkillAttribute)
+                    kind = AbilityKinds.Skill;
+                IAbility ability = new Ability(kind, abilityInfo.attribute, abilityInfo.method);
                 _abilities.Add(ability);
             }
             // Add passive abilities
@@ -54,9 +59,9 @@ namespace Mud.POC.Abilities
             }
         }
 
-        public IEnumerable<IAbility> Spells => _abilities.Where(x => !x.AbilityFlags.HasFlag(AbilityFlags.Passive) && x.AbilityMethodInfo?.Attribute is SpellAttribute);
-        public IEnumerable<IAbility> Skills => _abilities.Where(x => !x.AbilityFlags.HasFlag(AbilityFlags.Passive) && x.AbilityMethodInfo?.Attribute is SkillAttribute);
-        public IEnumerable<IAbility> Passives => _abilities.Where(x => x.AbilityFlags.HasFlag(AbilityFlags.Passive));
+        public IEnumerable<IAbility> Spells => _abilities.Where(x => x.Kind == AbilityKinds.Spell);
+        public IEnumerable<IAbility> Skills => _abilities.Where(x => x.Kind == AbilityKinds.Skill);
+        public IEnumerable<IAbility> Passives => _abilities.Where(x => x.Kind == AbilityKinds.Passive);
 
         public CastResults Cast(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
         {
@@ -69,12 +74,15 @@ namespace Mud.POC.Abilities
             IPlayableCharacter pcCaster = caster as IPlayableCharacter;
 
             // 1) search spell
-            KnownAbility knownAbility = Search(caster.KnownAbilities, caster.Level, x => !x.AbilityFlags.HasFlag(AbilityFlags.Passive) && x.AbilityMethodInfo?.Attribute is SpellAttribute, parameters[0]); // filter on non-passive and spell
+            KnownAbility knownAbility = Search(caster.KnownAbilities, caster.Level, x => x.Kind == AbilityKinds.Spell, parameters[0]); // filter on spell
             if (knownAbility == null)
             {
                 caster.Send("You don't know any spells of that name.");
                 return CastResults.InvalidParameter;
             }
+
+            // 1.1) strip first argument
+            (rawParameters, parameters) = CommandHelpers.SkipParameters(parameters, 1);
 
             // 2) get target
             IEntity target;
@@ -93,21 +101,22 @@ namespace Mud.POC.Abilities
 
             // 4) check resource costs
             int? cost = null;
-            if (knownAbility.ResourceKind != ResourceKinds.None && knownAbility.CostAmount > 0 && knownAbility.CostAmountOperator != CostAmountOperators.None)
+            if (knownAbility.ResourceKind.HasValue && knownAbility.CostAmount > 0 && knownAbility.CostAmountOperator != CostAmountOperators.None)
             {
-                if (!caster.CurrentResourceKinds.Contains(knownAbility.ResourceKind)) // TODO: not sure about this test
+                ResourceKinds resourceKind = knownAbility.ResourceKind.Value;
+                if (!caster.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
                 {
                     caster.Send("You can't use {0} as resource for the moment.", knownAbility.ResourceKind);
                     return CastResults.CantUseRequiredResource;
                 }
-                int resourceLeft = caster[knownAbility.ResourceKind];
+                int resourceLeft = caster[resourceKind];
                 switch(knownAbility.CostAmountOperator)
                 {
                     case CostAmountOperators.Fixed:
                         cost = knownAbility.CostAmount;
                         break;
                     case CostAmountOperators.Percentage:
-                        cost = caster.GetMaxResource(knownAbility.ResourceKind) * knownAbility.CostAmount / 100;
+                        cost = caster.GetMaxResource(resourceKind) * knownAbility.CostAmount / 100;
                         break;
                     default:
                         Log.Default.WriteLine(LogLevels.Error, "Unexpected CostAmountOperator {0}", knownAbility.CostAmountOperator);
@@ -128,14 +137,14 @@ namespace Mud.POC.Abilities
                 caster.Send("You lost your concentration.");
                 pcCaster?.CheckAbilityImprove(knownAbility, false, 1);
                 // pay half resource
-                if (cost.HasValue && cost.Value > 1)
-                    caster.UpdateResource(knownAbility.ResourceKind, -cost.Value / 2);
+                if (cost.HasValue && cost.Value > 1 && knownAbility.ResourceKind.HasValue)
+                    caster.UpdateResource(knownAbility.ResourceKind.Value, -cost.Value / 2);
                 return CastResults.Failed;
             }
 
             //6) pay resource
-            if (cost.HasValue)
-                caster.UpdateResource(knownAbility.ResourceKind, -cost.Value);
+            if (cost.HasValue && cost.Value >= 1 && knownAbility.ResourceKind.HasValue)
+                caster.UpdateResource(knownAbility.ResourceKind.Value, -cost.Value);
 
             // TODO: 7) say spell if not ventriloquate
 
@@ -169,7 +178,7 @@ namespace Mud.POC.Abilities
         public UseResults Use(IAbility ability, ICharacter caster, string rawParameters, params CommandParameter[] parameters)
         {
             // 1) check if it's a skill
-            if (ability == null || ability.AbilityFlags.HasFlag(AbilityFlags.Passive) || !(ability.AbilityMethodInfo?.Attribute is SkillAttribute))
+            if (ability == null || ability.Kind != AbilityKinds.Skill)
                 return UseResults.Error;
 
             // 2) get target
@@ -195,7 +204,7 @@ namespace Mud.POC.Abilities
                 case AbilityTargets.None:
                     break;
                 case AbilityTargets.CharacterOffensive:
-                    if (parameters.Length < 2)
+                    if (parameters.Length < 1)
                     {
                         target = caster.Fighting;
                         if (target == null)
@@ -206,7 +215,7 @@ namespace Mud.POC.Abilities
                     }
                     else
                     {
-                        target = FindByName(caster.Room.People, parameters[1]);
+                        target = FindByName(caster.Room.People, parameters[0]);
                         if (target == null)
                         {
                             caster.Send("They aren't here.");
@@ -217,11 +226,11 @@ namespace Mud.POC.Abilities
                     // TODO: check if safe/charm/...   messages.TargetIsSafe
                     break;
                 case AbilityTargets.CharacterDefensive:
-                    if (parameters.Length < 2)
+                    if (parameters.Length < 1)
                         target = caster;
                     else
                     {
-                        target = FindByName(caster.Room.People, parameters[1]);
+                        target = FindByName(caster.Room.People, parameters[0]);
                         if (target == null)
                         {
                             caster.Send("They aren't here.");
@@ -231,9 +240,9 @@ namespace Mud.POC.Abilities
                     // victim found
                     break;
                 case AbilityTargets.CharacterSelf:
-                    if (parameters.Length >= 2)
+                    if (parameters.Length >= 1)
                     {
-                        ICharacter search = FindByName(caster.Room.People, parameters[1]);
+                        ICharacter search = FindByName(caster.Room.People, parameters[0]);
                         if (search != caster)
                         {
                             caster.Send("You cannot cast this spell on another.");
@@ -244,12 +253,12 @@ namespace Mud.POC.Abilities
                     // victim found
                     break;
                 case AbilityTargets.ItemInventory:
-                    if (parameters.Length < 2)
+                    if (parameters.Length < 1)
                     {
                         caster.Send("What should the spell be cast upon?");
                         return AbilityTargetResults.MissingParameter;
                     }
-                    target = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                    target = FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?
                     if (target == null)
                     {
                         caster.Send("You are not carrying that.");
@@ -258,7 +267,7 @@ namespace Mud.POC.Abilities
                     // item found
                     break;
                 case AbilityTargets.ItemHereOrCharacterOffensive:
-                    if (parameters.Length < 2)
+                    if (parameters.Length < 1)
                     {
                         target = caster.Fighting;
                         if (target == null)
@@ -268,14 +277,14 @@ namespace Mud.POC.Abilities
                         }
                     }
                     else
-                        target = FindByName(caster.Room.People, parameters[1]);
+                        target = FindByName(caster.Room.People, parameters[0]);
                     if (target != null)
                     {
                         // TODO: check if safe/charm/...   messages.TargetIsSafe
                     }
                     else // character not found, search item in room, in inventor, in equipment
                     {
-                        target = FindItemHere(caster, parameters[1]);
+                        target = FindItemHere(caster, parameters[0]);
                         if (target == null)
                         {
                             caster.Send("You don't see that here.");
@@ -285,13 +294,13 @@ namespace Mud.POC.Abilities
                     // victim or item (target) found
                     break;
                 case AbilityTargets.ItemInventoryOrCharacterDefensive:
-                    if (parameters.Length < 2)
+                    if (parameters.Length < 1)
                         target = caster;
                     else
-                        target = FindByName(caster.Room.People, parameters[1]);
+                        target = FindByName(caster.Room.People, parameters[0]);
                     if (target == null)
                     {
-                        target = FindByName(caster.Inventory, parameters[1]);
+                        target = FindByName(caster.Inventory, parameters[0]);
                         if (target == null)
                         {
                             caster.Send("You don't see that here.");
@@ -303,9 +312,9 @@ namespace Mud.POC.Abilities
                 case AbilityTargets.Custom:
                     break;
                 case AbilityTargets.OptionalItemInventory:
-                    if (parameters.Length >= 2)
+                    if (parameters.Length >= 1)
                     {
-                        target = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                        target = FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?
                         if (target == null)
                         {
                             caster.Send("You are not carrying that.");
@@ -315,12 +324,12 @@ namespace Mud.POC.Abilities
                     // item found
                     break;
                 case AbilityTargets.ArmorInventory:
-                    if (parameters.Length < 2)
+                    if (parameters.Length < 1)
                     {
                         caster.Send("What should the spell be cast upon?");
                         return AbilityTargetResults.MissingParameter;
                     }
-                    target = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                    target = FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?
                     if (target == null)
                     {
                         caster.Send("You are not carrying that.");
@@ -335,12 +344,12 @@ namespace Mud.POC.Abilities
                     // item found
                     break;
                 case AbilityTargets.WeaponInventory:
-                    if (parameters.Length < 2)
+                    if (parameters.Length < 1)
                     {
                         caster.Send("What should the spell be cast upon?");
                         return AbilityTargetResults.MissingParameter;
                     }
-                    target = FindByName(caster.Inventory, parameters[1]); // TODO: equipments ?
+                    target = FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?
                     if (target == null)
                     {
                         caster.Send("You are not carrying that.");
@@ -354,13 +363,14 @@ namespace Mud.POC.Abilities
                     }
                     // item found
                     break;
-                case AbilityTargets.Fighting:
+                case AbilityTargets.CharacterFighting:
                     target = caster.Fighting;
                     if (target == null)
                     {
                         caster.Send("You aren't fighting anyone.");
                         return AbilityTargetResults.TargetNotFound;
                     }
+                    // victim found
                     break;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, "Unexpected AbilityTarget {0}", ability.Target);
@@ -465,7 +475,7 @@ namespace Mud.POC.Abilities
                         return AbilityTargetResults.InvalidTarget;
                     }
                     break;
-                case AbilityTargets.Fighting:
+                case AbilityTargets.CharacterFighting:
                     target = caster.Fighting;
                     if (target == null)
                     {
@@ -490,35 +500,35 @@ namespace Mud.POC.Abilities
             switch (ability.Target)
             {
                 case AbilityTargets.None:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster });
                 case AbilityTargets.CharacterOffensive:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                 case AbilityTargets.CharacterDefensive:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                 case AbilityTargets.CharacterSelf:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                 case AbilityTargets.ItemInventory:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                 case AbilityTargets.ItemHereOrCharacterOffensive:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                 case AbilityTargets.ItemInventoryOrCharacterDefensive:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                 case AbilityTargets.Custom:
                     if (parameters.Length > 1)
                     {
                         var newParameters = CommandHelpers.SkipParameters(parameters, 1);
-                        return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, newParameters.rawParameters });
+                        return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, newParameters.rawParameters });
                     }
                     else
-                        return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, string.Empty });
+                        return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, string.Empty });
                 case AbilityTargets.OptionalItemInventory:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                 case AbilityTargets.ArmorInventory:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                 case AbilityTargets.WeaponInventory:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
-                case AbilityTargets.Fighting:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
+                case AbilityTargets.CharacterFighting:
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
             }
             return null;
         }
@@ -530,35 +540,35 @@ namespace Mud.POC.Abilities
             switch (ability.Target)
             {
                 case AbilityTargets.None:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, source });
                 case AbilityTargets.CharacterOffensive:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
                 case AbilityTargets.CharacterDefensive:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
                 case AbilityTargets.CharacterSelf:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, source });
                 case AbilityTargets.ItemInventory:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
                 case AbilityTargets.ItemHereOrCharacterOffensive:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
                 case AbilityTargets.ItemInventoryOrCharacterDefensive:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
                 case AbilityTargets.Custom:
                     if (parameters.Length > 1)
                     {
                         var newParameters = CommandHelpers.SkipParameters(parameters, 1);
-                        return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, newParameters.rawParameters });
+                        return ability.MethodInfo.Invoke(this, new object[] { ability, source, newParameters.rawParameters });
                     }
                     else
-                        return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, string.Empty });
+                        return ability.MethodInfo.Invoke(this, new object[] { ability, source, string.Empty });
                 case AbilityTargets.OptionalItemInventory:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
                 case AbilityTargets.ArmorInventory:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
                 case AbilityTargets.WeaponInventory:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
-                case AbilityTargets.Fighting:
-                    return ability.AbilityMethodInfo.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                case AbilityTargets.CharacterFighting:
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
             }
             return null;
         }

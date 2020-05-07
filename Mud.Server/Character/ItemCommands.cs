@@ -7,6 +7,7 @@ using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
+// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
 {
@@ -31,15 +32,15 @@ namespace Mud.Server.Character
             {
                 CommandParameter whatParameter = parameters[0];
                 // We have to clone list because it'll be modified when wearing an item
-                IReadOnlyCollection<IEquipable> list; // list must be cloned because it'll be modified when wearing an item
+                IReadOnlyCollection<IEquipableItem> list; // list must be cloned because it'll be modified when wearing an item
                 if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item
-                    list = new ReadOnlyCollection<IEquipable>(FindHelpers.FindAllByName(Inventory.Where(CanSee).OfType<IEquipable>(), whatParameter).ToList());
+                    list = new ReadOnlyCollection<IEquipableItem>(FindHelpers.FindAllByName(Inventory.Where(CanSee).OfType<IEquipableItem>(), whatParameter).ToList());
                 else // get all
-                    list = new ReadOnlyCollection<IEquipable>(Inventory.Where(CanSee).OfType<IEquipable>().ToList());
+                    list = new ReadOnlyCollection<IEquipableItem>(Inventory.Where(CanSee).OfType<IEquipableItem>().ToList());
                 bool itemEquipped = false;
                 if (list.Any())
                 {
-                    foreach (IEquipable equipableItem in list)
+                    foreach (IEquipableItem equipableItem in list)
                     {
                         if (WearItem(equipableItem, false))
                             itemEquipped = true;
@@ -59,7 +60,7 @@ namespace Mud.Server.Character
                 Send(StringHelpers.ItemInventoryNotFound);
                 return CommandExecutionResults.TargetNotFound;
             }
-            IEquipable equipable = item as IEquipable;
+            IEquipableItem equipable = item as IEquipableItem;
             if (equipable == null)
             {
                 Send("It cannot be equiped.");
@@ -86,7 +87,7 @@ namespace Mud.Server.Character
                 Send(StringHelpers.ItemInventoryNotFound);
                 return CommandExecutionResults.TargetNotFound;
             }
-            IEquipable equipable = item as IEquipable;
+            IEquipableItem equipable = item as IEquipableItem;
             if (equipable == null)
             {
                 Send("It cannot be wielded.");
@@ -119,7 +120,7 @@ namespace Mud.Server.Character
                 Send(StringHelpers.ItemInventoryNotFound);
                 return CommandExecutionResults.TargetNotFound;
             }
-            IEquipable equipable = item as IEquipable;
+            IEquipableItem equipable = item as IEquipableItem;
             if (equipable == null || equipable.WearLocation != WearLocations.Hold || equipable.WearLocation != WearLocations.Shield)
             {
                 Send("It cannot be hold.");
@@ -445,7 +446,7 @@ namespace Mud.Server.Character
         //********************************************************************
         // Helpers
         //********************************************************************
-        private bool WearItem(IEquipable item, bool replace) // equivalent to wear_obj in act_obj.C:1467
+        private bool WearItem(IEquipableItem item, bool replace) // equivalent to wear_obj in act_obj.C:1467
         {
             // TODO: check level
             WearLocations wearLocation = item.WearLocation;
@@ -466,7 +467,7 @@ namespace Mud.Server.Character
             }
             if (replace && equipmentSlot.Item != null)
             {
-                IEquipable removeItem = equipmentSlot.Item;
+                IEquipableItem removeItem = equipmentSlot.Item;
                 Act(ActOptions.ToAll, "{0:N} remove{0:v} {1}.", this, removeItem);
                 //equipmentSlot.Item = null  already done by ChangeEquipedBy
                 removeItem.ChangeEquipedBy(null);

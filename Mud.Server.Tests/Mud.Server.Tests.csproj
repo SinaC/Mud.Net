@@ -110,9 +110,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Abilities\AbilityCheckImproveTests.cs" />
+    <Compile Include="Abilities\AbilityManagerTests.cs" />
+    <Compile Include="Abilities\AbilityTestBase.cs" />
+    <Compile Include="Abilities\SkillCommandTest.cs" />
+    <Compile Include="Abilities\SpellCastTests.cs" />
+    <Compile Include="Abilities\SpellTargetTests.cs" />
     <Compile Include="Affects\ItemWeaponAffectTests.cs" />
     <Compile Include="Affects\RoomAffectTests.cs" />
     <Compile Include="Affects\CharacterAffectTests.cs" />
+    <Compile Include="Abilities\SkillUseTests.cs" />
     <Compile Include="CharacterDeserializationTests.cs" />
     <Compile Include="ItemDeserializationTests.cs" />
     <Compile Include="Mocking\AbilityManagerMock.cs" />
@@ -131,8 +138,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContainerTests.cs" />
     <Compile Include="ItemSerializationTests.cs" />
-    <Compile Include="Rom24\Rom24CommonTests.cs" />
-    <Compile Include="Rom24\Rom24SpellTests.cs" />
+    <Compile Include="SavesSpellTests.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="Mocking\WiznetMock.cs" />
     <Compile Include="WorldTests.cs" />

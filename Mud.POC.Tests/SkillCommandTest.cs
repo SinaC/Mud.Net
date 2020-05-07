@@ -18,7 +18,7 @@ namespace Mud.POC.Tests
             var tableManagerMock = new Mock<IAttributeTableManager>();
             tableManagerMock.Setup(x => x.GetLearnPercentage(It.IsAny<ICharacter>())).Returns<int>(x => 100);
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
-            IPlayableCharacter source = new PlayableCharacter(randomManagerMock.Object, abilityManager, tableManagerMock.Object, new[] { new KnownAbility { Ability = abilityManager["kick"], Level = 1, Learned = 100, ImproveDifficulityMultiplier = 1 } }, 1000, 1000, 10, Domain.Positions.Standing);
+            IPlayableCharacter source = new PlayableCharacter(randomManagerMock.Object, abilityManager, tableManagerMock.Object, new[] { new KnownAbility { Ability = abilityManager["kick"], Level = 1, Learned = 100, Rating = 1 } }, 1000, 1000, 10, Domain.Positions.Standing);
 
             Assert.IsTrue(source.Commands.Count() > 0);
             Assert.IsTrue(source.Commands.Any(x => x.Key == "kick"));
@@ -32,7 +32,7 @@ namespace Mud.POC.Tests
             var tableManagerMock = new Mock<IAttributeTableManager>();
             tableManagerMock.Setup(x => x.GetLearnPercentage(It.IsAny<ICharacter>())).Returns<int>(x => 100);
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
-            IPlayableCharacter source = new PlayableCharacter(randomManagerMock.Object, abilityManager, tableManagerMock.Object, new[] { new KnownAbility { Ability = abilityManager["kick"], Level = 1, Learned = 100, ImproveDifficulityMultiplier = 1 } }, 1000, 1000, 10, Domain.Positions.Standing);
+            IPlayableCharacter source = new PlayableCharacter(randomManagerMock.Object, abilityManager, tableManagerMock.Object, new[] { new KnownAbility { Ability = abilityManager["kick"], Level = 1, Learned = 100, Rating = 1 } }, 1000, 1000, 10, Domain.Positions.Standing);
 
             string commandLine = "kick";
             CommandHelpers.ExtractCommandAndParameters(commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame);

@@ -98,6 +98,7 @@
     <Compile Include="DataContracts\ItemFlagsAffectData.cs" />
     <Compile Include="DataContracts\ItemWeaponData.cs" />
     <Compile Include="DataContracts\ItemWeaponFlagsAffectData.cs" />
+    <Compile Include="DataContracts\KnownAbilityData.cs" />
     <Compile Include="DataContracts\LoginData.cs" />
     <Compile Include="DataContracts\PairData.cs" />
     <Compile Include="DataContracts\PlayerData.cs" />

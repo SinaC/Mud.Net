@@ -1,4 +1,6 @@
-﻿namespace Mud.POC.Abilities
+﻿using Mud.Domain;
+
+namespace Mud.POC.Abilities
 {
     public static class Spells
     {

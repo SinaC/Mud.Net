@@ -639,13 +639,14 @@ namespace Mud.Server.Server
             {
                 if (playingClient.Player != null)
                 {
+                    string command = string.Empty;
                     try
                     {
                         if (playingClient.Player.GlobalCooldown > 0) // if player is on GCD, decrease it
                             playingClient.Player.DecreaseGlobalCooldown();
                         else
                         {
-                            string command = playingClient.DequeueReceivedData(); // process one command at a time
+                            command = playingClient.DequeueReceivedData(); // process one command at a time
                             if (command != null)
                             {
                                 if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Next, Quit, All
@@ -659,7 +660,7 @@ namespace Mud.Server.Server
                     }
                     catch (Exception ex)
                     {
-                        Log.Default.WriteLine(LogLevels.Error, "Exception while processing input of {0}. Exception: {1}", playingClient.Player.Name, ex);
+                        Log.Default.WriteLine(LogLevels.Error, "Exception while processing input of {0} [{1}]. Exception: {2}", playingClient.Player.Name, command, ex);
                     }
                 }
                 else
@@ -744,9 +745,9 @@ namespace Mud.Server.Server
                     Log.Default.WriteLine(LogLevels.Warning, "Class {0} doesn't have any allowed resources");
                 else
                 {
-                    foreach (AbilityAndLevel abilityAndLevel in c.Abilities)
-                        if (abilityAndLevel.Ability.ResourceKind != ResourceKinds.None && !c.ResourceKinds.Contains(abilityAndLevel.Ability.ResourceKind))
-                            Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityAndLevel.Ability.Name, abilityAndLevel.Ability.ResourceKind);
+                    foreach (AbilityUsage abilityUsage in c.Abilities)
+                        if (abilityUsage.ResourceKind.HasValue && !c.ResourceKinds.Contains(abilityUsage.ResourceKind.Value))
+                            Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityUsage.Ability.Name, abilityUsage.ResourceKind);
                 }
             }
             Log.Default.WriteLine(LogLevels.Info, "#Classes: {}", ClassManager.Classes.Count());

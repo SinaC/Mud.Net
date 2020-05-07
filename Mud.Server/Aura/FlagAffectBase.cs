@@ -15,7 +15,7 @@ namespace Mud.Server.Aura
 
         public void Append(StringBuilder sb)
         {
-            sb.AppendFormat("%c%modifies %y%{0} %c{1} %y%{2}", Target, Operator.PrettyPrint(), Modifier);
+            sb.AppendFormat("%c%modifies %y%{0} %c%{1} %y%{2}%x%", Target, Operator.PrettyPrint(), Modifier);
         }
 
         public abstract AffectDataBase MapAffectData();

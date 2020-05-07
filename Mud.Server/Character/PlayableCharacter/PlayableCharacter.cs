@@ -7,6 +7,7 @@ using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Abilities;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
@@ -53,13 +54,34 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             Level = data.Level;
             Experience = data.Experience;
+            HitPoints = data.HitPoints;
+            MovePoints = data.MovePoints;
+            if (data.CurrentResources != null)
+            {
+                foreach (var currentResourceData in data.CurrentResources)
+                    this[currentResourceData.Key] = currentResourceData.Value;
+            }
+            else
+            {
+                Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.ctor: currentResources not found in pfile for {0}", data.Name);
+                // set to 1 if not found
+                foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
+                    this[resource] = 1;
+            }
+            if (data.MaxResources != null)
+            {
+                foreach (var maxResourceData in data.MaxResources)
+                    SetMaxResource(maxResourceData.Key, maxResourceData.Value, false);
+            }
+            Trains = data.Trains;
+            Practices = data.Practices;
 
             BaseCharacterFlags = data.CharacterFlags;
             BaseImmunities = data.Immunities;
             BaseResistances = data.Resistances;
             BaseVulnerabilities = data.Vulnerabilities;
             BaseSex = data.Sex;
-            RecomputeBaseAttributes(data.Attributes);
+            RecomputeBaseAttributes(data.Attributes); // TODO: this can be modified when levelling or when training an attribute
 
             // Must be built before equiping
             BuildEquipmentSlots();
@@ -77,7 +99,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     EquipedItem equipedItem = SearchEquipmentSlot(equipedItemData.Slot, false);
                     if (equipedItem != null)
                     {
-                        if (item is IEquipable equipable)
+                        if (item is IEquipableItem equipable)
                         {
                             equipedItem.Item = equipable;
                             equipable.ChangeContainer(null); // remove from inventory
@@ -116,6 +138,30 @@ namespace Mud.Server.Character.PlayableCharacter
                 foreach (AuraData auraData in data.Auras)
                     _auras.Add(new Aura.Aura(auraData));
             }
+            // Known abilities
+            if (data.KnownAbilities != null)
+            {
+                foreach (KnownAbilityData knownAbilityData in data.KnownAbilities)
+                {
+                    IAbility ability = AbilityManager[knownAbilityData.AbilityId];
+                    if (ability == null)
+                        Log.Default.WriteLine(LogLevels.Error, "KnownAbility ability id {0} doesn't exist anymore", knownAbilityData.AbilityId);
+                    else
+                    {
+                        KnownAbility knownAbility = new KnownAbility
+                        {
+                            Ability = ability,
+                            ResourceKind = knownAbilityData.ResourceKind,
+                            CostAmount = knownAbilityData.CostAmount,
+                            CostAmountOperator = knownAbilityData.CostAmountOperator,
+                            Level = knownAbilityData.Level,
+                            Learned = knownAbilityData.Learned,
+                            Rating = knownAbilityData.Rating
+                        };
+                        AddKnownAbility(knownAbility);
+                    }
+                }
+            }
 
             //
             Room = room;
@@ -124,7 +170,6 @@ namespace Mud.Server.Character.PlayableCharacter
             //RecomputeBaseAttributes();
             RecomputeKnownAbilities();
             ResetAttributes();
-            RecomputeCommands();
             RecomputeCurrentResourceKinds();
         }
 
@@ -135,6 +180,8 @@ namespace Mud.Server.Character.PlayableCharacter
         #region IEntity
 
         #region IActor
+
+        public override IReadOnlyTrie<CommandMethodInfo> Commands => PlayableCharacterCommands.Value;
 
         public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
         {
@@ -261,6 +308,10 @@ namespace Mud.Server.Character.PlayableCharacter
                 : CombatHelpers.CumulativeExperienceByLevel[Level] + CombatHelpers.ExperienceToNextLevel[Level] - Experience;
 
         public long Experience { get; protected set; }
+
+        public int Trains { get; protected set; }
+
+        public int Practices { get; protected set; }
 
         public IPlayableCharacter Leader { get; protected set; }
 
@@ -437,18 +488,13 @@ namespace Mud.Server.Character.PlayableCharacter
             ImpersonatedBy = player;
             RecomputeKnownAbilities();
             Recompute();
-            RecomputeCommands();
             return true;
         }
 
         // Combat
         public void GainExperience(long experience)
         {
-            if (Level >= Settings.MaxLevel)
-            {
-                // NOP
-            }
-            else
+            if (Level < Settings.MaxLevel)
             {
                 bool recompute = false;
                 Experience += experience;
@@ -459,6 +505,9 @@ namespace Mud.Server.Character.PlayableCharacter
                     {
                         recompute = true;
                         Level++;
+                        Trains++;
+                        Practices++;  // TODO: depends on wisdom
+                        // TODO Raise MaxHitPoints/MaxMana/MaxMoves/Armor...
                         Wiznet.Wiznet($"{DebugName} has attained level {Level}", WiznetFlags.Levels);
                         Send("You raise a level!!");
                         Act(ActOptions.ToGroup, "{0} has attained level {1}", this, Level);
@@ -472,7 +521,6 @@ namespace Mud.Server.Character.PlayableCharacter
                     //RecomputeBaseAttributes();
                     RecomputeKnownAbilities();
                     Recompute();
-                    RecomputeCommands();
                     // Bonus -> reset cooldown and set resource to max
                     ResetCooldowns();
                     ImpersonatedBy?.Save(); // Force a save when a level is gained
@@ -480,18 +528,84 @@ namespace Mud.Server.Character.PlayableCharacter
             }
         }
 
+        // Ability
+        public bool CheckAbilityImprove(IAbility ability, bool abilityUsedSuccessfully, int multiplier)
+        {
+            KnownAbility knownAbility = KnownAbilities.FirstOrDefault(x => x.Ability == ability);
+            return CheckAbilityImprove(knownAbility, abilityUsedSuccessfully, multiplier);
+        }
+
+        public bool CheckAbilityImprove(KnownAbility knownAbility, bool abilityUsedSuccessfully, int multiplier)
+        {
+            // Know ability ?
+            if (knownAbility == null
+                || knownAbility.Ability == null
+                || knownAbility.Learned == 0
+                || knownAbility.Learned == 100)
+                return false; // ability not known
+            // check to see if the character has a chance to learn
+            if (multiplier <= 0)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.CheckAbilityImprove: multiplier had invalid value {0}", multiplier);
+                multiplier = 1;
+            }
+            int difficultyMultiplier = knownAbility.Rating;
+            if (difficultyMultiplier <= 0)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.CheckAbilityImprove: difficulty multiplier had invalid value {0} for KnownAbility {1} Player {2}", multiplier, knownAbility.Ability, DebugName);
+                difficultyMultiplier = 1;
+            }
+            // TODO: percentage depends on intelligence replace CurrentAttributes(CharacterAttributes.Intelligence) with values from 3 to 85
+            int chance = 10 * CurrentAttribute(CharacterAttributes.Intelligence) / (multiplier * difficultyMultiplier * 4) + Level;
+            if (RandomManager.Range(1, 1000) > chance)
+                return false;
+            // now that the character has a CHANCE to learn, see if they really have
+            if (abilityUsedSuccessfully)
+            {
+                chance = (100 - knownAbility.Learned).Range(5, 95);
+                if (RandomManager.Chance(chance))
+                {
+                    Send("You have become better at {0}!", knownAbility.Ability.Name);
+                    knownAbility.Learned++;
+                    GainExperience(2 * difficultyMultiplier);
+                    return true;
+                }
+            }
+            else
+            {
+                chance = (knownAbility.Learned / 2).Range(5, 30);
+                if (RandomManager.Chance(chance))
+                {
+                    Send("You learn from your mistakes, and your {0} skill improves.!", knownAbility.Ability.Name);
+                    int learned = RandomManager.Range(1, 3);
+                    knownAbility.Learned = Math.Min(knownAbility.Learned + learned, 100);
+                    GainExperience(2 * difficultyMultiplier);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // Mapping
         public CharacterData MapCharacterData()
         {
             CharacterData data = new CharacterData
             {
-                Name = Name,
                 CreationTime = CreationTime,
-                Sex = BaseSex,
-                Class = Class?.Name ?? string.Empty,
-                Race = Race?.Name ?? string.Empty,
-                Level = Level,
+                Name = Name,
                 RoomId = Room?.Blueprint?.Id ?? 0,
+                Race = Race?.Name ?? string.Empty,
+                Class = Class?.Name ?? string.Empty,
+                Level = Level,
+                Sex = BaseSex,
+                HitPoints = HitPoints,
+                MovePoints = MovePoints,
+                CurrentResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
+                MaxResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, x => MaxResource(x)),
                 Experience = Experience,
+                Trains = Trains,
+                Practices = Practices,
                 Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquipedData()).ToArray(),
                 Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
                 CurrentQuests = Quests.Select(x => x.MapQuestData()).ToArray(),
@@ -500,7 +614,8 @@ namespace Mud.Server.Character.PlayableCharacter
                 Immunities = BaseImmunities,
                 Resistances = BaseResistances,
                 Vulnerabilities = BaseVulnerabilities,
-                Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => BaseAttributes(x))
+                Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttribute),
+                KnownAbilities = KnownAbilities.Select(x => x.MapKnownAbilityData()).ToArray(),
                 // TODO: cooldown, ...
             };
             return data;
@@ -513,8 +628,6 @@ namespace Mud.Server.Character.PlayableCharacter
         protected override int NoWeaponDamage => 75; // TODO
 
         protected override int HitPointMinValue => 1; // Cannot be really killed
-
-        protected override IReadOnlyTrie<CommandMethodInfo> StaticCommands => PlayableCharacterCommands.Value;
 
         protected override int ModifyCriticalDamage(int damage) => (damage * 150) / 200; // TODO http://wow.gamepedia.com/Critical_strike
 

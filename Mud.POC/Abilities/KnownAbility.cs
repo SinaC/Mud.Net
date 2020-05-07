@@ -6,7 +6,7 @@ namespace Mud.POC.Abilities
     {
         public IAbility Ability { get; set; }
 
-        public ResourceKinds ResourceKind { get; set; }
+        public ResourceKinds? ResourceKind { get; set; }
 
         public int CostAmount { get; set; }
 
@@ -16,6 +16,6 @@ namespace Mud.POC.Abilities
         
         public int Learned { get; set; } // practice percentage, 0 means not learned, 100 mean fully learned
 
-        public int ImproveDifficulityMultiplier { get; set; } // how difficult is it to improve
+        public int Rating { get; set; } // how difficult is it to improve/gain/practice
     }
 }

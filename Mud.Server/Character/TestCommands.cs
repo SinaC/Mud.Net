@@ -1,10 +1,7 @@
 ﻿using System.Linq;
-using Mud.Container;
-using Mud.Server.Abilities.Rom24;
-using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Settings;
+// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
 {
@@ -161,30 +158,31 @@ namespace Mud.Server.Character
         [Command("rom24", "!!Test!!")]
         protected virtual bool DoRom24(string rawParameters, params CommandParameter[] parameters)
         {
-            Rom24Spells rom24Spells = new Rom24Spells(DependencyContainer.Current.GetInstance<ISettings>(), DependencyContainer.Current.GetInstance<IWorld>(), DependencyContainer.Current.GetInstance<IAbilityManager>(), DependencyContainer.Current.GetInstance<IRandomManager>());
+            AbilityManager.Cast(this, rawParameters, parameters);
+            //Rom24Spells rom24Spells = new Rom24Spells(DependencyContainer.Current.GetInstance<ISettings>(), DependencyContainer.Current.GetInstance<IWorld>(), DependencyContainer.Current.GetInstance<IAbilityManager>(), DependencyContainer.Current.GetInstance<IRandomManager>());
 
-            // no param: Earthquake
-            if (parameters.Length == 0)
-            {
-                rom24Spells.SpellEarthquake(rom24Spells.CreateDummyAbility("earthquake"), Level, this);
-                return true;
-            }
+            //// no param: Earthquake
+            //if (parameters.Length == 0)
+            //{
+            //    rom24Spells.SpellEarthquake(rom24Spells.CreateDummyAbility("earthquake"), Level, this);
+            //    return true;
+            //}
 
-            // 1 item param: 
-            IItem item = FindHelpers.FindItemHere(this, parameters[0]);
-            if (item != null)
-            {
-                rom24Spells.SpellContinualLight(rom24Spells.CreateDummyAbility("continual light"), Level, this, item);
-                return true;
-            }
+            //// 1 item param: 
+            //IItem item = FindHelpers.FindItemHere(this, parameters[0]);
+            //if (item != null)
+            //{
+            //    rom24Spells.SpellContinualLight(rom24Spells.CreateDummyAbility("continual light"), Level, this, item);
+            //    return true;
+            //}
 
-            // 1 character param:
-            ICharacter victim = FindHelpers.FindByName(Room.NonPlayableCharacters, parameters[0]);
-            if (victim != null)
-            {
-                rom24Spells.SpellAcidBlast(rom24Spells.CreateDummyAbility("acid blast"), Level, this, victim);
-                return true;
-            }
+            //// 1 character param:
+            //ICharacter victim = FindHelpers.FindByName(Room.NonPlayableCharacters, parameters[0]);
+            //if (victim != null)
+            //{
+            //    rom24Spells.SpellAcidBlast(rom24Spells.CreateDummyAbility("acid blast"), Level, this, victim);
+            //    return true;
+            //}
 
             return true;
         }

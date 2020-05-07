@@ -4,7 +4,6 @@ using Mud.Domain;
 using Mud.POC.Abilities;
 using Mud.Server.Common;
 using Mud.Server.Input;
-using System;
 
 namespace Mud.POC.Tests
 {
@@ -21,7 +20,7 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = ability, Learned = 1, Level = 20 } });
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("pouet");
+            (string rawParameters, CommandParameter[] parameters) args = BuildParametersSkipFirst("pouet");
             UseResults result = abilityManager.Use(ability, characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(UseResults.Error, result);
@@ -37,7 +36,7 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = ability, Learned = 1, Level = 20 } });
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("whip");
+            (string rawParameters, CommandParameter[] parameters) args = BuildParametersSkipFirst("whip");
             UseResults result = abilityManager.Use(ability, characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(UseResults.Error, result);
@@ -53,7 +52,7 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = ability, Learned = 1, Level = 20 } });
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Mass invis");
+            (string rawParameters, CommandParameter[] parameters) args = BuildParametersSkipFirst("Mass invis");
             UseResults result = abilityManager.Use(ability, characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(UseResults.Error, result);
@@ -74,7 +73,7 @@ namespace Mud.POC.Tests
             characterMock.Setup(x => x.LearnedAbility(It.IsAny<IAbility>())).Returns<IAbility>(x => 1);
             characterMock.Setup(x => x.CurrentAttributes(It.IsAny<CharacterAttributes>())).Returns<CharacterAttributes>(x => 20);
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Berserk");
+            (string rawParameters, CommandParameter[] parameters) args = BuildParametersSkipFirst("Berserk");
             UseResults result = abilityManager.Use(ability, characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(UseResults.Ok, result);
@@ -100,7 +99,7 @@ namespace Mud.POC.Tests
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Berserk mob1");
+            (string rawParameters, CommandParameter[] parameters) args = BuildParametersSkipFirst("Berserk mob1");
             UseResults result = abilityManager.Use(ability, characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(UseResults.Ok, result);
@@ -126,7 +125,7 @@ namespace Mud.POC.Tests
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Berserk mob2");
+            (string rawParameters, CommandParameter[] parameters) args = BuildParametersSkipFirst("Berserk mob2");
             UseResults result = abilityManager.Use(ability, characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(UseResults.InvalidTarget, result);
@@ -156,7 +155,7 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             mob2Mock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Berserk mob2");
+            (string rawParameters, CommandParameter[] parameters) args = BuildParametersSkipFirst("Berserk mob2");
             UseResults result = abilityManager.Use(ability, characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(UseResults.InvalidTarget, result);
@@ -176,8 +175,11 @@ namespace Mud.POC.Tests
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = ability, Learned = 0, Level = 20 } }); // Learned:0 -> not known
             characterMock.Setup(x => x.LearnedAbility(It.IsAny<IAbility>())).Returns<IAbility>(x => 0); // Learned:0 -> not known
             characterMock.Setup(x => x.CurrentAttributes(It.IsAny<CharacterAttributes>())).Returns<CharacterAttributes>(x => 20);
+            var roomMock = new Mock<IRoom>();
+            roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
+            characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Berserk");
+            (string rawParameters, CommandParameter[] parameters) args = BuildParametersSkipFirst("Berserk");
             UseResults result = abilityManager.Use(ability, characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(UseResults.NotKnown, result);

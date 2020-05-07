@@ -9,7 +9,7 @@ namespace Mud.Server.Races
 {
     public abstract class RaceBase : IRace
     {
-        private readonly List<AbilityAndLevel> _abilities;
+        private readonly List<AbilityUsage> _abilities;
 
         private readonly List<EquipmentSlots> _basicSlots = new List<EquipmentSlots>
         {
@@ -43,7 +43,7 @@ namespace Mud.Server.Races
 
         public abstract string ShortName { get; }
 
-        public IEnumerable<AbilityAndLevel> Abilities => _abilities;
+        public IEnumerable<AbilityUsage> Abilities => _abilities;
 
         public virtual IEnumerable<EquipmentSlots> EquipmentSlots => _basicSlots;
 
@@ -53,22 +53,15 @@ namespace Mud.Server.Races
 
         protected RaceBase()
         {
-            _abilities = new List<AbilityAndLevel>();
+            _abilities = new List<AbilityUsage>();
         }
 
-        public void AddAbility(int level, int abilityId)
+        protected void AddAbility(int level, string abilityName, int rating)
         {
-            IAbility ability = AbilityManager[abilityId];
-            if (ability == null)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "Trying to add unknown ability [id:{0}] to race [{1}]", abilityId, Name);
-                return;
-            }
-            //
-            AddAbility(level, ability);
+            AddAbility(level, abilityName, null, 0, CostAmountOperators.None, rating);
         }
 
-        public void AddAbility(int level, string abilityName)
+        protected void AddAbility(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
         {
             IAbility ability = AbilityManager[abilityName];
             if (ability == null)
@@ -77,12 +70,20 @@ namespace Mud.Server.Races
                 return;
             }
             //
-            AddAbility(level, ability);
+            AddAbility(level, ability, resourceKind, costAmount, costAmountOperator, rating);
         }
 
-        protected void AddAbility(int level, IAbility ability)
+        protected void AddAbility(int level, IAbility ability, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
         {
-            _abilities.Add(new AbilityAndLevel(level, ability));
+            _abilities.Add(new AbilityUsage
+            {
+                Ability = ability,
+                Level = level,
+                ResourceKind = resourceKind,
+                CostAmount = costAmount,
+                CostAmountOperator = costAmountOperator,
+                Rating = rating
+            });
         }
     }
 }

@@ -72,7 +72,7 @@ namespace Mud.Server
         Forms Form { get; }
 
         // Abilities
-        IEnumerable<AbilityAndLevel> KnownAbilities { get; }
+        IEnumerable<KnownAbility> KnownAbilities { get; }
 
         // Slave
         ICharacter Slave { get; } // who is our slave (related to charm command/spell)
@@ -84,7 +84,7 @@ namespace Mud.Server
         void Act(IEnumerable<ICharacter> characters, string format, params object[] arguments); // to every character in provided list
 
         // Equipments
-        bool Unequip(IEquipable item);
+        bool Unequip(IEquipableItem item);
 
         // Furniture
         bool ChangeFurniture(IItemFurniture furniture);
@@ -99,10 +99,11 @@ namespace Mud.Server
         bool CanSee(IRoom room);
 
         // Attributes
-        int BaseAttributes(CharacterAttributes attribute);
-        int CurrentAttributes(CharacterAttributes attribute);
-        int GetMaxResource(ResourceKinds resource);
+        int BaseAttribute(CharacterAttributes attribute);
+        int CurrentAttribute(CharacterAttributes attribute);
+        int MaxResource(ResourceKinds resource);
         void UpdateResource(ResourceKinds resource, int amount);
+        void UpdateHitPoints(int amount);
         void UpdateMovePoints(int amount);
         void UpdateAlignment(int amount);
         void RegenResources();
@@ -134,6 +135,9 @@ namespace Mud.Server
         bool UnknownSourceDamage(IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage with unknown source or no source
         void Slay(IPlayableCharacter killer);
         void KillingPayoff(ICharacter victim);
+        bool SavesSpell(int level, SchoolTypes damageType);
+        bool IsSafeSpell(ICharacter caster, bool area);
+        bool IsSafe(ICharacter character);
 
         // Ability
         IDictionary<IAbility, DateTime> AbilitiesInCooldown { get; }
@@ -141,9 +145,11 @@ namespace Mud.Server
         int CooldownSecondsLeft(IAbility ability); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)
         void SetCooldown(IAbility ability);
         void ResetCooldown(IAbility ability, bool verbose);
+        int LearnedAbility(string name); // return ability practice %
+        int LearnedAbility(IAbility ability);
 
         // Equipment
-        EquipedItem SearchEquipmentSlot(IEquipable item, bool replace);
+        EquipedItem SearchEquipmentSlot(IEquipableItem item, bool replace);
 
         // Affects
         void ApplyAffect(CharacterFlagsAffect affect);
@@ -155,7 +161,7 @@ namespace Mud.Server
     public class EquipedItem
     {
         public EquipmentSlots Slot { get; }
-        public IEquipable Item { get; set; }
+        public IEquipableItem Item { get; set; }
 
         public EquipedItem(EquipmentSlots slot)
         {

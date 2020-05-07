@@ -8,6 +8,8 @@ namespace Mud.Repository.Mongo.Domain
         [BsonId]
         public int ItemId { get; set; }
 
+        public int Level { get; set; }
+
         public int DecayPulseLeft { get; set; }
 
         public int ItemFlags { get; set; }

@@ -166,7 +166,7 @@ namespace Mud.POC.Abilities
                 Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.CheckAbilityImprove: multiplier had invalid value {0}", multiplier);
                 multiplier = 1;
             }
-            int difficultyMultiplier = knownAbility.ImproveDifficulityMultiplier;
+            int difficultyMultiplier = knownAbility.Rating;
             if (difficultyMultiplier <= 0)
             {
                 Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.CheckAbilityImprove: difficulty multiplier had invalid value {0} for KnownAbility {1} Player {2}", multiplier, knownAbility.Ability, DebugName);

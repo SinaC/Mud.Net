@@ -67,7 +67,7 @@ namespace Mud.Server.Admin
             // Load player data
             LoadPlayerData(data);
             // Load admin datas
-            Level = data?.Level ?? AdminLevels.Angel;
+            Level = data?.AdminLevel ?? AdminLevels.Angel;
             WiznetFlags = data?.WiznetFlags ?? 0;
             //
             PlayerState = PlayerStates.Playing;
@@ -83,7 +83,7 @@ namespace Mud.Server.Admin
             // Fill player data
             FillPlayerData(data);
             // Fill admin data
-            data.Level = Level;
+            data.AdminLevel = Level;
             data.WiznetFlags = WiznetFlags;
             //
             AdminRepository.Save(data);

@@ -10,7 +10,7 @@ namespace Mud.Server
         string DisplayName { get; }
         string ShortName { get; }
 
-        IEnumerable<AbilityAndLevel> Abilities { get; }
+        IEnumerable<AbilityUsage> Abilities { get; }
 
         IEnumerable<EquipmentSlots> EquipmentSlots { get; }
 

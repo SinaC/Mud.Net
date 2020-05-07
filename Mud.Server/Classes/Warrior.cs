@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mud.Domain;
 
 namespace Mud.Server.Classes
@@ -11,15 +12,14 @@ namespace Mud.Server.Classes
 
         public override string ShortName => "War";
 
-        public override IEnumerable<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
-        {
-            Domain.ResourceKinds.Rage
-        };
+        public override IEnumerable<ResourceKinds> ResourceKinds { get; } = Enumerable.Empty<ResourceKinds>();
 
         public override IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form)
         {
-            return ResourceKinds; // always rage
+            return ResourceKinds;
         }
+
+        public override int MaxPracticePercentage => 75;
 
         public override int GetAttributeByLevel(CharacterAttributes attribute, int level)
         {
@@ -30,11 +30,6 @@ namespace Mud.Server.Classes
 
         public Warrior()
         {
-            AddAbility(1, "parry");
-            AddAbility(2, "shield block");
-            AddAbility(10, "dodge");
-            AddAbility(20, "battle shout");
-            AddAbility(50, "rupture"); // test
         }
     }
 }

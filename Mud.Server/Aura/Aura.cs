@@ -32,8 +32,6 @@ namespace Mud.Server.Aura
             AuraFlags = flags;
             Level = level;
             PulseLeft = Pulse.FromTimeSpan(ts);
-            if (ability?.Flags.HasFlag(AbilityFlags.AuraIsHidden) == true)
-                AuraFlags |= AuraFlags.Hidden;
 
             _affects = (affects ?? Enumerable.Empty<IAffect>()).ToList();
         }
@@ -41,13 +39,13 @@ namespace Mud.Server.Aura
         public Aura(AuraData auraData)
             : this()
         {
-            if (auraData.AbilitiId == NoAbilityId)
+            if (auraData.AbilityId == NoAbilityId)
                 Ability = null;
             else
             {
-                Ability = AbilityManager.Abilities.FirstOrDefault(x => x.Id == auraData.AbilitiId);
+                Ability = AbilityManager[auraData.AbilityId];
                 if (Ability == null)
-                    Log.Default.WriteLine(LogLevels.Error, "Aura ability id {0} doesn't exist anymore", auraData.AbilitiId);
+                    Log.Default.WriteLine(LogLevels.Error, "Aura ability id {0} doesn't exist anymore", auraData.AbilityId);
             }
             // TODO: source
             AuraFlags = auraData.AuraFlags;
@@ -107,7 +105,7 @@ namespace Mud.Server.Aura
         public T AddOrUpdateAffect<T>(Func<T, bool> filterFunc, Func<T> createFunc, Action<T> updateFunc)
             where T : IAffect
         {
-            T affect = _affects.OfType<T>().FirstOrDefault(x => filterFunc(x));
+            T affect = _affects.OfType<T>().FirstOrDefault(filterFunc);
             if (affect == null)
             {
                 if (createFunc != null)
@@ -150,12 +148,12 @@ namespace Mud.Server.Aura
             // TODO admin see hidden auras
 
             // TODO: better formatting with spacing like in score
-            sb.AppendFormatLine("%B%{0}%x% (lvl {1}) {2} left {3}",
+            sb.AppendFormatLine("%B%{0}%x% (lvl {1}) {2} {3}",
                     Ability?.Name ?? "Inherent",
                     Level,
                     AuraFlags.HasFlag(AuraFlags.Permanent)
-                        ? "%r%Permanent%x%"
-                        : $"%y%{StringHelpers.FormatDelay(PulseLeft / Pulse.PulsePerSeconds)}%x%",
+                        ? "%R%Permanent%x%"
+                        : $"%G%{StringHelpers.FormatDelay(PulseLeft / Pulse.PulsePerSeconds)}%x% left",
                     AuraFlags == AuraFlags.None
                         ? ""
                         : AuraFlags.ToString());
@@ -171,7 +169,7 @@ namespace Mud.Server.Aura
         {
             return new AuraData
             {
-                AbilitiId = Ability?.Id ?? NoAbilityId,
+                AbilityId = Ability?.Id ?? NoAbilityId,
                 Level = Level,
                 PulseLeft = PulseLeft,
                 AuraFlags = AuraFlags,

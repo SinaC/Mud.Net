@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="ModifiableListTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SafeListTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

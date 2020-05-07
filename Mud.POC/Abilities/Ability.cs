@@ -1,9 +1,13 @@
-﻿namespace Mud.POC.Abilities
+﻿using Mud.Domain;
+using System.Reflection;
+
+namespace Mud.POC.Abilities
 {
     public class Ability : IAbility
     {
-        public Ability(int id, string name, AbilityTargets target, int pulseWaitTime, AbilityFlags flags, string characterDispelMessage, string itemDispelMessage)
+        public Ability(AbilityKinds kind, int id, string name, AbilityTargets target, int pulseWaitTime, AbilityFlags flags, string characterDispelMessage, string itemDispelMessage)
         {
+            Kind = kind;
             Id = id;
             Name = name;
             Target = target;
@@ -13,11 +17,13 @@
             ItemDispelMessage = itemDispelMessage;
         }
 
-        public Ability(AbilityMethodInfo abilityMethodInfo)
-            : this(abilityMethodInfo.Attribute.Id, abilityMethodInfo.Attribute.Name, abilityMethodInfo.Attribute.Target, abilityMethodInfo.Attribute.PulseWaitTime, abilityMethodInfo.Attribute.Flags, abilityMethodInfo.Attribute.CharacterDispelMessage, abilityMethodInfo.Attribute.ItemDispelMessage)
+        public Ability(AbilityKinds kind, AbilityAttribute attribute, MethodInfo methodInfo)
+            : this(kind, attribute.Id, attribute.Name, attribute.Target, attribute.PulseWaitTime, attribute.Flags, attribute.CharacterDispelMessage, attribute.ItemDispelMessage)
         {
-            AbilityMethodInfo = abilityMethodInfo;
+            MethodInfo = methodInfo;
         }
+
+        public AbilityKinds Kind { get; }
 
         public int Id { get; }
 
@@ -33,6 +39,6 @@
 
         public string ItemDispelMessage { get; }
 
-        public AbilityMethodInfo AbilityMethodInfo { get; }
+        public MethodInfo MethodInfo { get; } // null for passive abilities
     }
 }

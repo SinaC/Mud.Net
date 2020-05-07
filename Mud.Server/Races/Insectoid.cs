@@ -45,9 +45,14 @@ namespace Mud.Server.Races
 
         public Insectoid()
         {
-            AddAbility(1, AbilityManager.DualWieldAbility);
-            AddAbility(1, AbilityManager.ThirdWieldAbility);
-            AddAbility(1, AbilityManager.FourthWieldAbility);
+            // TODO
+            //AddAbility(1, AbilityManager.DualWieldAbility);
+            //AddAbility(1, AbilityManager.ThirdWieldAbility);
+            //AddAbility(1, AbilityManager.FourthWieldAbility);
+
+            // Test race with all spells
+            foreach (IAbility ability in AbilityManager.Spells)
+                AddAbility(1, ability, ResourceKinds.Mana, 5, CostAmountOperators.Percentage, 1);
         }
     }
 }

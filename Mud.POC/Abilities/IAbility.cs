@@ -1,7 +1,12 @@
-﻿namespace Mud.POC.Abilities
+﻿using Mud.Domain;
+using System.Reflection;
+
+namespace Mud.POC.Abilities
 {
     public interface IAbility
     {
+        AbilityKinds Kind { get; }
+
         int Id { get; }
 
         string Name { get; }
@@ -16,6 +21,6 @@
 
         string ItemDispelMessage { get; }
 
-        AbilityMethodInfo AbilityMethodInfo { get; }
+        MethodInfo MethodInfo { get; } // null for passive abilities
     }
 }

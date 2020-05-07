@@ -341,13 +341,13 @@ namespace Mud.Server.Player
         protected string BuildCharacterPrompt(IPlayableCharacter character) // TODO: custom prompt defined by player
         {
             StringBuilder sb = new StringBuilder("<");
-            sb.Append($"{character.HitPoints}/{character.CurrentAttributes(CharacterAttributes.MaxHitPoints)}Hp");
-            sb.Append($" {character.MovePoints}/{character.CurrentAttributes(CharacterAttributes.MaxMovePoints)}Mv");
+            sb.Append($"{character.HitPoints}/{character.CurrentAttribute(CharacterAttributes.MaxHitPoints)}Hp");
+            sb.Append($" {character.MovePoints}/{character.CurrentAttribute(CharacterAttributes.MaxMovePoints)}Mv");
             foreach (ResourceKinds resourceKinds in character.CurrentResourceKinds)
-                sb.Append($" {character[resourceKinds]}/{character.GetMaxResource(resourceKinds)}{resourceKinds}");
+                sb.Append($" {character[resourceKinds]}/{character.MaxResource(resourceKinds)}{resourceKinds}");
             sb.Append($" {character.ExperienceToLevel}Nxt");
             if (character.Fighting != null)
-                sb.Append($" {(int)(100d*character.Fighting.HitPoints/character.Fighting.CurrentAttributes(CharacterAttributes.MaxHitPoints))}%");
+                sb.Append($" {(int)(100d*character.Fighting.HitPoints/character.Fighting.CurrentAttribute(CharacterAttributes.MaxHitPoints))}%");
             sb.Append(">");
             return sb.ToString();
         }
@@ -400,20 +400,29 @@ namespace Mud.Server.Player
         [Command("test", "!!Test!!")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
-            if (Impersonating != null)
-            {
-                // Add quest to impersonated character is any
-                QuestBlueprint questBlueprint1 = World.GetQuestBlueprint(1);
-                QuestBlueprint questBlueprint2 = World.GetQuestBlueprint(2);
-                INonPlayableCharacter questor = World.NonPlayableCharacters.FirstOrDefault(x => x.Name.ToLowerInvariant().Contains("questor"));
-
-                IQuest quest1 = new Quest.Quest(questBlueprint1, Impersonating, questor);
-                Impersonating.AddQuest(quest1);
-                IQuest quest2 = new Quest.Quest(questBlueprint2, Impersonating, questor);
-                Impersonating.AddQuest(quest2);
-            }
+            TableGenerator<Tuple<string,string,int>> generator = new TableGenerator<Tuple<string, string, int>>();
+            generator.AddColumn("Header1", 10, tuple => tuple.Item1);
+            generator.AddColumn("Header2", 15, tuple => tuple.Item2);
+            generator.AddColumn("Header3", 8, tuple => tuple.Item3.ToString());
+            StringBuilder sb = generator.Generate("Test column duplicate", 3, Enumerable.Range(0, 50).Select(x => new Tuple<string, string, int>("Value1_" + x.ToString(), "Value2_" + (50 - x).ToString(), x)));
+            Send(sb);
 
             return true;
+
+            //if (Impersonating != null)
+            //{
+            //    // Add quest to impersonated character is any
+            //    QuestBlueprint questBlueprint1 = World.GetQuestBlueprint(1);
+            //    QuestBlueprint questBlueprint2 = World.GetQuestBlueprint(2);
+            //    INonPlayableCharacter questor = World.NonPlayableCharacters.FirstOrDefault(x => x.Name.ToLowerInvariant().Contains("questor"));
+
+            //    IQuest quest1 = new Quest.Quest(questBlueprint1, Impersonating, questor);
+            //    Impersonating.AddQuest(quest1);
+            //    IQuest quest2 = new Quest.Quest(questBlueprint2, Impersonating, questor);
+            //    Impersonating.AddQuest(quest2);
+            //}
+
+            //return true;
 
             //IQuest quest1 = new Quest.Quest(questBlueprint1, mob1, mob2);
             //mob1.AddQuest(quest1);

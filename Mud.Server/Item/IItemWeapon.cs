@@ -3,7 +3,7 @@ using Mud.Server.Aura;
 
 namespace Mud.Server.Item
 {
-    public interface IItemWeapon : IItem, IEquipable
+    public interface IItemWeapon : IItem, IEquipableItem
     {
         WeaponTypes Type { get; }
         int DiceCount { get; }
