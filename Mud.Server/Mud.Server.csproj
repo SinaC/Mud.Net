@@ -117,6 +117,7 @@
     <Compile Include="Character\ItemCommands.cs" />
     <Compile Include="Character\NonPlayableCharacter\NonPlayableCharacter.cs" />
     <Compile Include="Character\PlayableCharacter\ItemCommands.cs" />
+    <Compile Include="Character\PlayableCharacter\AttributeCommands.cs" />
     <Compile Include="Character\PlayableCharacter\PlayableCharacter.cs" />
     <Compile Include="Character\PlayableCharacter\QuestCommands.cs" />
     <Compile Include="Character\SkillCommands.cs" />
@@ -200,12 +201,11 @@
     <Compile Include="Quest\QuestObjective.cs" />
     <Compile Include="Races\Dwarf.cs" />
     <Compile Include="Races\Elf.cs" />
-    <Compile Include="Races\Gnome.cs" />
     <Compile Include="Races\Human.cs" />
     <Compile Include="Races\Insectoid.cs" />
     <Compile Include="Races\RaceBase.cs" />
     <Compile Include="Races\RaceManager.cs" />
-    <Compile Include="Races\Troll.cs" />
+    <Compile Include="Races\Giant.cs" />
     <Compile Include="Room\Exit.cs" />
     <Compile Include="Room\Room.cs" />
     <Compile Include="Server\LoginStateMachine.cs" />

@@ -41,11 +41,6 @@ namespace Mud.Server.Classes
             _abilities = new List<AbilityUsage>();
         }
 
-        protected void AddAbility(int level, string abilityName, int rating)
-        {
-            AddAbility(level, abilityName, null, 0, CostAmountOperators.None, rating);
-        }
-
         protected void AddAbility(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
         {
             IAbility ability = AbilityManager[abilityName];
@@ -55,11 +50,6 @@ namespace Mud.Server.Classes
                 return;
             }
             //
-            AddAbility(level, ability, resourceKind, costAmount, costAmountOperator, rating);
-        }
-
-        protected void AddAbility(int level, IAbility ability, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
-        {
             _abilities.Add(new AbilityUsage
             {
                 Ability = ability,

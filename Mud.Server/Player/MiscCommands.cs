@@ -120,7 +120,7 @@ namespace Mud.Server.Player
             bool saved = Save();
             if (saved)
             {
-                Send("Saved");
+                Send("Saving. Remember that ROM has automatic saving now.");
                 return CommandExecutionResults.Ok;
             }
             

@@ -166,19 +166,21 @@ namespace Mud.Server.Player
                     Sex = _sex,
                     HitPoints = 100,
                     MovePoints = 100,
-                    CurrentResources = new Dictionary<ResourceKinds, int> 
+                    CurrentResources = new Dictionary<ResourceKinds, int>
                     {
-                        { ResourceKinds.Mana, 100},
+                        { ResourceKinds.Mana, 100 },
+                        { ResourceKinds.Psy, 100 },
                         // TODO: other resource
                     },
                     MaxResources = new Dictionary<ResourceKinds, int>
                     {
-                        { ResourceKinds.Mana, 100},
+                        { ResourceKinds.Mana, 100 },
+                        { ResourceKinds.Psy, 100 },
                         // TODO: other resource
                     },
                     Experience = 0,
-                    Trains = 0,
-                    Practices = 0,
+                    Trains = 3,
+                    Practices = 5,
                     //TODO: Equipments
                     //TODO: Inventory
                     //TODO: CurrentQuests
@@ -187,25 +189,11 @@ namespace Mud.Server.Player
                     //TODO: Immunities: from race
                     //TODO: Resistances: from race
                     //TODO: Vulnerabilities: from race
-                    //TODO: Attributes: from race/class
-                    Attributes = new Dictionary<CharacterAttributes, int>
-                    {
-                        {CharacterAttributes.Strength, 13 },
-                        {CharacterAttributes.Intelligence, 13 },
-                        {CharacterAttributes.Wisdom, 13 },
-                        {CharacterAttributes.Dexterity, 13 },
-                        {CharacterAttributes.Constitution, 13 },
-                        {CharacterAttributes.MaxHitPoints, 100 },
-                        {CharacterAttributes.SavingThrow, 0 },
-                        {CharacterAttributes.HitRoll, 0 },
-                        {CharacterAttributes.DamRoll, 0 },
-                        {CharacterAttributes.MaxMovePoints, 100 },
-                        {CharacterAttributes.ArmorBash, 0 },
-                        {CharacterAttributes.ArmorPierce, 0 },
-                        {CharacterAttributes.ArmorSlash, 0 },
-                        {CharacterAttributes.ArmorMagic, 0 },
-                    },
-                    // TODO: known abilities (they will be updated when playing character)
+                    Immunities = _race.Immunities,
+                    Resistances = _race.Resistances,
+                    Vulnerabilities = _race.Vulnerabilities,
+                    Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => _race.GetStartAttribute(x))
+                    // known abilities will be created in PlayableCharacter ctor
                 };
                 player.AddAvatar(characterData);
                 player.Save();

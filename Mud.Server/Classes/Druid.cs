@@ -68,9 +68,9 @@ namespace Mud.Server.Classes
         {
             // Test class with all skills + Passive
             foreach (IAbility ability in AbilityManager.Skills)
-                AddAbility(20, ability, null, 0, CostAmountOperators.None, 1);
+                AddAbility(20, ability.Name, null, 0, CostAmountOperators.None, 1);
             foreach (IAbility ability in AbilityManager.Passives)
-                AddAbility(10, ability, null, 0, CostAmountOperators.None, 1);
+                AddAbility(10, ability.Name, null, 0, CostAmountOperators.None, 1);
         }
     }
 }

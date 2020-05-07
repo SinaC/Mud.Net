@@ -1,4 +1,6 @@
 TODO:
+xp/level
+race size, imm, res, vuln, form, parts
 AbilityManager should not hardcode Rom24Passives
 Second/Third/Fourth wield in insectoid
 Dictionary to store Character known ability + keep only one LearnedAbility or replace with KnownAbilities getter based on name
@@ -12,6 +14,7 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+race base/max attr, imm, res, vuln added
 issue with npc/pc attributes/resources solved
 issue with impersonation ImpersonatedBy was set twice, replace ChangeImpersonation with StopImpersonation
 issue with player/admin folders not found, is fixed
@@ -63,6 +66,7 @@ TableGenerator with duplicate columns
 	 ----------------------
 
 *************************************************************
+alignment at creation ?
 Resets
 Idea: move HP and move in ResourceKinds
 Train command

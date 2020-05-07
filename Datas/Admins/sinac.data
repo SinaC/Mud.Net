@@ -16,17 +16,17 @@
     <CharacterData>
       <CreationTime>2020-05-07T14:08:22.9740442+02:00</CreationTime>
       <Name>sinac</Name>
-      <RoomId>3029</RoomId>
+      <RoomId>3050</RoomId>
       <Race>insectoid</Race>
       <Class>druid</Class>
       <Level>5</Level>
       <Sex>0</Sex>
-      <HitPoints>106</HitPoints>
-      <MovePoints>95</MovePoints>
+      <HitPoints>116</HitPoints>
+      <MovePoints>75</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>49</Value>
+          <Value>59</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -36,7 +36,7 @@
       <MaxResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>137</Value>
+          <Value>147</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -44,8 +44,8 @@
         </PairDataOfInt32Int32>
       </MaxResources>
       <Experience>5002</Experience>
-      <Trains>4</Trains>
-      <Practices>2</Practices>
+      <Trains>28</Trains>
+      <Practices>200</Practices>
       <Equipments />
       <Inventory />
       <CurrentQuests />
@@ -53,7 +53,7 @@
         <AuraData>
           <AbilityId>2</AbilityId>
           <Level>5</Level>
-          <PulseLeft>5696</PulseLeft>
+          <PulseLeft>5592</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -66,7 +66,7 @@
         <AuraData>
           <AbilityId>3</AbilityId>
           <Level>5</Level>
-          <PulseLeft>2608</PulseLeft>
+          <PulseLeft>2504</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -84,7 +84,7 @@
         <AuraData>
           <AbilityId>81</AbilityId>
           <Level>5</Level>
-          <PulseLeft>3112</PulseLeft>
+          <PulseLeft>3008</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -102,15 +102,15 @@
       <Attributes>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>13</Value>
+          <Value>14</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
-          <Value>13</Value>
+          <Value>18</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>2</Key>
-          <Value>13</Value>
+          <Value>17</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>3</Key>
@@ -122,7 +122,7 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>5</Key>
-          <Value>134</Value>
+          <Value>144</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>6</Key>

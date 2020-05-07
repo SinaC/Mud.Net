@@ -1985,9 +1985,9 @@ namespace Mud.Server.Character
             //    _knownAbilities.AddRange(AbilityManager.Abilities.Select(x => new AbilityAndLevel(1,x)));
             //else
             if (Class != null)
-                MergeAbilities(Class.Abilities);
+                MergeAbilities(Class.Abilities, false);
             if (Race != null)
-                MergeAbilities(Race.Abilities);
+                MergeAbilities(Race.Abilities, true);
         }
 
         protected void RecomputeCurrentResourceKinds()
@@ -2149,7 +2149,7 @@ namespace Mud.Server.Character
             }
         }
 
-        private void MergeAbilities(IEnumerable<AbilityUsage> abilities)
+        private void MergeAbilities(IEnumerable<AbilityUsage> abilities, bool naturalBorn)
         {
             // If multiple identical abilities, keep only one with lowest level
             foreach (AbilityUsage abilityUsage in abilities)
@@ -2177,6 +2177,12 @@ namespace Mud.Server.Character
                         Rating = abilityUsage.Rating
                     };
                     AddKnownAbility(knownAbility);
+                }
+                if (naturalBorn)
+                {
+                    knownAbility.Level = 1;
+                    knownAbility.Rating = 1;
+                    knownAbility.Learned = 100;
                 }
             }
         }

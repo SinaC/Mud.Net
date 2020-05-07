@@ -31,6 +31,14 @@ namespace Mud.Server.Tests.Mocking
 
         public IEnumerable<EquipmentSlots> EquipmentSlots => EnumHelpers.GetValues<EquipmentSlots>().SelectMany(x => Enumerable.Repeat(x, 2)); // two of each
 
-        public int GetAttributeModifier(CharacterAttributes attribute) => 10;
+        public IRVFlags Immunities => IRVFlags.None;
+
+        public IRVFlags Resistances =>IRVFlags.None;
+
+        public IRVFlags Vulnerabilities => IRVFlags.None;
+
+        public int GetMaxAttribute(CharacterAttributes attribute) => 13;
+
+        public int GetStartAttribute(CharacterAttributes attribute) => 18;
     }
 }

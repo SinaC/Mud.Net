@@ -47,7 +47,13 @@ namespace Mud.Server.Races
 
         public virtual IEnumerable<EquipmentSlots> EquipmentSlots => _basicSlots;
 
-        public abstract int GetAttributeModifier(CharacterAttributes attribute);
+        public abstract IRVFlags Immunities { get; }
+        public abstract IRVFlags Resistances { get; }
+        public abstract IRVFlags Vulnerabilities { get; }
+
+        public abstract int GetStartAttribute(CharacterAttributes attribute);
+
+        public abstract int GetMaxAttribute(CharacterAttributes attribute);
 
         #endregion
 
@@ -56,9 +62,9 @@ namespace Mud.Server.Races
             _abilities = new List<AbilityUsage>();
         }
 
-        protected void AddAbility(int level, string abilityName, int rating)
+        protected void AddAbility(string abilityName)
         {
-            AddAbility(level, abilityName, null, 0, CostAmountOperators.None, rating);
+            AddAbility(1, abilityName, null, 0, CostAmountOperators.None, 1);
         }
 
         protected void AddAbility(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
@@ -70,11 +76,6 @@ namespace Mud.Server.Races
                 return;
             }
             //
-            AddAbility(level, ability, resourceKind, costAmount, costAmountOperator, rating);
-        }
-
-        protected void AddAbility(int level, IAbility ability, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
-        {
             _abilities.Add(new AbilityUsage
             {
                 Ability = ability,

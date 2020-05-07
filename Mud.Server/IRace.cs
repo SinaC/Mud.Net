@@ -14,7 +14,12 @@ namespace Mud.Server
 
         IEnumerable<EquipmentSlots> EquipmentSlots { get; }
 
-        int GetAttributeModifier(CharacterAttributes attribute);
+        IRVFlags Immunities { get; }
+        IRVFlags Resistances { get; }
+        IRVFlags Vulnerabilities { get; }
+
+        int GetStartAttribute(CharacterAttributes attribute);
+        int GetMaxAttribute(CharacterAttributes attribute);
 
         // TODO: specific behaviour such as 120% xp for human, infrared for dwarf, ...
         // TODO: xp/level, ...

@@ -25,7 +25,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
         {
             Blueprint = blueprint;
 
-            // TODO: race, class, flags, armor, damage, ...
+            // TODO: race, class, flags, armor, damage, IRV ...
             Level = blueprint.Level;
             ActFlags = blueprint.ActFlags;
             OffensiveFlags = blueprint.OffensiveFlags;
@@ -35,6 +35,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             BaseVulnerabilities = blueprint.Vulnerabilities;
             BaseSex = blueprint.Sex;
             Alignment = blueprint.Alignment.Range(-1000, 1000);
+
             // TODO: see db.C:Create_Mobile
             int baseValue = Math.Min(25, 11 + Level / 4);
             SetBaseAttributes(CharacterAttributes.Strength, baseValue, false);
