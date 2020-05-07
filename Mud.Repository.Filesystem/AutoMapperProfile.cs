@@ -157,11 +157,11 @@ namespace Mud.Repository.Filesystem
 
         private DataContracts.PairData<string, string>[] MapFromDictionary(Dictionary<string, string> dictionary) => dictionary?.Select(x => new DataContracts.PairData<string, string>(x.Key, x.Value)).ToArray();
 
-        private Dictionary<string, string> MapToDictionary(DataContracts.PairData<string, string>[] array) => array?.ToDictionary(x => x.Key, x => x.Value);
+        private Dictionary<string, string> MapToDictionary(DataContracts.PairData<string, string>[] array) => array?.ToLookup(x => x.Key, x => x.Value).ToDictionary(x => x.Key, x => x.First());
 
         private DataContracts.PairData<int, int>[] MapFromDictionary<T>(Dictionary<T, int> dictionary, Func<T,int> mapKeyFunc) => dictionary?.Select(x => new DataContracts.PairData<int, int>(mapKeyFunc(x.Key), x.Value)).ToArray();
 
-        private Dictionary<T, int> MapToDictionary<T>(DataContracts.PairData<int, int>[] array, Func<int,T> mapKeyFunc) => array?.ToDictionary(x => mapKeyFunc(x.Key), x => x.Value);
+        private Dictionary<T, int> MapToDictionary<T>(DataContracts.PairData<int, int>[] array, Func<int,T> mapKeyFunc) => array?.ToLookup(x => mapKeyFunc(x.Key), x => x.Value).ToDictionary(x => x.Key, x => x.First());
 
         private Domain.WiznetFlags MapWiznetFlags(int flags)
         {

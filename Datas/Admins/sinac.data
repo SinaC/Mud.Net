@@ -32,6 +32,14 @@
           <Key>1</Key>
           <Value>0</Value>
         </PairDataOfInt32Int32>
+		<PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>27</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
       </CurrentResources>
       <MaxResources>
         <PairDataOfInt32Int32>

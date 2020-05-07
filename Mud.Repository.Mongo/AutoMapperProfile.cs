@@ -153,9 +153,9 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.CostAmountOperator, expression => expression.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
         }
 
-        private Dictionary<int, int> MapFromDictionary<T>(Dictionary<T, int> dictionary, Func<T, int> mapKeyFunc) => dictionary?.ToDictionary(x => mapKeyFunc(x.Key), x => x.Value);
+        private Dictionary<int, int> MapFromDictionary<T>(Dictionary<T, int> dictionary, Func<T, int> mapKeyFunc) => dictionary?.ToLookup(x => mapKeyFunc(x.Key), x => x.Value).ToDictionary(x => x.Key, x => x.First());
 
-        private Dictionary<T, int> MapToDictionary<T>(Dictionary<int, int> dictionary, Func<int,T> mapKeyFunc) => dictionary?.ToDictionary(x => mapKeyFunc(x.Key), x => x.Value);
+        private Dictionary<T, int> MapToDictionary<T>(Dictionary<int, int> dictionary, Func<int,T> mapKeyFunc) => dictionary?.ToLookup(x => mapKeyFunc(x.Key), x => x.Value).ToDictionary(x => x.Key, x => x.First());
 
 
         private Mud.Domain.WiznetFlags MapWiznetFlags(int flags)

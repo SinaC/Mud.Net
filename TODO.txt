@@ -17,6 +17,7 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+when load pfile with unknown resource kind -> crash in ToDictionary because multiple key -1 will be found
 gain/practice command
 restore command
 HP/Move/Resources saved in pfile
