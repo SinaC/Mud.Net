@@ -736,6 +736,12 @@ namespace Mud.Server.Server
             foreach (var duplicate in duplicateNames)
                 Log.Default.WriteLine(LogLevels.Error, "Ability duplicate name {0}: {1}", duplicate.Key, string.Join(",", duplicate.Select(x => x.Id.ToString())));
 
+            foreach (var ability in AbilityManager.Abilities)
+            {
+                if (!string.IsNullOrWhiteSpace(ability.DispelRoomMessage) && !ability.AbilityFlags.HasFlag(AbilityFlags.CanBeDispelled))
+                    Log.Default.WriteLine(LogLevels.Warning, "Ability {0} has dispel message but is not flagged as CanBeDispelled", ability.Name);
+            }
+
             Log.Default.WriteLine(LogLevels.Info, "#Abilities: {0}", AbilityManager.Abilities.Count());
             Log.Default.WriteLine(LogLevels.Info, "#Passives: {0}", AbilityManager.Passives.Count());
             Log.Default.WriteLine(LogLevels.Info, "#Spells: {0}", AbilityManager.Spells.Count());

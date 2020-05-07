@@ -24,7 +24,7 @@ namespace Mud.Server.Abilities
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Acid, true);
         }
 
-        [Spell(2, "Armor", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "You feel less armored.")]
+        [Spell(2, "Armor", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You feel less armored.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellArmor(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.GetAura("Armor") != null)
@@ -39,7 +39,7 @@ namespace Mud.Server.Abilities
                 caster.Act(ActOptions.ToCharacter, "{0} is protected by your magic.", victim);
         }
 
-        [Spell(3, "Bless", AbilityTargets.ItemInventoryOrCharacterDefensive, CharacterDispelMessage = "You feel less righteous.", ItemDispelMessage = "{0}'s holy aura fades.")]
+        [Spell(3, "Bless", AbilityTargets.ItemInventoryOrCharacterDefensive, CharacterWearOffMessage = "You feel less righteous.", ItemWearOffMessage = "{0}'s holy aura fades.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellBless(IAbility ability, int level, ICharacter caster, IEntity target)
         {
             // item
@@ -94,7 +94,7 @@ namespace Mud.Server.Abilities
             Log.Default.WriteLine(LogLevels.Error, "SpellBless: invalid target type {0}", target.GetType());
         }
 
-        [Spell(4, "Blindness", AbilityTargets.CharacterOffensive, CharacterDispelMessage = "You can see again.")]
+        [Spell(4, "Blindness", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You can see again.", DispelRoomMessage = "{0:N} is no longer blinded.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellBlindness(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Blind) || victim.SavesSpell(level, SchoolTypes.None))
@@ -130,7 +130,7 @@ namespace Mud.Server.Abilities
             caster.Send(StringHelpers.NotYetImplemented);
         }
 
-        [Spell(7, "Calm", AbilityTargets.None, CharacterDispelMessage = "You have lost your peace of mind.")]
+        [Spell(7, "Calm", AbilityTargets.None, CharacterWearOffMessage = "You have lost your peace of mind.", DispelRoomMessage = "{0:N no longer looks so peaceful...", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellCalm(IAbility ability, int level, ICharacter caster)
         {
             // Stops all fighting in the room
@@ -278,7 +278,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Spell(13, "Change Sex", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "Your body feels familiar again.")]
+        [Spell(13, "Change Sex", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "Your body feels familiar again.", DispelRoomMessage = "{0:N} looks more like {0:f} again.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellChangeSex(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.GetAura("Change Sex") != null)
@@ -300,7 +300,7 @@ namespace Mud.Server.Abilities
             victim.Act(ActOptions.ToRoom, "{0:N} doesn't look like $mself anymore...", victim);
         }
 
-        [Spell(14, "Charm Person", AbilityTargets.CharacterOffensive, CharacterDispelMessage = "You feel more self-confident.")]
+        [Spell(14, "Charm Person", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You feel more self-confident.", DispelRoomMessage = "{0:N} regains {0:s} free will.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCharacter victim)
         {
             if (victim.IsSafe(caster))
@@ -346,7 +346,7 @@ namespace Mud.Server.Abilities
             20, 21, 21, 21, 22, 22, 22, 23, 23, 23,
             24, 24, 24, 25, 25, 25, 26, 26, 26, 27
         };
-        [Spell(15, "Chill Touch", AbilityTargets.CharacterOffensive)]
+        [Spell(15, "Chill Touch", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You feel less cold.", DispelRoomMessage = "{0:N} looks warmer.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellChillTouch(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             bool savesSpell = TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Cold, ChillTouchDamageTable);
@@ -449,7 +449,7 @@ namespace Mud.Server.Abilities
         [Spell(23, "Cure Blindness", AbilityTargets.CharacterDefensive)]
         public void SpellCureBlindness(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            GenericSpellCureAbility("Blindness", level, caster, victim, "You aren't blind.", "{0:N} doesn't appear to be blinded.", "Spell failed.", "Your vision returns!", "{0:N} is no longer blinded.");
+            GenericSpellCureAbility("Blindness", level, caster, victim, "You aren't blind.", "{0:N} doesn't appear to be blinded.");
         }
 
         [Spell(24, "Cure Critical", AbilityTargets.CharacterDefensive)]
@@ -465,7 +465,7 @@ namespace Mud.Server.Abilities
         [Spell(25, "Cure Disease", AbilityTargets.CharacterDefensive)]
         public void SpellCureDisease(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            GenericSpellCureAbility("Plague", level, caster, victim, "You aren't ill.", "{0:N} doesn't appear to be diseased.", "Spell failed.", "Your sores vanish.", "{0:N} looks relieved as $s sores vanish.");
+            GenericSpellCureAbility("Plague", level, caster, victim, "You aren't ill.", "{0:N} doesn't appear to be diseased.");
         }
 
         [Spell(26, "Cure Light", AbilityTargets.CharacterDefensive)]
@@ -481,7 +481,7 @@ namespace Mud.Server.Abilities
         [Spell(27, "Cure Poison", AbilityTargets.CharacterDefensive)]
         public void SpellCurePoison(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            GenericSpellCureAbility("Poison", level, caster, victim, "You aren't poisoned.", "{0:N} doesn't appear to be poisoned.", "Spell failed.", "A warm feeling runs through your body.", "{0:N} looks much better.");
+            GenericSpellCureAbility("Poison", level, caster, victim, "You aren't poisoned.", "{0:N} doesn't appear to be poisoned.");
         }
 
         [Spell(28, "Cure Serious", AbilityTargets.CharacterDefensive)]
@@ -494,7 +494,7 @@ namespace Mud.Server.Abilities
                 caster.Send("Ok");
         }
 
-        [Spell(29, "Curse", AbilityTargets.ItemHereOrCharacterOffensive, CharacterDispelMessage = "The curse wears off.", ItemDispelMessage = "{0} is no longer impure.")]
+        [Spell(29, "Curse", AbilityTargets.ItemHereOrCharacterOffensive, CharacterWearOffMessage = "The curse wears off.", ItemWearOffMessage = "{0} is no longer impure.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellCurse(IAbility ability, int level, ICharacter caster, IEntity target)
         {
             // item
@@ -571,31 +571,31 @@ namespace Mud.Server.Abilities
             SpellCurse(this["Curse"], 3*level/4, caster, victim);
         }
 
-        [Spell(31, "Detect Evil", AbilityTargets.CharacterSelf, CharacterDispelMessage = "The red in your vision disappears.")]
+        [Spell(31, "Detect Evil", AbilityTargets.CharacterSelf, CharacterWearOffMessage = "The red in your vision disappears.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellDetectEvil(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectEvil, level, "You can already sense evil.", "{0:N} can already detect evil.", "Your eyes tingle.", "Ok.");
         }
 
-        [Spell(32, "Detect Good", AbilityTargets.CharacterSelf, CharacterDispelMessage = "The gold in your vision disappears.")]
+        [Spell(32, "Detect Good", AbilityTargets.CharacterSelf, CharacterWearOffMessage = "The gold in your vision disappears.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellDetectGood(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectGood, level, "You can already sense good.", "{0:N} can already detect good.", "Your eyes tingle.", "Ok.");
         }
 
-        [Spell(33, "Detect Hidden", AbilityTargets.CharacterSelf, CharacterDispelMessage = "You feel less aware of your surroundings.")]
+        [Spell(33, "Detect Hidden", AbilityTargets.CharacterSelf, CharacterWearOffMessage = "You feel less aware of your surroundings.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellDetectHidden(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectHidden, level, "You are already as alert as you can be.", "{0:N} can already sense hidden lifeforms.", "Your awareness improves.", "Ok.");
         }
 
-        [Spell(34, "Detect Invis", AbilityTargets.CharacterSelf, CharacterDispelMessage = "You no longer see invisible objects.")]
+        [Spell(34, "Detect Invis", AbilityTargets.CharacterSelf, CharacterWearOffMessage = "You no longer see invisible objects.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellDetectInvis(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectInvis, level, "You can already see invisible.", "{0:N} can already see invisible things.", "Your eyes tingle.", "Ok.");
         }
 
-        [Spell(35, "Detect Magic", AbilityTargets.CharacterSelf, CharacterDispelMessage = "The detect magic wears off.")]
+        [Spell(35, "Detect Magic", AbilityTargets.CharacterSelf, CharacterWearOffMessage = "The detect magic wears off.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellDetectMagic(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.DetectMagic, level, "You can already sense magical auras.", "{0:N} can already detect magic.", "Your eyes tingle.", "Ok.");
@@ -665,12 +665,6 @@ namespace Mud.Server.Abilities
             }
 
             bool found = TryDispels(level, victim);
-            if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Sanctuary) && !SavesDispel(level, victim.Level, -1) && victim.GetAura("Sanctuary") == null)
-            {
-                victim.RemoveBaseCharacterFlags(CharacterFlags.Sanctuary); // TODO: what if it's a racial ?
-                victim.Act(ActOptions.ToRoom, "The white aura around {0:n}'s body vanishes.", victim);
-                found = true;
-            }
 
             if (found)
                 caster.Send("Ok.");
@@ -895,7 +889,7 @@ namespace Mud.Server.Abilities
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Negative, true);
         }
 
-        [Spell(44, "Faerie Fire", AbilityTargets.CharacterOffensive, CharacterDispelMessage = "The pink aura around you fades away.")]
+        [Spell(44, "Faerie Fire", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "The pink aura around you fades away.", DispelRoomMessage = "{0:N}'s outline fades.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellFaerieFire(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.FaerieFire))
@@ -945,7 +939,7 @@ namespace Mud.Server.Abilities
             TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Fire, FireballDamageTable);
         }
 
-        [Spell(48, "Fireproof", AbilityTargets.CharacterOffensive, ItemDispelMessage = "{0}'s protective aura fades.")]
+        [Spell(48, "Fireproof", AbilityTargets.CharacterOffensive, ItemWearOffMessage = "{0}'s protective aura fades.")]
         public void SpellFireproof(IAbility ability, int level, ICharacter caster, IItem item)
         {
             if (item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof))
@@ -970,7 +964,7 @@ namespace Mud.Server.Abilities
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Fire, true);
         }
 
-        [Spell(50, "Fly", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "You slowly float to the ground.")]
+        [Spell(50, "Fly", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You slowly float to the ground.", DispelRoomMessage = "{0:N} falls to the ground!", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellFly(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Flying))
@@ -993,7 +987,7 @@ namespace Mud.Server.Abilities
             // TODO: floating equipment location not implemented
         }
 
-        [Spell(52, "Frenzy", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "Your rage ebbs.")]
+        [Spell(52, "Frenzy", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "Your rage ebbs.", DispelRoomMessage = "{0:N} no longer looks so wild.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellFrenzy(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Berserk) || victim.GetAura("Frenzy") != null)
@@ -1072,7 +1066,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Spell(54, "Giant Strength", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "You feel weaker.")]
+        [Spell(54, "Giant Strength", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You feel weaker.", DispelRoomMessage = "{0:N} no longer looks so mighty.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellGiantStrength(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.GetAura("Giant Strength") != null)
@@ -1099,7 +1093,7 @@ namespace Mud.Server.Abilities
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Harm, true);
         }
 
-        [Spell(56, "Haste", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "You feel yourself slow down.")]
+        [Spell(56, "Haste", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You feel yourself slow down.", DispelRoomMessage = "{0:N} is no longer moving so quickly.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellHaste(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Haste)
@@ -1319,13 +1313,13 @@ namespace Mud.Server.Abilities
             // TODO
         }
 
-        [Spell(61, "Infravision", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "You no longer see in the dark.")]
+        [Spell(61, "Infravision", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You no longer see in the dark.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellInfravision(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.Infrared, 2*level, "You can already see in the dark", "{0} already has infravision.", "Your eyes glow red.", "{0:P} eyes glow red.");
         }
 
-        [Spell(62, "Invisibility", AbilityTargets.ItemInventoryOrCharacterDefensive, CharacterDispelMessage = "You are no longer invisible.", ItemDispelMessage = "{0} fades into view.")]
+        [Spell(62, "Invisibility", AbilityTargets.ItemInventoryOrCharacterDefensive, CharacterWearOffMessage = "You are no longer invisible.", ItemWearOffMessage = "{0} fades into view.", DispelRoomMessage = "{0:N} fades into existance.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellIInvisibilitys(IAbility ability, int level, ICharacter caster, IEntity target)
         {
             if (target is IItem item)
@@ -1454,7 +1448,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Spell(68, "Mass Invis", AbilityTargets.None, CharacterDispelMessage = "You are no longer invisible.")]
+        [Spell(68, "Mass Invis", AbilityTargets.None, CharacterWearOffMessage = "You are no longer invisible.", DispelRoomMessage = "{0:N} fades into existance.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellMassInvis(IAbility ability, int level, ICharacter caster)
         {
             caster.Send(StringHelpers.NotYetImplemented);
@@ -1468,14 +1462,14 @@ namespace Mud.Server.Abilities
             // TODO
         }
 
-        [Spell(70, "Pass Door", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "You feel solid again.")]
+        [Spell(70, "Pass Door", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You feel solid again.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellPassDoor(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int duration = RandomManager.Fuzzy(level / 4);
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.PassDoor, duration, "You are already out of phase.", "{0:N} is already shifted out of phase.", "You turn translucent.", "{0} turns translucent.");
         }
 
-        [Spell(71, "Plague", AbilityTargets.CharacterOffensive, CharacterDispelMessage = "Your sores vanish.")]
+        [Spell(71, "Plague", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "Your sores vanish.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellPlague(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.SavesSpell(level, SchoolTypes.Disease)
@@ -1493,7 +1487,7 @@ namespace Mud.Server.Abilities
             victim.Act(ActOptions.ToAll, "{0:N} scream{0:V} in agony as plague sores erupt from {0:s} skin.", victim);
         }
 
-        [Spell(72, "Poison", AbilityTargets.ItemHereOrCharacterOffensive, CharacterDispelMessage = "You feel less sick.", ItemDispelMessage = "The poison on {0} dries up.")]
+        [Spell(72, "Poison", AbilityTargets.ItemHereOrCharacterOffensive, CharacterWearOffMessage = "You feel less sick.", ItemWearOffMessage = "The poison on {0} dries up.")]
         public void SpellPoison(IAbility ability, int level, ICharacter caster, IEntity target)
         {
             // item
@@ -1547,7 +1541,7 @@ namespace Mud.Server.Abilities
             // TODO
         }
 
-        [Spell(74, "Protection Evil", AbilityTargets.CharacterSelf, CharacterDispelMessage = "You feel less protected.")]
+        [Spell(74, "Protection Evil", AbilityTargets.CharacterSelf, CharacterWearOffMessage = "You feel less protected.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellProtectionEvil(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.ProtectGood)
@@ -1564,7 +1558,7 @@ namespace Mud.Server.Abilities
             caster.Act(ActOptions.ToCharacter, "{0:N} {0:b} protected from evil.", victim);
         }
 
-        [Spell(75, "Protection Good", AbilityTargets.CharacterSelf, CharacterDispelMessage = "You feel less protected.")]
+        [Spell(75, "Protection Good", AbilityTargets.CharacterSelf, CharacterWearOffMessage = "You feel less protected.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellProtectionGood(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.ProtectGood)
@@ -1674,14 +1668,14 @@ namespace Mud.Server.Abilities
             Log.Default.WriteLine(LogLevels.Error, "SpellRemoveCurse: invalid target type {0}", target.GetType());
         }
 
-        [Spell(80, "Sanctuary", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "The white aura around your body fades.")]
+        [Spell(80, "Sanctuary", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "The white aura around your body fades.", DispelRoomMessage = "The white aura around {0:n}'s body vanishes.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellSanctuary(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int duration = level / 6;
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.Sanctuary, duration, "You are already in sanctuary.", "{0:N} is already in sanctuary.", "You are surrounded by a white aura.", "{0:N} is surrounded by a white aura.");
         }
 
-        [Spell(81, "Shield", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "Your force shield shimmers then fades away.")]
+        [Spell(81, "Shield", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "Your force shield shimmers then fades away.", DispelRoomMessage = "The shield protecting {0:n} vanishes.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellShield(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.GetAura(ability) != null)
@@ -1714,7 +1708,7 @@ namespace Mud.Server.Abilities
             TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Lightning, ShockingGraspDamageTable);
         }
 
-        [Spell(83, "Sleep", AbilityTargets.CharacterOffensive, CharacterDispelMessage = "You feel less tired.")]
+        [Spell(83, "Sleep", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You feel less tired.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellSleep(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Sleep)
@@ -1735,7 +1729,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Spell(84, "Slow", AbilityTargets.CharacterOffensive, CharacterDispelMessage = "You feel yourself speed up.")]
+        [Spell(84, "Slow", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You feel yourself speed up.", DispelRoomMessage = "{0:N} is no longer moving so slowly.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellSlow(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Slow)
@@ -1780,7 +1774,7 @@ namespace Mud.Server.Abilities
             caster.Act(ActOptions.ToRoom, "{0} starts to move in slow motion.", victim);
         }
 
-        [Spell(85, "Stone Skin", AbilityTargets.CharacterDefensive, CharacterDispelMessage = "Your skin feels soft again.")]
+        [Spell(85, "Stone Skin", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "Your skin feels soft again.", DispelRoomMessage = "{0:N}'s skin regains its normal texture.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellStoneSkin(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.GetAura(ability) != null)
@@ -1874,7 +1868,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Spell(89, "Weaken", AbilityTargets.CharacterOffensive, CharacterDispelMessage = "You feel stronger.")]
+        [Spell(89, "Weaken", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You feel stronger.", DispelRoomMessage = "{0:N} looks stronger.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellWeaken(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Weaken) || victim.GetAura(ability) != null || victim.SavesSpell(level, SchoolTypes.Other))
@@ -2509,7 +2503,7 @@ namespace Mud.Server.Abilities
                 victim.Act(ActOptions.ToRoom, notSelfSuccess, victim);
         }
 
-        private void GenericSpellCureAbility(string toCureAbilityName, int level, ICharacter caster, ICharacter victim, string selfNotFound, string notSelfNotFound, string noAction, string selfDispelled, string notSelfDispelled)
+        private void GenericSpellCureAbility(string toCureAbilityName, int level, ICharacter caster, ICharacter victim, string selfNotFound, string notSelfNotFound)
         {
             CheckDispelReturnValues dispel = TryDispel(level, victim, this[toCureAbilityName]);
             switch (dispel)
@@ -2521,130 +2515,29 @@ namespace Mud.Server.Abilities
                         caster.Act(ActOptions.ToCharacter, notSelfNotFound, victim);
                     break;
                 case CheckDispelReturnValues.FoundAndNotDispelled:
-                    caster.Send(noAction);
-                    break;
-                case CheckDispelReturnValues.Dispelled:
-                    victim.Send(selfDispelled);
-                    victim.Act(ActOptions.ToRoom, notSelfDispelled, victim);
+                    caster.Send("Spell failed.");
                     break;
             }
         }
 
-        private bool TryDispels(int level, ICharacter victim)
+        private bool TryDispels(int dispelLevel, ICharacter victim) // dispels every spells
         {
-            // ReSharper disable once ReplaceWithSingleAssignment.False
             bool found = false;
-            if (TryDispel(level, victim, this["Armor"]) == CheckDispelReturnValues.Dispelled)
-                found = true;
-            if (TryDispel(level, victim, this["Bless"]) == CheckDispelReturnValues.Dispelled)
-                found = true;
-            if (TryDispel(level, victim, this["Blindness"]) == CheckDispelReturnValues.Dispelled)
+            IReadOnlyCollection<IAura> clone = new ReadOnlyCollection<IAura>(victim.Auras.Where(x => x.IsValid).ToList());
+            foreach (IAura aura in clone)
             {
-                victim.Act(ActOptions.ToRoom, "{0:N} is no longer blinded.", victim);
-                found = true;
+                if (!SavesDispel(dispelLevel, aura))
+                {
+                    found = true;
+                    victim.RemoveAura(aura, false); // RemoveAura will display DispelMessage
+                    if (aura.Ability != null && !string.IsNullOrWhiteSpace(aura.Ability.DispelRoomMessage))
+                        victim.Act(ActOptions.ToRoom, aura.Ability.DispelRoomMessage, victim);
+                }
+                else
+                    aura.DecreaseLevel();
             }
-            if (TryDispel(level, victim, this["Calm"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "{0:N no longer looks so peaceful...", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Change Sex"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "{0:N} looks more like {0:f} again.", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Charm Person"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "{0:N} regains {0:s} free will.", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Chill Touch"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "{0:N} looks warmer.", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Curse"]) == CheckDispelReturnValues.Dispelled)
-                found = true;
-            if (TryDispel(level, victim, this["Detect Evil"]) == CheckDispelReturnValues.Dispelled)
-                found = true;
-            if (TryDispel(level, victim, this["Detect Good"]) == CheckDispelReturnValues.Dispelled)
-                found = true;
-            if (TryDispel(level, victim, this["Detect Hidden"]) == CheckDispelReturnValues.Dispelled)
-                found = true;
-            if (TryDispel(level, victim, this["Detect Invis"]) == CheckDispelReturnValues.Dispelled)
-                found = true;
-            if (TryDispel(level, victim, this["Detect Magic"]) == CheckDispelReturnValues.Dispelled)
-                found = true;
-            if (TryDispel(level, victim, this["Faerie Fire"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "{0:N}'s outline fades.", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Fly"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "{0:N} falls to the ground!", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Frenzy"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "{0:N} no longer looks so wild.", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Giant Strength"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "{0:N} no longer looks so mighty.", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Haste"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "{0:N} is no longer moving so quickly.", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Infravision"]) == CheckDispelReturnValues.Dispelled)
-                found = true;
-            if (TryDispel(level, victim, this["Invis"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "{0:N} fades into existance.", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Mass invis"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "{0:N} fades into existance.", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Pass Door"]) == CheckDispelReturnValues.Dispelled)
-                found = true;
-            if (TryDispel(level, victim, this["Protection Evil"]) == CheckDispelReturnValues.Dispelled)
-                found = true;
-            if (TryDispel(level, victim, this["Protection Good"]) == CheckDispelReturnValues.Dispelled)
-                found = true;
-            if (TryDispel(level, victim, this["Sanctuary"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "The white aura around {0:n}'s body vanishes.", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Shield"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "The shield protecting {0:n} vanishes.", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Sleep"]) == CheckDispelReturnValues.Dispelled)
-                found = true;
-            if (TryDispel(level, victim, this["Slow"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "{0:N} is no longer moving so slowly.", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Stone Skin"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "{0:N}'s skin regains its normal texture.", victim);
-                found = true;
-            }
-            if (TryDispel(level, victim, this["Weaken"]) == CheckDispelReturnValues.Dispelled)
-            {
-                victim.Act(ActOptions.ToRoom, "{0:N} looks stronger.", victim);
-                found = true;
-            }
+            if (found)
+                victim.Recompute();
             return found;
         }
 
@@ -2659,10 +2552,12 @@ namespace Mud.Server.Abilities
             bool found = false;
             foreach (IAura aura in victim.Auras.Where(x => x.Ability == ability)) // no need to clone because at most one entry will be removed
             {
-                if (!SavesDispel(dispelLevel, aura.Level, aura.PulseLeft))
+                if (!SavesDispel(dispelLevel, aura))
                 {
                     victim.RemoveAura(aura, true); // RemoveAura will display DispelMessage
-                    return CheckDispelReturnValues.Dispelled;
+                    if (aura.Ability != null && !string.IsNullOrWhiteSpace(aura.Ability.DispelRoomMessage))
+                        victim.Act(ActOptions.ToRoom, aura.Ability.DispelRoomMessage, victim);
+                    return CheckDispelReturnValues.Dispelled; // stop at first aura dispelled
                 }
                 else
                     aura.DecreaseLevel();
@@ -2673,9 +2568,23 @@ namespace Mud.Server.Abilities
                 : CheckDispelReturnValues.NotFound;
         }
 
+        public bool SavesDispel(int dispelLevel, IAura aura)
+        {
+            if (aura.AuraFlags.HasFlag(AuraFlags.NoDispel))
+                return true;
+            int auraLevel = aura.Level;
+            if (aura.AuraFlags.HasFlag(AuraFlags.Permanent)
+                || aura.PulseLeft < 0) // very hard to dispel permanent effects
+                auraLevel += 5;
+
+            int save = 50 + (auraLevel - dispelLevel) * 5;
+            save = save.Range(5, 95);
+            return RandomManager.Chance(save);
+        }
+
         public bool SavesDispel(int dispelLevel, int spellLevel, int pulseLeft)
         {
-            if (pulseLeft == -1) // very hard to dispel permanent effects
+            if (pulseLeft < 0) // very hard to dispel permanent effects
                 spellLevel += 5;
 
             int save = 50 + (spellLevel - dispelLevel) * 5;

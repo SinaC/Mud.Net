@@ -204,6 +204,9 @@ namespace Mud.Server.Tests.Abilities
             int mana = 1000;
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(mana);
             characterMock.Setup(x => x.UpdateResource(It.IsAny<ResourceKinds>(), It.IsAny<int>())).Callback<ResourceKinds, int>((kind, cost) => mana += cost);
+            var roomMock = new Mock<IRoom>();
+            roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
+            characterMock.SetupGet(x => x.Room).Returns(roomMock.Object); // room is needed for SaySpell
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
@@ -227,6 +230,9 @@ namespace Mud.Server.Tests.Abilities
             int mana = 1000;
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(mana);
             characterMock.Setup(x => x.UpdateResource(It.IsAny<ResourceKinds>(), It.IsAny<int>())).Callback<ResourceKinds, int>((kind, cost) => mana += cost);
+            var roomMock = new Mock<IRoom>();
+            roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
+            characterMock.SetupGet(x => x.Room).Returns(roomMock.Object); // room is needed for SaySpell
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
@@ -252,6 +258,9 @@ namespace Mud.Server.Tests.Abilities
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(mana);
             characterMock.Setup(x => x.MaxResource(It.IsAny<ResourceKinds>())).Returns<int>(kind => maxMana);
             characterMock.Setup(x => x.UpdateResource(It.IsAny<ResourceKinds>(), It.IsAny<int>())).Callback<ResourceKinds, int>((kind, cost) => mana += cost);
+            var roomMock = new Mock<IRoom>();
+            roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
+            characterMock.SetupGet(x => x.Room).Returns(roomMock.Object); // room is needed for SaySpell
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);

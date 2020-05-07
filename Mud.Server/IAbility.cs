@@ -17,9 +17,11 @@ namespace Mud.Server
 
         AbilityFlags AbilityFlags { get; }
 
-        string CharacterDispelMessage { get; }
+        string CharacterWearOffMessage { get; }
 
-        string ItemDispelMessage { get; }
+        string ItemWearOffMessage { get; }
+
+        string DispelRoomMessage { get; }
 
         MethodInfo MethodInfo { get; } // null for passive abilities
     }

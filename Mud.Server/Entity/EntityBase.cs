@@ -232,14 +232,14 @@ namespace Mud.Server.Entity
             else
             {
                 // TODO: replace with virtual method
-                if (this is ICharacter && !string.IsNullOrWhiteSpace(aura.Ability?.CharacterDispelMessage))
-                    Send(aura.Ability.CharacterDispelMessage);
-                else if (this is IItem item && !string.IsNullOrWhiteSpace(aura.Ability?.ItemDispelMessage))
+                if (this is ICharacter && !string.IsNullOrWhiteSpace(aura.Ability?.CharacterWearOffMessage))
+                    Send(aura.Ability.CharacterWearOffMessage);
+                else if (this is IItem item && !string.IsNullOrWhiteSpace(aura.Ability?.ItemWearOffMessage))
                 {
                     if (item.ContainedInto is ICharacter holder)
-                        holder.Act(ActOptions.ToCharacter, aura.Ability.ItemDispelMessage, this);
+                        holder.Act(ActOptions.ToCharacter, aura.Ability.ItemWearOffMessage, this);
                     else if (item is IEquipableItem equipable)
-                        equipable.EquipedBy?.Act(ActOptions.ToCharacter, aura.Ability.ItemDispelMessage, this);
+                        equipable.EquipedBy?.Act(ActOptions.ToCharacter, aura.Ability.ItemWearOffMessage, this);
                 }
                 //Send("{0} vanishes.", aura.Ability == null ? "Something" : aura.Ability.Name); // TODO: ability wears off message
             }

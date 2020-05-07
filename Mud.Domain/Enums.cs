@@ -479,6 +479,7 @@ namespace Mud.Domain
         CannotMiss          = 0x00000002,
         CannotBeReflected   = 0x00000004,
         CannotBeUsed        = 0x00000008,
+        CanBeDispelled      = 0x00000010,
     }
 
     public enum AbilityKinds

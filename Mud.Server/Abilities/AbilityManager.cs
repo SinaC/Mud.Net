@@ -44,9 +44,20 @@ namespace Mud.Server.Abilities
                 IAbility ability = new Ability(kind, abilityInfo.attribute, abilityInfo.method);
                 _abilities.Add(ability);
             }
-            // Add passive abilities
-            foreach (IAbility passive in Rom24Passives.Abilities) // TODO: should be in above loop
-                _abilities.Add(passive);
+            // Reflection gather every list of passives
+            var passiveLists = typeof(AbilityManager).GetProperties(BindingFlags.Instance | BindingFlags.Public).Select(p => new { property = p, attribute = p.GetCustomAttribute(typeof(PassiveListAttribute), false) })
+                .Where(x => x.attribute != null);
+            foreach (var passiveList in passiveLists)
+            {
+                var getResult = passiveList.property.GetValue(this);
+                if (getResult is IEnumerable<IAbility> passives)
+                {
+                    foreach (IAbility passive in passives)
+                        _abilities.Add(passive);
+                }
+                else
+                    Log.Default.WriteLine(LogLevels.Warning, "Found [PassiveList] attribute on {0} but it does not seem to be a list of abilities", getResult);
+            }
 
             // Check duplicates
             var duplicateIds = _abilities.GroupBy(x => x.Id).Where(g => g.Count() > 1).Select(x => x.Key);
@@ -745,5 +756,8 @@ namespace Mud.Server.Abilities
                 }
             }
         }
+
+        private static IAbility Passive(int id, string name, AbilityFlags flags = AbilityFlags.None) => new Ability(AbilityKinds.Passive, id, name, AbilityTargets.None, 0, flags, null, null, null);
+
     }
 }

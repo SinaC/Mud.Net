@@ -32,7 +32,6 @@ namespace Mud.Server.Aura
             AuraFlags = flags;
             Level = level;
             PulseLeft = Pulse.FromTimeSpan(ts);
-
             _affects = (affects ?? Enumerable.Empty<IAffect>()).ToList();
         }
 

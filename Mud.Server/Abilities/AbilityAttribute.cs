@@ -13,8 +13,9 @@ namespace Mud.Server.Abilities
         public AbilityTargets Target { get; }
         public int PulseWaitTime { get; set; }
         public AbilityFlags Flags { get; set; }
-        public string CharacterDispelMessage { get; set; }
-        public string ItemDispelMessage { get; set; }
+        public string CharacterWearOffMessage { get; set; } // Inform character about aura worn off (+dispel)
+        public string ItemWearOffMessage { get; set; } // Inform item hold about aura worn off (+dispel)
+        public string DispelRoomMessage { get; set; } // Used to inform room about spell being dispelled
 
         protected AbilityAttribute(int id, string name, AbilityTargets target)
         {
@@ -23,8 +24,9 @@ namespace Mud.Server.Abilities
             Target = target;
             PulseWaitTime = DefaultPulseWaitTime;
             Flags = AbilityFlags.None;
-            CharacterDispelMessage = null;
-            ItemDispelMessage = null;
+            CharacterWearOffMessage = null;
+            ItemWearOffMessage = null;
+            DispelRoomMessage = null;
         }
     }
 
@@ -42,5 +44,10 @@ namespace Mud.Server.Abilities
             : base(id, name, target)
         {
         }
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PassiveListAttribute : Attribute
+    {
     }
 }

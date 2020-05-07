@@ -119,8 +119,9 @@ namespace Mud.Server.Helpers
             generator.AddColumn("Target", 10, x => ConvertAbilityTargets(x.Target));
             generator.AddColumn("GCD", 5, x => x.PulseWaitTime.ToString());
             generator.AddColumn("Flags", 12, x => x.AbilityFlags.ToString());
-            generator.AddColumn("CharDispel", 20, x => x.CharacterDispelMessage?.ToString() ?? string.Empty);
-            generator.AddColumn("ItemDispel", 20, x => x.ItemDispelMessage?.ToString() ?? string.Empty);
+            generator.AddColumn("WearOff", 20, x => x.CharacterWearOffMessage?.ToString() ?? string.Empty);
+            generator.AddColumn("ItemWearOff", 20, x => x.ItemWearOffMessage?.ToString() ?? string.Empty);
+            generator.AddColumn("DispelRoom", 20, x => x.DispelRoomMessage?.ToString() ?? string.Empty);
             return generator;
         });
 

@@ -1,11 +1,11 @@
-﻿using Mud.Domain;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Mud.Server.Abilities
 {
-    public static class Rom24Passives
+    public partial class AbilityManager
     {
-        public static List<IAbility> Abilities = new List<IAbility>
+        [PassiveList]
+        public IEnumerable<IAbility> Rom24Passives => new List<IAbility>
         {
             // Weapons
             Passive(2000, "Axe"),
@@ -33,7 +33,5 @@ namespace Mud.Server.Abilities
             Passive(2202, "Peek"),
             Passive(2203, "Haggle"),
         };
-
-        private static IAbility Passive(int id, string name, AbilityFlags flags = AbilityFlags.None) => new Ability(AbilityKinds.Passive, id, name, AbilityTargets.None, 0, flags, null, null);
     }
 }

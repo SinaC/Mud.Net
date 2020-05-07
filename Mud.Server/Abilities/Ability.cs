@@ -5,7 +5,7 @@ namespace Mud.Server.Abilities
 {
     public class Ability : IAbility
     {
-        public Ability(AbilityKinds kind, int id, string name, AbilityTargets target, int pulseWaitTime, AbilityFlags flags, string characterDispelMessage, string itemDispelMessage)
+        public Ability(AbilityKinds kind, int id, string name, AbilityTargets target, int pulseWaitTime, AbilityFlags flags, string characterWearOffMessage, string itemWearOffMessage, string dispelRoomMessage)
         {
             Kind = kind;
             Id = id;
@@ -13,12 +13,13 @@ namespace Mud.Server.Abilities
             Target = target;
             PulseWaitTime = pulseWaitTime;
             AbilityFlags = flags;
-            CharacterDispelMessage = characterDispelMessage;
-            ItemDispelMessage = itemDispelMessage;
+            CharacterWearOffMessage = characterWearOffMessage;
+            ItemWearOffMessage = itemWearOffMessage;
+            DispelRoomMessage = dispelRoomMessage;
         }
 
         public Ability(AbilityKinds kind, AbilityAttribute attribute, MethodInfo methodInfo)
-            : this(kind, attribute.Id, attribute.Name, attribute.Target, attribute.PulseWaitTime, attribute.Flags, attribute.CharacterDispelMessage, attribute.ItemDispelMessage)
+            : this(kind, attribute.Id, attribute.Name, attribute.Target, attribute.PulseWaitTime, attribute.Flags, attribute.CharacterWearOffMessage, attribute.ItemWearOffMessage, attribute.DispelRoomMessage)
         {
             MethodInfo = methodInfo;
         }
@@ -35,9 +36,11 @@ namespace Mud.Server.Abilities
 
         public AbilityFlags AbilityFlags { get; }
 
-        public string CharacterDispelMessage { get; }
+        public string CharacterWearOffMessage { get; }
 
-        public string ItemDispelMessage { get; }
+        public string ItemWearOffMessage { get; }
+
+        public string DispelRoomMessage { get; }
 
         public MethodInfo MethodInfo { get; } // null for passive abilities
     }
