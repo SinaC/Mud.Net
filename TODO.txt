@@ -87,8 +87,6 @@ gsn_backstab:
 			    dam *= 2 + (ch->level / 8);
 
 
-Redo modifiable list
-
 PlayableCharacter can be immortal or not -> don't link immortality to ImpersonatedBy is IAdmin
 
 When an item quest objective is complete, quest item should be NoTake
