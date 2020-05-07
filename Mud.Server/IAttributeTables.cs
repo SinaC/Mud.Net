@@ -2,15 +2,15 @@
 {
     public interface IAttributeTables
     {
-        (int hit, int dam, int carry, int wield, int learn, int practice, int defensive, int hitpoint, int shock) Bonus(IPlayableCharacter character);
-        int HitBonus(IPlayableCharacter character);
-        int DamBonus(IPlayableCharacter character);
-        int CarryBonus(IPlayableCharacter character);
-        int WieldBonus(IPlayableCharacter character);
-        int LearnBonus(IPlayableCharacter character);
-        int PracticeBonus(IPlayableCharacter character);
-        int DefensiveBonus(IPlayableCharacter character);
-        int HitpointBonus(IPlayableCharacter character);
-        int ShockBonus(IPlayableCharacter character);
+        (int hit, int dam, int carry, int wield, int learn, int practice, int defensive, int hitpoint, int shock) Bonus(ICharacter character);
+        int HitBonus(ICharacter character);
+        int DamBonus(ICharacter character);
+        int CarryBonus(ICharacter character);
+        int WieldBonus(ICharacter character);
+        int LearnBonus(ICharacter character);
+        int PracticeBonus(ICharacter character);
+        int DefensiveBonus(ICharacter character);
+        int HitpointBonus(ICharacter character);
+        int ShockBonus(ICharacter character);
     }
 }

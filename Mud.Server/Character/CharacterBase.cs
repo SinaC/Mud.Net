@@ -37,6 +37,7 @@ namespace Mud.Server.Character
 
         protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
+        protected IAttributeTables AttributeTables => DependencyContainer.Current.GetInstance<IAttributeTables>();
 
         protected int MaxHitPoints => _currentAttributes[(int) CharacterAttributes.MaxHitPoints];
         protected int MaxMovePoints => _currentAttributes[(int)CharacterAttributes.MaxMovePoints];
@@ -181,6 +182,11 @@ namespace Mud.Server.Character
                 _currentAttributes[index] = value;
             }
         }
+
+        public int this[BasicAttributes attribute] => this[(CharacterAttributes)attribute];
+        public int this[Armors armor] => this[(CharacterAttributes)armor] + (Position > Positions.Sleeping ? AttributeTables.DefensiveBonus(this) : 0);
+        public int HitRoll => this[CharacterAttributes.HitRoll] + AttributeTables.HitBonus(this);
+        public int DamRoll => this[CharacterAttributes.DamRoll] + AttributeTables.DamBonus(this);
 
         public int this[ResourceKinds resource]
         {

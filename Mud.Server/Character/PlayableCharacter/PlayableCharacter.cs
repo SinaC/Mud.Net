@@ -22,7 +22,6 @@ namespace Mud.Server.Character.PlayableCharacter
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<PlayableCharacter>);
 
         protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
-        protected IAttributeTables AttributeTables => DependencyContainer.Current.GetInstance<IAttributeTables>();
 
         private readonly List<IPlayableCharacter> _groupMembers;
         private readonly List<IQuest> _quests;

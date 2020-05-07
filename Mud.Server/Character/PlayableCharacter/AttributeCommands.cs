@@ -32,19 +32,20 @@ namespace Mud.Server.Character.PlayableCharacter
             int cost = 0;
             Func<CommandExecutionResults> gainAction = null;
             // attribute
-            var attributeFound = EnumHelpers.GetValues<CharacterAttributes>().Where(x => x >= CharacterAttributes.Strength && x <= CharacterAttributes.Constitution).Select(x => new { attribute = x, name = x.ToString() }).FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.name, parameters[0].Value));
+            var attributeFound = EnumHelpers.GetValues<BasicAttributes>().Select(x => new { attribute = (CharacterAttributes)x, name = x.ToString() }).FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.name, parameters[0].Value));
             if (attributeFound != null)
             {
                 cost = 1;
                 gainAction = () =>
                 {
-                    if (BaseAttribute(attributeFound.attribute) >= Race?.GetMaxAttribute(attributeFound.attribute))
+                    CharacterAttributes attribute = attributeFound.attribute;
+                    if (BaseAttribute(attribute) >= Race?.GetMaxAttribute(attribute))
                     {
                         Send("Your {0} is already at maximum.", attributeFound.name);
                         return CommandExecutionResults.InvalidParameter;
                     }
-                    SetBaseAttributes(attributeFound.attribute, BaseAttribute(attributeFound.attribute) + 1, false);
-                    this[attributeFound.attribute]++;
+                    SetBaseAttributes(attribute, BaseAttribute(attribute) + 1, false);
+                    this[attribute]++;
                     Act(ActOptions.ToAll, "{0:p} {1} increases!", this, attributeFound.name);
                     return CommandExecutionResults.Ok;
                 };

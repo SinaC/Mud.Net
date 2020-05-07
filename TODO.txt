@@ -14,6 +14,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+shortcuts to BasicAttributes
+HitRoll/DamRoll/Armors properties to avoid computing every real formula
 race base/max attr, imm, res, vuln added
 issue with npc/pc attributes/resources solved
 issue with impersonation ImpersonatedBy was set twice, replace ChangeImpersonation with StopImpersonation

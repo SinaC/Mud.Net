@@ -267,6 +267,23 @@ namespace Mud.Domain
         ArmorMagic      = 13
     }
 
+    public enum BasicAttributes
+    { 
+        Strength = CharacterAttributes.Strength,
+        Intelligence = CharacterAttributes.Intelligence,
+        Wisdom = CharacterAttributes.Wisdom,
+        Dexterity = CharacterAttributes.Dexterity,
+        Constitution = CharacterAttributes.Constitution,
+    }
+
+    public enum Armors
+    {
+        Bash = CharacterAttributes.ArmorBash,
+        Pierce = CharacterAttributes.ArmorPierce,
+        Slash = CharacterAttributes.ArmorSlash,
+        Magic = CharacterAttributes.ArmorMagic,
+    }
+
     [Flags]
     public enum CharacterFlags
     {

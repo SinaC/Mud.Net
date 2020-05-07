@@ -67,6 +67,10 @@ namespace Mud.Server
         bool IsNeutral { get; }
 
         int this[CharacterAttributes attribute] { get; }
+        int this[BasicAttributes attribute] { get; }
+        int this[Armors armor] { get; }
+        int HitRoll { get; }
+        int DamRoll { get; }
 
         int this[ResourceKinds resource] { get; }
         IEnumerable<ResourceKinds> CurrentResourceKinds { get; }

@@ -5,7 +5,7 @@ namespace Mud.Server.Character
 {
     public class AttributeTables : IAttributeTables
     {
-        public (int hit, int dam, int carry, int wield, int learn, int practice, int defensive, int hitpoint, int shock) Bonus(IPlayableCharacter character)
+        public (int hit, int dam, int carry, int wield, int learn, int practice, int defensive, int hitpoint, int shock) Bonus(ICharacter character)
         {
             (int hit, int dam, int carry, int wield) = StrengthBasedBonus.Get(character[CharacterAttributes.Strength]);
             int learn = IntelligenceBasedBonus.Get(character[CharacterAttributes.Intelligence]);
@@ -16,23 +16,23 @@ namespace Mud.Server.Character
             return (hit, dam, carry, wield, learn, practice, defensive, hitpoint, shock);
         }
 
-        public int HitBonus(IPlayableCharacter character) => StrengthBasedBonus.Get(character[CharacterAttributes.Strength]).hit;
+        public int HitBonus(ICharacter character) => StrengthBasedBonus.Get(character[CharacterAttributes.Strength]).hit;
 
-        public int DamBonus(IPlayableCharacter character) => StrengthBasedBonus.Get(character[CharacterAttributes.Strength]).dam;
+        public int DamBonus(ICharacter character) => StrengthBasedBonus.Get(character[CharacterAttributes.Strength]).dam;
 
-        public int CarryBonus(IPlayableCharacter character) => StrengthBasedBonus.Get(character[CharacterAttributes.Strength]).carry;
+        public int CarryBonus(ICharacter character) => StrengthBasedBonus.Get(character[CharacterAttributes.Strength]).carry;
 
-        public int WieldBonus(IPlayableCharacter character) => StrengthBasedBonus.Get(character[CharacterAttributes.Strength]).wield;
+        public int WieldBonus(ICharacter character) => StrengthBasedBonus.Get(character[CharacterAttributes.Strength]).wield;
 
-        public int LearnBonus(IPlayableCharacter character) => IntelligenceBasedBonus.Get(character[CharacterAttributes.Intelligence]);
+        public int LearnBonus(ICharacter character) => IntelligenceBasedBonus.Get(character[CharacterAttributes.Intelligence]);
 
-        public int PracticeBonus(IPlayableCharacter character) => WisdomBasedBonus.Get(character[CharacterAttributes.Wisdom]);
+        public int PracticeBonus(ICharacter character) => WisdomBasedBonus.Get(character[CharacterAttributes.Wisdom]);
 
-        public int DefensiveBonus(IPlayableCharacter character) => DexterityBasedBonus.Get(character[CharacterAttributes.Dexterity]);
+        public int DefensiveBonus(ICharacter character) => DexterityBasedBonus.Get(character[CharacterAttributes.Dexterity]);
 
-        public int HitpointBonus(IPlayableCharacter character) => ConstitutionBasedBonus.Get(character[CharacterAttributes.Constitution]).hitpoint;
+        public int HitpointBonus(ICharacter character) => ConstitutionBasedBonus.Get(character[CharacterAttributes.Constitution]).hitpoint;
 
-        public int ShockBonus(IPlayableCharacter character) => ConstitutionBasedBonus.Get(character[CharacterAttributes.Constitution]).shock;
+        public int ShockBonus(ICharacter character) => ConstitutionBasedBonus.Get(character[CharacterAttributes.Constitution]).shock;
 
         private static readonly (int hit, int dam, int carry, int wield)[] StrengthBasedBonus = new (int hit, int dam, int carry, int wield)[]
         {

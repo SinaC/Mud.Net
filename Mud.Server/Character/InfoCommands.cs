@@ -278,21 +278,21 @@ namespace Mud.Server.Character
                 sb.AppendFormatLine("| %c%Constitution : %W%[{0,5}/{1,5}]%x% |                       |", this[CharacterAttributes.Constitution], BaseAttribute(CharacterAttributes.Constitution), Level);
             sb.AppendLine("+------------------------------+-------------------------+");
             sb.AppendLine("| %W%Resources%x%                    | %W%Defensive%x%              |");
-            sb.AppendFormatLine("| %g%Hp     : %W%[{0,8}/{1,8}]%x% | %g%Bash         : %W%[{2,6}]%x% |", HitPoints, MaxHitPoints, this[CharacterAttributes.ArmorBash]);
-            sb.AppendFormatLine("| %g%Move   : %W%[{0,8}/{1,8}]%x% | %g%Pierce       : %W%[{2,6}]%x% |", MovePoints, this[CharacterAttributes.MaxMovePoints], this[CharacterAttributes.ArmorPierce]);
+            sb.AppendFormatLine("| %g%Hp     : %W%[{0,8}/{1,8}]%x% | %g%Bash         : %W%[{2,6}]%x% |", HitPoints, MaxHitPoints, this[Armors.Bash]);
+            sb.AppendFormatLine("| %g%Move   : %W%[{0,8}/{1,8}]%x% | %g%Pierce       : %W%[{2,6}]%x% |", MovePoints, this[CharacterAttributes.MaxMovePoints], this[Armors.Pierce]);
             List<string> resources = new List<string>();
             foreach (ResourceKinds resourceKind in CurrentResourceKinds)
                 resources.Add($"%g%{resourceKind,-7}: %W%[{this[resourceKind],8}/{MaxResource(resourceKind),8}]%x%");
             if (resources.Count < 3)
                 resources.AddRange(Enumerable.Repeat("                            ", 3 - resources.Count));
-            sb.AppendFormatLine("| {0} | %g%Slash        : %W%[{1,6}]%x% |", resources[0], this[CharacterAttributes.ArmorSlash]);
-            sb.AppendFormatLine("| {0} | %g%Exotic       : %W%[{1,6}]%x% |", resources[1], this[CharacterAttributes.ArmorMagic]);
+            sb.AppendFormatLine("| {0} | %g%Slash        : %W%[{1,6}]%x% |", resources[0], this[Armors.Slash]);
+            sb.AppendFormatLine("| {0} | %g%Exotic       : %W%[{1,6}]%x% |", resources[1], this[Armors.Magic]);
             sb.AppendFormatLine("| {0} | %g%Saves        : %W%[{1,6}]%x% |", resources[2], this[CharacterAttributes.SavingThrow]);
             sb.AppendLine("+------------------------------+-------------------------+");
             if (pc != null)
-                sb.AppendFormatLine("| %g%Hit:  %W%{0,6}%x%    %g%Dam:  %W%{1,6}%x% | %g%Train: %W%{2,3}%x%   %g%Pract: %W%{3,3}%x% |", this[CharacterAttributes.HitRoll], this[CharacterAttributes.DamRoll], pc.Trains, pc.Practices);
+                sb.AppendFormatLine("| %g%Hit:  %W%{0,6}%x%    %g%Dam:  %W%{1,6}%x% | %g%Train: %W%{2,3}%x%   %g%Pract: %W%{3,3}%x% |", HitRoll, DamRoll, pc.Trains, pc.Practices);
             else
-                sb.AppendFormatLine("| %g%Hit:  %W%{0,6}%x%    %g%Dam:  %W%{1,6}%x% |                       |", this[CharacterAttributes.HitRoll], this[CharacterAttributes.DamRoll]);
+                sb.AppendFormatLine("| %g%Hit:  %W%{0,6}%x%    %g%Dam:  %W%{1,6}%x% |                       |", HitRoll, DamRoll);
             sb.AppendLine("+------------------------------+-------------------------+");
             // TODO: resistances, gold, item, weight
 
