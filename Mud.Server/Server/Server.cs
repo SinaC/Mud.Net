@@ -735,14 +735,21 @@ namespace Mud.Server.Server
             var duplicateNames = AbilityManager.Abilities.GroupBy(x => x.Name).Where(x => x.Count() > 1);
             foreach (var duplicate in duplicateNames)
                 Log.Default.WriteLine(LogLevels.Error, "Ability duplicate name {0}: {1}", duplicate.Key, string.Join(",", duplicate.Select(x => x.Id.ToString())));
+
+            Log.Default.WriteLine(LogLevels.Info, "#Abilities: {0}", AbilityManager.Abilities.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#Passives: {0}", AbilityManager.Passives.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#Spells: {0}", AbilityManager.Spells.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#Skills: {0}", AbilityManager.Skills.Count());
         }
 
         private void SanityCheckClasses()
         {
             foreach (IClass c in ClassManager.Classes)
             {
+                if (c.MaxHitPointGainPerLevel < c.MinHitPointGainPerLevel)
+                    Log.Default.WriteLine(LogLevels.Warning, "Class {0} max hp per level < min hp per level");
                 if (c.ResourceKinds == null || !c.ResourceKinds.Any())
-                    Log.Default.WriteLine(LogLevels.Warning, "Class {0} doesn't have any allowed resources");
+                    Log.Default.WriteLine(LogLevels.Warning, "Class {0} doesn't have any allowed resources", c.Name);
                 else
                 {
                     foreach (AbilityUsage abilityUsage in c.Abilities)
@@ -750,12 +757,12 @@ namespace Mud.Server.Server
                             Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityUsage.Ability.Name, abilityUsage.ResourceKind);
                 }
             }
-            Log.Default.WriteLine(LogLevels.Info, "#Classes: {}", ClassManager.Classes.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#Classes: {0}", ClassManager.Classes.Count());
         }
 
         private void SanityCheckRaces()
         {
-            Log.Default.WriteLine(LogLevels.Info, "#Races: {}", RaceManager.Races.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#Races: {0}", RaceManager.Races.Count());
         }
 
         private void SanityCheckQuests()
@@ -772,25 +779,25 @@ namespace Mud.Server.Server
                         Log.Default.WriteLine(LogLevels.Error, "Quest id {0} has objectives with duplicate id {1} count {2}", questBlueprint.Id, duplicateId.objectiveId, duplicateId.count);
                 }
             }
-            Log.Default.WriteLine(LogLevels.Info, "#QuestBlueprints: {}", World.QuestBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#QuestBlueprints: {0}", World.QuestBlueprints.Count);
         }
 
         private void SanityCheckRooms()
         {
-            Log.Default.WriteLine(LogLevels.Info, "#RoomBlueprints: {}", World.RoomBlueprints.Count);
-            Log.Default.WriteLine(LogLevels.Info, "#Rooms: {}", World.Rooms.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#RoomBlueprints: {0}", World.RoomBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#Rooms: {0}", World.Rooms.Count());
         }
 
         private void SanityCheckItems()
         {
-            Log.Default.WriteLine(LogLevels.Info, "#ItemBlueprints: {}", World.ItemBlueprints.Count);
-            Log.Default.WriteLine(LogLevels.Info, "#Items: {}", World.Items.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#ItemBlueprints: {0}", World.ItemBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#Items: {0}", World.Items.Count());
         }
 
         private void SanityCheckCharacters()
         {
-            Log.Default.WriteLine(LogLevels.Info, "#CharacterBlueprints: {}", World.CharacterBlueprints.Count);
-            Log.Default.WriteLine(LogLevels.Info, "#Characters: {}", World.Characters.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#CharacterBlueprints: {0}", World.CharacterBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#Characters: {0}", World.Characters.Count());
         }
 
         private void DumpCommands()
@@ -1067,7 +1074,7 @@ namespace Mud.Server.Server
                         Log.Default.WriteLine(LogLevels.Warning, "Impersonable {0} is not impersonated", character.DebugName);
 
                     //
-                    character.RegenResources();
+                    character.Regen();
                 }
                 catch (Exception ex)
                 { 

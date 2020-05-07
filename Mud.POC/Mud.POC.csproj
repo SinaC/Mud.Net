@@ -87,6 +87,7 @@
     <Compile Include="Abilities\AbilityManager.cs" />
     <Compile Include="Abilities\AbilityUsage.cs" />
     <Compile Include="Abilities\AttributeTables.cs" />
+    <Compile Include="Abilities\Enums.cs" />
     <Compile Include="Abilities\IAbility.cs" />
     <Compile Include="Abilities\IAbilityManager.cs" />
     <Compile Include="Abilities\IAttributeTableManager.cs" />
@@ -105,12 +106,19 @@
     <Compile Include="Abilities\PlayableCharacter.cs" />
     <Compile Include="Abilities\Skills.cs" />
     <Compile Include="Abilities\Spells.cs" />
+    <Compile Include="Affects\AffectDataBase.cs" />
     <Compile Include="Affects\Aura.cs" />
+    <Compile Include="Affects\AuraData.cs" />
     <Compile Include="Affects\CharacterAttributeAffect.cs" />
+    <Compile Include="Affects\CharacterAttributeAffectData.cs" />
     <Compile Include="Affects\CharacterFlagsAffect.cs" />
+    <Compile Include="Affects\CharacterFlagsAffectData.cs" />
     <Compile Include="Affects\CharacterIRVAffect.cs" />
+    <Compile Include="Affects\CharacterIRVAffectData.cs" />
     <Compile Include="Affects\CharacterSexAffect.cs" />
+    <Compile Include="Affects\CharacterSexAffectData.cs" />
     <Compile Include="Affects\EntityBase.cs" />
+    <Compile Include="Affects\Enums.cs" />
     <Compile Include="Affects\FlagAffectBase.cs" />
     <Compile Include="Affects\IAffect.cs" />
     <Compile Include="Affects\IAura.cs" />
@@ -126,8 +134,10 @@
     <Compile Include="Affects\ItemBase.cs" />
     <Compile Include="Affects\ItemDummy.cs" />
     <Compile Include="Affects\ItemFlagsAffect.cs" />
+    <Compile Include="Affects\ItemFlagsAffectData.cs" />
     <Compile Include="Affects\ItemWeapon.cs" />
     <Compile Include="Affects\ItemWeaponFlagsAffect.cs" />
+    <Compile Include="Affects\ItemWeaponFlagsAffectData.cs" />
     <Compile Include="Affects\Misc.cs" />
     <Compile Include="Affects\Room.cs" />
     <Compile Include="Affects\RoomFlagsAffect.cs" />
@@ -144,6 +154,8 @@
     <Compile Include="NewMud\Behaviors\PlayerBehavior.cs" />
     <Compile Include="NewMud\Thing.cs" />
     <Compile Include="TestDelayedAction.cs" />
+    <Compile Include="TestLua\CharacterData.cs" />
+    <Compile Include="TestLua\PlayableCharacter.cs" />
     <Compile Include="TestLua\TestLuaRegisterFunction.cs" />
     <Compile Include="TestLua\CharacterScript.cs" />
     <Compile Include="TestLua\LuaOutput.cs" />
@@ -168,10 +180,6 @@
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
       <Project>{00B458AF-C87B-4558-8BA7-B21D9626621E}</Project>
       <Name>Mud.DataStructures</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
-      <Project>{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}</Project>
-      <Name>Mud.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>

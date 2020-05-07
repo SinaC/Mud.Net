@@ -82,16 +82,12 @@
       <Project>{00B458AF-C87B-4558-8BA7-B21D9626621E}</Project>
       <Name>Mud.DataStructures</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
-      <Project>{0ca7b0b7-273a-4c00-9cb7-d9951ac0bdce}</Project>
-      <Name>Mud.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mud.POC\Mud.POC.csproj">
       <Project>{628aeb23-cbe8-4b89-a1b6-ab6b1c22d0fc}</Project>
       <Name>Mud.POC</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
-      <Project>{D1A7D787-0FE7-4281-9458-D2C8F728E404}</Project>
+      <Project>{d1a7d787-0fe7-4281-9458-d2c8f728e404}</Project>
       <Name>Mud.Server.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">

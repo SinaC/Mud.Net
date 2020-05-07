@@ -270,7 +270,7 @@ namespace Mud.Server.Player
 
         public void StopImpersonating()
         {
-            Impersonating?.ChangeImpersonation(null);
+            Impersonating?.StopImpersonation();
             World.RemoveCharacter(Impersonating); // extract avatar  TODO: linkdead instead of RemoveCharacter ?
             Impersonating = null;
             PlayerState = PlayerStates.Playing;
@@ -341,13 +341,13 @@ namespace Mud.Server.Player
         protected string BuildCharacterPrompt(IPlayableCharacter character) // TODO: custom prompt defined by player
         {
             StringBuilder sb = new StringBuilder("<");
-            sb.Append($"{character.HitPoints}/{character.CurrentAttribute(CharacterAttributes.MaxHitPoints)}Hp");
-            sb.Append($" {character.MovePoints}/{character.CurrentAttribute(CharacterAttributes.MaxMovePoints)}Mv");
+            sb.Append($"{character.HitPoints}/{character[CharacterAttributes.MaxHitPoints]}Hp");
+            sb.Append($" {character.MovePoints}/{character[CharacterAttributes.MaxMovePoints]}Mv");
             foreach (ResourceKinds resourceKinds in character.CurrentResourceKinds)
                 sb.Append($" {character[resourceKinds]}/{character.MaxResource(resourceKinds)}{resourceKinds}");
             sb.Append($" {character.ExperienceToLevel}Nxt");
             if (character.Fighting != null)
-                sb.Append($" {(int)(100d*character.Fighting.HitPoints/character.Fighting.CurrentAttribute(CharacterAttributes.MaxHitPoints))}%");
+                sb.Append($" {((100*character.Fighting.HitPoints)/character.Fighting[CharacterAttributes.MaxHitPoints])}%");
             sb.Append(">");
             return sb.ToString();
         }

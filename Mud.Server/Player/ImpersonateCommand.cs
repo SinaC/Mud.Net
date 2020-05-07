@@ -48,7 +48,6 @@ namespace Mud.Server.Player
             }
             IPlayableCharacter avatar = World.AddPlayableCharacter(Guid.NewGuid(), characterData, this, location);
             Send("%M%You start impersonating %C%{0}%x%.", avatar.DisplayName);
-            avatar.ChangeImpersonation(this);
             Impersonating = avatar;
             PlayerState = PlayerStates.Impersonating;
             avatar.AutoLook();

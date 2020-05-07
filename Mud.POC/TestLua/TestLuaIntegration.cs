@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Mud.Domain;
 using Mud.Server;
 using NLua;
 
@@ -74,7 +73,7 @@ end");
             }
 
             supahmobScript?.OnSay(weakmob, "woot");
-            weakmobScript?.OnGreet(supahmob, ExitDirections.SouthWest);
+            weakmobScript?.OnGreet(supahmob, 5);
 
             var mob1InLua = lua["mob1"];
             Debug.WriteLine("mob1InLua: " + mob1InLua.GetType());

@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Mud.POC.Affects
 {

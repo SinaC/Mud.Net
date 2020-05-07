@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Mud.Container;
-using Mud.Domain;
 using Mud.Server;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
@@ -31,7 +30,7 @@ namespace Mud.POC.TestLua
                 Level = 50,
                 Description = "A big bad mob staring at you.",
                 Id = 1,
-                Sex = Sex.Male,
+                //Sex = Sex.Male,
                 ShortDescription = "Big bad mob",
                 LongDescription = "Blah blah blah blah",
                 LootTable = null,
@@ -43,7 +42,7 @@ namespace Mud.POC.TestLua
                 Level = 50,
                 Description = "A weak mob.",
                 Id = 2,
-                Sex = Sex.Male,
+                //Sex = Sex.Male,
                 ShortDescription = "weak mob",
                 LongDescription = "Tsekwa",
                 LootTable = null,

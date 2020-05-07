@@ -74,6 +74,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArrayExtensions.cs" />
     <Compile Include="ComplexTableGenerator.cs" />
     <Compile Include="EnumHelpers.cs" />
     <Compile Include="IEnumerableExtensions.cs" />

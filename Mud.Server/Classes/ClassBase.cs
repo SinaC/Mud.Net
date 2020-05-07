@@ -29,6 +29,9 @@ namespace Mud.Server.Classes
 
         public abstract int MaxPracticePercentage { get; }
 
+        public abstract int MinHitPointGainPerLevel { get; }
+        public abstract int MaxHitPointGainPerLevel { get; }
+
         public abstract int GetAttributeByLevel(CharacterAttributes attribute, int level);
 
         #endregion

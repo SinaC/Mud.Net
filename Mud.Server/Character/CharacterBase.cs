@@ -158,6 +158,30 @@ namespace Mud.Server.Character
         public bool IsGood => Alignment >= 350;
         public bool IsNeutral => !IsEvil && !IsGood;
 
+        public int this[CharacterAttributes attribute]
+        {
+            get
+            {
+                int index = (int)attribute;
+                if (index >= _currentAttributes.Length)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Trying to get current attribute for attribute {0} (index {1}) but current attribute length is smaller", attribute, index);
+                    return 0;
+                }
+                return _currentAttributes[index];
+            }
+            protected set 
+            {
+                int index = (int)attribute;
+                if (index >= _currentAttributes.Length)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Trying to set current attribute for attribute {0} (index {1}) but current attribute length is smaller", attribute, index);
+                    return;
+                }
+                _currentAttributes[index] = value;
+            }
+        }
+
         public int this[ResourceKinds resource]
         {
             get 
@@ -352,17 +376,6 @@ namespace Mud.Server.Character
             return _baseAttributes[index];
         }
 
-        public int CurrentAttribute(CharacterAttributes attribute)
-        {
-            int index = (int)attribute;
-            if (index >= _currentAttributes.Length)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "Trying to get current attribute for attribute {0} (index {1}) but current attribute length is smaller", attribute, index);
-                return 0;
-            }
-            return _currentAttributes[index];
-        }
-
         public int MaxResource(ResourceKinds resource)
         {
             int index = (int)resource;
@@ -395,103 +408,42 @@ namespace Mud.Server.Character
             // TODO: impact on items ?
         }
 
-        public virtual void RegenResources()
+        public virtual void Regen()
         {
             // Hp/Move
-            int hpGain;
-            int moveGain;
-            int manaGain;
-            if (this is INonPlayableCharacter)
-            {
-                hpGain = 5 + Level;
-                moveGain = Level;
-                manaGain = 5 + Level;
-                if (CurrentCharacterFlags.HasFlag(CharacterFlags.Regeneration))
-                    hpGain *= 2;
-                switch (Position)
-                {
-                    case Positions.Sleeping:
-                        hpGain = (3 * hpGain) / 2;
-                        manaGain = (3 * manaGain) / 2;
-                        break;
-                    case Positions.Resting:
-                        // nop
-                        break;
-                    case Positions.Fighting:
-                        hpGain /= 3;
-                        manaGain /= 3;
-                        break;
-                    default:
-                        hpGain /= 2;
-                        manaGain /= 2;
-                        break;
-                }
-            }
-            else if (this is IPlayableCharacter)
-            {
-                hpGain = Math.Max(3, CurrentAttribute(CharacterAttributes.Constitution) - 3 + Level / 2);
-                moveGain = Math.Max(15, Level);
-                manaGain = (CurrentAttribute(CharacterAttributes.Wisdom) + CurrentAttribute(CharacterAttributes.Intelligence) + Level) / 2;
-                if (CurrentCharacterFlags.HasFlag(CharacterFlags.Regeneration))
-                    hpGain *= 2;
-                // TODO: hp/mana: class bonus
-                // TODO: hp: fast healing skill
-                // TODO: mana: meditation
-                switch (Position)
-                {
-                    case Positions.Sleeping:
-                        moveGain += CurrentAttribute(CharacterAttributes.Dexterity);
-                        break;
-                    case Positions.Resting:
-                        hpGain /= 2;
-                        moveGain += CurrentAttribute(CharacterAttributes.Dexterity) / 2;
-                        manaGain /= 2;
-                        break;
-                    case Positions.Fighting:
-                        hpGain /= 6;
-                        manaGain /= 6;
-                        break;
-                    default:
-                        hpGain /= 4;
-                        manaGain /= 4;
-                        break;
-                }
-                // TODO: hunger    /= 2
-                // TODO: thirsty   /= 2
-            }
-            else
-            {
-                hpGain = 10; // should never be used
-                moveGain = 10;
-                manaGain = 10;
-            }
+            (int hitGain, int moveGain, int manaGain) gains = RegenBaseValues();
+            int hitGain = gains.hitGain;
+            int moveGain = gains.moveGain;
+            int manaGain = gains.manaGain;
+
+            // TODO: other resources
             // TODO: room heal rate
             if (Furniture != null && Furniture?.HealBonus != 0)
             {
-                hpGain = (hpGain * Furniture.HealBonus) / 100;
+                hitGain = (hitGain * Furniture.HealBonus) / 100;
                 moveGain = (moveGain * Furniture.HealBonus) / 100;
             }
             if (Furniture != null && Furniture?.ResourceBonus != 0)
                 manaGain = (manaGain * Furniture.ResourceBonus) / 100;
             if (CurrentCharacterFlags.HasFlag(CharacterFlags.Poison))
             {
-                hpGain /= 4;
+                hitGain /= 4;
                 moveGain /= 4;
                 manaGain /= 4;
             }
             if (CurrentCharacterFlags.HasFlag(CharacterFlags.Plague))
             {
-                hpGain /= 8;
+                hitGain /= 8;
                 moveGain /= 8;
                 manaGain /= 8;
             }
             if (CurrentCharacterFlags.HasFlag(CharacterFlags.Haste) || CurrentCharacterFlags.HasFlag(CharacterFlags.Slow))
             {
-                hpGain /= 2;
-                hpGain /= 2;
+                hitGain /= 2;
+                moveGain /= 2;
                 manaGain /= 2;
             }
-            HitPoints = Math.Min(HitPoints + hpGain, MaxHitPoints);
+            HitPoints = Math.Min(HitPoints + hitGain, MaxHitPoints);
             MovePoints = Math.Min(MovePoints + moveGain, MaxMovePoints);
             UpdateResource(ResourceKinds.Mana, manaGain);
 
@@ -536,7 +488,7 @@ namespace Mud.Server.Character
         public override void Recompute()
         {
             // Reset current attributes
-            ResetAttributes();
+            ResetCurrentAttributes();
 
             // 1) Apply room auras
             if (Room != null)
@@ -1000,7 +952,7 @@ namespace Mud.Server.Character
         public bool SavesSpell(int level, SchoolTypes damageType)
         {
             ICharacter victim = this;
-            int save = 50 + (victim.Level - level) * 5 - victim.CurrentAttribute(CharacterAttributes.SavingThrow) * 2;
+            int save = 50 + (victim.Level - level) * 5 - victim[CharacterAttributes.SavingThrow] * 2;
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Berserk))
                 save += victim.Level / 2;
             ResistanceLevels resist = victim.CheckResistance(damageType);
@@ -1460,6 +1412,8 @@ namespace Mud.Server.Character
         protected abstract int ModifyCriticalDamage(int damage);
 
         protected abstract bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom);
+
+        protected abstract (int hitGain, int moveGain, int manaGain) RegenBaseValues();
 
         protected virtual bool AutomaticallyDisplayRoom => IncarnatedBy != null;
 
@@ -2022,27 +1976,6 @@ namespace Mud.Server.Character
             }
         }
 
-        protected void RecomputeBaseAttributes(IDictionary<CharacterAttributes, int> attributes)
-        {
-            // TODO: use race/class if not values
-            //for (int i = 0; i < _baseAttributes.Length; i++)
-                //_baseAttributes[i] = (Class?.GetPrimaryAttributeByLevel((PrimaryAttributeTypes) i, Level) ?? 10*Level) + (Race?.GetPrimaryAttributeModifier((PrimaryAttributeTypes) i) ?? 0);
-                //_baseAttributes[i] = 15 + i; // TODO
-            foreach(var attribute in EnumHelpers.GetValues<CharacterAttributes>())
-            {
-                int attributeValue;
-                if (attributes != null)
-                {
-                    if (!attributes.TryGetValue(attribute, out attributeValue))
-                        attributeValue = 15 + Level; // TODO: better defaulting :)
-                }
-                else
-                    attributeValue = 15 + Level; // TODO: better defaulting :)
-                _baseAttributes[(int)attribute] = attributeValue;
-            }
-        }
-
-        // TODO: Should recompute attributes/commands afterwards
         protected void RecomputeKnownAbilities()
         {
             // Add abilities from Class/Race/...
@@ -2146,10 +2079,8 @@ namespace Mud.Server.Character
             return true;
         }
 
-        protected void ResetAttributes()
+        protected void ResetCurrentAttributes()
         {
-            // TODO: NPC/PC should take base values from race
-
             CurrentCharacterFlags = BaseCharacterFlags;
             CurrentImmunities = BaseImmunities;
             CurrentResistances = BaseResistances;
@@ -2176,6 +2107,26 @@ namespace Mud.Server.Character
                     return;
                 }
                 _currentResources[index] = Math.Min(_currentResources[index], _maxResources[index]);
+            }
+        }
+
+        protected void SetBaseAttributes(CharacterAttributes attribute, int value, bool checkCurrent)
+        {
+            int index = (int)attribute;
+            if (index >= _baseAttributes.Length)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Trying to set base attribute for attribute {0} (index {1}) but max attribute length is smaller", attribute, index);
+                return;
+            }
+            _baseAttributes[index] = value;
+            if (checkCurrent)
+            {
+                if (index >= _currentAttributes.Length)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Trying to base current attribute for attribute {0} (index {1}) but current attribute length is smaller", attribute, index);
+                    return;
+                }
+                _currentAttributes[index] = Math.Min(_currentAttributes[index], _baseAttributes[index]);
             }
         }
 

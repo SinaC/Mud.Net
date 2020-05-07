@@ -1,6 +1,4 @@
-﻿using Mud.Domain;
-
-namespace Mud.POC.Affects
+﻿namespace Mud.POC.Affects
 {
     public class ItemWeaponFlagsAffect : FlagAffectBase<WeaponFlags>, IItemAffect<IItemWeapon>
     {

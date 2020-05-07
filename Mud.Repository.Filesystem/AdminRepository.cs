@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Mud.Logger;
 using Mud.Repository.Filesystem.Common;
 
 namespace Mud.Repository.Filesystem
@@ -15,6 +16,7 @@ namespace Mud.Repository.Filesystem
 
         public Domain.AdminData Load(string adminName)
         {
+            CreateDirectoryIfNeeded();
             string filename = BuildFilename(adminName);
             if (!File.Exists(filename))
                 return null;
@@ -27,14 +29,16 @@ namespace Mud.Repository.Filesystem
 
         public void Save(Domain.AdminData adminData)
         {
+            CreateDirectoryIfNeeded();
             var mapped = Mapper.Map<Domain.AdminData, DataContracts.AdminData>(adminData);
 
             string filename = BuildFilename(adminData.Name);
             Save(mapped, filename);
         }
 
-        public IEnumerable<string> GetAvatarNames() 
+        public IEnumerable<string> GetAvatarNames()
         {
+            CreateDirectoryIfNeeded();
             List<string> avatarNames = new List<string>();
             foreach (string filename in Directory.EnumerateFiles(AdminRepositoryPath))
             {
@@ -46,5 +50,14 @@ namespace Mud.Repository.Filesystem
         }
 
         #endregion
+
+        private void CreateDirectoryIfNeeded()
+        {
+            string directory = Path.GetDirectoryName(AdminRepositoryPath);
+            if (directory != null)
+                Directory.CreateDirectory(directory);
+            else
+                Log.Default.WriteLine(LogLevels.Error, "Invalid directory in admin path: {0}", AdminRepositoryPath);
+        }
     }
 }

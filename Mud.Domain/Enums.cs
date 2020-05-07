@@ -220,15 +220,6 @@ namespace Mud.Domain
         Sound           = 19,
     }
 
-    public enum DispelTypes
-    {
-        None        = 0,
-        Magic       = 1,
-        Poison      = 2,
-        Disease     = 3,
-        Curse       = 4,
-    }
-
     [Flags]
     public enum IRVFlags
     {

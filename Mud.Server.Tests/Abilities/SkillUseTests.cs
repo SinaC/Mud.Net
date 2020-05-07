@@ -70,7 +70,7 @@ namespace Mud.Server.Tests.Abilities
             characterMock.SetupGet(x => x.HitPoints).Returns(1000);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = ability, Learned = 1, Level = 20 } });
             characterMock.Setup(x => x.LearnedAbility(It.IsAny<IAbility>())).Returns<IAbility>(x => 1);
-            characterMock.Setup(x => x.CurrentAttribute(It.IsAny<CharacterAttributes>())).Returns<CharacterAttributes>(x => 20);
+            characterMock.SetupGet(x => x[It.IsAny<CharacterAttributes>()]).Returns(20);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParametersSkipFirst("Berserk");
             UseResults result = abilityManager.Use(ability, characterMock.Object, args.rawParameters, args.parameters);
@@ -92,7 +92,7 @@ namespace Mud.Server.Tests.Abilities
             characterMock.SetupGet(x => x.HitPoints).Returns(1000);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = ability, Learned = 1, Level = 20 } });
             characterMock.Setup(x => x.LearnedAbility(It.IsAny<IAbility>())).Returns<IAbility>(x => 1);
-            characterMock.Setup(x => x.CurrentAttribute(It.IsAny<CharacterAttributes>())).Returns<CharacterAttributes>(x => 20);
+            characterMock.SetupGet(x => x[It.IsAny<CharacterAttributes>()]).Returns(20);
             var roomMock = new Mock<IRoom>();
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -117,7 +117,7 @@ namespace Mud.Server.Tests.Abilities
             characterMock.SetupGet(x => x.HitPoints).Returns(1000);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = ability, Learned = 1, Level = 20 } });
             characterMock.Setup(x => x.LearnedAbility(It.IsAny<IAbility>())).Returns<IAbility>(x => 1);
-            characterMock.Setup(x => x.CurrentAttribute(It.IsAny<CharacterAttributes>())).Returns<CharacterAttributes>(x => 20);
+            characterMock.SetupGet(x => x[It.IsAny<CharacterAttributes>()]).Returns(20);
             var roomMock = new Mock<IRoom>();
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -142,7 +142,7 @@ namespace Mud.Server.Tests.Abilities
             characterMock.SetupGet(x => x.HitPoints).Returns(1000);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = ability, Learned = 1, Level = 20 } });
             characterMock.Setup(x => x.LearnedAbility(It.IsAny<IAbility>())).Returns<IAbility>(x => 1);
-            characterMock.Setup(x => x.CurrentAttribute(It.IsAny<CharacterAttributes>())).Returns<CharacterAttributes>(x => 20);
+            characterMock.SetupGet(x => x[It.IsAny<CharacterAttributes>()]).Returns(20);
             var mob2Mock = new Mock<ICharacter>();
             mob2Mock.SetupGet(x => x.Name).Returns("mob2");
             mob2Mock.SetupGet(x => x.Keywords).Returns(new[] { "mob2" });
@@ -169,7 +169,7 @@ namespace Mud.Server.Tests.Abilities
             characterMock.SetupGet(x => x.HitPoints).Returns(1000);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = ability, Learned = 0, Level = 20 } }); // Learned:0 -> not known
             characterMock.Setup(x => x.LearnedAbility(It.IsAny<IAbility>())).Returns<IAbility>(x => 0); // Learned:0 -> not known
-            characterMock.Setup(x => x.CurrentAttribute(It.IsAny<CharacterAttributes>())).Returns<CharacterAttributes>(x => 20);
+            characterMock.SetupGet(x => x[It.IsAny<CharacterAttributes>()]).Returns(20);
             var roomMock = new Mock<IRoom>();
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);

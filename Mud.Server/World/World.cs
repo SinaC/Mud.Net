@@ -181,6 +181,7 @@ namespace Mud.Server.World
                 throw new ArgumentNullException(nameof(blueprint));
             INonPlayableCharacter character = new Character.NonPlayableCharacter.NonPlayableCharacter(guid, blueprint, room);
             _characters.Add(character);
+            character.Recompute();
             return character;
         }
 
@@ -190,6 +191,7 @@ namespace Mud.Server.World
                 throw new ArgumentNullException(nameof(blueprint));
             IItemCorpse item = new ItemCorpse(guid, blueprint, room, victim);
             _items.Add(item);
+            item.Recompute();
             return item;
         }
 
@@ -199,6 +201,7 @@ namespace Mud.Server.World
                 throw new ArgumentNullException(nameof(blueprint));
             IItemCorpse item = new ItemCorpse(guid, blueprint, room, victim, killer);
             _items.Add(item);
+            item.Recompute();
             return item;
         }
 

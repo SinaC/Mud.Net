@@ -17,12 +17,12 @@ namespace Mud.POC.Tests
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
 
             Assert.AreEqual(typeof(Spells).GetMethods(BindingFlags.Static | BindingFlags.Public).Count(m => !m.IsSpecialName) + typeof(Skills).GetMethods(BindingFlags.Static | BindingFlags.Public).Count(m => !m.IsSpecialName) + Passives.Abilities.Count, abilityManager.Abilities.Count());
-            Assert.AreEqual(typeof(Spells).GetMethods(BindingFlags.Static | BindingFlags.Public).Count(m => !m.IsSpecialName), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Spell));
-            Assert.AreEqual(typeof(Skills).GetMethods(BindingFlags.Static | BindingFlags.Public).Count(m => !m.IsSpecialName), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Skill));
-            Assert.AreEqual(Passives.Abilities.Count, abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Passive));
-            Assert.AreEqual(abilityManager.Passives.Count(), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Passive));
-            Assert.AreEqual(abilityManager.Spells.Count(), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Spell));
-            Assert.AreEqual(abilityManager.Skills.Count(), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Skill));
+            Assert.AreEqual(typeof(Spells).GetMethods(BindingFlags.Static | BindingFlags.Public).Count(m => !m.IsSpecialName), abilityManager.Abilities.Count(x => x.Kind == AbilityKinds.Spell));
+            Assert.AreEqual(typeof(Skills).GetMethods(BindingFlags.Static | BindingFlags.Public).Count(m => !m.IsSpecialName), abilityManager.Abilities.Count(x => x.Kind == AbilityKinds.Skill));
+            Assert.AreEqual(Passives.Abilities.Count, abilityManager.Abilities.Count(x => x.Kind == AbilityKinds.Passive));
+            Assert.AreEqual(abilityManager.Passives.Count(), abilityManager.Abilities.Count(x => x.Kind == AbilityKinds.Passive));
+            Assert.AreEqual(abilityManager.Spells.Count(), abilityManager.Abilities.Count(x => x.Kind == AbilityKinds.Spell));
+            Assert.AreEqual(abilityManager.Skills.Count(), abilityManager.Abilities.Count(x => x.Kind == AbilityKinds.Skill));
         }
 
         [TestMethod]

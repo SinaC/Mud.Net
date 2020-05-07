@@ -317,8 +317,8 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Level: {0} Sex: {1} (base: {2})", victim.Level, victim.CurrentSex, victim.BaseSex);
             if (playableVictim != null)
                 sb.AppendFormatLine("Experience: {0} NextLevel: {1}", playableVictim.Experience, playableVictim.ExperienceToLevel);
-            sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim.CurrentAttribute(CharacterAttributes.MaxHitPoints));
-            sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim.CurrentAttribute(CharacterAttributes.MaxMovePoints));
+            sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim[CharacterAttributes.MaxHitPoints]);
+            sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim[CharacterAttributes.MaxMovePoints]);
             sb.AppendFormatLine("Flags: {0}|{1}", victim.CurrentCharacterFlags, victim.BaseCharacterFlags);
             sb.AppendFormatLine("Immunites: {0} (base: {1})", victim.CurrentImmunities, victim.BaseImmunities);
             sb.AppendFormatLine("Resistances: {0} (base: {1})", victim.CurrentResistances, victim.BaseResistances);
@@ -326,7 +326,7 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Alignment: {0}", victim.Alignment);
             sb.AppendLine("Attributes:");
             foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
-                sb.AppendFormatLine("{0}: {1} (base: {2})", attribute, victim.CurrentAttribute(attribute), victim.BaseAttribute(attribute));
+                sb.AppendFormatLine("{0}: {1} (base: {2})", attribute, victim[attribute], victim.BaseAttribute(attribute));
             foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>())
                 sb.AppendFormatLine("{0}: {1}", resourceKind, victim[resourceKind]);
             if (nonPlayableVictim != null)

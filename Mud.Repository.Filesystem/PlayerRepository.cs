@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Mud.Logger;
 using Mud.Repository.Filesystem.Common;
 
 namespace Mud.Repository.Filesystem
@@ -15,6 +16,7 @@ namespace Mud.Repository.Filesystem
 
         public Domain.PlayerData Load(string playerName)
         {
+            CreateDirectoryIfNeeded();
             string filename = BuildFilename(playerName);
             if (!File.Exists(filename))
                 return null;
@@ -27,6 +29,7 @@ namespace Mud.Repository.Filesystem
 
         public void Save(Domain.PlayerData playerData)
         {
+            CreateDirectoryIfNeeded();
             var mapped = Mapper.Map<Domain.PlayerData, DataContracts.PlayerData>(playerData);
 
             string filename = BuildFilename(playerData.Name);
@@ -35,6 +38,7 @@ namespace Mud.Repository.Filesystem
 
         public void Delete(string playerName)
         {
+            CreateDirectoryIfNeeded();
             string filename = BuildFilename(playerName);
 
             if (File.Exists(filename))
@@ -43,6 +47,7 @@ namespace Mud.Repository.Filesystem
 
         public IEnumerable<string> GetAvatarNames()
         {
+            CreateDirectoryIfNeeded();
             List<string> avatarNames = new List<string>();
             foreach (string filename in Directory.EnumerateFiles(PlayerRepositoryPath))
             {
@@ -54,5 +59,14 @@ namespace Mud.Repository.Filesystem
         }
 
         #endregion
+
+        private void CreateDirectoryIfNeeded()
+        {
+            string directory = Path.GetDirectoryName(PlayerRepositoryPath);
+            if (directory != null)
+                Directory.CreateDirectory(directory);
+            else
+                Log.Default.WriteLine(LogLevels.Error, "Invalid directory in player path: {0}", PlayerRepositoryPath);
+        }
     }
 }

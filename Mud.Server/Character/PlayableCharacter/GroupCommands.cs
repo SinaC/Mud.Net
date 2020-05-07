@@ -182,11 +182,11 @@ namespace Mud.Server.Character.PlayableCharacter
         //******************************************** Helpers ********************************************
         private void AppendCharacterGroupMemberInfo(StringBuilder sb, IPlayableCharacter member, bool isLeader)
         {
+            sb.AppendFormat("[{0,3}]{1} {2,-30} {3,5}/{4,5}hp {5,5}/{6,5}Mv", member.Level, isLeader ? "L" : " ", member.DisplayName, member.HitPoints, member[CharacterAttributes.MaxHitPoints], member.MovePoints, member[CharacterAttributes.MaxMovePoints]);
             // TODO: add class, mana, xp, ...
             if (member.Level >= Settings.MaxLevel)
-                sb.AppendFormatLine("[{0,3}]{1} {2,-30} {3,5}/{4,5}hp {5,5}/{6,5}Mv", member.Level, isLeader ? "L" : " ", member.DisplayName, member.HitPoints, member.CurrentAttribute(CharacterAttributes.MaxHitPoints), member.MovePoints, member.CurrentAttribute(CharacterAttributes.MaxMovePoints));
-            else
-                sb.AppendFormatLine("[{0,3}]{1} {2,-30} {3,5}/{4,5}hp {5,5}/{6,5}Mv {7}Nxt", member.Level, isLeader ? "L" : " ", member.DisplayName, member.HitPoints, member.CurrentAttribute(CharacterAttributes.MaxHitPoints), member.MovePoints, member.CurrentAttribute(CharacterAttributes.MaxMovePoints), member.ExperienceToLevel);
+                sb.AppendFormat(" {0}Nxt", member.ExperienceToLevel);
+            sb.AppendLine();
         }
     }
 }

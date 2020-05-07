@@ -61,7 +61,8 @@ namespace Mud.Server.WPFTestApplication
             DependencyContainer.Current.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager());
+            DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector cant choose which one to chose
+            DependencyContainer.Current.Register<IAttributeTables, Character.AttributeTables>(SimpleInjector.Lifestyle.Singleton);
 
             if (settings.UseMongo)
             {

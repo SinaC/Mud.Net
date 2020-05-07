@@ -19,11 +19,11 @@ namespace Mud.Server.Tests.Affects
             };
 
             int originalBaseStr = npc.BaseAttribute(Domain.CharacterAttributes.Strength);
-            int originalCurrentStr = npc.CurrentAttribute(Domain.CharacterAttributes.Strength);
+            int originalCurrentStr = npc[Domain.CharacterAttributes.Strength];
             npc.ApplyAffect(strAffect);
 
             Assert.AreEqual(originalBaseStr, npc.BaseAttribute(Domain.CharacterAttributes.Strength));
-            Assert.AreEqual(originalCurrentStr + 6, npc.CurrentAttribute(Domain.CharacterAttributes.Strength));
+            Assert.AreEqual(originalCurrentStr + 6, npc[Domain.CharacterAttributes.Strength]);
         }
 
         [TestMethod]
@@ -41,7 +41,7 @@ namespace Mud.Server.Tests.Affects
             npc.ApplyAffect(intAffect);
 
             Assert.AreEqual(originalBaseInt, npc.BaseAttribute(Domain.CharacterAttributes.Intelligence));
-            Assert.AreEqual(6, npc.CurrentAttribute(Domain.CharacterAttributes.Intelligence));
+            Assert.AreEqual(6, npc[Domain.CharacterAttributes.Intelligence]);
         }
 
         [TestMethod]
@@ -56,27 +56,27 @@ namespace Mud.Server.Tests.Affects
             };
 
             int originalBaseStr = npc.BaseAttribute(Domain.CharacterAttributes.Strength);
-            int originalCurrentStr = npc.CurrentAttribute(Domain.CharacterAttributes.Strength);
+            int originalCurrentStr = npc[Domain.CharacterAttributes.Strength];
             int originalBaseInt = npc.BaseAttribute(Domain.CharacterAttributes.Intelligence);
-            int originalCurrentInt = npc.CurrentAttribute(Domain.CharacterAttributes.Intelligence);
+            int originalCurrentInt = npc[Domain.CharacterAttributes.Intelligence];
             int originalBaseWis = npc.BaseAttribute(Domain.CharacterAttributes.Wisdom);
-            int originalCurrentWis = npc.CurrentAttribute(Domain.CharacterAttributes.Wisdom);
+            int originalCurrentWis = npc[Domain.CharacterAttributes.Wisdom];
             int originalBaseDex = npc.BaseAttribute(Domain.CharacterAttributes.Dexterity);
-            int originalCurrentDex = npc.CurrentAttribute(Domain.CharacterAttributes.Dexterity);
+            int originalCurrentDex = npc[Domain.CharacterAttributes.Dexterity];
             int originalBaseCon = npc.BaseAttribute(Domain.CharacterAttributes.Constitution);
-            int originalCurrentCon = npc.CurrentAttribute(Domain.CharacterAttributes.Constitution);
+            int originalCurrentCon = npc[Domain.CharacterAttributes.Constitution];
             npc.ApplyAffect(caracAffect);
 
             Assert.AreEqual(originalBaseStr, npc.BaseAttribute(Domain.CharacterAttributes.Strength));
-            Assert.AreEqual(originalCurrentStr + 3, npc.CurrentAttribute(Domain.CharacterAttributes.Strength));
+            Assert.AreEqual(originalCurrentStr + 3, npc[Domain.CharacterAttributes.Strength]);
             Assert.AreEqual(originalBaseInt, npc.BaseAttribute(Domain.CharacterAttributes.Intelligence));
-            Assert.AreEqual(originalCurrentInt + 3, npc.CurrentAttribute(Domain.CharacterAttributes.Intelligence));
+            Assert.AreEqual(originalCurrentInt + 3, npc[Domain.CharacterAttributes.Intelligence]);
             Assert.AreEqual(originalBaseWis, npc.BaseAttribute(Domain.CharacterAttributes.Wisdom));
-            Assert.AreEqual(originalCurrentWis + 3, npc.CurrentAttribute(Domain.CharacterAttributes.Wisdom));
+            Assert.AreEqual(originalCurrentWis + 3, npc[Domain.CharacterAttributes.Wisdom]);
             Assert.AreEqual(originalBaseDex, npc.BaseAttribute(Domain.CharacterAttributes.Dexterity));
-            Assert.AreEqual(originalCurrentDex + 3, npc.CurrentAttribute(Domain.CharacterAttributes.Dexterity));
+            Assert.AreEqual(originalCurrentDex + 3, npc[Domain.CharacterAttributes.Dexterity]);
             Assert.AreEqual(originalBaseCon, npc.BaseAttribute(Domain.CharacterAttributes.Constitution));
-            Assert.AreEqual(originalCurrentCon + 3, npc.CurrentAttribute(Domain.CharacterAttributes.Constitution));
+            Assert.AreEqual(originalCurrentCon + 3, npc[Domain.CharacterAttributes.Constitution]);
         }
 
         [TestMethod]
@@ -97,13 +97,13 @@ namespace Mud.Server.Tests.Affects
             npc.ApplyAffect(caracAffect);
 
             Assert.AreEqual(originalBaseBash, npc.BaseAttribute(Domain.CharacterAttributes.ArmorBash));
-            Assert.AreEqual(3, npc.CurrentAttribute(Domain.CharacterAttributes.ArmorBash));
+            Assert.AreEqual(3, npc[Domain.CharacterAttributes.ArmorBash]);
             Assert.AreEqual(originalBasePierce, npc.BaseAttribute(Domain.CharacterAttributes.ArmorPierce));
-            Assert.AreEqual(3, npc.CurrentAttribute(Domain.CharacterAttributes.ArmorPierce));
+            Assert.AreEqual(3, npc[Domain.CharacterAttributes.ArmorPierce]);
             Assert.AreEqual(originalBaseSlash, npc.BaseAttribute(Domain.CharacterAttributes.ArmorSlash));
-            Assert.AreEqual(3, npc.CurrentAttribute(Domain.CharacterAttributes.ArmorSlash));
+            Assert.AreEqual(3, npc[Domain.CharacterAttributes.ArmorSlash]);
             Assert.AreEqual(originalBaseMagic, npc.BaseAttribute(Domain.CharacterAttributes.ArmorMagic));
-            Assert.AreEqual(3, npc.CurrentAttribute(Domain.CharacterAttributes.ArmorMagic));
+            Assert.AreEqual(3, npc[Domain.CharacterAttributes.ArmorMagic]);
         }
     }
 }

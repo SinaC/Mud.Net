@@ -22,6 +22,7 @@ namespace Mud.Server.Character.PlayableCharacter
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<PlayableCharacter>);
 
         protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
+        protected IAttributeTables AttributeTables => DependencyContainer.Current.GetInstance<IAttributeTables>();
 
         private readonly List<IPlayableCharacter> _groupMembers;
         private readonly List<IQuest> _quests;
@@ -73,6 +74,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 foreach (var maxResourceData in data.MaxResources)
                     SetMaxResource(maxResourceData.Key, maxResourceData.Value, false);
             }
+            // TODO: set not-found resources to base value (from class/race)
             Trains = data.Trains;
             Practices = data.Practices;
 
@@ -81,7 +83,19 @@ namespace Mud.Server.Character.PlayableCharacter
             BaseResistances = data.Resistances;
             BaseVulnerabilities = data.Vulnerabilities;
             BaseSex = data.Sex;
-            RecomputeBaseAttributes(data.Attributes); // TODO: this can be modified when levelling or when training an attribute
+            if (data.Attributes != null)
+            {
+                foreach (var attributeData in data.Attributes)
+                    SetBaseAttributes(attributeData.Key, attributeData.Value, false);
+            }
+            else
+            {
+                Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.ctor: attributes not found in pfile for {0}", data.Name);
+                // set to 1 if not found
+                foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
+                    this[attribute] = 1;
+            }
+            // TODO: set not-found attributes to base value (from class/race)
 
             // Must be built before equiping
             BuildEquipmentSlots();
@@ -167,9 +181,8 @@ namespace Mud.Server.Character.PlayableCharacter
             Room = room;
             room.Enter(this);
 
-            //RecomputeBaseAttributes();
             RecomputeKnownAbilities();
-            ResetAttributes();
+            ResetCurrentAttributes();
             RecomputeCurrentResourceKinds();
         }
 
@@ -456,7 +469,7 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             if (follower.Leader != this)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter:StopFollower: {0} is not following {1} but {2}", follower.DebugName, DebugName, follower.Leader == null ? "<<none>>" : follower.Leader.DebugName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter:StopFollower: {0} is not following {1} but {2}", follower.DebugName, DebugName, follower.Leader?.DebugName ?? "<<none>>");
                 return false;
             }
             follower.ChangeLeader(null);
@@ -467,25 +480,17 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Impersonation
-        public bool ChangeImpersonation(IPlayer player) // if non-null, start impersonation, else, stop impersonation
+        public bool StopImpersonation()
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeImpersonation: {0} is not valid anymore", DebugName);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.StopImpersonation: {0} is not valid anymore", DebugName);
                 ImpersonatedBy = null;
                 return false;
             }
-            if (player != null)
-            {
-                if (ImpersonatedBy != null)
-                {
-                    Log.Default.WriteLine(LogLevels.Warning, "ICharacter.ChangeImpersonation: {0} is already impersonated by {1}", DebugName, ImpersonatedBy.DisplayName);
-                    return false;
-                }
-            }
 
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeImpersonation: {0} old: {1}; new {2}", DebugName, ImpersonatedBy == null ? "<<none>>" : ImpersonatedBy.DisplayName, player == null ? "<<none>>" : player.DisplayName);
-            ImpersonatedBy = player;
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.StopImpersonation: {0} old: {1};", DebugName, ImpersonatedBy?.DisplayName ?? "<<none>>");
+            ImpersonatedBy = null;
             RecomputeKnownAbilities();
             Recompute();
             return true;
@@ -511,6 +516,7 @@ namespace Mud.Server.Character.PlayableCharacter
                         Wiznet.Wiznet($"{DebugName} has attained level {Level}", WiznetFlags.Levels);
                         Send("You raise a level!!");
                         Act(ActOptions.ToGroup, "{0} has attained level {1}", this, Level);
+                        AdvanceLevel();
                         // In case multiple level are gain, check max level
                         if (Level >= Settings.MaxLevel)
                             break;
@@ -518,7 +524,6 @@ namespace Mud.Server.Character.PlayableCharacter
                 }
                 if (recompute)
                 {
-                    //RecomputeBaseAttributes();
                     RecomputeKnownAbilities();
                     Recompute();
                     // Bonus -> reset cooldown and set resource to max
@@ -556,7 +561,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 difficultyMultiplier = 1;
             }
             // TODO: percentage depends on intelligence replace CurrentAttributes(CharacterAttributes.Intelligence) with values from 3 to 85
-            int chance = 10 * CurrentAttribute(CharacterAttributes.Intelligence) / (multiplier * difficultyMultiplier * 4) + Level;
+            int chance = 10 * AttributeTables.LearnBonus(this) / (multiplier * difficultyMultiplier * 4) + Level;
             if (RandomManager.Range(1, 1000) > chance)
                 return false;
             // now that the character has a CHANCE to learn, see if they really have
@@ -700,6 +705,40 @@ namespace Mud.Server.Character.PlayableCharacter
 
         protected override bool AutomaticallyDisplayRoom => true;
 
+        protected override (int hitGain, int moveGain, int manaGain) RegenBaseValues()
+        {
+            int hitGain = Math.Max(3, this[CharacterAttributes.Constitution] - 3 + Level / 2);
+            int moveGain = Math.Max(15, Level);
+            int manaGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2;
+            if (CurrentCharacterFlags.HasFlag(CharacterFlags.Regeneration))
+                hitGain *= 2;
+            // TODO: hp/mana: class bonus
+            // TODO: hp: fast healing skill
+            // TODO: mana: meditation
+            switch (Position)
+            {
+                case Positions.Sleeping:
+                    moveGain += this[CharacterAttributes.Dexterity];
+                    break;
+                case Positions.Resting:
+                    hitGain /= 2;
+                    moveGain += this[CharacterAttributes.Dexterity] / 2;
+                    manaGain /= 2;
+                    break;
+                case Positions.Fighting:
+                    hitGain /= 6;
+                    manaGain /= 6;
+                    break;
+                default:
+                    hitGain /= 4;
+                    manaGain /= 4;
+                    break;
+            }
+            // TODO: hunger    /= 2
+            // TODO: thirsty   /= 2
+            return (hitGain, moveGain, manaGain);
+        }
+
         protected override bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
         {
             // Compute move and check if enough move left
@@ -766,6 +805,37 @@ namespace Mud.Server.Character.PlayableCharacter
         private void DeathPayoff() // Lose xp/reputation..
         {
             // TODO
+        }
+
+        private void AdvanceLevel()
+        {
+            var bonus = AttributeTables.Bonus(this);
+
+            //
+            int addHitpoints = bonus.hitpoint + RandomManager.Range(Class?.MinHitPointGainPerLevel ?? 0, Class?.MaxHitPointGainPerLevel ?? 1);
+            int addMana = RandomManager.Range(2, 2 * this[CharacterAttributes.Intelligence] + this[CharacterAttributes.Wisdom]);
+            if (Class?.ResourceKinds.Contains(ResourceKinds.Mana) == false)
+                addMana /= 2;
+            // TODO: other resources
+            int addMove = RandomManager.Range(1, this[CharacterAttributes.Constitution] + this[CharacterAttributes.Dexterity] / 6);
+
+            addHitpoints = (addHitpoints * 9) / 10;
+            addMana = (addMana * 9) / 10;
+            addMove = (addMove * 9) / 10;
+
+            addHitpoints = Math.Max(2, addHitpoints);
+            addMana = Math.Max(2, addMana);
+            addMove = Math.Max(6, addMove);
+
+            int addPractice = bonus.practice;
+
+            SetBaseAttributes(CharacterAttributes.MaxHitPoints, MaxHitPoints + addHitpoints, false);
+            SetMaxResource(ResourceKinds.Mana, this[ResourceKinds.Mana] + addMana, false);
+            SetBaseAttributes(CharacterAttributes.MaxMovePoints, MaxMovePoints + addHitpoints, false);
+            Practices += addPractice;
+            Trains++;
+
+            Send("You gain {0} hit point%s, {1} mana, {2} move, and {3} practice{4}.", addHitpoints, addMana, addMove, addPractice, addPractice == 1 ? "" : "s");
         }
     }
 }

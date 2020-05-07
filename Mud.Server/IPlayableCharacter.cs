@@ -40,7 +40,7 @@ namespace Mud.Server
         bool StopFollower(IPlayableCharacter follower);
 
         // Impersonation
-        bool ChangeImpersonation(IPlayer player);
+        bool StopImpersonation();
 
         // Combat
         void GainExperience(long experience); // add/substract experience

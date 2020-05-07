@@ -268,31 +268,31 @@ namespace Mud.Server.Character
             sb.AppendLine("|" + StringExtensions.CenterText(DisplayName, 56) + "|");
             sb.AppendLine("+------------------------------+-------------------------+");
             sb.AppendLine("| %W%Attributes%x%                   |                         |");
-            sb.AppendFormatLine("| %c%Strength     : %W%[{0,5}/{1,5}]%x% | %c%Race   : %W%{2,14}%x% |", CurrentAttribute(CharacterAttributes.Strength), BaseAttribute(CharacterAttributes.Strength), Race?.DisplayName ?? "(none)");
-            sb.AppendFormatLine("| %c%Intelligence : %W%[{0,5}/{1,5}]%x% | %c%Class  : %W%{2,14}%x% |", CurrentAttribute(CharacterAttributes.Intelligence), BaseAttribute(CharacterAttributes.Intelligence), Class?.DisplayName ?? "(none)");
-            sb.AppendFormatLine("| %c%Wisdom       : %W%[{0,5}/{1,5}]%x% | %c%Sex    : %W%{2,14}%x% |", CurrentAttribute(CharacterAttributes.Wisdom), BaseAttribute(CharacterAttributes.Wisdom), CurrentSex);
-            sb.AppendFormatLine("| %c%Dexterity    : %W%[{0,5}/{1,5}]%x% | %c%Level  : %W%{2,14}%x% |", CurrentAttribute(CharacterAttributes.Dexterity), BaseAttribute(CharacterAttributes.Dexterity), Level);
+            sb.AppendFormatLine("| %c%Strength     : %W%[{0,5}/{1,5}]%x% | %c%Race   : %W%{2,14}%x% |", this[CharacterAttributes.Strength], BaseAttribute(CharacterAttributes.Strength), Race?.DisplayName ?? "(none)");
+            sb.AppendFormatLine("| %c%Intelligence : %W%[{0,5}/{1,5}]%x% | %c%Class  : %W%{2,14}%x% |", this[CharacterAttributes.Intelligence], BaseAttribute(CharacterAttributes.Intelligence), Class?.DisplayName ?? "(none)");
+            sb.AppendFormatLine("| %c%Wisdom       : %W%[{0,5}/{1,5}]%x% | %c%Sex    : %W%{2,14}%x% |", this[CharacterAttributes.Wisdom], BaseAttribute(CharacterAttributes.Wisdom), CurrentSex);
+            sb.AppendFormatLine("| %c%Dexterity    : %W%[{0,5}/{1,5}]%x% | %c%Level  : %W%{2,14}%x% |", this[CharacterAttributes.Dexterity], BaseAttribute(CharacterAttributes.Dexterity), Level);
             if (pc != null)
-                sb.AppendFormatLine("| %c%Constitution : %W%[{0,5}/{1,5}]%x% | %c%NxtLvl : %W%{2,14}%x% |", CurrentAttribute(CharacterAttributes.Constitution), BaseAttribute(CharacterAttributes.Constitution), pc.ExperienceToLevel);
+                sb.AppendFormatLine("| %c%Constitution : %W%[{0,5}/{1,5}]%x% | %c%NxtLvl : %W%{2,14}%x% |", this[CharacterAttributes.Constitution], BaseAttribute(CharacterAttributes.Constitution), pc.ExperienceToLevel);
             else
-                sb.AppendFormatLine("| %c%Constitution : %W%[{0,5}/{1,5}]%x% |                       |", CurrentAttribute(CharacterAttributes.Constitution), BaseAttribute(CharacterAttributes.Constitution), Level);
+                sb.AppendFormatLine("| %c%Constitution : %W%[{0,5}/{1,5}]%x% |                       |", this[CharacterAttributes.Constitution], BaseAttribute(CharacterAttributes.Constitution), Level);
             sb.AppendLine("+------------------------------+-------------------------+");
             sb.AppendLine("| %W%Resources%x%                    | %W%Defensive%x%              |");
-            sb.AppendFormatLine("| %g%Hp     : %W%[{0,8}/{1,8}]%x% | %g%Bash         : %W%[{2,6}]%x% |", HitPoints, MaxHitPoints, CurrentAttribute(CharacterAttributes.ArmorBash));
-            sb.AppendFormatLine("| %g%Move   : %W%[{0,8}/{1,8}]%x% | %g%Pierce       : %W%[{2,6}]%x% |", MovePoints, CurrentAttribute(CharacterAttributes.MaxMovePoints), CurrentAttribute(CharacterAttributes.ArmorPierce));
+            sb.AppendFormatLine("| %g%Hp     : %W%[{0,8}/{1,8}]%x% | %g%Bash         : %W%[{2,6}]%x% |", HitPoints, MaxHitPoints, this[CharacterAttributes.ArmorBash]);
+            sb.AppendFormatLine("| %g%Move   : %W%[{0,8}/{1,8}]%x% | %g%Pierce       : %W%[{2,6}]%x% |", MovePoints, this[CharacterAttributes.MaxMovePoints], this[CharacterAttributes.ArmorPierce]);
             List<string> resources = new List<string>();
             foreach (ResourceKinds resourceKind in CurrentResourceKinds)
                 resources.Add($"%g%{resourceKind,-7}: %W%[{this[resourceKind],8}/{MaxResource(resourceKind),8}]%x%");
             if (resources.Count < 3)
                 resources.AddRange(Enumerable.Repeat("                            ", 3 - resources.Count));
-            sb.AppendFormatLine("| {0} | %g%Slash        : %W%[{1,6}]%x% |", resources[0], CurrentAttribute(CharacterAttributes.ArmorSlash));
-            sb.AppendFormatLine("| {0} | %g%Exotic       : %W%[{1,6}]%x% |", resources[1], CurrentAttribute(CharacterAttributes.ArmorMagic));
-            sb.AppendFormatLine("| {0} | %g%Saves        : %W%[{1,6}]%x% |", resources[2], CurrentAttribute(CharacterAttributes.SavingThrow));
+            sb.AppendFormatLine("| {0} | %g%Slash        : %W%[{1,6}]%x% |", resources[0], this[CharacterAttributes.ArmorSlash]);
+            sb.AppendFormatLine("| {0} | %g%Exotic       : %W%[{1,6}]%x% |", resources[1], this[CharacterAttributes.ArmorMagic]);
+            sb.AppendFormatLine("| {0} | %g%Saves        : %W%[{1,6}]%x% |", resources[2], this[CharacterAttributes.SavingThrow]);
             sb.AppendLine("+------------------------------+-------------------------+");
             if (pc != null)
-                sb.AppendFormatLine("| %g%Hit:  %W%{0,6}%x%    %g%Dam:  %W%{1,6}%x% | %g%Train: %W%{2,3}%x%   %g%Pract: %W%{3,3}%x% |", CurrentAttribute(CharacterAttributes.HitRoll), CurrentAttribute(CharacterAttributes.DamRoll), pc.Trains, pc.Practices);
+                sb.AppendFormatLine("| %g%Hit:  %W%{0,6}%x%    %g%Dam:  %W%{1,6}%x% | %g%Train: %W%{2,3}%x%   %g%Pract: %W%{3,3}%x% |", this[CharacterAttributes.HitRoll], this[CharacterAttributes.DamRoll], pc.Trains, pc.Practices);
             else
-                sb.AppendFormatLine("| %g%Hit:  %W%{0,6}%x%    %g%Dam:  %W%{1,6}%x% |                       |", CurrentAttribute(CharacterAttributes.HitRoll), CurrentAttribute(CharacterAttributes.DamRoll));
+                sb.AppendFormatLine("| %g%Hit:  %W%{0,6}%x%    %g%Dam:  %W%{1,6}%x% |                       |", this[CharacterAttributes.HitRoll], this[CharacterAttributes.DamRoll]);
             sb.AppendLine("+------------------------------+-------------------------+");
             // TODO: resistances, gold, item, weight
 
@@ -575,7 +575,7 @@ namespace Mud.Server.Character
         {
             //
             string condition = "is here.";
-            int maxHitPoints = victim.CurrentAttribute(CharacterAttributes.MaxHitPoints);
+            int maxHitPoints = victim[CharacterAttributes.MaxHitPoints];
             if (maxHitPoints > 0)
             {
                 int percent = (100*victim.HitPoints)/ maxHitPoints;

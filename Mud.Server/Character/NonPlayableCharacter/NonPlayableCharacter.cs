@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
@@ -34,13 +35,38 @@ namespace Mud.Server.Character.NonPlayableCharacter
             BaseVulnerabilities = blueprint.Vulnerabilities;
             BaseSex = blueprint.Sex;
             Alignment = blueprint.Alignment.Range(-1000, 1000);
-            RecomputeBaseAttributes(null);
+            // TODO: see db.C:Create_Mobile
+            int baseValue = Math.Min(25, 11 + Level / 4);
+            SetBaseAttributes(CharacterAttributes.Strength, baseValue, false);
+            SetBaseAttributes(CharacterAttributes.Intelligence, baseValue, false);
+            SetBaseAttributes(CharacterAttributes.Wisdom, baseValue, false);
+            SetBaseAttributes(CharacterAttributes.Dexterity, baseValue, false);
+            SetBaseAttributes(CharacterAttributes.Constitution, baseValue, false);
+            // TODO: use Act/Off/size to change values
+            // TODO: following values must be extracted from in blueprint
+            SetBaseAttributes(CharacterAttributes.MaxHitPoints, 1000, false);
+            SetBaseAttributes(CharacterAttributes.SavingThrow, 0, false);
+            SetBaseAttributes(CharacterAttributes.DamRoll, Level, false);
+            SetBaseAttributes(CharacterAttributes.HitRoll, Level, false);
+            SetBaseAttributes(CharacterAttributes.MaxMovePoints, 1000, false);
+            SetBaseAttributes(CharacterAttributes.ArmorBash, -Level, false);
+            SetBaseAttributes(CharacterAttributes.ArmorPierce, -Level, false);
+            SetBaseAttributes(CharacterAttributes.ArmorSlash, -Level, false);
+            SetBaseAttributes(CharacterAttributes.ArmorMagic, -Level, false);
+            // resources (should be extracted from blueprint)
+            foreach (var resource in EnumHelpers.GetValues<ResourceKinds>())
+            {
+                SetMaxResource(resource, 1000, false);
+                this[resource] = 1000;
+            }
+            HitPoints = 1000; // can't use this[MaxHitPoints] because current has been been computed, it will be computed in ResetCurrentAttributes
+            MovePoints = 1000;
 
             Room = room;
             room.Enter(this);
 
             RecomputeKnownAbilities();
-            ResetAttributes();
+            ResetCurrentAttributes();
             RecomputeCurrentResourceKinds();
             BuildEquipmentSlots();
         }
@@ -122,6 +148,34 @@ namespace Mud.Server.Character.NonPlayableCharacter
         protected override int NoWeaponDamage => (Level * 50) / 14; // TODO: simulate weapon dps using level
 
         protected override int HitPointMinValue => 0;
+
+        protected override (int hitGain, int moveGain, int manaGain) RegenBaseValues()
+        {
+            int hitGain = 5 + Level;
+            int moveGain = Level;
+            int manaGain = 5 + Level;
+            if (CurrentCharacterFlags.HasFlag(CharacterFlags.Regeneration))
+                hitGain *= 2;
+            switch (Position)
+            {
+                case Positions.Sleeping:
+                    hitGain = (3 * hitGain) / 2;
+                    manaGain = (3 * manaGain) / 2;
+                    break;
+                case Positions.Resting:
+                    // nop
+                    break;
+                case Positions.Fighting:
+                    hitGain /= 3;
+                    manaGain /= 3;
+                    break;
+                default:
+                    hitGain /= 2;
+                    manaGain /= 2;
+                    break;
+            }
+            return (hitGain, moveGain, manaGain);
+        }
 
         protected override bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
         {

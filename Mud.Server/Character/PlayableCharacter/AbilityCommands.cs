@@ -140,7 +140,8 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             // let's go
             Practices--;
-            knownAbility.Learned += 10; // TODO: depends on intelligence
+            int learned = Math.Max(1, AttributeTables.LearnBonus(this) / knownAbility.Rating);
+            knownAbility.Learned += learned;
             int maxPractice = Class?.MaxPracticePercentage ?? 50;
             if (knownAbility.Learned < maxPractice)
             {

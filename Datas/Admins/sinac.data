@@ -14,115 +14,46 @@
   </Aliases>
   <Characters>
     <CharacterData>
-      <CreationTime>2020-05-05T21:58:34.2493422+02:00</CreationTime>
-      <Name>test</Name>
+      <CreationTime>2020-05-07T14:08:22.9740442+02:00</CreationTime>
+      <Name>sinac</Name>
       <RoomId>3029</RoomId>
       <Race>insectoid</Race>
       <Class>druid</Class>
-      <Level>1</Level>
-      <Sex>1</Sex>
-      <HitPoints>100</HitPoints>
-      <MovePoints>100</MovePoints>
+      <Level>5</Level>
+      <Sex>0</Sex>
+      <HitPoints>106</HitPoints>
+      <MovePoints>95</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>27</Value>
+          <Value>49</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
-          <Value>0</Value>
-        </PairDataOfInt32Int32>
-		<PairDataOfInt32Int32>
-          <Key>3</Key>
-          <Value>27</Value>
-        </PairDataOfInt32Int32>
-        <PairDataOfInt32Int32>
-          <Key>2</Key>
           <Value>0</Value>
         </PairDataOfInt32Int32>
       </CurrentResources>
       <MaxResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>100</Value>
+          <Value>137</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
           <Value>0</Value>
         </PairDataOfInt32Int32>
       </MaxResources>
-      <Experience>20413</Experience>
-      <Trains>45</Trains>
-      <Practices>38</Practices>
-      <Equipments>
-        <EquipedItemData>
-          <Slot>15</Slot>
-          <Item xsi:type="ItemWeaponData">
-            <ItemId>6</ItemId>
-            <Level>2</Level>
-            <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>65</ItemFlags>
-            <Auras>
-              <AuraData>
-                <AbilityId>-1</AbilityId>
-                <Level>10</Level>
-                <PulseLeft>480</PulseLeft>
-                <AuraFlags>0</AuraFlags>
-                <Affects>
-                  <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
-                    <Operator>1</Operator>
-                    <Modifier>128</Modifier>
-                  </AffectDataBase>
-                </Affects>
-              </AuraData>
-              <AuraData>
-                <AbilityId>-1</AbilityId>
-                <Level>20</Level>
-                <PulseLeft>-1</PulseLeft>
-                <AuraFlags>4</AuraFlags>
-                <Affects>
-                  <AffectDataBase xsi:type="CharacterAttributeAffectData">
-                    <Operator>0</Operator>
-                    <Location>9</Location>
-                    <Modifier>4</Modifier>
-                  </AffectDataBase>
-                  <AffectDataBase xsi:type="CharacterAttributeAffectData">
-                    <Operator>0</Operator>
-                    <Location>10</Location>
-                    <Modifier>4</Modifier>
-                  </AffectDataBase>
-                </Affects>
-              </AuraData>
-            </Auras>
-            <WeaponFlags>0</WeaponFlags>
-          </Item>
-        </EquipedItemData>
-        <EquipedItemData>
-          <Slot>16</Slot>
-          <Item>
-            <ItemId>7</ItemId>
-            <Level>0</Level>
-            <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>1</ItemFlags>
-            <Auras />
-          </Item>
-        </EquipedItemData>
-      </Equipments>
-      <Inventory>
-        <ItemData xsi:type="ItemContainerData">
-          <ItemId>1</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-      </Inventory>
+      <Experience>5002</Experience>
+      <Trains>4</Trains>
+      <Practices>2</Practices>
+      <Equipments />
+      <Inventory />
       <CurrentQuests />
       <Auras>
         <AuraData>
           <AbilityId>2</AbilityId>
-          <Level>8</Level>
-          <PulseLeft>5672</PulseLeft>
+          <Level>5</Level>
+          <PulseLeft>5696</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -133,32 +64,33 @@
           </Affects>
         </AuraData>
         <AuraData>
-          <AbilityId>80</AbilityId>
-          <Level>8</Level>
-          <PulseLeft>192</PulseLeft>
-          <AuraFlags>0</AuraFlags>
-          <Affects>
-            <AffectDataBase xsi:type="CharacterFlagsAffectData">
-              <Operator>1</Operator>
-              <Modifier>128</Modifier>
-            </AffectDataBase>
-          </Affects>
-        </AuraData>
-        <AuraData>
           <AbilityId>3</AbilityId>
-          <Level>8</Level>
-          <PulseLeft>3352</PulseLeft>
+          <Level>5</Level>
+          <PulseLeft>2608</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
               <Operator>0</Operator>
               <Location>9</Location>
-              <Modifier>1</Modifier>
+              <Modifier>0</Modifier>
             </AffectDataBase>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
               <Operator>0</Operator>
               <Location>8</Location>
-              <Modifier>-1</Modifier>
+              <Modifier>0</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityId>81</AbilityId>
+          <Level>5</Level>
+          <PulseLeft>3112</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterAttributeAffectData">
+              <Operator>0</Operator>
+              <Location>16</Location>
+              <Modifier>-20</Modifier>
             </AffectDataBase>
           </Affects>
         </AuraData>
@@ -190,7 +122,7 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>5</Key>
-          <Value>100</Value>
+          <Value>134</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>6</Key>
@@ -206,7 +138,7 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>9</Key>
-          <Value>100</Value>
+          <Value>134</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>10</Key>
@@ -228,7 +160,7 @@
       <KnownAbilities>
         <KnownAbilityData>
           <AbilityId>5000</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>20</Level>
@@ -237,7 +169,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>5001</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>20</Level>
@@ -246,7 +178,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>5002</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>20</Level>
@@ -255,7 +187,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>5003</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>20</Level>
@@ -264,7 +196,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>5004</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>20</Level>
@@ -273,7 +205,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>5005</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>20</Level>
@@ -282,7 +214,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>5006</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>20</Level>
@@ -291,7 +223,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2000</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -300,7 +232,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2001</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -309,7 +241,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2002</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -318,7 +250,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2003</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -327,7 +259,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2004</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -336,7 +268,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2005</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -345,7 +277,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2006</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -354,7 +286,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2007</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -363,7 +295,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2008</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -372,7 +304,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2009</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -381,7 +313,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2100</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -390,7 +322,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2101</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -399,7 +331,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2102</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -408,7 +340,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2103</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -417,7 +349,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2104</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -426,7 +358,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2105</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -435,7 +367,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2200</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -444,7 +376,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2201</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -453,7 +385,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2202</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -462,7 +394,7 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>2203</AbilityId>
-          <ResourceKind>0</ResourceKind>
+          <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
@@ -817,7 +749,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>11</Learned>
+          <Learned>23</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -826,7 +758,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>23</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -970,7 +902,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>21</Learned>
+          <Learned>67</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -979,7 +911,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>31</Learned>
+          <Learned>24</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>

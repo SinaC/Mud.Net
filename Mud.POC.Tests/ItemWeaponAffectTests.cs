@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mud.Domain;
 using Mud.POC.Affects;
 
 namespace Mud.POC.Tests

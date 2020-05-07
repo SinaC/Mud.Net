@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using System;
+﻿using System;
 
 namespace Mud.POC.Abilities
 {

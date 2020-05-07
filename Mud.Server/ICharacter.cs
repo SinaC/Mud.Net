@@ -51,6 +51,7 @@ namespace Mud.Server
         int MovePoints { get; }
         CharacterFlags BaseCharacterFlags { get; }
         CharacterFlags CurrentCharacterFlags { get; }
+
         IRVFlags BaseImmunities { get; }
         IRVFlags CurrentImmunities { get; }
         IRVFlags BaseResistances { get; }
@@ -64,6 +65,8 @@ namespace Mud.Server
         bool IsEvil { get; }
         bool IsGood { get; }
         bool IsNeutral { get; }
+
+        int this[CharacterAttributes attribute] { get; }
 
         int this[ResourceKinds resource] { get; }
         IEnumerable<ResourceKinds> CurrentResourceKinds { get; }
@@ -100,13 +103,12 @@ namespace Mud.Server
 
         // Attributes
         int BaseAttribute(CharacterAttributes attribute);
-        int CurrentAttribute(CharacterAttributes attribute);
         int MaxResource(ResourceKinds resource);
         void UpdateResource(ResourceKinds resource, int amount);
         void UpdateHitPoints(int amount);
         void UpdateMovePoints(int amount);
         void UpdateAlignment(int amount);
-        void RegenResources();
+        void Regen();
         void AddBaseCharacterFlags(CharacterFlags characterFlags);
         void RemoveBaseCharacterFlags(CharacterFlags characterFlags);
 

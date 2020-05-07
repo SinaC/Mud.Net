@@ -47,11 +47,6 @@ namespace Mud.Server.Abilities
             foreach (IAbility passive in Rom24Passives.Abilities) // TODO: should be in above loop
                 _abilities.Add(passive);
 
-            Log.Default.WriteLine(LogLevels.Info, "{0} abilities found", _abilities.Count());
-            Log.Default.WriteLine(LogLevels.Info, "{0} Passives", _abilities.Count(x => x.Kind == AbilityKinds.Passive));
-            Log.Default.WriteLine(LogLevels.Info, "{0} Spells", _abilities.Count(x => x.Kind == AbilityKinds.Spell));
-            Log.Default.WriteLine(LogLevels.Info, "{0} Skills", _abilities.Count(x => x.Kind == AbilityKinds.Skill));
-
             // Check duplicates
             var duplicateIds = _abilities.GroupBy(x => x.Id).Where(g => g.Count() > 1).Select(x => x.Key);
             foreach (int duplicateId in duplicateIds)

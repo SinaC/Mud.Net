@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Mud.Domain;
 using Mud.POC.Abilities;
 using Mud.Server.Common;
 using Mud.Server.Input;

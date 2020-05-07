@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Mud.POC.Affects

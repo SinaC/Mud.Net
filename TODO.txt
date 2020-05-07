@@ -1,26 +1,30 @@
 TODO:
-train command
 AbilityManager should not hardcode Rom24Passives
-Cooldown
 Second/Third/Fourth wield in insectoid
 Dictionary to store Character known ability + keep only one LearnedAbility or replace with KnownAbilities getter based on name
-CheckAbilityImprove: %age shoud be computed (or table) based on intelligence
 Unit tests on spell/skill to check if method argument matches AbilityTarget, check if ItemInventoryOrCharacterDefensive have both dispel message
 Spell with damage + effect (such as ColourSpray) can lead to strange behaviour -> damage kill victim then blindness is cast on victim  -> Damage should return if character has been killed
 UnitTests CastFromItem/GetItemAbilityTarget
 UnitTests on Rom24Effects
-idea: move HP and move in ResourceKinds
-rework resource system, Resource.None = 0 -> index 0 is used for nothing
 
 AbilityTargets not yet handled:
 	SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCharacter victim) // victim is NPC
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+issue with npc/pc attributes/resources solved
+issue with impersonation ImpersonatedBy was set twice, replace ChangeImpersonation with StopImpersonation
+issue with player/admin folders not found, is fixed
+regen now based on stats and base regen values is an abstract method to avoid cast
+Min/MaxHitPerLevel added in classes
+Levelling stat increase are now based on tables
+CheckAbilityImprove: %age shoud be computed (or table) based on intelligence
+CurrentAttributes, CurrentCharacterFlags, CurrentXXX should be accessible with indexers
+Needed domain classes copied in POC instead of using Domain ones -> POC will not be impacted by future change in domain
 fixed typing command, syntax a, will give duplicate results for atalk
-Commands atalk, admintalk:
-     Syntax: atalk|admintalk <message>
-     Syntax: atalk|admintalk <message>
+    Commands atalk, admintalk:
+        Syntax: atalk|admintalk <message>
+        Syntax: atalk|admintalk <message>
 when load pfile with unknown resource kind -> crash in ToDictionary because multiple key -1 will be found
 gain/practice command
 restore command
@@ -59,7 +63,10 @@ TableGenerator with duplicate columns
 	 ----------------------
 
 *************************************************************
-
+Resets
+Idea: move HP and move in ResourceKinds
+Train command
+Cooldown
 Use SafeList where List is used
 Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
 AddAura: additional param combine, when adding already existing aura (see affect_join)
@@ -67,7 +74,6 @@ Move CanSee in IEntity
 Move AddAura in aura manager
 store an Aura list in World this will avoid looping on all room/character/item to check aura
 Save blueprint in Hashtable
-CurrentAttributes, CurrentCharacterFlags, CurrentXXX should be accessible with indexers
 Redo whole combat system
 Add ctor to every manager with other manager as parameter to easy unit tests
 Add aliases to PlayableCharacter
@@ -176,7 +182,6 @@ use new act formatting: h, b, v whereas possible
 
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 
-aura/periodic aura can have multiply affects/effects
 isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + filter on isValid + remove them during Cleanup phease (--> no more clone of auras needed while modifying/clearing auras, same goes with periodic aura)
 
 Mystery to new format converter (see olc_act.C:2578 for obj values  L4571 for mob values)

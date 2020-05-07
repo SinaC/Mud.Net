@@ -1,6 +1,4 @@
-﻿using Mud.Domain;
-
-namespace Mud.POC.Abilities
+﻿namespace Mud.POC.Abilities
 {
     public interface INonPlayableCharacter : ICharacter
     {

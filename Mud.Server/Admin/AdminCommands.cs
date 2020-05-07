@@ -209,7 +209,7 @@ namespace Mud.Server.Admin
                 playableCharacterVictim.Act(ActOptions.ToRoom, "{0} disintegrate{0:v} {1}.", Impersonating, playableCharacterVictim);
                 playableCharacterVictim.StopFighting(true);
                 if (playableCharacterVictim.ImpersonatedBy != null)
-                    playableCharacterVictim.ChangeImpersonation(null);
+                    playableCharacterVictim.StopImpersonation();
                 World.RemoveCharacter(playableCharacterVictim);
             }
 
@@ -469,8 +469,8 @@ namespace Mud.Server.Admin
         private void RestoreOneCharacter(ICharacter victim)
         {
             victim.RemoveAuras(_ => true, true); // TODO: harmful auras only ?
-            victim.UpdateHitPoints(victim.CurrentAttribute(CharacterAttributes.MaxHitPoints));
-            victim.UpdateMovePoints(victim.CurrentAttribute(CharacterAttributes.MaxMovePoints));
+            victim.UpdateHitPoints(victim[CharacterAttributes.MaxHitPoints]);
+            victim.UpdateMovePoints(victim[CharacterAttributes.MaxMovePoints]);
             foreach (ResourceKinds resource in victim.CurrentResourceKinds)
                 victim.UpdateResource(resource, victim.MaxResource(resource));
             // TODO: update_pos

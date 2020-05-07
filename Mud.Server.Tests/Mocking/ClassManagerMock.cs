@@ -32,6 +32,10 @@ namespace Mud.Server.Tests.Mocking
 
         public int MaxPracticePercentage => throw new NotImplementedException();
 
+        public int MinHitPointGainPerLevel => throw new NotImplementedException();
+
+        public int MaxHitPointGainPerLevel => throw new NotImplementedException();
+
         public IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form) => Enumerable.Empty<ResourceKinds>();
 
         public int GetAttributeByLevel(CharacterAttributes attribute, int level) => level;
