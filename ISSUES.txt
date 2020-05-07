@@ -1,7 +1,2 @@
 when fighting multiple mobs
 	when one mob dies and try to flee, we are not considered as fightning until next tick
-
-typing command, syntax a, will give duplicate results for atalk
-Commands atalk, admintalk:
-     Syntax: atalk|admintalk <message>
-     Syntax: atalk|admintalk <message>

@@ -197,7 +197,7 @@ namespace Mud.Server.Actor
                 string title = string.Join(", ", namesByPriority.Select(x => $"%C%{x}%x%"));
                 sb.AppendLine($"Command{(namesByPriority.Length > 1 ? "s" : string.Empty)} {title}:");
                 string commandNames = string.Join("|", namesByPriority);
-                foreach (string syntax in group.SelectMany(x => x.Value.Syntax.Syntax))
+                foreach (string syntax in group.SelectMany(x => x.Value.Syntax.Syntax).Distinct())
                 {
                     // TODO: enrich argument such as <character>, <player name>, ...
                     string enrichedSyntax = syntax.Replace("[cmd]", commandNames);
