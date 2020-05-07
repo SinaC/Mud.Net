@@ -280,9 +280,11 @@ namespace Mud.Server.Character
             sb.AppendLine("| %W%Resources%x%                    | %W%Defensive%x%              |");
             sb.AppendFormatLine("| %g%Hp     : %W%[{0,8}/{1,8}]%x% | %g%Bash         : %W%[{2,6}]%x% |", HitPoints, MaxHitPoints, CurrentAttribute(CharacterAttributes.ArmorBash));
             sb.AppendFormatLine("| %g%Move   : %W%[{0,8}/{1,8}]%x% | %g%Pierce       : %W%[{2,6}]%x% |", MovePoints, CurrentAttribute(CharacterAttributes.MaxMovePoints), CurrentAttribute(CharacterAttributes.ArmorPierce));
-            List<string> resources = CurrentResourceKinds.Fill(3).Select(x => x == ResourceKinds.None
-                ? "                            "
-                : $"%g%{x,-7}: %W%[{this[x],8}/{MaxResource(x),8}]%x%").ToList();
+            List<string> resources = new List<string>();
+            foreach (ResourceKinds resourceKind in CurrentResourceKinds)
+                resources.Add($"%g%{resourceKind,-7}: %W%[{this[resourceKind],8}/{MaxResource(resourceKind),8}]%x%");
+            if (resources.Count < 3)
+                resources.AddRange(Enumerable.Repeat("                            ", 3 - resources.Count));
             sb.AppendFormatLine("| {0} | %g%Slash        : %W%[{1,6}]%x% |", resources[0], CurrentAttribute(CharacterAttributes.ArmorSlash));
             sb.AppendFormatLine("| {0} | %g%Exotic       : %W%[{1,6}]%x% |", resources[1], CurrentAttribute(CharacterAttributes.ArmorMagic));
             sb.AppendFormatLine("| {0} | %g%Saves        : %W%[{1,6}]%x% |", resources[2], CurrentAttribute(CharacterAttributes.SavingThrow));

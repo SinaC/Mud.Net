@@ -169,7 +169,7 @@ namespace Mud.Server.Character.PlayableCharacter
         {
             TableGenerator<KnownAbility> generator = new TableGenerator<KnownAbility>();
             generator.AddColumn("Name", 18, x => x.Ability.Name);
-            generator.AddColumn("%", 5, x => x.Learned.ToString());
+            generator.AddColumn("Pra%", 5, x => x.Learned.ToString());
             return generator;
         });
     }

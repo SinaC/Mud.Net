@@ -746,7 +746,7 @@ namespace Mud.Server.Server
                 else
                 {
                     foreach (AbilityUsage abilityUsage in c.Abilities)
-                        if (abilityUsage.ResourceKind != ResourceKinds.None && !c.ResourceKinds.Contains(abilityUsage.ResourceKind))
+                        if (abilityUsage.ResourceKind.HasValue && !c.ResourceKinds.Contains(abilityUsage.ResourceKind.Value))
                             Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityUsage.Ability.Name, abilityUsage.ResourceKind);
                 }
             }

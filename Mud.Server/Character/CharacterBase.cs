@@ -160,8 +160,26 @@ namespace Mud.Server.Character
 
         public int this[ResourceKinds resource]
         {
-            get => _currentResources[(int) resource];
-            private set => _currentResources[(int) resource] = value;
+            get 
+            {
+                int index = (int)resource;
+                if (index >= _currentResources.Length)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Trying to get current resource for resource {0} (index {1}) but current resource length is smaller", resource, index);
+                    return 0;
+                }
+                return _currentResources[index];
+            }
+            protected set
+            {
+                int index = (int)resource;
+                if (index >= _currentResources.Length)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Trying to set current resource for resource {0} (index {1}) but current resource length is smaller", resource, index);
+                    return;
+                }
+                _currentResources[index] = value;
+            }
         }
 
         public IEnumerable<ResourceKinds> CurrentResourceKinds { get; private set; }
@@ -323,11 +341,38 @@ namespace Mud.Server.Character
         }
 
         // Attributes
-        public int BaseAttribute(CharacterAttributes attribute) => _baseAttributes[(int)attribute];
+        public int BaseAttribute(CharacterAttributes attribute)
+        {
+            int index = (int)attribute;
+            if (index >= _baseAttributes.Length)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Trying to get base attribute for attribute {0} (index {1}) but base attribute length is smaller", attribute, index);
+                return 0;
+            }
+            return _baseAttributes[index];
+        }
 
-        public int CurrentAttribute(CharacterAttributes attribute) => _currentAttributes[(int)attribute];
+        public int CurrentAttribute(CharacterAttributes attribute)
+        {
+            int index = (int)attribute;
+            if (index >= _currentAttributes.Length)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Trying to get current attribute for attribute {0} (index {1}) but current attribute length is smaller", attribute, index);
+                return 0;
+            }
+            return _currentAttributes[index];
+        }
 
-        public int MaxResource(ResourceKinds resource) => _maxResources[(int) resource];
+        public int MaxResource(ResourceKinds resource)
+        {
+            int index = (int)resource;
+            if (index >= _maxResources.Length)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Trying to get max resource for resource {0} (index {1}) but max resource length is smaller", resource, index);
+                return 0;
+            }
+            return _maxResources[index];
+        }
 
         public void UpdateResource(ResourceKinds resource, int amount)
         {
@@ -480,10 +525,9 @@ namespace Mud.Server.Character
             Recompute();
             RecomputeCurrentResourceKinds();
 
-            // Start values
-            this[ResourceKinds.Energy] = 100;
-            this[ResourceKinds.Rage] = 0;
-            this[ResourceKinds.Runic] = 0;
+            // Start values  TODO: depends on class ?
+            this[ResourceKinds.Mana] = 100;
+            this[ResourceKinds.Psy] = 0;
 
             return true;
         }
@@ -2016,7 +2060,7 @@ namespace Mud.Server.Character
         protected void RecomputeCurrentResourceKinds()
         {
             // Get current resource kind from class if any, every resource otherwise
-            CurrentResourceKinds = (Class?.CurrentResourceKinds(Form) ?? EnumHelpers.GetValues<ResourceKinds>()).Where(x => x != ResourceKinds.None).ToList();
+            CurrentResourceKinds = (Class?.CurrentResourceKinds(Form) ?? EnumHelpers.GetValues<ResourceKinds>()).ToList();
         }
 
         protected int ComputeArmorFromEquipments()
@@ -2115,16 +2159,24 @@ namespace Mud.Server.Character
             CurrentSex = BaseSex;
         }
 
-        protected void SetCurrentResource(ResourceKinds resourceKind, int value) 
-        {
-            _currentResources[(int)resourceKind] = value;
-        }
-
         protected void SetMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)
         {
-            _maxResources[(int)resourceKind] = value;
+            int index = (int)resourceKind;
+            if (index >= _maxResources.Length)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Trying to set max resource for resource {0} (index {1}) but max resource length is smaller", resourceKind, index);
+                return;
+            }
+            _maxResources[index] = value;
             if (checkCurrent)
-                _currentResources[(int)resourceKind] = Math.Min(_currentResources[(int)resourceKind], _maxResources[(int)resourceKind]);
+            {
+                if (index >= _currentResources.Length)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Trying to set current resource for resource {0} (index {1}) but current resource length is smaller", resourceKind, index);
+                    return;
+                }
+                _currentResources[index] = Math.Min(_currentResources[index], _maxResources[index]);
+            }
         }
 
         protected void AddKnownAbility(KnownAbility knownAbility)

@@ -82,7 +82,7 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapWeaponFlags(x.Modifier)));
 
             CreateMap<Domain.KnownAbilityData, DataContracts.KnownAbilityData>()
-                .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapResourceKind(x.ResourceKind)))
+                .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapNullableResourceKind(x.ResourceKind)))
                 .ForMember(x => x.CostAmountOperator, expression => expression.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
         }
 
@@ -151,7 +151,7 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapWeaponFlags(x.Modifier)));
 
             CreateMap<DataContracts.KnownAbilityData, Domain.KnownAbilityData>()
-                .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapResourceKind(x.ResourceKind)))
+                .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapNullableResourceKind(x.ResourceKind)))
                 .ForMember(x => x.CostAmountOperator, expression => expression.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
         }
 
@@ -565,14 +565,11 @@ namespace Mud.Repository.Filesystem
         {
             switch (resource)
             {
-                case 0: return Domain.ResourceKinds.None;
-                case 1: return Domain.ResourceKinds.Mana;
-                case 2: return Domain.ResourceKinds.Energy;
-                case 3: return Domain.ResourceKinds.Rage;
-                case 4: return Domain.ResourceKinds.Runic;
+                case 0: return Domain.ResourceKinds.Mana;
+                case 1: return Domain.ResourceKinds.Psy;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid ResourceKinds {resource} while reading pfile");
-                    return 0;
+                    return Domain.ResourceKinds.Mana;
             }
         }
 
@@ -580,11 +577,35 @@ namespace Mud.Repository.Filesystem
         {
             switch (resource)
             {
-                case Domain.ResourceKinds.None: return 0;
-                case Domain.ResourceKinds.Mana: return 1;
-                case Domain.ResourceKinds.Energy: return 2;
-                case Domain.ResourceKinds.Rage: return 3;
-                case Domain.ResourceKinds.Runic: return 4;
+                case Domain.ResourceKinds.Mana: return 0;
+                case Domain.ResourceKinds.Psy: return 1;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid ResourceKinds {resource} while writing pfile");
+                    return 0;
+            }
+        }
+
+        private Domain.ResourceKinds? MapNullableResourceKind(int resource)
+        {
+            switch (resource)
+            {
+                case -1: return null;
+                case 0: return Domain.ResourceKinds.Mana;
+                case 1: return Domain.ResourceKinds.Psy;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid ResourceKinds {resource} while reading pfile");
+                    return Domain.ResourceKinds.Mana;
+            }
+        }
+
+        private int MapNullableResourceKind(Domain.ResourceKinds? resource)
+        {
+            if (!resource.HasValue)
+                return -1;
+            switch (resource.Value)
+            {
+                case Domain.ResourceKinds.Mana: return 0;
+                case Domain.ResourceKinds.Psy: return 1;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid ResourceKinds {resource} while writing pfile");
                     return 0;

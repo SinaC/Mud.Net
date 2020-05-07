@@ -6,7 +6,7 @@ namespace Mud.POC.Abilities
     {
         public IAbility Ability { get; set; }
 
-        public ResourceKinds ResourceKind { get; set; }
+        public ResourceKinds? ResourceKind { get; set; }
 
         public int CostAmount { get; set; }
 

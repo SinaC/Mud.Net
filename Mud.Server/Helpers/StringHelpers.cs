@@ -41,12 +41,8 @@ namespace Mud.Server.Helpers
             {
                 case ResourceKinds.Mana:
                     return "%B%Mana%x%";
-                case ResourceKinds.Energy:
-                    return "%y%Energy%x%";
-                case ResourceKinds.Rage:
-                    return "%r%Rage%x%";
-                case ResourceKinds.Runic:
-                    return "%c%Runic%x%";
+                case ResourceKinds.Psy:
+                    return "%y%Psy%x%";
                 default:
                     return string.Empty;
             }

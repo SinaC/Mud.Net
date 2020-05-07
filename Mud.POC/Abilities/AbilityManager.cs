@@ -101,21 +101,22 @@ namespace Mud.POC.Abilities
 
             // 4) check resource costs
             int? cost = null;
-            if (knownAbility.ResourceKind != ResourceKinds.None && knownAbility.CostAmount > 0 && knownAbility.CostAmountOperator != CostAmountOperators.None)
+            if (knownAbility.ResourceKind.HasValue && knownAbility.CostAmount > 0 && knownAbility.CostAmountOperator != CostAmountOperators.None)
             {
-                if (!caster.CurrentResourceKinds.Contains(knownAbility.ResourceKind)) // TODO: not sure about this test
+                ResourceKinds resourceKind = knownAbility.ResourceKind.Value;
+                if (!caster.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
                 {
                     caster.Send("You can't use {0} as resource for the moment.", knownAbility.ResourceKind);
                     return CastResults.CantUseRequiredResource;
                 }
-                int resourceLeft = caster[knownAbility.ResourceKind];
+                int resourceLeft = caster[resourceKind];
                 switch(knownAbility.CostAmountOperator)
                 {
                     case CostAmountOperators.Fixed:
                         cost = knownAbility.CostAmount;
                         break;
                     case CostAmountOperators.Percentage:
-                        cost = caster.GetMaxResource(knownAbility.ResourceKind) * knownAbility.CostAmount / 100;
+                        cost = caster.GetMaxResource(resourceKind) * knownAbility.CostAmount / 100;
                         break;
                     default:
                         Log.Default.WriteLine(LogLevels.Error, "Unexpected CostAmountOperator {0}", knownAbility.CostAmountOperator);
@@ -136,14 +137,14 @@ namespace Mud.POC.Abilities
                 caster.Send("You lost your concentration.");
                 pcCaster?.CheckAbilityImprove(knownAbility, false, 1);
                 // pay half resource
-                if (cost.HasValue && cost.Value > 1)
-                    caster.UpdateResource(knownAbility.ResourceKind, -cost.Value / 2);
+                if (cost.HasValue && cost.Value > 1 && knownAbility.ResourceKind.HasValue)
+                    caster.UpdateResource(knownAbility.ResourceKind.Value, -cost.Value / 2);
                 return CastResults.Failed;
             }
 
             //6) pay resource
-            if (cost.HasValue)
-                caster.UpdateResource(knownAbility.ResourceKind, -cost.Value);
+            if (cost.HasValue && cost.Value >= 1 && knownAbility.ResourceKind.HasValue)
+                caster.UpdateResource(knownAbility.ResourceKind.Value, -cost.Value);
 
             // TODO: 7) say spell if not ventriloquate
 

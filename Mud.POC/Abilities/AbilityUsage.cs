@@ -8,7 +8,7 @@ namespace Mud.POC.Abilities
 
         public int Level { get; set; }
 
-        public ResourceKinds ResourceKinds { get; set; }
+        public ResourceKinds? ResourceKinds { get; set; }
 
         public int CostAmount { get; set; }
 
@@ -18,7 +18,7 @@ namespace Mud.POC.Abilities
 
         public AbilityUsage()
         {
-            ResourceKinds = ResourceKinds.None;
+            ResourceKinds = null;
             CostAmount = 0;
             CostAmountOperator = CostAmountOperators.None;
             Rating = 1;

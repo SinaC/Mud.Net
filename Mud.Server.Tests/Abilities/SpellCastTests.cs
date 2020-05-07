@@ -55,7 +55,7 @@ namespace Mud.Server.Tests.Abilities
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Level = 1, ResourceKind = ResourceKinds.None, Learned = 0 } });
+            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Level = 1, ResourceKind = null, Learned = 0 } });
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
@@ -157,7 +157,7 @@ namespace Mud.Server.Tests.Abilities
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Level = 1, ResourceKind = ResourceKinds.Mana, CostAmount = 10, CostAmountOperator = CostAmountOperators.Fixed, Learned = 1 } });
-            characterMock.SetupGet(x => x.CurrentResourceKinds).Returns(new[] { ResourceKinds.Energy });
+            characterMock.SetupGet(x => x.CurrentResourceKinds).Returns(new[] { ResourceKinds.Psy });
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000);
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
@@ -199,7 +199,7 @@ namespace Mud.Server.Tests.Abilities
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Level = 1, ResourceKind = ResourceKinds.None, CostAmount = 0, CostAmountOperator = CostAmountOperators.Fixed, Learned = 1 } });
+            characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Level = 1, ResourceKind = null, CostAmount = 0, CostAmountOperator = CostAmountOperators.Fixed, Learned = 1 } });
             characterMock.SetupGet(x => x.CurrentResourceKinds).Returns(new[] { ResourceKinds.Mana });
             int mana = 1000;
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(mana);

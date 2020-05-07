@@ -8,7 +8,7 @@ namespace Mud.Server.Abilities
 
         public int Level { get; set; }
 
-        public ResourceKinds ResourceKind { get; set; }
+        public ResourceKinds? ResourceKind { get; set; }
 
         public int CostAmount { get; set; }
 
@@ -18,7 +18,7 @@ namespace Mud.Server.Abilities
 
         public AbilityUsage()
         {
-            ResourceKind = ResourceKinds.None;
+            ResourceKind = null;
             CostAmount = 0;
             CostAmountOperator = CostAmountOperators.None;
             Rating = 1;

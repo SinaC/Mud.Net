@@ -327,7 +327,7 @@ namespace Mud.Server.Admin
             sb.AppendLine("Attributes:");
             foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
                 sb.AppendFormatLine("{0}: {1} (base: {2})", attribute, victim.CurrentAttribute(attribute), victim.BaseAttribute(attribute));
-            foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>().Where(x => x != ResourceKinds.None))
+            foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>())
                 sb.AppendFormatLine("{0}: {1}", resourceKind, victim[resourceKind]);
             if (nonPlayableVictim != null)
             {

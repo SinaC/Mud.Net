@@ -66,9 +66,9 @@ namespace Mud.Server.Tests
             Assert.AreEqual(characterData.HitPoints, playableCharacter.HitPoints);
             Assert.AreEqual(characterData.MovePoints, playableCharacter.MovePoints);
             Assert.AreEqual(characterData.CurrentResources[ResourceKinds.Mana], playableCharacter[ResourceKinds.Mana]);
-            Assert.AreEqual(characterData.CurrentResources[ResourceKinds.Energy], playableCharacter[ResourceKinds.Energy]);
+            Assert.AreEqual(characterData.CurrentResources[ResourceKinds.Psy], playableCharacter[ResourceKinds.Psy]);
             Assert.AreEqual(characterData.MaxResources[ResourceKinds.Mana], playableCharacter.MaxResource(ResourceKinds.Mana));
-            Assert.AreEqual(characterData.MaxResources[ResourceKinds.Energy], playableCharacter.MaxResource(ResourceKinds.Energy));
+            Assert.AreEqual(characterData.MaxResources[ResourceKinds.Psy], playableCharacter.MaxResource(ResourceKinds.Psy));
             Assert.AreEqual(characterData.Trains, playableCharacter.Trains);
             Assert.AreEqual(characterData.Practices, playableCharacter.Practices);
             Assert.AreEqual(0, playableCharacter.Equipments.Count(x => x.Item != null));

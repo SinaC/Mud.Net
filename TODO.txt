@@ -55,7 +55,7 @@ TableGenerator with duplicate columns
 
 *************************************************************
 
-
+Use SafeList where List is used
 Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
 AddAura: additional param combine, when adding already existing aura (see affect_join)
 Move CanSee in IEntity

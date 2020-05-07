@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mud.Domain
+﻿namespace Mud.Domain
 {
     public class KnownAbilityData
     {
         public int AbilityId { get; set; }
 
-        public ResourceKinds ResourceKind { get; set; }
+        public ResourceKinds? ResourceKind { get; set; }
 
         public int CostAmount { get; set; }
 

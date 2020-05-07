@@ -1,24 +1,25 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mud.Domain;
 
 namespace Mud.Server.Classes
 {
     public class Druid : ClassBase
     {
-        private readonly List<ResourceKinds> _rageOnly = new List<ResourceKinds>
-        {
-            Domain.ResourceKinds.Rage
-        };
+        //private readonly List<ResourceKinds> _rageOnly = new List<ResourceKinds>
+        //{
+        //    Domain.ResourceKinds.Rage
+        //};
 
-        private readonly List<ResourceKinds> _energyOnly = new List<ResourceKinds>
-        {
-            Domain.ResourceKinds.Energy
-        };
+        //private readonly List<ResourceKinds> _energyOnly = new List<ResourceKinds>
+        //{
+        //    Domain.ResourceKinds.Energy
+        //};
 
-        private readonly List<ResourceKinds> _manaOnly = new List<ResourceKinds>
-        {
-            Domain.ResourceKinds.Mana
-        };
+        //private readonly List<ResourceKinds> _manaOnly = new List<ResourceKinds>
+        //{
+        //    Domain.ResourceKinds.Mana
+        //};
 
         #region IClass
 
@@ -26,24 +27,29 @@ namespace Mud.Server.Classes
 
         public override string ShortName => "Dru";
 
+        //public override IEnumerable<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
+        //{
+        //    Domain.ResourceKinds.Mana, // others
+        //    Domain.ResourceKinds.Energy, // cat form
+        //    Domain.ResourceKinds.Rage // bear form
+        //};
         public override IEnumerable<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
         {
-            Domain.ResourceKinds.Mana, // others
-            Domain.ResourceKinds.Energy, // cat form
-            Domain.ResourceKinds.Rage // bear form
+            Domain.ResourceKinds.Mana
         };
 
         public override IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form)
         {
-            switch (form)
-            {
-                case Forms.Bear:
-                    return _rageOnly;
-                case Forms.Cat:
-                    return _energyOnly;
-                default:
-                    return _manaOnly;
-            }
+            //switch (form)
+            //{
+            //    case Forms.Bear:
+            //        return _rageOnly;
+            //    case Forms.Cat:
+            //        return _energyOnly;
+            //    default:
+            //        return _manaOnly;
+            //}
+            return ResourceKinds;
         }
 
         public override int MaxPracticePercentage => 75;
@@ -59,9 +65,9 @@ namespace Mud.Server.Classes
         {
             // Test class with all skills + Passive
             foreach (IAbility ability in AbilityManager.Skills)
-                AddAbility(20, ability, Domain.ResourceKinds.None, 0, CostAmountOperators.None, 1);
+                AddAbility(20, ability, null, 0, CostAmountOperators.None, 1);
             foreach (IAbility ability in AbilityManager.Passives)
-                AddAbility(10, ability, Domain.ResourceKinds.None, 0, CostAmountOperators.None, 1);
+                AddAbility(10, ability, null, 0, CostAmountOperators.None, 1);
         }
     }
 }

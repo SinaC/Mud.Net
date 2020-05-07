@@ -260,20 +260,20 @@ namespace Mud.Domain
 
     public enum CharacterAttributes // must be ordered, starts at 0 and can't contain holes
     {
-        Strength = 0,
-        Intelligence = 1,
-        Wisdom = 2,
-        Dexterity = 3,
-        Constitution = 4,
-        MaxHitPoints = 5,
-        SavingThrow = 6,
-        HitRoll = 7,
-        DamRoll = 8,
-        MaxMovePoints = 9,
-        ArmorBash = 10,
-        ArmorPierce = 11,
-        ArmorSlash = 12,
-        ArmorMagic = 13
+        Strength        = 0,
+        Intelligence    = 1,
+        Wisdom          = 2,
+        Dexterity       = 3,
+        Constitution    = 4,
+        MaxHitPoints    = 5,
+        SavingThrow     = 6,
+        HitRoll         = 7,
+        DamRoll         = 8,
+        MaxMovePoints   = 9,
+        ArmorBash       = 10,
+        ArmorPierce     = 11,
+        ArmorSlash      = 12,
+        ArmorMagic      = 13
     }
 
     [Flags]
@@ -338,18 +338,10 @@ namespace Mud.Domain
         Nowhere     = 0x00080000,
     }
 
-    public enum ResourceKinds
+    public enum ResourceKinds // must starts at 0 and no hole (is used as index in array)
     {
-        None        = 0,
-        Mana        = 1,
-        Energy      = 2,
-        Rage        = 3,
-        Runic       = 4,
-        // TODO: runes
-        //BloodRune,
-        //FrostRune,
-        //UnholyRune,
-        //DeathRune
+        Mana        = 0,
+        Psy         = 1,
     }
 
     public enum CharacterAttributeAffectLocations

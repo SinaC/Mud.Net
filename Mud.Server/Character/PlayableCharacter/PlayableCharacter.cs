@@ -59,14 +59,14 @@ namespace Mud.Server.Character.PlayableCharacter
             if (data.CurrentResources != null)
             {
                 foreach (var currentResourceData in data.CurrentResources)
-                    SetCurrentResource(currentResourceData.Key, currentResourceData.Value);
+                    this[currentResourceData.Key] = currentResourceData.Value;
             }
             else
             {
                 Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.ctor: currentResources not found in pfile for {0}", data.Name);
                 // set to 1 if not found
                 foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
-                    SetCurrentResource(resource, 1);
+                    this[resource] = 1;
             }
             if (data.MaxResources != null)
             {

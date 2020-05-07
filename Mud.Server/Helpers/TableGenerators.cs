@@ -21,7 +21,12 @@ namespace Mud.Server.Helpers
                     if (x.Ability.Kind == AbilityKinds.Passive)
                         return "%m%passive ability%x%";
                     if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
-                        return StringHelpers.ResourceColor(x.ResourceKind);
+                    {
+                        if (x.ResourceKind.HasValue)
+                            return StringHelpers.ResourceColor(x.ResourceKind.Value);
+                        else
+                            return "???";
+                    }
                     return "%W%free cost ability%x%";
                 },
                 new TableGenerator<KnownAbility>.ColumnOptions
@@ -40,7 +45,7 @@ namespace Mud.Server.Helpers
                 {
                     GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage ? "%" : " "
                 });
-            generator.AddColumn("%", 5, x => $"{x.Learned}%");
+            generator.AddColumn("Pra%", 5, x => $"{x.Learned}%");
             generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
             //TODO: generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
             return generator;
@@ -131,7 +136,12 @@ namespace Mud.Server.Helpers
                     if (x.Ability.Kind == AbilityKinds.Passive)
                         return "%m%passive ability%x%";
                     if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
-                        return StringHelpers.ResourceColor(x.ResourceKind);
+                    {
+                        if (x.ResourceKind.HasValue)
+                            return StringHelpers.ResourceColor(x.ResourceKind.Value);
+                        else
+                            return "???";
+                    }
                     return "%W%free cost ability%x%";
                 },
                 new TableGenerator<AbilityUsage>.ColumnOptions

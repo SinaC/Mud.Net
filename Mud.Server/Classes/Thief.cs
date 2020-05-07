@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mud.Domain;
 
 namespace Mud.Server.Classes
@@ -11,14 +12,11 @@ namespace Mud.Server.Classes
 
         public override string ShortName => "Thi";
 
-        public override IEnumerable<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
-        {
-            Domain.ResourceKinds.Energy
-        };
+        public override IEnumerable<ResourceKinds> ResourceKinds { get; } = Enumerable.Empty<ResourceKinds>();
 
         public override IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form)
         {
-            return ResourceKinds; // always energy
+            return ResourceKinds;
         }
 
         public override int MaxPracticePercentage => 75;
