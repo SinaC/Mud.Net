@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Common;
@@ -157,11 +158,13 @@ namespace Mud.Server.Abilities
                 return CastResults.Failed;
             }
 
-            //6) pay resource
+            // 6) pay resource
             if (cost.HasValue && cost.Value >= 1 && knownAbility.ResourceKind.HasValue)
                 caster.UpdateResource(knownAbility.ResourceKind.Value, -cost.Value);
 
-            // TODO: 7) say spell if not ventriloquate
+            // 7) say spell if not ventriloquate
+            if (!StringCompareHelpers.StringEquals(knownAbility.Ability.Name, "ventriloquate"))
+                SayAbility(knownAbility.Ability, caster);
 
             // 8) invoke spell
             InvokeSpell(knownAbility.Ability, caster.Level, caster, target, rawParameters, parameters);
@@ -608,6 +611,99 @@ namespace Mud.Server.Abilities
                 && x.Learned > 0 // practice at least once
                 && StringCompareHelpers.StringStartsWith(x.Ability.Name, parameter.Value))
                 .ElementAtOrDefault(parameter.Count - 1);
+        }
+
+        private static Dictionary<string, string> SyllableTable = new Dictionary<string, string> // TODO: use Trie ?
+        {
+            { " ",      " "     },
+            { "ar",     "abra"      },
+            { "au",     "kada"      },
+            { "bless",  "fido"      },
+            { "blind",  "nose"      },
+            { "bur",    "mosa"      },
+            { "cu",     "judi"      },
+            { "de",     "oculo"     },
+            { "en",     "unso"      },
+            { "light",  "dies"      },
+            { "lo",     "hi"        },
+            { "mor",    "zak"       },
+            { "move",   "sido"      },
+            { "ness",   "lacri"     },
+            { "ning",   "illa"      },
+            { "per",    "duda"      },
+            { "ra",     "gru"       },
+            { "fresh",  "ima"       },
+            { "re",     "candus"    },
+            { "son",    "sabru"     },
+            { "tect",   "infra"     },
+            { "tri",    "cula"      },
+            { "ven",    "nofo"      },
+            { "a", "a" }, { "b", "b" }, { "c", "q" }, { "d", "e" },
+            { "e", "z" }, { "f", "y" }, { "g", "o" }, { "h", "p" },
+            { "i", "u" }, { "j", "y" }, { "k", "t" }, { "l", "r" },
+            { "m", "w" }, { "n", "i" }, { "o", "a" }, { "p", "s" },
+            { "q", "d" }, { "r", "f" }, { "s", "g" }, { "t", "h" },
+            { "u", "j" }, { "v", "z" }, { "w", "x" }, { "x", "n" },
+            { "y", "l" }, { "z", "k" }
+        };
+
+        // TODO: maybe a table should be constructed for each spell to avoid computing at each cast
+        private void SayAbility(IAbility ability, ICharacter source)
+        {
+            if (ability == null)
+                return;
+            if (ability.Kind == AbilityKinds.Spell)
+            {
+                source.Send("You cast '{0}'.", ability.Name);
+
+                // Build mystical words for spell
+                StringBuilder mysticalWords = new StringBuilder();
+                string abilityName = ability.Name.ToLowerInvariant();
+                string remaining = abilityName;
+                while (remaining.Length > 0)
+                {
+                    bool found = false;
+                    foreach (var syllable in SyllableTable)
+                    {
+                        if (remaining.StartsWith(syllable.Key))
+                        {
+                            mysticalWords.Append(syllable.Value);
+                            remaining = remaining.Substring(syllable.Key.Length);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        mysticalWords.Append('?');
+                        remaining = remaining.Substring(1);
+                        Log.Default.WriteLine(LogLevels.Warning, "Spell {0} contains a character which is not found in syllable table", ability.Name);
+                    }
+                }
+
+                // Say to people in room except source
+                foreach (ICharacter target in source.Room.People.Where(x => x != source))
+                {
+                    if (target.KnownAbilities.Any(x => x.Ability == ability && x.Level < target.Level))
+                        target.Act(ActOptions.ToCharacter, "{0} casts the spell '{1}'.", source, ability.Name);
+                    else
+                    {
+
+                        target.Act(ActOptions.ToCharacter, "{0} utters the words, '{1}'.", source, mysticalWords);
+                    }
+                }
+            }
+            else if (ability.Kind == AbilityKinds.Skill)
+            {
+                source.Send("You use '{0}'.", ability.Name);
+                source.Act(ActOptions.ToRoom, "{0} uses '{1}'.", source, ability.Name);
+            }
+            else
+            {
+                source.Send("You use '{0}'.", ability.Name);
+                source.Act(ActOptions.ToRoom, "{0} uses '{1}'.", source, ability.Name);
+                Log.Default.WriteLine(LogLevels.Error, "Ability {0} has unknown type {1}!", ability.Name, ability.Kind);
+            }
         }
 
         private CastResults MapCastResultToCommandExecutionResult(AbilityTargetResults result)

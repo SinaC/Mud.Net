@@ -21,7 +21,7 @@ namespace Mud.Server
         IEnumerable<IAura> Auras { get; }
 
         // Recompute
-        void Reset(); // Reset attributes, remove auras, periodic auras
+        void Reset(); // Remove periodic auras
         void Recompute();
 
         // Auras

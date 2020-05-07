@@ -952,7 +952,59 @@ namespace Mud.Server.Server
                 }
                 catch (Exception ex)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of {0}. Exception: {1}", character.DebugName, ex);
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of character {0}. Exception: {1}", character.DebugName, ex);
+                }
+            }
+            foreach (IItem item in World.Items.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
+            {
+                try
+                {
+                    bool needsRecompute = false;
+                    IReadOnlyCollection<IAura> cloneAuras = new ReadOnlyCollection<IAura>(item.Auras.ToList()); // must be cloned because collection may be modified during foreach
+                    foreach (IAura aura in cloneAuras.Where(x => x.PulseLeft > 0))
+                    {
+                        bool timedOut = aura.DecreasePulseLeft(pulseCount);
+                        if (timedOut)
+                        {
+                            //TODO: aura.OnVanished();
+                            // TODO: Set Validity to false
+                            item.RemoveAura(aura, false); // recompute once each aura has been processed
+                            needsRecompute = true;
+                        }
+                    }
+                    if (needsRecompute)
+                        item.Recompute();
+                    // TODO: remove invalid auras
+                }
+                catch (Exception ex)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of item {0}. Exception: {1}", item.DebugName, ex);
+                }
+            }
+            foreach (IRoom room in World.Rooms.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
+            {
+                try
+                {
+                    bool needsRecompute = false;
+                    IReadOnlyCollection<IAura> cloneAuras = new ReadOnlyCollection<IAura>(room.Auras.ToList()); // must be cloned because collection may be modified during foreach
+                    foreach (IAura aura in cloneAuras.Where(x => x.PulseLeft > 0))
+                    {
+                        bool timedOut = aura.DecreasePulseLeft(pulseCount);
+                        if (timedOut)
+                        {
+                            //TODO: aura.OnVanished();
+                            // TODO: Set Validity to false
+                            room.RemoveAura(aura, false); // recompute once each aura has been processed
+                            needsRecompute = true;
+                        }
+                    }
+                    if (needsRecompute)
+                        room.Recompute();
+                    // TODO: remove invalid auras
+                }
+                catch (Exception ex)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of room {0}. Exception: {1}", room.DebugName, ex);
                 }
             }
         }
@@ -1003,6 +1055,7 @@ namespace Mud.Server.Server
 
         private void HandleViolence(int pulseCount)
         {
+            //Log.Default.WriteLine(LogLevels.Debug, "HandleViolence: {0}", DateTime.Now);
             foreach (ICharacter character in World.Characters.Where(x => x.Fighting != null))
             {
                 ICharacter victim = character.Fighting;
@@ -1042,6 +1095,8 @@ namespace Mud.Server.Server
                 {
                     //
                     playingClient.Client.WriteData("--TICK--" + Environment.NewLine); // TODO: only if user want tick info
+                    string prompt = playingClient.Player.Prompt;
+                    playingClient.Client.WriteData(prompt); // display prompt at each tick
 
                     // If idle for too long, unimpersonate or disconnect
                     TimeSpan ts = CurrentTime - playingClient.LastReceivedDataTimestamp;
@@ -1066,7 +1121,7 @@ namespace Mud.Server.Server
 
         private void HandlePlayableCharacters(int pulseCount)
         {
-            foreach (IPlayableCharacter character in World.Characters.OfType<IPlayableCharacter>())
+            foreach (IPlayableCharacter character in World.PlayableCharacters)
             {
                 try
                 {
@@ -1078,7 +1133,23 @@ namespace Mud.Server.Server
                 }
                 catch (Exception ex)
                 { 
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling character {0}. Exception: {1}", character.DebugName, ex);
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling pc character {0}. Exception: {1}", character.DebugName, ex);
+                }
+            }
+        }
+
+        private void HandleNonPlayableCharacters(int pulseCount)
+        {
+            foreach (INonPlayableCharacter character in World.NonPlayableCharacters)
+            {
+                try
+                {
+                    //
+                    character.Regen();
+                }
+                catch (Exception ex)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling npc character {0}. Exception: {1}", character.DebugName, ex);
                 }
             }
         }
@@ -1152,8 +1223,9 @@ namespace Mud.Server.Server
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleCooldowns);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleQuests);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 5, HandleItems);
-            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandlePlayers);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandlePlayableCharacters);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleNonPlayableCharacters);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandlePlayers);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleRooms);
 
             try

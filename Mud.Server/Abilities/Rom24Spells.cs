@@ -29,7 +29,7 @@ namespace Mud.Server.Abilities
         {
             if (victim.GetAura("Armor") != null)
             {
-                caster.Act(ActOptions.ToCharacter, "{0:N} is already armored.");
+                caster.Act(ActOptions.ToCharacter, "{0:N} is already armored.", victim);
                 return;
             }
             World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(24), AuraFlags.None, true,
@@ -47,7 +47,7 @@ namespace Mud.Server.Abilities
             {
                 if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
                 {
-                    caster.Act(ActOptions.ToCharacter, "{0:N} is already blessed.");
+                    caster.Act(ActOptions.ToCharacter, "{0:N} is already blessed.", item);
                     return;
                 }
                 if (item.CurrentItemFlags.HasFlag(ItemFlags.Evil))
@@ -667,7 +667,7 @@ namespace Mud.Server.Abilities
             bool found = TryDispels(level, victim);
             if (victim.CurrentCharacterFlags.HasFlag(CharacterFlags.Sanctuary) && !SavesDispel(level, victim.Level, -1) && victim.GetAura("Sanctuary") == null)
             {
-                victim.RemoveBaseCharacterFlags(CharacterFlags.Sanctuary);
+                victim.RemoveBaseCharacterFlags(CharacterFlags.Sanctuary); // TODO: what if it's a racial ?
                 victim.Act(ActOptions.ToRoom, "The white aura around {0:n}'s body vanishes.", victim);
                 found = true;
             }
@@ -2661,13 +2661,7 @@ namespace Mud.Server.Abilities
             {
                 if (!SavesDispel(dispelLevel, aura.Level, aura.PulseLeft))
                 {
-                    // TODO: if a wears off message on spell, display it
-                    //if (skill_table[sn].msg_off)
-                    //{
-                    //    send_to_char(skill_table[sn].msg_off, victim);
-                    //    send_to_char("\n\r", victim);
-                    //}
-                    victim.RemoveAura(aura, true);
+                    victim.RemoveAura(aura, true); // RemoveAura will display DispelMessage
                     return CheckDispelReturnValues.Dispelled;
                 }
                 else

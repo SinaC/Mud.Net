@@ -21,12 +21,12 @@
       <Class>druid</Class>
       <Level>5</Level>
       <Sex>0</Sex>
-      <HitPoints>116</HitPoints>
-      <MovePoints>75</MovePoints>
+      <HitPoints>144</HitPoints>
+      <MovePoints>95</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>59</Value>
+          <Value>5</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -53,7 +53,7 @@
         <AuraData>
           <AbilityId>2</AbilityId>
           <Level>5</Level>
-          <PulseLeft>5592</PulseLeft>
+          <PulseLeft>5308</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -66,7 +66,7 @@
         <AuraData>
           <AbilityId>3</AbilityId>
           <Level>5</Level>
-          <PulseLeft>2504</PulseLeft>
+          <PulseLeft>2220</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -84,13 +84,67 @@
         <AuraData>
           <AbilityId>81</AbilityId>
           <Level>5</Level>
-          <PulseLeft>3008</PulseLeft>
+          <PulseLeft>2724</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
               <Operator>0</Operator>
               <Location>16</Location>
               <Modifier>-20</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityId>85</AbilityId>
+          <Level>5</Level>
+          <PulseLeft>968</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterAttributeAffectData">
+              <Operator>0</Operator>
+              <Location>16</Location>
+              <Modifier>-40</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityId>74</AbilityId>
+          <Level>5</Level>
+          <PulseLeft>5584</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterAttributeAffectData">
+              <Operator>0</Operator>
+              <Location>8</Location>
+              <Modifier>-1</Modifier>
+            </AffectDataBase>
+            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>8192</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityId>31</AbilityId>
+          <Level>5</Level>
+          <PulseLeft>1152</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>4</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityId>32</AbilityId>
+          <Level>5</Level>
+          <PulseLeft>1160</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>64</Modifier>
             </AffectDataBase>
           </Affects>
         </AuraData>
@@ -407,7 +461,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -416,7 +470,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -425,7 +479,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -434,7 +488,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -443,7 +497,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -452,7 +506,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -461,7 +515,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -470,7 +524,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -479,7 +533,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -488,7 +542,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -497,7 +551,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -506,7 +560,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -515,7 +569,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -524,7 +578,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -533,7 +587,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -542,7 +596,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -551,7 +605,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -560,7 +614,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -569,7 +623,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -578,7 +632,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -587,7 +641,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -596,7 +650,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -605,7 +659,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -614,7 +668,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -623,7 +677,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -632,7 +686,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -641,7 +695,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -650,7 +704,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -659,7 +713,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -668,7 +722,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -677,7 +731,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -686,7 +740,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -695,7 +749,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -704,7 +758,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -713,7 +767,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -722,7 +776,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -731,7 +785,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -740,7 +794,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -749,7 +803,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>23</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -758,7 +812,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>23</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -767,7 +821,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -776,7 +830,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -785,7 +839,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -794,7 +848,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -803,7 +857,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -812,7 +866,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -821,7 +875,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -830,7 +884,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -839,7 +893,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -848,7 +902,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -857,7 +911,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -866,7 +920,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -875,7 +929,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -884,7 +938,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -893,7 +947,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -902,7 +956,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>67</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -911,7 +965,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>24</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -920,7 +974,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -929,7 +983,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -938,7 +992,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -947,7 +1001,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -956,7 +1010,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -965,7 +1019,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -974,7 +1028,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -983,7 +1037,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -992,7 +1046,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1001,7 +1055,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1010,7 +1064,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1019,7 +1073,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1028,7 +1082,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1037,7 +1091,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1046,7 +1100,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1055,7 +1109,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1064,7 +1118,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1073,7 +1127,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1082,7 +1136,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1091,7 +1145,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1100,7 +1154,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1109,7 +1163,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1118,7 +1172,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1127,7 +1181,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1136,7 +1190,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1145,7 +1199,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1154,7 +1208,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1163,7 +1217,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1172,7 +1226,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1181,7 +1235,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1190,7 +1244,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1199,7 +1253,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1208,7 +1262,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1217,7 +1271,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1226,7 +1280,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1235,7 +1289,7 @@
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
       </KnownAbilities>

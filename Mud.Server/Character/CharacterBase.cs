@@ -550,13 +550,15 @@ namespace Mud.Server.Character
                 return false;
 
             //
-            Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction); // TODO: sneak/invis
+            if (!CurrentCharacterFlags.HasFlag(CharacterFlags.Sneak))
+                Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction);
             ChangeRoom(toRoom);
 
             // Autolook if impersonated/incarnated
             AutoLook();
 
-            Act(ActOptions.ToRoom, "{0} has arrived.", this); // TODO: sneak/invis
+            if (!CurrentCharacterFlags.HasFlag(CharacterFlags.Sneak))
+                Act(ActOptions.ToRoom, "{0} has arrived.", this);
 
             // Followers: no circular follows
             if (fromRoom != toRoom)

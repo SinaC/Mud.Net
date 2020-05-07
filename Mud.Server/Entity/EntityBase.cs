@@ -118,10 +118,8 @@ namespace Mud.Server.Entity
                 Log.Default.WriteLine(LogLevels.Error, "IEntity.Reset: {0} is not valid anymore", DebugName);
                 return;
             }
-
             // Remove periodic auras on character
             _periodicAuras.Clear();
-            _auras.Clear();
         }
 
         public abstract void Recompute();

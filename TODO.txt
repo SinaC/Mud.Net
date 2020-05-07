@@ -1,6 +1,6 @@
 TODO:
 xp/level
-race size, imm, res, vuln, form, parts
+race size, form, parts
 AbilityManager should not hardcode Rom24Passives
 Second/Third/Fourth wield in insectoid
 Dictionary to store Character known ability + keep only one LearnedAbility or replace with KnownAbilities getter based on name
@@ -13,7 +13,20 @@ AbilityTargets not yet handled:
 	SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCharacter victim) // victim is NPC
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
+wear off message <> dispel message (see message send in TryDispels)
+SpellCancellation/SpellDispelMagic
+for ( int i = 0; i < MAX_ABILITY; i++ ) {
+    if ( ability_table[i].dispellable
+	 && check_dispel(level,victim,i ) ) {
+      found = TRUE;
+      if ( ability_table[i].msg_dispel )
+	act(ability_table[i].msg_dispel,victim,NULL,NULL,TO_ROOM);
+    }
+  }
+
 DONE:
+Sneak leave/enter
+Train command
 shortcuts to BasicAttributes
 HitRoll/DamRoll/Armors properties to avoid computing every real formula
 race base/max attr, imm, res, vuln added
@@ -71,7 +84,6 @@ TableGenerator with duplicate columns
 alignment at creation ?
 Resets
 Idea: move HP and move in ResourceKinds
-Train command
 Cooldown
 Use SafeList where List is used
 Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
