@@ -1,7 +1,6 @@
 ONGOING
 ItemDrinkContainerData serialize/deserialize/unit tests
 thirst/full/hungry
-fix issue with Target none on berserk (see ISSUES.txt)
 
 TODO:
 food
