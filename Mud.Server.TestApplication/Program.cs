@@ -161,8 +161,10 @@ namespace Mud.Server.TestApplication
                 Name = "item3",
                 ShortDescription = "Third item (armor|feet)",
                 Description = "The third item (armor|feet) has been left here.",
-                Armor = 100,
-                ArmorKind = ArmorKinds.Mail,
+                Bash = 100,
+                Pierce = 110,
+                Slash = 120,
+                Exotic = 130,
                 WearLocation = WearLocations.Feet
             };
             ItemLightBlueprint item4Blueprint = new ItemLightBlueprint
@@ -374,8 +376,10 @@ namespace Mud.Server.TestApplication
                 Name = "item3",
                 ShortDescription = "Third item (armor|feet)",
                 Description = "The third item (armor|feet) has been left here.",
-                Armor = 100,
-                ArmorKind = ArmorKinds.Mail,
+                Bash = 100,
+                Pierce = 110,
+                Slash = 120,
+                Exotic = 130,
                 WearLocation = WearLocations.Feet
             };
             ItemLightBlueprint item4Blueprint = new ItemLightBlueprint

@@ -93,7 +93,7 @@ namespace Mud.Server.Tests.Affects
             int originalBaseBash = npc.BaseAttribute(Domain.CharacterAttributes.ArmorBash);
             int originalBasePierce = npc.BaseAttribute(Domain.CharacterAttributes.ArmorPierce);
             int originalBaseSlash = npc.BaseAttribute(Domain.CharacterAttributes.ArmorSlash);
-            int originalBaseMagic = npc.BaseAttribute(Domain.CharacterAttributes.ArmorMagic);
+            int originalBaseMagic = npc.BaseAttribute(Domain.CharacterAttributes.ArmorExotic);
             npc.ApplyAffect(caracAffect);
 
             Assert.AreEqual(originalBaseBash, npc.BaseAttribute(Domain.CharacterAttributes.ArmorBash));
@@ -102,8 +102,8 @@ namespace Mud.Server.Tests.Affects
             Assert.AreEqual(3, npc[Domain.CharacterAttributes.ArmorPierce]);
             Assert.AreEqual(originalBaseSlash, npc.BaseAttribute(Domain.CharacterAttributes.ArmorSlash));
             Assert.AreEqual(3, npc[Domain.CharacterAttributes.ArmorSlash]);
-            Assert.AreEqual(originalBaseMagic, npc.BaseAttribute(Domain.CharacterAttributes.ArmorMagic));
-            Assert.AreEqual(3, npc[Domain.CharacterAttributes.ArmorMagic]);
+            Assert.AreEqual(originalBaseMagic, npc.BaseAttribute(Domain.CharacterAttributes.ArmorExotic));
+            Assert.AreEqual(3, npc[Domain.CharacterAttributes.ArmorExotic]);
         }
     }
 }

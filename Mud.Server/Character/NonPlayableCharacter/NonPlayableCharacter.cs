@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
@@ -54,7 +53,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             SetBaseAttributes(CharacterAttributes.ArmorBash, -Level, false);
             SetBaseAttributes(CharacterAttributes.ArmorPierce, -Level, false);
             SetBaseAttributes(CharacterAttributes.ArmorSlash, -Level, false);
-            SetBaseAttributes(CharacterAttributes.ArmorMagic, -Level, false);
+            SetBaseAttributes(CharacterAttributes.ArmorExotic, -Level, false);
             // resources (should be extracted from blueprint)
             foreach (var resource in EnumHelpers.GetValues<ResourceKinds>())
             {

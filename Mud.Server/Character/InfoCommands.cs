@@ -286,7 +286,7 @@ namespace Mud.Server.Character
             if (resources.Count < 3)
                 resources.AddRange(Enumerable.Repeat("                            ", 3 - resources.Count));
             sb.AppendFormatLine("| {0} | %g%Slash        : %W%[{1,6}]%x% |", resources[0], this[Armors.Slash]);
-            sb.AppendFormatLine("| {0} | %g%Exotic       : %W%[{1,6}]%x% |", resources[1], this[Armors.Magic]);
+            sb.AppendFormatLine("| {0} | %g%Exotic       : %W%[{1,6}]%x% |", resources[1], this[Armors.Exotic]);
             sb.AppendFormatLine("| {0} | %g%Saves        : %W%[{1,6}]%x% |", resources[2], this[CharacterAttributes.SavingThrow]);
             sb.AppendLine("+------------------------------+-------------------------+");
             if (pc != null)

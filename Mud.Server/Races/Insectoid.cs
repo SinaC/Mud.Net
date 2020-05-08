@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
 using Mud.Logger;
-using SimpleInjector.Advanced;
 
 namespace Mud.Server.Races
 {
@@ -59,7 +58,7 @@ namespace Mud.Server.Races
                 case CharacterAttributes.ArmorBash: return 100;
                 case CharacterAttributes.ArmorPierce: return 100;
                 case CharacterAttributes.ArmorSlash: return 100;
-                case CharacterAttributes.ArmorMagic: return 100;
+                case CharacterAttributes.ArmorExotic: return 100;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, "Unexpected attribute {0} for Insectoid", attribute);
                     return 0;
@@ -83,7 +82,7 @@ namespace Mud.Server.Races
                 case CharacterAttributes.ArmorBash: return 100;
                 case CharacterAttributes.ArmorPierce: return 100;
                 case CharacterAttributes.ArmorSlash: return 100;
-                case CharacterAttributes.ArmorMagic: return 100;
+                case CharacterAttributes.ArmorExotic: return 100;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, "Unexpected attribute {0} for Insectoid", attribute);
                     return 0;

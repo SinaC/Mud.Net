@@ -1,10 +1,10 @@
-﻿using Mud.Domain;
-
-namespace Mud.Server.Blueprints.Item
+﻿namespace Mud.Server.Blueprints.Item
 {
     public class ItemArmorBlueprint : ItemBlueprintBase
     {
-        public int Armor { get; set; }
-        public ArmorKinds ArmorKind { get; set; }
+        public int Bash { get; set; }
+        public int Pierce { get; set; }
+        public int Slash { get; set; }
+        public int Exotic { get; set; }
     }
 }

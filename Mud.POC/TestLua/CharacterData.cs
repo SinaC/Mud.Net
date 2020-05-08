@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Mud.POC.TestLua
+﻿namespace Mud.POC.TestLua
 {
     //public class CharacterData
     //{

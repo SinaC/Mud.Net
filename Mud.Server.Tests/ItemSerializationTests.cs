@@ -26,7 +26,7 @@ namespace Mud.Server.Tests
         {
             IWorld world = World;
             IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemArmor armor = World.AddItem(Guid.NewGuid(), new ItemArmorBlueprint { Id = 1, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Armor = 150, ArmorKind = ArmorKinds.Mail, ItemFlags = ItemFlags.Glowing }, room) as IItemArmor;
+            IItemArmor armor = World.AddItem(Guid.NewGuid(), new ItemArmorBlueprint { Id = 1, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150, ItemFlags = ItemFlags.Glowing }, room) as IItemArmor;
 
             ItemData itemData = armor.MapItemData(); // no specific ItemData
 
@@ -105,7 +105,7 @@ namespace Mud.Server.Tests
             IItemPortal portal = world.AddItem(Guid.NewGuid(), new ItemPortalBlueprint { Id = 2, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = room.Blueprint.Id }, container1) as IItemPortal;
             IItemContainer container2 = world.AddItem(Guid.NewGuid(), new ItemContainerBlueprint { Id = 888, Name = "Container2", ShortDescription = "Container2Short", Description = "Container2Desc", ItemCount = 10, WeightMultiplier = 50 }, container1) as IItemContainer;
             IItemJewelry jewelry = world.AddItem(Guid.NewGuid(), new ItemJewelryBlueprint { Id = 3, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc" }, container2) as IItemJewelry;
-            IItemArmor armor = world.AddItem(Guid.NewGuid(), new ItemArmorBlueprint { Id = 4, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Armor = 150, ArmorKind = ArmorKinds.Mail }, container2) as IItemArmor;
+            IItemArmor armor = world.AddItem(Guid.NewGuid(), new ItemArmorBlueprint { Id = 4, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150 }, container2) as IItemArmor;
 
             ItemData itemData = container1.MapItemData();
 

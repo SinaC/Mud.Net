@@ -2,7 +2,6 @@
 using System.Linq;
 using AutoBogus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -110,7 +109,7 @@ namespace Mud.Server.Tests
             world.AddItemBlueprint(containerBlueprint2);
             ItemJewelryBlueprint jewelryBlueprint = new ItemJewelryBlueprint { Id = 3, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc" };
             world.AddItemBlueprint(jewelryBlueprint);
-            ItemArmorBlueprint armorBlueprint = new ItemArmorBlueprint { Id = 4, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Armor = 150, ArmorKind = ArmorKinds.Mail };
+            ItemArmorBlueprint armorBlueprint = new ItemArmorBlueprint { Id = 4, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150 };
             world.AddItemBlueprint(armorBlueprint);
 
             //AutoFaker cannot be used because BluePrint for each Item/Quest must be created
@@ -195,7 +194,7 @@ namespace Mud.Server.Tests
             world.AddItemBlueprint(containerBlueprint);
             ItemJewelryBlueprint jewelryBlueprint = new ItemJewelryBlueprint { Id = 3, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc", WearLocation = WearLocations.Ring};
             world.AddItemBlueprint(jewelryBlueprint);
-            ItemArmorBlueprint armorBlueprint = new ItemArmorBlueprint { Id = 4, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Armor = 150, ArmorKind = ArmorKinds.Mail, WearLocation = WearLocations.Chest};
+            ItemArmorBlueprint armorBlueprint = new ItemArmorBlueprint { Id = 4, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150, WearLocation = WearLocations.Chest};
             world.AddItemBlueprint(armorBlueprint);
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint { Id = 2, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 1 };
             world.AddItemBlueprint(portalBlueprint);

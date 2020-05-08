@@ -530,7 +530,7 @@ namespace Mud.Repository.Filesystem
                 case 10: return Domain.CharacterAttributes.ArmorBash;
                 case 11: return Domain.CharacterAttributes.ArmorPierce;
                 case 12: return Domain.CharacterAttributes.ArmorSlash;
-                case 13: return Domain.CharacterAttributes.ArmorMagic;
+                case 13: return Domain.CharacterAttributes.ArmorExotic;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid CharacterAttributes {attr} while reading pfile");
                     return Domain.CharacterAttributes.Strength;
@@ -554,7 +554,7 @@ namespace Mud.Repository.Filesystem
                 case Domain.CharacterAttributes.ArmorBash: return 10;
                 case Domain.CharacterAttributes.ArmorPierce: return 11;
                 case Domain.CharacterAttributes.ArmorSlash: return 12;
-                case Domain.CharacterAttributes.ArmorMagic: return 13;
+                case Domain.CharacterAttributes.ArmorExotic: return 13;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid CharacterAttributes {attr} while writing pfile");
                     return 0;

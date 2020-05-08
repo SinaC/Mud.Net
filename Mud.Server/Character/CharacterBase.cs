@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using Mud.Container;
 using Mud.DataStructures.Trie;
@@ -511,14 +510,14 @@ namespace Mud.Server.Character
             // 3) Apply equipment armor
             foreach (EquipedItem equipment in Equipments.Where(x => x.Item is IItemArmor))
             {
-                IItemArmor armor = equipment.Item as IItemArmor;
-                int equipmentSlotMultiplier = TableValues.EquipmentSlotMultiplier(equipment.Slot);
-                // TODO: IItemArmor: Bash/Pierce/Slash/Magic 4 values instead of one value
-                int armorValue = armor.Armor * equipmentSlotMultiplier;
-                this[CharacterAttributes.ArmorBash] -= armorValue;
-                this[CharacterAttributes.ArmorPierce] -= armorValue;
-                this[CharacterAttributes.ArmorSlash] -= armorValue;
-                this[CharacterAttributes.ArmorMagic] -= armorValue;
+                if (equipment.Item is IItemArmor armor) // always true
+                {
+                    int equipmentSlotMultiplier = TableValues.EquipmentSlotMultiplier(equipment.Slot);
+                    this[CharacterAttributes.ArmorBash] -= armor.Bash * equipmentSlotMultiplier;
+                    this[CharacterAttributes.ArmorPierce] -= armor.Pierce * equipmentSlotMultiplier;
+                    this[CharacterAttributes.ArmorSlash] -= armor.Slash * equipmentSlotMultiplier;
+                    this[CharacterAttributes.ArmorExotic] -= armor.Exotic * equipmentSlotMultiplier;
+                }
             }
 
             // 4) Apply own auras
@@ -1362,13 +1361,13 @@ namespace Mud.Server.Character
                         _currentAttributes[(int)CharacterAttributes.ArmorBash] += affect.Modifier;
                         _currentAttributes[(int)CharacterAttributes.ArmorPierce] += affect.Modifier;
                         _currentAttributes[(int)CharacterAttributes.ArmorSlash] += affect.Modifier;
-                        _currentAttributes[(int)CharacterAttributes.ArmorMagic] += affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.ArmorExotic] += affect.Modifier;
                         break;
                     case AffectOperators.Assign:
                         _currentAttributes[(int)CharacterAttributes.ArmorBash] = affect.Modifier;
                         _currentAttributes[(int)CharacterAttributes.ArmorPierce] = affect.Modifier;
                         _currentAttributes[(int)CharacterAttributes.ArmorSlash] = affect.Modifier;
-                        _currentAttributes[(int)CharacterAttributes.ArmorMagic] = affect.Modifier;
+                        _currentAttributes[(int)CharacterAttributes.ArmorExotic] = affect.Modifier;
                         break;
                     case AffectOperators.Or:
                     case AffectOperators.Nor:
@@ -1394,7 +1393,7 @@ namespace Mud.Server.Character
                 case CharacterAttributeAffectLocations.ArmorBash: attribute = CharacterAttributes.ArmorBash; break;
                 case CharacterAttributeAffectLocations.ArmorPierce: attribute = CharacterAttributes.ArmorPierce; break;
                 case CharacterAttributeAffectLocations.ArmorSlash: attribute = CharacterAttributes.ArmorSlash; break;
-                case CharacterAttributeAffectLocations.ArmorMagic: attribute = CharacterAttributes.ArmorMagic; break;
+                case CharacterAttributeAffectLocations.ArmorMagic: attribute = CharacterAttributes.ArmorExotic; break;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"CharacterBase.ApplyAffect: Unexpected CharacterAttributeAffectLocations {affect.Location}");
                     return;
@@ -2011,24 +2010,6 @@ namespace Mud.Server.Character
         {
             // Get current resource kind from class if any, every resource otherwise
             CurrentResourceKinds = (Class?.CurrentResourceKinds(Form) ?? EnumHelpers.GetValues<ResourceKinds>()).ToList();
-        }
-
-        protected int ComputeArmorFromEquipments()
-        {
-            int armorValue = 0;
-            foreach (EquipedItem equipedItem in Equipments.Where(x => x.Item != null))
-            {
-                IItemArmor armor = equipedItem.Item as IItemArmor;
-                if (armor != null)
-                    armorValue += armor.Armor;
-                else
-                {
-                    IItemShield shield = equipedItem.Item as IItemShield;
-                    if (shield != null)
-                        armorValue += shield.Armor;
-                }
-            }
-            return armorValue;
         }
 
         protected bool GenericDamage(IEntity source, string sourceName /*can be source.DisplayName or source.Weapon.DisplayName*/, int damage, SchoolTypes damageType, bool visible)

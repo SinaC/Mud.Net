@@ -52,7 +52,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(-npc.Level+ defensiveBonus, npc[Armors.Bash]); // Armor is initialized with -Level
             Assert.AreEqual(-npc.Level + defensiveBonus, npc[Armors.Pierce]);
             Assert.AreEqual(-npc.Level + defensiveBonus, npc[Armors.Slash]);
-            Assert.AreEqual(-npc.Level + defensiveBonus, npc[Armors.Magic]);
+            Assert.AreEqual(-npc.Level + defensiveBonus, npc[Armors.Exotic]);
         }
 
         [TestMethod]

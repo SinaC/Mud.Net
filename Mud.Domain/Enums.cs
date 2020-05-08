@@ -156,14 +156,6 @@ namespace Mud.Domain
         OffHand     = 16, // can equip Wield/Hold/Shield
     }
 
-    public enum ArmorKinds
-    {
-        Cloth       = 0,
-        Leather     = 1,
-        Mail        = 2,
-        Plate       = 3,
-    }
-
     public enum WeaponTypes
     {
         // one-handed
@@ -198,7 +190,7 @@ namespace Mud.Domain
     {
         None            = 0,
         // Physical
-        Bash = 1,
+        Bash            = 1,
         Pierce          = 2,
         Slash           = 3,
         // Magic
@@ -264,7 +256,7 @@ namespace Mud.Domain
         ArmorBash       = 10,
         ArmorPierce     = 11,
         ArmorSlash      = 12,
-        ArmorMagic      = 13
+        ArmorExotic     = 13
     }
 
     public enum BasicAttributes
@@ -281,7 +273,7 @@ namespace Mud.Domain
         Bash = CharacterAttributes.ArmorBash,
         Pierce = CharacterAttributes.ArmorPierce,
         Slash = CharacterAttributes.ArmorSlash,
-        Magic = CharacterAttributes.ArmorMagic,
+        Exotic = CharacterAttributes.ArmorExotic,
     }
 
     [Flags]

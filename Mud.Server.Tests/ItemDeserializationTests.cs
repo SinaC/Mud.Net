@@ -18,7 +18,7 @@ namespace Mud.Server.Tests
         {
             IWorld world = World;
             IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            ItemArmorBlueprint armorBlueprint = new ItemArmorBlueprint { Id = 1, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Armor = 150, ArmorKind = ArmorKinds.Mail };
+            ItemArmorBlueprint armorBlueprint = new ItemArmorBlueprint { Id = 1, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150 };
             world.AddItemBlueprint(armorBlueprint);
             ItemData itemData = new ItemData
             {
@@ -162,7 +162,7 @@ namespace Mud.Server.Tests
             world.AddItemBlueprint(containerBlueprint2);
             ItemJewelryBlueprint jewelryBlueprint = new ItemJewelryBlueprint {Id = 3, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc"};
             world.AddItemBlueprint(jewelryBlueprint);
-            ItemArmorBlueprint armorBlueprint = new ItemArmorBlueprint {Id = 4, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Armor = 150, ArmorKind = ArmorKinds.Mail};
+            ItemArmorBlueprint armorBlueprint = new ItemArmorBlueprint {Id = 4, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150};
             world.AddItemBlueprint(armorBlueprint);
 
             ItemContainerData itemData = new ItemContainerData

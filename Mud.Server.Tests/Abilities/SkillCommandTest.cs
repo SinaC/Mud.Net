@@ -1,12 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Mud.Server.Common;
-using Mud.Server.Input;
-using System.Linq;
-using Mud.Server.Abilities;
-using Mud.Server.Character.PlayableCharacter;
-
-namespace Mud.Server.Tests.Abilities
+﻿namespace Mud.Server.Tests.Abilities
 {
     // TODO: hard to mock for the moment
     //[TestClass]

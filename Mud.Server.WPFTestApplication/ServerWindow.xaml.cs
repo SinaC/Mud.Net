@@ -995,8 +995,10 @@ namespace Mud.Server.WPFTestApplication
                         Level = data.Level,
                         Weight = data.Weight,
                         WearLocation = ConvertWearLocation(data),
-                        Armor = Convert.ToInt32(data.Values[0]) + Convert.ToInt32(data.Values[1]) + Convert.ToInt32(data.Values[2]) + Convert.ToInt32(data.Values[3]), // TODO
-                        ArmorKind = ArmorKinds.Leather, // TODO
+                        Pierce = Convert.ToInt32(data.Values[0]),
+                        Bash = Convert.ToInt32(data.Values[1]),
+                        Slash = Convert.ToInt32(data.Values[2]),
+                        Exotic = Convert.ToInt32(data.Values[3]),
                         ItemFlags = extraFlags.itemFlags,
                         NoTake = extraFlags.noTake,
                     };
@@ -1177,8 +1179,10 @@ namespace Mud.Server.WPFTestApplication
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
-                    Armor = Convert.ToInt32(data.Values[0]) + Convert.ToInt32(data.Values[1]) + Convert.ToInt32(data.Values[2]) + Convert.ToInt32(data.Values[3]), // TODO
-                    ArmorKind = ArmorKinds.Leather, // TODO
+                    Pierce = Convert.ToInt32(data.Values[0]),
+                    Bash = Convert.ToInt32(data.Values[1]),
+                    Slash = Convert.ToInt32(data.Values[2]),
+                    Exotic = Convert.ToInt32(data.Values[3]),
                     ItemFlags = ConvertRomItemExtraFlags(data)
                 };
             }
@@ -1586,8 +1590,10 @@ namespace Mud.Server.WPFTestApplication
                 Name = "item3 third",
                 ShortDescription = "Third item (armor|feet)",
                 Description = "The third item (armor|feet) has been left here.",
-                Armor = 100,
-                ArmorKind = ArmorKinds.Mail,
+                Bash = 100,
+                Pierce = 110,
+                Slash = 120,
+                Exotic = 130,
                 WearLocation = WearLocations.Feet
             };
             World.AddItemBlueprint(item3Blueprint);

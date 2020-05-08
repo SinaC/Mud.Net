@@ -1,11 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.Container;
-using Mud.Domain;
-using Mud.Server.Abilities;
-using Mud.Server.Character.PlayableCharacter;
-using Mud.Server.Common;
 
 namespace Mud.Server.Tests.Abilities
 {

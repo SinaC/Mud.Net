@@ -9,18 +9,28 @@ namespace Mud.Server.Item
         public ItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)
         {
-            Armor = blueprint.Armor;
-            ArmorKind = blueprint.ArmorKind;
+            Bash = blueprint.Bash;
+            Pierce = blueprint.Pierce;
+            Slash = blueprint.Slash;
+            Exotic = blueprint.Exotic;
         }
 
         public ItemArmor(Guid guid, ItemArmorBlueprint blueprint, ItemData itemData, IContainer containedInto)
             : base(guid, blueprint, itemData, containedInto)
         {
-            Armor = blueprint.Armor;
-            ArmorKind = blueprint.ArmorKind;
+            Bash = blueprint.Bash;
+            Pierce = blueprint.Pierce;
+            Slash = blueprint.Slash;
+            Exotic = blueprint.Exotic;
         }
 
-        public int Armor { get; }
-        public ArmorKinds ArmorKind { get; }
+        #region IItemArmor
+
+        public int Bash { get; }
+        public int Pierce { get; }
+        public int Slash { get; }
+        public int Exotic { get; }
+
+        #endregion
     }
 }
