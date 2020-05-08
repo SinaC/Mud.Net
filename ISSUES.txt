@@ -2,3 +2,7 @@ when fighting multiple mobs
 	when one mob dies and try to flee, we are not considered as fightning until next tick
 
 TableGenerator with duplicate column and merge on same value doesn't work
+
+unit tests failing:  probably because Target has been changed from Self to None
+public void Target_CharacterSelf_TargetNotFoundSpecified_Test()
+public void Target_CharacterSelf_TargetSpecified_Test()

@@ -11,6 +11,8 @@ using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
+using Mud.Server.Tables;
+
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Admin
@@ -450,6 +452,26 @@ namespace Mud.Server.Admin
             //
             if (item is IItemPortal portal)
                 sb.AppendFormatLine("Destination: {0}", portal.Destination?.DebugName ?? "???");
+            //
+            if (item is IItemFountain fountain)
+            {
+                var liquidInfo = TableValues.LiquidInfo(fountain.LiquidName);
+                if (liquidInfo != default)
+                    sb.AppendFormatLine("Liquid type: {0} color: {1} proof: {2} full: {3} thirst: {4} food: {5} size: {6}", fountain.LiquidName, liquidInfo.color, liquidInfo.proof, liquidInfo.full, liquidInfo.thirst, liquidInfo.food, liquidInfo.servingsize);
+                else
+                    sb.AppendFormatLine("Liquid type: {0} (not found in liquid table)", fountain.LiquidName);
+            }
+
+            if (item is IItemDrinkContainer drinkContainer)
+            {
+                sb.AppendFormatLine("Max: {0} Current: {1} Poisoned: {2}", drinkContainer.MaxLiquidAmount, drinkContainer.CurrentLiquidAmount, drinkContainer.IsPoisoned);
+                var liquidInfo = TableValues.LiquidInfo(drinkContainer.LiquidName);
+                if (liquidInfo != default)
+                    sb.AppendFormatLine("Liquid type: {0} color: {1} proof: {2} full: {3} thirst: {4} food: {5} size: {6}", drinkContainer.LiquidName, liquidInfo.color, liquidInfo.proof, liquidInfo.full, liquidInfo.thirst, liquidInfo.food, liquidInfo.servingsize);
+                else
+                    sb.AppendFormatLine("Liquid type: {0} (not found in liquid table)", drinkContainer.LiquidName);
+            }
+
             // TODO: other item type
             //
             AppendAuras(sb, item.Auras);

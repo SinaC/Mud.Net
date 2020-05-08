@@ -17,6 +17,7 @@ namespace Mud.Server.Admin
         protected IServerAdminCommand ServerAdminCommand => DependencyContainer.Current.GetInstance<IServerAdminCommand>();
         protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
         protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();
+        protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
 
         public Admin(Guid id, string name) 
             : base(id, name)

@@ -38,6 +38,15 @@ namespace Mud.Server.Helpers
                     .Concat(character.Equipments.Where(x => x.Item != null && character.CanSee(x.Item)).Select(x => x.Item)),
                 parameter, perfectMatch);
         }
+        public static T FindItemHere<T>(ICharacter character, CommandParameter parameter, bool perfectMatch = false) // equivalent to get_obj_here in handler.C:3680
+            where T:IItem
+        {
+            return FindByName(
+                character.Room.Content.Where(character.CanSee).OfType<T>()
+                    .Concat(character.Inventory.Where(character.CanSee).OfType<T>())
+                    .Concat(character.Equipments.Where(x => x.Item != null && character.CanSee(x.Item)).Select(x => x.Item).OfType<T>()),
+                parameter, perfectMatch);
+        }
 
         // Players/Admin
         public static IPlayer FindByName(IEnumerable<IPlayer> list, string name, bool perfectMatch = false)

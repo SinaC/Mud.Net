@@ -87,6 +87,7 @@
     <Compile Include="ItemData.cs" />
     <Compile Include="ExitDirections.cs" />
     <Compile Include="Extensions\ExitDirectionsExtensions.cs" />
+    <Compile Include="ItemDrinkContainerData.cs" />
     <Compile Include="ItemFlagsAffectData.cs" />
     <Compile Include="ItemWeaponData.cs" />
     <Compile Include="ItemWeaponFlagsAffectData.cs" />

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Aura;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -13,7 +15,7 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [Command("wear", "Item")]
+        [Command("wear", "Item", "Equipment")]
         [Syntax(
             "[cmd] <item>",
             "[cmd] all")]
@@ -72,7 +74,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("wield", "Item")]
+        [Command("wield", "Item", "Equipment")]
         [Syntax("[cmd] <weapon>")]
         // Wield item
         protected virtual CommandExecutionResults DoWield(string rawParameters, params CommandParameter[] parameters)
@@ -105,7 +107,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("hold", "Item")]
+        [Command("hold", "Item", "Equipment")]
         [Syntax("[cmd] <item>")]
         // Hold item
         protected virtual CommandExecutionResults DoHold(string rawParameters, params CommandParameter[] parameters)
@@ -133,7 +135,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("remove", "Item")]
+        [Command("remove", "Item", "Equipment")]
         [Syntax("[cmd] <item>")]
         // Remove item
         protected virtual CommandExecutionResults DoRemove(string rawParameters, params CommandParameter[] parameters)
@@ -158,8 +160,8 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("get", "Item")]
-        [Command("take", "Item")]
+        [Command("get", "Item", "Inventory")]
+        [Command("take", "Item", "Inventory")]
         [Syntax(
             "[cmd] <item>",
             "[cmd] <item> <container>")]
@@ -275,7 +277,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("drop", "Item")]
+        [Command("drop", "Item", "Inventory")]
         [Syntax(
             "[cmd] <item>",
             "[cmd] all")]
@@ -326,7 +328,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("give", "Item")]
+        [Command("give", "Item", "Equipment")]
         [Syntax("[cmd] <item> <character>")]
         // Give item victim
         protected virtual CommandExecutionResults DoGive(string rawParameters, params CommandParameter[] parameters)
@@ -375,7 +377,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("put", "Item")]
+        [Command("put", "Item", "Equipment")]
         [Syntax("[cmd] <item> <container>")]
         // Put item container
         // Put item [in] container
@@ -441,6 +443,79 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.TargetNotFound;
             }
             PutItem(item, container);
+            return CommandExecutionResults.Ok;
+        }
+
+        [Command("drink", "Food", "Drink")]
+        [Syntax(
+            "[cmd]",
+            "[cmd] <container>")]
+        protected virtual CommandExecutionResults DoDrink(string rawParameters, params CommandParameter[] parameters)
+        {
+            IItemDrinkable drinkable = null;
+            // fountain in room
+            if (parameters.Length == 0)
+            {
+                drinkable = Room.Content.OfType<IItemDrinkable>().FirstOrDefault();
+                if (drinkable == null)
+                {
+                    Send("Drink what?");
+                    return CommandExecutionResults.TargetNotFound;
+                }
+            }
+            // search in room/inventory/equipment
+            else
+            {
+                drinkable = FindHelpers.FindItemHere<IItemDrinkable>(this, parameters[0]);
+                if (drinkable == null)
+                {
+                    Send(StringHelpers.CantFindIt);
+                    return CommandExecutionResults.TargetNotFound;
+                }
+            }
+            // from here, we are sure we have a drinkable item
+
+            // TODO: check drunk act_obj.c:1167
+
+            // get liquid info
+            (string name, string color, int proof, int full, int thirst, int food, int servingsize) liquidInfo = TableValues.LiquidInfo(drinkable.LiquidName);
+            if (liquidInfo == default)
+            {
+                Send("You can't drink from that.");
+                Log.Default.WriteLine(LogLevels.Error,"Invalid liquid name {0} item {1}", drinkable.LiquidName, drinkable.DebugName);
+                return CommandExecutionResults.InvalidTarget;
+            }
+            // empty
+            if (drinkable.IsEmpty)
+            {
+                Send("It is already empty.");
+                return CommandExecutionResults.NoExecution;
+            }
+            // compute amount (limited to liquid left)
+            int amount = Math.Min(drinkable.LiquidLeft, liquidInfo.servingsize * drinkable.LiquidAmountMultiplier);
+            drinkable.Drink(amount);
+            // TODO: check drunk again
+
+            Act(ActOptions.ToAll, "{0:N} drink{0:v} {1} from {2}.", this, liquidInfo.name, drinkable);
+
+            // TODO: thirst/food/full update see act_obj.c:1217
+            if (drinkable.IsPoisoned)
+            {
+                Act(ActOptions.ToAll, "{0:N} choke{0:v} and gag{0:v}.", this);
+                // search poison affect
+                IAbility poison = AbilityManager["Poison"];
+                IAura poisonAura = GetAura(poison);
+                if (poisonAura != null) // TODO: update duration
+                    poisonAura.AddOrUpdateAffect(
+                        x => x.Modifier == CharacterFlags.Poison,
+                        () => new CharacterFlagsAffect {Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or},
+                        null);
+                else
+                    World.AddAura(this, poison, drinkable, RandomManager.Fuzzy(amount), TimeSpan.FromMinutes(amount*3), AuraFlags.None, false,
+                        new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
+                Recompute();
+            }
+
             return CommandExecutionResults.Ok;
         }
 

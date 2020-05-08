@@ -39,11 +39,13 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
                 .Include<Mud.Domain.ItemContainerData, Domain.ItemContainerData>()
                 .Include<Mud.Domain.ItemCorpseData, Domain.ItemCorpseData>()
-                .Include<Mud.Domain.ItemWeaponData, Domain.ItemWeaponData>();
+                .Include<Mud.Domain.ItemWeaponData, Domain.ItemWeaponData>()
+                .Include<Mud.Domain.ItemDrinkContainerData, Domain.ItemDrinkContainerData>();
             CreateMap<Mud.Domain.ItemContainerData, Domain.ItemContainerData>();
             CreateMap<Mud.Domain.ItemCorpseData, Domain.ItemCorpseData>();
             CreateMap<Mud.Domain.ItemWeaponData, Domain.ItemWeaponData>()
                 .ForMember(x => x.WeaponFlags, expression => expression.MapFrom(x => MapWeaponFlags(x.WeaponFlags)));
+            CreateMap<Mud.Domain.ItemDrinkContainerData, Domain.ItemDrinkContainerData>();
 
             CreateMap<Mud.Domain.EquipedItemData, Domain.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
@@ -107,11 +109,13 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
                 .Include<Domain.ItemContainerData, Mud.Domain.ItemContainerData>()
                 .Include<Domain.ItemCorpseData, Mud.Domain.ItemCorpseData>()
-                .Include<Domain.ItemWeaponData, Mud.Domain.ItemWeaponData>();
+                .Include<Domain.ItemWeaponData, Mud.Domain.ItemWeaponData>()
+                .Include<Domain.ItemDrinkContainerData, Mud.Domain.ItemDrinkContainerData>();
             CreateMap<Domain.ItemContainerData, Mud.Domain.ItemContainerData>();
             CreateMap<Domain.ItemCorpseData, Mud.Domain.ItemCorpseData>();
             CreateMap<Domain.ItemWeaponData, Mud.Domain.ItemWeaponData>()
                 .ForMember(x => x.WeaponFlags, expression => expression.MapFrom(x => MapWeaponFlags(x.WeaponFlags)));
+            CreateMap<Domain.ItemDrinkContainerData, Mud.Domain.ItemDrinkContainerData>();
 
             CreateMap<Domain.EquipedItemData, Mud.Domain.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));

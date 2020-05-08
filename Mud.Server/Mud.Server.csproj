@@ -103,7 +103,10 @@
     <Compile Include="Admin\InfoCommands.cs" />
     <Compile Include="Aura\RoomFlagsAffect.cs" />
     <Compile Include="Character\AbilityCommands.cs" />
-    <Compile Include="Character\TableValues.cs" />
+    <Compile Include="Item\IItemDrinkContainer.cs" />
+    <Compile Include="Item\IItemDrinkable.cs" />
+    <Compile Include="Item\ItemDrinkContainer.cs" />
+    <Compile Include="Tables\TableValues.cs" />
     <Compile Include="Character\CharacterBase.cs" />
     <Compile Include="Character\CombatCommands.cs" />
     <Compile Include="Character\CommunicationCommands.cs" />
@@ -164,6 +167,7 @@
     <Compile Include="Item\IItemArmor.cs" />
     <Compile Include="Item\IItemContainer.cs" />
     <Compile Include="Item\IItemCorpse.cs" />
+    <Compile Include="Item\IItemFountain.cs" />
     <Compile Include="Item\IItemFurniture.cs" />
     <Compile Include="Item\IItemJewelry.cs" />
     <Compile Include="Item\IItemKey.cs" />
@@ -175,6 +179,7 @@
     <Compile Include="Item\ItemArmor.cs" />
     <Compile Include="Item\ItemCorpse.cs" />
     <Compile Include="Item\ItemEquipableBase.cs" />
+    <Compile Include="Item\ItemFountain.cs" />
     <Compile Include="Item\ItemFurniture.cs" />
     <Compile Include="Item\ItemJewelry.cs" />
     <Compile Include="Item\ItemKey.cs" />

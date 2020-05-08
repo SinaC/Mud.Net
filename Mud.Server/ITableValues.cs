@@ -16,5 +16,7 @@ namespace Mud.Server
         int ShockBonus(ICharacter character);
 
         int EquipmentSlotMultiplier(EquipmentSlots slot);
+
+        (string name, string color, int proof, int full, int thirst, int food, int servingsize) LiquidInfo(string liquidName);
     }
 }

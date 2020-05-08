@@ -1,8 +1,9 @@
-﻿using Mud.Domain;
+﻿using System.Linq;
+using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Common;
 
-namespace Mud.Server.Character
+namespace Mud.Server.Tables
 {
     public class TableValues : ITableValues
     {
@@ -62,8 +63,9 @@ namespace Mud.Server.Character
             }
         }
 
-        private static readonly (int hit, int dam, int carry, int wield)[] StrengthBasedBonus = new (int hit, int dam, int carry, int wield)[]
-        {
+        public (string name, string color, int proof, int full, int thirst, int food, int servingsize) LiquidInfo(string liquidName) => LiquidTable.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.name, liquidName));
+
+        private static readonly (int hit, int dam, int carry, int wield)[] StrengthBasedBonus = {
             ( -5, -4,   0,  0 ),  /* 0  */
             ( -5, -4,   3,  1 ),  /* 1  */
             ( -3, -2,   3,  2 ),
@@ -92,8 +94,7 @@ namespace Mud.Server.Character
             (  6,  9, 500, 60 )  /* 25   */
         };
 
-        private static readonly int[] IntelligenceBasedBonus = new int[]
-        {
+        private static readonly int[] IntelligenceBasedBonus = {
             3,  /*  0 */
             5,  /*  1 */
             7,
@@ -122,8 +123,7 @@ namespace Mud.Server.Character
             85  /* 25 */
         };
 
-        private static readonly int[] WisdomBasedBonus = new int[]
-        {
+        private static readonly int[] WisdomBasedBonus = {
              0 ,	/*  0 */
              0 ,	/*  1 */
              0 ,
@@ -152,8 +152,7 @@ namespace Mud.Server.Character
              5 	/* 25 */
         };
 
-        private static readonly int[] DexterityBasedBonus = new int[]
-        {
+        private static readonly int[] DexterityBasedBonus = {
             60 ,   /* 0 */
             50 ,   /* 1 */
             50 ,
@@ -182,8 +181,7 @@ namespace Mud.Server.Character
             -120     /* 25 */
         };
 
-        private static readonly (int hitpoint, int shock)[] ConstitutionBasedBonus = new (int hitpoint, int shock)[]
-        {
+        private static readonly (int hitpoint, int shock)[] ConstitutionBasedBonus = {
             ( -4, 20 ),   /*  0 */
             ( -3, 25 ),   /*  1 */
             ( -2, 30 ),
@@ -210,6 +208,54 @@ namespace Mud.Server.Character
             (  6, 99 ),
             (  7, 99 ),
             (  8, 99 )    /* 25 */
+        };
+
+        private static readonly (string name, string color, int proof, int full, int thirst, int food, int servingsize)[] LiquidTable =
+        {
+            // 0
+            ( "water",             "clear",            0, 1, 10, 0, 16 ),
+            ( "beer",              "amber",           12, 1,  8, 1, 12 ),
+            ( "red wine",          "burgundy",        30, 1,  8, 1,  5 ),
+            ( "ale",               "brown",           15, 1,  8, 1, 12 ),
+            ( "dark ale",          "dark",            16, 1,  8, 1, 12 ),
+            // 5                   
+            ( "whisky",            "golden",         120, 1,  5, 0,  2 ),
+            ( "lemonade",          "pink",             0, 1,  9, 2, 12 ),
+            ( "firebreather",      "boiling",        190, 0,  4, 0,  2 ),
+            ( "local specialty",   "clear",          151, 1,  3, 0,  2 ),
+            ( "slime mold juice",  "green",            0, 2, -8, 1,  2 ),
+            // 10
+            ( "milk",               "white",           0, 2,  9, 3, 12 ),
+            ( "tea",                "tan",             0, 1,  8, 0,  6 ),
+            ( "coffee",             "black",           0, 1,  8, 0,  6 ),
+            ( "blood",              "red",             0, 2, -1, 2,  6 ),
+            ( "salt water",         "clear",           0, 1, -2, 0,  1 ),
+            // 15 
+            ( "coke",               "brown",           0, 2,  9, 2, 12 ),
+            ( "root beer",          "brown",           0, 2,  9, 2, 12 ),
+            ( "elvish wine",        "green",          35, 2,  8, 1,  5 ) ,
+            ( "white wine",         "golden",         28, 1,  8, 1,  5 ),
+            ( "champagne",          "golden",         32, 1,  8, 1,  5 ),
+            // 20
+            ( "mead",               "honey-colored",  34, 2,  8, 2, 12 ),
+            ( "rose wine",          "pink",           26, 1,  8, 1,  5 ),
+            ( "benedictine wine",   "burgundy",       40, 1,  8, 1,  5 ),
+            ( "vodka",              "clear",         130, 1,  5, 0,  2 ),
+            ( "cranberry juice",    "red",             0, 1,  9, 2, 12  ),
+            // 25
+            ( "orange juice",       "orange",          0, 2,  9, 3, 12 ),
+            ( "absinthe",           "green",         200, 1,  4, 0,  2 ),
+            ( "brandy",             "golden",         80, 1,  5, 0,  4 ),
+            ( "aquavit",            "clear",         140, 1,  5, 0,  2 ),
+            ( "schnapps",           "clear",          90, 1,  5, 0,  2 ),
+            // 30
+            ( "icewine",            "purple",         50, 2,  6, 1,  5 ),
+            ( "amontillado",        "burgundy",       35, 2,  8, 1,  5 ),
+            ( "sherry",             "red",            38, 2,  7, 1,  5 ),
+            ( "framboise",          "red",            50, 1,  7, 1,  5 ),
+            ( "rum",                "amber",         151, 1,  4, 0,  2 ),
+            // 31                                 
+            ( "cordial",            "clear",         100, 1,  5, 0,  2 ),
         };
     }
 }

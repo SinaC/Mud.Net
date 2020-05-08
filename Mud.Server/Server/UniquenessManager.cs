@@ -82,7 +82,7 @@ namespace Mud.Server.Server
                 var avatarsFromAdmins = AdminRepository.GetAvatarNames();
                 foreach (var avatarName in avatarsFromAdmins)
                     _unavailableNames.Add(avatarName);
-                Log.Default.WriteLine(LogLevels.Info, "UniquenessManager: Unavailable name cache initialized with {0}", _unavailableNames.Count);
+                Log.Default.WriteLine(LogLevels.Info, "UniquenessManager: Unavailable name cache initialized with {0} entries", _unavailableNames.Count);
             }
         }
     }

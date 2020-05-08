@@ -1,7 +1,11 @@
 ONGOING
-Sneak/Hide
+ItemDrinkContainerData serialize/deserialize/unit tests
+thirst/full/hungry
+fix issue with Target none on berserk (see ISSUES.txt)
 
 TODO:
+food
+AddOrUpdateAffect could have an additional parameter with duration, if update is selected -> update duration
 skills: staves/wand/scroll/potion/drink container/steal/lore/pick lock/rescue/envenom
 assign abilities to classes
 race size, form, parts
@@ -16,6 +20,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+drink command added
+fountain and liquid table added
 issue when impersonating another character while already impersonating (previous was not removed from the game, pure luck if I found this one) fixed
 ExitDirectioCount removed
 Sneak/Hide
@@ -79,6 +85,7 @@ TableGenerator with duplicate columns
 	 ----------------------
 
 *************************************************************
+redo rom importer
 Second/Third/Fourth wield in insectoid
 alignment at creation ?
 Resets
