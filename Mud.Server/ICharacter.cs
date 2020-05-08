@@ -105,8 +105,8 @@ namespace Mud.Server
         bool ChangePosition(Positions position);
 
         // Visibility
-        bool CanSee(ICharacter target);
-        bool CanSee(IItem target);
+        bool CanSee(ICharacter victim);
+        bool CanSee(IItem item);
         bool CanSee(IExit exit);
         bool CanSee(IRoom room);
 

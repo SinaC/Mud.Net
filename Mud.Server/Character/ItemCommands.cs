@@ -485,7 +485,7 @@ namespace Mud.Server.Character
         private bool DropItem(IItem item)
         {
             //
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.NoDrop))
+            if (item.ItemFlags.HasFlag(ItemFlags.NoDrop))
             {
                 Send("You can't let go of it.");
                 return false;
@@ -496,7 +496,7 @@ namespace Mud.Server.Character
             item.ChangeContainer(Room);
 
             //
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.MeltOnDrop))
+            if (item.ItemFlags.HasFlag(ItemFlags.MeltOnDrop))
             {
                 Act(ActOptions.ToAll, "{0} dissolves into smoke.", item);
                 World.RemoveItem(item);
@@ -539,7 +539,7 @@ namespace Mud.Server.Character
         private bool RemoveItem(EquipedItem equipmentSlot)
         {
             //
-            if (equipmentSlot.Item.CurrentItemFlags.HasFlag(ItemFlags.NoRemove))
+            if (equipmentSlot.Item.ItemFlags.HasFlag(ItemFlags.NoRemove))
             {
                 Act(ActOptions.ToCharacter, "You cannot remove {0}.", equipmentSlot.Item);
                 return false;
@@ -555,7 +555,7 @@ namespace Mud.Server.Character
 
         private bool PutItem(IItem item, IContainer container)
         {//
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.NoDrop))
+            if (item.ItemFlags.HasFlag(ItemFlags.NoDrop))
             {
                 Send("You can't let go of it.");
                 return false;

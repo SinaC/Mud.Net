@@ -717,6 +717,20 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
+        [Command("visible")]
+        [Syntax("[cmd]")]
+        protected virtual CommandExecutionResults DoVisible(string rawParameters, params CommandParameter[] parameter)
+        {
+            CharacterFlags &= ~CharacterFlags.Invisible;
+            CharacterFlags &= ~CharacterFlags.Sneak;
+            CharacterFlags &= ~CharacterFlags.Hide;
+            RemoveAuras(x => x.Ability == AbilityManager["Invisibility"]
+                             || x.Ability == AbilityManager["Sneak"]
+                             || x.Ability == AbilityManager["Hide"], true);
+            Send("You are now visible");
+            return CommandExecutionResults.Ok;
+        }
+
         // Helpers
         private IExit VerboseFindDoor(CommandParameter parameter, out ExitDirections exitDirection)
         {

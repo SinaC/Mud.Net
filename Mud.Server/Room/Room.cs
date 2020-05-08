@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Aura;
 using Mud.Server.Blueprints.Character;
@@ -28,7 +27,7 @@ namespace Mud.Server.Room
             Blueprint = blueprint;
             _people = new List<ICharacter>();
             _content = new List<IItem>();
-            Exits = new IExit[ExitDirectionsExtensions.ExitCount];
+            Exits = new IExit[EnumHelpers.GetCount<ExitDirections>()];
 
             BaseRoomFlags = blueprint.RoomFlags;
 

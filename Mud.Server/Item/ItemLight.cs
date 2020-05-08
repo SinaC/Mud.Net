@@ -23,6 +23,12 @@ namespace Mud.Server.Item
             // Don't overwrite DecayPulseLeft
         }
 
+        #region IItemLight
+
+        public bool IsLighten => DecayPulseLeft == Infinite || DecayPulseLeft > 0;
+
+        #endregion
+
         // No additional datas
     }
 }

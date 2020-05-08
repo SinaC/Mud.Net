@@ -2,5 +2,6 @@
 {
     public interface IItemLight : IItem, IEquipableItem
     {
+        bool IsLighten { get; }
     }
 }

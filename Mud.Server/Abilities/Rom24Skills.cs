@@ -1,4 +1,7 @@
-﻿using Mud.Domain;
+﻿using System;
+using Mud.Domain;
+using Mud.Server.Aura;
+
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Abilities
@@ -397,7 +400,8 @@ namespace Mud.Server.Abilities
             }
 
             // TODO: gcd
-            if (RandomManager.Chance(knownAbility?.Learned ?? 0))
+            int chance = knownAbility?.Learned ?? 0;
+            if (RandomManager.Chance(chance))
             {
                 int damage = RandomManager.Range(1, source.Level);
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.Bash, true);
@@ -509,6 +513,58 @@ namespace Mud.Server.Abilities
                 // TODO  check_killer(ch, victim);
                 return UseResults.Failed;
             }
+        }
+
+        [Skill(5007, "Sneak", AbilityTargets.CharacterSelf)]
+        public UseResults SkillSneak(IAbility ability, ICharacter source)
+        {
+            source.Send("You attempt to move silently.");
+            source.RemoveAuras(x => x.Ability == ability, true);
+
+            if (source.CharacterFlags.HasFlag(CharacterFlags.Sneak))
+                return UseResults.Failed;
+
+            bool success = false;
+            KnownAbility knownAbility = source[ability];
+            int chance = knownAbility?.Learned ?? 0;
+            if (RandomManager.Chance(chance))
+            {
+                World.AddAura(source, ability, source, source.Level, TimeSpan.FromMinutes(source.Level), AuraFlags.None, true,
+                    new CharacterFlagsAffect {Modifier = CharacterFlags.Sneak, Operator = AffectOperators.Or});
+                success = true;
+            }
+
+            (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, success, 3);
+            source.Recompute();
+
+            return success
+                ? UseResults.Ok
+                : UseResults.Failed;
+        }
+
+        [Skill(5008, "Hide", AbilityTargets.CharacterSelf)]
+        public UseResults SKillHide(IAbility ability, ICharacter source)
+        {
+            source.Send("You attempt to hide.");
+
+            if (source.CharacterFlags.HasFlag(CharacterFlags.Hide))
+                source.RemoveBaseCharacterFlags(CharacterFlags.Hide);
+
+            bool success = false;
+            KnownAbility knownAbility = source[ability];
+            int chance = knownAbility?.Learned ?? 0;
+            if (RandomManager.Chance(chance))
+            {
+                source.AddBaseCharacterFlags(CharacterFlags.Hide);
+                success = true;
+            }
+
+            (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, success, 3);
+            source.Recompute();
+
+            return success
+                ? UseResults.Ok
+                : UseResults.Failed;
         }
 
     }

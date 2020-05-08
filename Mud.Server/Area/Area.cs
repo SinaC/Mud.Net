@@ -28,6 +28,7 @@ namespace Mud.Server.Area
         public IEnumerable<IRoom> Rooms => _rooms;
         public IEnumerable<IPlayer> Players => _rooms.SelectMany(x => x.People).OfType<IPlayableCharacter>().Select(x => x.ImpersonatedBy);
         public IEnumerable<ICharacter> Characters => _rooms.SelectMany(x => x.People);
+        public IEnumerable<IPlayableCharacter> PlayableCharacters => _rooms.SelectMany(x => x.People).OfType<IPlayableCharacter>();
 
         public bool AddRoom(IRoom room)
         {

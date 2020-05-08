@@ -45,12 +45,12 @@ namespace Mud.Server.Abilities
             // item
             if (target is IItem item)
             {
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
+                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
                 {
                     caster.Act(ActOptions.ToCharacter, "{0:N} is already blessed.", item);
                     return;
                 }
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.Evil))
+                if (item.ItemFlags.HasFlag(ItemFlags.Evil))
                 {
                     IAura evilAura = item.GetAura("Curse");
                     if (!SavesDispel(level, evilAura?.Level ?? item.Level, 0))
@@ -388,7 +388,7 @@ namespace Mud.Server.Abilities
             // item
             if (item != null)
             {
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.Glowing))
+                if (item.ItemFlags.HasFlag(ItemFlags.Glowing))
                 {
                     caster.Act(ActOptions.ToCharacter, "{0} is already glowing.", item);
                     return;
@@ -500,12 +500,12 @@ namespace Mud.Server.Abilities
             // item
             if (target is IItem item)
             {
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.Evil))
+                if (item.ItemFlags.HasFlag(ItemFlags.Evil))
                 {
                     caster.Act(ActOptions.ToCharacter, "{0} is already filled with evil.", item);
                     return;
                 }
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
+                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
                 {
                     IAura blessAura = item.GetAura("Bless");
                     if (!SavesDispel(level, blessAura?.Level ?? item.Level, 0))
@@ -720,9 +720,9 @@ namespace Mud.Server.Abilities
             }
             // apply other modifiers
             fail -= level;
-            if (armor.CurrentItemFlags.HasFlag(ItemFlags.Bless))
+            if (armor.ItemFlags.HasFlag(ItemFlags.Bless))
                 fail -= 15;
-            if (armor.CurrentItemFlags.HasFlag(ItemFlags.Glowing))
+            if (armor.ItemFlags.HasFlag(ItemFlags.Glowing))
                 fail -= 5;
             fail = fail.Range(5, 85);
             // the moment of truth
@@ -800,9 +800,9 @@ namespace Mud.Server.Abilities
             }
             // apply other modifiers
             fail -= 3 * level / 2;
-            if (weapon.CurrentItemFlags.HasFlag(ItemFlags.Bless))
+            if (weapon.ItemFlags.HasFlag(ItemFlags.Bless))
                 fail -= 15;
-            if (weapon.CurrentItemFlags.HasFlag(ItemFlags.Glowing))
+            if (weapon.ItemFlags.HasFlag(ItemFlags.Glowing))
                 fail -= 5;
             fail = fail.Range(5, 95);
             // the moment of truth
@@ -905,13 +905,14 @@ namespace Mud.Server.Abilities
         {
             caster.Act(ActOptions.ToAll, "{0} conjures a cloud of purple smoke.", caster);
 
-            IAbility invis = this["Invis"];
+            IAbility invis = this["Invisiblity"];
             IAbility massInvis = this["Mass Invis"];
             IAbility sneak = this["Sneak"];
             foreach (ICharacter victim in caster.Room.People.Where(x => x != caster && !x.SavesSpell(level, SchoolTypes.Other))) // && ich->invis_level <= 0
             {
                 victim.RemoveAuras(x => x.Ability == invis || x.Ability == massInvis || x.Ability == sneak, false);
-                victim.RemoveBaseCharacterFlags(CharacterFlags.Hide | CharacterFlags.Invisible | CharacterFlags.Sneak); // TODO: what if it's a racial ?
+                if (victim is INonPlayableCharacter)
+                    victim.RemoveBaseCharacterFlags(CharacterFlags.Hide | CharacterFlags.Invisible | CharacterFlags.Sneak); // TODO: what if it's a racial ?
                 victim.Recompute();
                 victim.Act(ActOptions.ToAll, "{0:N} is revealed!", victim);
             }
@@ -942,7 +943,7 @@ namespace Mud.Server.Abilities
         [Spell(48, "Fireproof", AbilityTargets.CharacterOffensive, ItemWearOffMessage = "{0}'s protective aura fades.")]
         public void SpellFireproof(IAbility ability, int level, ICharacter caster, IItem item)
         {
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof))
+            if (item.ItemFlags.HasFlag(ItemFlags.BurnProof))
             {
                 caster.Act(ActOptions.ToCharacter, "{0} is already protected from burning.", item);
                 return;
@@ -1151,16 +1152,16 @@ namespace Mud.Server.Abilities
                 foreach (EquipedItem equipedItem in victim.Equipments.Where(x => x.Item != null))
                 {
                     IEquipableItem item = equipedItem.Item;
-                    if (!item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof)
-                        && !item.CurrentItemFlags.HasFlag(ItemFlags.NonMetal)
+                    if (!item.ItemFlags.HasFlag(ItemFlags.BurnProof)
+                        && !item.ItemFlags.HasFlag(ItemFlags.NonMetal)
                         && RandomManager.Range(1, 2 * level) > item.Level
                         && !victim.SavesSpell(level, SchoolTypes.Fire))
                     {
                         switch (item)
                         {
                             case ItemArmor itemArmor:
-                                if (!itemArmor.CurrentItemFlags.HasFlag(ItemFlags.NoDrop) // remove the item
-                                    && !itemArmor.CurrentItemFlags.HasFlag(ItemFlags.NoRemove)
+                                if (!itemArmor.ItemFlags.HasFlag(ItemFlags.NoDrop) // remove the item
+                                    && !itemArmor.ItemFlags.HasFlag(ItemFlags.NoRemove)
                                     && itemArmor.Weight / 10 < RandomManager.Range(1, 2 * victim[CharacterAttributes.Dexterity]))
                                 {
                                     itemArmor.ChangeEquipedBy(null);
@@ -1180,8 +1181,8 @@ namespace Mud.Server.Abilities
                             case IItemWeapon itemWeapon:
                                 if (itemWeapon.DamageType != SchoolTypes.Fire)
                                 {
-                                    if (!itemWeapon.CurrentItemFlags.HasFlag(ItemFlags.NoDrop) // remove the item
-                                        && !itemWeapon.CurrentItemFlags.HasFlag(ItemFlags.NoRemove))
+                                    if (!itemWeapon.ItemFlags.HasFlag(ItemFlags.NoDrop) // remove the item
+                                        && !itemWeapon.ItemFlags.HasFlag(ItemFlags.NoRemove))
                                     {
                                         itemWeapon.ChangeEquipedBy(null);
                                         itemWeapon.ChangeContainer(victim.Room);
@@ -1204,15 +1205,15 @@ namespace Mud.Server.Abilities
                 // Check inventory
                 foreach (IItem item in victim.Inventory)
                 {
-                    if (!item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof)
-                        && !item.CurrentItemFlags.HasFlag(ItemFlags.NonMetal)
+                    if (!item.ItemFlags.HasFlag(ItemFlags.BurnProof)
+                        && !item.ItemFlags.HasFlag(ItemFlags.NonMetal)
                         && RandomManager.Range(1, 2 * level) > item.Level
                         && !victim.SavesSpell(level, SchoolTypes.Fire))
                     {
                         switch (item)
                         {
                             case ItemArmor itemArmor:
-                                if (!itemArmor.CurrentItemFlags.HasFlag(ItemFlags.NoDrop)) // drop it if we can
+                                if (!itemArmor.ItemFlags.HasFlag(ItemFlags.NoDrop)) // drop it if we can
                                 {
                                     itemArmor.ChangeContainer(victim.Room);
                                     victim.Act(ActOptions.ToRoom, "{0:N} yelps and throws {1} to the ground!", victim, itemArmor);
@@ -1228,7 +1229,7 @@ namespace Mud.Server.Abilities
                                 }
                                 break;
                             case IItemWeapon itemWeapon:
-                                if (!itemWeapon.CurrentItemFlags.HasFlag(ItemFlags.NoDrop)) // drop it if we can
+                                if (!itemWeapon.ItemFlags.HasFlag(ItemFlags.NoDrop)) // drop it if we can
                                 {
                                     itemWeapon.ChangeContainer(victim.Room);
                                     victim.Act(ActOptions.ToRoom, "{0:N} throws a burning hot {1} to the ground!", victim, itemWeapon);
@@ -1320,11 +1321,11 @@ namespace Mud.Server.Abilities
         }
 
         [Spell(62, "Invisibility", AbilityTargets.ItemInventoryOrCharacterDefensive, CharacterWearOffMessage = "You are no longer invisible.", ItemWearOffMessage = "{0} fades into view.", DispelRoomMessage = "{0:N} fades into existance.", Flags = AbilityFlags.CanBeDispelled)]
-        public void SpellIInvisibilitys(IAbility ability, int level, ICharacter caster, IEntity target)
+        public void SpellInvisibility(IAbility ability, int level, ICharacter caster, IEntity target)
         {
             if (target is IItem item)
             {
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.Invis))
+                if (item.ItemFlags.HasFlag(ItemFlags.Invis))
                 {
                     caster.Send("{0} is already invisible.", item);
                     return;
@@ -1385,7 +1386,7 @@ namespace Mud.Server.Abilities
                 ? 200
                 : level * 2;
             int number = 0;
-            IEnumerable<IItem> foundItems = FindHelpers.FindAllByName(World.Items.Where(x => caster.CanSee(x) && !x.CurrentItemFlags.HasFlag(ItemFlags.NoLocate) && x.Level <= caster.Level && RandomManager.Range(1,100) <= 2*level), parameter);
+            IEnumerable<IItem> foundItems = FindHelpers.FindAllByName(World.Items.Where(x => caster.CanSee(x) && !x.ItemFlags.HasFlag(ItemFlags.NoLocate) && x.Level <= caster.Level && RandomManager.Range(1,100) <= 2*level), parameter);
             foreach (IItem item in foundItems)
             {
                 IItem outOfItemContainer = item;
@@ -1630,9 +1631,9 @@ namespace Mud.Server.Abilities
             // item
             if (target is IItem item)
             {
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.NoDrop) || item.CurrentItemFlags.HasFlag(ItemFlags.NoRemove))
+                if (item.ItemFlags.HasFlag(ItemFlags.NoDrop) || item.ItemFlags.HasFlag(ItemFlags.NoRemove))
                 {
-                    if (!item.CurrentItemFlags.HasFlag(ItemFlags.NoUncurse) && !SavesDispel(level + 2, item.Level, 0))
+                    if (!item.ItemFlags.HasFlag(ItemFlags.NoUncurse) && !SavesDispel(level + 2, item.Level, 0))
                     {
                         item.RemoveBaseItemFlags(ItemFlags.NoRemove);
                         item.RemoveBaseItemFlags(ItemFlags.NoDrop);
@@ -1655,7 +1656,7 @@ namespace Mud.Server.Abilities
                 }
 
                 // attempt to remove curse on one item in inventory or equipment
-                foreach (IItem carriedItem in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)).Where(x => (x.CurrentItemFlags.HasFlag(ItemFlags.NoDrop) || x.CurrentItemFlags.HasFlag(ItemFlags.NoRemove)) && !x.CurrentItemFlags.HasFlag(ItemFlags.NoUncurse)))
+                foreach (IItem carriedItem in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)).Where(x => (x.ItemFlags.HasFlag(ItemFlags.NoDrop) || x.ItemFlags.HasFlag(ItemFlags.NoRemove)) && !x.ItemFlags.HasFlag(ItemFlags.NoUncurse)))
                     if (!SavesDispel(level, carriedItem.Level, 0))
                     {
                         carriedItem.RemoveBaseItemFlags(ItemFlags.NoRemove);
@@ -2034,8 +2035,8 @@ namespace Mud.Server.Abilities
             }
             if (target is IItem item) // toast an object
             {
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof)
-                    || item.CurrentItemFlags.HasFlag(ItemFlags.NoPurge)
+                if (item.ItemFlags.HasFlag(ItemFlags.BurnProof)
+                    || item.ItemFlags.HasFlag(ItemFlags.NoPurge)
                     || RandomManager.Range(0, 4) == 0)
                     return;
                 // Affects only corpse, container, armor, clothing, wand, staff and scroll
@@ -2046,7 +2047,7 @@ namespace Mud.Server.Abilities
                     chance = (chance - 25) / 2 + 25;
                 if (chance > 50)
                     chance = (chance - 50) / 2 + 50;
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
+                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
                     chance -= 5;
                 chance -= item.Level * 2;
                 // TODO: if staff/wand -> chance-=10
@@ -2162,8 +2163,8 @@ namespace Mud.Server.Abilities
             }
             if (target is IItem item) // toast an object
             {
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof)
-                    || item.CurrentItemFlags.HasFlag(ItemFlags.NoPurge)
+                if (item.ItemFlags.HasFlag(ItemFlags.BurnProof)
+                    || item.ItemFlags.HasFlag(ItemFlags.NoPurge)
                     || RandomManager.Range(0, 4) == 0)
                     return;
                 // Affects only potion and drink container
@@ -2174,7 +2175,7 @@ namespace Mud.Server.Abilities
                     chance = (chance - 25) / 2 + 25;
                 if (chance > 50)
                     chance = (chance - 50) / 2 + 50;
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
+                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
                     chance -= 5;
                 chance -= item.Level * 2;
                 //if (item is IItemPotion)
@@ -2239,8 +2240,8 @@ namespace Mud.Server.Abilities
             }
             if (target is IItem item) // toast an object
             {
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.BurnProof)
-                    || item.CurrentItemFlags.HasFlag(ItemFlags.NoPurge)
+                if (item.ItemFlags.HasFlag(ItemFlags.BurnProof)
+                    || item.ItemFlags.HasFlag(ItemFlags.NoPurge)
                     || RandomManager.Range(0, 4) == 0)
                     return;
                 // Affects only container, potion, scroll, staff, wand, food, pill
@@ -2251,7 +2252,7 @@ namespace Mud.Server.Abilities
                     chance = (chance - 25) / 2 + 25;
                 if (chance > 50)
                     chance = (chance - 50) / 2 + 50;
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
+                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
                     chance -= 5;
                 chance -= item.Level * 2;
                 //TODO: IItemPotion chance += 25
@@ -2365,7 +2366,7 @@ namespace Mud.Server.Abilities
                     chance = (chance - 25) / 2 + 25;
                 if (chance > 50)
                     chance = (chance - 50) / 2 + 50;
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
+                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
                     chance -= 5;
                 chance -= item.Level * 2;
                 chance = chance.Range(5, 95);
@@ -2410,7 +2411,7 @@ namespace Mud.Server.Abilities
                     chance = (chance - 25) / 2 + 25;
                 if (chance > 50)
                     chance = (chance - 50) / 2 + 50;
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless))
+                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
                     chance -= 5;
                 chance -= item.Level * 2;
                 chance = chance.Range(5, 95);

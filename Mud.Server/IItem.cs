@@ -21,7 +21,7 @@ namespace Mud.Server
         bool NoTake { get; }
 
         ItemFlags BaseItemFlags { get; }
-        ItemFlags CurrentItemFlags { get; }
+        ItemFlags ItemFlags { get; }
 
         bool IsQuestObjective(IPlayableCharacter questingCharacter);
 

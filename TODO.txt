@@ -1,3 +1,6 @@
+ONGOING
+Sneak/Hide
+
 TODO:
 race size, form, parts
 Dictionary to store Character known ability + keep only one LearnedAbility or replace with KnownAbilities getter based on name
@@ -11,6 +14,9 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+issue when impersonating another character while already impersonating (previous was not removed from the game, pure luck if I found this one) fixed
+ExitDirectioCount removed
+Sneak/Hide
 armor on equipment apply in recompute
 wear off message <> dispel message (see message send in TryDispels)
 Passives not hardcoded anymore in AbilityManager, new attribute [PassiveList] handle this

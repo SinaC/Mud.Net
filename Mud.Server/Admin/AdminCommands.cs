@@ -181,7 +181,7 @@ namespace Mud.Server.Admin
                 foreach (INonPlayableCharacter nonPlayableCharacter in nonPlayableCharacters)
                     World.RemoveCharacter(nonPlayableCharacter);
                 // Purge items (with NoPurge flag)
-                IReadOnlyCollection<IItem> items = new ReadOnlyCollection<IItem>(Impersonating.Room.Content.Where(x => !x.CurrentItemFlags.HasFlag(ItemFlags.NoPurge)).ToList()); // clone
+                IReadOnlyCollection<IItem> items = new ReadOnlyCollection<IItem>(Impersonating.Room.Content.Where(x => !x.ItemFlags.HasFlag(ItemFlags.NoPurge)).ToList()); // clone
                 foreach (IItem itemToPurge in items)
                     World.RemoveItem(itemToPurge);
                 Impersonating.Act(ActOptions.ToRoom, "{0} purge{0:v} the room!", Impersonating);
@@ -221,7 +221,7 @@ namespace Mud.Server.Admin
                 return CommandExecutionResults.TargetNotFound;
             }
 
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.NoPurge))
+            if (item.ItemFlags.HasFlag(ItemFlags.NoPurge))
             {
                 Send("It can't be purged.");
                 return CommandExecutionResults.InvalidTarget;

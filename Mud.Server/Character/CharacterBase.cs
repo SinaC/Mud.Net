@@ -65,6 +65,18 @@ namespace Mud.Server.Character
 
         public override IReadOnlyTrie<CommandMethodInfo> Commands => CharacterBaseCommands.Value;
 
+        public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
+        {
+            // When hiding, anything will break it
+            if (CharacterFlags.HasFlag(CharacterFlags.Hide))
+            {
+                RemoveBaseCharacterFlags(CharacterFlags.Hide);
+                Recompute();
+            }
+
+            return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
+        }
+
         public override void Send(string message, bool addTrailingNewLine)
         {
             // TODO: use Act formatter ?
@@ -331,15 +343,86 @@ namespace Mud.Server.Character
         }
 
         // Visibility
-        public bool CanSee(ICharacter target)
+        public bool CanSee(ICharacter victim)
         {
-            return true; // TODO: invis/sneak/blind
+            if (victim == this)
+                return true;
+
+            // blind
+            if (CharacterFlags.HasFlag(CharacterFlags.Blind))
+                return false;
+
+            // TODO: dark room
+            //if (room_is_dark(ch->in_room)
+            //    && !IS_AFFECTED(ch, AFF_INFRARED)
+            //    // Added by SinaC 2000
+            //    && !IS_AFFECTED(ch, AFF_DARK_VISION))
+            //    return FALSE;
+
+            // invis
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Invisible)
+                && !CharacterFlags.HasFlag(CharacterFlags.DetectInvis))
+                return false;
+
+            // sneaking
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Sneak)
+                && !CharacterFlags.HasFlag(CharacterFlags.DetectHidden)
+                && victim.Fighting == null)
+            {
+                int chance = victim[AbilityManager["Sneak"]]?.Learned ?? 0; // TODO: this can be quite slow and CanSee is often used
+                chance += (3 * victim[BasicAttributes.Dexterity]) / 2;
+                chance -= this[BasicAttributes.Intelligence] * 2;
+                chance -= Level - (3* victim.Level)/ 2;
+
+                if (!RandomManager.Chance(chance))
+                    return false;
+            }
+
+            // hide
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Hide)
+                && !CharacterFlags.HasFlag(CharacterFlags.DetectHidden)
+                && victim.Fighting == null)
+                return false;
+
+            return true;
         }
 
-        public virtual bool CanSee(IItem target)
+        public virtual bool CanSee(IItem item)
         {
-            //if (target.ItemFlags.HasFlag(ItemFlags.Invisible) && !CanSeeInvisible) return false
-            return true; // TODO: invis/blind
+
+            // visible death
+            if (item.ItemFlags.HasFlag(ItemFlags.VisibleDeath))
+                return false;
+
+            // blind except if potion
+            if (CharacterFlags.HasFlag(CharacterFlags.Blind)
+            //TODO can see potion
+            )
+                return false;
+
+            // Light
+            if (item is IItemLight light && light.IsLighten)
+                return true;
+
+            // invis
+            if (item.ItemFlags.HasFlag(ItemFlags.Invis)
+                && !CharacterFlags.HasFlag(CharacterFlags.DetectInvis))
+                return false;
+
+            // quest item
+            IPlayableCharacter pc = this as IPlayableCharacter;
+            if (item is IItemQuest questItem && (pc == null || !questItem.IsQuestObjective(pc)))
+                return false;
+
+            // glow
+            if (item.ItemFlags.HasFlag(ItemFlags.Glowing))
+                return true;
+
+            // todo: check on dark room + infrared
+            //if (room_is_dark(ch->in_room) && !IS_AFFECTED(ch, AFF_INFRARED))
+            //    return FALSE;
+
+            return true;
         }
 
         public bool CanSee(IExit exit)

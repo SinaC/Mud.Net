@@ -7,47 +7,47 @@ namespace Mud.Server.Common
 {
     public class RandomManager : IRandomManager
     {
-        private Random _randomizer { get; }
+        private readonly Random _random;
 
         public RandomManager()
         {
-            _randomizer = new Random();
+            _random = new Random();
         }
 
         public RandomManager(int seed)
         {
-            _randomizer = new Random(seed);
+            _random = new Random(seed);
         }
 
         public int Next(int maxExcluded)
         {
-            return _randomizer.Next(maxExcluded);
+            return _random.Next(maxExcluded);
         }
 
         public int Next(int minIncluded, int maxExcluded)
         {
-            return _randomizer.Next(minIncluded, maxExcluded);
+            return _random.Next(minIncluded, maxExcluded);
         }
 
         public bool Chance(int percentage)
         {
-            return 1 + _randomizer.Next(100) < percentage;
+            return 1 + _random.Next(100) < percentage;
         }
 
         public int Dice(int count, int value)
         {
             //return Enumerable.Range(0, count).Sum(x => _randomizer.Next(value)+1);
-            return _randomizer.Next(count, count*value + 1); // faster :)
+            return _random.Next(count, count*value + 1); // faster :)
         }
 
         public int Range(int min, int max)
         {
-            return _randomizer.Next(min, max+1);
+            return _random.Next(min, max+1);
         }
 
         public int Fuzzy(int number)
         {
-            switch (_randomizer.Next(4))
+            switch (_random.Next(4))
             {
                 case 0: number -= 1; break;
                 case 3: number += 1; break;
@@ -68,7 +68,7 @@ namespace Mud.Server.Common
             foreach (T element in values)
             {
                 count++;
-                if (_randomizer.Next(count) == 0)
+                if (_random.Next(count) == 0)
                     current = element;
             }
             if (count == 0)
@@ -86,7 +86,7 @@ namespace Mud.Server.Common
             if (sum <= 0)
                 return default;
 
-            int random = _randomizer.Next(sum);
+            int random = _random.Next(sum);
 
             int range = 0;
             foreach (IOccurancy<T> occurancy in list)
@@ -120,7 +120,7 @@ namespace Mud.Server.Common
             if (sum <= 0)
                 return default;
 
-            int random = _randomizer.Next(sum);
+            int random = _random.Next(sum);
 
             int range = 0;
             foreach (T occurancy in list)

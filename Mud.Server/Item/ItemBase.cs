@@ -132,7 +132,7 @@ namespace Mud.Server.Item
 
         public ItemFlags BaseItemFlags { get; protected set; }
 
-        public ItemFlags CurrentItemFlags { get; protected set; }
+        public ItemFlags ItemFlags { get; protected set; }
 
         public virtual bool IsQuestObjective(IPlayableCharacter questingCharacter)
         {
@@ -187,13 +187,13 @@ namespace Mud.Server.Item
             {
                 case AffectOperators.Add:
                 case AffectOperators.Or:
-                    CurrentItemFlags |= affect.Modifier;
+                    ItemFlags |= affect.Modifier;
                     break;
                 case AffectOperators.Assign:
-                    CurrentItemFlags = affect.Modifier;
+                    ItemFlags = affect.Modifier;
                     break;
                 case AffectOperators.Nor:
-                    CurrentItemFlags &= ~affect.Modifier;
+                    ItemFlags &= ~affect.Modifier;
                     break;
                 default:
                     break;
@@ -216,7 +216,7 @@ namespace Mud.Server.Item
 
         protected virtual void ResetAttributes()
         {
-            CurrentItemFlags = BaseItemFlags;
+            ItemFlags = BaseItemFlags;
         }
 
         protected void ApplyAuras<T>(IEntity source, T target)

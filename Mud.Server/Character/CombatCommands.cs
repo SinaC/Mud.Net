@@ -1,5 +1,4 @@
 ﻿using Mud.Domain;
-using Mud.Domain.Extensions;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 // ReSharper disable UnusedMember.Global
@@ -86,12 +85,12 @@ namespace Mud.Server.Character
             // Try 6 times to find an exit
             for (int attempt = 0; attempt < 6; attempt++)
             {
-                int randomExit = RandomManager.Next(ExitDirectionsExtensions.ExitCount);
-                IRoom destination = Room.Exits[randomExit]?.Destination;
+                ExitDirections randomExit = RandomManager.Random<ExitDirections>();
+                IRoom destination = Room.Exits[(int)randomExit]?.Destination;
                 if (destination != null)
                 {
                     // Try to move without checking if in combat or not
-                    Move((ExitDirections) randomExit, false);
+                    Move(randomExit, false);
                     if (Room != from) // successful only if effectively moved away
                     {
                         //

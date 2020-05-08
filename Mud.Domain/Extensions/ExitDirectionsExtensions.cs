@@ -2,8 +2,6 @@
 {
     public static class ExitDirectionsExtensions
     {
-        public static int ExitCount = 10;
-
         public static ExitDirections ReverseDirection(this ExitDirections direction)
         {
             switch (direction)

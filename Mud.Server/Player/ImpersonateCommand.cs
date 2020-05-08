@@ -18,6 +18,12 @@ namespace Mud.Server.Player
             "[cmd] <avatar name>")]
         protected virtual CommandExecutionResults DoImpersonate(string rawParameters, params CommandParameter[] parameters)
         {
+            if (Impersonating?.Fighting != null)
+            {
+                Send("Not while fighting!");
+                return CommandExecutionResults.NoExecution;
+            }
+
             if (parameters.Length == 0)
             {
                 if (Impersonating == null)
@@ -37,6 +43,21 @@ namespace Mud.Server.Player
                 Send("Avatar not found. Use 'listavatar' to display your avatar list.");
                 return CommandExecutionResults.TargetNotFound;
             }
+
+            // Re-impersonate same character
+            if (Impersonating?.Name == characterData.Name)
+            {
+                Send("You are already impersonation {0}.", characterData.Name);
+                return CommandExecutionResults.InvalidTarget;
+            }
+
+            // If already impersonating, stop first
+            if (Impersonating != null)
+            {
+                StopImpersonating();
+                Save();
+            }
+
             // TODO: move room extraction in World.AddPlayableCharacter and remove Room parameter
             IRoom location = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == characterData.RoomId);
             if (location == null)

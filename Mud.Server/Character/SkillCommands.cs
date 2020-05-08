@@ -1,4 +1,6 @@
-﻿using Mud.Logger;
+﻿using Mud.Domain;
+using Mud.Logger;
+using Mud.Server.Abilities;
 using Mud.Server.Input;
 // ReSharper disable UnusedMember.Global
 
@@ -6,32 +8,59 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
+        [Command("use", "skills")]
+        protected virtual CommandExecutionResults DoUse(string rawParameters, params CommandParameter[] parameters)
+        {
+            // TODO: refactor, almost same code in AbilityManager
+            if (parameters.Length == 0)
+            {
+                Send("Use which what where ?");
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
+            }
+
+            // searck skill
+            KnownAbility knownAbility = AbilityManager.Search(KnownAbilities, Level, x => x.Kind == AbilityKinds.Spell, parameters[0]);
+            if (knownAbility == null)
+            {
+                Send("You don't know any spells of that name.");
+                return CommandExecutionResults.InvalidParameter;
+            }
+
+            // strip first argument
+            (rawParameters, parameters) = CommandHelpers.SkipParameters(parameters, 1);
+
+            // use skill
+            UseResults result = AbilityManager.Use(knownAbility.Ability, this, rawParameters, parameters);
+
+            return MapUseResults(result);
+        }
+
         [Command("berserk", "combat", "skills")]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoBerserk(string rawParameters, params CommandParameter[] parameters)
         {
-            return ExecuteSkill("berserk", rawParameters, parameters);
+            return ExecuteSkill("Berserk", rawParameters, parameters);
         }
 
         [Command("bash", "combat", "skills")]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoBash(string rawParameters, params CommandParameter[] parameters)
         {
-            return ExecuteSkill("bash", rawParameters, parameters);
+            return ExecuteSkill("Bash", rawParameters, parameters);
         }
 
         [Command("dirt", "combat", "skills")]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoDirt(string rawParameters, params CommandParameter[] parameters)
         {
-            return ExecuteSkill("dirt kicking", rawParameters, parameters);
+            return ExecuteSkill("Dirt kicking", rawParameters, parameters);
         }
 
         [Command("trip", "combat", "skills")]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoTrip(string rawParameters, params CommandParameter[] parameters)
         {
-            return ExecuteSkill("trip", rawParameters, parameters);
+            return ExecuteSkill("Trip", rawParameters, parameters);
         }
 
         [Command("backstab", "combat", "skills")]
@@ -39,21 +68,35 @@ namespace Mud.Server.Character
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoBackstab(string rawParameters, params CommandParameter[] parameters)
         {
-            return ExecuteSkill("backstab", rawParameters, parameters);
+            return ExecuteSkill("Backstab", rawParameters, parameters);
         }
 
         [Command("kick", "combat", "skills")]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoKick(string rawParameters, params CommandParameter[] parameters)
         {
-            return ExecuteSkill("kick", rawParameters, parameters);
+            return ExecuteSkill("Kick", rawParameters, parameters);
         }
 
         [Command("disarm", "combat", "skills")]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoDisarm(string rawParameters, params CommandParameter[] parameters)
         {
-            return ExecuteSkill("disarm", rawParameters, parameters);
+            return ExecuteSkill("dSsarm", rawParameters, parameters);
+        }
+
+        [Command("sneak", "skills")]
+        [Syntax("[cmd]")]
+        protected virtual CommandExecutionResults DoSneak(string rawParameters, params CommandParameter[] parameters)
+        {
+            return ExecuteSkill("Sneak", rawParameters, parameters);
+        }
+
+        [Command("hide", "skills")]
+        [Syntax("[cmd]")]
+        protected virtual CommandExecutionResults DoHide(string rawParameters, params CommandParameter[] parameters)
+        {
+            return ExecuteSkill("Hide", rawParameters, parameters);
         }
 
         //

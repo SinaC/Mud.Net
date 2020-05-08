@@ -419,7 +419,7 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
             if (item.DecayPulseLeft > 0)
                 sb.AppendFormatLine("Decay in {0}", StringHelpers.FormatDelay(item.DecayPulseLeft / Pulse.PulsePerSeconds));
-            sb.AppendFormatLine("Flags: {0} (base: {1})", item.CurrentItemFlags, item.BaseItemFlags);
+            sb.AppendFormatLine("Flags: {0} (base: {1})", item.ItemFlags, item.BaseItemFlags);
             if (item is IItemArmor armor)
                 sb.AppendFormatLine("Bash: {0} Pierce: {1} Slash: {2} Exotic: {3}", armor.Bash, armor.Pierce, armor.Slash, armor.Exotic);
             if (item is IItemContainer container)

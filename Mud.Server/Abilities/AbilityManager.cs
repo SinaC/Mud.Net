@@ -528,6 +528,16 @@ namespace Mud.Server.Abilities
             return AbilityTargetResults.Ok;
         }
 
+        public KnownAbility Search(IEnumerable<KnownAbility> knownAbilities, int level, Func<IAbility, bool> abilityFilterFunc, CommandParameter parameter)
+        {
+            return knownAbilities.Where(x =>
+                    abilityFilterFunc(x.Ability)
+                    && x.Level <= level // high level enough
+                    && x.Learned > 0 // practice at least once
+                    && StringCompareHelpers.StringStartsWith(x.Ability.Name, parameter.Value))
+                .ElementAtOrDefault(parameter.Count - 1);
+        }
+
         #endregion
 
         private object InvokeSpell(IAbility ability, int level, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters)
@@ -614,17 +624,7 @@ namespace Mud.Server.Abilities
             return null;
         }
 
-        private KnownAbility Search(IEnumerable<KnownAbility> knownAbilities, int level, Func<IAbility, bool> abilityFilterFunc, CommandParameter parameter)
-        {
-            return knownAbilities.Where(x =>
-                abilityFilterFunc(x.Ability)
-                && x.Level <= level // high level enough
-                && x.Learned > 0 // practice at least once
-                && StringCompareHelpers.StringStartsWith(x.Ability.Name, parameter.Value))
-                .ElementAtOrDefault(parameter.Count - 1);
-        }
-
-        private static Dictionary<string, string> SyllableTable = new Dictionary<string, string> // TODO: use Trie ?
+        private static readonly Dictionary<string, string> SyllableTable = new Dictionary<string, string> // TODO: use Trie ?
         {
             { " ",      " "     },
             { "ar",     "abra"      },

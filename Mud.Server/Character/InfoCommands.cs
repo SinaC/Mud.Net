@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Mud.Domain;
 using Mud.Domain.Extensions;
@@ -385,23 +386,23 @@ namespace Mud.Server.Character
             StringBuilder sb = new StringBuilder();
             sb.AppendFormatLine($"[{Room.Area.DisplayName}].");
             //
-            IEnumerable<IPlayer> players;
+            IEnumerable<IPlayableCharacter> playableCharacters;
             string notFound;
             if (parameters.Length == 0)
             {
                 sb.AppendLine("Players near you:");
-                players = Room.Area.Players.Where(x => CanSee(x.Impersonating));
+                playableCharacters = Room.Area.PlayableCharacters.Where(CanSee);
                 notFound = "None";
             }
             else
             {
-                players = Room.Area.Players.Where(x => CanSee(x.Impersonating) && StringCompareHelpers.StringListsStartsWith(x.Impersonating.Keywords, parameters[0].Tokens));
+                playableCharacters = Room.Area.PlayableCharacters.Where(x => CanSee(x) && !x.CharacterFlags.HasFlag(CharacterFlags.Sneak) && !x.CharacterFlags.HasFlag(CharacterFlags.Hide) && StringCompareHelpers.StringListsStartsWith(x.Keywords, parameters[0].Tokens));
                 notFound = $"You didn't find any {parameters[0]}.";
             }
             bool found = false;
-            foreach (IPlayer player in players)
+            foreach (IPlayableCharacter playableCharacter in playableCharacters)
             {
-                sb.AppendFormatLine("{0,-28} {1}", player.Impersonating.DisplayName, player.Impersonating.Room.DisplayName);
+                sb.AppendFormatLine("{0,-28} {1}", playableCharacter.DisplayName, playableCharacter.Room.DisplayName);
                 found = true;
             }
             if (!found)
@@ -515,50 +516,7 @@ namespace Mud.Server.Character
             {
                 //  (see act_info.C:714 show_char_to_char)
                 if (CanSee(victim)) // see act_info.C:375 show_char_to_char_0)
-                {
-                    // TODO: display flags (see act_info.C:387 -> 478)
-                    // TODO: display long description and stop
-                    // TODO: display position (see act_info.C:505 -> 612)
-
-                    // last case of POS_STANDING
-                    sb.Append(victim.RelativeDisplayName(this));
-                    switch (victim.Position)
-                    {
-                        case Positions.Stunned:
-                            sb.Append(" is lying here stunned.");
-                            break;
-                        case Positions.Sleeping:
-                            sb.Append(" is sleeping here."); // TODO: check furniture (add in ICharacter IItemFurniture On { get; } )
-                            break;
-                        case Positions.Resting:
-                            sb.Append(" is resting here."); // TODO: check furniture (add in ICharacter IItemFurniture On { get; } )
-                            break;
-                        case Positions.Sitting:
-                            sb.Append(" is sitting here."); // TODO: check furniture (add in ICharacter IItemFurniture On { get; } )
-                            break;
-                        case Positions.Standing:
-                            sb.Append(" is here."); // TODO: check furniture (add in ICharacter IItemFurniture On { get; } )
-                            break;
-                        case Positions.Fighting:
-                            sb.Append(" is here, fighting ");
-                            if (victim.Fighting == null)
-                            {
-                                Log.Default.WriteLine(LogLevels.Warning, "{0} position is fighting but fighting is null.", victim.DebugName);
-                                sb.Append("thing air??");
-                            }
-                            else if (victim.Fighting == this)
-                                sb.Append("YOU!");
-                            else if (victim.Room == victim.Fighting.Room)
-                                sb.AppendFormat("{0}.", victim.Fighting.RelativeDisplayName(this));
-                            else
-                            {
-                                Log.Default.WriteLine(LogLevels.Warning, "{0} is fighting {1} in a different room.", victim.DebugName, victim.Fighting.DebugName);
-                                sb.Append("someone who left??");
-                            }
-                            break;
-                    }
-                    sb.AppendLine();
-                }
+                    AppendCharacterInRoom(sb, victim);
                 else
                     ; // TODO: INFRARED (see act_info.C:728)
             }
@@ -569,6 +527,92 @@ namespace Mud.Server.Character
             // TODO: check if closed
             sb.AppendFormatLine("{0} holds:", container.RelativeDisplayName(this));
             AppendItems(sb, container.Content, true, true);
+        }
+
+        private void AppendCharacterInRoom(StringBuilder sb, ICharacter victim)
+        {
+            // display flags
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm))
+                sb.Append("%C%(Charmed)%x%");
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Flying))
+                sb.Append("%c%(Flying)%x%");
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Invisible))
+                sb.Append("%y%(Invis)%x%");
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Hide))
+                sb.Append("%b%(Hide)%x%");
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Sneak))
+                sb.Append("%R%(Sneaking)%x%");
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.PassDoor))
+                sb.Append("%c%(Translucent)%x%");
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.FaerieFire))
+                sb.Append("%m%(Pink Aura)%x%");
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.DetectEvil))
+                sb.Append("%r%(Red Aura)%x%");
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.DetectGood))
+                sb.Append("%Y%(Golden Aura)%x%");
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Sanctuary))
+                sb.Append("%W%(White Aura)%x%");
+            // TODO: killer/thief
+            // TODO: display long description and stop if position = start position for NPC
+
+            // last case of POS_STANDING
+            sb.Append(victim.RelativeDisplayName(this));
+            switch (victim.Position)
+            {
+                case Positions.Stunned:
+                    sb.Append(" is lying here stunned.");
+                    break;
+                case Positions.Sleeping:
+                    AppendPositionFurniture(sb, "sleeping", victim.Furniture);
+                    break;
+                case Positions.Resting:
+                    AppendPositionFurniture(sb, "resting", victim.Furniture);
+                    break;
+                case Positions.Sitting:
+                    AppendPositionFurniture(sb, "sitting", victim.Furniture);
+                    break;
+                case Positions.Standing:
+                    if (Furniture != null)
+                        AppendPositionFurniture(sb, "standing", victim.Furniture);
+                    else
+                        sb.Append(" is here");
+                    break;
+                case Positions.Fighting:
+                    sb.Append(" is here, fighting ");
+                    if (victim.Fighting == null)
+                    {
+                        Log.Default.WriteLine(LogLevels.Warning, "{0} position is fighting but fighting is null.", victim.DebugName);
+                        sb.Append("thing air??");
+                    }
+                    else if (victim.Fighting == this)
+                        sb.Append("YOU!");
+                    else if (victim.Room == victim.Fighting.Room)
+                        sb.AppendFormat("{0}.", victim.Fighting.RelativeDisplayName(this));
+                    else
+                    {
+                        Log.Default.WriteLine(LogLevels.Warning, "{0} is fighting {1} in a different room.", victim.DebugName, victim.Fighting.DebugName);
+                        sb.Append("someone who left??");
+                    }
+                    break;
+            }
+            sb.AppendLine();
+        }
+
+        private void AppendPositionFurniture(StringBuilder sb, string verb, IItemFurniture furniture)
+        {
+            if (furniture == null)
+                sb.AppendFormat(" is {0} here.", verb);
+            else
+            {
+                if (Furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
+                    sb.AppendFormat(" is {0} at {1}", verb, Furniture.DisplayName);
+                else if (Furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
+                    sb.AppendFormat(" is {0} on {1}", verb, Furniture.DisplayName);
+                else if (Furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
+                    sb.AppendFormat(" is {0} in {1}", verb, Furniture.DisplayName);
+                else
+                    sb.AppendFormat(" is {0} here.", verb);
+            }
         }
 
         private void AppendCharacter(StringBuilder sb, ICharacter victim, bool peekInventory) // equivalent to act_info.C:show_char_to_char_1
@@ -767,17 +811,17 @@ namespace Mud.Server.Character
             }
 
             // Item flags
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.Invis) && CharacterFlags.HasFlag(CharacterFlags.DetectInvis))
+            if (item.ItemFlags.HasFlag(ItemFlags.Invis) && CharacterFlags.HasFlag(CharacterFlags.DetectInvis))
                 sb.Append("%y%(Invis)%x%");
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.Evil) && CharacterFlags.HasFlag(CharacterFlags.DetectEvil))
+            if (item.ItemFlags.HasFlag(ItemFlags.Evil) && CharacterFlags.HasFlag(CharacterFlags.DetectEvil))
                 sb.Append("%R%(Evil)%x%");
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.Bless) && CharacterFlags.HasFlag(CharacterFlags.DetectGood))
+            if (item.ItemFlags.HasFlag(ItemFlags.Bless) && CharacterFlags.HasFlag(CharacterFlags.DetectGood))
                 sb.Append("%C%(Blessed)%x%");
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.Magic) && CharacterFlags.HasFlag(CharacterFlags.DetectMagic))
+            if (item.ItemFlags.HasFlag(ItemFlags.Magic) && CharacterFlags.HasFlag(CharacterFlags.DetectMagic))
                 sb.Append("%b%(Magical)%x%");
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.Glowing))
+            if (item.ItemFlags.HasFlag(ItemFlags.Glowing))
                 sb.Append("%Y%(Glowing)%x%");
-            if (item.CurrentItemFlags.HasFlag(ItemFlags.Humming))
+            if (item.ItemFlags.HasFlag(ItemFlags.Humming))
                 sb.Append("%y%(Humming)%x%");
 
             // Description

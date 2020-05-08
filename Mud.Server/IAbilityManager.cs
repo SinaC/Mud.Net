@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Mud.Server.Abilities;
 using Mud.Server.Input;
 
 namespace Mud.Server
@@ -18,6 +20,8 @@ namespace Mud.Server
 
         AbilityTargetResults GetAbilityTarget(IAbility ability, ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters);
         AbilityTargetResults GetItemAbilityTarget(IAbility ability, ICharacter caster, ref IEntity target);
+
+        KnownAbility Search(IEnumerable<KnownAbility> knownAbilities, int level, Func<IAbility, bool> abilityFilterFunc, CommandParameter parameter);
     }
 
     public enum CastResults

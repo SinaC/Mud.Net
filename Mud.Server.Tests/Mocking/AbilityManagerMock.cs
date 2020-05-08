@@ -8,7 +8,7 @@ namespace Mud.Server.Tests.Mocking
 {
     internal class AbilityManagerMock : IAbilityManager
     {
-        private List<IAbility> _abilities = new List<IAbility>();
+        private readonly List<IAbility> _abilities = new List<IAbility>();
 
         public IAbility this[string name] 
         {
@@ -64,6 +64,8 @@ namespace Mud.Server.Tests.Mocking
         {
             throw new NotImplementedException();
         }
+
+        public KnownAbility Search(IEnumerable<KnownAbility> knownAbilities, int level, Func<IAbility, bool> abilityFilterFunc, CommandParameter parameter) => knownAbilities.FirstOrDefault(x => abilityFilterFunc(x.Ability) && x.Ability.Name == parameter.Value);
 
         public UseResults Use(IAbility ability, ICharacter caster, string rawParameters, params CommandParameter[] parameters)
         {

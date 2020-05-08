@@ -36,7 +36,7 @@ namespace Mud.Server.Tests.Affects
             Assert.AreEqual(WeaponFlags.None, weapon.BaseWeaponFlags);
             Assert.AreEqual(WeaponFlags.None, weapon.CurrentWeaponFlags);
             Assert.AreEqual(ItemFlags.None, weapon.BaseItemFlags);
-            Assert.AreEqual(ItemFlags.AntiEvil, weapon.CurrentItemFlags);
+            Assert.AreEqual(ItemFlags.AntiEvil, weapon.ItemFlags);
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace Mud.Server.Tests.Affects
             Assert.AreEqual(WeaponFlags.Flaming | WeaponFlags.Holy, weapon.BaseWeaponFlags);
             Assert.AreEqual(WeaponFlags.Frost, weapon.CurrentWeaponFlags);
             Assert.AreEqual(ItemFlags.AntiNeutral | ItemFlags.Bless, weapon.BaseItemFlags);
-            Assert.AreEqual(ItemFlags.AntiNeutral | ItemFlags.Bless | ItemFlags.Dark, weapon.CurrentItemFlags);
+            Assert.AreEqual(ItemFlags.AntiNeutral | ItemFlags.Bless | ItemFlags.Dark, weapon.ItemFlags);
         }
     }
 }

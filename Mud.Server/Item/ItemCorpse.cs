@@ -43,7 +43,7 @@ namespace Mud.Server.Item
             foreach (IItem item in inventory)
             {
                 // TODO: check stay death flag
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.RotDeath))
+                if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
                 {
                     item.SetDecayPulseLeft(RandomManager.Range(5, 10) * Pulse.PulsePerMinutes);
                     item.RemoveBaseItemFlags(ItemFlags.RotDeath);
@@ -54,7 +54,7 @@ namespace Mud.Server.Item
             foreach (IEquipableItem item in victim.Equipments.Where(x => x.Item != null).Select(x => x.Item))
             {
                 // TODO: check stay death flag
-                if (item.CurrentItemFlags.HasFlag(ItemFlags.RotDeath))
+                if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
                 {
                     item.SetDecayPulseLeft(RandomManager.Range(5, 10) * Pulse.PulsePerMinutes);
                     item.RemoveBaseItemFlags(ItemFlags.RotDeath);
