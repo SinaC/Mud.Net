@@ -182,6 +182,12 @@ namespace Mud.Server.Tests.Mocking
                 case ItemFurnitureBlueprint furnitureBlueprint:
                     item = new ItemFurniture(guid, furnitureBlueprint, container);
                     break;
+                case ItemFountainBlueprint fountainBlueprint:
+                    item = new ItemFountain(guid, fountainBlueprint, container);
+                    break;
+                case ItemDrinkContainerBlueprint drinkContainerBlueprint:
+                    item = new ItemDrinkContainer(guid, drinkContainerBlueprint, container);
+                    break;
                 case ItemJewelryBlueprint jewelryBlueprint:
                     item = new ItemJewelry(guid, jewelryBlueprint, container);
                     break;
@@ -237,6 +243,12 @@ namespace Mud.Server.Tests.Mocking
                     break;
                 case ItemFurnitureBlueprint furnitureBlueprint:
                     item = new ItemFurniture(guid, furnitureBlueprint, itemData, container);
+                    break;
+                case ItemFountainBlueprint fountainBlueprint:
+                    item = new ItemFountain(guid, fountainBlueprint, itemData, container);
+                    break;
+                case ItemDrinkContainerBlueprint drinkContainerBlueprint:
+                    item = new ItemDrinkContainer(guid, drinkContainerBlueprint, itemData as ItemDrinkContainerData, container);
                     break;
                 case ItemJewelryBlueprint jewelryBlueprint:
                     item = new ItemJewelry(guid, jewelryBlueprint, itemData, container);

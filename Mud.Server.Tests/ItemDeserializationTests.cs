@@ -35,6 +35,37 @@ namespace Mud.Server.Tests
             Assert.AreEqual(itemData.ItemFlags, armor.BaseItemFlags);
         }
 
+        // DrinkContainer
+        [TestMethod]
+        public void ItemData_To_ItemDrinkContainer_Test()
+        {
+            IWorld world = World;
+            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
+            ItemDrinkContainerBlueprint drinkContainerBlueprint = new ItemDrinkContainerBlueprint { Id = 1, Name = "Drink", ShortDescription = "DrinkShort", Description = "DrinkDesc", Cost = 10, CurrentLiquidAmount = 100, MaxLiquidAmount = 350, LiquidType = "water" };
+            world.AddItemBlueprint(drinkContainerBlueprint);
+            ItemDrinkContainerData itemData = new ItemDrinkContainerData
+            {
+                ItemId = drinkContainerBlueprint.Id,
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                CurrentLiquidAmount = AutoFaker.Generate<int>(),
+                MaxLiquidAmount = AutoFaker.Generate<int>(),
+                LiquidName = AutoFaker.Generate<string>(),
+                IsPoisoned = AutoFaker.Generate<bool>(),
+            };
+
+            IItem drinkContainer = World.AddItem(Guid.NewGuid(), itemData, room);
+
+            Assert.IsInstanceOfType(drinkContainer, typeof(IItemDrinkContainer));
+            Assert.AreEqual(drinkContainerBlueprint.Id, drinkContainer.Blueprint.Id);
+            Assert.AreEqual(itemData.DecayPulseLeft, drinkContainer.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, drinkContainer.BaseItemFlags);
+            Assert.AreEqual(itemData.CurrentLiquidAmount, (drinkContainer as IItemDrinkContainer).CurrentLiquidAmount);
+            Assert.AreEqual(itemData.MaxLiquidAmount, (drinkContainer as IItemDrinkContainer).MaxLiquidAmount);
+            Assert.AreEqual(itemData.LiquidName, (drinkContainer as IItemDrinkContainer).LiquidName);
+            Assert.AreEqual(itemData.IsPoisoned, (drinkContainer as IItemDrinkContainer).IsPoisoned);
+        }
+
         // Container
         [TestMethod]
         public void ItemData_Empty_To_ItemContainer_Test()

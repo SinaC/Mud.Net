@@ -1,9 +1,9 @@
 ONGOING
-ItemDrinkContainerData serialize/deserialize/unit tests
 thirst/full/hungry
+IDrinkable tests
 
 TODO:
-food
+Food
 AddOrUpdateAffect could have an additional parameter with duration, if update is selected -> update duration
 skills: staves/wand/scroll/potion/drink container/steal/lore/pick lock/rescue/envenom
 assign abilities to classes

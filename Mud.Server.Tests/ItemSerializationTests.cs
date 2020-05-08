@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using AutoBogus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
@@ -34,6 +36,27 @@ namespace Mud.Server.Tests
             Assert.AreEqual(armor.Blueprint.Id, itemData.ItemId);
             Assert.AreEqual(armor.DecayPulseLeft, itemData.DecayPulseLeft);
             Assert.AreEqual(armor.BaseItemFlags, itemData.ItemFlags);
+        }
+
+        [TestMethod]
+        public void ItemDrinkContainer_To_ItemData_Test()
+        {
+            IWorld world = new World.World();
+            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
+
+            IItemDrinkContainer drinkContainer = World.AddItem(Guid.NewGuid(), new ItemDrinkContainerBlueprint { Id = 1, Name = "Drink", ShortDescription = "DrinkShort", Description = "DrinkDesc", Cost = 10, CurrentLiquidAmount = 100, MaxLiquidAmount = 350, LiquidType = "water"}, room) as IItemDrinkContainer;
+
+            ItemData itemData = drinkContainer.MapItemData();
+
+            Assert.IsNotNull(drinkContainer);
+            Assert.IsInstanceOfType(itemData, typeof(ItemDrinkContainerData));
+            Assert.AreEqual(drinkContainer.Blueprint.Id, itemData.ItemId);
+            Assert.AreEqual(drinkContainer.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(drinkContainer.BaseItemFlags, itemData.ItemFlags);
+            Assert.AreEqual(drinkContainer.CurrentLiquidAmount, (itemData as ItemDrinkContainerData).CurrentLiquidAmount);
+            Assert.AreEqual(drinkContainer.MaxLiquidAmount, (itemData as ItemDrinkContainerData).MaxLiquidAmount);
+            Assert.AreEqual(drinkContainer.LiquidName, (itemData as ItemDrinkContainerData).LiquidName);
+            Assert.AreEqual(drinkContainer.IsPoisoned, (itemData as ItemDrinkContainerData).IsPoisoned);
         }
 
         // Container
