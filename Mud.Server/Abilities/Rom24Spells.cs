@@ -1039,7 +1039,8 @@ namespace Mud.Server.Abilities
                 || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Private)
                 || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Solitary)
                 || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall)
-                || caster.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall)
+                || caster.Room.CurrentRoomFlags.HasFlag(RoomFlags.ImpOnly)
+                || caster.Room.CurrentRoomFlags.HasFlag(RoomFlags.Nowhere)
                 || victim.Level >= level + 3
                 // TODO: clan check
                 // TODO: hero level check 
@@ -1895,6 +1896,7 @@ namespace Mud.Server.Abilities
             if (recallRoom == null)
             {
                 pcVictim.Send("You are completely lost.");
+                Log.Default.WriteLine(LogLevels.Error, "No recall room found for {0}", pcVictim.ImpersonatedBy.DisplayName);
                 return;
             }
 

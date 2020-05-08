@@ -4,6 +4,7 @@ using Mud.Server.Common;
 using Mud.Server.Input;
 using System;
 using System.Linq;
+using System.Net;
 
 namespace Mud.Server.Helpers
 {
@@ -14,7 +15,7 @@ namespace Mud.Server.Helpers
             // Merge resource and cost if free cost ability
             TableGenerator<KnownAbility> generator = new TableGenerator<KnownAbility>();
             generator.AddColumn("Lvl", 5, x => x.Level.ToString());
-            generator.AddColumn("Name", 23, x => x.Ability.Name);
+            generator.AddColumn("Name", 23, x => x.Ability.Name, new TableGenerator<KnownAbility>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("Resource", 10,
                 x =>
                 {
@@ -45,7 +46,7 @@ namespace Mud.Server.Helpers
                 {
                     GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage ? "%" : " "
                 });
-            generator.AddColumn("Pra%", 5, x => $"{x.Learned}%");
+            generator.AddColumn("Pra%", 6, x => $"{x.Learned}%");
             generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
             //TODO: generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
             return generator;
@@ -65,9 +66,9 @@ namespace Mud.Server.Helpers
         public static readonly Lazy<TableGenerator<IClass>> ClassTableGenerator = new Lazy<TableGenerator<IClass>>(() =>
         {
             TableGenerator<IClass> generator = new TableGenerator<IClass>();
-            generator.AddColumn("Name", 15, x => x.Name);
+            generator.AddColumn("Name", 15, x => x.Name, new TableGenerator<IClass>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("ShortName", 10, x => x.ShortName);
-            generator.AddColumn("DisplayName", 20, x => x.DisplayName);
+            generator.AddColumn("DisplayName", 20, x => x.DisplayName, new TableGenerator<IClass>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("Resource(s)", 30, x => string.Join(",", (x.ResourceKinds ?? Enumerable.Empty<ResourceKinds>())?.Select(StringHelpers.ResourceColor)));
             generator.AddColumn("#Abilities", 12, x =>
             {
@@ -82,9 +83,9 @@ namespace Mud.Server.Helpers
         public static readonly Lazy<TableGenerator<IRace>> RaceTableGenerator = new Lazy<TableGenerator<IRace>>(() =>
         {
             TableGenerator<IRace> generator = new TableGenerator<IRace>();
-            generator.AddColumn("Name", 15, x => x.Name);
+            generator.AddColumn("Name", 15, x => x.Name, new TableGenerator<IRace>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("ShortName", 10, x => x.ShortName);
-            generator.AddColumn("DisplayName", 20, x => x.DisplayName);
+            generator.AddColumn("DisplayName", 20, x => x.DisplayName, new TableGenerator<IRace>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("#Abilities", 12, x =>
             {
                 int count = x.Abilities.Count();
@@ -114,11 +115,11 @@ namespace Mud.Server.Helpers
             // Merge resource and cost if free cost ability
             TableGenerator<IAbility> generator = new TableGenerator<IAbility>();
             generator.AddColumn("Id", 6, x => x.Id.ToString());
-            generator.AddColumn("Name", 23, x => x.Name);
+            generator.AddColumn("Name", 23, x => x.Name, new TableGenerator<IAbility>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("Type", 9, x => x.Kind.ToString());
             generator.AddColumn("Target", 10, x => ConvertAbilityTargets(x.Target));
             generator.AddColumn("GCD", 5, x => x.PulseWaitTime.ToString());
-            generator.AddColumn("Flags", 12, x => x.AbilityFlags.ToString());
+            generator.AddColumn("Flags", 12, x => ConvertAbilityFlags(x.AbilityFlags));
             generator.AddColumn("WearOff", 20, x => x.CharacterWearOffMessage?.ToString() ?? string.Empty);
             generator.AddColumn("ItemWearOff", 20, x => x.ItemWearOffMessage?.ToString() ?? string.Empty);
             generator.AddColumn("DispelRoom", 20, x => x.DispelRoomMessage?.ToString() ?? string.Empty);
@@ -130,7 +131,7 @@ namespace Mud.Server.Helpers
             // Merge resource and cost if free cost ability
             TableGenerator<AbilityUsage> generator = new TableGenerator<AbilityUsage>();
             generator.AddColumn("Lvl", 5, x => x.Level.ToString());
-            generator.AddColumn("Name", 23, x => x.Ability.Name);
+            generator.AddColumn("Name", 23, x => x.Ability.Name, new TableGenerator<AbilityUsage>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("Resource", 10,
                 x =>
                 {
@@ -163,9 +164,21 @@ namespace Mud.Server.Helpers
                 });
             generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
             generator.AddColumn("Diff", 5, x => x.Rating.ToString());
-            generator.AddColumn("Flags", 20, x => x.Ability.AbilityFlags.ToString());
+            generator.AddColumn("Flags", 20, x => ConvertAbilityFlags(x.Ability.AbilityFlags));
             return generator;
         });
+
+        private static string ConvertAbilityFlags(AbilityFlags flags)
+        {
+            string s = string.Empty;
+            if (flags.HasFlag(AbilityFlags.AuraIsHidden)) s += "Hidden";
+            if (flags.HasFlag(AbilityFlags.CannotMiss)) s += "NoMiss";
+            if (flags.HasFlag(AbilityFlags.CannotBeReflected)) s += "NoReflect";
+            if (flags.HasFlag(AbilityFlags.CannotBeUsed)) s += "NotUsed";
+            if (flags.HasFlag(AbilityFlags.CanBeDispelled)) s += "Dispel";
+
+            return s;
+        }
 
         private static string ConvertAbilityTargets(AbilityTargets target)
         {
@@ -196,7 +209,7 @@ namespace Mud.Server.Helpers
         {
             TableGenerator<CommandMethodInfo> generator = new TableGenerator<CommandMethodInfo>();
             generator.AddColumn("Method", 20, x => x.MethodInfo.Name, new TableGenerator<CommandMethodInfo>.ColumnOptions { MergeIdenticalValue = true });
-            generator.AddColumn("Command", 20, x => x.Attribute.Name);
+            generator.AddColumn("Command", 20, x => x.Attribute.Name, new TableGenerator<CommandMethodInfo>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("Categories", 20, x => string.Join(",", x.Attribute.Categories));
             generator.AddColumn("Prio", 5, x => ConvertPriority(x.Attribute.Priority));
             generator.AddColumn("S?", 5, x => ConvertBool(x.Attribute.NoShortcut));

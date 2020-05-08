@@ -1,5 +1,6 @@
 ﻿using System;
 using Mud.Domain;
+using Mud.Logger;
 using Mud.Server.Aura;
 
 // ReSharper disable UnusedMember.Global
@@ -10,7 +11,7 @@ namespace Mud.Server.Abilities
     {
         private readonly int DefaultLevelIfAbilityNotKnown = 53;
 
-        [Skill(5000, "Berserk", AbilityTargets.CharacterSelf)]
+        [Skill(5000, "Berserk", AbilityTargets.None)]
         public UseResults SkillBerserk(IAbility ability, ICharacter source)
         {
             KnownAbility knownAbility = source[ability];
@@ -515,7 +516,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Skill(5007, "Sneak", AbilityTargets.CharacterSelf)]
+        [Skill(5007, "Sneak", AbilityTargets.None)]
         public UseResults SkillSneak(IAbility ability, ICharacter source)
         {
             source.Send("You attempt to move silently.");
@@ -542,8 +543,8 @@ namespace Mud.Server.Abilities
                 : UseResults.Failed;
         }
 
-        [Skill(5008, "Hide", AbilityTargets.CharacterSelf)]
-        public UseResults SKillHide(IAbility ability, ICharacter source)
+        [Skill(5008, "Hide", AbilityTargets.None)]
+        public UseResults SkillHide(IAbility ability, ICharacter source)
         {
             source.Send("You attempt to hide.");
 
@@ -567,5 +568,82 @@ namespace Mud.Server.Abilities
                 : UseResults.Failed;
         }
 
+        [Skill(5009, "Recall", AbilityTargets.None)]
+        public UseResults SkillRecall(IAbility ability, ICharacter source)
+        {
+            IPlayableCharacter pcSource = source as IPlayableCharacter;
+            if (pcSource == null)
+            {
+                source.Send("Only players can recall.");
+                return UseResults.InvalidTarget;
+            }
+
+            pcSource.Act(ActOptions.ToRoom, "{0} prays for transportation!", source);
+
+            IRoom recallRoom = pcSource.RecallRoom;
+            if (recallRoom == null)
+            {
+                pcSource.Send("You are completely lost.");
+                Log.Default.WriteLine(LogLevels.Error, "No recall room found for {0}", pcSource.ImpersonatedBy.DisplayName);
+                return UseResults.TargetNotFound;
+            }
+
+            if (pcSource.CharacterFlags.HasFlag(CharacterFlags.Curse)
+                || pcSource.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall))
+            {
+                pcSource.Send("Spell failed."); // TODO: message related to deity
+                return UseResults.Failed;
+            }
+
+            //if (recallRoom == pcSource.Room)
+            //    return UseResults.Failed;
+
+            ICharacter victim = pcSource.Fighting;
+            if (victim != null)
+            {
+                KnownAbility knownAbility = pcSource[ability];
+                int chance = (80*knownAbility.Learned)/100;
+                if (!RandomManager.Chance(chance))
+                {
+                    pcSource.CheckAbilityImprove(knownAbility, false, 6);
+                    pcSource.ImpersonatedBy?.SetGlobalCooldown(4);
+                    pcSource.Send("You failed.");
+                    return UseResults.Failed;
+                }
+
+                int lose = 50;
+                // TODO: gain negative experience 50
+                pcSource.CheckAbilityImprove(knownAbility, true, 5);
+                pcSource.Send("You recall from combat! You lose {0} exps.", lose);
+                pcSource.StopFighting(true);
+            }
+
+            pcSource.UpdateMovePoints(-pcSource.MovePoints / 2); // half move
+            pcSource.Act(ActOptions.ToRoom, "{0:N} disappears", pcSource);
+            pcSource.ChangeRoom(recallRoom);
+            pcSource.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pcSource);
+            pcSource.AutoLook();
+
+            // Pet follows
+            ICharacter slave = pcSource.Slave;
+            if (slave != null) // no recursive call because DoRecall has been coded for IPlayableCharacter
+            {
+                if (slave.CharacterFlags.HasFlag(CharacterFlags.Curse))
+                    return UseResults.Ok; // slave failing doesn't impact return value
+                if (slave.Fighting != null)
+                {
+                    if (!RandomManager.Chance(80))
+                        return UseResults.Ok;// slave failing doesn't impact return value
+                    slave.StopFighting(true);
+                }
+
+                slave.Act(ActOptions.ToRoom, "{0:N} disappears", pcSource);
+                slave.ChangeRoom(recallRoom);
+                slave.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pcSource);
+                slave.AutoLook();
+            }
+
+            return UseResults.Ok;
+        }
     }
 }
