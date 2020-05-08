@@ -60,8 +60,8 @@ namespace Mud.Server.Tests
             Assert.AreEqual(drinkContainerBlueprint.Id, drinkContainer.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, drinkContainer.DecayPulseLeft);
             Assert.AreEqual(itemData.ItemFlags, drinkContainer.BaseItemFlags);
-            Assert.AreEqual(itemData.CurrentLiquidAmount, (drinkContainer as IItemDrinkContainer).CurrentLiquidAmount);
-            Assert.AreEqual(itemData.MaxLiquidAmount, (drinkContainer as IItemDrinkContainer).MaxLiquidAmount);
+            Assert.AreEqual(itemData.CurrentLiquidAmount, (drinkContainer as IItemDrinkContainer).LiquidLeft);
+            Assert.AreEqual(itemData.MaxLiquidAmount, (drinkContainer as IItemDrinkContainer).MaxLiquid);
             Assert.AreEqual(itemData.LiquidName, (drinkContainer as IItemDrinkContainer).LiquidName);
             Assert.AreEqual(itemData.IsPoisoned, (drinkContainer as IItemDrinkContainer).IsPoisoned);
         }

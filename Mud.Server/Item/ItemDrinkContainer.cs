@@ -10,8 +10,8 @@ namespace Mud.Server.Item
             : base(guid, blueprint, containedInto)
         {
             LiquidName = blueprint.LiquidType;
-            MaxLiquidAmount = blueprint.MaxLiquidAmount;
-            CurrentLiquidAmount = blueprint.CurrentLiquidAmount;
+            MaxLiquid = blueprint.MaxLiquidAmount;
+            LiquidLeft = blueprint.CurrentLiquidAmount;
             IsPoisoned = blueprint.IsPoisoned;
         }
 
@@ -19,8 +19,8 @@ namespace Mud.Server.Item
             : base(guid, blueprint, data, containedInto)
         {
             LiquidName = data.LiquidName;
-            MaxLiquidAmount = data.MaxLiquidAmount;
-            CurrentLiquidAmount = data.CurrentLiquidAmount;
+            MaxLiquid = data.MaxLiquidAmount;
+            LiquidLeft = data.CurrentLiquidAmount;
             IsPoisoned = data.IsPoisoned;
         }
 
@@ -30,9 +30,9 @@ namespace Mud.Server.Item
 
         public string LiquidName { get; protected set; }
 
-        public int LiquidLeft => CurrentLiquidAmount;
+        public int LiquidLeft { get; protected set; }
 
-        public bool IsEmpty => CurrentLiquidAmount <= 0;
+        public bool IsEmpty => LiquidLeft <= 0;
 
         public bool IsPoisoned { get; protected set; }
 
@@ -40,14 +40,12 @@ namespace Mud.Server.Item
 
         public void Drink(int amount)
         {
-            CurrentLiquidAmount = Math.Max(0, CurrentLiquidAmount - amount);
+            LiquidLeft = Math.Max(0, LiquidLeft - amount);
         }
 
         #endregion
 
-        public int MaxLiquidAmount { get; protected set; }
-
-        public int CurrentLiquidAmount { get; protected set; }
+        public int MaxLiquid { get; protected set; }
 
         public void Poison()
         {
@@ -59,15 +57,21 @@ namespace Mud.Server.Item
             IsPoisoned = false;
         }
 
-        public void Fill(string liquidName)
+        public void Fill(string liquidName, int amount)
         {
             LiquidName = liquidName;
-            CurrentLiquidAmount = MaxLiquidAmount;
+            LiquidLeft = Math.Min(MaxLiquid, LiquidLeft + amount);
         }
 
-        public void Empty()
+        public void Fill(int amount)
         {
-            CurrentLiquidAmount = 0;
+            LiquidLeft = Math.Min(MaxLiquid, LiquidLeft + amount);
+        }
+
+        public void Pour()
+        {
+            LiquidLeft = 0;
+            IsPoisoned = false;
         }
 
         #endregion
@@ -82,8 +86,8 @@ namespace Mud.Server.Item
                 Level = Level,
                 DecayPulseLeft = DecayPulseLeft,
                 ItemFlags = BaseItemFlags,
-                MaxLiquidAmount = MaxLiquidAmount,
-                CurrentLiquidAmount = CurrentLiquidAmount,
+                MaxLiquidAmount = MaxLiquid,
+                CurrentLiquidAmount = LiquidLeft,
                 LiquidName = LiquidName,
                 IsPoisoned = IsPoisoned,
                 Auras = MapAuraData(),

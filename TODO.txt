@@ -1,6 +1,5 @@
 ONGOING
 thirst/full/hungry
-IDrinkable tests
 
 TODO:
 Food
@@ -19,6 +18,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+pour, fill command added
+IItemDrinkable tests
 drink command added
 fountain and liquid table added
 issue when impersonating another character while already impersonating (previous was not removed from the game, pure luck if I found this one) fixed
@@ -84,6 +85,7 @@ TableGenerator with duplicate columns
 	 ----------------------
 
 *************************************************************
+when using FindHelper.FindByName no ICharacter and parameter is self -> return itself
 redo rom importer
 Second/Third/Fourth wield in insectoid
 alignment at creation ?

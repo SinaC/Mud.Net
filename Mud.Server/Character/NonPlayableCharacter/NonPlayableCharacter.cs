@@ -101,7 +101,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             else
                 displayName.Append("someone");
             if (playableBeholder?.ImpersonatedBy is IAdmin)
-                displayName.Append($" [{Blueprint?.Id.ToString() ?? " ??? "}]");
+                displayName.Append($" [id: {Blueprint?.Id.ToString() ?? " ??? "}]");
             return displayName.ToString();
         }
 

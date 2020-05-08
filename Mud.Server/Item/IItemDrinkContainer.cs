@@ -2,12 +2,12 @@
 {
     public interface IItemDrinkContainer : IItemDrinkable
     {
-        int MaxLiquidAmount { get; }
-        int CurrentLiquidAmount { get; }
+        int MaxLiquid { get; }
 
         void Poison();
         void Cure();
-        void Fill(string liquidName);
-        void Empty();
+        void Fill(string liquidName, int amount);
+        void Fill(int amount);
+        void Pour();
     }
 }

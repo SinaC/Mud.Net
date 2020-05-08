@@ -446,7 +446,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("drink", "Food", "Drink")]
+        [Command("drink", "Drink")]
         [Syntax(
             "[cmd]",
             "[cmd] <container>")]
@@ -515,6 +515,160 @@ namespace Mud.Server.Character
                         new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
                 Recompute();
             }
+
+            return CommandExecutionResults.Ok;
+        }
+
+        [Command("pour", "Drink")]
+        [Syntax(
+            "[cmd] <container> out",
+            "[cmd] <container> <container>",
+            "[cmd] <container> <character>")]
+        protected virtual CommandExecutionResults DoPour(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length < 2)
+            {
+                Send("Pour what into what?");
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
+            }
+
+            // search source container
+            IItem item = FindHelpers.FindByName(Inventory, parameters[0]);
+            if (item == null)
+            {
+                Send("You don't have that item.");
+                return CommandExecutionResults.TargetNotFound;
+            }
+            IItemDrinkContainer sourceContainer = item as IItemDrinkContainer;
+            if (sourceContainer == null)
+            {
+                Send("That's not a drink container.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+            // pour out
+            if (StringCompareHelpers.StringEquals("out", parameters[1].Value))
+            {
+                if (sourceContainer.IsEmpty)
+                {
+                    Send("It's already empty.");
+                    return CommandExecutionResults.InvalidTarget;
+                }
+                sourceContainer.Pour();
+                sourceContainer.Recompute();
+                Act(ActOptions.ToAll, "{0:N} invert{0:v} {1}, spilling {2} all over the ground.", this, sourceContainer, sourceContainer.LiquidName);
+                return CommandExecutionResults.Ok;
+            }
+            // pour into another container on someone's hand or here
+            ICharacter targetCharacter = null;
+            IItem targetItem = FindHelpers.FindByName(Inventory, parameters[1]);
+            if (item == null)
+            {
+                targetCharacter = FindHelpers.FindByName(Room.People, parameters[1]);
+                if (targetCharacter == null)
+                {
+                    Send("Pour into what?");
+                    return CommandExecutionResults.TargetNotFound;
+                }
+                targetItem = targetCharacter.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand && x.Item != null)?.Item;
+                if (targetItem == null)
+                {
+                    Send("They aren't holding anything.");
+                    return CommandExecutionResults.InvalidTarget;
+                }
+            }
+            // destination item found
+            IItemDrinkContainer targetContainer = targetItem as IItemDrinkContainer;
+            if (targetContainer == null)
+            {
+                Send("You can only pour into other drink containers.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+            if (targetContainer == sourceContainer)
+            {
+                Send("You cannot change the laws of physics!");
+                return CommandExecutionResults.InvalidTarget;
+            }
+            if (!targetContainer.IsEmpty && targetContainer.LiquidName != sourceContainer.LiquidName)
+            {
+                Send("They don't hold the same liquid.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+            if (sourceContainer.IsEmpty)
+            {
+                Act(ActOptions.ToCharacter, "There's nothing in {0} to pour.", sourceContainer);
+                return CommandExecutionResults.InvalidTarget;
+            }
+            if (targetContainer.LiquidLeft >= targetContainer.MaxLiquid)
+            {
+                Act(ActOptions.ToCharacter, "{0} is already filled to the top.", targetContainer);
+                return CommandExecutionResults.InvalidTarget;
+            }
+            int amount = Math.Min(sourceContainer.LiquidLeft, targetContainer.MaxLiquid - targetContainer.LiquidLeft);
+            targetContainer.Fill(sourceContainer.LiquidName, amount);
+            if (sourceContainer.IsPoisoned) // copy poison or not poisoned
+                targetContainer.Poison();
+            else
+                targetContainer.Cure();
+            targetContainer.Recompute();
+            sourceContainer.Recompute();
+            //
+            if (targetCharacter == null)
+                Act(ActOptions.ToAll, "{0:N} pour{0:v} {1} from {2} into {3}.", this, sourceContainer.LiquidName, sourceContainer, targetContainer);
+            else
+            {
+                targetCharacter.Act(ActOptions.ToCharacter, "{0:N} pours you some {1}.", this, sourceContainer.LiquidName);
+                targetCharacter.Act(ActOptions.ToRoom, "{0:N} pour{0:v} some {1} for {2}", this, sourceContainer.LiquidName, targetCharacter);
+            }
+
+            return CommandExecutionResults.Ok;
+        }
+
+        [Command("fill", "drink")]
+        [Syntax("[cmd] <container>")]
+        protected virtual CommandExecutionResults DoFill(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Send("Fill what?");
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
+            }
+            // search drink container
+            IItem item = FindHelpers.FindByName(Inventory, parameters[0]);
+            if (item == null)
+            {
+                Send("You do not have that item.");
+                return CommandExecutionResults.TargetNotFound;
+            }
+            // search fountain
+            IItemFountain fountain = Room.Content.OfType<IItemFountain>().FirstOrDefault();
+            if (fountain == null)
+            {
+                Send("There is no fountain here!");
+                return CommandExecutionResults.TargetNotFound;
+            }
+            // drink container?
+            IItemDrinkContainer drinkContainer = item as IItemDrinkContainer;
+            if (drinkContainer == null)
+            {
+                Send("You can't fill that.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+            // same liquid ?
+            if (!drinkContainer.IsEmpty && drinkContainer.LiquidName != fountain.LiquidName)
+            {
+                Send("There is already another liquid in it.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+            // full
+            if (drinkContainer.LiquidLeft >= drinkContainer.MaxLiquid)
+            {
+                Send("Your container is full.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+            // let's go
+            Act(ActOptions.ToAll, "{0:N} fill{0:v} {1} with {2} from {3}.", this, drinkContainer, fountain.LiquidName, fountain);
+            drinkContainer.Fill(fountain.LiquidName, drinkContainer.MaxLiquid);
+            drinkContainer.Recompute();
 
             return CommandExecutionResults.Ok;
         }

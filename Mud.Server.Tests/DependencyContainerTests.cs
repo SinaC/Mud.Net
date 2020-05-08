@@ -5,7 +5,7 @@ using SimpleInjector;
 namespace Mud.Server.Tests
 {
     [TestClass]
-    public class ContainerTests
+    public class DependencyContainerTests
     {
         [TestMethod]
         public void Singleton_OneRegister_Test()

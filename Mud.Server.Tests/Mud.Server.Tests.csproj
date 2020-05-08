@@ -136,12 +136,13 @@
     <Compile Include="NPCTests.cs" />
     <Compile Include="PlayerCommandTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ContainerTests.cs" />
+    <Compile Include="DependencyContainerTests.cs" />
     <Compile Include="ItemSerializationTests.cs" />
     <Compile Include="SavesSpellTests.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="Mocking\WiznetMock.cs" />
     <Compile Include="CharacterTests.cs" />
+    <Compile Include="ItemTests.cs" />
     <Compile Include="WorldTests.cs" />
   </ItemGroup>
   <ItemGroup>

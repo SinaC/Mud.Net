@@ -242,7 +242,7 @@ namespace Mud.Server.Character.PlayableCharacter
             else
                 displayName.Append("someone");
             if (beholder is IPlayableCharacter playableBeholder && playableBeholder.ImpersonatedBy is IAdmin)
-                displayName.Append($" [{ImpersonatedBy?.DisplayName ?? " ??? "}]");
+                displayName.Append($" [PLR {ImpersonatedBy?.DisplayName ?? " ??? "}]");
             return displayName.ToString();
         }
 

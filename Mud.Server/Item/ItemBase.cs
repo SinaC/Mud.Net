@@ -91,7 +91,7 @@ namespace Mud.Server.Item
             else
                 displayName.Append("something");
             if (playableBeholder?.ImpersonatedBy is IAdmin)
-                displayName.Append($" [{Blueprint?.Id.ToString() ?? " ??? "}]");
+                displayName.Append($" [id: {Blueprint?.Id.ToString() ?? " ??? "}]");
             return displayName.ToString();
         }
 

@@ -464,7 +464,7 @@ namespace Mud.Server.Admin
 
             if (item is IItemDrinkContainer drinkContainer)
             {
-                sb.AppendFormatLine("Max: {0} Current: {1} Poisoned: {2}", drinkContainer.MaxLiquidAmount, drinkContainer.CurrentLiquidAmount, drinkContainer.IsPoisoned);
+                sb.AppendFormatLine("Max: {0} Current: {1} Poisoned: {2}", drinkContainer.MaxLiquid, drinkContainer.LiquidLeft, drinkContainer.IsPoisoned);
                 var liquidInfo = TableValues.LiquidInfo(drinkContainer.LiquidName);
                 if (liquidInfo != default)
                     sb.AppendFormatLine("Liquid type: {0} color: {1} proof: {2} full: {3} thirst: {4} food: {5} size: {6}", drinkContainer.LiquidName, liquidInfo.color, liquidInfo.proof, liquidInfo.full, liquidInfo.thirst, liquidInfo.food, liquidInfo.servingsize);
