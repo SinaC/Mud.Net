@@ -109,6 +109,17 @@ namespace Mud.Server.Common
             sb.AppendLine();
         }
 
+        private void AddEmptyLineNoCrLf(StringBuilder sb)
+        {
+            foreach (var column in _columns)
+            {
+                sb.Append('|');
+                sb.Append(' ', column.Width);
+            }
+
+            sb.Append('|');
+        }
+
         private StringBuilder BuildTable(IEnumerable<string> titles, int columnRepetionCount, IEnumerable<T> items)
         {
             StringBuilder sb = new StringBuilder();
@@ -148,15 +159,17 @@ namespace Mud.Server.Common
             string[] previousValues = new string[_columns.Count];
             foreach (IEnumerable<T> itemByChunk in items.Chunk(columnRepetionCount))
             {
+                int repetitionCount = 0;
                 foreach (T item in itemByChunk)
                 {
                     // TODO: if hasToMergeIdenticalValue was true for any column and is false now and SeparatorAfterIdenticalValue is true, add separator
+                    // TODO: hand merge identical value with columnRepetition > 1
                     for (int index = 0; index < _columns.Count; index++)
                     {
                         Column column = _columns[index];
 
                         string value = column.GetValueFunc(item) ?? "!!!";
-                        bool hasToMergeIdenticalValue = column.Options.MergeIdenticalValue && value == previousValues[index];
+                        bool hasToMergeIdenticalValue = column.Options.MergeIdenticalValue && columnRepetionCount == 1 && value == previousValues[index];
                         string trailingSpace = column.Options.AlignLeft
                             ? AlignLeftFunc(item)
                             : column.Options.GetTrailingSpaceFunc(item);
@@ -207,6 +220,13 @@ namespace Mud.Server.Common
                     }
 
                     sb.Append("|");
+                    repetitionCount++;
+                }
+
+                if (repetitionCount != columnRepetionCount)
+                {
+                    for(int i = repetitionCount; i < columnRepetionCount; i++)
+                        AddEmptyLineNoCrLf(sb);
                 }
 
                 sb.AppendLine();
