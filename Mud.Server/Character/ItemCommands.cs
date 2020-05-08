@@ -474,8 +474,13 @@ namespace Mud.Server.Character
                 }
             }
             // from here, we are sure we have a drinkable item
-
-            // TODO: check drunk act_obj.c:1167
+            IPlayableCharacter pc = this as IPlayableCharacter;
+            // drunk ?
+            if (pc?[Conditions.Drunk] > 10)
+            {
+                Send("You fail to reach your mouth.  *Hic*");
+                return CommandExecutionResults.NoExecution;
+            }
 
             // get liquid info
             (string name, string color, int proof, int full, int thirst, int food, int servingsize) liquidInfo = TableValues.LiquidInfo(drinkable.LiquidName);
@@ -491,14 +496,33 @@ namespace Mud.Server.Character
                 Send("It is already empty.");
                 return CommandExecutionResults.NoExecution;
             }
+            // full ?
+            if (pc?[Conditions.Full] > 45)
+            {
+                Send("You're too full to drink more.");
+                return CommandExecutionResults.NoExecution;
+            }
             // compute amount (limited to liquid left)
             int amount = Math.Min(drinkable.LiquidLeft, liquidInfo.servingsize * drinkable.LiquidAmountMultiplier);
+            // drink
             drinkable.Drink(amount);
-            // TODO: check drunk again
-
             Act(ActOptions.ToAll, "{0:N} drink{0:v} {1} from {2}.", this, liquidInfo.name, drinkable);
+            // drunk/thirst/food/full
+            if (pc != null)
+            {
+                pc.GainCondition(Conditions.Drunk, (amount * liquidInfo.proof) / 36);
+                pc.GainCondition(Conditions.Full, (amount * liquidInfo.full) / 4);
+                pc.GainCondition(Conditions.Thirst, (amount * liquidInfo.thirst) / 10);
+                pc.GainCondition(Conditions.Hunger, (amount * liquidInfo.food) / 2);
 
-            // TODO: thirst/food/full update see act_obj.c:1217
+                if (pc[Conditions.Drunk] > 10)
+                    Send("You feel drunk.");
+                if (pc[Conditions.Full] > 40)
+                    Send("You are full.");
+                if (pc[Conditions.Thirst] > 40)
+                    Send("Your thirst is quenched.");
+            }
+            // poisoned?
             if (drinkable.IsPoisoned)
             {
                 Act(ActOptions.ToAll, "{0:N} choke{0:v} and gag{0:v}.", this);
@@ -623,7 +647,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("fill", "drink")]
+        [Command("fill", "Drink")]
         [Syntax("[cmd] <container>")]
         protected virtual CommandExecutionResults DoFill(string rawParameters, params CommandParameter[] parameters)
         {

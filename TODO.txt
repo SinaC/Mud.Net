@@ -1,8 +1,9 @@
-ONGOING
-thirst/full/hungry
-
 TODO:
+ColdEffect: DrinkContainer
 Food
+Exit flags
+Weight/Carry
+items Potion/Staff/Wand/Scroll
 AddOrUpdateAffect could have an additional parameter with duration, if update is selected -> update duration
 skills: staves/wand/scroll/potion/drink container/steal/lore/pick lock/rescue/envenom
 assign abilities to classes
@@ -18,12 +19,13 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+conditions: drunk/thirst/full/hungry
 pour, fill command added
 IItemDrinkable tests
 drink command added
 fountain and liquid table added
 issue when impersonating another character while already impersonating (previous was not removed from the game, pure luck if I found this one) fixed
-ExitDirectioCount removed
+ExitDirectionCount removed
 Sneak/Hide
 armor on equipment apply in recompute
 wear off message <> dispel message (see message send in TryDispels)
@@ -85,6 +87,7 @@ TableGenerator with duplicate columns
 	 ----------------------
 
 *************************************************************
+make text drunk in say/whisper/... see act_comm.C:2222
 when using FindHelper.FindByName no ICharacter and parameter is self -> return itself
 redo rom importer
 Second/Third/Fourth wield in insectoid

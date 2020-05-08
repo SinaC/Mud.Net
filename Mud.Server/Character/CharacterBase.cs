@@ -614,8 +614,6 @@ namespace Mud.Server.Character
         public bool Move(ExitDirections direction, bool checkFighting, bool follow = false)
         {
             IRoom fromRoom = Room;
-            IExit exit = fromRoom.Exit(direction);
-            IRoom toRoom = exit?.Destination;
 
             // TODO: act_move.C:133
             // drunk
@@ -628,22 +626,35 @@ namespace Mud.Server.Character
                 return false;
             }
             if (ControlledBy != null && ControlledBy.Room == Room)
-            { // Slave cannot leave a room without Master
+            {
+                // Slave cannot leave a room without Master
                 Send("What?  And leave your beloved master?");
                 return false;
             }
-            if (exit == null || toRoom == null) // Check if existing exit
+
+            // Under certain circumstances, direction can be modified (Drunk anyone?)
+            direction = ChangeDirectionBeforeMove(direction, fromRoom);
+
+            // Get exit and destination room
+            IExit exit = fromRoom.Exit(direction);
+            IRoom toRoom = exit?.Destination;
+
+            // Check if existing exit
+            if (exit == null || toRoom == null)
             {
                 Send("You almost goes {0}, but suddenly realize that there's no exit there.", direction);
                 Act(ActOptions.ToRoom, "{0} looks like {0:e}'s about to go {1}, but suddenly stops short and looks confused.", this, direction);
                 return false;
             }
-            if (exit.IsClosed)
+            // Closed ?
+            //if (exit.IsClosed && (!CharacterFlags.HasFlag(CharacterFlags.PassDoor || exit.ExitFlags.HasFlag(ExitFlags.NoPass)))
+            if (exit.IsClosed && !CharacterFlags.HasFlag(CharacterFlags.PassDoor))
             {
                 Act(ActOptions.ToCharacter, "The {0} is closed.", exit);
                 return false;
             }
-
+            
+            // Check move points left or drunk special phrase
             bool beforeMove = BeforeMove(direction, fromRoom, toRoom);
             if (!beforeMove)
                 return false;
@@ -653,9 +664,10 @@ namespace Mud.Server.Character
                 Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction);
             ChangeRoom(toRoom);
 
-            // Autolook if impersonated/incarnated
-            AutoLook();
+            // Display special phrase after entering room
+            AfterMove(direction, fromRoom, toRoom);
 
+            //
             if (!CharacterFlags.HasFlag(CharacterFlags.Sneak))
                 Act(ActOptions.ToRoom, "{0} has arrived.", this);
 
@@ -1510,7 +1522,11 @@ namespace Mud.Server.Character
 
         protected abstract int ModifyCriticalDamage(int damage);
 
+        protected abstract ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom);
+
         protected abstract bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom);
+
+        protected abstract void AfterMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom);
 
         protected abstract (int hitGain, int moveGain, int manaGain) RegenBaseValues();
 

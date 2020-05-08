@@ -178,9 +178,22 @@ namespace Mud.Server.Character.NonPlayableCharacter
             return (hitGain, moveGain, manaGain);
         }
 
+        protected override ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom)
+        {
+            return direction; // no direction change
+        }
+
         protected override bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
         {
-            return true;
+            return true; // nop
+        }
+
+        protected override void AfterMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
+        {
+            if (IncarnatedBy != null)
+            {
+                AutoLook();
+            }
         }
 
         protected override int ModifyCriticalDamage(int damage) => damage * 2; // TODO http://wow.gamepedia.com/Critical_strike

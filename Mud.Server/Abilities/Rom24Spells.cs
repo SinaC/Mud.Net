@@ -2156,7 +2156,7 @@ namespace Mud.Server.Abilities
                             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
                 }
                 // hunger! (warmth sucked out)
-                // TODO: gain_condition(victim,COND_HUNGER,dam/20); if NPC
+                (victim as IPlayableCharacter)?.GainCondition(Conditions.Hunger, damage / 20);
                 // let's toast some gear
                 foreach (IItem itemOnVictim in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)))
                     ColdEffect(itemOnVictim, ability, source, level, damage);
@@ -2233,7 +2233,7 @@ namespace Mud.Server.Abilities
                         new CharacterFlagsAffect { Operator = AffectOperators.Or, Modifier = CharacterFlags.Blind });
                 }
                 // getting thirsty
-                // TODO: gain_condition(victim,COND_THIRST,dam/20); if NPC
+                (victim as IPlayableCharacter)?.GainCondition(Conditions.Thirst, damage / 20);
                 // let's toast some gear
                 foreach (IItem itemOnVictim in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)))
                     FireEffect(itemOnVictim, ability, source, level, damage);

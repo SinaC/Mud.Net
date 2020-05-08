@@ -16,6 +16,10 @@ namespace Mud.Server
         int Trains { get; }
         int Practices { get; }
 
+        // Conditions: drunk, full, thirst, hunger
+        int this[Conditions condition] { get; }
+        void GainCondition(Conditions condition, int value);
+
         // Group/Follower
         IPlayableCharacter Leader { get; }
         IEnumerable<IPlayableCharacter> GroupMembers { get; } //!! leader is not be member of its own group and only leader stores GroupMembers

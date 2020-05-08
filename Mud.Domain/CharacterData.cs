@@ -53,6 +53,8 @@ namespace Mud.Domain
 
         public KnownAbilityData[] KnownAbilities { get; set; }
 
+        public Dictionary<Conditions, int> Conditions { get; set; }
+
         // TODO: cooldown, ...
     }
 }

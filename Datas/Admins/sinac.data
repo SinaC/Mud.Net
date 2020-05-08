@@ -16,17 +16,17 @@
     <CharacterData>
       <CreationTime>2020-05-07T14:08:22.9740442+02:00</CreationTime>
       <Name>sinac</Name>
-      <RoomId>3003</RoomId>
+      <RoomId>3005</RoomId>
       <Race>insectoid</Race>
       <Class>druid</Class>
       <Level>7</Level>
       <Sex>0</Sex>
       <HitPoints>153</HitPoints>
-      <MovePoints>107</MovePoints>
+      <MovePoints>97</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>19</Value>
+          <Value>17</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -52,7 +52,7 @@
           <Item>
             <ItemId>3365</ItemId>
             <Level>8</Level>
-            <DecayPulseLeft>14384720</DecayPulseLeft>
+            <DecayPulseLeft>14384600</DecayPulseLeft>
             <ItemFlags>65</ItemFlags>
             <Auras />
           </Item>
@@ -92,7 +92,7 @@
           <Item>
             <ItemId>3</ItemId>
             <Level>0</Level>
-            <DecayPulseLeft>1640</DecayPulseLeft>
+            <DecayPulseLeft>1520</DecayPulseLeft>
             <ItemFlags>0</ItemFlags>
             <Auras />
           </Item>
@@ -115,7 +115,7 @@
         <AuraData>
           <AbilityId>2</AbilityId>
           <Level>5</Level>
-          <PulseLeft>4388</PulseLeft>
+          <PulseLeft>4292</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -128,7 +128,7 @@
         <AuraData>
           <AbilityId>3</AbilityId>
           <Level>5</Level>
-          <PulseLeft>1300</PulseLeft>
+          <PulseLeft>1204</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -146,7 +146,7 @@
         <AuraData>
           <AbilityId>81</AbilityId>
           <Level>5</Level>
-          <PulseLeft>1804</PulseLeft>
+          <PulseLeft>1708</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -157,22 +157,9 @@
           </Affects>
         </AuraData>
         <AuraData>
-          <AbilityId>85</AbilityId>
-          <Level>5</Level>
-          <PulseLeft>48</PulseLeft>
-          <AuraFlags>0</AuraFlags>
-          <Affects>
-            <AffectDataBase xsi:type="CharacterAttributeAffectData">
-              <Operator>0</Operator>
-              <Location>16</Location>
-              <Modifier>-40</Modifier>
-            </AffectDataBase>
-          </Affects>
-        </AuraData>
-        <AuraData>
           <AbilityId>74</AbilityId>
           <Level>5</Level>
-          <PulseLeft>4664</PulseLeft>
+          <PulseLeft>4568</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -189,7 +176,7 @@
         <AuraData>
           <AbilityId>31</AbilityId>
           <Level>5</Level>
-          <PulseLeft>232</PulseLeft>
+          <PulseLeft>136</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -201,12 +188,25 @@
         <AuraData>
           <AbilityId>32</AbilityId>
           <Level>5</Level>
-          <PulseLeft>240</PulseLeft>
+          <PulseLeft>144</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
               <Operator>1</Operator>
               <Modifier>64</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityId>85</AbilityId>
+          <Level>7</Level>
+          <PulseLeft>1672</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterAttributeAffectData">
+              <Operator>0</Operator>
+              <Location>16</Location>
+              <Modifier>-40</Modifier>
             </AffectDataBase>
           </Affects>
         </AuraData>
@@ -1365,6 +1365,15 @@
         </KnownAbilityData>
         <KnownAbilityData>
           <AbilityId>5008</AbilityId>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </KnownAbilityData>
+        <KnownAbilityData>
+          <AbilityId>5009</AbilityId>
           <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>

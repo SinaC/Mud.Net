@@ -6,6 +6,7 @@ using System.Text;
 using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
+using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Abilities;
 using Mud.Server.Blueprints.Item;
@@ -19,18 +20,24 @@ namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
+        public static readonly int NoCondition = -1;
+        public static readonly int MinCondition = 0;
+        public static readonly int MaxCondition = 48;
+
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<PlayableCharacter>);
 
         protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
 
         private readonly List<IPlayableCharacter> _groupMembers;
         private readonly List<IQuest> _quests;
+        private readonly int[] _conditions;
 
         public PlayableCharacter(Guid guid, CharacterData data, IPlayer player, IRoom room)
             : base(guid, data.Name, string.Empty)
         {
             _groupMembers = new List<IPlayableCharacter>();
             _quests = new List<IQuest>();
+            _conditions = new int[EnumHelpers.GetCount<Conditions>()];
 
             ImpersonatedBy = player;
 
@@ -73,10 +80,15 @@ namespace Mud.Server.Character.PlayableCharacter
                 foreach (var maxResourceData in data.MaxResources)
                     SetMaxResource(maxResourceData.Key, maxResourceData.Value, false);
             }
-            // TODO: set not-found resources to base value (from class/race)
             Trains = data.Trains;
             Practices = data.Practices;
-
+            // Conditions
+            if (data.Conditions != null)
+            {
+                foreach (var conditionData in data.Conditions)
+                    this[conditionData.Key] = conditionData.Value;
+            }
+            //
             BaseCharacterFlags = data.CharacterFlags;
             BaseImmunities = data.Immunities;
             BaseResistances = data.Resistances;
@@ -94,6 +106,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
                     this[attribute] = 1;
             }
+
             // TODO: set not-found attributes to base value (from class/race)
 
             // Must be built before equiping
@@ -324,6 +337,61 @@ namespace Mud.Server.Character.PlayableCharacter
         public int Trains { get; protected set; }
 
         public int Practices { get; protected set; }
+
+        public int this[Conditions condition]
+        {
+            get
+            {
+                int index = (int)condition;
+                if (index >= _conditions.Length)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Trying to get current condition for condition {0} (index {1}) but current condition length is smaller", condition, index);
+                    return NoCondition;
+                }
+                return _conditions[index];
+            }
+            protected set
+            {
+                int index = (int)condition;
+                if (index >= _conditions.Length)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Trying to get current condition for condition {0} (index {1}) but current condition length is smaller", condition, index);
+                    return;
+                }
+                _conditions[index] = value;
+            }
+        }
+
+        public void GainCondition(Conditions condition, int value)
+        {
+            if (value == 0)
+                return;
+            if (ImpersonatedBy?.IsAfk == true)
+                return;
+            if (Room == null)
+                return;
+            // TODO: if undead or ghost
+            if (this[condition] == NoCondition)
+                return;
+            int previousValue = this[condition];
+            this[condition] = (previousValue + value).Range(MinCondition, MaxCondition);
+            if (this[condition] == MinCondition)
+            {
+                switch (condition)
+                {
+                    case Conditions.Hunger:
+                        Send("You are hungry.");
+                        break;
+                    case Conditions.Thirst:
+                        Send("You are thirsty.");
+                        break;
+                    case Conditions.Drunk:
+                        if (previousValue != 0)
+                            Send("You are sober.");
+                        break;
+                }
+            }
+        }
 
         public IPlayableCharacter Leader { get; protected set; }
 
@@ -604,6 +672,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 Experience = Experience,
                 Trains = Trains,
                 Practices = Practices,
+                Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => this[x]),
                 Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquipedData()).ToArray(),
                 Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
                 CurrentQuests = Quests.Select(x => x.MapQuestData()).ToArray(),
@@ -703,11 +772,30 @@ namespace Mud.Server.Character.PlayableCharacter
             int hitGain = Math.Max(3, this[CharacterAttributes.Constitution] - 3 + Level / 2);
             int moveGain = Math.Max(15, Level);
             int manaGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2;
+            // regen
             if (CharacterFlags.HasFlag(CharacterFlags.Regeneration))
                 hitGain *= 2;
-            // TODO: hp/mana: class bonus
-            // TODO: hp: fast healing skill
-            // TODO: mana: meditation
+            // class bonus
+            hitGain += (Class?.MaxHitPointGainPerLevel ?? 0) - 10;
+            // fast healing
+            KnownAbility fastHealingAbility = this[AbilityManager["Fast healing"]];
+            int fastHealingLearned = fastHealingAbility?.Learned ?? 0;
+            if (RandomManager.Chance(fastHealingLearned))
+            {
+                hitGain += (fastHealingLearned * hitGain) / 100;
+                if (HitPoints < MaxHitPoints)
+                    CheckAbilityImprove(fastHealingAbility, true, 8);
+            }
+            // meditation
+            KnownAbility meditationAbility = this[AbilityManager["Meditation"]];
+            int meditationLearned = meditationAbility?.Learned ?? 0;
+            if (RandomManager.Chance(meditationLearned))
+            {
+                manaGain += (meditationLearned * manaGain) / 100;
+                if (this[ResourceKinds.Mana] < MaxResource(ResourceKinds.Mana))
+                    CheckAbilityImprove(meditationAbility, true, 8);
+            }
+            // position
             switch (Position)
             {
                 case Positions.Sleeping:
@@ -727,9 +815,40 @@ namespace Mud.Server.Character.PlayableCharacter
                     manaGain /= 4;
                     break;
             }
-            // TODO: hunger    /= 2
-            // TODO: thirsty   /= 2
+            if (this[Conditions.Hunger] == 0)
+            {
+                hitGain /= 2;
+                manaGain /= 2;
+                moveGain /= 2;
+            }
+            if (this[Conditions.Thirst] == 0)
+            {
+                hitGain /= 2;
+                manaGain /= 2;
+                moveGain /= 2;
+            }
             return (hitGain, moveGain, manaGain);
+        }
+
+        protected override ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom)
+        {
+            // Drunk enough to change direction ?
+            int drunkLevel = this[Conditions.Drunk];
+            if (drunkLevel > 10)
+            {
+                if (RandomManager.Chance(drunkLevel))
+                {
+                    Act(ActOptions.ToCharacter, "You feel a little drunk.. not to mention kind of lost..", this);
+                    Act(ActOptions.ToRoom, "{0:N} looks a little drunk.. not to mention kind of lost..", this);
+                    direction = RandomManager.Random<ExitDirections>(); // change direction
+                }
+                else
+                {
+                    Act(ActOptions.ToCharacter, "You feel a little.. drunk..", this);
+                    Act(ActOptions.ToRoom, "{0:N} looks a little.. drunk..", this);
+                }
+            }
+            return direction;
         }
 
         protected override bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
@@ -749,7 +868,21 @@ namespace Mud.Server.Character.PlayableCharacter
 
             // Delay player by one pulse
             ImpersonatedBy?.SetGlobalCooldown(1);
+
+            // Drunk ?
+            if (this[Conditions.Drunk] > 10)
+                Act(ActOptions.ToRoom, "{0:N} stumbles off drunkenly on {0:s} way {1}.", this, direction.DisplayName());
             return true;
+        }
+
+        protected override void AfterMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
+        {
+            // Drunk?
+            if (this[Conditions.Drunk] > 10)
+                Act(ActOptions.ToRoom, "{0:N} stumbles in drunkenly, looking all nice and French.", this);
+
+            // Autolook
+            AutoLook();
         }
 
         protected override void MoveFollow(IRoom fromRoom, IRoom toRoom, ExitDirections direction)

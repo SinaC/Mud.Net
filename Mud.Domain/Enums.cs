@@ -22,6 +22,14 @@ namespace Mud.Domain
         Standing    = 8,
     }
 
+    public enum Conditions // Must starts at 0 and consecutive
+    {
+        Drunk   = 0,
+        Full    = 1,
+        Thirst  = 2,
+        Hunger  = 3
+    }
+
     [Flags]
     public enum FurnitureActions
     {
@@ -241,7 +249,7 @@ namespace Mud.Domain
         Iron        = 0x00400000,
     }
 
-    public enum CharacterAttributes // must be ordered, starts at 0 and can't contain holes
+    public enum CharacterAttributes // Must starts at 0 and consecutive
     {
         Strength        = 0,
         Intelligence    = 1,
@@ -261,19 +269,19 @@ namespace Mud.Domain
 
     public enum BasicAttributes
     { 
-        Strength = CharacterAttributes.Strength,
-        Intelligence = CharacterAttributes.Intelligence,
-        Wisdom = CharacterAttributes.Wisdom,
-        Dexterity = CharacterAttributes.Dexterity,
-        Constitution = CharacterAttributes.Constitution,
+        Strength        = CharacterAttributes.Strength,
+        Intelligence    = CharacterAttributes.Intelligence,
+        Wisdom          = CharacterAttributes.Wisdom,
+        Dexterity       = CharacterAttributes.Dexterity,
+        Constitution    = CharacterAttributes.Constitution,
     }
 
     public enum Armors
     {
-        Bash = CharacterAttributes.ArmorBash,
-        Pierce = CharacterAttributes.ArmorPierce,
-        Slash = CharacterAttributes.ArmorSlash,
-        Exotic = CharacterAttributes.ArmorExotic,
+        Bash        = CharacterAttributes.ArmorBash,
+        Pierce      = CharacterAttributes.ArmorPierce,
+        Slash       = CharacterAttributes.ArmorSlash,
+        Exotic      = CharacterAttributes.ArmorExotic,
     }
 
     [Flags]
@@ -396,9 +404,9 @@ namespace Mud.Domain
 
     public enum CostAmountOperators
     {
-        None = 0,
-        Fixed = 1,
-        Percentage = 2
+        None        = 0,
+        Fixed       = 1,
+        Percentage  = 2
     }
 
     [Flags]

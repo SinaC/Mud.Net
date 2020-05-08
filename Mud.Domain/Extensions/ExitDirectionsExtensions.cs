@@ -50,5 +50,24 @@
                 return false;
             return true;
         }
+
+        public static string DisplayName(this ExitDirections direction)
+        {
+            switch (direction)
+            {
+                case ExitDirections.North: return "north";
+                case ExitDirections.East: return "east";
+                case ExitDirections.South: return "north";
+                case ExitDirections.West: return "west";
+                case ExitDirections.Up: return "down";
+                case ExitDirections.Down: return "up";
+                case ExitDirections.NorthEast: return "north east";
+                case ExitDirections.NorthWest: return "south east";
+                case ExitDirections.SouthEast: return "north west";
+                case ExitDirections.SouthWest: return "north east";
+                default:
+                    return "???";
+            }
+        }
     }
 }

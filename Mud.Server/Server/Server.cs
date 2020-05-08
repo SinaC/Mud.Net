@@ -1136,6 +1136,13 @@ namespace Mud.Server.Server
 
                     //
                     character.Regen();
+                    // Update conditions
+
+                    character.GainCondition(Conditions.Drunk, -1); // decrease drunk state
+                    // TODO: not if undead from here
+                    character.GainCondition(Conditions.Full, -2); // TODO depends on size (-4 if size > medium)
+                    character.GainCondition(Conditions.Thirst, -1);
+                    character.GainCondition(Conditions.Hunger, -1); // TODO depends on size (-2 if size > medium)
                 }
                 catch (Exception ex)
                 { 

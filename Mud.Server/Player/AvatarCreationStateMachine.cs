@@ -181,6 +181,7 @@ namespace Mud.Server.Player
                     Experience = 0,
                     Trains = 3,
                     Practices = 5,
+                    Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => 48),
                     //TODO: Equipments
                     //TODO: Inventory
                     //TODO: CurrentQuests
