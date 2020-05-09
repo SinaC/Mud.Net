@@ -525,6 +525,26 @@ namespace Mud.Server.WPFTestApplication
                     NoTake = extraFlags.noTake,
                 };
             }
+            else if (data.ItemType == "food")
+            {
+                blueprint = new ItemFoodBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    FullHour = Convert.ToInt32(data.Values[0]),
+                    HungerHour = Convert.ToInt32(data.Values[1]),
+                    IsPoisoned = Convert.ToInt32(data.Values[3]) != 0,
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
+                };
+            }
             else if (data.ItemType == "fountain")
             {
                 blueprint = new ItemFountainBlueprint // TODO: fountain
@@ -1702,13 +1722,23 @@ namespace Mud.Server.WPFTestApplication
                 Id = 10,
                 Name = "item10 tenth",
                 ShortDescription = "Tenth item (drink container)",
-                Description = "The Tenth item (drink container) has been left here.",
+                Description = "The tenth item (drink container) has been left here.",
                 MaxLiquidAmount = 500,
                 CurrentLiquidAmount = 100,
                 LiquidType = "rum",
                 IsPoisoned = true
             };
             World.AddItemBlueprint(item10Blueprint);
+            ItemFoodBlueprint item11Blueprint = new ItemFoodBlueprint
+            {
+                Id = 11,
+                Name = "item11 eleventh",
+                ShortDescription = "Eleventh item (food)",
+                Description = "The eleventh item (food) has been left here.",
+                FullHour = 10,
+                HungerHour = 4,
+                IsPoisoned = true
+            };
 
             //
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
@@ -1745,6 +1775,7 @@ namespace Mud.Server.WPFTestApplication
             World.AddItem(Guid.NewGuid(), item7Blueprint, templeOfMota);
             World.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare);
             World.AddItem(Guid.NewGuid(), item10Blueprint, commonSquare);
+            World.AddItem(Guid.NewGuid(), item11Blueprint, commonSquare);
 
             // Equip weapon on mob2
             mob2.Equipments.First(x => x.Slot == EquipmentSlots.MainHand).Item = item2;

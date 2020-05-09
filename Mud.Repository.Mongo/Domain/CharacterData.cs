@@ -53,6 +53,8 @@ namespace Mud.Repository.Mongo.Domain
 
         public KnownAbilityData[] KnownAbilities { get; set; }
 
+        public Dictionary<int, int> Conditions { get; set; }
+
         // TODO: cooldown, ...
     }
 }

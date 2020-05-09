@@ -8,10 +8,12 @@ namespace Mud.Repository.Filesystem.DataContracts
     [KnownType(typeof(ItemCorpseData))]
     [KnownType(typeof(ItemWeaponData))]
     [KnownType(typeof(ItemDrinkContainerData))]
+    [KnownType(typeof(ItemFoodData))]
     [XmlInclude(typeof(ItemCorpseData))]
     [XmlInclude(typeof(ItemContainerData))]
     [XmlInclude(typeof(ItemWeaponData))]
     [XmlInclude(typeof(ItemDrinkContainerData))]
+    [XmlInclude(typeof(ItemFoodData))]
     public class ItemData
     {
         [DataMember]

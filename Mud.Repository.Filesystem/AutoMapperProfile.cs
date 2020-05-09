@@ -34,19 +34,22 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => MapIRVFlags(x.Vulnerabilities)))
                 .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapFromDictionary(x.Attributes, MapCharacterAttributes)))
                 .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapFromDictionary(x.CurrentResources, MapResourceKind)))
-                .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapFromDictionary(x.MaxResources, MapResourceKind)));
+                .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapFromDictionary(x.MaxResources, MapResourceKind)))
+                .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapFromDictionary(x.Conditions, MapConditions)));
 
             CreateMap<Domain.ItemData, DataContracts.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
                 .Include<Domain.ItemContainerData, DataContracts.ItemContainerData>()
                 .Include<Domain.ItemCorpseData, DataContracts.ItemCorpseData>()
                 .Include<Domain.ItemWeaponData, DataContracts.ItemWeaponData>()
-                .Include<Domain.ItemDrinkContainerData, DataContracts.ItemDrinkContainerData>();
+                .Include<Domain.ItemDrinkContainerData, DataContracts.ItemDrinkContainerData>()
+                .Include<Domain.ItemFoodData, DataContracts.ItemFoodData>();
             CreateMap<Domain.ItemContainerData, DataContracts.ItemContainerData>();
             CreateMap<Domain.ItemCorpseData, DataContracts.ItemCorpseData>();
             CreateMap<Domain.ItemWeaponData, DataContracts.ItemWeaponData>()
                 .ForMember(x => x.WeaponFlags, expression => expression.MapFrom(x => MapWeaponFlags(x.WeaponFlags)));
             CreateMap<Domain.ItemDrinkContainerData, DataContracts.ItemDrinkContainerData>();
+            CreateMap<Domain.ItemFoodData, DataContracts.ItemFoodData>();
 
             CreateMap<Domain.EquipedItemData, DataContracts.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
@@ -105,19 +108,22 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => MapIRVFlags(x.Vulnerabilities)))
                 .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapToDictionary(x.Attributes, MapCharacterAttributes)))
                 .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapToDictionary(x.CurrentResources, MapResourceKind)))
-                .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapToDictionary(x.MaxResources, MapResourceKind)));
+                .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapToDictionary(x.MaxResources, MapResourceKind)))
+                .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapToDictionary(x.Conditions, MapConditions)));
 
             CreateMap<DataContracts.ItemData, Domain.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
                 .Include<DataContracts.ItemContainerData, Domain.ItemContainerData>()
                 .Include<DataContracts.ItemCorpseData, Domain.ItemCorpseData>()
                 .Include<DataContracts.ItemWeaponData, Domain.ItemWeaponData>()
-                .Include<DataContracts.ItemDrinkContainerData, Domain.ItemDrinkContainerData>();
+                .Include<DataContracts.ItemDrinkContainerData, Domain.ItemDrinkContainerData>()
+                .Include<DataContracts.ItemFoodData, Domain.ItemFoodData>();
             CreateMap<DataContracts.ItemContainerData, Domain.ItemContainerData>();
             CreateMap<DataContracts.ItemCorpseData, Domain.ItemCorpseData>();
             CreateMap<DataContracts.ItemWeaponData, Domain.ItemWeaponData>()
                 .ForMember(x => x.WeaponFlags, expression => expression.MapFrom(x => MapWeaponFlags(x.WeaponFlags)));
             CreateMap<DataContracts.ItemDrinkContainerData, Domain.ItemDrinkContainerData>();
+            CreateMap<DataContracts.ItemFoodData, Domain.ItemFoodData>();
 
             CreateMap<DataContracts.EquipedItemData, Domain.EquipedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
@@ -638,6 +644,34 @@ namespace Mud.Repository.Filesystem
                 case Domain.CostAmountOperators.Percentage: return 2;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid CostAmountOperators {op} while writing pfile");
+                    return 0;
+            }
+        }
+
+        private Domain.Conditions MapConditions(int cond)
+        {
+            switch (cond)
+            {
+                case 0: return Mud.Domain.Conditions.Drunk;
+                case 1: return Mud.Domain.Conditions.Full;
+                case 2: return Mud.Domain.Conditions.Thirst;
+                case 3: return Mud.Domain.Conditions.Hunger;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid Conditions {cond} while reading pfile");
+                    return Mud.Domain.Conditions.Drunk;
+            }
+        }
+
+        private int MapConditions(Domain.Conditions cond)
+        {
+            switch (cond)
+            {
+                case Mud.Domain.Conditions.Drunk: return 0;
+                case Mud.Domain.Conditions.Full: return 1;
+                case Mud.Domain.Conditions.Thirst: return 2;
+                case Mud.Domain.Conditions.Hunger: return 3;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid Conditions {cond} while writing pfile");
                     return 0;
             }
         }

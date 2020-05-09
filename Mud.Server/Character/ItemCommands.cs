@@ -697,6 +697,75 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
+        [Command("eat", "Food")]
+        [Syntax("[cmd] <item>")]
+        protected virtual CommandExecutionResults DoEat(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Send("Eat what?");
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
+            }
+
+            IItem item = FindHelpers.FindByName(Inventory.Where(CanSee), parameters[0]);
+            if (item == null)
+            {
+                Send(StringHelpers.ItemInventoryNotFound);
+                return CommandExecutionResults.TargetNotFound;
+            }
+
+            // TODO pill
+            IItemFood food = item as IItemFood;
+            if (food == null)
+            {
+                Send("That's not edible.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+
+            IPlayableCharacter pc = this as IPlayableCharacter;
+            if (pc?[Conditions.Full] > 40)
+            {
+                Send("You are too full to eat more.");
+                return CommandExecutionResults.NoExecution;
+            }
+
+            Act(ActOptions.ToAll, "{0:N} eat{0:v} {1}", this, item);
+
+            if (food != null)
+            {
+                if (pc != null)
+                {
+                    int hunger = pc[Conditions.Hunger];
+                    pc.GainCondition(Conditions.Full, food.FullHour);
+                    pc.GainCondition(Conditions.Hunger, food.HungerHour);
+                    if (hunger == 0 && pc[Conditions.Hunger] > 0)
+                        Send("You are no longer hungry.");
+                    else if (pc[Conditions.Full] > 40)
+                        Send("You are full.");
+                }
+                // poisoned ?
+                if (food.IsPoisoned)
+                {
+                    Act(ActOptions.ToAll, "{0:N} choke{0:v} and gag{0:v}.", this);
+                    // search poison affect
+                    IAbility poison = AbilityManager["Poison"];
+                    IAura poisonAura = GetAura(poison);
+                    if (poisonAura != null) // TODO: update duration
+                        poisonAura.AddOrUpdateAffect(
+                            x => x.Modifier == CharacterFlags.Poison,
+                            () => new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                            null);
+                    else
+                        World.AddAura(this, poison, food, RandomManager.Fuzzy(food.FullHour), TimeSpan.FromMinutes(food.FullHour * 2), AuraFlags.None, false,
+                            new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
+                    Recompute();
+                }
+                return CommandExecutionResults.Ok;
+            }
+            // TODO: pill
+            return CommandExecutionResults.Ok;
+        }
+
         //********************************************************************
         // Helpers
         //********************************************************************

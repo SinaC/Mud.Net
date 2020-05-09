@@ -9,6 +9,64 @@ namespace Mud.Server.Tests
     [TestClass]
     public class ItemTests
     {
+        // Food
+        [TestMethod]
+        public void Food_Creation_Values()
+        {
+            ItemFoodBlueprint foodBlueprint = new ItemFoodBlueprint
+            {
+                Id = 1,
+                Name = "Food",
+                ShortDescription = "FoodShort",
+                Description = "FoodDesc",
+                Cost = 20,
+                HungerHour = 10,
+                FullHour = 20,
+                IsPoisoned = true
+            };
+            IItemFood food = new ItemFood(Guid.NewGuid(), foodBlueprint, new Mock<IRoom>().Object);
+
+            Assert.AreEqual(20, food.FullHour);
+            Assert.AreEqual(10, food.HungerHour);
+            Assert.IsTrue(food.IsPoisoned);
+        }
+
+        [TestMethod]
+        public void Food_Poison() 
+        {
+            ItemFoodBlueprint foodBlueprint = new ItemFoodBlueprint 
+            { 
+                Id = 1, Name = "Food", ShortDescription = "FoodShort", Description = "FoodDesc", Cost = 20, 
+                HungerHour = 10, FullHour = 20, IsPoisoned = false
+            };
+            IItemFood food = new ItemFood(Guid.NewGuid(), foodBlueprint, new Mock<IRoom>().Object);
+
+            food.Poison();
+
+            Assert.IsTrue(food.IsPoisoned);
+        }
+
+        [TestMethod]
+        public void Food_Cure()
+        {
+            ItemFoodBlueprint foodBlueprint = new ItemFoodBlueprint
+            {
+                Id = 1,
+                Name = "Food",
+                ShortDescription = "FoodShort",
+                Description = "FoodDesc",
+                Cost = 20,
+                HungerHour = 10,
+                FullHour = 20,
+                IsPoisoned = true
+            };
+            IItemFood food = new ItemFood(Guid.NewGuid(), foodBlueprint, new Mock<IRoom>().Object);
+
+            food.Cure();
+
+            Assert.IsFalse(food.IsPoisoned);
+        }
+
         // Fountain
         [TestMethod]
         public void Fountain_Creation_Values()

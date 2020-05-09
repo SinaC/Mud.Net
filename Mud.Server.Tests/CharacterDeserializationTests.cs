@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using AutoBogus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -49,6 +50,7 @@ namespace Mud.Server.Tests
                 Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>()),
                 Auras = AutoFaker.Generate<AuraData[]>(),
                 KnownAbilities = AutoFaker.Generate<KnownAbilityData[]>(), // AbilityManagerMock will generate Ability at runtime // TODO: find a way to automatically (int)AutoFaker.Generate<ushort>() on int fields
+                Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>())
             };
 
             PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, player, room);
@@ -91,6 +93,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Learned, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Learned);
             Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Level, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Level);
             Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Rating, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Rating);
+            Assert.AreEqual(characterData.Conditions.Sum(x => (int)x.Key ^ x.Value), EnumHelpers.GetValues<Conditions>().Sum(x => (int)x ^ playableCharacter[x]));
         }
 
         [TestMethod]

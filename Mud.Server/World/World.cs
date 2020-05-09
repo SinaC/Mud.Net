@@ -220,6 +220,9 @@ namespace Mud.Server.World
                 case ItemCorpseBlueprint _:
                     Log.Default.WriteLine(LogLevels.Error, "World.AddItem: CorpseBlueprint cannot be added with this API.");
                     break;
+                case ItemFoodBlueprint foodBlueprint:
+                    item = new ItemFood(guid, foodBlueprint, container);
+                    break;
                 case ItemFurnitureBlueprint furnitureBlueprint:
                     item = new ItemFurniture(guid, furnitureBlueprint, container);
                     break;
@@ -297,6 +300,9 @@ namespace Mud.Server.World
                     break;
                 case ItemCorpseBlueprint corpseBlueprint:
                     item = new ItemCorpse(guid, corpseBlueprint, itemData as ItemCorpseData, container);
+                    break;
+                case ItemFoodBlueprint foodBlueprint:
+                    item = new ItemFood(guid, foodBlueprint, container);
                     break;
                 case ItemFurnitureBlueprint furnitureBlueprint:
                     item = new ItemFurniture(guid, furnitureBlueprint, itemData, container);

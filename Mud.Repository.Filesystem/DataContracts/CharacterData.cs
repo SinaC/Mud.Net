@@ -71,10 +71,13 @@ namespace Mud.Repository.Filesystem.DataContracts
         public int Vulnerabilities { get; set; }
 
         [DataMember]
-        public PairData<int,int>[] Attributes { get; set; } // TODO: this could create duplicate key exception while deserializing if CharacterAttribute is not found anymore
+        public PairData<int,int>[] Attributes { get; set; }
 
         [DataMember]
         public KnownAbilityData[] KnownAbilities { get; set; }
+
+        [DataMember]
+        public PairData<int,int>[] Conditions { get; set; }
 
         // TODO: cooldown, ...
     }

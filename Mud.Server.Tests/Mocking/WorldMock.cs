@@ -188,6 +188,9 @@ namespace Mud.Server.Tests.Mocking
                 case ItemDrinkContainerBlueprint drinkContainerBlueprint:
                     item = new ItemDrinkContainer(guid, drinkContainerBlueprint, container);
                     break;
+                case ItemFoodBlueprint foodBlueprint:
+                    item = new ItemFood(guid, foodBlueprint, container);
+                    break;
                 case ItemJewelryBlueprint jewelryBlueprint:
                     item = new ItemJewelry(guid, jewelryBlueprint, container);
                     break;
@@ -249,6 +252,9 @@ namespace Mud.Server.Tests.Mocking
                     break;
                 case ItemDrinkContainerBlueprint drinkContainerBlueprint:
                     item = new ItemDrinkContainer(guid, drinkContainerBlueprint, itemData as ItemDrinkContainerData, container);
+                    break;
+                case ItemFoodBlueprint foodBlueprint:
+                    item = new ItemFood(guid, foodBlueprint, itemData as ItemFoodData, container);
                     break;
                 case ItemJewelryBlueprint jewelryBlueprint:
                     item = new ItemJewelry(guid, jewelryBlueprint, itemData, container);

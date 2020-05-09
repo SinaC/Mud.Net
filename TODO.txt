@@ -1,3 +1,7 @@
+ONGOING:
+create spring, water, food added
+
+
 TODO:
 ColdEffect: DrinkContainer
 Food
@@ -19,6 +23,9 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+eat command added
+food item added
+conditions serialize/deserialize added
 conditions: drunk/thirst/full/hungry
 pour, fill command added
 IItemDrinkable tests

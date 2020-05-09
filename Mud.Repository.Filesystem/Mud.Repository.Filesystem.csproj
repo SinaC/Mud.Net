@@ -97,6 +97,7 @@
     <Compile Include="DataContracts\ItemData.cs" />
     <Compile Include="DataContracts\ItemDrinkContainerData.cs" />
     <Compile Include="DataContracts\ItemFlagsAffectData.cs" />
+    <Compile Include="DataContracts\ItemFoodData.cs" />
     <Compile Include="DataContracts\ItemWeaponData.cs" />
     <Compile Include="DataContracts\ItemWeaponFlagsAffectData.cs" />
     <Compile Include="DataContracts\KnownAbilityData.cs" />

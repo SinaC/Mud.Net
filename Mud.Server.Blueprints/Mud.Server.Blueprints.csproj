@@ -79,6 +79,7 @@
     <Compile Include="Character\CharacterBlueprintBase.cs" />
     <Compile Include="Character\CharacterQuestorBlueprint.cs" />
     <Compile Include="Item\ItemDrinkContainerBlueprint.cs" />
+    <Compile Include="Item\ItemFoodBlueprint.cs" />
     <Compile Include="Item\ItemFountainBlueprint.cs" />
     <Compile Include="Item\ItemKeyBlueprint.cs" />
     <Compile Include="Item\ItemPortalBlueprint.cs" />

@@ -464,7 +464,7 @@ namespace Mud.Server.Admin
                 else
                     sb.AppendFormatLine("Liquid type: {0} (not found in liquid table)", fountain.LiquidName);
             }
-
+            //
             if (item is IItemDrinkContainer drinkContainer)
             {
                 sb.AppendFormatLine("Max: {0} Current: {1} Poisoned: {2}", drinkContainer.MaxLiquid, drinkContainer.LiquidLeft, drinkContainer.IsPoisoned);
@@ -474,6 +474,9 @@ namespace Mud.Server.Admin
                 else
                     sb.AppendFormatLine("Liquid type: {0} (not found in liquid table)", drinkContainer.LiquidName);
             }
+            //
+            if (item is IItemFood food)
+                sb.AppendFormatLine(" Full: {0} hours Hungry: {1} hours Poisonned: {2}", food.FullHour, food.HungerHour, food.IsPoisoned);
 
             // TODO: other item type
             //

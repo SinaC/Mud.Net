@@ -105,7 +105,9 @@
     <Compile Include="Character\AbilityCommands.cs" />
     <Compile Include="Item\IItemDrinkContainer.cs" />
     <Compile Include="Item\IItemDrinkable.cs" />
+    <Compile Include="Item\IItemFood.cs" />
     <Compile Include="Item\ItemDrinkContainer.cs" />
+    <Compile Include="Item\ItemFood.cs" />
     <Compile Include="Tables\TableValues.cs" />
     <Compile Include="Character\CharacterBase.cs" />
     <Compile Include="Character\CombatCommands.cs" />
