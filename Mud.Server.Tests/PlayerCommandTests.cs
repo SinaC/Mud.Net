@@ -1,39 +1,36 @@
 ﻿using System;
+using AutoBogus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mud.Server.Tests.Mocking;
+using Moq;
 
 namespace Mud.Server.Tests
 {
+    [Ignore] // TODO: totally wrong because a playable character should not be created without being impersonated immediately
     [TestClass]
     public class PlayerCommandTests : TestBase
     {
-        private WorldMock _world;
-        private PlayerManagerMock playerManager;
-
-        private Tuple<IPlayer,IRoom, IPlayableCharacter> CreatePlayerRoomCharacter(string playerName, string roomName, string characterName)
+        [TestMethod]
+        public void Impersonate_UnknownCharacter()
         {
-            IPlayer player = playerManager.AddPlayer(new ClientMock(), playerName);
-            IRoom room = _world.AddRoom(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Area.Area("area1", 1, 100, "builders", "credits"));
-            IPlayableCharacter character = _world.AddPlayableCharacter(Guid.NewGuid(), new Domain.CharacterData { Name = characterName, Race = "dwarf", Class="Warrior"}, player, room);
-            return new Tuple<IPlayer, IRoom, IPlayableCharacter>(player, room, character);
+            IPlayer player = new Player.Player(Guid.NewGuid(), AutoFaker.Generate<string>());
+            IPlayableCharacter pc = new Character.PlayableCharacter.PlayableCharacter(Guid.NewGuid(), new Domain.CharacterData { Name = player.Name, Race = "dwarf", Class = "Warrior" }, player, new Mock<IRoom>().Object);
+
+            player.ProcessCommand("impersonate mob1");
+
+            Assert.IsNull(player.Impersonating);
+            Assert.IsNotNull(pc.ImpersonatedBy);
         }
 
         [TestMethod]
-        public void TestImpersonateUnknownCharacter()
+        public void Impersonate_SameCharacter()
         {
-            Tuple<IPlayer,IRoom, IPlayableCharacter> tuple = CreatePlayerRoomCharacter("player", "room", "character");
-            
-            tuple.Item1.ProcessCommand("impersonate mob1");
+            IPlayer player = new Player.Player(Guid.NewGuid(), AutoFaker.Generate<string>());
+            IPlayableCharacter pc = new Character.PlayableCharacter.PlayableCharacter(Guid.NewGuid(), new Domain.CharacterData { Name = player.Name, Race = "dwarf", Class = "Warrior" }, player, new Mock<IRoom>().Object);
 
-            Assert.IsNull(tuple.Item1.Impersonating);
-            Assert.IsNotNull(tuple.Item3.ImpersonatedBy);
-        }
+            player.ProcessCommand($"impersonate {player.Name}");
 
-        [TestInitialize]
-        public void Initialize()
-        {
-            _world = new WorldMock();
-            playerManager = new PlayerManagerMock();
+            Assert.IsNull(player.Impersonating);
+            Assert.IsNotNull(pc.ImpersonatedBy);
         }
     }
 }

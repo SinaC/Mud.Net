@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using AutoBogus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -21,17 +22,13 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void CharacterData_NoEquipmentInventoryQuest_To_PlayableCharacter_Test()
         {
-            var world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IPlayer player = new Player.Player(Guid.NewGuid(), "Player");
-
             //AutoFaker cannot be used because BluePrint for each Item/Quest must be created
             //CharacterData characterData = AutoFaker.Generate<CharacterData>();
             CharacterData characterData = new CharacterData
             {
                 CreationTime = AutoFaker.Generate<DateTime>(),
                 Name = AutoFaker.Generate<string>(),
-                RoomId = room.Blueprint.Id,
+                RoomId = 1,
                 Race = AutoFaker.Generate<string>(), // RaceMock will generate Race at runtime
                 Class = AutoFaker.Generate<string>(), // ClassMock will generate Class at runtime
                 Level = AutoFaker.Generate<int>(),
@@ -53,7 +50,7 @@ namespace Mud.Server.Tests
                 Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>())
             };
 
-            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, player, room);
+            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
 
             Assert.IsNotNull(playableCharacter);
             Assert.AreEqual(characterData.CreationTime, playableCharacter.CreationTime);
@@ -99,9 +96,8 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void CharacterData_Inventory_To_PlayableCharacter_Test()
         {
+            // TODO: Can't mock IWorld because World.AddItem is used when deserializing inventory
             var world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IPlayer player = new Player.Player(Guid.NewGuid(), "Player");
             ItemContainerBlueprint containerBlueprint1 = new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50 };
             world.AddItemBlueprint(containerBlueprint1);
             ItemLightBlueprint lightBlueprint = new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 };
@@ -121,7 +117,7 @@ namespace Mud.Server.Tests
             {
                 CreationTime = AutoFaker.Generate<DateTime>(),
                 Name = AutoFaker.Generate<string>(),
-                RoomId = room.Blueprint.Id,
+                RoomId = 1,//room.Blueprint.Id,
                 Race = AutoFaker.Generate<string>(), // RaceMock will generate Race at runtime
                 Class = AutoFaker.Generate<string>(), // ClassMock will generate Class at runtime
                 Level = AutoFaker.Generate<int>(),
@@ -160,7 +156,7 @@ namespace Mud.Server.Tests
                 }
             };
 
-            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, player, room);
+            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
 
             Assert.IsNotNull(playableCharacter);
             Assert.AreEqual(characterData.CreationTime, playableCharacter.CreationTime);
@@ -188,9 +184,8 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void CharacterData_Equipment_To_PlayableCharacter_Test()
         {
+            // TODO: Can't mock IWorld because World.AddItem is used when deserializing equipment
             var world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IPlayer player = new Player.Player(Guid.NewGuid(), "Player");
             ItemLightBlueprint lightBlueprint = new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5, WearLocation = WearLocations.Light};
             world.AddItemBlueprint(lightBlueprint);
             ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint { Id = 888, Name = "Container2", ShortDescription = "Container2Short", Description = "Container2Desc", ItemCount = 10, WeightMultiplier = 50, WearLocation = WearLocations.Hold};
@@ -208,7 +203,7 @@ namespace Mud.Server.Tests
             {
                 CreationTime = AutoFaker.Generate<DateTime>(),
                 Name = AutoFaker.Generate<string>(),
-                RoomId = room.Blueprint.Id,
+                RoomId = 1,
                 Race = AutoFaker.Generate<string>(), // RaceMock will generate Race at runtime with 2 equipmentslots of each kind
                 Class = AutoFaker.Generate<string>(), // ClassMock will generate Class at runtime
                 Level = AutoFaker.Generate<int>(),
@@ -268,7 +263,7 @@ namespace Mud.Server.Tests
                 },
             };
 
-            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, player, room);
+            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
 
             Assert.IsNotNull(playableCharacter);
             Assert.AreEqual(characterData.CreationTime, playableCharacter.CreationTime);
@@ -303,7 +298,6 @@ namespace Mud.Server.Tests
             RoomBlueprint roomBlueprint = new RoomBlueprint {Id = 1, Name = "room1"};
             world.AddRoomBlueprint(roomBlueprint);
             IRoom room = world.AddRoom(Guid.NewGuid(), roomBlueprint, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IPlayer player = new Player.Player(Guid.NewGuid(), "Player");
             CharacterNormalBlueprint mobBlueprint = new CharacterNormalBlueprint { Id = 1, Name = "mob1", ShortDescription = "Mob1Short", Description = "Mob1Desc" };
             world.AddCharacterBlueprint(mobBlueprint);
             ItemQuestBlueprint questItemBlueprint = new ItemQuestBlueprint { Id = 1, Name="item1", ShortDescription = "Item1Short", Description = "Item1Desc"};
@@ -391,7 +385,7 @@ namespace Mud.Server.Tests
                 }
             };
 
-            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, player, room);
+            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, new Mock<IPlayer>().Object, room);
 
             Assert.IsNotNull(playableCharacter);
             Assert.AreEqual(characterData.CreationTime, playableCharacter.CreationTime);

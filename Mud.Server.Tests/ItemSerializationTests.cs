@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Linq;
-using AutoBogus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Blueprints.Room;
 using Mud.Server.Item;
 
 namespace Mud.Server.Tests
 {
     [TestClass]
-    public class ItemSerializationTests : TestBase
+    public class ItemSerializationTests : TestBase // TODo: remove test base when IRandomManager will be injectable in ItemCorpse
     {
         //public void Test() 
         //{
@@ -26,9 +24,8 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemArmor_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemArmor armor = World.AddItem(Guid.NewGuid(), new ItemArmorBlueprint { Id = 1, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150, ItemFlags = ItemFlags.Glowing }, room) as IItemArmor;
+            ItemArmorBlueprint blueprint = new ItemArmorBlueprint { Id = 1, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150, ItemFlags = ItemFlags.Glowing };
+            IItemArmor armor = new ItemArmor(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
 
             ItemData itemData = armor.MapItemData(); // no specific ItemData
 
@@ -42,9 +39,8 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemFood_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemFood food = World.AddItem(Guid.NewGuid(), new ItemFoodBlueprint { Id = 1, Name = "Food", ShortDescription = "FoodShort", Description = "FoodDesc", Cost = 20, HungerHours = 10, FullHours = 20, IsPoisoned = true }, room) as IItemFood;
+            ItemFoodBlueprint blueprint = new ItemFoodBlueprint { Id = 1, Name = "Food", ShortDescription = "FoodShort", Description = "FoodDesc", Cost = 20, HungerHours = 10, FullHours = 20, IsPoisoned = true };
+            IItemFood food = new ItemFood(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
 
             ItemData itemData = food.MapItemData();
 
@@ -61,10 +57,8 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemDrinkContainer_To_ItemData_Test()
         {
-            IWorld world = new World.World();
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-
-            IItemDrinkContainer drinkContainer = World.AddItem(Guid.NewGuid(), new ItemDrinkContainerBlueprint { Id = 1, Name = "Drink", ShortDescription = "DrinkShort", Description = "DrinkDesc", Cost = 10, CurrentLiquidAmount = 100, MaxLiquidAmount = 350, LiquidType = "water"}, room) as IItemDrinkContainer;
+            ItemDrinkContainerBlueprint blueprint = new ItemDrinkContainerBlueprint { Id = 1, Name = "Drink", ShortDescription = "DrinkShort", Description = "DrinkDesc", Cost = 10, CurrentLiquidAmount = 100, MaxLiquidAmount = 350, LiquidType = "water" };
+            IItemDrinkContainer drinkContainer = new ItemDrinkContainer(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
 
             ItemData itemData = drinkContainer.MapItemData();
 
@@ -83,9 +77,8 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemContainer_Empty_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemContainer container = world.AddItem(Guid.NewGuid(), new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50 }, room) as IItemContainer;
+            ItemContainerBlueprint blueprint = new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50 };
+            IItemContainer container = new ItemContainer(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
 
             ItemData itemData = container.MapItemData();
 
@@ -99,10 +92,9 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemContainer_OneItem_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemContainer container = world.AddItem(Guid.NewGuid(), new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50 }, room) as IItemContainer;
-            IItemLight light = world.AddItem(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 }, container) as IItemLight;
+            ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50 };
+            IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
+            IItemLight light = new ItemLight(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 }, container);
 
             ItemData itemData = container.MapItemData();
 
@@ -116,14 +108,12 @@ namespace Mud.Server.Tests
             Assert.AreEqual(light.DecayPulseLeft, (itemData as ItemContainerData).Contains[0].DecayPulseLeft);
         }
 
-        [TestMethod]
+        [TestMethod] // World is needed because when creating
         public void ItemContainer_MultipleItems_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemContainer container = world.AddItem(Guid.NewGuid(), new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50 }, room) as IItemContainer;
-            IItemLight light = world.AddItem(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 }, container) as IItemLight;
-            IItemPortal portal = world.AddItem(Guid.NewGuid(), new ItemPortalBlueprint { Id = 2, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = room.Blueprint.Id }, container) as IItemPortal;
+            IItemContainer container = new ItemContainer(Guid.NewGuid(), new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50 }, new Mock<IContainer>().Object);
+            IItemLight light = new ItemLight(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 }, container);
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), new ItemPortalBlueprint { Id = 2, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 1 }, new Mock<IRoom>().Object, container);
 
             ItemData itemData = container.MapItemData();
 
@@ -141,14 +131,12 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemContainer_NestedItems_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemContainer container1 = world.AddItem(Guid.NewGuid(), new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50 }, room) as IItemContainer;
-            IItemLight light = world.AddItem(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 }, container1) as IItemLight;
-            IItemPortal portal = world.AddItem(Guid.NewGuid(), new ItemPortalBlueprint { Id = 2, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = room.Blueprint.Id }, container1) as IItemPortal;
-            IItemContainer container2 = world.AddItem(Guid.NewGuid(), new ItemContainerBlueprint { Id = 888, Name = "Container2", ShortDescription = "Container2Short", Description = "Container2Desc", ItemCount = 10, WeightMultiplier = 50 }, container1) as IItemContainer;
-            IItemJewelry jewelry = world.AddItem(Guid.NewGuid(), new ItemJewelryBlueprint { Id = 3, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc" }, container2) as IItemJewelry;
-            IItemArmor armor = world.AddItem(Guid.NewGuid(), new ItemArmorBlueprint { Id = 4, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150 }, container2) as IItemArmor;
+            IItemContainer container1 = new ItemContainer(Guid.NewGuid(), new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50 }, new Mock<IContainer>().Object);
+            IItemLight light = new ItemLight(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 }, container1);
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), new ItemPortalBlueprint { Id = 2, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 1 }, new Mock<IRoom>().Object, container1);
+            IItemContainer container2 = new ItemContainer(Guid.NewGuid(), new ItemContainerBlueprint { Id = 888, Name = "Container2", ShortDescription = "Container2Short", Description = "Container2Desc", ItemCount = 10, WeightMultiplier = 50 }, container1);
+            IItemJewelry jewelry = new ItemJewelry(Guid.NewGuid(), new ItemJewelryBlueprint { Id = 3, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc" }, container2);
+            IItemArmor armor = new ItemArmor(Guid.NewGuid(), new ItemArmorBlueprint { Id = 4, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150 }, container2);
 
             ItemData itemData = container1.MapItemData();
 
@@ -173,10 +161,8 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void NPCItemCorpse_Empty_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint {Id = 1, Name = "room1"}, new Area.Area("Area", 1, 100, "builders", "credits"));
-            INonPlayableCharacter character = world.AddNonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1", ShortDescription = "Mob1Short", Description = "Mob1Desc", Level = 1, Sex = Domain.Sex.Male }, room);
-            IItemCorpse corpse = world.AddItemCorpse(Guid.NewGuid(), new ItemCorpseBlueprint { Id = 999, Name = "Corpse" }, room, character);
+            INonPlayableCharacter character = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1", ShortDescription = "Mob1Short", Description = "Mob1Desc", Level = 1, Sex = Sex.Male }, new Mock<IRoom>().Object);
+            IItemCorpse corpse = new ItemCorpse(Guid.NewGuid(), new ItemCorpseBlueprint { Id = 999, Name = "Corpse" }, new Mock<IRoom>().Object, character);
 
             ItemData itemData = corpse.MapItemData();
 
@@ -192,10 +178,8 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void PCItemCorpse_Empty_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IPlayableCharacter character = world.AddPlayableCharacter(Guid.NewGuid(), new CharacterData { Name = "Impersonate1", Level = 1, Sex = Sex.Male, Class = "Mage", Race = "Human", RoomId = 1}, new Player.Player(Guid.NewGuid(), "Player1"), room);
-            IItemCorpse corpse = world.AddItemCorpse(Guid.NewGuid(), new ItemCorpseBlueprint { Id = 999, Name = "Corpse" }, room, character);
+            IPlayableCharacter character = new Character.PlayableCharacter.PlayableCharacter(Guid.NewGuid(), new CharacterData { Name = "Impersonate1", Level = 1, Sex = Sex.Male, Class = "Mage", Race = "Human", RoomId = 1}, new Player.Player(Guid.NewGuid(), "Player1"), new Mock<IRoom>().Object);
+            IItemCorpse corpse = new ItemCorpse(Guid.NewGuid(), new ItemCorpseBlueprint { Id = 999, Name = "Corpse" }, new Mock<IRoom>().Object, character);
 
             ItemData itemData = corpse.MapItemData();
 
@@ -211,11 +195,9 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void NPCItemCorpse_OneItem_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            INonPlayableCharacter character = world.AddNonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1", ShortDescription = "Mob1Short", Description = "Mob1Desc", Level = 1, Sex = Domain.Sex.Male }, room);
-            IItemLight light = world.AddItem(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 }, character) as IItemLight;
-            IItemCorpse corpse = world.AddItemCorpse(Guid.NewGuid(), new ItemCorpseBlueprint { Id = 999, Name = "Corpse" }, room, character);
+            INonPlayableCharacter character = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1", ShortDescription = "Mob1Short", Description = "Mob1Desc", Level = 1, Sex = Sex.Male }, new Mock<IRoom>().Object);
+            IItemLight light = new ItemLight(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 }, character);
+            IItemCorpse corpse = new ItemCorpse(Guid.NewGuid(), new ItemCorpseBlueprint { Id = 999, Name = "Corpse" }, new Mock<IRoom>().Object, character);
 
             ItemData itemData = corpse.MapItemData();
 
@@ -233,9 +215,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemFurniture_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemFurniture furniture = world.AddItem(Guid.NewGuid(), new ItemFurnitureBlueprint { Id = 1, Name = "Furniture", ShortDescription = "FurnitureShort", Description = "FurnitureDesc", NoTake = true, FurnitureActions = FurnitureActions.Sleep, FurniturePlacePreposition = FurniturePlacePrepositions.On, MaxPeople = 10 }, room) as IItemFurniture;
+            IItemFurniture furniture = new ItemFurniture(Guid.NewGuid(), new ItemFurnitureBlueprint { Id = 1, Name = "Furniture", ShortDescription = "FurnitureShort", Description = "FurnitureDesc", NoTake = true, FurnitureActions = FurnitureActions.Sleep, FurniturePlacePreposition = FurniturePlacePrepositions.On, MaxPeople = 10 }, new Mock<IContainer>().Object);
 
             ItemData itemData = furniture.MapItemData(); // no specific ItemData
 
@@ -249,9 +229,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemJewelry_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemJewelry jewelry = world.AddItem(Guid.NewGuid(), new ItemJewelryBlueprint { Id = 1, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc", ItemFlags = ItemFlags.Glowing}, room) as IItemJewelry;
+            IItemJewelry jewelry = new ItemJewelry(Guid.NewGuid(), new ItemJewelryBlueprint { Id = 1, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc", ItemFlags = ItemFlags.Glowing}, new Mock<IContainer>().Object);
 
             ItemData itemData = jewelry.MapItemData(); // no specific ItemData
 
@@ -265,9 +243,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemKey_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemKey key = world.AddItem(Guid.NewGuid(), new ItemKeyBlueprint { Id = 1, Name = "Key", ShortDescription = "KeyShort", Description = "KeyDesc" }, room) as IItemKey;
+            IItemKey key = new ItemKey(Guid.NewGuid(), new ItemKeyBlueprint { Id = 1, Name = "Key", ShortDescription = "KeyShort", Description = "KeyDesc" }, new Mock<IContainer>().Object);
 
             ItemData itemData = key.MapItemData(); // no specific ItemData
 
@@ -280,9 +256,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemLight_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemLight light = world.AddItem(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", ItemFlags = ItemFlags.Glowing, DurationHours = 5 }, room) as IItemLight;
+            IItemLight light = new ItemLight(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", ItemFlags = ItemFlags.Glowing, DurationHours = 5 }, new Mock<IContainer>().Object);
 
             ItemData itemData = light.MapItemData(); // no specific ItemData
 
@@ -296,9 +270,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemPortal_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemPortal portal = world.AddItem(Guid.NewGuid(), new ItemPortalBlueprint { Id = 1, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = room.Blueprint.Id }, room) as IItemPortal;
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), new ItemPortalBlueprint { Id = 1, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 1 }, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
 
             ItemData itemData = portal.MapItemData(); // no specific ItemData
 
@@ -311,9 +283,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemQuest_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemQuest quest = world.AddItem(Guid.NewGuid(), new ItemQuestBlueprint { Id = 1, Name = "Quest", ShortDescription = "QuestShort", Description = "QuestDesc" }, room) as IItemQuest;
+            IItemQuest quest = new ItemQuest(Guid.NewGuid(), new ItemQuestBlueprint { Id = 1, Name = "Quest", ShortDescription = "QuestShort", Description = "QuestDesc" }, new Mock<IContainer>().Object);
 
             ItemData itemData = quest.MapItemData(); // no specific ItemData
 
@@ -326,9 +296,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemShield_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemShield shield = world.AddItem(Guid.NewGuid(), new ItemShieldBlueprint { Id = 1, Name = "Shield", ShortDescription = "ShieldShort", Description = "ShieldDesc", Armor = 150 }, room) as IItemShield;
+            IItemShield shield = new ItemShield(Guid.NewGuid(), new ItemShieldBlueprint { Id = 1, Name = "Shield", ShortDescription = "ShieldShort", Description = "ShieldDesc", Armor = 150 }, new Mock<IContainer>().Object);
 
             ItemData itemData = shield.MapItemData(); // no specific ItemData
 
@@ -341,9 +309,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemWeapon_To_ItemData_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            IItemWeapon weapon = world.AddItem(Guid.NewGuid(), new ItemWeaponBlueprint { Id = 1, Name = "Weapon", ShortDescription = "WeaponShort", Description = "WeaponDesc", ItemFlags = ItemFlags.NoDrop, DamageType = SchoolTypes.Fire, DiceCount = 10, DiceValue = 20 }, room) as IItemWeapon;
+            IItemWeapon weapon = new ItemWeapon(Guid.NewGuid(), new ItemWeaponBlueprint { Id = 1, Name = "Weapon", ShortDescription = "WeaponShort", Description = "WeaponDesc", ItemFlags = ItemFlags.NoDrop, DamageType = SchoolTypes.Fire, DiceCount = 10, DiceValue = 20 }, new Mock<IContainer>().Object);
 
             ItemData itemData = weapon.MapItemData(); // no specific ItemData
 

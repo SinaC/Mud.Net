@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoBogus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
@@ -16,33 +17,28 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemData_To_ItemArmor_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
             ItemArmorBlueprint armorBlueprint = new ItemArmorBlueprint { Id = 1, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150 };
-            world.AddItemBlueprint(armorBlueprint);
             ItemData itemData = new ItemData
             {
                 ItemId = armorBlueprint.Id,
                 DecayPulseLeft = AutoFaker.Generate<int>(),
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                Level = 10,
             };
 
-            IItem armor = World.AddItem(Guid.NewGuid(), itemData, room);
+            IItemArmor armor = new ItemArmor(Guid.NewGuid(), armorBlueprint, itemData, new Mock<IContainer>().Object);
 
-            Assert.IsInstanceOfType(armor, typeof(IItemArmor));
             Assert.AreEqual(armorBlueprint.Id, armor.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, armor.DecayPulseLeft);
             Assert.AreEqual(itemData.ItemFlags, armor.BaseItemFlags);
+            Assert.AreEqual(itemData.Level, armor.Level);
         }
 
         // Food
         [TestMethod]
         public void ItemData_To_ItemFood_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
             ItemFoodBlueprint foodBlueprint = new ItemFoodBlueprint { Id = 1, Name = "Food", ShortDescription = "FoodShort", Description = "FoodDesc", Cost = 20, HungerHours = 10, FullHours = 20, IsPoisoned = true };
-            world.AddItemBlueprint(foodBlueprint);
             ItemFoodData itemData = new ItemFoodData
             {
                 ItemId = foodBlueprint.Id,
@@ -53,7 +49,7 @@ namespace Mud.Server.Tests
                 IsPoisoned = false,
             };
 
-            IItem food = World.AddItem(Guid.NewGuid(), itemData, room);
+            IItemFood food = new ItemFood(Guid.NewGuid(), foodBlueprint, itemData, new Mock<IContainer>().Object);
 
             Assert.IsInstanceOfType(food, typeof(ItemFood));
             Assert.AreEqual(foodBlueprint.Id, food.Blueprint.Id);
@@ -68,10 +64,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemData_To_ItemDrinkContainer_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
             ItemDrinkContainerBlueprint drinkContainerBlueprint = new ItemDrinkContainerBlueprint { Id = 1, Name = "Drink", ShortDescription = "DrinkShort", Description = "DrinkDesc", Cost = 10, CurrentLiquidAmount = 100, MaxLiquidAmount = 350, LiquidType = "water" };
-            world.AddItemBlueprint(drinkContainerBlueprint);
             ItemDrinkContainerData itemData = new ItemDrinkContainerData
             {
                 ItemId = drinkContainerBlueprint.Id,
@@ -83,19 +76,18 @@ namespace Mud.Server.Tests
                 IsPoisoned = AutoFaker.Generate<bool>(),
             };
 
-            IItem drinkContainer = World.AddItem(Guid.NewGuid(), itemData, room);
+            IItemDrinkContainer drinkContainer = new ItemDrinkContainer(Guid.NewGuid(), drinkContainerBlueprint, itemData, new Mock<IContainer>().Object);
 
-            Assert.IsInstanceOfType(drinkContainer, typeof(IItemDrinkContainer));
             Assert.AreEqual(drinkContainerBlueprint.Id, drinkContainer.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, drinkContainer.DecayPulseLeft);
             Assert.AreEqual(itemData.ItemFlags, drinkContainer.BaseItemFlags);
-            Assert.AreEqual(itemData.CurrentLiquidAmount, (drinkContainer as IItemDrinkContainer).LiquidLeft);
-            Assert.AreEqual(itemData.MaxLiquidAmount, (drinkContainer as IItemDrinkContainer).MaxLiquid);
-            Assert.AreEqual(itemData.LiquidName, (drinkContainer as IItemDrinkContainer).LiquidName);
-            Assert.AreEqual(itemData.IsPoisoned, (drinkContainer as IItemDrinkContainer).IsPoisoned);
+            Assert.AreEqual(itemData.CurrentLiquidAmount, drinkContainer.LiquidLeft);
+            Assert.AreEqual(itemData.MaxLiquidAmount, drinkContainer.MaxLiquid);
+            Assert.AreEqual(itemData.LiquidName, drinkContainer.LiquidName);
+            Assert.AreEqual(itemData.IsPoisoned, drinkContainer.IsPoisoned);
         }
 
-        // Container
+        // Container  IWorld is need because container will use IWorld.AddItem when creating content  TODO: find a way to mock this
         [TestMethod]
         public void ItemData_Empty_To_ItemContainer_Test()
         {
@@ -286,7 +278,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(1, (nestedContainer as IItemContainer).Content.Count(x => x.Blueprint.Id == armorBlueprint.Id));
         }
 
-        // Corpse
+        // Corpse  IWorld is need because corpse will use IWorld.AddItem when creating content  TODO: find a way to mock this
         [TestMethod]
         public void ItemData_Empty_To_NPCItemCorpse_Test()
         {
@@ -322,7 +314,6 @@ namespace Mud.Server.Tests
             IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint { Id = 999, Name = "Corpse" };
             world.AddItemBlueprint(corpseBlueprint);
-
             ItemCorpseData itemData = new ItemCorpseData
             {
                 ItemId = corpseBlueprint.Id,
@@ -352,7 +343,6 @@ namespace Mud.Server.Tests
             world.AddItemBlueprint(corpseBlueprint);
             ItemLightBlueprint lightBlueprint = new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 };
             world.AddItemBlueprint(lightBlueprint);
-
             ItemCorpseData itemData = new ItemCorpseData
             {
                 ItemId = corpseBlueprint.Id,
@@ -388,11 +378,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemData_To_ItemFurniture_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
             ItemFurnitureBlueprint furnitureBlueprint = new ItemFurnitureBlueprint {Id = 1, Name = "Furniture", ShortDescription = "FurnitureShort", Description = "FurnitureDesc", FurnitureActions = FurnitureActions.Sleep, FurniturePlacePreposition = FurniturePlacePrepositions.On, MaxPeople = 10};
-            world.AddItemBlueprint(furnitureBlueprint);
-
             ItemData itemData = new ItemData
             {
                 ItemId = furnitureBlueprint.Id,
@@ -400,9 +386,8 @@ namespace Mud.Server.Tests
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
-            IItem furniture = World.AddItem(Guid.NewGuid(), itemData, room);
+            IItemFurniture furniture = new ItemFurniture(Guid.NewGuid(), furnitureBlueprint, itemData, new Mock<IContainer>().Object);
 
-            Assert.IsInstanceOfType(furniture, typeof(IItemFurniture));
             Assert.AreEqual(furnitureBlueprint.Id, furniture.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, furniture.DecayPulseLeft);
             Assert.AreEqual(itemData.ItemFlags, furniture.BaseItemFlags);
@@ -412,11 +397,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemData_To_ItemJewelry_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
             ItemJewelryBlueprint jewelryBlueprint = new ItemJewelryBlueprint {Id = 1, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc"};
-            world.AddItemBlueprint(jewelryBlueprint);
-
             ItemData itemData = new ItemData
             {
                 ItemId = jewelryBlueprint.Id,
@@ -424,9 +405,8 @@ namespace Mud.Server.Tests
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
-            IItem jewelry = World.AddItem(Guid.NewGuid(), itemData, room);
+            IItemJewelry jewelry = new ItemJewelry(Guid.NewGuid(), jewelryBlueprint, itemData, new Mock<IContainer>().Object);
 
-            Assert.IsInstanceOfType(jewelry, typeof(IItemJewelry));
             Assert.AreEqual(jewelryBlueprint.Id, jewelry.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, jewelry.DecayPulseLeft);
             Assert.AreEqual(itemData.ItemFlags, jewelry.BaseItemFlags);
@@ -436,11 +416,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemData_To_ItemKey_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
             ItemKeyBlueprint keyBlueprint = new ItemKeyBlueprint {Id = 1, Name = "Key", ShortDescription = "KeyShort", Description = "KeyDesc"};
-            world.AddItemBlueprint(keyBlueprint);
-
             ItemData itemData = new ItemData
             {
                 ItemId = keyBlueprint.Id,
@@ -448,9 +424,8 @@ namespace Mud.Server.Tests
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
-            IItem key = World.AddItem(Guid.NewGuid(), itemData, room);
+            IItemKey key = new ItemKey(Guid.NewGuid(), keyBlueprint, itemData, new Mock<IContainer>().Object);
 
-            Assert.IsInstanceOfType(key, typeof(IItemKey));
             Assert.AreEqual(keyBlueprint.Id, key.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, key.DecayPulseLeft);
             Assert.AreEqual(itemData.ItemFlags, key.BaseItemFlags);
@@ -480,7 +455,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(itemData.ItemFlags, light.BaseItemFlags);
         }
 
-        // Portal
+        // Portal  IWorld is needed because AddItem will search for destination
         [TestMethod]
         public void ItemData_To_ItemPortal_Test()
         {
@@ -489,7 +464,6 @@ namespace Mud.Server.Tests
             IRoom room2 = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 2, Name = "room2" }, new Area.Area("Area", 1, 100, "builders", "credits"));
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint {Id = 1, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 2};
             world.AddItemBlueprint(portalBlueprint);
-
             ItemData itemData = new ItemData
             {
                 ItemId = portalBlueprint.Id,
@@ -511,11 +485,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemData_To_ItemQuest_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
             ItemQuestBlueprint questBlueprint = new ItemQuestBlueprint {Id = 1, Name = "Quest", ShortDescription = "QuestShort", Description = "QuestDesc"};
-            world.AddItemBlueprint(questBlueprint);
-
             ItemData itemData = new ItemData
             {
                 ItemId = questBlueprint.Id,
@@ -523,9 +493,8 @@ namespace Mud.Server.Tests
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
-            IItem quest = World.AddItem(Guid.NewGuid(), itemData, room);
+            IItemQuest quest = new ItemQuest(Guid.NewGuid(), questBlueprint, itemData, new Mock<IContainer>().Object);
 
-            Assert.IsInstanceOfType(quest, typeof(IItemQuest));
             Assert.AreEqual(questBlueprint.Id, quest.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, quest.DecayPulseLeft);
             Assert.AreEqual(itemData.ItemFlags, quest.BaseItemFlags);
@@ -535,11 +504,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemData_To_ItemShield_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
             ItemShieldBlueprint shieldBlueprint = new ItemShieldBlueprint {Id = 1, Name = "Shield", ShortDescription = "ShieldShort", Description = "ShieldDesc", Armor = 150};
-            world.AddItemBlueprint(shieldBlueprint);
-
             ItemData itemData = new ItemData
             {
                 ItemId = shieldBlueprint.Id,
@@ -547,9 +512,8 @@ namespace Mud.Server.Tests
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
             };
 
-            IItem shield = World.AddItem(Guid.NewGuid(), itemData, room);
+            IItemShield shield = new ItemShield(Guid.NewGuid(), shieldBlueprint, itemData, new Mock<IContainer>().Object);
 
-            Assert.IsInstanceOfType(shield, typeof(IItemShield));
             Assert.AreEqual(shieldBlueprint.Id, shield.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, shield.DecayPulseLeft);
             Assert.AreEqual(itemData.ItemFlags, shield.BaseItemFlags);
@@ -559,11 +523,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemData_To_ItemWeapon_Test()
         {
-            IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
             ItemWeaponBlueprint weaponBlueprint = new ItemWeaponBlueprint { Id = 1, Name = "Weapon", ShortDescription = "WeaponShort", Description = "WeaponDesc", DamageType = SchoolTypes.Fire, DiceCount = 10, DiceValue = 20 };
-            world.AddItemBlueprint(weaponBlueprint);
-
             ItemWeaponData itemData = new ItemWeaponData
             {
                 ItemId = weaponBlueprint.Id,
@@ -572,13 +532,12 @@ namespace Mud.Server.Tests
                 WeaponFlags = AutoFaker.Generate<WeaponFlags>()
             };
 
-            IItem weapon = World.AddItem(Guid.NewGuid(), itemData, room);
+            IItemWeapon weapon = new ItemWeapon(Guid.NewGuid(), weaponBlueprint, itemData, new Mock<IContainer>().Object);
 
-            Assert.IsInstanceOfType(weapon, typeof(IItemWeapon));
             Assert.AreEqual(weaponBlueprint.Id, weapon.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, weapon.DecayPulseLeft);
             Assert.AreEqual(itemData.ItemFlags, weapon.BaseItemFlags);
-            Assert.AreEqual(itemData.WeaponFlags, (weapon as IItemWeapon).BaseWeaponFlags);
+            Assert.AreEqual(itemData.WeaponFlags, weapon.BaseWeaponFlags);
         }
     }
 }
