@@ -28,13 +28,28 @@ namespace Mud.Server.Item
 
         #region IItemDrinkable
 
+        #region IItemPoisonable
+
+        public bool IsPoisoned { get; protected set; }
+
+        public void Poison()
+        {
+            IsPoisoned = true;
+        }
+
+        public void Cure()
+        {
+            IsPoisoned = false;
+        }
+
+        #endregion
+
         public string LiquidName { get; protected set; }
 
         public int LiquidLeft { get; protected set; }
 
         public bool IsEmpty => LiquidLeft <= 0;
 
-        public bool IsPoisoned { get; protected set; }
 
         public int LiquidAmountMultiplier => 1;
 
@@ -46,16 +61,6 @@ namespace Mud.Server.Item
         #endregion
 
         public int MaxLiquid { get; protected set; }
-
-        public void Poison()
-        {
-            IsPoisoned = true;
-        }
-
-        public void Cure()
-        {
-            IsPoisoned = false;
-        }
 
         public void Fill(string liquidName, int amount)
         {

@@ -41,13 +41,15 @@ namespace Mud.Server.Tests
         {
             IWorld world = World;
             IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            ItemFoodBlueprint foodBlueprint = new ItemFoodBlueprint { Id = 1, Name = "Food", ShortDescription = "FoodShort", Description = "FoodDesc", Cost = 20, HungerHour = 10, FullHour = 20, IsPoisoned = true };
+            ItemFoodBlueprint foodBlueprint = new ItemFoodBlueprint { Id = 1, Name = "Food", ShortDescription = "FoodShort", Description = "FoodDesc", Cost = 20, HungerHours = 10, FullHours = 20, IsPoisoned = true };
             world.AddItemBlueprint(foodBlueprint);
             ItemFoodData itemData = new ItemFoodData
             {
                 ItemId = foodBlueprint.Id,
                 DecayPulseLeft = AutoFaker.Generate<int>(),
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                FullHours = AutoFaker.Generate<int>(),
+                HungerHours = AutoFaker.Generate<int>(),
                 IsPoisoned = false,
             };
 
@@ -58,6 +60,8 @@ namespace Mud.Server.Tests
             Assert.AreEqual(itemData.DecayPulseLeft, food.DecayPulseLeft);
             Assert.AreEqual(itemData.ItemFlags, food.BaseItemFlags);
             Assert.IsFalse((food as IItemFood).IsPoisoned);
+            Assert.AreEqual(itemData.FullHours, (food as IItemFood).FullHours);
+            Assert.AreEqual(itemData.HungerHours, (food as IItemFood).HungerHours);
         }
 
         // DrinkContainer

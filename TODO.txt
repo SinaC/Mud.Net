@@ -1,10 +1,4 @@
-ONGOING:
-create spring, water, food added
-
-
 TODO:
-ColdEffect: DrinkContainer
-Food
 Exit flags
 Weight/Carry
 items Potion/Staff/Wand/Scroll
@@ -23,6 +17,10 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+ColdEffect: DrinkContainer
+PoisonEffect: DrinkContainer/Food
+SpellPoison: food
+create spring, water, food added
 eat command added
 food item added
 conditions serialize/deserialize added

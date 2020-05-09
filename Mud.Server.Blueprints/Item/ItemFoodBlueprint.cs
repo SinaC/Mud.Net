@@ -6,10 +6,10 @@ namespace Mud.Server.Blueprints.Item
     public class ItemFoodBlueprint : ItemBlueprintBase
     {
         [DataMember]
-        public int FullHour { get; set; }
+        public int FullHours { get; set; }
 
         [DataMember]
-        public int HungerHour { get; set; }
+        public int HungerHours { get; set; }
 
         [DataMember]
         public bool IsPoisoned { get; set; }

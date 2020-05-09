@@ -20,14 +20,14 @@ namespace Mud.Server.Tests
                 ShortDescription = "FoodShort",
                 Description = "FoodDesc",
                 Cost = 20,
-                HungerHour = 10,
-                FullHour = 20,
+                HungerHours = 10,
+                FullHours = 20,
                 IsPoisoned = true
             };
             IItemFood food = new ItemFood(Guid.NewGuid(), foodBlueprint, new Mock<IRoom>().Object);
 
-            Assert.AreEqual(20, food.FullHour);
-            Assert.AreEqual(10, food.HungerHour);
+            Assert.AreEqual(20, food.FullHours);
+            Assert.AreEqual(10, food.HungerHours);
             Assert.IsTrue(food.IsPoisoned);
         }
 
@@ -37,7 +37,7 @@ namespace Mud.Server.Tests
             ItemFoodBlueprint foodBlueprint = new ItemFoodBlueprint 
             { 
                 Id = 1, Name = "Food", ShortDescription = "FoodShort", Description = "FoodDesc", Cost = 20, 
-                HungerHour = 10, FullHour = 20, IsPoisoned = false
+                HungerHours = 10, FullHours = 20, IsPoisoned = false
             };
             IItemFood food = new ItemFood(Guid.NewGuid(), foodBlueprint, new Mock<IRoom>().Object);
 
@@ -56,8 +56,8 @@ namespace Mud.Server.Tests
                 ShortDescription = "FoodShort",
                 Description = "FoodDesc",
                 Cost = 20,
-                HungerHour = 10,
-                FullHour = 20,
+                HungerHours = 10,
+                FullHours = 20,
                 IsPoisoned = true
             };
             IItemFood food = new ItemFood(Guid.NewGuid(), foodBlueprint, new Mock<IRoom>().Object);
@@ -65,6 +65,28 @@ namespace Mud.Server.Tests
             food.Cure();
 
             Assert.IsFalse(food.IsPoisoned);
+        }
+
+        [TestMethod]
+        public void Food_SetHours()
+        {
+            ItemFoodBlueprint foodBlueprint = new ItemFoodBlueprint
+            {
+                Id = 1,
+                Name = "Food",
+                ShortDescription = "FoodShort",
+                Description = "FoodDesc",
+                Cost = 20,
+                HungerHours = 10,
+                FullHours = 20,
+                IsPoisoned = true
+            };
+            IItemFood food = new ItemFood(Guid.NewGuid(), foodBlueprint, new Mock<IRoom>().Object);
+
+            food.SetHours(10, 15);
+
+            Assert.AreEqual(10, food.FullHours);
+            Assert.AreEqual(15, food.HungerHours);
         }
 
         // Fountain
@@ -82,7 +104,6 @@ namespace Mud.Server.Tests
             Assert.AreEqual(3, fountain.LiquidAmountMultiplier);
             Assert.AreEqual(int.MaxValue, fountain.LiquidLeft);
             Assert.IsFalse(fountain.IsEmpty);
-            Assert.IsFalse(fountain.IsPoisoned);
         }
 
         [TestMethod]
@@ -104,7 +125,6 @@ namespace Mud.Server.Tests
             Assert.AreEqual(3, fountain.LiquidAmountMultiplier);
             Assert.AreEqual(int.MaxValue, fountain.LiquidLeft);
             Assert.IsFalse(fountain.IsEmpty);
-            Assert.IsFalse(fountain.IsPoisoned);
         }
 
         // DrinkCountainer

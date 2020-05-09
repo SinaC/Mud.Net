@@ -538,8 +538,8 @@ namespace Mud.Server.WPFTestApplication
                     Level = data.Level,
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
-                    FullHour = Convert.ToInt32(data.Values[0]),
-                    HungerHour = Convert.ToInt32(data.Values[1]),
+                    FullHours = Convert.ToInt32(data.Values[0]),
+                    HungerHours = Convert.ToInt32(data.Values[1]),
                     IsPoisoned = Convert.ToInt32(data.Values[3]) != 0,
                     ItemFlags = extraFlags.itemFlags,
                     NoTake = extraFlags.noTake,
@@ -1362,6 +1362,8 @@ namespace Mud.Server.WPFTestApplication
             string path =  DependencyContainer.Current.GetInstance<ISettings>().ImportAreaPath;
 
             Importer.Mystery.MysteryImporter mysteryImporter = new Importer.Mystery.MysteryImporter();
+            mysteryImporter.Load(System.IO.Path.Combine(path, "limbo.are"));
+            mysteryImporter.Parse();
             mysteryImporter.Load(System.IO.Path.Combine(path, "midgaard.are"));
             mysteryImporter.Parse();
             //mysteryImporter.Load(System.IO.Path.Combine(path, "amazon.are"));
@@ -1735,8 +1737,8 @@ namespace Mud.Server.WPFTestApplication
                 Name = "item11 eleventh",
                 ShortDescription = "Eleventh item (food)",
                 Description = "The eleventh item (food) has been left here.",
-                FullHour = 10,
-                HungerHour = 4,
+                FullHours = 10,
+                HungerHours = 4,
                 IsPoisoned = true
             };
 

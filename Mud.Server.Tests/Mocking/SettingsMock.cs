@@ -48,5 +48,13 @@ namespace Mud.Server.Tests.Mocking
         public int MaxLevel => throw new NotImplementedException();
 
         public int MaxAvatarCount => throw new NotImplementedException();
+
+        public int MushroomBlueprintId => throw new NotImplementedException();
+
+        public int SpringBlueprintId => throw new NotImplementedException();
+
+        public int PortalBlueprintId => throw new NotImplementedException();
+
+        public int RoseBlueprintId => throw new NotImplementedException();
     }
 }

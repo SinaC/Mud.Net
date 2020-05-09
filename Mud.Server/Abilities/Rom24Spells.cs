@@ -422,8 +422,9 @@ namespace Mud.Server.Abilities
         [Spell(19, "Create Food", AbilityTargets.None)]
         public void SpellCreateFood(IAbility ability, int level, ICharacter caster)
         {
-            caster.Send(StringHelpers.NotYetImplemented);
-            //TODO: no food implemented
+            IItemFood mushroom = World.AddItem(Guid.NewGuid(), Settings.MushroomBlueprintId, caster.Room) as IItemFood;
+            mushroom.SetHours(level / 2, level);
+            caster.Act(ActOptions.ToAll, "{0} suddenly appears.", mushroom);
         }
 
         [Spell(20, "Create Rose", AbilityTargets.None)]
@@ -436,15 +437,32 @@ namespace Mud.Server.Abilities
         [Spell(21, "Create Spring", AbilityTargets.None)]
         public void SpellCreateSpring(IAbility ability, int level, ICharacter caster)
         {
-            caster.Send(StringHelpers.NotYetImplemented);
-            //TODO: no water implemented
+            IItemFountain fountain = World.AddItem(Guid.NewGuid(), Settings.SpringBlueprintId, caster.Room) as IItemFountain;
+            fountain.SetDecayPulseLeft(Pulse.FromMinutes(level));
+            caster.Act(ActOptions.ToAll, "{0} flows from the ground.", fountain);
         }
 
-        // TODO: no drink container implemented
-        //[Spell(22, "Create Food", AbilityTargets.None)]
-        //public void SpellCreateWater(IAbility ability, int level, ICharacter caster, IItemDrinkContainer container)
-        //{
-        //}
+        [Spell(22, "Create Water", AbilityTargets.ItemInventory)]
+        public void SpellCreateWater(IAbility ability, int level, ICharacter caster, IItem target)
+        {
+            IItemDrinkContainer drinkContainer = target as IItemDrinkContainer;
+            if (drinkContainer == null)
+            {
+                caster.Send("It is unable to hold water.");
+                return;
+            }
+            if (drinkContainer.LiquidName != "water" && !drinkContainer.IsEmpty)
+            {
+                caster.Send("It contains some other liquid.");
+                return;
+            }
+            int water = Math.Min(level * 2, drinkContainer.MaxLiquid - drinkContainer.LiquidLeft); // TODO: *4 is weather is rainy
+            if (water > 0)
+            {
+                drinkContainer.Fill("water", water);
+                caster.Act(ActOptions.ToCharacter, "{0:N} is filled.", drinkContainer);
+            }
+        }
 
         [Spell(23, "Cure Blindness", AbilityTargets.CharacterDefensive)]
         public void SpellCureBlindness(IAbility ability, int level, ICharacter caster, ICharacter victim)
@@ -604,8 +622,15 @@ namespace Mud.Server.Abilities
         [Spell(36, "Detect Poison", AbilityTargets.ItemInventory)]
         public void SpellDetectPoison(IAbility ability, int level, ICharacter caster, IItem item)
         {
-            caster.Send(StringHelpers.NotYetImplemented);
-            // TODO: food and drink container are not yet implemented
+            if (item is IItemPoisonable poisonable)
+            {
+                if (poisonable.IsPoisoned)
+                    caster.Send("You smell poisonous fumes.");
+                else
+                    caster.Send("It looks delicious.");
+            }
+            else
+                caster.Send("It doesn't look poisoned.");
         }
 
         [Spell(37, "Dispel Evil", AbilityTargets.CharacterOffensive)]
@@ -912,7 +937,7 @@ namespace Mud.Server.Abilities
             {
                 victim.RemoveAuras(x => x.Ability == invis || x.Ability == massInvis || x.Ability == sneak, false);
                 if (victim is INonPlayableCharacter)
-                    victim.RemoveBaseCharacterFlags(CharacterFlags.Hide | CharacterFlags.Invisible | CharacterFlags.Sneak); // TODO: what if it's a racial ?
+                    victim.RemoveBaseCharacterFlags(CharacterFlags.Hide | CharacterFlags.Invisible | CharacterFlags.Sneak);
                 victim.Recompute();
                 victim.Act(ActOptions.ToAll, "{0:N} is revealed!", victim);
             }
@@ -1495,23 +1520,35 @@ namespace Mud.Server.Abilities
             // item
             if (target is IItem item)
             {
-                // TODO: food/drink container not yet implemented
-                if (item is IItemWeapon itemWeapon)
+                // food/drink container
+                if (item is IItemPoisonable poisonable)
                 {
-                    if (itemWeapon.CurrentWeaponFlags == WeaponFlags.Poison)
+                    if (poisonable.ItemFlags.HasFlag(ItemFlags.Bless) || poisonable.ItemFlags.HasFlag(ItemFlags.BurnProof))
                     {
-                        caster.Act(ActOptions.ToCharacter, "{0} is already envenomed.", itemWeapon);
+                        caster.Act(ActOptions.ToCharacter, "Your spell fails to corrupt {0}.", poisonable);
                         return;
                     }
-                    if (itemWeapon.CurrentWeaponFlags != WeaponFlags.None)
+                    poisonable.Poison();
+                    caster.Act(ActOptions.ToCharacter, "{0} is infused with poisonous vapors.", poisonable);
+                    return;
+                }
+                // weapon
+                if (item is IItemWeapon weapon)
+                {
+                    if (weapon.CurrentWeaponFlags == WeaponFlags.Poison)
                     {
-                        caster.Act(ActOptions.ToCharacter, "You can't seem to envenom {0}.", itemWeapon);
+                        caster.Act(ActOptions.ToCharacter, "{0} is already envenomed.", weapon);
+                        return;
+                    }
+                    if (weapon.CurrentWeaponFlags != WeaponFlags.None)
+                    {
+                        caster.Act(ActOptions.ToCharacter, "You can't seem to envenom {0}.", weapon);
                         return;
                     }
                     int duration = level / 8;
-                    World.AddAura(itemWeapon, ability, caster, level / 2, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                    World.AddAura(weapon, ability, caster, level / 2, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                         new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Poison, Operator = AffectOperators.Or});
-                    caster.Act(ActOptions.ToCharacter, "{0} is coated with deadly venom.", itemWeapon);
+                    caster.Act(ActOptions.ToCharacter, "{0} is coated with deadly venom.", weapon);
                     return;
                 }
                 caster.Act(ActOptions.ToCharacter, "You can't poison {0}.", item);
@@ -2247,7 +2284,7 @@ namespace Mud.Server.Abilities
                     || RandomManager.Range(0, 4) == 0)
                     return;
                 // Affects only container, potion, scroll, staff, wand, food, pill
-                if (!(item is IItemContainer)) // TODO: potion, scroll, staff, wand, food, pill
+                if (!(item is IItemContainer) && !(item is IItemFood)) // TODO: potion, scroll, staff, wand, pill
                     return;
                 int chance = level / 4 + damage / 10;
                 if (chance > 25)
@@ -2274,7 +2311,9 @@ namespace Mud.Server.Abilities
                     //TODO case IItemScroll _: msg = "{0} crackles and burns!"
                     //TODO case IItemStaff _: msg = "{0} smokes and chars!"
                     //TODO case IItemWand _: msg = "{0} sparks and sputters!"
-                    //TODO case IItemFood _: msg = "{0} blackens and crisps!"
+                    case IItemFood _:
+                        msg = "{0} blackens and crisps!";
+                            break;
                     //TODO case IItemPill _: msg = "{0} melts and drips!"
                     default:
                         Log.Default.WriteLine(LogLevels.Error, "FireEffect: default message for unexpected item type {0}", item.GetType());
@@ -2361,20 +2400,24 @@ namespace Mud.Server.Abilities
                 victim.Recompute();
                 return;
             }
-            if (target is IItem item) // do some poisoning
+            if (target is IItemPoisonable poisonable) // do some poisoning
             {
+                if (poisonable.ItemFlags.HasFlag(ItemFlags.BurnProof)
+                    || poisonable.ItemFlags.HasFlag(ItemFlags.Bless)
+                    || RandomManager.Chance(25))
+                    return;
                 int chance = level / 4 + damage / 10;
                 if (chance > 25)
                     chance = (chance - 25) / 2 + 25;
                 if (chance > 50)
                     chance = (chance - 50) / 2 + 50;
-                if (item.ItemFlags.HasFlag(ItemFlags.Bless))
+                if (poisonable.ItemFlags.HasFlag(ItemFlags.Bless))
                     chance -= 5;
-                chance -= item.Level * 2;
+                chance -= poisonable.Level * 2;
                 chance = chance.Range(5, 95);
-                if (RandomManager.Range(1, 100) > chance)
+                if (!RandomManager.Chance(chance))
                     return;
-                // TODO: Food/DrinkContainer not implemented -> poison food or drink container
+                poisonable.Poison();
                 return;
             }
             Log.Default.WriteLine(LogLevels.Error, "PoisonEffect: invalid target type {0}", target.GetType());

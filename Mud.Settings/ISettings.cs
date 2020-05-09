@@ -25,7 +25,11 @@
         bool DumpOnInitialize { get; }
 
         int CorpseBlueprintId { get; }
+        int MushroomBlueprintId { get; }
         int LightBallBlueprintId { get; }
+        int SpringBlueprintId { get; }
+        int PortalBlueprintId { get; }
+        int RoseBlueprintId { get; }
         int DefaultRoomId { get; }
         int DefaultRecallRoomId { get; }
 

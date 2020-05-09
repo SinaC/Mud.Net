@@ -476,7 +476,7 @@ namespace Mud.Server.Admin
             }
             //
             if (item is IItemFood food)
-                sb.AppendFormatLine(" Full: {0} hours Hungry: {1} hours Poisonned: {2}", food.FullHour, food.HungerHour, food.IsPoisoned);
+                sb.AppendFormatLine(" Full: {0} hours Hungry: {1} hours Poisonned: {2}", food.FullHours, food.HungerHours, food.IsPoisoned);
 
             // TODO: other item type
             //

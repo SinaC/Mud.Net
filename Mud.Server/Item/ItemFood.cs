@@ -9,24 +9,22 @@ namespace Mud.Server.Item
         public ItemFood(Guid guid, ItemFoodBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint, containedInto)
         {
-            FullHour = blueprint.FullHour;
-            HungerHour = blueprint.HungerHour;
+            FullHours = blueprint.FullHours;
+            HungerHours = blueprint.HungerHours;
             IsPoisoned = blueprint.IsPoisoned;
         }
 
         public ItemFood(Guid guid, ItemFoodBlueprint blueprint, ItemFoodData data, IContainer containedInto)
             : base(guid, blueprint, data, containedInto)
         {
-            FullHour = blueprint.FullHour;
-            HungerHour = blueprint.HungerHour;
+            FullHours = data.FullHours;
+            HungerHours = data.HungerHours;
             IsPoisoned = data.IsPoisoned;
         }
 
         #region IItemFood
 
-        public int FullHour { get; }
-
-        public int HungerHour { get; }
+        #region IItemPoisonable
 
         public bool IsPoisoned { get; protected set; }
 
@@ -42,6 +40,18 @@ namespace Mud.Server.Item
 
         #endregion
 
+        public int FullHours { get; protected set; }
+
+        public int HungerHours { get; protected set; }
+
+        public void SetHours(int fullHours, int hungerHours) // TODO: should be replaced with ctor parameters
+        {
+            FullHours = fullHours;
+            HungerHours = hungerHours;
+        }
+
+        #endregion
+
         #region ItemBase
 
         public override ItemData MapItemData()
@@ -53,6 +63,8 @@ namespace Mud.Server.Item
                 DecayPulseLeft = DecayPulseLeft,
                 ItemFlags = BaseItemFlags, // Current will be recompute with auras
                 Auras = MapAuraData(),
+                FullHours = FullHours,
+                HungerHours = HungerHours,
                 IsPoisoned = IsPoisoned
             };
         }

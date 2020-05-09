@@ -1,14 +1,11 @@
 ﻿namespace Mud.Server.Item
 {
-    public interface IItemFood : IItem
+    public interface IItemFood : IItemPoisonable
     {
-        int FullHour { get; }
+        int FullHours { get; }
 
-        int HungerHour { get; }
+        int HungerHours { get; }
 
-        bool IsPoisoned { get; }
-
-        void Poison();
-        void Cure();
+        void SetHours(int fullHours, int hungerHours);
     }
 }

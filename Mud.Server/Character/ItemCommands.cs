@@ -523,7 +523,7 @@ namespace Mud.Server.Character
                     Send("Your thirst is quenched.");
             }
             // poisoned?
-            if (drinkable.IsPoisoned)
+            if (drinkable is IItemPoisonable poisonable && poisonable.IsPoisoned)
             {
                 Act(ActOptions.ToAll, "{0:N} choke{0:v} and gag{0:v}.", this);
                 // search poison affect
@@ -736,8 +736,8 @@ namespace Mud.Server.Character
                 if (pc != null)
                 {
                     int hunger = pc[Conditions.Hunger];
-                    pc.GainCondition(Conditions.Full, food.FullHour);
-                    pc.GainCondition(Conditions.Hunger, food.HungerHour);
+                    pc.GainCondition(Conditions.Full, food.FullHours);
+                    pc.GainCondition(Conditions.Hunger, food.HungerHours);
                     if (hunger == 0 && pc[Conditions.Hunger] > 0)
                         Send("You are no longer hungry.");
                     else if (pc[Conditions.Full] > 40)
@@ -756,7 +756,7 @@ namespace Mud.Server.Character
                             () => new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
                             null);
                     else
-                        World.AddAura(this, poison, food, RandomManager.Fuzzy(food.FullHour), TimeSpan.FromMinutes(food.FullHour * 2), AuraFlags.None, false,
+                        World.AddAura(this, poison, food, RandomManager.Fuzzy(food.FullHours), TimeSpan.FromMinutes(food.FullHours * 2), AuraFlags.None, false,
                             new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
                     Recompute();
                 }

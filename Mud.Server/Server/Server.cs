@@ -78,12 +78,6 @@ namespace Mud.Server.Server
                 networkServer.ClientDisconnected += NetworkServerOnClientDisconnected;
             }
 
-            // Check item corpse blueprint
-            if (World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "ItemCorpseBlueprint (id:{0}) doesn't exist or is not an corpse item !!!", Settings.CorpseBlueprintId);
-            }
-
             // Perform some validity/sanity checks
             if (Settings.PerformSanityCheck)
                 SanityChecks();
@@ -798,6 +792,14 @@ namespace Mud.Server.Server
         {
             Log.Default.WriteLine(LogLevels.Info, "#ItemBlueprints: {0}", World.ItemBlueprints.Count);
             Log.Default.WriteLine(LogLevels.Info, "#Items: {0}", World.Items.Count());
+            if (World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
+                Log.Default.WriteLine(LogLevels.Error, "Item corpse blueprint {0} not found or not a corpse", Settings.CorpseBlueprintId);
+            if (World.GetItemBlueprint<ItemFoodBlueprint>(Settings.MushroomBlueprintId) == null)
+                Log.Default.WriteLine(LogLevels.Error, "'a Magic mushroom' blueprint {0} not found or not food (needed for spell CreateFood)", Settings.MushroomBlueprintId);
+            if (World.GetItemBlueprint<ItemFountainBlueprint>(Settings.SpringBlueprintId) == null)
+                Log.Default.WriteLine(LogLevels.Error, "'a magical spring' blueprint {0} not found or not a fountain (needed for spell CreateSpring)", Settings.SpringBlueprintId);
+            if (World.GetItemBlueprint<ItemLightBlueprint>(Settings.LightBallBlueprintId) == null)
+                Log.Default.WriteLine(LogLevels.Error, "'a bright ball of light' blueprint {0} not found or not an light (needed for spell ContinualLight)", Settings.LightBallBlueprintId);
         }
 
         private void SanityCheckCharacters()

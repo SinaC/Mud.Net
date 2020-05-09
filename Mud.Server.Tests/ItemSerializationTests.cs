@@ -38,6 +38,26 @@ namespace Mud.Server.Tests
             Assert.AreEqual(armor.BaseItemFlags, itemData.ItemFlags);
         }
 
+        // Food
+        [TestMethod]
+        public void ItemFood_To_ItemData_Test()
+        {
+            IWorld world = World;
+            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
+            IItemFood food = World.AddItem(Guid.NewGuid(), new ItemFoodBlueprint { Id = 1, Name = "Food", ShortDescription = "FoodShort", Description = "FoodDesc", Cost = 20, HungerHours = 10, FullHours = 20, IsPoisoned = true }, room) as IItemFood;
+
+            ItemData itemData = food.MapItemData();
+
+            Assert.IsInstanceOfType(itemData, typeof(ItemFoodData));
+            Assert.AreEqual(food.Blueprint.Id, itemData.ItemId);
+            Assert.AreEqual(food.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(food.BaseItemFlags, itemData.ItemFlags);
+            Assert.AreEqual(food.FullHours, (itemData as ItemFoodData).FullHours);
+            Assert.AreEqual(food.HungerHours, (itemData as ItemFoodData).HungerHours);
+            Assert.AreEqual(food.IsPoisoned, (itemData as ItemFoodData).IsPoisoned);
+        }
+
+        // DrinkContainer
         [TestMethod]
         public void ItemDrinkContainer_To_ItemData_Test()
         {
