@@ -4,7 +4,6 @@ TODO:
 use GetEquipment where Equipments is reference
 Weight/Carry
 items Potion/Staff/Wand/Scroll
-AddOrUpdateAffect could have an additional parameter with duration, if update is selected -> update duration
 skills: staves/wand/scroll/potion/drink container/steal/lore/pick lock/rescue/envenom
 assign abilities to classes
 race size, form, parts
@@ -19,6 +18,7 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+AddOrUpdateAffect could have an additional parameter with duration, if update is selected -> update duration
 Exit flags
 closeable items (portal and container)
 issue with lightning breath, table-based damage spell, ray of truth
