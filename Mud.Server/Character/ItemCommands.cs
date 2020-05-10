@@ -529,13 +529,18 @@ namespace Mud.Server.Character
                 // search poison affect
                 IAbility poison = AbilityManager["Poison"];
                 IAura poisonAura = GetAura(poison);
-                if (poisonAura != null) // TODO: update duration
+                int duration = amount * 3;
+                int level = RandomManager.Fuzzy(amount);
+                if (poisonAura != null)
+                {
+                    poisonAura.Update(level, TimeSpan.FromMinutes(duration));
                     poisonAura.AddOrUpdateAffect(
                         x => x.Modifier == CharacterFlags.Poison,
-                        () => new CharacterFlagsAffect {Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or},
+                        () => new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
                         null);
+                }
                 else
-                    World.AddAura(this, poison, drinkable, RandomManager.Fuzzy(amount), TimeSpan.FromMinutes(amount*3), AuraFlags.None, false,
+                    World.AddAura(this, poison, drinkable, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                         new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
                 Recompute();
             }
@@ -750,13 +755,18 @@ namespace Mud.Server.Character
                     // search poison affect
                     IAbility poison = AbilityManager["Poison"];
                     IAura poisonAura = GetAura(poison);
-                    if (poisonAura != null) // TODO: update duration
+                    int level = RandomManager.Fuzzy(food.FullHours);
+                    int duration = food.FullHours * 2;
+                    if (poisonAura != null)
+                    {
+                        poisonAura.Update(level, TimeSpan.FromMinutes(duration));
                         poisonAura.AddOrUpdateAffect(
                             x => x.Modifier == CharacterFlags.Poison,
                             () => new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
                             null);
+                    }
                     else
-                        World.AddAura(this, poison, food, RandomManager.Fuzzy(food.FullHours), TimeSpan.FromMinutes(food.FullHours * 2), AuraFlags.None, false,
+                        World.AddAura(this, poison, food, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                             new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
                     Recompute();
                 }

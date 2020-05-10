@@ -371,9 +371,9 @@ namespace Mud.Server.World
             return item;
         }
 
-        public IAura AddAura(IEntity target, IAbility ability, IEntity source, int level, TimeSpan ts, AuraFlags auraFlags, bool recompute, params IAffect[] affects)
+        public IAura AddAura(IEntity target, IAbility ability, IEntity source, int level, TimeSpan duration, AuraFlags auraFlags, bool recompute, params IAffect[] affects)
         {
-            IAura aura = new Aura.Aura(ability, source, auraFlags, level, ts, affects);
+            IAura aura = new Aura.Aura(ability, source, auraFlags, level, duration, affects);
             target.AddAura(aura, recompute);
             return aura;
         }

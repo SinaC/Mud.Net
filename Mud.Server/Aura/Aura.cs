@@ -24,14 +24,14 @@ namespace Mud.Server.Aura
             IsValid = true;
         }
 
-        public Aura(IAbility ability, IEntity source, AuraFlags flags, int level, TimeSpan ts, params IAffect[] affects)
+        public Aura(IAbility ability, IEntity source, AuraFlags flags, int level, TimeSpan duration, params IAffect[] affects)
             : this()
         {
             Ability = ability;
             Source = source;
             AuraFlags = flags;
             Level = level;
-            PulseLeft = Pulse.FromTimeSpan(ts);
+            PulseLeft = Pulse.FromTimeSpan(duration);
             _affects = (affects ?? Enumerable.Empty<IAffect>()).ToList();
         }
 
@@ -100,6 +100,12 @@ namespace Mud.Server.Aura
         public AuraFlags AuraFlags { get; private set; }
 
         public IEnumerable<IAffect> Affects => _affects;
+
+        public void Update(int level, TimeSpan duration)
+        {
+            Level = level;
+            PulseLeft = Pulse.FromTimeSpan(duration);
+        }
 
         public T AddOrUpdateAffect<T>(Func<T, bool> filterFunc, Func<T> createFunc, Action<T> updateFunc)
             where T : IAffect

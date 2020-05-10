@@ -17,6 +17,7 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+Aura.update
 ColdEffect: DrinkContainer
 PoisonEffect: DrinkContainer/Food
 SpellPoison: food

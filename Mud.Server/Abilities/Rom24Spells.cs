@@ -355,10 +355,13 @@ namespace Mud.Server.Abilities
                 victim.Act(ActOptions.ToRoom, "{0} turns blue and shivers.", victim);
                 IAura existingAura = victim.GetAura(ability);
                 if (existingAura != null)
-                    existingAura.AddOrUpdateAffect( // TODO: update duration
+                {
+                    existingAura.Update(level, TimeSpan.FromMinutes(6));
+                    existingAura.AddOrUpdateAffect(
                         x => x.Location == CharacterAttributeAffectLocations.Strength,
                         () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
                         x => x.Modifier -= 1);
+                }
                 else
                     World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(6), AuraFlags.None, true,
                         new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
@@ -861,11 +864,11 @@ namespace Mud.Server.Abilities
             else // exceptional enchant
             {
                 caster.Act(ActOptions.ToAll, "{0:N} glows a brillant blue!", weapon);
-                weapon.AddBaseItemFlags(ItemFlags.Glowing);
+                weapon.AddBaseItemFlags(ItemFlags.Glowing); // permanently change item flags
                 amount = 2;
             }
             weapon.IncreaseLevel();
-            weapon.AddBaseItemFlags(ItemFlags.Magic); // Permanently change item flags
+            weapon.AddBaseItemFlags(ItemFlags.Magic); // permanently change item flags
             if (existingAura != null)
             {
                 existingAura.AddOrUpdateAffect(
@@ -2184,10 +2187,13 @@ namespace Mud.Server.Abilities
                     IAbility chillTouchAbility = this["Chill Touch"];
                     IAura chillTouchAura = victim.GetAura(chillTouchAbility);
                     if (chillTouchAura != null)
-                        chillTouchAura.AddOrUpdateAffect( // TODO: update duration
+                    {
+                        chillTouchAura.Update(level, TimeSpan.FromMinutes(6));
+                        chillTouchAura.AddOrUpdateAffect(
                             x => x.Location == CharacterAttributeAffectLocations.Strength,
                             () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
                             x => x.Modifier -= 1);
+                    }
                     else
                         World.AddAura(victim, chillTouchAbility, source, level, TimeSpan.FromMinutes(6), AuraFlags.None, false,
                             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
@@ -2378,8 +2384,9 @@ namespace Mud.Server.Abilities
                     int duration = level / 2;
                     IAbility poisonAbility = this["Poison"];
                     IAura poisonAura = victim.GetAura(poisonAbility);
-                    if (poisonAura != null) // TODO: update duration
+                    if (poisonAura != null)
                     {
+                        poisonAura.Update(level, TimeSpan.FromMinutes(duration));
                         poisonAura.AddOrUpdateAffect(
                             x => x.Location == CharacterAttributeAffectLocations.Strength,
                             () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },

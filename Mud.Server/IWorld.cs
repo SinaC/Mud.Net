@@ -64,7 +64,7 @@ namespace Mud.Server
         IItem AddItem(Guid guid, ItemData itemData, IContainer container);
         IItem AddItem(Guid guid, int blueprintId, IContainer container);
 
-        IAura AddAura(IEntity target, IAbility ability, IEntity source, int level, TimeSpan ts, AuraFlags auraFlags, bool recompute, params IAffect[] affects);
+        IAura AddAura(IEntity target, IAbility ability, IEntity source, int level, TimeSpan duration, AuraFlags auraFlags, bool recompute, params IAffect[] affects);
 
         //IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks); // Hot
         //IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, SchoolTypes school, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks); // Dot
