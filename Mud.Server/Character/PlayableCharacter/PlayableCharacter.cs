@@ -577,9 +577,6 @@ namespace Mud.Server.Character.PlayableCharacter
                     {
                         recompute = true;
                         Level++;
-                        Trains++;
-                        Practices++;  // TODO: depends on wisdom
-                        // TODO Raise MaxHitPoints/MaxMana/MaxMoves/Armor...
                         Wiznet.Wiznet($"{DebugName} has attained level {Level}", WiznetFlags.Levels);
                         Send("You raise a level!!");
                         Act(ActOptions.ToGroup, "{0} has attained level {1}", this, Level);
@@ -963,7 +960,20 @@ namespace Mud.Server.Character.PlayableCharacter
             Practices += addPractice;
             Trains++;
 
-            Send("You gain {0} hit point%s, {1} mana, {2} move, and {3} practice{4}.", addHitpoints, addMana, addMove, addPractice, addPractice == 1 ? "" : "s");
+            Send("You gain {0} hit points, {1} mana, {2} move, and {3} practice{4}.", addHitpoints, addMana, addMove, addPractice, addPractice == 1 ? "" : "s");
+            // Inform about new abilities
+            KnownAbility[] newAbilities = KnownAbilities.Where(x => x.Level == Level && x.Learned == 0).ToArray();
+            if (newAbilities.Any())
+            {
+                StringBuilder sb = new StringBuilder("You can now gain following abilities:");
+                foreach (KnownAbility knownAbility in newAbilities)
+                {
+                    sb.Append(knownAbility.Ability.Name);
+                    sb.Append(", ");
+                }
+                sb.Remove(sb.Length - 2, 2); // remove trailing comma
+                Send(sb);
+            }
         }
     }
 }

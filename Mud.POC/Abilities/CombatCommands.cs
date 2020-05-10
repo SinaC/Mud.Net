@@ -5,50 +5,50 @@ namespace Mud.POC.Abilities
 {
     public partial class PlayableCharacter // TODO: should be CharacterBase
     {
-        [Command("berserk", "combat", "skills")]
+        [Command("berserk", "Combat", "Skills")]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoBerserk(string rawParameters, params CommandParameter[] parameters)
         {
             return ExecuteSkill("berserk", rawParameters, parameters);
         }
 
-        [Command("bash", "combat", "skills")]
+        [Command("bash", "Combat", "Skills")]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoBash(string rawParameters, params CommandParameter[] parameters)
         {
             return ExecuteSkill("bash", rawParameters, parameters);
         }
 
-        [Command("dirt", "combat", "skills")]
+        [Command("dirt", "Combat", "Skills")]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoDirt(string rawParameters, params CommandParameter[] parameters)
         {
             return ExecuteSkill("dirt kicking", rawParameters, parameters);
         }
 
-        [Command("trip", "combat", "skills")]
+        [Command("trip", "Combat", "Skills")]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoTrip(string rawParameters, params CommandParameter[] parameters)
         {
             return ExecuteSkill("trip", rawParameters, parameters);
         }
 
-        [Command("backstab", "combat", "skills")]
-        [Command("bs", "combat", "skills")]
+        [Command("backstab", "Combat", "Skills")]
+        [Command("bs", "Combat", "Skills")]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoBackstab(string rawParameters, params CommandParameter[] parameters)
         {
             return ExecuteSkill("backstab", rawParameters, parameters);
         }
 
-        [Command("kick", "combat", "skills")]
+        [Command("kick", "Combat", "Skills")]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoKick(string rawParameters, params CommandParameter[] parameters)
         {
             return ExecuteSkill("kick", rawParameters, parameters);
         }
 
-        [Command("disarm", "combat", "skills")]
+        [Command("disarm", "Combat", "Skills")]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoDisarm(string rawParameters, params CommandParameter[] parameters)
         {

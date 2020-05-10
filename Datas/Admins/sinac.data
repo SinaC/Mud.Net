@@ -1759,7 +1759,7 @@
       <RoomId>3050</RoomId>
       <Race>elf</Race>
       <Class>mage</Class>
-      <Level>9</Level>
+      <Level>10</Level>
       <Sex>1</Sex>
       <HitPoints>102</HitPoints>
       <MovePoints>65</MovePoints>
@@ -1783,9 +1783,9 @@
           <Value>100</Value>
         </PairDataOfInt32Int32>
       </MaxResources>
-      <Experience>8000</Experience>
-      <Trains>15</Trains>
-      <Practices>21</Practices>
+      <Experience>9500</Experience>
+      <Trains>16</Trains>
+      <Practices>22</Practices>
       <Equipments />
       <Inventory />
       <CurrentQuests />
@@ -1817,7 +1817,7 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>5</Key>
-          <Value>113</Value>
+          <Value>120</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>6</Key>
@@ -1833,7 +1833,7 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>9</Key>
-          <Value>113</Value>
+          <Value>120</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>10</Key>
@@ -2105,7 +2105,52 @@
           <Learned>0</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
+        <KnownAbilityData>
+          <AbilityId>22</AbilityId>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>8</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </KnownAbilityData>
+        <KnownAbilityData>
+          <AbilityId>5007</AbilityId>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </KnownAbilityData>
+        <KnownAbilityData>
+          <AbilityId>5008</AbilityId>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </KnownAbilityData>
       </KnownAbilities>
+      <Conditions>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+      </Conditions>
     </CharacterData>
   </Characters>
   <AdminLevel>7</AdminLevel>

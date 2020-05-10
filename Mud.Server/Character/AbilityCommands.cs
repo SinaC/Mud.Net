@@ -109,7 +109,8 @@ namespace Mud.Server.Character
         private void DisplayAbilitiesList(bool displayAll, Func<AbilityKinds, bool> filterOnAbilityKind) 
         {
             IEnumerable<KnownAbility> abilities = KnownAbilities
-                .Where(x => (displayAll || x.Level <= Level) && x.Learned > 0 && filterOnAbilityKind(x.Ability.Kind))
+                //.Where(x => (displayAll || x.Level <= Level) && (displayAll || x.Learned > 0) && filterOnAbilityKind(x.Ability.Kind))
+                .Where(x => (displayAll || x.Level <= Level) && filterOnAbilityKind(x.Ability.Kind))
                 .OrderBy(x => x.Level)
                 .ThenBy(x => x.Ability.Name);
 

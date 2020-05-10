@@ -19,6 +19,8 @@ namespace Mud.Server.Helpers
             generator.AddColumn("Resource", 10,
                 x =>
                 {
+                    if (x.Learned == 0)
+                        return "n/a";
                     if (x.Ability.Kind == AbilityKinds.Passive)
                         return "%m%passive ability%x%";
                     if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
@@ -34,6 +36,8 @@ namespace Mud.Server.Helpers
                 {
                     GetMergeLengthFunc = x =>
                     {
+                        if (x.Learned == 0)
+                            return 0;
                         if (x.Ability.Kind == AbilityKinds.Passive)
                             return 1;
                         if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
@@ -41,12 +45,25 @@ namespace Mud.Server.Helpers
                         return 1;
                     }
                 });
-            generator.AddColumn("Cost", 8, x => x.CostAmount.ToString(),
+            generator.AddColumn("Cost", 8, 
+                x =>
+                {
+                    if (x.Learned == 0)
+                        return "n/a";
+                    return x.CostAmount.ToString();
+                },
                 new TableGenerator<KnownAbility>.ColumnOptions
                 {
-                    GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage ? "%" : " "
+                    GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage && x.Learned != 0 ? "%" : " "
                 });
-            generator.AddColumn("Pra%", 6, x => $"{x.Learned}%");
+            generator.AddColumn("Pra%", 6, 
+                x =>
+                {
+                    if (x.Learned == 0)
+                        return "n/a";
+                    else
+                        return $"{x.Learned}%";
+                });
             generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
             //TODO: generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
             return generator;

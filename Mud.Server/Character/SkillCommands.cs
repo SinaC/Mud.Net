@@ -8,7 +8,7 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [Command("use", "skills")]
+        [Command("use", "Skills")]
         protected virtual CommandExecutionResults DoUse(string rawParameters, params CommandParameter[] parameters)
         {
             // TODO: refactor, almost same code in AbilityManager
@@ -35,44 +35,44 @@ namespace Mud.Server.Character
             return MapUseResults(result);
         }
 
-        [Command("berserk", "combat", "skills")]
+        [Command("berserk", "Combat", "Skills")]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoBerserk(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Berserk", rawParameters, parameters);
 
-        [Command("bash", "combat", "skills")]
+        [Command("bash", "Combat", "Skills")]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoBash(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Bash", rawParameters, parameters);
 
-        [Command("dirt", "combat", "skills")]
+        [Command("dirt", "Combat", "Skills")]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoDirt(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Dirt kicking", rawParameters, parameters);
 
-        [Command("trip", "combat", "skills")]
+        [Command("trip", "Combat", "Skills")]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoTrip(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Trip", rawParameters, parameters);
 
-        [Command("backstab", "combat", "skills")]
-        [Command("bs", "combat", "skills")]
+        [Command("backstab", "Combat", "Skills")]
+        [Command("bs", "Combat", "Skills")]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoBackstab(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Backstab", rawParameters, parameters);
 
-        [Command("kick", "combat", "skills")]
+        [Command("kick", "Combat", "Skills")]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoKick(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Kick", rawParameters, parameters);
 
-        [Command("disarm", "combat", "skills")]
+        [Command("disarm", "Combat", "Skills")]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoDisarm(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("dSsarm", rawParameters, parameters);
 
-        [Command("sneak", "skills")]
+        [Command("sneak", "Skills")]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoSneak(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Sneak", rawParameters, parameters);
 
-        [Command("hide", "skills")]
+        [Command("hide", "Skills")]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoHide(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Hide", rawParameters, parameters);
 
-        [Command("recall", "skills")]
+        [Command("recall", "Skills")]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoRecall(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Recall", rawParameters, parameters);
 

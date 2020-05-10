@@ -139,22 +139,46 @@ namespace Mud.Server.Actor
         [Command("commands", Priority = 0)]
         [Syntax(
             "[cmd]",
+            "[cmd] all",
             "[cmd] <category>")]
         protected virtual CommandExecutionResults DoCommands(string rawParameters, params CommandParameter[] parameters)
         {
-            const int columnCount = 5;
-            // TODO: group trie by value (group by DoXXX) and display set of key linked to this value
+            const int columnCount = 6;
 
             IEnumerable<KeyValuePair<string, CommandMethodInfo>> filteredCommands = Commands.Where(x => !x.Value.Attribute.Hidden && IsCommandAvailable(x.Value.Attribute));
 
-            // If a parameter is specified, filter on category
+            // Display categories
+            if (parameters.Length == 0)
+            {
+                StringBuilder categoriesSb = new StringBuilder();
+                categoriesSb.AppendLine("Available categories:%W%");
+                int index = 0;
+                foreach (var category in filteredCommands
+                    .SelectMany(x => x.Value.Attribute.Categories.Where(c => !string.IsNullOrWhiteSpace(c)))
+                    .Distinct()
+                    .OrderBy(x => x))
+                {
+                    if ((++index % columnCount) == 0)
+                        categoriesSb.AppendFormatLine("{0,-14}", category);
+                    else
+                        categoriesSb.AppendFormat("{0,-14}", category);
+                }
+                if (index > 0 && index % columnCount != 0)
+                    categoriesSb.AppendLine();
+                categoriesSb.Append("%x%");
+                Send(categoriesSb);
+                return CommandExecutionResults.Ok;
+            }
+
+            // If a parameter is specified, filter on category unless parameter is 'all'
             Func<string, bool> filterOnCategoryFunc = _ => true;
-            if (parameters.Length > 0)
+            if (!parameters[0].IsAll)
                 filterOnCategoryFunc = category => StringCompareHelpers.StringStartsWith(category, parameters[0].Value);
 
             // Grouped by category
             // if a command has multiple categories, it will appear in each category
-            StringBuilder sb = new StringBuilder("Available commands:" + Environment.NewLine);
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Available commands:");
             foreach(var cmdByCategory in filteredCommands
                 .SelectMany(x => x.Value.Attribute.Categories.Where(filterOnCategoryFunc), (kv, category) => new {category, cmi = kv.Value})
                 .GroupBy(x => x.category, (category, group) => new {category, commands = group.Select(x => x.cmi)})
