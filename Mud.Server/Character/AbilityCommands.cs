@@ -28,7 +28,7 @@ namespace Mud.Server.Character
             "[cmd] all")]
         protected virtual CommandExecutionResults DoAbilities(string rawParameters, params CommandParameter[] parameters)
         {
-            bool displayAll = parameters.Length > 0 && parameters[0].IsAll; // Display spells below level or all ?
+            bool displayAll = parameters.Length > 0 && parameters[0].IsAll; // Display abilities below level or all ?
 
             DisplayAbilitiesList(displayAll, x => true);
 
@@ -54,9 +54,9 @@ namespace Mud.Server.Character
             "[cmd] all")]
         protected virtual CommandExecutionResults DoSkills(string rawParameters, params CommandParameter[] parameters)
         {
-            bool displayAll = parameters.Length > 0 && parameters[0].IsAll; // Display spells below level or all ?
+            bool displayAll = parameters.Length > 0 && parameters[0].IsAll; // Display skills+passive below level or all ?
 
-            DisplayAbilitiesList(displayAll, x => x == AbilityKinds.Skill);
+            DisplayAbilitiesList(displayAll, x => x == AbilityKinds.Skill || x == AbilityKinds.Passive);
 
             return CommandExecutionResults.Ok;
         }

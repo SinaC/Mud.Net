@@ -239,7 +239,11 @@ namespace Mud.Server.Character
                 Send("That's not a container.");
                 return CommandExecutionResults.InvalidTarget;
             }
-            // TODO: check if closed
+            if (containerItem is ICloseable closeable && closeable.IsClosed)
+            {
+                Act(ActOptions.ToCharacter, "The {0} is closed.", container);
+                return CommandExecutionResults.InvalidTarget;
+            }
             if (whatParameter.IsAll) // get all [from] container, get all.item [from] container
             {
                 // TODO: same code as above (***) except source collection (container.Content)
@@ -413,8 +417,12 @@ namespace Mud.Server.Character
                 Send("That's not a container.");
                 return CommandExecutionResults.InvalidTarget;
             }
+            if (where is ICloseable closeable && closeable.IsClosed)
+            {
+                Act(ActOptions.ToCharacter, "The {0} is closed.", container);
+                return CommandExecutionResults.InvalidTarget;
+            }
 
-            // TODO: check if container is closed
             if (whatParameter.IsAll) // put all [in] container, put all.item [in] container
             {
                 // TODO: same code as above (***) except source collection (container.Content)

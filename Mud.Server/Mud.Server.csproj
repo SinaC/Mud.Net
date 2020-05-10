@@ -103,6 +103,7 @@
     <Compile Include="Admin\InfoCommands.cs" />
     <Compile Include="Aura\RoomFlagsAffect.cs" />
     <Compile Include="Character\AbilityCommands.cs" />
+    <Compile Include="ICloseable.cs" />
     <Compile Include="Item\IItemCloseable.cs" />
     <Compile Include="Item\IItemDrinkContainer.cs" />
     <Compile Include="Item\IItemDrinkable.cs" />

@@ -1125,6 +1125,8 @@ namespace Mud.Server.WPFTestApplication
             if (HasBit(v1, MysteryImporter.A)) flags |= PortalFlags.Closed;
             if (HasBit(v1, MysteryImporter.C)) flags |= PortalFlags.Locked;
             if (HasBit(v1, MysteryImporter.F)) flags |= PortalFlags.PickProof;
+            if (HasBit(v1, MysteryImporter.H)) flags |= PortalFlags.Easy;
+            if (HasBit(v1, MysteryImporter.I)) flags |= PortalFlags.Hard;
             if (HasBit(v1, MysteryImporter.K)) flags |= PortalFlags.NoClose;
             if (HasBit(v1, MysteryImporter.L)) flags |= PortalFlags.NoLock;
             int v2 = Convert.ToInt32(data.Values[2]);

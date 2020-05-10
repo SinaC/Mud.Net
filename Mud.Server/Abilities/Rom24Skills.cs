@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
 using Mud.Domain;
+using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Aura;
+using Mud.Server.Helpers;
+using Mud.Server.Input;
+using Mud.Server.Item;
 
 // ReSharper disable UnusedMember.Global
 
@@ -643,6 +649,93 @@ namespace Mud.Server.Abilities
                 slave.AutoLook();
             }
 
+            return UseResults.Ok;
+        }
+
+        [Skill(5010, "Pick lock", AbilityTargets.Custom)]
+        public UseResults SkillPickLock(IAbility ability, ICharacter source, string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                source.Send("Pick what?");
+                return UseResults.TargetNotFound;
+            }
+            // Set gcd
+            (source as IPlayableCharacter)?.ImpersonatedBy?.SetGlobalCooldown(4);
+            // Look for guards
+            INonPlayableCharacter guard = source.Room.NonPlayableCharacters.FirstOrDefault(x => x.Position > Positions.Sleeping && x.Level > source.Level + 5);
+            if (guard != null)
+            {
+                source.Act(ActOptions.ToCharacter, "{0:N} is standing too close to the lock.", guard);
+                return UseResults.InvalidTarget;
+            }
+            // Search for item to pick lock
+            KnownAbility knownAbility = source[ability];
+            IItem item = FindHelpers.FindItemHere(source, parameters[0]);
+            if (item != null)
+            {
+                if (item is IItemCloseable closeable)
+                {
+                    return InnerPick(closeable, source, knownAbility);
+                }
+                else
+                {
+                    source.Send("You can't do that.");
+                    return UseResults.InvalidTarget;
+                }
+            }
+            // Search for exit/direction
+            ExitDirections direction;
+            if (ExitDirectionsExtensions.TryFindDirection(parameters[0].Value, out direction))
+            {
+                IExit exit = source.Room.Exit(direction);
+                if (exit == null)
+                {
+                    source.Send("Nothing special there.");
+                    return UseResults.InvalidTarget;
+                }
+                return InnerPick(exit, source, knownAbility);
+            }
+            return UseResults.InvalidTarget;
+        }
+
+        //*******************************
+        private UseResults InnerPick(ICloseable closeable, ICharacter source, KnownAbility knownAbility)
+        {
+            if (!closeable.IsCloseable)
+            {
+                source.Send("You can't do that.");
+                return UseResults.InvalidTarget;
+            }
+            if (!closeable.IsClosed)
+            {
+                source.Send("It's not closed.");
+                return UseResults.InvalidTarget;
+            }
+            if (!closeable.IsLockable)
+            {
+                source.Send("It can't be unlocked.");
+                return UseResults.InvalidTarget;
+            }
+            if (closeable.IsPickProof)
+            {
+                source.Send("You failed.");
+                return UseResults.Failed;
+            }
+            int chance = knownAbility?.Learned ?? 0;
+            if (closeable.IsEasy)
+                chance *= 2;
+            if (closeable.IsHard)
+                chance /= 2;
+            if (!RandomManager.Chance(chance))
+            {
+                source.Send("You failed.");
+                (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, false, 2);
+                return UseResults.Failed;
+            }
+            closeable.Unlock();
+            source.Act(ActOptions.ToAll, "{0:N} picks the lock on {1}.", source, closeable);
+            (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, true, 2);
             return UseResults.Ok;
         }
     }

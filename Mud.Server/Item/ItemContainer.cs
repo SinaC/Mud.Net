@@ -43,10 +43,12 @@ namespace Mud.Server.Item
         public int KeyId { get; }
 
         public bool IsCloseable => !ContainerFlags.HasFlag(ContainerFlags.NoClose);
-        public bool IsLockable => !ContainerFlags.HasFlag(ContainerFlags.NoLock);
+        public bool IsLockable => !ContainerFlags.HasFlag(ContainerFlags.NoLock) && KeyId > 0;
         public bool IsClosed => ContainerFlags.HasFlag(ContainerFlags.Closed);
         public bool IsLocked => ContainerFlags.HasFlag(ContainerFlags.Locked);
         public bool IsPickProof => ContainerFlags.HasFlag(ContainerFlags.PickProof);
+        public bool IsEasy => ContainerFlags.HasFlag(ContainerFlags.Easy);
+        public bool IsHard => ContainerFlags.HasFlag(ContainerFlags.Hard);
 
         public void Open()
         {

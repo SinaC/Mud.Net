@@ -4,7 +4,7 @@ using Mud.Server.Blueprints.Room;
 
 namespace Mud.Server
 {
-    public interface IExit
+    public interface IExit : ICloseable
     {
         ExitBlueprint Blueprint { get; }
 
@@ -15,14 +15,7 @@ namespace Mud.Server
         ExitFlags ExitFlags { get; }
 
         bool IsDoor { get; }
-        bool IsClosed { get; }
-        bool IsLocked { get; }
         bool IsHidden { get; }
-
-        void Open();
-        void Close();
-        void Unlock();
-        void Lock();
 
         void OnRemoved();
     }

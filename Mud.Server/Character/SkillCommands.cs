@@ -76,6 +76,13 @@ namespace Mud.Server.Character
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoRecall(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Recall", rawParameters, parameters);
 
+        [Command("pick", "Skills")]
+        [Syntax(
+            "[cmd] <direction>",
+            "[cmd] <door>",
+            "[cmd] <container>|<portal>")]
+        protected virtual CommandExecutionResults DoPick(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Pick lock", rawParameters, parameters);
+
         //
         private CommandExecutionResults ExecuteSkill(string abilityName, string rawParameters, params CommandParameter[] parameters)
         {

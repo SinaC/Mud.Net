@@ -13,7 +13,7 @@ namespace Mud.Server.Character.PlayableCharacter
         [Command("gain", "Ability")]
         [Syntax(
             "[cmd] list",
-            "[cmd] skills|spells|passives",
+            "[cmd] skills|spells",
             "[cmd] convert|revert",
             "[cmd] <ability>")]
         protected virtual CommandExecutionResults DoGain(string rawParameters, params CommandParameter[] parameters)
@@ -41,14 +41,14 @@ namespace Mud.Server.Character.PlayableCharacter
             // skills + passives
             if (StringCompareHelpers.StringStartsWith("skills", parameters[0].Value))
             {
-                StringBuilder sb = TrainAbilityTableGenerator.Value.Generate("Abilities", 3, KnownAbilities.Where(x => (x.Ability.Kind == AbilityKinds.Skill || x.Ability.Kind == AbilityKinds.Passive) && x.CanBeGained(this)).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
+                StringBuilder sb = TrainAbilityTableGenerator.Value.Generate("Skills+Passives", 3, KnownAbilities.Where(x => (x.Ability.Kind == AbilityKinds.Skill || x.Ability.Kind == AbilityKinds.Passive) && x.CanBeGained(this)).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
                 Send(sb);
                 return CommandExecutionResults.Ok;
             }
             // spells
             if (StringCompareHelpers.StringStartsWith("spells", parameters[0].Value))
             {
-                StringBuilder sb = TrainAbilityTableGenerator.Value.Generate("Abilities", 3, KnownAbilities.Where(x => x.Ability.Kind == AbilityKinds.Spell && x.CanBeGained(this)).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
+                StringBuilder sb = TrainAbilityTableGenerator.Value.Generate("Spells", 3, KnownAbilities.Where(x => x.Ability.Kind == AbilityKinds.Spell && x.CanBeGained(this)).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
                 Send(sb);
                 return CommandExecutionResults.Ok;
             }
