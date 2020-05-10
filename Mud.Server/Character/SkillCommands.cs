@@ -83,6 +83,13 @@ namespace Mud.Server.Character
             "[cmd] <container>|<portal>")]
         protected virtual CommandExecutionResults DoPick(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Pick lock", rawParameters, parameters);
 
+        [Command("envenom", "Skills")]
+        [Syntax(
+            "[cmd] <weapon>",
+            "[cmd] <food>",
+            "[cmd] <drink container>")]
+        protected virtual CommandExecutionResults DoEnvenom(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Envenom", rawParameters, parameters);
+
         //
         private CommandExecutionResults ExecuteSkill(string abilityName, string rawParameters, params CommandParameter[] parameters)
         {

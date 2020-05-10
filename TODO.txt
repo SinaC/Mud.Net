@@ -1,8 +1,14 @@
+ONGOING
+envenom
+all skills
+    should use UseResult (Ok/Fail) from skill to call check improve (additional attribute param for skill storing improve multiplier)
+    wear off message
+
 TODO:
 use GetEquipment where Equipments is reference
 Weight/Carry
 items Potion/Staff/Wand/Scroll
-skills: staves/wand/scroll/potion/steal/lore/pick lock/rescue/envenom
+skills: staves/wand/scroll/potion/steal/lore/rescue
 assign abilities to classes
 race size, form, parts
 Dictionary to store Character known ability + keep only one LearnedAbility or replace with KnownAbilities getter based on name

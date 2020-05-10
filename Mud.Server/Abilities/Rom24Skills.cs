@@ -17,7 +17,7 @@ namespace Mud.Server.Abilities
     {
         private readonly int DefaultLevelIfAbilityNotKnown = 53;
 
-        [Skill(5000, "Berserk", AbilityTargets.None)]
+        [Skill(5000, "Berserk", AbilityTargets.None, PulseWaitTime = 24)]
         public UseResults SkillBerserk(IAbility ability, ICharacter source)
         {
             KnownAbility knownAbility = source[ability];
@@ -44,7 +44,11 @@ namespace Mud.Server.Abilities
                 return UseResults.Failed;
             }
 
-            // TODO: mana cost 50 ??
+            if (source[ResourceKinds.Mana] < 50)
+            {
+                source.Send("You can't get up enough energy.");
+                return UseResults.NotEnoughResource;
+            }
 
             // modifiers
             if (source.Fighting != null)
@@ -57,46 +61,37 @@ namespace Mud.Server.Abilities
             //
             if (RandomManager.Chance(chance))
             {
-                // TODO: set GCD to PulseViolence
-                // TODO: mana -= 50
-                // TODO: move /= 2
-                // TODO: heal level*2
+                source.UpdateResource(ResourceKinds.Mana, 50);
+                source.UpdateMovePoints(source.MovePoints / 2);
+                source.Heal(source, ability, source.Level * 2, false);
+
                 source.Send("Your pulse races as you are consumed by rage!");
                 source.Act(ActOptions.ToRoom, "{0:N} gets a wild look in {0:s} eyes.", source);
                 (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, true, 2);
 
-                /* add affects: berserk, +hit, +dam, +ac
-                af.where	= TO_AFFECTS;
-	            af.type		= gsn_berserk;
-	            af.level	= ch->level;
-	            af.duration	= number_fuzzy(ch->level / 8);
-	            af.modifier	= UMAX(1,ch->level/5);
-	            af.bitvector 	= AFF_BERSERK;
-
-	            af.location	= APPLY_HITROLL;
-	            affect_to_char(ch,&af);
-
-	            af.location	= APPLY_DAMROLL;
-	            affect_to_char(ch,&af);
-
-	            af.modifier	= UMAX(10,10 * (ch->level/5));
-	            af.location	= APPLY_AC;
-	            affect_to_char(ch,&af);
-                */
+                int duration = RandomManager.Fuzzy(source.Level / 8);
+                int modifier = Math.Max(1, source.Level / 5);
+                int acModifier = Math.Max(10, 10 * (source.Level / 5));
+                World.AddAura(source, ability, source, source.Level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
+                    new CharacterFlagsAffect { Modifier = CharacterFlags.Berserk, Operator = AffectOperators.Or },
+                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add },
+                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add },
+                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = acModifier, Operator = AffectOperators.Add });
                 return UseResults.Ok;
             }
             else
             {
-                // TODO: set GCD to 3*PulseViolence
-                // TODO: mana -= 25
-                // TODO: move /= 2
+                source.UpdateResource(ResourceKinds.Mana, 25);
+                source.UpdateMovePoints(source.MovePoints / 2);
+
                 source.Send("Your pulse speeds up, but nothing happens.");
+
                 (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, false, 2);
                 return UseResults.Failed;
             }
         }
 
-        [Skill(5001, "Bash", AbilityTargets.CharacterOffensive)]
+        [Skill(5001, "Bash", AbilityTargets.CharacterOffensive, PulseWaitTime = 20)]
         public UseResults SkillBash(IAbility ability, ICharacter source, ICharacter victim)
         {
             KnownAbility knownAbility = source[ability];
@@ -176,7 +171,7 @@ namespace Mud.Server.Abilities
 
         }
 
-        [Skill(5002, "Dirt kicking", AbilityTargets.CharacterOffensive)]
+        [Skill(5002, "Dirt kicking", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
         public UseResults SkillDirt(IAbility ability, ICharacter source, ICharacter victim) // almost copy/paste from bash
         {
             KnownAbility knownAbility = source[ability];
@@ -236,18 +231,11 @@ namespace Mud.Server.Abilities
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.None, false);
                 (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, true, 2);
                 //WAIT_STATE(ch, skill_table[gsn_dirt].beats);
+                // TODO check killer
 
-                // TODO
-                //AFFECT_DATA af;
-                //af.where = TO_AFFECTS;
-                //af.type = gsn_dirt;
-                //af.level = ch->level;
-                //af.duration = 0;
-                //af.location = APPLY_HITROLL;
-                //af.modifier = -4;
-                //af.bitvector = AFF_BLIND;
-                //affect_to_char(victim, &af);
-                // TODO: check_killer(ch,victim);
+                World.AddAura(victim, ability, source, source.Level, TimeSpan.FromMinutes(0)/*TODO  0 ???*/, AuraFlags.NoDispel, true,
+                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
+                    new CharacterFlagsAffect { Modifier = CharacterFlags.Blind, Operator = AffectOperators.Or });
                 return UseResults.Ok;
             }
             else
@@ -260,7 +248,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Skill(5003, "Trip", AbilityTargets.CharacterOffensive)]
+        [Skill(5003, "Trip", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
         public UseResults SkillTrip(IAbility ability, ICharacter source, ICharacter victim) // almost copy/paste from bash
         {
             KnownAbility knownAbility = source[ability];
@@ -319,8 +307,8 @@ namespace Mud.Server.Abilities
                 source.ActToNotVictim(victim, "{0} trips {1}, sending {1:m} to the ground.", source, victim);
                 (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, true, 1);
                 //DAZE_STATE(victim, 2 * PULSE_VIOLENCE);
-                //WAIT_STATE(ch, skill_table[gsn_trip].beats);
                 //victim->position = POS_RESTING;
+                // TODO: check_killer(ch, victim)
                 int damage = 2 + 2/* * victim.Size*/;
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.Bash, true);
                 return UseResults.Ok;
@@ -328,14 +316,13 @@ namespace Mud.Server.Abilities
             else
             {
                 victim.AbilityDamage(source, ability, 0, SchoolTypes.Bash, true);
-                //WAIT_STATE(ch, skill_table[gsn_trip].beats * 2 / 3);
                 (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, false, 1);
                 // TODO check_killer(ch,victim);
                 return UseResults.Failed;
             }
         }
 
-        [Skill(5004, "Backstab", AbilityTargets.CharacterOffensive)]
+        [Skill(5004, "Backstab", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
         public UseResults SkillBackstab(IAbility ability, ICharacter source, ICharacter victim)
         {
             // TODO: should be done in caller
@@ -368,7 +355,6 @@ namespace Mud.Server.Abilities
             }
 
             // TODO: check killer
-            // TODO: GCD
             KnownAbility knownAbility = source[ability];
             int learned = knownAbility?.Learned ?? 0;
             if (RandomManager.Chance(learned)
@@ -386,7 +372,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Skill(5005, "Kick", AbilityTargets.CharacterFighting)]
+        [Skill(5005, "Kick", AbilityTargets.CharacterFighting, PulseWaitTime = 12)]
         public UseResults SkillKick(IAbility ability, ICharacter source)
         {
             KnownAbility knownAbility = source[ability];
@@ -406,7 +392,6 @@ namespace Mud.Server.Abilities
                 return UseResults.MustBeFighting;
             }
 
-            // TODO: gcd
             int chance = knownAbility?.Learned ?? 0;
             if (RandomManager.Chance(chance))
             {
@@ -425,7 +410,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Skill(5006, "Disarm", AbilityTargets.CharacterFighting)]
+        [Skill(5006, "Disarm", AbilityTargets.CharacterFighting, PulseWaitTime = 24)]
         public UseResults SkillDisarm(IAbility ability, ICharacter source)
         {
             KnownAbility knownAbility = source[ability];
@@ -522,7 +507,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Skill(5007, "Sneak", AbilityTargets.None)]
+        [Skill(5007, "Sneak", AbilityTargets.None, PulseWaitTime = 12)]
         public UseResults SkillSneak(IAbility ability, ICharacter source)
         {
             source.Send("You attempt to move silently.");
@@ -549,7 +534,7 @@ namespace Mud.Server.Abilities
                 : UseResults.Failed;
         }
 
-        [Skill(5008, "Hide", AbilityTargets.None)]
+        [Skill(5008, "Hide", AbilityTargets.None, PulseWaitTime = 12)]
         public UseResults SkillHide(IAbility ability, ICharacter source)
         {
             source.Send("You attempt to hide.");
@@ -574,7 +559,7 @@ namespace Mud.Server.Abilities
                 : UseResults.Failed;
         }
 
-        [Skill(5009, "Recall", AbilityTargets.None)]
+        [Skill(5009, "Recall", AbilityTargets.None, PulseWaitTime = 12)]
         public UseResults SkillRecall(IAbility ability, ICharacter source)
         {
             IPlayableCharacter pcSource = source as IPlayableCharacter;
@@ -612,7 +597,6 @@ namespace Mud.Server.Abilities
                 if (!RandomManager.Chance(chance))
                 {
                     pcSource.CheckAbilityImprove(knownAbility, false, 6);
-                    pcSource.ImpersonatedBy?.SetGlobalCooldown(4);
                     pcSource.Send("You failed.");
                     return UseResults.Failed;
                 }
@@ -652,7 +636,7 @@ namespace Mud.Server.Abilities
             return UseResults.Ok;
         }
 
-        [Skill(5010, "Pick lock", AbilityTargets.Custom)]
+        [Skill(5010, "Pick lock", AbilityTargets.Custom, PulseWaitTime = 12)]
         public UseResults SkillPickLock(IAbility ability, ICharacter source, string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -660,8 +644,6 @@ namespace Mud.Server.Abilities
                 source.Send("Pick what?");
                 return UseResults.TargetNotFound;
             }
-            // Set gcd
-            (source as IPlayableCharacter)?.ImpersonatedBy?.SetGlobalCooldown(4);
             // Look for guards
             INonPlayableCharacter guard = source.Room.NonPlayableCharacters.FirstOrDefault(x => x.Position > Positions.Sleeping && x.Level > source.Level + 5);
             if (guard != null)
@@ -696,6 +678,85 @@ namespace Mud.Server.Abilities
                 }
                 return InnerPick(exit, source, knownAbility);
             }
+            return UseResults.InvalidTarget;
+        }
+
+        [Skill(5011, "Envenom", AbilityTargets.ItemInventory, PulseWaitTime = 36)]
+        public UseResults SkillEnvenom(IAbility ability, ICharacter source, IItem item)
+        {
+            KnownAbility knownAbility = source[ability];
+            int learned = knownAbility?.Learned ?? 0;
+            if (learned < 1)
+            {
+                source.Send("Are you crazy? You'd poison yourself!");
+                return UseResults.Failed;
+            }
+
+            // food/drink container
+            if (item is IItemPoisonable poisonable)
+            {
+                if (poisonable.ItemFlags.HasFlag(ItemFlags.Bless) || poisonable.ItemFlags.HasFlag(ItemFlags.BurnProof))
+                {
+                    source.Act(ActOptions.ToCharacter, "You fail to poison {0}.", poisonable);
+                    return UseResults.Failed;
+                }
+                bool success = false;
+                if (RandomManager.Chance(learned))
+                {
+                    source.Act(ActOptions.ToAll, "{0:N} treats {1} with deadly poison.", source, poisonable);
+                    poisonable.Poison();
+                    poisonable.Recompute();
+                    success = true;
+                }
+                else
+                    source.Act(ActOptions.ToCharacter, "You fail to poison {0}.", poisonable);
+                if (source is IPlayableCharacter playableCharacter)
+                    playableCharacter.CheckAbilityImprove(knownAbility, success, 4);
+                return success
+                    ? UseResults.Ok
+                    : UseResults.Failed;
+            }
+            // weapon
+            if (item is IItemWeapon weapon)
+            {
+                // check on sharpness
+                if (weapon.DamageType == SchoolTypes.Bash)
+                {
+                    source.Send("You can only envenom edged weapons.");
+                    return UseResults.InvalidTarget;
+                }
+                if (weapon.WeaponFlags == WeaponFlags.Poison)
+                {
+                    source.Act(ActOptions.ToCharacter, "{0} is already envenomed.", weapon);
+                    return UseResults.InvalidTarget;
+                }
+                if (weapon.WeaponFlags != WeaponFlags.None
+                    || weapon.ItemFlags.HasFlag(ItemFlags.Bless)
+                    || weapon.ItemFlags.HasFlag(ItemFlags.BurnProof))
+                {
+                    source.Act(ActOptions.ToCharacter, "You can't seem to envenom {0}.", weapon);
+                    return UseResults.InvalidTarget;
+                }
+                bool success = false;
+                int percent = RandomManager.Range(1, 100);
+                if (percent < learned)
+                {
+                    int level = (source.Level * percent) / 100;
+                    int duration = (source.Level * percent) / (2 * 100);
+                    World.AddAura(weapon, ability, source, level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
+                        new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Poison, Operator = AffectOperators.Or });
+                    source.Act(ActOptions.ToAll, "{0:N} coat{0:v} {1} with deadly venom.", source, weapon);
+                    success = true;
+                }
+                else
+                    source.Act(ActOptions.ToCharacter, "You fail to envenom {0}.", weapon);
+                if (source is IPlayableCharacter playableCharacter)
+                    playableCharacter.CheckAbilityImprove(knownAbility, success, 4);
+                return success
+                    ? UseResults.Ok
+                    : UseResults.Failed;
+            }
+            source.Act(ActOptions.ToCharacter, "You can't poison {0}.", item);
             return UseResults.InvalidTarget;
         }
 

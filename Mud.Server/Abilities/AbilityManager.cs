@@ -219,6 +219,9 @@ namespace Mud.Server.Abilities
             // 3) invoke skill
             object result = InvokeSkill(ability, caster, target, rawParameters, parameters);
 
+            // 4) GCD
+            (caster as IPlayableCharacter).ImpersonatedBy?.SetGlobalCooldown(ability.PulseWaitTime);
+
             //
             return result is UseResults
                 ? (UseResults)result
