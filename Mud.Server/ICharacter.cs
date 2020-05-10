@@ -87,7 +87,7 @@ namespace Mud.Server
         KnownAbility this[IAbility ability] { get; }
 
         // Slave
-        ICharacter Slave { get; } // who is our slave (related to charm command/spell)
+        INonPlayableCharacter Slave { get; } // who is our slave (related to charm command/spell)
         ICharacter ControlledBy { get; } // who is our master (related to charm command/spell)
 
         // Act
@@ -125,7 +125,7 @@ namespace Mud.Server
         bool ChangeForm(Forms form);
 
         // Controller
-        bool ChangeSlave(ICharacter slave); // if non-null, start slavery, else, stop slavery 
+        bool ChangeSlave(INonPlayableCharacter slave); // if non-null, start slavery, else, stop slavery 
         bool ChangeController(ICharacter master); // if non-null, start slavery, else, stop slavery 
 
         // Move
@@ -159,6 +159,7 @@ namespace Mud.Server
         void ResetCooldown(IAbility ability, bool verbose);
 
         // Equipment
+        IItem GetEquipment(EquipmentSlots slot); // return item found in first non-empty specified slot
         EquipedItem SearchEquipmentSlot(IEquipableItem item, bool replace);
 
         // Affects

@@ -130,10 +130,10 @@ namespace Mud.Server.World
             INonPlayableCharacter nonPlayableCharacter = character as INonPlayableCharacter;
             return RandomManager.Random(Rooms.Where(x =>
                 character.CanSee(x)
-                && !x.CurrentRoomFlags.HasFlag(RoomFlags.Safe)
-                && !x.CurrentRoomFlags.HasFlag(RoomFlags.Private)
-                && !x.CurrentRoomFlags.HasFlag(RoomFlags.Solitary)
-                && (nonPlayableCharacter == null || nonPlayableCharacter.ActFlags.HasFlag(ActFlags.Aggressive) || !x.CurrentRoomFlags.HasFlag(RoomFlags.Law))));
+                && !x.RoomFlags.HasFlag(RoomFlags.Safe)
+                && !x.RoomFlags.HasFlag(RoomFlags.Private)
+                && !x.RoomFlags.HasFlag(RoomFlags.Solitary)
+                && (nonPlayableCharacter == null || nonPlayableCharacter.ActFlags.HasFlag(ActFlags.Aggressive) || !x.RoomFlags.HasFlag(RoomFlags.Law))));
         }
 
         public IRoom GetDefaultRecallRoom() 
@@ -243,11 +243,15 @@ namespace Mud.Server.World
                     break;
                 case ItemPortalBlueprint portalBlueprint:
                 {
-                    IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
-                    if (destination == null)
+                    IRoom destination = null;
+                    if (portalBlueprint.Destination != ItemPortal.NoDestinationRoomId)
                     {
-                        destination = Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
-                        Log.Default.WriteLine(LogLevels.Error, "World.AddItem: PortalBlueprint {0} unknown destination {1} setting to recall {2}", blueprint.Id, portalBlueprint.Destination, Settings.DefaultRecallRoomId);
+                        destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
+                        if (destination == null)
+                        {
+                            destination = Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
+                            Log.Default.WriteLine(LogLevels.Error, "World.AddItem: PortalBlueprint {0} unknown destination {1} setting to recall {2}", blueprint.Id, portalBlueprint.Destination, Settings.DefaultRecallRoomId);
+                        }
                     }
                     item = new ItemPortal(guid, portalBlueprint, destination, container);
                     break;
@@ -260,6 +264,9 @@ namespace Mud.Server.World
                     break;
                 case ItemWeaponBlueprint weaponBlueprint:
                     item = new ItemWeapon(guid, weaponBlueprint, container);
+                    break;
+                case ItemWarpstoneBlueprint warpstoneBlueprint:
+                    item = new ItemWarpstone(guid, warpstoneBlueprint, container);
                     break;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, "Unknown Item blueprint type {0}", blueprint.GetType());
@@ -324,8 +331,18 @@ namespace Mud.Server.World
                     break;
                 case ItemPortalBlueprint portalBlueprint:
                     {
-                        IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
-                        item = new ItemPortal(guid, portalBlueprint, itemData, destination, container);
+                        ItemPortalData itemPortalData = itemData as ItemPortalData;
+                        IRoom destination = null;
+                        if (itemPortalData.DestinationRoomId != ItemPortal.NoDestinationRoomId)
+                        {
+                            destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == itemPortalData.DestinationRoomId);
+                            if (destination == null)
+                            {
+                                destination = Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
+                                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: ItemPortalData unknown destination {0} setting to recall {1}", itemPortalData.DestinationRoomId, Settings.DefaultRecallRoomId);
+                            }
+                        }
+                        item = new ItemPortal(guid, portalBlueprint, itemPortalData, destination, container);
                     }
                     break;
                 case ItemQuestBlueprint questBlueprint:
@@ -336,6 +353,9 @@ namespace Mud.Server.World
                     break;
                 case ItemWeaponBlueprint weaponBlueprint:
                     item = new ItemWeapon(guid, weaponBlueprint, itemData as ItemWeaponData, container);
+                    break;
+                case ItemWarpstoneBlueprint warpstoneBlueprint:
+                    item = new ItemWarpstone(guid, warpstoneBlueprint, itemData, container);
                     break;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, "Unknown Item blueprint type {0}", blueprint.GetType());

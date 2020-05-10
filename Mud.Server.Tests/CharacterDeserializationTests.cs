@@ -130,7 +130,7 @@ namespace Mud.Server.Tests
                         ItemId = lightBlueprint.Id,
                         DecayPulseLeft = 20
                     },
-                    new ItemData
+                    new ItemPortalData
                     {
                         ItemId = portalBlueprint.Id,
                         DecayPulseLeft = 30
@@ -231,7 +231,7 @@ namespace Mud.Server.Tests
                             ItemFlags = AutoFaker.Generate<ItemFlags>(),
                             Contains = new ItemData[]
                             {
-                                new ItemData
+                                new ItemPortalData
                                 {
                                     ItemId = portalBlueprint.Id,
                                     DecayPulseLeft = AutoFaker.Generate<int>(),

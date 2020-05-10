@@ -45,7 +45,8 @@ namespace Mud.Server.Item
                 // TODO: check stay death flag
                 if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
                 {
-                    item.SetDecayPulseLeft(RandomManager.Range(5, 10) * Pulse.PulsePerMinutes);
+                    int duration = RandomManager.Range(5, 10);
+                    item.SetTimer(TimeSpan.FromMinutes(duration));
                     item.RemoveBaseItemFlags(ItemFlags.RotDeath);
                 }
                 item.ChangeContainer(this);
@@ -56,7 +57,8 @@ namespace Mud.Server.Item
                 // TODO: check stay death flag
                 if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
                 {
-                    item.SetDecayPulseLeft(RandomManager.Range(5, 10) * Pulse.PulsePerMinutes);
+                    int duration = RandomManager.Range(5, 10);
+                    item.SetTimer(TimeSpan.FromMinutes(duration));
                     item.RemoveBaseItemFlags(ItemFlags.RotDeath);
                 }
                 item.ChangeContainer(this);

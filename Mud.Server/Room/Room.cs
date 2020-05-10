@@ -104,7 +104,7 @@ namespace Mud.Server.Room
         public IReadOnlyDictionary<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
 
         public RoomFlags BaseRoomFlags { get; protected set; }
-        public RoomFlags CurrentRoomFlags { get; protected set; }
+        public RoomFlags RoomFlags { get; protected set; }
 
         public IArea Area { get; }
 
@@ -127,11 +127,11 @@ namespace Mud.Server.Room
             {
                 // TODO: ownership
                 int count = People.Count();
-                if (CurrentRoomFlags.HasFlag(RoomFlags.Private) && count >= 2)
+                if (RoomFlags.HasFlag(RoomFlags.Private) && count >= 2)
                     return true;
-                if (CurrentRoomFlags.HasFlag(RoomFlags.Solitary) && count >= 1)
+                if (RoomFlags.HasFlag(RoomFlags.Solitary) && count >= 1)
                     return true;
-                if (CurrentRoomFlags.HasFlag(RoomFlags.ImpOnly))
+                if (RoomFlags.HasFlag(RoomFlags.ImpOnly))
                     return true;
                 return false;
             }
@@ -183,13 +183,13 @@ namespace Mud.Server.Room
             {
                 case AffectOperators.Add:
                 case AffectOperators.Or:
-                    CurrentRoomFlags |= affect.Modifier;
+                    RoomFlags |= affect.Modifier;
                     break;
                 case AffectOperators.Assign:
-                    CurrentRoomFlags = affect.Modifier;
+                    RoomFlags = affect.Modifier;
                     break;
                 case AffectOperators.Nor:
-                    CurrentRoomFlags &= ~affect.Modifier;
+                    RoomFlags &= ~affect.Modifier;
                     break;
                 default:
                     break;
@@ -201,7 +201,7 @@ namespace Mud.Server.Room
 
         protected virtual void ResetAttributes()
         {
-            CurrentRoomFlags = BaseRoomFlags;
+            RoomFlags = BaseRoomFlags;
         }
 
         protected void ApplyAuras(IEntity entity)

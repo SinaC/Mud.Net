@@ -142,10 +142,16 @@ namespace Mud.Server.Character
                         Send("You like yourself even better!");
                     else
                     {
-                        target.ChangeController(this);
-                        Slave = target;
-                        Send("{0} looks at you with adoring eyes.", target.DisplayName);
-                        target.Send("Isn't {0} so nice?", DisplayName);
+                        INonPlayableCharacter npcTarget = target as INonPlayableCharacter;
+                        if (npcTarget != null)
+                        {
+                            npcTarget.ChangeController(this);
+                            Slave = npcTarget;
+                            Send("{0} looks at you with adoring eyes.", npcTarget.DisplayName);
+                            target.Send("Isn't {0} so nice?", DisplayName);
+                        }
+                        else
+                            Send("Can't charm players");
                     }
                 }
                 else

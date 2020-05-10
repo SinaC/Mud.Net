@@ -301,7 +301,7 @@ namespace Mud.Server.Abilities
         }
 
         [Spell(14, "Charm Person", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You feel more self-confident.", DispelRoomMessage = "{0:N} regains {0:s} free will.", Flags = AbilityFlags.CanBeDispelled)]
-        public void SpellCharmPerson(IAbility ability, int level, ICharacter caster, INonPlayableCharacter victim)
+        public void SpellCharmPerson(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.IsSafe(caster))
                 return;
@@ -312,29 +312,36 @@ namespace Mud.Server.Abilities
                 return;
             }
 
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm)
+            INonPlayableCharacter npcVictim = victim as INonPlayableCharacter;
+            if (npcVictim == null)
+            {
+                caster.Send("You can't charm players!");
+                return;
+            }
+
+            if (npcVictim.CharacterFlags.HasFlag(CharacterFlags.Charm)
                 || caster.CharacterFlags.HasFlag(CharacterFlags.Charm)
-                || level < victim.Level
-                || victim.Immunities.HasFlag(IRVFlags.Charm)
-                || victim.SavesSpell(level, SchoolTypes.Charm))
+                || level < npcVictim.Level
+                || npcVictim.Immunities.HasFlag(IRVFlags.Charm)
+                || npcVictim.SavesSpell(level, SchoolTypes.Charm))
                 return;
 
-            if (victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Law))
+            if (npcVictim.Room.RoomFlags.HasFlag(RoomFlags.Law))
             {
                 caster.Send("The mayor does not allow charming in the city limits.");
                 return;
             }
 
-            victim.ChangeController(caster);
-            caster.ChangeSlave(victim);
+            npcVictim.ChangeController(caster);
+            caster.ChangeSlave(npcVictim);
 
             int duration = RandomManager.Fuzzy(level / 4);
-            World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+            World.AddAura(npcVictim, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new CharacterFlagsAffect { Modifier = CharacterFlags.Charm, Operator = AffectOperators.Or });
 
-            victim.Act(ActOptions.ToCharacter, "Isn't {0} just so nice?", caster);
-            if (caster != victim)
-                caster.Act(ActOptions.ToCharacter, "{0:N} looks at you with adoring eyes.", victim);
+            npcVictim.Act(ActOptions.ToCharacter, "Isn't {0} just so nice?", caster);
+            if (caster != npcVictim)
+                caster.Act(ActOptions.ToCharacter, "{0:N} looks at you with adoring eyes.", npcVictim);
         }
 
         private static readonly int[] ChillTouchDamageTable =
@@ -441,7 +448,8 @@ namespace Mud.Server.Abilities
         public void SpellCreateSpring(IAbility ability, int level, ICharacter caster)
         {
             IItemFountain fountain = World.AddItem(Guid.NewGuid(), Settings.SpringBlueprintId, caster.Room) as IItemFountain;
-            fountain.SetDecayPulseLeft(Pulse.FromMinutes(level));
+            int duration = level;
+            fountain.SetTimer(TimeSpan.FromMinutes(duration));
             caster.Act(ActOptions.ToAll, "{0} flows from the ground.", fountain);
         }
 
@@ -1059,21 +1067,7 @@ namespace Mud.Server.Abilities
         [Spell(53, "Gate", AbilityTargets.CharacterWorldwide)]
         public void SpellGate(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            INonPlayableCharacter npcVictim = victim as INonPlayableCharacter;
-            if (victim == caster
-                || victim.Room == null
-                || !caster.CanSee(victim.Room)
-                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe)
-                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Private)
-                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Solitary)
-                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall)
-                || caster.Room.CurrentRoomFlags.HasFlag(RoomFlags.ImpOnly)
-                || caster.Room.CurrentRoomFlags.HasFlag(RoomFlags.Nowhere)
-                || victim.Level >= level + 3
-                // TODO: clan check
-                // TODO: hero level check 
-                || (npcVictim != null && npcVictim.Immunities.HasFlag(IRVFlags.Summon))
-                || (npcVictim != null && victim.SavesSpell(level, SchoolTypes.Other)))
+            if (!IsValidGateTarget(caster, victim, level))
             {
                 caster.Send("You failed.");
                 return;
@@ -1488,8 +1482,47 @@ namespace Mud.Server.Abilities
         [Spell(69, "Nexus", AbilityTargets.CharacterWorldwide)]
         public void SpellNexus(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            caster.Send(StringHelpers.NotYetImplemented);
-            // TODO
+            if (!IsValidGateTarget(caster, victim, level))
+            {
+                caster.Send("You failed.");
+                return;
+            }
+
+            // search warpstone
+            IItemWarpstone stone = caster.GetEquipment(EquipmentSlots.OffHand) as IItemWarpstone;
+            if (stone == null)
+            {
+                caster.Send("You lack the proper component for this spell.");
+                return;
+            }
+
+            // destroy warpsone
+            caster.Act(ActOptions.ToCharacter, "You draw upon the power of {0}.", stone);
+            caster.Act(ActOptions.ToCharacter, "It flares brightly and vanishes!");
+            World.RemoveItem(stone);
+
+            int duration = 1 + level / 10;
+
+            // create portal one (caster -> victim)
+            IItemPortal portal1 = World.AddItem(Guid.NewGuid(), Settings.PortalBlueprintId, caster.Room) as IItemPortal;
+            portal1.SetTimer(TimeSpan.FromMinutes(duration));
+            portal1.ChangeDestination(victim.Room);
+            portal1.SetCharge(1, 1);
+
+            caster.Act(ActOptions.ToCharacter, "{0:N} rises up before you.", portal1);
+            caster.Act(ActOptions.ToRoom, "{0:N} rises up from the ground.", portal1);
+
+            if (caster.Room == victim.Room)
+                return; // no second portal if rooms are the same
+
+            // create portal two (victim -> caster)
+            IItemPortal portal2 = World.AddItem(Guid.NewGuid(), Settings.PortalBlueprintId, victim.Room) as IItemPortal;
+            portal2.SetTimer(TimeSpan.FromMinutes(duration));
+            portal2.ChangeDestination(caster.Room);
+            portal2.SetCharge(1, 1);
+
+            victim.Act(ActOptions.ToCharacter, "{0:N} rises up before you.", portal2);
+            victim.Act(ActOptions.ToRoom, "{0:N} rises up from the ground.", portal2);
         }
 
         [Spell(70, "Pass Door", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You feel solid again.", Flags = AbilityFlags.CanBeDispelled)]
@@ -1538,12 +1571,12 @@ namespace Mud.Server.Abilities
                 // weapon
                 if (item is IItemWeapon weapon)
                 {
-                    if (weapon.CurrentWeaponFlags == WeaponFlags.Poison)
+                    if (weapon.WeaponFlags == WeaponFlags.Poison)
                     {
                         caster.Act(ActOptions.ToCharacter, "{0} is already envenomed.", weapon);
                         return;
                     }
-                    if (weapon.CurrentWeaponFlags != WeaponFlags.None)
+                    if (weapon.WeaponFlags != WeaponFlags.None)
                     {
                         caster.Act(ActOptions.ToCharacter, "You can't seem to envenom {0}.", weapon);
                         return;
@@ -1579,8 +1612,34 @@ namespace Mud.Server.Abilities
         [Spell(73, "Portal", AbilityTargets.CharacterWorldwide)]
         public void SpellPortal(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            caster.Send(StringHelpers.NotYetImplemented);
-            // TODO
+            if (!IsValidGateTarget(caster, victim, level))
+            {
+                caster.Send("You failed.");
+                return;
+            }
+
+            // search warpstone
+            IItemWarpstone stone = caster.GetEquipment(EquipmentSlots.OffHand) as IItemWarpstone;
+            if (stone == null)
+            {
+                caster.Send("You lack the proper component for this spell.");
+                return;
+            }
+
+            // destroy warpsone
+            caster.Act(ActOptions.ToCharacter, "You draw upon the power of {0}.", stone);
+            caster.Act(ActOptions.ToCharacter, "It flares brightly and vanishes!");
+            World.RemoveItem(stone);
+
+            // create portal
+            IItemPortal portal = World.AddItem(Guid.NewGuid(), Settings.PortalBlueprintId, caster.Room) as IItemPortal;
+            int duration = 2 + level / 25;
+            portal.SetTimer(TimeSpan.FromMinutes(duration));
+            portal.ChangeDestination(victim.Room);
+            portal.SetCharge(1+level/25, 1+level/25);
+
+            caster.Act(ActOptions.ToCharacter, "{0:N} rises up before you.", portal);
+            caster.Act(ActOptions.ToRoom, "{0:N} rises up from the ground.", portal);
         }
 
         [Spell(74, "Protection Evil", AbilityTargets.CharacterSelf, CharacterWearOffMessage = "You feel less protected.", Flags = AbilityFlags.CanBeDispelled)]
@@ -1840,11 +1899,11 @@ namespace Mud.Server.Abilities
             IPlayableCharacter pcVictim = victim as IPlayableCharacter;
             if (victim == caster
                 || victim.Room == null
-                || caster.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe)
-                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe)
-                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Private)
-                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Solitary)
-                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall)
+                || caster.Room.RoomFlags.HasFlag(RoomFlags.Safe)
+                || victim.Room.RoomFlags.HasFlag(RoomFlags.Safe)
+                || victim.Room.RoomFlags.HasFlag(RoomFlags.Private)
+                || victim.Room.RoomFlags.HasFlag(RoomFlags.Solitary)
+                || victim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
                 || npcVictim?.ActFlags.HasFlag(ActFlags.Aggressive) == true
                 || victim.Level >= level+3
                 || pcVictim?.ImpersonatedBy is IAdmin
@@ -1869,7 +1928,7 @@ namespace Mud.Server.Abilities
         public void SpellTeleport(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.Room == null
-                || victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall)
+                || victim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
                 || (victim != caster && victim.Immunities.HasFlag(IRVFlags.Summon))
                 || (victim is IPlayableCharacter pcVictim && pcVictim.Fighting != null)
                 || (victim != caster && victim.SavesSpell(level - 5, SchoolTypes.Other)))
@@ -1941,7 +2000,7 @@ namespace Mud.Server.Abilities
             }
 
             if (pcVictim.CharacterFlags.HasFlag(CharacterFlags.Curse)
-                || pcVictim.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall))
+                || pcVictim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall))
             {
                 pcVictim.Send("Spell failed.");
                 return;
@@ -2488,6 +2547,27 @@ namespace Mud.Server.Abilities
         #endregion
 
         #region Helpers
+
+        private bool IsValidGateTarget(ICharacter caster, ICharacter victim, int level)
+        {
+            INonPlayableCharacter npcVictim = victim as INonPlayableCharacter;
+            if (victim == caster
+                || victim.Room == null
+                || !caster.CanSee(victim.Room)
+                || victim.Room.RoomFlags.HasFlag(RoomFlags.Safe)
+                || victim.Room.RoomFlags.HasFlag(RoomFlags.Private)
+                || victim.Room.RoomFlags.HasFlag(RoomFlags.Solitary)
+                || victim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
+                || victim.Room.RoomFlags.HasFlag(RoomFlags.ImpOnly)
+                || caster.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
+                || victim.Level >= level + 3
+                // TODO: clan check
+                // TODO: hero level check 
+                || (npcVictim != null && npcVictim.Immunities.HasFlag(IRVFlags.Summon))
+                || (npcVictim != null && victim.SavesSpell(level, SchoolTypes.Other)))
+                return false;
+            return true;
+        }
 
         private void BreathAreaEffect(ICharacter victim, IAbility ability, ICharacter caster, int level, int damage, SchoolTypes damageType, Action<IEntity, IAbility, ICharacter, int, int> breathAction)
         {

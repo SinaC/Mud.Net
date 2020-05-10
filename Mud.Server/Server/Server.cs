@@ -1181,13 +1181,31 @@ namespace Mud.Server.Server
                     if (item.DecayPulseLeft == 0)
                     {
                         Log.Default.WriteLine(LogLevels.Debug, "Item {0} decays", item.DebugName);
+                        string msg = "{0:N} crumbles into dust.";
+                        switch (item)
+                        {
+                            case IItemCorpse _:
+                                msg = "{0:N} decays into dust.";
+                                break;
+                            case IItemFountain _:
+                                msg = "{0:N} dries up.";
+                                break;
+                            case IItemFood _:
+                                msg = "{0:N} decomposes.";
+                                break;
+                            // TODO: potion  "$p has evaporated from disuse."
+                            case IItemPortal _:
+                                msg = "{0:N} fades out of existence.";
+                                break;
+                                // TODO: floating container  if content not empty : "$p flickers and vanishes, spilling its contents on the floor." else "$p flickers and vanishes."
+                        }
                         // Display message to character or room
                         if (item.ContainedInto is ICharacter wasOnCharacter)
-                            wasOnCharacter.Act(ActOptions.ToCharacter, "{0:N} decays into dust.", item);
+                            wasOnCharacter.Act(ActOptions.ToCharacter, msg, item);
                         else if (item.ContainedInto is IRoom wasInRoom)
                         {
                             foreach (ICharacter character in wasInRoom.People)
-                                character.Act(ActOptions.ToCharacter, "{0:N} decays into dust.", item);
+                                character.Act(ActOptions.ToCharacter, msg, item);
                         }
 
                         // If container or playable character corpse, move items to contained into (except quest item)

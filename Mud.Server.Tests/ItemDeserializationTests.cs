@@ -34,6 +34,26 @@ namespace Mud.Server.Tests
             Assert.AreEqual(itemData.Level, armor.Level);
         }
 
+        // Warpstone
+        public void ItemData_To_ItemWarpstone_Test()
+        {
+            ItemWarpstoneBlueprint warpstoneBlueprint = new ItemWarpstoneBlueprint { Id = 1, Name = "warpstone", ShortDescription = "warpstoneShort", Description = "warpstoneDesc" };
+            ItemData itemData = new ItemData
+            {
+                ItemId = warpstoneBlueprint.Id,
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                Level = 10,
+            };
+
+            IItemWarpstone warpstone = new ItemWarpstone(Guid.NewGuid(), warpstoneBlueprint, itemData, new Mock<IContainer>().Object);
+
+            Assert.AreEqual(warpstoneBlueprint.Id, warpstone.Blueprint.Id);
+            Assert.AreEqual(itemData.DecayPulseLeft, warpstone.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, warpstone.BaseItemFlags);
+            Assert.AreEqual(itemData.Level, warpstone.Level);
+        }
+
         // Food
         [TestMethod]
         public void ItemData_To_ItemFood_Test()
@@ -176,7 +196,7 @@ namespace Mud.Server.Tests
                         DecayPulseLeft = AutoFaker.Generate<int>(),
                         ItemFlags = AutoFaker.Generate<ItemFlags>(),
                     },
-                    new ItemData
+                    new ItemPortalData
                     {
                         ItemId = portalBlueprint.Id,
                         Level = AutoFaker.Generate<int>(),
@@ -230,7 +250,7 @@ namespace Mud.Server.Tests
                         DecayPulseLeft = AutoFaker.Generate<int>(),
                         ItemFlags = AutoFaker.Generate<ItemFlags>(),
                     },
-                    new ItemData
+                    new ItemPortalData
                     {
                         ItemId = portalBlueprint.Id,
                         DecayPulseLeft = AutoFaker.Generate<int>(),
@@ -464,11 +484,14 @@ namespace Mud.Server.Tests
             IRoom room2 = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 2, Name = "room2" }, new Area.Area("Area", 1, 100, "builders", "credits"));
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint {Id = 1, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 2};
             world.AddItemBlueprint(portalBlueprint);
-            ItemData itemData = new ItemData
+            ItemPortalData itemData = new ItemPortalData
             {
                 ItemId = portalBlueprint.Id,
                 DecayPulseLeft = AutoFaker.Generate<int>(),
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                PortalFlags = AutoFaker.Generate<PortalFlags>(),
+                MaxChargeCount = AutoFaker.Generate<int>(),
+                CurrentChargeCount = AutoFaker.Generate<int>(),
             };
 
             IItem portal = World.AddItem(Guid.NewGuid(), itemData, room1);
@@ -479,6 +502,9 @@ namespace Mud.Server.Tests
             Assert.AreEqual(itemData.ItemFlags, portal.BaseItemFlags);
             Assert.IsNotNull((portal as IItemPortal).Destination);
             Assert.AreEqual(room2, (portal as IItemPortal).Destination);
+            Assert.AreEqual(itemData.PortalFlags, (portal as IItemPortal).PortalFlags);
+            Assert.AreEqual(itemData.MaxChargeCount, (portal as IItemPortal).MaxChargeCount);
+            Assert.AreEqual(itemData.CurrentChargeCount, (portal as IItemPortal).CurrentChargeCount);
         }
 
         // Quest

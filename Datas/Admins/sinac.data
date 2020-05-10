@@ -16,13 +16,13 @@
     <CharacterData>
       <CreationTime>2020-05-07T14:08:22.9740442+02:00</CreationTime>
       <Name>sinac</Name>
-      <RoomId>3005</RoomId>
+      <RoomId>3030</RoomId>
       <Race>insectoid</Race>
       <Class>druid</Class>
       <Level>7</Level>
       <Sex>0</Sex>
       <HitPoints>153</HitPoints>
-      <MovePoints>97</MovePoints>
+      <MovePoints>82</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -52,7 +52,7 @@
           <Item>
             <ItemId>3365</ItemId>
             <Level>8</Level>
-            <DecayPulseLeft>14384600</DecayPulseLeft>
+            <DecayPulseLeft>14384580</DecayPulseLeft>
             <ItemFlags>65</ItemFlags>
             <Auras />
           </Item>
@@ -88,16 +88,6 @@
           </Item>
         </EquipedItemData>
         <EquipedItemData>
-          <Slot>13</Slot>
-          <Item>
-            <ItemId>3</ItemId>
-            <Level>0</Level>
-            <DecayPulseLeft>1520</DecayPulseLeft>
-            <ItemFlags>0</ItemFlags>
-            <Auras />
-          </Item>
-        </EquipedItemData>
-        <EquipedItemData>
           <Slot>15</Slot>
           <Item xsi:type="ItemWeaponData">
             <ItemId>3350</ItemId>
@@ -109,13 +99,21 @@
           </Item>
         </EquipedItemData>
       </Equipments>
-      <Inventory />
+      <Inventory>
+        <ItemData>
+          <ItemId>9</ItemId>
+          <Level>39</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>67</ItemFlags>
+          <Auras />
+        </ItemData>
+      </Inventory>
       <CurrentQuests />
       <Auras>
         <AuraData>
           <AbilityId>2</AbilityId>
           <Level>5</Level>
-          <PulseLeft>4292</PulseLeft>
+          <PulseLeft>4276</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -128,7 +126,7 @@
         <AuraData>
           <AbilityId>3</AbilityId>
           <Level>5</Level>
-          <PulseLeft>1204</PulseLeft>
+          <PulseLeft>1188</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -146,7 +144,7 @@
         <AuraData>
           <AbilityId>81</AbilityId>
           <Level>5</Level>
-          <PulseLeft>1708</PulseLeft>
+          <PulseLeft>1692</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -159,7 +157,7 @@
         <AuraData>
           <AbilityId>74</AbilityId>
           <Level>5</Level>
-          <PulseLeft>4568</PulseLeft>
+          <PulseLeft>4552</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -176,7 +174,7 @@
         <AuraData>
           <AbilityId>31</AbilityId>
           <Level>5</Level>
-          <PulseLeft>136</PulseLeft>
+          <PulseLeft>120</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -188,7 +186,7 @@
         <AuraData>
           <AbilityId>32</AbilityId>
           <Level>5</Level>
-          <PulseLeft>144</PulseLeft>
+          <PulseLeft>128</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -200,7 +198,7 @@
         <AuraData>
           <AbilityId>85</AbilityId>
           <Level>7</Level>
-          <PulseLeft>1672</PulseLeft>
+          <PulseLeft>1656</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -1381,7 +1379,34 @@
           <Learned>0</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
+        <KnownAbilityData>
+          <AbilityId>22</AbilityId>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </KnownAbilityData>
       </KnownAbilities>
+      <Conditions>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+      </Conditions>
     </CharacterData>
     <CharacterData>
       <CreationTime>2020-05-08T09:18:18.4342927+02:00</CreationTime>

@@ -59,7 +59,7 @@ namespace Mud.Server.Item
         public SchoolTypes DamageType { get; }
 
         public WeaponFlags BaseWeaponFlags { get; protected set; }
-        public WeaponFlags CurrentWeaponFlags { get; protected set; }
+        public WeaponFlags WeaponFlags { get; protected set; }
 
         public void ApplyAffect(ItemWeaponFlagsAffect affect)
         {
@@ -67,13 +67,13 @@ namespace Mud.Server.Item
             {
                 case AffectOperators.Add:
                 case AffectOperators.Or:
-                    CurrentWeaponFlags |= affect.Modifier;
+                    WeaponFlags |= affect.Modifier;
                     break;
                 case AffectOperators.Assign:
-                    CurrentWeaponFlags = affect.Modifier;
+                    WeaponFlags = affect.Modifier;
                     break;
                 case AffectOperators.Nor:
-                    CurrentWeaponFlags &= ~affect.Modifier;
+                    WeaponFlags &= ~affect.Modifier;
                     break;
             }
         }
@@ -99,7 +99,7 @@ namespace Mud.Server.Item
         {
             base.ResetAttributes();
 
-            CurrentWeaponFlags = BaseWeaponFlags;
+            WeaponFlags = BaseWeaponFlags;
         }
 
         #endregion

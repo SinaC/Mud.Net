@@ -11,7 +11,7 @@ namespace Mud.Server.Item
         SchoolTypes DamageType { get; }
 
         WeaponFlags BaseWeaponFlags { get; }
-        WeaponFlags CurrentWeaponFlags { get; }
+        WeaponFlags WeaponFlags { get; }
 
         void ApplyAffect(ItemWeaponFlagsAffect affect);
     }

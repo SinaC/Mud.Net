@@ -35,6 +35,21 @@ namespace Mud.Server.Tests
             Assert.AreEqual(armor.BaseItemFlags, itemData.ItemFlags);
         }
 
+        // WarpStone
+        [TestMethod]
+        public void ItemWarpstone_To_ItemData_Test()
+        {
+            ItemWarpstoneBlueprint blueprint = new ItemWarpstoneBlueprint { Id = 1, Name = "Warp", ShortDescription = "WarpShort", Description = "WarpDesc", ItemFlags = ItemFlags.AntiEvil };
+            IItemWarpstone warpstone = new ItemWarpstone(Guid.NewGuid(), blueprint, new Mock<IContainer>().Object);
+
+            ItemData itemData = warpstone.MapItemData(); // no specific ItemData
+
+            Assert.IsInstanceOfType(itemData, typeof(ItemData));
+            Assert.AreEqual(warpstone.Blueprint.Id, itemData.ItemId);
+            Assert.AreEqual(warpstone.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(warpstone.BaseItemFlags, itemData.ItemFlags);
+        }
+
         // Food
         [TestMethod]
         public void ItemFood_To_ItemData_Test()
@@ -108,12 +123,12 @@ namespace Mud.Server.Tests
             Assert.AreEqual(light.DecayPulseLeft, (itemData as ItemContainerData).Contains[0].DecayPulseLeft);
         }
 
-        [TestMethod] // World is needed because when creating
+        [TestMethod] // World is needed because when World.AddItem is used when serializing content
         public void ItemContainer_MultipleItems_To_ItemData_Test()
         {
             IItemContainer container = new ItemContainer(Guid.NewGuid(), new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50 }, new Mock<IContainer>().Object);
             IItemLight light = new ItemLight(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 }, container);
-            IItemPortal portal = new ItemPortal(Guid.NewGuid(), new ItemPortalBlueprint { Id = 2, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 1 }, new Mock<IRoom>().Object, container);
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), new ItemPortalBlueprint { Id = 2, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = -1 }, new Mock<IRoom>().Object, container);
 
             ItemData itemData = container.MapItemData();
 
@@ -270,13 +285,16 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemPortal_To_ItemData_Test()
         {
-            IItemPortal portal = new ItemPortal(Guid.NewGuid(), new ItemPortalBlueprint { Id = 1, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 1 }, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), new ItemPortalBlueprint { Id = 1, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 1, MaxChargeCount = 10, CurrentChargeCount = 5, PortalFlags = PortalFlags.GoWith | PortalFlags.NoLock }, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
 
-            ItemData itemData = portal.MapItemData(); // no specific ItemData
+            ItemData itemData = portal.MapItemData();
 
-            Assert.IsInstanceOfType(itemData, typeof(ItemData));
+            Assert.IsInstanceOfType(itemData, typeof(ItemPortalData));
             Assert.AreEqual(portal.Blueprint.Id, itemData.ItemId);
             Assert.AreEqual(portal.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(portal.MaxChargeCount, (itemData as ItemPortalData).MaxChargeCount);
+            Assert.AreEqual(portal.CurrentChargeCount, (itemData as ItemPortalData).CurrentChargeCount);
+            Assert.AreEqual(portal.PortalFlags, (itemData as ItemPortalData).PortalFlags);
         }
 
         // Quest
@@ -309,14 +327,15 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemWeapon_To_ItemData_Test()
         {
-            IItemWeapon weapon = new ItemWeapon(Guid.NewGuid(), new ItemWeaponBlueprint { Id = 1, Name = "Weapon", ShortDescription = "WeaponShort", Description = "WeaponDesc", ItemFlags = ItemFlags.NoDrop, DamageType = SchoolTypes.Fire, DiceCount = 10, DiceValue = 20 }, new Mock<IContainer>().Object);
+            IItemWeapon weapon = new ItemWeapon(Guid.NewGuid(), new ItemWeaponBlueprint { Id = 1, Name = "Weapon", ShortDescription = "WeaponShort", Description = "WeaponDesc", ItemFlags = ItemFlags.NoDrop, DamageType = SchoolTypes.Fire, DiceCount = 10, DiceValue = 20, Flags = WeaponFlags.Shocking | WeaponFlags.Vampiric }, new Mock<IContainer>().Object);
 
             ItemData itemData = weapon.MapItemData(); // no specific ItemData
 
-            Assert.IsInstanceOfType(itemData, typeof(ItemData));
+            Assert.IsInstanceOfType(itemData, typeof(ItemWeaponData));
             Assert.AreEqual(weapon.Blueprint.Id, itemData.ItemId);
             Assert.AreEqual(weapon.DecayPulseLeft, itemData.DecayPulseLeft);
             Assert.AreEqual(weapon.BaseItemFlags, itemData.ItemFlags);
+            Assert.AreEqual(weapon.BaseWeaponFlags, (itemData as ItemWeaponData).WeaponFlags);
         }
     }
 }

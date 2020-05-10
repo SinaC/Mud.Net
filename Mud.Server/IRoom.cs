@@ -13,7 +13,7 @@ namespace Mud.Server
         IReadOnlyDictionary<string, string> ExtraDescriptions { get; } // keyword -> description
 
         RoomFlags BaseRoomFlags { get; }
-        RoomFlags CurrentRoomFlags { get; }
+        RoomFlags RoomFlags { get; }
 
         IArea Area { get; }
 

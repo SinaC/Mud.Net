@@ -9,17 +9,73 @@ namespace Mud.Server.Tests
     [TestClass]
     public class ItemTests
     {
+        // Portal
+        [TestMethod]
+        public void Portal_Creation_Values()
+        {
+            ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
+            {
+                Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
+                PortalFlags = Domain.PortalFlags.Closed | Domain.PortalFlags.PickProof,
+                MaxChargeCount = 10,
+                CurrentChargeCount = 7,
+            };
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
+
+            Assert.AreEqual(portalBlueprint.PortalFlags, portal.PortalFlags);
+            Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
+            Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
+        }
+
+        public void Portal_Use()
+        {
+            ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
+            {
+                Id = 1,
+                Name = "portal",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                PortalFlags = Domain.PortalFlags.Closed | Domain.PortalFlags.PickProof,
+                MaxChargeCount = 10,
+                CurrentChargeCount = 7,
+            };
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
+
+            portal.Use();
+
+            Assert.AreEqual(portalBlueprint.PortalFlags, portal.PortalFlags);
+            Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
+            Assert.AreEqual(portalBlueprint.CurrentChargeCount-1, portal.CurrentChargeCount);
+        }
+
+        public void Portal_Use_InfiniteCharges()
+        {
+            ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
+            {
+                Id = 1,
+                Name = "portal",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                PortalFlags = Domain.PortalFlags.Closed | Domain.PortalFlags.PickProof,
+                MaxChargeCount = -1,
+                CurrentChargeCount = 7,
+            };
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
+
+            portal.Use();
+
+            Assert.AreEqual(portalBlueprint.PortalFlags, portal.PortalFlags);
+            Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
+            Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
+        }
+
         // Food
         [TestMethod]
         public void Food_Creation_Values()
         {
             ItemFoodBlueprint foodBlueprint = new ItemFoodBlueprint
             {
-                Id = 1,
-                Name = "Food",
-                ShortDescription = "FoodShort",
-                Description = "FoodDesc",
-                Cost = 20,
+                Id = 1, Name = "Food", ShortDescription = "FoodShort", Description = "FoodDesc", Cost = 20,
                 HungerHours = 10,
                 FullHours = 20,
                 IsPoisoned = true
@@ -37,7 +93,9 @@ namespace Mud.Server.Tests
             ItemFoodBlueprint foodBlueprint = new ItemFoodBlueprint 
             { 
                 Id = 1, Name = "Food", ShortDescription = "FoodShort", Description = "FoodDesc", Cost = 20, 
-                HungerHours = 10, FullHours = 20, IsPoisoned = false
+                HungerHours = 10,
+                FullHours = 20,
+                IsPoisoned = false
             };
             IItemFood food = new ItemFood(Guid.NewGuid(), foodBlueprint, new Mock<IRoom>().Object);
 
@@ -51,11 +109,7 @@ namespace Mud.Server.Tests
         {
             ItemFoodBlueprint foodBlueprint = new ItemFoodBlueprint
             {
-                Id = 1,
-                Name = "Food",
-                ShortDescription = "FoodShort",
-                Description = "FoodDesc",
-                Cost = 20,
+                Id = 1, Name = "Food",ShortDescription = "FoodShort",  Description = "FoodDesc", Cost = 20,
                 HungerHours = 10,
                 FullHours = 20,
                 IsPoisoned = true
@@ -72,11 +126,7 @@ namespace Mud.Server.Tests
         {
             ItemFoodBlueprint foodBlueprint = new ItemFoodBlueprint
             {
-                Id = 1,
-                Name = "Food",
-                ShortDescription = "FoodShort",
-                Description = "FoodDesc",
-                Cost = 20,
+                Id = 1, Name = "Food", ShortDescription = "FoodShort", Description = "FoodDesc", Cost = 20,
                 HungerHours = 10,
                 FullHours = 20,
                 IsPoisoned = true
@@ -111,10 +161,7 @@ namespace Mud.Server.Tests
         {
             ItemFountainBlueprint fountainBlueprint = new ItemFountainBlueprint
             {
-                Id = 1,
-                Name = "fountain",
-                ShortDescription = "FountainShort",
-                Description = "FountainDesc",
+                Id = 1, Name = "fountain", ShortDescription = "FountainShort", Description = "FountainDesc",
                 LiquidType = "water"
             };
             IItemFountain fountain = new ItemFountain(Guid.NewGuid(), fountainBlueprint, new Mock<IRoom>().Object);
@@ -133,10 +180,7 @@ namespace Mud.Server.Tests
         {
             ItemDrinkContainerBlueprint drinkContainerBlueprint = new ItemDrinkContainerBlueprint
             {
-                Id = 1,
-                Name = "drinkcontainer",
-                ShortDescription = "DrinkContainerShort",
-                Description = "DrinkContainerDesc",
+                Id = 1, Name = "drinkcontainer", ShortDescription = "DrinkContainerShort", Description = "DrinkContainerDesc",
                 MaxLiquidAmount = 500,
                 CurrentLiquidAmount = 350,
                 LiquidType = "water",
@@ -157,10 +201,7 @@ namespace Mud.Server.Tests
         {
             ItemDrinkContainerBlueprint drinkContainerBlueprint = new ItemDrinkContainerBlueprint
             {
-                Id = 1,
-                Name = "drinkcontainer",
-                ShortDescription = "DrinkContainerShort",
-                Description = "DrinkContainerDesc",
+                Id = 1, Name = "drinkcontainer", ShortDescription = "DrinkContainerShort", Description = "DrinkContainerDesc",
                 MaxLiquidAmount = 500,
                 CurrentLiquidAmount = 350,
                 LiquidType = "water",
@@ -179,10 +220,7 @@ namespace Mud.Server.Tests
         {
             ItemDrinkContainerBlueprint drinkContainerBlueprint = new ItemDrinkContainerBlueprint
             {
-                Id = 1,
-                Name = "drinkcontainer",
-                ShortDescription = "DrinkContainerShort",
-                Description = "DrinkContainerDesc",
+                Id = 1, Name = "drinkcontainer", ShortDescription = "DrinkContainerShort", Description = "DrinkContainerDesc",
                 MaxLiquidAmount = 500,
                 CurrentLiquidAmount = 350,
                 LiquidType = "water",
@@ -201,10 +239,7 @@ namespace Mud.Server.Tests
         {
             ItemDrinkContainerBlueprint drinkContainerBlueprint = new ItemDrinkContainerBlueprint
             {
-                Id = 1,
-                Name = "drinkcontainer",
-                ShortDescription = "DrinkContainerShort",
-                Description = "DrinkContainerDesc",
+                Id = 1, Name = "drinkcontainer", ShortDescription = "DrinkContainerShort", Description = "DrinkContainerDesc",
                 MaxLiquidAmount = 500,
                 CurrentLiquidAmount = 350,
                 LiquidType = "water",
@@ -223,10 +258,7 @@ namespace Mud.Server.Tests
         {
             ItemDrinkContainerBlueprint drinkContainerBlueprint = new ItemDrinkContainerBlueprint
             {
-                Id = 1,
-                Name = "drinkcontainer",
-                ShortDescription = "DrinkContainerShort",
-                Description = "DrinkContainerDesc",
+                Id = 1, Name = "drinkcontainer", ShortDescription = "DrinkContainerShort", Description = "DrinkContainerDesc",
                 MaxLiquidAmount = 500,
                 CurrentLiquidAmount = 350,
                 LiquidType = "water",
@@ -245,10 +277,7 @@ namespace Mud.Server.Tests
         {
             ItemDrinkContainerBlueprint drinkContainerBlueprint = new ItemDrinkContainerBlueprint
             {
-                Id = 1,
-                Name = "drinkcontainer",
-                ShortDescription = "DrinkContainerShort",
-                Description = "DrinkContainerDesc",
+                Id = 1, Name = "drinkcontainer", ShortDescription = "DrinkContainerShort", Description = "DrinkContainerDesc",
                 MaxLiquidAmount = 500,
                 CurrentLiquidAmount = 350,
                 LiquidType = "water",
@@ -268,10 +297,7 @@ namespace Mud.Server.Tests
         {
             ItemDrinkContainerBlueprint drinkContainerBlueprint = new ItemDrinkContainerBlueprint
             {
-                Id = 1,
-                Name = "drinkcontainer",
-                ShortDescription = "DrinkContainerShort",
-                Description = "DrinkContainerDesc",
+                Id = 1, Name = "drinkcontainer", ShortDescription = "DrinkContainerShort", Description = "DrinkContainerDesc",
                 MaxLiquidAmount = 500,
                 CurrentLiquidAmount = 350,
                 LiquidType = "water",
@@ -291,10 +317,7 @@ namespace Mud.Server.Tests
         {
             ItemDrinkContainerBlueprint drinkContainerBlueprint = new ItemDrinkContainerBlueprint
             {
-                Id = 1,
-                Name = "drinkcontainer",
-                ShortDescription = "DrinkContainerShort",
-                Description = "DrinkContainerDesc",
+                Id = 1, Name = "drinkcontainer", ShortDescription = "DrinkContainerShort", Description = "DrinkContainerDesc",
                 MaxLiquidAmount = 500,
                 CurrentLiquidAmount = 350,
                 LiquidType = "water",

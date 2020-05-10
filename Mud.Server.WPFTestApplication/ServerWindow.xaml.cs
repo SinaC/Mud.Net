@@ -610,7 +610,24 @@ namespace Mud.Server.WPFTestApplication
                     Level = data.Level,
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
-                    Destination = Convert.ToInt32(data.Values[3]),
+                    Destination = Convert.ToInt32(data.Values[3]) <= 0 ? ItemPortal.NoDestinationRoomId : Convert.ToInt32(data.Values[3]),
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
+                };
+            }
+            else if (data.ItemType == "warp_stone")
+            {
+                blueprint = new ItemWarpstoneBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
                     ItemFlags = extraFlags.itemFlags,
                     NoTake = extraFlags.noTake,
                 };
@@ -1581,26 +1598,26 @@ namespace Mud.Server.WPFTestApplication
                 }
             }
 
-            CharacterNormalBlueprint mob2Blueprint = new CharacterNormalBlueprint
-            {
-                Id = 2,
-                Name = "mob2",
-                ShortDescription = "Second mob (female)",
-                Description = "Second mob (female) is here",
-                Sex = Sex.Female,
-                Level = 10
-            };
-            World.AddCharacterBlueprint(mob2Blueprint);
-            CharacterNormalBlueprint mob3Blueprint = new CharacterNormalBlueprint
-            {
-                Id = 3,
-                Name = "mob3",
-                ShortDescription = "Third mob (male)",
-                Description = "Third mob (male) is here",
-                Sex = Sex.Male,
-                Level = 10
-            };
-            World.AddCharacterBlueprint(mob3Blueprint);
+            //CharacterNormalBlueprint mob2Blueprint = new CharacterNormalBlueprint
+            //{
+            //    Id = 2,
+            //    Name = "mob2",
+            //    ShortDescription = "Second mob (female)",
+            //    Description = "Second mob (female) is here",
+            //    Sex = Sex.Female,
+            //    Level = 10
+            //};
+            //World.AddCharacterBlueprint(mob2Blueprint);
+            //CharacterNormalBlueprint mob3Blueprint = new CharacterNormalBlueprint
+            //{
+            //    Id = 3,
+            //    Name = "mob3",
+            //    ShortDescription = "Third mob (male)",
+            //    Description = "Third mob (male) is here",
+            //    Sex = Sex.Male,
+            //    Level = 10
+            //};
+            //World.AddCharacterBlueprint(mob3Blueprint);
             //CharacterBlueprint mob4Blueprint = new CharacterBlueprint
             //{
             //    Id = 4,
@@ -1610,102 +1627,102 @@ namespace Mud.Server.WPFTestApplication
             //    Sex = Sex.Neutral,
             //    Level = 10
             //};
-            CharacterNormalBlueprint mob5Blueprint = new CharacterNormalBlueprint
-            {
-                Id = 5,
-                Name = "mob5",
-                ShortDescription = "Fifth mob (female)",
-                Description = "Fifth mob (female) is here",
-                Sex = Sex.Female,
-                Level = 10
-            };
-            World.AddCharacterBlueprint(mob5Blueprint);
+            //CharacterNormalBlueprint mob5Blueprint = new CharacterNormalBlueprint
+            //{
+            //    Id = 5,
+            //    Name = "mob5",
+            //    ShortDescription = "Fifth mob (female)",
+            //    Description = "Fifth mob (female) is here",
+            //    Sex = Sex.Female,
+            //    Level = 10
+            //};
+            //World.AddCharacterBlueprint(mob5Blueprint);
 
-            ItemContainerBlueprint item1Blueprint = new ItemContainerBlueprint
-            {
-                Id = 1,
-                Name = "item1 first",
-                ShortDescription = "First item (container)",
-                Description = "The first item (container) has been left here.",
-                ItemCount = 10,
-                WeightMultiplier = 100
-            };
-            World.AddItemBlueprint(item1Blueprint);
-            ItemWeaponBlueprint item2Blueprint = new ItemWeaponBlueprint
-            {
-                Id = 2,
-                Name = "item2 second",
-                ShortDescription = "Second item (weapon)",
-                Description = "The second item (weapon) has been left here.",
-                Type = WeaponTypes.Axe1H,
-                DiceCount = 10,
-                DiceValue = 20,
-                DamageType = SchoolTypes.Fire,
-                WearLocation = WearLocations.Wield
-            };
-            World.AddItemBlueprint(item2Blueprint);
-            ItemArmorBlueprint item3Blueprint = new ItemArmorBlueprint
-            {
-                Id = 3,
-                Name = "item3 third",
-                ShortDescription = "Third item (armor|feet)",
-                Description = "The third item (armor|feet) has been left here.",
-                Bash = 100,
-                Pierce = 110,
-                Slash = 120,
-                Exotic = 130,
-                WearLocation = WearLocations.Feet
-            };
-            World.AddItemBlueprint(item3Blueprint);
-            ItemLightBlueprint item4Blueprint = new ItemLightBlueprint
-            {
-                Id = 4,
-                Name = "item4 fourth",
-                ShortDescription = "Fourth item (light)",
-                Description = "The fourth item (light) has been left here.",
-                DurationHours = -1,
-                WearLocation = WearLocations.Light
-            };
-            World.AddItemBlueprint(item4Blueprint);
-            ItemWeaponBlueprint item5Blueprint = new ItemWeaponBlueprint
-            {
-                Id = 5,
-                Name = "item5 fifth",
-                ShortDescription = "Fifth item (weapon)",
-                Description = "The fifth item (weapon) has been left here.",
-                Type = WeaponTypes.Sword1H,
-                DiceCount = 5,
-                DiceValue = 40,
-                DamageType = SchoolTypes.Slash,
-                WearLocation = WearLocations.Wield
-            };
-            World.AddItemBlueprint(item5Blueprint);
-            ItemWeaponBlueprint item6Blueprint = new ItemWeaponBlueprint
-            {
-                Id = 6,
-                Name = "item6 sixth",
-                ShortDescription = "Sixth item (weapon 2H)",
-                Description = "The sixth item (weapon 2H) has been left here.",
-                Type = WeaponTypes.Mace2H,
-                DiceCount = 10,
-                DiceValue = 20,
-                DamageType = SchoolTypes.Holy,
-                WearLocation = WearLocations.Wield2H
-            };
-            World.AddItemBlueprint(item6Blueprint);
-            ItemShieldBlueprint item7Blueprint = new ItemShieldBlueprint
-            {
-                Id = 7,
-                Name = "item7 seventh",
-                ShortDescription = "Seventh item (shield)",
-                Description = "The seventh item (shield) has been left here.",
-                Armor = 1000,
-                WearLocation = WearLocations.Shield
-            };
-            World.AddItemBlueprint(item7Blueprint);
+            //ItemContainerBlueprint item1Blueprint = new ItemContainerBlueprint
+            //{
+            //    Id = 1,
+            //    Name = "item1 first",
+            //    ShortDescription = "First item (container)",
+            //    Description = "The first item (container) has been left here.",
+            //    ItemCount = 10,
+            //    WeightMultiplier = 100
+            //};
+            //World.AddItemBlueprint(item1Blueprint);
+            //ItemWeaponBlueprint item2Blueprint = new ItemWeaponBlueprint
+            //{
+            //    Id = 2,
+            //    Name = "item2 second",
+            //    ShortDescription = "Second item (weapon)",
+            //    Description = "The second item (weapon) has been left here.",
+            //    Type = WeaponTypes.Axe1H,
+            //    DiceCount = 10,
+            //    DiceValue = 20,
+            //    DamageType = SchoolTypes.Fire,
+            //    WearLocation = WearLocations.Wield
+            //};
+            //World.AddItemBlueprint(item2Blueprint);
+            //ItemArmorBlueprint item3Blueprint = new ItemArmorBlueprint
+            //{
+            //    Id = 3,
+            //    Name = "item3 third",
+            //    ShortDescription = "Third item (armor|feet)",
+            //    Description = "The third item (armor|feet) has been left here.",
+            //    Bash = 100,
+            //    Pierce = 110,
+            //    Slash = 120,
+            //    Exotic = 130,
+            //    WearLocation = WearLocations.Feet
+            //};
+            //World.AddItemBlueprint(item3Blueprint);
+            //ItemLightBlueprint item4Blueprint = new ItemLightBlueprint
+            //{
+            //    Id = 4,
+            //    Name = "item4 fourth",
+            //    ShortDescription = "Fourth item (light)",
+            //    Description = "The fourth item (light) has been left here.",
+            //    DurationHours = -1,
+            //    WearLocation = WearLocations.Light
+            //};
+            //World.AddItemBlueprint(item4Blueprint);
+            //ItemWeaponBlueprint item5Blueprint = new ItemWeaponBlueprint
+            //{
+            //    Id = 5,
+            //    Name = "item5 fifth",
+            //    ShortDescription = "Fifth item (weapon)",
+            //    Description = "The fifth item (weapon) has been left here.",
+            //    Type = WeaponTypes.Sword1H,
+            //    DiceCount = 5,
+            //    DiceValue = 40,
+            //    DamageType = SchoolTypes.Slash,
+            //    WearLocation = WearLocations.Wield
+            //};
+            //World.AddItemBlueprint(item5Blueprint);
+            //ItemWeaponBlueprint item6Blueprint = new ItemWeaponBlueprint
+            //{
+            //    Id = 6,
+            //    Name = "item6 sixth",
+            //    ShortDescription = "Sixth item (weapon 2H)",
+            //    Description = "The sixth item (weapon 2H) has been left here.",
+            //    Type = WeaponTypes.Mace2H,
+            //    DiceCount = 10,
+            //    DiceValue = 20,
+            //    DamageType = SchoolTypes.Holy,
+            //    WearLocation = WearLocations.Wield2H
+            //};
+            //World.AddItemBlueprint(item6Blueprint);
+            //ItemShieldBlueprint item7Blueprint = new ItemShieldBlueprint
+            //{
+            //    Id = 7,
+            //    Name = "item7 seventh",
+            //    ShortDescription = "Seventh item (shield)",
+            //    Description = "The seventh item (shield) has been left here.",
+            //    Armor = 1000,
+            //    WearLocation = WearLocations.Shield
+            //};
+            //World.AddItemBlueprint(item7Blueprint);
             ItemQuestBlueprint questItem1Blueprint = new ItemQuestBlueprint
             {
-                Id = 8,
+                Id = 80000,
                 Name = "Quest item 1",
                 ShortDescription = "Quest item 1",
                 Description = "The quest item 1 has been left here."
@@ -1713,34 +1730,35 @@ namespace Mud.Server.WPFTestApplication
             World.AddItemBlueprint(questItem1Blueprint);
             ItemQuestBlueprint questItem2Blueprint = new ItemQuestBlueprint
             {
-                Id = 9,
+                Id = 90000,
                 Name = "Quest item 2",
                 ShortDescription = "Quest item 2",
                 Description = "The quest item 2 has been left here."
             };
             World.AddItemBlueprint(questItem2Blueprint);
-            ItemDrinkContainerBlueprint item10Blueprint = new ItemDrinkContainerBlueprint
-            {
-                Id = 10,
-                Name = "item10 tenth",
-                ShortDescription = "Tenth item (drink container)",
-                Description = "The tenth item (drink container) has been left here.",
-                MaxLiquidAmount = 500,
-                CurrentLiquidAmount = 100,
-                LiquidType = "rum",
-                IsPoisoned = true
-            };
-            World.AddItemBlueprint(item10Blueprint);
-            ItemFoodBlueprint item11Blueprint = new ItemFoodBlueprint
-            {
-                Id = 11,
-                Name = "item11 eleventh",
-                ShortDescription = "Eleventh item (food)",
-                Description = "The eleventh item (food) has been left here.",
-                FullHours = 10,
-                HungerHours = 4,
-                IsPoisoned = true
-            };
+            //ItemDrinkContainerBlueprint item10Blueprint = new ItemDrinkContainerBlueprint
+            //{
+            //    Id = 10,
+            //    Name = "item10 tenth",
+            //    ShortDescription = "Tenth item (drink container)",
+            //    Description = "The tenth item (drink container) has been left here.",
+            //    MaxLiquidAmount = 500,
+            //    CurrentLiquidAmount = 100,
+            //    LiquidType = "rum",
+            //    IsPoisoned = true
+            //};
+            //World.AddItemBlueprint(item10Blueprint);
+            //ItemFoodBlueprint item11Blueprint = new ItemFoodBlueprint
+            //{
+            //    Id = 11,
+            //    Name = "item11 eleventh",
+            //    ShortDescription = "Eleventh item (food)",
+            //    Description = "The eleventh item (food) has been left here.",
+            //    FullHours = 10,
+            //    HungerHours = 4,
+            //    IsPoisoned = true
+            //};
+            //World.AddItemBlueprint(item11Blueprint);
 
             //
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
@@ -1756,33 +1774,33 @@ namespace Mud.Server.WPFTestApplication
             IRoom marketSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "market square");
             IRoom commonSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the common square");
 
-            //ICharacter mob1 = World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Druid"], Repository.RaceManager["Insectoid"], Sex.Male, templeOfMota); // playable
-            ICharacter mob2 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
-            ICharacter mob3 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
-            //ICharacter mob4 = World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
-            //ICharacter mob4 = World.AddCharacter(Guid.NewGuid(), "mob4", Repository.ClassManager["Warrior"], Repository.RaceManager["Dwarf"], Sex.Female, templeSquare); // playable
-            ICharacter mob5 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
+            ////ICharacter mob1 = World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Druid"], Repository.RaceManager["Insectoid"], Sex.Male, templeOfMota); // playable
+            //ICharacter mob2 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
+            //ICharacter mob3 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
+            ////ICharacter mob4 = World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
+            ////ICharacter mob4 = World.AddCharacter(Guid.NewGuid(), "mob4", Repository.ClassManager["Warrior"], Repository.RaceManager["Dwarf"], Sex.Female, templeSquare); // playable
+            //ICharacter mob5 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
-            World.AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota);
-            IItemContainer item1Dup1 = World.AddItem(Guid.NewGuid(), item1Blueprint, mob5) as IItemContainer;
-            World.AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1);
-            IItemWeapon item2 = World.AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
-            //World.AddItem(Guid.NewGuid(), item4Blueprint, mob1);
-            //World.AddItem(Guid.NewGuid(), item5Blueprint, mob1);
-            //World.AddItem(Guid.NewGuid(), item1Blueprint, mob1);
-            IItem item3OnMob3 = World.AddItem(Guid.NewGuid(), item3Blueprint, mob3);
-            item3OnMob3.AddBaseItemFlags(ItemFlags.RotDeath);
-            //World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
-            World.AddItem(Guid.NewGuid(), item6Blueprint, templeSquare);
-            World.AddItem(Guid.NewGuid(), item7Blueprint, templeOfMota);
+            //World.AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            //IItemContainer item1Dup1 = World.AddItem(Guid.NewGuid(), item1Blueprint, mob5) as IItemContainer;
+            //World.AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1);
+            //IItemWeapon item2 = World.AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
+            ////World.AddItem(Guid.NewGuid(), item4Blueprint, mob1);
+            ////World.AddItem(Guid.NewGuid(), item5Blueprint, mob1);
+            ////World.AddItem(Guid.NewGuid(), item1Blueprint, mob1);
+            //IItem item3OnMob3 = World.AddItem(Guid.NewGuid(), item3Blueprint, mob3);
+            //item3OnMob3.AddBaseItemFlags(ItemFlags.RotDeath);
+            ////World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            //World.AddItem(Guid.NewGuid(), item6Blueprint, templeSquare);
+            //World.AddItem(Guid.NewGuid(), item7Blueprint, templeOfMota);
             World.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare);
-            World.AddItem(Guid.NewGuid(), item10Blueprint, commonSquare);
-            World.AddItem(Guid.NewGuid(), item11Blueprint, commonSquare);
+            //World.AddItem(Guid.NewGuid(), item10Blueprint, commonSquare);
+            //World.AddItem(Guid.NewGuid(), item11Blueprint, commonSquare);
 
-            // Equip weapon on mob2
-            mob2.Equipments.First(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
-            item2.ChangeContainer(null);
-            item2.ChangeEquipedBy(mob2);
+            //// Equip weapon on mob2
+            //mob2.Equipments.First(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
+            //item2.ChangeContainer(null);
+            //item2.ChangeEquipedBy(mob2);
 
             // Quest
             QuestKillLootTable<int> quest1KillLoot = new QuestKillLootTable<int>

@@ -216,7 +216,7 @@ namespace Mud.Server.Admin
             else
                 sb.AppendLine("No blueprint");
             sb.AppendFormatLine("Name: {0}", room.Blueprint?.Name ?? "(none)");
-            sb.AppendFormatLine("Flags: {0}/{1}", room.CurrentRoomFlags, room.BaseRoomFlags);
+            sb.AppendFormatLine("Flags: {0}/{1}", room.RoomFlags, room.BaseRoomFlags);
             sb.AppendFormatLine("DisplayName: {0}", room.DisplayName);
             sb.AppendFormatLine("Description: {0}", room.Description);
             if (room.ExtraDescriptions != null)
@@ -434,7 +434,7 @@ namespace Mud.Server.Admin
                 sb.AppendLine("No additional informations");
             //
             if (item is IItemWeapon weapon)
-                sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3} {4} (base: {5})", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType, weapon.CurrentWeaponFlags, weapon.BaseWeaponFlags);
+                sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3} {4} (base: {5})", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType, weapon.WeaponFlags, weapon.BaseWeaponFlags);
             //
             if (item is IItemFurniture furniture)
             {
@@ -454,7 +454,7 @@ namespace Mud.Server.Admin
                 sb.AppendFormatLine("Armor: {0}", shield.Armor);
             //
             if (item is IItemPortal portal)
-                sb.AppendFormatLine("Destination: {0}", portal.Destination?.DebugName ?? "???");
+                sb.AppendFormatLine("Destination: {0} Flags: {1} Current charges: {2} Max charges: {3}", portal.Destination?.DebugName ?? "???", portal.PortalFlags, portal.CurrentChargeCount, portal.MaxChargeCount);
             //
             if (item is IItemFountain fountain)
             {

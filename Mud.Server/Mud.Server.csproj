@@ -107,8 +107,10 @@
     <Compile Include="Item\IItemDrinkable.cs" />
     <Compile Include="Item\IItemFood.cs" />
     <Compile Include="Item\IItemPoisonable.cs" />
+    <Compile Include="Item\IItemWarpstone.cs" />
     <Compile Include="Item\ItemDrinkContainer.cs" />
     <Compile Include="Item\ItemFood.cs" />
+    <Compile Include="Item\ItemWarpstone.cs" />
     <Compile Include="Tables\TableValues.cs" />
     <Compile Include="Character\CharacterBase.cs" />
     <Compile Include="Character\CombatCommands.cs" />

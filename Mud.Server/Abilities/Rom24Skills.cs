@@ -589,7 +589,7 @@ namespace Mud.Server.Abilities
             }
 
             if (pcSource.CharacterFlags.HasFlag(CharacterFlags.Curse)
-                || pcSource.Room.CurrentRoomFlags.HasFlag(RoomFlags.NoRecall))
+                || pcSource.Room.RoomFlags.HasFlag(RoomFlags.NoRecall))
             {
                 pcSource.Send("Spell failed."); // TODO: message related to deity
                 return UseResults.Failed;

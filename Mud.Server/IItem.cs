@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mud.Domain;
 using Mud.Server.Aura;
 using Mud.Server.Blueprints.Item;
@@ -29,7 +30,7 @@ namespace Mud.Server
 
         void DecreaseDecayPulseLeft(int pulseCount);
 
-        void SetDecayPulseLeft(int pulseCount);
+        void SetTimer(TimeSpan duration);
 
         void AddBaseItemFlags(ItemFlags itemFlags);
         void RemoveBaseItemFlags(ItemFlags itemFlags);

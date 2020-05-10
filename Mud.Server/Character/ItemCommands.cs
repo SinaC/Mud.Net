@@ -124,7 +124,7 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.TargetNotFound;
             }
             IEquipableItem equipable = item as IEquipableItem;
-            if (equipable == null || equipable.WearLocation != WearLocations.Hold || equipable.WearLocation != WearLocations.Shield)
+            if (equipable == null || (equipable.WearLocation != WearLocations.Hold && equipable.WearLocation != WearLocations.Shield))
             {
                 Send("It cannot be hold.");
                 return CommandExecutionResults.InvalidTarget;

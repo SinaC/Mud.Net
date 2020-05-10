@@ -1,5 +1,8 @@
-TODO:
+Ongoing:
 Exit flags
+
+TODO:
+use GetEquipment where Equipments is reference
 Weight/Carry
 items Potion/Staff/Wand/Scroll
 AddOrUpdateAffect could have an additional parameter with duration, if update is selected -> update duration
@@ -17,6 +20,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+portal flags, charge, load/save
+WarpStone + SpellPortal + SpellNexus
 Aura.update
 ColdEffect: DrinkContainer
 PoisonEffect: DrinkContainer/Food

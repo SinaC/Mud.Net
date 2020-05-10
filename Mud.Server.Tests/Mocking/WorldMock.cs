@@ -215,6 +215,9 @@ namespace Mud.Server.Tests.Mocking
                 case ItemWeaponBlueprint weaponBlueprint:
                     item = new ItemWeapon(guid, weaponBlueprint, container);
                     break;
+                case ItemWarpstoneBlueprint warpstoneBlueprint:
+                    item = new ItemWarpstone(guid, warpstoneBlueprint, container);
+                    break;
             }
 
             if (item != null)
@@ -268,7 +271,7 @@ namespace Mud.Server.Tests.Mocking
                 case ItemPortalBlueprint portalBlueprint:
                     {
                         IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
-                        item = new ItemPortal(guid, portalBlueprint, itemData, destination, container);
+                        item = new ItemPortal(guid, portalBlueprint, itemData as ItemPortalData, destination, container);
                     }
                     break;
                 case ItemQuestBlueprint questBlueprint:
@@ -279,6 +282,9 @@ namespace Mud.Server.Tests.Mocking
                     break;
                 case ItemWeaponBlueprint weaponBlueprint:
                     item = new ItemWeapon(guid, weaponBlueprint, itemData as ItemWeaponData, container);
+                    break;
+                case ItemWarpstoneBlueprint warpstoneBlueprint:
+                    item = new ItemWarpstone(guid, warpstoneBlueprint, container);
                     break;
             }
 

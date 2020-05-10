@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Security.Cryptography;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
@@ -693,28 +694,32 @@ namespace Mud.Server.Character
         [Syntax("[cmd] <portal>")]
         protected virtual CommandExecutionResults DoEnter(string rawParameters, params CommandParameter[] parameters)
         {
+            if (Fighting != null)
+                return CommandExecutionResults.NoExecution;
             if (parameters.Length == 0)
             {
                 Send("Nope, can't do it.");
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
-
             IItem item = FindHelpers.FindItemHere(this, parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemNotFound);
                 return CommandExecutionResults.TargetNotFound;
             }
-
-            if (!(item is IItemPortal portal))
+            IItemPortal portal = item as IItemPortal;
+            if (portal == null)
             {
                 Send("You can't seem to find a way in.");
                 return CommandExecutionResults.InvalidTarget;
             }
 
-            Enter(portal);
+            // Let's go
+            bool entered = Enter(portal);
 
-            return CommandExecutionResults.Ok;
+            return entered 
+                ? CommandExecutionResults.Ok
+                : CommandExecutionResults.NoExecution;
         }
 
         [Command("visible")]

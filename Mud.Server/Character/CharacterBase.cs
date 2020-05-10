@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography;
 using System.Text;
 using Mud.Container;
 using Mud.DataStructures.Trie;
@@ -238,11 +240,11 @@ namespace Mud.Server.Character
 
 
         // Slave
-        public ICharacter Slave { get; protected set; } // who is our slave (related to charm command/spell)
+        public INonPlayableCharacter Slave { get; protected set; } // who is our slave (related to charm command/spell)
         public ICharacter ControlledBy { get; protected set; } // who is our master (related to charm command/spell)
 
         // Controller
-        public bool ChangeSlave(ICharacter slave) 
+        public bool ChangeSlave(INonPlayableCharacter slave) 
         {
             if (!IsValid)
             {
@@ -680,11 +682,47 @@ namespace Mud.Server.Character
 
         public bool Enter(IItemPortal portal, bool follow = false)
         {
-            IRoom destination = portal?.Destination;
-            if (portal == null || destination == null || destination == Room)
+            if (portal == null)
+                return false;
+
+            if (portal.PortalFlags.HasFlag(PortalFlags.Closed))
             {
-                Act(ActOptions.ToCharacter, "{0} doesn't seem to go anywhere.");
-                return true;
+                Send("You can't seem to find a way in.");
+                return false;
+            }
+
+            if ((portal.PortalFlags.HasFlag(PortalFlags.NoCurse) && CharacterFlags.HasFlag(CharacterFlags.Curse))
+                || Room.RoomFlags.HasFlag(RoomFlags.NoRecall))
+            {
+                Send("Something prevents you from leaving...");
+                return false;
+            }
+
+            // Default destination is portal stored destination
+            IRoom destination = portal.Destination;
+            // Random portal will fix it's destination once used
+            if (portal.PortalFlags.HasFlag(PortalFlags.Random) && portal.Destination == null)
+            {
+                destination = World.GetRandomRoom(this);
+                portal.ChangeDestination(destination);
+            }
+            // Buggy portal has a low chance to lead somewhere else
+            if (portal.PortalFlags.HasFlag(PortalFlags.Buggy) && RandomManager.Chance(5))
+                destination = World.GetRandomRoom(this);
+
+            if (destination == null
+                || destination == Room
+                || !CanSee(destination)
+                || destination.RoomFlags.HasFlag(RoomFlags.Private))
+            {
+                Act(ActOptions.ToCharacter, "{0:N} doesn't seem to go anywhere.", portal);
+                return false;
+            }
+
+            if (this is INonPlayableCharacter npc && npc.ActFlags.HasFlag(ActFlags.Aggressive) && destination.RoomFlags.HasFlag(RoomFlags.Law))
+            {
+                Send("Something prevents you from leaving...");
+                return false;
             }
 
             IRoom wasRoom = Room;
@@ -694,6 +732,12 @@ namespace Mud.Server.Character
 
             ChangeRoom(destination);
 
+            // take portal along
+            if (portal.PortalFlags.HasFlag(PortalFlags.GoWith) && portal.ContainedInto is IRoom)
+            {
+                portal.ChangeContainer(Room);
+            }
+
             if (AutomaticallyDisplayRoom)
             {
                 StringBuilder sb = new StringBuilder();
@@ -702,6 +746,21 @@ namespace Mud.Server.Character
             }
 
             Act(ActOptions.ToRoom, "{0:N} arrived through {1}.", this, portal);
+
+            // decrease charge left
+            portal.Use();
+
+            // if no charge left, destroy portal and no follow
+            if (!portal.HasChargeLeft())
+            {
+                Act(ActOptions.ToCharacter, "{0:N} fades out of existence.", portal);
+                if (portal.ContainedInto is IRoom portalInRoom && portalInRoom == Room)
+                    Act(ActOptions.ToRoom, "{0:N} fades out of existence.", portal);
+                if (wasRoom.People.Any())
+                    Act(ActOptions.ToAll, "{0:N} fades out of existence.", portal);
+                World.RemoveItem(portal);
+                return true;
+            }
 
             // Followers: no circular follows
             if (wasRoom != destination)
@@ -1107,7 +1166,7 @@ namespace Mud.Server.Character
             if (victim is INonPlayableCharacter npcVictim)
             {
                 // safe room ?
-                if (victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe))
+                if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
                     return true;
                 // TODO: No fight in a shop -> send_to_char("The shopkeeper wouldn't like that.\n\r",ch);
                 // TODO: Can't killer trainer, practicer, healer, changer, questor  -> send_to_char("I don't think Mota would approve.\n\r",ch);
@@ -1143,7 +1202,7 @@ namespace Mud.Server.Character
                     if (caster.CharacterFlags.HasFlag(CharacterFlags.Charm) && caster.ControlledBy != null && caster.ControlledBy.Fighting != victim)
                         return true;
                     // safe room
-                    if (victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe))
+                    if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
                         return true;
                     // TODO:  legal kill? -- mobs only hit players grouped with opponent
                     //if (ch->fighting != NULL && !is_same_group(ch->fighting, victim))
@@ -1180,7 +1239,7 @@ namespace Mud.Server.Character
             // Killing npc
             if (victim is INonPlayableCharacter npcVictim)
             {
-                if (victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe))
+                if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
                 {
                     character.Send("Not in the room.");
                     return true;
@@ -1212,7 +1271,7 @@ namespace Mud.Server.Character
                 if (character is INonPlayableCharacter npcCaster)
                 {
                     // safe room
-                    if (victim.Room.CurrentRoomFlags.HasFlag(RoomFlags.Safe))
+                    if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
                     {
                         character.Send("Not in the room.");
                         return true;
@@ -1286,6 +1345,8 @@ namespace Mud.Server.Character
         }
 
         // Equipment
+        public IItem GetEquipment(EquipmentSlots slot) => Equipments.FirstOrDefault(x => x.Slot == slot && x.Item != null)?.Item;
+
         public EquipedItem SearchEquipmentSlot(IEquipableItem item, bool replace)
         {
             switch (item.WearLocation)
@@ -1546,14 +1607,15 @@ namespace Mud.Server.Character
 
         protected virtual void EnterFollow(IRoom wasRoom, IRoom destination, IItemPortal portal)
         {
-            if (wasRoom != destination)
-            {
-                if (Slave != null)
-                {
-                    Slave.Send("You follow {0}.", DebugName);
-                    Slave.Enter(portal, true);
-                }
-            }
+            if (wasRoom == destination)
+                return;
+            if (Slave == null)
+                return;
+            // TODO: if slave is not standing, call DoStand
+            if (Slave.Position != Positions.Standing)
+                return;
+            Slave.Send("You follow {0}.", DebugName);
+            Slave.Enter(portal, true);
         }
 
         protected virtual IEnumerable<ICharacter> GetActTargets(ActOptions option)

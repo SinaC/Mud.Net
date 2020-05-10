@@ -159,9 +159,9 @@ namespace Mud.Server.Item
                 DecayPulseLeft = Math.Max(0, DecayPulseLeft - pulseCount);
         }
 
-        public void SetDecayPulseLeft(int pulseCount) 
+        public void SetTimer(TimeSpan duration)
         {
-            DecayPulseLeft = pulseCount;
+            DecayPulseLeft = Pulse.FromTimeSpan(duration);
         }
 
         public void AddBaseItemFlags(ItemFlags itemFlags)

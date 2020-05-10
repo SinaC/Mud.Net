@@ -904,15 +904,15 @@ namespace Mud.Server.Character.PlayableCharacter
         {
             base.EnterFollow(wasRoom, destination, portal);
 
-            if (wasRoom != destination)
-            {
-                IReadOnlyCollection<IPlayableCharacter> followers = new ReadOnlyCollection<IPlayableCharacter>(wasRoom.People.OfType<IPlayableCharacter>().Where(x => x.Leader == this).ToList()); // clone because Move will modify fromRoom.People
-                foreach (IPlayableCharacter follower in followers)
-                {
-                    follower.Send("You follow {0}.", DebugName);
-                    follower.Enter(portal, true);
-                }
-            }
+            //if (wasRoom != destination)
+            //{
+            //    IReadOnlyCollection<IPlayableCharacter> followers = new ReadOnlyCollection<IPlayableCharacter>(wasRoom.People.OfType<IPlayableCharacter>().Where(x => x.Leader == this).ToList()); // clone because Move will modify fromRoom.People
+            //    foreach (IPlayableCharacter follower in followers)
+            //    {
+            //        follower.Send("You follow {0}.", DebugName);
+            //        follower.Enter(portal, true);
+            //    }
+            //}
         }
 
         protected override IEnumerable<ICharacter> GetActTargets(ActOptions option)

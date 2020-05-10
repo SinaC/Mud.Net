@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mud.Domain;
 using Mud.Server.Blueprints.Room;
 
 namespace Mud.Server

@@ -1,19 +1,8 @@
-﻿using System;
+﻿using Mud.Domain;
 using System.Runtime.Serialization;
 
 namespace Mud.Server.Blueprints.Room
 {
-    [Flags]
-    public enum ExitFlags
-    {
-        Door = 0x01,
-        Closed = 0x02,
-        Locked = 0x04,
-        Easy = 0x08,
-        Hard = 0x10,
-        Hidden = 0x20,
-    }
-
     [DataContract]
     public class ExitBlueprint
     {

@@ -21,7 +21,7 @@ namespace Mud.Server.Tests.Affects
             room.Recompute();
 
             Assert.AreEqual(RoomFlags.None, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.CurrentRoomFlags);
+            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
         }
 
         [TestMethod]
@@ -33,7 +33,7 @@ namespace Mud.Server.Tests.Affects
             room.Recompute();
 
             Assert.AreEqual(RoomFlags.Dark, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.CurrentRoomFlags);
+            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace Mud.Server.Tests.Affects
             room.Recompute();
 
             Assert.AreEqual(RoomFlags.ImpOnly, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark | RoomFlags.ImpOnly, room.CurrentRoomFlags);
+            Assert.AreEqual(RoomFlags.Dark | RoomFlags.ImpOnly, room.RoomFlags);
         }
 
         [TestMethod]
@@ -57,7 +57,7 @@ namespace Mud.Server.Tests.Affects
             room.Recompute();
 
             Assert.AreEqual(RoomFlags.None, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.CurrentRoomFlags);
+            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
         }
 
         [TestMethod]
@@ -69,7 +69,7 @@ namespace Mud.Server.Tests.Affects
             room.Recompute();
 
             Assert.AreEqual(RoomFlags.Dark, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.CurrentRoomFlags);
+            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace Mud.Server.Tests.Affects
             room.Recompute();
 
             Assert.AreEqual(RoomFlags.ImpOnly, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark | RoomFlags.ImpOnly, room.CurrentRoomFlags);
+            Assert.AreEqual(RoomFlags.Dark | RoomFlags.ImpOnly, room.RoomFlags);
         }
 
         [TestMethod]
@@ -93,7 +93,7 @@ namespace Mud.Server.Tests.Affects
             room.Recompute();
 
             Assert.AreEqual(RoomFlags.None, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.CurrentRoomFlags);
+            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
         }
 
         [TestMethod]
@@ -105,7 +105,7 @@ namespace Mud.Server.Tests.Affects
             room.Recompute();
 
             Assert.AreEqual(RoomFlags.Dark, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.CurrentRoomFlags);
+            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
         }
 
         [TestMethod]
@@ -117,7 +117,7 @@ namespace Mud.Server.Tests.Affects
             room.Recompute();
 
             Assert.AreEqual(RoomFlags.ImpOnly, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.CurrentRoomFlags);
+            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
         }
 
         [TestMethod]
@@ -129,7 +129,7 @@ namespace Mud.Server.Tests.Affects
             room.Recompute();
 
             Assert.AreEqual(RoomFlags.None, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.None, room.CurrentRoomFlags);
+            Assert.AreEqual(RoomFlags.None, room.RoomFlags);
         }
 
         [TestMethod]
@@ -141,7 +141,7 @@ namespace Mud.Server.Tests.Affects
             room.Recompute();
 
             Assert.AreEqual(RoomFlags.Dark, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.None, room.CurrentRoomFlags);
+            Assert.AreEqual(RoomFlags.None, room.RoomFlags);
         }
 
         [TestMethod]
@@ -153,7 +153,7 @@ namespace Mud.Server.Tests.Affects
             room.Recompute();
 
             Assert.AreEqual(RoomFlags.ImpOnly, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.ImpOnly, room.CurrentRoomFlags);
+            Assert.AreEqual(RoomFlags.ImpOnly, room.RoomFlags);
         }
 
         // TODO
@@ -179,7 +179,7 @@ namespace Mud.Server.Tests.Affects
             room.Recompute();
 
             Assert.AreEqual(RoomFlags.None, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.CurrentRoomFlags);
+            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
         }
 
         // TODO

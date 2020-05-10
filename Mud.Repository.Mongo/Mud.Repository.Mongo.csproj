@@ -142,6 +142,7 @@
     <Compile Include="Domain\ItemDrinkContainerData.cs" />
     <Compile Include="Domain\ItemFlagsAffectData.cs" />
     <Compile Include="Domain\ItemFoodData.cs" />
+    <Compile Include="Domain\ItemPortalData.cs" />
     <Compile Include="Domain\ItemWeaponData.cs" />
     <Compile Include="Domain\ItemWeaponFlagsAffectData.cs" />
     <Compile Include="Domain\KnownAbilityData.cs" />

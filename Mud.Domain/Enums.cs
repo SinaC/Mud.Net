@@ -538,4 +538,33 @@ namespace Mud.Domain
         Resets    = 0x00001000, // TODO: use
         Restore   = 0x00002000,
     }
+
+    [Flags]
+    public enum ExitFlags
+    {
+        None        = 0x00000000,
+        Door        = 0x00000001,
+        Closed      = 0x00000002,
+        Locked      = 0x00000004,
+        Easy        = 0x00000008,
+        Hard        = 0x00000010,
+        Hidden      = 0x00000020,
+        PickProof   = 0x00000040,
+        NoPass      = 0x00000080,
+    }
+
+    [Flags]
+    public enum PortalFlags
+    {
+        None        = 0x00000000,
+        Closed      = 0x00000001,
+        Locked      = 0x00000002,
+        PickProof   = 0x00000004,
+        NoClose     = 0x00000008,
+        NoLock      = 0x00000010,
+        NoCurse     = 0x00000020,
+        GoWith      = 0x00000040,
+        Buggy       = 0x00000080,
+        Random      = 0x00000100
+    }
 }
