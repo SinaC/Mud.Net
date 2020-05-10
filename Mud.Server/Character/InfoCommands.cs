@@ -64,13 +64,37 @@ namespace Mud.Server.Character
                 }
 
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): found in {0}", containerItem.ContainedInto.DebugName);
+
+                // drink container
+                if (containerItem is IItemDrinkContainer itemDrinkContainer)
+                {
+                    if (itemDrinkContainer.IsEmpty)
+                        Send("It's empty.");
+                    else
+                    {
+                        string left = itemDrinkContainer.LiquidLeft < itemDrinkContainer.MaxLiquid / 4
+                            ? "less than half-"
+                            : (itemDrinkContainer.LiquidLeft < (3 * itemDrinkContainer.MaxLiquid) / 4
+                                ? "about half-"
+                                : "more than half-");
+                        var liquidInfo = TableValues.LiquidInfo(itemDrinkContainer.LiquidName);
+                        Send("It's {0}filled with a {1} liquid.", left, liquidInfo.color);
+                    }
+                    return CommandExecutionResults.Ok;
+                }
+                // other container
                 IContainer container = containerItem as IContainer;
                 if (container == null)
                 {
                     Send("This is not a container.");
                     return CommandExecutionResults.InvalidTarget;
                 }
-                // TODO: drink container
+                // closed ?
+                if (containerItem is IItemContainer itemContainer && itemContainer.IsClosed)
+                {
+                    Send("It's closed.");
+                    return CommandExecutionResults.Ok;
+                }
                 StringBuilder sb = new StringBuilder();
                 AppendContainerContent(sb, container);
                 Send(sb);
@@ -517,7 +541,6 @@ namespace Mud.Server.Character
 
         private void AppendContainerContent(StringBuilder sb, IContainer container)
         {
-            // TODO: check if closed
             sb.AppendFormatLine("{0} holds:", container.RelativeDisplayName(this));
             AppendItems(sb, container.Content, true, true);
         }
@@ -781,7 +804,7 @@ namespace Mud.Server.Character
         {
             StringBuilder peopleInRoom = new StringBuilder();
             foreach (ICharacter victim in room.People.Where(CanSee))
-                peopleInRoom.AppendFormatLine(" - {0}", victim.RelativeDisplayName(this)); // TODO: use RelativeDisplayName ???
+                peopleInRoom.AppendFormatLine(" - {0}", victim.RelativeDisplayName(this));
             return peopleInRoom;
         }
 

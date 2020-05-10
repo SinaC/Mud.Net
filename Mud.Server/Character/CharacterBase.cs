@@ -649,8 +649,7 @@ namespace Mud.Server.Character
                 return false;
             }
             // Closed ?
-            //if (exit.IsClosed && (!CharacterFlags.HasFlag(CharacterFlags.PassDoor || exit.ExitFlags.HasFlag(ExitFlags.NoPass)))
-            if (exit.IsClosed && !CharacterFlags.HasFlag(CharacterFlags.PassDoor))
+            if (exit.IsClosed && (!CharacterFlags.HasFlag(CharacterFlags.PassDoor) || exit.ExitFlags.HasFlag(ExitFlags.NoPass)))
             {
                 Act(ActOptions.ToCharacter, "The {0} is closed.", exit);
                 return false;
@@ -2611,6 +2610,7 @@ namespace Mud.Server.Character
             // Exit ?
             if (argument is IExit exit)
             {
+                // TODO: can see destination room ?
                 // no specific format
                 result.Append(exit.Keywords.FirstOrDefault() ?? "door");
                 return;

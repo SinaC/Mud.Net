@@ -17,15 +17,23 @@ namespace Mud.Server.Races
             Domain.EquipmentSlots.Chest,
             Domain.EquipmentSlots.Cloak,
             Domain.EquipmentSlots.Waist,
+            // --> 2 pair of hands
+            Domain.EquipmentSlots.Wrists,
             Domain.EquipmentSlots.Wrists,
             Domain.EquipmentSlots.Arms,
+            Domain.EquipmentSlots.Arms,
+            Domain.EquipmentSlots.Hands,
             Domain.EquipmentSlots.Hands,
             Domain.EquipmentSlots.Ring,
             Domain.EquipmentSlots.Ring,
+            Domain.EquipmentSlots.Ring,
+            Domain.EquipmentSlots.Ring,
+            // <--
             Domain.EquipmentSlots.Legs,
             Domain.EquipmentSlots.Feet,
             Domain.EquipmentSlots.Trinket,
             Domain.EquipmentSlots.Trinket,
+            // 4 hands
             Domain.EquipmentSlots.MainHand,
             Domain.EquipmentSlots.OffHand,
             Domain.EquipmentSlots.MainHand,

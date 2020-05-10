@@ -150,7 +150,7 @@ namespace Mud.Server.Server
 
         public void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
         {
-            foreach (IAdmin admin in Admins.Where(a => (a.WiznetFlags & flags) == flags && a.Level >= minLevel))
+            foreach (IAdmin admin in Admins.Where(a => a.WiznetFlags.HasFlag(flags) && a.Level >= minLevel))
                 admin.Send($"%W%WIZNET%x%:{message}");
         }
 

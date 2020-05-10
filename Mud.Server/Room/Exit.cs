@@ -15,7 +15,7 @@ namespace Mud.Server.Room
             Description = blueprint.Description;
             Destination = destination;
             Blueprint = blueprint;
-            CurrentFlags = Blueprint.Flags;
+            ExitFlags = Blueprint.Flags;
         }
 
         #region IExit
@@ -26,12 +26,12 @@ namespace Mud.Server.Room
         public IEnumerable<string> Keywords { get; }
         public string Description { get; }
         public IRoom Destination { get; private set; }
-        public ExitFlags CurrentFlags { get; private set; }
+        public ExitFlags ExitFlags { get; private set; }
 
-        public bool IsDoor => (CurrentFlags & ExitFlags.Door) == ExitFlags.Door;
-        public bool IsClosed => (CurrentFlags & ExitFlags.Closed) == ExitFlags.Closed;
-        public bool IsLocked => (CurrentFlags & ExitFlags.Locked) == ExitFlags.Locked;
-        public bool IsHidden => (CurrentFlags & ExitFlags.Hidden) == ExitFlags.Hidden;
+        public bool IsDoor => ExitFlags.HasFlag(ExitFlags.Door);
+        public bool IsClosed => ExitFlags.HasFlag(ExitFlags.Closed);
+        public bool IsLocked => ExitFlags.HasFlag(ExitFlags.Locked);
+        public bool IsHidden => ExitFlags.HasFlag(ExitFlags.Hidden);
 
         public void Open()
         {
@@ -63,12 +63,12 @@ namespace Mud.Server.Room
 
         private void AddFlags(ExitFlags flags)
         {
-            CurrentFlags |= flags;
+            ExitFlags |= flags;
         }
 
         private void RemoveFlags(ExitFlags flags)
         {
-            CurrentFlags &= ~flags;
+            ExitFlags &= ~flags;
         }
     }
 }

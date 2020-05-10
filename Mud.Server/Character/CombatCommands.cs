@@ -86,8 +86,10 @@ namespace Mud.Server.Character
             for (int attempt = 0; attempt < 6; attempt++)
             {
                 ExitDirections randomExit = RandomManager.Random<ExitDirections>();
-                IRoom destination = Room.Exits[(int)randomExit]?.Destination;
-                if (destination != null)
+                IExit exit = Room.Exits[(int)randomExit];
+                IRoom destination = exit?.Destination;
+                if (destination != null && !exit.IsClosed
+                    && !(this is INonPlayableCharacter && destination.RoomFlags.HasFlag(RoomFlags.NoMob)))
                 {
                     // Try to move without checking if in combat or not
                     Move(randomExit, false);

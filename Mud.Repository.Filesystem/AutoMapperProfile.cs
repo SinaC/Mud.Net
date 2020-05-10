@@ -45,7 +45,8 @@ namespace Mud.Repository.Filesystem
                 .Include<Domain.ItemDrinkContainerData, DataContracts.ItemDrinkContainerData>()
                 .Include<Domain.ItemFoodData, DataContracts.ItemFoodData>()
                 .Include<Domain.ItemPortalData, DataContracts.ItemPortalData>();
-            CreateMap<Domain.ItemContainerData, DataContracts.ItemContainerData>();
+            CreateMap<Domain.ItemContainerData, DataContracts.ItemContainerData>()
+                .ForMember(x => x.ContainerFlags, expression => expression.MapFrom(x => MapContainerFlags(x.ContainerFlags)));
             CreateMap<Domain.ItemCorpseData, DataContracts.ItemCorpseData>();
             CreateMap<Domain.ItemWeaponData, DataContracts.ItemWeaponData>()
                 .ForMember(x => x.WeaponFlags, expression => expression.MapFrom(x => MapWeaponFlags(x.WeaponFlags)));
@@ -122,7 +123,8 @@ namespace Mud.Repository.Filesystem
                 .Include<DataContracts.ItemDrinkContainerData, Domain.ItemDrinkContainerData>()
                 .Include<DataContracts.ItemFoodData, Domain.ItemFoodData>()
                 .Include<DataContracts.ItemPortalData, Domain.ItemPortalData>();
-            CreateMap<DataContracts.ItemContainerData, Domain.ItemContainerData>();
+            CreateMap<DataContracts.ItemContainerData, Domain.ItemContainerData>()
+                .ForMember(x => x.ContainerFlags, expression => expression.MapFrom(x => MapContainerFlags(x.ContainerFlags)));
             CreateMap<DataContracts.ItemCorpseData, Domain.ItemCorpseData>();
             CreateMap<DataContracts.ItemWeaponData, Domain.ItemWeaponData>()
                 .ForMember(x => x.WeaponFlags, expression => expression.MapFrom(x => MapWeaponFlags(x.WeaponFlags)));
@@ -688,6 +690,16 @@ namespace Mud.Repository.Filesystem
         }
 
         private int MapPortalFlags(Domain.PortalFlags flags)
+        {
+            return (int)flags;
+        }
+
+        private Domain.ContainerFlags MapContainerFlags(int flags)
+        {
+            return (Domain.ContainerFlags)flags;
+        }
+
+        private int MapContainerFlags(Domain.ContainerFlags flags)
         {
             return (int)flags;
         }

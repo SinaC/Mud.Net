@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Security.Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Item;
 
@@ -16,7 +18,7 @@ namespace Mud.Server.Tests
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
             {
                 Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
-                PortalFlags = Domain.PortalFlags.Closed | Domain.PortalFlags.PickProof,
+                PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
                 MaxChargeCount = 10,
                 CurrentChargeCount = 7,
             };
@@ -27,15 +29,13 @@ namespace Mud.Server.Tests
             Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
         }
 
+        [TestMethod]
         public void Portal_Use()
         {
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
             {
-                Id = 1,
-                Name = "portal",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
-                PortalFlags = Domain.PortalFlags.Closed | Domain.PortalFlags.PickProof,
+                Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
+                PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
                 MaxChargeCount = 10,
                 CurrentChargeCount = 7,
             };
@@ -48,15 +48,13 @@ namespace Mud.Server.Tests
             Assert.AreEqual(portalBlueprint.CurrentChargeCount-1, portal.CurrentChargeCount);
         }
 
+        [TestMethod]
         public void Portal_Use_InfiniteCharges()
         {
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
             {
-                Id = 1,
-                Name = "portal",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
-                PortalFlags = Domain.PortalFlags.Closed | Domain.PortalFlags.PickProof,
+                Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
+                PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
                 MaxChargeCount = -1,
                 CurrentChargeCount = 7,
             };
@@ -67,6 +65,311 @@ namespace Mud.Server.Tests
             Assert.AreEqual(portalBlueprint.PortalFlags, portal.PortalFlags);
             Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
             Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
+        }
+
+        [TestMethod]
+        public void Portal_Open_NoClosed()
+        {
+            ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
+            {
+                Id = 1,
+                Name = "portal",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                PortalFlags = PortalFlags.PickProof,
+            };
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
+
+            portal.Open();
+
+            Assert.AreEqual(portalBlueprint.PortalFlags, portal.PortalFlags);
+            Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
+            Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
+        }
+
+        [TestMethod]
+        public void Portal_Open() 
+        {
+            ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
+            {
+                Id = 1,
+                Name = "portal",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
+            };
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
+
+            portal.Open();
+
+            Assert.AreEqual(portalBlueprint.PortalFlags & ~PortalFlags.Closed, portal.PortalFlags);
+            Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
+            Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
+        }
+
+        [TestMethod]
+        public void Portal_Close_NoCloseable()
+        {
+            ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
+            {
+                Id = 1,
+                Name = "portal",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                PortalFlags = PortalFlags.PickProof | PortalFlags.NoClose,
+            };
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
+
+            portal.Close();
+
+            Assert.AreEqual(portalBlueprint.PortalFlags, portal.PortalFlags);
+            Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
+            Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
+        }
+
+        [TestMethod]
+        public void Portal_Close() 
+        {
+            ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
+            {
+                Id = 1,
+                Name = "portal",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                PortalFlags = PortalFlags.PickProof,
+            };
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
+
+            portal.Close();
+
+            Assert.AreEqual(portalBlueprint.PortalFlags | PortalFlags.Closed, portal.PortalFlags);
+            Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
+            Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
+        }
+
+        [TestMethod]
+        public void Portal_Lock_NoLockable()
+        {
+            ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
+            {
+                Id = 1,
+                Name = "portal",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                PortalFlags = PortalFlags.Closed | PortalFlags.NoLock | PortalFlags.PickProof,
+            };
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
+
+            portal.Lock();
+
+            Assert.AreEqual(portalBlueprint.PortalFlags, portal.PortalFlags);
+            Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
+            Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
+        }
+
+        [TestMethod]
+        public void Portal_Lock()
+        {
+            ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
+            {
+                Id = 1,
+                Name = "portal",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
+            };
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
+
+            portal.Lock();
+
+            Assert.AreEqual(portalBlueprint.PortalFlags | PortalFlags.Locked, portal.PortalFlags);
+            Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
+            Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
+        }
+
+        [TestMethod]
+        public void Portal_Unlock_NotLocked()
+        {
+            ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
+            {
+                Id = 1,
+                Name = "portal",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
+            };
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
+
+            portal.Unlock();
+
+            Assert.AreEqual(portalBlueprint.PortalFlags, portal.PortalFlags);
+            Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
+            Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
+        }
+
+        [TestMethod]
+        public void Portal_Unlock()
+        {
+            ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
+            {
+                Id = 1,
+                Name = "portal",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                PortalFlags = PortalFlags.Closed | PortalFlags.PickProof | PortalFlags.Locked,
+            };
+            IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
+
+            portal.Unlock();
+
+            Assert.AreEqual(portalBlueprint.PortalFlags & ~PortalFlags.Locked, portal.PortalFlags);
+            Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
+            Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
+        }
+
+        // Container
+        [TestMethod]
+        public void Container_Open_NoClosed()
+        {
+            ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
+            {
+                Id = 1,
+                Name = "container",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                ContainerFlags = ContainerFlags.PickProof,
+            };
+            IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
+
+            container.Open();
+
+            Assert.AreEqual(containerBlueprint.ContainerFlags, container.ContainerFlags);
+        }
+
+        [TestMethod]
+        public void Container_Open()
+        {
+            ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
+            {
+                Id = 1,
+                Name = "container",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed,
+            };
+            IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
+
+            container.Open();
+
+            Assert.AreEqual(containerBlueprint.ContainerFlags & ~ContainerFlags.Closed, container.ContainerFlags);
+        }
+
+        [TestMethod]
+        public void Container_Close_NoCloseable()
+        {
+            ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
+            {
+                Id = 1,
+                Name = "container",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                ContainerFlags = ContainerFlags.PickProof | ContainerFlags.NoClose,
+            };
+            IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
+
+            container.Close();
+
+            Assert.AreEqual(containerBlueprint.ContainerFlags, container.ContainerFlags);
+        }
+
+        [TestMethod]
+        public void Container_Close()
+        {
+            ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
+            {
+                Id = 1,
+                Name = "container",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                ContainerFlags = ContainerFlags.PickProof,
+            };
+            IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
+
+            container.Close();
+
+            Assert.AreEqual(containerBlueprint.ContainerFlags | ContainerFlags.Closed, container.ContainerFlags);
+        }
+
+        [TestMethod]
+        public void Container_Lock_NoLockable()
+        {
+            ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
+            {
+                Id = 1,
+                Name = "container",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed | ContainerFlags.NoLock,
+            };
+            IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
+
+            container.Lock();
+
+            Assert.AreEqual(containerBlueprint.ContainerFlags, container.ContainerFlags);
+        }
+
+        [TestMethod]
+        public void Container_Lock()
+        {
+            ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
+            {
+                Id = 1,
+                Name = "container",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed,
+            };
+            IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
+
+            container.Lock();
+
+            Assert.AreEqual(containerBlueprint.ContainerFlags | ContainerFlags.Locked, container.ContainerFlags);
+        }
+
+        [TestMethod]
+        public void Container_Unlock_NotLocked()
+        {
+            ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
+            {
+                Id = 1,
+                Name = "container",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed,
+            };
+            IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
+
+            container.Unlock();
+
+            Assert.AreEqual(containerBlueprint.ContainerFlags, container.ContainerFlags);
+        }
+
+        [TestMethod]
+        public void Container_Unlock()
+        {
+            ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
+            {
+                Id = 1,
+                Name = "container",
+                ShortDescription = "PortalShort",
+                Description = "PortalDesc",
+                ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed | ContainerFlags.Locked,
+            };
+            IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
+
+            container.Unlock();
+
+            Assert.AreEqual(containerBlueprint.ContainerFlags & ~ContainerFlags.Locked, container.ContainerFlags);
         }
 
         // Food

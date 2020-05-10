@@ -106,17 +106,23 @@ namespace Mud.Server.Character
                 parameters[0]);
             if (item != null)
             {
-                if (item is IItemPortal itemPortal)
+                if (item is IItemCloseable itemCloseable)
                 {
-                    // TODO: no open/close/lock/unlock on portal for now
-                    Send(StringHelpers.NotYetImplemented);
-                    return CommandExecutionResults.Error;
-                }
-                if (item is IItemContainer itemContainer)
-                {
-                    // TODO: no open/close/lock/unlock on container for now
-                    Send(StringHelpers.NotYetImplemented);
-                    return CommandExecutionResults.Error;
+                    if (!itemCloseable.IsCloseable)
+                    {
+                        Send("You can't do that.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
+                    if (!itemCloseable.IsClosed)
+                    {
+                        Send("It's already opened.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
+                    if (itemCloseable.IsLocked)
+                    {
+                        Send("It's locked.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
                 }
                 Send("That's not a container.");
                 return CommandExecutionResults.InvalidTarget;
@@ -174,17 +180,18 @@ namespace Mud.Server.Character
                 parameters[0]);
             if (item != null)
             {
-                if (item is IItemPortal itemPortal)
+                if (item is IItemCloseable itemCloseable)
                 {
-                    // TODO: no open/close/lock/unlock on portal for now
-                    Send(StringHelpers.NotYetImplemented);
-                    return CommandExecutionResults.Error;
-                }
-                if (item is IItemContainer itemContainer)
-                {
-                    // TODO: no open/close/lock/unlock on container for now
-                    Send(StringHelpers.NotYetImplemented);
-                    return CommandExecutionResults.Error;
+                    if (!itemCloseable.IsCloseable)
+                    {
+                        Send("You can't do that.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
+                    if (itemCloseable.IsClosed)
+                    {
+                        Send("It's already closed.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
                 }
                 Send("That's not a container.");
                 return CommandExecutionResults.InvalidTarget;
@@ -238,17 +245,34 @@ namespace Mud.Server.Character
                 parameters[0]);
             if (item != null)
             {
-                if (item is IItemPortal itemPortal)
+                if (item is IItemCloseable itemCloseable)
                 {
-                    // TODO: no open/close/lock/unlock on portal for now
-                    Send(StringHelpers.NotYetImplemented);
-                    return CommandExecutionResults.Error;
-                }
-                if (item is IItemContainer itemContainer)
-                {
-                    // TODO: no open/close/lock/unlock on container for now
-                    Send(StringHelpers.NotYetImplemented);
-                    return CommandExecutionResults.Error;
+                    if (!itemCloseable.IsCloseable)
+                    {
+                        Send("You can't do that.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
+                    if (!itemCloseable.IsClosed)
+                    {
+                        Send("It's not closed.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
+                    if (itemCloseable.KeyId <= 0)
+                    {
+                        Send("It can't be unlocked.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
+                    bool closeableItemKeyFound = Inventory.OfType<IItemKey>().Any(x => x.Blueprint.Id == itemCloseable.KeyId);
+                    if (!closeableItemKeyFound)
+                    {
+                        Send("You lack the key.");
+                        return CommandExecutionResults.NoExecution;
+                    }
+                    if (!itemCloseable.IsLocked)
+                    {
+                        Send("It's already unlocked.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
                 }
                 Send("That's not a container.");
                 return CommandExecutionResults.InvalidTarget;
@@ -316,17 +340,34 @@ namespace Mud.Server.Character
                 parameters[0]);
             if (item != null)
             {
-                if (item is IItemPortal itemPortal)
+                if (item is IItemCloseable itemCloseable)
                 {
-                    // TODO: no open/close/lock/unlock on portal for now
-                    Send(StringHelpers.NotYetImplemented);
-                    return CommandExecutionResults.Error;
-                }
-                if (item is IItemContainer itemContainer)
-                {
-                    // TODO: no open/close/lock/unlock on container for now
-                    Send(StringHelpers.NotYetImplemented);
-                    return CommandExecutionResults.Error;
+                    if (!itemCloseable.IsCloseable)
+                    {
+                        Send("You can't do that.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
+                    if (!itemCloseable.IsClosed)
+                    {
+                        Send("It's not closed.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
+                    if (!itemCloseable.IsLockable || itemCloseable.KeyId <= 0)
+                    {
+                        Send("It can't be locked.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
+                    bool closeableItemKeyFound = Inventory.OfType<IItemKey>().Any(x => x.Blueprint.Id == itemCloseable.KeyId);
+                    if (!closeableItemKeyFound)
+                    {
+                        Send("You lack the key.");
+                        return CommandExecutionResults.NoExecution;
+                    }
+                    if (itemCloseable.IsLocked)
+                    {
+                        Send("It's already locked.");
+                        return CommandExecutionResults.InvalidTarget;
+                    }
                 }
                 Send("That's not a container.");
                 return CommandExecutionResults.InvalidTarget;

@@ -14,19 +14,21 @@ namespace Mud.Server.Item
             : base(guid, blueprint, containedInto)
         {
             _content = new List<IItem>();
-            // TODO: key, flags
             ItemCount = blueprint.ItemCount;
             WeightMultiplier = blueprint.WeightMultiplier;
+            KeyId = blueprint.Key;
+            ContainerFlags = blueprint.ContainerFlags;
         }
 
         public ItemContainer(Guid guid, ItemContainerBlueprint blueprint, ItemContainerData itemContainerData, IContainer containedInto)
             : base(guid, blueprint, itemContainerData, containedInto)
         {
             _content = new List<IItem>();
-            // TODO: key, flags
+            // TODO: key
             ItemCount = blueprint.ItemCount;
             WeightMultiplier = blueprint.WeightMultiplier;
-
+            KeyId = blueprint.Key;
+            ContainerFlags = itemContainerData.ContainerFlags;
             if (itemContainerData.Contains?.Length > 0)
             {
                 foreach (ItemData itemData in itemContainerData.Contains)
@@ -36,19 +38,36 @@ namespace Mud.Server.Item
 
         #region IItem
 
-        #region ItemBase
+        #region IItemCloseable
 
-        public override ItemData MapItemData()
+        public int KeyId { get; }
+
+        public bool IsCloseable => !ContainerFlags.HasFlag(ContainerFlags.NoClose);
+        public bool IsLockable => !ContainerFlags.HasFlag(ContainerFlags.NoLock);
+        public bool IsClosed => ContainerFlags.HasFlag(ContainerFlags.Closed);
+        public bool IsLocked => ContainerFlags.HasFlag(ContainerFlags.Locked);
+        public bool IsPickProof => ContainerFlags.HasFlag(ContainerFlags.PickProof);
+
+        public void Open()
         {
-            return new ItemContainerData
-            {
-                ItemId = Blueprint.Id,
-                Level = Level,
-                DecayPulseLeft = DecayPulseLeft,
-                ItemFlags = BaseItemFlags,
-                Contains = MapContent(),
-                Auras = MapAuraData(),
-            };
+            RemoveFlags(ContainerFlags.Closed);
+        }
+
+        public void Close()
+        {
+            if (IsCloseable)
+                AddFlags(ContainerFlags.Closed);
+        }
+
+        public void Unlock()
+        {
+            RemoveFlags(ContainerFlags.Locked);
+        }
+
+        public void Lock()
+        {
+            if (IsLockable && IsClosed)
+                AddFlags(ContainerFlags.Locked);
         }
 
         #endregion
@@ -66,6 +85,7 @@ namespace Mud.Server.Item
 
         public int ItemCount { get; } // maximum number of items
         public int WeightMultiplier { get; } // percentage
+        public ContainerFlags ContainerFlags { get; protected set; }
 
         #region IContainer
 
@@ -87,6 +107,34 @@ namespace Mud.Server.Item
         #endregion
 
         #endregion
+
+        #region ItemBase
+
+        public override ItemData MapItemData()
+        {
+            return new ItemContainerData
+            {
+                ItemId = Blueprint.Id,
+                Level = Level,
+                DecayPulseLeft = DecayPulseLeft,
+                ItemFlags = BaseItemFlags,
+                Auras = MapAuraData(),
+                ContainerFlags = ContainerFlags,
+                Contains = MapContent(),
+            };
+        }
+
+        #endregion
+
+        private void AddFlags(ContainerFlags flags)
+        {
+            ContainerFlags |= flags;
+        }
+
+        private void RemoveFlags(ContainerFlags flags)
+        {
+            ContainerFlags &= ~flags;
+        }
 
         private ItemData[] MapContent()
         {

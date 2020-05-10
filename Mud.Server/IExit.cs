@@ -12,7 +12,7 @@ namespace Mud.Server
         IEnumerable<string> Keywords { get; }
         string Description { get; }
         IRoom Destination { get; }
-        ExitFlags CurrentFlags { get; }
+        ExitFlags ExitFlags { get; }
 
         bool IsDoor { get; }
         bool IsClosed { get; }

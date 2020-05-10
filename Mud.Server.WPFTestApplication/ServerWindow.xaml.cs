@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
@@ -9,6 +10,7 @@ using System.Windows.Media;
 using AutoMapper;
 using Mud.Container;
 using Mud.Domain;
+using Mud.Importer.Mystery;
 using Mud.Logger;
 using Mud.Network;
 using Mud.Network.Telnet;
@@ -43,7 +45,7 @@ namespace Mud.Server.WPFTestApplication
 
             // Initialize settings
             ISettings settings = new Settings.ConfigurationManager.Settings();
-            DependencyContainer.Current.RegisterInstance<ISettings>(settings);
+            DependencyContainer.Current.RegisterInstance(settings);
 
             // Initialize log
             Log.Default.Initialize(settings.LogPath, "server.log");
@@ -348,7 +350,7 @@ namespace Mud.Server.WPFTestApplication
             _serverWindowInstance.OutputRichTextBox.Document.Blocks.Add(paragraph);
         }
 
-        private static RoomBlueprint CreateRoomBlueprint(Importer.Mystery.RoomData data)
+        private static RoomBlueprint CreateRoomBlueprint(RoomData data)
         {
             RoomBlueprint blueprint = new RoomBlueprint
             {
@@ -376,7 +378,7 @@ namespace Mud.Server.WPFTestApplication
             return blueprint;
         }
 
-        private static ItemBlueprintBase CreateItemBlueprint(Importer.Mystery.ObjectData data)
+        private static ItemBlueprintBase CreateItemBlueprint(ObjectData data)
         {
             (ItemFlags itemFlags, bool noTake) extraFlags = ConvertMysteryItemExtraFlags(data);
             ItemBlueprintBase blueprint;
@@ -418,6 +420,7 @@ namespace Mud.Server.WPFTestApplication
                     Level = data.Level,
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
+                    ContainerFlags = ConvertContainerFlags(data),
                     ItemCount = Convert.ToInt32(data.Values[3]),
                     WeightMultiplier = Convert.ToInt32(data.Values[4]),
                     ItemFlags = extraFlags.itemFlags,
@@ -611,6 +614,7 @@ namespace Mud.Server.WPFTestApplication
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
                     Destination = Convert.ToInt32(data.Values[3]) <= 0 ? ItemPortal.NoDestinationRoomId : Convert.ToInt32(data.Values[3]),
+                    PortalFlags = ConvertPortalFlags(data),
                     ItemFlags = extraFlags.itemFlags,
                     NoTake = extraFlags.noTake,
                 };
@@ -834,7 +838,7 @@ namespace Mud.Server.WPFTestApplication
             return blueprint;
         }
 
-        private static CharacterNormalBlueprint CreateCharacterBlueprint(Importer.Mystery.MobileData data)
+        private static CharacterNormalBlueprint CreateCharacterBlueprint(MobileData data)
         {
             Sex sex = Sex.Neutral;
             if (data.Sex.ToLower() == "female")
@@ -894,17 +898,21 @@ namespace Mud.Server.WPFTestApplication
         private static ExitFlags ConvertExitInfo(long exitInfo)
         {
             ExitFlags flags = 0;
-            if ((exitInfo & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A)
+            if ((exitInfo & MysteryImporter.A) == MysteryImporter.A)
                 flags |= ExitFlags.Door;
-            if ((exitInfo & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B)
+            if ((exitInfo & MysteryImporter.B) == MysteryImporter.B)
                 flags |= ExitFlags.Closed;
-            if ((exitInfo & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B)
+            if ((exitInfo & MysteryImporter.C) == MysteryImporter.C)
                 flags |= ExitFlags.Locked;
-            if ((exitInfo & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H)
+            if ((exitInfo & MysteryImporter.F) == MysteryImporter.F)
+                flags |= ExitFlags.PickProof;
+            if ((exitInfo & MysteryImporter.G) == MysteryImporter.G)
+                flags |= ExitFlags.NoPass;
+            if ((exitInfo & MysteryImporter.H) == MysteryImporter.H)
                 flags |= ExitFlags.Easy;
-            if ((exitInfo & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I)
+            if ((exitInfo & MysteryImporter.I) == MysteryImporter.I)
                 flags |= ExitFlags.Hard;
-            if ((exitInfo & Importer.Mystery.MysteryImporter.M) == Importer.Mystery.MysteryImporter.M)
+            if ((exitInfo & MysteryImporter.M) == MysteryImporter.M)
                 flags |= ExitFlags.Hidden;
             return flags;
         }
@@ -912,31 +920,31 @@ namespace Mud.Server.WPFTestApplication
         private static IRVFlags ConvertMysteryIRV(long value)
         {
             IRVFlags flags = 0;
-            if ((value & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A) flags |= IRVFlags.Summon;
-            if ((value & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B) flags |= IRVFlags.Charm;
-            if ((value & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C) flags |= IRVFlags.Magic;
-            if ((value & Importer.Mystery.MysteryImporter.D) == Importer.Mystery.MysteryImporter.D) flags |= IRVFlags.Weapon;
-            if ((value & Importer.Mystery.MysteryImporter.E) == Importer.Mystery.MysteryImporter.E) flags |= IRVFlags.Bash;
-            if ((value & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F) flags |= IRVFlags.Pierce;
-            if ((value & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G) flags |= IRVFlags.Slash;
-            if ((value & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H) flags |= IRVFlags.Fire;
-            if ((value & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I) flags |= IRVFlags.Cold;
-            if ((value & Importer.Mystery.MysteryImporter.J) == Importer.Mystery.MysteryImporter.J) flags |= IRVFlags.Lightning;
-            if ((value & Importer.Mystery.MysteryImporter.K) == Importer.Mystery.MysteryImporter.K) flags |= IRVFlags.Acid;
-            if ((value & Importer.Mystery.MysteryImporter.L) == Importer.Mystery.MysteryImporter.L) flags |= IRVFlags.Poison;
-            if ((value & Importer.Mystery.MysteryImporter.M) == Importer.Mystery.MysteryImporter.M) flags |= IRVFlags.Negative;
-            if ((value & Importer.Mystery.MysteryImporter.N) == Importer.Mystery.MysteryImporter.N) flags |= IRVFlags.Holy;
-            if ((value & Importer.Mystery.MysteryImporter.O) == Importer.Mystery.MysteryImporter.O) flags |= IRVFlags.Energy;
-            if ((value & Importer.Mystery.MysteryImporter.P) == Importer.Mystery.MysteryImporter.P) flags |= IRVFlags.Mental;
-            if ((value & Importer.Mystery.MysteryImporter.Q) == Importer.Mystery.MysteryImporter.Q) flags |= IRVFlags.Disease;
-            if ((value & Importer.Mystery.MysteryImporter.R) == Importer.Mystery.MysteryImporter.R) flags |= IRVFlags.Drowning;
-            if ((value & Importer.Mystery.MysteryImporter.S) == Importer.Mystery.MysteryImporter.S) flags |= IRVFlags.Light;
-            if ((value & Importer.Mystery.MysteryImporter.T) == Importer.Mystery.MysteryImporter.T) flags |= IRVFlags.Sound;
+            if ((value & MysteryImporter.A) == MysteryImporter.A) flags |= IRVFlags.Summon;
+            if ((value & MysteryImporter.B) == MysteryImporter.B) flags |= IRVFlags.Charm;
+            if ((value & MysteryImporter.C) == MysteryImporter.C) flags |= IRVFlags.Magic;
+            if ((value & MysteryImporter.D) == MysteryImporter.D) flags |= IRVFlags.Weapon;
+            if ((value & MysteryImporter.E) == MysteryImporter.E) flags |= IRVFlags.Bash;
+            if ((value & MysteryImporter.F) == MysteryImporter.F) flags |= IRVFlags.Pierce;
+            if ((value & MysteryImporter.G) == MysteryImporter.G) flags |= IRVFlags.Slash;
+            if ((value & MysteryImporter.H) == MysteryImporter.H) flags |= IRVFlags.Fire;
+            if ((value & MysteryImporter.I) == MysteryImporter.I) flags |= IRVFlags.Cold;
+            if ((value & MysteryImporter.J) == MysteryImporter.J) flags |= IRVFlags.Lightning;
+            if ((value & MysteryImporter.K) == MysteryImporter.K) flags |= IRVFlags.Acid;
+            if ((value & MysteryImporter.L) == MysteryImporter.L) flags |= IRVFlags.Poison;
+            if ((value & MysteryImporter.M) == MysteryImporter.M) flags |= IRVFlags.Negative;
+            if ((value & MysteryImporter.N) == MysteryImporter.N) flags |= IRVFlags.Holy;
+            if ((value & MysteryImporter.O) == MysteryImporter.O) flags |= IRVFlags.Energy;
+            if ((value & MysteryImporter.P) == MysteryImporter.P) flags |= IRVFlags.Mental;
+            if ((value & MysteryImporter.Q) == MysteryImporter.Q) flags |= IRVFlags.Disease;
+            if ((value & MysteryImporter.R) == MysteryImporter.R) flags |= IRVFlags.Drowning;
+            if ((value & MysteryImporter.S) == MysteryImporter.S) flags |= IRVFlags.Light;
+            if ((value & MysteryImporter.T) == MysteryImporter.T) flags |= IRVFlags.Sound;
             // U 
             // V PARALYSIS
-            if ((value & Importer.Mystery.MysteryImporter.X) == Importer.Mystery.MysteryImporter.X) flags |= IRVFlags.Wood;
-            if ((value & Importer.Mystery.MysteryImporter.Y) == Importer.Mystery.MysteryImporter.Y) flags |= IRVFlags.Silver;
-            if ((value & Importer.Mystery.MysteryImporter.Z) == Importer.Mystery.MysteryImporter.Z) flags |= IRVFlags.Iron;
+            if ((value & MysteryImporter.X) == MysteryImporter.X) flags |= IRVFlags.Wood;
+            if ((value & MysteryImporter.Y) == MysteryImporter.Y) flags |= IRVFlags.Silver;
+            if ((value & MysteryImporter.Z) == MysteryImporter.Z) flags |= IRVFlags.Iron;
 
             return flags;
         }
@@ -944,36 +952,36 @@ namespace Mud.Server.WPFTestApplication
         private static CharacterFlags ConvertMysteryCharacterFlags(long affectedBy, long affectedBy2)
         {
             CharacterFlags flags = CharacterFlags.None;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_BLIND)) flags |= CharacterFlags.Blind;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_INVISIBLE)) flags |= CharacterFlags.Invisible;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_DETECT_EVIL)) flags |= CharacterFlags.DetectEvil;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_DETECT_INVIS)) flags |= CharacterFlags.DetectInvis;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_DETECT_MAGIC)) flags |= CharacterFlags.DetectMagic;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_DETECT_HIDDEN)) flags |= CharacterFlags.DetectHidden;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_DETECT_GOOD)) flags |= CharacterFlags.DetectGood;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_SANCTUARY)) flags |= CharacterFlags.Sanctuary;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_FAERIE_FIRE)) flags |= CharacterFlags.FaerieFire;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_INFRARED)) flags |= CharacterFlags.Infrared;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_CURSE)) flags |= CharacterFlags.Curse;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_BLIND)) flags |= CharacterFlags.Blind;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_INVISIBLE)) flags |= CharacterFlags.Invisible;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_DETECT_EVIL)) flags |= CharacterFlags.DetectEvil;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_DETECT_INVIS)) flags |= CharacterFlags.DetectInvis;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_DETECT_MAGIC)) flags |= CharacterFlags.DetectMagic;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_DETECT_HIDDEN)) flags |= CharacterFlags.DetectHidden;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_DETECT_GOOD)) flags |= CharacterFlags.DetectGood;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_SANCTUARY)) flags |= CharacterFlags.Sanctuary;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_FAERIE_FIRE)) flags |= CharacterFlags.FaerieFire;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_INFRARED)) flags |= CharacterFlags.Infrared;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_CURSE)) flags |= CharacterFlags.Curse;
             //if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_ROOTED)) flags |= CharacterFlags.
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_POISON)) flags |= CharacterFlags.Poison;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_PROTECT_EVIL)) flags |= CharacterFlags.ProtectEvil;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_PROTECT_GOOD)) flags |= CharacterFlags.ProtectGood;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_SNEAK)) flags |= CharacterFlags.Sneak;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_HIDE)) flags |= CharacterFlags.Hide;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_SLEEP)) flags |= CharacterFlags.Sleep;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_CHARM)) flags |= CharacterFlags.Charm;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_FLYING)) flags |= CharacterFlags.Flying;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_PASS_DOOR)) flags |= CharacterFlags.PassDoor;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_HASTE)) flags |= CharacterFlags.Haste;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_CALM)) flags |= CharacterFlags.Calm;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_PLAGUE)) flags |= CharacterFlags.Plague;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_WEAKEN)) flags |= CharacterFlags.Weaken;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_DARK_VISION)) flags |= CharacterFlags.DarkVision;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_BERSERK)) flags |= CharacterFlags.Berserk;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_SWIM)) flags |= CharacterFlags.Swim;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_REGENERATION)) flags |= CharacterFlags.Regeneration;
-            if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_SLOW)) flags |= CharacterFlags.Slow;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_POISON)) flags |= CharacterFlags.Poison;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_PROTECT_EVIL)) flags |= CharacterFlags.ProtectEvil;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_PROTECT_GOOD)) flags |= CharacterFlags.ProtectGood;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_SNEAK)) flags |= CharacterFlags.Sneak;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_HIDE)) flags |= CharacterFlags.Hide;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_SLEEP)) flags |= CharacterFlags.Sleep;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_CHARM)) flags |= CharacterFlags.Charm;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_FLYING)) flags |= CharacterFlags.Flying;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_PASS_DOOR)) flags |= CharacterFlags.PassDoor;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_HASTE)) flags |= CharacterFlags.Haste;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_CALM)) flags |= CharacterFlags.Calm;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_PLAGUE)) flags |= CharacterFlags.Plague;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_WEAKEN)) flags |= CharacterFlags.Weaken;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_DARK_VISION)) flags |= CharacterFlags.DarkVision;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_BERSERK)) flags |= CharacterFlags.Berserk;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_SWIM)) flags |= CharacterFlags.Swim;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_REGENERATION)) flags |= CharacterFlags.Regeneration;
+            if (HasBit(affectedBy, (long)AffectedBy.AFF_SLOW)) flags |= CharacterFlags.Slow;
             //if (HasBit(affectedBy, (long)Importer.Mystery.AffectedBy.AFF_SILENCE)) flags |= CharacterFlags.
 
             //if (HasBit(affectedBy2, (long)Importer.Mystery.AffectedBy2.AFF2_WALK_ON_WATER      (A)
@@ -996,32 +1004,32 @@ namespace Mud.Server.WPFTestApplication
             ActFlags flags = ActFlags.None;
 
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_IS_NPC)) flags |= ActFlags.
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_SENTINEL)) flags |= ActFlags.Sentinel;
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_SCAVENGER)) flags |= ActFlags.Scavenger;
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_AWARE)) flags |= ActFlags.Aware;
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_AGGRESSIVE)) flags |= ActFlags.Aggressive;
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_STAY_AREA)) flags |= ActFlags.StayArea;
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_WIMPY)) flags |= ActFlags.Wimpy;
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_PET)) flags |= ActFlags.Pet;
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_TRAIN)) flags |= ActFlags.Train;
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_PRACTICE)) flags |= ActFlags.Practice;
+            if (HasBit(act, (long)Act.ACT_SENTINEL)) flags |= ActFlags.Sentinel;
+            if (HasBit(act, (long)Act.ACT_SCAVENGER)) flags |= ActFlags.Scavenger;
+            if (HasBit(act, (long)Act.ACT_AWARE)) flags |= ActFlags.Aware;
+            if (HasBit(act, (long)Act.ACT_AGGRESSIVE)) flags |= ActFlags.Aggressive;
+            if (HasBit(act, (long)Act.ACT_STAY_AREA)) flags |= ActFlags.StayArea;
+            if (HasBit(act, (long)Act.ACT_WIMPY)) flags |= ActFlags.Wimpy;
+            if (HasBit(act, (long)Act.ACT_PET)) flags |= ActFlags.Pet;
+            if (HasBit(act, (long)Act.ACT_TRAIN)) flags |= ActFlags.Train;
+            if (HasBit(act, (long)Act.ACT_PRACTICE)) flags |= ActFlags.Practice;
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_FREE_WANDER
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_MOUNTABLE
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_IS_MOUNTED
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_UNDEAD)) flags |= ActFlags.Undead;
+            if (HasBit(act, (long)Act.ACT_UNDEAD)) flags |= ActFlags.Undead;
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_NOSLEEP))
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_CLERIC
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_MAGE = MysteryImporter.R,
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_THIEF = MysteryImporter.S,
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_WARRIOR = MysteryImporter.T,
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_NOALIGN)) flags |= ActFlags.Noalign;
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_NOPURGE)) flags |= ActFlags.Nopurge;
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_OUTDOORS)) flags |= ActFlags.Outdoors;
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_INDOORS)) flags |= ActFlags.Indoors;
+            if (HasBit(act, (long)Act.ACT_NOALIGN)) flags |= ActFlags.Noalign;
+            if (HasBit(act, (long)Act.ACT_NOPURGE)) flags |= ActFlags.Nopurge;
+            if (HasBit(act, (long)Act.ACT_OUTDOORS)) flags |= ActFlags.Outdoors;
+            if (HasBit(act, (long)Act.ACT_INDOORS)) flags |= ActFlags.Indoors;
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_CREATED
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_IS_HEALER)) flags |= ActFlags.IsHealer;
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_GAIN)) flags |= ActFlags.Gain;
-            if (HasBit(act, (long)Importer.Mystery.Act.ACT_UPDATE_ALWAYS)) flags |= ActFlags.UpdateAlways;
+            if (HasBit(act, (long)Act.ACT_IS_HEALER)) flags |= ActFlags.IsHealer;
+            if (HasBit(act, (long)Act.ACT_GAIN)) flags |= ActFlags.Gain;
+            if (HasBit(act, (long)Act.ACT_UPDATE_ALWAYS)) flags |= ActFlags.UpdateAlways;
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_RESERVED
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_IS_SAFE
             return flags;
@@ -1030,21 +1038,21 @@ namespace Mud.Server.WPFTestApplication
         private static OffensiveFlags ConvertMysteryOffensiveFlags(long off)
         {
             OffensiveFlags flags = OffensiveFlags.None;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_AREA_ATTACK)) flags |= OffensiveFlags.AreaAttack;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_BACKSTAB)) flags |= OffensiveFlags.Backstab;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_BASH)) flags |= OffensiveFlags.Bash;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_BERSERK)) flags |= OffensiveFlags.Berserk;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_DISARM)) flags |= OffensiveFlags.Disarm;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_DODGE)) flags |= OffensiveFlags.Dodge;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_FADE)) flags |= OffensiveFlags.Fade;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_FAST)) flags |= OffensiveFlags.Fast;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_KICK)) flags |= OffensiveFlags.Kick;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_KICK_DIRT)) flags |= OffensiveFlags.DirtKick;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_PARRY)) flags |= OffensiveFlags.Parry;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_RESCUE)) flags |= OffensiveFlags.Rescue;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_TAIL)) flags |= OffensiveFlags.Tail;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_TRIP)) flags |= OffensiveFlags.Trip;
-            if (HasBit(off, (long)Importer.Mystery.Offensive.OFF_CRUSH)) flags |= OffensiveFlags.Crush;
+            if (HasBit(off, (long)Offensive.OFF_AREA_ATTACK)) flags |= OffensiveFlags.AreaAttack;
+            if (HasBit(off, (long)Offensive.OFF_BACKSTAB)) flags |= OffensiveFlags.Backstab;
+            if (HasBit(off, (long)Offensive.OFF_BASH)) flags |= OffensiveFlags.Bash;
+            if (HasBit(off, (long)Offensive.OFF_BERSERK)) flags |= OffensiveFlags.Berserk;
+            if (HasBit(off, (long)Offensive.OFF_DISARM)) flags |= OffensiveFlags.Disarm;
+            if (HasBit(off, (long)Offensive.OFF_DODGE)) flags |= OffensiveFlags.Dodge;
+            if (HasBit(off, (long)Offensive.OFF_FADE)) flags |= OffensiveFlags.Fade;
+            if (HasBit(off, (long)Offensive.OFF_FAST)) flags |= OffensiveFlags.Fast;
+            if (HasBit(off, (long)Offensive.OFF_KICK)) flags |= OffensiveFlags.Kick;
+            if (HasBit(off, (long)Offensive.OFF_KICK_DIRT)) flags |= OffensiveFlags.DirtKick;
+            if (HasBit(off, (long)Offensive.OFF_PARRY)) flags |= OffensiveFlags.Parry;
+            if (HasBit(off, (long)Offensive.OFF_RESCUE)) flags |= OffensiveFlags.Rescue;
+            if (HasBit(off, (long)Offensive.OFF_TAIL)) flags |= OffensiveFlags.Tail;
+            if (HasBit(off, (long)Offensive.OFF_TRIP)) flags |= OffensiveFlags.Trip;
+            if (HasBit(off, (long)Offensive.OFF_CRUSH)) flags |= OffensiveFlags.Crush;
             //if (HasBit(off, (long)Importer.Mystery.Offensive.ASSIST_ALL))
             //if (HasBit(off, (long)Importer.Mystery.Offensive.ASSIST_ALIGN))
             //if (HasBit(off, (long)Importer.Mystery.Offensive.ASSIST_RACE = MysteryImporter.R,
@@ -1061,21 +1069,21 @@ namespace Mud.Server.WPFTestApplication
             FurnitureActions actions = FurnitureActions.None;
 
             int flag = value == null ? 0 : Convert.ToInt32(value);
-            if ((flag & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A
-                || (flag & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B
-                || (flag & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C)
+            if ((flag & MysteryImporter.A) == MysteryImporter.A
+                || (flag & MysteryImporter.B) == MysteryImporter.B
+                || (flag & MysteryImporter.C) == MysteryImporter.C)
                 actions |= FurnitureActions.Stand;
-            if ((flag & Importer.Mystery.MysteryImporter.D) == Importer.Mystery.MysteryImporter.D
-                || (flag & Importer.Mystery.MysteryImporter.E) == Importer.Mystery.MysteryImporter.E
-                || (flag & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F)
+            if ((flag & MysteryImporter.D) == MysteryImporter.D
+                || (flag & MysteryImporter.E) == MysteryImporter.E
+                || (flag & MysteryImporter.F) == MysteryImporter.F)
                 actions |= FurnitureActions.Sit;
-            if ((flag & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G
-                || (flag & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H
-                || (flag & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I)
+            if ((flag & MysteryImporter.G) == MysteryImporter.G
+                || (flag & MysteryImporter.H) == MysteryImporter.H
+                || (flag & MysteryImporter.I) == MysteryImporter.I)
                 actions |= FurnitureActions.Rest;
-            if ((flag & Importer.Mystery.MysteryImporter.J) == Importer.Mystery.MysteryImporter.J
-                || (flag & Importer.Mystery.MysteryImporter.K) == Importer.Mystery.MysteryImporter.K
-                || (flag & Importer.Mystery.MysteryImporter.L) == Importer.Mystery.MysteryImporter.L)
+            if ((flag & MysteryImporter.J) == MysteryImporter.J
+                || (flag & MysteryImporter.K) == MysteryImporter.K
+                || (flag & MysteryImporter.L) == MysteryImporter.L)
                 actions |= FurnitureActions.Sleep;
             return actions;
         }
@@ -1085,25 +1093,49 @@ namespace Mud.Server.WPFTestApplication
             FurniturePlacePrepositions preposition = FurniturePlacePrepositions.None;
 
             int flag = value == null ? 0 : Convert.ToInt32(value);
-            if ((flag & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A
-                || (flag & Importer.Mystery.MysteryImporter.D) == Importer.Mystery.MysteryImporter.D
-                || (flag & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G
-                || (flag & Importer.Mystery.MysteryImporter.J) == Importer.Mystery.MysteryImporter.J)
+            if ((flag & MysteryImporter.A) == MysteryImporter.A
+                || (flag & MysteryImporter.D) == MysteryImporter.D
+                || (flag & MysteryImporter.G) == MysteryImporter.G
+                || (flag & MysteryImporter.J) == MysteryImporter.J)
                 preposition = FurniturePlacePrepositions.At;
-            else if ((flag & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B
-                || (flag & Importer.Mystery.MysteryImporter.E) == Importer.Mystery.MysteryImporter.E
-                || (flag & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H
-                || (flag & Importer.Mystery.MysteryImporter.K) == Importer.Mystery.MysteryImporter.K)
+            else if ((flag & MysteryImporter.B) == MysteryImporter.B
+                || (flag & MysteryImporter.E) == MysteryImporter.E
+                || (flag & MysteryImporter.H) == MysteryImporter.H
+                || (flag & MysteryImporter.K) == MysteryImporter.K)
                 preposition = FurniturePlacePrepositions.On;
-            else if ((flag & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C
-                || (flag & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F
-                || (flag & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I
-                || (flag & Importer.Mystery.MysteryImporter.L) == Importer.Mystery.MysteryImporter.L)
+            else if ((flag & MysteryImporter.C) == MysteryImporter.C
+                || (flag & MysteryImporter.F) == MysteryImporter.F
+                || (flag & MysteryImporter.I) == MysteryImporter.I
+                || (flag & MysteryImporter.L) == MysteryImporter.L)
                 preposition = FurniturePlacePrepositions.In;
             return preposition;
         }
 
-        private static WearLocations ConvertWearLocation(Importer.Mystery.ObjectData data)
+        private static ContainerFlags ConvertContainerFlags(ObjectData data)
+        {
+            return ContainerFlags.None; // never been used in Rom ?!?!?!?
+        }
+
+        private static PortalFlags ConvertPortalFlags(ObjectData data)
+        {
+            // v1: exit flags
+            // v2: gate flags
+            PortalFlags flags = PortalFlags.None;
+            int v1 = Convert.ToInt32(data.Values[1]);
+            if (HasBit(v1, MysteryImporter.A)) flags |= PortalFlags.Closed;
+            if (HasBit(v1, MysteryImporter.C)) flags |= PortalFlags.Locked;
+            if (HasBit(v1, MysteryImporter.F)) flags |= PortalFlags.PickProof;
+            if (HasBit(v1, MysteryImporter.K)) flags |= PortalFlags.NoClose;
+            if (HasBit(v1, MysteryImporter.L)) flags |= PortalFlags.NoLock;
+            int v2 = Convert.ToInt32(data.Values[2]);
+            if (HasBit(v2, MysteryImporter.B)) flags |= PortalFlags.NoCurse;
+            if (HasBit(v2, MysteryImporter.C)) flags |= PortalFlags.GoWith;
+            if (HasBit(v2, MysteryImporter.D)) flags |= PortalFlags.Buggy;
+            if (HasBit(v2, MysteryImporter.E)) flags |= PortalFlags.Random;
+            return flags;
+        }
+
+        private static WearLocations ConvertWearLocation(ObjectData data)
         {
             //#define ITEM_TAKE		(A)
             //#define ITEM_WEAR_FINGER	(B)
@@ -1130,37 +1162,37 @@ namespace Mud.Server.WPFTestApplication
                         return WearLocations.Light;
                     else
                         return WearLocations.None;
-                case Importer.Mystery.MysteryImporter.B: // B finger
+                case MysteryImporter.B: // B finger
                     return WearLocations.Ring;
-                case Importer.Mystery.MysteryImporter.C: // C neck
+                case MysteryImporter.C: // C neck
                     return WearLocations.Amulet;
-                case Importer.Mystery.MysteryImporter.D: // D body
+                case MysteryImporter.D: // D body
                     return WearLocations.Chest;
-                case Importer.Mystery.MysteryImporter.E: // E head
+                case MysteryImporter.E: // E head
                     return WearLocations.Head;
-                case Importer.Mystery.MysteryImporter.F: // F legs
+                case MysteryImporter.F: // F legs
                     return WearLocations.Legs;
-                case Importer.Mystery.MysteryImporter.G: // G feet
+                case MysteryImporter.G: // G feet
                     return WearLocations.Feet;
-                case Importer.Mystery.MysteryImporter.H: // H hands
+                case MysteryImporter.H: // H hands
                     return WearLocations.Hands;
-                case Importer.Mystery.MysteryImporter.I: // I arms
+                case MysteryImporter.I: // I arms
                     return WearLocations.Arms;
-                case Importer.Mystery.MysteryImporter.J: // J shield
+                case MysteryImporter.J: // J shield
                     return WearLocations.Shield;
-                case Importer.Mystery.MysteryImporter.K: // K about
+                case MysteryImporter.K: // K about
                     return WearLocations.Cloak;
-                case Importer.Mystery.MysteryImporter.L: // L waist
+                case MysteryImporter.L: // L waist
                     return WearLocations.Waist;
-                case Importer.Mystery.MysteryImporter.M: // M wrist
+                case MysteryImporter.M: // M wrist
                     return WearLocations.Wrists;
-                case Importer.Mystery.MysteryImporter.N: // N wield
+                case MysteryImporter.N: // N wield
                     return WearLocations.Wield;
-                case Importer.Mystery.MysteryImporter.O: // O hold
+                case MysteryImporter.O: // O hold
                     return WearLocations.Hold;
                 //case Importer.Mystery.MysteryImporter.Q: // Q float
                 //case Importer.Mystery.MysteryImporter.R: // R ear
-                case Importer.Mystery.MysteryImporter.S: // S eyes
+                case MysteryImporter.S: // S eyes
                     return WearLocations.Head; // eyes
                 default:
                     return WearLocations.None;
@@ -1194,37 +1226,37 @@ namespace Mud.Server.WPFTestApplication
                         return WearLocations.Light;
                     else
                         return WearLocations.None;
-                case Importer.Mystery.MysteryImporter.B: // B finger
+                case MysteryImporter.B: // B finger
                     return WearLocations.Ring;
-                case Importer.Mystery.MysteryImporter.C: // C neck
+                case MysteryImporter.C: // C neck
                     return WearLocations.Amulet;
-                case Importer.Mystery.MysteryImporter.D: // D body
+                case MysteryImporter.D: // D body
                     return WearLocations.Chest;
-                case Importer.Mystery.MysteryImporter.E: // E head
+                case MysteryImporter.E: // E head
                     return WearLocations.Head;
-                case Importer.Mystery.MysteryImporter.F: // F legs
+                case MysteryImporter.F: // F legs
                     return WearLocations.Legs;
-                case Importer.Mystery.MysteryImporter.G: // G feet
+                case MysteryImporter.G: // G feet
                     return WearLocations.Feet;
-                case Importer.Mystery.MysteryImporter.H: // H hands
+                case MysteryImporter.H: // H hands
                     return WearLocations.Hands;
-                case Importer.Mystery.MysteryImporter.I: // I arms
+                case MysteryImporter.I: // I arms
                     return WearLocations.Arms;
-                case Importer.Mystery.MysteryImporter.J: // J shield
+                case MysteryImporter.J: // J shield
                     return WearLocations.Shield;
-                case Importer.Mystery.MysteryImporter.K: // K about
+                case MysteryImporter.K: // K about
                     return WearLocations.Cloak;
-                case Importer.Mystery.MysteryImporter.L: // L waist
+                case MysteryImporter.L: // L waist
                     return WearLocations.Waist;
-                case Importer.Mystery.MysteryImporter.M: // M wrist
+                case MysteryImporter.M: // M wrist
                     return WearLocations.Wrists;
-                case Importer.Mystery.MysteryImporter.N: // N wield
+                case MysteryImporter.N: // N wield
                     return WearLocations.Wield;
-                case Importer.Mystery.MysteryImporter.O: // O hold
+                case MysteryImporter.O: // O hold
                     return WearLocations.Hold;
                 //case Importer.Mystery.MysteryImporter.Q: // Q float
                 //case Importer.Mystery.MysteryImporter.R: // R ear
-                case Importer.Mystery.MysteryImporter.S: // S eyes
+                case MysteryImporter.S: // S eyes
                     return WearLocations.Head; // eyes
                 default:
                     return WearLocations.None;
@@ -1304,23 +1336,23 @@ namespace Mud.Server.WPFTestApplication
 
             WeaponFlags weaponFlags = WeaponFlags.None;
             // originally a flag but converted to a single value
-            if ((weaponType2 & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A) // Flaming
+            if ((weaponType2 & MysteryImporter.A) == MysteryImporter.A) // Flaming
                 weaponFlags |= WeaponFlags.Flaming;
-            if ((weaponType2 & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B) // Frost
+            if ((weaponType2 & MysteryImporter.B) == MysteryImporter.B) // Frost
                 weaponFlags |= WeaponFlags.Frost;
-            if ((weaponType2 & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C) // Vampiric
+            if ((weaponType2 & MysteryImporter.C) == MysteryImporter.C) // Vampiric
                 weaponFlags |= WeaponFlags.Vampiric;
-            if ((weaponType2 & Importer.Mystery.MysteryImporter.D) == Importer.Mystery.MysteryImporter.D) // Sharp
+            if ((weaponType2 & MysteryImporter.D) == MysteryImporter.D) // Sharp
                 weaponFlags |= WeaponFlags.Sharp;
-            if ((weaponType2 & Importer.Mystery.MysteryImporter.E) == Importer.Mystery.MysteryImporter.E) // Vorpal
+            if ((weaponType2 & MysteryImporter.E) == MysteryImporter.E) // Vorpal
                 weaponFlags |= WeaponFlags.Vorpal;
-            if ((weaponType2 & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F) // Two-hands
+            if ((weaponType2 & MysteryImporter.F) == MysteryImporter.F) // Two-hands
                 weaponFlags |= WeaponFlags.TwoHands;
-            if ((weaponType2 & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G) // Shocking
+            if ((weaponType2 & MysteryImporter.G) == MysteryImporter.G) // Shocking
                 weaponFlags |= WeaponFlags.Shocking;
-            if ((weaponType2 & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H) // Poison
+            if ((weaponType2 & MysteryImporter.H) == MysteryImporter.H) // Poison
                 weaponFlags |= WeaponFlags.Poison;
-            if ((weaponType2 & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I) // Holy
+            if ((weaponType2 & MysteryImporter.I) == MysteryImporter.I) // Holy
                 weaponFlags |= WeaponFlags.Holy;
             // J: Weighted
             // K: Necrotism
@@ -1329,39 +1361,39 @@ namespace Mud.Server.WPFTestApplication
             return (schoolType, weaponFlags);
         }
 
-        private static (ItemFlags, bool) ConvertMysteryItemExtraFlags(Importer.Mystery.ObjectData data)
+        private static (ItemFlags, bool) ConvertMysteryItemExtraFlags(ObjectData data)
         {
             ItemFlags itemFlags = ItemFlags.None;
 
             bool noTake = false;
-            if ((data.WearFlags & Importer.Mystery.MysteryImporter.A) != Importer.Mystery.MysteryImporter.A) noTake = true; // WearFlags A means TAKE
+            if ((data.WearFlags & MysteryImporter.A) != MysteryImporter.A) noTake = true; // WearFlags A means TAKE
 
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A) itemFlags |= ItemFlags.Glowing; // A ITEM_GLOW
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B) itemFlags |= ItemFlags.Humming; // B ITEM_HUM
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C) itemFlags |= ItemFlags.Dark; // C ITEM_DARK
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.D) == Importer.Mystery.MysteryImporter.D) itemFlags |= ItemFlags.Lock; // D ITEM_LOCK
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.E) == Importer.Mystery.MysteryImporter.E) itemFlags |= ItemFlags.Evil; // E ITEM_EVIL
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F) itemFlags |= ItemFlags.Invis; // F ITEM_INVIS
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G) itemFlags |= ItemFlags.Magic; // G ITEM_MAGIC
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H) itemFlags |= ItemFlags.NoDrop; // H ITEM_NODROP
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I) itemFlags |= ItemFlags.Bless; // I ITEM_BLESS
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.J) == Importer.Mystery.MysteryImporter.J) itemFlags |= ItemFlags.AntiGood; // J ITEM_ANTI_GOOD
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.K) == Importer.Mystery.MysteryImporter.K) itemFlags |= ItemFlags.AntiEvil; // K ITEM_ANTI_EVIL
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.L) == Importer.Mystery.MysteryImporter.L) itemFlags |= ItemFlags.AntiNeutral; // L ITEM_ANTI_NEUTRAL
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.M) == Importer.Mystery.MysteryImporter.M) itemFlags |= ItemFlags.NoRemove; // M ITEM_NOREMOVE
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.N) == Importer.Mystery.MysteryImporter.N) itemFlags |= ItemFlags.Inventory; // N ITEM_INVENTORY
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.O) == Importer.Mystery.MysteryImporter.O) itemFlags |= ItemFlags.NoPurge; // O ITEM_NOPURGE
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.P) == Importer.Mystery.MysteryImporter.P) itemFlags |= ItemFlags.RotDeath; // P ITEM_ROT_DEATH
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.Q) == Importer.Mystery.MysteryImporter.Q) itemFlags |= ItemFlags.VisibleDeath; // Q ITEM_VIS_DEATH
+            if ((data.ExtraFlags & MysteryImporter.A) == MysteryImporter.A) itemFlags |= ItemFlags.Glowing; // A ITEM_GLOW
+            if ((data.ExtraFlags & MysteryImporter.B) == MysteryImporter.B) itemFlags |= ItemFlags.Humming; // B ITEM_HUM
+            if ((data.ExtraFlags & MysteryImporter.C) == MysteryImporter.C) itemFlags |= ItemFlags.Dark; // C ITEM_DARK
+            if ((data.ExtraFlags & MysteryImporter.D) == MysteryImporter.D) itemFlags |= ItemFlags.Lock; // D ITEM_LOCK
+            if ((data.ExtraFlags & MysteryImporter.E) == MysteryImporter.E) itemFlags |= ItemFlags.Evil; // E ITEM_EVIL
+            if ((data.ExtraFlags & MysteryImporter.F) == MysteryImporter.F) itemFlags |= ItemFlags.Invis; // F ITEM_INVIS
+            if ((data.ExtraFlags & MysteryImporter.G) == MysteryImporter.G) itemFlags |= ItemFlags.Magic; // G ITEM_MAGIC
+            if ((data.ExtraFlags & MysteryImporter.H) == MysteryImporter.H) itemFlags |= ItemFlags.NoDrop; // H ITEM_NODROP
+            if ((data.ExtraFlags & MysteryImporter.I) == MysteryImporter.I) itemFlags |= ItemFlags.Bless; // I ITEM_BLESS
+            if ((data.ExtraFlags & MysteryImporter.J) == MysteryImporter.J) itemFlags |= ItemFlags.AntiGood; // J ITEM_ANTI_GOOD
+            if ((data.ExtraFlags & MysteryImporter.K) == MysteryImporter.K) itemFlags |= ItemFlags.AntiEvil; // K ITEM_ANTI_EVIL
+            if ((data.ExtraFlags & MysteryImporter.L) == MysteryImporter.L) itemFlags |= ItemFlags.AntiNeutral; // L ITEM_ANTI_NEUTRAL
+            if ((data.ExtraFlags & MysteryImporter.M) == MysteryImporter.M) itemFlags |= ItemFlags.NoRemove; // M ITEM_NOREMOVE
+            if ((data.ExtraFlags & MysteryImporter.N) == MysteryImporter.N) itemFlags |= ItemFlags.Inventory; // N ITEM_INVENTORY
+            if ((data.ExtraFlags & MysteryImporter.O) == MysteryImporter.O) itemFlags |= ItemFlags.NoPurge; // O ITEM_NOPURGE
+            if ((data.ExtraFlags & MysteryImporter.P) == MysteryImporter.P) itemFlags |= ItemFlags.RotDeath; // P ITEM_ROT_DEATH
+            if ((data.ExtraFlags & MysteryImporter.Q) == MysteryImporter.Q) itemFlags |= ItemFlags.VisibleDeath; // Q ITEM_VIS_DEATH
             //if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.R) == Importer.Mystery.MysteryImporter.R) itemFlags |= ItemFlags.; // R ITEM_DONATED
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.S) == Importer.Mystery.MysteryImporter.S) itemFlags |= ItemFlags.NonMetal; // S NONMETAL
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.T) == Importer.Mystery.MysteryImporter.T) itemFlags |= ItemFlags.NoLocate; // T ITEM_NOLOCATE
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.U) == Importer.Mystery.MysteryImporter.U) itemFlags |= ItemFlags.MeltOnDrop; // U ITEM_MELT_DROP
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.V) == Importer.Mystery.MysteryImporter.V) itemFlags |= ItemFlags.HadTimer; // V ITEM_HAD_TIMER
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.W) == Importer.Mystery.MysteryImporter.W) itemFlags |= ItemFlags.SellExtract; // W ITEM_SELL_EXTRACT
+            if ((data.ExtraFlags & MysteryImporter.S) == MysteryImporter.S) itemFlags |= ItemFlags.NonMetal; // S NONMETAL
+            if ((data.ExtraFlags & MysteryImporter.T) == MysteryImporter.T) itemFlags |= ItemFlags.NoLocate; // T ITEM_NOLOCATE
+            if ((data.ExtraFlags & MysteryImporter.U) == MysteryImporter.U) itemFlags |= ItemFlags.MeltOnDrop; // U ITEM_MELT_DROP
+            if ((data.ExtraFlags & MysteryImporter.V) == MysteryImporter.V) itemFlags |= ItemFlags.HadTimer; // V ITEM_HAD_TIMER
+            if ((data.ExtraFlags & MysteryImporter.W) == MysteryImporter.W) itemFlags |= ItemFlags.SellExtract; // W ITEM_SELL_EXTRACT
             // X ITEM_NOSAC
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.Y) == Importer.Mystery.MysteryImporter.Y) itemFlags |= ItemFlags.BurnProof; // Y ITEM_BURN_PROOF
-            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.Z) == Importer.Mystery.MysteryImporter.Z) itemFlags |= ItemFlags.NoUncurse; // Z ITEM_NOUNCURSE
+            if ((data.ExtraFlags & MysteryImporter.Y) == MysteryImporter.Y) itemFlags |= ItemFlags.BurnProof; // Y ITEM_BURN_PROOF
+            if ((data.ExtraFlags & MysteryImporter.Z) == MysteryImporter.Z) itemFlags |= ItemFlags.NoUncurse; // Z ITEM_NOUNCURSE
             // aa ITEM_NOIDENT
             //if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.bb) == Importer.Mystery.MysteryImporter.bb) itemFlags |= ItemFlags.Indestructible; // bb ITEM_NOCOND
 
@@ -1378,7 +1410,7 @@ namespace Mud.Server.WPFTestApplication
         {
             string path =  DependencyContainer.Current.GetInstance<ISettings>().ImportAreaPath;
 
-            Importer.Mystery.MysteryImporter mysteryImporter = new Importer.Mystery.MysteryImporter();
+            MysteryImporter mysteryImporter = new MysteryImporter();
             mysteryImporter.Load(System.IO.Path.Combine(path, "limbo.are"));
             mysteryImporter.Parse();
             mysteryImporter.Load(System.IO.Path.Combine(path, "midgaard.are"));
@@ -1405,16 +1437,16 @@ namespace Mud.Server.WPFTestApplication
             Dictionary<int, IRoom> roomsByVNums = new Dictionary<int, IRoom>();
 
             // Create Rooms blueprints
-            foreach (Importer.Mystery.RoomData importedRoom in mysteryImporter.Rooms)
+            foreach (RoomData importedRoom in mysteryImporter.Rooms)
                 CreateRoomBlueprint(importedRoom);
             // Create Character blueprints
-            foreach (Importer.Mystery.MobileData mobile in mysteryImporter.Mobiles)
+            foreach (MobileData mobile in mysteryImporter.Mobiles)
                 CreateCharacterBlueprint(mobile);
             // Create Item blueprints
-            foreach (Importer.Mystery.ObjectData obj in mysteryImporter.Objects)
+            foreach (ObjectData obj in mysteryImporter.Objects)
                 CreateItemBlueprint(obj);
             // Create Areas
-            foreach (Importer.Mystery.AreaData importedArea in mysteryImporter.Areas)
+            foreach (AreaData importedArea in mysteryImporter.Areas)
             {
                 // TODO: levels
                 IArea area = World.AddArea(Guid.NewGuid(), importedArea.Name, 1, 99, importedArea.Builders, importedArea.Credits);
@@ -1422,7 +1454,7 @@ namespace Mud.Server.WPFTestApplication
             }
 
             // Create Rooms
-            foreach (Importer.Mystery.RoomData importedRoom in mysteryImporter.Rooms)
+            foreach (RoomData importedRoom in mysteryImporter.Rooms)
             {
                 IArea area = areasByVnums[importedRoom.AreaVnum];
                 IRoom room = World.AddRoom(Guid.NewGuid(), World.GetRoomBlueprint(importedRoom.VNum), area);
@@ -1430,11 +1462,11 @@ namespace Mud.Server.WPFTestApplication
             }
 
             // Create Exits
-            foreach (Importer.Mystery.RoomData importedRoom in mysteryImporter.Rooms)
+            foreach (RoomData importedRoom in mysteryImporter.Rooms)
             {
-                for (int i = 0; i < Importer.Mystery.RoomData.MaxExits - 1; i++)
+                for (int i = 0; i < RoomData.MaxExits - 1; i++)
                 {
-                    Importer.Mystery.ExitData exit = importedRoom.Exits[i];
+                    ExitData exit = importedRoom.Exits[i];
                     if (exit != null)
                     {
                         IRoom from;
@@ -1467,11 +1499,11 @@ namespace Mud.Server.WPFTestApplication
             INonPlayableCharacter lastCharacter = null;
             IItemContainer lastContainer = null;
             Dictionary<string, int> itemTypes = new Dictionary<string, int>();
-            foreach (Importer.Mystery.RoomData importedRoom in mysteryImporter.Rooms.Where(x => x.Resets.Any()))
+            foreach (RoomData importedRoom in mysteryImporter.Rooms.Where(x => x.Resets.Any()))
             {
                 IRoom room;
                 roomsByVNums.TryGetValue(importedRoom.VNum, out room);
-                foreach (Importer.Mystery.ResetData reset in importedRoom.Resets)
+                foreach (ResetData reset in importedRoom.Resets)
                 {
                     switch (reset.Command)
                     {

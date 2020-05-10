@@ -14,6 +14,7 @@ namespace Mud.Server.Item
             : base(guid, blueprint, containedInto)
         {
             Destination = destination;
+            KeyId = blueprint.Key;
             PortalFlags = blueprint.PortalFlags;
             MaxChargeCount = blueprint.MaxChargeCount;
             CurrentChargeCount = blueprint.CurrentChargeCount;
@@ -23,6 +24,7 @@ namespace Mud.Server.Item
             : base(guid, blueprint, itemData, containedInto)
         {
             Destination = destination;
+            KeyId = blueprint.Key;
             PortalFlags = itemData.PortalFlags;
             MaxChargeCount = itemData.MaxChargeCount;
             CurrentChargeCount = itemData.CurrentChargeCount;
@@ -30,16 +32,15 @@ namespace Mud.Server.Item
 
         #region IItemPortal
 
-        public IRoom Destination { get; protected set; }
-        
-        public PortalFlags PortalFlags { get; protected set; }
+        #region IItemCloseable
 
-        public int MaxChargeCount { get; protected set; }
+        public int KeyId { get; }
 
-        public int CurrentChargeCount { get; protected set; }
-
-        public bool IsClosed => (PortalFlags & PortalFlags.Closed) == PortalFlags.Closed;
-        public bool IsLocked => (PortalFlags & PortalFlags.Locked) == PortalFlags.Locked;
+        public bool IsCloseable => !PortalFlags.HasFlag(PortalFlags.NoClose);
+        public bool IsLockable => !PortalFlags.HasFlag(PortalFlags.NoLock);
+        public bool IsClosed => PortalFlags.HasFlag(PortalFlags.Closed);
+        public bool IsLocked => PortalFlags.HasFlag(PortalFlags.Locked);
+        public bool IsPickProof => PortalFlags.HasFlag(PortalFlags.PickProof);
 
         public void Open()
         {
@@ -48,7 +49,8 @@ namespace Mud.Server.Item
 
         public void Close()
         {
-            AddFlags(PortalFlags.Closed);
+            if (IsCloseable)
+                AddFlags(PortalFlags.Closed);
         }
 
         public void Unlock()
@@ -58,8 +60,19 @@ namespace Mud.Server.Item
 
         public void Lock()
         {
-            AddFlags(PortalFlags.Locked);
+            if (IsLockable && IsClosed)
+                AddFlags(PortalFlags.Locked);
         }
+
+        #endregion
+
+        public IRoom Destination { get; protected set; }
+        
+        public PortalFlags PortalFlags { get; protected set; }
+
+        public int MaxChargeCount { get; protected set; }
+
+        public int CurrentChargeCount { get; protected set; }
 
         public bool HasChargeLeft()
         {

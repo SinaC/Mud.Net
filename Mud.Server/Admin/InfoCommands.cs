@@ -132,7 +132,7 @@ namespace Mud.Server.Admin
                 StringBuilder sb = new StringBuilder();
                 foreach (WiznetFlags loopFlag in EnumHelpers.GetValues<WiznetFlags>().Where(x => x != WiznetFlags.None))
                 {
-                    bool isOnLoop = (WiznetFlags & loopFlag) == loopFlag;
+                    bool isOnLoop = WiznetFlags.HasFlag(loopFlag);
                     sb.AppendLine($"{loopFlag,-16} : {(isOnLoop ? "ON" : "OFF")}");
                 }
                 Send(sb);

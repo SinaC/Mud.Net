@@ -1686,7 +1686,7 @@ namespace Mud.Server.Abilities
             }
 
             if (victim != caster)
-                caster.Act(ActOptions.ToAll, "{0:N} raise{0:v} {0:s} hand, and a blinding ray of light shoots forth!");
+                caster.Act(ActOptions.ToAll, "{0:N} raise{0:v} {0:s} hand, and a blinding ray of light shoots forth!", caster);
 
             if (victim.IsGood)
             {
@@ -2086,7 +2086,7 @@ namespace Mud.Server.Abilities
             BreathAreaEffect(caster, ability, caster, level, damage, SchoolTypes.Poison, PoisonEffect);
         }
 
-        [Spell(504, "Lightning Breath", AbilityTargets.None)]
+        [Spell(504, "Lightning Breath", AbilityTargets.CharacterOffensive)]
         public void SpellLightningBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} breathes a bolt of lightning at {1}.", caster, victim);
@@ -2615,7 +2615,7 @@ namespace Mud.Server.Abilities
             bool savesSpell = victim.SavesSpell(level, damageType);
             if (savesSpell)
                 damage /= 2;
-            victim.AbilityDamage(caster, ability, damage, SchoolTypes.Fire, true);
+            victim.AbilityDamage(caster, ability, damage, damageType, true);
             return savesSpell;
         }
 

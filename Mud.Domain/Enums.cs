@@ -567,4 +567,15 @@ namespace Mud.Domain
         Buggy       = 0x00000080,
         Random      = 0x00000100
     }
+
+    [Flags]
+    public enum ContainerFlags
+    {
+        None        = 0x00000000,
+        Closed      = 0x00000001,
+        Locked      = 0x00000002,
+        PickProof   = 0x00000004,
+        NoClose     = 0x00000008,
+        NoLock      = 0x00000010
+    }
 }

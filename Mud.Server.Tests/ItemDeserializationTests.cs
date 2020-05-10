@@ -113,7 +113,7 @@ namespace Mud.Server.Tests
         {
             IWorld world = World;
             IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area", 1, 100, "builders", "credits"));
-            ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint {Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50};
+            ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint {Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50, ContainerFlags = ContainerFlags.NoLock | ContainerFlags.Closed};
             world.AddItemBlueprint(containerBlueprint);
 
             ItemContainerData itemData = new ItemContainerData
@@ -121,6 +121,7 @@ namespace Mud.Server.Tests
                 ItemId = containerBlueprint.Id,
                 DecayPulseLeft = AutoFaker.Generate<int>(),
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                ContainerFlags = AutoFaker.Generate<ContainerFlags>(),
             };
 
             IItem container = world.AddItem(Guid.NewGuid(), itemData, room);
@@ -130,6 +131,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(itemData.DecayPulseLeft, container.DecayPulseLeft);
             Assert.AreEqual(itemData.ItemFlags, container.BaseItemFlags);
             Assert.AreEqual(0, (container as IItemContainer).Content.Count());
+            Assert.AreEqual(itemData.ContainerFlags, (container as IItemContainer).ContainerFlags);
         }
 
         [TestMethod]

@@ -1,5 +1,4 @@
 Ongoing:
-Exit flags
 
 TODO:
 use GetEquipment where Equipments is reference
@@ -20,6 +19,9 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+Exit flags
+closeable items (portal and container)
+issue with lightning breath, table-based damage spell, ray of truth
 portal flags, charge, load/save
 WarpStone + SpellPortal + SpellNexus
 Aura.update
@@ -98,6 +100,8 @@ TableGenerator with duplicate columns
 	 ----------------------
 
 *************************************************************
+leaving impersonation should not stop fighting -> PlayableCharacter can still died while not impersonated
+  when impersonating, first search for impersonation in world -> use Guid !! should work if player disconnect/reconnect and reimpersonate
 make text drunk in say/whisper/... see act_comm.C:2222
 when using FindHelper.FindByName no ICharacter and parameter is self -> return itself
 redo rom importer
@@ -174,7 +178,7 @@ look no arg
 multitable generator, paging a table should repeat the header at the beginning of each page
 
 autosac, autoloot, auto...
-prompt
+prompt modifiable by user
 
 merge IAdminRepository and IPlayerRepository -> IAccountRepository
 
