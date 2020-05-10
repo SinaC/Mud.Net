@@ -1776,16 +1776,16 @@
       <MaxResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>119</Value>
+          <Value>106</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
           <Value>100</Value>
         </PairDataOfInt32Int32>
       </MaxResources>
-      <Experience>9500</Experience>
-      <Trains>16</Trains>
-      <Practices>22</Practices>
+      <Experience>9501</Experience>
+      <Trains>18</Trains>
+      <Practices>24</Practices>
       <Equipments />
       <Inventory />
       <CurrentQuests />
@@ -1817,7 +1817,7 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>5</Key>
-          <Value>120</Value>
+          <Value>127</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>6</Key>
@@ -1833,7 +1833,7 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>9</Key>
-          <Value>120</Value>
+          <Value>127</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>10</Key>

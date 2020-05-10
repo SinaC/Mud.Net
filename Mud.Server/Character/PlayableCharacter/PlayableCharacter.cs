@@ -960,18 +960,19 @@ namespace Mud.Server.Character.PlayableCharacter
             Practices += addPractice;
             Trains++;
 
-            Send("You gain {0} hit points, {1} mana, {2} move, and {3} practice{4}.", addHitpoints, addMana, addMove, addPractice, addPractice == 1 ? "" : "s");
+            Send("You gain {0} hit point{1}, {2} mana, {3} move, and {4} practice{5}.", addHitpoints, addHitpoints == 1 ? "" : "s", addMana, addMove, addPractice, addPractice == 1 ? "" : "s");
             // Inform about new abilities
             KnownAbility[] newAbilities = KnownAbilities.Where(x => x.Level == Level && x.Learned == 0).ToArray();
             if (newAbilities.Any())
             {
-                StringBuilder sb = new StringBuilder("You can now gain following abilities:");
+                StringBuilder sb = new StringBuilder("You can now gain following abilities: %y%");
                 foreach (KnownAbility knownAbility in newAbilities)
                 {
                     sb.Append(knownAbility.Ability.Name);
                     sb.Append(", ");
                 }
                 sb.Remove(sb.Length - 2, 2); // remove trailing comma
+                sb.AppendLine("%x");
                 Send(sb);
             }
         }
