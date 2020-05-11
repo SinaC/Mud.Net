@@ -66,6 +66,11 @@ namespace Mud.Server.Blueprints.Item
             return result;
         }
 
+        public bool Equals(ItemBlueprintBase other)
+        {
+            return other != null && Id == other.Id;
+        }
+
         public override bool Equals(object obj)
         {
             return Equals(obj as ItemBlueprintBase);

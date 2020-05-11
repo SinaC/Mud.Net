@@ -262,16 +262,28 @@ namespace Mud.Server.Abilities
                         }
                     }
                     else
-                    {
                         target = FindHelpers.FindByName(caster.Room.People, parameters[0]);
-                        if (target == null)
+                    if (target == null)
+                    {
+                        caster.Send("They aren't here.");
+                        return AbilityTargetResults.TargetNotFound;
+                    }
+                    ICharacter victim = (ICharacter)target;
+                    if (caster is IPlayableCharacter)
+                    {
+                        if (caster != target && victim.IsSafe(caster))
                         {
-                            caster.Send("They aren't here.");
-                            return AbilityTargetResults.TargetNotFound;
+                            caster.Send("Not on that target.");
+                            return AbilityTargetResults.InvalidTarget;
                         }
+                        // TODO: check_killer
+                    }
+                    if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm) && victim.ControlledBy == caster)
+                    {
+                        caster.Send("You can't do that on your own follower.");
+                        return AbilityTargetResults.InvalidTarget;
                     }
                     // victim found
-                    // TODO: check if safe/charm/...   messages.TargetIsSafe
                     break;
                 case AbilityTargets.CharacterDefensive:
                     if (parameters.Length < 1)
@@ -453,7 +465,11 @@ namespace Mud.Server.Abilities
                         caster.Send("You can't do that.");
                         return AbilityTargetResults.InvalidTarget;
                     }
-                    // TODO: check if safe -> Something isn't right...
+                    if (caster != target && (target as ICharacter)?.IsSafe(caster) == true)
+                    {
+                        caster.Send("Not on that target.");
+                        return AbilityTargetResults.InvalidTarget;
+                    }
                     break;
                 case AbilityTargets.CharacterDefensive:
                     if (target == null)
@@ -487,9 +503,10 @@ namespace Mud.Server.Abilities
                         }
                     }
 
-                    if (target is ICharacter victim)
+                    if (target is ICharacter victim && victim != caster && victim.IsSafeSpell(caster, false))
                     {
-                        // TODO: check if safe -> Something isn't right...
+                        caster.Send("Somehting isn't right...");
+                        return AbilityTargetResults.InvalidTarget;
                     }
                     break;
                 case AbilityTargets.ItemInventoryOrCharacterDefensive:

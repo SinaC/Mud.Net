@@ -180,6 +180,7 @@ namespace Mud.Domain
         Sword2H     = 9,
     }
 
+    [Flags]
     public enum WeaponFlags
     {
         None        = 0x00000000,
@@ -328,7 +329,7 @@ namespace Mud.Domain
         // not used
         NoMob       = 0x00000004,
         Indoors     = 0x00000008,
-        // not used
+        NoScan      = 0x00000010,
         // not used
         // not used
         // not used
@@ -339,9 +340,9 @@ namespace Mud.Domain
         // PetShop
         NoRecall    = 0x00002000,
         ImpOnly     = 0x00004000,
-        // GodsOnly
+        GodsOnly    = 0x00008000,
         // HeroesOnly
-        // NewbiesOnly
+        NewbiesOnly = 0x00020000, // level <= 5 only
         Law         = 0x00040000,
         Nowhere     = 0x00080000,
     }

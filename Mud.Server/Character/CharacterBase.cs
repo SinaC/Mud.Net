@@ -10,6 +10,7 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Abilities;
 using Mud.Server.Aura;
+using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
@@ -66,18 +67,6 @@ namespace Mud.Server.Character
 
         public override IReadOnlyTrie<CommandMethodInfo> Commands => CharacterBaseCommands.Value;
 
-        public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        {
-            // When hiding, anything will break it
-            if (CharacterFlags.HasFlag(CharacterFlags.Hide))
-            {
-                RemoveBaseCharacterFlags(CharacterFlags.Hide);
-                Recompute();
-            }
-
-            return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
-        }
-
         public override void Send(string message, bool addTrailingNewLine)
         {
             // TODO: use Act formatter ?
@@ -94,8 +83,8 @@ namespace Mud.Server.Character
         public override void Page(StringBuilder text)
         {
             base.Page(text);
-            if (Settings.ForwardSlaveMessages && ControlledBy != null)
-                ControlledBy.Page(text);
+            if (Settings.ForwardSlaveMessages)
+                ControlledBy?.Page(text);
         }
 
         #endregion
@@ -346,23 +335,16 @@ namespace Mud.Server.Character
         {
             if (victim == this)
                 return true;
-
             // blind
             if (CharacterFlags.HasFlag(CharacterFlags.Blind))
                 return false;
-
-            // TODO: dark room
-            //if (room_is_dark(ch->in_room)
-            //    && !IS_AFFECTED(ch, AFF_INFRARED)
-            //    // Added by SinaC 2000
-            //    && !IS_AFFECTED(ch, AFF_DARK_VISION))
-            //    return FALSE;
-
+            // infrared + dark
+            if (!CharacterFlags.HasFlag(CharacterFlags.Infrared) && Room.IsDark)
+                return false;
             // invis
             if (victim.CharacterFlags.HasFlag(CharacterFlags.Invisible)
                 && !CharacterFlags.HasFlag(CharacterFlags.DetectInvis))
                 return false;
-
             // sneaking
             if (victim.CharacterFlags.HasFlag(CharacterFlags.Sneak)
                 && !CharacterFlags.HasFlag(CharacterFlags.DetectHidden)
@@ -377,13 +359,12 @@ namespace Mud.Server.Character
                 if (!RandomManager.Chance(chance))
                     return false;
             }
-
             // hide
             if (victim.CharacterFlags.HasFlag(CharacterFlags.Hide)
                 && !CharacterFlags.HasFlag(CharacterFlags.DetectHidden)
                 && victim.Fighting == null)
                 return false;
-
+            //
             return true;
         }
 
@@ -432,26 +413,28 @@ namespace Mud.Server.Character
 
         public bool CanSee(IRoom room)
         {
-    //        if (IS_SET(pRoomIndex->room_flags, ROOM_IMP_ONLY)
-    //&& get_trust(ch) < MAX_LEVEL)
-    //            return FALSE;
+            // infrared + dark
+            if (!CharacterFlags.HasFlag(CharacterFlags.Infrared) && room.IsDark)
+                return false;
+            //        if (IS_SET(pRoomIndex->room_flags, ROOM_IMP_ONLY)
+            //&& get_trust(ch) < MAX_LEVEL)
+            //            return FALSE;
 
-    //        if (IS_SET(pRoomIndex->room_flags, ROOM_GODS_ONLY)
-    //        && !IS_IMMORTAL(ch))
-    //            return FALSE;
+            //        if (IS_SET(pRoomIndex->room_flags, ROOM_GODS_ONLY)
+            //        && !IS_IMMORTAL(ch))
+            //            return FALSE;
 
-    //        if (IS_SET(pRoomIndex->room_flags, ROOM_HEROES_ONLY)
-    //        && !IS_IMMORTAL(ch))
-    //            return FALSE;
+            //        if (IS_SET(pRoomIndex->room_flags, ROOM_HEROES_ONLY)
+            //        && !IS_IMMORTAL(ch))
+            //            return FALSE;
 
-    //        if (IS_SET(pRoomIndex->room_flags, ROOM_NEWBIES_ONLY)
-    //        && ch->level > 5 && !IS_IMMORTAL(ch))
-    //            return FALSE;
+            if (room.RoomFlags.HasFlag(RoomFlags.NewbiesOnly) && Level > 5)
+                return false;
 
-    //        if (!IS_IMMORTAL(ch) && pRoomIndex->clan && ch->clan != pRoomIndex->clan)
-    //            return FALSE;
+            //        if (!IS_IMMORTAL(ch) && pRoomIndex->clan && ch->clan != pRoomIndex->clan)
+            //            return FALSE;
 
-    //        return TRUE;
+            //        return TRUE;
 
             return true; // TODO
         }
@@ -652,7 +635,13 @@ namespace Mud.Server.Character
                 Act(ActOptions.ToCharacter, "The {0} is closed.", exit);
                 return false;
             }
-            
+            // Private ?
+            if (toRoom.IsPrivate)
+            {
+                Send("That room is private right now.");
+                return false;
+            }
+
             // Check move points left or drunk special phrase
             bool beforeMove = BeforeMove(direction, fromRoom, toRoom);
             if (!beforeMove)
@@ -710,6 +699,7 @@ namespace Mud.Server.Character
             if (destination == null
                 || destination == Room
                 || !CanSee(destination)
+                || destination.IsPrivate
                 || destination.RoomFlags.HasFlag(RoomFlags.Private))
             {
                 Act(ActOptions.ToCharacter, "{0:N} doesn't seem to go anywhere.", portal);
@@ -1166,8 +1156,12 @@ namespace Mud.Server.Character
                 if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
                     return true;
                 // TODO: No fight in a shop -> send_to_char("The shopkeeper wouldn't like that.\n\r",ch);
-                // TODO: Can't killer trainer, practicer, healer, changer, questor  -> send_to_char("I don't think Mota would approve.\n\r",ch);
-
+                if (npcVictim.ActFlags.HasFlag(ActFlags.Train)
+                    || npcVictim.ActFlags.HasFlag(ActFlags.Gain)
+                    || npcVictim.ActFlags.HasFlag(ActFlags.Practice)
+                    || npcVictim.ActFlags.HasFlag(ActFlags.IsHealer)
+                    || npcVictim.Blueprint is CharacterQuestorBlueprint)
+                    return true;
                 // Npc doing the killing
                 if (caster is INonPlayableCharacter)
                 {
@@ -1217,46 +1211,54 @@ namespace Mud.Server.Character
                     //if (!is_clan(victim))
                     //    return true;
 
-                    //if (ch->level > victim->level + 8)
-                    //    return true;
+                    if (Level > victim.Level + 8)
+                        return true;
                 }
             }
             return false;
         }
 
-        public bool IsSafe(ICharacter character)
+        public bool IsSafe(ICharacter aggressor)
         {
             ICharacter victim = this;
-            if (!victim.IsValid || victim.Room == null || !character.IsValid || character.Room == null)
+            if (!victim.IsValid || victim.Room == null || !aggressor.IsValid || aggressor.Room == null)
                 return true;
-            if (victim.Fighting == character || victim == character)
+            if (victim.Fighting == aggressor || victim == aggressor)
                 return false;
-            if (character is IPlayableCharacter pcCaster && pcCaster.ImpersonatedBy is IAdmin)
+            if (aggressor is IPlayableCharacter pcCaster && pcCaster.ImpersonatedBy is IAdmin)
                 return false;
             // Killing npc
             if (victim is INonPlayableCharacter npcVictim)
             {
                 if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
                 {
-                    character.Send("Not in the room.");
+                    aggressor.Send("Not in the room.");
                     return true;
                 }
                 // TODO: No fight in a shop -> send_to_char("The shopkeeper wouldn't like that.\n\r",ch);
-                // TODO: Can't killer trainer, practicer, healer, changer, questor -> send_to_char("I don't think Mota would approve.\n\r",ch);
+                if (npcVictim.ActFlags.HasFlag(ActFlags.Train)
+                    || npcVictim.ActFlags.HasFlag(ActFlags.Gain)
+                    || npcVictim.ActFlags.HasFlag(ActFlags.Practice)
+                    || npcVictim.ActFlags.HasFlag(ActFlags.IsHealer)
+                    || npcVictim.Blueprint is CharacterQuestorBlueprint)
+                {
+                    aggressor.Send("I don't think Mota would approve.");
+                    return true;
+                }
 
                 // Player doing the killing
-                if (character is IPlayableCharacter)
+                if (aggressor is IPlayableCharacter)
                 {
                     // no pets
                     if (npcVictim.ActFlags.HasFlag(ActFlags.Pet))
                     {
-                        character.Act(ActOptions.ToCharacter, "But {0} looks so cute and cuddly...", victim);
+                        aggressor.Act(ActOptions.ToCharacter, "But {0} looks so cute and cuddly...", victim);
                         return true;
                     }
                     // no charmed creatures unless owner
-                    if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm) && character != victim.ControlledBy)
+                    if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm) && aggressor != victim.ControlledBy)
                     {
-                        character.Send("You don't own that monster.");
+                        aggressor.Send("You don't own that monster.");
                         return true;
                     }
                 }
@@ -1265,18 +1267,18 @@ namespace Mud.Server.Character
             else
             {
                 // Npc doing the killing
-                if (character is INonPlayableCharacter npcCaster)
+                if (aggressor is INonPlayableCharacter npcCaster)
                 {
                     // safe room
                     if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
                     {
-                        character.Send("Not in the room.");
+                        aggressor.Send("Not in the room.");
                         return true;
                     }
                     // charmed mobs and pets cannot attack players while owned
-                    if (character.CharacterFlags.HasFlag(CharacterFlags.Charm) && character.ControlledBy != null && character.ControlledBy.Fighting != victim)
+                    if (aggressor.CharacterFlags.HasFlag(CharacterFlags.Charm) && aggressor.ControlledBy != null && aggressor.ControlledBy.Fighting != victim)
                     {
-                        character.Send("Players are your friends!");
+                        aggressor.Send("Players are your friends!");
                         return true;
                     }
                 }
@@ -1298,18 +1300,17 @@ namespace Mud.Server.Character
                     //    return true;
                     //}
 
-                    //if (ch->level > victim->level + 8)
-                    //{
-                    //    send_to_char("Pick on someone your own size.\n\r", ch);
-                    //    return true;
-                    //}
+                    if (Level > victim.Level + 8)
+                    {
+                        aggressor.Send("Pick on someone your own size.");
+                        return true;
+                    }
                 }
             }
             return false;
         }
 
         // Abilities
-
         public abstract (int, KnownAbility) GetLearnInfo(IAbility ability);
 
         public (int, KnownAbility) GetLearnInfo(string abilityName) 
@@ -1575,6 +1576,22 @@ namespace Mud.Server.Character
 
         #endregion
 
+        #region ActorBase
+
+        protected override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
+        {
+            // When hiding, anything will break it
+            if (CharacterFlags.HasFlag(CharacterFlags.Hide))
+            {
+                RemoveBaseCharacterFlags(CharacterFlags.Hide);
+                Recompute();
+            }
+
+            return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
+        }
+
+        #endregion
+
         protected abstract int NoWeaponDamage { get; }
 
         protected abstract int HitPointMinValue { get; }
@@ -1595,6 +1612,12 @@ namespace Mud.Server.Character
         {
             if (fromRoom != toRoom)
             {
+                if (Slave.ActFlags.HasFlag(ActFlags.Aggressive) && toRoom.RoomFlags.HasFlag(RoomFlags.Law))
+                {
+                    Slave.ControlledBy?.Act(ActOptions.ToCharacter, "You can't bring {0} into the city.", Slave);
+                    Slave.Send("You aren't allowed in the city.");
+                    return;
+                }
                 if (Slave != null)
                 {
                     Slave.Send("You follow {0}.", DebugName);

@@ -208,19 +208,6 @@ namespace Mud.Server.Character.PlayableCharacter
 
         public override IReadOnlyTrie<CommandMethodInfo> Commands => PlayableCharacterCommands.Value;
 
-        public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        {
-            if (methodInfo.Attribute is PlayableCharacterCommandAttribute playableCharacterCommandAttribute)
-            {
-                if (ImpersonatedBy == null)
-                {
-                    Send($"You must be impersonated to use '{playableCharacterCommandAttribute.Name}'.");
-                    return false;
-                }
-            }
-            return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
-        }
-
         public override void Send(string message, bool addTrailingNewLine)
         {
             // TODO: use Act formatter ?
@@ -699,6 +686,23 @@ namespace Mud.Server.Character.PlayableCharacter
                 // TODO: cooldown, ...
             };
             return data;
+        }
+
+        #endregion
+
+        #region ActorBase
+
+        protected override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
+        {
+            if (methodInfo.Attribute is PlayableCharacterCommandAttribute playableCharacterCommandAttribute)
+            {
+                if (ImpersonatedBy == null)
+                {
+                    Send($"You must be impersonated to use '{playableCharacterCommandAttribute.Name}'.");
+                    return false;
+                }
+            }
+            return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
         }
 
         #endregion

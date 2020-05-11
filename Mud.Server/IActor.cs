@@ -10,8 +10,6 @@ namespace Mud.Server
 
         bool ProcessCommand(string commandLine); // split commandLine into command and parameters, then call ExecuteCommand
         bool ExecuteCommand(string command, string rawParameters, params CommandParameter[] parameters); // search command in Commands, then execute it
-        bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters); // method executed before command (if false is returned, command will not be executed)
-        bool ExecuteAfterCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters); // method executed before command
 
         void Send(string message, bool addTrailingNewLine); // send message to Actor
         void Send(string format, params object[] parameters); // send overload (this function will automatically add a trailing newline)

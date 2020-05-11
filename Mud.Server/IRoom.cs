@@ -24,6 +24,7 @@ namespace Mud.Server
             where TBlueprint : CharacterBlueprintBase;
 
         bool IsPrivate { get; }
+        bool IsDark { get; }
 
         IExit[] Exits { get; } // fixed length
 

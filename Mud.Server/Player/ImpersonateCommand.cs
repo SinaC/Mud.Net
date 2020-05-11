@@ -113,7 +113,7 @@ namespace Mud.Server.Player
 
         // Helpers
         // TODO: crappy workaround because ClassManager, RaceManager and World are needed
-        private readonly static Lazy<TableGenerator<CharacterData>> AvatarTableGenerator = new Lazy<TableGenerator<CharacterData>>(() =>
+        private static readonly Lazy<TableGenerator<CharacterData>> AvatarTableGenerator = new Lazy<TableGenerator<CharacterData>>(() =>
         {
             IClassManager classManager = DependencyContainer.Current.GetInstance<IClassManager>();
             IRaceManager raceManager = DependencyContainer.Current.GetInstance<IRaceManager>();

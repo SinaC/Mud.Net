@@ -57,7 +57,7 @@ namespace Mud.Server.Blueprints.LootTable
                             {
                                 history.Add(randomEntry);
                                 T loot = randomEntry.Value.GenerateLoot(lootList);
-                                if (!loot.Equals(default(T)))
+                                if (!loot.Equals(default))
                                     lootList.Add(loot);
                             }
                             //else

@@ -31,22 +31,22 @@ namespace Mud.Server.Blueprints.Character
         public int Level { get; set; }
 
         [DataMember]
-        public ActFlags ActFlags { get; set; } // TODO: assign
+        public ActFlags ActFlags { get; set; }
 
         [DataMember]
-        public OffensiveFlags OffensiveFlags { get; set; } // TODO: assign
+        public OffensiveFlags OffensiveFlags { get; set; }
 
         [DataMember]
-        public CharacterFlags CharacterFlags { get; set; } // TODO: assign
+        public CharacterFlags CharacterFlags { get; set; }
 
         [DataMember]
-        public IRVFlags Immunities { get; set; } // TODO: assign
+        public IRVFlags Immunities { get; set; }
 
         [DataMember]
-        public IRVFlags Resistances { get; set; } // TODO: assign
+        public IRVFlags Resistances { get; set; }
 
         [DataMember]
-        public IRVFlags Vulnerabilities { get; set; } // TODO: assign
+        public IRVFlags Vulnerabilities { get; set; }
 
         // TODO CharacterAttributes
 

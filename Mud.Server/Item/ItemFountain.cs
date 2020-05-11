@@ -28,8 +28,6 @@ namespace Mud.Server.Item
 
         public bool IsEmpty => false;
 
-        public bool IsPoisoned => false;
-
         public int LiquidAmountMultiplier => 3;
 
         public void Drink(int amount)

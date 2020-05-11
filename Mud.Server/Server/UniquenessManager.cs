@@ -7,7 +7,7 @@ namespace Mud.Server.Server
 {
     public class UniquenessManager : IUniquenessManager
     {
-        private HashSet<string> _unavailableNames = new HashSet<string>(1024); // Lock ?
+        private readonly HashSet<string> _unavailableNames = new HashSet<string>(1024); // Lock ?
 
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
         protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();

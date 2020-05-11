@@ -130,6 +130,7 @@ namespace Mud.Server.World
             INonPlayableCharacter nonPlayableCharacter = character as INonPlayableCharacter;
             return RandomManager.Random(Rooms.Where(x =>
                 character.CanSee(x)
+                && !x.IsPrivate
                 && !x.RoomFlags.HasFlag(RoomFlags.Safe)
                 && !x.RoomFlags.HasFlag(RoomFlags.Private)
                 && !x.RoomFlags.HasFlag(RoomFlags.Solitary)
@@ -333,7 +334,7 @@ namespace Mud.Server.World
                     {
                         ItemPortalData itemPortalData = itemData as ItemPortalData;
                         IRoom destination = null;
-                        if (itemPortalData.DestinationRoomId != ItemPortal.NoDestinationRoomId)
+                        if (itemPortalData != null && itemPortalData.DestinationRoomId != ItemPortal.NoDestinationRoomId)
                         {
                             destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == itemPortalData.DestinationRoomId);
                             if (destination == null)
@@ -545,16 +546,6 @@ namespace Mud.Server.World
         {
             blueprints.TryGetValue(id, out var blueprint);
             return blueprint;
-        }
-
-
-        private IItemContainer AddItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer container)
-        {
-            if (blueprint == null)
-                throw new ArgumentNullException(nameof(blueprint));
-            IItemContainer item = new ItemContainer(guid, blueprint, container);
-            _items.Add(item);
-            return item;
         }
     }
 }

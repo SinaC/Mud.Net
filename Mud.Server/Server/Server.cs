@@ -57,7 +57,6 @@ namespace Mud.Server.Server
         protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
         protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
-        protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();
         protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
 
         public Server()
@@ -691,7 +690,6 @@ namespace Mud.Server.Server
 
         private void SanityChecks()
         {
-            SanityCheckExperience();
             SanityCheckQuests();
             SanityCheckAbilities();
             SanityCheckClasses();
@@ -699,25 +697,6 @@ namespace Mud.Server.Server
             SanityCheckRooms();
             SanityCheckItems();
             SanityCheckCharacters();
-        }
-
-        private void SanityCheckExperience()
-        {
-            long totalExperience = 0;
-            long previousExpToLevel = 0;
-            for (int lvl = 1; lvl < 100; lvl++)
-            {
-                long expToLevel;
-                bool found = CombatHelpers.ExperienceToNextLevel.TryGetValue(lvl, out expToLevel);
-                if (!found)
-                    Log.Default.WriteLine(LogLevels.Error, "No experience to next level found for level {0}", lvl);
-                else if (expToLevel < previousExpToLevel)
-                    Log.Default.WriteLine(LogLevels.Error, "Experience to next level for level {0} is lower than previous level", lvl);
-                else
-                    previousExpToLevel = expToLevel;
-                totalExperience += expToLevel;
-            }
-            Log.Default.WriteLine(LogLevels.Info, "Total experience from 1 to 100 = {0:n0}", totalExperience);
         }
 
         private void SanityCheckAbilities()
@@ -842,13 +821,13 @@ namespace Mud.Server.Server
 
         private void DumpClasses()
         {
-            StringBuilder sb = TableGenerators.ClassTableGenerator.Value.Generate($"Classes", ClassManager.Classes.OrderBy(x => x.Name));
+            StringBuilder sb = TableGenerators.ClassTableGenerator.Value.Generate("Classes", ClassManager.Classes.OrderBy(x => x.Name));
             Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 
         private void DumpRaces()
         {
-            StringBuilder sb = TableGenerators.RaceTableGenerator.Value.Generate($"Races", RaceManager.Races.OrderBy(x => x.Name));
+            StringBuilder sb = TableGenerators.RaceTableGenerator.Value.Generate("Races", RaceManager.Races.OrderBy(x => x.Name));
             Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 
@@ -858,7 +837,7 @@ namespace Mud.Server.Server
             Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 
-        private void HandleShutdown(int pulseCount)
+        private void HandleShutdown(int _)
         {
             if (_pulseBeforeShutdown >= 0)
             {

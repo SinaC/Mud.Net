@@ -23,7 +23,5 @@ namespace Mud.Server
         // TODO: thac0_00, thac0_32
         int MinHitPointGainPerLevel { get; }
         int MaxHitPointGainPerLevel { get; }
-
-        int GetAttributeByLevel(CharacterAttributes attribute, int level);
     }
 }

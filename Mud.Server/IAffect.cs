@@ -16,7 +16,7 @@ namespace Mud.Server
         void Apply(IRoom room);
     }
 
-    public interface IItemAffect<T> : IAffect
+    public interface IItemAffect<in T> : IAffect
         where T : IItem
     {
         // ItemFlags

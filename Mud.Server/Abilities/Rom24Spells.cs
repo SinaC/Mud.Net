@@ -1915,10 +1915,12 @@ namespace Mud.Server.Abilities
             if (victim == caster
                 || victim.Room == null
                 || caster.Room.RoomFlags.HasFlag(RoomFlags.Safe)
+                || caster.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
                 || victim.Room.RoomFlags.HasFlag(RoomFlags.Safe)
                 || victim.Room.RoomFlags.HasFlag(RoomFlags.Private)
                 || victim.Room.RoomFlags.HasFlag(RoomFlags.Solitary)
                 || victim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
+                || victim.Room.RoomFlags.HasFlag(RoomFlags.ImpOnly)
                 || npcVictim?.ActFlags.HasFlag(ActFlags.Aggressive) == true
                 || victim.Level >= level+3
                 || pcVictim?.ImpersonatedBy is IAdmin
@@ -2000,7 +2002,7 @@ namespace Mud.Server.Abilities
             victim.Act(ActOptions.ToRoom, "{0:N} looks tired and weak.", victim);
         }
 
-        [Spell(90, "Word of Recall", AbilityTargets.CharacterSelf)]
+        [Spell(90, "Word of recall", AbilityTargets.CharacterSelf)]
         public void SpellWordOfRecall(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             IPlayableCharacter pcVictim = victim as IPlayableCharacter;
@@ -2570,12 +2572,13 @@ namespace Mud.Server.Abilities
             if (victim == caster
                 || victim.Room == null
                 || !caster.CanSee(victim.Room)
+                || caster.Room.RoomFlags.HasFlag(RoomFlags.Safe)
+                || caster.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
                 || victim.Room.RoomFlags.HasFlag(RoomFlags.Safe)
                 || victim.Room.RoomFlags.HasFlag(RoomFlags.Private)
                 || victim.Room.RoomFlags.HasFlag(RoomFlags.Solitary)
                 || victim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
                 || victim.Room.RoomFlags.HasFlag(RoomFlags.ImpOnly)
-                || caster.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
                 || victim.Level >= level + 3
                 // TODO: clan check
                 // TODO: hero level check 

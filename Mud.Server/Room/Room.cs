@@ -137,6 +137,19 @@ namespace Mud.Server.Room
             }
         }
 
+        public bool IsDark
+        {
+            get
+            {
+                // TODO: Room.Light
+                if (RoomFlags.HasFlag(RoomFlags.Dark))
+                    return true;
+                // TODO: if sector.inside || sector.city return false
+                // TODO: if weather = sun_set || sun_dark return true
+                return false;
+            }
+        }
+
         public IExit[] Exits { get; }
 
         public IExit Exit(ExitDirections direction)
@@ -191,10 +204,7 @@ namespace Mud.Server.Room
                 case AffectOperators.Nor:
                     RoomFlags &= ~affect.Modifier;
                     break;
-                default:
-                    break;
             }
-            return;
         }
 
         #endregion
@@ -218,6 +228,7 @@ namespace Mud.Server.Room
         }
 
         [Command("test", "!!Test!!")]
+        // ReSharper disable once UnusedMember.Global
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
             Send("Room: DoTest");
@@ -225,6 +236,7 @@ namespace Mud.Server.Room
         }
 
         [Command("look", "Information")]
+        // ReSharper disable once UnusedMember.Global
         protected virtual CommandExecutionResults DoLook(string rawParameters, params CommandParameter[] parameters)
         {
             //TODO: better 'UI'

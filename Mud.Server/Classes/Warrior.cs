@@ -22,12 +22,8 @@ namespace Mud.Server.Classes
         public override int MaxPracticePercentage => 75;
 
         public override int MinHitPointGainPerLevel => 11;
-        public override int MaxHitPointGainPerLevel => 15;
 
-        public override int GetAttributeByLevel(CharacterAttributes attribute, int level)
-        {
-            return level * 10; // TODO: http://wow.gamepedia.com/Base_attributes
-        }
+        public override int MaxHitPointGainPerLevel => 15;
 
         #endregion
 

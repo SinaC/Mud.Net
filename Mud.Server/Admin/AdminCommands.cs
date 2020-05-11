@@ -249,6 +249,11 @@ namespace Mud.Server.Admin
                 Send("No such location.");
                 return CommandExecutionResults.TargetNotFound;
             }
+            if (where.IsPrivate && where.People.Count() > 1)
+            {
+                Send("That room is private right now.");
+                return CommandExecutionResults.InvalidTarget;
+            }
 
             if (Impersonating.Fighting != null)
                 Impersonating.StopFighting(true);
@@ -324,6 +329,11 @@ namespace Mud.Server.Admin
             {
                 Send("No such location.");
                 return CommandExecutionResults.TargetNotFound;
+            }
+            if (where.IsPrivate)
+            {
+                Send("That room is private right now.");
+                return CommandExecutionResults.InvalidTarget;
             }
 
             ICharacter whom = Impersonating != null 

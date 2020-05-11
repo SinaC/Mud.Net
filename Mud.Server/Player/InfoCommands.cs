@@ -60,6 +60,7 @@ namespace Mud.Server.Player
         {
             if (parameters.Length == 0)
             {
+                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (PagingLineCount == 0)
                     Send("You do not page long messages.");
                 else

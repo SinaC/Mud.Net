@@ -17,6 +17,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+RoomFlags
+IsSafe
 GetLearned replaced this[IAbility]
 envenom
 all skills
@@ -105,6 +107,8 @@ TableGenerator with duplicate columns
 	 ----------------------
 
 *************************************************************
+automated quests
+quest history
 linkdead
 leaving impersonation should not stop fighting -> PlayableCharacter can still died while not impersonated
   when impersonating, first search for impersonation in world -> use Guid !! should work if player disconnect/reconnect and reimpersonate

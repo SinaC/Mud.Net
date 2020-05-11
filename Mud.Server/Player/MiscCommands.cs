@@ -89,8 +89,7 @@ namespace Mud.Server.Player
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             string alias = parameters[0].Value.ToLowerInvariant().Trim();
-            string cmd;
-            if (Aliases.TryGetValue(alias, out cmd))
+            if (Aliases.TryGetValue(alias, out _))
             {
                 _aliases.Remove(alias);
                 Send("Alias removed.");

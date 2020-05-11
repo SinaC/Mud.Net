@@ -111,16 +111,6 @@ namespace Mud.Server.Actor
             }
         }
 
-        public virtual bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        {
-            return true;
-        }
-
-        public virtual bool ExecuteAfterCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        {
-            return true;
-        }
-
         public void Send(string format, params object[] parameters)
         {
             string message = parameters.Length == 0 
@@ -135,6 +125,16 @@ namespace Mud.Server.Actor
         }
 
         #endregion
+
+        protected virtual bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
+        {
+            return true;
+        }
+
+        protected virtual bool ExecuteAfterCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
+        {
+            return true;
+        }
 
         [Command("cmd", Priority = 0)]
         [Command("commands", Priority = 0)]

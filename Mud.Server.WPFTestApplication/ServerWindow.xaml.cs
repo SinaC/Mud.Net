@@ -356,7 +356,8 @@ namespace Mud.Server.WPFTestApplication
                 Id = data.VNum,
                 Name = data.Name,
                 Description = data.Description,
-                ExtraDescriptions = RoomBlueprint.BuildExtraDescriptions(data.ExtraDescr)
+                ExtraDescriptions = RoomBlueprint.BuildExtraDescriptions(data.ExtraDescr),
+                RoomFlags = ConvertRoomFlags(data.Flags),
                 // Exits will be done when each room blueprint is created
             };
             World.AddRoomBlueprint(blueprint);
@@ -893,6 +894,30 @@ namespace Mud.Server.WPFTestApplication
         }
 
         private static bool HasBit(long data, long bit) => (data & bit) == bit;
+
+        private static RoomFlags ConvertRoomFlags(long flag)
+        {
+            RoomFlags flags = RoomFlags.None;
+            if (HasBit(flag, MysteryImporter.A)) flags |= RoomFlags.Dark;
+            // B
+            if (HasBit(flag, MysteryImporter.C)) flags |= RoomFlags.NoMob;
+            if (HasBit(flag, MysteryImporter.D)) flags |= RoomFlags.Indoors;
+            if (HasBit(flag, MysteryImporter.E)) flags |= RoomFlags.NoScan;
+            // F, G, H, I
+            if (HasBit(flag, MysteryImporter.J)) flags |= RoomFlags.Private;
+            if (HasBit(flag, MysteryImporter.K)) flags |= RoomFlags.Safe;
+            if (HasBit(flag, MysteryImporter.L)) flags |= RoomFlags.Solitary;
+            // M
+            if (HasBit(flag, MysteryImporter.N)) flags |= RoomFlags.NoRecall;
+            if (HasBit(flag, MysteryImporter.O)) flags |= RoomFlags.ImpOnly;
+            if (HasBit(flag, MysteryImporter.P)) flags |= RoomFlags.GodsOnly;
+            // Q
+            if (HasBit(flag, MysteryImporter.R)) flags |= RoomFlags.NewbiesOnly;
+            if (HasBit(flag, MysteryImporter.S)) flags |= RoomFlags.Law;
+            if (HasBit(flag, MysteryImporter.T)) flags |= RoomFlags.Nowhere;
+
+            return flags;
+        }
         
         private static ExitFlags ConvertExitInfo(long exitInfo)
         {

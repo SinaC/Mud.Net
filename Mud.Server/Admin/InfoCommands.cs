@@ -209,6 +209,12 @@ namespace Mud.Server.Admin
                 Send("It doesn't exist.");
                 return CommandExecutionResults.TargetNotFound;
             }
+            if (room.IsPrivate)
+            {
+                Send("That room is private right now.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+
             StringBuilder sb = new StringBuilder();
             if (room.Blueprint != null)
                 sb.AppendFormatLine("Blueprint: {0}", room.Blueprint.Id);

@@ -147,7 +147,7 @@ namespace Mud.Server
         void KillingPayoff(ICharacter victim);
         bool SavesSpell(int level, SchoolTypes damageType);
         bool IsSafeSpell(ICharacter caster, bool area);
-        bool IsSafe(ICharacter character);
+        bool IsSafe(ICharacter aggressor);
 
         // Abilities
         (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability);

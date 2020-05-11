@@ -41,19 +41,19 @@ namespace Mud.Server.Blueprints.LootTable
             if (Entries == null)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: No entries");
-                return default(T); // max occurancy reached, no loot
+                return default; // max occurancy reached, no loot
             }
             TreasureTableEntry<T> randomEntry = RandomManager.RandomOccurancy<TreasureTableEntry<T>, T>(Entries);
             if (randomEntry == null)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: no loot found");
-                return default(T);
+                return default;
             }
             //Log.Default.WriteLine(LogLevels.Debug, "Loot: {0}", randomEntry.Value);
             if (history.Count(x => x.Equals(randomEntry.Value)) >= randomEntry.MaxOccurancy)
             {
                 //Log.Default.WriteLine(LogLevels.Debug, "Loot rejected #>Max");
-                return default(T); // max occurancy reached, no loot
+                return default; // max occurancy reached, no loot
             }
             return randomEntry.Value;
         }

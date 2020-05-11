@@ -32,9 +32,6 @@ namespace Mud.Server
 
         void OnRemoved(); // set IsValid, Ability, Source
 
-        // TODO: search affect method
-        // TODO: method to 'merge' affect
-
         // Display
         void Append(StringBuilder sb);
 

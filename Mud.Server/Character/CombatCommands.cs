@@ -7,7 +7,7 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [Command("kill", "Combat")]
+        [Command("kill", "Combat", Priority = 1)]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoKill(string rawParameters, params CommandParameter[] parameters)
         {
@@ -27,18 +27,17 @@ namespace Mud.Server.Character
             if (target == this)
             {
                 Send("You hit yourself. Ouch!");
-                return CommandExecutionResults.InvalidTarget;
+                return CommandExecutionResults.InvalidTarget; // TODO: call MultiHit
             }
+
+            if (target.IsSafe(this))
+                return CommandExecutionResults.InvalidTarget;
 
             if (target is IPlayableCharacter)
             {
                 Send("You must MURDER a player!");
                 return CommandExecutionResults.InvalidTarget;
             }
-
-            // TODO
-            //if (is_safe(ch, victim))
-            //    return;
 
             IPlayableCharacter playableCharacter = this as IPlayableCharacter;
             if (target.Fighting != null)
@@ -52,11 +51,11 @@ namespace Mud.Server.Character
                 }
             }
 
-            //if (IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim)
-            //{
-            //    act("$N is your beloved master.", ch, NULL, victim, TO_CHAR);
-            //    return;
-            //}
+            if (CharacterFlags.HasFlag(CharacterFlags.Charm) && ControlledBy == target)
+            {
+                Act(ActOptions.ToCharacter, "{0:N} is your beloved master.", target);
+                return CommandExecutionResults.InvalidTarget;
+            }
 
             if (Position == Positions.Fighting)
             {

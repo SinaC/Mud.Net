@@ -87,9 +87,10 @@ namespace Mud.Server.Abilities
         [Skill(5001, "Bash", AbilityTargets.CharacterOffensive, PulseWaitTime = 20)]
         public UseResults SkillBash(IAbility ability, int learned, ICharacter source, ICharacter victim)
         {
+            INonPlayableCharacter npcSource = source as INonPlayableCharacter;
             int chance = learned;
             if (chance == 0
-                || (source is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.Bash)))
+                || (npcSource != null && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.Bash)))
             {
                 source.Send("Bashing? What's that?");
                 return UseResults.NotKnown;
@@ -107,9 +108,16 @@ namespace Mud.Server.Abilities
                 return UseResults.InvalidTarget;
             }
 
-            // TODO: is safe check
+            if (victim.IsSafe(source))
+                return UseResults.InvalidTarget;
+
             // TODO: check kill stealing
-            // TODO: pet check
+
+            if (source.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcSource?.ControlledBy == victim)
+            {
+                source.Act(ActOptions.ToCharacter, "But {0:N} is your friend!", victim);
+                return UseResults.InvalidTarget;
+            }
 
             // modifiers
 
@@ -121,7 +129,7 @@ namespace Mud.Server.Abilities
             chance -= (4 * victim[CharacterAttributes.Dexterity]) / 3;
             chance -= victim[CharacterAttributes.ArmorBash] / 25;
             // speed
-            if ((source as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || source.CharacterFlags.HasFlag(CharacterFlags.Haste))
+            if (npcSource?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || source.CharacterFlags.HasFlag(CharacterFlags.Haste))
                 chance += 10;
             if ((victim as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || victim.CharacterFlags.HasFlag(CharacterFlags.Haste))
                 chance -= 30;
@@ -161,9 +169,10 @@ namespace Mud.Server.Abilities
         [Skill(5002, "Dirt kicking", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, LearnDifficultyMultiplier = 2, CharacterWearOffMessage = "You rub the dirt out of your eyes.")]
         public UseResults SkillDirt(IAbility ability, int learned, ICharacter source, ICharacter victim) // almost copy/paste from bash
         {
+            INonPlayableCharacter npcSource = source as INonPlayableCharacter;
             int chance = learned;
             if (chance == 0
-                || (source is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.DirtKick)))
+                || (npcSource != null && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.DirtKick)))
             {
                 source.Send("You get your feet dirty.");
                 return UseResults.NotKnown;
@@ -181,16 +190,23 @@ namespace Mud.Server.Abilities
                 return UseResults.InvalidTarget;
             }
 
-            // TODO: is safe check
+            if (victim.IsSafe(source))
+                return UseResults.InvalidTarget;
+
             // TODO: check kill stealing
-            // TODO: pet check
+
+            if (source.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcSource?.ControlledBy == victim)
+            {
+                source.Act(ActOptions.ToCharacter, "But {0:N} is your friend!", victim);
+                return UseResults.InvalidTarget;
+            }
 
             // modifiers
             // dexterity
             chance += source[CharacterAttributes.Dexterity];
             chance -= 2 * victim[CharacterAttributes.Dexterity];
             // speed
-            if ((source as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || source.CharacterFlags.HasFlag(CharacterFlags.Haste))
+            if (npcSource?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || source.CharacterFlags.HasFlag(CharacterFlags.Haste))
                 chance += 10;
             if ((victim as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || victim.CharacterFlags.HasFlag(CharacterFlags.Haste))
                 chance -= 25;
@@ -232,9 +248,10 @@ namespace Mud.Server.Abilities
         [Skill(5003, "Trip", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
         public UseResults SkillTrip(IAbility ability, int learned, ICharacter source, ICharacter victim) // almost copy/paste from bash
         {
+            INonPlayableCharacter npcSource = source as INonPlayableCharacter;
             int chance = learned;
             if (chance == 0
-                || (source is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.Trip)))
+                || (npcSource != null && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.Trip)))
             {
                 source.Send("Tripping?  What's that?");
                 return UseResults.NotKnown;
@@ -248,8 +265,16 @@ namespace Mud.Server.Abilities
                 return UseResults.InvalidTarget;
             }
 
-            // TODO: is safe check
+            if (victim.IsSafe(source))
+                return UseResults.InvalidTarget;
+
             // TODO: check kill stealing
+
+            if (source.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcSource?.ControlledBy == victim)
+            {
+                source.Act(ActOptions.ToCharacter, "But {0:N} is your friend!", victim);
+                return UseResults.InvalidTarget;
+            }
 
             if (victim.CharacterFlags.HasFlag(CharacterFlags.Flying))
             {
@@ -262,8 +287,6 @@ namespace Mud.Server.Abilities
                 source.Act(ActOptions.ToCharacter, "{0:N} is already down..", victim);
                 return UseResults.InvalidTarget;
             }
-
-            // TODO: pet check
 
             // modifiers
             // TODO: size
@@ -302,13 +325,6 @@ namespace Mud.Server.Abilities
         [Skill(5004, "Backstab", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
         public UseResults SkillBackstab(IAbility ability, int learned, ICharacter source, ICharacter victim)
         {
-            // TODO: should be done in caller
-            //if (arg[0] == '\0')
-            //{
-            //    send_to_char("Backstab whom?\n\r",ch);
-            //    return;
-            //}
-
             if (source.Fighting != null)
             {
                 source.Send("You are facing the wrong end.");
@@ -321,9 +337,16 @@ namespace Mud.Server.Abilities
                 return UseResults.InvalidTarget;
             }
 
-            // TODO: is safe check
+            if (victim.IsSafe(source))
+                return UseResults.InvalidTarget;
+
             // TODO: check kill stealing
-            // TODO: check if wielding a weapon
+
+            if (!(source.GetEquipment(EquipmentSlots.MainHand) is IItemWeapon))
+            {
+                source.Send("You need to wield a weapon to backstab.");
+                return UseResults.CantUseRequiredResource;
+            }
 
             if (victim.HitPoints < victim[CharacterAttributes.MaxHitPoints] / 3)
             {
@@ -531,7 +554,7 @@ namespace Mud.Server.Abilities
             if (pcSource.CharacterFlags.HasFlag(CharacterFlags.Curse)
                 || pcSource.Room.RoomFlags.HasFlag(RoomFlags.NoRecall))
             {
-                pcSource.Send("Spell failed."); // TODO: message related to deity
+                pcSource.Send("Mota has forsaken you."); // TODO: message related to deity
                 return UseResults.InvalidTarget;
             }
 

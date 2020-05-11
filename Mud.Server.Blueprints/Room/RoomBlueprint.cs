@@ -20,12 +20,12 @@ namespace Mud.Server.Blueprints.Room
         public Dictionary<string, string> ExtraDescriptions { get; set; } // keyword -> description
 
         [DataMember]
-        public RoomFlags RoomFlags { get; set; } // TODO: assign
+        public RoomFlags RoomFlags { get; set; }
 
         [DataMember]
         public ExitBlueprint[] Exits { get; set; } // TODO: fixed length or list (+ add direction in ExitBlueprint)
 
-        // TODO: flags, healrate, sector, ...
+        // TODO: healrate, sector, ...
 
         public static Dictionary<string, string> BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
         {

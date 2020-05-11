@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using Mud.Container;
@@ -15,12 +16,12 @@ namespace Mud.Server.Player
 {
     public partial class Player : ActorBase, IPlayer
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => GetCommands<Player>());
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<Player>);
 
         private readonly List<string> _delayedTells;
         private readonly List<CharacterData> _avatarList;
+        private readonly Dictionary<string, string> _aliases;
 
-        protected readonly Dictionary<string, string> _aliases;
         protected IInputTrap<IPlayer> CurrentStateMachine;
         protected bool DeletionConfirmationNeeded;
 
@@ -103,38 +104,6 @@ namespace Mud.Server.Player
                 // Execute command
                 return InnerExecuteCommand(commandLine, command, rawParameters, parameters, forceOutOfGame);
             }
-        }
-
-        public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        {
-            if (methodInfo.Attribute is PlayerCommandAttribute playerCommandAttribute)
-            {
-                if (playerCommandAttribute.MustBeImpersonated && Impersonating == null)
-                {
-                    Send($"You must be impersonated to use '{playerCommandAttribute.Name}'.");
-                    return false;
-                }
-
-                if (playerCommandAttribute.CannotBeImpersonated && Impersonating != null)
-                {
-                    Send($"You cannot be impersonated to use '{playerCommandAttribute.Name}'.");
-                    return false;
-                }
-            }
-            if (IsAfk && methodInfo.Attribute.Name != "afk")
-            {
-                Send("%G%AFK%x% removed.");
-                Send("%r%You have received tells: Type %Y%'replay'%r% to see them.%x%");
-                IsAfk = !IsAfk;
-                return true;
-            }
-            bool baseExecuteBeforeCommandResult = base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
-            if (baseExecuteBeforeCommandResult && methodInfo.Attribute.Name != "delete")
-            {
-                // once another command then 'delete' is used, reset deletion confirmation
-                DeletionConfirmationNeeded = false;
-            }
-            return baseExecuteBeforeCommandResult;
         }
 
         public override void Send(string message, bool addTrailingNewLine)
@@ -313,6 +282,42 @@ namespace Mud.Server.Player
 
         #endregion
 
+        #region ActorBase
+
+        protected override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
+        {
+            if (methodInfo.Attribute is PlayerCommandAttribute playerCommandAttribute)
+            {
+                if (playerCommandAttribute.MustBeImpersonated && Impersonating == null)
+                {
+                    Send($"You must be impersonated to use '{playerCommandAttribute.Name}'.");
+                    return false;
+                }
+
+                if (playerCommandAttribute.CannotBeImpersonated && Impersonating != null)
+                {
+                    Send($"You cannot be impersonated to use '{playerCommandAttribute.Name}'.");
+                    return false;
+                }
+            }
+            if (IsAfk && methodInfo.Attribute.Name != "afk")
+            {
+                Send("%G%AFK%x% removed.");
+                Send("%r%You have received tells: Type %Y%'replay'%r% to see them.%x%");
+                IsAfk = !IsAfk;
+                return true;
+            }
+            bool baseExecuteBeforeCommandResult = base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
+            if (baseExecuteBeforeCommandResult && methodInfo.Attribute.Name != "delete")
+            {
+                // once another command then 'delete' is used, reset deletion confirmation
+                DeletionConfirmationNeeded = false;
+            }
+            return baseExecuteBeforeCommandResult;
+        }
+
+        #endregion
+
         protected virtual bool InnerExecuteCommand(string commandLine, string command, string rawParameters, CommandParameter[] parameters, bool forceOutOfGame)
         {
             // Execute command
@@ -356,13 +361,13 @@ namespace Mud.Server.Player
             PagingLineCount = data.PagingLineCount;
             _aliases.Clear();
             _avatarList.Clear();
-            if (data?.Aliases != null)
+            if (data.Aliases != null)
             {
                 foreach (KeyValuePair<string, string> alias in data.Aliases)
                     _aliases.Add(alias.Key, alias.Value);
             }
 
-            if (data?.Characters != null)
+            if (data.Characters != null)
             {
                 foreach (CharacterData characterData in data.Characters)
                     _avatarList.Add(characterData);
@@ -397,6 +402,7 @@ namespace Mud.Server.Player
         }
 
         [Command("test", "!!Test!!")]
+        [SuppressMessage("ReSharper", "UnusedMember.Global")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
             TableGenerator<Tuple<string,string,int>> generator = new TableGenerator<Tuple<string, string, int>>();

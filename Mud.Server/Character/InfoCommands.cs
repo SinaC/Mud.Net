@@ -33,7 +33,30 @@ namespace Mud.Server.Character
             "[cmd] <direction>")]
         protected virtual CommandExecutionResults DoLook(string rawParameters, params CommandParameter[] parameters)
         {
-            // TODO: 0/ sleeping/blind/dark room (see act_info.C:1413 -> 1436)
+            // 0: sleeping/blind/dark room
+            if (Position < Positions.Sleeping)
+            {
+                Send("You can't see anything but stars!");
+                return CommandExecutionResults.NoExecution;
+            }
+            if (Position == Positions.Sleeping)
+            {
+                Send("You can't see anything, you're sleeping!");
+                return CommandExecutionResults.NoExecution;
+            }
+            if (CharacterFlags.HasFlag(CharacterFlags.Blind))
+            {
+                Send("You can't see a thing!");
+                return CommandExecutionResults.NoExecution;
+            }
+            if (Room.IsDark)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("It is pitch black ... ");
+                AppendCharacters(sb, Room);
+                Send(sb);
+                return CommandExecutionResults.Ok;
+            }
 
             // 1: room+exits+chars+items
             if (string.IsNullOrWhiteSpace(rawParameters))
@@ -216,6 +239,14 @@ namespace Mud.Server.Character
         [Command("scan", "Information")]
         protected virtual CommandExecutionResults DoScan(string rawParameters, params CommandParameter[] parameters)
         {
+            if (Room == null)
+                return CommandExecutionResults.Error;
+            if (Room.RoomFlags.HasFlag(RoomFlags.NoScan))
+            {
+                Send("Your vision is clouded by a mysterious force.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+
             StringBuilder sb = new StringBuilder(1024);
             // Current room
             sb.AppendLine("Right here you see:");
@@ -233,12 +264,15 @@ namespace Mud.Server.Character
                     IRoom destination = currentRoom.GetRoom(direction);
                     if (destination == null)
                         break; // stop in that direction if no exit found
+                    if (destination.RoomFlags.HasFlag(RoomFlags.NoScan))
+                        break; // no need to scan further
                     StringBuilder roomScan = ScanRoom(destination);
                     if (roomScan.Length > 0)
                     {
                         sb.AppendFormatLine("%c%{0} %r%{1}%x% from here you see:", distance, direction);
                         sb.Append(roomScan);
                     }
+
                     currentRoom = destination;
                 }
             }
@@ -399,6 +433,14 @@ namespace Mud.Server.Character
             "[cmd] <player name>")]
         protected virtual CommandExecutionResults DoWhere(string rawParameters, params CommandParameter[] parameters)
         {
+            if (Room == null)
+                return CommandExecutionResults.Error;
+            if (Room.RoomFlags.HasFlag(RoomFlags.Nowhere))
+            {
+                Send("You don't recognize where you are.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+
             StringBuilder sb = new StringBuilder();
             sb.AppendFormatLine($"[{Room.Area.DisplayName}].");
             //
@@ -412,7 +454,13 @@ namespace Mud.Server.Character
             }
             else
             {
-                playableCharacters = Room.Area.PlayableCharacters.Where(x => CanSee(x) && !x.CharacterFlags.HasFlag(CharacterFlags.Sneak) && !x.CharacterFlags.HasFlag(CharacterFlags.Hide) && StringCompareHelpers.StringListsStartsWith(x.Keywords, parameters[0].Tokens));
+                playableCharacters = Room.Area.PlayableCharacters.Where(x => x.Room != null
+                                                                             && !x.Room.RoomFlags.HasFlag(RoomFlags.Nowhere)
+                                                                             && !x.Room.IsPrivate
+                                                                             && !x.CharacterFlags.HasFlag(CharacterFlags.Sneak) 
+                                                                             && !x.CharacterFlags.HasFlag(CharacterFlags.Hide) 
+                                                                             && CanSee(x)
+                                                                             && StringCompareHelpers.StringListsStartsWith(x.Keywords, parameters[0].Tokens));
                 notFound = $"You didn't find any {parameters[0]}.";
             }
             bool found = false;
@@ -479,6 +527,12 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.TargetNotFound;
             }
 
+            if (whom.IsSafe(this))
+            {
+                Send("Don't even think about it.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+
             if (whom == this)
             {
                 Send("You are such a badass.");
@@ -529,13 +583,18 @@ namespace Mud.Server.Character
             // Exits
             AppendExits(sb, true);
             AppendItems(sb, Room.Content.Where(CanSee), false, false);
-            foreach (ICharacter victim in Room.People.Where(x => x != this))
+            AppendCharacters(sb, Room);
+        }
+
+        private void AppendCharacters(StringBuilder sb, IRoom room)
+        {
+            foreach (ICharacter victim in room.People.Where(x => x != this))
             {
                 //  (see act_info.C:714 show_char_to_char)
                 if (CanSee(victim)) // see act_info.C:375 show_char_to_char_0)
                     AppendCharacterInRoom(sb, victim);
-                else
-                    ; // TODO: INFRARED (see act_info.C:728)
+                else if (room.IsDark && victim.CharacterFlags.HasFlag(CharacterFlags.Infrared))
+                    sb.AppendLine("You see glowing red eyes watching YOU!");
             }
         }
 
@@ -709,7 +768,8 @@ namespace Mud.Server.Character
             foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
             {
                 IExit exit = Room.Exit(direction);
-                if (exit?.Destination != null && CanSee(exit))
+                IRoom destination = exit?.Destination;
+                if (destination != null && CanSee(exit))
                 {
                     if (compact)
                     {
@@ -731,8 +791,10 @@ namespace Mud.Server.Character
                         // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                         if (exit.IsClosed)
                             sb.Append("A closed door");
+                        else if (destination.IsDark)
+                            sb.Append("Too dark to tell");
                         else
-                            sb.Append(exit.Destination.DisplayName); // TODO: too dark to tell
+                            sb.Append(exit.Destination.DisplayName);
                         if (exit.IsClosed)
                             sb.Append(" (CLOSED)");
                         if (exit.IsHidden)

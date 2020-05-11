@@ -24,6 +24,5 @@ namespace Mud.Server
         int ClassExperiencePercentageMultiplier(IClass c);
 
         // TODO: specific behaviour such as 120% xp for human, infrared for dwarf, ...
-        // TODO: xp/level, ...
     }
 }
