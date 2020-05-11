@@ -84,7 +84,6 @@ namespace Mud.Server
 
         // Abilities
         IEnumerable<KnownAbility> KnownAbilities { get; }
-        KnownAbility this[IAbility ability] { get; }
 
         // Slave
         INonPlayableCharacter Slave { get; } // who is our slave (related to charm command/spell)
@@ -150,8 +149,9 @@ namespace Mud.Server
         bool IsSafeSpell(ICharacter caster, bool area);
         bool IsSafe(ICharacter character);
 
-        // Ability
-        KnownAbility GetKnownAbility(string name);
+        // Abilities
+        int GetLearned(IAbility ability);
+        int GetLearned(string abilityName);
         IDictionary<IAbility, DateTime> AbilitiesInCooldown { get; }
         bool HasAbilitiesInCooldown { get; }
         int CooldownSecondsLeft(IAbility ability); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)

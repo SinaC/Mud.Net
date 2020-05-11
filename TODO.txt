@@ -1,5 +1,3 @@
-ONGOING
-
 TODO:
 use GetEquipment where Equipments is reference
 Weight/Carry
@@ -18,6 +16,7 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+GetLearned replaced this[IAbility]
 envenom
 all skills
     should use UseResult (Ok/Fail) from skill to call check improve (additional attribute param for skill storing improve multiplier)
@@ -109,7 +108,7 @@ linkdead
 leaving impersonation should not stop fighting -> PlayableCharacter can still died while not impersonated
   when impersonating, first search for impersonation in world -> use Guid !! should work if player disconnect/reconnect and reimpersonate
 make text drunk in say/whisper/... see act_comm.C:2222
-when using FindHelper.FindByName no ICharacter and parameter is self -> return itself
+when using FindHelper.FindByName on ICharacter and parameter is self -> return itself
 redo rom importer
 Second/Third/Fourth wield in insectoid
 alignment at creation ?

@@ -323,6 +323,22 @@ namespace Mud.Server.Character.PlayableCharacter
             }
         }
 
+        // Abilities
+        public override int GetLearned(IAbility ability)
+        {
+            KnownAbility knownAbility = this[ability];
+            int learned = 0;
+            if (knownAbility != null && knownAbility.Level <= Level)
+                learned = knownAbility.Learned;
+
+            // TODO: if daze /=2 for spell and *2/3 if otherwise
+
+            if (this[Conditions.Drunk] > 10)
+                learned = (learned * 9 ) / 10;
+
+            return learned.Range(0, 100);
+        }
+
         #endregion
 
         public DateTime CreationTime { get; protected set; }
@@ -775,22 +791,26 @@ namespace Mud.Server.Character.PlayableCharacter
             // class bonus
             hitGain += (Class?.MaxHitPointGainPerLevel ?? 0) - 10;
             // fast healing
-            KnownAbility fastHealingAbility = this[AbilityManager["Fast healing"]];
-            int fastHealingLearned = fastHealingAbility?.Learned ?? 0;
+            int fastHealingLearned = GetLearned("Fast healing");
             if (RandomManager.Chance(fastHealingLearned))
             {
                 hitGain += (fastHealingLearned * hitGain) / 100;
                 if (HitPoints < MaxHitPoints)
+                {
+                    KnownAbility fastHealingAbility = this[AbilityManager["Fast healing"]];
                     CheckAbilityImprove(fastHealingAbility, true, 8);
+                }
             }
             // meditation
-            KnownAbility meditationAbility = this[AbilityManager["Meditation"]];
-            int meditationLearned = meditationAbility?.Learned ?? 0;
+            int meditationLearned = GetLearned("Meditation");
             if (RandomManager.Chance(meditationLearned))
             {
                 manaGain += (meditationLearned * manaGain) / 100;
                 if (this[ResourceKinds.Mana] < MaxResource(ResourceKinds.Mana))
+                {
+                    KnownAbility meditationAbility = this[AbilityManager["Meditation"]];
                     CheckAbilityImprove(meditationAbility, true, 8);
+                }
             }
             // position
             switch (Position)

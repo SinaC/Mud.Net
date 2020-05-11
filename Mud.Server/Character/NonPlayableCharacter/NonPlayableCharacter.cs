@@ -6,6 +6,7 @@ using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Abilities;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
@@ -139,6 +140,91 @@ namespace Mud.Server.Character.NonPlayableCharacter
             // If 'this' is NPC and in object list or in kill loot table
             return questingCharacter.Quests.Where(q => !q.IsCompleted).SelectMany(q => q.Objectives).OfType<KillQuestObjective>().Any(o => o.Blueprint.Id == Blueprint.Id)
                                      || questingCharacter.Quests.Where(q => !q.IsCompleted).Any(q => q.Blueprint.KillLootTable.ContainsKey(Blueprint.Id));
+        }
+
+        public override int GetLearned(IAbility ability) // TODO: replace with npc class
+        {
+            //KnownAbility knownAbility = this[ability];
+            //int learned = 0;
+            //if (knownAbility != null && knownAbility.Level <= Level)
+            //    learned = knownAbility.Learned;
+
+            // TODO: spells
+            int learned = 0;
+            switch (ability.Name)
+            {
+                case "Sneak":
+                case "Hide":
+                    learned = 20 + 2 * Level;
+                    break;
+                case "Dodge":
+                    if (OffensiveFlags.HasFlag(OffensiveFlags.Dodge))
+                        learned = 2 * Level;
+                    break;
+                case "Parry":
+                    if (OffensiveFlags.HasFlag(OffensiveFlags.Parry))
+                        learned = 2 * Level;
+                    break;
+                case "Shield block":
+                    learned = 10 + 2 * Level;
+                    break;
+                case "Second attack":
+                    learned = 10 + 3 * Level; // TODO: if warrior
+                    break;
+                case "Third attack":
+                    learned = 4 * Level - 40; // TODO: if warrior
+                    break;
+                case "Hand to hand":
+                    learned = 40 + 2 * Level;
+                    break;
+                case "Trip":
+                    if (OffensiveFlags.HasFlag(OffensiveFlags.Trip))
+                        learned = 10 + 3 * Level;
+                    break;
+                case "Bash":
+                    if (OffensiveFlags.HasFlag(OffensiveFlags.Bash))
+                        learned = 10 + 3 * Level;
+                    break;
+                case "Disarm":
+                    if (OffensiveFlags.HasFlag(OffensiveFlags.Disarm)) // TODO: or warrior or thief
+                        learned = 20 + 3 * Level;
+                    break;
+                case "Berserk":
+                    if (OffensiveFlags.HasFlag(OffensiveFlags.Berserk))
+                        learned = 3 * Level;
+                    break;
+                case "Kick":
+                    if (OffensiveFlags.HasFlag(OffensiveFlags.Kick))
+                        learned = 10 + 3 * Level;
+                    break;
+                case "Backstab": // TODO: if thief
+                    learned = 20 + 2 * Level;
+                    break;
+                case "Rescue":
+                    learned = 40 + Level;
+                    break;
+                case "Recall":
+                    learned = 40 + Level;
+                    break;
+                case "Axe":
+                case "Dagger":
+                case "Flail":
+                case "Mace":
+                case "Poleam":
+                case "Spear":
+                case "Staves":
+                case "Sword":
+                case "Whip":
+                    learned = 40 + 5 * Level / 2;
+                    break;
+                default:
+                    learned = 0;
+                    break;
+            }
+
+            // TODO: if daze /=2 for spell and *2/3 if otherwise
+
+            return learned.Range(0, 100);
         }
 
         #endregion

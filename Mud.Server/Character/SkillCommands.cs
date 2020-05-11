@@ -8,32 +8,32 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [Command("use", "Skills")]
-        protected virtual CommandExecutionResults DoUse(string rawParameters, params CommandParameter[] parameters)
-        {
-            // TODO: refactor, almost same code in AbilityManager
-            if (parameters.Length == 0)
-            {
-                Send("Use which what where ?");
-                return CommandExecutionResults.SyntaxErrorNoDisplay;
-            }
+        //[Command("use", "Skills")]
+        //protected virtual CommandExecutionResults DoUse(string rawParameters, params CommandParameter[] parameters)
+        //{
+        //    // TODO: refactor, almost same code in AbilityManager
+        //    if (parameters.Length == 0)
+        //    {
+        //        Send("Use which what where ?");
+        //        return CommandExecutionResults.SyntaxErrorNoDisplay;
+        //    }
 
-            // searck skill
-            KnownAbility knownAbility = AbilityManager.Search(KnownAbilities, Level, x => x.Kind == AbilityKinds.Spell, parameters[0]);
-            if (knownAbility == null)
-            {
-                Send("You don't know any spells of that name.");
-                return CommandExecutionResults.InvalidParameter;
-            }
+        //    // searck skill
+        //    KnownAbility knownAbility = AbilityManager.Search(KnownAbilities, Level, x => x.Kind == AbilityKinds.Spell, parameters[0]);
+        //    if (knownAbility == null)
+        //    {
+        //        Send("You don't know any skills of that name.");
+        //        return CommandExecutionResults.InvalidParameter;
+        //    }
 
-            // strip first argument
-            (rawParameters, parameters) = CommandHelpers.SkipParameters(parameters, 1);
+        //    // strip first argument
+        //    (rawParameters, parameters) = CommandHelpers.SkipParameters(parameters, 1);
 
-            // use skill
-            UseResults result = AbilityManager.Use(knownAbility.Ability, this, rawParameters, parameters);
+        //    // use skill
+        //    UseResults result = AbilityManager.Use(knownAbility.Ability, this, rawParameters, parameters);
 
-            return MapUseResults(result);
-        }
+        //    return MapUseResults(result);
+        //}
 
         [Command("berserk", "Combat", "Skills")]
         [Syntax("[cmd]")]

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using Mud.Domain;
 using Mud.Domain.Extensions;
@@ -15,16 +14,12 @@ namespace Mud.Server.Abilities
 {
     public partial class AbilityManager
     {
-        private readonly int DefaultLevelIfAbilityNotKnown = 53;
-
         [Skill(5000, "Berserk", AbilityTargets.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2, CharacterWearOffMessage = "You feel your pulse slow down.")]
-        public UseResults SkillBerserk(IAbility ability, ICharacter source)
+        public UseResults SkillBerserk(IAbility ability, int learned, ICharacter source)
         {
-            KnownAbility knownAbility = source[ability];
-            int chance = knownAbility?.Learned ?? 0;
+            int chance = learned;
             if (chance == 0
-                || (source is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.Berserk))
-                || (source is IPlayableCharacter pcSource && pcSource.Level < (knownAbility?.Level ?? DefaultLevelIfAbilityNotKnown)))
+                || (source is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.Berserk)))
             {
                 source.Send("You turn red in the face, but nothing happens.");
                 return UseResults.NotKnown;
@@ -90,13 +85,11 @@ namespace Mud.Server.Abilities
         }
 
         [Skill(5001, "Bash", AbilityTargets.CharacterOffensive, PulseWaitTime = 20)]
-        public UseResults SkillBash(IAbility ability, ICharacter source, ICharacter victim)
+        public UseResults SkillBash(IAbility ability, int learned, ICharacter source, ICharacter victim)
         {
-            KnownAbility knownAbility = source[ability];
-            int chance = knownAbility?.Learned ?? 0;
+            int chance = learned;
             if (chance == 0
-                || (source is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.Bash))
-                || (source is IPlayableCharacter pcSource && pcSource.Level < (knownAbility?.Level ?? DefaultLevelIfAbilityNotKnown)))
+                || (source is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.Bash)))
             {
                 source.Send("Bashing? What's that?");
                 return UseResults.NotKnown;
@@ -136,7 +129,7 @@ namespace Mud.Server.Abilities
             chance += source.Level - victim.Level;
 
             // dodge?
-            int victimDodgeLearned = victim.GetKnownAbility("Dodge")?.Learned ?? 0;
+            int victimDodgeLearned = victim.GetLearned("Dodge");
             if (chance < victimDodgeLearned)
                 chance -= 3 * (victimDodgeLearned - chance);
 
@@ -166,13 +159,11 @@ namespace Mud.Server.Abilities
         }
 
         [Skill(5002, "Dirt kicking", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, LearnDifficultyMultiplier = 2, CharacterWearOffMessage = "You rub the dirt out of your eyes.")]
-        public UseResults SkillDirt(IAbility ability, ICharacter source, ICharacter victim) // almost copy/paste from bash
+        public UseResults SkillDirt(IAbility ability, int learned, ICharacter source, ICharacter victim) // almost copy/paste from bash
         {
-            KnownAbility knownAbility = source[ability];
-            int chance = knownAbility?.Learned ?? 0;
+            int chance = learned;
             if (chance == 0
-                || (source is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.DirtKick))
-                || (source is IPlayableCharacter pcSource && pcSource.Level < (knownAbility?.Level ?? DefaultLevelIfAbilityNotKnown)))
+                || (source is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.DirtKick)))
             {
                 source.Send("You get your feet dirty.");
                 return UseResults.NotKnown;
@@ -239,13 +230,11 @@ namespace Mud.Server.Abilities
         }
 
         [Skill(5003, "Trip", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
-        public UseResults SkillTrip(IAbility ability, ICharacter source, ICharacter victim) // almost copy/paste from bash
+        public UseResults SkillTrip(IAbility ability, int learned, ICharacter source, ICharacter victim) // almost copy/paste from bash
         {
-            KnownAbility knownAbility = source[ability];
-            int chance = knownAbility?.Learned ?? 0;
+            int chance = learned;
             if (chance == 0
-                || (source is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.Trip))
-                || (source is IPlayableCharacter pcSource && pcSource.Level < (knownAbility?.Level ?? DefaultLevelIfAbilityNotKnown)))
+                || (source is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.Trip)))
             {
                 source.Send("Tripping?  What's that?");
                 return UseResults.NotKnown;
@@ -311,7 +300,7 @@ namespace Mud.Server.Abilities
         }
 
         [Skill(5004, "Backstab", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
-        public UseResults SkillBackstab(IAbility ability, ICharacter source, ICharacter victim)
+        public UseResults SkillBackstab(IAbility ability, int learned, ICharacter source, ICharacter victim)
         {
             // TODO: should be done in caller
             //if (arg[0] == '\0')
@@ -343,8 +332,6 @@ namespace Mud.Server.Abilities
             }
 
             // TODO: check killer
-            KnownAbility knownAbility = source[ability];
-            int learned = knownAbility?.Learned ?? 0;
             if (RandomManager.Chance(learned)
                 || (learned > 1 && victim.Position <= Positions.Sleeping))
             {
@@ -359,10 +346,9 @@ namespace Mud.Server.Abilities
         }
 
         [Skill(5005, "Kick", AbilityTargets.CharacterFighting)]
-        public UseResults SkillKick(IAbility ability, ICharacter source)
+        public UseResults SkillKick(IAbility ability, int learned, ICharacter source)
         {
-            KnownAbility knownAbility = source[ability];
-            if (source is IPlayableCharacter pcSource && pcSource.Level < (knownAbility?.Level ?? DefaultLevelIfAbilityNotKnown))
+            if (learned == 0)
             {
                 source.Send("You better leave the martial arts to fighters.");
                 return UseResults.NotKnown;
@@ -378,8 +364,7 @@ namespace Mud.Server.Abilities
                 return UseResults.MustBeFighting;
             }
 
-            int chance = knownAbility?.Learned ?? 0;
-            if (RandomManager.Chance(chance))
+            if (RandomManager.Chance(learned))
             {
                 int damage = RandomManager.Range(1, source.Level);
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.Bash, true);
@@ -395,10 +380,9 @@ namespace Mud.Server.Abilities
         }
 
         [Skill(5006, "Disarm", AbilityTargets.CharacterFighting, PulseWaitTime = 24)]
-        public UseResults SkillDisarm(IAbility ability, ICharacter source)
+        public UseResults SkillDisarm(IAbility ability, int learned, ICharacter source)
         {
-            KnownAbility knownAbility = source[ability];
-            int chance = knownAbility?.Learned ?? 0;
+            int chance = learned;
             if (chance == 0)
             {
                 source.Send("You don't know how to disarm opponents.");
@@ -488,7 +472,7 @@ namespace Mud.Server.Abilities
         }
 
         [Skill(5007, "Sneak", AbilityTargets.None, LearnDifficultyMultiplier = 3)]
-        public UseResults SkillSneak(IAbility ability, ICharacter source)
+        public UseResults SkillSneak(IAbility ability, int learned, ICharacter source)
         {
             source.Send("You attempt to move silently.");
             source.RemoveAuras(x => x.Ability == ability, true);
@@ -496,47 +480,36 @@ namespace Mud.Server.Abilities
             if (source.CharacterFlags.HasFlag(CharacterFlags.Sneak))
                 return UseResults.InvalidTarget;
 
-            bool success = false;
-            KnownAbility knownAbility = source[ability];
-            int chance = knownAbility?.Learned ?? 0;
-            if (RandomManager.Chance(chance))
+            if (RandomManager.Chance(learned))
             {
                 World.AddAura(source, ability, source, source.Level, TimeSpan.FromMinutes(source.Level), AuraFlags.None, true,
                     new CharacterFlagsAffect {Modifier = CharacterFlags.Sneak, Operator = AffectOperators.Or});
-                success = true;
+                return UseResults.Ok;
             }
 
-            return success
-                ? UseResults.Ok
-                : UseResults.Failed;
+            return UseResults.Failed;
         }
 
         [Skill(5008, "Hide", AbilityTargets.None, LearnDifficultyMultiplier = 3)]
-        public UseResults SkillHide(IAbility ability, ICharacter source)
+        public UseResults SkillHide(IAbility ability, int learned, ICharacter source)
         {
             source.Send("You attempt to hide.");
 
             if (source.CharacterFlags.HasFlag(CharacterFlags.Hide))
                 source.RemoveBaseCharacterFlags(CharacterFlags.Hide);
 
-            bool success = false;
-            KnownAbility knownAbility = source[ability];
-            int chance = knownAbility?.Learned ?? 0;
-            if (RandomManager.Chance(chance))
+            if (RandomManager.Chance(learned))
             {
                 source.AddBaseCharacterFlags(CharacterFlags.Hide);
-                success = true;
+                source.Recompute();
+                return UseResults.Ok;
             }
 
-            source.Recompute();
-
-            return success
-                ? UseResults.Ok
-                : UseResults.Failed;
+            return UseResults.Failed;
         }
 
         [Skill(5009, "Recall", AbilityTargets.None, LearnDifficultyMultiplier = 6)]
-        public UseResults SkillRecall(IAbility ability, ICharacter source)
+        public UseResults SkillRecall(IAbility ability, int learned, ICharacter source)
         {
             IPlayableCharacter pcSource = source as IPlayableCharacter;
             if (pcSource == null)
@@ -568,8 +541,7 @@ namespace Mud.Server.Abilities
             ICharacter victim = pcSource.Fighting;
             if (victim != null)
             {
-                KnownAbility knownAbility = pcSource[ability];
-                int chance = (80*knownAbility.Learned)/100;
+                int chance = (80*learned)/100;
                 if (!RandomManager.Chance(chance))
                 {
                     pcSource.Send("You failed.");
@@ -611,7 +583,7 @@ namespace Mud.Server.Abilities
         }
 
         [Skill(5010, "Pick lock", AbilityTargets.Custom, LearnDifficultyMultiplier = 2)]
-        public UseResults SkillPickLock(IAbility ability, ICharacter source, string rawParameters, params CommandParameter[] parameters)
+        public UseResults SkillPickLock(IAbility ability, int learned, ICharacter source, string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -626,12 +598,11 @@ namespace Mud.Server.Abilities
                 return UseResults.InvalidTarget;
             }
             // Search for item to pick lock
-            KnownAbility knownAbility = source[ability];
             IItem item = FindHelpers.FindItemHere(source, parameters[0]);
             if (item != null)
             {
                 if (item is IItemCloseable closeable)
-                    return InnerPick(closeable, source, knownAbility);
+                    return InnerPick(closeable, source, learned);
                 else
                 {
                     source.Send("You can't do that.");
@@ -644,7 +615,7 @@ namespace Mud.Server.Abilities
             {
                 IExit exit = source.Room.Exit(direction);
                 if (exit != null)
-                    return InnerPick(exit, source, knownAbility);
+                    return InnerPick(exit, source, learned);
                 else
                 {
                     source.Send("Nothing special there.");
@@ -655,10 +626,8 @@ namespace Mud.Server.Abilities
         }
 
         [Skill(5011, "Envenom", AbilityTargets.ItemInventory, PulseWaitTime = 36, LearnDifficultyMultiplier = 4, ItemWearOffMessage = "The poison on {0} dries up.")]
-        public UseResults SkillEnvenom(IAbility ability, ICharacter source, IItem item)
+        public UseResults SkillEnvenom(IAbility ability, int learned, ICharacter source, IItem item)
         {
-            KnownAbility knownAbility = source[ability];
-            int learned = knownAbility?.Learned ?? 0;
             if (learned < 1)
             {
                 source.Send("Are you crazy? You'd poison yourself!");
@@ -722,7 +691,7 @@ namespace Mud.Server.Abilities
         }
 
         //*******************************
-        private UseResults InnerPick(ICloseable closeable, ICharacter source, KnownAbility knownAbility)
+        private UseResults InnerPick(ICloseable closeable, ICharacter source, int learned)
         {
             if (!closeable.IsCloseable)
             {
@@ -744,7 +713,7 @@ namespace Mud.Server.Abilities
                 source.Send("You failed.");
                 return UseResults.InvalidTarget;
             }
-            int chance = knownAbility?.Learned ?? 0;
+            int chance = learned;
             if (closeable.IsEasy)
                 chance *= 2;
             if (closeable.IsHard)

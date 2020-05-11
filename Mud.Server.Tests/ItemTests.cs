@@ -18,6 +18,7 @@ namespace Mud.Server.Tests
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
             {
                 Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
                 MaxChargeCount = 10,
                 CurrentChargeCount = 7,
@@ -35,6 +36,7 @@ namespace Mud.Server.Tests
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
             {
                 Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
                 MaxChargeCount = 10,
                 CurrentChargeCount = 7,
@@ -54,6 +56,7 @@ namespace Mud.Server.Tests
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
             {
                 Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
                 MaxChargeCount = -1,
                 CurrentChargeCount = 7,
@@ -72,10 +75,8 @@ namespace Mud.Server.Tests
         {
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
             {
-                Id = 1,
-                Name = "portal",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 PortalFlags = PortalFlags.PickProof,
             };
             IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
@@ -92,10 +93,8 @@ namespace Mud.Server.Tests
         {
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
             {
-                Id = 1,
-                Name = "portal",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
             };
             IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
@@ -112,10 +111,8 @@ namespace Mud.Server.Tests
         {
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
             {
-                Id = 1,
-                Name = "portal",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 PortalFlags = PortalFlags.PickProof | PortalFlags.NoClose,
             };
             IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
@@ -132,10 +129,8 @@ namespace Mud.Server.Tests
         {
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
             {
-                Id = 1,
-                Name = "portal",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 PortalFlags = PortalFlags.PickProof,
             };
             IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
@@ -152,10 +147,8 @@ namespace Mud.Server.Tests
         {
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
             {
-                Id = 1,
-                Name = "portal",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 PortalFlags = PortalFlags.Closed | PortalFlags.NoLock | PortalFlags.PickProof,
             };
             IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
@@ -172,10 +165,8 @@ namespace Mud.Server.Tests
         {
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
             {
-                Id = 1,
-                Name = "portal",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
             };
             IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
@@ -192,10 +183,8 @@ namespace Mud.Server.Tests
         {
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
             {
-                Id = 1,
-                Name = "portal",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
             };
             IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
@@ -212,10 +201,8 @@ namespace Mud.Server.Tests
         {
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint
             {
-                Id = 1,
-                Name = "portal",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "portal", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 PortalFlags = PortalFlags.Closed | PortalFlags.PickProof | PortalFlags.Locked,
             };
             IItemPortal portal = new ItemPortal(Guid.NewGuid(), portalBlueprint, new Mock<IRoom>().Object, new Mock<IContainer>().Object);
@@ -233,10 +220,8 @@ namespace Mud.Server.Tests
         {
             ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
             {
-                Id = 1,
-                Name = "container",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "container", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 ContainerFlags = ContainerFlags.PickProof,
             };
             IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
@@ -251,10 +236,8 @@ namespace Mud.Server.Tests
         {
             ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
             {
-                Id = 1,
-                Name = "container",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "container", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed,
             };
             IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
@@ -269,10 +252,8 @@ namespace Mud.Server.Tests
         {
             ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
             {
-                Id = 1,
-                Name = "container",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "container", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 ContainerFlags = ContainerFlags.PickProof | ContainerFlags.NoClose,
             };
             IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
@@ -287,10 +268,8 @@ namespace Mud.Server.Tests
         {
             ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
             {
-                Id = 1,
-                Name = "container",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "container", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 ContainerFlags = ContainerFlags.PickProof,
             };
             IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
@@ -305,10 +284,8 @@ namespace Mud.Server.Tests
         {
             ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
             {
-                Id = 1,
-                Name = "container",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "container", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed | ContainerFlags.NoLock,
             };
             IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
@@ -323,10 +300,8 @@ namespace Mud.Server.Tests
         {
             ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
             {
-                Id = 1,
-                Name = "container",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "container", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed,
             };
             IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
@@ -341,10 +316,8 @@ namespace Mud.Server.Tests
         {
             ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
             {
-                Id = 1,
-                Name = "container",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "container", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed,
             };
             IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
@@ -359,10 +332,8 @@ namespace Mud.Server.Tests
         {
             ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint
             {
-                Id = 1,
-                Name = "container",
-                ShortDescription = "PortalShort",
-                Description = "PortalDesc",
+                Id = 1, Name = "container", ShortDescription = "PortalShort", Description = "PortalDesc",
+                Key = 10,
                 ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed | ContainerFlags.Locked,
             };
             IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);

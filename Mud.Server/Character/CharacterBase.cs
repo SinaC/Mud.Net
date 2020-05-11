@@ -236,8 +236,6 @@ namespace Mud.Server.Character
         // Abilities
 
         public IEnumerable<KnownAbility> KnownAbilities => _knownAbilities;
-        public KnownAbility this[IAbility ability] => _knownAbilities.SingleOrDefault(x => x.Ability == ability);
-
 
         // Slave
         public INonPlayableCharacter Slave { get; protected set; } // who is our slave (related to charm command/spell)
@@ -371,7 +369,7 @@ namespace Mud.Server.Character
                 && !CharacterFlags.HasFlag(CharacterFlags.DetectHidden)
                 && victim.Fighting == null)
             {
-                int chance = victim[AbilityManager["Sneak"]]?.Learned ?? 0; // TODO: this can be quite slow and CanSee is often used
+                int chance = victim.GetLearned("Sneak"); // TODO: this can be quite slow and CanSee is often used
                 chance += (3 * victim[BasicAttributes.Dexterity]) / 2;
                 chance -= this[BasicAttributes.Intelligence] * 2;
                 chance -= Level - (3* victim.Level)/ 2;
@@ -1310,8 +1308,20 @@ namespace Mud.Server.Character
             return false;
         }
 
-        // Ability
-        public KnownAbility GetKnownAbility(string name) => _knownAbilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Ability.Name, name));
+        // Abilities
+
+        public abstract int GetLearned(IAbility ability);
+
+        public int GetLearned(string abilityName) 
+        {
+            IAbility ability = AbilityManager[abilityName];
+            if (ability == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "GetLearned on unknown ability {0}", abilityName);
+                return 0;
+            }
+            return GetLearned(ability);
+        }
 
         public IDictionary<IAbility, DateTime> AbilitiesInCooldown => _cooldowns;
 
@@ -1637,6 +1647,8 @@ namespace Mud.Server.Character
         }
 
         protected abstract bool RawKilled(IEntity killer, bool killingPayoff);
+
+        protected KnownAbility this[IAbility ability] => _knownAbilities.SingleOrDefault(x => x.Ability == ability);
 
         protected void ResetCooldowns()
         {

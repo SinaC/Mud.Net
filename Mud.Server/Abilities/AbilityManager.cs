@@ -108,16 +108,16 @@ namespace Mud.Server.Abilities
                 return CastResults.InvalidParameter;
             }
 
-            // 1.1) strip first argument
+            // 2) strip first argument
             (rawParameters, parameters) = CommandHelpers.SkipParameters(parameters, 1);
 
-            // 2) get target
+            // 3) get target
             IEntity target;
             AbilityTargetResults targetResult = GetAbilityTarget(knownAbility.Ability, caster, out target, rawParameters, parameters);
             if (targetResult != AbilityTargetResults.Ok)
                 return MapCastResultToCommandExecutionResult(targetResult);
 
-            // 3) check cooldown
+            // 4) check cooldown
             // TODO
             //int cooldownSecondsLeft = caster.CooldownSecondsLeft(ability);
             //if (cooldownSecondsLeft > 0)
@@ -126,7 +126,7 @@ namespace Mud.Server.Abilities
             //    return false;
             //}
 
-            // 4) check resource costs
+            // 5) check resource costs
             int? cost = null;
             if (knownAbility.ResourceKind.HasValue && knownAbility.CostAmount > 0 && knownAbility.CostAmountOperator != CostAmountOperators.None)
             {
@@ -158,8 +158,9 @@ namespace Mud.Server.Abilities
                 }
             }
 
-            // 5) check if failed
-            if (!RandomManager.Chance(knownAbility.Learned))
+            // 6) check if failed
+            int learned = caster.GetLearned(knownAbility.Ability);
+            if (!RandomManager.Chance(learned))
             {
                 caster.Send("You lost your concentration.");
                 pcCaster?.CheckAbilityImprove(knownAbility, false, 1);
@@ -169,24 +170,24 @@ namespace Mud.Server.Abilities
                 return CastResults.Failed;
             }
 
-            // 6) pay resource
+            // 7) pay resource
             if (cost.HasValue && cost.Value >= 1 && knownAbility.ResourceKind.HasValue)
                 caster.UpdateResource(knownAbility.ResourceKind.Value, -cost.Value);
 
-            // 7) say spell if not ventriloquate
+            // 8) say spell if not ventriloquate
             if (!StringCompareHelpers.StringEquals(knownAbility.Ability.Name, "ventriloquate"))
                 SayAbility(knownAbility.Ability, caster);
 
-            // 8) invoke spell
+            // 9) invoke spell
             InvokeSpell(knownAbility.Ability, caster.Level, caster, target, rawParameters, parameters);
 
-            // 9) GCD
+            // 10) GCD
             pcCaster?.ImpersonatedBy?.SetGlobalCooldown(knownAbility.Ability.PulseWaitTime);
 
-            // 10) check improve true
+            // 11) check improve true
             pcCaster?.CheckAbilityImprove(knownAbility, true, knownAbility.Ability.LearnDifficultyMultiplier);
 
-            // TODO: 11) if aggressive: multi hit if still in same room
+            // TODO: 12) if aggressive: multi hit if still in same room
 
             //
             return CastResults.Ok;
@@ -211,7 +212,7 @@ namespace Mud.Server.Abilities
         public UseResults Use(IAbility ability, ICharacter user, string rawParameters, params CommandParameter[] parameters)
         {
             IPlayableCharacter pcUser = user as IPlayableCharacter;
-
+            
             // 1) check if it's a skill
             if (ability == null || ability.Kind != AbilityKinds.Skill)
                 return UseResults.Error;
@@ -223,7 +224,8 @@ namespace Mud.Server.Abilities
                 return MapUseResultToCommandExecutionResult(targetResult);
 
             // 3) invoke skill
-            object rawResult = InvokeSkill(ability, user, target, rawParameters, parameters);
+            int learned = user.GetLearned(ability);
+            object rawResult = InvokeSkill(ability, learned, user, target, rawParameters, parameters);
             UseResults result = rawResult is UseResults
                 ? (UseResults)rawResult
                 : UseResults.Error;
@@ -234,7 +236,7 @@ namespace Mud.Server.Abilities
             // 5) improve skill
             if (result == UseResults.Ok || result == UseResults.Failed)
             {
-                KnownAbility knownAbility = user[ability];
+                KnownAbility knownAbility = user.KnownAbilities.SingleOrDefault(x => x.Ability == ability);
                 pcUser?.CheckAbilityImprove(knownAbility, result == UseResults.Ok, ability.LearnDifficultyMultiplier);
             }
 
@@ -599,44 +601,44 @@ namespace Mud.Server.Abilities
             return null;
         }
 
-        private object InvokeSkill(IAbility ability, ICharacter source, IEntity target, string rawParameters, params CommandParameter[] parameters)
+        private object InvokeSkill(IAbility ability, int learned, ICharacter source, IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
             if (ability == null)
                 return null;
             switch (ability.Target)
             {
                 case AbilityTargets.None:
-                    return ability.MethodInfo.Invoke(this, new object[] { ability, source });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source });
                 case AbilityTargets.CharacterOffensive:
-                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, target });
                 case AbilityTargets.CharacterDefensive:
-                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, target });
                 case AbilityTargets.CharacterSelf:
-                    return ability.MethodInfo.Invoke(this, new object[] { ability, source });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source });
                 case AbilityTargets.ItemInventory:
-                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, target });
                 case AbilityTargets.ItemHereOrCharacterOffensive:
-                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, target });
                 case AbilityTargets.ItemInventoryOrCharacterDefensive:
-                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, target });
                 case AbilityTargets.Custom:
                     if (parameters.Length > 1)
                     {
                         var newParameters = CommandHelpers.SkipParameters(parameters, 1);
-                        return ability.MethodInfo.Invoke(this, new object[] { ability, source, newParameters.rawParameters });
+                        return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, newParameters.rawParameters });
                     }
                     else
-                        return ability.MethodInfo.Invoke(this, new object[] { ability, source, string.Empty });
+                        return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, string.Empty });
                 case AbilityTargets.OptionalItemInventory:
-                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, target });
                 case AbilityTargets.ArmorInventory:
-                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, target });
                 case AbilityTargets.WeaponInventory:
-                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, target });
                 case AbilityTargets.CharacterFighting:
-                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, target });
                 case AbilityTargets.CharacterWorldwide:
-                    return ability.MethodInfo.Invoke(this, new object[] { ability, source, target }); // TODO: should never happen
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, target }); // TODO: should never happen
             }
             return null;
         }
