@@ -1,3 +1,7 @@
+ONGOING
+	container max weight, max items
+	carry, weight
+
 TODO:
 money
 use GetEquipment where Equipments is reference

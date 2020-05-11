@@ -14,21 +14,22 @@ namespace Mud.Server.Item
             : base(guid, blueprint, containedInto)
         {
             _content = new List<IItem>();
-            ItemCount = blueprint.ItemCount;
-            WeightMultiplier = blueprint.WeightMultiplier;
-            KeyId = blueprint.Key;
+            MaxWeight = blueprint.MaxWeight;
             ContainerFlags = blueprint.ContainerFlags;
+            KeyId = blueprint.Key;
+            MaxWeightPerItem = blueprint.MaxWeightPerItem;
+            WeightMultiplier = blueprint.WeightMultiplier;
         }
 
         public ItemContainer(Guid guid, ItemContainerBlueprint blueprint, ItemContainerData itemContainerData, IContainer containedInto)
             : base(guid, blueprint, itemContainerData, containedInto)
         {
             _content = new List<IItem>();
-            // TODO: key
-            ItemCount = blueprint.ItemCount;
-            WeightMultiplier = blueprint.WeightMultiplier;
-            KeyId = blueprint.Key;
+            MaxWeight = blueprint.MaxWeight;
             ContainerFlags = itemContainerData.ContainerFlags;
+            KeyId = blueprint.Key;
+            MaxWeightPerItem = blueprint.MaxWeightPerItem;
+            WeightMultiplier = blueprint.WeightMultiplier;
             if (itemContainerData.Contains?.Length > 0)
             {
                 foreach (ItemData itemData in itemContainerData.Contains)
@@ -36,7 +37,7 @@ namespace Mud.Server.Item
             }
         }
 
-        #region IItem
+        #region IItemContainer
 
         #region IItemCloseable
 
@@ -74,24 +75,18 @@ namespace Mud.Server.Item
 
         #endregion
 
-        public override int Weight => base.Weight + _content.Sum(x => x.Weight)*WeightMultiplier;
+        #region IItem
 
-        void IEntity.OnRemoved()
-        {
-            _content.Clear();
-        }
+        public override int Weight => base.Weight + _content.Sum(x => x.Weight) * WeightMultiplier;
 
         #endregion
-
-        #region IItemContainer
-
-        public int ItemCount { get; } // maximum number of items
-        public int WeightMultiplier { get; } // percentage
-        public ContainerFlags ContainerFlags { get; protected set; }
 
         #region IContainer
 
         public IEnumerable<IItem> Content => _content;
+
+        public int MaxWeight { get; }
+        public int MaxWeightPerItem { get; }
 
         public bool PutInContainer(IItem obj)
         {
@@ -108,9 +103,17 @@ namespace Mud.Server.Item
 
         #endregion
 
+        public ContainerFlags ContainerFlags { get; protected set; }
+        public int WeightMultiplier { get; } // percentage
+
         #endregion
 
         #region ItemBase
+
+        void IEntity.OnRemoved()
+        {
+            _content.Clear();
+        }
 
         public override ItemData MapItemData()
         {

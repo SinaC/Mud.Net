@@ -84,6 +84,10 @@ namespace Mud.Server.Room
 
         public IEnumerable<IItem> Content => _content.Where(x => x.IsValid);
 
+        public int MaxWeight => int.MaxValue;
+
+        public int MaxWeightPerItem => int.MaxValue;
+
         public bool PutInContainer(IItem obj)
         {
             // TODO: check if already in a container

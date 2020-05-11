@@ -114,6 +114,33 @@ namespace Mud.Server.Item
 
         #region IItemCorpse
 
+
+        #region IContainer
+
+        public IEnumerable<IItem> Content => _content;
+
+        public int MaxWeight => 0; // Can't put anything manually within
+
+        public int MaxWeightPerItem => 0; // Can't put anything manually within
+
+        public bool PutInContainer(IItem obj)
+        {
+            //return false; // cannot put anything in a corpse, puttin something is done thru constructor
+            _content.Insert(0, obj);
+            return true;
+        }
+
+        public bool GetFromContainer(IItem obj)
+        {
+            return _content.Remove(obj);
+        }
+
+        #endregion
+
+        public bool IsPlayableCharacterCorpse { get; protected set; }
+
+        #endregion
+
         #region ItemBase
 
         public override ItemData MapItemData()
@@ -129,28 +156,6 @@ namespace Mud.Server.Item
                 CorpseName = _corpseName,
                 IsPlayableCharacterCorpse = IsPlayableCharacterCorpse
             };
-        }
-
-        #endregion
-
-        public bool IsPlayableCharacterCorpse { get; protected set; }
-
-        #endregion
-
-        #region IContainer
-
-        public IEnumerable<IItem> Content => _content;
-
-        public bool PutInContainer(IItem obj)
-        {
-            //return false; // cannot put anything in a corpse, puttin something is done thru constructor
-            _content.Insert(0, obj);
-            return true;
-        }
-
-        public bool GetFromContainer(IItem obj)
-        {
-            return _content.Remove(obj);
         }
 
         #endregion

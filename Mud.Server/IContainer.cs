@@ -6,6 +6,9 @@ namespace Mud.Server
     {
         IEnumerable<IItem> Content { get; }
 
+        int MaxWeight { get; }
+        int MaxWeightPerItem { get; }
+
         bool PutInContainer(IItem obj);
         bool GetFromContainer(IItem obj);
     }

@@ -420,8 +420,10 @@ namespace Mud.Server.WPFTestApplication
                     Level = data.Level,
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
+                    MaxWeight = Convert.ToInt32(data.Values[0]),
                     ContainerFlags = ConvertContainerFlags(data),
-                    ItemCount = Convert.ToInt32(data.Values[3]),
+                    Key = Convert.ToInt32(data.Values[2]),
+                    MaxWeightPerItem = Convert.ToInt32(data.Values[3]),
                     WeightMultiplier = Convert.ToInt32(data.Values[4]),
                     ItemFlags = extraFlags.itemFlags,
                     NoTake = extraFlags.noTake,
@@ -681,7 +683,10 @@ namespace Mud.Server.WPFTestApplication
                     Cost = Convert.ToInt32(data.Cost),
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
-                    ItemCount = Convert.ToInt32(data.Values[3]),
+                    MaxWeight = Convert.ToInt32(data.Values[0]),
+                    //ContainerFlags = ConvertContainerFlags(data),
+                    Key = Convert.ToInt32(data.Values[2]),
+                    MaxWeightPerItem = Convert.ToInt32(data.Values[3]),
                     WeightMultiplier = Convert.ToInt32(data.Values[4]),
                     ItemFlags = ConvertRomItemExtraFlags(data)
                 };
