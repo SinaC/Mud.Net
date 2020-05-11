@@ -16,7 +16,7 @@ namespace Mud.Server.Helpers
         //{
         //    return FindByName(character.Room.Content.Where(character.CanSee), parameter, perfectMatch)
         //           ?? FindByName(character.Content.Where(character.CanSee), parameter, perfectMatch)
-        //           ?? (FindByName(character.Equipments.Where(x => x.Item != null && character.CanSee(x.Item)), x => x.Item, parameter, perfectMatch) ?? EquipedItem.NullObject).Item;
+        //           ?? (FindByName(character.Equipments.Where(x => x.Item != null && character.CanSee(x.Item)), x => x.Item, parameter, perfectMatch) ?? EquippedItem.NullObject).Item;
         //}
 
         //// Concat room content, inventory and equipment, then search

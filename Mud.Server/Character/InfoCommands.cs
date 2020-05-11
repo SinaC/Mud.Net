@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using Mud.Domain;
 using Mud.Domain.Extensions;
@@ -55,7 +54,7 @@ namespace Mud.Server.Character
                     Send("Look in what?");
                     return CommandExecutionResults.SyntaxErrorNoDisplay;
                 }
-                // search in room, then in inventory(unequiped), then in equipement
+                // search in room, then in inventory(unequipped), then in equipment
                 IItem containerItem = FindHelpers.FindItemHere(this, parameters[1]);
                 if (containerItem == null)
                 {
@@ -251,11 +250,11 @@ namespace Mud.Server.Character
         protected virtual CommandExecutionResults DoAffects(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
-            if (_auras.Any() || _periodicAuras.Any())
+            if (Auras.Any() || PeriodicAuras.Any())
             {
                 sb.AppendLine("%c%You are affected by the following auras:%x%");
                 // Auras
-                foreach (IAura aura in _auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.PulseLeft))
+                foreach (IAura aura in Auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.PulseLeft))
                     aura.Append(sb);
                 // TODO
                 //// Periodic auras
@@ -290,7 +289,7 @@ namespace Mud.Server.Character
             IPlayableCharacter pc = this as IPlayableCharacter;
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("+--------------------------------------------------------+"); // length 1 + 56 + 1
-            sb.AppendLine("|" + StringExtensions.CenterText(DisplayName, 56) + "|");
+            sb.AppendLine("|" + DisplayName.CenterText(56) + "|");
             sb.AppendLine("+------------------------------+-------------------------+");
             sb.AppendLine("| %W%Attributes%x%                   |                         |");
             sb.AppendFormatLine("| %c%Strength     : %W%[{0,5}/{1,5}]%x% | %c%Race   : %W%{2,14}%x% |", this[CharacterAttributes.Strength], BaseAttribute(CharacterAttributes.Strength), Race?.DisplayName ?? "(none)");
@@ -447,14 +446,15 @@ namespace Mud.Server.Character
                 sb.AppendLine("Nothing");
             else
             {
-                foreach (EquipedItem equipedItem in Equipments)
+                foreach (EquippedItem equippedItem in Equipments)
                 {
-                    string where = EquipmentSlotsToString(equipedItem);
+                    string where = EquipmentSlotsToString(equippedItem);
                     sb.Append(where);
-                    if (equipedItem.Item == null)
+                    // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+                    if (equippedItem.Item == null)
                         sb.AppendLine("nothing");
                     else
-                        sb.AppendLine(FormatItem(equipedItem.Item, true));
+                        sb.AppendLine(FormatItem(equippedItem.Item, true));
                 }
             }
 
@@ -662,10 +662,10 @@ namespace Mud.Server.Character
             if (victim.Equipments.Any(x => x.Item != null))
             {
                 sb.AppendLine($"{victim.RelativeDisplayName(this)} is using:");
-                foreach (EquipedItem equipedItem in victim.Equipments.Where(x => x.Item != null))
+                foreach (EquippedItem equippedItem in victim.Equipments.Where(x => x.Item != null))
                 {
-                    string where = EquipmentSlotsToString(equipedItem);
-                    string what = FormatItem(equipedItem.Item, true);
+                    string where = EquipmentSlotsToString(equippedItem);
+                    string what = FormatItem(equippedItem.Item, true);
                     sb.AppendLine($"{where}{what}");
                 }
             }
@@ -726,8 +726,9 @@ namespace Mud.Server.Character
                     }
                     else
                     {
-                        sb.Append(StringExtensions.UpperFirstLetter(direction.ToString()));
+                        sb.Append(direction.DisplayName());
                         sb.Append(" - ");
+                        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                         if (exit.IsClosed)
                             sb.Append("A closed door");
                         else
@@ -745,6 +746,7 @@ namespace Mud.Server.Character
             }
             if (!exitFound)
             {
+                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (compact)
                     sb.AppendLine(" none");
                 else
@@ -841,6 +843,7 @@ namespace Mud.Server.Character
                 sb.Append("%y%(Humming)%x%");
 
             // Description
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (shortDisplay)
                 sb.Append(item.RelativeDisplayName(this));
             else
@@ -849,9 +852,9 @@ namespace Mud.Server.Character
             return sb.ToString();
         }
 
-        private string EquipmentSlotsToString(EquipedItem equipedItem)
+        private string EquipmentSlotsToString(EquippedItem equippedItem)
         {
-            switch (equipedItem.Slot)
+            switch (equippedItem.Slot)
             {
                 case EquipmentSlots.Light:
                     return "%C%<used as light>          %x%";
@@ -884,16 +887,16 @@ namespace Mud.Server.Character
                 case EquipmentSlots.MainHand:
                     return "%C%<wielded>                %x%";
                 case EquipmentSlots.OffHand:
-                    if (equipedItem.Item != null)
+                    if (equippedItem.Item != null)
                     {
-                        if (equipedItem.Item is IItemShield)
+                        if (equippedItem.Item is IItemShield)
                             return "%C%<worn as shield>         %x%";
-                        if (equipedItem.Item.WearLocation == WearLocations.Hold)
+                        if (equippedItem.Item.WearLocation == WearLocations.Hold)
                             return "%C%<held>                   %x%";
                     }
                     return "%c%<offhand>                %x%";
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "DoEquipment: missing WearLocation {0}", equipedItem.Slot);
+                    Log.Default.WriteLine(LogLevels.Error, "DoEquipment: missing WearLocation {0}", equippedItem.Slot);
                     break;
             }
             return "%C%<unknown>%x%";

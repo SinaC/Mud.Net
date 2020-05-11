@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Security.Cryptography;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
@@ -786,6 +785,7 @@ namespace Mud.Server.Character
             {
                 //  if open north -> I see no door north here.
                 //  if open black door -> I see no black door here.
+                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (wasAskingForDirection)
                     Send($"I see no door {parameter.Value} here.");
                 else

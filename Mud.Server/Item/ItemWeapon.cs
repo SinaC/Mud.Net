@@ -5,7 +5,7 @@ using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
 {
-    public class ItemWeapon : ItemEquipableBase<ItemWeaponBlueprint>, IItemWeapon
+    public class ItemWeapon : ItemEquippableBase<ItemWeaponBlueprint>, IItemWeapon
     {
         public ItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)
@@ -41,10 +41,10 @@ namespace Mud.Server.Item
                 ApplyAuras<IItemWeapon>(ContainedInto, this);
             }
 
-            // 2/ Apply auras from charcter equiping item if equiped by a character
-            if (EquipedBy != null && EquipedBy.IsValid)
+            // 2/ Apply auras from character equiping item if equipped by a character
+            if (EquippedBy != null && EquippedBy.IsValid)
             {
-                ApplyAuras<IItemWeapon>(EquipedBy, this);
+                ApplyAuras<IItemWeapon>(EquippedBy, this);
             }
 
             // 3/ Apply own auras

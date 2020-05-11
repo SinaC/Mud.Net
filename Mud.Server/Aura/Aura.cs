@@ -97,7 +97,7 @@ namespace Mud.Server.Aura
 
         public IEntity Source { get; private set; }
 
-        public AuraFlags AuraFlags { get; private set; }
+        public AuraFlags AuraFlags { get; }
 
         public IEnumerable<IAffect> Affects => _affects;
 

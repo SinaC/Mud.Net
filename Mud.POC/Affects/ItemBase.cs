@@ -4,21 +4,21 @@ namespace Mud.POC.Affects
 {
     public abstract class ItemBase : EntityBase, IItem
     {
-        protected ItemBase(string name, IEntity containedIn, ICharacter equipedBy)
+        protected ItemBase(string name, IEntity containedIn, ICharacter equippedBy)
             : base(name)
         {
             ContainedIn = containedIn;
-            EquipedBy = equipedBy;
+            EquippedBy = equippedBy;
         }
 
-        protected ItemBase(string name, IEntity containedIn, ICharacter equipedBy, ItemFlags itemFlags)
-            : this(name, containedIn, equipedBy)
+        protected ItemBase(string name, IEntity containedIn, ICharacter equippedBy, ItemFlags itemFlags)
+            : this(name, containedIn, equippedBy)
         {
             BaseItemFlags = itemFlags;
         }
 
-        public IEntity ContainedIn { get; private set; }
-        public ICharacter EquipedBy { get; private set; }
+        public IEntity ContainedIn { get; }
+        public ICharacter EquippedBy { get; }
 
         public ItemFlags BaseItemFlags { get; protected set; }
         public ItemFlags CurrentItemFlags { get; protected set; }
@@ -37,10 +37,7 @@ namespace Mud.POC.Affects
                 case AffectOperators.Nor:
                     CurrentItemFlags &= ~affect.Modifier;
                     break;
-                default:
-                    break;
             }
-            return;
         }
 
         public override void Recompute()
@@ -53,10 +50,10 @@ namespace Mud.POC.Affects
                  ApplyAuras<IItem>(room, this);
             }
 
-            // 2/ Apply auras from charcter equiping item if equiped by a character
-            if (EquipedBy != null && EquipedBy.IsValid)
+            // 2/ Apply auras from character equipping item if equipped by a character
+            if (EquippedBy != null && EquippedBy.IsValid)
             {
-                ApplyAuras<IItem>(EquipedBy, this);
+                ApplyAuras<IItem>(EquippedBy, this);
             }
 
             // 3/ Apply own auras

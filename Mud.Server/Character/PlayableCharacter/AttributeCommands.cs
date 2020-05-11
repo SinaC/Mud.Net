@@ -3,6 +3,7 @@ using Mud.Server.Common;
 using Mud.Server.Input;
 using System;
 using System.Linq;
+// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character.PlayableCharacter
 {

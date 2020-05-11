@@ -1,4 +1,5 @@
 TODO:
+money
 use GetEquipment where Equipments is reference
 Weight/Carry
 items Potion/Staff/Wand/Scroll
@@ -146,7 +147,7 @@ PlayableCharacter can be immortal or not -> don't link immortality to Impersonat
 When an item quest objective is complete, quest item should be NoTake
 
 refactor RawKilled: found in NonPlayableCharacter and PlayableCharacter
-IEquipable should not exist -> every item with a wear location should be equipable even if it's a furniture or a bag
+IEquippableItem should not exist -> every item with a wear location should be equipable even if it's a furniture or a bag
 When adding a container in a container, check if there is no cycle
 
 refactor damage functions in OneHit, Ability, DamageHelpers
@@ -169,7 +170,7 @@ quest save completed quests
 better command parser: should be able to specify something like     will be possible with SyntaxAttribute
     [command] [room.character] -> first parameter will be parsed as a character found in room
     [command] [world.character] -> first parameter will be parsed as a character found in world
-    [command] [room.item|room.character|inventory.item|equipment.item] -> first will be parsed as an item in room, a character in room, an item in inventory, an item in equipement
+    [command] [room.item|room.character|inventory.item|equipment.item] -> first will be parsed as an item in room, a character in room, an item in inventory, an item in equipment
 wear item
      all
      all.item
@@ -246,8 +247,8 @@ check wheelmud for mccp/mxp
 each time operator IS or AS is used, this should be replaced with an overridable method
 DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
 IItem: Display(short/long) (used instead of FormatItem in InfoCommands.cs)
-EquipedItem should be responsible for displaying itself
-EquipedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
+EquippedItem should be responsible for displaying itself
+EquippedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
 
 ability:
 http://www.wowhead.com/spell=106832/thrash

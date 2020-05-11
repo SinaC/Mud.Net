@@ -112,35 +112,35 @@ namespace Mud.Server.Character.PlayableCharacter
             // Must be built before equiping
             BuildEquipmentSlots();
 
-            // Equiped items
+            // Equipped items
             if (data.Equipments != null)
             {
                 // Create item in inventory and try to equip it
-                foreach (EquipedItemData equipedItemData in data.Equipments)
+                foreach (EquippedItemData equippedItemData in data.Equipments)
                 {
                     // Create in inventory
-                    var item = World.AddItem(Guid.NewGuid(), equipedItemData.Item, this);
+                    var item = World.AddItem(Guid.NewGuid(), equippedItemData.Item, this);
 
                     // Try to equip it
-                    EquipedItem equipedItem = SearchEquipmentSlot(equipedItemData.Slot, false);
-                    if (equipedItem != null)
+                    EquippedItem equippedItem = SearchEquipmentSlot(equippedItemData.Slot, false);
+                    if (equippedItem != null)
                     {
-                        if (item is IEquipableItem equipable)
+                        if (item is IEquippableItem equippable)
                         {
-                            equipedItem.Item = equipable;
-                            equipable.ChangeContainer(null); // remove from inventory
-                            equipable.ChangeEquipedBy(this); // set as equiped by this
+                            equippedItem.Item = equippable;
+                            equippable.ChangeContainer(null); // remove from inventory
+                            equippable.ChangeEquippedBy(this); // set as equipped by this
                         }
                         else
                         {
-                            string msg = $"Item blueprint Id {equipedItemData.Item.ItemId} cannot be equipped anymore in slot {equipedItemData.Slot} for character {data.Name}.";
-                            Log.Default.WriteLine(LogLevels.Error, msg, equipedItemData.Item.ItemId, equipedItemData.Slot);
+                            string msg = $"Item blueprint Id {equippedItemData.Item.ItemId} cannot be equipped anymore in slot {equippedItemData.Slot} for character {data.Name}.";
+                            Log.Default.WriteLine(LogLevels.Error, msg, equippedItemData.Item.ItemId, equippedItemData.Slot);
                             Wiznet.Wiznet(msg, WiznetFlags.Bugs);
                         }
                     }
                     else
                     {
-                        string msg = $"Item blueprint Id {equipedItemData.Item.ItemId} was supposed to be equipped in first empty slot {equipedItemData.Slot} for character {data.Name} but this slot doesn't exist anymore.";
+                        string msg = $"Item blueprint Id {equippedItemData.Item.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {data.Name} but this slot doesn't exist anymore.";
                         Log.Default.WriteLine(LogLevels.Error, msg);
                         Wiznet.Wiznet(msg, WiznetFlags.Bugs);
                     }
@@ -162,7 +162,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (data.Auras != null)
             {
                 foreach (AuraData auraData in data.Auras)
-                    _auras.Add(new Aura.Aura(auraData));
+                    AddAura(new Aura.Aura(auraData), false); // TODO: !!! auras is not added thru World.AddAura
             }
             // Known abilities
             if (data.KnownAbilities != null)
@@ -681,12 +681,12 @@ namespace Mud.Server.Character.PlayableCharacter
                 HitPoints = HitPoints,
                 MovePoints = MovePoints,
                 CurrentResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
-                MaxResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, x => MaxResource(x)),
+                MaxResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
                 Experience = Experience,
                 Trains = Trains,
                 Practices = Practices,
                 Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => this[x]),
-                Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquipedData()).ToArray(),
+                Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquippedData()).ToArray(),
                 Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
                 CurrentQuests = Quests.Select(x => x.MapQuestData()).ToArray(),
                 Auras = MapAuraData(),
@@ -722,6 +722,7 @@ namespace Mud.Server.Character.PlayableCharacter
             ICharacter characterKiller = killer as ICharacter;
 
             string wiznetMsg;
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (killer != null)
                 wiznetMsg = $"{DebugName} got toasted by {killer.DebugName ?? "???"} at {Room?.DebugName ?? "???"}";
             else
@@ -743,7 +744,7 @@ namespace Mud.Server.Character.PlayableCharacter
             ActToNotVictim(this, "You hear {0}'s death cry.", this);
 
             // Gain/lose xp/reputation   damage.C:32
-            if (killingPayoff && characterKiller != null)
+            if (killingPayoff)
                 characterKiller?.KillingPayoff(this);
             DeathPayoff();
 
@@ -909,21 +910,6 @@ namespace Mud.Server.Character.PlayableCharacter
                     follower.Move(direction, true);
                 }
             }
-        }
-
-        protected override void EnterFollow(IRoom wasRoom, IRoom destination, IItemPortal portal)
-        {
-            base.EnterFollow(wasRoom, destination, portal);
-
-            //if (wasRoom != destination)
-            //{
-            //    IReadOnlyCollection<IPlayableCharacter> followers = new ReadOnlyCollection<IPlayableCharacter>(wasRoom.People.OfType<IPlayableCharacter>().Where(x => x.Leader == this).ToList()); // clone because Move will modify fromRoom.People
-            //    foreach (IPlayableCharacter follower in followers)
-            //    {
-            //        follower.Send("You follow {0}.", DebugName);
-            //        follower.Enter(portal, true);
-            //    }
-            //}
         }
 
         protected override IEnumerable<ICharacter> GetActTargets(ActOptions option)

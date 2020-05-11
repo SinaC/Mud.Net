@@ -53,7 +53,7 @@ namespace Mud.Repository.Mongo
             CreateMap<Mud.Domain.ItemPortalData, Domain.ItemPortalData>()
                 .ForMember(x => x.PortalFlags, expression => expression.MapFrom(x => MapPortalFlags(x.PortalFlags)));
 
-            CreateMap<Mud.Domain.EquipedItemData, Domain.EquipedItemData>()
+            CreateMap<Mud.Domain.EquippedItemData, Domain.EquippedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
 
             CreateMap<Mud.Domain.CurrentQuestData, Domain.CurrentQuestData>();
@@ -129,7 +129,7 @@ namespace Mud.Repository.Mongo
             CreateMap<Domain.ItemPortalData, Mud.Domain.ItemPortalData>()
                 .ForMember(x => x.PortalFlags, expression => expression.MapFrom(x => MapPortalFlags(x.PortalFlags)));
 
-            CreateMap<Domain.EquipedItemData, Mud.Domain.EquipedItemData>()
+            CreateMap<Domain.EquippedItemData, Mud.Domain.EquippedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
 
             CreateMap<Domain.CurrentQuestData, Mud.Domain.CurrentQuestData>();

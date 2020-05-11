@@ -3,7 +3,7 @@
 namespace Mud.Repository.Filesystem.DataContracts
 {
     [DataContract(Namespace = "")]
-    public class EquipedItemData
+    public class EquippedItemData
     {
         [DataMember]
         public int Slot { get; set; }

@@ -28,7 +28,7 @@ namespace Mud.Server.Admin
                 Send("You force everyone to '{1}'.", command);
                 Wiznet.Wiznet($"{DisplayName} forces everyone to {command}", Domain.WiznetFlags.Punish);
 
-                foreach (ICharacter victimLoop in World.Characters.Where(x => x != this))
+                foreach (ICharacter victimLoop in World.Characters.Where(x => x != Impersonating))
                 {
                     victimLoop.Send("{0} forces you to '{1}'.", DisplayName, command);
                     victimLoop.ProcessCommand(command);

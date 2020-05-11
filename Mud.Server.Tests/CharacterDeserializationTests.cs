@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using AutoBogus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -209,9 +208,9 @@ namespace Mud.Server.Tests
                 Level = AutoFaker.Generate<int>(),
                 Sex = AutoFaker.Generate<Sex>(),
                 Experience = AutoFaker.Generate<long>(),
-                Equipments = new EquipedItemData[]
+                Equipments = new EquippedItemData[]
                 {
-                    new EquipedItemData
+                    new EquippedItemData
                     {
                         Slot = EquipmentSlots.Light,
                         Item = new ItemData
@@ -221,7 +220,7 @@ namespace Mud.Server.Tests
                             ItemFlags = AutoFaker.Generate<ItemFlags>(),
                         },
                     },
-                    new EquipedItemData
+                    new EquippedItemData
                     {
                         Slot = EquipmentSlots.OffHand,
                         Item = new ItemContainerData
@@ -240,7 +239,7 @@ namespace Mud.Server.Tests
                             }
                         },
                     },
-                    new EquipedItemData
+                    new EquippedItemData
                     {
                         Slot = EquipmentSlots.Ring,
                         Item = new ItemData
@@ -250,7 +249,7 @@ namespace Mud.Server.Tests
                             ItemFlags = AutoFaker.Generate<ItemFlags>(),
                         },
                     },
-                    new EquipedItemData
+                    new EquippedItemData
                     {
                         Slot = EquipmentSlots.Chest,
                         Item = new ItemData

@@ -156,7 +156,7 @@
     <Compile Include="IContainer.cs" />
     <Compile Include="IAura.cs" />
     <Compile Include="IEntity.cs" />
-    <Compile Include="IEquipableItem.cs" />
+    <Compile Include="IEquippableItem.cs" />
     <Compile Include="IExit.cs" />
     <Compile Include="IItem.cs" />
     <Compile Include="INonPlayableCharacter.cs" />
@@ -185,7 +185,7 @@
     <Compile Include="Item\IItemWeapon.cs" />
     <Compile Include="Item\ItemArmor.cs" />
     <Compile Include="Item\ItemCorpse.cs" />
-    <Compile Include="Item\ItemEquipableBase.cs" />
+    <Compile Include="Item\ItemEquippableBase.cs" />
     <Compile Include="Item\ItemFountain.cs" />
     <Compile Include="Item\ItemFurniture.cs" />
     <Compile Include="Item\ItemJewelry.cs" />

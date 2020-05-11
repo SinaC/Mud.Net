@@ -117,7 +117,7 @@ namespace Mud.Server.Admin
             }
 
             IContainer container = itemBlueprint.WearLocation == WearLocations.None
-                ? Impersonating.Room as IContainer
+                ? Impersonating.Room
                 : Impersonating as IContainer;
             IItem item = World.AddItem(Guid.NewGuid(), itemBlueprint, container);
             if (item == null)
@@ -201,7 +201,7 @@ namespace Mud.Server.Admin
             IPlayableCharacter playableCharacterVictim = FindHelpers.FindPlayableChararacterInWorld(Impersonating, parameters[0]);
             if (playableCharacterVictim != null)
             {
-                if (playableCharacterVictim == this)
+                if (playableCharacterVictim == Impersonating)
                 {
                     Send("Ho ho ho.");
                     return CommandExecutionResults.InvalidTarget;
@@ -326,11 +326,9 @@ namespace Mud.Server.Admin
                 return CommandExecutionResults.TargetNotFound;
             }
 
-            ICharacter whom;
-            if (Impersonating != null)
-                whom = FindHelpers.FindChararacterInWorld(Impersonating, parameters[0]);
-            else
-                whom = FindHelpers.FindByName(World.Characters, parameters[0]);
+            ICharacter whom = Impersonating != null 
+                ? FindHelpers.FindChararacterInWorld(Impersonating, parameters[0]) 
+                : FindHelpers.FindByName(World.Characters, parameters[0]);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
@@ -377,7 +375,7 @@ namespace Mud.Server.Admin
             }
             if (parameters[0].IsAll)
             {
-                foreach (ICharacter loopVictim in World.PlayableCharacters)
+                foreach (IPlayableCharacter loopVictim in World.PlayableCharacters)
                     RestoreOneCharacter(loopVictim);
                 Wiznet.Wiznet($"{DisplayName} has restored everyone {Impersonating.Room.Blueprint.Id}.", WiznetFlags.Restore);
                 Send("All active players restored.");
@@ -447,18 +445,11 @@ namespace Mud.Server.Admin
                 return CommandExecutionResults.SyntaxError;
             IReadOnlyTrie<CommandMethodInfo> commands = CommandHelpers.GetCommands(type);
             // Filter?
-            IEnumerable<CommandMethodInfo> query;
-            if (parameters.Length > 1)
-            {
+            var query = parameters.Length > 1
                 // Filter using Trie, then order by priority
-                query = commands.GetByPrefix(parameters[1].Value).OrderBy(x => x.Value.Attribute.Priority).Select(x => x.Value);
-            }
-            else
-            {
+                ? commands.GetByPrefix(parameters[1].Value).OrderBy(x => x.Value.Attribute.Priority).Select(x => x.Value)
                 // No filter and order by MethodInfo name
-                query = commands.Values.OrderBy(x => x.MethodInfo.Name);
-            }
-
+                : commands.Values.OrderBy(x => x.MethodInfo.Name);
             // Display
             StringBuilder sb = TableGenerators.CommandMethodInfoTableGenerator.Value.Generate($"Commands for {type.Name}", query);
             Page(sb);

@@ -199,6 +199,7 @@ namespace Mud.Server.Abilities
             // unlike dispel magic, no save roll
             bool found = TryDispels(level+2, victim);
 
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (found)
                 caster.Send("Ok.");
             else
@@ -433,7 +434,7 @@ namespace Mud.Server.Abilities
         public void SpellCreateFood(IAbility ability, int level, ICharacter caster)
         {
             IItemFood mushroom = World.AddItem(Guid.NewGuid(), Settings.MushroomBlueprintId, caster.Room) as IItemFood;
-            mushroom.SetHours(level / 2, level);
+            mushroom?.SetHours(level / 2, level);
             caster.Act(ActOptions.ToAll, "{0} suddenly appears.", mushroom);
         }
 
@@ -449,7 +450,7 @@ namespace Mud.Server.Abilities
         {
             IItemFountain fountain = World.AddItem(Guid.NewGuid(), Settings.SpringBlueprintId, caster.Room) as IItemFountain;
             int duration = level;
-            fountain.SetTimer(TimeSpan.FromMinutes(duration));
+            fountain?.SetTimer(TimeSpan.FromMinutes(duration));
             caster.Act(ActOptions.ToAll, "{0} flows from the ground.", fountain);
         }
 
@@ -635,6 +636,7 @@ namespace Mud.Server.Abilities
         {
             if (item is IItemPoisonable poisonable)
             {
+                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (poisonable.IsPoisoned)
                     caster.Send("You smell poisonous fumes.");
                 else
@@ -702,6 +704,7 @@ namespace Mud.Server.Abilities
 
             bool found = TryDispels(level, victim);
 
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (found)
                 caster.Send("Ok.");
             else
@@ -731,7 +734,7 @@ namespace Mud.Server.Abilities
         [Spell(41, "Enchant Armor", AbilityTargets.ArmorInventory, PulseWaitTime = 24)]
         public void SpellEnchantArmor(IAbility ability, int level, ICharacter caster, IItemArmor armor)
         {
-            //if (item.EquipedBy == null)
+            //if (item.EquippedBy == null)
             //{
             //    caster.Send("The item must be carried to be enchanted.");
             //    return;
@@ -811,7 +814,7 @@ namespace Mud.Server.Abilities
         [Spell(42, "Enchant Weapon", AbilityTargets.WeaponInventory, PulseWaitTime = 24)]
         public void SpellEnchantWeapon(IAbility ability, int level, ICharacter caster, IItemWeapon weapon)
         {
-            //if (weapon.EquipedBy == null)
+            //if (weapon.EquippedBy == null)
             //{
             //    caster.Send("The item must be carried to be enchanted.");
             //    return;
@@ -1172,9 +1175,9 @@ namespace Mud.Server.Abilities
             if (!victim.SavesSpell(level + 2, SchoolTypes.Fire) && !victim.Immunities.HasFlag(IRVFlags.Fire))
             {
                 // Check equipments
-                foreach (EquipedItem equipedItem in victim.Equipments.Where(x => x.Item != null))
+                foreach (EquippedItem equippedItem in victim.Equipments.Where(x => x.Item != null))
                 {
-                    IEquipableItem item = equipedItem.Item;
+                    IEquippableItem item = equippedItem.Item;
                     if (!item.ItemFlags.HasFlag(ItemFlags.BurnProof)
                         && !item.ItemFlags.HasFlag(ItemFlags.NonMetal)
                         && RandomManager.Range(1, 2 * level) > item.Level
@@ -1187,7 +1190,7 @@ namespace Mud.Server.Abilities
                                     && !itemArmor.ItemFlags.HasFlag(ItemFlags.NoRemove)
                                     && itemArmor.Weight / 10 < RandomManager.Range(1, 2 * victim[CharacterAttributes.Dexterity]))
                                 {
-                                    itemArmor.ChangeEquipedBy(null);
+                                    itemArmor.ChangeEquippedBy(null);
                                     itemArmor.ChangeContainer(victim.Room);
                                     victim.Act(ActOptions.ToRoom, "{0:N} yelps and throws {1} to the ground!", victim, itemArmor);
                                     victim.Act(ActOptions.ToCharacter, "You remove and drop {0} before it burns you.", itemArmor);
@@ -1207,7 +1210,7 @@ namespace Mud.Server.Abilities
                                     if (!itemWeapon.ItemFlags.HasFlag(ItemFlags.NoDrop) // remove the item
                                         && !itemWeapon.ItemFlags.HasFlag(ItemFlags.NoRemove))
                                     {
-                                        itemWeapon.ChangeEquipedBy(null);
+                                        itemWeapon.ChangeEquippedBy(null);
                                         itemWeapon.ChangeContainer(victim.Room);
                                         victim.Act(ActOptions.ToRoom, "{0:N} is burned by {1}, and throws it to the ground.", victim, itemWeapon);
                                         victim.Send("You throw your red-hot weapon to the ground!");
@@ -1427,8 +1430,8 @@ namespace Mud.Server.Abilities
                     sb.AppendFormatLine("One is in {0}", room.DisplayName);
                 else if (item.ContainedInto is ICharacter character && caster.CanSee(character))
                     sb.AppendFormatLine("One is carried by {0}", character.DisplayName);
-                else if (item is IEquipableItem equipable && equipable.EquipedBy != null && caster.CanSee(equipable.EquipedBy))
-                    sb.AppendFormatLine("One is carried by {0}", equipable.EquipedBy.DisplayName);
+                else if (item is IEquippableItem equippable && equippable.EquippedBy != null && caster.CanSee(equippable.EquippedBy))
+                    sb.AppendFormatLine("One is carried by {0}", equippable.EquippedBy.DisplayName);
 
                 number++;
                 if (number >= maxFound)
@@ -1496,7 +1499,7 @@ namespace Mud.Server.Abilities
                 return;
             }
 
-            // destroy warpsone
+            // destroy warpstone
             caster.Act(ActOptions.ToCharacter, "You draw upon the power of {0}.", stone);
             caster.Act(ActOptions.ToCharacter, "It flares brightly and vanishes!");
             World.RemoveItem(stone);
@@ -1505,24 +1508,30 @@ namespace Mud.Server.Abilities
 
             // create portal one (caster -> victim)
             IItemPortal portal1 = World.AddItem(Guid.NewGuid(), Settings.PortalBlueprintId, caster.Room) as IItemPortal;
-            portal1.SetTimer(TimeSpan.FromMinutes(duration));
-            portal1.ChangeDestination(victim.Room);
-            portal1.SetCharge(1, 1);
+            if (portal1 != null)
+            {
+                portal1.SetTimer(TimeSpan.FromMinutes(duration));
+                portal1.ChangeDestination(victim.Room);
+                portal1.SetCharge(1, 1);
 
-            caster.Act(ActOptions.ToCharacter, "{0:N} rises up before you.", portal1);
-            caster.Act(ActOptions.ToRoom, "{0:N} rises up from the ground.", portal1);
+                caster.Act(ActOptions.ToCharacter, "{0:N} rises up before you.", portal1);
+                caster.Act(ActOptions.ToRoom, "{0:N} rises up from the ground.", portal1);
+            }
 
             if (caster.Room == victim.Room)
                 return; // no second portal if rooms are the same
 
             // create portal two (victim -> caster)
             IItemPortal portal2 = World.AddItem(Guid.NewGuid(), Settings.PortalBlueprintId, victim.Room) as IItemPortal;
-            portal2.SetTimer(TimeSpan.FromMinutes(duration));
-            portal2.ChangeDestination(caster.Room);
-            portal2.SetCharge(1, 1);
+            if (portal2 != null)
+            {
+                portal2.SetTimer(TimeSpan.FromMinutes(duration));
+                portal2.ChangeDestination(caster.Room);
+                portal2.SetCharge(1, 1);
 
-            victim.Act(ActOptions.ToCharacter, "{0:N} rises up before you.", portal2);
-            victim.Act(ActOptions.ToRoom, "{0:N} rises up from the ground.", portal2);
+                victim.Act(ActOptions.ToCharacter, "{0:N} rises up before you.", portal2);
+                victim.Act(ActOptions.ToRoom, "{0:N} rises up from the ground.", portal2);
+            }
         }
 
         [Spell(70, "Pass Door", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You feel solid again.", Flags = AbilityFlags.CanBeDispelled)]
@@ -1633,13 +1642,16 @@ namespace Mud.Server.Abilities
 
             // create portal
             IItemPortal portal = World.AddItem(Guid.NewGuid(), Settings.PortalBlueprintId, caster.Room) as IItemPortal;
-            int duration = 2 + level / 25;
-            portal.SetTimer(TimeSpan.FromMinutes(duration));
-            portal.ChangeDestination(victim.Room);
-            portal.SetCharge(1+level/25, 1+level/25);
+            if (portal != null)
+            {
+                int duration = 2 + level / 25;
+                portal.SetTimer(TimeSpan.FromMinutes(duration));
+                portal.ChangeDestination(victim.Room);
+                portal.SetCharge(1 + level / 25, 1 + level / 25);
 
-            caster.Act(ActOptions.ToCharacter, "{0:N} rises up before you.", portal);
-            caster.Act(ActOptions.ToRoom, "{0:N} rises up from the ground.", portal);
+                caster.Act(ActOptions.ToCharacter, "{0:N} rises up before you.", portal);
+                caster.Act(ActOptions.ToRoom, "{0:N} rises up from the ground.", portal);
+            }
         }
 
         [Spell(74, "Protection Evil", AbilityTargets.CharacterSelf, CharacterWearOffMessage = "You feel less protected.", Flags = AbilityFlags.CanBeDispelled)]
@@ -1719,6 +1731,7 @@ namespace Mud.Server.Abilities
         public void SpellRefresh(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             victim.UpdateMovePoints(level);
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (victim.MovePoints == victim[CharacterAttributes.MaxMovePoints])
                 victim.Send("You feel fully refreshed!");
             else
@@ -1964,6 +1977,7 @@ namespace Mud.Server.Abilities
 
             foreach (ICharacter character in caster.Room.People.Where(x => x != victim && x.Position > Positions.Sleeping))
             {
+                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (character.SavesSpell(level, SchoolTypes.Other))
                     character.Send(phraseFail);
                 else
@@ -2176,7 +2190,7 @@ namespace Mud.Server.Abilities
                         msg = "{0} burns.";
                         break;
                 }
-                ICharacter viewer = (item.ContainedInto as ICharacter) ?? (item as IEquipableItem)?.EquipedBy ?? (item.ContainedInto as IRoom)?.People.FirstOrDefault(); // viewer is holder or any person in the room
+                ICharacter viewer = (item.ContainedInto as ICharacter) ?? (item as IEquippableItem)?.EquippedBy ?? (item.ContainedInto as IRoom)?.People.FirstOrDefault(); // viewer is holder or any person in the room
                 viewer?.Act(ActOptions.ToAll, msg, item);
                 if (item is IItemArmor) // etch it
                 {
@@ -2200,10 +2214,10 @@ namespace Mud.Server.Abilities
                         dropItemTargetRoom = roomContainer;
                     else if (item.ContainedInto is ICharacter character && character.Room != null) // if container is in an inventory, drop content to room
                         dropItemTargetRoom = character.Room;
-                    else if (item is IEquipableItem equipable && equipable.EquipedBy.Room != null) // if container is in equipment, unequip and drop content to room
+                    else if (item is IEquippableItem equippable && equippable.EquippedBy.Room != null) // if container is in equipment, unequip and drop content to room
                     {
-                        equipable.ChangeEquipedBy(null);
-                        dropItemTargetRoom = equipable.EquipedBy.Room;
+                        equippable.ChangeEquippedBy(null);
+                        dropItemTargetRoom = equippable.EquippedBy.Room;
                     }
                     foreach (IItem itemInContainer in container.Content)
                     {
@@ -2293,14 +2307,14 @@ namespace Mud.Server.Abilities
                     return;
                 // display msg
                 string msg = "{0} freezes and shatters!";
-                ICharacter viewer = (item.ContainedInto as ICharacter) ?? (item as IEquipableItem)?.EquipedBy ?? (item.ContainedInto as IRoom)?.People.FirstOrDefault(); // viewer is holder or any person in the room
+                ICharacter viewer = (item.ContainedInto as ICharacter) ?? (item as IEquippableItem)?.EquippedBy ?? (item.ContainedInto as IRoom)?.People.FirstOrDefault(); // viewer is holder or any person in the room
                 viewer?.Act(ActOptions.ToAll, msg, item);
                 // unequip and destroy item
                 IEntity itemContainedInto = null;
-                if (item is IEquipableItem equipable && equipable.EquipedBy != null) // if item equiped: unequip 
+                if (item is IEquippableItem equippable && equippable.EquippedBy != null) // if item equipped: unequip 
                 {
-                    equipable.ChangeEquipedBy(null);
-                    itemContainedInto = equipable.EquipedBy;
+                    equippable.ChangeEquippedBy(null);
+                    itemContainedInto = equippable.EquippedBy;
                 }
                 else
                     itemContainedInto = item.ContainedInto;
@@ -2387,7 +2401,7 @@ namespace Mud.Server.Abilities
                         msg = "{0} burns.";
                         break;
                 }
-                ICharacter viewer = (item.ContainedInto as ICharacter) ?? (item as IEquipableItem)?.EquipedBy ?? (item.ContainedInto as IRoom)?.People.FirstOrDefault(); // viewer is holder or any person in the room
+                ICharacter viewer = (item.ContainedInto as ICharacter) ?? (item as IEquippableItem)?.EquippedBy ?? (item.ContainedInto as IRoom)?.People.FirstOrDefault(); // viewer is holder or any person in the room
                 viewer?.Act(ActOptions.ToAll, msg, item);
                 // destroy container, dump the contents and apply fire effect on them
                 if (item is IItemContainer itemContainer) // get rid of content and apply fire effect on it
@@ -2397,10 +2411,10 @@ namespace Mud.Server.Abilities
                         dropItemTargetRoom = roomContainer;
                     else if (item.ContainedInto is ICharacter character && character.Room != null) // if container is in an inventory, drop content to room
                         dropItemTargetRoom = character.Room;
-                    else if (item is IEquipableItem equipable && equipable.EquipedBy.Room != null) // if container is equiped, unequip and drop content to room
+                    else if (item is IEquippableItem equippable && equippable.EquippedBy.Room != null) // if container is equipped, unequip and drop content to room
                     {
-                        equipable.ChangeEquipedBy(null);
-                        dropItemTargetRoom = equipable.EquipedBy.Room;
+                        equippable.ChangeEquippedBy(null);
+                        dropItemTargetRoom = equippable.EquippedBy.Room;
                     }
                     foreach (IItem itemInContainer in itemContainer.Content)
                     {
@@ -2532,10 +2546,10 @@ namespace Mud.Server.Abilities
                     return;
                 // unequip and destroy item
                 IEntity itemContainedInto;
-                if (item is IEquipableItem equipable && equipable.EquipedBy != null) // if item is equiped: unequip 
+                if (item is IEquippableItem equippable && equippable.EquippedBy != null) // if item is equipped: unequip 
                 {
-                    equipable.ChangeEquipedBy(null);
-                    itemContainedInto = equipable.EquipedBy;
+                    equippable.ChangeEquippedBy(null);
+                    itemContainedInto = equippable.EquippedBy;
                 }
                 else
                     itemContainedInto = item.ContainedInto;

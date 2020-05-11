@@ -5,28 +5,28 @@ using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
 {
-    public class ItemEquipableBase<TBlueprint> : ItemBase<TBlueprint>, IEquipableItem
+    public class ItemEquippableBase<TBlueprint> : ItemBase<TBlueprint>, IEquippableItem
         where TBlueprint : ItemBlueprintBase
     {
-        public ItemEquipableBase(Guid guid, TBlueprint blueprint, IContainer containedInto) 
+        public ItemEquippableBase(Guid guid, TBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)
         {
             WearLocation = blueprint.WearLocation;
         }
 
-        public ItemEquipableBase(Guid guid, TBlueprint blueprint, ItemData itemData, IContainer containedInto)
+        public ItemEquippableBase(Guid guid, TBlueprint blueprint, ItemData itemData, IContainer containedInto)
             : base(guid, blueprint, itemData, containedInto)
         {
             WearLocation = blueprint.WearLocation;
         }
 
-        #region IEquipable
+        #region IEquippableItem
 
-        #region IITem
+        #region IItem
 
         public override void Recompute()
         {
-            // Don't call Base.Recompute because this method is a copy/paste with equiped step added
+            // Don't call Base.Recompute because this method is a copy/paste with equipped step added
 
             // 0) Reset
             ResetAttributes();
@@ -37,10 +37,10 @@ namespace Mud.Server.Item
                 ApplyAuras<IItem>(room, this);
             }
 
-            // 2) Apply auras from character equiping item if equiped by a character
-            if (EquipedBy != null && EquipedBy.IsValid)
+            // 2) Apply auras from character equiping item if equipped by a character
+            if (EquippedBy != null && EquippedBy.IsValid)
             {
-                ApplyAuras<IItem>(EquipedBy, this);
+                ApplyAuras<IItem>(EquippedBy, this);
             }
 
             // 3) Apply own auras
@@ -51,13 +51,13 @@ namespace Mud.Server.Item
 
         public WearLocations WearLocation { get; }
 
-        public ICharacter EquipedBy { get; private set; }
+        public ICharacter EquippedBy { get; private set; }
 
-        public bool ChangeEquipedBy(ICharacter character)
+        public bool ChangeEquippedBy(ICharacter character)
         {
-            EquipedBy?.Unequip(this);
-            Log.Default.WriteLine(LogLevels.Info, "ChangeEquipedBy: {0} : {1} -> {2}", DebugName, EquipedBy == null ? "<<??>>" : EquipedBy.DebugName, character == null ? "<<??>>" : character.DebugName);
-            EquipedBy = character;
+            EquippedBy?.Unequip(this);
+            Log.Default.WriteLine(LogLevels.Info, "ChangeEquippedBy: {0} : {1} -> {2}", DebugName, EquippedBy?.DebugName ?? "<<??>>", character?.DebugName ?? "<<??>>");
+            EquippedBy = character;
             // TODO: call something like character.Equip ? (additional parameter EquipmentSlot)
             return true;
         }

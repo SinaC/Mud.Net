@@ -1,6 +1,6 @@
 ﻿namespace Mud.Repository.Mongo.Domain
 {
-    public class EquipedItemData
+    public class EquippedItemData
     {
         public int Slot { get; set; }
 

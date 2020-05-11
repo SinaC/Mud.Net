@@ -2,13 +2,13 @@
 {
     public class ItemWeapon : ItemBase, IItemWeapon
     {
-        public ItemWeapon(string name, IEntity containedInto, ICharacter equipedBy)
-            : base(name, containedInto, equipedBy)
+        public ItemWeapon(string name, IEntity containedInto, ICharacter equippedBy)
+            : base(name, containedInto, equippedBy)
         {
         }
 
-        public ItemWeapon(string name, IEntity containedInto, ICharacter equipedBy, ItemFlags itemFlags, WeaponFlags weaponFlags)
-            : base(name, containedInto, equipedBy, itemFlags)
+        public ItemWeapon(string name, IEntity containedInto, ICharacter equippedBy, ItemFlags itemFlags, WeaponFlags weaponFlags)
+            : base(name, containedInto, equippedBy, itemFlags)
         {
             BaseWeaponFlags = weaponFlags;
         }
@@ -31,10 +31,7 @@
                 case AffectOperators.Nor:
                     CurrentWeaponFlags &= ~affect.Modifier;
                     break;
-                default:
-                    break;
             }
-            return;
         }
 
         public override void Recompute() // overriding recompute and calling base will cause every collection to be iterate twice
@@ -47,10 +44,10 @@
                 ApplyAuras<IItemWeapon>(ContainedIn, this);
             }
 
-            // 2/ Apply auras from charcter equiping item if equiped by a character
-            if (EquipedBy != null && EquipedBy.IsValid)
+            // 2/ Apply auras from charcter equipping item if equipped by a character
+            if (EquippedBy != null && EquippedBy.IsValid)
             {
-                ApplyAuras<IItemWeapon>(EquipedBy, this);
+                ApplyAuras<IItemWeapon>(EquippedBy, this);
             }
 
             // 3/ Apply own auras

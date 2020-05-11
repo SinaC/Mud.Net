@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Security.Cryptography;
 using System.Text;
 using Mud.Container;
 using Mud.DataStructures.Trie;
@@ -27,7 +26,7 @@ namespace Mud.Server.Character
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> CharacterBaseCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<CharacterBase>);
 
         private readonly List<IItem> _inventory;
-        private readonly List<EquipedItem> _equipments;
+        private readonly List<EquippedItem> _equipments;
         // TODO: replace int[] with Dictionary<enum,int> ?
         private readonly int[] _baseAttributes;
         private readonly int[] _currentAttributes;
@@ -47,7 +46,7 @@ namespace Mud.Server.Character
             : base(guid, name, description)
         {
             _inventory = new List<IItem>();
-            _equipments = new List<EquipedItem>();
+            _equipments = new List<EquippedItem>();
             _baseAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
             _currentAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
             _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
@@ -139,7 +138,7 @@ namespace Mud.Server.Character
 
         public ICharacter Fighting { get; protected set; }
 
-        public IEnumerable<EquipedItem> Equipments => _equipments;
+        public IEnumerable<EquippedItem> Equipments => _equipments;
         public IEnumerable<IItem> Inventory => Content;
 
         // Furniture (sleep/sit/stand)
@@ -319,9 +318,9 @@ namespace Mud.Server.Character
         }
 
         // Equipments
-        public bool Unequip(IEquipableItem item)
+        public bool Unequip(IEquippableItem item)
         {
-            foreach (EquipedItem equipmentSlot in _equipments.Where(x => x.Item == item))
+            foreach (EquippedItem equipmentSlot in _equipments.Where(x => x.Item == item))
                 equipmentSlot.Item = null;
             Recompute();
             return true;
@@ -588,11 +587,11 @@ namespace Mud.Server.Character
                 ApplyAuras(Room);
 
             // 2) Apply equipment auras
-            foreach (EquipedItem equipment in Equipments.Where(x => x.Item != null))
+            foreach (EquippedItem equipment in Equipments.Where(x => x.Item != null))
                 ApplyAuras(equipment.Item);
 
             // 3) Apply equipment armor
-            foreach (EquipedItem equipment in Equipments.Where(x => x.Item is IItemArmor))
+            foreach (EquippedItem equipment in Equipments.Where(x => x.Item is IItemArmor))
             {
                 if (equipment.Item is IItemArmor armor) // always true
                 {
@@ -1062,7 +1061,7 @@ namespace Mud.Server.Character
 
         public bool WeaponDamage(ICharacter source, IItemWeapon weapon, int damage, SchoolTypes damageType, bool visible) // damage from weapon(or bare hands) of known source
         {
-            return GenericDamage(source, weapon?.RelativeDisplayName(weapon.EquipedBy), damage, damageType, visible);
+            return GenericDamage(source, weapon?.RelativeDisplayName(weapon.EquippedBy), damage, damageType, visible);
         }
 
         public bool AbilityDamage(IEntity source, IAbility ability, int damage, SchoolTypes damageType, bool visible) // damage from ability of known source
@@ -1357,7 +1356,7 @@ namespace Mud.Server.Character
         // Equipment
         public IItem GetEquipment(EquipmentSlots slot) => Equipments.FirstOrDefault(x => x.Slot == slot && x.Item != null)?.Item;
 
-        public EquipedItem SearchEquipmentSlot(IEquipableItem item, bool replace)
+        public EquippedItem SearchEquipmentSlot(IEquippableItem item, bool replace)
         {
             switch (item.WearLocation)
             {
@@ -1426,8 +1425,6 @@ namespace Mud.Server.Character
                 case AffectOperators.Nor:
                     CharacterFlags &= ~affect.Modifier;
                     break;
-                default:
-                    break;
             }
         }
 
@@ -1448,8 +1445,6 @@ namespace Mud.Server.Character
                         case AffectOperators.Nor:
                             Immunities &= ~affect.Modifier;
                             break;
-                        default:
-                            break;
                     }
                     break;
                 case IRVAffectLocations.Resistances:
@@ -1465,8 +1460,6 @@ namespace Mud.Server.Character
                         case AffectOperators.Nor:
                             Resistances &= ~affect.Modifier;
                             break;
-                        default:
-                            break;
                     }
                     break;
                 case IRVAffectLocations.Vulnerabilities:
@@ -1481,8 +1474,6 @@ namespace Mud.Server.Character
                             break;
                         case AffectOperators.Nor:
                             Resistances &= ~affect.Modifier;
-                            break;
-                        default:
                             break;
                     }
                     break;
@@ -1513,8 +1504,7 @@ namespace Mud.Server.Character
                         break;
                     case AffectOperators.Or:
                     case AffectOperators.Nor:
-                    default:
-                        // Error
+                        Log.Default.WriteLine(LogLevels.Error, "Invalid AffectOperators {0} for CharacterAttributeAffect Characteristics", affect.Operator);
                         break;
                 }
                 return;
@@ -1537,8 +1527,7 @@ namespace Mud.Server.Character
                         break;
                     case AffectOperators.Or:
                     case AffectOperators.Nor:
-                    default:
-                        // Error
+                        Log.Default.WriteLine(LogLevels.Error, "Invalid AffectOperators {0} for CharacterAttributeAffect AllArmor", affect.Operator);
                         break;
                 }
                 return;
@@ -1574,8 +1563,7 @@ namespace Mud.Server.Character
                     break;
                 case AffectOperators.Or:
                 case AffectOperators.Nor:
-                default:
-                    // Error
+                    Log.Default.WriteLine(LogLevels.Error, "Invalid AffectOperators {0} for CharacterAttributeAffect {0}", affect.Operator, affect.Location);
                     break;
             }
         }
@@ -1673,39 +1661,39 @@ namespace Mud.Server.Character
             {
                 // TODO: take care of existing equipment (add only new slot, if slot is removed put equipment in inventory)
                 _equipments.Clear();
-                _equipments.AddRange(Race.EquipmentSlots.Select(x => new EquipedItem(x)));
+                _equipments.AddRange(Race.EquipmentSlots.Select(x => new EquippedItem(x)));
             }
             else
             {
-                _equipments.Add(new EquipedItem(EquipmentSlots.Light));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Head));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Amulet));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Shoulders));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Chest));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Cloak));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Waist));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Wrists));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Arms));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Hands));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Ring)); // 2 rings
-                _equipments.Add(new EquipedItem(EquipmentSlots.Ring));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Legs));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Feet));
-                _equipments.Add(new EquipedItem(EquipmentSlots.Trinket)); // 2 trinkets
-                _equipments.Add(new EquipedItem(EquipmentSlots.Trinket));
-                _equipments.Add(new EquipedItem(EquipmentSlots.MainHand)); // 2 hands
-                _equipments.Add(new EquipedItem(EquipmentSlots.OffHand));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Light));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Head));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Amulet));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Shoulders));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Chest));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Cloak));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Waist));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Wrists));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Arms));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Hands));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Ring)); // 2 rings
+                _equipments.Add(new EquippedItem(EquipmentSlots.Ring));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Legs));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Feet));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Trinket)); // 2 trinkets
+                _equipments.Add(new EquippedItem(EquipmentSlots.Trinket));
+                _equipments.Add(new EquippedItem(EquipmentSlots.MainHand)); // 2 hands
+                _equipments.Add(new EquippedItem(EquipmentSlots.OffHand));
             }
         }
 
-        protected EquipedItem SearchEquipmentSlot(EquipmentSlots equipmentSlot, bool replace)
+        protected EquippedItem SearchEquipmentSlot(EquipmentSlots equipmentSlot, bool replace)
         {
             if (replace) // search empty slot, if not found, return first matching slot
                 return Equipments.FirstOrDefault(x => x.Slot == equipmentSlot && x.Item == null) ?? Equipments.FirstOrDefault(x => x.Slot == equipmentSlot);
             return Equipments.FirstOrDefault(x => x.Slot == equipmentSlot && x.Item == null);
         }
 
-        protected EquipedItem SearchOneHandedWeaponEquipmentSlot(bool replace)
+        protected EquippedItem SearchOneHandedWeaponEquipmentSlot(bool replace)
         {
             // Search empty mainhand, then empty offhand only if mainhand is not wielding a 2H
             if (replace)
@@ -1737,7 +1725,7 @@ namespace Mud.Server.Character
             //return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand && x.Item == null);
         }
 
-        protected EquipedItem SearchOffhandEquipmentSlot(bool replace)
+        protected EquippedItem SearchOffhandEquipmentSlot(bool replace)
         {
             // This leads to strange looking equipments:
             // wield 1-H weapon -> first main hand
@@ -1829,7 +1817,7 @@ namespace Mud.Server.Character
                     denominator += 20*(sourceLevel - 80);
                 if (sourceLevel >= 85)
                     denominator += 22*(sourceLevel - 85);
-                decimal damageReduction = (decimal)_currentAttributes[(int)CharacterAttributes.ArmorBash]/ denominator;/*TODO other armor*/
+                decimal damageReduction = _currentAttributes[(int)CharacterAttributes.ArmorBash]/ denominator;/*TODO other armor*/
                 if (damageReduction > 0)
                 {
                     //decimal damageAbsorption = HitPoints/(1.0m - damageReduction);
@@ -1927,7 +1915,7 @@ namespace Mud.Server.Character
                     damage = (damage * 75) / 100;
                     break;
                 case CombatHelpers.AttackResults.Block:
-                    EquipedItem victimShield = victim.Equipments.FirstOrDefault(x => x.Item is IItemShield && x.Slot == EquipmentSlots.OffHand);
+                    EquippedItem victimShield = victim.Equipments.FirstOrDefault(x => x.Item is IItemShield && x.Slot == EquipmentSlots.OffHand);
                     if (victimShield != null) // will never be null because MeleeAttack will not return Block if no shield
                     {
                         victim.Act(ActOptions.ToCharacter, "You block {0}'s attack with {1}.", this, victimShield.Item);
@@ -2455,6 +2443,7 @@ namespace Mud.Server.Character
         //      exit name
         // IAbility
         //      ability name
+        [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
         private static void FormatActOneArgument(ICharacter target, StringBuilder result, string format, object argument)
         {
             // Character ?
@@ -2660,13 +2649,7 @@ namespace Mud.Server.Character
                 return x.Id == y.Id;
             }
 
-            public int GetHashCode(IAbility obj)
-            {
-                if (obj == null)
-                    return -1;
-                else
-                    return obj.Id;
-            }
+            public int GetHashCode(IAbility obj) => obj.Id;
         }
     }
 }

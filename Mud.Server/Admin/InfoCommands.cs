@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using Mud.DataStructures.HeapPriorityQueue;
 using Mud.Domain;
-using Mud.Server.Abilities;
+using Mud.Domain.Extensions;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
-using Mud.Server.Tables;
 
 // ReSharper disable UnusedMember.Global
 
@@ -146,7 +145,7 @@ namespace Mud.Server.Admin
                 return CommandExecutionResults.Ok;
             }
             WiznetFlags flag;
-            if (!EnumHelpers.TryFindByName<WiznetFlags>(parameters[0].Value.ToLowerInvariant(), out flag) || flag == WiznetFlags.None)
+            if (!EnumHelpers.TryFindByName(parameters[0].Value.ToLowerInvariant(), out flag) || flag == WiznetFlags.None)
             {
                 Send("No such option.");
                 return CommandExecutionResults.InvalidParameter;
@@ -229,7 +228,7 @@ namespace Mud.Server.Admin
                 IExit exit = room.Exit(direction);
                 if (exit?.Destination != null)
                 {
-                    sb.Append(StringExtensions.UpperFirstLetter(direction.ToString()));
+                    sb.Append(direction.DisplayName());
                     sb.Append(" - ");
                     sb.Append(exit.Destination.DisplayName);
                     if (exit.IsClosed)
@@ -416,10 +415,10 @@ namespace Mud.Server.Admin
                 sb.AppendFormatLine("Incarnatable: {0}", item.Incarnatable);
             if (item.ContainedInto != null)
                 sb.AppendFormatLine("Contained in {0}", item.ContainedInto.DebugName);
-            if (item is IEquipableItem equipable)
-                sb.AppendFormatLine("Equiped by {0} on {1}", equipable.EquipedBy?.DebugName ?? "(none)", equipable.WearLocation);
+            if (item is IEquippableItem equippable)
+                sb.AppendFormatLine("Equipped by {0} on {1}", equippable.EquippedBy?.DebugName ?? "(none)", equippable.WearLocation);
             else
-                sb.AppendLine("Cannot be equiped");
+                sb.AppendLine("Cannot be equipped");
             sb.AppendFormatLine("Level: {0}", item.Level);
             sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
             if (item.DecayPulseLeft > 0)
@@ -430,7 +429,7 @@ namespace Mud.Server.Admin
             if (item is IItemContainer container)
                 sb.AppendFormatLine("Item count: {0} Weight multiplier: {1}", container.ItemCount, container.WeightMultiplier);
             //
-            if (item is IItemCorpse corpse)
+            if (item is IItemCorpse)
                 sb.AppendLine("No additional informations");
             //
             if (item is IItemWeapon weapon)
@@ -591,7 +590,7 @@ namespace Mud.Server.Admin
                     {
                         matchingClass.DisplayName,
                         $"ShortName: {matchingClass.ShortName}",
-                        $"Resource(s): {string.Join(",", matchingClass.ResourceKinds?.Select(x => x.ToString()))}"
+                        $"Resource(s): {string.Join(",", matchingClass.ResourceKinds?.Select(x => x.ToString()) ?? Enumerable.Empty<string>())}"
                     },
                     matchingClass.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
                 Page(sb);
@@ -685,11 +684,11 @@ namespace Mud.Server.Admin
                 }
                 else
                 {
-                    if (item is IEquipableItem equipable)
+                    if (item is IEquippableItem equippable)
                     {
                         sb.Append(" equipped by ");
                         sb.Append("<");
-                        sb.Append(DisplayEntityAndContainer(equipable.EquipedBy));
+                        sb.Append(DisplayEntityAndContainer(equippable.EquippedBy));
                         sb.Append(">");
                     }
                 }
@@ -708,20 +707,6 @@ namespace Mud.Server.Admin
         {
             foreach (IAura aura in auras)
                 aura.Append(sb);
-        }
-
-        private string CostAmountOperatorsToString(CostAmountOperators op)
-        {
-            switch (op)
-            {
-                case CostAmountOperators.None:
-                    return string.Empty;
-                case CostAmountOperators.Fixed:
-                    return "+/-";
-                case CostAmountOperators.Percentage:
-                    return "%";
-            }
-            return "???";
         }
 
         //

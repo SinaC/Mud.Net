@@ -5,6 +5,7 @@ namespace Mud.Server.Abilities
     public partial class AbilityManager
     {
         [PassiveList]
+        // ReSharper disable once UnusedMember.Global
         public IEnumerable<IAbility> Rom24Passives => new List<IAbility>
         {
             // Weapons

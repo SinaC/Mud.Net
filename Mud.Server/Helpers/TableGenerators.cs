@@ -4,7 +4,6 @@ using Mud.Server.Common;
 using Mud.Server.Input;
 using System;
 using System.Linq;
-using System.Net;
 
 namespace Mud.Server.Helpers
 {

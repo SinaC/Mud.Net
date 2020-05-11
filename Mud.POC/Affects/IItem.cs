@@ -3,7 +3,7 @@
     public interface IItem : IEntity
     {
         IEntity ContainedIn { get; }
-        ICharacter EquipedBy { get; }
+        ICharacter EquippedBy { get; }
 
         ItemFlags BaseItemFlags { get; }
         ItemFlags CurrentItemFlags { get; }

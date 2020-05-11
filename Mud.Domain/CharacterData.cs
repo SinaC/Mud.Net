@@ -33,7 +33,7 @@ namespace Mud.Domain
 
         public int Practices { get; set; }
 
-        public EquipedItemData[] Equipments { get; set; }
+        public EquippedItemData[] Equipments { get; set; }
 
         public ItemData[] Inventory { get; set; }
 

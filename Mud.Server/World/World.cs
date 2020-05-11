@@ -468,8 +468,8 @@ namespace Mud.Server.World
                 // Remove equipments
                 if (character.Equipments.Any(x => x.Item != null))
                 {
-                    IReadOnlyCollection<IEquipableItem> equipment = new ReadOnlyCollection<IEquipableItem>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item).ToList()); // clone
-                    foreach (IEquipableItem item in equipment)
+                    IReadOnlyCollection<IEquippableItem> equipment = new ReadOnlyCollection<IEquippableItem>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item).ToList()); // clone
+                    foreach (IEquippableItem item in equipment)
                         RemoveItem(item);
                 }
             }
@@ -484,8 +484,8 @@ namespace Mud.Server.World
         {
             //item.ContainedInto?.GetFromContainer(item);
             item.ChangeContainer(null);
-            IEquipableItem equipable = item as IEquipableItem;
-            equipable?.ChangeEquipedBy(null);
+            IEquippableItem equippable = item as IEquippableItem;
+            equippable?.ChangeEquippedBy(null);
             // If container, remove content
             if (item is IContainer container)
             {

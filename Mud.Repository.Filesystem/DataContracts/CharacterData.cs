@@ -47,7 +47,7 @@ namespace Mud.Repository.Filesystem.DataContracts
         public int Practices { get; set; }
 
         [DataMember]
-        public EquipedItemData[] Equipments { get; set; }
+        public EquippedItemData[] Equipments { get; set; }
 
         [DataMember]
         public ItemData[] Inventory { get; set; }

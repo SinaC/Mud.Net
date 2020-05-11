@@ -55,7 +55,7 @@ namespace Mud.Repository.Filesystem
             CreateMap<Domain.ItemPortalData, DataContracts.ItemPortalData>()
                 .ForMember(x => x.PortalFlags, expression => expression.MapFrom(x => MapPortalFlags(x.PortalFlags)));
 
-            CreateMap<Domain.EquipedItemData, DataContracts.EquipedItemData>()
+            CreateMap<Domain.EquippedItemData, DataContracts.EquippedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
 
             CreateMap<Domain.CurrentQuestData, DataContracts.CurrentQuestData>();
@@ -133,7 +133,7 @@ namespace Mud.Repository.Filesystem
             CreateMap<DataContracts.ItemPortalData, Domain.ItemPortalData>()
                 .ForMember(x => x.PortalFlags, expression => expression.MapFrom(x => MapPortalFlags(x.PortalFlags)));
 
-            CreateMap<DataContracts.EquipedItemData, Domain.EquipedItemData>()
+            CreateMap<DataContracts.EquippedItemData, Domain.EquippedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
 
             CreateMap<DataContracts.CurrentQuestData, Domain.CurrentQuestData>();

@@ -3,7 +3,7 @@ using System;
 
 namespace Mud.Server.Abilities
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method)]
     public abstract class AbilityAttribute : Attribute
     {
         public const int DefaultPulseWaitTime = 12;

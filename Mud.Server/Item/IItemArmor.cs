@@ -1,6 +1,6 @@
 ﻿namespace Mud.Server.Item
 {
-    public interface IItemArmor : IItem, IEquipableItem
+    public interface IItemArmor : IItem, IEquippableItem
     {
         int Bash { get; }
         int Pierce { get; }

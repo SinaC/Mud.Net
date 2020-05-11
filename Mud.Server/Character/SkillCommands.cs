@@ -1,6 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Logger;
-using Mud.Server.Abilities;
+﻿using Mud.Logger;
 using Mud.Server.Input;
 // ReSharper disable UnusedMember.Global
 
@@ -8,33 +6,6 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        //[Command("use", "Skills")]
-        //protected virtual CommandExecutionResults DoUse(string rawParameters, params CommandParameter[] parameters)
-        //{
-        //    // TODO: refactor, almost same code in AbilityManager
-        //    if (parameters.Length == 0)
-        //    {
-        //        Send("Use which what where ?");
-        //        return CommandExecutionResults.SyntaxErrorNoDisplay;
-        //    }
-
-        //    // searck skill
-        //    KnownAbility knownAbility = AbilityManager.Search(KnownAbilities, Level, x => x.Kind == AbilityKinds.Spell, parameters[0]);
-        //    if (knownAbility == null)
-        //    {
-        //        Send("You don't know any skills of that name.");
-        //        return CommandExecutionResults.InvalidParameter;
-        //    }
-
-        //    // strip first argument
-        //    (rawParameters, parameters) = CommandHelpers.SkipParameters(parameters, 1);
-
-        //    // use skill
-        //    UseResults result = AbilityManager.Use(knownAbility.Ability, this, rawParameters, parameters);
-
-        //    return MapUseResults(result);
-        //}
-
         [Command("berserk", "Combat", "Skills")]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoBerserk(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Berserk", rawParameters, parameters);

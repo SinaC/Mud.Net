@@ -47,7 +47,7 @@
       <Trains>57</Trains>
       <Practices>313</Practices>
       <Equipments>
-        <EquipedItemData>
+        <EquippedItemData>
           <Slot>1</Slot>
           <Item>
             <ItemId>3365</ItemId>
@@ -56,8 +56,8 @@
             <ItemFlags>65</ItemFlags>
             <Auras />
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>2</Slot>
           <Item>
             <ItemId>3356</ItemId>
@@ -66,8 +66,8 @@
             <ItemFlags>0</ItemFlags>
             <Auras />
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>3</Slot>
           <Item>
             <ItemId>3355</ItemId>
@@ -76,8 +76,8 @@
             <ItemFlags>0</ItemFlags>
             <Auras />
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>5</Slot>
           <Item>
             <ItemId>3353</ItemId>
@@ -86,8 +86,8 @@
             <ItemFlags>0</ItemFlags>
             <Auras />
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>6</Slot>
           <Item>
             <ItemId>3361</ItemId>
@@ -96,8 +96,8 @@
             <ItemFlags>0</ItemFlags>
             <Auras />
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>8</Slot>
           <Item>
             <ItemId>3363</ItemId>
@@ -106,8 +106,8 @@
             <ItemFlags>0</ItemFlags>
             <Auras />
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>8</Slot>
           <Item>
             <ItemId>3363</ItemId>
@@ -116,8 +116,8 @@
             <ItemFlags>0</ItemFlags>
             <Auras />
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>9</Slot>
           <Item>
             <ItemId>3360</ItemId>
@@ -126,8 +126,8 @@
             <ItemFlags>0</ItemFlags>
             <Auras />
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>10</Slot>
           <Item>
             <ItemId>3359</ItemId>
@@ -136,8 +136,8 @@
             <ItemFlags>0</ItemFlags>
             <Auras />
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>11</Slot>
           <Item>
             <ItemId>3364</ItemId>
@@ -146,8 +146,8 @@
             <ItemFlags>64</ItemFlags>
             <Auras />
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>11</Slot>
           <Item>
             <ItemId>3364</ItemId>
@@ -156,8 +156,8 @@
             <ItemFlags>64</ItemFlags>
             <Auras />
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>11</Slot>
           <Item>
             <ItemId>3364</ItemId>
@@ -166,8 +166,8 @@
             <ItemFlags>64</ItemFlags>
             <Auras />
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>11</Slot>
           <Item>
             <ItemId>3364</ItemId>
@@ -176,8 +176,8 @@
             <ItemFlags>64</ItemFlags>
             <Auras />
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>15</Slot>
           <Item xsi:type="ItemWeaponData">
             <ItemId>3005</ItemId>
@@ -187,8 +187,8 @@
             <Auras />
             <WeaponFlags>48</WeaponFlags>
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>16</Slot>
           <Item xsi:type="ItemWeaponData">
             <ItemId>3350</ItemId>
@@ -198,8 +198,8 @@
             <Auras />
             <WeaponFlags>0</WeaponFlags>
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>15</Slot>
           <Item xsi:type="ItemWeaponData">
             <ItemId>3350</ItemId>
@@ -209,8 +209,8 @@
             <Auras />
             <WeaponFlags>0</WeaponFlags>
           </Item>
-        </EquipedItemData>
-        <EquipedItemData>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>16</Slot>
           <Item xsi:type="ItemWeaponData">
             <ItemId>3350</ItemId>
@@ -220,7 +220,7 @@
             <Auras />
             <WeaponFlags>0</WeaponFlags>
           </Item>
-        </EquipedItemData>
+        </EquippedItemData>
       </Equipments>
       <Inventory>
         <ItemData xsi:type="ItemDrinkContainerData">

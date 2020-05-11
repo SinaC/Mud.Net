@@ -283,7 +283,7 @@ namespace Mud.Server.Helpers
             return (long)ApplyRestedExperience(temp, restedExperienceLeft);
         }
 
-        // TODO: check block only if shield is equiped
+        // TODO: check block only if shield is equipped
 
         // White melee: auto-attack
         public static AttackResults WhiteMeleeAttack(ICharacter attacker, ICharacter victim, bool notMainWield)

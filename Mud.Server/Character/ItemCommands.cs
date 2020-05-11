@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Linq;
 using Mud.Domain;
 using Mud.Logger;
@@ -34,17 +35,17 @@ namespace Mud.Server.Character
             {
                 CommandParameter whatParameter = parameters[0];
                 // We have to clone list because it'll be modified when wearing an item
-                IReadOnlyCollection<IEquipableItem> list; // list must be cloned because it'll be modified when wearing an item
-                if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item
-                    list = new ReadOnlyCollection<IEquipableItem>(FindHelpers.FindAllByName(Inventory.Where(CanSee).OfType<IEquipableItem>(), whatParameter).ToList());
-                else // get all
-                    list = new ReadOnlyCollection<IEquipableItem>(Inventory.Where(CanSee).OfType<IEquipableItem>().ToList());
+                IReadOnlyCollection<IEquippableItem> list = !string.IsNullOrWhiteSpace(whatParameter.Value)
+                    // get all.item
+                    ? new ReadOnlyCollection<IEquippableItem>(FindHelpers.FindAllByName(Inventory.Where(CanSee).OfType<IEquippableItem>(), whatParameter).ToList())
+                    // get all
+                    : new ReadOnlyCollection<IEquippableItem>(Inventory.Where(CanSee).OfType<IEquippableItem>().ToList());
                 bool itemEquipped = false;
                 if (list.Any())
                 {
-                    foreach (IEquipableItem equipableItem in list)
+                    foreach (IEquippableItem equippableItem in list)
                     {
-                        if (WearItem(equipableItem, false))
+                        if (WearItem(equippableItem, false))
                             itemEquipped = true;
                     }
 
@@ -62,13 +63,13 @@ namespace Mud.Server.Character
                 Send(StringHelpers.ItemInventoryNotFound);
                 return CommandExecutionResults.TargetNotFound;
             }
-            IEquipableItem equipable = item as IEquipableItem;
-            if (equipable == null)
+            IEquippableItem equippable = item as IEquippableItem;
+            if (equippable == null)
             {
-                Send("It cannot be equiped.");
+                Send("It cannot be equipped.");
                 return CommandExecutionResults.InvalidTarget;
             }
-            bool succeed = WearItem(equipable, true);
+            bool succeed = WearItem(equippable, true);
             if (succeed)
                 Recompute();
             return CommandExecutionResults.Ok;
@@ -90,8 +91,8 @@ namespace Mud.Server.Character
                 Send(StringHelpers.ItemInventoryNotFound);
                 return CommandExecutionResults.TargetNotFound;
             }
-            IEquipableItem equipable = item as IEquipableItem;
-            if (equipable == null)
+            IEquippableItem equippable = item as IEquippableItem;
+            if (equippable == null)
             {
                 Send("It cannot be wielded.");
                 return CommandExecutionResults.InvalidTarget;
@@ -102,7 +103,7 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.InvalidTarget;
             }
             //
-            WearItem(equipable, true);
+            WearItem(equippable, true);
             Recompute();
             return CommandExecutionResults.Ok;
         }
@@ -123,14 +124,14 @@ namespace Mud.Server.Character
                 Send(StringHelpers.ItemInventoryNotFound);
                 return CommandExecutionResults.TargetNotFound;
             }
-            IEquipableItem equipable = item as IEquipableItem;
-            if (equipable == null || (equipable.WearLocation != WearLocations.Hold && equipable.WearLocation != WearLocations.Shield))
+            IEquippableItem equippable = item as IEquippableItem;
+            if (equippable == null || (equippable.WearLocation != WearLocations.Hold && equippable.WearLocation != WearLocations.Shield))
             {
                 Send("It cannot be hold.");
                 return CommandExecutionResults.InvalidTarget;
             }
             //
-            WearItem(equipable, true);
+            WearItem(equippable, true);
             Recompute();
             return CommandExecutionResults.Ok;
         }
@@ -146,7 +147,7 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             //
-            EquipedItem equipmentSlot = FindHelpers.FindByName(Equipments.Where(x => x.Item != null && CanSee(x.Item)), x => x.Item, parameters[0]);
+            EquippedItem equipmentSlot = FindHelpers.FindByName(Equipments.Where(x => x.Item != null && CanSee(x.Item)), x => x.Item, parameters[0]);
             if (equipmentSlot?.Item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
@@ -299,11 +300,12 @@ namespace Mud.Server.Character
             if (parameters[0].IsAll)
             {
                 CommandParameter whatParameter = parameters[0];
-                IReadOnlyCollection<IItem> list; // list must be cloned because it'll be modified when dropping an item
-                if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // drop all.item
-                    list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Inventory.Where(x => CanSee(x) && !(x is ItemQuest)), whatParameter).ToList());
-                else // drop all
-                    list = new ReadOnlyCollection<IItem>(Inventory.Where(x => CanSee(x) && !(x is ItemQuest)).ToList());
+                // list must be cloned because it'll be modified when dropping an item
+                IReadOnlyCollection<IItem> list = !string.IsNullOrWhiteSpace(whatParameter.Value)
+                    // drop all.item
+                    ? new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Inventory.Where(x => CanSee(x) && !(x is ItemQuest)), whatParameter).ToList()) 
+                    // drop all
+                    : new ReadOnlyCollection<IItem>(Inventory.Where(x => CanSee(x) && !(x is ItemQuest)).ToList());
                 if (list.Any())
                 {
                     foreach (IItem itemInList in list)
@@ -426,11 +428,12 @@ namespace Mud.Server.Character
             if (whatParameter.IsAll) // put all [in] container, put all.item [in] container
             {
                 // TODO: same code as above (***) except source collection (container.Content)
-                IReadOnlyCollection<IItem> list; // list must be cloned because it'll be modified when putting an item
-                if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // put all.item [in] container
-                    list = new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Inventory.Where(CanSee), whatParameter).ToList());
-                else // put all [in] container
-                    list = new ReadOnlyCollection<IItem>(Inventory.Where(CanSee).ToList());
+                // list must be cloned because it'll be modified when putting an item
+                IReadOnlyCollection<IItem> list = !string.IsNullOrWhiteSpace(whatParameter.Value)
+                    // put all.item [in] container
+                    ? new ReadOnlyCollection<IItem>(FindHelpers.FindAllByName(Inventory.Where(CanSee), whatParameter).ToList())
+                    // put all [in] container
+                    : new ReadOnlyCollection<IItem>(Inventory.Where(CanSee).ToList());
                 if (list.Any())
                 {
                     foreach (IItem itemInList in list)
@@ -460,7 +463,7 @@ namespace Mud.Server.Character
             "[cmd] <container>")]
         protected virtual CommandExecutionResults DoDrink(string rawParameters, params CommandParameter[] parameters)
         {
-            IItemDrinkable drinkable = null;
+            IItemDrinkable drinkable;
             // fountain in room
             if (parameters.Length == 0)
             {
@@ -598,7 +601,7 @@ namespace Mud.Server.Character
             // pour into another container on someone's hand or here
             ICharacter targetCharacter = null;
             IItem targetItem = FindHelpers.FindByName(Inventory, parameters[1]);
-            if (item == null)
+            if (targetItem == null)
             {
                 targetCharacter = FindHelpers.FindByName(Room.People, parameters[1]);
                 if (targetCharacter == null)
@@ -787,19 +790,19 @@ namespace Mud.Server.Character
         //********************************************************************
         // Helpers
         //********************************************************************
-        private bool WearItem(IEquipableItem item, bool replace) // equivalent to wear_obj in act_obj.C:1467
+        private bool WearItem(IEquippableItem item, bool replace) // equivalent to wear_obj in act_obj.C:1467
         {
             // TODO: check level
             WearLocations wearLocation = item.WearLocation;
 
             if (wearLocation == WearLocations.None)
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Item {0} cannot be equiped", item.DebugName);
+                Log.Default.WriteLine(LogLevels.Warning, "Item {0} cannot be equipped", item.DebugName);
                 if (replace) // replace means, only item is trying to be worn
                     Act(ActOptions.ToCharacter, "{0} cannot be worn.", item);
                 return false;
             }
-            EquipedItem equipmentSlot = SearchEquipmentSlot(item, replace);
+            EquippedItem equipmentSlot = SearchEquipmentSlot(item, replace);
             if (equipmentSlot == null)
             {
                 if (replace) // we dont' want to spam if character is trying to wear all, replace is set to true only when wearing one item
@@ -808,17 +811,17 @@ namespace Mud.Server.Character
             }
             if (replace && equipmentSlot.Item != null)
             {
-                IEquipableItem removeItem = equipmentSlot.Item;
+                IEquippableItem removeItem = equipmentSlot.Item;
                 Act(ActOptions.ToAll, "{0:N} remove{0:v} {1}.", this, removeItem);
-                //equipmentSlot.Item = null  already done by ChangeEquipedBy
-                removeItem.ChangeEquipedBy(null);
+                //equipmentSlot.Item = null  already done by ChangeEquippedBy
+                removeItem.ChangeEquippedBy(null);
                 removeItem.ChangeContainer(this);
             }
             // TODO: different phrase depending on wear location
             Act(ActOptions.ToAll, "{0:N} wear{0:v} {1}.", this, item);
             equipmentSlot.Item = item; // equip
             item.ChangeContainer(null); // remove from inventory
-            item.ChangeEquipedBy(this); // set as equiped by this
+            item.ChangeEquippedBy(this); // set as equipped by this
             return true;
         }
 
@@ -847,22 +850,39 @@ namespace Mud.Server.Character
 
         private bool GetItem(IItem item) // equivalent to get_obj in act_obj.C:211
         {
-            //
             if (item.NoTake)
             {
                 Send("You can't take that.");
                 return false;
             }
-
-            // TODO: check if someone is using it as Furniture
             // TODO: check weight + item count
+            switch (item)
+            {
+                case IItemCorpse corpse:
+                    if (corpse.IsPlayableCharacterCorpse)
+                    {
+                        Send("Corpse looting is not permitted.");
+                        return false;
+                    }
+                    break;
+                case IItemFurniture furniture:
+                    ICharacter firstOnFurniture = furniture.People.FirstOrDefault();
+                    if (firstOnFurniture != null)
+                    {
+                        Act(ActOptions.ToCharacter, "{0:N} appears to be using {1}.", firstOnFurniture, furniture);
+                        return false;
+                    }
+                    break;
+            }
+
             Act(ActOptions.ToAll, "{0:N} get{0:v} {1}.", this, item);
             item.ChangeContainer(this);
+            // TODO: money
             return true;
         }
 
         private bool GetItem(IItem item, IContainer container)
-        {           
+        {
             //
             if (item.NoTake)
             {
@@ -871,12 +891,14 @@ namespace Mud.Server.Character
             }
 
             // TODO: check weight + item count
+            // TODO: from pit ?
             Act(ActOptions.ToAll, "{0:N} get{0:v} {1} from {2}.", this, item, container);
             item.ChangeContainer(this);
+            // TODO: money
             return true;
         }
 
-        private bool RemoveItem(EquipedItem equipmentSlot)
+        private bool RemoveItem(EquippedItem equipmentSlot)
         {
             //
             if (equipmentSlot.Item.ItemFlags.HasFlag(ItemFlags.NoRemove))
@@ -888,7 +910,7 @@ namespace Mud.Server.Character
             // TODO: check weight + item count
             Act(ActOptions.ToAll, "{0:N} stop{0:v} using {1}.", this, equipmentSlot.Item);
             equipmentSlot.Item.ChangeContainer(this); // add in inventory
-            equipmentSlot.Item.ChangeEquipedBy(null); // clear equiped by
+            equipmentSlot.Item.ChangeEquippedBy(null); // clear equipped by
             equipmentSlot.Item = null; // unequip
             return true;
         }

@@ -52,7 +52,7 @@ namespace Mud.Server.Item
                 item.ChangeContainer(this);
             }
             // Fill corpse with equipment
-            foreach (IEquipableItem item in victim.Equipments.Where(x => x.Item != null).Select(x => x.Item))
+            foreach (IEquippableItem item in victim.Equipments.Where(x => x.Item != null).Select(x => x.Item))
             {
                 // TODO: check stay death flag
                 if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
@@ -62,7 +62,7 @@ namespace Mud.Server.Item
                     item.RemoveBaseItemFlags(ItemFlags.RotDeath);
                 }
                 item.ChangeContainer(this);
-                item.ChangeEquipedBy(null);
+                item.ChangeEquippedBy(null);
             }
 
             // Check victim loot table (only if victim is NPC)

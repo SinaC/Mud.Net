@@ -165,13 +165,13 @@ namespace Mud.Server.Abilities
                 caster.Send("You lost your concentration.");
                 pcCaster?.CheckAbilityImprove(knownAbility, false, 1);
                 // pay half resource
-                if (cost.HasValue && cost.Value > 1 && knownAbility.ResourceKind.HasValue)
+                if (cost.HasValue && cost.Value > 1)
                     caster.UpdateResource(knownAbility.ResourceKind.Value, -cost.Value / 2);
                 return CastResults.Failed;
             }
 
             // 7) pay resource
-            if (cost.HasValue && cost.Value >= 1 && knownAbility.ResourceKind.HasValue)
+            if (cost.HasValue && cost.Value >= 1)
                 caster.UpdateResource(knownAbility.ResourceKind.Value, -cost.Value);
 
             // 8) say spell if not ventriloquate
@@ -342,10 +342,9 @@ namespace Mud.Server.Abilities
                     // victim or item (target) found
                     break;
                 case AbilityTargets.ItemInventoryOrCharacterDefensive:
-                    if (parameters.Length < 1)
-                        target = caster;
-                    else
-                        target = FindHelpers.FindByName(caster.Room.People, parameters[0]);
+                    target = parameters.Length < 1
+                        ? caster
+                        : FindHelpers.FindByName(caster.Room.People, parameters[0]);
                     if (target == null)
                     {
                         target = FindHelpers.FindByName(caster.Inventory, parameters[0]);
@@ -538,7 +537,6 @@ namespace Mud.Server.Abilities
                         return AbilityTargetResults.TargetNotFound;
                     }
                     break;
-                case AbilityTargets.CharacterWorldwide:
                 default:
                     Log.Default.WriteLine(LogLevels.Error, "GetItemAbilityTarget: unexpected AbilityTarget {0}", ability.Target);
                     return AbilityTargetResults.Error;

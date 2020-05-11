@@ -511,7 +511,7 @@ namespace Mud.Server.Tests.Abilities
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Curse"], Learned = 1, Level = 1 } });
             characterMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(x => true);
-            characterMock.Setup(x => x.CanSee(It.IsAny<IEquipableItem>())).Returns<IEquipableItem>(x => true);
+            characterMock.Setup(x => x.CanSee(It.IsAny<IEquippableItem>())).Returns<IEquippableItem>(x => true);
             var roomMock = new Mock<IRoom>();
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             roomMock.SetupGet(x => x.Content).Returns(new[] { itemMock.Object });
@@ -540,7 +540,7 @@ namespace Mud.Server.Tests.Abilities
             characterMock.SetupGet(x => x.Inventory).Returns(new[] { itemMock.Object });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Curse"], Learned = 1, Level = 1 } });
             characterMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(x => true);
-            characterMock.Setup(x => x.CanSee(It.IsAny<IEquipableItem>())).Returns<IEquipableItem>(x => true);
+            characterMock.Setup(x => x.CanSee(It.IsAny<IEquippableItem>())).Returns<IEquippableItem>(x => true);
             var roomMock = new Mock<IRoom>();
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -560,15 +560,15 @@ namespace Mud.Server.Tests.Abilities
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
-            var itemMock = new Mock<IEquipableItem>();
+            var itemMock = new Mock<IEquippableItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Equipments).Returns(new[] { new EquipedItem(EquipmentSlots.Amulet) { Item = itemMock.Object }});
+            characterMock.SetupGet(x => x.Equipments).Returns(new[] { new EquippedItem(EquipmentSlots.Amulet) { Item = itemMock.Object }});
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Curse"], Learned = 1, Level = 1 } });
             characterMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(x => true);
-            characterMock.Setup(x => x.CanSee(It.IsAny<IEquipableItem>())).Returns<IEquipableItem>(x => true);
+            characterMock.Setup(x => x.CanSee(It.IsAny<IEquippableItem>())).Returns<IEquippableItem>(x => true);
             var roomMock = new Mock<IRoom>();
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -714,15 +714,15 @@ namespace Mud.Server.Tests.Abilities
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
-            var itemMock = new Mock<IEquipableItem>();
+            var itemMock = new Mock<IEquippableItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
-            characterMock.SetupGet(x => x.Equipments).Returns(new[] { new EquipedItem(EquipmentSlots.Amulet) { Item = itemMock.Object } });
+            characterMock.SetupGet(x => x.Equipments).Returns(new[] { new EquippedItem(EquipmentSlots.Amulet) { Item = itemMock.Object } });
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Bless"], Learned = 1, Level = 1 } });
             characterMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(x => true);
-            characterMock.Setup(x => x.CanSee(It.IsAny<IEquipableItem>())).Returns<IEquipableItem>(x => true);
+            characterMock.Setup(x => x.CanSee(It.IsAny<IEquippableItem>())).Returns<IEquippableItem>(x => true);
             var roomMock = new Mock<IRoom>();
             roomMock.SetupGet(x => x.People).Returns(new[] { characterMock.Object });
             characterMock.SetupGet(x => x.Room).Returns(roomMock.Object);

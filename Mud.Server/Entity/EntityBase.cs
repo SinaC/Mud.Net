@@ -11,8 +11,8 @@ namespace Mud.Server.Entity
 {
     public abstract class EntityBase : ActorBase, IEntity
     {
-        protected readonly List<IPeriodicAura> _periodicAuras;
-        protected readonly List<IAura> _auras;
+        private readonly List<IPeriodicAura> _periodicAuras;
+        private readonly List<IAura> _auras;
 
         protected EntityBase(Guid guid, string name, string description)
         {
@@ -74,7 +74,7 @@ namespace Mud.Server.Entity
         public string Description { get; protected set; }
         public abstract string DebugName { get; }
 
-        public bool Incarnatable { get; private set; }
+        public bool Incarnatable { get; protected set; } // TODO: assign
         public IAdmin IncarnatedBy { get; protected set; }
 
         // Auras
@@ -168,7 +168,7 @@ namespace Mud.Server.Entity
                 if (aura.Source != null && aura.Source != this)
                 {
                     ICharacter characterSource = aura.Source as ICharacter;
-                    characterSource.Act(ActOptions.ToCharacter, "{0} is now affected by {1}", this, aura.Ability?.Name ?? "Something");
+                    characterSource?.Act(ActOptions.ToCharacter, "{0} is now affected by {1}", this, aura.Ability?.Name ?? "Something");
                     if (aura.AuraType == PeriodicAuraTypes.Damage && characterSource != null && this is ICharacter characterThis)
                     {
                         if (characterThis.Fighting == null)
@@ -237,10 +237,9 @@ namespace Mud.Server.Entity
                 {
                     if (item.ContainedInto is ICharacter holder)
                         holder.Act(ActOptions.ToCharacter, aura.Ability.ItemWearOffMessage, this);
-                    else if (item is IEquipableItem equipable)
-                        equipable.EquipedBy?.Act(ActOptions.ToCharacter, aura.Ability.ItemWearOffMessage, this);
+                    else if (item is IEquippableItem equippable)
+                        equippable.EquippedBy?.Act(ActOptions.ToCharacter, aura.Ability.ItemWearOffMessage, this);
                 }
-                //Send("{0} vanishes.", aura.Ability == null ? "Something" : aura.Ability.Name); // TODO: ability wears off message
             }
             if (recompute && removed)
                 Recompute();

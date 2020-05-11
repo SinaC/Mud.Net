@@ -2,8 +2,8 @@
 {
     public class ItemDummy : ItemBase
     {
-        public ItemDummy(string name, IEntity containedInto, ICharacter equipedBy)
-            : base(name, containedInto, equipedBy)
+        public ItemDummy(string name, IEntity containedInto, ICharacter equippedBy)
+            : base(name, containedInto, equippedBy)
         {
         }
     }

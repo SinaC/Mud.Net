@@ -43,7 +43,7 @@ namespace Mud.Server.Item
             if (data.Auras != null)
             {
                 foreach (AuraData auraData in data.Auras)
-                    _auras.Add(new Aura.Aura(auraData));
+                    AddAura(new Aura.Aura(auraData), false); // TODO: !!! auras is not added thru World.AddAura
             }
         }
 
@@ -194,8 +194,6 @@ namespace Mud.Server.Item
                     break;
                 case AffectOperators.Nor:
                     ItemFlags &= ~affect.Modifier;
-                    break;
-                default:
                     break;
             }
         }

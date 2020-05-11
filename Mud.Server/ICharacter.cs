@@ -32,7 +32,7 @@ namespace Mud.Server
         IRoom Room { get; }
         ICharacter Fighting { get; }
 
-        IEnumerable<EquipedItem> Equipments { get; }
+        IEnumerable<EquippedItem> Equipments { get; }
         IEnumerable<IItem> Inventory { get; } // same as IContainer.Content
 
         // Furniture (sleep/sit/stand)
@@ -95,7 +95,7 @@ namespace Mud.Server
         void Act(IEnumerable<ICharacter> characters, string format, params object[] arguments); // to every character in provided list
 
         // Equipments
-        bool Unequip(IEquipableItem item);
+        bool Unequip(IEquippableItem item);
 
         // Furniture
         bool ChangeFurniture(IItemFurniture furniture);
@@ -160,7 +160,7 @@ namespace Mud.Server
 
         // Equipment
         IItem GetEquipment(EquipmentSlots slot); // return item found in first non-empty specified slot
-        EquipedItem SearchEquipmentSlot(IEquipableItem item, bool replace);
+        EquippedItem SearchEquipmentSlot(IEquippableItem item, bool replace);
 
         // Affects
         void ApplyAffect(CharacterFlagsAffect affect);
@@ -169,19 +169,19 @@ namespace Mud.Server
         void ApplyAffect(CharacterSexAffect affect);
     }
 
-    public class EquipedItem
+    public class EquippedItem
     {
         public EquipmentSlots Slot { get; }
-        public IEquipableItem Item { get; set; }
+        public IEquippableItem Item { get; set; }
 
-        public EquipedItem(EquipmentSlots slot)
+        public EquippedItem(EquipmentSlots slot)
         {
             Slot = slot;
         }
 
-        public EquipedItemData MapEquipedData()
+        public EquippedItemData MapEquippedData()
         {
-            return new EquipedItemData
+            return new EquippedItemData
             {
                 Slot = Slot,
                 Item = Item.MapItemData()

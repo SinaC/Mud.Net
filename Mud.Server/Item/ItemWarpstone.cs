@@ -4,7 +4,7 @@ using System;
 
 namespace Mud.Server.Item
 {
-    public class ItemWarpstone : ItemEquipableBase<ItemWarpstoneBlueprint>, IItemWarpstone
+    public class ItemWarpstone : ItemEquippableBase<ItemWarpstoneBlueprint>, IItemWarpstone
     {
         public ItemWarpstone(Guid guid, ItemWarpstoneBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint, containedInto)

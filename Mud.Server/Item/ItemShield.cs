@@ -4,7 +4,7 @@ using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
 {
-    public class ItemShield : ItemEquipableBase<ItemShieldBlueprint>, IItemShield
+    public class ItemShield : ItemEquippableBase<ItemShieldBlueprint>, IItemShield
     {
         public ItemShield(Guid guid, ItemShieldBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)

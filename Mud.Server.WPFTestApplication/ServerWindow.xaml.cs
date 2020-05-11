@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
@@ -1602,20 +1601,20 @@ namespace Mud.Server.WPFTestApplication
                                         IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
                                         Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
                                         // try to equip
-                                        if (item is IEquipableItem equipable)
+                                        if (item is IEquippableItem equippable)
                                         {
-                                            EquipedItem equipedItem = lastCharacter.SearchEquipmentSlot(equipable, false);
-                                            if (equipedItem != null)
+                                            EquippedItem equippedItem = lastCharacter.SearchEquipmentSlot(equippable, false);
+                                            if (equippedItem != null)
                                             {
-                                                equipedItem.Item = equipable;
-                                                equipable.ChangeContainer(null); // remove from inventory
-                                                equipable.ChangeEquipedBy(lastCharacter); // set as equiped by lastCharacter
+                                                equippedItem.Item = equippable;
+                                                equippable.ChangeContainer(null); // remove from inventory
+                                                equippable.ChangeEquippedBy(lastCharacter); // set as equipped by lastCharacter
                                             }
                                             else
-                                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Item {reset.Arg1} wear location {equipable.WearLocation} doesn't exist on last character");
+                                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Item {reset.Arg1} wear location {equippable.WearLocation} doesn't exist on last character");
                                         }
                                         else
-                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Item {reset.Arg1} cannot be equiped");
+                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Item {reset.Arg1} cannot be equipped");
                                     }
                                     else
                                         Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Last character doesn't exist");
@@ -1834,7 +1833,7 @@ namespace Mud.Server.WPFTestApplication
             //// Equip weapon on mob2
             //mob2.Equipments.First(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
             //item2.ChangeContainer(null);
-            //item2.ChangeEquipedBy(mob2);
+            //item2.ChangeEquippedBy(mob2);
 
             // Quest
             QuestKillLootTable<int> quest1KillLoot = new QuestKillLootTable<int>

@@ -9,6 +9,7 @@ using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.Input;
 using Mud.Settings;
+// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Actor
 {
@@ -77,7 +78,7 @@ namespace Mud.Server.Actor
                         }
                         else if (executionResult == CommandExecutionResults.SyntaxError)
                         {
-                            StringBuilder syntax = BuildCommandSyntax(entry.Value);
+                            StringBuilder syntax = BuildCommandSyntax(entry.Key, entry.Value.Syntax.Syntax);
                             Send(syntax);
                         }
                         bool afterExecute = ExecuteAfterCommand(entry.Value, rawParameters, parameters);
@@ -221,12 +222,8 @@ namespace Mud.Server.Actor
                 string title = string.Join(", ", namesByPriority.Select(x => $"%C%{x}%x%"));
                 sb.AppendLine($"Command{(namesByPriority.Length > 1 ? "s" : string.Empty)} {title}:");
                 string commandNames = string.Join("|", namesByPriority);
-                foreach (string syntax in group.SelectMany(x => x.Value.Syntax.Syntax).Distinct())
-                {
-                    // TODO: enrich argument such as <character>, <player name>, ...
-                    string enrichedSyntax = syntax.Replace("[cmd]", commandNames);
-                    sb.AppendLine("     Syntax: " + enrichedSyntax);
-                }
+                StringBuilder sbSyntax = BuildCommandSyntax(commandNames, group.SelectMany(x => x.Value.Syntax.Syntax).Distinct());
+                sb.Append(sbSyntax);
                 found = true;
             }
             if (found)
@@ -247,14 +244,14 @@ namespace Mud.Server.Actor
             where T : ActorBase
             => CommandHelpers.GetCommands(typeof(T));
 
-        private StringBuilder BuildCommandSyntax(CommandMethodInfo commandMethodInfo)
+        private StringBuilder BuildCommandSyntax(string commandNames, IEnumerable<string> syntaxes)
         {
             StringBuilder sb = new StringBuilder();
-            foreach (string syntax in commandMethodInfo.Syntax.Syntax)
+            foreach (string syntax in syntaxes)
             {
                 // TODO: enrich argument such as <character>, <player name>, ...
-                string enrichedSyntax = syntax.Replace("[cmd]", commandMethodInfo.Attribute.Name);
-                sb.AppendLine("Syntax: " + enrichedSyntax);
+                string enrichedSyntax = syntax.Replace("[cmd]", commandNames);
+                sb.AppendLine("      Syntax: " + enrichedSyntax);
             }
             return sb;
         }

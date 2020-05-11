@@ -95,7 +95,7 @@ namespace Mud.POC.Affects
         AntiGood        = 0x00000200,
         AntiEvil        = 0x00000400,
         AntiNeutral     = 0x00000800,
-        NoRemove        = 0x00001000, // Cannot be removed once equiped [can be uncursed]
+        NoRemove        = 0x00001000, // Cannot be removed once equipped [can be uncursed]
         Inventory       = 0x00002000,
         NoPurge         = 0x00004000,
         RotDeath        = 0x00008000, // Disappear when holder dies
@@ -180,6 +180,7 @@ namespace Mud.POC.Affects
         Sword2H     = 9,
     }
 
+    [Flags]
     public enum WeaponFlags
     {
         None        = 0x00000000,
