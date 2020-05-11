@@ -140,7 +140,7 @@ namespace Mud.Server.TestApplication
                 Name = "item1",
                 ShortDescription = "First item (container)",
                 Description = "The first item (container) has been left here.",
-                ItemCount = 10,
+                MaxWeight = 100,
                 WeightMultiplier = 100
             };
             ItemWeaponBlueprint item2Blueprint = new ItemWeaponBlueprint
@@ -355,7 +355,7 @@ namespace Mud.Server.TestApplication
                 Name = "item1",
                 ShortDescription = "First item (container)",
                 Description = "The first item (container) has been left here.",
-                ItemCount = 10,
+                MaxWeight = 100,
                 WeightMultiplier = 100
             };
             ItemWeaponBlueprint item2Blueprint = new ItemWeaponBlueprint

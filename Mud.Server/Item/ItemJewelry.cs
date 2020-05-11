@@ -16,6 +16,12 @@ namespace Mud.Server.Item
         {
         }
 
+        #region IItem
+
+        public override int CarryCount => 0;
+
+        #endregion
+
         // No additional datas
     }
 }

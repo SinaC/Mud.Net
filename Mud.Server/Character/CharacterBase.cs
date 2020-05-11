@@ -129,6 +129,11 @@ namespace Mud.Server.Character
 
         public IEnumerable<EquippedItem> Equipments => _equipments;
         public IEnumerable<IItem> Inventory => Content;
+        public virtual int MaxCarryWeight => TableValues.CarryBonus(this) * 10 + Level * 25;
+        public virtual int MaxCarryNumber => Equipments.Count() + 2 * this[BasicAttributes.Dexterity] + Level;
+        public int CarryWeight => Inventory.Sum(x => x.Weight) + Equipments.Where(x => x.Item != null).Sum(x => x.Item.Weight);
+        public int CarryNumber => Inventory.Sum(x => x.CarryCount) + Equipments.Where(x => x.Item != null).Sum(x => x.Item.CarryCount);
+
 
         // Furniture (sleep/sit/stand)
         public IItemFurniture Furniture { get; protected set; }
@@ -1612,14 +1617,14 @@ namespace Mud.Server.Character
         {
             if (fromRoom != toRoom)
             {
-                if (Slave.ActFlags.HasFlag(ActFlags.Aggressive) && toRoom.RoomFlags.HasFlag(RoomFlags.Law))
-                {
-                    Slave.ControlledBy?.Act(ActOptions.ToCharacter, "You can't bring {0} into the city.", Slave);
-                    Slave.Send("You aren't allowed in the city.");
-                    return;
-                }
-                if (Slave != null)
-                {
+                if(Slave != null)
+                { 
+                    if (Slave.ActFlags.HasFlag(ActFlags.Aggressive) && toRoom.RoomFlags.HasFlag(RoomFlags.Law))
+                    {
+                        Slave.ControlledBy?.Act(ActOptions.ToCharacter, "You can't bring {0} into the city.", Slave);
+                        Slave.Send("You aren't allowed in the city.");
+                        return;
+                    }
                     Slave.Send("You follow {0}.", DebugName);
                     Slave.Move(direction, true);
                 }

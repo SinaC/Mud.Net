@@ -1,8 +1,7 @@
-ONGOING
-	container max weight, max items
-	carry, weight
-
 TODO:
+when mud restarts and a player with quests reconnects, quest items are not recreated
+  same goes if player destroy item, it cannot be found in world anymore
+prime attribute for class: +2 max train points in this attribute (+3 if human)
 money
 use GetEquipment where Equipments is reference
 Weight/Carry
@@ -21,6 +20,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+container max weight, max items
+carry, weight
 RoomFlags
 IsSafe
 GetLearned replaced this[IAbility]

@@ -121,6 +121,14 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         #endregion
 
+        public override int MaxCarryWeight => ActFlags.HasFlag(ActFlags.Pet)
+            ? 0
+            : base.MaxCarryWeight;
+
+        public override int MaxCarryNumber => ActFlags.HasFlag(ActFlags.Pet)
+            ? 0
+            : base.MaxCarryNumber;
+
         // Combat
         public override void KillingPayoff(ICharacter victim)
         {

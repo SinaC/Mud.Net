@@ -124,11 +124,15 @@ namespace Mud.Server.Item
 
         public int Level { get; protected set; }
 
-        public virtual int Weight { get; }
+        public int Weight { get; }
 
-        public virtual int Cost { get; }
+        public int Cost { get; }
 
         public bool NoTake { get; }
+
+        public virtual int TotalWeight => Weight;
+
+        public virtual int CarryCount => 1;
 
         public ItemFlags BaseItemFlags { get; protected set; }
 

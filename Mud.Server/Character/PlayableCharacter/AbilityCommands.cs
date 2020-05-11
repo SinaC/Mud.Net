@@ -64,8 +64,9 @@ namespace Mud.Server.Character.PlayableCharacter
                 Practices -= 10;
                 Trains++;
                 Act(ActOptions.ToCharacter, "{0:N} helps you apply your practice to training", trainer);
+                return CommandExecutionResults.Ok;
             }
-            // convert
+            // revert
             if (StringCompareHelpers.StringStartsWith("revert", parameters[0].Value))
             {
                 if (Trains < 1)
@@ -76,6 +77,8 @@ namespace Mud.Server.Character.PlayableCharacter
                 Practices += 10;
                 Trains--;
                 Act(ActOptions.ToCharacter, "{0:N} helps you apply your train to practicing", trainer);
+                return CommandExecutionResults.Ok;
+
             }
             // Gain ability
             // TODO: search among all abilities even if can't be learned, not yet be learned, already learned ?

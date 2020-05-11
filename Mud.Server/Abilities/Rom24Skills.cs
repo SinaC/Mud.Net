@@ -122,7 +122,8 @@ namespace Mud.Server.Abilities
             // modifiers
 
             // size and weight
-            // TODO: carry weight of source and victim
+            chance += source.CarryWeight / 250;
+            chance -= victim.CarryWeight / 250;
             // TODO: size source and victim
             // stats
             chance += source[CharacterAttributes.Strength];

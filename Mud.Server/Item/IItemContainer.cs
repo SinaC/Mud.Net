@@ -4,10 +4,10 @@ namespace Mud.Server.Item
 {
     public interface IItemContainer : IItemCloseable, IContainer
     {
-        // MaxWeight already found in IContainer
+        int MaxWeight { get; }
         ContainerFlags ContainerFlags { get; }
         // Key already found in ICloseable
-        // MaxWeightPerItem already found in IContainer
+        int MaxWeightPerItem { get; }
         int WeightMultiplier { get; } // percentage
     }
 }

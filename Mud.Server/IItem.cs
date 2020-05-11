@@ -20,6 +20,8 @@ namespace Mud.Server
         int Weight { get; }
         int Cost { get; }
         bool NoTake { get; }
+        int TotalWeight { get; }
+        int CarryCount { get; }
 
         ItemFlags BaseItemFlags { get; }
         ItemFlags ItemFlags { get; }

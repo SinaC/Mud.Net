@@ -322,6 +322,7 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Room: {0} [vnum: {1}]", victim.Room.DisplayName, victim.Room.Blueprint?.Id ?? -1);
             sb.AppendFormatLine("Race: {0} Class: {1}", victim.Race?.DisplayName ?? "(none)", victim.Class?.DisplayName ?? "(none)");
             sb.AppendFormatLine("Level: {0} Sex: {1} (base: {2})", victim.Level, victim.Sex, victim.BaseSex);
+            sb.AppendFormatLine("Carry: {0}/{1} Weight: {2}/{3}", victim.CarryNumber, victim.MaxCarryNumber, victim.CarryWeight, victim.MaxCarryWeight);
             if (playableVictim != null)
                 sb.AppendFormatLine("Experience: {0} NextLevel: {1}", playableVictim.Experience, playableVictim.ExperienceToLevel);
             sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim[CharacterAttributes.MaxHitPoints]);
@@ -333,7 +334,7 @@ namespace Mud.Server.Admin
             foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
                 sb.AppendFormatLine("{0}: {1} (base: {2})", attribute, victim[attribute], victim.BaseAttribute(attribute));
             foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>())
-                sb.AppendFormatLine("{0}: {1}", resourceKind, victim[resourceKind]);
+                sb.AppendFormatLine("{0}: {1} Max: {2}", resourceKind, victim[resourceKind], victim.MaxResource(resourceKind));
             if (nonPlayableVictim != null)
             {
                 sb.AppendFormatLine("Act: {0}", nonPlayableVictim.ActFlags);
@@ -406,6 +407,7 @@ namespace Mud.Server.Admin
             // TODO: display blueprint
             else
                 sb.AppendLine("No blueprint");
+            sb.AppendFormatLine("Type: {0}", item.GetType());
             sb.AppendFormatLine("Name: {0}", item.Name);
             sb.AppendFormatLine("DisplayName: {0}", item.DisplayName);
             sb.AppendFormatLine("Description: {0}", item.Description);
@@ -425,21 +427,46 @@ namespace Mud.Server.Admin
                 sb.AppendFormatLine("Equipped by {0} on {1}", equippable.EquippedBy?.DebugName ?? "(none)", equippable.WearLocation);
             else
                 sb.AppendLine("Cannot be equipped");
+            if (item.NoTake)
+                sb.Append("Cannot be taken");
             sb.AppendFormatLine("Level: {0}", item.Level);
             sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
+            sb.AppendFormatLine("CarryCount: {0} TotalWeight: {1}", item.CarryCount, item.TotalWeight);
             if (item.DecayPulseLeft > 0)
                 sb.AppendFormatLine("Decay in {0}", StringHelpers.FormatDelay(item.DecayPulseLeft / Pulse.PulsePerSeconds));
             sb.AppendFormatLine("Flags: {0} (base: {1})", item.ItemFlags, item.BaseItemFlags);
+            //
             if (item is IItemArmor armor)
                 sb.AppendFormatLine("Bash: {0} Pierce: {1} Slash: {2} Exotic: {3}", armor.Bash, armor.Pierce, armor.Slash, armor.Exotic);
+            //
             if (item is IItemContainer container)
-                sb.AppendFormatLine("Item count: {0} Weight multiplier: {1}", container.ItemCount, container.WeightMultiplier);
+                sb.AppendFormatLine("Item count: {0} Weight: {1} MaxWeight: {2} Flags: {3} Key: {4} MaxWeightPerItem: {5} Weight multiplier: {6}", 
+                    container.Content.Count(), container.Weight, container.MaxWeight, container.ContainerFlags, container.KeyId, container.MaxWeightPerItem, container.WeightMultiplier);
             //
             if (item is IItemCorpse)
                 sb.AppendLine("No additional informations");
             //
-            if (item is IItemWeapon weapon)
-                sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3} {4} (base: {5})", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType, weapon.WeaponFlags, weapon.BaseWeaponFlags);
+            if (item is IItemDrinkContainer drinkContainer)
+            {
+                sb.AppendFormatLine("Max: {0} Current: {1} Poisoned: {2}", drinkContainer.MaxLiquid, drinkContainer.LiquidLeft, drinkContainer.IsPoisoned);
+                var liquidInfo = TableValues.LiquidInfo(drinkContainer.LiquidName);
+                if (liquidInfo != default)
+                    sb.AppendFormatLine("Liquid type: {0} color: {1} proof: {2} full: {3} thirst: {4} food: {5} size: {6}", drinkContainer.LiquidName, liquidInfo.color, liquidInfo.proof, liquidInfo.full, liquidInfo.thirst, liquidInfo.food, liquidInfo.servingsize);
+                else
+                    sb.AppendFormatLine("Liquid type: {0} (not found in liquid table)", drinkContainer.LiquidName);
+            }
+            //
+            if (item is IItemFood food)
+                sb.AppendFormatLine(" Full: {0} hours Hungry: {1} hours Poisonned: {2}", food.FullHours, food.HungerHours, food.IsPoisoned);
+            //
+            if (item is IItemFountain fountain)
+            {
+                var liquidInfo = TableValues.LiquidInfo(fountain.LiquidName);
+                if (liquidInfo != default)
+                    sb.AppendFormatLine("Liquid type: {0} color: {1} proof: {2} full: {3} thirst: {4} food: {5} size: {6}", fountain.LiquidName, liquidInfo.color, liquidInfo.proof, liquidInfo.full, liquidInfo.thirst, liquidInfo.food, liquidInfo.servingsize);
+                else
+                    sb.AppendFormatLine("Liquid type: {0} (not found in liquid table)", fountain.LiquidName);
+            }
             //
             if (item is IItemFurniture furniture)
             {
@@ -455,33 +482,14 @@ namespace Mud.Server.Admin
                 }
             }
             //
+            if (item is IItemPortal portal)
+                sb.AppendFormatLine("Destination: {0} Flags: {1} Key: {2} Current charges: {3} Max charges: {4}", portal.Destination?.DebugName ?? "???", portal.PortalFlags, portal.KeyId, portal.CurrentChargeCount, portal.MaxChargeCount);
+            //
             if (item is IItemShield shield)
                 sb.AppendFormatLine("Armor: {0}", shield.Armor);
             //
-            if (item is IItemPortal portal)
-                sb.AppendFormatLine("Destination: {0} Flags: {1} Current charges: {2} Max charges: {3}", portal.Destination?.DebugName ?? "???", portal.PortalFlags, portal.CurrentChargeCount, portal.MaxChargeCount);
-            //
-            if (item is IItemFountain fountain)
-            {
-                var liquidInfo = TableValues.LiquidInfo(fountain.LiquidName);
-                if (liquidInfo != default)
-                    sb.AppendFormatLine("Liquid type: {0} color: {1} proof: {2} full: {3} thirst: {4} food: {5} size: {6}", fountain.LiquidName, liquidInfo.color, liquidInfo.proof, liquidInfo.full, liquidInfo.thirst, liquidInfo.food, liquidInfo.servingsize);
-                else
-                    sb.AppendFormatLine("Liquid type: {0} (not found in liquid table)", fountain.LiquidName);
-            }
-            //
-            if (item is IItemDrinkContainer drinkContainer)
-            {
-                sb.AppendFormatLine("Max: {0} Current: {1} Poisoned: {2}", drinkContainer.MaxLiquid, drinkContainer.LiquidLeft, drinkContainer.IsPoisoned);
-                var liquidInfo = TableValues.LiquidInfo(drinkContainer.LiquidName);
-                if (liquidInfo != default)
-                    sb.AppendFormatLine("Liquid type: {0} color: {1} proof: {2} full: {3} thirst: {4} food: {5} size: {6}", drinkContainer.LiquidName, liquidInfo.color, liquidInfo.proof, liquidInfo.full, liquidInfo.thirst, liquidInfo.food, liquidInfo.servingsize);
-                else
-                    sb.AppendFormatLine("Liquid type: {0} (not found in liquid table)", drinkContainer.LiquidName);
-            }
-            //
-            if (item is IItemFood food)
-                sb.AppendFormatLine(" Full: {0} hours Hungry: {1} hours Poisonned: {2}", food.FullHours, food.HungerHours, food.IsPoisoned);
+            if (item is IItemWeapon weapon)
+                sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3} {4} (base: {5})", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType, weapon.WeaponFlags, weapon.BaseWeaponFlags);
 
             // TODO: other item type
             //

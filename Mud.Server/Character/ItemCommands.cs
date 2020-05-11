@@ -199,7 +199,7 @@ namespace Mud.Server.Character
                     if (list.Any())
                     {
                         foreach (IItem itemInList in list)
-                            GetItem(itemInList);
+                            GetItem(itemInList, null);
                         return CommandExecutionResults.Ok;
                     }
                     if (allDot)
@@ -217,7 +217,7 @@ namespace Mud.Server.Character
                     Send("I see no {0} here.", parameters[0]);
                     return CommandExecutionResults.TargetNotFound;
                 }
-                GetItem(itemInRoom);
+                GetItem(itemInRoom, null);
                 return CommandExecutionResults.Ok;
             }
             // get item [from] container, get all [from] container, get all.item [from] container
@@ -228,19 +228,19 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.InvalidParameter;
             }
             // search container
-            IItem containerItem = FindHelpers.FindItemHere(this, whereParameter);
-            if (containerItem == null)
+            IItem targetItem = FindHelpers.FindItemHere(this, whereParameter);
+            if (targetItem == null)
             {
                 Send("I see no {0} here.", whereParameter);
                 return CommandExecutionResults.TargetNotFound;
             }
-            IContainer container = containerItem as IContainer;
+            IContainer container = targetItem as IContainer;
             if (container == null)
             {
                 Send("That's not a container.");
                 return CommandExecutionResults.InvalidTarget;
             }
-            if (containerItem is ICloseable closeable && closeable.IsClosed)
+            if (container is ICloseable closeable && closeable.IsClosed)
             {
                 Act(ActOptions.ToCharacter, "The {0} is closed.", container);
                 return CommandExecutionResults.InvalidTarget;
@@ -359,6 +359,24 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.TargetNotFound;
             }
 
+            if (what.ItemFlags.HasFlag(ItemFlags.NoDrop))
+            {
+                Send("You can't let go of it.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+
+            if (whom.CarryNumber + what.CarryCount > whom.MaxCarryNumber)
+            {
+                Act(ActOptions.ToCharacter, "{0:N} has {0:s} hands full.", whom);
+                return CommandExecutionResults.InvalidTarget;
+            }
+
+            if (whom.CarryWeight + what.TotalWeight > whom.MaxCarryWeight)
+            {
+                Act(ActOptions.ToCharacter, "{0:N} can't carry that much weight.", whom);
+                return CommandExecutionResults.InvalidTarget;
+            }
+
             if (!whom.CanSee(what))
             {
                 Act(ActOptions.ToCharacter, "{0:n} can't see it.", whom);
@@ -413,13 +431,13 @@ namespace Mud.Server.Character
                 Send(StringHelpers.ItemNotFound);
                 return CommandExecutionResults.TargetNotFound;
             }
-            IContainer container = where as IContainer;
+            IItemContainer container = where as IItemContainer;
             if (container == null)
             {
                 Send("That's not a container.");
                 return CommandExecutionResults.InvalidTarget;
             }
-            if (where is ICloseable closeable && closeable.IsClosed)
+            if (container.IsClosed)
             {
                 Act(ActOptions.ToCharacter, "The {0} is closed.", container);
                 return CommandExecutionResults.InvalidTarget;
@@ -848,51 +866,30 @@ namespace Mud.Server.Character
             return true;
         }
 
-        private bool GetItem(IItem item) // equivalent to get_obj in act_obj.C:211
-        {
-            if (item.NoTake)
-            {
-                Send("You can't take that.");
-                return false;
-            }
-            // TODO: check weight + item count
-            switch (item)
-            {
-                case IItemCorpse corpse:
-                    if (corpse.IsPlayableCharacterCorpse)
-                    {
-                        Send("Corpse looting is not permitted.");
-                        return false;
-                    }
-                    break;
-                case IItemFurniture furniture:
-                    ICharacter firstOnFurniture = furniture.People.FirstOrDefault();
-                    if (firstOnFurniture != null)
-                    {
-                        Act(ActOptions.ToCharacter, "{0:N} appears to be using {1}.", firstOnFurniture, furniture);
-                        return false;
-                    }
-                    break;
-            }
-
-            Act(ActOptions.ToAll, "{0:N} get{0:v} {1}.", this, item);
-            item.ChangeContainer(this);
-            // TODO: money
-            return true;
-        }
-
-        private bool GetItem(IItem item, IContainer container)
-        {
+        private bool GetItem(IItem item, IContainer container) // equivalent to get_obj in act_obj.C:211
+        {  // container is IContainer so we can get from corpse
             //
             if (item.NoTake)
             {
                 Send("You can't take that.");
                 return false;
             }
+            if (CarryNumber + item.CarryCount > MaxCarryNumber)
+            {
+                Act(ActOptions.ToCharacter, "{0:N}: you can't carry that many items.", item);
+                return false;
+            }
+            if (CarryWeight + item.TotalWeight > MaxCarryWeight)
+            {
+                Act(ActOptions.ToCharacter, "{0:N}: you can't carry that much weight.", item);
+                return false;
+            }
 
-            // TODO: check weight + item count
             // TODO: from pit ?
-            Act(ActOptions.ToAll, "{0:N} get{0:v} {1} from {2}.", this, item, container);
+            if (container != null)
+                Act(ActOptions.ToAll, "{0:N} get{0:v} {1} from {2}.", this, item, container);
+            else
+                Act(ActOptions.ToAll, "{0:N} get{0:v} {1}.", this, item);
             item.ChangeContainer(this);
             // TODO: money
             return true;
@@ -915,15 +912,22 @@ namespace Mud.Server.Character
             return true;
         }
 
-        private bool PutItem(IItem item, IContainer container)
-        {//
+        private bool PutItem(IItem item, IItemContainer container)
+        {   // container is IItemContainer si we can only put in item container
+            //
             if (item.ItemFlags.HasFlag(ItemFlags.NoDrop))
             {
                 Send("You can't let go of it.");
                 return false;
             }
-
-            // TODO: check weight + item count
+            int itemWeight = item.TotalWeight;
+            if ((itemWeight + container.TotalWeight > container.MaxWeight)
+                || itemWeight > container.MaxWeightPerItem)
+            {
+                Send("It won't fit.");
+                return false;
+            }
+            // TODO: pit
             Act(ActOptions.ToAll, "{0:N} put{0:v} {1} in {2}.", this, item, container);
             item.ChangeContainer(container);
             return true;

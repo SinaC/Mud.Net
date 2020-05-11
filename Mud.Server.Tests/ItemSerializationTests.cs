@@ -92,7 +92,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemContainer_Empty_To_ItemData_Test()
         {
-            ItemContainerBlueprint blueprint = new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50, ContainerFlags = ContainerFlags.NoLock | ContainerFlags.Closed };
+            ItemContainerBlueprint blueprint = new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", MaxWeight = 100, WeightMultiplier = 50, ContainerFlags = ContainerFlags.NoLock | ContainerFlags.Closed };
             IItemContainer container = new ItemContainer(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
 
             ItemData itemData = container.MapItemData();
@@ -108,7 +108,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemContainer_OneItem_To_ItemData_Test()
         {
-            ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50 };
+            ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", MaxWeight = 100, WeightMultiplier = 50 };
             IItemContainer container = new ItemContainer(Guid.NewGuid(), containerBlueprint, new Mock<IContainer>().Object);
             IItemLight light = new ItemLight(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 }, container);
 
@@ -127,7 +127,7 @@ namespace Mud.Server.Tests
         [TestMethod] // World is needed because when World.AddItem is used when serializing content
         public void ItemContainer_MultipleItems_To_ItemData_Test()
         {
-            IItemContainer container = new ItemContainer(Guid.NewGuid(), new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50 }, new Mock<IContainer>().Object);
+            IItemContainer container = new ItemContainer(Guid.NewGuid(), new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", MaxWeight = 100, WeightMultiplier = 50 }, new Mock<IContainer>().Object);
             IItemLight light = new ItemLight(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 }, container);
             IItemPortal portal = new ItemPortal(Guid.NewGuid(), new ItemPortalBlueprint { Id = 2, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = -1 }, new Mock<IRoom>().Object, container);
 
@@ -147,10 +147,10 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemContainer_NestedItems_To_ItemData_Test()
         {
-            IItemContainer container1 = new ItemContainer(Guid.NewGuid(), new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", ItemCount = 10, WeightMultiplier = 50 }, new Mock<IContainer>().Object);
+            IItemContainer container1 = new ItemContainer(Guid.NewGuid(), new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", MaxWeight = 100, WeightMultiplier = 50 }, new Mock<IContainer>().Object);
             IItemLight light = new ItemLight(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 }, container1);
             IItemPortal portal = new ItemPortal(Guid.NewGuid(), new ItemPortalBlueprint { Id = 2, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 1 }, new Mock<IRoom>().Object, container1);
-            IItemContainer container2 = new ItemContainer(Guid.NewGuid(), new ItemContainerBlueprint { Id = 888, Name = "Container2", ShortDescription = "Container2Short", Description = "Container2Desc", ItemCount = 10, WeightMultiplier = 50 }, container1);
+            IItemContainer container2 = new ItemContainer(Guid.NewGuid(), new ItemContainerBlueprint { Id = 888, Name = "Container2", ShortDescription = "Container2Short", Description = "Container2Desc", MaxWeight = 100, WeightMultiplier = 50 }, container1);
             IItemJewelry jewelry = new ItemJewelry(Guid.NewGuid(), new ItemJewelryBlueprint { Id = 3, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc" }, container2);
             IItemArmor armor = new ItemArmor(Guid.NewGuid(), new ItemArmorBlueprint { Id = 4, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150 }, container2);
 

@@ -34,6 +34,10 @@ namespace Mud.Server
 
         IEnumerable<EquippedItem> Equipments { get; }
         IEnumerable<IItem> Inventory { get; } // same as IContainer.Content
+        int MaxCarryWeight { get; }
+        int MaxCarryNumber { get; }
+        int CarryWeight { get; }
+        int CarryNumber { get; }
 
         // Furniture (sleep/sit/stand)
         IItemFurniture Furniture { get; }

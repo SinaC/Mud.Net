@@ -110,18 +110,11 @@ namespace Mud.Server.Item
             }
         }
 
-        public override int Weight => base.Weight + _content.Sum(x => x.Weight);
-
         #region IItemCorpse
-
 
         #region IContainer
 
         public IEnumerable<IItem> Content => _content;
-
-        public int MaxWeight => 0; // Can't put anything manually within
-
-        public int MaxWeightPerItem => 0; // Can't put anything manually within
 
         public bool PutInContainer(IItem obj)
         {
