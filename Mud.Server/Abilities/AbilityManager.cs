@@ -180,12 +180,15 @@ namespace Mud.Server.Abilities
             // 8) invoke spell
             InvokeSpell(knownAbility.Ability, caster.Level, caster, target, rawParameters, parameters);
 
-            // TODO: 9) set GCD
+            // 9) GCD
+            pcCaster?.ImpersonatedBy?.SetGlobalCooldown(knownAbility.Ability.PulseWaitTime);
+
             // 10) check improve true
-            pcCaster?.CheckAbilityImprove(knownAbility, true, 1);
+            pcCaster?.CheckAbilityImprove(knownAbility, true, knownAbility.Ability.LearnDifficultyMultiplier);
 
             // TODO: 11) if aggressive: multi hit if still in same room
 
+            //
             return CastResults.Ok;
         }
 
@@ -201,31 +204,42 @@ namespace Mud.Server.Abilities
 
             // TODO: 3) if aggressive: multi hit if still in same room
 
+            //
             return CastResults.Ok;
         }
 
-        public UseResults Use(IAbility ability, ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        public UseResults Use(IAbility ability, ICharacter user, string rawParameters, params CommandParameter[] parameters)
         {
+            IPlayableCharacter pcUser = user as IPlayableCharacter;
+
             // 1) check if it's a skill
             if (ability == null || ability.Kind != AbilityKinds.Skill)
                 return UseResults.Error;
 
             // 2) get target
             IEntity target;
-            AbilityTargetResults targetResult = GetAbilityTarget(ability, caster, out target, rawParameters, parameters);
+            AbilityTargetResults targetResult = GetAbilityTarget(ability, user, out target, rawParameters, parameters);
             if (targetResult != AbilityTargetResults.Ok)
                 return MapUseResultToCommandExecutionResult(targetResult);
 
             // 3) invoke skill
-            object result = InvokeSkill(ability, caster, target, rawParameters, parameters);
+            object rawResult = InvokeSkill(ability, user, target, rawParameters, parameters);
+            UseResults result = rawResult is UseResults
+                ? (UseResults)rawResult
+                : UseResults.Error;
 
             // 4) GCD
-            (caster as IPlayableCharacter).ImpersonatedBy?.SetGlobalCooldown(ability.PulseWaitTime);
+            pcUser?.ImpersonatedBy?.SetGlobalCooldown(ability.PulseWaitTime);
+
+            // 5) improve skill
+            if (result == UseResults.Ok || result == UseResults.Failed)
+            {
+                KnownAbility knownAbility = user[ability];
+                pcUser?.CheckAbilityImprove(knownAbility, result == UseResults.Ok, ability.LearnDifficultyMultiplier);
+            }
 
             //
-            return result is UseResults
-                ? (UseResults)result
-                : UseResults.Error;
+            return result;
         }
 
         public AbilityTargetResults GetAbilityTarget(IAbility ability, ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
@@ -760,7 +774,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        private static IAbility Passive(int id, string name, AbilityFlags flags = AbilityFlags.None) => new Ability(AbilityKinds.Passive, id, name, AbilityTargets.None, 0, flags, null, null, null);
+        private static IAbility Passive(int id, string name, AbilityFlags flags = AbilityFlags.None) => new Ability(AbilityKinds.Passive, id, name, AbilityTargets.None, 0, flags, null, null, null, 0);
 
     }
 }

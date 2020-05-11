@@ -728,7 +728,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Spell(41, "Enchant Armor", AbilityTargets.ArmorInventory)]
+        [Spell(41, "Enchant Armor", AbilityTargets.ArmorInventory, PulseWaitTime = 24)]
         public void SpellEnchantArmor(IAbility ability, int level, ICharacter caster, IItemArmor armor)
         {
             //if (item.EquipedBy == null)
@@ -808,7 +808,7 @@ namespace Mud.Server.Abilities
             armor.Recompute();
         }
 
-        [Spell(42, "Enchant Weapon", AbilityTargets.WeaponInventory)]
+        [Spell(42, "Enchant Weapon", AbilityTargets.WeaponInventory, PulseWaitTime = 24)]
         public void SpellEnchantWeapon(IAbility ability, int level, ICharacter caster, IItemWeapon weapon)
         {
             //if (weapon.EquipedBy == null)
@@ -1001,7 +1001,7 @@ namespace Mud.Server.Abilities
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Fire, true);
         }
 
-        [Spell(50, "Fly", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You slowly float to the ground.", DispelRoomMessage = "{0:N} falls to the ground!", Flags = AbilityFlags.CanBeDispelled)]
+        [Spell(50, "Fly", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You slowly float to the ground.", DispelRoomMessage = "{0:N} falls to the ground!", Flags = AbilityFlags.CanBeDispelled, PulseWaitTime = 18)]
         public void SpellFly(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CharacterFlags.HasFlag(CharacterFlags.Flying))
@@ -1017,14 +1017,14 @@ namespace Mud.Server.Abilities
             caster.Act(ActOptions.ToAll, "{0:P} feet rise off the ground.", victim);
         }
 
-        [Spell(51, "Floating Disc", AbilityTargets.None)]
+        [Spell(51, "Floating Disc", AbilityTargets.None, PulseWaitTime = 24)]
         public void SpellFloatingDisc(IAbility ability, int level, ICharacter caster)
         {
             caster.Send(StringHelpers.NotYetImplemented);
             // TODO: floating equipment location not implemented
         }
 
-        [Spell(52, "Frenzy", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "Your rage ebbs.", DispelRoomMessage = "{0:N} no longer looks so wild.", Flags = AbilityFlags.CanBeDispelled)]
+        [Spell(52, "Frenzy", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "Your rage ebbs.", DispelRoomMessage = "{0:N} no longer looks so wild.", Flags = AbilityFlags.CanBeDispelled, PulseWaitTime = 24)]
         public void SpellFrenzy(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CharacterFlags.HasFlag(CharacterFlags.Berserk) || victim.GetAura("Frenzy") != null)
@@ -1164,7 +1164,7 @@ namespace Mud.Server.Abilities
                 caster.Send("Ok.");
         }
 
-        [Spell(58, "Heat Metal", AbilityTargets.CharacterOffensive)]
+        [Spell(58, "Heat Metal", AbilityTargets.CharacterOffensive, PulseWaitTime = 18)]
         public void SpellHeatMetal(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             bool fail = true;
@@ -1283,7 +1283,7 @@ namespace Mud.Server.Abilities
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Fire, true);
         }
 
-        [Spell(59, "Holy Word", AbilityTargets.CharacterOffensive)]
+        [Spell(59, "Holy Word", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
         public void SpellHolyWord(IAbility ability, int level, ICharacter caster)
         {
             IAbility bless = this["Bless"];
@@ -1331,13 +1331,13 @@ namespace Mud.Server.Abilities
             //TODO: ch->hit /= 2;
         }
 
-        [Spell(60, "Identify", AbilityTargets.ItemInventory)]
+        [Spell(60, "Identify", AbilityTargets.ItemInventory, PulseWaitTime = 24)]
         public void SpellIdentify(IAbility ability, int level, ICharacter caster, IItem item)
         {
             // TODO
         }
 
-        [Spell(61, "Infravision", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You no longer see in the dark.", Flags = AbilityFlags.CanBeDispelled)]
+        [Spell(61, "Infravision", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You no longer see in the dark.", Flags = AbilityFlags.CanBeDispelled, PulseWaitTime = 18)]
         public void SpellInfravision(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.Infrared, 2*level, "You can already see in the dark", "{0} already has infravision.", "Your eyes glow red.", "{0:P} eyes glow red.");
@@ -1401,7 +1401,7 @@ namespace Mud.Server.Abilities
             TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Lightning, LightningBoltDamageTable);
         }
 
-        [Spell(65, "Locate Object", AbilityTargets.Custom)]
+        [Spell(65, "Locate Object", AbilityTargets.Custom, PulseWaitTime = 18)]
         public void SpellLocateObject(IAbility ability, int level, ICharacter caster, string parameter)
         {
             StringBuilder sb = new StringBuilder();
@@ -1455,7 +1455,7 @@ namespace Mud.Server.Abilities
             TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Energy, MagicMissileDamageTable);
         }
 
-        [Spell(67, "Mass Healing", AbilityTargets.None)]
+        [Spell(67, "Mass Healing", AbilityTargets.None, PulseWaitTime = 36)]
         public void SpellMassHealing(IAbility ability, int level, ICharacter caster)
         {
             IAbility heal = this["Heal"];
@@ -1472,14 +1472,14 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Spell(68, "Mass Invis", AbilityTargets.None, CharacterWearOffMessage = "You are no longer invisible.", DispelRoomMessage = "{0:N} fades into existance.", Flags = AbilityFlags.CanBeDispelled)]
+        [Spell(68, "Mass Invis", AbilityTargets.None, CharacterWearOffMessage = "You are no longer invisible.", DispelRoomMessage = "{0:N} fades into existance.", Flags = AbilityFlags.CanBeDispelled, PulseWaitTime = 24)]
         public void SpellMassInvis(IAbility ability, int level, ICharacter caster)
         {
             caster.Send(StringHelpers.NotYetImplemented);
             // TODO: group is important
         }
 
-        [Spell(69, "Nexus", AbilityTargets.CharacterWorldwide)]
+        [Spell(69, "Nexus", AbilityTargets.CharacterWorldwide, PulseWaitTime = 36)]
         public void SpellNexus(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (!IsValidGateTarget(caster, victim, level))
@@ -1609,7 +1609,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Spell(73, "Portal", AbilityTargets.CharacterWorldwide)]
+        [Spell(73, "Portal", AbilityTargets.CharacterWorldwide, PulseWaitTime = 24)]
         public void SpellPortal(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (!IsValidGateTarget(caster, victim, level))
@@ -1709,11 +1709,13 @@ namespace Mud.Server.Abilities
             SpellBlindness(this["Blindness"], (3 * level) / 4, caster, victim);
         }
 
-        //[Spell(77, "Recharge", AbilityTargets.ItemChargeInventory)]
-        //TODO: public void SpellRecharge(IAbility ability, int level, ICharacter caster, IItemCharge item)
-        // TODO: staff/wand not yet implemented
+        [Spell(77, "Recharge", AbilityTargets.ItemInventory, PulseWaitTime = 24)]
+        public void SpellRecharge(IAbility ability, int level, ICharacter caster, IItem item)
+        {
+            caster.Send(StringHelpers.NotYetImplemented);
+        }
 
-        [Spell(78, "Refresh", AbilityTargets.CharacterDefensive)]
+        [Spell(78, "Refresh", AbilityTargets.CharacterDefensive, PulseWaitTime = 18)]
         public void SpellRefresh(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             victim.UpdateMovePoints(level);
@@ -1776,7 +1778,7 @@ namespace Mud.Server.Abilities
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.Sanctuary, duration, "You are already in sanctuary.", "{0:N} is already in sanctuary.", "You are surrounded by a white aura.", "{0:N} is surrounded by a white aura.");
         }
 
-        [Spell(81, "Shield", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "Your force shield shimmers then fades away.", DispelRoomMessage = "The shield protecting {0:n} vanishes.", Flags = AbilityFlags.CanBeDispelled)]
+        [Spell(81, "Shield", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "Your force shield shimmers then fades away.", DispelRoomMessage = "The shield protecting {0:n} vanishes.", Flags = AbilityFlags.CanBeDispelled, PulseWaitTime = 18)]
         public void SpellShield(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.GetAura(ability) != null)
@@ -1875,7 +1877,7 @@ namespace Mud.Server.Abilities
             caster.Act(ActOptions.ToRoom, "{0} starts to move in slow motion.", victim);
         }
 
-        [Spell(85, "Stone Skin", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "Your skin feels soft again.", DispelRoomMessage = "{0:N}'s skin regains its normal texture.", Flags = AbilityFlags.CanBeDispelled)]
+        [Spell(85, "Stone Skin", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "Your skin feels soft again.", DispelRoomMessage = "{0:N}'s skin regains its normal texture.", Flags = AbilityFlags.CanBeDispelled, PulseWaitTime = 18)]
         public void SpellStoneSkin(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.GetAura(ability) != null)
@@ -2018,7 +2020,7 @@ namespace Mud.Server.Abilities
 
         // NPC Spells
 
-        [Spell(500, "Acid Breath", AbilityTargets.CharacterOffensive)]
+        [Spell(500, "Acid Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
         public void SpellAcidBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} spits acid at {1}.", caster, victim);
@@ -2042,7 +2044,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Spell(501, "Fire Breath", AbilityTargets.CharacterOffensive)]
+        [Spell(501, "Fire Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
         public void SpellFireBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} breathes forth a cone of fire.", caster);
@@ -2057,7 +2059,7 @@ namespace Mud.Server.Abilities
             BreathAreaEffect(victim, ability, caster, level, damage, SchoolTypes.Fire, FireEffect);
         }
 
-        [Spell(502, "Frost Breath", AbilityTargets.CharacterOffensive)]
+        [Spell(502, "Frost Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
         public void SpellFrostBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} breathes out a freezing cone of frost!", caster);
@@ -2072,7 +2074,7 @@ namespace Mud.Server.Abilities
             BreathAreaEffect(victim, ability, caster, level, damage, SchoolTypes.Cold, ColdEffect);
         }
 
-        [Spell(503, "Gas Breath", AbilityTargets.None)]
+        [Spell(503, "Gas Breath", AbilityTargets.None, PulseWaitTime = 24)]
         public void SpellGasBreath(IAbility ability, int level, ICharacter caster)
         {
             caster.Act(ActOptions.ToRoom, "{0} breathes out a cloud of poisonous gas!", caster);
@@ -2086,7 +2088,7 @@ namespace Mud.Server.Abilities
             BreathAreaEffect(caster, ability, caster, level, damage, SchoolTypes.Poison, PoisonEffect);
         }
 
-        [Spell(504, "Lightning Breath", AbilityTargets.CharacterOffensive)]
+        [Spell(504, "Lightning Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
         public void SpellLightningBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} breathes a bolt of lightning at {1}.", caster, victim);

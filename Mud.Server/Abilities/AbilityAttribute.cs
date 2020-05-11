@@ -16,6 +16,7 @@ namespace Mud.Server.Abilities
         public string CharacterWearOffMessage { get; set; } // Inform character about aura worn off (+dispel)
         public string ItemWearOffMessage { get; set; } // Inform item hold about aura worn off (+dispel)
         public string DispelRoomMessage { get; set; } // Used to inform room about spell being dispelled
+        public int LearnDifficultyMultiplier { get; set; } //
 
         protected AbilityAttribute(int id, string name, AbilityTargets target)
         {
@@ -27,6 +28,7 @@ namespace Mud.Server.Abilities
             CharacterWearOffMessage = null;
             ItemWearOffMessage = null;
             DispelRoomMessage = null;
+            LearnDifficultyMultiplier = 1;
         }
     }
 

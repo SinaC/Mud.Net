@@ -23,6 +23,8 @@ namespace Mud.Server
 
         string DispelRoomMessage { get; }
 
+        int LearnDifficultyMultiplier { get; }
+
         MethodInfo MethodInfo { get; } // null for passive abilities
     }
 }

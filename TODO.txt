@@ -1,8 +1,4 @@
 ONGOING
-envenom
-all skills
-    should use UseResult (Ok/Fail) from skill to call check improve (additional attribute param for skill storing improve multiplier)
-    wear off message
 
 TODO:
 use GetEquipment where Equipments is reference
@@ -22,6 +18,10 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+envenom
+all skills
+    should use UseResult (Ok/Fail) from skill to call check improve (additional attribute param for skill storing improve multiplier)
+    wear off message
 pick lock added
 AddOrUpdateAffect could have an additional parameter with duration, if update is selected -> update duration
 Exit flags
@@ -105,6 +105,7 @@ TableGenerator with duplicate columns
 	 ----------------------
 
 *************************************************************
+linkdead
 leaving impersonation should not stop fighting -> PlayableCharacter can still died while not impersonated
   when impersonating, first search for impersonation in world -> use Guid !! should work if player disconnect/reconnect and reimpersonate
 make text drunk in say/whisper/... see act_comm.C:2222
@@ -248,10 +249,6 @@ DoLook/DoExamine should be heavily modified to use Room.Display  Character.Displ
 IItem: Display(short/long) (used instead of FormatItem in InfoCommands.cs)
 EquipedItem should be responsible for displaying itself
 EquipedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
-
-unit tests
-
-spam, linkdead, ...
 
 ability:
 http://www.wowhead.com/spell=106832/thrash

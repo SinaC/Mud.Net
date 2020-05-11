@@ -17,7 +17,7 @@ namespace Mud.Server.Abilities
     {
         private readonly int DefaultLevelIfAbilityNotKnown = 53;
 
-        [Skill(5000, "Berserk", AbilityTargets.None, PulseWaitTime = 24)]
+        [Skill(5000, "Berserk", AbilityTargets.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2, CharacterWearOffMessage = "You feel your pulse slow down.")]
         public UseResults SkillBerserk(IAbility ability, ICharacter source)
         {
             KnownAbility knownAbility = source[ability];
@@ -35,13 +35,13 @@ namespace Mud.Server.Abilities
                 || source.GetAura("Frenzy") != null)
             {
                 source.Send("You get a little madder.");
-                return UseResults.Failed;
+                return UseResults.InvalidTarget;
             }
 
             if (source.CharacterFlags.HasFlag(CharacterFlags.Calm))
             {
                 source.Send("You're feeling to mellow to berserk.");
-                return UseResults.Failed;
+                return UseResults.InvalidTarget;
             }
 
             if (source[ResourceKinds.Mana] < 50)
@@ -67,7 +67,6 @@ namespace Mud.Server.Abilities
 
                 source.Send("Your pulse races as you are consumed by rage!");
                 source.Act(ActOptions.ToRoom, "{0:N} gets a wild look in {0:s} eyes.", source);
-                (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, true, 2);
 
                 int duration = RandomManager.Fuzzy(source.Level / 8);
                 int modifier = Math.Max(1, source.Level / 5);
@@ -86,7 +85,6 @@ namespace Mud.Server.Abilities
 
                 source.Send("Your pulse speeds up, but nothing happens.");
 
-                (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, false, 2);
                 return UseResults.Failed;
             }
         }
@@ -147,9 +145,7 @@ namespace Mud.Server.Abilities
             {
                 source.Act(ActOptions.ToCharacter, "You slam into {0}, and send {0:m} flying!", victim);
                 source.Act(ActOptions.ToRoom, "{0:N} sends {1} sprawling with a powerful bash.", source, victim);
-                (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, true, 1);
                 // TODO: victim daze
-                // TODO: set GCD
                 // TODO: victim.Position = Positions.Resting
                 //int damage = RandomManager.Range(2, 2+2* source.Size + chance/2)
                 int damage = 2;
@@ -162,16 +158,14 @@ namespace Mud.Server.Abilities
                 victim.AbilityDamage(source, ability, 0, SchoolTypes.Bash, false); // starts a fight
                 victim.Act(ActOptions.ToRoom, "{0:N} fall{0:v} flat on {0:s} face!", source);
                 victim.Act(ActOptions.ToCharacter, "You evade {0:p} bash, causing {0:m} to fall flat on {0:s} face.", source);
-                (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, false, 1);
                 // TODO: victim.Position = Positions.Resting
-                // TODO: set GCD
                 // TODO: check_killer(ch,victim);
                 return UseResults.Failed;
             }
 
         }
 
-        [Skill(5002, "Dirt kicking", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
+        [Skill(5002, "Dirt kicking", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, LearnDifficultyMultiplier = 2, CharacterWearOffMessage = "You rub the dirt out of your eyes.")]
         public UseResults SkillDirt(IAbility ability, ICharacter source, ICharacter victim) // almost copy/paste from bash
         {
             KnownAbility knownAbility = source[ability];
@@ -229,8 +223,6 @@ namespace Mud.Server.Abilities
 
                 int damage = RandomManager.Range(2, 5);
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.None, false);
-                (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, true, 2);
-                //WAIT_STATE(ch, skill_table[gsn_dirt].beats);
                 // TODO check killer
 
                 World.AddAura(victim, ability, source, source.Level, TimeSpan.FromMinutes(0)/*TODO  0 ???*/, AuraFlags.NoDispel, true,
@@ -241,8 +233,6 @@ namespace Mud.Server.Abilities
             else
             {
                 victim.AbilityDamage(source, ability, 0, SchoolTypes.None, true);
-                (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, false, 2);
-                //WAIT_STATE(ch, skill_table[gsn_dirt].beats);
                 // TODO: check_killer(ch,victim);
                 return UseResults.Failed;
             }
@@ -305,7 +295,6 @@ namespace Mud.Server.Abilities
                 victim.Act(ActOptions.ToCharacter, "{0:N} trips you and you go down!", source);
                 source.Act(ActOptions.ToCharacter, "You trip {0} and {0} goes down!", victim);
                 source.ActToNotVictim(victim, "{0} trips {1}, sending {1:m} to the ground.", source, victim);
-                (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, true, 1);
                 //DAZE_STATE(victim, 2 * PULSE_VIOLENCE);
                 //victim->position = POS_RESTING;
                 // TODO: check_killer(ch, victim)
@@ -316,7 +305,6 @@ namespace Mud.Server.Abilities
             else
             {
                 victim.AbilityDamage(source, ability, 0, SchoolTypes.Bash, true);
-                (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, false, 1);
                 // TODO check_killer(ch,victim);
                 return UseResults.Failed;
             }
@@ -360,19 +348,17 @@ namespace Mud.Server.Abilities
             if (RandomManager.Chance(learned)
                 || (learned > 1 && victim.Position <= Positions.Sleeping))
             {
-                (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, true, 1);
-                victim.MultiHit(source); // TODO: pass ability, some nasty things are done if Backstab is passed as param
+                victim.MultiHit(source); // TODO: pass ability, some nasty things are done if Backstab is passed as param (thac0 modifier mainly)
                 return UseResults.Ok;
             }
             else
             {
-                (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, false, 1);
                 victim.AbilityDamage(source, ability, 0, SchoolTypes.None, true); // Starts fight without doing any damage
                 return UseResults.Failed;
             }
         }
 
-        [Skill(5005, "Kick", AbilityTargets.CharacterFighting, PulseWaitTime = 12)]
+        [Skill(5005, "Kick", AbilityTargets.CharacterFighting)]
         public UseResults SkillKick(IAbility ability, ICharacter source)
         {
             KnownAbility knownAbility = source[ability];
@@ -397,14 +383,12 @@ namespace Mud.Server.Abilities
             {
                 int damage = RandomManager.Range(1, source.Level);
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.Bash, true);
-                (victim as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, true, 1);
                 //check_killer(ch,victim);
                 return UseResults.Ok;
             }
             else
             {
                 victim.AbilityDamage(source, ability, 0, SchoolTypes.Bash, true);
-                (victim as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, false, 1);
                 //check_killer(ch,victim);
                 return UseResults.Failed;
             }
@@ -464,7 +448,6 @@ namespace Mud.Server.Abilities
             // and now the attack
             if (RandomManager.Chance(chance))
             {
-                //TODO gcd WAIT_STATE(ch, skill_table[gsn_disarm].beats);
                 //OBJ_DATA* obj;
 
                 //if ((obj = get_eq_char(victim, WEAR_WIELD)) == NULL)
@@ -492,29 +475,26 @@ namespace Mud.Server.Abilities
                 //        get_obj(victim, obj, NULL);
                 //}
 
-                (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, true, 1);
                 // TODO  check_killer(ch, victim);
                 return UseResults.Ok;
             }
             else
             {
-                //TODO gcd WAIT_STATE(ch, skill_table[gsn_disarm].beats);
                 source.Act(ActOptions.ToCharacter, "You fail to disarm {0}.", victim);
                 source.Act(ActOptions.ToRoom, "{0:N} tries to disarm {1}, but fails.", source, victim);
-                (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, false, 1);
                 // TODO  check_killer(ch, victim);
                 return UseResults.Failed;
             }
         }
 
-        [Skill(5007, "Sneak", AbilityTargets.None, PulseWaitTime = 12)]
+        [Skill(5007, "Sneak", AbilityTargets.None, LearnDifficultyMultiplier = 3)]
         public UseResults SkillSneak(IAbility ability, ICharacter source)
         {
             source.Send("You attempt to move silently.");
             source.RemoveAuras(x => x.Ability == ability, true);
 
             if (source.CharacterFlags.HasFlag(CharacterFlags.Sneak))
-                return UseResults.Failed;
+                return UseResults.InvalidTarget;
 
             bool success = false;
             KnownAbility knownAbility = source[ability];
@@ -526,15 +506,12 @@ namespace Mud.Server.Abilities
                 success = true;
             }
 
-            (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, success, 3);
-            source.Recompute();
-
             return success
                 ? UseResults.Ok
                 : UseResults.Failed;
         }
 
-        [Skill(5008, "Hide", AbilityTargets.None, PulseWaitTime = 12)]
+        [Skill(5008, "Hide", AbilityTargets.None, LearnDifficultyMultiplier = 3)]
         public UseResults SkillHide(IAbility ability, ICharacter source)
         {
             source.Send("You attempt to hide.");
@@ -551,7 +528,6 @@ namespace Mud.Server.Abilities
                 success = true;
             }
 
-            (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, success, 3);
             source.Recompute();
 
             return success
@@ -559,7 +535,7 @@ namespace Mud.Server.Abilities
                 : UseResults.Failed;
         }
 
-        [Skill(5009, "Recall", AbilityTargets.None, PulseWaitTime = 12)]
+        [Skill(5009, "Recall", AbilityTargets.None, LearnDifficultyMultiplier = 6)]
         public UseResults SkillRecall(IAbility ability, ICharacter source)
         {
             IPlayableCharacter pcSource = source as IPlayableCharacter;
@@ -583,11 +559,11 @@ namespace Mud.Server.Abilities
                 || pcSource.Room.RoomFlags.HasFlag(RoomFlags.NoRecall))
             {
                 pcSource.Send("Spell failed."); // TODO: message related to deity
-                return UseResults.Failed;
+                return UseResults.InvalidTarget;
             }
 
             //if (recallRoom == pcSource.Room)
-            //    return UseResults.Failed;
+            //    return UseResults.InvalidTarget;
 
             ICharacter victim = pcSource.Fighting;
             if (victim != null)
@@ -596,14 +572,12 @@ namespace Mud.Server.Abilities
                 int chance = (80*knownAbility.Learned)/100;
                 if (!RandomManager.Chance(chance))
                 {
-                    pcSource.CheckAbilityImprove(knownAbility, false, 6);
                     pcSource.Send("You failed.");
                     return UseResults.Failed;
                 }
 
                 int lose = 50;
                 // TODO: gain negative experience 50
-                pcSource.CheckAbilityImprove(knownAbility, true, 5);
                 pcSource.Send("You recall from combat! You lose {0} exps.", lose);
                 pcSource.StopFighting(true);
             }
@@ -636,7 +610,7 @@ namespace Mud.Server.Abilities
             return UseResults.Ok;
         }
 
-        [Skill(5010, "Pick lock", AbilityTargets.Custom, PulseWaitTime = 12)]
+        [Skill(5010, "Pick lock", AbilityTargets.Custom, LearnDifficultyMultiplier = 2)]
         public UseResults SkillPickLock(IAbility ability, ICharacter source, string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -657,9 +631,7 @@ namespace Mud.Server.Abilities
             if (item != null)
             {
                 if (item is IItemCloseable closeable)
-                {
                     return InnerPick(closeable, source, knownAbility);
-                }
                 else
                 {
                     source.Send("You can't do that.");
@@ -671,17 +643,18 @@ namespace Mud.Server.Abilities
             if (ExitDirectionsExtensions.TryFindDirection(parameters[0].Value, out direction))
             {
                 IExit exit = source.Room.Exit(direction);
-                if (exit == null)
+                if (exit != null)
+                    return InnerPick(exit, source, knownAbility);
+                else
                 {
                     source.Send("Nothing special there.");
                     return UseResults.InvalidTarget;
                 }
-                return InnerPick(exit, source, knownAbility);
             }
             return UseResults.InvalidTarget;
         }
 
-        [Skill(5011, "Envenom", AbilityTargets.ItemInventory, PulseWaitTime = 36)]
+        [Skill(5011, "Envenom", AbilityTargets.ItemInventory, PulseWaitTime = 36, LearnDifficultyMultiplier = 4, ItemWearOffMessage = "The poison on {0} dries up.")]
         public UseResults SkillEnvenom(IAbility ability, ICharacter source, IItem item)
         {
             KnownAbility knownAbility = source[ability];
@@ -700,21 +673,15 @@ namespace Mud.Server.Abilities
                     source.Act(ActOptions.ToCharacter, "You fail to poison {0}.", poisonable);
                     return UseResults.Failed;
                 }
-                bool success = false;
                 if (RandomManager.Chance(learned))
                 {
                     source.Act(ActOptions.ToAll, "{0:N} treats {1} with deadly poison.", source, poisonable);
                     poisonable.Poison();
                     poisonable.Recompute();
-                    success = true;
+                    return UseResults.Ok;
                 }
-                else
-                    source.Act(ActOptions.ToCharacter, "You fail to poison {0}.", poisonable);
-                if (source is IPlayableCharacter playableCharacter)
-                    playableCharacter.CheckAbilityImprove(knownAbility, success, 4);
-                return success
-                    ? UseResults.Ok
-                    : UseResults.Failed;
+                source.Act(ActOptions.ToCharacter, "You fail to poison {0}.", poisonable);
+                return UseResults.Failed;
             }
             // weapon
             if (item is IItemWeapon weapon)
@@ -737,24 +704,18 @@ namespace Mud.Server.Abilities
                     source.Act(ActOptions.ToCharacter, "You can't seem to envenom {0}.", weapon);
                     return UseResults.InvalidTarget;
                 }
-                bool success = false;
                 int percent = RandomManager.Range(1, 100);
-                if (percent < learned)
+                if (RandomManager.Chance(percent))
                 {
                     int level = (source.Level * percent) / 100;
                     int duration = (source.Level * percent) / (2 * 100);
                     World.AddAura(weapon, ability, source, level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
                         new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Poison, Operator = AffectOperators.Or });
                     source.Act(ActOptions.ToAll, "{0:N} coat{0:v} {1} with deadly venom.", source, weapon);
-                    success = true;
+                    return UseResults.Ok;
                 }
-                else
-                    source.Act(ActOptions.ToCharacter, "You fail to envenom {0}.", weapon);
-                if (source is IPlayableCharacter playableCharacter)
-                    playableCharacter.CheckAbilityImprove(knownAbility, success, 4);
-                return success
-                    ? UseResults.Ok
-                    : UseResults.Failed;
+                source.Act(ActOptions.ToCharacter, "You fail to envenom {0}.", weapon);
+                return UseResults.Failed;
             }
             source.Act(ActOptions.ToCharacter, "You can't poison {0}.", item);
             return UseResults.InvalidTarget;
@@ -781,7 +742,7 @@ namespace Mud.Server.Abilities
             if (closeable.IsPickProof)
             {
                 source.Send("You failed.");
-                return UseResults.Failed;
+                return UseResults.InvalidTarget;
             }
             int chance = knownAbility?.Learned ?? 0;
             if (closeable.IsEasy)
@@ -791,12 +752,10 @@ namespace Mud.Server.Abilities
             if (!RandomManager.Chance(chance))
             {
                 source.Send("You failed.");
-                (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, false, 2);
                 return UseResults.Failed;
             }
             closeable.Unlock();
             source.Act(ActOptions.ToAll, "{0:N} picks the lock on {1}.", source, closeable);
-            (source as IPlayableCharacter)?.CheckAbilityImprove(knownAbility, true, 2);
             return UseResults.Ok;
         }
     }

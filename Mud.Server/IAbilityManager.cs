@@ -16,7 +16,7 @@ namespace Mud.Server
 
         CastResults Cast(ICharacter caster, string rawParameters, params CommandParameter[] parameters);
         CastResults CastFromItem(IAbility ability, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters);
-        UseResults Use(IAbility ability, ICharacter caster, string rawParameters, params CommandParameter[] parameters);
+        UseResults Use(IAbility ability, ICharacter user, string rawParameters, params CommandParameter[] parameters);
 
         AbilityTargetResults GetAbilityTarget(IAbility ability, ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters);
         AbilityTargetResults GetItemAbilityTarget(IAbility ability, ICharacter caster, ref IEntity target);

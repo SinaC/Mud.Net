@@ -972,7 +972,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     sb.Append(", ");
                 }
                 sb.Remove(sb.Length - 2, 2); // remove trailing comma
-                sb.AppendLine("%x");
+                sb.AppendLine("%x%");
                 Send(sb);
             }
         }

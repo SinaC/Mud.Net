@@ -16,17 +16,17 @@
     <CharacterData>
       <CreationTime>2020-05-07T14:08:22.9740442+02:00</CreationTime>
       <Name>sinac</Name>
-      <RoomId>3001</RoomId>
+      <RoomId>3028</RoomId>
       <Race>insectoid</Race>
       <Class>druid</Class>
-      <Level>7</Level>
+      <Level>43</Level>
       <Sex>0</Sex>
-      <HitPoints>162</HitPoints>
-      <MovePoints>22</MovePoints>
+      <HitPoints>168</HitPoints>
+      <MovePoints>121</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>37</Value>
+          <Value>43</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -36,23 +36,23 @@
       <MaxResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>37</Value>
+          <Value>63</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
           <Value>0</Value>
         </PairDataOfInt32Int32>
       </MaxResources>
-      <Experience>7152</Experience>
-      <Trains>22</Trains>
-      <Practices>207</Practices>
+      <Experience>107152</Experience>
+      <Trains>57</Trains>
+      <Practices>313</Practices>
       <Equipments>
         <EquipedItemData>
           <Slot>1</Slot>
           <Item>
             <ItemId>3365</ItemId>
             <Level>8</Level>
-            <DecayPulseLeft>14382380</DecayPulseLeft>
+            <DecayPulseLeft>14381060</DecayPulseLeft>
             <ItemFlags>65</ItemFlags>
             <Auras />
           </Item>
@@ -121,6 +121,16 @@
           <Slot>9</Slot>
           <Item>
             <ItemId>3360</ItemId>
+            <Level>5</Level>
+            <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>0</ItemFlags>
+            <Auras />
+          </Item>
+        </EquipedItemData>
+        <EquipedItemData>
+          <Slot>10</Slot>
+          <Item>
+            <ItemId>3359</ItemId>
             <Level>5</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>0</ItemFlags>
@@ -213,281 +223,47 @@
         </EquipedItemData>
       </Equipments>
       <Inventory>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
+        <ItemData xsi:type="ItemDrinkContainerData">
+          <ItemId>3004</ItemId>
+          <Level>0</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
+          <ItemFlags>8192</ItemFlags>
           <Auras />
-          <WeaponFlags>0</WeaponFlags>
+          <MaxLiquidAmount>12</MaxLiquidAmount>
+          <CurrentLiquidAmount>12</CurrentLiquidAmount>
+          <LiquidName>local specialty</LiquidName>
+          <IsPoisoned>false</IsPoisoned>
         </ItemData>
-        <ItemData>
-          <ItemId>3365</ItemId>
+        <ItemData xsi:type="ItemDrinkContainerData">
+          <ItemId>3003</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>8192</ItemFlags>
+          <Auras />
+          <MaxLiquidAmount>12</MaxLiquidAmount>
+          <CurrentLiquidAmount>12</CurrentLiquidAmount>
+          <LiquidName>firebreather</LiquidName>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3022</ItemId>
           <Level>8</Level>
-          <DecayPulseLeft>14385080</DecayPulseLeft>
-          <ItemFlags>65</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Level>5</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3364</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData>
-          <ItemId>3365</ItemId>
-          <Level>8</Level>
-          <DecayPulseLeft>14385080</DecayPulseLeft>
-          <ItemFlags>65</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Level>5</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3364</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData>
-          <ItemId>3354</ItemId>
-          <Level>5</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3365</ItemId>
-          <Level>8</Level>
-          <DecayPulseLeft>14385080</DecayPulseLeft>
-          <ItemFlags>65</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Level>5</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3364</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData>
-          <ItemId>3365</ItemId>
-          <Level>8</Level>
-          <DecayPulseLeft>14385080</DecayPulseLeft>
-          <ItemFlags>65</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Level>5</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3364</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData>
-          <ItemId>3354</ItemId>
-          <Level>5</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3365</ItemId>
-          <Level>8</Level>
-          <DecayPulseLeft>14385080</DecayPulseLeft>
-          <ItemFlags>65</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Level>5</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3364</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData>
-          <ItemId>3365</ItemId>
-          <Level>8</Level>
-          <DecayPulseLeft>14385080</DecayPulseLeft>
-          <ItemFlags>65</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Level>5</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData>
-          <ItemId>3137</ItemId>
-          <Level>1</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3122</ItemId>
-          <Level>1</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData>
-          <ItemId>3123</ItemId>
-          <Level>1</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3120</ItemId>
-          <Level>1</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3365</ItemId>
-          <Level>8</Level>
-          <DecayPulseLeft>14383380</DecayPulseLeft>
-          <ItemFlags>65</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Level>5</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData>
-          <ItemId>3365</ItemId>
-          <Level>8</Level>
-          <DecayPulseLeft>14383380</DecayPulseLeft>
-          <ItemFlags>65</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Level>5</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
+          <Auras>
+            <AuraData>
+              <AbilityId>5011</AbilityId>
+              <Level>31</Level>
+              <PulseLeft>3548</PulseLeft>
+              <AuraFlags>2</AuraFlags>
+              <Affects>
+                <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
+                  <Operator>1</Operator>
+                  <Modifier>128</Modifier>
+                </AffectDataBase>
+              </Affects>
+            </AuraData>
+          </Auras>
           <WeaponFlags>0</WeaponFlags>
         </ItemData>
         <ItemData>
@@ -495,60 +271,6 @@
           <Level>39</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>67</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData>
-          <ItemId>3122</ItemId>
-          <Level>1</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3137</ItemId>
-          <Level>1</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
           <Auras />
         </ItemData>
       </Inventory>
@@ -581,7 +303,7 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>5</Key>
-          <Value>162</Value>
+          <Value>170</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>6</Key>
@@ -597,7 +319,7 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>9</Key>
-          <Value>152</Value>
+          <Value>160</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>10</Key>
@@ -1731,6 +1453,24 @@
           <CostAmountOperator>2</CostAmountOperator>
           <Level>1</Level>
           <Learned>100</Learned>
+          <Rating>1</Rating>
+        </KnownAbilityData>
+        <KnownAbilityData>
+          <AbilityId>5010</AbilityId>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </KnownAbilityData>
+        <KnownAbilityData>
+          <AbilityId>5011</AbilityId>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>75</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
       </KnownAbilities>

@@ -5,7 +5,7 @@ namespace Mud.Server.Abilities
 {
     public class Ability : IAbility
     {
-        public Ability(AbilityKinds kind, int id, string name, AbilityTargets target, int pulseWaitTime, AbilityFlags flags, string characterWearOffMessage, string itemWearOffMessage, string dispelRoomMessage)
+        public Ability(AbilityKinds kind, int id, string name, AbilityTargets target, int pulseWaitTime, AbilityFlags flags, string characterWearOffMessage, string itemWearOffMessage, string dispelRoomMessage, int learnDifficultyMultiplier)
         {
             Kind = kind;
             Id = id;
@@ -16,10 +16,11 @@ namespace Mud.Server.Abilities
             CharacterWearOffMessage = characterWearOffMessage;
             ItemWearOffMessage = itemWearOffMessage;
             DispelRoomMessage = dispelRoomMessage;
+            LearnDifficultyMultiplier = learnDifficultyMultiplier;
         }
 
         public Ability(AbilityKinds kind, AbilityAttribute attribute, MethodInfo methodInfo)
-            : this(kind, attribute.Id, attribute.Name, attribute.Target, attribute.PulseWaitTime, attribute.Flags, attribute.CharacterWearOffMessage, attribute.ItemWearOffMessage, attribute.DispelRoomMessage)
+            : this(kind, attribute.Id, attribute.Name, attribute.Target, attribute.PulseWaitTime, attribute.Flags, attribute.CharacterWearOffMessage, attribute.ItemWearOffMessage, attribute.DispelRoomMessage, attribute.LearnDifficultyMultiplier)
         {
             MethodInfo = methodInfo;
         }
@@ -41,6 +42,8 @@ namespace Mud.Server.Abilities
         public string ItemWearOffMessage { get; }
 
         public string DispelRoomMessage { get; }
+
+        public int LearnDifficultyMultiplier { get; }
 
         public MethodInfo MethodInfo { get; } // null for passive abilities
     }
