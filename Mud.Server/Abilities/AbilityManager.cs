@@ -159,8 +159,8 @@ namespace Mud.Server.Abilities
             }
 
             // 6) check if failed
-            int learned = caster.GetLearned(knownAbility.Ability);
-            if (!RandomManager.Chance(learned))
+            var abilityLearnInfo = caster.GetLearnInfo(knownAbility.Ability);
+            if (!RandomManager.Chance(abilityLearnInfo.learned))
             {
                 caster.Send("You lost your concentration.");
                 pcCaster?.CheckAbilityImprove(knownAbility, false, 1);
@@ -224,10 +224,10 @@ namespace Mud.Server.Abilities
                 return MapUseResultToCommandExecutionResult(targetResult);
 
             // 3) invoke skill
-            int learned = user.GetLearned(ability);
-            object rawResult = InvokeSkill(ability, learned, user, target, rawParameters, parameters);
-            UseResults result = rawResult is UseResults
-                ? (UseResults)rawResult
+            var abilityLearnInfo = user.GetLearnInfo(ability);
+            object rawResult = InvokeSkill(ability, abilityLearnInfo.learned, user, target, rawParameters, parameters);
+            UseResults result = rawResult is UseResults results
+                ? results
                 : UseResults.Error;
 
             // 4) GCD

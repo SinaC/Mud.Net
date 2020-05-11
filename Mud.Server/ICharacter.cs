@@ -150,8 +150,8 @@ namespace Mud.Server
         bool IsSafe(ICharacter character);
 
         // Abilities
-        int GetLearned(IAbility ability);
-        int GetLearned(string abilityName);
+        (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability);
+        (int learned, KnownAbility knownAbility) GetLearnInfo(string abilityName);
         IDictionary<IAbility, DateTime> AbilitiesInCooldown { get; }
         bool HasAbilitiesInCooldown { get; }
         int CooldownSecondsLeft(IAbility ability); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)

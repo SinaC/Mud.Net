@@ -129,9 +129,9 @@ namespace Mud.Server.Abilities
             chance += source.Level - victim.Level;
 
             // dodge?
-            int victimDodgeLearned = victim.GetLearned("Dodge");
-            if (chance < victimDodgeLearned)
-                chance -= 3 * (victimDodgeLearned - chance);
+            var victimDodgeInfo = victim.GetLearnInfo("Dodge");
+            if (chance < victimDodgeInfo.learned)
+                chance -= 3 * (victimDodgeInfo.learned - chance);
 
             // now the attack
             if (RandomManager.Chance(chance))

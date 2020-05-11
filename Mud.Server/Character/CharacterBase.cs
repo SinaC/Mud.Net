@@ -369,7 +369,8 @@ namespace Mud.Server.Character
                 && !CharacterFlags.HasFlag(CharacterFlags.DetectHidden)
                 && victim.Fighting == null)
             {
-                int chance = victim.GetLearned("Sneak"); // TODO: this can be quite slow and CanSee is often used
+                var sneakInfo = victim.GetLearnInfo("Sneak"); // TODO: this can be quite slow and CanSee is often used
+                int chance = sneakInfo.learned;
                 chance += (3 * victim[BasicAttributes.Dexterity]) / 2;
                 chance -= this[BasicAttributes.Intelligence] * 2;
                 chance -= Level - (3* victim.Level)/ 2;
@@ -1310,17 +1311,17 @@ namespace Mud.Server.Character
 
         // Abilities
 
-        public abstract int GetLearned(IAbility ability);
+        public abstract (int, KnownAbility) GetLearnInfo(IAbility ability);
 
-        public int GetLearned(string abilityName) 
+        public (int, KnownAbility) GetLearnInfo(string abilityName) 
         {
             IAbility ability = AbilityManager[abilityName];
             if (ability == null)
             {
                 Log.Default.WriteLine(LogLevels.Error, "GetLearned on unknown ability {0}", abilityName);
-                return 0;
+                return (0, null);
             }
-            return GetLearned(ability);
+            return GetLearnInfo(ability);
         }
 
         public IDictionary<IAbility, DateTime> AbilitiesInCooldown => _cooldowns;

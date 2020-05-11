@@ -324,7 +324,7 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Abilities
-        public override int GetLearned(IAbility ability)
+        public override (int , KnownAbility) GetLearnInfo(IAbility ability)
         {
             KnownAbility knownAbility = this[ability];
             int learned = 0;
@@ -336,7 +336,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (this[Conditions.Drunk] > 10)
                 learned = (learned * 9 ) / 10;
 
-            return learned.Range(0, 100);
+            return (learned.Range(0, 100), knownAbility);
         }
 
         #endregion
@@ -791,26 +791,20 @@ namespace Mud.Server.Character.PlayableCharacter
             // class bonus
             hitGain += (Class?.MaxHitPointGainPerLevel ?? 0) - 10;
             // fast healing
-            int fastHealingLearned = GetLearned("Fast healing");
-            if (RandomManager.Chance(fastHealingLearned))
+            (int learned, KnownAbility knownAbility) fastHealing = GetLearnInfo("Fast healing");
+            if (RandomManager.Chance(fastHealing.learned))
             {
-                hitGain += (fastHealingLearned * hitGain) / 100;
+                hitGain += (fastHealing.learned * hitGain) / 100;
                 if (HitPoints < MaxHitPoints)
-                {
-                    KnownAbility fastHealingAbility = this[AbilityManager["Fast healing"]];
-                    CheckAbilityImprove(fastHealingAbility, true, 8);
-                }
+                    CheckAbilityImprove(fastHealing.knownAbility, true, 8);
             }
             // meditation
-            int meditationLearned = GetLearned("Meditation");
-            if (RandomManager.Chance(meditationLearned))
+            (int learned, KnownAbility knownAbility) meditation = GetLearnInfo("Meditation");
+            if (RandomManager.Chance(meditation.learned))
             {
-                manaGain += (meditationLearned * manaGain) / 100;
+                manaGain += (meditation.learned * manaGain) / 100;
                 if (this[ResourceKinds.Mana] < MaxResource(ResourceKinds.Mana))
-                {
-                    KnownAbility meditationAbility = this[AbilityManager["Meditation"]];
-                    CheckAbilityImprove(meditationAbility, true, 8);
-                }
+                    CheckAbilityImprove(meditation.knownAbility, true, 8);
             }
             // position
             switch (Position)

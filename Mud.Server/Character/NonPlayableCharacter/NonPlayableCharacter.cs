@@ -142,9 +142,9 @@ namespace Mud.Server.Character.NonPlayableCharacter
                                      || questingCharacter.Quests.Where(q => !q.IsCompleted).Any(q => q.Blueprint.KillLootTable.ContainsKey(Blueprint.Id));
         }
 
-        public override int GetLearned(IAbility ability) // TODO: replace with npc class
+        public override (int, KnownAbility) GetLearnInfo(IAbility ability) // TODO: replace with npc class
         {
-            //KnownAbility knownAbility = this[ability];
+            KnownAbility knownAbility = this[ability];
             //int learned = 0;
             //if (knownAbility != null && knownAbility.Level <= Level)
             //    learned = knownAbility.Learned;
@@ -224,7 +224,8 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
             // TODO: if daze /=2 for spell and *2/3 if otherwise
 
-            return learned.Range(0, 100);
+            learned = learned.Range(0, 100);
+            return (learned, knownAbility);
         }
 
         #endregion
