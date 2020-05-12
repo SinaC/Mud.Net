@@ -194,7 +194,7 @@ namespace Mud.Server.Player
                     Immunities = _race.Immunities,
                     Resistances = _race.Resistances,
                     Vulnerabilities = _race.Vulnerabilities,
-                    Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => _race.GetStartAttribute(x))
+                    Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => GetStartAttributeValue(x, _race, _class))
                     // known abilities will be created in PlayableCharacter ctor
                 };
                 player.AddAvatar(characterData);
@@ -258,6 +258,18 @@ namespace Mud.Server.Player
                 player.Send("Please choose a class (type quit to stop creation).");
             string classes = string.Join(" | ", ClassManager.Classes.Select(x => x.DisplayName));
             player.Send(classes);
+        }
+
+        private int GetStartAttributeValue(CharacterAttributes attribute, IRace race, IClass @class)
+        {
+            int value = race.GetStartAttribute(attribute);
+            if ((int)attribute == (int)@class.PrimeAttribute)
+            {
+                value += 2;
+                if (race.Name == "Human")
+                    value++;
+            }
+            return value;
         }
     }
 }

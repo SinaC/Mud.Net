@@ -50,7 +50,7 @@ namespace Mud.Server.Abilities
                 chance += 10;
 
             // Below 50%, hp helps, above hurts
-            int hpPercent = (100 * source.HitPoints) / source[CharacterAttributes.MaxHitPoints];
+            int hpPercent = (100 * source.HitPoints) / source.MaxHitPoints;
             chance += 25 - hpPercent / 2;
 
             //
@@ -352,7 +352,7 @@ namespace Mud.Server.Abilities
                 return UseResults.CantUseRequiredResource;
             }
 
-            if (victim.HitPoints < victim[CharacterAttributes.MaxHitPoints] / 3)
+            if (victim.HitPoints < victim.MaxHitPoints / 3)
             {
                 source.Act(ActOptions.ToCharacter, "{0} is hurt and suspicious ... you can't sneak up.", victim);
                 return UseResults.InvalidTarget;

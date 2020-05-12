@@ -19,6 +19,8 @@ namespace Mud.Server.Classes
             return ResourceKinds;
         }
 
+        public override BasicAttributes PrimeAttribute => BasicAttributes.Dexterity;
+
         public override int MaxPracticePercentage => 75;
 
         public override int MinHitPointGainPerLevel => 8;

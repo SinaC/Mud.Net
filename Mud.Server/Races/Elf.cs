@@ -70,7 +70,7 @@ namespace Mud.Server.Races
             }
         }
 
-        public override int ClassExperiencePercentageMultiplier(IClass c) => c is Classes.Priest ? 125 : 100;
+        public override int ClassExperiencePercentageMultiplier(IClass c) => c is Classes.Cleric ? 125 : 100;
 
         #endregion
     }

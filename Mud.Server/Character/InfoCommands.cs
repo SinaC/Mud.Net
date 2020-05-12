@@ -337,7 +337,7 @@ namespace Mud.Server.Character
             sb.AppendLine("+------------------------------+-------------------------+");
             sb.AppendLine("| %W%Resources%x%                    | %W%Defensive%x%              |");
             sb.AppendFormatLine("| %g%Hp     : %W%[{0,8}/{1,8}]%x% | %g%Bash         : %W%[{2,6}]%x% |", HitPoints, MaxHitPoints, this[Armors.Bash]);
-            sb.AppendFormatLine("| %g%Move   : %W%[{0,8}/{1,8}]%x% | %g%Pierce       : %W%[{2,6}]%x% |", MovePoints, this[CharacterAttributes.MaxMovePoints], this[Armors.Pierce]);
+            sb.AppendFormatLine("| %g%Move   : %W%[{0,8}/{1,8}]%x% | %g%Pierce       : %W%[{2,6}]%x% |", MovePoints, this.MaxMovePoints, this[Armors.Pierce]);
             List<string> resources = new List<string>();
             foreach (ResourceKinds resourceKind in CurrentResourceKinds)
                 resources.Add($"%g%{resourceKind,-7}: %W%[{this[resourceKind],8}/{MaxResource(resourceKind),8}]%x%");
@@ -694,7 +694,7 @@ namespace Mud.Server.Character
         {
             //
             string condition = "is here.";
-            int maxHitPoints = victim[CharacterAttributes.MaxHitPoints];
+            int maxHitPoints = victim.MaxHitPoints;
             if (maxHitPoints > 0)
             {
                 int percent = (100*victim.HitPoints)/ maxHitPoints;

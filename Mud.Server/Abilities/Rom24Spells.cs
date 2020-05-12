@@ -1751,7 +1751,7 @@ namespace Mud.Server.Abilities
         {
             victim.UpdateMovePoints(level);
             // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-            if (victim.MovePoints == victim[CharacterAttributes.MaxMovePoints])
+            if (victim.MovePoints == victim.MaxMovePoints)
                 victim.Send("You feel fully refreshed!");
             else
                 victim.Send("You feel less tired.");

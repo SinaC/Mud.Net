@@ -36,6 +36,8 @@ namespace Mud.Server.Tests.Mocking
 
         public int MaxHitPointGainPerLevel => throw new NotImplementedException();
 
+        public BasicAttributes PrimeAttribute => throw new NotImplementedException();
+
         public IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form) => Enumerable.Empty<ResourceKinds>();
 
         public int GetAttributeByLevel(CharacterAttributes attribute, int level) => level;

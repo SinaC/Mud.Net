@@ -470,8 +470,8 @@ namespace Mud.Server.Admin
         private void RestoreOneCharacter(ICharacter victim)
         {
             victim.RemoveAuras(_ => true, true); // TODO: harmful auras only ?
-            victim.UpdateHitPoints(victim[CharacterAttributes.MaxHitPoints]);
-            victim.UpdateMovePoints(victim[CharacterAttributes.MaxMovePoints]);
+            victim.UpdateHitPoints(victim.MaxHitPoints);
+            victim.UpdateMovePoints(victim.MaxMovePoints);
             foreach (ResourceKinds resource in victim.CurrentResourceKinds)
                 victim.UpdateResource(resource, victim.MaxResource(resource));
             // TODO: update_pos

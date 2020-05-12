@@ -190,17 +190,6 @@
           </Item>
         </EquippedItemData>
         <EquippedItemData>
-          <Slot>13</Slot>
-          <Item xsi:type="ItemWeaponData">
-            <ItemId>3350</ItemId>
-            <Level>16</Level>
-            <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>64</ItemFlags>
-            <Auras />
-            <WeaponFlags>0</WeaponFlags>
-          </Item>
-        </EquippedItemData>
-        <EquippedItemData>
           <Slot>14</Slot>
           <Item xsi:type="ItemWeaponData">
             <ItemId>3022</ItemId>
@@ -211,7 +200,7 @@
               <AuraData>
                 <AbilityId>5011</AbilityId>
                 <Level>31</Level>
-                <PulseLeft>1680</PulseLeft>
+                <PulseLeft>1672</PulseLeft>
                 <AuraFlags>2</AuraFlags>
                 <Affects>
                   <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
@@ -224,41 +213,25 @@
             <WeaponFlags>0</WeaponFlags>
           </Item>
         </EquippedItemData>
+        <EquippedItemData>
+          <Slot>13</Slot>
+          <Item xsi:type="ItemWeaponData">
+            <ItemId>3350</ItemId>
+            <Level>16</Level>
+            <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>64</ItemFlags>
+            <Auras />
+            <WeaponFlags>0</WeaponFlags>
+          </Item>
+        </EquippedItemData>
       </Equipments>
       <Inventory>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
         <ItemData>
-          <ItemId>9</ItemId>
-          <Level>39</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>67</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData xsi:type="ItemDrinkContainerData">
-          <ItemId>3004</ItemId>
+          <ItemId>90000</ItemId>
           <Level>0</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>8192</ItemFlags>
+          <ItemFlags>0</ItemFlags>
           <Auras />
-          <MaxLiquidAmount>12</MaxLiquidAmount>
-          <CurrentLiquidAmount>12</CurrentLiquidAmount>
-          <LiquidName>local specialty</LiquidName>
-          <IsPoisoned>false</IsPoisoned>
         </ItemData>
         <ItemData xsi:type="ItemDrinkContainerData">
           <ItemId>3003</ItemId>
@@ -271,12 +244,39 @@
           <LiquidName>firebreather</LiquidName>
           <IsPoisoned>false</IsPoisoned>
         </ItemData>
-        <ItemData>
-          <ItemId>90000</ItemId>
+        <ItemData xsi:type="ItemDrinkContainerData">
+          <ItemId>3004</ItemId>
           <Level>0</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
+          <ItemFlags>8192</ItemFlags>
           <Auras />
+          <MaxLiquidAmount>12</MaxLiquidAmount>
+          <CurrentLiquidAmount>12</CurrentLiquidAmount>
+          <LiquidName>local specialty</LiquidName>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData>
+          <ItemId>9</ItemId>
+          <Level>39</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>67</ItemFlags>
+          <Auras />
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <Level>16</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>64</ItemFlags>
+          <Auras />
+          <WeaponFlags>0</WeaponFlags>
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <Level>16</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>64</ItemFlags>
+          <Auras />
+          <WeaponFlags>0</WeaponFlags>
         </ItemData>
       </Inventory>
       <CurrentQuests>
@@ -311,7 +311,7 @@
         <AuraData>
           <AbilityId>54</AbilityId>
           <Level>44</Level>
-          <PulseLeft>10336</PulseLeft>
+          <PulseLeft>10328</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">

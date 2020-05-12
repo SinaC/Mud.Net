@@ -135,7 +135,7 @@
     <Compile Include="Character\TestCommands.cs" />
     <Compile Include="Classes\ClassBase.cs" />
     <Compile Include="Classes\ClassManager.cs" />
-    <Compile Include="Classes\Priest.cs" />
+    <Compile Include="Classes\Cleric.cs" />
     <Compile Include="Classes\Druid.cs" />
     <Compile Include="Classes\Mage.cs" />
     <Compile Include="Classes\Thief.cs" />

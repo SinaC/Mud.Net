@@ -328,8 +328,8 @@ namespace Mud.Server.Admin
                 sb.AppendFormatLine("Level: {0} Experience: {1} NextLevel: {2}", playableVictim.Level, playableVictim.Experience, playableVictim.ExperienceToLevel);
             else
                 sb.AppendFormatLine("Level: {0}", victim.Level);
-            sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim[CharacterAttributes.MaxHitPoints]);
-            sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim[CharacterAttributes.MaxMovePoints]);
+            sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim.MaxHitPoints);
+            sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim.MaxMovePoints);
             sb.AppendFormatLine("Flags: {0} (base: {1})", victim.CharacterFlags, victim.BaseCharacterFlags);
             sb.AppendFormatLine("Immunites: {0} (base: {1})  Resistances: {2} (base: {3})  Vulnerabilities: {4} (base: {5})", victim.Immunities, victim.BaseImmunities, victim.Resistances, victim.BaseResistances, victim.Vulnerabilities, victim.BaseVulnerabilities);
             sb.AppendFormatLine("Alignment: {0}", victim.Alignment);
@@ -604,7 +604,10 @@ namespace Mud.Server.Admin
                     {
                         matchingClass.DisplayName,
                         $"ShortName: {matchingClass.ShortName}",
-                        $"Resource(s): {string.Join(",", matchingClass.ResourceKinds?.Select(x => x.ToString()) ?? Enumerable.Empty<string>())}"
+                        $"Resource(s): {string.Join(",", matchingClass.ResourceKinds?.Select(x => $"{x.ResourceColor()}") ?? Enumerable.Empty<string>())}",
+                        $"Prime attribute: %W%{matchingClass.PrimeAttribute}%x%",
+                        $"Max practice percentage: %W%{matchingClass.MaxPracticePercentage}%x%",
+                        $"Hp/level: min: %W%{matchingClass.MinHitPointGainPerLevel}%x% max: %W%{matchingClass.MaxHitPointGainPerLevel}%x%"
                     },
                     matchingClass.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
                 Page(sb);
@@ -619,7 +622,16 @@ namespace Mud.Server.Admin
                     new[]
                     {
                         matchingRace.DisplayName,
-                        $"ShortName: {matchingRace.ShortName}"
+                        $"ShortName: {matchingRace.ShortName}",
+                        $"Immunities: %y%{matchingRace.Immunities}%x%",
+                        $"Resistances: %b%{matchingRace.Resistances}%x%",
+                        $"Vulnerabilities: %r%{matchingRace.Vulnerabilities}%x%",
+                        $"Size: %M%{matchingRace.Size}%x%",
+                        $"Exp/Level:     %W%{string.Join(" ", ClassManager.Classes.Select(x => $"{x.ShortName,5}"))}%x%",
+                        $"               %r%{string.Join(" ", ClassManager.Classes.Select(x => $"{matchingRace.ClassExperiencePercentageMultiplier(x)*10,5}"))}%x%", // *10 because base experience is 1000
+                        $"Attributes:       %Y%{string.Join(" ", EnumHelpers.GetValues<BasicAttributes>().Select(x => $"{x.ShortName(),3}"))}%x%",
+                        $"Attributes start: %c%{string.Join(" ", EnumHelpers.GetValues<BasicAttributes>().Select(x => $"{matchingRace.GetStartAttribute((CharacterAttributes)x),3}"))}%x%",
+                        $"Attributes max:   %B%{string.Join(" ", EnumHelpers.GetValues<BasicAttributes>().Select(x => $"{matchingRace.GetMaxAttribute((CharacterAttributes)x),3}"))}%x%",
                     },
                     matchingRace.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
                 Page(sb);

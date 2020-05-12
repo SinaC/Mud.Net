@@ -1,5 +1,6 @@
 ﻿using System;
 using Mud.Domain;
+using Mud.Logger;
 using Mud.Server.Aura;
 using Mud.Server.Blueprints.Item;
 
@@ -33,6 +34,8 @@ namespace Mud.Server.Item
 
         public override void Recompute() // overriding recompute and calling base will cause every collection to be iterate twice
         {
+            Log.Default.WriteLine(LogLevels.Debug, "ItemWeapon.Recompute: {0}", DebugName);
+
             base.Recompute();
 
             // 1/ Apply auras from room containing item if in a room

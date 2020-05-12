@@ -182,7 +182,7 @@ namespace Mud.Server.Character.PlayableCharacter
         //******************************************** Helpers ********************************************
         private void AppendCharacterGroupMemberInfo(StringBuilder sb, IPlayableCharacter member, bool isLeader)
         {
-            sb.AppendFormat("[{0,3}]{1} {2,-30} {3,5}/{4,5}hp {5,5}/{6,5}Mv", member.Level, isLeader ? "L" : " ", member.DisplayName, member.HitPoints, member[CharacterAttributes.MaxHitPoints], member.MovePoints, member[CharacterAttributes.MaxMovePoints]);
+            sb.AppendFormat("[{0,3}]{1} {2,-30} {3,5}/{4,5}hp {5,5}/{6,5}Mv", member.Level, isLeader ? "L" : " ", member.DisplayName, member.HitPoints, member.MaxHitPoints, member.MovePoints, member.MaxMovePoints);
             // TODO: add class, mana, xp, ...
             if (member.Level >= Settings.MaxLevel)
                 sb.AppendFormat(" {0}Nxt", member.ExperienceToLevel);

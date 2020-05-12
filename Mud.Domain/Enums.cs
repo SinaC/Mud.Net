@@ -265,7 +265,7 @@ namespace Mud.Domain
         ArmorExotic     = 13
     }
 
-    public enum BasicAttributes
+    public enum BasicAttributes // must have the same values as CharacterAttributes
     { 
         Strength        = CharacterAttributes.Strength,
         Intelligence    = CharacterAttributes.Intelligence,
@@ -274,7 +274,7 @@ namespace Mud.Domain
         Constitution    = CharacterAttributes.Constitution,
     }
 
-    public enum Armors
+    public enum Armors // must have the same values as CharacterAttributes
     {
         Bash        = CharacterAttributes.ArmorBash,
         Pierce      = CharacterAttributes.ArmorPierce,

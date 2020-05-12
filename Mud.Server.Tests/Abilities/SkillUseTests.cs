@@ -73,6 +73,7 @@ namespace Mud.Server.Tests.Abilities
             var characterMock = new Mock<IPlayableCharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.HitPoints).Returns(1000);
+            characterMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = berserk, Learned = 1, Level = 20 } });
             characterMock.Setup(x => x.GetLearnInfo(It.IsAny<IAbility>())).Returns<IAbility>(x => (1, new KnownAbility { Ability = berserk, Learned = 1, Level = 20 }));
@@ -99,6 +100,7 @@ namespace Mud.Server.Tests.Abilities
             characterMock.SetupGet(x => x.Keywords).Returns(new[] { "mob1"});
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.HitPoints).Returns(1000);
+            characterMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = berserk, Learned = 1, Level = 20 } });
             characterMock.Setup(x => x.GetLearnInfo(It.IsAny<IAbility>())).Returns<IAbility>(x => (1, new KnownAbility { Ability = berserk, Learned = 1, Level = 20 }));
@@ -128,6 +130,7 @@ namespace Mud.Server.Tests.Abilities
             characterMock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.HitPoints).Returns(1000);
+            characterMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = berserk, Learned = 1, Level = 20 } });
             characterMock.Setup(x => x.GetLearnInfo(It.IsAny<IAbility>())).Returns<IAbility>(x => (1, new KnownAbility { Ability = berserk, Learned = 1, Level = 20 }));
@@ -157,6 +160,7 @@ namespace Mud.Server.Tests.Abilities
             characterMock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.HitPoints).Returns(1000);
+            characterMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = berserk, Learned = 1, Level = 20 } });
             characterMock.Setup(x => x.GetLearnInfo(It.IsAny<IAbility>())).Returns<IAbility>(x => (1, new KnownAbility { Ability = berserk, Learned = 1, Level = 20 }));

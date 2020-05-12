@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Logger;
 
 namespace Mud.Server.Helpers
 {
@@ -36,7 +37,7 @@ namespace Mud.Server.Helpers
             {Sex.Female, "her"},
         };
 
-        public static string ResourceColor(ResourceKinds resource)
+        public static string ResourceColor(this ResourceKinds resource)
         {
             switch (resource)
             {
@@ -194,6 +195,21 @@ namespace Mud.Server.Helpers
                 case AffectOperators.Nor: return "by removing";
             }
             return "???";
+        }
+
+        public static string ShortName(this BasicAttributes attribute)
+        {
+            switch (attribute)
+            {
+                case BasicAttributes.Strength: return "Str";
+                case BasicAttributes.Intelligence: return "Int";
+                case BasicAttributes.Wisdom: return "Wis";
+                case BasicAttributes.Dexterity: return "Dex";
+                case BasicAttributes.Constitution: return "Con";
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, "BasicAttributes.ShortName: Invalid attribute {0}", attribute);
+                    return "???";
+            }
         }
     }
 }

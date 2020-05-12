@@ -3,13 +3,13 @@ using Mud.Domain;
 
 namespace Mud.Server.Classes
 {
-    public class Priest : ClassBase
+    public class Cleric : ClassBase
     {
         #region IClass
 
-        public override string Name => "priest";
+        public override string Name => "cleric";
 
-        public override string ShortName => "Pri";
+        public override string ShortName => "Cle";
 
         public override IEnumerable<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
         {
@@ -21,6 +21,8 @@ namespace Mud.Server.Classes
             return ResourceKinds; // always mana
         }
 
+        public override BasicAttributes PrimeAttribute => BasicAttributes.Wisdom;
+
         public override int MaxPracticePercentage => 75;
 
         public override int MinHitPointGainPerLevel => 7;
@@ -29,7 +31,7 @@ namespace Mud.Server.Classes
 
         #endregion
 
-        public Priest()
+        public Cleric()
         {
         }
     }

@@ -21,6 +21,8 @@ namespace Mud.Server.Classes
             return ResourceKinds; // always mana
         }
 
+        public override BasicAttributes PrimeAttribute => BasicAttributes.Intelligence;
+
         public override int MaxPracticePercentage => 75;
 
         public override int MinHitPointGainPerLevel => 6;

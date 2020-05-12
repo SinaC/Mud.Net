@@ -52,7 +52,9 @@ namespace Mud.Server
         // Attributes
         int Level { get; }
         int HitPoints { get; }
+        int MaxHitPoints { get; }
         int MovePoints { get; }
+        int MaxMovePoints { get; }
 
         CharacterFlags BaseCharacterFlags { get; }
         CharacterFlags CharacterFlags { get; }

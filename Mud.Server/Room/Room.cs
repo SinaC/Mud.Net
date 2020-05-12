@@ -52,6 +52,8 @@ namespace Mud.Server.Room
         // Recompute
         public override void Recompute()
         {
+            Log.Default.WriteLine(LogLevels.Debug, "Room.Recompute: {0}", DebugName);
+
             // 0) Reset
             ResetAttributes();
 

@@ -73,7 +73,7 @@ namespace Mud.Server.Races
         {
             if (c is Classes.Mage)
                 return 150;
-            if (c is Classes.Priest)
+            if (c is Classes.Cleric)
                 return 125;
             return 100;
         }

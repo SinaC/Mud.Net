@@ -25,6 +25,8 @@ namespace Mud.Server.Classes
 
         public abstract IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form);
 
+        public abstract BasicAttributes PrimeAttribute { get; }
+
         public IEnumerable<AbilityUsage> Abilities => _abilities;
 
         public abstract int MaxPracticePercentage { get; }

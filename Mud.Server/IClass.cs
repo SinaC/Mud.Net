@@ -15,6 +15,8 @@ namespace Mud.Server
         // Current available kind of resource depending on form (subset of ResourceKinds property, i.e.: druids in bear form only have rage but mana will still regenerated even if not in current)
         IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form);
 
+        // Will give a +2 to this attribute
+        BasicAttributes PrimeAttribute { get; }
         // Abilities available for this class
         IEnumerable<AbilityUsage> Abilities { get; }
         // Max practice percentage (learned in KnownAbility)

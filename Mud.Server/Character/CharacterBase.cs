@@ -40,9 +40,6 @@ namespace Mud.Server.Character
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
         protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
 
-        protected int MaxHitPoints => _currentAttributes[(int) CharacterAttributes.MaxHitPoints];
-        protected int MaxMovePoints => _currentAttributes[(int)CharacterAttributes.MaxMovePoints];
-
         protected CharacterBase(Guid guid, string name, string description)
             : base(guid, name, description)
         {
@@ -148,7 +145,9 @@ namespace Mud.Server.Character
         // Attributes
         public int Level { get; protected set; }
         public int HitPoints { get; protected set; }
+        public int MaxHitPoints => _currentAttributes[(int)CharacterAttributes.MaxHitPoints];
         public int MovePoints { get; protected set; }
+        public int MaxMovePoints => _currentAttributes[(int)CharacterAttributes.MaxMovePoints];
 
         public CharacterFlags BaseCharacterFlags { get; protected set; }
         public CharacterFlags CharacterFlags { get; protected set; }
@@ -571,6 +570,8 @@ namespace Mud.Server.Character
         // Recompute
         public override void Recompute()
         {
+            Log.Default.WriteLine(LogLevels.Debug, "CharacterBase.Recompute: {0}", DebugName);
+
             // Reset current attributes
             ResetCurrentAttributes();
 
@@ -621,6 +622,9 @@ namespace Mud.Server.Character
 
             // Keep attributes in valid range
             HitPoints = Math.Min(HitPoints, MaxHitPoints);
+            MovePoints = Math.Min(MovePoints, MaxMovePoints);
+            for (int i = 0; i < _currentResources.Length; i++)
+                _currentResources[i] = Math.Min(_currentResources[i], _maxResources[i]);
         }
 
         // Move

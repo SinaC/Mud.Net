@@ -618,7 +618,7 @@ namespace Mud.Server.Character
                     Send("Pour into what?");
                     return CommandExecutionResults.TargetNotFound;
                 }
-                targetItem = targetCharacter.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand && x.Item != null)?.Item;
+                targetItem = targetCharacter.GetEquipment(EquipmentSlots.OffHand);
                 if (targetItem == null)
                 {
                     Send("They aren't holding anything.");

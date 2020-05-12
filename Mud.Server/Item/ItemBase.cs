@@ -65,6 +65,8 @@ namespace Mud.Server.Item
         // Recompute
         public override void Recompute()
         {
+            Log.Default.WriteLine(LogLevels.Debug, "ItemBase.Recompute: {0}", DebugName);
+
             // 0) Reset
             ResetAttributes();
 

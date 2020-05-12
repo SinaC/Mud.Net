@@ -82,10 +82,10 @@ namespace Mud.Server.Helpers
         public static readonly Lazy<TableGenerator<IClass>> ClassTableGenerator = new Lazy<TableGenerator<IClass>>(() =>
         {
             TableGenerator<IClass> generator = new TableGenerator<IClass>();
-            generator.AddColumn("Name", 15, x => x.Name, new TableGenerator<IClass>.ColumnOptions { AlignLeft = true });
+            generator.AddColumn("Name", 20, x => x.DisplayName, new TableGenerator<IClass>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("ShortName", 10, x => x.ShortName);
-            generator.AddColumn("DisplayName", 20, x => x.DisplayName, new TableGenerator<IClass>.ColumnOptions { AlignLeft = true });
-            generator.AddColumn("Resource(s)", 30, x => string.Join(",", (x.ResourceKinds ?? Enumerable.Empty<ResourceKinds>())?.Select(StringHelpers.ResourceColor)));
+            generator.AddColumn("Resource(s)", 20, x => string.Join(",", (x.ResourceKinds ?? Enumerable.Empty<ResourceKinds>())?.Select(StringHelpers.ResourceColor)));
+            generator.AddColumn("Prime attr", 12, x => x.PrimeAttribute.ShortName());
             generator.AddColumn("#Abilities", 12, x =>
             {
                 int count = x.Abilities.Count();
@@ -99,9 +99,14 @@ namespace Mud.Server.Helpers
         public static readonly Lazy<TableGenerator<IRace>> RaceTableGenerator = new Lazy<TableGenerator<IRace>>(() =>
         {
             TableGenerator<IRace> generator = new TableGenerator<IRace>();
-            generator.AddColumn("Name", 15, x => x.Name, new TableGenerator<IRace>.ColumnOptions { AlignLeft = true });
+            generator.AddColumn("Name", 20, x => x.DisplayName, new TableGenerator<IRace>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("ShortName", 10, x => x.ShortName);
-            generator.AddColumn("DisplayName", 20, x => x.DisplayName, new TableGenerator<IRace>.ColumnOptions { AlignLeft = true });
+            generator.AddColumn("Size", 10, x => x.Size.ToString());
+            generator.AddColumn(BasicAttributes.Strength.ShortName(), 5, x => x.GetMaxAttribute(CharacterAttributes.Strength).ToString());
+            generator.AddColumn(BasicAttributes.Intelligence.ShortName(), 5, x => x.GetMaxAttribute(CharacterAttributes.Intelligence).ToString());
+            generator.AddColumn(BasicAttributes.Wisdom.ShortName(), 5, x => x.GetMaxAttribute(CharacterAttributes.Wisdom).ToString());
+            generator.AddColumn(BasicAttributes.Dexterity.ShortName(), 5, x => x.GetMaxAttribute(CharacterAttributes.Dexterity).ToString());
+            generator.AddColumn(BasicAttributes.Constitution.ShortName(), 5, x => x.GetMaxAttribute(CharacterAttributes.Constitution).ToString());
             generator.AddColumn("#Abilities", 12, x =>
             {
                 int count = x.Abilities.Count();
