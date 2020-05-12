@@ -1264,7 +1264,7 @@ namespace Mud.Server.Server
                     ProcessInput();
 
                     //DoPulse();
-                    HandleShutdown(1);
+                    HandleShutdown(_:1);
                     pulseManager.Pulse();
 
                     ProcessOutput();
@@ -1277,9 +1277,9 @@ namespace Mud.Server.Server
                     {
                         //long elapsedTick = sw.ElapsedTicks; // 1 tick = 1 second/Stopwatch.Frequency
                         //long elapsedNs = sw.Elapsed.Ticks; // 1 tick = 1 nanosecond
-                        //Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}Ms {1}Ticks {2}Ns", elapsedMs, elapsedTick, elapsedNs);
+                        //Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}Ms | {1}Ticks | {2}Ns", elapsedMs, elapsedTick, elapsedNs);
                         //Thread.Sleep(250 - (int) elapsedMs);
-                        int sleepTime = Pulse.PulseDelay - (int) elapsedMs;
+                        int sleepTime = (int)(Pulse.PulseDelay - elapsedMs);
                         _cancellationTokenSource.Token.WaitHandle.WaitOne(sleepTime);
                     }
                     else

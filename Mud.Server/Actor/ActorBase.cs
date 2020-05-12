@@ -78,7 +78,7 @@ namespace Mud.Server.Actor
                         }
                         else if (executionResult == CommandExecutionResults.SyntaxError)
                         {
-                            StringBuilder syntax = BuildCommandSyntax(entry.Key, entry.Value.Syntax.Syntax);
+                            StringBuilder syntax = BuildCommandSyntax(entry.Key, entry.Value.Syntax.Syntax, false);
                             Send(syntax);
                         }
                         bool afterExecute = ExecuteAfterCommand(entry.Value, rawParameters, parameters);
@@ -205,24 +205,28 @@ namespace Mud.Server.Actor
         }
 
         [Command("syntax", Priority = 999)]
-        [Syntax("[cmd] <command>")]
+        [Syntax(
+            "[cmd] all",
+            "[cmd] <command>")]
         protected virtual CommandExecutionResults DoSyntax(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
 
-            string commandNameToFind = parameters[0].Value.ToLowerInvariant();
+            string commandNameToFind = parameters[0].IsAll
+                ? string.Empty // Trie will return whole tree when searching with empty string
+                : parameters[0].Value.ToLowerInvariant();
             var commands = Commands.GetByPrefix(commandNameToFind).Where(x => !x.Value.Attribute.Hidden && IsCommandAvailable(x.Value.Attribute));
 
             bool found = false;
             StringBuilder sb = new StringBuilder();
-            foreach (var group in commands.GroupBy(x => x.Value.MethodInfo.Name)) // group by command
+            foreach (var group in commands.GroupBy(x => x.Value.MethodInfo.Name).OrderBy(x => x.Key)) // group by command
             {
                 string[] namesByPriority = group.OrderBy(x => x.Value.Attribute.Priority).Select(x => x.Value.Attribute.Name).ToArray(); // order by priority
                 string title = string.Join(", ", namesByPriority.Select(x => $"%C%{x}%x%"));
                 sb.AppendLine($"Command{(namesByPriority.Length > 1 ? "s" : string.Empty)} {title}:");
                 string commandNames = string.Join("|", namesByPriority);
-                StringBuilder sbSyntax = BuildCommandSyntax(commandNames, group.SelectMany(x => x.Value.Syntax.Syntax).Distinct());
+                StringBuilder sbSyntax = BuildCommandSyntax(commandNames, group.SelectMany(x => x.Value.Syntax.Syntax).Distinct(), true);
                 sb.Append(sbSyntax);
                 found = true;
             }
@@ -244,14 +248,16 @@ namespace Mud.Server.Actor
             where T : ActorBase
             => CommandHelpers.GetCommands(typeof(T));
 
-        private StringBuilder BuildCommandSyntax(string commandNames, IEnumerable<string> syntaxes)
+        private StringBuilder BuildCommandSyntax(string commandNames, IEnumerable<string> syntaxes, bool addSpaces)
         {
             StringBuilder sb = new StringBuilder();
             foreach (string syntax in syntaxes)
             {
                 // TODO: enrich argument such as <character>, <player name>, ...
                 string enrichedSyntax = syntax.Replace("[cmd]", commandNames);
-                sb.AppendLine("      Syntax: " + enrichedSyntax);
+                if (addSpaces)
+                    sb.Append("      ");
+                sb.AppendLine("Syntax: " + enrichedSyntax);
             }
             return sb;
         }

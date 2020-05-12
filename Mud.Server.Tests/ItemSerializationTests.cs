@@ -92,7 +92,11 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemContainer_Empty_To_ItemData_Test()
         {
-            ItemContainerBlueprint blueprint = new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", MaxWeight = 100, WeightMultiplier = 50, ContainerFlags = ContainerFlags.NoLock | ContainerFlags.Closed };
+            ItemContainerBlueprint blueprint = new ItemContainerBlueprint
+            {
+                Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc",
+                MaxWeight = 100, WeightMultiplier = 50, ContainerFlags = ContainerFlags.NoLock | ContainerFlags.Closed
+            };
             IItemContainer container = new ItemContainer(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
 
             ItemData itemData = container.MapItemData();
@@ -103,6 +107,8 @@ namespace Mud.Server.Tests
             Assert.AreEqual(container.BaseItemFlags, itemData.ItemFlags);
             Assert.IsNull((itemData as ItemContainerData).Contains);
             Assert.AreEqual(container.ContainerFlags, (itemData as ItemContainerData).ContainerFlags);
+            Assert.AreEqual(container.MaxWeight, (itemData as ItemContainerData).MaxWeight);
+            Assert.AreEqual(container.MaxWeightPerItem, (itemData as ItemContainerData).MaxWeightPerItem);
         }
 
         [TestMethod]

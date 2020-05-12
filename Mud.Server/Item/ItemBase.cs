@@ -145,6 +145,12 @@ namespace Mud.Server.Item
 
         public virtual bool ChangeContainer(IContainer container)
         {
+            if (container == this)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Trying to put a container in itself!!");
+                return false;
+            }
+
             Log.Default.WriteLine(LogLevels.Info, "ChangeContainer: {0} : {1} -> {2}", DebugName, ContainedInto == null ? "<<??>>" : ContainedInto.DebugName, container == null ? "<<??>>" : container.DebugName);
 
             ContainedInto?.GetFromContainer(this);

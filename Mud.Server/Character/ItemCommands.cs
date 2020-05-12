@@ -941,7 +941,7 @@ namespace Mud.Server.Character
         }
 
         private bool GetItem(IItem item, IContainer container) // equivalent to get_obj in act_obj.C:211
-        {  // container is IContainer so we can get from corpse
+        {
             //
             if (item.NoTake)
             {
@@ -987,7 +987,7 @@ namespace Mud.Server.Character
         }
 
         private bool PutItem(IItem item, IItemContainer container)
-        {   // container is IItemContainer si we can only put in item container
+        {
             //
             if (item.ItemFlags.HasFlag(ItemFlags.NoDrop))
             {
@@ -1001,6 +1001,13 @@ namespace Mud.Server.Character
                 Send("It won't fit.");
                 return false;
             }
+
+            if (item == container)
+            {
+                Send("You can't fold it into itself.");
+                return false;
+            }
+
             // TODO: pit
             Act(ActOptions.ToAll, "{0:N} put{0:v} {1} in {2}.", this, item, container);
             item.ChangeContainer(container);

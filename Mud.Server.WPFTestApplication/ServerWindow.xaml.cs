@@ -213,7 +213,7 @@ namespace Mud.Server.WPFTestApplication
         private void SendButton_OnClick(object sender, RoutedEventArgs e)
         {
             string input = InputTextBox.Text.ToLower();
-            if (input == "exit" || input == "quit")
+            if (input == "exit" || input == "quit" || input == "stop")
             {
                 Server.Stop();
                 Application.Current.Shutdown();

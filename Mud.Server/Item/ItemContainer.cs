@@ -25,10 +25,10 @@ namespace Mud.Server.Item
             : base(guid, blueprint, itemContainerData, containedInto)
         {
             _content = new List<IItem>();
-            MaxWeight = blueprint.MaxWeight;
+            MaxWeight = itemContainerData.MaxWeight;
             ContainerFlags = itemContainerData.ContainerFlags;
             KeyId = blueprint.Key;
-            MaxWeightPerItem = blueprint.MaxWeightPerItem;
+            MaxWeightPerItem = itemContainerData.MaxWeightPerItem;
             WeightMultiplier = blueprint.WeightMultiplier;
             if (itemContainerData.Contains?.Length > 0)
             {
@@ -87,8 +87,8 @@ namespace Mud.Server.Item
 
         public IEnumerable<IItem> Content => _content;
 
-        public int MaxWeight { get; }
-        public int MaxWeightPerItem { get; }
+        public int MaxWeight { get; protected set; }
+        public int MaxWeightPerItem { get; protected set; }
 
         public bool PutInContainer(IItem obj)
         {
@@ -108,6 +108,13 @@ namespace Mud.Server.Item
         public ContainerFlags ContainerFlags { get; protected set; }
         public int WeightMultiplier { get; } // percentage
 
+        public void SetCustomValues(int level, int maxWeight, int maxWeightPerItem) // TODO: should be remove once a system to create item with custom values is implemented
+        {
+            Level = level;
+            MaxWeight = maxWeight;
+            MaxWeightPerItem = maxWeightPerItem;
+        }
+
         #endregion
 
         #region ItemBase
@@ -126,7 +133,9 @@ namespace Mud.Server.Item
                 DecayPulseLeft = DecayPulseLeft,
                 ItemFlags = BaseItemFlags,
                 Auras = MapAuraData(),
+                MaxWeight = MaxWeight,
                 ContainerFlags = ContainerFlags,
+                MaxWeightPerItem = MaxWeightPerItem,
                 Contains = MapContent(),
             };
         }

@@ -1589,7 +1589,9 @@
             <DecayPulseLeft>4280</DecayPulseLeft>
             <ItemFlags>51417152</ItemFlags>
             <Auras />
+            <MaxWeight>0</MaxWeight>
             <ContainerFlags>0</ContainerFlags>
+            <MaxWeightPerItem>0</MaxWeightPerItem>
           </Item>
         </EquippedItemData>
       </Equipments>

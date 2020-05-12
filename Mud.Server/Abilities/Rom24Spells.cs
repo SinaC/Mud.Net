@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Mud.Server.Aura;
+using Mud.Server.Blueprints.Item;
+
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Abilities
@@ -21,6 +23,7 @@ namespace Mud.Server.Abilities
             int damage = RandomManager.Dice(level, 12);
             if (victim.SavesSpell(level, SchoolTypes.Acid))
                 damage /= 2;
+            victim.AbilityDamage(caster, ability, damage, SchoolTypes.Acid, true);
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Acid, true);
         }
 
@@ -1023,6 +1026,7 @@ namespace Mud.Server.Abilities
         [Spell(51, "Floating Disc", AbilityTargets.None, PulseWaitTime = 24)]
         public void SpellFloatingDisc(IAbility ability, int level, ICharacter caster)
         {
+            // TODO: using data is kindy hacky to perform a custom level item
             IItem item = World.AddItem(Guid.NewGuid(), Settings.FloatingDiscBlueprintId, caster);
             if (!(item is IItemContainer floatingDisc))
             {
@@ -1031,11 +1035,12 @@ namespace Mud.Server.Abilities
                 World.RemoveItem(item); // destroy ii if invalid
                 return;
             }
-            int maxWeight = caster.Level * 10;
-            int maxWeightPerItem = caster.Level * 5;
-            int duration = caster.Level * 2 - RandomManager.Range(0, level / 2);
+            int maxWeight = level * 10;
+            int maxWeightPerItem = level * 5;
+            int duration = level * 2 - RandomManager.Range(0, level / 2);
             floatingDisc.SetTimer(TimeSpan.FromMinutes(duration));
-            // TODO: set max weight and max weight per item
+            floatingDisc.SetCustomValues(level, maxWeight, maxWeightPerItem);
+
             caster.Act(ActOptions.ToGroup, "{0} has created a floating black disc.", caster);
             caster.Send("You create a floating disc.");
             // TODO: Try to equip it
