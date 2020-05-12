@@ -37,32 +37,37 @@ namespace Mud.Server.Item
             else
                 DecayPulseLeft = RandomManager.Range(3, 6) * Pulse.PulsePerMinutes;
 
-            // Clone inventory
-            IReadOnlyCollection<IItem> inventory = new ReadOnlyCollection<IItem>(victim.Inventory.ToList());
+            // TODO: money
+
             // Fill corpse with inventory
+            IReadOnlyCollection<IItem> inventory = new ReadOnlyCollection<IItem>(victim.Inventory.ToList());
             foreach (IItem item in inventory)
             {
-                // TODO: check stay death flag
-                if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
-                {
-                    int duration = RandomManager.Range(5, 10);
-                    item.SetTimer(TimeSpan.FromMinutes(duration));
-                    item.RemoveBaseItemFlags(ItemFlags.RotDeath);
-                }
-                item.ChangeContainer(this);
+                var result = PerformActionOnItem(victim, item);
+                if (result == PerformActionOnItemResults.MoveToCorpse)
+                    item.ChangeContainer(this);
+                else if (result == PerformActionOnItemResults.MoveToRoom)
+                    item.ChangeContainer(victim.Room);
+                else
+                    World.RemoveItem(item);
             }
             // Fill corpse with equipment
-            foreach (IEquippableItem item in victim.Equipments.Where(x => x.Item != null).Select(x => x.Item))
+            IReadOnlyCollection<IEquippableItem> equipment = new ReadOnlyCollection<IEquippableItem>(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item).ToList());
+            foreach (IEquippableItem item in equipment)
             {
-                // TODO: check stay death flag
-                if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
+                var result = PerformActionOnItem(victim, item);
+                if (result == PerformActionOnItemResults.MoveToCorpse)
                 {
-                    int duration = RandomManager.Range(5, 10);
-                    item.SetTimer(TimeSpan.FromMinutes(duration));
-                    item.RemoveBaseItemFlags(ItemFlags.RotDeath);
+                    item.ChangeEquippedBy(null);
+                    item.ChangeContainer(this);
                 }
-                item.ChangeContainer(this);
-                item.ChangeEquippedBy(null);
+                else if (result == PerformActionOnItemResults.MoveToRoom)
+                {
+                    item.ChangeEquippedBy(null);
+                    item.ChangeContainer(victim.Room);
+                }
+                else
+                    World.RemoveItem(item);
             }
 
             // Check victim loot table (only if victim is NPC)
@@ -152,6 +157,51 @@ namespace Mud.Server.Item
         }
 
         #endregion
+
+        // Perform actions on item before putting it in corpse
+        // returns false if item must be destroyed instead of being put in corpse
+        public enum PerformActionOnItemResults
+        {
+            MoveToCorpse,
+            MoveToRoom,
+            Destroy,
+        }
+        private PerformActionOnItemResults PerformActionOnItem(ICharacter victim, IItem item)
+        {
+            if (item.ItemFlags.HasFlag(ItemFlags.Inventory))
+                return PerformActionOnItemResults.Destroy;
+            // TODO: check stay death flag
+            // TODO: if potion: timer 500->1000
+            // TODO: if scroll: timer 1000->2500
+            if (item.ItemFlags.HasFlag((ItemFlags.VisibleDeath)))
+                item.RemoveBaseItemFlags(ItemFlags.VisibleDeath);
+            bool isFloating = item is IEquippableItem equippable && equippable.WearLocation == WearLocations.Float;
+            if (isFloating)
+            {
+                if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
+                {
+                    if (item is IItemContainer container && container.Content.Any())
+                    {
+                        victim.Act(ActOptions.ToRoom, "{0} evaporates, scattering its contents.", item);
+                        var cloneContent = new ReadOnlyCollection<IItem>(container.Content.ToList());
+                        foreach (IItem contentItem in cloneContent)
+                            contentItem.ChangeContainer(victim.Room);
+                    }
+                    else
+                        victim.Act(ActOptions.ToRoom, "{0} evaporates.", item);
+                    return PerformActionOnItemResults.Destroy;
+                }
+                victim.Act(ActOptions.ToRoom, "{0} falls to the floor.", item);
+                return PerformActionOnItemResults.MoveToRoom;
+            }
+            if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
+            {
+                int duration = RandomManager.Range(5, 10);
+                item.SetTimer(TimeSpan.FromMinutes(duration));
+                item.RemoveBaseItemFlags(ItemFlags.RotDeath);
+            }
+            return PerformActionOnItemResults.MoveToCorpse;
+        }
 
         private ItemData[] MapContent()
         {

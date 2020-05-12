@@ -19,6 +19,7 @@ namespace Mud.Server.Abilities
             Passive(2007, "Sword"),
             Passive(2008, "Whip"),
             Passive(2009, "Hand to hand"),
+            Passive(2010, "Staff(weapon)"),
 
             // Combat
             Passive(2100, "Parry"),

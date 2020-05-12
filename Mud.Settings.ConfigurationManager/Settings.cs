@@ -37,10 +37,11 @@ namespace Mud.Settings.ConfigurationManager
         public bool DumpOnInitialize => BoolSetting("DumpOnInitialize", false);
 
         //
-        public int CorpseBlueprintId => IntSetting("CorpseBlueprintId", 999999);
+        public int CorpseBlueprintId => IntSetting("CorpseBlueprintId", 10);
         public int MushroomBlueprintId => IntSetting("MushroomBlueprintId", 20);
         public int LightBallBlueprintId => IntSetting("LightBallBlueprintId", 21);
         public int SpringBlueprintId => IntSetting("SpringBlueprintId", 22);
+        public int FloatingDiscBlueprintId => IntSetting("FloatingDiscBlueprintId", 23);
         public int PortalBlueprintId => IntSetting("PortalBlueprintId", 25);
         public int RoseBlueprintId => IntSetting("RoseBlueprintId", 1001);
         public int DefaultRoomId => IntSetting("DefaultRoomId", 3001);

@@ -1,11 +1,8 @@
-ongoing
-	WearLocations.Float, EquipmentSlots.Float, SpellFloatingDisc
+NEXT:
 
 TODO:
+Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
 Unequip/Equip add optional recompute argument
-weapon types + link to abilities
-when mud restarts and a player with quests reconnects, quest items are not recreated
-  same goes if player destroy item, it cannot be found in world anymore
 prime attribute for class: +2 max train points in this attribute (+3 if human)
 money
 use GetEquipment where Equipments is reference
@@ -24,6 +21,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+weapon types + relation to abilities
+WearLocations.Float, EquipmentSlots.Float, SpellFloatingDisc
 size
 equipment wear phrase
 container max weight, max items

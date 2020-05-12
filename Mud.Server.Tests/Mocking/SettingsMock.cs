@@ -35,6 +35,8 @@ namespace Mud.Server.Tests.Mocking
 
         public int LightBallBlueprintId => throw new NotImplementedException();
 
+        public int FloatingDiscBlueprintId => throw new NotImplementedException();
+
         public int DefaultRoomId => throw new NotImplementedException();
 
         public int DefaultRecallRoomId => throw new NotImplementedException();

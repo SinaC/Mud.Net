@@ -1304,37 +1304,31 @@ namespace Mud.Server.WPFTestApplication
             switch (weaponType)
             {
                 case "exotic": // Exotic
-                    // TODO:
-                    return WeaponTypes.Fist;
+                    return WeaponTypes.Exotic;
                 case "sword": // Sword
-                    return WeaponTypes.Sword1H;
+                    return WeaponTypes.Sword;
                 case "dagger": // Dagger
                     return WeaponTypes.Dagger;
                 case "spear": // Spear
-                    return WeaponTypes.Mace2H;
+                    return WeaponTypes.Spear;
                 case "mace": // Mace
-                    return WeaponTypes.Mace1H;
+                    return WeaponTypes.Mace;
                 case "axe": // Axe
-                    return WeaponTypes.Mace2H;
+                    return WeaponTypes.Axe;
                 case "flail": // Flail
-                    // TODO
-                    return WeaponTypes.Fist;
+                    return WeaponTypes.Flail;
                 case "whip": // Whip
-                    // TODO:
-                    return WeaponTypes.Fist;
+                    return WeaponTypes.Whip;
                 case "polearm": // Polearm
-                    // TODO:
                     return WeaponTypes.Polearm;
                 case "staff(weapon)": // Staff
-                    return WeaponTypes.Stave;
+                    return WeaponTypes.Staff;
                 case "arrow": // Arrow
-                    // TODO:
-                    return WeaponTypes.Fist;
+                    return WeaponTypes.Exotic;
                 case "ranged": // Ranged
-                    // TODO:
-                    return WeaponTypes.Fist;
+                    return WeaponTypes.Exotic;
             }
-            return WeaponTypes.Fist;
+            return WeaponTypes.Exotic;
         }
 
         private static (SchoolTypes schoolType, WeaponFlags weaponFlags) ConvertWeaponDamageType(object attackTableValue, object weaponType2Value)

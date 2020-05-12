@@ -33,7 +33,7 @@ namespace Mud.Server.Character
 
         [Command("disarm", "Combat", "Skills")]
         [Syntax("[cmd]")]
-        protected virtual CommandExecutionResults DoDisarm(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("dSsarm", rawParameters, parameters);
+        protected virtual CommandExecutionResults DoDisarm(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Disarm", rawParameters, parameters);
 
         [Command("sneak", "Skills")]
         [Syntax("[cmd]")]
@@ -66,7 +66,11 @@ namespace Mud.Server.Character
         {
             IAbility ability = AbilityManager[abilityName];
             if (ability == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "ExecuteSkill: invalid skill {0}", abilityName);
                 return CommandExecutionResults.InvalidParameter;
+            }
+
             UseResults result = AbilityManager.Use(ability, this, rawParameters, parameters);
             return MapUseResults(result);
         }

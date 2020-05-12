@@ -1023,8 +1023,22 @@ namespace Mud.Server.Abilities
         [Spell(51, "Floating Disc", AbilityTargets.None, PulseWaitTime = 24)]
         public void SpellFloatingDisc(IAbility ability, int level, ICharacter caster)
         {
-            caster.Send(StringHelpers.NotYetImplemented);
-            // TODO: floating equipment location not implemented
+            IItem item = World.AddItem(Guid.NewGuid(), Settings.FloatingDiscBlueprintId, caster);
+            if (!(item is IItemContainer floatingDisc))
+            {
+                caster.Send("Somehing went wrong.");
+                Log.Default.WriteLine(LogLevels.Error, "SpellFloatingDisc: blueprint {0} is not a container", Settings.FloatingDiscBlueprintId);
+                World.RemoveItem(item); // destroy ii if invalid
+                return;
+            }
+            int maxWeight = caster.Level * 10;
+            int maxWeightPerItem = caster.Level * 5;
+            int duration = caster.Level * 2 - RandomManager.Range(0, level / 2);
+            floatingDisc.SetTimer(TimeSpan.FromMinutes(duration));
+            // TODO: set max weight and max weight per item
+            caster.Act(ActOptions.ToGroup, "{0} has created a floating black disc.", caster);
+            caster.Send("You create a floating disc.");
+            // TODO: Try to equip it
         }
 
         [Spell(52, "Frenzy", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "Your rage ebbs.", DispelRoomMessage = "{0:N} no longer looks so wild.", Flags = AbilityFlags.CanBeDispelled, PulseWaitTime = 24)]

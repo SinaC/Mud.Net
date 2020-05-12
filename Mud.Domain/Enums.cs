@@ -165,18 +165,16 @@ namespace Mud.Domain
 
     public enum WeaponTypes
     {
-        // one-handed
-        Dagger      = 0,
-        Fist        = 1,
-        Axe1H       = 2,
-        Mace1H      = 3,
-        Sword1H     = 4,
-        // two-handed
-        Polearm     = 5,
-        Stave       = 6,
-        Axe2H       = 7,
-        Mace2H      = 8,
-        Sword2H     = 9,
+        Exotic      = 0,
+        Sword       = 1,
+        Dagger      = 2,
+        Spear       = 3,
+        Mace        = 4,
+        Axe         = 5,
+        Flail       = 6,
+        Whip        = 7,
+        Polearm     = 8,
+        Staff       = 9,
     }
 
     [Flags]

@@ -157,6 +157,7 @@ namespace Mud.Server
         bool IsSafe(ICharacter aggressor);
 
         // Abilities
+        int GetWeaponLearned(IItemWeapon weapon);
         (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability);
         (int learned, KnownAbility knownAbility) GetLearnInfo(string abilityName);
         IDictionary<IAbility, DateTime> AbilitiesInCooldown { get; }

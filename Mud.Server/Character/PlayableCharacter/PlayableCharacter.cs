@@ -312,6 +312,55 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Abilities
+        public override int GetWeaponLearned(IItemWeapon weapon)
+        {
+            int learned;
+            if (weapon == null)
+                learned = this[AbilityManager["Hand to hand"]]?.Learned ?? 0;
+            else
+            {
+                switch (weapon.Type)
+                {
+                    case WeaponTypes.Exotic:
+                        learned = 3 * Level;
+                        break;
+                    case WeaponTypes.Sword:
+                        learned = this[AbilityManager["Sword"]]?.Learned ?? 0;
+                        break;
+                    case WeaponTypes.Dagger:
+                        learned = this[AbilityManager["Dagger"]]?.Learned ?? 0;
+                        break;
+                    case WeaponTypes.Spear:
+                        learned = this[AbilityManager["Spear"]]?.Learned ?? 0;
+                        break;
+                    case WeaponTypes.Mace:
+                        learned = this[AbilityManager["Mace"]]?.Learned ?? 0;
+                        break;
+                    case WeaponTypes.Axe:
+                        learned = this[AbilityManager["Axe"]]?.Learned ?? 0;
+                        break;
+                    case WeaponTypes.Flail:
+                        learned = this[AbilityManager["Flail"]]?.Learned ?? 0;
+                        break;
+                    case WeaponTypes.Whip:
+                        learned = this[AbilityManager["Whip"]]?.Learned ?? 0;
+                        break;
+                    case WeaponTypes.Polearm:
+                        learned = this[AbilityManager["Polearm"]]?.Learned ?? 0;
+                        break;
+                    case WeaponTypes.Staff:
+                        learned = this[AbilityManager["Staff(weapon)"]]?.Learned ?? 0;
+                        break;
+                    default:
+                        Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.GetWeaponLearned: Invalid WeaponType {0}", weapon.Type);
+                        learned = 3 * Level;
+                        break;
+                }
+            }
+
+            return learned.Range(0, 100);
+        }
+
         public override (int , KnownAbility) GetLearnInfo(IAbility ability)
         {
             KnownAbility knownAbility = this[ability];

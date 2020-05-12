@@ -1175,7 +1175,15 @@ namespace Mud.Server.Server
                             case IItemPortal _:
                                 msg = "{0:N} fades out of existence.";
                                 break;
-                                // TODO: floating container  if content not empty : "$p flickers and vanishes, spilling its contents on the floor." else "$p flickers and vanishes."
+                            case IItemContainer caseContainer:
+                                if (caseContainer is IEquippableItem equippable && equippable.WearLocation == WearLocations.Float)
+                                {
+                                    if (caseContainer.Content.Any())
+                                        msg = "{0:N} flickers and vanishes, spilling its contents on the floor.";
+                                    else
+                                        msg = "{0:N} flickers and vanishes.";
+                                }
+                                break;
                         }
                         // Display message to character or room
                         if (item.ContainedInto is ICharacter wasOnCharacter)

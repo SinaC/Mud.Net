@@ -373,7 +373,7 @@ namespace Mud.Server.Abilities
         }
 
         [Skill(5005, "Kick", AbilityTargets.CharacterFighting)]
-        public UseResults SkillKick(IAbility ability, int learned, ICharacter source)
+        public UseResults SkillKick(IAbility ability, int learned, ICharacter source, ICharacter victim)
         {
             if (learned == 0)
             {
@@ -383,13 +383,6 @@ namespace Mud.Server.Abilities
 
             if (source is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.Kick))
                 return UseResults.NotKnown;
-
-            ICharacter victim = source.Fighting;
-            if (victim == null)
-            {
-                source.Send("You aren't fighting anyone.");
-                return UseResults.MustBeFighting;
-            }
 
             if (RandomManager.Chance(learned))
             {
@@ -407,7 +400,7 @@ namespace Mud.Server.Abilities
         }
 
         [Skill(5006, "Disarm", AbilityTargets.CharacterFighting, PulseWaitTime = 24)]
-        public UseResults SkillDisarm(IAbility ability, int learned, ICharacter source)
+        public UseResults SkillDisarm(IAbility ability, int learned, ICharacter source, ICharacter victim)
         {
             int chance = learned;
             if (chance == 0)
@@ -416,41 +409,39 @@ namespace Mud.Server.Abilities
                 return UseResults.NotKnown;
             }
 
-            // TODO: check if wielding a weapon
-            //        if (get_eq_char(ch, WEAR_WIELD) == NULL
-            //&& ((hth = get_skill(ch, gsn_hand_to_hand)) == 0
-            //|| (IS_NPC(ch) && !IS_SET(ch->off_flags, OFF_DISARM))))
-            //        {
-            //            send_to_char("You must wield a weapon to disarm.\n\r", ch);
-            //            return;
-            //        }
+            INonPlayableCharacter npcSource = source as INonPlayableCharacter;
 
-            ICharacter victim = source.Fighting;
-            if (victim == null)
+            // source has weapon or hand to hand
+            IItemWeapon sourceWield = source.GetEquipment(EquipmentSlots.MainHand) as IItemWeapon;
+            var hand2HandLearned = source.GetLearnInfo("Hand to hand");
+            if (sourceWield == null
+                && (hand2HandLearned.learned == 0 
+                    || (npcSource != null && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.Disarm))))
             {
-                source.Send("You aren't fighting anyone.");
-                return UseResults.MustBeFighting;
+                source.Send("You must wield a weapon to disarm.");
+                return UseResults.CantUseRequiredResource;
             }
 
-            // TODO: get victim weapon
-            //if ((obj = get_eq_char(victim, WEAR_WIELD)) == NULL)
-            //{
-            //    send_to_char("Your opponent is not wielding a weapon.\n\r", ch);
-            //    return;
-            //}
+            // victim wield
+            IItemWeapon victimWield = victim.GetEquipment(EquipmentSlots.MainHand) as IItemWeapon;
+            if (victimWield == null)
+            {
+                source.Send("Your opponent is not wielding a weapon.");
+                return UseResults.InvalidTarget;
+            }
 
-            // TODO: find weapon skills
-            //ch_weapon = get_weapon_skill(ch, get_weapon_sn(ch));
-            //vict_weapon = get_weapon_skill(victim, get_weapon_sn(victim));
-            //ch_vict_weapon = get_weapon_skill(ch, get_weapon_sn(victim));
+            // find weapon learned
+            int sourceLearned = source.GetWeaponLearned(sourceWield);
+            int victimLearned = victim.GetWeaponLearned(sourceWield);
+            int sourceOnVictimWeaponLearned = source.GetWeaponLearned(victimWield);
 
             // modifiers
             // skill
-            //if (get_eq_char(ch, WEAR_WIELD) == NULL)
-            //    chance = chance * hth / 150;
-            //else
-            //    chance = chance * ch_weapon / 100;
-            //chance += (ch_vict_weapon / 2 - vict_weapon) / 2;
+            if (sourceWield == null)
+                chance = (chance * hand2HandLearned.learned) / 150;
+            else
+                chance = chance * sourceLearned / 100;
+            chance += (sourceOnVictimWeaponLearned / 2 - victimLearned) / 2;
             // dex vs. strength
             chance += source[CharacterAttributes.Dexterity];
             chance -= 2 * victim[CharacterAttributes.Strength];
@@ -459,32 +450,24 @@ namespace Mud.Server.Abilities
             // and now the attack
             if (RandomManager.Chance(chance))
             {
-                //OBJ_DATA* obj;
-
-                //if ((obj = get_eq_char(victim, WEAR_WIELD)) == NULL)
-                //    return;
-
-                //if (IS_OBJ_STAT(obj, ITEM_NOREMOVE))
-                //{
-                //    act("$S weapon won't budge!", ch, NULL, victim, TO_CHAR);
-                //    act("$n tries to disarm you, but your weapon won't budge!",
-                //        ch, NULL, victim, TO_VICT);
-                //    act("$n tries to disarm $N, but fails.", ch, NULL, victim, TO_NOTVICT);
-                //    return;
-                //}
+                if (victimWield.ItemFlags.HasFlag(ItemFlags.NoRemove))
+                {
+                    source.Act(ActOptions.ToCharacter, "{0:S} weapon won't budge!", victim);
+                    victim.Act(ActOptions.ToCharacter, "{0:N} tries to disarm you, but your weapon won't budge!", source);
+                    victim.Act(ActOptions.ToRoom, "{0} tries to disarm {1}, but fails.", source, victim); // equivalent of NO_NOTVICT
+                }
 
                 victim.Act(ActOptions.ToCharacter, "{0:N} DISARMS you and sends your weapon flying!", source);
                 victim.Act(ActOptions.ToRoom, "{0:N} disarm{0:v} {1}", source, victim);
 
-                //obj_from_char(obj);
-                //if (IS_OBJ_STAT(obj, ITEM_NODROP) || IS_OBJ_STAT(obj, ITEM_INVENTORY))
-                //    obj_to_char(obj, victim);
-                //else
-                //{
-                //    obj_to_room(obj, victim->in_room);
-                //    if (IS_NPC(victim) && victim->wait == 0 && can_see_obj(victim, obj))
-                //        get_obj(victim, obj, NULL);
-                //}
+                victimWield.ChangeEquippedBy(null);
+                if (!victimWield.ItemFlags.HasFlag(ItemFlags.NoDrop) && !victimWield.ItemFlags.HasFlag(ItemFlags.Inventory))
+                {
+                    victimWield.ChangeContainer(victim.Room);
+                    // TODO: NPC tries to get its weapon back
+                    //if (victim is INonPlayableCharacter && victim.CanSee(victimWield)) // && .Wait == 0 ???
+                    //    victim.GetItem(victimWield);
+                }
 
                 // TODO  check_killer(ch, victim);
                 return UseResults.Ok;

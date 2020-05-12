@@ -12,6 +12,7 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Item;
 using Mud.Server.Quest;
 
 namespace Mud.Server.Character.NonPlayableCharacter
@@ -148,6 +149,28 @@ namespace Mud.Server.Character.NonPlayableCharacter
             // If 'this' is NPC and in object list or in kill loot table
             return questingCharacter.Quests.Where(q => !q.IsCompleted).SelectMany(q => q.Objectives).OfType<KillQuestObjective>().Any(o => o.Blueprint.Id == Blueprint.Id)
                                      || questingCharacter.Quests.Where(q => !q.IsCompleted).Any(q => q.Blueprint.KillLootTable.ContainsKey(Blueprint.Id));
+        }
+
+        // Abilities
+        public override int GetWeaponLearned(IItemWeapon weapon)
+        {
+            int learned;
+            if (weapon == null)
+                learned = 40 + 2 * Level;
+            else
+            {
+                switch (weapon.Type)
+                {
+                    case WeaponTypes.Exotic:
+                        learned = 3 * Level;
+                        break;
+                    default:
+                        learned = 40 + (5 * Level) / 2;
+                        break;
+                }
+            }
+
+            return learned.Range(0, 100);
         }
 
         public override (int, KnownAbility) GetLearnInfo(IAbility ability) // TODO: replace with npc class

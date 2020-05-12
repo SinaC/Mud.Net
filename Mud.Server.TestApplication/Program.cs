@@ -149,7 +149,7 @@ namespace Mud.Server.TestApplication
                 Name = "item2",
                 ShortDescription = "Second item (weapon)",
                 Description = "The second item (weapon) has been left here.",
-                Type = WeaponTypes.Axe1H,
+                Type = WeaponTypes.Axe,
                 DiceCount = 10,
                 DiceValue = 20,
                 DamageType = SchoolTypes.Fire,
@@ -182,19 +182,22 @@ namespace Mud.Server.TestApplication
                 Name = "item5",
                 ShortDescription = "Fifth item (weapon)",
                 Description = "The fifth item (weapon) has been left here.",
-                Type = WeaponTypes.Sword1H,
+                Type = WeaponTypes.Sword,
                 DiceCount = 5,
                 DiceValue = 40,
                 DamageType = SchoolTypes.Pierce,
                 WearLocation = WearLocations.Wield
             };
             //
-            ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
+            if (DependencyContainer.Current.GetInstance<IWorld>().GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
             {
-                Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
-                Name = "corpse"
-            }; // this is mandatory
-            DependencyContainer.Current.GetInstance<IWorld>().AddItemBlueprint(corpseBlueprint);
+                ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
+                {
+                    Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
+                    Name = "corpse"
+                }; // this is mandatory
+                DependencyContainer.Current.GetInstance<IWorld>().AddItemBlueprint(corpseBlueprint);
+            }
 
             // World
             IArea midgaard = DependencyContainer.Current.GetInstance<IWorld>().Areas.FirstOrDefault(x => x.DisplayName == "Midgaard");
@@ -364,7 +367,7 @@ namespace Mud.Server.TestApplication
                 Name = "item2",
                 ShortDescription = "Second item (weapon)",
                 Description = "The second item (weapon) has been left here.",
-                Type = WeaponTypes.Axe1H,
+                Type = WeaponTypes.Axe,
                 DiceCount = 10,
                 DiceValue = 20,
                 DamageType = SchoolTypes.Fire,
@@ -397,7 +400,7 @@ namespace Mud.Server.TestApplication
                 Name = "item5",
                 ShortDescription = "Fifth item (weapon)",
                 Description = "The fifth item (weapon) has been left here.",
-                Type = WeaponTypes.Sword1H,
+                Type = WeaponTypes.Sword,
                 DiceCount = 5,
                 DiceValue = 40,
                 DamageType = SchoolTypes.Pierce,
@@ -405,12 +408,15 @@ namespace Mud.Server.TestApplication
             };
 
             //
-            ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
+            if (DependencyContainer.Current.GetInstance<IWorld>().GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
             {
-                Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
-                Name = "corpse"
-            }; // this is mandatory
-            DependencyContainer.Current.GetInstance<IWorld>().AddItemBlueprint(corpseBlueprint);
+                ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
+                {
+                    Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
+                    Name = "corpse"
+                }; // this is mandatory
+                DependencyContainer.Current.GetInstance<IWorld>().AddItemBlueprint(corpseBlueprint);
+            }
 
             // Add dummy mobs and items to allow impersonate :)
             IRoom templeOfMota = DependencyContainer.Current.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");

@@ -857,7 +857,11 @@ namespace Mud.Server.Character
             item.ChangeEquippedBy(this); // set as equipped by this
             // Display weapon confidence if wielding weapon
             if (weapon != null)
-                DisplayWeaponConfidence(weapon);
+            {
+                string weaponConfidence = GetWeaponConfidence(weapon);
+                Act(ActOptions.ToCharacter, weaponConfidence, weapon);
+            }
+
             return true;
         }
 
@@ -895,23 +899,22 @@ namespace Mud.Server.Character
             }
         }
 
-        private void DisplayWeaponConfidence(IItemWeapon weapon)
+        private string GetWeaponConfidence(IItemWeapon weapon)
         {
-            int learned = 0; // TODO: get weapon skill
+            int learned = GetWeaponLearned(weapon);
             if (learned >= 100)
-                Act(ActOptions.ToCharacter, "{0:N} feels like a part of you!", weapon);
-            else if (learned > 85)
-                Act(ActOptions.ToCharacter, "You feel quite confident with {0:N}.", weapon);
-            else if (learned > 70)
-                Act(ActOptions.ToCharacter, "You are skilled with {0:N}.", weapon);
-            else if (learned > 50)
-                Act(ActOptions.ToCharacter, "Your skill with {0:N} is adequate.", weapon);
-            else if (learned > 25)
-                Act(ActOptions.ToCharacter, "{0:N} feels a little clumsy in your hands.", weapon);
-            else if (learned > 1)
-                Act(ActOptions.ToCharacter, "You fumble and almost drop {0:N}.", weapon);
-            else
-                Act(ActOptions.ToCharacter, "You don't even know which end is up on {0:N}.", weapon);
+                return "{0:N} feels like a part of you!";
+            if (learned > 85)
+                return "You feel quite confident with {0:N}.";
+            if (learned > 70)
+                return "You are skilled with {0:N}.";
+            if (learned > 50)
+                return "Your skill with {0:N} is adequate.";
+            if (learned > 25)
+                return "{0:N} feels a little clumsy in your hands.";
+            if (learned > 1)
+                return "You fumble and almost drop {0:N}.";
+            return "You don't even know which end is up on {0:N}.";
         }
 
         private bool DropItem(IItem item)

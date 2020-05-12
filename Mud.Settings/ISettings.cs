@@ -30,6 +30,7 @@
         int SpringBlueprintId { get; }
         int PortalBlueprintId { get; }
         int RoseBlueprintId { get; }
+        int FloatingDiscBlueprintId { get; }
         int DefaultRoomId { get; }
         int DefaultRecallRoomId { get; }
 
