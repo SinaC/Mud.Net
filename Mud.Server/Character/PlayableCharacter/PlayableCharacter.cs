@@ -126,11 +126,11 @@ namespace Mud.Server.Character.PlayableCharacter
                     EquippedItem equippedItem = SearchEquipmentSlot(equippedItemData.Slot, false);
                     if (equippedItem != null)
                     {
-                        if (item is IEquippableItem equippable)
+                        if (item.WearLocation != WearLocations.None)
                         {
-                            equippedItem.Item = equippable;
-                            equippable.ChangeContainer(null); // remove from inventory
-                            equippable.ChangeEquippedBy(this); // set as equipped by this
+                            equippedItem.Item = item;
+                            item.ChangeContainer(null); // remove from inventory
+                            item.ChangeEquippedBy(this); // set as equipped by this
                         }
                         else
                         {

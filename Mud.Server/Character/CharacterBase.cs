@@ -315,11 +315,12 @@ namespace Mud.Server.Character
         }
 
         // Equipments
-        public bool Unequip(IEquippableItem item)
+        public bool Unequip(IItem item, bool recompute)
         {
             foreach (EquippedItem equipmentSlot in _equipments.Where(x => x.Item == item))
                 equipmentSlot.Item = null;
-            Recompute();
+            if (recompute)
+                Recompute();
             return true;
         }
 
@@ -582,11 +583,11 @@ namespace Mud.Server.Character
                 ApplyAuras(equipment.Item);
 
             // 3) Apply equipment armor
-            foreach (EquippedItem equipment in Equipments.Where(x => x.Item is IItemArmor))
+            foreach (EquippedItem equipedItem in Equipments.Where(x => x.Item is IItemArmor))
             {
-                if (equipment.Item is IItemArmor armor) // always true
+                if (equipedItem.Item is IItemArmor armor) // always true
                 {
-                    int equipmentSlotMultiplier = TableValues.EquipmentSlotMultiplier(equipment.Slot);
+                    int equipmentSlotMultiplier = TableValues.EquipmentSlotMultiplier(equipedItem.Slot);
                     this[CharacterAttributes.ArmorBash] -= armor.Bash * equipmentSlotMultiplier;
                     this[CharacterAttributes.ArmorPierce] -= armor.Pierce * equipmentSlotMultiplier;
                     this[CharacterAttributes.ArmorSlash] -= armor.Slash * equipmentSlotMultiplier;
@@ -596,6 +597,27 @@ namespace Mud.Server.Character
 
             // 4) Apply own auras
             ApplyAuras(this);
+
+            // 5) Check if weapon can still be wielded
+            if (this is IPlayableCharacter)
+            {
+                bool shouldRecompute = false;
+                foreach (EquippedItem equipedItem in Equipments.Where(x => x.Slot == EquipmentSlots.MainHand && x.Item is IItemWeapon))
+                {
+                    if (equipedItem.Item is IItemWeapon weapon) // always true
+                    {
+                        if (this is IPlayableCharacter && weapon.TotalWeight > TableValues.WieldBonus(this) * 10) // TODO: same check in WearItem in ItemCommands.cs
+                        {
+                            Act(ActOptions.ToAll, "{0:N} can't use {1} anymore.", this, weapon);
+                            Unequip(weapon, false);
+                            weapon.ChangeContainer(this);
+                            shouldRecompute = true;
+                        }
+                    }
+                }
+                if (shouldRecompute)
+                    Recompute();
+            }
 
             // Keep attributes in valid range
             HitPoints = Math.Min(HitPoints, MaxHitPoints);
@@ -1367,7 +1389,7 @@ namespace Mud.Server.Character
         // Equipment
         public IItem GetEquipment(EquipmentSlots slot) => Equipments.FirstOrDefault(x => x.Slot == slot && x.Item != null)?.Item;
 
-        public EquippedItem SearchEquipmentSlot(IEquippableItem item, bool replace)
+        public EquippedItem SearchEquipmentSlot(IItem item, bool replace)
         {
             switch (item.WearLocation)
             {

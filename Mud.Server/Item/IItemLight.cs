@@ -1,6 +1,6 @@
 ﻿namespace Mud.Server.Item
 {
-    public interface IItemLight : IItem, IEquippableItem
+    public interface IItemLight : IItem
     {
         bool IsLighten { get; }
     }

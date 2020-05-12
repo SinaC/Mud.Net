@@ -364,20 +364,6 @@ namespace Mud.Server.WPFTestApplication
             return blueprint;
         }
 
-        private static RoomBlueprint CreateRoomBlueprint(Importer.Rom.RoomData data)
-        {
-            RoomBlueprint blueprint = new RoomBlueprint
-            {
-                Id = data.VNum,
-                Name = data.Name,
-                Description = data.Description,
-                ExtraDescriptions = RoomBlueprint.BuildExtraDescriptions(data.ExtraDescr)
-                // Exits will be done when each room blueprint is created
-            };
-            World.AddRoomBlueprint(blueprint);
-            return blueprint;
-        }
-
         private static ItemBlueprintBase CreateItemBlueprint(ObjectData data)
         {
             (ItemFlags itemFlags, bool noTake) extraFlags = ConvertMysteryItemExtraFlags(data);
@@ -649,200 +635,6 @@ namespace Mud.Server.WPFTestApplication
             return blueprint;
         }
 
-        private static ItemBlueprintBase CreateItemBlueprint(Importer.Rom.ObjectData data)
-        {
-            ItemBlueprintBase blueprint;
-            if (data.ItemType == "weapon")
-            {
-                blueprint = new ItemWeaponBlueprint
-                {
-                    Id = data.VNum,
-                    Name = data.Name,
-                    ShortDescription = data.ShortDescr,
-                    Description = data.Description,
-                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
-                    Cost = Convert.ToInt32(data.Cost),
-                    Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data),
-                    // TODO: weapon type Values[0]
-                    DiceCount = Convert.ToInt32(data.Values[1]),
-                    DiceValue = Convert.ToInt32(data.Values[2]),
-                    // TODO: damage type Values[3]
-                    ItemFlags = ConvertRomItemExtraFlags(data)
-                };
-            }
-            else if (data.ItemType == "container")
-            {
-                blueprint = new ItemContainerBlueprint
-                {
-                    Id = data.VNum,
-                    Name = data.Name,
-                    ShortDescription = data.ShortDescr,
-                    Description = data.Description,
-                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
-                    Cost = Convert.ToInt32(data.Cost),
-                    Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data),
-                    MaxWeight = Convert.ToInt32(data.Values[0]),
-                    //ContainerFlags = ConvertContainerFlags(data),
-                    Key = Convert.ToInt32(data.Values[2]),
-                    MaxWeightPerItem = Convert.ToInt32(data.Values[3]),
-                    WeightMultiplier = Convert.ToInt32(data.Values[4]),
-                    ItemFlags = ConvertRomItemExtraFlags(data)
-                };
-            }
-            else if (data.ItemType == "armor")
-            {
-                blueprint = new ItemArmorBlueprint
-                {
-                    Id = data.VNum,
-                    Name = data.Name,
-                    ShortDescription = data.ShortDescr,
-                    Description = data.Description,
-                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
-                    Cost = Convert.ToInt32(data.Cost),
-                    Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data),
-                    Pierce = Convert.ToInt32(data.Values[0]),
-                    Bash = Convert.ToInt32(data.Values[1]),
-                    Slash = Convert.ToInt32(data.Values[2]),
-                    Exotic = Convert.ToInt32(data.Values[3]),
-                    ItemFlags = ConvertRomItemExtraFlags(data)
-                };
-            }
-            else if (data.ItemType == "light")
-            {
-                blueprint = new ItemLightBlueprint
-                {
-                    Id = data.VNum,
-                    Name = data.Name,
-                    ShortDescription = data.ShortDescr,
-                    Description = data.Description,
-                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
-                    Cost = Convert.ToInt32(data.Cost),
-                    Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data),
-                    DurationHours = Convert.ToInt32(data.Values[2]),
-                    ItemFlags = ConvertRomItemExtraFlags(data)
-                };
-            }
-            else if (data.ItemType == "furniture")
-            {
-                blueprint = new ItemFurnitureBlueprint
-                {
-                    Id = data.VNum,
-                    Name = data.Name,
-                    ShortDescription = data.ShortDescr,
-                    Description = data.Description,
-                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
-                    Cost = Convert.ToInt32(data.Cost),
-                    Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data),
-                    MaxPeople = Convert.ToInt32(data.Values[0]),
-                    MaxWeight = Convert.ToInt32(data.Values[1]),
-                    FurnitureActions = ConvertFurnitureActions(data.Values[2]),
-                    FurniturePlacePreposition = ConvertFurniturePreposition(data.Values[2]),
-                    HealBonus = Convert.ToInt32(data.Values[3]),
-                    ResourceBonus = Convert.ToInt32(data.Values[4]),
-                    ItemFlags = ConvertRomItemExtraFlags(data)
-                };
-            }
-            else if (data.ItemType == "drink")
-            {
-                blueprint = new ItemDrinkContainerBlueprint
-                {
-                    Id = data.VNum,
-                    Name = data.Name,
-                    ShortDescription = data.ShortDescr,
-                    Description = data.Description,
-                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
-                    Cost = Convert.ToInt32(data.Cost),
-                    Level = data.Level,
-                    Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data),
-                    MaxLiquidAmount = Convert.ToInt32(data.Values[0]),
-                    CurrentLiquidAmount = Convert.ToInt32(data.Values[1]),
-                    LiquidType = data.Values[2].ToString(),
-                    IsPoisoned = Convert.ToInt32(data.Values[3]) != 0,
-                    //ItemFlags = extraFlags.itemFlags,
-                    //NoTake = extraFlags.noTake,
-                };
-            }
-            else if (data.ItemType == "fountain")
-            {
-                blueprint = new ItemFountainBlueprint // TODO: fountain
-                {
-                    Id = data.VNum,
-                    Name = data.Name,
-                    ShortDescription = data.ShortDescr,
-                    Description = data.Description,
-                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
-                    Cost = Convert.ToInt32(data.Cost),
-                    Level = data.Level,
-                    Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data),
-                    LiquidType = data.Values[2].ToString(),
-                    //ItemFlags = extraFlags.itemFlags,
-                    //NoTake = extraFlags.noTake,
-                };
-            }
-            else if (data.ItemType == "jewelry" || data.ItemType == "treasure")
-            {
-                blueprint = new ItemJewelryBlueprint
-                {
-                    Id = data.VNum,
-                    Name = data.Name,
-                    ShortDescription = data.ShortDescr,
-                    Description = data.Description,
-                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
-                    Cost = Convert.ToInt32(data.Cost),
-                    Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data),
-                    ItemFlags = ConvertRomItemExtraFlags(data)
-                };
-            }
-            else if (data.ItemType == "key")
-            {
-                blueprint = new ItemKeyBlueprint
-                {
-                    Id = data.VNum,
-                    Name = data.Name,
-                    ShortDescription = data.ShortDescr,
-                    Description = data.Description,
-                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
-                    Cost = Convert.ToInt32(data.Cost),
-                    Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data),
-                    ItemFlags = ConvertRomItemExtraFlags(data)
-                };
-            }
-            else if (data.ItemType == "portal")
-            {
-                blueprint = new ItemPortalBlueprint
-                {
-                    Id = data.VNum,
-                    Name = data.Name,
-                    ShortDescription = data.ShortDescr,
-                    Description = data.Description,
-                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
-                    Cost = Convert.ToInt32(data.Cost),
-                    Weight = data.Weight,
-                    WearLocation = ConvertWearLocation(data),
-                    Destination = Convert.ToInt32(data.Values[3]),
-                    ItemFlags = ConvertRomItemExtraFlags(data)
-                };
-            }
-            else
-            {
-                Log.Default.WriteLine(LogLevels.Warning, $"ItemBlueprint cannot be created: [{data.VNum}] [{data.ItemType}] [{data.WearFlags}] : {data.Name}");
-                // TODO: other item type
-                blueprint = null;
-            }
-            if (blueprint != null)
-                World.AddItemBlueprint(blueprint);
-            return blueprint;
-        }
-
         private static CharacterNormalBlueprint CreateCharacterBlueprint(MobileData data)
         {
             Sex sex = Sex.Neutral;
@@ -870,32 +662,6 @@ namespace Mud.Server.WPFTestApplication
             };
             World.AddCharacterBlueprint(blueprint);
             return blueprint;
-        }
-
-        private static CharacterNormalBlueprint CreateCharacterBlueprint(Importer.Rom.MobileData data)
-        {
-            Sex sex = Sex.Neutral;
-            if (data.Sex.ToLower() == "female")
-                sex = Sex.Female;
-            else if (data.Sex.ToLower() == "male")
-                sex = Sex.Male;
-            CharacterNormalBlueprint blueprint = new CharacterNormalBlueprint
-            {
-                Id = data.VNum,
-                Name = data.Name,
-                Description = data.Description,
-                Level = data.Level,
-                LongDescription = data.LongDescr,
-                ShortDescription = data.ShortDescr,
-                Sex = sex,
-            };
-            World.AddCharacterBlueprint(blueprint);
-            return blueprint;
-        }
-
-        private long ConvertToLong(char c)
-        {
-            return (long)1 << (c - 48);
         }
 
         private static bool HasBit(long data, long bit) => (data & bit) == bit;
@@ -1234,70 +1000,6 @@ namespace Mud.Server.WPFTestApplication
             }
         }
 
-        private static WearLocations ConvertWearLocation(Importer.Rom.ObjectData data)
-        {
-            //#define ITEM_TAKE		(A)
-            //#define ITEM_WEAR_FINGER	(B)
-            //#define ITEM_WEAR_NECK		(C)
-            //#define ITEM_WEAR_BODY		(D)
-            //#define ITEM_WEAR_HEAD		(E)
-            //#define ITEM_WEAR_LEGS		(F)
-            //#define ITEM_WEAR_FEET		(G)
-            //#define ITEM_WEAR_HANDS		(H)
-            //#define ITEM_WEAR_ARMS		(I)
-            //#define ITEM_WEAR_SHIELD	(J)
-            //#define ITEM_WEAR_ABOUT		(K)
-            //#define ITEM_WEAR_WAIST		(L)
-            //#define ITEM_WEAR_WRIST		(M)
-            //#define ITEM_WIELD		(N)
-            //#define ITEM_HOLD		(O)
-            //#define ITEM_WEAR_FLOAT		(Q)
-            //#define ITEM_WEAR_EAR           (R)
-            //#define ITEM_WEAR_EYES          (S)
-            switch (data.WearFlags & ~1 /*remove TAKE*/)
-            {
-                case 0:
-                    if (data.ItemType == "light")
-                        return WearLocations.Light;
-                    else
-                        return WearLocations.None;
-                case MysteryImporter.B: // B finger
-                    return WearLocations.Ring;
-                case MysteryImporter.C: // C neck
-                    return WearLocations.Amulet;
-                case MysteryImporter.D: // D body
-                    return WearLocations.Chest;
-                case MysteryImporter.E: // E head
-                    return WearLocations.Head;
-                case MysteryImporter.F: // F legs
-                    return WearLocations.Legs;
-                case MysteryImporter.G: // G feet
-                    return WearLocations.Feet;
-                case MysteryImporter.H: // H hands
-                    return WearLocations.Hands;
-                case MysteryImporter.I: // I arms
-                    return WearLocations.Arms;
-                case MysteryImporter.J: // J shield
-                    return WearLocations.Shield;
-                case MysteryImporter.K: // K about
-                    return WearLocations.Cloak;
-                case MysteryImporter.L: // L waist
-                    return WearLocations.Waist;
-                case MysteryImporter.M: // M wrist
-                    return WearLocations.Wrists;
-                case MysteryImporter.N: // N wield
-                    return WearLocations.Wield;
-                case MysteryImporter.O: // O hold
-                    return WearLocations.Hold;
-                //case Importer.Mystery.MysteryImporter.Q: // Q float
-                //case Importer.Mystery.MysteryImporter.R: // R ear
-                case MysteryImporter.S: // S eyes
-                    return WearLocations.Head; // eyes
-                default:
-                    return WearLocations.None;
-            }
-        }
-
         private static WeaponTypes ConvertWeaponType(object value)
         {
             string weaponType = (string)value;
@@ -1427,12 +1129,6 @@ namespace Mud.Server.WPFTestApplication
             //if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.bb) == Importer.Mystery.MysteryImporter.bb) itemFlags |= ItemFlags.Indestructible; // bb ITEM_NOCOND
 
             return (itemFlags, noTake);
-        }
-
-        private static ItemFlags ConvertRomItemExtraFlags(Importer.Rom.ObjectData data)
-        {
-            // TODO
-            return ItemFlags.None;
         }
 
         private static void CreateWorld()
@@ -1629,17 +1325,17 @@ namespace Mud.Server.WPFTestApplication
                                         IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
                                         Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
                                         // try to equip
-                                        if (item is IEquippableItem equippable)
+                                        if (item.WearLocation != WearLocations.None)
                                         {
-                                            EquippedItem equippedItem = lastCharacter.SearchEquipmentSlot(equippable, false);
+                                            EquippedItem equippedItem = lastCharacter.SearchEquipmentSlot(item, false);
                                             if (equippedItem != null)
                                             {
-                                                equippedItem.Item = equippable;
-                                                equippable.ChangeContainer(null); // remove from inventory
-                                                equippable.ChangeEquippedBy(lastCharacter); // set as equipped by lastCharacter
+                                                equippedItem.Item = item;
+                                                item.ChangeContainer(null); // remove from inventory
+                                                item.ChangeEquippedBy(lastCharacter); // set as equipped by lastCharacter
                                             }
                                             else
-                                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Item {reset.Arg1} wear location {equippable.WearLocation} doesn't exist on last character");
+                                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Item {reset.Arg1} wear location {item.WearLocation} doesn't exist on last character");
                                         }
                                         else
                                             Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Item {reset.Arg1} cannot be equipped");

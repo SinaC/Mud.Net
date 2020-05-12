@@ -4,7 +4,7 @@ using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
 {
-    public class ItemJewelry : ItemEquippableBase<ItemJewelryBlueprint>, IItemJewelry
+    public class ItemJewelry : ItemBase<ItemJewelryBlueprint>, IItemJewelry
     {
         public ItemJewelry(Guid guid, ItemJewelryBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)

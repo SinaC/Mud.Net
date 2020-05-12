@@ -1176,7 +1176,7 @@ namespace Mud.Server.Server
                                 msg = "{0:N} fades out of existence.";
                                 break;
                             case IItemContainer caseContainer:
-                                if (caseContainer is IEquippableItem equippable && equippable.WearLocation == WearLocations.Float)
+                                if (item.WearLocation == WearLocations.Float)
                                 {
                                     if (caseContainer.Content.Any())
                                         msg = "{0:N} flickers and vanishes, spilling its contents on the floor.";

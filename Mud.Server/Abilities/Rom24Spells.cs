@@ -1196,7 +1196,7 @@ namespace Mud.Server.Abilities
                 // Check equipments
                 foreach (EquippedItem equippedItem in victim.Equipments.Where(x => x.Item != null))
                 {
-                    IEquippableItem item = equippedItem.Item;
+                    IItem item = equippedItem.Item;
                     if (!item.ItemFlags.HasFlag(ItemFlags.BurnProof)
                         && !item.ItemFlags.HasFlag(ItemFlags.NonMetal)
                         && RandomManager.Range(1, 2 * level) > item.Level
@@ -1449,8 +1449,8 @@ namespace Mud.Server.Abilities
                     sb.AppendFormatLine("One is in {0}", room.DisplayName);
                 else if (item.ContainedInto is ICharacter character && caster.CanSee(character))
                     sb.AppendFormatLine("One is carried by {0}", character.DisplayName);
-                else if (item is IEquippableItem equippable && equippable.EquippedBy != null && caster.CanSee(equippable.EquippedBy))
-                    sb.AppendFormatLine("One is carried by {0}", equippable.EquippedBy.DisplayName);
+                else if (item.EquippedBy != null && caster.CanSee(item.EquippedBy))
+                    sb.AppendFormatLine("One is carried by {0}", item.EquippedBy.DisplayName);
 
                 number++;
                 if (number >= maxFound)
@@ -2211,7 +2211,7 @@ namespace Mud.Server.Abilities
                         msg = "{0} burns.";
                         break;
                 }
-                ICharacter viewer = (item.ContainedInto as ICharacter) ?? (item as IEquippableItem)?.EquippedBy ?? (item.ContainedInto as IRoom)?.People.FirstOrDefault(); // viewer is holder or any person in the room
+                ICharacter viewer = (item.ContainedInto as ICharacter) ?? item.EquippedBy ?? (item.ContainedInto as IRoom)?.People.FirstOrDefault(); // viewer is holder or any person in the room
                 viewer?.Act(ActOptions.ToAll, msg, item);
                 if (item is IItemArmor) // etch it
                 {
@@ -2235,10 +2235,10 @@ namespace Mud.Server.Abilities
                         dropItemTargetRoom = roomContainer;
                     else if (item.ContainedInto is ICharacter character && character.Room != null) // if container is in an inventory, drop content to room
                         dropItemTargetRoom = character.Room;
-                    else if (item is IEquippableItem equippable && equippable.EquippedBy.Room != null) // if container is in equipment, unequip and drop content to room
+                    else if (item.EquippedBy?.Room != null) // if container is in equipment, unequip and drop content to room
                     {
-                        equippable.ChangeEquippedBy(null);
-                        dropItemTargetRoom = equippable.EquippedBy.Room;
+                        item.ChangeEquippedBy(null);
+                        dropItemTargetRoom = item.EquippedBy.Room;
                     }
                     foreach (IItem itemInContainer in container.Content)
                     {
@@ -2328,14 +2328,14 @@ namespace Mud.Server.Abilities
                     return;
                 // display msg
                 string msg = "{0} freezes and shatters!";
-                ICharacter viewer = (item.ContainedInto as ICharacter) ?? (item as IEquippableItem)?.EquippedBy ?? (item.ContainedInto as IRoom)?.People.FirstOrDefault(); // viewer is holder or any person in the room
+                ICharacter viewer = (item.ContainedInto as ICharacter) ?? item.EquippedBy ?? (item.ContainedInto as IRoom)?.People.FirstOrDefault(); // viewer is holder or any person in the room
                 viewer?.Act(ActOptions.ToAll, msg, item);
                 // unequip and destroy item
                 IEntity itemContainedInto = null;
-                if (item is IEquippableItem equippable && equippable.EquippedBy != null) // if item equipped: unequip 
+                if (item.EquippedBy != null) // if item equipped: unequip 
                 {
-                    equippable.ChangeEquippedBy(null);
-                    itemContainedInto = equippable.EquippedBy;
+                    item.ChangeEquippedBy(null);
+                    itemContainedInto = item.EquippedBy;
                 }
                 else
                     itemContainedInto = item.ContainedInto;
@@ -2422,7 +2422,7 @@ namespace Mud.Server.Abilities
                         msg = "{0} burns.";
                         break;
                 }
-                ICharacter viewer = (item.ContainedInto as ICharacter) ?? (item as IEquippableItem)?.EquippedBy ?? (item.ContainedInto as IRoom)?.People.FirstOrDefault(); // viewer is holder or any person in the room
+                ICharacter viewer = (item.ContainedInto as ICharacter) ?? item.EquippedBy ?? (item.ContainedInto as IRoom)?.People.FirstOrDefault(); // viewer is holder or any person in the room
                 viewer?.Act(ActOptions.ToAll, msg, item);
                 // destroy container, dump the contents and apply fire effect on them
                 if (item is IItemContainer itemContainer) // get rid of content and apply fire effect on it
@@ -2432,10 +2432,10 @@ namespace Mud.Server.Abilities
                         dropItemTargetRoom = roomContainer;
                     else if (item.ContainedInto is ICharacter character && character.Room != null) // if container is in an inventory, drop content to room
                         dropItemTargetRoom = character.Room;
-                    else if (item is IEquippableItem equippable && equippable.EquippedBy.Room != null) // if container is equipped, unequip and drop content to room
+                    else if (item.EquippedBy?.Room != null) // if container is equipped, unequip and drop content to room
                     {
-                        equippable.ChangeEquippedBy(null);
-                        dropItemTargetRoom = equippable.EquippedBy.Room;
+                        item.ChangeEquippedBy(null);
+                        dropItemTargetRoom = item.EquippedBy.Room;
                     }
                     foreach (IItem itemInContainer in itemContainer.Content)
                     {
@@ -2567,10 +2567,10 @@ namespace Mud.Server.Abilities
                     return;
                 // unequip and destroy item
                 IEntity itemContainedInto;
-                if (item is IEquippableItem equippable && equippable.EquippedBy != null) // if item is equipped: unequip 
+                if (item.EquippedBy != null) // if item is equipped: unequip 
                 {
-                    equippable.ChangeEquippedBy(null);
-                    itemContainedInto = equippable.EquippedBy;
+                    item.ChangeEquippedBy(null);
+                    itemContainedInto = item.EquippedBy;
                 }
                 else
                     itemContainedInto = item.ContainedInto;

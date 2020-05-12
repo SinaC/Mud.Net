@@ -25,6 +25,7 @@ namespace Mud.Server.Item
             Blueprint = blueprint;
             ContainedInto = containedInto;
             containedInto.PutInContainer(this);
+            WearLocation = blueprint.WearLocation;
             Level = blueprint.Level;
             Weight = blueprint.Weight;
             Cost = blueprint.Cost;
@@ -73,7 +74,13 @@ namespace Mud.Server.Item
                 ApplyAuras<IItem>(room, this);
             }
 
-            // 2) Apply own auras
+            // 2) Apply auras from character equiping item if equipped by a character
+            if (EquippedBy != null && EquippedBy.IsValid)
+            {
+                ApplyAuras<IItem>(EquippedBy, this);
+            }
+
+            // 3) Apply own auras
             ApplyAuras<IItem>(this, this);
         }
 
@@ -120,6 +127,10 @@ namespace Mud.Server.Item
 
         public IReadOnlyDictionary<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
 
+        public WearLocations WearLocation { get; }
+
+        public ICharacter EquippedBy { get; private set; }
+
         public int DecayPulseLeft { get; protected set; } // 0: means no decay
 
         public int Level { get; protected set; }
@@ -160,6 +171,15 @@ namespace Mud.Server.Item
             container?.PutInContainer(this);
             ContainedInto = container;
 
+            return true;
+        }
+
+        public bool ChangeEquippedBy(ICharacter character)
+        {
+            EquippedBy?.Unequip(this, true);
+            Log.Default.WriteLine(LogLevels.Info, "ChangeEquippedBy: {0} : {1} -> {2}", DebugName, EquippedBy?.DebugName ?? "<<??>>", character?.DebugName ?? "<<??>>");
+            EquippedBy = character;
+            // TODO: call something like character.Equip ? (additional parameter EquipmentSlot)
             return true;
         }
 

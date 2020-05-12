@@ -14,6 +14,9 @@ namespace Mud.Server
 
         IReadOnlyDictionary<string, string> ExtraDescriptions { get; } // keyword -> description
 
+        WearLocations WearLocation { get; }
+        ICharacter EquippedBy { get; }
+
         int DecayPulseLeft { get; } // 0: means no decay
 
         int Level { get; }
@@ -30,8 +33,9 @@ namespace Mud.Server
 
         bool ChangeContainer(IContainer container);
 
-        void DecreaseDecayPulseLeft(int pulseCount);
+        bool ChangeEquippedBy(ICharacter character);
 
+        void DecreaseDecayPulseLeft(int pulseCount);
         void SetTimer(TimeSpan duration);
 
         void AddBaseItemFlags(ItemFlags itemFlags);

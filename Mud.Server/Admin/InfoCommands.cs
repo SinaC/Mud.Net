@@ -426,10 +426,7 @@ namespace Mud.Server.Admin
                 sb.AppendFormatLine("Incarnatable: {0}", item.Incarnatable);
             if (item.ContainedInto != null)
                 sb.AppendFormatLine("Contained in {0}", item.ContainedInto.DebugName);
-            if (item is IEquippableItem equippable)
-                sb.AppendFormatLine("Equipped by {0} on {1}", equippable.EquippedBy?.DebugName ?? "(none)", equippable.WearLocation);
-            else
-                sb.AppendLine("Cannot be equipped");
+            sb.AppendFormatLine("Equipped by {0} on {1}", item.EquippedBy?.DebugName ?? "(none)", item.WearLocation);
             if (item.NoTake)
                 sb.Append("Cannot be taken");
             sb.AppendFormatLine("Level: {0}", item.Level);
@@ -699,16 +696,15 @@ namespace Mud.Server.Admin
                     sb.Append(DisplayEntityAndContainer(item.ContainedInto));
                     sb.Append(">");
                 }
-                else
+                else if (item.EquippedBy != null)
                 {
-                    if (item is IEquippableItem equippable)
-                    {
-                        sb.Append(" equipped by ");
-                        sb.Append("<");
-                        sb.Append(DisplayEntityAndContainer(equippable.EquippedBy));
-                        sb.Append(">");
-                    }
+                    sb.Append(" equipped by ");
+                    sb.Append("<");
+                    sb.Append(DisplayEntityAndContainer(item.EquippedBy));
+                    sb.Append(">");
                 }
+                else
+                    sb.Append("Seems to be nowhere!!!");
             }
 
             if (entity is ICharacter character)

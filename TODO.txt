@@ -1,8 +1,8 @@
 NEXT:
 
-IEquippableItem should not exist -> every item with a wear location should be equippable even if it's a furniture or a bag
-
 TODO:
+Monitor Recompute calls
+Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
 Unequip/Equip add optional recompute argument
 prime attribute for class: +2 max train points in this attribute (+3 if human)
@@ -23,6 +23,7 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+IEquippableItem should not exist -> every item with a wear location should be equippable even if it's a furniture or a bag
 command all + syntax all reworked
 SpellFloatingDisc now uses a new IItemContainer method to set max weight, ...
 When putting a container in a container, check if there is no cycle

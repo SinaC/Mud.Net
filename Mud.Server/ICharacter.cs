@@ -102,7 +102,7 @@ namespace Mud.Server
         void Act(IEnumerable<ICharacter> characters, string format, params object[] arguments); // to every character in provided list
 
         // Equipments
-        bool Unequip(IEquippableItem item);
+        bool Unequip(IItem item, bool recompute);
 
         // Furniture
         bool ChangeFurniture(IItemFurniture furniture);
@@ -168,7 +168,7 @@ namespace Mud.Server
 
         // Equipment
         IItem GetEquipment(EquipmentSlots slot); // return item found in first non-empty specified slot
-        EquippedItem SearchEquipmentSlot(IEquippableItem item, bool replace);
+        EquippedItem SearchEquipmentSlot(IItem item, bool replace);
 
         // Affects
         void ApplyAffect(CharacterFlagsAffect affect);
@@ -181,7 +181,7 @@ namespace Mud.Server
     public class EquippedItem
     {
         public EquipmentSlots Slot { get; }
-        public IEquippableItem Item { get; set; }
+        public IItem Item { get; set; }
 
         public EquippedItem(EquipmentSlots slot)
         {

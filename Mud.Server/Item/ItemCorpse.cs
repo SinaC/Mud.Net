@@ -52,8 +52,8 @@ namespace Mud.Server.Item
                     World.RemoveItem(item);
             }
             // Fill corpse with equipment
-            IReadOnlyCollection<IEquippableItem> equipment = new ReadOnlyCollection<IEquippableItem>(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item).ToList());
-            foreach (IEquippableItem item in equipment)
+            IReadOnlyCollection<IItem> equipment = new ReadOnlyCollection<IItem>(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item).ToList());
+            foreach (IItem item in equipment)
             {
                 var result = PerformActionOnItem(victim, item);
                 if (result == PerformActionOnItemResults.MoveToCorpse)
@@ -175,7 +175,7 @@ namespace Mud.Server.Item
             // TODO: if scroll: timer 1000->2500
             if (item.ItemFlags.HasFlag((ItemFlags.VisibleDeath)))
                 item.RemoveBaseItemFlags(ItemFlags.VisibleDeath);
-            bool isFloating = item is IEquippableItem equippable && equippable.WearLocation == WearLocations.Float;
+            bool isFloating = item.WearLocation == WearLocations.Float;
             if (isFloating)
             {
                 if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))

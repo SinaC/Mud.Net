@@ -235,10 +235,8 @@ namespace Mud.Server.Entity
                     Send(aura.Ability.CharacterWearOffMessage);
                 else if (this is IItem item && !string.IsNullOrWhiteSpace(aura.Ability?.ItemWearOffMessage))
                 {
-                    if (item.ContainedInto is ICharacter holder)
-                        holder.Act(ActOptions.ToCharacter, aura.Ability.ItemWearOffMessage, this);
-                    else if (item is IEquippableItem equippable)
-                        equippable.EquippedBy?.Act(ActOptions.ToCharacter, aura.Ability.ItemWearOffMessage, this);
+                    ICharacter holder = item.ContainedInto as ICharacter ?? item.EquippedBy; 
+                    holder?.Act(ActOptions.ToCharacter, aura.Ability.ItemWearOffMessage, this);
                 }
             }
             if (recompute && removed)
