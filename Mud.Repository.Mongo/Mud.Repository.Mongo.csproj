@@ -133,6 +133,7 @@
     <Compile Include="Domain\CharacterFlagsAffectData.cs" />
     <Compile Include="Domain\CharacterIRVAffectData.cs" />
     <Compile Include="Domain\CharacterSexAffectData.cs" />
+    <Compile Include="Domain\CharacterSizeAffectData.cs" />
     <Compile Include="Domain\CurrentQuestData.cs" />
     <Compile Include="Domain\CurrentQuestObjectiveData.cs" />
     <Compile Include="Domain\EquippedItemData.cs" />

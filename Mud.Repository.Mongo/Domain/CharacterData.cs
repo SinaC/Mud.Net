@@ -19,6 +19,8 @@ namespace Mud.Repository.Mongo.Domain
 
         public int Sex { get; set; }
 
+        public int Size { get; set; }
+
         public int HitPoints { get; set; }
 
         public int MovePoints { get; set; }

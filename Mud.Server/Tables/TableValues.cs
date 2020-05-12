@@ -40,11 +40,9 @@ namespace Mud.Server.Tables
         {
             switch (slot)
             {
-                case EquipmentSlots.None: return 1;
                 case EquipmentSlots.Light: return 1;
                 case EquipmentSlots.Head: return 2;
                 case EquipmentSlots.Amulet: return 1;
-                case EquipmentSlots.Shoulders: return 1;
                 case EquipmentSlots.Chest: return 3;
                 case EquipmentSlots.Cloak: return 2;
                 case EquipmentSlots.Waist: return 1;
@@ -54,9 +52,9 @@ namespace Mud.Server.Tables
                 case EquipmentSlots.Ring: return 1;
                 case EquipmentSlots.Legs: return 2;
                 case EquipmentSlots.Feet: return 1;
-                case EquipmentSlots.Trinket: return 1;
                 case EquipmentSlots.MainHand: return 1;
                 case EquipmentSlots.OffHand: return 1;
+                case EquipmentSlots.Float: return 1;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, "Invalid EquipmentSlots {0}", slot);
                     return 1;

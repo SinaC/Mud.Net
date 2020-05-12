@@ -69,6 +69,9 @@ namespace Mud.Server
         Sex BaseSex { get; }
         Sex Sex { get; }
 
+        Sizes BaseSize { get; }
+        Sizes Size { get; }
+
         int Alignment { get; }
         bool IsEvil { get; }
         bool IsGood { get; }
@@ -171,6 +174,7 @@ namespace Mud.Server
         void ApplyAffect(CharacterIRVAffect affect);
         void ApplyAffect(CharacterAttributeAffect affect);
         void ApplyAffect(CharacterSexAffect affect);
+        void ApplyAffect(CharacterSizeAffect affect);
     }
 
     public class EquippedItem

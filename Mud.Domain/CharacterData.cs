@@ -19,6 +19,8 @@ namespace Mud.Domain
 
         public Sex Sex { get; set; }
 
+        public Sizes Size { get; set; }
+
         public int HitPoints { get; set; }
 
         public int MovePoints { get; set; }

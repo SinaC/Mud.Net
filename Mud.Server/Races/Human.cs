@@ -8,8 +8,9 @@ namespace Mud.Server.Races
         #region IRace
 
         public override string Name => "human";
-
         public override string ShortName => "Hum";
+
+        public override Sizes Size => Sizes.Medium;
 
         public override IRVFlags Immunities => IRVFlags.None;
         public override IRVFlags Resistances => IRVFlags.None;

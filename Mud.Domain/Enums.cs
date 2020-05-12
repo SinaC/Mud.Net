@@ -125,21 +125,21 @@ namespace Mud.Domain
         Light       = 1,
         Head        = 2,
         Amulet      = 3,
-        Shoulders   = 4,
-        Chest       = 5,
-        Cloak       = 6,
-        Waist       = 7,
-        Wrists      = 8,
-        Arms        = 9,
-        Hands       = 10,
-        Ring        = 11,
-        Legs        = 12,
-        Feet        = 13,
-        Trinket     = 14,
-        Wield       = 15,
-        Hold        = 16,
-        Shield      = 17,
-        Wield2H     = 18,
+        Chest       = 4,
+        Cloak       = 5,
+        Waist       = 6,
+        Wrists      = 7,
+        Arms        = 8,
+        Hands       = 9,
+        Ring        = 10,
+        Legs        = 11,
+        Feet        = 12,
+        Trinket     = 13,
+        Wield       = 14,
+        Hold        = 15,
+        Shield      = 16,
+        Wield2H     = 17,
+        Float       = 18,
     }
 
     public enum EquipmentSlots
@@ -148,20 +148,19 @@ namespace Mud.Domain
         Light       = 1,
         Head        = 2,
         Amulet      = 3,
-        Shoulders   = 4,
-        Chest       = 5,
-        Cloak       = 6,
-        Waist       = 7,
-        Wrists      = 8,
-        Arms        = 9,
-        Hands       = 10,
-        Ring        = 11,
-        Legs        = 12,
-        Feet        = 13,
-        Trinket     = 14,
+        Chest       = 4,
+        Cloak       = 5,
+        Waist       = 6,
+        Wrists      = 7,
+        Arms        = 8,
+        Hands       = 9,
+        Ring        = 10,
+        Legs        = 11,
+        Feet        = 12,
         // MainHand + OffHand are needed to equip Wield2H unless big enough
-        MainHand    = 15, // can equip Wield
-        OffHand     = 16, // can equip Wield/Hold/Shield
+        MainHand    = 13, // can equip Wield
+        OffHand     = 14, // can equip Wield/Hold/Shield
+        Float       = 15,
     }
 
     public enum WeaponTypes
@@ -518,6 +517,16 @@ namespace Mud.Domain
         CharacterFighting                   = 11,
         // Victim is somewhere in the world
         CharacterWorldwide                  = 12,
+    }
+
+    public enum Sizes
+    {
+        Tiny,
+        Small,
+        Medium,
+        Large,
+        Huge,
+        Giant
     }
 
     [Flags]

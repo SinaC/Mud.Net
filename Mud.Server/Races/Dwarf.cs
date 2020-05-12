@@ -13,8 +13,9 @@ namespace Mud.Server.Races
         #region IRace
 
         public override string Name => "dwarf";
-
         public override string ShortName => "Dwa";
+
+        public override Sizes Size => Sizes.Small;
 
         public override IRVFlags Immunities => IRVFlags.None;
         public override IRVFlags Resistances => IRVFlags.Poison | IRVFlags.Disease;

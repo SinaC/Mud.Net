@@ -163,6 +163,9 @@ namespace Mud.Server.Character
         public Sex BaseSex { get; protected set; }
         public Sex Sex { get; protected set; }
 
+        public Sizes BaseSize { get; protected set; }
+        public Sizes Size { get; protected set; }
+
         public int Alignment { get; protected set; }
         public bool IsEvil => Alignment <= -350;
         public bool IsGood => Alignment >= 350;
@@ -1374,8 +1377,6 @@ namespace Mud.Server.Character
                     return SearchEquipmentSlot(EquipmentSlots.Head, replace);
                 case WearLocations.Amulet:
                     return SearchEquipmentSlot(EquipmentSlots.Amulet, replace);
-                case WearLocations.Shoulders:
-                    return SearchEquipmentSlot(EquipmentSlots.Shoulders, replace);
                 case WearLocations.Chest:
                     return SearchEquipmentSlot(EquipmentSlots.Chest, replace);
                 case WearLocations.Cloak:
@@ -1394,8 +1395,6 @@ namespace Mud.Server.Character
                     return SearchEquipmentSlot(EquipmentSlots.Legs, replace);
                 case WearLocations.Feet:
                     return SearchEquipmentSlot(EquipmentSlots.Feet, replace);
-                case WearLocations.Trinket:
-                    return SearchEquipmentSlot(EquipmentSlots.Trinket, replace);
                 case WearLocations.Wield:
                     // Search empty mainhand, then empty offhand, TODO use offhand only if mainhand is not wielding a 2H
                     return SearchOneHandedWeaponEquipmentSlot(replace);
@@ -1407,11 +1406,9 @@ namespace Mud.Server.Character
                     return SearchOffhandEquipmentSlot(replace);
                 case WearLocations.Wield2H:
                     // Search empty mainhand + empty offhand (no autoreplace) // TODO can wield 2H on one hand if giant or specific ability
-                    var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
-                    var offHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand && x.Item == null);
-                    if (mainHand != null && offHand != null && mainHand.Item == null && offHand.Item == null)
-                        return mainHand;
-                    break;
+                    return SearchTwoHandedWeaponEquipmentSlot(replace);
+                case WearLocations.Float:
+                    return SearchEquipmentSlot(EquipmentSlots.Float, replace);
             }
             return null;
         }
@@ -1579,6 +1576,11 @@ namespace Mud.Server.Character
             Sex = affect.Value;
         }
 
+        public void ApplyAffect(CharacterSizeAffect affect)
+        {
+            Size = affect.Value;
+        }
+
         #endregion
 
         #region ActorBase
@@ -1688,6 +1690,12 @@ namespace Mud.Server.Character
             if (Race != null)
             {
                 // TODO: take care of existing equipment (add only new slot, if slot is removed put equipment in inventory)
+                foreach (var item in _equipments.Where(x => x.Item != null).Select(x => x.Item))
+                {
+                    item.ChangeEquippedBy(null);
+                    item.ChangeContainer(this);
+                }
+
                 _equipments.Clear();
                 _equipments.AddRange(Race.EquipmentSlots.Select(x => new EquippedItem(x)));
             }
@@ -1696,7 +1704,6 @@ namespace Mud.Server.Character
                 _equipments.Add(new EquippedItem(EquipmentSlots.Light));
                 _equipments.Add(new EquippedItem(EquipmentSlots.Head));
                 _equipments.Add(new EquippedItem(EquipmentSlots.Amulet));
-                _equipments.Add(new EquippedItem(EquipmentSlots.Shoulders));
                 _equipments.Add(new EquippedItem(EquipmentSlots.Chest));
                 _equipments.Add(new EquippedItem(EquipmentSlots.Cloak));
                 _equipments.Add(new EquippedItem(EquipmentSlots.Waist));
@@ -1707,10 +1714,9 @@ namespace Mud.Server.Character
                 _equipments.Add(new EquippedItem(EquipmentSlots.Ring));
                 _equipments.Add(new EquippedItem(EquipmentSlots.Legs));
                 _equipments.Add(new EquippedItem(EquipmentSlots.Feet));
-                _equipments.Add(new EquippedItem(EquipmentSlots.Trinket)); // 2 trinkets
-                _equipments.Add(new EquippedItem(EquipmentSlots.Trinket));
                 _equipments.Add(new EquippedItem(EquipmentSlots.MainHand)); // 2 hands
                 _equipments.Add(new EquippedItem(EquipmentSlots.OffHand));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Float));
             }
         }
 
@@ -1719,6 +1725,16 @@ namespace Mud.Server.Character
             if (replace) // search empty slot, if not found, return first matching slot
                 return Equipments.FirstOrDefault(x => x.Slot == equipmentSlot && x.Item == null) ?? Equipments.FirstOrDefault(x => x.Slot == equipmentSlot);
             return Equipments.FirstOrDefault(x => x.Slot == equipmentSlot && x.Item == null);
+        }
+
+        protected EquippedItem SearchTwoHandedWeaponEquipmentSlot(bool replace)
+        {
+            // Search empty mainhand + empty offhand (no autoreplace) // TODO can wield 2H on one hand if size giant or specific ability
+            var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
+            var offHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand && x.Item == null);
+            if (mainHand != null && offHand != null && mainHand.Item == null && offHand.Item == null)
+                return mainHand;
+            return null;
         }
 
         protected EquippedItem SearchOneHandedWeaponEquipmentSlot(bool replace)
@@ -1746,16 +1762,11 @@ namespace Mud.Server.Character
                 // If not empty main hand found, search off hand
                 return SearchOffhandEquipmentSlot(false);
             }
-
-            //if (replace)
-            //    return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand && x.Item == null)
-            //           ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand);
-            //return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null) ?? Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand && x.Item == null);
         }
 
         protected EquippedItem SearchOffhandEquipmentSlot(bool replace)
         {
-            // This leads to strange looking equipments:
+            // This can lead to strange looking equipments:
             // wield 1-H weapon -> first main hand
             // wield 2-H weapon -> second main hand
             // hold shield -> second off hand (should be first off hand)
@@ -2275,6 +2286,7 @@ namespace Mud.Server.Character
             for (int i = 0; i < _baseAttributes.Length; i++)
                 _currentAttributes[i] = _baseAttributes[i];
             Sex = BaseSex;
+            Size = BaseSize;
         }
 
         protected void SetMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)

@@ -91,6 +91,7 @@
     <Compile Include="Aura\CharacterAttributeAffect.cs" />
     <Compile Include="Aura\CharacterFlagsAffect.cs" />
     <Compile Include="Aura\CharacterIRVAffect.cs" />
+    <Compile Include="Aura\CharacterSizeAffect.cs" />
     <Compile Include="Aura\CharacterSexAffect.cs" />
     <Compile Include="Aura\FlagAffectBase.cs" />
     <Compile Include="Aura\ItemFlagsAffect.cs" />

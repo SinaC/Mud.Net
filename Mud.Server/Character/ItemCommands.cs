@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.Linq;
 using Mud.Domain;
 using Mud.Logger;
@@ -810,23 +809,37 @@ namespace Mud.Server.Character
         //********************************************************************
         private bool WearItem(IEquippableItem item, bool replace) // equivalent to wear_obj in act_obj.C:1467
         {
-            // TODO: check level
-            WearLocations wearLocation = item.WearLocation;
-
-            if (wearLocation == WearLocations.None)
+            // check level
+            if (item.Level > Level)
+            {
+                Send("You must be level {0} to use this object.", item.Level);
+                Act(ActOptions.ToRoom, "{0} tries to use {1}, but is too inexperienced.", this, item);
+                return false;
+            }
+            // can be worn ?
+            if (item.WearLocation == WearLocations.None)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Item {0} cannot be equipped", item.DebugName);
                 if (replace) // replace means, only item is trying to be worn
                     Act(ActOptions.ToCharacter, "{0} cannot be worn.", item);
                 return false;
             }
+            // search slot
             EquippedItem equipmentSlot = SearchEquipmentSlot(item, replace);
             if (equipmentSlot == null)
             {
-                if (replace) // we dont' want to spam if character is trying to wear all, replace is set to true only when wearing one item
+                if (replace) // we don't want to spam if character is trying to wear all, replace is set to true only when wearing one item
                     Act(ActOptions.ToCharacter, "You cannot wear {0}.", item);
                 return false;
             }
+            // too heavy to be wielded ?
+            IItemWeapon weapon = item as IItemWeapon;
+            if (weapon != null && this is IPlayableCharacter && weapon.TotalWeight > TableValues.WieldBonus(this) * 10)
+            {
+                Send("It is too heavy for you to wield.");
+                return false;
+            }
+            // remove if needed
             if (replace && equipmentSlot.Item != null)
             {
                 IEquippableItem removeItem = equipmentSlot.Item;
@@ -835,12 +848,70 @@ namespace Mud.Server.Character
                 removeItem.ChangeEquippedBy(null);
                 removeItem.ChangeContainer(this);
             }
-            // TODO: different phrase depending on wear location
-            Act(ActOptions.ToAll, "{0:N} wear{0:v} {1}.", this, item);
+            // Display
+            string wearPhrase = GetEquipmentSlotWearPhrase(equipmentSlot.Slot, item);
+            Act(ActOptions.ToAll, wearPhrase, this, item);
+            // Equip at last
             equipmentSlot.Item = item; // equip
             item.ChangeContainer(null); // remove from inventory
             item.ChangeEquippedBy(this); // set as equipped by this
+            // Display weapon confidence if wielding weapon
+            if (weapon != null)
+                DisplayWeaponConfidence(weapon);
             return true;
+        }
+
+        private string GetEquipmentSlotWearPhrase(EquipmentSlots slot, IItem item)
+        {
+            switch (slot)
+            {
+                case EquipmentSlots.Light: return "{0:N} light{0:v} {1} and holds it.";
+                case EquipmentSlots.Head: return "{0:N} wear{0:v} {1} on {0:s} head.";
+                case EquipmentSlots.Amulet: return "{0:N} wear{0:v} {1} around {0:s} neck.";
+                case EquipmentSlots.Chest: return "{0:N} wear{0:v} {1} on {0:s} torso.";
+                case EquipmentSlots.Cloak: return "{0:N} wear{0:v} {1} about {0:s} torso.";
+                case EquipmentSlots.Waist: return "{0:N} wear{0:v} {1} about {0:s} waist.";
+                case EquipmentSlots.Wrists: return "{0:N} wear{0:v} {1} around {0:s} wrist.";
+                case EquipmentSlots.Arms: return "{0:N} wear{0:v} {1} on {0:s} arms.";
+                case EquipmentSlots.Hands: return "{0:N} wear{0:v} {1} on {0:s} hands.";
+                    case EquipmentSlots.Ring: return "{0:N} wear{0:v} {1} on {0:s} finger.";
+                case EquipmentSlots.Legs: return "{0:N} wear{0:v} {1} on {0:s} legs.";
+                case EquipmentSlots.Feet: return "{0:N} wear{0:v} {1} on {0:s} feet.";
+                case EquipmentSlots.MainHand: return "{0:N} wield{0:v} {1}.";
+                case EquipmentSlots.OffHand:
+                    switch (item)
+                    {
+                        case IItemWeapon _:
+                            return "{0:N} wield{0:v} {1}.";
+                        case IItemShield _:
+                            return "{0:N} wear{0:v} {1} as a shield.";
+                        default:
+                            return "{0:N} hold{0:v} {1} in {0:s} hand.";
+                    }
+                case EquipmentSlots.Float: return "{0:N} release{0:v} {1} to float next to {0:m}.";
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, "Invalid EquipmentSlots {0} for item {1} character {2}", slot, item.DebugName, this.DebugName);
+                    return "{0:N} wear{0:v} {1}.";
+            }
+        }
+
+        private void DisplayWeaponConfidence(IItemWeapon weapon)
+        {
+            int learned = 0; // TODO: get weapon skill
+            if (learned >= 100)
+                Act(ActOptions.ToCharacter, "{0:N} feels like a part of you!", weapon);
+            else if (learned > 85)
+                Act(ActOptions.ToCharacter, "You feel quite confident with {0:N}.", weapon);
+            else if (learned > 70)
+                Act(ActOptions.ToCharacter, "You are skilled with {0:N}.", weapon);
+            else if (learned > 50)
+                Act(ActOptions.ToCharacter, "Your skill with {0:N} is adequate.", weapon);
+            else if (learned > 25)
+                Act(ActOptions.ToCharacter, "{0:N} feels a little clumsy in your hands.", weapon);
+            else if (learned > 1)
+                Act(ActOptions.ToCharacter, "You fumble and almost drop {0:N}.", weapon);
+            else
+                Act(ActOptions.ToCharacter, "You don't even know which end is up on {0:N}.", weapon);
         }
 
         private bool DropItem(IItem item)

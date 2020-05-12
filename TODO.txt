@@ -1,10 +1,14 @@
+ongoing
+	WearLocations.Float, EquipmentSlots.Float, SpellFloatingDisc
+
 TODO:
+Unequip/Equip add optional recompute argument
+weapon types + link to abilities
 when mud restarts and a player with quests reconnects, quest items are not recreated
   same goes if player destroy item, it cannot be found in world anymore
 prime attribute for class: +2 max train points in this attribute (+3 if human)
 money
 use GetEquipment where Equipments is reference
-Weight/Carry
 items Potion/Staff/Wand/Scroll
 skills: staves/wand/scroll/potion/steal/lore/rescue
 assign abilities to classes
@@ -20,6 +24,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+size
+equipment wear phrase
 container max weight, max items
 carry, weight
 RoomFlags

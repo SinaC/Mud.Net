@@ -94,6 +94,7 @@ namespace Mud.Server.Character.PlayableCharacter
             BaseResistances = data.Resistances;
             BaseVulnerabilities = data.Vulnerabilities;
             BaseSex = data.Sex;
+            BaseSize = data.Size;
             if (data.Attributes != null)
             {
                 foreach (var attributeData in data.Attributes)
@@ -665,6 +666,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 Class = Class?.Name ?? string.Empty,
                 Level = Level,
                 Sex = BaseSex,
+                Size = BaseSize,
                 HitPoints = HitPoints,
                 MovePoints = MovePoints,
                 CurrentResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),

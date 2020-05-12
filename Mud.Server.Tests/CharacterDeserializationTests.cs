@@ -32,6 +32,7 @@ namespace Mud.Server.Tests
                 Class = AutoFaker.Generate<string>(), // ClassMock will generate Class at runtime
                 Level = AutoFaker.Generate<int>(),
                 Sex = AutoFaker.Generate<Sex>(),
+                Size = AutoFaker.Generate<Sizes>(),
                 Experience = AutoFaker.Generate<long>(),
                 HitPoints = AutoFaker.Generate<int>(),
                 MovePoints = AutoFaker.Generate<int>(),
@@ -59,6 +60,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(characterData.Class, playableCharacter.Class.Name);
             Assert.AreEqual(characterData.Level, playableCharacter.Level);
             Assert.AreEqual(characterData.Sex, playableCharacter.BaseSex);
+            Assert.AreEqual(characterData.Size, playableCharacter.BaseSize);
             Assert.AreEqual(characterData.Experience, playableCharacter.Experience);
             Assert.AreEqual(characterData.HitPoints, playableCharacter.HitPoints);
             Assert.AreEqual(characterData.MovePoints, playableCharacter.MovePoints);

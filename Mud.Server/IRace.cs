@@ -14,6 +14,8 @@ namespace Mud.Server
 
         IEnumerable<EquipmentSlots> EquipmentSlots { get; }
 
+        Sizes Size { get; }
+
         IRVFlags Immunities { get; }
         IRVFlags Resistances { get; }
         IRVFlags Vulnerabilities { get; }

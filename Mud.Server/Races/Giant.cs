@@ -14,8 +14,9 @@ namespace Mud.Server.Races
         #region IRace
 
         public override string Name => "giant";
-
         public override string ShortName => "Gia";
+
+        public override Sizes Size => Sizes.Large;
 
         public override IRVFlags Immunities => IRVFlags.None;
         public override IRVFlags Resistances => IRVFlags.Fire | IRVFlags.Cold;

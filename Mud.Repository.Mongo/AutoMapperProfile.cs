@@ -34,7 +34,8 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapFromDictionary(x.Attributes, MapCharacterAttributes)))
                 .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapFromDictionary(x.CurrentResources, MapResourceKind)))
                 .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapFromDictionary(x.MaxResources, MapResourceKind)))
-                .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapFromDictionary(x.Conditions, MapConditions)));
+                .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapFromDictionary(x.Conditions, MapConditions)))
+                .ForMember(x => x.Size, expression => expression.MapFrom(x => MapSizes(x.Size)));
 
             CreateMap<Mud.Domain.ItemData, Domain.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
@@ -68,7 +69,8 @@ namespace Mud.Repository.Mongo
                 .Include<Mud.Domain.CharacterIRVAffectData, Domain.CharacterIRVAffectData>()
                 .Include<Mud.Domain.CharacterSexAffectData, Domain.CharacterSexAffectData>()
                 .Include<Mud.Domain.ItemFlagsAffectData, Domain.ItemFlagsAffectData>()
-                .Include<Mud.Domain.ItemWeaponFlagsAffectData, Domain.ItemWeaponFlagsAffectData>();
+                .Include<Mud.Domain.ItemWeaponFlagsAffectData, Domain.ItemWeaponFlagsAffectData>()
+                .Include<Mud.Domain.CharacterSizeAffectData, Domain.CharacterSizeAffectData>();
             CreateMap<Mud.Domain.CharacterAttributeAffectData, Domain.CharacterAttributeAffectData>()
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
                 .ForMember(x => x.Location, expression => expression.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
@@ -87,6 +89,8 @@ namespace Mud.Repository.Mongo
             CreateMap<Mud.Domain.ItemWeaponFlagsAffectData, Domain.ItemWeaponFlagsAffectData>()
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
                 .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapWeaponFlags(x.Modifier)));
+            CreateMap<Mud.Domain.CharacterSizeAffectData, Domain.CharacterSizeAffectData>()
+                .ForMember(x => x.Value, expression => expression.MapFrom(x => MapSizes(x.Value)));
 
             CreateMap<Mud.Domain.KnownAbilityData, Domain.KnownAbilityData>()
                 .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapNullableResourceKind(x.ResourceKind)))
@@ -110,7 +114,8 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapToDictionary(x.Attributes, MapCharacterAttributes)))
                 .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapToDictionary(x.CurrentResources, MapResourceKind)))
                 .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapToDictionary(x.MaxResources, MapResourceKind)))
-                .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapToDictionary(x.Conditions, MapConditions)));
+                .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapToDictionary(x.Conditions, MapConditions)))
+                .ForMember(x => x.Size, expression => expression.MapFrom(x => MapSizes(x.Size)));
 
             CreateMap<Domain.ItemData, Mud.Domain.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
@@ -144,7 +149,8 @@ namespace Mud.Repository.Mongo
                 .Include<Domain.CharacterIRVAffectData, Mud.Domain.CharacterIRVAffectData>()
                 .Include<Domain.CharacterSexAffectData, Mud.Domain.CharacterSexAffectData>()
                 .Include<Domain.ItemFlagsAffectData, Mud.Domain.ItemFlagsAffectData>()
-                .Include<Domain.ItemWeaponFlagsAffectData, Mud.Domain.ItemWeaponFlagsAffectData>();
+                .Include<Domain.ItemWeaponFlagsAffectData, Mud.Domain.ItemWeaponFlagsAffectData>()
+                .Include<Domain.CharacterSizeAffectData, Mud.Domain.CharacterSizeAffectData>();
             CreateMap<Domain.CharacterAttributeAffectData, Mud.Domain.CharacterAttributeAffectData>()
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
                 .ForMember(x => x.Location, expression => expression.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
@@ -163,6 +169,8 @@ namespace Mud.Repository.Mongo
             CreateMap<Domain.ItemWeaponFlagsAffectData, Mud.Domain.ItemWeaponFlagsAffectData>()
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
                 .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapWeaponFlags(x.Modifier)));
+            CreateMap<Domain.CharacterSizeAffectData, Mud.Domain.CharacterSizeAffectData>()
+                .ForMember(x => x.Value, expression => expression.MapFrom(x => MapSizes(x.Value)));
 
             CreateMap<Domain.KnownAbilityData, Mud.Domain.KnownAbilityData>()
                 .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapNullableResourceKind(x.ResourceKind)))
@@ -281,31 +289,29 @@ namespace Mud.Repository.Mongo
                 case 3:
                     return Mud.Domain.EquipmentSlots.Amulet;
                 case 4:
-                    return Mud.Domain.EquipmentSlots.Shoulders;
-                case 5:
                     return Mud.Domain.EquipmentSlots.Chest;
-                case 6:
+                case 5:
                     return Mud.Domain.EquipmentSlots.Cloak;
-                case 7:
+                case 6:
                     return Mud.Domain.EquipmentSlots.Waist;
-                case 8:
+                case 7:
                     return Mud.Domain.EquipmentSlots.Wrists;
-                case 9:
+                case 8:
                     return Mud.Domain.EquipmentSlots.Arms;
-                case 10:
+                case 9:
                     return Mud.Domain.EquipmentSlots.Hands;
-                case 11:
+                case 10:
                     return Mud.Domain.EquipmentSlots.Ring;
-                case 12:
+                case 11:
                     return Mud.Domain.EquipmentSlots.Legs;
-                case 13:
+                case 12:
                     return Mud.Domain.EquipmentSlots.Feet;
-                case 14:
-                    return Mud.Domain.EquipmentSlots.Trinket;
-                case 15:
+                case 13:
                     return Mud.Domain.EquipmentSlots.MainHand;
-                case 16:
+                case 14:
                     return Mud.Domain.EquipmentSlots.OffHand;
+                case 15:
+                    return Mud.Domain.EquipmentSlots.Float;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid EquipmentSlots {slot} while reading pfile");
                     return 0;
@@ -324,32 +330,30 @@ namespace Mud.Repository.Mongo
                     return 2;
                 case Mud.Domain.EquipmentSlots.Amulet:
                     return 3;
-                case Mud.Domain.EquipmentSlots.Shoulders:
-                    return 4;
                 case Mud.Domain.EquipmentSlots.Chest:
-                    return 5;
+                    return 4;
                 case Mud.Domain.EquipmentSlots.Cloak:
-                    return 6;
+                    return 5;
                 case Mud.Domain.EquipmentSlots.Waist:
-                    return 7;
+                    return 6;
                 case Mud.Domain.EquipmentSlots.Wrists:
-                    return 8;
+                    return 7;
                 case Mud.Domain.EquipmentSlots.Arms:
-                    return 9;
+                    return 8;
                 case Mud.Domain.EquipmentSlots.Hands:
-                    return 10;
+                    return 9;
                 case Mud.Domain.EquipmentSlots.Ring:
-                    return 11;
+                    return 10;
                 case Mud.Domain.EquipmentSlots.Legs:
-                    return 12;
+                    return 11;
                 case Mud.Domain.EquipmentSlots.Feet:
-                    return 13;
-                case Mud.Domain.EquipmentSlots.Trinket:
-                    return 14;
+                    return 12;
                 case Mud.Domain.EquipmentSlots.MainHand:
-                    return 15;
+                    return 13;
                 case Mud.Domain.EquipmentSlots.OffHand:
-                    return 16;
+                    return 14;
+                case Mud.Domain.EquipmentSlots.Float:
+                    return 15;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid EquipmentSlots {slot} while writing pfile");
                     return 0;
@@ -685,6 +689,38 @@ namespace Mud.Repository.Mongo
         private int MapPortalFlags(Mud.Domain.PortalFlags flags)
         {
             return (int)flags;
+        }
+
+        private Mud.Domain.Sizes MapSizes(int size)
+        {
+            switch (size)
+            {
+                case 0: return Mud.Domain.Sizes.Tiny;
+                case 1: return Mud.Domain.Sizes.Small;
+                case 2: return Mud.Domain.Sizes.Medium;
+                case 3: return Mud.Domain.Sizes.Large;
+                case 4: return Mud.Domain.Sizes.Huge;
+                case 5: return Mud.Domain.Sizes.Giant;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid Sizes {size} while reading pfile");
+                    return Mud.Domain.Sizes.Tiny;
+            }
+        }
+
+        private int MapSizes(Mud.Domain.Sizes size)
+        {
+            switch (size)
+            {
+                case Mud.Domain.Sizes.Tiny: return 0;
+                case Mud.Domain.Sizes.Small: return 1;
+                case Mud.Domain.Sizes.Medium: return 2;
+                case Mud.Domain.Sizes.Large: return 3;
+                case Mud.Domain.Sizes.Huge: return 4;
+                case Mud.Domain.Sizes.Giant: return 5;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, $"Invalid Sizes {size} while writing pfile");
+                    return 0;
+            }
         }
     }
 }

@@ -31,6 +31,8 @@ namespace Mud.Server.Tests.Mocking
 
         public IEnumerable<EquipmentSlots> EquipmentSlots => EnumHelpers.GetValues<EquipmentSlots>().SelectMany(x => Enumerable.Repeat(x, 2)); // two of each
 
+        public Sizes Size => Sizes.Medium;
+
         public IRVFlags Immunities => IRVFlags.None;
 
         public IRVFlags Resistances =>IRVFlags.None;

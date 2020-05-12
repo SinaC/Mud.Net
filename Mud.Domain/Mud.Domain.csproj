@@ -78,6 +78,7 @@
     <Compile Include="CharacterData.cs" />
     <Compile Include="CharacterFlagsAffectData.cs" />
     <Compile Include="CharacterIRVAffectData.cs" />
+    <Compile Include="CharacterSizeAffectData.cs" />
     <Compile Include="CharacterSexAffectData.cs" />
     <Compile Include="CurrentQuestObjectiveData.cs" />
     <Compile Include="Enums.cs" />

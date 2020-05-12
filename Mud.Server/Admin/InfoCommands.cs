@@ -321,10 +321,13 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Furniture: {0}", victim.Furniture?.DisplayName ?? "(none)");
             sb.AppendFormatLine("Room: {0} [vnum: {1}]", victim.Room.DisplayName, victim.Room.Blueprint?.Id ?? -1);
             sb.AppendFormatLine("Race: {0} Class: {1}", victim.Race?.DisplayName ?? "(none)", victim.Class?.DisplayName ?? "(none)");
-            sb.AppendFormatLine("Level: {0} Sex: {1} (base: {2})", victim.Level, victim.Sex, victim.BaseSex);
+            sb.AppendFormatLine("Sex: {0} (base: {1})", victim.Sex, victim.BaseSex);
+            sb.AppendFormatLine("Size: {0} (base: {1})", victim.Size, victim.BaseSize);
             sb.AppendFormatLine("Carry: {0}/{1} Weight: {2}/{3}", victim.CarryNumber, victim.MaxCarryNumber, victim.CarryWeight, victim.MaxCarryWeight);
             if (playableVictim != null)
-                sb.AppendFormatLine("Experience: {0} NextLevel: {1}", playableVictim.Experience, playableVictim.ExperienceToLevel);
+                sb.AppendFormatLine("Level: {0} Experience: {1} NextLevel: {2}", playableVictim.Level, playableVictim.Experience, playableVictim.ExperienceToLevel);
+            else
+                sb.AppendFormatLine("Level: {0}", victim.Level);
             sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim[CharacterAttributes.MaxHitPoints]);
             sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim[CharacterAttributes.MaxMovePoints]);
             sb.AppendFormatLine("Flags: {0} (base: {1})", victim.CharacterFlags, victim.BaseCharacterFlags);

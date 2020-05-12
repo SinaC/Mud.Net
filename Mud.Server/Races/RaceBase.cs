@@ -16,7 +16,6 @@ namespace Mud.Server.Races
             Domain.EquipmentSlots.Light,
             Domain.EquipmentSlots.Head,
             Domain.EquipmentSlots.Amulet,
-            Domain.EquipmentSlots.Shoulders,
             Domain.EquipmentSlots.Chest,
             Domain.EquipmentSlots.Cloak,
             Domain.EquipmentSlots.Waist,
@@ -27,10 +26,9 @@ namespace Mud.Server.Races
             Domain.EquipmentSlots.Ring,
             Domain.EquipmentSlots.Legs,
             Domain.EquipmentSlots.Feet,
-            Domain.EquipmentSlots.Trinket,
-            Domain.EquipmentSlots.Trinket,
             Domain.EquipmentSlots.MainHand,
             Domain.EquipmentSlots.OffHand,
+            Domain.EquipmentSlots.Float,
         };
 
         protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
@@ -46,6 +44,8 @@ namespace Mud.Server.Races
         public IEnumerable<AbilityUsage> Abilities => _abilities;
 
         public virtual IEnumerable<EquipmentSlots> EquipmentSlots => _basicSlots;
+
+        public abstract Sizes Size { get; }
 
         public abstract IRVFlags Immunities { get; }
         public abstract IRVFlags Resistances { get; }

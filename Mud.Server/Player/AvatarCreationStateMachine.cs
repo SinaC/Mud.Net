@@ -164,6 +164,7 @@ namespace Mud.Server.Player
                     Class = _class.Name,
                     Level = 1,
                     Sex = _sex,
+                    Size = _race.Size,
                     HitPoints = 100,
                     MovePoints = 100,
                     CurrentResources = new Dictionary<ResourceKinds, int>

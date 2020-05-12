@@ -28,6 +28,9 @@ namespace Mud.Repository.Filesystem.DataContracts
         public int Sex { get; set; }
 
         [DataMember]
+        public int Size { get; set; }
+
+        [DataMember]
         public int HitPoints { get; set; }
 
         [DataMember]

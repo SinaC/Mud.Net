@@ -13,7 +13,6 @@ namespace Mud.Server.Races
             Domain.EquipmentSlots.Light,
             Domain.EquipmentSlots.Head,
             Domain.EquipmentSlots.Amulet,
-            Domain.EquipmentSlots.Shoulders,
             Domain.EquipmentSlots.Chest,
             Domain.EquipmentSlots.Cloak,
             Domain.EquipmentSlots.Waist,
@@ -31,17 +30,18 @@ namespace Mud.Server.Races
             // <--
             Domain.EquipmentSlots.Legs,
             Domain.EquipmentSlots.Feet,
-            Domain.EquipmentSlots.Trinket,
-            Domain.EquipmentSlots.Trinket,
             // 4 hands
             Domain.EquipmentSlots.MainHand,
             Domain.EquipmentSlots.OffHand,
             Domain.EquipmentSlots.MainHand,
             Domain.EquipmentSlots.OffHand,
+            // no float as malus
         };
 
         public override string Name => "insectoid";
         public override string ShortName => "Ins";
+
+        public override Sizes Size => Sizes.Medium;
 
         public override IEnumerable<EquipmentSlots> EquipmentSlots => _slots;
 

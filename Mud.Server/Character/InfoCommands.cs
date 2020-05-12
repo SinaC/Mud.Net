@@ -924,8 +924,6 @@ namespace Mud.Server.Character
                     return "%C%<worn on head>           %x%";
                 case EquipmentSlots.Amulet:
                     return "%C%<worn on neck>           %x%";
-                case EquipmentSlots.Shoulders:
-                    return "%C%<worn around shoulders>  %x%";
                 case EquipmentSlots.Chest:
                     return "%C%<worn on chest>          %x%";
                 case EquipmentSlots.Cloak:
@@ -944,8 +942,6 @@ namespace Mud.Server.Character
                     return "%C%<worn on legs>           %x%";
                 case EquipmentSlots.Feet:
                     return "%C%<worn on feet>           %x%";
-                case EquipmentSlots.Trinket:
-                    return "%C%<worn as trinket>        %x%";
                 case EquipmentSlots.MainHand:
                     return "%C%<wielded>                %x%";
                 case EquipmentSlots.OffHand:
@@ -957,6 +953,8 @@ namespace Mud.Server.Character
                             return "%C%<held>                   %x%";
                     }
                     return "%c%<offhand>                %x%";
+                case EquipmentSlots.Float:
+                    return "%C%<floating nearby>        %x%";
                 default:
                     Log.Default.WriteLine(LogLevels.Error, "DoEquipment: missing WearLocation {0}", equippedItem.Slot);
                     break;

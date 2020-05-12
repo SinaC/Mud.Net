@@ -1218,10 +1218,14 @@ namespace Mud.Server.WPFTestApplication
                 case MysteryImporter.M: // M wrist
                     return WearLocations.Wrists;
                 case MysteryImporter.N: // N wield
+                    int weaponType2 = data.Values[4] == null ? 0 : Convert.ToInt32(data.Values[4]);
+                    if (data.ItemType == "weapon" && HasBit( weaponType2, MysteryImporter.F)) // Two-hands
+                        return WearLocations.Wield2H;
                     return WearLocations.Wield;
                 case MysteryImporter.O: // O hold
                     return WearLocations.Hold;
-                //case Importer.Mystery.MysteryImporter.Q: // Q float
+                case MysteryImporter.Q: // Q float
+                    return WearLocations.Float;
                 //case Importer.Mystery.MysteryImporter.R: // R ear
                 case MysteryImporter.S: // S eyes
                     return WearLocations.Head; // eyes
@@ -1313,7 +1317,7 @@ namespace Mud.Server.WPFTestApplication
                 case "axe": // Axe
                     return WeaponTypes.Mace2H;
                 case "flail": // Flail
-                    // TODO:
+                    // TODO
                     return WeaponTypes.Fist;
                 case "whip": // Whip
                     // TODO:

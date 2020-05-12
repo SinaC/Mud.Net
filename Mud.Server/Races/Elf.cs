@@ -14,8 +14,9 @@ namespace Mud.Server.Races
         #region IRace
 
         public override string Name => "elf";
-
         public override string ShortName => "Elf";
+
+        public override Sizes Size => Sizes.Medium;
 
         public override IRVFlags Immunities => IRVFlags.None;
         public override IRVFlags Resistances => IRVFlags.Charm;

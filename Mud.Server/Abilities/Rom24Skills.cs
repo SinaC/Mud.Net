@@ -124,7 +124,10 @@ namespace Mud.Server.Abilities
             // size and weight
             chance += source.CarryWeight / 250;
             chance -= victim.CarryWeight / 250;
-            // TODO: size source and victim
+            if (source.Size < victim.Size)
+                chance -= (victim.Size - source.Size) * 15; // big drawback to bash someone bigger
+            else
+                chance += (source.Size - victim.Size) * 10; // big advantage to bash someone smaller
             // stats
             chance += source[CharacterAttributes.Strength];
             chance -= (4 * victim[CharacterAttributes.Dexterity]) / 3;
@@ -149,8 +152,7 @@ namespace Mud.Server.Abilities
                 source.Act(ActOptions.ToRoom, "{0:N} sends {1} sprawling with a powerful bash.", source, victim);
                 // TODO: victim daze
                 // TODO: victim.Position = Positions.Resting
-                //int damage = RandomManager.Range(2, 2+2* source.Size + chance/2)
-                int damage = 2;
+                int damage = RandomManager.Range(2, 2 + 2 * (int)source.Size + chance / 20);
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.Bash, false);
                 // TODO: check_killer(ch,victim);
                 return UseResults.Ok;
@@ -290,7 +292,8 @@ namespace Mud.Server.Abilities
             }
 
             // modifiers
-            // TODO: size
+            if (source.Size < victim.Size)
+                chance -= (victim.Size - source.Size) * 10; // bigger = harder to trip
             // dexterity
             chance += source[CharacterAttributes.Dexterity];
             chance -= (3 * victim[CharacterAttributes.Dexterity]) / 2;
@@ -311,7 +314,7 @@ namespace Mud.Server.Abilities
                 //DAZE_STATE(victim, 2 * PULSE_VIOLENCE);
                 //victim->position = POS_RESTING;
                 // TODO: check_killer(ch, victim)
-                int damage = 2 + 2/* * victim.Size*/;
+                int damage = RandomManager.Range(2, 2 + 2 * (int)source.Size);
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.Bash, true);
                 return UseResults.Ok;
             }

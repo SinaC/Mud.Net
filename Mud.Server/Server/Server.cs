@@ -1115,15 +1115,14 @@ namespace Mud.Server.Server
                     if (character.ImpersonatedBy == null) // TODO: remove after x minutes
                         Log.Default.WriteLine(LogLevels.Warning, "Impersonable {0} is not impersonated", character.DebugName);
 
-                    //
+                    // Update resources
                     character.Regen();
                     // Update conditions
-
                     character.GainCondition(Conditions.Drunk, -1); // decrease drunk state
                     // TODO: not if undead from here
-                    character.GainCondition(Conditions.Full, -2); // TODO depends on size (-4 if size > medium)
+                    character.GainCondition(Conditions.Full, character.Size > Sizes.Medium ? -4 : -2);
                     character.GainCondition(Conditions.Thirst, -1);
-                    character.GainCondition(Conditions.Hunger, -1); // TODO depends on size (-2 if size > medium)
+                    character.GainCondition(Conditions.Hunger, character.Size > Sizes.Medium ? -2 : -1);
                 }
                 catch (Exception ex)
                 { 
