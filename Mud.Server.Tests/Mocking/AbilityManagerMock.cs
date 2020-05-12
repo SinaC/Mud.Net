@@ -50,7 +50,7 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public CastResults CastFromItem(IAbility ability, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters)
+        public CastResults CastFromItem(IAbility ability, int level, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
             throw new NotImplementedException();
         }

@@ -1347,9 +1347,9 @@ namespace Mud.Server.Character
         // Abilities
         public abstract int GetWeaponLearned(IItemWeapon weapon);
 
-        public abstract (int, KnownAbility) GetLearnInfo(IAbility ability);
+        public abstract (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability);
 
-        public (int, KnownAbility) GetLearnInfo(string abilityName) 
+        public (int learned, KnownAbility knownAbility) GetLearnInfo(string abilityName) 
         {
             IAbility ability = AbilityManager[abilityName];
             if (ability == null)

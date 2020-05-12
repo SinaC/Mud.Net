@@ -700,6 +700,67 @@ namespace Mud.Server.Abilities
             return UseResults.InvalidTarget;
         }
 
+        [Skill(5012, "Scrolls", AbilityTargets.Custom, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
+        public UseResults SkillScrolls(IAbility ability, int learned, ICharacter source, string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                source.Send("Recite what?");
+                return UseResults.MissingParameter;
+            }
+
+            IItem item = FindHelpers.FindByName(source.Inventory.Where(x => source.CanSee(x)), parameters[0]);
+            if (item == null)
+            {
+                source.Send("You do not have that scroll.");
+                return UseResults.TargetNotFound;
+            }
+
+            IItemScroll scroll = item as IItemScroll;
+            if (scroll == null)
+            {
+                source.Send("You can recite only scrolls.");
+                return UseResults.InvalidTarget;
+            }
+
+            if (source.Level < scroll.Level)
+            {
+                source.Send("This scroll is too complex for you to comprehend.");
+                return UseResults.InvalidTarget;
+            }
+
+            IEntity target;
+            if (parameters.Length == 1)
+                target = source;
+            else
+                target = FindHelpers.FindByName(source.Room.People, parameters[1]) as IEntity
+                    ?? FindHelpers.FindItemHere(source, parameters[1]) as IEntity;
+            if (target == null)
+            {
+                source.Send("You can't find it.");
+                return UseResults.TargetNotFound;
+            }
+
+            // let's go
+            source.Act(ActOptions.ToAll, "{0:N} recite{0:v} {1}.", source, scroll);
+
+            var learnInfo = source.GetLearnInfo("Scrolls");
+            int chance = 20 + (4 * learnInfo.learned) / 5;
+            if (RandomManager.Chance(chance))
+            {
+                source.Send("You mispronounce a syllable.");
+                World.RemoveItem(scroll);
+                return UseResults.Failed;
+            }
+
+            CastFromItem(scroll.FirstSpell, scroll.Level, source, target, rawParameters, parameters);
+            CastFromItem(scroll.SecondSpell, scroll.Level, source, target, rawParameters, parameters);
+            CastFromItem(scroll.ThirdSpell, scroll.Level, source, target, rawParameters, parameters);
+            CastFromItem(scroll.FourthSpell, scroll.Level, source, target, rawParameters, parameters);
+            World.RemoveItem(scroll);
+            return UseResults.Ok;
+        }
+
         //*******************************
         private UseResults InnerPick(ICloseable closeable, ICharacter source, int learned)
         {

@@ -624,16 +624,82 @@ namespace Mud.Server.WPFTestApplication
                     NoTake = extraFlags.noTake,
                 };
             }
+            else if (data.ItemType == "pill")
+            {
+                blueprint = new ItemPillBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
+                    SpellLevel = Convert.ToInt32(data.Values[0]),
+                    Spell1 = Convert.ToString(data.Values[1]),
+                    Spell2 = Convert.ToString(data.Values[2]),
+                    Spell3 = Convert.ToString(data.Values[3]),
+                    Spell4 = Convert.ToString(data.Values[4]),
+                };
+            }
+            else if (data.ItemType == "potion")
+            {
+                blueprint = new ItemPotionBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
+                    SpellLevel = Convert.ToInt32(data.Values[0]),
+                    Spell1 = Convert.ToString(data.Values[1]),
+                    Spell2 = Convert.ToString(data.Values[2]),
+                    Spell3 = Convert.ToString(data.Values[3]),
+                    Spell4 = Convert.ToString(data.Values[4]),
+                };
+            }
+            else if (data.ItemType == "scroll")
+            {
+                blueprint = new ItemScrollBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
+                    SpellLevel = Convert.ToInt32(data.Values[0]),
+                    Spell1 = Convert.ToString(data.Values[1]),
+                    Spell2 = Convert.ToString(data.Values[2]),
+                    Spell3 = Convert.ToString(data.Values[3]),
+                    Spell4 = Convert.ToString(data.Values[4]),
+                };
+            }
             else
             {
                 Log.Default.WriteLine(LogLevels.Warning, $"ItemBlueprint cannot be created: [{data.VNum}] [{data.ItemType}] [{data.WearFlags}] : {data.Name}");
                 // TODO: other item type
                 blueprint = null;
             }
-            if (blueprint != null)
-                World.AddItemBlueprint(blueprint);
-            return blueprint;
-        }
+                if (blueprint != null)
+                    World.AddItemBlueprint(blueprint);
+                return blueprint;
+            }
 
         private static CharacterNormalBlueprint CreateCharacterBlueprint(MobileData data)
         {
@@ -1139,6 +1205,8 @@ namespace Mud.Server.WPFTestApplication
             mysteryImporter.Load(System.IO.Path.Combine(path, "limbo.are"));
             mysteryImporter.Parse();
             mysteryImporter.Load(System.IO.Path.Combine(path, "midgaard.are"));
+            mysteryImporter.Parse();
+            mysteryImporter.Load(System.IO.Path.Combine(path, "grove.are"));
             mysteryImporter.Parse();
             //mysteryImporter.Load(System.IO.Path.Combine(path, "amazon.are"));
             //mysteryImporter.Parse();

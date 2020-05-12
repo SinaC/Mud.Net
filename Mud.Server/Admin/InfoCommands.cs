@@ -439,6 +439,9 @@ namespace Mud.Server.Admin
             if (item is IItemArmor armor)
                 sb.AppendFormatLine("Bash: {0} Pierce: {1} Slash: {2} Exotic: {3}", armor.Bash, armor.Pierce, armor.Slash, armor.Exotic);
             //
+            if (item is IItemCastSpellsNoRecharge castSpellsNoRecharge)
+                sb.AppendFormatLine("Level: {0} Spell1: {1} Spell2: {2} Spell3: {3} Spell4: {4}", castSpellsNoRecharge.Level, castSpellsNoRecharge.FirstSpell?.Name ?? "-", castSpellsNoRecharge.SecondSpell?.Name ?? "-", castSpellsNoRecharge.ThirdSpell?.Name ?? "-", castSpellsNoRecharge.FourthSpell?.Name ?? "-");
+            //
             if (item is IItemContainer container)
                 sb.AppendFormatLine("Item count: {0} Weight: {1} MaxWeight: {2} Flags: {3} Key: {4} MaxWeightPerItem: {5} Weight multiplier: {6}", 
                     container.Content.Count(), container.Weight, container.MaxWeight, container.ContainerFlags, container.KeyId, container.MaxWeightPerItem, container.WeightMultiplier);

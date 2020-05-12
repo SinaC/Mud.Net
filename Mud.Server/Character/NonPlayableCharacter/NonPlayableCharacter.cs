@@ -173,7 +173,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             return learned.Range(0, 100);
         }
 
-        public override (int, KnownAbility) GetLearnInfo(IAbility ability) // TODO: replace with npc class
+        public override (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability) // TODO: replace with npc class
         {
             KnownAbility knownAbility = this[ability];
             //int learned = 0;

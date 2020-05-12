@@ -116,7 +116,7 @@ namespace Mud.Server.Admin
                 return CommandExecutionResults.TargetNotFound;
             }
 
-            IContainer container = itemBlueprint.WearLocation == WearLocations.None
+            IContainer container = itemBlueprint.NoTake
                 ? Impersonating.Room
                 : Impersonating as IContainer;
             IItem item = World.AddItem(Guid.NewGuid(), itemBlueprint, container);

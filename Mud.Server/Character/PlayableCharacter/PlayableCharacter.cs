@@ -361,7 +361,7 @@ namespace Mud.Server.Character.PlayableCharacter
             return learned.Range(0, 100);
         }
 
-        public override (int , KnownAbility) GetLearnInfo(IAbility ability)
+        public override (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability)
         {
             KnownAbility knownAbility = this[ability];
             int learned = 0;

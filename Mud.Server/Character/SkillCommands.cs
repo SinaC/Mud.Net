@@ -61,6 +61,10 @@ namespace Mud.Server.Character
             "[cmd] <drink container>")]
         protected virtual CommandExecutionResults DoEnvenom(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Envenom", rawParameters, parameters);
 
+        [Command("recite", "Spells")]
+        [Syntax("[cmd] <scroll> [<target>]")]
+        protected virtual CommandExecutionResults DoRecite(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Scrolls", rawParameters, parameters);
+
         //
         private CommandExecutionResults ExecuteSkill(string abilityName, string rawParameters, params CommandParameter[] parameters)
         {

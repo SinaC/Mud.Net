@@ -242,6 +242,12 @@ namespace Mud.Server.World
                 case ItemLightBlueprint lightBlueprint:
                     item = new ItemLight(guid, lightBlueprint, container);
                     break;
+                case ItemPillBlueprint pillBlueprint:
+                    item = new ItemPill(guid, pillBlueprint, container);
+                    break;
+                case ItemPotionBlueprint potionBlueprint:
+                    item = new ItemPotion(guid, potionBlueprint, container);
+                    break;
                 case ItemPortalBlueprint portalBlueprint:
                 {
                     IRoom destination = null;
@@ -259,6 +265,9 @@ namespace Mud.Server.World
                     }
                 case ItemQuestBlueprint questBlueprint:
                     item = new ItemQuest(guid, questBlueprint, container);
+                    break;
+                case ItemScrollBlueprint scrollBlueprint:
+                    item = new ItemScroll(guid, scrollBlueprint, container);
                     break;
                 case ItemShieldBlueprint shieldBlueprint:
                     item = new ItemShield(guid, shieldBlueprint, container);
@@ -330,6 +339,12 @@ namespace Mud.Server.World
                 case ItemLightBlueprint lightBlueprint:
                     item = new ItemLight(guid, lightBlueprint, itemData, container);
                     break;
+                case ItemPillBlueprint pillBlueprint:
+                    item = new ItemPill(guid, pillBlueprint, container);
+                    break;
+                case ItemPotionBlueprint potionBlueprint:
+                    item = new ItemPotion(guid, potionBlueprint, container);
+                    break;
                 case ItemPortalBlueprint portalBlueprint:
                     {
                         ItemPortalData itemPortalData = itemData as ItemPortalData;
@@ -348,6 +363,9 @@ namespace Mud.Server.World
                     break;
                 case ItemQuestBlueprint questBlueprint:
                     item = new ItemQuest(guid, questBlueprint, itemData, container);
+                    break;
+                case ItemScrollBlueprint scrollBlueprint:
+                    item = new ItemScroll(guid, scrollBlueprint, itemData, container);
                     break;
                 case ItemShieldBlueprint shieldBlueprint:
                     item = new ItemShield(guid, shieldBlueprint, itemData, container);

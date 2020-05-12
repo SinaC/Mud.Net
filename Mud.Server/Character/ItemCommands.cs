@@ -723,7 +723,7 @@ namespace Mud.Server.Character
         }
 
         [Command("eat", "Food")]
-        [Syntax("[cmd] <item>")]
+        [Syntax("[cmd] <food|pill>")]
         protected virtual CommandExecutionResults DoEat(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -739,9 +739,9 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.TargetNotFound;
             }
 
-            // TODO pill
             IItemFood food = item as IItemFood;
-            if (food == null)
+            IItemPill pill = item as IItemPill;
+            if (food == null && pill == null)
             {
                 Send("That's not edible.");
                 return CommandExecutionResults.InvalidTarget;
@@ -790,9 +790,58 @@ namespace Mud.Server.Character
                             new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
                     Recompute();
                 }
+                World.RemoveItem(food);
                 return CommandExecutionResults.Ok;
             }
-            // TODO: pill
+            if (pill != null)
+            {
+                AbilityManager.CastFromItem(pill.FirstSpell, pill.SpellLevel, this, this, null, null);
+                AbilityManager.CastFromItem(pill.SecondSpell, pill.SpellLevel, this, this, null, null);
+                AbilityManager.CastFromItem(pill.ThirdSpell, pill.SpellLevel, this, this, null, null);
+                AbilityManager.CastFromItem(pill.FourthSpell, pill.SpellLevel, this, this, null, null);
+                World.RemoveItem(pill);
+                return CommandExecutionResults.Ok;
+            }
+            return CommandExecutionResults.Ok;
+        }
+
+        [Command("quaff", "Drink")]
+        [Syntax("[cmd] <potion>")]
+        protected virtual CommandExecutionResults DoQuaff(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Send("Quaff what?");
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
+            }
+
+            IItem item = FindHelpers.FindByName(Inventory.Where(CanSee), parameters[0]);
+            if (item == null)
+            {
+                Send("You do not have that potion.");
+                return CommandExecutionResults.TargetNotFound;
+            }
+
+            IItemPotion potion = item as IItemPotion;
+            if (potion == null)
+            {
+                Send("You can quaff only potions.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+
+            if (Level < potion.Level)
+            {
+                Send("This liquid is too powerful for you to drink.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+
+            Act(ActOptions.ToRoom, "{0:N} quaff{0:v} {1}.", this, potion);
+
+            AbilityManager.CastFromItem(potion.FirstSpell, potion.SpellLevel, this, this, null, null);
+            AbilityManager.CastFromItem(potion.SecondSpell, potion.SpellLevel, this, this, null, null);
+            AbilityManager.CastFromItem(potion.ThirdSpell, potion.SpellLevel, this, this, null, null);
+            AbilityManager.CastFromItem(potion.FourthSpell, potion.SpellLevel, this, this, null, null);
+            World.RemoveItem(potion);
             return CommandExecutionResults.Ok;
         }
 

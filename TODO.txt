@@ -1,12 +1,14 @@
 NEXT:
 
 TODO:
+extra description not handled correctly (see item 3040)
 money
+combat system
 Monitor Recompute calls
 Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
-items Potion/Staff/Wand/Scroll
-skills: staves/wand/scroll/potion/steal/lore/rescue
+items Staff/Wand
+skills: staves/wand/steal/lore/rescue
 assign abilities to classes
 race form, parts
 Dictionary to store Character known ability + keep only one LearnedAbility or replace with KnownAbilities getter based on name
@@ -19,6 +21,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+command quaff, recite
+item pill, potion, scroll
 Unequip/Equip add optional recompute argument
 use GetEquipment where Equipments is reference
 prime attribute for class: +2 max train points in this attribute (+3 if human)
@@ -41,6 +45,7 @@ all skills
     wear off message
 pick lock added
 AddOrUpdateAffect could have an additional parameter with duration, if update is selected -> update duration
+AddAura: additional param combine, when adding already existing aura (see affect_join)
 Exit flags
 closeable items (portal and container)
 issue with lightning breath, table-based damage spell, ray of truth
@@ -137,7 +142,6 @@ Idea: move HP and move in ResourceKinds
 Cooldown
 Use SafeList where List is used
 Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
-AddAura: additional param combine, when adding already existing aura (see affect_join)
 Move CanSee in IEntity
 Move AddAura in aura manager
 store an Aura list in World this will avoid looping on all room/character/item to check aura

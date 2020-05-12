@@ -200,6 +200,12 @@ namespace Mud.Server.Tests.Mocking
                 case ItemLightBlueprint lightBlueprint:
                     item = new ItemLight(guid, lightBlueprint, container);
                     break;
+                case ItemPillBlueprint pillBlueprint:
+                    item = new ItemPill(guid, pillBlueprint, container);
+                    break;
+                case ItemPotionBlueprint potionBlueprint:
+                    item = new ItemPotion(guid, potionBlueprint, container);
+                    break;
                 case ItemPortalBlueprint portalBlueprint:
                     {
                         IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
@@ -208,6 +214,9 @@ namespace Mud.Server.Tests.Mocking
                     break;
                 case ItemQuestBlueprint questBlueprint:
                     item = new ItemQuest(guid, questBlueprint, container);
+                    break;
+                case ItemScrollBlueprint scrollBlueprint:
+                    item = new ItemScroll(guid, scrollBlueprint, container);
                     break;
                 case ItemShieldBlueprint shieldBlueprint:
                     item = new ItemShield(guid, shieldBlueprint, container);
@@ -268,6 +277,12 @@ namespace Mud.Server.Tests.Mocking
                 case ItemLightBlueprint lightBlueprint:
                     item = new ItemLight(guid, lightBlueprint, itemData, container);
                     break;
+                case ItemPillBlueprint pillBlueprint:
+                    item = new ItemPill(guid, pillBlueprint, itemData, container);
+                    break;
+                case ItemPotionBlueprint potionBlueprint:
+                    item = new ItemPotion(guid, potionBlueprint, itemData, container);
+                    break;
                 case ItemPortalBlueprint portalBlueprint:
                     {
                         IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
@@ -276,6 +291,9 @@ namespace Mud.Server.Tests.Mocking
                     break;
                 case ItemQuestBlueprint questBlueprint:
                     item = new ItemQuest(guid, questBlueprint, itemData, container);
+                    break;
+                case ItemScrollBlueprint scrollBlueprint:
+                    item = new ItemScroll(guid, scrollBlueprint, itemData, container);
                     break;
                 case ItemShieldBlueprint shieldBlueprint:
                     item = new ItemShield(guid, shieldBlueprint, itemData, container);

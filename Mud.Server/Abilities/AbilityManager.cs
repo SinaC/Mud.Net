@@ -193,15 +193,18 @@ namespace Mud.Server.Abilities
             return CastResults.Ok;
         }
 
-        public CastResults CastFromItem(IAbility ability, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters)
+        public CastResults CastFromItem(IAbility ability, int level, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
+            if (ability == null)
+                return CastResults.InvalidParameter;
+
             // 1) check if target is compatible
             AbilityTargetResults targetResult = GetItemAbilityTarget(ability, caster, ref target);
             if (targetResult != AbilityTargetResults.Ok)
                 return MapCastResultToCommandExecutionResult(targetResult);
 
             // 2) invoke spell
-            InvokeSpell(ability, caster.Level, caster, target, rawParameters, parameters);
+            InvokeSpell(ability, level, caster, target, rawParameters, parameters);
 
             // TODO: 3) if aggressive: multi hit if still in same room
 
@@ -637,13 +640,7 @@ namespace Mud.Server.Abilities
                 case AbilityTargets.ItemInventoryOrCharacterDefensive:
                     return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, target });
                 case AbilityTargets.Custom:
-                    if (parameters.Length > 1)
-                    {
-                        var newParameters = CommandHelpers.SkipParameters(parameters, 1);
-                        return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, newParameters.rawParameters });
-                    }
-                    else
-                        return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, string.Empty });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, rawParameters, parameters });
                 case AbilityTargets.OptionalItemInventory:
                     return ability.MethodInfo.Invoke(this, new object[] { ability, learned, source, target });
                 case AbilityTargets.ArmorInventory:
