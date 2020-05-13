@@ -73,7 +73,6 @@ namespace Mud.Server
         void RemoveItem(IItem item);
         void RemoveRoom(IRoom room);
 
-        void Update(); // called every pulse
         void Cleanup(); // called once outputs has been processed (before next loop)
     }
 }

@@ -1,6 +1,8 @@
 NEXT:
 
 TODO:
+room light
+admin command to switch an avatar from/to immortal
 money
 combat system
 Monitor Recompute calls
@@ -294,6 +296,9 @@ school: see DamageTypes
 dispel type: ?
 effects: list of effect such as weapon damage %, school damage % spellpower, apply aura absorb damage, apply aura periodic damage % spellpower tick seconds, apply aura periodic heal % spellpower tick seconds
 flags: require main hand, not shapeshifted, passive
+
+mudbytes
+http://www.mudbytes.net/files/tags/RoT/
 
 lua:
 http://dotnetslackers.com/articles/wpf/Integrate-Lua-into-WPF-Games.aspx

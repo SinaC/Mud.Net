@@ -59,6 +59,7 @@ namespace Mud.Server.Server
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
         protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
         protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
+        protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
 
         public Server()
         {
@@ -352,8 +353,6 @@ namespace Mud.Server.Server
             client.DataReceived += ClientLoginOnDataReceived;
             // Send greetings
             client.WriteData("Why don't you login or tell us the name you wish to be known by?");
-            //// TODO: TEST purpose
-            //client.WriteData("%y%Quest Quest 1: the beggar          :   1 /   3 (33%)%x%");
         }
 
         private void NetworkServerOnClientDisconnected(IClient client)
@@ -834,7 +833,7 @@ namespace Mud.Server.Server
             Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 
-        private void HandleShutdown(int _)
+        private void HandleShutdown()
         {
             if (_pulseBeforeShutdown >= 0)
             {
@@ -869,6 +868,47 @@ namespace Mud.Server.Server
                     Stop();
                 }
             }
+        }
+
+        private void HandleAggressiveNonPlayableCharacters()
+        {
+            IReadOnlyCollection<IPlayableCharacter> pcClone = new ReadOnlyCollection<IPlayableCharacter>(World.PlayableCharacters.Where(x => x.Room != null).ToList()); // TODO: !immortal
+            foreach (IPlayableCharacter pc in pcClone)
+            {
+                IReadOnlyCollection<INonPlayableCharacter> aggressorClone = new ReadOnlyCollection<INonPlayableCharacter>(pc.Room.NonPlayableCharacters.Where(x => !IsInvalidAggressor(x, pc)).ToList());
+                foreach (INonPlayableCharacter aggressor in aggressorClone)
+                {
+                    var victims = aggressor.Room.PlayableCharacters.Where(x => IsValidVictim(x, aggressor)).ToArray();
+                    if (victims.Length > 0)
+                    {
+                        IPlayableCharacter victim = RandomManager.Random(victims);
+                        aggressor.MultiHit(victim); // TODO: undefined type
+                    }
+                }
+            }
+        }
+
+        private bool IsInvalidAggressor(INonPlayableCharacter aggressor, IPlayableCharacter victim)
+        {
+            return 
+                !aggressor.ActFlags.HasFlag(ActFlags.Aggressive)
+                || aggressor.Room.RoomFlags.HasFlag(RoomFlags.Safe)
+                || aggressor.CharacterFlags.HasFlag(CharacterFlags.Calm)
+                || aggressor.Fighting != null
+                || aggressor.CharacterFlags.HasFlag(CharacterFlags.Charm)
+                || aggressor.Position <= Positions.Sleeping
+                || aggressor.ActFlags.HasFlag(ActFlags.Wimpy) && victim.Position >= Positions.Sleeping // wimpy aggressive mobs only attack if player is asleep
+                || !aggressor.CanSee(victim)
+                || RandomManager.Chance(50);
+        }
+
+        private bool IsValidVictim(IPlayableCharacter victim, INonPlayableCharacter aggressor)
+        {
+            return
+                // TODO: immortal
+                aggressor.Level >= victim.Level - 5
+                && (!aggressor.ActFlags.HasFlag(ActFlags.Wimpy) || victim.Position < Positions.Sleeping) // wimpy aggressive mobs only attack if player is asleep
+                && aggressor.CanSee(victim);
         }
 
         private void HandlePeriodicAuras(int pulseCount)
@@ -1120,6 +1160,9 @@ namespace Mud.Server.Server
                     character.GainCondition(Conditions.Full, character.Size > Sizes.Medium ? -4 : -2);
                     character.GainCondition(Conditions.Thirst, -1);
                     character.GainCondition(Conditions.Hunger, character.Size > Sizes.Medium ? -2 : -1);
+
+                    // TODO: limbo
+                    // TODO: autosave, autoquit
                 }
                 catch (Exception ex)
                 { 
@@ -1182,6 +1225,7 @@ namespace Mud.Server.Server
                                 }
                                 break;
                         }
+                        // TODO: give some money to shopkeeer
                         // Display message to character or room
                         if (item.ContainedInto is ICharacter wasOnCharacter)
                             wasOnCharacter.Act(ActOptions.ToCharacter, msg, item);
@@ -1282,9 +1326,9 @@ namespace Mud.Server.Server
 
                     ProcessInput();
 
-                    //DoPulse();
-                    HandleShutdown(_:1);
+                    HandleShutdown();
                     pulseManager.Pulse();
+                    HandleAggressiveNonPlayableCharacters();
 
                     ProcessOutput();
 
@@ -1294,11 +1338,10 @@ namespace Mud.Server.Server
                     long elapsedMs = sw.ElapsedMilliseconds; // in milliseconds
                     if (elapsedMs < Pulse.PulseDelay)
                     {
+                        int sleepTime = (int)(Pulse.PulseDelay - elapsedMs); // game loop should iterate every 250ms
                         //long elapsedTick = sw.ElapsedTicks; // 1 tick = 1 second/Stopwatch.Frequency
                         //long elapsedNs = sw.Elapsed.Ticks; // 1 tick = 1 nanosecond
-                        //Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}Ms | {1}Ticks | {2}Ns", elapsedMs, elapsedTick, elapsedNs);
-                        //Thread.Sleep(250 - (int) elapsedMs);
-                        int sleepTime = (int)(Pulse.PulseDelay - elapsedMs);
+                        //Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}ms | {1}ticks | {2}ns -> sleep {3}ms", elapsedMs, elapsedTick, elapsedNs, sleepTime);
                         _cancellationTokenSource.Token.WaitHandle.WaitOne(sleepTime);
                     }
                     else

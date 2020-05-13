@@ -983,7 +983,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        public bool MultiHit(ICharacter enemy)
+        public bool MultiHit(ICharacter victim)
         {
             // TODO: read http://wowwiki.wikia.com/wiki/Combat
             if (!IsValid)
@@ -995,9 +995,9 @@ namespace Mud.Server.Character
             if (!IsValid)
                 return false;
 
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.MultiHit: {0} -> {1}", DebugName, enemy.DebugName);
+            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.MultiHit: {0} -> {1}", DebugName, victim.DebugName);
 
-            if (this == enemy || Room != enemy.Room)
+            if (this == victim || Room != victim.Room)
                 return false;
 
             // TODO
@@ -1015,9 +1015,9 @@ namespace Mud.Server.Character
             //    // Cannot store wielded between hit (disarm anyone ?)
             //    IItemWeapon wielded = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand)?.Item as IItemWeapon;
             //    SchoolTypes damageType = wielded?.DamageType ?? SchoolTypes.Slash;
-            //    OneHit(enemy, wielded, damageType, false);
+            //    OneHit(victim, wielded, damageType, false);
 
-            //    if (Fighting != enemy) // stop multihit if different enemy or no enemy
+            //    if (Fighting != victim) // stop multihit if different victim or no victim
             //        return true;
             //}
 
@@ -1026,9 +1026,9 @@ namespace Mud.Server.Character
             //{
             //    IItemWeapon wielded2 = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand)?.Item as IItemWeapon;
             //    if (wielded2 != null)
-            //        OneHit(enemy, wielded2, wielded2.DamageType, true);
+            //        OneHit(victim, wielded2, wielded2.DamageType, true);
             //}
-            //if (Fighting != enemy) // stop multihit if different enemy or no enemy
+            //if (Fighting != victim) // stop multihit if different victim or no victim
             //    return true;
 
             //// Second main hand
@@ -1036,9 +1036,9 @@ namespace Mud.Server.Character
             //{
             //    IItemWeapon wielded3 = Equipments.Where(x => x.Slot == EquipmentSlots.MainHand).ElementAtOrDefault(1)?.Item as IItemWeapon;
             //    if (wielded3 != null)
-            //        OneHit(enemy, wielded3, wielded3.DamageType, true);
+            //        OneHit(victim, wielded3, wielded3.DamageType, true);
             //}
-            //if (Fighting != enemy) // stop multihit if different enemy or no enemy
+            //if (Fighting != victim) // stop multihit if different victim or no victim
             //    return true;
 
             //// Second off hand
@@ -1046,15 +1046,15 @@ namespace Mud.Server.Character
             //{
             //    IItemWeapon wielded4 = Equipments.Where(x => x.Slot == EquipmentSlots.OffHand).ElementAtOrDefault(1)?.Item as IItemWeapon;
             //    if (wielded4 != null)
-            //        OneHit(enemy, wielded4, wielded4.DamageType, true);
+            //        OneHit(victim, wielded4, wielded4.DamageType, true);
             //}
-            //if (Fighting != enemy) // stop multihit if different enemy or no enemy
+            //if (Fighting != victim) // stop multihit if different victim or no victim
             //    return true;
 
             //return true;
         }
 
-        public bool StartFighting(ICharacter enemy) // equivalent to set_fighting in fight.C:3441
+        public bool StartFighting(ICharacter victim) // equivalent to set_fighting in fight.C:3441
         {
             if (!IsValid)
             {
@@ -1062,23 +1062,23 @@ namespace Mud.Server.Character
                 return false;
             }
 
-            Log.Default.WriteLine(LogLevels.Debug, "{0} starts fighting {1}", DebugName, enemy.DebugName);
+            Log.Default.WriteLine(LogLevels.Debug, "{0} starts fighting {1}", DebugName, victim.DebugName);
 
             ChangePosition(Positions.Fighting);
-            Fighting = enemy;
+            Fighting = victim;
             return true;
         }
 
         public bool StopFighting(bool both) // equivalent to stop_fighting in fight.C:3441
         {
-            Log.Default.WriteLine(LogLevels.Debug, "{0} stops fighting {1}", Name, Fighting == null ? "<<no enemy>>" : Fighting.Name);
+            Log.Default.WriteLine(LogLevels.Debug, "{0} stops fighting {1}", Name, Fighting == null ? "<<no victim>>" : Fighting.Name);
 
             Fighting = null;
             ChangePosition(Positions.Standing);
             if (both)
             {
-                foreach (ICharacter enemy in World.Characters.Where(x => x.Fighting == this))
-                    enemy.StopFighting(false);
+                foreach (ICharacter victim in World.Characters.Where(x => x.Fighting == this))
+                    victim.StopFighting(false);
             }
             return true;
         }

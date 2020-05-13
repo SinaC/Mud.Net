@@ -146,8 +146,8 @@ namespace Mud.Server
         ResistanceLevels CheckResistance(SchoolTypes damageType);
         bool Heal(IEntity source, IAbility ability, int amount, bool visible);
         bool UnknownSourceHeal(IAbility ability, int amount, bool visible);
-        bool MultiHit(ICharacter enemy);
-        bool StartFighting(ICharacter enemy);
+        bool MultiHit(ICharacter victim);
+        bool StartFighting(ICharacter victim);
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
         bool WeaponDamage(ICharacter source, IItemWeapon weapon, int damage, SchoolTypes damageType, bool visible); // damage from weapon(or bare hands) of known source
         bool AbilityDamage(IEntity source, IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage from ability of known source

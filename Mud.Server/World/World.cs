@@ -295,7 +295,6 @@ namespace Mud.Server.World
                 return item;
             }
 
-            // TODO: other blueprint
             Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Invalid blueprint type {0}", blueprint.GetType().FullName);
             return null;
         }
@@ -399,7 +398,6 @@ namespace Mud.Server.World
                 _items.Add(item);
                 return item;
             }
-            // TODO: other blueprint
             Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Invalid blueprint type {0}", blueprint.GetType().FullName);
             return null;
         }
@@ -416,7 +414,6 @@ namespace Mud.Server.World
                 return null;
             }
             IItem item = AddItem(guid, blueprint, container);
-            item?.Recompute();
             if (item == null)
                 Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Unknown blueprint id {0} or type {1}", blueprintId, blueprint.GetType().FullName);
             return item;
@@ -549,11 +546,6 @@ namespace Mud.Server.World
             ////
             //room.OnRemoved();
             throw new NotImplementedException();
-        }
-
-        public void Update() // called every pulse (every 1/4 seconds)
-        {
-            // TODO: see update.C:2332
         }
 
         public void Cleanup() // remove invalid entities
