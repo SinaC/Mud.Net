@@ -1,10 +1,18 @@
 NEXT:
+Combat system
+    OneHit, HitDamage, AbilityDamage not yet written
+    DONE MultiHit in NonPlayableCharacter and PlayableCharacter
+    TODO OneHit in CharacterBase
+    TODO AbilityDamage in CharacterBase
+    TODO HitDamage in CharacterBase
+    DONE GenericDamage in CharacterBase
 
 TODO:
+reset
 room light
 admin command to switch an avatar from/to immortal
 money
-combat system
+master/pet/follower/group
 Monitor Recompute calls
 Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
@@ -22,6 +30,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+Recompute call count optimized when unequiping item
+Issue fixed when recompute was causing item to be unequiped, item was removed from equipment but EquippedBy was not set to null
 weather
 commands: DoWeather
 spells: call lightning, control weather

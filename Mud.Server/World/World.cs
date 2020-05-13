@@ -512,7 +512,7 @@ namespace Mud.Server.World
         {
             //item.ContainedInto?.GetFromContainer(item);
             item.ChangeContainer(null);
-            item.ChangeEquippedBy(null);
+            item.ChangeEquippedBy(null, false);
             // If container, remove content
             if (item is IContainer container)
             {

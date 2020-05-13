@@ -23,7 +23,7 @@ namespace Mud.Server
         //
         void Initialize();
         void FixCurrentTime();
-        string Update(); // increase hour by one
+        string Update(); // increase hour by one, update time and weather
         void ChangePressure(int changeValue);
     }
 }

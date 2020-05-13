@@ -520,7 +520,7 @@ namespace Mud.Server.Abilities
         public void SpellCureCritical(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int heal = RandomManager.Dice(3, 8) + level - 6;
-            victim.Heal(caster, ability, heal, false);
+            victim.UpdateHitPoints(heal);
             victim.Send("You feel better!");
             if (victim != caster)
                 caster.Send("Ok");
@@ -536,7 +536,7 @@ namespace Mud.Server.Abilities
         public void SpellCureLight(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int heal = RandomManager.Dice(1, 8) + level / 3;
-            victim.Heal(caster, ability, heal, false);
+            victim.UpdateHitPoints(heal);
             victim.Send("You feel better!");
             if (victim != caster)
                 caster.Send("Ok");
@@ -552,7 +552,7 @@ namespace Mud.Server.Abilities
         public void SpellCureSerious(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int heal = RandomManager.Dice(2, 8) + level / 2;
-            victim.Heal(caster, ability, heal, false);
+            victim.UpdateHitPoints(heal);
             victim.Send("You feel better!");
             if (victim != caster)
                 caster.Send("Ok");
@@ -953,7 +953,7 @@ namespace Mud.Server.Abilities
                 // TODO: negative experience gain gain_exp( victim, 0 - number_range( level/2, 3 * level / 2 ) );
                 victim.UpdateResource(ResourceKinds.Mana, -victim[ResourceKinds.Mana] / 2); // half mana
                 victim.UpdateMovePoints(-victim.MovePoints / 2); // half move
-                caster.Heal(caster, ability, damage, false);
+                caster.UpdateHitPoints(damage);
             }
 
             victim.Send("You feel your life slipping away!");
@@ -1211,7 +1211,7 @@ namespace Mud.Server.Abilities
         [Spell(57, "Heal", AbilityTargets.CharacterDefensive)]
         public void SpellHeal(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            victim.Heal(caster, ability, 100, false);
+            victim.UpdateHitPoints(100);
             victim.Send("A warm feeling fills your body.");
             if (caster != victim)
                 caster.Send("Ok.");
@@ -1224,6 +1224,7 @@ namespace Mud.Server.Abilities
             int damage = 0;
             if (!victim.SavesSpell(level + 2, SchoolTypes.Fire) && !victim.Immunities.HasFlag(IRVFlags.Fire))
             {
+                bool recompute = false;
                 // Check equipments
                 foreach (EquippedItem equippedItem in victim.Equipments.Where(x => x.Item != null))
                 {
@@ -1240,12 +1241,13 @@ namespace Mud.Server.Abilities
                                     && !itemArmor.ItemFlags.HasFlag(ItemFlags.NoRemove)
                                     && itemArmor.Weight / 10 < RandomManager.Range(1, 2 * victim[CharacterAttributes.Dexterity]))
                                 {
-                                    itemArmor.ChangeEquippedBy(null);
+                                    itemArmor.ChangeEquippedBy(null, false);
                                     itemArmor.ChangeContainer(victim.Room);
                                     victim.Act(ActOptions.ToRoom, "{0:N} yelps and throws {1} to the ground!", victim, itemArmor);
                                     victim.Act(ActOptions.ToCharacter, "You remove and drop {0} before it burns you.", itemArmor);
                                     damage += RandomManager.Range(1, itemArmor.Level) / 3;
                                     fail = false;
+                                    recompute = true;
                                 }
                                 else // stuck on the body! ouch! 
                                 {
@@ -1260,12 +1262,13 @@ namespace Mud.Server.Abilities
                                     if (!itemWeapon.ItemFlags.HasFlag(ItemFlags.NoDrop) // remove the item
                                         && !itemWeapon.ItemFlags.HasFlag(ItemFlags.NoRemove))
                                     {
-                                        itemWeapon.ChangeEquippedBy(null);
+                                        itemWeapon.ChangeEquippedBy(null, false);
                                         itemWeapon.ChangeContainer(victim.Room);
                                         victim.Act(ActOptions.ToRoom, "{0:N} is burned by {1}, and throws it to the ground.", victim, itemWeapon);
                                         victim.Send("You throw your red-hot weapon to the ground!");
                                         damage += 1;
                                         fail = false;
+                                        recompute = true;
                                     }
                                     else // YOWCH
                                     {
@@ -1323,6 +1326,8 @@ namespace Mud.Server.Abilities
                         }
                     }
                 }
+                if (recompute)
+                    victim.Recompute();
             }
             if (fail)
             {
@@ -2328,7 +2333,7 @@ namespace Mud.Server.Abilities
                         dropItemTargetRoom = character.Room;
                     else if (item.EquippedBy?.Room != null) // if container is in equipment, unequip and drop content to room
                     {
-                        item.ChangeEquippedBy(null);
+                        item.ChangeEquippedBy(null, true);
                         dropItemTargetRoom = item.EquippedBy.Room;
                     }
                     foreach (IItem itemInContainer in container.Content)
@@ -2425,7 +2430,7 @@ namespace Mud.Server.Abilities
                 IEntity itemContainedInto;
                 if (item.EquippedBy != null) // if item equipped: unequip 
                 {
-                    item.ChangeEquippedBy(null);
+                    item.ChangeEquippedBy(null, true);
                     itemContainedInto = item.EquippedBy;
                 }
                 else
@@ -2538,7 +2543,7 @@ namespace Mud.Server.Abilities
                         dropItemTargetRoom = character.Room;
                     else if (item.EquippedBy?.Room != null) // if container is equipped, unequip and drop content to room
                     {
-                        item.ChangeEquippedBy(null);
+                        item.ChangeEquippedBy(null, true);
                         dropItemTargetRoom = item.EquippedBy.Room;
                     }
                     foreach (IItem itemInContainer in itemContainer.Content)
@@ -2673,7 +2678,7 @@ namespace Mud.Server.Abilities
                 IEntity itemContainedInto;
                 if (item.EquippedBy != null) // if item is equipped: unequip 
                 {
-                    item.ChangeEquippedBy(null);
+                    item.ChangeEquippedBy(null, true);
                     itemContainedInto = item.EquippedBy;
                 }
                 else

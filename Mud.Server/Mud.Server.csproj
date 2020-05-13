@@ -79,6 +79,7 @@
     <Compile Include="Abilities\Ability.cs" />
     <Compile Include="Abilities\AbilityUsage.cs" />
     <Compile Include="Abilities\KnownAbility.cs" />
+    <Compile Include="Abilities\MysteryPassives.cs" />
     <Compile Include="Abilities\Rom24Passives.cs" />
     <Compile Include="Abilities\Rom24Skills.cs" />
     <Compile Include="Abilities\Rom24Spells.cs" />

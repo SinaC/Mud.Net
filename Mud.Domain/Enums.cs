@@ -428,6 +428,7 @@ namespace Mud.Domain
         Gain            = 0x00004000,
         Practice        = 0x00008000,
         Aware           = 0x00010000,
+        // TODO: warrior, thief, cleric, mage ?
     }
 
     [Flags]

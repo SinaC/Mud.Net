@@ -130,7 +130,7 @@ namespace Mud.Server.Character.PlayableCharacter
                         {
                             equippedItem.Item = item;
                             item.ChangeContainer(null); // remove from inventory
-                            item.ChangeEquippedBy(this); // set as equipped by this
+                            item.ChangeEquippedBy(this, false); // set as equipped by this
                         }
                         else
                         {
@@ -268,6 +268,60 @@ namespace Mud.Server.Character.PlayableCharacter
         #endregion
 
         // Combat
+        public override void MultiHit(ICharacter victim) // 'this' starts a combat with 'victim'
+        {
+            // no attacks for stunnies
+            if (Position <= Positions.Stunned)
+                return;
+
+            IItemWeapon mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
+            IItemWeapon offHand = GetEquipment<IItemWeapon>(EquipmentSlots.OffHand);
+            // 1/ main hand attack
+            OneHit(victim, mainHand);
+            if (Fighting != victim)
+                return;
+            // 2/ off hand attack
+            var dualWield = GetLearnInfo("Dual wield");
+            int dualWieldChance = dualWield.learned;
+            if (offHand != null && RandomManager.Chance(dualWieldChance))
+            {
+                OneHit(victim, offHand);
+                CheckAbilityImprove(dualWield.knownAbility, true, 4);
+            }
+            if (Fighting != victim)
+                return;
+            // 3/ main hand haste attack
+            if (CharacterFlags.HasFlag(CharacterFlags.Haste))
+                OneHit(victim, mainHand);
+            if (Fighting != victim) // TODO: or stop here for backstab
+                return;
+            // 4/ main hand second attack
+            var secondAttackLearnInfo = GetLearnInfo("Second attack");
+            int secondAttackChance = secondAttackLearnInfo.learned/2;
+            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+                secondAttackChance /= 2;
+            if (RandomManager.Chance(secondAttackChance))
+            {
+                OneHit(victim, mainHand);
+                CheckAbilityImprove(secondAttackLearnInfo.knownAbility, true, 5);
+            }
+            if (Fighting != victim)
+                return;
+            // 5/ main hand third attack
+            var thirdAttackLearnInfo = GetLearnInfo("Third attack");
+            int thirdAttackChance = thirdAttackLearnInfo.learned/4;
+            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+                thirdAttackChance = 0;
+            if (RandomManager.Chance(thirdAttackChance))
+            {
+                OneHit(victim, mainHand);
+                CheckAbilityImprove(thirdAttackLearnInfo.knownAbility, true, 6);
+            }
+            if (Fighting != victim)
+                return;
+            // TODO: 2nd main hand, 2nd off hand, 4th, 5th, ... attack
+        }
+
         public override void KillingPayoff(ICharacter victim) // Gain xp/gold/reputation/...
         {
             // Gain xp
@@ -309,6 +363,11 @@ namespace Mud.Server.Character.PlayableCharacter
                 }
                 // TODO: gold, reputation
             }
+        }
+
+        public override void DeathPayoff(ICharacter killer) // Lose xp/reputation..
+        {
+            // TODO
         }
 
         // Abilities
@@ -760,80 +819,6 @@ namespace Mud.Server.Character.PlayableCharacter
 
         #region CharacterBase
 
-        protected override int NoWeaponDamage => 75; // TODO
-
-        protected override int HitPointMinValue => 1; // Cannot be really killed
-
-        protected override int ModifyCriticalDamage(int damage) => (damage * 150) / 200; // TODO http://wow.gamepedia.com/Critical_strike
-
-        protected override bool RawKilled(IEntity killer, bool killingPayoff) // TODO: refactor, same code in NonPlayableCharacter
-        {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "RawKilled: {0} is not valid anymore", DebugName);
-                return false;
-            }
-
-            ICharacter characterKiller = killer as ICharacter;
-
-            string wiznetMsg;
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-            if (killer != null)
-                wiznetMsg = $"{DebugName} got toasted by {killer.DebugName ?? "???"} at {Room?.DebugName ?? "???"}";
-            else
-                wiznetMsg = $"{DebugName} got toasted by an unknown source at {Room?.DebugName ?? "???"}";
-            Wiznet.Wiznet(wiznetMsg, WiznetFlags.Deaths);
-
-            StopFighting(true);
-            // Remove periodic auras
-            IReadOnlyCollection<IPeriodicAura> periodicAuras = new ReadOnlyCollection<IPeriodicAura>(PeriodicAuras.ToList()); // clone
-            foreach (IPeriodicAura pa in periodicAuras)
-                RemovePeriodicAura(pa);
-            // Remove auras
-            IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(Auras.ToList()); // clone
-            foreach (IAura aura in auras)
-                RemoveAura(aura, false);
-            // no need to recompute
-
-            // Death cry
-            ActToNotVictim(this, "You hear {0}'s death cry.", this);
-
-            // Gain/lose xp/reputation   damage.C:32
-            if (killingPayoff)
-                characterKiller?.KillingPayoff(this);
-            DeathPayoff();
-
-            // Create corpse
-            ItemCorpseBlueprint itemCorpseBlueprint = World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
-            if (itemCorpseBlueprint != null)
-            {
-                IItemCorpse corpse;
-                if (characterKiller != null)
-                    corpse = World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this, characterKiller);
-                else
-                    corpse = World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this);
-            }
-            else
-            {
-                string msg = $"ItemCorpseBlueprint (id:{Settings.CorpseBlueprintId}) doesn't exist !!!";
-                Log.Default.WriteLine(LogLevels.Error, msg);
-                Wiznet.Wiznet(msg, WiznetFlags.Bugs);
-            }
-
-            if (ImpersonatedBy != null) // If impersonated, no real death
-            {
-                // TODO: teleport player to hall room/graveyard  see fight.C:3952
-                Recompute(); // don't reset hp
-            }
-            else // If not impersonated, remove from game
-            {
-                World.RemoveCharacter(this);
-            }
-
-            // TODO: autoloot, autosac  damage.C:96
-            return true;
-        }
-
         protected override bool AutomaticallyDisplayRoom => true;
 
         protected override (int hitGain, int moveGain, int manaGain) RegenBaseValues()
@@ -978,14 +963,29 @@ namespace Mud.Server.Character.PlayableCharacter
             return base.GetActTargets(option);
         }
 
+        protected override void HandleDeath()
+        {
+            if (ImpersonatedBy != null) // If impersonated, no real death
+            {
+                // TODO: teleport player to hall room/graveyard  see fight.C:3952
+                Recompute(); // don't reset hp
+            }
+            else // If not impersonated, remove from game
+            {
+                World.RemoveCharacter(this);
+            }
+        }
+
+        protected override void HandleWimpy(int damage)
+        {
+            // TODO
+            //if (HitPoints > 0 && HitPoints <= Wimpy) // TODO: test on wait < PULSE_VIOLENCE / 2
+            //  DoFlee(null, null);
+        }
+
         #endregion
 
         private int ExperienceByLevel => 1000 * (Race?.ClassExperiencePercentageMultiplier(Class) ?? 100) / 100;
-
-        private void DeathPayoff() // Lose xp/reputation..
-        {
-            // TODO
-        }
 
         private void AdvanceLevel()
         {

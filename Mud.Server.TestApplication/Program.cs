@@ -225,7 +225,7 @@ namespace Mud.Server.TestApplication
             // Equip weapon on mob2
             mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
             item2.ChangeContainer(null);
-            item2.ChangeEquippedBy(mob2);
+            item2.ChangeEquippedBy(mob2, true);
         }
 
         private static void CreateMidgaard()
@@ -441,7 +441,7 @@ namespace Mud.Server.TestApplication
             // Equip weapon on mob2
             mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
             item2.ChangeContainer(null);
-            item2.ChangeEquippedBy(mob2);
+            item2.ChangeEquippedBy(mob2, true);
         }
 
         private static void TestPaging()

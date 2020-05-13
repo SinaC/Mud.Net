@@ -885,7 +885,7 @@ namespace Mud.Server.Character
                 IItem removeItem = equipmentSlot.Item;
                 Act(ActOptions.ToAll, "{0:N} remove{0:v} {1}.", this, removeItem);
                 //equipmentSlot.Item = null  already done by ChangeEquippedBy
-                removeItem.ChangeEquippedBy(null);
+                removeItem.ChangeEquippedBy(null, false);
                 removeItem.ChangeContainer(this);
             }
             // Display
@@ -894,13 +894,14 @@ namespace Mud.Server.Character
             // Equip at last
             equipmentSlot.Item = item; // equip
             item.ChangeContainer(null); // remove from inventory
-            item.ChangeEquippedBy(this); // set as equipped by this
+            item.ChangeEquippedBy(this, false); // set as equipped by this
             // Display weapon confidence if wielding weapon
             if (weapon != null)
             {
                 string weaponConfidence = GetWeaponConfidence(weapon);
                 Act(ActOptions.ToCharacter, weaponConfidence, weapon);
             }
+            // no need to recompute, because it's being done by caller
 
             return true;
         }
@@ -1021,8 +1022,9 @@ namespace Mud.Server.Character
             // TODO: check weight + item count
             Act(ActOptions.ToAll, "{0:N} stop{0:v} using {1}.", this, equipmentSlot.Item);
             equipmentSlot.Item.ChangeContainer(this); // add in inventory
-            equipmentSlot.Item.ChangeEquippedBy(null); // clear equipped by
+            equipmentSlot.Item.ChangeEquippedBy(null, false); // clear equipped by
             equipmentSlot.Item = null; // unequip TODO: remove it's already done in Unequip
+            // no need to recompute, because it's being done by caller
             return true;
         }
 

@@ -131,9 +131,102 @@ namespace Mud.Server.Character.NonPlayableCharacter
             : base.MaxCarryNumber;
 
         // Combat
+        public override void UpdatePosition()
+        {
+            if (HitPoints < 1)
+            {
+                Position = Positions.Dead;
+                return;
+            }
+            base.UpdatePosition();
+        }
+
+        public override void MultiHit(ICharacter victim) // 'this' starts a combat with 'victim'
+        {
+            // no attacks for stunnies
+            if (Position <= Positions.Stunned)
+                return;
+
+            IItemWeapon mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
+            // main attack
+            OneHit(victim, mainHand);
+            if (Fighting != victim)
+                return;
+            // area attack
+            if (OffensiveFlags.HasFlag(OffensiveFlags.AreaAttack))
+            {
+                IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Room.People.Where(x => x != this && x.Fighting == this).ToList());
+                foreach (ICharacter character in clone)
+                    OneHit(character, mainHand);
+            }
+            // main hand haste attack
+            if ((CharacterFlags.HasFlag(CharacterFlags.Haste) || OffensiveFlags.HasFlag(OffensiveFlags.Fast))
+                && !CharacterFlags.HasFlag(CharacterFlags.Slow))
+                OneHit(victim, mainHand);
+            if (Fighting != victim) // TODO: or stop here for backstab
+                return;
+            // main hand second attack
+            var secondAttackLearnInfo = GetLearnInfo("Second attack");
+            int secondAttackChance = secondAttackLearnInfo.learned / 2;
+            if (CharacterFlags.HasFlag(CharacterFlags.Slow) && !OffensiveFlags.HasFlag(OffensiveFlags.Fast))
+                secondAttackChance /= 2;
+            if (RandomManager.Chance(secondAttackChance))
+                OneHit(victim, mainHand);
+            if (Fighting != victim)
+                return;
+            // main hand third attack
+            var thirdAttackLearnInfo = GetLearnInfo("Third attack");
+            int thirdAttackChance = thirdAttackLearnInfo.learned / 4;
+            if (CharacterFlags.HasFlag(CharacterFlags.Slow) && !OffensiveFlags.HasFlag(OffensiveFlags.Fast))
+                thirdAttackChance = 0;
+            if (RandomManager.Chance(thirdAttackChance))
+                OneHit(victim, mainHand);
+            if (Fighting != victim)
+                return;
+            // fun stuff
+            // TODO: if wait > 0 return
+            int number = RandomManager.Range(0, 8);
+            switch (number)
+            {
+                case 0: if (OffensiveFlags.HasFlag(OffensiveFlags.Bash))
+                        DoBash(null, null);
+                    break;
+                case 1: if (OffensiveFlags.HasFlag(OffensiveFlags.Berserk) && !CharacterFlags.HasFlag(CharacterFlags.Berserk))
+                        DoBerserk(null, null);
+                    break;
+                case 2: if (OffensiveFlags.HasFlag(OffensiveFlags.Disarm)) // TODO: also if wielding a weapon and ActFlags.Warrior or ActFlags.Thief
+                        DoDisarm(null, null);
+                    break;
+                case 3: if (OffensiveFlags.HasFlag(OffensiveFlags.Kick))
+                        DoKick(null, null);
+                    break;
+                case 4: if (OffensiveFlags.HasFlag(OffensiveFlags.DirtKick))
+                        DoDirt(null, null);
+                    break;
+                case 5: if (OffensiveFlags.HasFlag(OffensiveFlags.Tail))
+                        ; // TODO: see raceabilities.C:639
+                    break;
+                case 6: if (OffensiveFlags.HasFlag(OffensiveFlags.Trip))
+                        DoTrip(null, null);
+                    break;
+                case 7: if (OffensiveFlags.HasFlag(OffensiveFlags.Crush))
+                        ; // TODO: see raceabilities.C:525
+                    break;
+                case 8:
+                    if (OffensiveFlags.HasFlag(OffensiveFlags.Backstab))
+                        DoBackstab(null, null); // TODO: this will never works because we cannot backstab while in combat
+                    break;
+            }
+        }
+
         public override void KillingPayoff(ICharacter victim)
         {
-            // Nop
+            // NOP
+        }
+
+        public override void DeathPayoff(ICharacter killer)
+        {
+            // NOP
         }
 
         #endregion
@@ -263,11 +356,6 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         #region CharacterBase
 
-        // http://wow.gamepedia.com/Attack_power (Mob attack power)
-        protected override int NoWeaponDamage => (Level * 50) / 14; // TODO: simulate weapon dps using level
-
-        protected override int HitPointMinValue => 0;
-
         protected override (int hitGain, int moveGain, int manaGain) RegenBaseValues()
         {
             int hitGain = 5 + Level;
@@ -314,57 +402,19 @@ namespace Mud.Server.Character.NonPlayableCharacter
             }
         }
 
-        protected override int ModifyCriticalDamage(int damage) => damage * 2; // TODO http://wow.gamepedia.com/Critical_strike
-
-        protected override bool RawKilled(IEntity killer, bool killingPayoff) // TODO: refactor, same code in PlayableCharacter
+        protected override void HandleDeath()
         {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "RawKilled: {0} is not valid anymore", DebugName);
-                return false;
-            }
-
-            ICharacter characterKiller = killer as ICharacter;
-
-            Wiznet.Wiznet($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.MobDeaths);
-
-            StopFighting(true);
-            // Remove periodic auras
-            IReadOnlyCollection<IPeriodicAura> periodicAuras = new ReadOnlyCollection<IPeriodicAura>(PeriodicAuras.ToList()); // clone
-            foreach (IPeriodicAura pa in periodicAuras)
-                RemovePeriodicAura(pa);
-            // Remove auras
-            IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(Auras.ToList()); // clone
-            foreach (IAura aura in auras)
-                RemoveAura(aura, false);
-            // no need to recompute
-
-            // Death cry
-            ActToNotVictim(this, "You hear {0}'s death cry.", this);
-
-            // Gain/lose xp/reputation   damage.C:32
-            if (killingPayoff)
-                characterKiller?.KillingPayoff(this);
-
-            // Create corpse
-            ItemCorpseBlueprint itemCorpseBlueprint = World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
-            if (itemCorpseBlueprint != null)
-            {
-                if (characterKiller != null)
-                    World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this, characterKiller);
-                else
-                    World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this);
-            }
-            else
-            {
-                string msg = $"ItemCorpseBlueprint (id:{Settings.CorpseBlueprintId}) doesn't exist !!!";
-                Log.Default.WriteLine(LogLevels.Error, msg);
-                Wiznet.Wiznet(msg, WiznetFlags.Bugs);
-            }
-
-            //
             World.RemoveCharacter(this);
-            return true;
+        }
+
+        protected override void HandleWimpy(int damage)
+        {
+            if (damage > 0) // TODO add test on wait < PULSE_VIOLENCE / 2
+            {
+                if ((ActFlags.HasFlag(ActFlags.Wimpy) && HitPoints < MaxHitPoints / 5 && RandomManager.Chance(25))
+                    || (CharacterFlags.HasFlag(CharacterFlags.Charm) && ControlledBy != null && ControlledBy.Room != Room))
+                    DoFlee(null, null);
+            }
         }
 
         #endregion

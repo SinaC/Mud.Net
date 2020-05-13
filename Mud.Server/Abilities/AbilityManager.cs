@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -189,7 +190,27 @@ namespace Mud.Server.Abilities
             // 11) check improve true
             pcCaster?.CheckAbilityImprove(knownAbility, true, knownAbility.Ability.LearnDifficultyMultiplier);
 
-            // TODO: 12) if aggressive: multi hit if still in same room
+            // 12) if aggressive: multi hit if still in same room
+            INonPlayableCharacter npcVictim = target as INonPlayableCharacter;
+            if ((knownAbility.Ability.Target == AbilityTargets.CharacterOffensive
+                || knownAbility.Ability.Target == AbilityTargets.CharacterFighting
+                || (knownAbility.Ability.Target == AbilityTargets.ItemHereOrCharacterOffensive && target is ICharacter))
+                && target != caster
+                && npcVictim?.ControlledBy != caster)
+            {
+                // TODO: not sure why we loop on people in caster room
+                // TODO: we could just check if victim is still in the room and not fighting
+                IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(caster.Room.People.ToList());
+                foreach (ICharacter victim in clone)
+                {
+                    if (victim == target && victim.Fighting == null)
+                    {
+                        // TODO: check_killer
+                        victim.MultiHit(caster);
+                        break;
+                    }
+                }
+            }
 
             //
             return CastResults.Ok;
@@ -208,7 +229,27 @@ namespace Mud.Server.Abilities
             // 2) invoke spell
             InvokeSpell(ability, level, caster, target, rawParameters, parameters);
 
-            // TODO: 3) if aggressive: multi hit if still in same room
+            // 3) if aggressive: multi hit if still in same room
+            INonPlayableCharacter npcVictim = target as INonPlayableCharacter;
+            if ((ability.Target == AbilityTargets.CharacterOffensive
+                || ability.Target == AbilityTargets.CharacterFighting
+                || (ability.Target == AbilityTargets.ItemHereOrCharacterOffensive && target is ICharacter))
+                && target != caster
+                && npcVictim?.ControlledBy != caster)
+            {
+                // TODO: not sure why we loop on people in caster room
+                // TODO: we could just check if victim is still in the room and not fighting
+                IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(caster.Room.People.ToList());
+                foreach (ICharacter victim in clone)
+                {
+                    if (victim == target && victim.Fighting == null)
+                    {
+                        // TODO: check_killer
+                        victim.MultiHit(caster);
+                        break;
+                    }
+                }
+            }
 
             //
             return CastResults.Ok;

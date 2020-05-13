@@ -104,7 +104,7 @@ namespace Mud.Server
         void Act(IEnumerable<ICharacter> characters, string format, params object[] arguments); // to every character in provided list
 
         // Equipments
-        bool Unequip(IItem item, bool recompute);
+        bool Unequip(IItem item);
 
         // Furniture
         bool ChangeFurniture(IItemFurniture furniture);
@@ -143,17 +143,15 @@ namespace Mud.Server
         void AutoLook();
 
         // Combat
-        ResistanceLevels CheckResistance(SchoolTypes damageType);
-        bool Heal(IEntity source, IAbility ability, int amount, bool visible);
-        bool UnknownSourceHeal(IAbility ability, int amount, bool visible);
-        bool MultiHit(ICharacter victim);
+        void UpdatePosition();
         bool StartFighting(ICharacter victim);
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
-        bool WeaponDamage(ICharacter source, IItemWeapon weapon, int damage, SchoolTypes damageType, bool visible); // damage from weapon(or bare hands) of known source
-        bool AbilityDamage(IEntity source, IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage from ability of known source
-        bool UnknownSourceDamage(IAbility ability, int damage, SchoolTypes damageType, bool visible); // damage with unknown source or no source
+        void MultiHit(ICharacter victim); // 'this' starts a combat with 'victim'
+        bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source'
+        ResistanceLevels CheckResistance(SchoolTypes damageType);
         void Slay(IPlayableCharacter killer);
         void KillingPayoff(ICharacter victim);
+        void DeathPayoff(ICharacter killer);
         bool SavesSpell(int level, SchoolTypes damageType);
         bool IsSafeSpell(ICharacter caster, bool area);
         bool IsSafe(ICharacter aggressor);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -11,6 +12,7 @@ using Mud.Logger;
 using Mud.Server.Abilities;
 using Mud.Server.Aura;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
@@ -263,19 +265,20 @@ namespace Mud.Server.Character
             }
 
             Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeController: {0} master: old: {1}; new {2}", DebugName, ControlledBy?.DebugName ?? "<<none>>", master?.DebugName ?? "<<none>>");
-            //if (master == null) // TODO: remove display ???
-            //{
-            //    if (ControlledBy != null)
-            //    {
-            //        Act(ActOptions.ToCharacter, "You stop following {0}.", ControlledBy);
-            //        ControlledBy.Act(ActOptions.ToCharacter, "{0} stops following you.", this);
-            //    }
-            //}
-            //else
-            //{
-            //    Act(ActOptions.ToCharacter, "You now follow {0}.", master);
-            //    master.Act(ActOptions.ToCharacter, "{0} now follows you.", this);
-            //}
+            if (master == null)
+            {
+                // TODO: remove charm flags and charm person affect
+                if (ControlledBy != null && ControlledBy.CanSee(this) && Room != null)
+                {
+                    Act(ActOptions.ToCharacter, "You stop following {0}.", ControlledBy);
+                    ControlledBy.Act(ActOptions.ToCharacter, "{0} stops following you.", this);
+                }
+            }
+            else
+            {
+                Act(ActOptions.ToCharacter, "You now follow {0}.", master);
+                master.Act(ActOptions.ToCharacter, "{0} now follows you.", this);
+            }
             ControlledBy = master;
             return true;
         }
@@ -314,12 +317,10 @@ namespace Mud.Server.Character
         }
 
         // Equipments
-        public bool Unequip(IItem item, bool recompute)
+        public bool Unequip(IItem item)
         {
             foreach (EquippedItem equipmentSlot in _equipments.Where(x => x.Item == item))
                 equipmentSlot.Item = null;
-            if (recompute)
-                Recompute();
             return true;
         }
 
@@ -610,7 +611,7 @@ namespace Mud.Server.Character
                         if (this is IPlayableCharacter && weapon.TotalWeight > TableValues.WieldBonus(this) * 10) // TODO: same check in WearItem in ItemCommands.cs
                         {
                             Act(ActOptions.ToAll, "{0:N} can't use {1} anymore.", this, weapon);
-                            Unequip(weapon, false);
+                            weapon.ChangeEquippedBy(null, false);
                             weapon.ChangeContainer(this);
                             shouldRecompute = true;
                         }
@@ -816,6 +817,64 @@ namespace Mud.Server.Character
         }
 
         // Combat
+        public virtual void UpdatePosition()
+        {
+            if (HitPoints > 0)
+            {
+                if (Position <= Positions.Stunned)
+                    Position = Positions.Standing;
+                return;
+            }
+            if (HitPoints <= -11)
+            {
+                Position = Positions.Dead;
+                return;
+            }
+            if (HitPoints <= -6)
+                Position = Positions.Mortal;
+            else if (HitPoints <= -3)
+                Position = Positions.Incap;
+            else
+                Position = Positions.Stunned;
+        }
+
+        public bool StartFighting(ICharacter victim) // equivalent to set_fighting in fight.C:3441
+        {
+            if (!IsValid)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "StartFighting: {0} is not valid anymore", DebugName);
+                return false;
+            }
+
+            Log.Default.WriteLine(LogLevels.Debug, "{0} starts fighting {1}", DebugName, victim.DebugName);
+
+            ChangePosition(Positions.Fighting);
+            Fighting = victim;
+            return true;
+        }
+
+        public bool StopFighting(bool both) // equivalent to stop_fighting in fight.C:3441
+        {
+            Log.Default.WriteLine(LogLevels.Debug, "{0} stops fighting {1}", Name, Fighting == null ? "<<no victim>>" : Fighting.Name);
+
+            Fighting = null;
+            ChangePosition(Positions.Standing);
+            if (both)
+            {
+                foreach (ICharacter victim in World.Characters.Where(x => x.Fighting == this))
+                    victim.StopFighting(false);
+            }
+            return true;
+        }
+
+        public abstract void MultiHit(ICharacter victim); // 'this' starts a combat with 'victim'
+
+        public bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source'
+        {
+            // TODO ability should only be used to build damage message
+            return Damage(source, damage, damageType, dmg => Send("DEBUG DAMAGE: TAKING {0} ABILITY DAMAGE (was {1}) FROM {2}", dmg, damage, source.DebugName), display);
+        }
+
         public ResistanceLevels CheckResistance(SchoolTypes damageType)
         {
             IRVFlags irvFlags;
@@ -920,233 +979,13 @@ namespace Mud.Server.Character
             return resistance;
         }
 
-        public bool Heal(IEntity source, IAbility ability, int amount, bool visible)
-        {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.Heal: {0} is not valid anymore", DebugName);
-                return false;
-            }
-
-            // Modify heal (resist, vuln, invul, absorb)
-            bool fullyAbsorbed;
-            amount = ModifyHeal(amount, out fullyAbsorbed);
-
-            Log.Default.WriteLine(LogLevels.Info, "{0} healed by {1} {2} for {3}", DebugName, source == null ? "<<??>>" : source.DebugName, ability == null ? "<<??>>" : ability.Name, amount);
-            if (amount <= 0)
-                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.Heal: invalid amount {0} on {1}", amount, DebugName);
-            else
-                HitPoints = Math.Min(HitPoints + amount, MaxHitPoints);
-
-            Log.Default.WriteLine(LogLevels.Debug, "{0} HP left: {1}", DebugName, HitPoints);
-
-            // Display heal
-            if (visible)
-            {
-                if (fullyAbsorbed)
-                    DisplayHealAbsorbPhrase(ability?.Name ?? "Something", source);
-                else
-                    DisplayHealPhrase(ability, amount, source);
-            }
-
-            return true;
-        }
-
-        public bool UnknownSourceHeal(IAbility ability, int amount, bool visible)
-        {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.UnknownSourceHeal: {0} is not valid anymore", DebugName);
-                return false;
-            }
-
-            // Modify heal (resist, vuln, invul, absorb)
-            bool fullyAbsorbed;
-            amount = ModifyHeal(amount, out fullyAbsorbed);
-
-            Log.Default.WriteLine(LogLevels.Info, "{0} healed by {1} for {2}", DebugName, ability == null ? "<<??>>" : ability.Name, amount);
-            if (amount <= 0)
-                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.UnknownSourceHeal: invalid amount {0} on {1}", amount, DebugName);
-            else
-                HitPoints = Math.Min(HitPoints + amount, MaxHitPoints);
-
-            Log.Default.WriteLine(LogLevels.Debug, "{0} HP left: {1}", DebugName, HitPoints);
-
-            // Display heal
-            if (visible)
-            {
-                if (fullyAbsorbed)
-                    DisplayUnknownSourceHealAbsorbPhrase(ability?.Name ?? "Something");
-                else
-                    DisplayUnknownSourceHealPhrase(ability, amount);
-            }
-            return true;
-        }
-
-        public bool MultiHit(ICharacter victim)
-        {
-            // TODO: read http://wowwiki.wikia.com/wiki/Combat
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.MultiHit: {0} is not valid anymore", DebugName);
-                return false;
-            }
-
-            if (!IsValid)
-                return false;
-
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.MultiHit: {0} -> {1}", DebugName, victim.DebugName);
-
-            if (this == victim || Room != victim.Room)
-                return false;
-
-            // TODO
-            return false;
-
-            //// TODO: more haste -> more attacks (should depend on weapon speed, attack speed, server speed[PulseViolence])
-
-            //// TODO: TEST purpose
-            ////int attackCount = Math.Max(1, 1 + this[SecondaryAttributeTypes.AttackSpeed] / 21);
-            //int attackCount = 1;//Math.Max(1, 1 + this[SecondaryAttributeTypes.AttackSpeed]);
-
-            //// Main hand
-            //for (int i = 0; i < attackCount; i++)
-            //{
-            //    // Cannot store wielded between hit (disarm anyone ?)
-            //    IItemWeapon wielded = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand)?.Item as IItemWeapon;
-            //    SchoolTypes damageType = wielded?.DamageType ?? SchoolTypes.Slash;
-            //    OneHit(victim, wielded, damageType, false);
-
-            //    if (Fighting != victim) // stop multihit if different victim or no victim
-            //        return true;
-            //}
-
-            //// Off hand
-            //if (KnownAbilities.Any(x => x.Ability == AbilityManager.DualWieldAbility))
-            //{
-            //    IItemWeapon wielded2 = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand)?.Item as IItemWeapon;
-            //    if (wielded2 != null)
-            //        OneHit(victim, wielded2, wielded2.DamageType, true);
-            //}
-            //if (Fighting != victim) // stop multihit if different victim or no victim
-            //    return true;
-
-            //// Second main hand
-            //if (KnownAbilities.Any(x => x.Ability == AbilityManager.ThirdWieldAbility))
-            //{
-            //    IItemWeapon wielded3 = Equipments.Where(x => x.Slot == EquipmentSlots.MainHand).ElementAtOrDefault(1)?.Item as IItemWeapon;
-            //    if (wielded3 != null)
-            //        OneHit(victim, wielded3, wielded3.DamageType, true);
-            //}
-            //if (Fighting != victim) // stop multihit if different victim or no victim
-            //    return true;
-
-            //// Second off hand
-            //if (KnownAbilities.Any(x => x.Ability == AbilityManager.FourthWieldAbility))
-            //{
-            //    IItemWeapon wielded4 = Equipments.Where(x => x.Slot == EquipmentSlots.OffHand).ElementAtOrDefault(1)?.Item as IItemWeapon;
-            //    if (wielded4 != null)
-            //        OneHit(victim, wielded4, wielded4.DamageType, true);
-            //}
-            //if (Fighting != victim) // stop multihit if different victim or no victim
-            //    return true;
-
-            //return true;
-        }
-
-        public bool StartFighting(ICharacter victim) // equivalent to set_fighting in fight.C:3441
-        {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "StartFighting: {0} is not valid anymore", DebugName);
-                return false;
-            }
-
-            Log.Default.WriteLine(LogLevels.Debug, "{0} starts fighting {1}", DebugName, victim.DebugName);
-
-            ChangePosition(Positions.Fighting);
-            Fighting = victim;
-            return true;
-        }
-
-        public bool StopFighting(bool both) // equivalent to stop_fighting in fight.C:3441
-        {
-            Log.Default.WriteLine(LogLevels.Debug, "{0} stops fighting {1}", Name, Fighting == null ? "<<no victim>>" : Fighting.Name);
-
-            Fighting = null;
-            ChangePosition(Positions.Standing);
-            if (both)
-            {
-                foreach (ICharacter victim in World.Characters.Where(x => x.Fighting == this))
-                    victim.StopFighting(false);
-            }
-            return true;
-        }
-
-        public bool WeaponDamage(ICharacter source, IItemWeapon weapon, int damage, SchoolTypes damageType, bool visible) // damage from weapon(or bare hands) of known source
-        {
-            return GenericDamage(source, weapon?.RelativeDisplayName(weapon.EquippedBy), damage, damageType, visible);
-        }
-
-        public bool AbilityDamage(IEntity source, IAbility ability, int damage, SchoolTypes damageType, bool visible) // damage from ability of known source
-        {
-            return GenericDamage(source, ability?.Name, damage, damageType, visible);
-        }
-
-        // TODO: refactor: GenericDamage is almost identical
-        public bool UnknownSourceDamage(IAbility ability, int damage, SchoolTypes damageType, bool visible) // damage with unknown source or no source
-        {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "UnknownSourceDamage: {0} is not valid anymore", DebugName);
-                return false;
-            }
-
-            // Modify damage (resist, vuln, invul, absorb)
-            bool fullyAbsorbed;
-            damage = ModifyDamage(damage, int.MaxValue, damageType, out fullyAbsorbed);
-
-            // Display damage
-            if (visible) // equivalent to dam_message in fight.C:4381
-            {
-                if (fullyAbsorbed)
-                    DisplayUnknownSourceAbsorbPhrase(ability?.Name);
-                else
-                    DisplayUnknownSourceDamagePhrase(ability?.Name, damage);
-            }
-
-            // No damage -> stop here
-            if (damage == 0)
-            {
-                Log.Default.WriteLine(LogLevels.Debug, "{0} does no damage to {1}", ability, DebugName);
-
-                return false;
-            }
-
-            Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", ability, damage, DebugName);
-
-            bool dead = ApplyDamageAndDisplayStatus(damage);
-
-            Log.Default.WriteLine(LogLevels.Debug, "{0} HP left: {1}", DebugName, HitPoints);
-
-            // If dead, create corpse, xp gain/loss, remove character from world if needed
-            if (dead) // TODO: fight.C:2246
-            {
-                Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", DebugName, ability);
-
-                StopFighting(false);
-                RawKilled(null, false);
-                return true;
-            }
-            return true;
-        }
-
         public void Slay(IPlayableCharacter killer)
         {
             RawKilled(killer, false);
         }
 
         public abstract void KillingPayoff(ICharacter victim);
+        public abstract void DeathPayoff(ICharacter killer);
 
         public bool SavesSpell(int level, SchoolTypes damageType)
         {
@@ -1630,12 +1469,6 @@ namespace Mud.Server.Character
 
         #endregion
 
-        protected abstract int NoWeaponDamage { get; }
-
-        protected abstract int HitPointMinValue { get; }
-
-        protected abstract int ModifyCriticalDamage(int damage);
-
         protected abstract ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom);
 
         protected abstract bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom);
@@ -1696,7 +1529,187 @@ namespace Mud.Server.Character
             }
         }
 
-        protected abstract bool RawKilled(IEntity killer, bool killingPayoff);
+        protected virtual bool RawKilled(IEntity killer, bool payoff)
+        {
+            if (!IsValid)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "RawKilled: {0} is not valid anymore", DebugName);
+                return false;
+            }
+
+            ICharacter characterKiller = killer as ICharacter;
+
+            Wiznet.Wiznet($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.Deaths);
+
+            StopFighting(true);
+            // Remove periodic auras
+            IReadOnlyCollection<IPeriodicAura> periodicAuras = new ReadOnlyCollection<IPeriodicAura>(PeriodicAuras.ToList()); // clone
+            foreach (IPeriodicAura pa in periodicAuras)
+                RemovePeriodicAura(pa);
+            // Remove auras
+            RemoveAuras(_ => true, false);
+
+            // Death cry
+            ActToNotVictim(this, "You hear {0}'s death cry.", this); // TODO: custom death cry
+
+            // Gain/lose xp/reputation   damage.C:32   was done before removing auras and stop fighting
+            if (payoff)
+            {
+                characterKiller?.KillingPayoff(this);
+                DeathPayoff(characterKiller);
+            }
+
+            // Create corpse
+            ItemCorpseBlueprint itemCorpseBlueprint = World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
+            if (itemCorpseBlueprint != null)
+            {
+                IItemCorpse corpse;
+                if (characterKiller != null)
+                    corpse = World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this, characterKiller);
+                else
+                    corpse = World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this);
+            }
+            else
+            {
+                string msg = $"ItemCorpseBlueprint (id:{Settings.CorpseBlueprintId}) doesn't exist !!!";
+                Log.Default.WriteLine(LogLevels.Error, msg);
+                Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+            }
+
+            HandleDeath();
+
+            return true;
+        }
+
+        protected abstract void HandleDeath();
+
+        protected abstract void HandleWimpy(int damage);
+
+        protected void OneHit(ICharacter victim, IItemWeapon wield) // 'this' hits 'victim'
+        {
+            // TODO
+            // parry/dodge/shield block was in Damage function before
+        }
+
+        protected bool HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source'
+        {
+            // TODO wield should only be used to build damage message
+            return Damage(source, damage, damageType, dmg => Send("DEBUG DAMAGE: TAKING {0} HIT DAMAGE (was {1}) FROM {2}", dmg, damage, source.DebugName), display);
+        }
+
+        protected bool Damage(ICharacter source, int damage, SchoolTypes damageType, Action<int> damageMessageAction, bool display) // 'this' is dealt damage by 'source'
+        {
+            ICharacter victim = this;
+            if (victim.Position == Positions.Dead)
+                return false;
+            // damage reduction
+            if (damage > 35)
+                damage = (damage - 35) / 2 + 35;
+            if (damage > 80)
+                damage = (damage - 80) / 2 + 80;
+
+            if (victim != source)
+            {
+                // Certain attacks are forbidden.
+                // Most other attacks are returned.
+                if (victim.IsSafe(source))
+                    return false;
+                // TODO: check_killer
+                if (victim.Position > Positions.Stunned)
+                {
+                    if (victim.Fighting == null)
+                        victim.StartFighting(source);
+                    // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
+                }
+                if (source.Position >= Positions.Stunned) // TODO: in original Rom code, test was done on victim (again)
+                {
+                    if (source.Fighting == null)
+                        source.StartFighting(victim);
+                }
+                // more charm stuff
+                if (victim is INonPlayableCharacter npcVictim && npcVictim.ControlledBy == source)
+                    npcVictim.ChangeController(null);
+            }
+            // inviso attack
+            // TODO: remove invis, mass invis, flags, ... + "$n fades into existence."
+            // damage modifiers
+            if (damage > 1 && victim is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
+                damage -= damage / 10;
+            if (damage > 1 && victim.CharacterFlags.HasFlag(CharacterFlags.Sanctuary))
+                damage /= 2;
+            if (damage > 1
+                && ((victim.CharacterFlags.HasFlag(CharacterFlags.ProtectEvil) && source.IsEvil)
+                    || (victim.CharacterFlags.HasFlag(CharacterFlags.ProtectGood) && source.IsGood)))
+                damage -= damage / 4;
+            // old code was testing parry/dodge/shield block -> is done on OneHit
+            ResistanceLevels resistanceLevel = victim.CheckResistance(damageType);
+            switch (resistanceLevel)
+            {
+                case ResistanceLevels.Immune:
+                    damage = 0;
+                    break;
+                case ResistanceLevels.Resistant:
+                    damage -= damage / 3;
+                    break;
+                case ResistanceLevels.Vulnerable:
+                    damage += damage / 2;
+                    break;
+            }
+
+            if (display)
+            {
+                // TODO: see dam_message depending on ability or 
+                damageMessageAction(damage);
+            }
+
+            // no damage done, stops here
+            if (damage <= 0)
+                return false;
+
+            // hurt the victim
+            victim.UpdateHitPoints(-damage);
+            // immortals don't really die TODO
+            //if (victim is IPlayableCharacter
+            //    && victim.HitPoints < 1)
+            //    victim.UpdateHitPoints(1 - victim.HitPoints); // set to 1
+            victim.UpdatePosition();
+            switch (victim.Position)
+            {
+                case Positions.Mortal: victim.Act(ActOptions.ToAll, "{0:N} {0:b} mortally wounded, and will die soon, if not aided.", victim); break;
+                case Positions.Incap: victim.Act(ActOptions.ToAll, "{0:N} {0:b} incapacitated and will slowly die, if not aided.", victim); break;
+                case Positions.Stunned: victim.Act(ActOptions.ToAll, "{0:N} {0:b} stunned, but will probably recover.", victim); break;
+                case Positions.Dead:
+                    victim.Send("You have been KILLED!!");
+                    victim.Act(ActOptions.ToRoom, "{0:N} is dead.", victim);
+                    break;
+                default:
+                    if (damage > victim.MaxHitPoints / 4)
+                        victim.Send("That really did HURT!");
+                    else if (victim.HitPoints < victim.MaxHitPoints / 4)
+                        victim.Send("You sure are BLEEDING!");
+                    break;
+            }
+
+            // sleep spells or extremely wounded folks
+            if (victim.Position <= Positions.Sleeping)
+                StopFighting(true);
+
+            if (victim.Position == Positions.Dead)
+            {
+                RawKilled(source, true); // group group_gain + dying penalty + raw_kill
+
+                // TODO: autoloot, autosac  damage.C:96
+                return true;
+            }
+
+            if (victim == source)
+                return true;
+
+            // TODO: take care of link-dead people
+            HandleWimpy(damage);
+
+            return false;
+        }
 
         protected KnownAbility this[IAbility ability] => _knownAbilities.SingleOrDefault(x => x.Ability == ability);
 
@@ -1723,12 +1736,13 @@ namespace Mud.Server.Character
                 // TODO: take care of existing equipment (add only new slot, if slot is removed put equipment in inventory)
                 foreach (var item in _equipments.Where(x => x.Item != null).Select(x => x.Item))
                 {
-                    item.ChangeEquippedBy(null);
+                    item.ChangeEquippedBy(null, false);
                     item.ChangeContainer(this);
                 }
 
                 _equipments.Clear();
                 _equipments.AddRange(Race.EquipmentSlots.Select(x => new EquippedItem(x)));
+                Recompute();
             }
             else
             {
@@ -1808,421 +1822,6 @@ namespace Mud.Server.Character
             return Equipments.Where(x => x.Slot == EquipmentSlots.OffHand && x.Item == null).ElementAtOrDefault(countMainhand2H);
         }
 
-        protected bool ApplyDamageAndDisplayStatus(int damage)
-        {
-            // Apply damage
-            bool dead = false;
-            HitPoints -= damage;
-            if (HitPoints < 1)
-            {
-                HitPoints = HitPointMinValue;
-                dead = true;
-            }
-
-            //update_pos(victim);c
-            //position_msg(victim, dam);
-
-            // position_msg
-            if (damage > MaxHitPoints/4)
-                Send("That really did HURT!");
-            if (!dead && HitPoints < MaxHitPoints/4)
-                Send("You sure are BLEEDING!");
-            if (dead)
-            {
-                Act(ActOptions.ToRoom, "{0} is dead.", this);
-                Send("You have been KILLED!!");
-            }
-
-            return dead;
-        }
-
-        protected int ModifyDamage(int damage, int sourceLevel, SchoolTypes damageTypes, out bool fullyAbsorbed)
-        {
-            // TODO: perform crushing blow, critical, block computation here instead of OneHit and AbilityEffect
-            // TODO: check combat_damage in fight.C:1940
-            // TODO: damage reduction
-
-            // TODO: if invisible, remove invisibility
-            // TODO: damage modifier
-            // TODO: check immunity/resist/vuln
-
-            fullyAbsorbed = false;
-            //// Check absorb
-            //fullyAbsorbed = false;
-            //if (damage > 0 && _auras.Any(x => x.Modifier == AuraModifiers.DamageAbsorb))
-            //{
-            //    bool needsRecompute = false;
-            //    // Process every absorb aura until 0 damage left or 0 absorb aura left
-            //    IReadOnlyCollection<IAura> absorbs = new ReadOnlyCollection<IAura>(_auras.Where(x => x.Modifier == AuraModifiers.DamageAbsorb).ToList());
-            //    foreach (IAura absorb in absorbs)
-            //    {
-            //        // Process absorb
-            //        damage = absorb.Absorb(damage);
-            //        if (damage == 0) // full absorb
-            //        {
-            //            fullyAbsorbed = true;
-            //            Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] totally absorbed by {1}", damage, absorb.Ability == null ? "<<??>>" : absorb.Ability.Name);
-            //            break; // no need to check other absorb
-            //        }
-            //        else // partial absorb
-            //        {
-            //            Log.Default.WriteLine(LogLevels.Debug, "Damage [{0}] partially absorbed [{1}] by {2}", damage, absorb.Amount, absorb.Ability == null ? "<<??>>" : absorb.Ability.Name);
-            //            needsRecompute = true;
-            //            RemoveAura(absorb, false); // recompute when everything is done
-            //        }
-            //    }
-            //    if (needsRecompute)
-            //        Recompute();
-            //}
-
-            // Armor reduce physical damage (http://wow.gamepedia.com/Armor#Armor_damage_reduction_formula)
-            if (damageTypes <= SchoolTypes.Slash) // Physical
-            {
-                // 1 -> 59
-                //decimal damageReduction = (decimal)this[ComputedAttributeTypes.Armor] / (this[ComputedAttributeTypes.Armor] + 400 + 85 * sourceLevel);
-                decimal denominator = _currentAttributes[(int)CharacterAttributes.ArmorBash]/*TODO other armor*/ + 400 + 85*sourceLevel;
-                if (sourceLevel >= 60)
-                    denominator += 4.5m*(sourceLevel - 59);
-                if (sourceLevel >= 80)
-                    denominator += 20*(sourceLevel - 80);
-                if (sourceLevel >= 85)
-                    denominator += 22*(sourceLevel - 85);
-                decimal damageReduction = _currentAttributes[(int)CharacterAttributes.ArmorBash]/ denominator;/*TODO other armor*/
-                if (damageReduction > 0)
-                {
-                    //decimal damageAbsorption = HitPoints/(1.0m - damageReduction);
-                    damage = damage - (int) (damage*damageReduction);
-                }
-            }
-
-            // TODO: resistances (see http://wow.gamepedia.com/Resistance/
-
-            return damage;
-        }
-
-        protected int ModifyHeal(int heal, out bool fullyAbsorbed)
-        {
-            fullyAbsorbed = false;
-            //if (heal > 0 && _auras.Any(x => x.Modifier == AuraModifiers.HealAbsorb))
-            //{
-            //    bool needsRecompute = false;
-            //    // Process every absorb aura until 0 damage left or 0 absorb aura left
-            //    IReadOnlyCollection<IAura> absorbs = new ReadOnlyCollection<IAura>(_auras.Where(x => x.Modifier == AuraModifiers.HealAbsorb).ToList());
-            //    foreach (IAura absorb in absorbs)
-            //    {
-            //        // Process absorb
-            //        heal = absorb.Absorb(heal);
-            //        if (heal == 0) // full absorb
-            //        {
-            //            fullyAbsorbed = true;
-            //            Log.Default.WriteLine(LogLevels.Debug, "Heal [{0}] totally absorbed by {1}", heal, absorb.Ability == null ? "<<??>>" : absorb.Ability.Name);
-            //            break; // no need to check other absorb
-            //        }
-            //        else // partial absorb
-            //        {
-            //            Log.Default.WriteLine(LogLevels.Debug, "Heal [{0}] partially absorbed [{1}] by {2}", heal, absorb.Amount, absorb.Ability == null ? "<<??>>" : absorb.Ability.Name);
-            //            needsRecompute = true;
-            //            RemoveAura(absorb, false); // recompute when everything is done
-            //        }
-            //    }
-            //    if (needsRecompute)
-            //        Recompute();
-            //}
-
-            return heal;
-        }
-
-        protected bool OneHit(ICharacter victim, IItemWeapon weapon, SchoolTypes damageType, bool notMainWield) // TODO: check fight.C:1394
-        {
-            if (this == victim || Room != victim.Room)
-                return false;
-
-            if (Position == Positions.Stunned)
-                return false;
-
-            // Starts fight if needed (if A attacks B, A fights B and B fights A)
-            if (this != victim)
-            {
-                if (Fighting == null)
-                    StartFighting(victim);
-                if (victim.Fighting == null)
-                    victim.StartFighting(this);
-                // TODO: Cannot attack slave without breaking slavery
-            }
-
-            // http://wow.gamepedia.com/Attack_power
-            int damage;
-            if (weapon != null)
-                damage = RandomManager.Dice(weapon.DiceCount, weapon.DiceValue) + _currentAttributes[(int)CharacterAttributes.DamRoll]; // TODO: use weapon dps and weapon speed
-            else
-            {
-                // TEST
-                damage = NoWeaponDamage;
-            }
-            if (notMainWield)
-                damage /= 2;
-            // TODO: damage modifier  fight.C:1693
-
-            // Miss, dodge, parry, ...
-            CombatHelpers.AttackResults attackResult = CombatHelpers.WhiteMeleeAttack(this, victim, notMainWield);
-            Log.Default.WriteLine(LogLevels.Debug, $"{DebugName} -> {victim.DebugName} : attack result = {attackResult} for {weapon?.DebugName ?? "???"}");
-            switch (attackResult)
-            {
-                case CombatHelpers.AttackResults.Miss:
-                    victim.Act(ActOptions.ToCharacter, "{0} misses you.", this);
-                    Act(ActOptions.ToCharacter, "You miss {0}.", victim);
-                    return false;
-                case CombatHelpers.AttackResults.Dodge:
-                    victim.Act(ActOptions.ToCharacter, "You dodge {0}'s attack.", this);
-                    Act(ActOptions.ToCharacter, "{0} dodges your attack.", victim);
-                    return false;
-                case CombatHelpers.AttackResults.Parry:
-                    victim.Act(ActOptions.ToCharacter, "You parry {0}'s attack.", this);
-                    Act(ActOptions.ToCharacter, "{0} parries your attack.", victim);
-                    return false;
-                case CombatHelpers.AttackResults.GlancingBlow:
-                    // http://wow.gamepedia.com/Glancing_Blow
-                    damage = (damage * 75) / 100;
-                    break;
-                case CombatHelpers.AttackResults.Block:
-                    EquippedItem victimShield = victim.Equipments.FirstOrDefault(x => x.Item is IItemShield && x.Slot == EquipmentSlots.OffHand);
-                    if (victimShield != null) // will never be null because MeleeAttack will not return Block if no shield
-                    {
-                        victim.Act(ActOptions.ToCharacter, "You block {0}'s attack with {1}.", this, victimShield.Item);
-                        Act(ActOptions.ToCharacter, "{0} blocks your attack with {1}.", victim, victimShield.Item);
-                    }
-                    damage = (damage * 7) / 10;
-                    break;
-                case CombatHelpers.AttackResults.Critical:
-                    damage = ModifyCriticalDamage(damage);
-                    break;
-                case CombatHelpers.AttackResults.CrushingBlow:
-                    // http://wow.gamepedia.com/Crushing_Blow
-                    damage = (damage * 150) / 200;
-                    break;
-                case CombatHelpers.AttackResults.Hit:
-                    // NOP
-                    break;
-                default:
-                    Log.Default.WriteLine(LogLevels.Error, "Unknown MeleeAttack result: {0}", attackResult);
-                    break;
-            }
-
-            return victim.WeaponDamage(this, weapon, damage, damageType, true);
-        }
-
-        protected void DisplayDamageAbsorbPhrase(string name, IEntity source)
-        {
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                if (this == source)
-                {
-                    Act(ActOptions.ToAll, "{0:P} {1} is absorbed.", source, name);
-                }
-                else
-                {
-                    Act(ActOptions.ToAll, "{0:P} {1} is absorbed by {2}.", source, name, this);
-                }
-            }
-            else
-            {
-                if (this == source)
-                {
-                    Act(ActOptions.ToAll, "{0:P} absorb{0:v} some damage.", this);
-                }
-                else
-                {
-                    Act(ActOptions.ToAll, "{0:P} absorb{0:v} damage from {1}", this, source);
-                }
-            }
-        }
-
-        protected void DisplayUnknownSourceAbsorbPhrase(string name)
-        {
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                Act(ActOptions.ToAll, "{0} absorb{0:v} damage from {1}.", this, name);
-            }
-            else
-            {
-                Act(ActOptions.ToAll, "{0} absorb{0:v} some damage.", this);
-            }
-        }
-
-        protected void DisplayDamagePhrase(string name, int damage, IEntity source)
-        {
-            string damagePhraseSelf = StringHelpers.DamagePhraseSelf(damage);
-            string damagePhraseOther = StringHelpers.DamagePhraseOther(damage);
-
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                if (this == source)
-                {
-                    Act(ActOptions.ToAll, "{0:P} {1} {2} {0:f}.[dmg:{3}]", source, name, damagePhraseOther, damage);
-                }
-                else
-                {
-                    Act(ActOptions.ToCharacter, "{0}'s {1} {2} you.[dmg:{3}]", source, name, damagePhraseOther, damage);
-                    if (source is ICharacter characterSource && Room == characterSource.Room)
-                    {
-                        characterSource.Act(ActOptions.ToCharacter, "Your {0} {1} {2}.[dmg:{3}]", name, damagePhraseSelf, this, damage);
-                        ActToNotVictim(characterSource, "{0}'s {1} {2} {3}.[dmg:{4}]", source, name, damagePhraseOther, this, damage);
-                    }
-                    else
-                        Act(ActOptions.ToRoom, "{0}'s {1} {2} {3}.[dmg:{4}]", source, name, damagePhraseOther, this, damage);
-                    // TODO: damagePhraseOther and damagePhraseSelf should be merge and include {0:v}
-                    //Act(ActOptions.ToAll, "{0:P} {1} {2} {3}.[{4}]", source, name, damagePhraseOther, this, damage);
-                }
-            }
-            else
-            {
-                if (this == source)
-                {
-                    Act(ActOptions.ToCharacter, "You {0} yourself.[dmg:{1}]", damagePhraseSelf, damage);
-                    Act(ActOptions.ToRoom, "{0} {1} {0:m}self.[dmg:{2}]", source, damagePhraseOther, damage);
-                }
-                else
-                {
-                    Act(ActOptions.ToCharacter, "{0} {1} you.[dmg:{2}]", source, damagePhraseOther, damage);
-                    if (source is ICharacter characterSource && Room == characterSource.Room)
-                    {
-                        characterSource.Act(ActOptions.ToCharacter, "You {0} {1}.[dmg:{2}]", damagePhraseSelf, this, damage);
-                        ActToNotVictim(characterSource, "{0} {1} {2}.[dmg:{3}]", source, damagePhraseOther, this, damage);
-                    }
-                    Act(ActOptions.ToRoom, "{0} {1} {2}.[dmg:{3}]", source, damagePhraseOther, this, damage);
-                    // TODO: damagePhraseOther and damagePhraseSelf should be merge and include {0:v}
-                }
-            }
-        }
-
-        protected void DisplayUnknownSourceDamagePhrase(string name, int damage)
-        {
-            string damagePhraseSelf = StringHelpers.DamagePhraseSelf(damage);
-            string damagePhraseOther = StringHelpers.DamagePhraseOther(damage);
-
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                Act(ActOptions.ToCharacter, "{0} {1} you.[dmg:{2}]", name, damagePhraseSelf, damage);
-                Act(ActOptions.ToRoom, "{0} {1} {2}.[dmg:{3}]", name, damagePhraseOther, this, damage);
-                // TODO: damagePhraseOther and damagePhraseSelf should be merge and include {0:v}
-            }
-            else
-            {
-                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.NonCombatDamage: no ability");
-                Act(ActOptions.ToCharacter, "Something {0} you.[dmg:{1}]", damagePhraseOther, damage);
-                Act(ActOptions.ToRoom, "Something {0} {1}.[dmg:{2}]", damagePhraseOther, this, damage);
-                // TODO: damagePhraseOther and damagePhraseSelf should be merge and include {0:v}
-            }
-        }
-
-        protected void DisplayHealPhrase(IAbility ability, int amount, IEntity source)
-        {
-            if (ability != null)
-            {
-                if (this == source)
-                {
-                    Act(ActOptions.ToCharacter, "Your {0} %W%heals%x% yourself.[heal:{1}]", ability, amount);
-                    Act(ActOptions.ToRoom, "{0} {1} %W%heals%x% {0:m}self.[heal:{2}]", this, ability, amount);
-                }
-                else
-                {
-                    Act(ActOptions.ToCharacter, "{0}'s {1} %W%heals%x% you.[heal:{2}]", source, ability, amount);
-                    if (source is ICharacter characterSource && Room == characterSource.Room)
-                    {
-                        characterSource.Act(ActOptions.ToCharacter, "Your {0} %W%heals%x% {1}.[heal:{2}]", ability, this, amount);
-                        ActToNotVictim(characterSource, "{0}'s {1} %W%heals%x% {2}.[heal:{3}]", source, ability, this, amount);
-                    }
-                    else
-                        Act(ActOptions.ToRoom, "{0}'s {1} %W%heals%x% {2}.[heal:{3}]", source, ability, this, amount);
-                }
-            }
-            else
-            {
-                if (this == source)
-                {
-                    Act(ActOptions.ToCharacter, "You %W%heal%x% yourself.[heal:{0}]", amount);
-                    Act(ActOptions.ToRoom, "{0} %W%heals%x% {0:m}self.[heal:{1}]", this, amount);
-                }
-                else
-                {
-                    Act(ActOptions.ToCharacter, "{0} heals you.[heal:{1}]", source, amount);
-                    if (source is ICharacter characterSource && Room == characterSource.Room)
-                    {
-                        characterSource.Act(ActOptions.ToCharacter, "You heal {0}.[heal:{1}]", this, amount);
-                        ActToNotVictim(characterSource, "{0} heals {1}.[heal:{2}]", source, this, amount);
-                    }
-                    else
-                        Act(ActOptions.ToRoom, "{0} heals {1}.[heal:{2}]", source, this, amount);
-                }
-            }
-        }
-
-        protected void DisplayHealAbsorbPhrase(string name, IEntity source)
-        {
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                if (this == source)
-                {
-                    Act(ActOptions.ToCharacter, "Your {0} is absorbed.", name);
-                    Act(ActOptions.ToRoom, "{0} {1} is absorbed.", source, name);
-                }
-                else
-                {
-                    Act(ActOptions.ToCharacter, "{0}'s {1} is absorbed.", source, name);
-                    if (source is ICharacter characterSource && Room == characterSource.Room)
-                    {
-                        characterSource.Act(ActOptions.ToCharacter, "Your {0} is absorbed.", name);
-                        ActToNotVictim(characterSource, "{0}'s {1} is absorbed by {2}.", source, name, this);
-                    }
-                    else
-                        Act(ActOptions.ToRoom, "{0}'s {1} is absorbed by {2}.", source, name, this);
-                }
-            }
-            else
-            {
-                if (this == source)
-                {
-                    Act(ActOptions.ToCharacter, "You absorb some heal.");
-                    Act(ActOptions.ToRoom, "{0} absorbs some heal.", source);
-                }
-                else
-                {
-                    Act(ActOptions.ToCharacter, "You absorb heal from {0}.", source);
-                    if (source is ICharacter characterSource && Room == characterSource.Room)
-                    {
-                        characterSource.Act(ActOptions.ToCharacter, "{0} absorbs your heal.", this);
-                        ActToNotVictim(characterSource, "{0} absorbs heal from {1}.", this, source);
-                    }
-                    else
-                        Act(ActOptions.ToRoom, "{0} absorbs heal from {1}.", this, source);
-                }
-            }
-        }
-
-        protected void DisplayUnknownSourceHealPhrase(IAbility ability, int amount)
-        {
-            if (ability != null)
-            {
-                Act(ActOptions.ToRoom, "{0} {1} %W%heals%x% {0:m}self.[heal:{2}]", this, ability, amount);
-            }
-            else
-            {
-                Act(ActOptions.ToRoom, "{0} %W%heals%x% {0:m}self.[heal:{1}]", this, amount);
-            }
-        }
-
-        protected void DisplayUnknownSourceHealAbsorbPhrase(string name)
-        {
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                Act(ActOptions.ToRoom, "{0} is absorbed.", name);
-            }
-            else
-            {
-                Act(ActOptions.ToRoom, "Some heal are absorbed.");
-            }
-        }
-
         protected void RecomputeKnownAbilities()
         {
             // Add abilities from Class/Race/...
@@ -2241,71 +1840,6 @@ namespace Mud.Server.Character
         {
             // Get current resource kind from class if any, every resource otherwise
             CurrentResourceKinds = (Class?.CurrentResourceKinds(Form) ?? EnumHelpers.GetValues<ResourceKinds>()).ToList();
-        }
-
-        protected bool GenericDamage(IEntity source, string sourceName /*can be source.DisplayName or source.Weapon.DisplayName*/, int damage, SchoolTypes damageType, bool visible)
-        {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "CombatDamage: {0} is not valid anymore", DebugName);
-                return false;
-            }
-
-            ICharacter characterSource = source as ICharacter;
-            // Starts fight if needed (if A attacks B, A fights B and B fights A)
-            if (this != source)
-            {
-                if (characterSource != null)
-                {
-                    if (Fighting == null)
-                        StartFighting(characterSource);
-                    if (characterSource.Fighting == null)
-                        characterSource.StartFighting(this);
-                }
-                // TODO: Cannot attack slave without breaking slavery
-            }
-
-            // Modify damage (resist, vuln, invul, absorb)
-            bool fullyAbsorbed;
-            damage = ModifyDamage(damage, characterSource?.Level ?? 0, damageType, out fullyAbsorbed);
-
-            // Display damage
-            if (visible) // equivalent to dam_message in fight.C:4381
-            {
-                if (fullyAbsorbed)
-                    DisplayDamageAbsorbPhrase(sourceName, source);
-                else
-                    DisplayDamagePhrase(sourceName, damage, source);
-            }
-
-            // No damage -> stop here
-            if (damage == 0)
-            {
-                Log.Default.WriteLine(LogLevels.Debug, "{0} does no damage to {1}", source.DebugName, DebugName);
-
-                return false;
-            }
-
-            Log.Default.WriteLine(LogLevels.Debug, "{0} does {1} damage to {2}", source.DebugName, damage, DebugName);
-
-            // Apply damage
-            bool dead = ApplyDamageAndDisplayStatus(damage);
-
-            Log.Default.WriteLine(LogLevels.Debug, "{0} HP: {1}", DebugName, HitPoints);
-
-            // If dead, create corpse, xp gain/loss, remove character from world if needed
-            if (dead) // TODO: fight.C:2246
-            {
-                Log.Default.WriteLine(LogLevels.Debug, "{0} has been killed by {1}", DebugName, source.DebugName);
-
-                StopFighting(false);
-                RawKilled(source, true);
-                return true;
-            }
-
-            // TODO: wimpy, ... // fight.C:2264
-
-            return true;
         }
 
         protected void ResetCurrentAttributes()

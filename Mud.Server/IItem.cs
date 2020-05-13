@@ -33,7 +33,7 @@ namespace Mud.Server
 
         bool ChangeContainer(IContainer container);
 
-        bool ChangeEquippedBy(ICharacter character);
+        bool ChangeEquippedBy(ICharacter character, bool recompute);
 
         void DecreaseDecayPulseLeft(int pulseCount);
         void SetTimer(TimeSpan duration);

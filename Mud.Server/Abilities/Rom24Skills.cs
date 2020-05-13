@@ -60,7 +60,7 @@ namespace Mud.Server.Abilities
             {
                 source.UpdateResource(ResourceKinds.Mana, 50);
                 source.UpdateMovePoints(source.MovePoints / 2);
-                source.Heal(source, ability, source.Level * 2, false);
+                source.UpdateHitPoints(source.Level * 2);
 
                 source.Send("Your pulse races as you are consumed by rage!");
                 source.Act(ActOptions.ToRoom, "{0:N} gets a wild look in {0:s} eyes.", source);
@@ -364,7 +364,7 @@ namespace Mud.Server.Abilities
             if (RandomManager.Chance(learned)
                 || (learned > 1 && victim.Position <= Positions.Sleeping))
             {
-                victim.MultiHit(source); // TODO: pass ability, some nasty things are done if Backstab is passed as param (thac0 modifier mainly)
+                source.MultiHit(victim); // TODO: pass ability, some nasty things are done if Backstab is passed as param (thac0 modifier mainly)
                 return UseResults.Ok;
             }
             else
@@ -462,7 +462,7 @@ namespace Mud.Server.Abilities
                 victim.Act(ActOptions.ToCharacter, "{0:N} DISARMS you and sends your weapon flying!", source);
                 victim.Act(ActOptions.ToRoom, "{0:N} disarm{0:v} {1}", source, victim);
 
-                victimWield.ChangeEquippedBy(null);
+                victimWield.ChangeEquippedBy(null, true);
                 if (!victimWield.ItemFlags.HasFlag(ItemFlags.NoDrop) && !victimWield.ItemFlags.HasFlag(ItemFlags.Inventory))
                 {
                     victimWield.ChangeContainer(victim.Room);

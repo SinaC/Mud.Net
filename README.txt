@@ -59,7 +59,9 @@ Rom2.4b6 fight system
 multi_hit(dt)
 	decrement mob wait/daze
 	if stunned -> return
-	if mob -> mob_hit
+	if mob
+		mob_hit
+		return
 	one_hit
 	if not fighting anymore or dt = backstab -> return
 	if second attack -> one hit

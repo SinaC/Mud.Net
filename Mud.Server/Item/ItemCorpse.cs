@@ -58,12 +58,12 @@ namespace Mud.Server.Item
                 var result = PerformActionOnItem(victim, item);
                 if (result == PerformActionOnItemResults.MoveToCorpse)
                 {
-                    item.ChangeEquippedBy(null);
+                    item.ChangeEquippedBy(null, false);
                     item.ChangeContainer(this);
                 }
                 else if (result == PerformActionOnItemResults.MoveToRoom)
                 {
-                    item.ChangeEquippedBy(null);
+                    item.ChangeEquippedBy(null, false);
                     item.ChangeContainer(victim.Room);
                 }
                 else

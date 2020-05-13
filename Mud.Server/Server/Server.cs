@@ -882,7 +882,18 @@ namespace Mud.Server.Server
                     if (victims.Length > 0)
                     {
                         IPlayableCharacter victim = RandomManager.Random(victims);
-                        aggressor.MultiHit(victim); // TODO: undefined type
+                        if (victim != null)
+                        {
+                            try
+                            {
+                                Log.Default.WriteLine(LogLevels.Debug, "HandleAggressiveNonPlayableCharacters: starting a fight between {0} and {1}", aggressor.DebugName, victim.DebugName);
+                                aggressor.MultiHit(victim); // TODO: undefined type
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.Default.WriteLine(LogLevels.Error, "Exception while handling aggressive behavior {0} on {1}. Exception: {2}", aggressor.DebugName, victim.DebugName, ex);
+                            }
+                        }
                     }
                 }
             }
@@ -1057,7 +1068,7 @@ namespace Mud.Server.Server
             {
                 try
                 {
-                    IReadOnlyCollection<IQuest> clone = new ReadOnlyCollection<IQuest>(player.Impersonating.Quests.Where(x => x.Blueprint.TimeLimit > 0).ToList());
+                    IReadOnlyCollection<IQuest> clone = new ReadOnlyCollection<IQuest>(player.Impersonating.Quests.Where(x => x.Blueprint.TimeLimit > 0).ToList()); // clone because quest list may be modified
                     foreach (IQuest quest in clone)
                     {
                         bool timedOut = quest.DecreasePulseLeft(pulseCount);
@@ -1075,19 +1086,18 @@ namespace Mud.Server.Server
             }
         }
 
-        // TODO: 'Optimize' following function using area info such as players count
-
         private void HandleViolence(int pulseCount)
         {
             //Log.Default.WriteLine(LogLevels.Debug, "HandleViolence: {0}", DateTime.Now);
-            foreach (ICharacter character in World.Characters.Where(x => x.Fighting != null))
+            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(World.Characters.Where(x => x.Fighting != null && x.Room != null).ToList()); // clone because multi hit could kill character and then modify list
+            foreach (ICharacter character in clone)
             {
                 ICharacter victim = character.Fighting;
                 if (victim != null)
                 {
                     try
                     {
-                        if (victim.Room == character.Room) // fight continue only if in the same room
+                        if (character.Position > Positions.Sleeping && victim.Room == character.Room) // fight continue only if in the same room and awake
                         {
                             Log.Default.WriteLine(LogLevels.Debug, "Continue fight between {0} and {1}", character.DebugName, victim.DebugName);
                             character.MultiHit(victim);
@@ -1102,6 +1112,7 @@ namespace Mud.Server.Server
                                 nonPlayableCharacter.Reset();
                             }
                         }
+                        // TODO: check assist
                     }
                     catch (Exception ex)
                     {
@@ -1190,7 +1201,8 @@ namespace Mud.Server.Server
         private void HandleItems(int pulseCount)
         {
             //Log.Default.WriteLine(LogLevels.Debug, "HandleItems {0} {1}", CurrentTime, DateTime.Now);
-            foreach (IItem item in World.Items.Where(x => x.DecayPulseLeft > 0))
+            IReadOnlyCollection<IItem> clone = new ReadOnlyCollection<IItem>(World.Items.Where(x => x.DecayPulseLeft > 0).ToList()); // clone bause decaying item will be removed from list
+            foreach (IItem item in clone)
             {
                 try
                 {
@@ -1247,9 +1259,9 @@ namespace Mud.Server.Server
                                     Log.Default.WriteLine(LogLevels.Error, "Item was in the void");
                                 else
                                 {
-                                    IReadOnlyCollection<IItem> clone = new ReadOnlyCollection<IItem>(container.Content.Where(x => !(x is IItemQuest)).ToList()); // except quest item
-                                    foreach (IItem itemInCorpse in clone)
-                                        itemInCorpse.ChangeContainer(newContainer);
+                                    IReadOnlyCollection<IItem> cloneContent = new ReadOnlyCollection<IItem>(container.Content.Where(x => !(x is IItemQuest)).ToList()); // except quest item
+                                    foreach (IItem itemInContainer in cloneContent)
+                                        itemInContainer.ChangeContainer(newContainer);
                                 }
                             }
                         }
@@ -1308,7 +1320,7 @@ namespace Mud.Server.Server
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleNonPlayableCharacters);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandlePlayers);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleRooms);
-            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleTime); // 1 minute in real life is one hour in game
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleTime); // 1 minute IRL = 1 hour IG
 
             try
             {

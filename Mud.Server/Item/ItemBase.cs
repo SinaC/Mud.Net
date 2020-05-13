@@ -177,11 +177,16 @@ namespace Mud.Server.Item
             return true;
         }
 
-        public bool ChangeEquippedBy(ICharacter character)
+        public bool ChangeEquippedBy(ICharacter character, bool recompute)
         {
-            EquippedBy?.Unequip(this, true);
+            ICharacter previousEquippedBy = EquippedBy;
+            EquippedBy?.Unequip(this);
             Log.Default.WriteLine(LogLevels.Info, "ChangeEquippedBy: {0} : {1} -> {2}", DebugName, EquippedBy?.DebugName ?? "<<??>>", character?.DebugName ?? "<<??>>");
             EquippedBy = character;
+            if (recompute)
+                previousEquippedBy?.Recompute();
+            if (recompute)
+                EquippedBy?.Recompute();
             // TODO: call something like character.Equip ? (additional parameter EquipmentSlot)
             return true;
         }

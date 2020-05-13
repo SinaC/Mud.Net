@@ -1445,7 +1445,7 @@ namespace Mud.Server.WPFTestApplication
                                             {
                                                 equippedItem.Item = item;
                                                 item.ChangeContainer(null); // remove from inventory
-                                                item.ChangeEquippedBy(lastCharacter); // set as equipped by lastCharacter
+                                                item.ChangeEquippedBy(lastCharacter, true); // set as equipped by lastCharacter
                                             }
                                             else
                                                 Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Item {reset.Arg1} wear location {item.WearLocation} doesn't exist on last character");
