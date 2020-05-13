@@ -32,7 +32,7 @@ namespace Mud.Server.Player
         protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
         protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
         protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
-        protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
+        protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
 
         public override bool IsFinalStateReached => State == AvatarCreationStates.CreationComplete || State == AvatarCreationStates.Quit;
 

@@ -570,6 +570,25 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
+        [Command("weather", "Information")]
+        [Syntax("[cmd]")]
+        protected virtual CommandExecutionResults DoWeather(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (Room == null)
+                return CommandExecutionResults.Error;
+            if (Room.RoomFlags.HasFlag(RoomFlags.Indoors))
+            {
+                Send("You can't see the weather indoors.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+
+            string change = TimeHandler.PressureChange >= 0
+                ? "a warm southerly breeze blows"
+                : "a cold northern gust blows";
+            Send("The sky is {0} and {1}.", TimeHandler.SkyState.PrettyPrint(), change);
+            return CommandExecutionResults.Ok;
+        }
+
         // Helpers
         private void AppendRoom(StringBuilder sb, IRoom room) // equivalent to act_info.C:do_look("auto")
         {

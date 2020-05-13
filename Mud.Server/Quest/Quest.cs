@@ -21,7 +21,7 @@ namespace Mud.Server.Quest
         protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
         protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
-        protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
+        protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
 
         public Quest(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
         {

@@ -36,7 +36,7 @@ namespace Mud.Server.Character
         private readonly Dictionary<IAbility, DateTime> _cooldowns; // Key: ability.Id, Value: Next ability availability
         private readonly List<KnownAbility> _knownAbilities;
 
-        protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
+        protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
         protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
 

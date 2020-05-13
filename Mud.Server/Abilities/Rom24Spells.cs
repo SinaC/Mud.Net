@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Mud.Server.Aura;
-using Mud.Server.Blueprints.Item;
+using Mud.Server.Input;
 
 // ReSharper disable UnusedMember.Global
 
@@ -129,8 +129,39 @@ namespace Mud.Server.Abilities
         [Spell(6, "Call Lightning", AbilityTargets.None)]
         public void SpellCallLightning(IAbility ability, int level, ICharacter caster)
         {
-            //TODO: no weather implemented
-            caster.Send(StringHelpers.NotYetImplemented);
+            if (caster.Room == null)
+                return;
+            if (caster.Room.RoomFlags.HasFlag(RoomFlags.Indoors))
+            {
+                caster.Send("You must be out of doors.");
+                return;
+            }
+
+            if (TimeManager.SkyState < SkyStates.Raining)
+            {
+                caster.Send("You need bad weather.");
+                return;
+            }
+
+            INonPlayableCharacter npcCaster = caster as INonPlayableCharacter;
+            int damage = RandomManager.Dice(level / 2, 8);
+            caster.Send("Mota's lightning strikes your foes!");
+            caster.Act(ActOptions.ToRoom, "{0:N} calls Mota's lightning to strike {0:s} foes!", caster);
+            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(caster.Room.People.Where(x => x != caster).ToList()); // clone because damage could kill and remove character from list
+            foreach (ICharacter victim in clone)
+            {
+                INonPlayableCharacter npcVictim = victim as INonPlayableCharacter;
+                if (npcCaster != null ? npcVictim == null : npcVictim != null) // NPC on PC and PC on NPC
+                {
+                    if (victim.SavesSpell(level, SchoolTypes.Lightning))
+                        victim.AbilityDamage(caster, ability, damage / 2, SchoolTypes.Lightning, true);
+                    else
+                        victim.AbilityDamage(caster, ability, damage, SchoolTypes.Lightning, true);
+                }
+            }
+            // Inform in area about it
+            foreach(ICharacter character in caster.Room.Area.Characters.Where(x => x.Position > Positions.Sleeping && !x.Room.RoomFlags.HasFlag(RoomFlags.Indoors)))
+                character.Send("Lightning flashes in the sky.");
         }
 
         [Spell(7, "Calm", AbilityTargets.None, CharacterWearOffMessage = "You have lost your peace of mind.", DispelRoomMessage = "{0:N no longer looks so peaceful...", Flags = AbilityFlags.CanBeDispelled)]
@@ -418,19 +449,15 @@ namespace Mud.Server.Abilities
         }
 
         [Spell(18, "Control Weather", AbilityTargets.Custom)]
-        public void SpellControlWeather(IAbility ability, int level, ICharacter caster, string parameter)
+        public void SpellControlWeather(IAbility ability, int level, ICharacter caster, string rawParameters, params CommandParameter[] parameters)
         {
-            caster.Send(StringHelpers.NotYetImplemented);
-            //TODO: no weather implemented
-            //if (!str_cmp(target_name, "better"))
-            //    weather_info.change += dice(level / 3, 4);
-            //else if (!str_cmp(target_name, "worse"))
-            //    weather_info.change -= dice(level / 3, 4);
-            //else
-            //    send_to_char("Do you want it to get better or worse?\n\r", ch);
-
-            //send_to_char("Ok.\n\r", ch);
-            //return;
+            if (StringCompareHelpers.StringEquals(rawParameters, "better"))
+                TimeManager.ChangePressure(RandomManager.Dice(level / 3, 4));
+            else if (StringCompareHelpers.StringEquals(rawParameters, "worse"))
+                TimeManager.ChangePressure(-RandomManager.Dice(level / 3, 4));
+            else
+                caster.Send("Do you want it to get better or worse?");
+            caster.Send("Ok");
         }
 
         [Spell(19, "Create Food", AbilityTargets.None)]
@@ -471,7 +498,11 @@ namespace Mud.Server.Abilities
                 caster.Send("It contains some other liquid.");
                 return;
             }
-            int water = Math.Min(level * 2, drinkContainer.MaxLiquid - drinkContainer.LiquidLeft); // TODO: *4 is weather is rainy
+
+            int multiplier = TimeManager.SkyState == SkyStates.Raining
+                ? 4
+                : 2;
+            int water = Math.Min(level * multiplier, drinkContainer.MaxLiquid - drinkContainer.LiquidLeft);
             if (water > 0)
             {
                 drinkContainer.Fill("water", water);
@@ -696,7 +727,7 @@ namespace Mud.Server.Abilities
         }
 
         [Spell(39, "Dispel Magic", AbilityTargets.CharacterOffensive)]
-        public void SpellDispelMagic(IAbility ability, int level, ICharacter caster, ICharacter victim) // TODO: check difference with cancellation
+        public void SpellDispelMagic(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.SavesSpell(level, SchoolTypes.Other))
             {
@@ -1350,7 +1381,7 @@ namespace Mud.Server.Abilities
 
             caster.Send("You feel drained.");
             caster.UpdateMovePoints(-caster.MovePoints); // set to 0
-            //TODO: ch->hit /= 2;
+            caster.UpdateHitPoints(-caster.HitPoints/2);
         }
 
         [Spell(60, "Identify", AbilityTargets.ItemInventory, PulseWaitTime = 24)]
@@ -1424,14 +1455,14 @@ namespace Mud.Server.Abilities
         }
 
         [Spell(65, "Locate Object", AbilityTargets.Custom, PulseWaitTime = 18)]
-        public void SpellLocateObject(IAbility ability, int level, ICharacter caster, string parameter)
+        public void SpellLocateObject(IAbility ability, int level, ICharacter caster, string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             int maxFound = (caster as IPlayableCharacter)?.ImpersonatedBy is IAdmin
                 ? 200
                 : level * 2;
             int number = 0;
-            IEnumerable<IItem> foundItems = FindHelpers.FindAllByName(World.Items.Where(x => caster.CanSee(x) && !x.ItemFlags.HasFlag(ItemFlags.NoLocate) && x.Level <= caster.Level && RandomManager.Range(1,100) <= 2*level), parameter);
+            IEnumerable<IItem> foundItems = FindHelpers.FindAllByName(World.Items.Where(x => caster.CanSee(x) && !x.ItemFlags.HasFlag(ItemFlags.NoLocate) && x.Level <= caster.Level && RandomManager.Range(1,100) <= 2*level), rawParameters);
             foreach (IItem item in foundItems)
             {
                 IItem outOfItemContainer = item;
@@ -2231,7 +2262,7 @@ namespace Mud.Server.Abilities
                     || RandomManager.Range(0, 4) == 0)
                     return;
                 // Affects only corpse, container, armor, clothing, wand, staff and scroll
-                if (!(item is IItemCorpse || item is IItemContainer || item is IItemArmor)) // TODO: wand, staff, scroll, clothing
+                if (!(item is IItemCorpse || item is IItemContainer || item is IItemArmor || item is IItemWand || item is IItemStaff || item is IItemScroll)) // TODO: clothing
                     return;
                 int chance = level / 4 + damage / 10;
                 if (chance > 25)
@@ -2241,8 +2272,10 @@ namespace Mud.Server.Abilities
                 if (item.ItemFlags.HasFlag(ItemFlags.Bless))
                     chance -= 5;
                 chance -= item.Level * 2;
-                // TODO: if staff/wand -> chance-=10
-                // TODO: if scroll -> chance+=10
+                if (item is IItemStaff || item is IItemWand)
+                    chance -= 10;
+                else if (item is IItemScroll)
+                    chance += 10;
                 chance = chance.Range(5, 95);
                 if (RandomManager.Range(1, 100) > chance)
                     return;
@@ -2257,8 +2290,13 @@ namespace Mud.Server.Abilities
                         msg = "{0} is pitted and etched.";
                         break;
                     // TODO: clothing "$p is corroded into scrap."
-                    // TODO: staff, wand  "$p corrodes and breaks."
-                    // TODO: scroll  "$p is burned into waste."
+                    case IItemWand _:
+                    case IItemStaff _:
+                        msg = "{0} corrodes and breaks.";
+                        break;
+                    case IItemScroll _:
+                        msg = "{0} is burned into waste.";
+                        break;
                     default:
                         Log.Default.WriteLine(LogLevels.Error, "AcidEffect: default message for unexpected item type {0}", item.GetType());
                         msg = "{0} burns.";
@@ -2362,7 +2400,7 @@ namespace Mud.Server.Abilities
                     || RandomManager.Range(0, 4) == 0)
                     return;
                 // Affects only potion and drink container
-                if (true) //if (!(item is IItemPotion || item is IDrinkContainer)) // TODO: potion and drink container
+                if (!(item is IItemPotion || item is IItemDrinkContainer)) 
                     return;
                 int chance = level / 4 + damage / 10;
                 if (chance > 25)
@@ -2372,10 +2410,10 @@ namespace Mud.Server.Abilities
                 if (item.ItemFlags.HasFlag(ItemFlags.Bless))
                     chance -= 5;
                 chance -= item.Level * 2;
-                //if (item is IItemPotion)
-                //    chance += 25;
-                //if (item is IDrinkContainer)
-                //    chance += 5;
+                if (item is IItemPotion)
+                    chance += 25;
+                else if (item is IItemDrinkContainer)
+                    chance += 5;
                 chance = chance.Range(5, 95);
                 if (RandomManager.Range(1, 100) > chance)
                     return;
@@ -2384,7 +2422,7 @@ namespace Mud.Server.Abilities
                 ICharacter viewer = (item.ContainedInto as ICharacter) ?? item.EquippedBy ?? (item.ContainedInto as IRoom)?.People.FirstOrDefault(); // viewer is holder or any person in the room
                 viewer?.Act(ActOptions.ToAll, msg, item);
                 // unequip and destroy item
-                IEntity itemContainedInto = null;
+                IEntity itemContainedInto;
                 if (item.EquippedBy != null) // if item equipped: unequip 
                 {
                     item.ChangeEquippedBy(null);
@@ -2439,7 +2477,7 @@ namespace Mud.Server.Abilities
                     || RandomManager.Range(0, 4) == 0)
                     return;
                 // Affects only container, potion, scroll, staff, wand, food, pill
-                if (!(item is IItemContainer) && !(item is IItemFood)) // TODO: potion, scroll, staff, wand, pill
+                if (!(item is IItemContainer || item is IItemFood || item is IItemPotion || item is IItemScroll || item is IItemStaff || item is IItemWand || item is IItemPill))
                     return;
                 int chance = level / 4 + damage / 10;
                 if (chance > 25)
@@ -2449,9 +2487,12 @@ namespace Mud.Server.Abilities
                 if (item.ItemFlags.HasFlag(ItemFlags.Bless))
                     chance -= 5;
                 chance -= item.Level * 2;
-                //TODO: IItemPotion chance += 25
-                //TODO: IItemScroll chance += 50
-                //TODO: IItemStaff chance += 10
+                if (item is IItemPotion)
+                    chance += 25;
+                else if (item is IItemScroll)
+                    chance += 50;
+                else if (item is IItemStaff)
+                    chance += 10;
                 chance = chance.Range(5, 95);
                 if (RandomManager.Range(1, 100) > chance)
                     return;
@@ -2462,14 +2503,24 @@ namespace Mud.Server.Abilities
                     case IItemContainer _:
                         msg = "{0} ignites and burns!";
                         break;
-                    //TODO case IItemPotion _: msg = "{0} bubbles and boils!"
-                    //TODO case IItemScroll _: msg = "{0} crackles and burns!"
-                    //TODO case IItemStaff _: msg = "{0} smokes and chars!"
-                    //TODO case IItemWand _: msg = "{0} sparks and sputters!"
+                    case IItemPotion _:
+                        msg = "{0} bubbles and boils!";
+                        break;
+                    case IItemScroll _:
+                        msg = "{0} crackles and burns!";
+                        break;
+                    case IItemStaff _:
+                        msg = "{0} smokes and chars!";
+                        break;
+                    case IItemWand _:
+                        msg = "{0} sparks and sputters!";
+                        break;
                     case IItemFood _:
                         msg = "{0} blackens and crisps!";
                             break;
-                    //TODO case IItemPill _: msg = "{0} melts and drips!"
+                    case IItemPill _:
+                        msg = "{0} melts and drips!";
+                        break;
                     default:
                         Log.Default.WriteLine(LogLevels.Error, "FireEffect: default message for unexpected item type {0}", item.GetType());
                         msg = "{0} burns.";

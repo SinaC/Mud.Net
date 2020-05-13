@@ -34,7 +34,7 @@ namespace Mud.Server.Server
 
     // Once playing,
     //  in synchronous mode, input and output are 'queued' and handled by ProcessorInput/ProcessOutput
-    public class Server : IServer, ITimeHandler, IWiznet, IPlayerManager, IAdminManager, IServerAdminCommand, IServerPlayerCommand, IDisposable
+    public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAdminCommand, IServerPlayerCommand, IDisposable
     {
         // This allows fast lookup with client or player BUT both structures must be modified at the same time
         private readonly object _playingClientLockObject = new object();
@@ -58,6 +58,7 @@ namespace Mud.Server.Server
         protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
         protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
+        protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
 
         public Server()
         {
@@ -76,6 +77,8 @@ namespace Mud.Server.Server
                 networkServer.NewClientConnected += NetworkServerOnNewClientConnected;
                 networkServer.ClientDisconnected += NetworkServerOnClientDisconnected;
             }
+
+            TimeManager.Initialize();
 
             // Perform some validity/sanity checks
             if (Settings.PerformSanityCheck)
@@ -136,12 +139,6 @@ namespace Mud.Server.Server
             DumpClasses();
             DumpAbilities();
         }
-
-        #endregion
-
-        #region ITimeHandler
-
-        public DateTime CurrentTime { get; private set; }
 
         #endregion
 
@@ -1004,7 +1001,7 @@ namespace Mud.Server.Server
                 try
                 {
                     IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> cooldowns = new ReadOnlyCollection<KeyValuePair<IAbility, DateTime>>(character.AbilitiesInCooldown.ToList()); // clone
-                    foreach (IAbility ability in cooldowns.Where(x => (x.Value - CurrentTime).TotalSeconds <= 0).Select(x => x.Key))
+                    foreach (IAbility ability in cooldowns.Where(x => (x.Value - TimeManager.CurrentTime).TotalSeconds <= 0).Select(x => x.Key))
                         character.ResetCooldown(ability, true);
                 }
                 catch (Exception ex)
@@ -1086,7 +1083,7 @@ namespace Mud.Server.Server
                     playingClient.Client.WriteData(prompt); // display prompt at each tick
 
                     // If idle for too long, unimpersonate or disconnect
-                    TimeSpan ts = CurrentTime - playingClient.LastReceivedDataTimestamp;
+                    TimeSpan ts = TimeManager.CurrentTime - playingClient.LastReceivedDataTimestamp;
                     if (ts.TotalMinutes > Settings.IdleMinutesBeforeUnimpersonate && playingClient.Player.Impersonating != null)
                     {
                         playingClient.Client.WriteData("Idle for too long, unimpersonating..." + Environment.NewLine);
@@ -1227,6 +1224,27 @@ namespace Mud.Server.Server
             // TODO
         }
 
+        private void HandleTime(int pulseCount)
+        {
+            string timeUpdate = TimeManager.Update();
+            Log.Default.WriteLine(LogLevels.Debug, "HandleTime: {0}", !string.IsNullOrWhiteSpace(timeUpdate) ? timeUpdate : "no update");
+            if (!string.IsNullOrWhiteSpace(timeUpdate))
+            {
+                // inform non-sleeping and outdoors players
+                foreach (IPlayableCharacter character in World.PlayableCharacters.Where(x => x.Position > Positions.Sleeping && x.Room != null && !x.Room.RoomFlags.HasFlag(RoomFlags.Indoors)))
+                {
+                    try
+                    {
+                        character.Send(timeUpdate);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Default.WriteLine(LogLevels.Error, "Exception while handling time character {0}. Exception: {1}", character.DebugName, ex);
+                    }
+                }
+            }
+        }
+
         private void Cleanup()
         {
             // Remove invalid entities
@@ -1246,6 +1264,7 @@ namespace Mud.Server.Server
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleNonPlayableCharacters);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandlePlayers);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleRooms);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleTime); // 1 minute in real life is one hour in game
 
             try
             {
@@ -1259,7 +1278,7 @@ namespace Mud.Server.Server
                         break;
                     }
 
-                    CurrentTime = DateTime.Now;
+                    TimeManager.FixCurrentTime();
 
                     ProcessInput();
 

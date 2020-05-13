@@ -18,16 +18,18 @@ namespace Mud.Server.Abilities
         private IRandomManager RandomManager { get; }
         private ISettings Settings { get; }
         private IWorld World { get; }
+        private ITimeManager TimeManager { get; }
 
         private readonly List<IAbility> _abilities;
 
         private readonly Dictionary<string, IAbility> _abilitiesByName;
 
-        public AbilityManager(IRandomManager randomManager, ISettings settings, IWorld world)
+        public AbilityManager(IRandomManager randomManager, ISettings settings, IWorld world, ITimeManager timeManager)
         {
             RandomManager = randomManager;
             Settings = settings;
             World = world;
+            TimeManager = timeManager;
 
             _abilities = new List<IAbility>();
 
@@ -595,13 +597,7 @@ namespace Mud.Server.Abilities
                 case AbilityTargets.ItemInventoryOrCharacterDefensive:
                     return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                 case AbilityTargets.Custom:
-                    if (parameters.Length > 1)
-                    {
-                        var newParameters = CommandHelpers.SkipParameters(parameters, 1);
-                        return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, newParameters.rawParameters });
-                    }
-                    else
-                        return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, string.Empty });
+                    return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, rawParameters, parameters });
                 case AbilityTargets.OptionalItemInventory:
                     return ability.MethodInfo.Invoke(this, new object[] { ability, level, caster, target });
                 case AbilityTargets.ArmorInventory:

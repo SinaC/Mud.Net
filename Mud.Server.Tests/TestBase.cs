@@ -20,7 +20,7 @@ namespace Mud.Server.Tests
         public static void AssemblyInitialize(TestContext context)
         {
             Container.DependencyContainer.Current.RegisterInstance<ISettings>(new SettingsMock());
-            Container.DependencyContainer.Current.RegisterInstance<ITimeHandler>(new TimeHandlerMock());
+            Container.DependencyContainer.Current.RegisterInstance<ITimeManager>(new TimeHandlerMock());
             Container.DependencyContainer.Current.RegisterInstance<IRaceManager>(new RaceManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IClassManager>(new ClassManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManagerMock());

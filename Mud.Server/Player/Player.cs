@@ -28,7 +28,7 @@ namespace Mud.Server.Player
         protected IServerPlayerCommand ServerPlayerCommand => DependencyContainer.Current.GetInstance<IServerPlayerCommand>();
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
         protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
-        protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
+        protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
 
         protected Player()
         {

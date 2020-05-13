@@ -1,14 +1,13 @@
 NEXT:
 
 TODO:
-extra description not handled correctly (see item 3040)
 money
 combat system
 Monitor Recompute calls
 Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
 skills: steal/lore/rescue
-spells: call lightning, control weather, create rose, farsight, identfy, mass invis
+spells: create rose, farsight, identfy, mass invis
 assign abilities to classes
 race form, parts
 Dictionary to store Character known ability + keep only one LearnedAbility or replace with KnownAbilities getter based on name
@@ -21,6 +20,11 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+weather
+commands: DoWeather
+spells: call lightning, control weather
+Item types used in Rom24Effects
+Rainy used in SpellCreateWater
 command quaff, recite
 item pill, potion, scroll
 Unequip/Equip add optional recompute argument

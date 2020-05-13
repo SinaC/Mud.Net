@@ -19,7 +19,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Learned = 1, Level = 1 } });
@@ -38,7 +38,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Learned = 1, Level = 1 } });
@@ -58,7 +58,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Acid Blast"], Learned = 1, Level = 1 } });
@@ -77,7 +77,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var mob1Mock = new Mock<ICharacter>();
             mob1Mock.SetupGet(x => x.Name).Returns("mob1");
             mob1Mock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
@@ -107,7 +107,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Name).Returns("mob1");
             characterMock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
@@ -131,7 +131,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var mob1Mock = new Mock<ICharacter>();
             mob1Mock.SetupGet(x => x.Name).Returns("mob1");
             mob1Mock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
@@ -160,7 +160,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Armor"], Learned = 1, Level = 1 } });
@@ -179,7 +179,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Name).Returns("mob1");
             characterMock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
@@ -203,7 +203,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var mob1Mock = new Mock<ICharacter>();
             mob1Mock.SetupGet(x => x.Name).Returns("mob1");
             mob1Mock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
@@ -232,7 +232,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Detect Evil"], Learned = 1, Level = 1 } });
@@ -251,7 +251,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Name).Returns("mob1");
             characterMock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
@@ -275,7 +275,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var mob1Mock = new Mock<ICharacter>();
             mob1Mock.SetupGet(x => x.Name).Returns("mob1");
             mob1Mock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
@@ -303,7 +303,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var mob1Mock = new Mock<ICharacter>();
             mob1Mock.SetupGet(x => x.Name).Returns("mob1");
             mob1Mock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
@@ -332,7 +332,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -355,7 +355,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -380,7 +380,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -405,7 +405,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -428,7 +428,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -454,7 +454,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -477,7 +477,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -503,7 +503,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -531,7 +531,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -559,7 +559,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -587,7 +587,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Name).Returns("mob1");
             characterMock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
@@ -612,7 +612,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -635,7 +635,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -661,7 +661,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -687,7 +687,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -713,7 +713,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -741,7 +741,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Name).Returns("mob1");
             characterMock.SetupGet(x => x.Keywords).Returns(new[] { "mob1" });
@@ -766,7 +766,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -789,7 +789,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -813,7 +813,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -836,7 +836,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -861,7 +861,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -886,7 +886,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -909,7 +909,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -935,7 +935,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItemArmor>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -958,7 +958,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItemArmor>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -983,7 +983,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItemArmor>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -1008,7 +1008,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -1031,7 +1031,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItemArmor>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -1056,7 +1056,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItemArmor>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -1080,7 +1080,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItemWeapon>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -1103,7 +1103,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItemWeapon>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -1128,7 +1128,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItemWeapon>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -1153,7 +1153,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItem>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -1176,7 +1176,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItemWeapon>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });
@@ -1201,7 +1201,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var itemMock = new Mock<IItemWeapon>();
             itemMock.SetupGet(x => x.Name).Returns("item1");
             itemMock.SetupGet(x => x.Keywords).Returns(new[] { "item1" });

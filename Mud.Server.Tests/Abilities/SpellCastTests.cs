@@ -14,7 +14,7 @@ namespace Mud.Server.Tests.Abilities
         public void NoParam_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
 
             CastResults result = abilityManager.Cast(characterMock.Object, string.Empty);
@@ -26,7 +26,7 @@ namespace Mud.Server.Tests.Abilities
         public void UnknownSpell_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("pouet");
@@ -39,7 +39,7 @@ namespace Mud.Server.Tests.Abilities
         public void SpellNotKnown_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
 
             (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
@@ -52,7 +52,7 @@ namespace Mud.Server.Tests.Abilities
         public void SpellNotYetLearned_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Level = 1, ResourceKind = null, Learned = 0 } });
@@ -67,7 +67,7 @@ namespace Mud.Server.Tests.Abilities
         public void TooLowLevel_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(5);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Learned = 1, Level = 20 } });
@@ -82,7 +82,7 @@ namespace Mud.Server.Tests.Abilities
         public void Passive_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Whip"], Learned = 1, Level = 20 } });
@@ -97,7 +97,7 @@ namespace Mud.Server.Tests.Abilities
         public void Skill_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Disarm"], Learned = 1, Level = 20 } });
@@ -115,7 +115,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(false); // always fails
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Learned = 1, Level = 1 } });
@@ -133,7 +133,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Level = 1, ResourceKind = ResourceKinds.Mana, CostAmount = 10, CostAmountOperator = CostAmountOperators.Fixed, Learned = 1 } });
@@ -153,7 +153,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Level = 1, ResourceKind = ResourceKinds.Mana, CostAmount = 10, CostAmountOperator = CostAmountOperators.Fixed, Learned = 1 } });
@@ -173,7 +173,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(false); // always failed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Level = 1, ResourceKind = ResourceKinds.Mana, CostAmount = 10, CostAmountOperator = CostAmountOperators.Fixed, Learned = 1 } });
@@ -196,7 +196,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Level = 1, ResourceKind = null, CostAmount = 0, CostAmountOperator = CostAmountOperators.Fixed, Learned = 1 } });
@@ -222,7 +222,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Level = 1, ResourceKind = ResourceKinds.Mana, CostAmount = 10, CostAmountOperator = CostAmountOperators.Fixed, Learned = 1 } });
@@ -248,7 +248,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Level = 1, ResourceKind = ResourceKinds.Mana, CostAmount = 10, CostAmountOperator = CostAmountOperators.Percentage, Learned = 1 } });

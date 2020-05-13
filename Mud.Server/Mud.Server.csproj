@@ -128,6 +128,7 @@
     <Compile Include="Item\ItemStaff.cs" />
     <Compile Include="Item\ItemWand.cs" />
     <Compile Include="Item\ItemWarpstone.cs" />
+    <Compile Include="Server\TimeManager.cs" />
     <Compile Include="Tables\TableValues.cs" />
     <Compile Include="Character\CharacterBase.cs" />
     <Compile Include="Character\CombatCommands.cs" />
@@ -208,7 +209,7 @@
     <Compile Include="Item\ItemQuest.cs" />
     <Compile Include="Item\ItemShield.cs" />
     <Compile Include="Item\ItemWeapon.cs" />
-    <Compile Include="ITimeHandler.cs" />
+    <Compile Include="ITimeManager.cs" />
     <Compile Include="IUniquenessManager.cs" />
     <Compile Include="IWiznet.cs" />
     <Compile Include="IWorld.cs" />

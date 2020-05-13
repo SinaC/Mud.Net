@@ -16,6 +16,7 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
 using Mud.Server.Item;
+using Mud.Server.Server;
 using Mud.Settings;
 
 namespace Mud.Server.TestApplication
@@ -32,9 +33,9 @@ namespace Mud.Server.TestApplication
             Log.Default.Initialize(settings.LogPath, "server.test.log");
 
             // Initialize IOC container
+            DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<ITimeHandler, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements ITimeHandler
             DependencyContainer.Current.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
             DependencyContainer.Current.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
             DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager

@@ -13,7 +13,7 @@ namespace Mud.Server.Tests.Abilities
         public void AbilityManager_Ctor_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
 
             Assert.AreEqual(abilityManager.Passives.Count(), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Passive));
             Assert.AreEqual(abilityManager.Spells.Count(), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Spell));
@@ -24,7 +24,7 @@ namespace Mud.Server.Tests.Abilities
         public void AbilityManager_Indexer_ExistingName_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
             IAbility thirdAbility = abilityManager.Abilities.Skip(2).First();
 
             IAbility ability = abilityManager[thirdAbility.Name];
@@ -37,7 +37,7 @@ namespace Mud.Server.Tests.Abilities
         public void AbilityManager_Indexer_NonExistingName_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
 
             IAbility ability = abilityManager["pouet"];
 

@@ -590,4 +590,20 @@ namespace Mud.Domain
         Easy        = 0x00000020,
         Hard        = 0x00000040,
     }
+
+    public enum SunPhases
+    {
+        Dark,
+        Rise,
+        Light,
+        Set
+    }
+
+    public enum SkyStates // Order is important
+    {
+        Cloudless,
+        Cloudy,
+        Raining,
+        Lightning
+    }
 }

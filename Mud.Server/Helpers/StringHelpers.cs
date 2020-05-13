@@ -193,8 +193,10 @@ namespace Mud.Server.Helpers
                 case AffectOperators.Or: return "by adding";
                 case AffectOperators.Assign: return "by setting to";
                 case AffectOperators.Nor: return "by removing";
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, "AffectOperators.PrettyPrint: Invalid operator {0}", op);
+                    return op.ToString();
             }
-            return "???";
         }
 
         public static string ShortName(this BasicAttributes attribute)
@@ -208,7 +210,21 @@ namespace Mud.Server.Helpers
                 case BasicAttributes.Constitution: return "Con";
                 default:
                     Log.Default.WriteLine(LogLevels.Error, "BasicAttributes.ShortName: Invalid attribute {0}", attribute);
-                    return "???";
+                    return attribute.ToString();
+            }
+        }
+
+        public static string PrettyPrint(this SkyStates state)
+        {
+            switch (state)
+            {
+                case SkyStates.Cloudless: return "cloudless";
+                case SkyStates.Cloudy: return "cloudy";
+                case SkyStates.Raining: return "rainy";
+                case SkyStates.Lightning: return "lit by flashes of lightning";
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, "SkyStates.PrettyPrint: Invalid sky state {0}", state);
+                    return state.ToString();
             }
         }
     }
