@@ -4,7 +4,7 @@ using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
 {
-    public class ItemDrinkContainer : ItemBase<ItemDrinkContainerBlueprint>, IItemDrinkContainer
+    public class ItemDrinkContainer : ItemBase<ItemDrinkContainerBlueprint, ItemDrinkContainerData>, IItemDrinkContainer
     {
         public ItemDrinkContainer(Guid guid, ItemDrinkContainerBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint, containedInto)

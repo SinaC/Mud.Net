@@ -5,10 +5,11 @@ using System;
 
 namespace Mud.Server.Item
 {
-    public abstract class ItemCastSpellsChargeBase<T> : ItemBase<T>, IItemCastSpellsCharge
-        where T : ItemCastSpellsChargeBlueprintBase
+    public abstract class ItemCastSpellsChargeBase<TBlueprint, TData> : ItemBase<TBlueprint, TData>, IItemCastSpellsCharge
+        where TBlueprint : ItemCastSpellsChargeBlueprintBase
+        where TData: ItemCastSpellsChargeData
     {
-        protected ItemCastSpellsChargeBase(Guid guid, T blueprint, IContainer containedInto)
+        protected ItemCastSpellsChargeBase(Guid guid, TBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint, containedInto)
         {
             SpellLevel = blueprint.SpellLevel;
@@ -18,7 +19,7 @@ namespace Mud.Server.Item
             AlreadyRecharged = blueprint.AlreadyRecharged;
         }
 
-        protected ItemCastSpellsChargeBase(Guid guid, T blueprint, ItemCastSpellsChargeData data, IContainer containedInto)
+        protected ItemCastSpellsChargeBase(Guid guid, TBlueprint blueprint, TData data, IContainer containedInto)
             : base(guid, blueprint, data, containedInto)
         {
             SpellLevel = blueprint.SpellLevel;

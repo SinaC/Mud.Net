@@ -5,7 +5,7 @@ using Mud.Server.Common;
 
 namespace Mud.Server.Item
 {
-    public class ItemLight : ItemBase<ItemLightBlueprint>, IItemLight
+    public class ItemLight : ItemBase<ItemLightBlueprint, ItemData>, IItemLight
     {
         private const int Infinite = -1;
 

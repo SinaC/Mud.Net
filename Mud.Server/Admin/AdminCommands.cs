@@ -448,7 +448,7 @@ namespace Mud.Server.Admin
             else if ("npc".StartsWith(specifier))
                 type = typeof(Character.NonPlayableCharacter.NonPlayableCharacter);
             else if ("item".StartsWith(specifier))
-                type = typeof(Item.ItemBase<>);
+                type = typeof(Item.ItemBase<,>);
             else if ("room".StartsWith(specifier))
                 type = typeof(Room.Room);
             else

@@ -14,10 +14,11 @@ using Mud.Server.Input;
 
 namespace Mud.Server.Item
 {
-    public abstract class ItemBase<TBlueprint> : EntityBase, IItem
+    public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
         where TBlueprint : ItemBlueprintBase
+        where TData: ItemData
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> ItemCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<ItemBase<TBlueprint>>);
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> ItemCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<ItemBase<TBlueprint, TData>>);
 
         protected ItemBase(Guid guid, TBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint.Name, blueprint.Description)
@@ -33,7 +34,7 @@ namespace Mud.Server.Item
             BaseItemFlags = blueprint.ItemFlags;
         }
 
-        protected ItemBase(Guid guid, TBlueprint blueprint, ItemData data, IContainer containedInto)
+        protected ItemBase(Guid guid, TBlueprint blueprint, TData data, IContainer containedInto)
             : this(guid, blueprint, containedInto)
         {
             // TODO: copy other fields

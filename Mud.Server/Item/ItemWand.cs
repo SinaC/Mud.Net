@@ -4,7 +4,7 @@ using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
 {
-    public class ItemWand : ItemCastSpellsChargeBase<ItemWandBlueprint>, IItemWand
+    public class ItemWand : ItemCastSpellsChargeBase<ItemWandBlueprint, ItemWandData>, IItemWand
     {
         public ItemWand(Guid guid, ItemWandBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)

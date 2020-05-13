@@ -9,7 +9,7 @@ using Mud.Server.Common;
 
 namespace Mud.Server.Item
 {
-    public class ItemCorpse : ItemBase<ItemCorpseBlueprint>, IItemCorpse
+    public class ItemCorpse : ItemBase<ItemCorpseBlueprint, ItemCorpseData>, IItemCorpse
     {
         private readonly string _corpseName;
         private readonly List<IItem> _content;

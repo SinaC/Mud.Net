@@ -5,7 +5,7 @@ using Mud.Server.Common;
 
 namespace Mud.Server.Item
 {
-    public class ItemPortal : ItemBase<ItemPortalBlueprint>, IItemPortal
+    public class ItemPortal : ItemBase<ItemPortalBlueprint, ItemPortalData>, IItemPortal
     {
         public const int InfiniteChargeCount = -1;
         public const int NoDestinationRoomId = -1;

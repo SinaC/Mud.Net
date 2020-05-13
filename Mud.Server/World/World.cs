@@ -321,11 +321,11 @@ namespace Mud.Server.World
                 case ItemContainerBlueprint containerBlueprint:
                     item = new ItemContainer(guid, containerBlueprint, itemData as ItemContainerData, container);
                     break;
-                case ItemCorpseBlueprint corpseBlueprint:
+                case ItemCorpseBlueprint corpseBlueprint: // corpse can be created from ItemData
                     item = new ItemCorpse(guid, corpseBlueprint, itemData as ItemCorpseData, container);
                     break;
                 case ItemFoodBlueprint foodBlueprint:
-                    item = new ItemFood(guid, foodBlueprint, container);
+                    item = new ItemFood(guid, foodBlueprint, itemData as ItemFoodData, container);
                     break;
                 case ItemFurnitureBlueprint furnitureBlueprint:
                     item = new ItemFurniture(guid, furnitureBlueprint, itemData, container);
@@ -346,10 +346,10 @@ namespace Mud.Server.World
                     item = new ItemLight(guid, lightBlueprint, itemData, container);
                     break;
                 case ItemPillBlueprint pillBlueprint:
-                    item = new ItemPill(guid, pillBlueprint, container);
+                    item = new ItemPill(guid, pillBlueprint, itemData, container);
                     break;
                 case ItemPotionBlueprint potionBlueprint:
-                    item = new ItemPotion(guid, potionBlueprint, container);
+                    item = new ItemPotion(guid, potionBlueprint, itemData, container);
                     break;
                 case ItemPortalBlueprint portalBlueprint:
                     {

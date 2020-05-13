@@ -6,7 +6,7 @@ using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
 {
-    public class ItemFurniture : ItemBase<ItemFurnitureBlueprint>, IItemFurniture
+    public class ItemFurniture : ItemBase<ItemFurnitureBlueprint, ItemData>, IItemFurniture
     {
         public ItemFurniture(Guid guid, ItemFurnitureBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint, containedInto)

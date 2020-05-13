@@ -6,7 +6,7 @@ using Mud.Server.Quest;
 
 namespace Mud.Server.Item
 {
-    public class ItemQuest : ItemBase<ItemQuestBlueprint>, IItemQuest
+    public class ItemQuest : ItemBase<ItemQuestBlueprint, ItemData>, IItemQuest
     {
         public ItemQuest(Guid guid, ItemQuestBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)

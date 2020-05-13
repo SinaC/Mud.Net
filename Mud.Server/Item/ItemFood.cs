@@ -4,7 +4,7 @@ using System;
 
 namespace Mud.Server.Item
 {
-    public class ItemFood : ItemBase<ItemFoodBlueprint>, IItemFood
+    public class ItemFood : ItemBase<ItemFoodBlueprint, ItemFoodData>, IItemFood
     {
         public ItemFood(Guid guid, ItemFoodBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint, containedInto)

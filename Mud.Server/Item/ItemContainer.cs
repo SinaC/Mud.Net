@@ -6,7 +6,7 @@ using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
 {
-    public class ItemContainer : ItemBase<ItemContainerBlueprint>, IItemContainer
+    public class ItemContainer : ItemBase<ItemContainerBlueprint, ItemContainerData>, IItemContainer
     {
         private readonly List<IItem> _content;
 

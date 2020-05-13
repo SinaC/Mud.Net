@@ -4,7 +4,7 @@ using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
 {
-    public class ItemStaff : ItemCastSpellsChargeBase<ItemStaffBlueprint>, IItemStaff
+    public class ItemStaff : ItemCastSpellsChargeBase<ItemStaffBlueprint, ItemStaffData>, IItemStaff
     {
         public ItemStaff(Guid guid, ItemStaffBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)

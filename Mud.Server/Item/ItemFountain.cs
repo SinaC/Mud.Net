@@ -4,7 +4,7 @@ using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Item
 {
-    public class ItemFountain : ItemBase<ItemFountainBlueprint>, IItemFountain
+    public class ItemFountain : ItemBase<ItemFountainBlueprint, ItemData>, IItemFountain
     {
         public ItemFountain(Guid guid, ItemFountainBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint, containedInto)
