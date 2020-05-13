@@ -137,6 +137,7 @@
     <Compile Include="Domain\CurrentQuestData.cs" />
     <Compile Include="Domain\CurrentQuestObjectiveData.cs" />
     <Compile Include="Domain\EquippedItemData.cs" />
+    <Compile Include="Domain\ItemCastSpellsChargeData.cs" />
     <Compile Include="Domain\ItemContainerData.cs" />
     <Compile Include="Domain\ItemCorpseData.cs" />
     <Compile Include="Domain\ItemData.cs" />
@@ -144,6 +145,8 @@
     <Compile Include="Domain\ItemFlagsAffectData.cs" />
     <Compile Include="Domain\ItemFoodData.cs" />
     <Compile Include="Domain\ItemPortalData.cs" />
+    <Compile Include="Domain\ItemStaffData.cs" />
+    <Compile Include="Domain\ItemWandData.cs" />
     <Compile Include="Domain\ItemWeaponData.cs" />
     <Compile Include="Domain\ItemWeaponFlagsAffectData.cs" />
     <Compile Include="Domain\KnownAbilityData.cs" />

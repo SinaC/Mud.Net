@@ -68,7 +68,7 @@ namespace Mud.Server.Abilities
                 Log.Default.WriteLine(LogLevels.Error, "Duplicate ability name {0}", duplicateName);
 
             // Build abilities by name
-            _abilitiesByName = new Dictionary<string, IAbility>(_abilities.ToDictionary(x => x.Name, x => x), StringComparer.InvariantCultureIgnoreCase);
+            _abilitiesByName = _abilities.GroupBy(x => x.Name).ToDictionary(x => x.Key, x => x.First(), StringComparer.InvariantCultureIgnoreCase); // group by to remove duplicate
         }
 
         #region IAbilityManager
@@ -238,10 +238,7 @@ namespace Mud.Server.Abilities
 
             // 5) improve skill
             if (result == UseResults.Ok || result == UseResults.Failed)
-            {
-                KnownAbility knownAbility = user.KnownAbilities.SingleOrDefault(x => x.Ability == ability);
-                pcUser?.CheckAbilityImprove(knownAbility, result == UseResults.Ok, ability.LearnDifficultyMultiplier);
-            }
+                pcUser?.CheckAbilityImprove(abilityLearnInfo.knownAbility, result == UseResults.Ok, ability.LearnDifficultyMultiplier);
 
             //
             return result;

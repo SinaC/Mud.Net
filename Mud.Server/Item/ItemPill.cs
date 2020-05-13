@@ -4,7 +4,7 @@ using System;
 
 namespace Mud.Server.Item
 {
-    public class ItemPill : ItemCastSpellsNoRechargeBase<ItemPillBlueprint>, IItemPill
+    public class ItemPill : ItemCastSpellsNoChargeBase<ItemPillBlueprint>, IItemPill
     {
         public ItemPill(Guid guid, ItemPillBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint, containedInto)

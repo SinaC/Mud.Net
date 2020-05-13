@@ -5,7 +5,7 @@ using System;
 
 namespace Mud.Server.Item
 {
-    public class ItemPotion : ItemCastSpellsNoRechargeBase<ItemPotionBlueprint>, IItemPotion
+    public class ItemPotion : ItemCastSpellsNoChargeBase<ItemPotionBlueprint>, IItemPotion
     {
         public ItemPotion(Guid guid, ItemPotionBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint, containedInto)

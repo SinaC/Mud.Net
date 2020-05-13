@@ -1,6 +1,6 @@
 ﻿namespace Mud.Server.Item
 {
-    public interface IItemCastSpellsNoRecharge : IItem
+    public interface IItemCastSpellsNoCharge : IItem
     {
         int SpellLevel { get; }
         IAbility FirstSpell { get; }

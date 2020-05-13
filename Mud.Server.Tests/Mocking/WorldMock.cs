@@ -221,6 +221,12 @@ namespace Mud.Server.Tests.Mocking
                 case ItemShieldBlueprint shieldBlueprint:
                     item = new ItemShield(guid, shieldBlueprint, container);
                     break;
+                case ItemStaffBlueprint staffBlueprint:
+                    item = new ItemStaff(guid, staffBlueprint, container);
+                    break;
+                case ItemWandBlueprint wandBlueprint:
+                    item = new ItemWand(guid, wandBlueprint, container);
+                    break;
                 case ItemWeaponBlueprint weaponBlueprint:
                     item = new ItemWeapon(guid, weaponBlueprint, container);
                     break;
@@ -235,7 +241,7 @@ namespace Mud.Server.Tests.Mocking
                 return item;
             }
 
-            return item;
+            return null;
         }
 
         public IItem AddItem(Guid guid, ItemData itemData, IContainer container) // almost same method in real implementation
@@ -297,6 +303,12 @@ namespace Mud.Server.Tests.Mocking
                     break;
                 case ItemShieldBlueprint shieldBlueprint:
                     item = new ItemShield(guid, shieldBlueprint, itemData, container);
+                    break;
+                case ItemStaffBlueprint staffBlueprint:
+                    item = new ItemStaff(guid, staffBlueprint, itemData as ItemStaffData, container);
+                    break;
+                case ItemWandBlueprint wandBlueprint:
+                    item = new ItemWand(guid, wandBlueprint, itemData as ItemWandData, container);
                     break;
                 case ItemWeaponBlueprint weaponBlueprint:
                     item = new ItemWeapon(guid, weaponBlueprint, itemData as ItemWeaponData, container);

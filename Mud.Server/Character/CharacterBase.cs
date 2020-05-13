@@ -1393,6 +1393,9 @@ namespace Mud.Server.Character
         // Equipment
         public IItem GetEquipment(EquipmentSlots slot) => Equipments.FirstOrDefault(x => x.Slot == slot && x.Item != null)?.Item;
 
+        public T GetEquipment<T>(EquipmentSlots slot)
+            where T : IItem => Equipments.Where(x => x.Slot == slot && x.Item is T).Select(x => x.Item).OfType<T>().FirstOrDefault();
+
         public EquippedItem SearchEquipmentSlot(IItem item, bool replace)
         {
             switch (item.WearLocation)
@@ -2384,7 +2387,7 @@ namespace Mud.Server.Character
                 KnownAbility knownAbility = this[abilityUsage.Ability];
                 if (knownAbility != null)
                 {
-                    Log.Default.WriteLine(LogLevels.Debug, "Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
+                    //Log.Default.WriteLine(LogLevels.Debug, "Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
                     knownAbility.Level = Math.Min(knownAbility.Level, abilityUsage.Level);
                     knownAbility.Rating = Math.Min(knownAbility.Rating, abilityUsage.Rating);
                     knownAbility.CostAmount = Math.Min(knownAbility.CostAmount, abilityUsage.CostAmount);

@@ -170,6 +170,8 @@ namespace Mud.Server
 
         // Equipment
         IItem GetEquipment(EquipmentSlots slot); // return item found in first non-empty specified slot
+        T GetEquipment<T>(EquipmentSlots slot) // return specific item found in first non-empty specified slot
+            where T : IItem;
         EquippedItem SearchEquipmentSlot(IItem item, bool replace);
 
         // Affects

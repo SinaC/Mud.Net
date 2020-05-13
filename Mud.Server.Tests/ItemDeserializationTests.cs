@@ -34,7 +34,67 @@ namespace Mud.Server.Tests
             Assert.AreEqual(itemData.Level, armor.Level);
         }
 
+        // Staff
+        [TestMethod]
+        public void ItemData_To_ItemStaff_Test()
+        {
+            ItemStaffBlueprint blueprint = new ItemStaffBlueprint
+            {
+                Id = 1, Name = "Staff", ShortDescription = "StaffShort", Description = "StaffDesc", ItemFlags = ItemFlags.AntiEvil,
+                SpellLevel = 20,
+                MaxChargeCount = 10,
+                CurrentChargeCount = 7,
+                AlreadyRecharged = false,
+            };
+            ItemStaffData itemData = new ItemStaffData
+            {
+                ItemId = blueprint.Id, DecayPulseLeft = AutoFaker.Generate<int>(), ItemFlags = AutoFaker.Generate<ItemFlags>(), Level = 10,
+                MaxChargeCount = 20,
+                CurrentChargeCount = 11,
+                AlreadyRecharged = true,
+            };
+
+            IItemStaff staff = new ItemStaff(Guid.NewGuid(), blueprint, itemData, new Mock<IContainer>().Object);
+
+            Assert.AreEqual(itemData.ItemId, staff.Blueprint.Id);
+            Assert.AreEqual(itemData.DecayPulseLeft, staff.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, staff.BaseItemFlags);
+            Assert.AreEqual(itemData.MaxChargeCount, staff.MaxChargeCount);
+            Assert.AreEqual(itemData.CurrentChargeCount, staff.CurrentChargeCount);
+            Assert.AreEqual(itemData.AlreadyRecharged, staff.AlreadyRecharged);
+        }
+
+        // Wand
+        [TestMethod]
+        public void ItemData_To_ItemWand_Test()
+        {
+            ItemWandBlueprint blueprint = new ItemWandBlueprint
+            {
+                Id = 1, Name = "Wand", ShortDescription = "WandShort", Description = "WandDesc", ItemFlags = ItemFlags.AntiEvil,
+                MaxChargeCount = 10,
+                CurrentChargeCount = 7,
+                AlreadyRecharged = false,
+            };
+            ItemWandData itemData = new ItemWandData
+            {
+                ItemId = blueprint.Id, DecayPulseLeft = AutoFaker.Generate<int>(), ItemFlags = AutoFaker.Generate<ItemFlags>(), Level = 10,
+                MaxChargeCount = 20,
+                CurrentChargeCount = 11,
+                AlreadyRecharged = true,
+            };
+
+            IItemWand wand = new ItemWand(Guid.NewGuid(), blueprint, itemData, new Mock<IContainer>().Object);
+
+            Assert.AreEqual(itemData.ItemId, wand.Blueprint.Id);
+            Assert.AreEqual(itemData.DecayPulseLeft, wand.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, wand.BaseItemFlags);
+            Assert.AreEqual(itemData.MaxChargeCount, wand.MaxChargeCount);
+            Assert.AreEqual(itemData.CurrentChargeCount, wand.CurrentChargeCount);
+            Assert.AreEqual(itemData.AlreadyRecharged, wand.AlreadyRecharged);
+        }
+
         // Warpstone
+        [TestMethod]
         public void ItemData_To_ItemWarpstone_Test()
         {
             ItemWarpstoneBlueprint warpstoneBlueprint = new ItemWarpstoneBlueprint { Id = 1, Name = "warpstone", ShortDescription = "warpstoneShort", Description = "warpstoneDesc" };

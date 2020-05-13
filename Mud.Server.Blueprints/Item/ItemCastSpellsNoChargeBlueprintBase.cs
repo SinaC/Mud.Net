@@ -1,6 +1,6 @@
 ﻿namespace Mud.Server.Blueprints.Item
 {
-    public class ItemCastSpellsNoRechargeBlueprintBase : ItemBlueprintBase
+    public class ItemCastSpellsNoChargeBlueprintBase : ItemBlueprintBase
     {
         public int SpellLevel { get; set; }
         public string Spell1 { get; set; }

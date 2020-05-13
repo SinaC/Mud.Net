@@ -1356,7 +1356,7 @@ namespace Mud.Server.Abilities
         [Spell(60, "Identify", AbilityTargets.ItemInventory, PulseWaitTime = 24)]
         public void SpellIdentify(IAbility ability, int level, ICharacter caster, IItem item)
         {
-            // TODO
+            caster.Send(StringHelpers.NotYetImplemented);
         }
 
         [Spell(61, "Infravision", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You no longer see in the dark.", Flags = AbilityFlags.CanBeDispelled, PulseWaitTime = 18)]
@@ -1743,7 +1743,60 @@ namespace Mud.Server.Abilities
         [Spell(77, "Recharge", AbilityTargets.ItemInventory, PulseWaitTime = 24)]
         public void SpellRecharge(IAbility ability, int level, ICharacter caster, IItem item)
         {
-            caster.Send(StringHelpers.NotYetImplemented);
+            IItemCastSpellsCharge chargeable = item as IItemCastSpellsCharge;
+            if (chargeable == null)
+            {
+                caster.Send("That item does not carry charges.");
+                return;
+            }
+
+            if (chargeable.SpellLevel >= (3 * level) / 2)
+            {
+                caster.Send("Your skills are not great enough for that");
+                return;
+            }
+
+            if (chargeable.AlreadyRecharged)
+            {
+                caster.Send("That item has already been recharged once.");
+                return;
+            }
+
+            int chance = 40 + 2 * level;
+            chance -= chargeable.SpellLevel;
+            chance -= (chargeable.MaxChargeCount - chargeable.CurrentChargeCount) * (chargeable.MaxChargeCount - chargeable.CurrentChargeCount);
+            chance = Math.Max(level / 2, chance);
+            int percent = RandomManager.Range(1, 100);
+
+            if (percent < chance / 2)
+            {
+                caster.Act(ActOptions.ToAll, "{0:N} glows softly.", chargeable);
+                int current = Math.Max(chargeable.CurrentChargeCount, chargeable.MaxChargeCount);
+                chargeable.Recharge(current, chargeable.MaxChargeCount);
+                return;
+            }
+
+            if (percent <= chance)
+            {
+                caster.Act(ActOptions.ToAll, "{0:N} glows softly.", chargeable);
+                int chargeMax = chargeable.MaxChargeCount - chargeable.CurrentChargeCount;
+                int chargeBack = chargeMax > 0
+                    ? Math.Max(1, (chargeMax * percent) / 100)
+                    : 0;
+                chargeable.Recharge(chargeable.CurrentChargeCount+chargeBack, chargeable.MaxChargeCount);
+                return;
+            }
+
+            if (percent <= Math.Min(95, (3 * chance) / 2))
+            {
+                caster.Send("Nothing seems to happen.");
+                if (chargeable.MaxChargeCount > 1)
+                    chargeable.Recharge(chargeable.CurrentChargeCount, chargeable.MaxChargeCount-1);
+                return;
+            }
+
+            caster.Act(ActOptions.ToAll, "{0:N} glows brightly and explodes!", chargeable);
+            World.RemoveItem(item);
         }
 
         [Spell(78, "Refresh", AbilityTargets.CharacterDefensive, PulseWaitTime = 18)]

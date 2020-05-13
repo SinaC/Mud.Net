@@ -35,6 +35,54 @@ namespace Mud.Server.Tests
             Assert.AreEqual(armor.BaseItemFlags, itemData.ItemFlags);
         }
 
+        // Staff
+        [TestMethod]
+        public void ItemStaff_To_ItemData_Test()
+        {
+            ItemStaffBlueprint blueprint = new ItemStaffBlueprint
+            {
+                Id = 1, Name = "Staff", ShortDescription = "StaffShort", Description = "StaffDesc", ItemFlags = ItemFlags.AntiEvil,
+                MaxChargeCount = 10,
+                CurrentChargeCount = 7,
+                AlreadyRecharged = true
+            };
+            IItemStaff staff = new ItemStaff(Guid.NewGuid(), blueprint, new Mock<IContainer>().Object);
+
+            ItemData itemData = staff.MapItemData();
+
+            Assert.IsInstanceOfType(itemData, typeof(ItemStaffData));
+            Assert.AreEqual(staff.Blueprint.Id, itemData.ItemId);
+            Assert.AreEqual(staff.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(staff.BaseItemFlags, itemData.ItemFlags);
+            Assert.AreEqual(staff.MaxChargeCount, (itemData as ItemStaffData).MaxChargeCount);
+            Assert.AreEqual(staff.CurrentChargeCount, (itemData as ItemStaffData).CurrentChargeCount);
+            Assert.AreEqual(staff.AlreadyRecharged, (itemData as ItemStaffData).AlreadyRecharged);
+        }
+
+        // Wand
+        [TestMethod]
+        public void ItemWand_To_ItemData_Test()
+        {
+            ItemWandBlueprint blueprint = new ItemWandBlueprint
+            {
+                Id = 1, Name = "Wand", ShortDescription = "WandShort", Description = "WandDesc", ItemFlags = ItemFlags.AntiEvil,
+                MaxChargeCount = 10,
+                CurrentChargeCount = 7,
+                AlreadyRecharged = true
+            };
+            IItemWand wand = new ItemWand(Guid.NewGuid(), blueprint, new Mock<IContainer>().Object);
+
+            ItemData itemData = wand.MapItemData();
+
+            Assert.IsInstanceOfType(itemData, typeof(ItemWandData));
+            Assert.AreEqual(wand.Blueprint.Id, itemData.ItemId);
+            Assert.AreEqual(wand.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(wand.BaseItemFlags, itemData.ItemFlags);
+            Assert.AreEqual(wand.MaxChargeCount, (itemData as ItemWandData).MaxChargeCount);
+            Assert.AreEqual(wand.CurrentChargeCount, (itemData as ItemWandData).CurrentChargeCount);
+            Assert.AreEqual(wand.AlreadyRecharged, (itemData as ItemWandData).AlreadyRecharged);
+        }
+
         // WarpStone
         [TestMethod]
         public void ItemWarpstone_To_ItemData_Test()

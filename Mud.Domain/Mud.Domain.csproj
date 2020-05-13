@@ -83,6 +83,7 @@
     <Compile Include="CurrentQuestObjectiveData.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="EquipedItemData.cs" />
+    <Compile Include="ItemCastSpellsChargeData.cs" />
     <Compile Include="ItemCorpseData.cs" />
     <Compile Include="ItemContainerData.cs" />
     <Compile Include="ItemData.cs" />
@@ -92,6 +93,8 @@
     <Compile Include="ItemFlagsAffectData.cs" />
     <Compile Include="ItemFoodData.cs" />
     <Compile Include="ItemPortalData.cs" />
+    <Compile Include="ItemStaffData.cs" />
+    <Compile Include="ItemWandData.cs" />
     <Compile Include="ItemWeaponData.cs" />
     <Compile Include="ItemWeaponFlagsAffectData.cs" />
     <Compile Include="KnownAbilityData.cs" />

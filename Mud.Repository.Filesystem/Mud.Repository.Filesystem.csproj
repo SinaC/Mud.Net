@@ -93,6 +93,7 @@
     <Compile Include="DataContracts\CurrentQuestData.cs" />
     <Compile Include="DataContracts\CurrentQuestObjectiveData.cs" />
     <Compile Include="DataContracts\EquippedItemData.cs" />
+    <Compile Include="DataContracts\ItemCastSpellsChargeData.cs" />
     <Compile Include="DataContracts\ItemContainerData.cs" />
     <Compile Include="DataContracts\ItemCorpseData.cs" />
     <Compile Include="DataContracts\ItemData.cs" />
@@ -100,6 +101,8 @@
     <Compile Include="DataContracts\ItemFlagsAffectData.cs" />
     <Compile Include="DataContracts\ItemFoodData.cs" />
     <Compile Include="DataContracts\ItemPortalData.cs" />
+    <Compile Include="DataContracts\ItemStaffData.cs" />
+    <Compile Include="DataContracts\ItemWandData.cs" />
     <Compile Include="DataContracts\ItemWeaponData.cs" />
     <Compile Include="DataContracts\ItemWeaponFlagsAffectData.cs" />
     <Compile Include="DataContracts\KnownAbilityData.cs" />

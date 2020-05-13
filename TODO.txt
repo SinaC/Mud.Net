@@ -7,8 +7,8 @@ combat system
 Monitor Recompute calls
 Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
-items Staff/Wand
-skills: staves/wand/steal/lore/rescue
+skills: steal/lore/rescue
+spells: call lightning, control weather, create rose, farsight, identfy, mass invis
 assign abilities to classes
 race form, parts
 Dictionary to store Character known ability + keep only one LearnedAbility or replace with KnownAbilities getter based on name

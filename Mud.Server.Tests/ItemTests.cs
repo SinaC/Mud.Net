@@ -10,6 +10,63 @@ namespace Mud.Server.Tests
     [TestClass]
     public class ItemTests
     {
+        // Wand/Staff
+        [TestMethod]
+        public void Staff_Creation_Values()
+        {
+            ItemStaffBlueprint blueprint = new ItemStaffBlueprint
+            {
+                Id = 1, Name = "Staff", ShortDescription = "StaffShort", Description = "StaffDesc", ItemFlags = ItemFlags.AntiEvil,
+                MaxChargeCount = 10,
+                CurrentChargeCount = 7,
+                AlreadyRecharged = false
+            };
+
+            IItemStaff staff = new ItemStaff(Guid.NewGuid(), blueprint, new Mock<IContainer>().Object);
+
+            Assert.AreEqual(blueprint.MaxChargeCount, staff.MaxChargeCount);
+            Assert.AreEqual(blueprint.CurrentChargeCount, staff.CurrentChargeCount);
+            Assert.AreEqual(blueprint.AlreadyRecharged, staff.AlreadyRecharged);
+        }
+
+        [TestMethod]
+        public void Staff_Use()
+        {
+            ItemStaffBlueprint blueprint = new ItemStaffBlueprint
+            {
+                Id = 1, Name = "Staff", ShortDescription = "StaffShort", Description = "StaffDesc", ItemFlags = ItemFlags.AntiEvil,
+                MaxChargeCount = 10,
+                CurrentChargeCount = 7,
+                AlreadyRecharged = false
+            };
+            IItemStaff staff = new ItemStaff(Guid.NewGuid(), blueprint, new Mock<IContainer>().Object);
+
+            staff.Use();
+
+            Assert.AreEqual(10, staff.MaxChargeCount);
+            Assert.AreEqual(6, staff.CurrentChargeCount);
+            Assert.IsFalse(staff.AlreadyRecharged);
+        }
+
+        [TestMethod]
+        public void Staff_Recharge()
+        {
+            ItemStaffBlueprint blueprint = new ItemStaffBlueprint
+            {
+                Id = 1, Name = "Staff", ShortDescription = "StaffShort", Description = "StaffDesc", ItemFlags = ItemFlags.AntiEvil,
+                MaxChargeCount = 10,
+                CurrentChargeCount = 7,
+                AlreadyRecharged = false
+            };
+            IItemStaff staff = new ItemStaff(Guid.NewGuid(), blueprint, new Mock<IContainer>().Object);
+
+            staff.Recharge(7, 9);
+
+            Assert.AreEqual(9, staff.MaxChargeCount);
+            Assert.AreEqual(7, staff.CurrentChargeCount);
+            Assert.IsTrue(staff.AlreadyRecharged);
+        }
+
         // Portal
         [TestMethod]
         public void Portal_Creation_Values()
@@ -447,7 +504,7 @@ namespace Mud.Server.Tests
             Assert.IsFalse(fountain.IsEmpty);
         }
 
-        // DrinkCountainer
+        // DrinkContainer
         [TestMethod]
         public void DrinkContainer_Creation_Values()
         {

@@ -690,16 +690,60 @@ namespace Mud.Server.WPFTestApplication
                     Spell4 = Convert.ToString(data.Values[4]),
                 };
             }
+            else if (data.ItemType == "staff")
+            {
+                blueprint = new ItemStaffBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
+                    SpellLevel = Convert.ToInt32(data.Values[0]),
+                    MaxChargeCount = Convert.ToInt32(data.Values[1]) == 0 ? Convert.ToInt32(data.Values[2]) : Convert.ToInt32(data.Values[1]),
+                    CurrentChargeCount = Convert.ToInt32(data.Values[2]),
+                    Spell = Convert.ToString(data.Values[3]),
+                    AlreadyRecharged = Convert.ToInt32(data.Values[1]) == 0
+                };
+            }
+            else if (data.ItemType == "wand")
+            {
+                blueprint = new ItemWandBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
+                    SpellLevel = Convert.ToInt32(data.Values[0]),
+                    MaxChargeCount = Convert.ToInt32(data.Values[1]) == 0 ? Convert.ToInt32(data.Values[2]) : Convert.ToInt32(data.Values[1]),
+                    CurrentChargeCount = Convert.ToInt32(data.Values[2]),
+                    Spell = Convert.ToString(data.Values[3]),
+                    AlreadyRecharged = Convert.ToInt32(data.Values[1]) == 0
+                };
+            }
             else
             {
                 Log.Default.WriteLine(LogLevels.Warning, $"ItemBlueprint cannot be created: [{data.VNum}] [{data.ItemType}] [{data.WearFlags}] : {data.Name}");
                 // TODO: other item type
                 blueprint = null;
             }
-                if (blueprint != null)
-                    World.AddItemBlueprint(blueprint);
-                return blueprint;
-            }
+            if (blueprint != null)
+                World.AddItemBlueprint(blueprint);
+            return blueprint;
+        }
 
         private static CharacterNormalBlueprint CreateCharacterBlueprint(MobileData data)
         {
@@ -1206,7 +1250,7 @@ namespace Mud.Server.WPFTestApplication
             mysteryImporter.Parse();
             mysteryImporter.Load(System.IO.Path.Combine(path, "midgaard.are"));
             mysteryImporter.Parse();
-            mysteryImporter.Load(System.IO.Path.Combine(path, "grove.are"));
+            mysteryImporter.Load(System.IO.Path.Combine(path, "hitower.are"));
             mysteryImporter.Parse();
             //mysteryImporter.Load(System.IO.Path.Combine(path, "amazon.are"));
             //mysteryImporter.Parse();

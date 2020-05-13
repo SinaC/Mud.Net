@@ -5,7 +5,7 @@ using System;
 
 namespace Mud.Server.Item
 {
-    public class ItemScroll : ItemCastSpellsNoRechargeBase<ItemScrollBlueprint>, IItemScroll
+    public class ItemScroll : ItemCastSpellsNoChargeBase<ItemScrollBlueprint>, IItemScroll
     {
         public ItemScroll(Guid guid, ItemScrollBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint, containedInto)

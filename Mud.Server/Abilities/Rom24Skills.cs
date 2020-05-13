@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Mud.Domain;
 using Mud.Domain.Extensions;
@@ -709,7 +711,7 @@ namespace Mud.Server.Abilities
                 return UseResults.MissingParameter;
             }
 
-            IItem item = FindHelpers.FindByName(source.Inventory.Where(x => source.CanSee(x)), parameters[0]);
+            IItem item = FindHelpers.FindByName(source.Inventory.Where(source.CanSee), parameters[0]);
             if (item == null)
             {
                 source.Send("You do not have that scroll.");
@@ -744,9 +746,8 @@ namespace Mud.Server.Abilities
             // let's go
             source.Act(ActOptions.ToAll, "{0:N} recite{0:v} {1}.", source, scroll);
 
-            var learnInfo = source.GetLearnInfo("Scrolls");
-            int chance = 20 + (4 * learnInfo.learned) / 5;
-            if (RandomManager.Chance(chance))
+            int chance = 20 + (4 * learned) / 5;
+            if (!RandomManager.Chance(chance))
             {
                 source.Send("You mispronounce a syllable.");
                 World.RemoveItem(scroll);
@@ -759,6 +760,136 @@ namespace Mud.Server.Abilities
             CastFromItem(scroll.FourthSpell, scroll.Level, source, target, rawParameters, parameters);
             World.RemoveItem(scroll);
             return UseResults.Ok;
+        }
+
+        [Skill(5013, "Wands", AbilityTargets.Custom, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
+        public UseResults SkillWands(IAbility ability, int learned, ICharacter source, string rawParameters, params CommandParameter[] parameters)
+        {
+            IEntity target;
+            if (parameters.Length == 0)
+                target = source.Fighting;
+            else
+                target = FindHelpers.FindByName(source.Room.People, parameters[0]) as IEntity 
+                         ?? FindHelpers.FindItemHere(source, parameters[0]) as IEntity;
+
+            if (target == null)
+            {
+                source.Send("Zap whom or what?");
+                return UseResults.TargetNotFound;
+            }
+
+            IItemWand wand = source.GetEquipment<IItemWand>(EquipmentSlots.OffHand);
+            if (wand == null)
+            {
+                source.Send("You can zap only with a wand.");
+                return UseResults.InvalidTarget;
+            }
+
+            bool? success = null;
+            if (wand.CurrentChargeCount > 0)
+            {
+                source.Act(ActOptions.ToAll, "{0:N} zap{0:v} {1} with {2}.", source, target, wand);
+                int chance = 20 + (4 * learned) / 5;
+                if (source.Level < wand.Level
+                    || !RandomManager.Chance(chance))
+                {
+                    source.Act(ActOptions.ToAll, "{0:P} efforts with {1} produce only smoke and sparks.", source, wand);
+                    success = false;
+                }
+                else
+                {
+                    CastFromItem(wand.Spell, wand.SpellLevel, source, target, rawParameters, parameters);
+                    success = true;
+                }
+                wand.Use();
+            }
+
+            if (wand.CurrentChargeCount == 0)
+            {
+                source.Act(ActOptions.ToAll, "{0:P} {1} explodes into fragments.", source, wand);
+                World.RemoveItem(wand);
+            }
+
+            return success.HasValue
+                ? (success.Value
+                    ? UseResults.Ok
+                    : UseResults.Failed)
+                : UseResults.InvalidParameter;
+        }
+
+        [Skill(5014, "Staves", AbilityTargets.Custom, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
+        public UseResults SkillStaves(IAbility ability, int learned, ICharacter source, string rawParameters, params CommandParameter[] parameters)
+        {
+            IItemStaff staff = source.GetEquipment<IItemStaff>(EquipmentSlots.OffHand);
+            if (staff == null)
+            {
+                source.Send("You can brandish only with a staff.");
+                return UseResults.InvalidTarget;
+            }
+
+            bool? success = null;
+            if (staff.CurrentChargeCount > 0)
+            {
+                source.Act(ActOptions.ToAll, "{0:N} brandish{0:v} {1}.", source, staff);
+                int chance = 20 + (4 * learned) / 5;
+                if (source.Level < staff.Level
+                    || !RandomManager.Chance(chance))
+                {
+                    source.Act(ActOptions.ToCharacter, "You fail to invoke {0}.", staff);
+                    source.Act(ActOptions.ToRoom, "...and nothing happens.");
+                    success = false;
+                }
+                else if (staff.Spell != null)
+                {
+                    INonPlayableCharacter npcSource = source as INonPlayableCharacter;
+                    IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(source.Room.People.ToList()); // clone because victim can die and be removed from room
+                    foreach (ICharacter victim in clone)
+                    {
+                        INonPlayableCharacter npcVictim = victim as INonPlayableCharacter;
+                        bool cast = true;
+                        switch (staff.Spell.Target)
+                        {
+                            case AbilityTargets.None:
+                                if (victim == source)
+                                    cast = false;
+                                break;
+                            case AbilityTargets.CharacterOffensive:
+                                if (npcSource != null ? npcVictim != null : npcVictim == null)
+                                    cast = false;
+                                break;
+                            case AbilityTargets.CharacterDefensive:
+                                if (npcSource != null ? npcVictim == null : npcVictim != null)
+                                    cast = false;
+                                break;
+                            case AbilityTargets.CharacterSelf:
+                                if (victim == source)
+                                    cast = false;
+                                break;
+                            default:
+                                Log.Default.WriteLine(LogLevels.Error, "SkillStaves: spell {0} has invalid target in staff {1}.", staff.Spell, staff.DebugName);
+                                return UseResults.Error;
+                        }
+                        if (cast)
+                            CastFromItem(staff.Spell, staff.SpellLevel, source, victim, rawParameters, parameters);
+                    }
+                    success = true;
+                }
+                else
+                    Log.Default.WriteLine(LogLevels.Error, "SkillStaves: no spell found in staff {0}", staff.DebugName);
+
+                staff.Use();
+            }
+
+            if (staff.CurrentChargeCount == 0)
+            {
+                source.Act(ActOptions.ToAll, "{0:P} {1} blazes bright and is gone.", source, staff);
+                World.RemoveItem(staff);
+            }
+            return success.HasValue
+                ? (success.Value
+                    ? UseResults.Ok
+                    : UseResults.Failed)
+                : UseResults.InvalidParameter;
         }
 
         //*******************************

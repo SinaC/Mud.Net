@@ -15,7 +15,6 @@ namespace Mud.Server.Abilities
             Passive(2003, "Mace"),
             Passive(2004, "Polearm"),
             Passive(2005, "Spear"),
-            Passive(2006, "Staves"),
             Passive(2007, "Sword"),
             Passive(2008, "Whip"),
             Passive(2009, "Hand to hand"),

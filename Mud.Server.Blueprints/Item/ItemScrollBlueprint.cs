@@ -1,6 +1,6 @@
 ﻿namespace Mud.Server.Blueprints.Item
 {
-    public class ItemScrollBlueprint : ItemCastSpellsNoRechargeBlueprintBase
+    public class ItemScrollBlueprint : ItemCastSpellsNoChargeBlueprintBase
     {
     }
 }

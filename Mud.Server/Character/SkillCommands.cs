@@ -65,6 +65,14 @@ namespace Mud.Server.Character
         [Syntax("[cmd] <scroll> [<target>]")]
         protected virtual CommandExecutionResults DoRecite(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Scrolls", rawParameters, parameters);
 
+        [Command("zap", "Spells")]
+        [Syntax("[cmd] <wand> [<target>]")]
+        protected virtual CommandExecutionResults DoZap(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Wands", rawParameters, parameters);
+
+        [Command("brandish", "Spells")]
+        [Syntax("[cmd] <staff> [<target>]")]
+        protected virtual CommandExecutionResults DoBrandish(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Staves", rawParameters, parameters);
+
         //
         private CommandExecutionResults ExecuteSkill(string abilityName, string rawParameters, params CommandParameter[] parameters)
         {

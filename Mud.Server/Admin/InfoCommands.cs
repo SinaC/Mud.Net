@@ -439,8 +439,11 @@ namespace Mud.Server.Admin
             if (item is IItemArmor armor)
                 sb.AppendFormatLine("Bash: {0} Pierce: {1} Slash: {2} Exotic: {3}", armor.Bash, armor.Pierce, armor.Slash, armor.Exotic);
             //
-            if (item is IItemCastSpellsNoRecharge castSpellsNoRecharge)
-                sb.AppendFormatLine("Level: {0} Spell1: {1} Spell2: {2} Spell3: {3} Spell4: {4}", castSpellsNoRecharge.Level, castSpellsNoRecharge.FirstSpell?.Name ?? "-", castSpellsNoRecharge.SecondSpell?.Name ?? "-", castSpellsNoRecharge.ThirdSpell?.Name ?? "-", castSpellsNoRecharge.FourthSpell?.Name ?? "-");
+            if (item is IItemCastSpellsCharge castSpellsCharge)
+                sb.AppendFormatLine("Level: {0} Current: {1} Max: {2} Spell: {3} Already recharge: {4}", castSpellsCharge.SpellLevel, castSpellsCharge.CurrentChargeCount, castSpellsCharge.MaxChargeCount, castSpellsCharge.Spell?.Name ?? "-", castSpellsCharge.AlreadyRecharged);
+            //
+            if (item is IItemCastSpellsNoCharge castSpellsNoCharge)
+                sb.AppendFormatLine("Level: {0} Spell1: {1} Spell2: {2} Spell3: {3} Spell4: {4}", castSpellsNoCharge.SpellLevel, castSpellsNoCharge.FirstSpell?.Name ?? "-", castSpellsNoCharge.SecondSpell?.Name ?? "-", castSpellsNoCharge.ThirdSpell?.Name ?? "-", castSpellsNoCharge.FourthSpell?.Name ?? "-");
             //
             if (item is IItemContainer container)
                 sb.AppendFormatLine("Item count: {0} Weight: {1} MaxWeight: {2} Flags: {3} Key: {4} MaxWeightPerItem: {5} Weight multiplier: {6}", 

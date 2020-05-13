@@ -44,7 +44,9 @@ namespace Mud.Repository.Mongo
                 .Include<Mud.Domain.ItemWeaponData, Domain.ItemWeaponData>()
                 .Include<Mud.Domain.ItemDrinkContainerData, Domain.ItemDrinkContainerData>()
                 .Include<Mud.Domain.ItemFoodData, Domain.ItemFoodData>()
-                .Include<Mud.Domain.ItemPortalData, Domain.ItemPortalData>();
+                .Include<Mud.Domain.ItemPortalData, Domain.ItemPortalData>()
+                .Include<Mud.Domain.ItemStaffData, Domain.ItemStaffData>()
+                .Include<Mud.Domain.ItemWandData, Domain.ItemWandData>();
             CreateMap<Mud.Domain.ItemContainerData, Domain.ItemContainerData>();
             CreateMap<Mud.Domain.ItemCorpseData, Domain.ItemCorpseData>();
             CreateMap<Mud.Domain.ItemWeaponData, Domain.ItemWeaponData>()
@@ -53,6 +55,8 @@ namespace Mud.Repository.Mongo
             CreateMap<Mud.Domain.ItemFoodData, Domain.ItemFoodData>();
             CreateMap<Mud.Domain.ItemPortalData, Domain.ItemPortalData>()
                 .ForMember(x => x.PortalFlags, expression => expression.MapFrom(x => MapPortalFlags(x.PortalFlags)));
+            CreateMap<Mud.Domain.ItemStaffData, Domain.ItemStaffData>();
+            CreateMap<Mud.Domain.ItemWandData, Domain.ItemWandData>();
 
             CreateMap<Mud.Domain.EquippedItemData, Domain.EquippedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
@@ -124,7 +128,9 @@ namespace Mud.Repository.Mongo
                 .Include<Domain.ItemWeaponData, Mud.Domain.ItemWeaponData>()
                 .Include<Domain.ItemDrinkContainerData, Mud.Domain.ItemDrinkContainerData>()
                 .Include<Domain.ItemFoodData, Mud.Domain.ItemFoodData>()
-                .Include<Domain.ItemPortalData, Mud.Domain.ItemPortalData>();
+                .Include<Domain.ItemPortalData, Mud.Domain.ItemPortalData>()
+                .Include<Domain.ItemStaffData, Mud.Domain.ItemStaffData>()
+                .Include<Domain.ItemWandData, Mud.Domain.ItemWandData>();
             CreateMap<Domain.ItemContainerData, Mud.Domain.ItemContainerData>();
             CreateMap<Domain.ItemCorpseData, Mud.Domain.ItemCorpseData>();
             CreateMap<Domain.ItemWeaponData, Mud.Domain.ItemWeaponData>()
@@ -133,6 +139,8 @@ namespace Mud.Repository.Mongo
             CreateMap<Domain.ItemFoodData, Mud.Domain.ItemFoodData>();
             CreateMap<Domain.ItemPortalData, Mud.Domain.ItemPortalData>()
                 .ForMember(x => x.PortalFlags, expression => expression.MapFrom(x => MapPortalFlags(x.PortalFlags)));
+            CreateMap<Domain.ItemStaffData, Mud.Domain.ItemStaffData>();
+            CreateMap<Domain.ItemWandData, Mud.Domain.ItemWandData>();
 
             CreateMap<Domain.EquippedItemData, Mud.Domain.EquippedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
