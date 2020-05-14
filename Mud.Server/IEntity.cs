@@ -38,8 +38,8 @@ namespace Mud.Server
 
         // Display
         string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false); // Use to get DisplayName relative to Beholder. If Beholder cannot see 'this', it will return Someone or Something. It 'this' is quest objective, (Quest) will be prefixed
-
         string RelativeDescription(ICharacter beholder); // Add (Quest) to description if beholder is on a quest with 'this' as objective
+        void Act(IEnumerable<ICharacter> characters, string format, params object[] arguments); // to every entities in provided list
 
         //
         void OnRemoved(); // called before removing an item from the game

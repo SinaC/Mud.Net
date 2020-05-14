@@ -80,6 +80,7 @@
     <Compile Include="Abilities\AbilityUsage.cs" />
     <Compile Include="Abilities\KnownAbility.cs" />
     <Compile Include="Abilities\MysteryPassives.cs" />
+    <Compile Include="Abilities\Rom24Effects.cs" />
     <Compile Include="Abilities\Rom24Passives.cs" />
     <Compile Include="Abilities\Rom24Skills.cs" />
     <Compile Include="Abilities\Rom24Spells.cs" />
@@ -156,7 +157,6 @@
     <Compile Include="Classes\Mage.cs" />
     <Compile Include="Classes\Thief.cs" />
     <Compile Include="Classes\Warrior.cs" />
-    <Compile Include="Helpers\CombatHelpers.cs" />
     <Compile Include="Helpers\TableGenerators.cs" />
     <Compile Include="IAdminManager.cs" />
     <Compile Include="IAffect.cs" />

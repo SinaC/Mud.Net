@@ -13,6 +13,8 @@ namespace Mud.Server.Item
         WeaponFlags BaseWeaponFlags { get; }
         WeaponFlags WeaponFlags { get; }
 
+        string DamageNoun { get; }
+
         void ApplyAffect(ItemWeaponFlagsAffect affect);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using Mud.Container;
@@ -324,7 +325,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         public override void KillingPayoff(ICharacter victim) // Gain xp/gold/reputation/...
         {
-            // Gain xp
+            // Gain xp and alignment
             if (this != victim && victim is INonPlayableCharacter) // gain xp only for non-playable victim
             {
                 // TODO: not the best way to do it
@@ -342,24 +343,17 @@ namespace Mud.Server.Character.PlayableCharacter
                     leader = this;
                 if (leader != null)
                     members.AddRange(leader.GroupMembers);
-                int highestLevel = members.Max(x => x.Level);
-                int sumLevels = members.Sum(x => x.Level);
-                int memberCount = members.Count;
-                // Gain xp
+                int sumLevels = members.Sum(x => x.Level); // TODO: NPC in group -> level / 2
+                // Gain xp and change alignment
                 foreach (IPlayableCharacter member in members)
                 {
-                    long experienceGain;
-                    if (memberCount == 1)
-                        experienceGain = CombatHelpers.GetSoloMobExperienceFull(member.Level, victim.Level, false /*TODO: elite*/, 0 /*TODO: rested exp*/);
-                    else if (memberCount == 2)
-                        experienceGain = CombatHelpers.GetDuoMobExperienceFull(members[0].Level, members[1].Level, victim.Level, false /*TODO: elite*/, 0 /*TODO: rested exp*/);
-                    else
-                        experienceGain = CombatHelpers.GetPartyMobExperienceFull(member.Level, highestLevel, sumLevels, memberCount, victim.Level, false /*TODO: elite*/, 0 /*TODO: rested exp*/);
-                    if (experienceGain > 0)
+                    var gain = ComputeExperienceAndAlignment(victim, sumLevels);
+                    if (gain.experience > 0)
                     {
-                        member.Send("%y%You gain {0} experience points.%x%", experienceGain);
-                        member.GainExperience(experienceGain);
+                        member.Send("%y%You gain {0} experience points.%x%", gain.experience);
+                        member.GainExperience(gain.experience);
                     }
+                    member.UpdateAlignment(gain.alignment);
                 }
                 // TODO: gold, reputation
             }
@@ -371,53 +365,60 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Abilities
-        public override int GetWeaponLearned(IItemWeapon weapon)
+        public override (int learned, KnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon)
         {
-            int learned;
+            IAbility ability = null;
             if (weapon == null)
-                learned = this[AbilityManager["Hand to hand"]]?.Learned ?? 0;
+                ability = AbilityManager["Hand to hand"];
             else
             {
                 switch (weapon.Type)
                 {
                     case WeaponTypes.Exotic:
-                        learned = 3 * Level;
+                        // no ability
                         break;
                     case WeaponTypes.Sword:
-                        learned = this[AbilityManager["Sword"]]?.Learned ?? 0;
+                        ability = AbilityManager["Sword"];
                         break;
                     case WeaponTypes.Dagger:
-                        learned = this[AbilityManager["Dagger"]]?.Learned ?? 0;
+                        ability = AbilityManager["Dagger"];
                         break;
                     case WeaponTypes.Spear:
-                        learned = this[AbilityManager["Spear"]]?.Learned ?? 0;
+                        ability = AbilityManager["Spear"];
                         break;
                     case WeaponTypes.Mace:
-                        learned = this[AbilityManager["Mace"]]?.Learned ?? 0;
+                        ability = AbilityManager["Mace"];
                         break;
                     case WeaponTypes.Axe:
-                        learned = this[AbilityManager["Axe"]]?.Learned ?? 0;
+                        ability = AbilityManager["Axe"];
                         break;
                     case WeaponTypes.Flail:
-                        learned = this[AbilityManager["Flail"]]?.Learned ?? 0;
+                        ability = AbilityManager["Flail"];
                         break;
                     case WeaponTypes.Whip:
-                        learned = this[AbilityManager["Whip"]]?.Learned ?? 0;
+                        ability = AbilityManager["Whip"];
                         break;
                     case WeaponTypes.Polearm:
-                        learned = this[AbilityManager["Polearm"]]?.Learned ?? 0;
+                        ability = AbilityManager["Polearm"];
                         break;
                     case WeaponTypes.Staff:
-                        learned = this[AbilityManager["Staff(weapon)"]]?.Learned ?? 0;
+                        ability = AbilityManager["Staff(weapon)"];
                         break;
                     default:
                         Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.GetWeaponLearned: Invalid WeaponType {0}", weapon.Type);
-                        learned = 3 * Level;
                         break;
                 }
             }
 
-            return learned.Range(0, 100);
+            // no ability -> 3*level
+            if (ability == null)
+            {
+                int learned = (3 * Level).Range(0, 100);
+                return (learned, null);
+            }
+            // ability, check %
+            var learnInfo = GetLearnInfo(ability);
+            return learnInfo;
         }
 
         public override (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability)
@@ -983,9 +984,143 @@ namespace Mud.Server.Character.PlayableCharacter
             //  DoFlee(null, null);
         }
 
+        protected override (int thac0_00, int thac0_32) GetThac0()
+        {
+            if (Class != null)
+                return Class.Thac0;
+            return (20, 0);
+        }
+
+        protected override int GetNoWeaponBaseDamage()
+        {
+            var hand2HandLearnInfo = GetLearnInfo("Hand to hand");
+            int learned = hand2HandLearnInfo.learned;
+            return RandomManager.Range(1 + 4 * learned / 100, 2 * Level / 3 * learned / 100);
+        }
+
         #endregion
 
         private int ExperienceByLevel => 1000 * (Race?.ClassExperiencePercentageMultiplier(Class) ?? 100) / 100;
+
+        private (int experience, int alignment) ComputeExperienceAndAlignment(ICharacter victim, int totalLevel)
+        {
+            int experience = 0;
+            int alignment = 0;
+
+            int levelDiff = victim.Level - Level;
+            // compute base experience
+            int baseExp = 0;
+            switch (levelDiff)
+            {
+                default: baseExp = 0; break;
+                case -9: baseExp = 1; break;
+                case -8: baseExp = 2; break;
+                case -7: baseExp = 5; break;
+                case -6: baseExp = 9; break;
+                case -5: baseExp = 11; break;
+                case -4: baseExp = 22; break;
+                case -3: baseExp = 33; break;
+                case -2: baseExp = 50; break;
+                case -1: baseExp = 66; break;
+                case 0: baseExp = 83; break;
+                case 1: baseExp = 99; break;
+                case 2: baseExp = 121; break;
+                case 3: baseExp = 143; break;
+                case 4: baseExp = 165; break;
+            }
+
+            if (levelDiff > 4)
+                baseExp = 160 + 20 * (levelDiff - 4);
+            // do alignment computation
+            bool noAlign = victim is INonPlayableCharacter npcVictim && npcVictim.ActFlags.HasFlag(ActFlags.NoAlign);
+            int alignDiff = victim.Alignment - Alignment;
+            if (!noAlign)
+            {
+                if (alignDiff > 500) // more good than member
+                    alignment = -Math.Max(1, (alignDiff - 500) * baseExp / 500 * Level / totalLevel); // become move evil
+                else if (alignDiff < -500) // more evil than member
+                    alignment = Math.Max(1, (-alignDiff - 500) * baseExp / 500 * Level / totalLevel); // become more good
+                else
+                    alignment = -(Alignment * baseExp / 500 * Level / totalLevel); // improve this someday
+            }
+            // change exp based on alignment
+            if (noAlign)
+                experience = baseExp;
+            else if (Alignment > 500) // for goodie
+            {
+                if (victim.Alignment < -750)
+                    experience = (baseExp * 4) / 3;
+                if (victim.Alignment < -500)
+                    experience = (baseExp * 5) / 4;
+                else if (victim.Alignment > 750)
+                    experience = baseExp / 4;
+                else if (victim.Alignment > 500)
+                    experience = baseExp / 2;
+                else if (victim.Alignment > 250)
+                    experience = (baseExp * 3) / 4;
+                else
+                    experience = baseExp;
+            }
+            else if (Alignment < -500) // for baddie
+            {
+                if (victim.Alignment > 750)
+                    experience = (baseExp * 5) / 4;
+                if (victim.Alignment > 500)
+                    experience = (baseExp * 11) / 10;
+                else if (victim.Alignment < -750)
+                    experience = baseExp / 2;
+                else if (victim.Alignment < -500)
+                    experience = (baseExp * 3) / 4;
+                else if (victim.Alignment < -250)
+                    experience = (baseExp * 9) / 10;
+                else
+                    experience = baseExp;
+            }
+            else if (Alignment > 200) // little good
+            {
+                if (victim.Alignment < -500)
+                    experience = (baseExp * 6) / 5;
+                else if (victim.Alignment > 750)
+                    experience = baseExp / 2;
+                else if (victim.Alignment > 0)
+                    experience = (baseExp * 3) / 4;
+                else
+                    experience = baseExp;
+            }
+            else if (Alignment < -200) // little bad
+            {
+                if (victim.Alignment > 500)
+                    experience = (baseExp * 6) / 5;
+                else if (victim.Alignment < -750)
+                    experience = baseExp / 2;
+                else if (victim.Alignment < 0)
+                    experience = (baseExp * 3) / 4;
+                else
+                    experience = baseExp;
+            }
+            else // neutral
+            {
+                if (victim.Alignment > 500 || victim.Alignment < -500)
+                    experience = (baseExp * 4) / 3;
+                else if (victim.Alignment > 200 || victim.Alignment < -200)
+                    experience = baseExp / 2;
+                else
+                    experience = baseExp;
+            }
+            // more xp at low level
+            if (Level < 6)
+                experience = 10 * experience / (Level + 4);
+            // less xp at high level
+            if (Level > 35)
+                experience = 15 * experience / (Level - 25);
+            // TODO: depends on playing time since last level
+            // randomize
+            experience = RandomManager.Range((experience * 3) / 4, (experience * 5) / 4);
+            // adjust for grouping
+            experience = experience * Level / Math.Max(1, totalLevel - 1);
+
+            return (experience, alignment);
+        }
 
         private void AdvanceLevel()
         {

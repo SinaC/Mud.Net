@@ -1,13 +1,14 @@
 NEXT:
 Combat system
-    OneHit, HitDamage, AbilityDamage not yet written
     DONE MultiHit in NonPlayableCharacter and PlayableCharacter
-    TODO OneHit in CharacterBase
-    TODO AbilityDamage in CharacterBase
-    TODO HitDamage in CharacterBase
+    DONE OneHit in CharacterBase
+    TODO AbilityDamage in CharacterBase, ADD DamageNoun where needed see const.c or spells.ini
+    TODO HitDamage in CharacterBase, ADD abstract method GetNoWeaponDamageNoun
     DONE GenericDamage in CharacterBase
+	DONE hitpoint, manapoint, dam in CharacterBlueprint
 
 TODO:
+check ACT_WARRIOR, ACT_THIEF, ACT_CLERIC, ACT_MAGE
 reset
 room light
 admin command to switch an avatar from/to immortal

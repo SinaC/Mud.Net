@@ -16,6 +16,7 @@ namespace Mud.Server.Item
             DiceValue = blueprint.DiceValue;
             DamageType = blueprint.DamageType;
             BaseWeaponFlags = blueprint.Flags;
+            DamageNoun = blueprint.DamageNoun;
         }
 
         public ItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, ItemWeaponData itemData, IContainer containedInto)
@@ -26,6 +27,7 @@ namespace Mud.Server.Item
             DiceValue = blueprint.DiceValue;
             DamageType = blueprint.DamageType;
             BaseWeaponFlags = itemData.WeaponFlags;
+            DamageNoun = blueprint.DamageNoun;
         }
 
         #region IItemWeapon
@@ -63,6 +65,8 @@ namespace Mud.Server.Item
 
         public WeaponFlags BaseWeaponFlags { get; protected set; }
         public WeaponFlags WeaponFlags { get; protected set; }
+
+        public string DamageNoun { get; set; }
 
         public void ApplyAffect(ItemWeaponFlagsAffect affect)
         {

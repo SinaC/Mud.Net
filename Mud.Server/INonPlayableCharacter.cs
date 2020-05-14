@@ -7,6 +7,12 @@ namespace Mud.Server
     {
         CharacterBlueprintBase Blueprint { get; }
 
+        string DamageNoun { get; }
+        SchoolTypes DamageType { get; }
+        int DamageDiceCount { get; }
+        int DamageDiceValue { get; }
+        int DamageDiceBonus { get; }
+
         ActFlags ActFlags { get; }
 
         OffensiveFlags OffensiveFlags { get; }

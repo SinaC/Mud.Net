@@ -371,7 +371,7 @@ namespace Mud.Server.WPFTestApplication
             ItemBlueprintBase blueprint;
             if (data.ItemType == "weapon")
             {
-                (SchoolTypes damageType, WeaponFlags weaponFlags) weaponInfo = ConvertWeaponDamageType(data.Values[3], data.Values[4]);
+                (SchoolTypes damageType, WeaponFlags weaponFlags, string damageNoun) weaponInfo = ConvertWeaponDamageType(data.Values[3], data.Values[4]);
                 blueprint = new ItemWeaponBlueprint
                 {
                     Id = data.VNum,
@@ -390,6 +390,7 @@ namespace Mud.Server.WPFTestApplication
                     // Values[4] flaming/sharp/... weapon_type2 in tables.C
                     DamageType = weaponInfo.damageType,
                     Flags = weaponInfo.weaponFlags,
+                    DamageNoun = weaponInfo.damageNoun,
                     ItemFlags = extraFlags.itemFlags,
                     NoTake = extraFlags.noTake,
                 };
@@ -753,6 +754,14 @@ namespace Mud.Server.WPFTestApplication
                 sex = Sex.Female;
             else if (data.Sex.ToLower() == "male")
                 sex = Sex.Male;
+            SchoolTypes schoolType = SchoolTypes.None;
+            string damageNoun = data.DamageType;
+            (string name, string noun, SchoolTypes damType) attackTableEntry = AttackTable.FirstOrDefault(x => x.name == data.DamageType);
+            if (!attackTableEntry.Equals(default))
+            {
+                schoolType = attackTableEntry.damType;
+                damageNoun = attackTableEntry.noun;
+            }
             CharacterNormalBlueprint blueprint = new CharacterNormalBlueprint
             {
                 Id = data.VNum,
@@ -763,13 +772,28 @@ namespace Mud.Server.WPFTestApplication
                 ShortDescription = data.ShortDescr,
                 Sex = sex,
                 Alignment = data.Alignment,
-                Immunities = ConvertMysteryIRV(data.ImmFlags),
-                Resistances = ConvertMysteryIRV(data.ResFlags),
-                Vulnerabilities = ConvertMysteryIRV(data.VulnFlags),
+                DamageNoun = damageNoun,
+                DamageType = schoolType,
+                DamageDiceCount = data.Damage[0],
+                DamageDiceValue = data.Damage[1],
+                DamageDiceBonus = data.Damage[2],
+                HitPointDiceCount =  data.Hit[0],
+                HitPointDiceValue = data.Hit[1],
+                HitPointDiceBonus = data.Hit[2],
+                ManaDiceCount = data.Mana[0],
+                ManaDiceValue = data.Mana[1],
+                ManaDiceBonus = data.Mana[2],
+                HitRollBonus = data.HitRoll,
+                ArmorPierce = data.Armor[0],
+                ArmorBash = data.Armor[1],
+                ArmorSlash = data.Armor[2],
+                ArmorExotic = data.Armor[3],
                 CharacterFlags = ConvertMysteryCharacterFlags(data.AffectedBy, data.AffectedBy2),
                 ActFlags = ConvertMysteryActFlags(data.Act),
                 OffensiveFlags = ConvertMysteryOffensiveFlags(data.OffFlags),
-                // TODO: CharacterFlags, Immunities, Resistances, Vulnerabilities, ...
+                Immunities = ConvertMysteryIRV(data.ImmFlags),
+                Resistances = ConvertMysteryIRV(data.ResFlags),
+                Vulnerabilities = ConvertMysteryIRV(data.VulnFlags),
             };
             World.AddCharacterBlueprint(blueprint);
             return blueprint;
@@ -924,12 +948,12 @@ namespace Mud.Server.WPFTestApplication
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_IS_MOUNTED
             if (HasBit(act, (long)Act.ACT_UNDEAD)) flags |= ActFlags.Undead;
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_NOSLEEP))
-            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_CLERIC
-            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_MAGE = MysteryImporter.R,
-            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_THIEF = MysteryImporter.S,
-            //if (HasBit(act, (long)Importer.Mystery.Act.ACT_WARRIOR = MysteryImporter.T,
-            if (HasBit(act, (long)Act.ACT_NOALIGN)) flags |= ActFlags.Noalign;
-            if (HasBit(act, (long)Act.ACT_NOPURGE)) flags |= ActFlags.Nopurge;
+            if (HasBit(act, (long)Act.ACT_CLERIC)) flags |= ActFlags.Cleric;
+            if (HasBit(act, (long)Act.ACT_MAGE)) flags |= ActFlags.Mage;
+            if (HasBit(act, (long)Act.ACT_THIEF)) flags |= ActFlags.Thief;
+            if (HasBit(act, (long)Act.ACT_WARRIOR)) flags |= ActFlags.Warrior;
+            if (HasBit(act, (long)Act.ACT_NOALIGN)) flags |= ActFlags.NoAlign;
+            if (HasBit(act, (long)Act.ACT_NOPURGE)) flags |= ActFlags.NoPurge;
             if (HasBit(act, (long)Act.ACT_OUTDOORS)) flags |= ActFlags.Outdoors;
             if (HasBit(act, (long)Act.ACT_INDOORS)) flags |= ActFlags.Indoors;
             //if (HasBit(act, (long)Importer.Mystery.Act.ACT_CREATED
@@ -1144,40 +1168,64 @@ namespace Mud.Server.WPFTestApplication
             return WeaponTypes.Exotic;
         }
 
-        private static (SchoolTypes schoolType, WeaponFlags weaponFlags) ConvertWeaponDamageType(object attackTableValue, object weaponType2Value)
+        private static readonly (string name, string noun, SchoolTypes damType)[] AttackTable =
         {
-            SchoolTypes schoolType = SchoolTypes.None;
-            string attackTable = (string)attackTableValue;
-            int weaponType2 = weaponType2Value == null ? 0 : Convert.ToInt32(weaponType2Value);
-            if (attackTable == "acid") // Acid
-                schoolType = SchoolTypes.Acid;
-            if (attackTable == "wrath") // Wrath
-                schoolType = SchoolTypes.Energy;
-            if (attackTable == "magic") // Magic
-                schoolType = SchoolTypes.Energy;
-            if (attackTable == "divine") // Divine power
-                schoolType = SchoolTypes.Holy;
-            if (attackTable == "shbite") // Shocking bite
-                schoolType = SchoolTypes.Lightning;
-            if (attackTable == "flbite") // Flaming bite
-                schoolType = SchoolTypes.Fire;
-            if (attackTable == "frbite") // Frost bite
-                schoolType = SchoolTypes.Cold;
-            if (attackTable == "acbite") // Acidic bite
-                schoolType = SchoolTypes.Acid;
-            if (attackTable == "drain") // Life drain
-                schoolType = SchoolTypes.Negative;
-            if (attackTable == "slime") // Slime
-                schoolType = SchoolTypes.Acid;
-            if (attackTable == "shock") // Shock
-                schoolType = SchoolTypes.Lightning;
-            if (attackTable == "flame") // Flame
-                schoolType = SchoolTypes.Fire;
-            if (attackTable == "chill") // Chill
-                schoolType = SchoolTypes.Cold;
+            (   "none",     "hit",      SchoolTypes.None      ),  /*  0 */
+            (   "slice",    "slice",    SchoolTypes.Slash   ),
+            (   "stab",     "stab",     SchoolTypes.Pierce  ),
+            (   "slash",    "slash",    SchoolTypes.Slash   ),
+            (   "whip",     "whip",     SchoolTypes.Slash   ),
+            (   "claw",     "claw",     SchoolTypes.Slash   ),  /*  5 */
+            (   "blast",    "blast",    SchoolTypes.Bash    ),
+            (   "pound",    "pound",    SchoolTypes.Bash    ),
+            (   "crush",    "crush",    SchoolTypes.Bash    ),
+            (   "grep",     "grep",     SchoolTypes.Slash   ),
+            (   "bite",     "bite",     SchoolTypes.Pierce  ),  /* 10 */
+            (   "pierce",   "pierce",   SchoolTypes.Pierce  ),
+            (   "suction",  "suction",  SchoolTypes.Bash    ),
+            (   "beating",  "beating",  SchoolTypes.Bash    ),
+            (   "digestion",    "digestion",    SchoolTypes.Acid    ),
+            (   "charge",   "charge",   SchoolTypes.Bash    ),  /* 15 */
+            (   "slap",     "slap",     SchoolTypes.Bash    ),
+            (   "punch",    "punch",    SchoolTypes.Bash    ),
+            (   "wrath",    "wrath",    SchoolTypes.Energy  ),
+            (   "magic",    "magic",    SchoolTypes.Energy  ),
+            (   "divine",   "divine power", SchoolTypes.Holy    ),  /* 20 */
+            (   "cleave",   "cleave",   SchoolTypes.Slash   ),
+            (   "scratch",  "scratch",  SchoolTypes.Pierce  ),
+            (   "peck",     "peck",     SchoolTypes.Pierce  ),
+            (   "peckb",    "peck",     SchoolTypes.Bash    ),
+            (   "chop",     "chop",     SchoolTypes.Slash   ),  /* 25 */
+            (   "sting",    "sting",    SchoolTypes.Pierce  ),
+            (   "smash",     "smash",   SchoolTypes.Bash    ),
+            (   "shbite",   "shocking bite",SchoolTypes.Lightning   ),
+            (   "flbite",   "flaming bite", SchoolTypes.Fire    ),
+            (   "frbite",   "freezing bite", SchoolTypes.Cold   ),  /* 30 */
+            (   "acbite",   "acidic bite",  SchoolTypes.Acid    ),
+            (   "chomp",    "chomp",    SchoolTypes.Pierce  ),
+            (   "drain",    "life drain",   SchoolTypes.Negative    ),
+            (   "thrust",   "thrust",   SchoolTypes.Pierce  ),
+            (   "slime",    "slime",    SchoolTypes.Acid    ),
+            (   "shock",    "shock",    SchoolTypes.Lightning   ),
+            (   "thwack",   "thwack",   SchoolTypes.Bash    ),
+            (   "flame",    "flame",    SchoolTypes.Fire    ),
+            (   "chill",    "chill",    SchoolTypes.Cold    ),
+        };
 
+        private static (SchoolTypes schoolType, WeaponFlags weaponFlags, string damageNoun) ConvertWeaponDamageType(object attackTableValue, object weaponType2Value)
+        {
+            string attackTable = (string)attackTableValue;
+            SchoolTypes schoolType = SchoolTypes.None;
+            string damageNoun = attackTable;
+            (string name, string noun, SchoolTypes damType) attackTableEntry = AttackTable.FirstOrDefault(x => x.name == attackTable);
+            if (!attackTableEntry.Equals(default))
+            {
+                schoolType = attackTableEntry.damType;
+                damageNoun = attackTableEntry.noun;
+            }
+
+            int weaponType2 = weaponType2Value == null ? 0 : Convert.ToInt32(weaponType2Value);
             WeaponFlags weaponFlags = WeaponFlags.None;
-            // originally a flag but converted to a single value
             if ((weaponType2 & MysteryImporter.A) == MysteryImporter.A) // Flaming
                 weaponFlags |= WeaponFlags.Flaming;
             if ((weaponType2 & MysteryImporter.B) == MysteryImporter.B) // Frost
@@ -1200,7 +1248,7 @@ namespace Mud.Server.WPFTestApplication
             // K: Necrotism
 
             //
-            return (schoolType, weaponFlags);
+            return (schoolType, weaponFlags, damageNoun);
         }
 
         private static (ItemFlags, bool) ConvertMysteryItemExtraFlags(ObjectData data)

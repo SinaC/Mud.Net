@@ -418,8 +418,8 @@ namespace Mud.Domain
         Wimpy           = 0x00000010,
         Pet             = 0x00000020,
         Undead          = 0x00000040,
-        Noalign         = 0x00000080,
-        Nopurge         = 0x00000100,
+        NoAlign         = 0x00000080,
+        NoPurge         = 0x00000100,
         Outdoors        = 0x00000200,
         Indoors         = 0x00000400,
         UpdateAlways    = 0x00000800,
@@ -428,7 +428,10 @@ namespace Mud.Domain
         Gain            = 0x00004000,
         Practice        = 0x00008000,
         Aware           = 0x00010000,
-        // TODO: warrior, thief, cleric, mage ?
+        Warrior         = 0x00020000,
+        Thief           = 0x00040000,
+        Cleric          = 0x00080000,
+        Mage            = 0x00100000,
     }
 
     [Flags]

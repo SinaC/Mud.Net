@@ -328,6 +328,8 @@ namespace Mud.Server.Admin
                 sb.AppendFormatLine("Level: {0} Experience: {1} NextLevel: {2}", playableVictim.Level, playableVictim.Experience, playableVictim.ExperienceToLevel);
             else
                 sb.AppendFormatLine("Level: {0}", victim.Level);
+            if (nonPlayableVictim != null)
+                sb.AppendFormatLine("Damage: {0}d{1}+{2} {3} {4}", nonPlayableVictim.DamageDiceCount, nonPlayableVictim.DamageDiceValue, nonPlayableVictim.DamageDiceBonus, nonPlayableVictim.DamageType, nonPlayableVictim.DamageNoun);
             sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim.MaxHitPoints);
             sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim.MaxMovePoints);
             sb.AppendFormatLine("Flags: {0} (base: {1})", victim.CharacterFlags, victim.BaseCharacterFlags);
@@ -495,7 +497,7 @@ namespace Mud.Server.Admin
                 sb.AppendFormatLine("Armor: {0}", shield.Armor);
             //
             if (item is IItemWeapon weapon)
-                sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3} {4} (base: {5})", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType, weapon.WeaponFlags, weapon.BaseWeaponFlags);
+                sb.AppendFormatLine("Weapon type: {0}  {1}d{2} {3} {4} (base: {5}) {6}", weapon.Type, weapon.DiceCount, weapon.DiceValue, weapon.DamageType, weapon.WeaponFlags, weapon.BaseWeaponFlags, weapon.DamageNoun);
 
             // TODO: other item type
             //

@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Actor;
+using Mud.Server.Common;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 
 namespace Mud.Server.Entity
@@ -262,6 +266,16 @@ namespace Mud.Server.Entity
             return Description; // no behavior by default
         }
 
+        public void Act(IEnumerable<ICharacter> characters, string format, params object[] arguments)
+        {
+            foreach (ICharacter target in characters)
+            {
+                string phrase = FormatActOneLine(target, format, arguments);
+                target.Send(phrase);
+            }
+        }
+
+
         // Overriden in inherited class
         public virtual void OnRemoved() // called before removing an item from the game
         {
@@ -278,5 +292,296 @@ namespace Mud.Server.Entity
             return Auras.Where(x => x.IsValid).Select(x => x.MapAuraData()).ToArray();
         }
 
+        #region Act
+
+        // Recreate behaviour of String.Format with maximum 10 arguments
+        // If an argument is ICharacter, IItem, IExit special formatting is applied (depending on who'll receive the message)
+        protected enum ActParsingStates
+        {
+            Normal,
+            OpeningBracketFound,
+            ArgumentFound,
+            FormatSeparatorFound,
+        }
+
+        protected static string FormatActOneLine(ICharacter target, string format, params object[] arguments)
+        {
+            StringBuilder result = new StringBuilder();
+
+            ActParsingStates state = ActParsingStates.Normal;
+            object currentArgument = null;
+            StringBuilder argumentFormat = null;
+            foreach (char c in format)
+            {
+                switch (state)
+                {
+                    case ActParsingStates.Normal: // searching for {
+                        if (c == '{')
+                        {
+                            state = ActParsingStates.OpeningBracketFound;
+                            currentArgument = null;
+                            argumentFormat = new StringBuilder();
+                        }
+                        else
+                            result.Append(c);
+                        break;
+                    case ActParsingStates.OpeningBracketFound: // searching for a number
+                        if (c == '{') // {{ -> {
+                        {
+                            result.Append('{');
+                            state = ActParsingStates.Normal;
+                        }
+                        else if (c == '}') // {} -> nothing
+                        {
+                            state = ActParsingStates.Normal;
+                        }
+                        else if (c >= '0' && c <= '9') // {x -> argument found
+                        {
+                            currentArgument = arguments[c - '0'];
+                            state = ActParsingStates.ArgumentFound;
+                        }
+                        break;
+                    case ActParsingStates.ArgumentFound: // searching for } or :
+                        if (c == '}')
+                        {
+                            FormatActOneArgument(target, result, null, currentArgument);
+                            state = ActParsingStates.Normal;
+                        }
+                        else if (c == ':')
+                            state = ActParsingStates.FormatSeparatorFound;
+                        break;
+                    case ActParsingStates.FormatSeparatorFound: // searching for }
+                        if (c == '}')
+                        {
+                            Debug.Assert(argumentFormat != null);
+                            FormatActOneArgument(target, result, argumentFormat.ToString(), currentArgument);
+                            state = ActParsingStates.Normal;
+                        }
+                        else
+                        {
+                            // argumentFormat cannot be null
+                            Debug.Assert(argumentFormat != null);
+                            argumentFormat.Append(c);
+                        }
+                        break;
+                }
+            }
+            if (result.Length > 0)
+                result[0] = char.ToUpperInvariant(result[0]);
+            return result.ToString();
+        }
+
+        // Formatting
+        //  ICharacter
+        //      default: same as n, N
+        //      p, P: same as n but you is replaced with your
+        //      n, N: argument.name if visible by target, someone otherwise
+        //      e, E: you/he/she/it, depending on argument.sex
+        //      m, M: you/him/her/it, depending on argument.sex
+        //      s, S: your/his/her/its, depending on argument.sex
+        //      f, F: yourself/himself/herself/itself
+        //      b, B: are/is
+        //      h, H: have/has
+        //      v, V: add 's' at the end of a verb if argument is different than target (take care of verb ending with y/o/h
+        // IItem
+        //      argument.Name if visible by target, something otherwhise
+        // IExit
+        //      exit name
+        // IAbility
+        //      ability name
+        [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
+        protected static void FormatActOneArgument(ICharacter target, StringBuilder result, string format, object argument)
+        {
+            // Character ?
+            if (argument is ICharacter character)
+            {
+                char letter = format?[0] ?? 'n'; // if no format, n
+                switch (letter)
+                {
+                    // your/name
+                    case 'p':
+                        if (target == character)
+                            result.Append("your");
+                        else
+                        {
+                            result.Append(character.RelativeDisplayName(target));
+                            if (result[result.Length - 1] == 's')
+                                result.Append('\'');
+                            else
+                                result.Append("'s");
+                        }
+                        break;
+                    case 'P':
+                        if (target == character)
+                            result.Append("Your");
+                        else
+                        {
+                            result.Append(character.RelativeDisplayName(target));
+                            if (result[result.Length - 1] == 's')
+                                result.Append('\'');
+                            else
+                                result.Append("'s");
+                        }
+                        break;
+                    // you/name
+                    case 'n':
+                        if (target == character)
+                            result.Append("you");
+                        else
+                            result.Append(character.RelativeDisplayName(target));
+                        break;
+                    case 'N':
+                        if (target == character)
+                            result.Append("You");
+                        else
+                            result.Append(character.RelativeDisplayName(target));
+                        break;
+                    // you/he/she/it
+                    case 'e':
+                        if (target == character)
+                            result.Append("you");
+                        else
+                            result.Append(StringHelpers.Subjects[character.Sex]);
+                        break;
+                    case 'E':
+                        if (target == character)
+                            result.Append("You");
+                        else
+                            result.Append(StringHelpers.Subjects[character.Sex].UpperFirstLetter());
+                        break;
+                    // you/him/her/it
+                    case 'm':
+                        if (target == character)
+                            result.Append("you");
+                        else
+                            result.Append(StringHelpers.Objectives[character.Sex]);
+                        break;
+                    case 'M':
+                        if (target == character)
+                            result.Append("You");
+                        else
+                            result.Append(StringHelpers.Objectives[character.Sex].UpperFirstLetter());
+                        break;
+                    // your/his/her/its
+                    case 's':
+                        if (target == character)
+                            result.Append("your");
+                        else
+                            result.Append(StringHelpers.Possessives[character.Sex]);
+                        break;
+                    case 'S':
+                        if (target == character)
+                            result.Append("Your");
+                        else
+                            result.Append(StringHelpers.Possessives[character.Sex].UpperFirstLetter());
+                        break;
+                    // yourself/himself/herself/itself (almost same as 'm' + self)
+                    case 'f':
+                        if (target == character)
+                            result.Append("your");
+                        else
+                            result.Append(StringHelpers.Objectives[character.Sex]);
+                        result.Append("self");
+                        break;
+                    case 'F':
+                        if (target == character)
+                            result.Append("your");
+                        else
+                            result.Append(StringHelpers.Objectives[character.Sex].UpperFirstLetter());
+                        result.Append("self");
+                        break;
+                    // is/are
+                    case 'b':
+                        if (target == character)
+                            result.Append("are");
+                        else
+                            result.Append("is");
+                        break;
+                    case 'B':
+                        if (target == character)
+                            result.Append("Are");
+                        else
+                            result.Append("Is");
+                        break;
+                    // has/have
+                    case 'h':
+                        if (target == character)
+                            result.Append("have");
+                        else
+                            result.Append("has");
+                        break;
+                    case 'H':
+                        if (target == character)
+                            result.Append("Have");
+                        else
+                            result.Append("Has");
+                        break;
+                    // verb
+                    case 'v':
+                    case 'V':
+                        // nothing to do if target is actor
+                        if (target != character)
+                        {
+                            //http://www.grammar.cl/Present/Verbs_Third_Person.htm
+                            if (result.Length > 0)
+                            {
+                                char verbLastLetter = result[result.Length - 1];
+                                char verbBeforeLastLetter = result.Length > 1 ? result[result.Length - 2] : ' ';
+                                if (verbLastLetter == 'y' && verbBeforeLastLetter != ' ' && verbBeforeLastLetter != 'a' && verbBeforeLastLetter != 'e' && verbBeforeLastLetter != 'i' && verbBeforeLastLetter != 'o' && verbBeforeLastLetter != 'u')
+                                {
+                                    result.Remove(result.Length - 1, 1);
+                                    result.Append("ies");
+                                }
+                                else if (verbLastLetter == 'o' || verbLastLetter == 'h' || verbLastLetter == 's' || verbLastLetter == 'x')
+                                    result.Append("es");
+                                else
+                                    result.Append("s");
+                            }
+                            else
+                                Log.Default.WriteLine(LogLevels.Error, "Act: v-format on an empty string");
+                        }
+                        break;
+                    default:
+                        Log.Default.WriteLine(LogLevels.Error, "Act: invalid format {0} for ICharacter", format);
+                        result.Append("<???>");
+                        break;
+                }
+                return;
+            }
+            // Item ?
+            if (argument is IItem item)
+            {
+                // no specific format
+                result.Append(item.RelativeDisplayName(target));
+                return;
+            }
+            // Exit ?
+            if (argument is IExit exit)
+            {
+                // TODO: can see destination room ?
+                // no specific format
+                result.Append(exit.Keywords.FirstOrDefault() ?? "door");
+                return;
+            }
+            // Ability ?
+            if (argument is IAbility ability)
+            {
+                // no specific format
+                result.Append(ability.Name);
+                return;
+            }
+            // Other (int, string, ...)
+            if (format == null)
+                result.Append(argument);
+            else
+            {
+                if (argument is IFormattable formattable)
+                    result.Append(formattable.ToString(format, null));
+                else
+                    result.Append(argument);
+            }
+        }
+
+        #endregion
     }
 }

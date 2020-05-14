@@ -433,9 +433,9 @@ namespace Mud.Server.Abilities
             }
 
             // find weapon learned
-            int sourceLearned = source.GetWeaponLearned(sourceWield);
-            int victimLearned = victim.GetWeaponLearned(sourceWield);
-            int sourceOnVictimWeaponLearned = source.GetWeaponLearned(victimWield);
+            int sourceLearned = source.GetWeaponLearnInfo(sourceWield).learned;
+            int victimLearned = victim.GetWeaponLearnInfo(sourceWield).learned;
+            int sourceOnVictimWeaponLearned = source.GetWeaponLearnInfo(victimWield).learned;
 
             // modifiers
             // skill

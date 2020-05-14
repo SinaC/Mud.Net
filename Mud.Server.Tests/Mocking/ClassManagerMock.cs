@@ -24,13 +24,15 @@ namespace Mud.Server.Tests.Mocking
 
         public string DisplayName => Name;
 
-        public string ShortName => ShortName;
+        public string ShortName => Name;
 
         public IEnumerable<ResourceKinds> ResourceKinds => Enumerable.Empty<ResourceKinds>();
 
         public IEnumerable<AbilityUsage> Abilities => Enumerable.Empty<AbilityUsage>();
 
         public int MaxPracticePercentage => throw new NotImplementedException();
+
+        public (int thac0_00, int thac0_32) Thac0 => throw new NotImplementedException();
 
         public int MinHitPointGainPerLevel => throw new NotImplementedException();
 

@@ -28,7 +28,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void BasicAttributes_Test()
         {
-            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "mob1", ActFlags = ActFlags.Noalign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
             npc.Recompute();
 
             Assert.AreEqual(npc[CharacterAttributes.Strength], npc[BasicAttributes.Strength]);
@@ -46,7 +46,7 @@ namespace Mud.Server.Tests
             attributeTablesMock.Setup(x => x.DefensiveBonus(It.IsAny<ICharacter>())).Returns<ICharacter>(x => defensiveBonus);
             DependencyContainer.Current.RegisterInstance<ITableValues>(attributeTablesMock.Object);
 
-            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "mob1", ActFlags = ActFlags.Noalign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
             npc.Recompute();
 
             Assert.AreEqual(-npc.Level+ defensiveBonus, npc[Armors.Bash]); // Armor is initialized with -Level
@@ -65,7 +65,7 @@ namespace Mud.Server.Tests
             attributeTablesMock.Setup(x => x.DamBonus(It.IsAny<ICharacter>())).Returns<ICharacter>(x => damBonus);
             DependencyContainer.Current.RegisterInstance<ITableValues>(attributeTablesMock.Object);
 
-            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "mob1", ActFlags = ActFlags.Noalign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
             npc.Recompute();
 
             Assert.AreEqual(npc.Level + hitBonus, npc.HitRoll); // HitRoll is initialized with Level

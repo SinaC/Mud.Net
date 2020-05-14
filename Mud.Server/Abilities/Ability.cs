@@ -5,7 +5,7 @@ namespace Mud.Server.Abilities
 {
     public class Ability : IAbility
     {
-        public Ability(AbilityKinds kind, int id, string name, AbilityTargets target, int pulseWaitTime, AbilityFlags flags, string characterWearOffMessage, string itemWearOffMessage, string dispelRoomMessage, int learnDifficultyMultiplier)
+        public Ability(AbilityKinds kind, int id, string name, AbilityTargets target, int pulseWaitTime, AbilityFlags flags, string characterWearOffMessage, string itemWearOffMessage, string dispelRoomMessage, string damageNoun, int learnDifficultyMultiplier)
         {
             Kind = kind;
             Id = id;
@@ -16,11 +16,12 @@ namespace Mud.Server.Abilities
             CharacterWearOffMessage = characterWearOffMessage;
             ItemWearOffMessage = itemWearOffMessage;
             DispelRoomMessage = dispelRoomMessage;
+            DamageNoun = damageNoun;
             LearnDifficultyMultiplier = learnDifficultyMultiplier;
         }
 
         public Ability(AbilityKinds kind, AbilityAttribute attribute, MethodInfo methodInfo)
-            : this(kind, attribute.Id, attribute.Name, attribute.Target, attribute.PulseWaitTime, attribute.Flags, attribute.CharacterWearOffMessage, attribute.ItemWearOffMessage, attribute.DispelRoomMessage, attribute.LearnDifficultyMultiplier)
+            : this(kind, attribute.Id, attribute.Name, attribute.Target, attribute.PulseWaitTime, attribute.Flags, attribute.CharacterWearOffMessage, attribute.ItemWearOffMessage, attribute.DispelRoomMessage, attribute.DamageNoun, attribute.LearnDifficultyMultiplier)
         {
             MethodInfo = methodInfo;
         }
@@ -42,6 +43,8 @@ namespace Mud.Server.Abilities
         public string ItemWearOffMessage { get; }
 
         public string DispelRoomMessage { get; }
+
+        public string DamageNoun { get; }
 
         public int LearnDifficultyMultiplier { get; }
 

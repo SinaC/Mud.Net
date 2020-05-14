@@ -31,6 +31,57 @@ namespace Mud.Server.Blueprints.Character
         public int Level { get; set; }
 
         [DataMember]
+        public int Alignment { get; set; }
+
+        [DataMember]
+        public string DamageNoun { get; set; }
+
+        [DataMember]
+        public SchoolTypes DamageType{ get; set; }
+
+        [DataMember]
+        public int DamageDiceCount { get; set; }
+
+        [DataMember]
+        public int DamageDiceValue { get; set; }
+
+        [DataMember]
+        public int DamageDiceBonus { get; set; }
+
+        [DataMember]
+        public int HitPointDiceCount { get; set; }
+
+        [DataMember]
+        public int HitPointDiceValue { get; set; }
+
+        [DataMember]
+        public int HitPointDiceBonus { get; set; }
+
+        [DataMember]
+        public int ManaDiceCount { get; set; }
+
+        [DataMember]
+        public int ManaDiceValue { get; set; }
+
+        [DataMember]
+        public int ManaDiceBonus { get; set; }
+
+        [DataMember]
+        public int HitRollBonus { get; set; }
+
+        [DataMember]
+        public int ArmorBash { get; set; }
+
+        [DataMember]
+        public int ArmorPierce { get; set; }
+
+        [DataMember]
+        public int ArmorSlash { get; set; }
+
+        [DataMember]
+        public int ArmorExotic { get; set; }
+
+        [DataMember]
         public ActFlags ActFlags { get; set; }
 
         [DataMember]
@@ -50,10 +101,7 @@ namespace Mud.Server.Blueprints.Character
 
         // TODO CharacterAttributes
 
-        [DataMember]
-        public int Alignment { get; set; }
-
-        // TODO: race, class, flags, armor, damage, ...
+        // TODO: race, class, armor, ...
 
         [DataMember]
         public CharacterLootTable<int> LootTable { get; set; }

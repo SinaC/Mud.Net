@@ -942,18 +942,18 @@ namespace Mud.Server.Character
 
         private string GetWeaponConfidence(IItemWeapon weapon)
         {
-            int learned = GetWeaponLearned(weapon);
-            if (learned >= 100)
+            var weaponLearnInfo = GetWeaponLearnInfo(weapon);
+            if (weaponLearnInfo.learned >= 100)
                 return "{0:N} feels like a part of you!";
-            if (learned > 85)
+            if (weaponLearnInfo.learned > 85)
                 return "You feel quite confident with {0:N}.";
-            if (learned > 70)
+            if (weaponLearnInfo.learned > 70)
                 return "You are skilled with {0:N}.";
-            if (learned > 50)
+            if (weaponLearnInfo.learned > 50)
                 return "Your skill with {0:N} is adequate.";
-            if (learned > 25)
+            if (weaponLearnInfo.learned > 25)
                 return "{0:N} feels a little clumsy in your hands.";
-            if (learned > 1)
+            if (weaponLearnInfo.learned > 1)
                 return "You fumble and almost drop {0:N}.";
             return "You don't even know which end is up on {0:N}.";
         }

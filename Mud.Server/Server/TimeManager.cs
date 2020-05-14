@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Mud.Domain;
 using Mud.Server.Common;
 
@@ -42,8 +39,6 @@ namespace Mud.Server.Server
             if (_initialized)
                 return;
             CurrentTime = DateTime.Now;
-
-            DateTime now = CurrentTime;
 
             long seconds = DateTimeOffset.Now.ToUnixTimeSeconds();
             long hour = (seconds - 650336715) / 60;

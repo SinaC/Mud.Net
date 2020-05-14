@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using Mud.Domain;
@@ -539,34 +540,21 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.InvalidTarget;
             }
 
-            CombatHelpers.CombatDifficulties difficulty = CombatHelpers.GetConColor(Level, whom.Level);
-
-            switch (difficulty)
-            {
-                case CombatHelpers.CombatDifficulties.Grey:
-                    Act(ActOptions.ToCharacter, "You can kill {0} naked and weaponless.", whom);
-                    break;
-                case CombatHelpers.CombatDifficulties.Green:
-                    Act(ActOptions.ToCharacter, "{0:N} looks like an easy kill.", whom);
-                    break;
-                case CombatHelpers.CombatDifficulties.Yellow:
-                    Send("The perfect match!");
-                    break;
-                case CombatHelpers.CombatDifficulties.Orange:
-                    Act(ActOptions.ToCharacter, "{0:N} says 'Do you fell lucky punk?'.", whom);
-                    break;
-                case CombatHelpers.CombatDifficulties.Red:
-                    Act(ActOptions.ToCharacter, "{0:N} laughs at you mercilessly.", whom);
-                    break;
-                case CombatHelpers.CombatDifficulties.Skull:
-                    Send("Death will thank you for your gift.");
-                    break;
-                default:
-                    Act(ActOptions.ToCharacter, "You failed to consider killing {0}.", whom);
-                    Log.Default.WriteLine(LogLevels.Error, "DoConsider: unhandled CombatDifficulties: {0}", difficulty);
-                    break;
-            }
-
+            int diff = whom.Level - Level;
+            if (diff <= -10)
+                Act(ActOptions.ToCharacter, "You can kill {0} naked and weaponless.", whom);
+            else if (diff <= -5)
+                Act(ActOptions.ToCharacter, "0 is no match for you.", whom);
+            else if (diff <= -2)
+                Act(ActOptions.ToCharacter, "{0:N} looks like an easy kill.", whom);
+            else if (diff <= 1)
+                Send("The perfect match!");
+            else if (diff <= 4)
+                Act(ActOptions.ToCharacter, "{0:N} says 'Do you fell lucky punk?'.", whom);
+            else if (diff <= 9)
+                Act(ActOptions.ToCharacter, "{0:N} laughs at you mercilessly.", whom);
+            else
+                Send("Death will thank you for your gift.");
             return CommandExecutionResults.Ok;
         }
 

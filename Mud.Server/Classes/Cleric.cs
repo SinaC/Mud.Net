@@ -25,6 +25,8 @@ namespace Mud.Server.Classes
 
         public override int MaxPracticePercentage => 75;
 
+        public override (int thac0_00, int thac0_32) Thac0 => (20, 2);
+
         public override int MinHitPointGainPerLevel => 7;
 
         public override int MaxHitPointGainPerLevel => 10;

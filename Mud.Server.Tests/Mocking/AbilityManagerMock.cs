@@ -18,7 +18,7 @@ namespace Mud.Server.Tests.Mocking
                 if (ability != null)
                     return ability;
                 int id = _abilities.Count == 0 ? 1 : _abilities.Max(x => x.Id) + 1;
-                ability = new Ability(Domain.AbilityKinds.Passive, id, name, Domain.AbilityTargets.Custom, 12, Domain.AbilityFlags.None, string.Empty, string.Empty, string.Empty, 1);
+                ability = new Ability(Domain.AbilityKinds.Passive, id, name, Domain.AbilityTargets.Custom, 12, Domain.AbilityFlags.None, string.Empty, string.Empty, string.Empty, string.Empty, 1);
                 _abilities.Add(ability);
                 return ability;
             }
@@ -31,7 +31,7 @@ namespace Mud.Server.Tests.Mocking
                 IAbility ability = _abilities.SingleOrDefault(x => x.Id == id);
                 if (ability != null)
                     return ability;
-                ability = new Ability(Domain.AbilityKinds.Passive, id, "ability"+id.ToString(), Domain.AbilityTargets.Custom, 12, Domain.AbilityFlags.None, string.Empty, string.Empty, string.Empty, 1);
+                ability = new Ability(Domain.AbilityKinds.Passive, id, "ability"+id.ToString(), Domain.AbilityTargets.Custom, 12, Domain.AbilityFlags.None, string.Empty, string.Empty, string.Empty, string.Empty, 1);
                 _abilities.Add(ability);
                 return ability;
             }
@@ -66,6 +66,30 @@ namespace Mud.Server.Tests.Mocking
         }
 
         public KnownAbility Search(IEnumerable<KnownAbility> knownAbilities, int level, Func<IAbility, bool> abilityFilterFunc, CommandParameter parameter) => knownAbilities.FirstOrDefault(x => abilityFilterFunc(x.Ability) && x.Ability.Name == parameter.Value);
+        public void AcidEffect(IEntity target, IAbility ability, ICharacter source, int level, int damage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ColdEffect(IEntity target, ICharacter source, int level, int damage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FireEffect(IEntity target, ICharacter source, int level, int damage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PoisonEffect(IEntity target, ICharacter source, int level, int damage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ShockEffect(IEntity target, ICharacter source, int level, int damage)
+        {
+            throw new NotImplementedException();
+        }
 
         public UseResults Use(IAbility ability, ICharacter caster, string rawParameters, params CommandParameter[] parameters)
         {

@@ -22,7 +22,8 @@ namespace Mud.Server
         // Max practice percentage (learned in KnownAbility)
         int MaxPracticePercentage { get; }
 
-        // TODO: thac0_00, thac0_32
+        (int thac0_00, int thac0_32) Thac0 { get; }
+
         int MinHitPointGainPerLevel { get; }
         int MaxHitPointGainPerLevel { get; }
     }

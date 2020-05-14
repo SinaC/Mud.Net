@@ -23,6 +23,13 @@ namespace Mud.Server
         AbilityTargetResults GetItemAbilityTarget(IAbility ability, ICharacter caster, ref IEntity target);
 
         KnownAbility Search(IEnumerable<KnownAbility> knownAbilities, int level, Func<IAbility, bool> abilityFilterFunc, CommandParameter parameter);
+
+        // Effects
+        void AcidEffect(IEntity target, IAbility ability, ICharacter source, int level, int damage);
+        void ColdEffect(IEntity target, ICharacter source, int level, int damage);
+        void FireEffect(IEntity target, ICharacter source, int level, int damage);
+        void PoisonEffect(IEntity target, ICharacter source, int level, int damage);
+        void ShockEffect(IEntity target, ICharacter source, int level, int damage);
     }
 
     public enum CastResults

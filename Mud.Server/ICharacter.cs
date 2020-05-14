@@ -101,7 +101,6 @@ namespace Mud.Server
         // Act
         void Act(ActOptions option, string format, params object[] arguments);
         void ActToNotVictim(ICharacter victim, string format, params object[] arguments); // to everyone except this and victim
-        void Act(IEnumerable<ICharacter> characters, string format, params object[] arguments); // to every character in provided list
 
         // Equipments
         bool Unequip(IItem item);
@@ -147,7 +146,9 @@ namespace Mud.Server
         bool StartFighting(ICharacter victim);
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
         void MultiHit(ICharacter victim); // 'this' starts a combat with 'victim'
-        bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source'
+        bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source' using an ability
+        bool HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source' using a weapon
+        bool Damage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display); // 'this' is dealt damage by 'source' using 'damageNoun'
         ResistanceLevels CheckResistance(SchoolTypes damageType);
         void Slay(IPlayableCharacter killer);
         void KillingPayoff(ICharacter victim);
@@ -157,7 +158,7 @@ namespace Mud.Server
         bool IsSafe(ICharacter aggressor);
 
         // Abilities
-        int GetWeaponLearned(IItemWeapon weapon);
+        (int learned, KnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon);
         (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability);
         (int learned, KnownAbility knownAbility) GetLearnInfo(string abilityName);
         IDictionary<IAbility, DateTime> AbilitiesInCooldown { get; }

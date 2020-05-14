@@ -98,8 +98,9 @@ namespace Mud.Server.Character
                         StopFighting(true);
                         //
                         Send("You flee from combat!");
-                        Act(ActOptions.ToRoom, "{0} has fled!", this);
+                        Act(from.People, "{0} has fled!", this);
                         return CommandExecutionResults.Ok;
+                        // TODO: xp loss
                     }
                 }
             }

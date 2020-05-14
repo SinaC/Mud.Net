@@ -13,5 +13,7 @@ namespace Mud.Server.Common
         {
             return Math.Max(0, Math.Min(value, array.Length)-1);
         }
+
+        public static int Lerp(int from, int to, int current, int delta) => from + current * (to - from) / delta;
     }
 }

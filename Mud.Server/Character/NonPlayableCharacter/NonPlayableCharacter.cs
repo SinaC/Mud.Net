@@ -27,8 +27,13 @@ namespace Mud.Server.Character.NonPlayableCharacter
             Blueprint = blueprint;
 
             Position = Positions.Standing;
-            // TODO: race, class, flags, armor, damage, IRV ...
+            // TODO: race, class, ...
             Level = blueprint.Level;
+            DamageNoun = blueprint.DamageNoun;
+            DamageType = blueprint.DamageType;
+            DamageDiceCount = blueprint.DamageDiceCount;
+            DamageDiceValue = blueprint.DamageDiceValue;
+            DamageDiceBonus = blueprint.DamageDiceBonus;
             ActFlags = blueprint.ActFlags;
             OffensiveFlags = blueprint.OffensiveFlags;
             BaseCharacterFlags = blueprint.CharacterFlags;
@@ -39,6 +44,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             Alignment = blueprint.Alignment.Range(-1000, 1000);
 
             // TODO: see db.C:Create_Mobile
+            // TODO: following values must be extracted from blueprint
             int baseValue = Math.Min(25, 11 + Level / 4);
             SetBaseAttributes(CharacterAttributes.Strength, baseValue, false);
             SetBaseAttributes(CharacterAttributes.Intelligence, baseValue, false);
@@ -46,24 +52,26 @@ namespace Mud.Server.Character.NonPlayableCharacter
             SetBaseAttributes(CharacterAttributes.Dexterity, baseValue, false);
             SetBaseAttributes(CharacterAttributes.Constitution, baseValue, false);
             // TODO: use Act/Off/size to change values
-            // TODO: following values must be extracted from in blueprint
-            SetBaseAttributes(CharacterAttributes.MaxHitPoints, 1000, false);
+            int maxHitPoints = RandomManager.Dice(blueprint.HitPointDiceCount, blueprint.HitPointDiceValue) + blueprint.HitPointDiceBonus;
+            SetBaseAttributes(CharacterAttributes.MaxHitPoints, maxHitPoints, false); // OK
             SetBaseAttributes(CharacterAttributes.SavingThrow, 0, false);
+            SetBaseAttributes(CharacterAttributes.HitRoll, blueprint.HitRollBonus, false); // OK
             SetBaseAttributes(CharacterAttributes.DamRoll, Level, false);
-            SetBaseAttributes(CharacterAttributes.HitRoll, Level, false);
             SetBaseAttributes(CharacterAttributes.MaxMovePoints, 1000, false);
-            SetBaseAttributes(CharacterAttributes.ArmorBash, -Level, false);
-            SetBaseAttributes(CharacterAttributes.ArmorPierce, -Level, false);
-            SetBaseAttributes(CharacterAttributes.ArmorSlash, -Level, false);
-            SetBaseAttributes(CharacterAttributes.ArmorExotic, -Level, false);
+            SetBaseAttributes(CharacterAttributes.ArmorBash, blueprint.ArmorBash, false); // OK
+            SetBaseAttributes(CharacterAttributes.ArmorPierce, blueprint.ArmorPierce, false); // OK
+            SetBaseAttributes(CharacterAttributes.ArmorSlash, blueprint.ArmorSlash, false); // OK
+            SetBaseAttributes(CharacterAttributes.ArmorExotic, blueprint.ArmorExotic, false); // OK
+
             // resources (should be extracted from blueprint)
+            int maxMana = RandomManager.Dice(blueprint.ManaDiceCount, blueprint.ManaDiceValue) + blueprint.ManaDiceBonus;
             foreach (var resource in EnumHelpers.GetValues<ResourceKinds>())
             {
-                SetMaxResource(resource, 1000, false);
-                this[resource] = 1000;
+                SetMaxResource(resource, maxMana, false);
+                this[resource] = maxMana;
             }
-            HitPoints = 1000; // can't use this[MaxHitPoints] because current has been been computed, it will be computed in ResetCurrentAttributes
-            MovePoints = 1000;
+            HitPoints = BaseAttribute(CharacterAttributes.MaxHitPoints); // can't use this[MaxHitPoints] because current has been been computed, it will be computed in ResetCurrentAttributes
+            MovePoints = BaseAttribute(CharacterAttributes.MaxMovePoints);
 
             Room = room;
             room.Enter(this);
@@ -185,23 +193,25 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 return;
             // fun stuff
             // TODO: if wait > 0 return
-            int number = RandomManager.Range(0, 8);
+            int number = 0;//int number = RandomManager.Range(0, 8);
             switch (number)
             {
                 case 0: if (OffensiveFlags.HasFlag(OffensiveFlags.Bash))
-                        DoBash(null, null);
+                        DoBash(string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
                     break;
                 case 1: if (OffensiveFlags.HasFlag(OffensiveFlags.Berserk) && !CharacterFlags.HasFlag(CharacterFlags.Berserk))
-                        DoBerserk(null, null);
+                        DoBerserk(string.Empty, null);
                     break;
-                case 2: if (OffensiveFlags.HasFlag(OffensiveFlags.Disarm)) // TODO: also if wielding a weapon and ActFlags.Warrior or ActFlags.Thief
-                        DoDisarm(null, null);
+                case 2: if (OffensiveFlags.HasFlag(OffensiveFlags.Disarm)
+                        || ActFlags.HasFlag(ActFlags.Warrior) // TODO: check if weapon skill is not hand to hand
+                        || ActFlags.HasFlag(ActFlags.Thief))
+                        DoDisarm(string.Empty, null);
                     break;
                 case 3: if (OffensiveFlags.HasFlag(OffensiveFlags.Kick))
-                        DoKick(null, null);
+                        DoKick(string.Empty, null);
                     break;
                 case 4: if (OffensiveFlags.HasFlag(OffensiveFlags.DirtKick))
-                        DoDirt(null, null);
+                        DoDirt(string.Empty, null);
                     break;
                 case 5: if (OffensiveFlags.HasFlag(OffensiveFlags.Tail))
                         ; // TODO: see raceabilities.C:639
@@ -214,7 +224,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
                     break;
                 case 8:
                     if (OffensiveFlags.HasFlag(OffensiveFlags.Backstab))
-                        DoBackstab(null, null); // TODO: this will never works because we cannot backstab while in combat
+                        DoBackstab(string.Empty, null); // TODO: this will never works because we cannot backstab while in combat
                     break;
             }
         }
@@ -233,6 +243,12 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         public CharacterBlueprintBase Blueprint { get; }
 
+        public string DamageNoun { get; protected set; }
+        public SchoolTypes DamageType { get; protected set; }
+        public int DamageDiceCount { get; protected set; }
+        public int DamageDiceValue { get; protected set; }
+        public int DamageDiceBonus { get; protected set; }
+
         public ActFlags ActFlags { get; protected set; }
 
         public OffensiveFlags OffensiveFlags { get; protected set; }
@@ -245,7 +261,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
         }
 
         // Abilities
-        public override int GetWeaponLearned(IItemWeapon weapon)
+        public override (int learned, KnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon)
         {
             int learned;
             if (weapon == null)
@@ -263,7 +279,9 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 }
             }
 
-            return learned.Range(0, 100);
+            learned = learned.Range(0, 100);
+
+            return (learned, null);
         }
 
         public override (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability) // TODO: replace with npc class
@@ -293,10 +311,13 @@ namespace Mud.Server.Character.NonPlayableCharacter
                     learned = 10 + 2 * Level;
                     break;
                 case "Second attack":
-                    learned = 10 + 3 * Level; // TODO: if warrior
+                    if (ActFlags.HasFlag(ActFlags.Warrior)
+                        || ActFlags.HasFlag(ActFlags.Thief))
+                        learned = 10 + 3 * Level;
                     break;
                 case "Third attack":
-                    learned = 4 * Level - 40; // TODO: if warrior
+                    if (ActFlags.HasFlag(ActFlags.Warrior))
+                        learned = 4 * Level - 40;
                     break;
                 case "Hand to hand":
                     learned = 40 + 2 * Level;
@@ -310,7 +331,9 @@ namespace Mud.Server.Character.NonPlayableCharacter
                         learned = 10 + 3 * Level;
                     break;
                 case "Disarm":
-                    if (OffensiveFlags.HasFlag(OffensiveFlags.Disarm)) // TODO: or warrior or thief
+                    if (OffensiveFlags.HasFlag(OffensiveFlags.Disarm)
+                        || ActFlags.HasFlag(ActFlags.Warrior) 
+                        || ActFlags.HasFlag(ActFlags.Thief))
                         learned = 20 + 3 * Level;
                     break;
                 case "Berserk":
@@ -321,8 +344,9 @@ namespace Mud.Server.Character.NonPlayableCharacter
                     if (OffensiveFlags.HasFlag(OffensiveFlags.Kick))
                         learned = 10 + 3 * Level;
                     break;
-                case "Backstab": // TODO: if thief
-                    learned = 20 + 2 * Level;
+                case "Backstab":
+                    if (ActFlags.HasFlag(ActFlags.Thief))
+                        learned = 20 + 2 * Level;
                     break;
                 case "Rescue":
                     learned = 40 + Level;
@@ -416,6 +440,28 @@ namespace Mud.Server.Character.NonPlayableCharacter
                     DoFlee(null, null);
             }
         }
+
+        protected override (int thac0_00, int thac0_32) GetThac0()
+        {
+            if (Class != null)
+                return Class.Thac0;
+
+            int thac0_00 = 20;
+            int thac0_32 = -4; // as good as thief
+
+            if (ActFlags.HasFlag(ActFlags.Warrior))
+                thac0_32 = -10;
+            else if (ActFlags.HasFlag(ActFlags.Thief))
+                thac0_32 = -4;
+            else if (ActFlags.HasFlag(ActFlags.Cleric))
+                thac0_32 = 2;
+            else if (ActFlags.HasFlag(ActFlags.Mage))
+                thac0_32 = 6;
+
+            return (thac0_00, thac0_32);
+        }
+
+        protected override int GetNoWeaponBaseDamage() => RandomManager.Dice(DamageDiceCount, DamageDiceValue) + DamageDiceBonus;
 
         #endregion
     }

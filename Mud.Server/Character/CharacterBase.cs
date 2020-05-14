@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using Mud.Container;
@@ -307,15 +305,6 @@ namespace Mud.Server.Character
             }
         }
 
-        public void Act(IEnumerable<ICharacter> characters, string format, params object[] arguments)
-        {
-            foreach (ICharacter target in characters)
-            {
-                string phrase = FormatActOneLine(target, format, arguments);
-                target.Send(phrase);
-            }
-        }
-
         // Equipments
         public bool Unequip(IItem item)
         {
@@ -488,8 +477,27 @@ namespace Mud.Server.Character
 
         public void UpdateAlignment(int amount) 
         {
-            Alignment = (Alignment + amount).Range(-MinAlignment, MaxAlignment);
-            // TODO: impact on items ?
+            Alignment = (Alignment + amount).Range(MinAlignment, MaxAlignment);
+            // impact on equipment
+            bool recompute = false;
+            foreach (var item in Equipments.Where(x => x.Item != null).Select(x => x.Item))
+            {
+                if ((item.ItemFlags.HasFlag(ItemFlags.AntiEvil) && IsEvil)
+                    || (item.ItemFlags.HasFlag(ItemFlags.AntiGood) && IsGood)
+                    || (item.ItemFlags.HasFlag(ItemFlags.AntiNeutral) && IsNeutral))
+                {
+                    Act(ActOptions.ToAll, "{0:N} {0:b} zapped by {1}.", this, item);
+                    item.ChangeEquippedBy(null, false);
+                    item.ChangeContainer(Room);
+                    recompute = true;
+                }
+            }
+
+            if (recompute)
+            {
+                Recompute();
+                Room.Recompute();
+            }
         }
 
         public void Regen()
@@ -855,10 +863,11 @@ namespace Mud.Server.Character
 
         public bool StopFighting(bool both) // equivalent to stop_fighting in fight.C:3441
         {
-            Log.Default.WriteLine(LogLevels.Debug, "{0} stops fighting {1}", Name, Fighting == null ? "<<no victim>>" : Fighting.Name);
+            Log.Default.WriteLine(LogLevels.Debug, "{0} stops fighting {1}", Name, Fighting?.Name ?? "<<no victim>>");
 
             Fighting = null;
             ChangePosition(Positions.Standing);
+            UpdatePosition();
             if (both)
             {
                 foreach (ICharacter victim in World.Characters.Where(x => x.Fighting == this))
@@ -869,10 +878,200 @@ namespace Mud.Server.Character
 
         public abstract void MultiHit(ICharacter victim); // 'this' starts a combat with 'victim'
 
-        public bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source'
+        public bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using an ability
         {
-            // TODO ability should only be used to build damage message
-            return Damage(source, damage, damageType, dmg => Send("DEBUG DAMAGE: TAKING {0} ABILITY DAMAGE (was {1}) FROM {2}", dmg, damage, source.DebugName), display);
+            string damageNoun = ability?.DamageNoun.ToLowerInvariant() ?? "hit";
+            return Damage(source, damage, damageType, damageNoun, display);
+        }
+
+        public bool HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using a weapon
+        {
+            string damageNoun;
+            if (wield == null)
+                damageNoun = (this as INonPlayableCharacter)?.DamageNoun; // TODO: don't like this cast (replace with abstract method GetNoWeaponDamageNoun)
+            else
+                damageNoun = wield.DamageNoun;
+            if (string.IsNullOrWhiteSpace(damageNoun))
+                damageNoun = "hit";
+
+            return Damage(source, damage, damageType, damageNoun, display);
+        }
+
+        public bool Damage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display) // 'this' is dealt damage by 'source'
+        {
+            ICharacter victim = this;
+            if (victim.Position == Positions.Dead)
+                return false;
+            // damage reduction
+            if (damage > 35)
+                damage = (damage - 35) / 2 + 35;
+            if (damage > 80)
+                damage = (damage - 80) / 2 + 80;
+
+            if (victim != source)
+            {
+                // Certain attacks are forbidden.
+                // Most other attacks are returned.
+                if (victim.IsSafe(source))
+                    return false;
+                // TODO: check_killer
+                if (victim.Position > Positions.Stunned)
+                {
+                    if (victim.Fighting == null)
+                        victim.StartFighting(source);
+                    // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
+                }
+                if (source.Position >= Positions.Stunned) // TODO: in original Rom code, test was done on victim (again)
+                {
+                    if (source.Fighting == null)
+                        source.StartFighting(victim);
+                }
+                // more charm stuff
+                if (victim is INonPlayableCharacter npcVictim && npcVictim.ControlledBy == source)
+                    npcVictim.ChangeController(null);
+            }
+            // inviso attack
+            // TODO: remove invis, mass invis, flags, ... + "$n fades into existence."
+            // damage modifiers
+            if (damage > 1 && victim is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
+                damage -= damage / 10;
+            if (damage > 1 && victim.CharacterFlags.HasFlag(CharacterFlags.Sanctuary))
+                damage /= 2;
+            if (damage > 1
+                && ((victim.CharacterFlags.HasFlag(CharacterFlags.ProtectEvil) && source.IsEvil)
+                    || (victim.CharacterFlags.HasFlag(CharacterFlags.ProtectGood) && source.IsGood)))
+                damage -= damage / 4;
+            // old code was testing parry/dodge/shield block -> is done on OneHit
+            ResistanceLevels resistanceLevel = victim.CheckResistance(damageType);
+            switch (resistanceLevel)
+            {
+                case ResistanceLevels.Immune:
+                    damage = 0;
+                    break;
+                case ResistanceLevels.Resistant:
+                    damage -= damage / 3;
+                    break;
+                case ResistanceLevels.Vulnerable:
+                    damage += damage / 2;
+                    break;
+            }
+
+            if (display)
+            {
+                // TODO: see dam_message
+                string phraseOther; // {0}: source {1}: victim {2}: damage display {3}: damage noun {4}: damage value
+                string phraseSource; // {0}: victim {1}: damage display {2}: damage noun {3}: damage value
+                string phraseVictim = string.Empty; // {0}: source {1}: damage display {2}: damage noun {3}: damage value
+                // build phrases
+                if (string.IsNullOrWhiteSpace(damageNoun))
+                {
+                    if (victim == source)
+                    {
+                        phraseOther = "{0:N} {2} {0:f}.[{4}]";
+                        phraseSource = "You {1} yourself.[{3}]";
+                    }
+                    else
+                    {
+                        phraseOther = "{0:N} {2} {1}.[{4}]";
+                        phraseSource = "You {1} {0}.[{3}]";
+                        phraseVictim = "{0:N} {1} you.[{3}]";
+                    }
+                }
+                else
+                {
+                    if (resistanceLevel == ResistanceLevels.Immune)
+                    {
+                        if (victim == source)
+                        {
+                            phraseOther = "{0:N} is unaffected by {0:s} own {2}.";
+                            phraseSource = "Luckily, you are immune to that.";
+                        }
+                        else
+                        {
+                            phraseOther = "{1:N} is unaffected by {0:p} {2}!";
+                            phraseSource = "{0} is unaffected by your {1}!";
+                            phraseVictim = "{0:p} {1} is powerless against you.";
+                        }
+                    }
+                    else
+                    {
+                        if (victim == source)
+                        {
+                            phraseOther = "{0:P} {3} {2} {0:m}.[{4}]";
+                            phraseSource = "Your {2} {1} you.[{3}]";
+                        }
+                        else
+                        {
+                            phraseOther = "{0:P} {3} {2} {1}.[{4}]";
+                            phraseSource = "Your {2} {1} {0}.[{3}]";
+                            phraseVictim = "{0:P} {2} {1} you.[{3}]";
+                        }
+                    }
+                }
+
+                // display phrases
+                string damagePhraseSelf = StringHelpers.DamagePhraseSelf(damage);
+                string damagePhraseOther = StringHelpers.DamagePhraseOther(damage);
+                if (victim == source)
+                {
+                    source.Act(ActOptions.ToRoom, phraseOther, source, victim, damagePhraseOther, damageNoun, damage);
+                    source.Act(ActOptions.ToCharacter, phraseSource, victim, damagePhraseSelf, damageNoun, damage);
+                }
+                else
+                {
+                    source.ActToNotVictim(victim, phraseOther, source, victim, damagePhraseOther, damageNoun, damage);
+                    source.Act(ActOptions.ToCharacter, phraseSource, victim, damagePhraseSelf, damageNoun, damage);
+                    victim.Act(ActOptions.ToCharacter, phraseVictim, source, damagePhraseOther, damageNoun, damage);
+                }
+            }
+
+            // no damage done, stops here
+            if (damage <= 0)
+                return false;
+
+            // hurt the victim
+            victim.UpdateHitPoints(-damage);
+            // immortals don't really die TODO
+            //if (victim is IPlayableCharacter
+            //    && victim.HitPoints < 1)
+            //    victim.UpdateHitPoints(1 - victim.HitPoints); // set to 1
+            victim.UpdatePosition();
+            switch (victim.Position)
+            {
+                case Positions.Mortal: victim.Act(ActOptions.ToAll, "{0:N} {0:b} mortally wounded, and will die soon, if not aided.", victim); break;
+                case Positions.Incap: victim.Act(ActOptions.ToAll, "{0:N} {0:b} incapacitated and will slowly die, if not aided.", victim); break;
+                case Positions.Stunned: victim.Act(ActOptions.ToAll, "{0:N} {0:b} stunned, but will probably recover.", victim); break;
+                case Positions.Dead:
+                    victim.Send("You have been KILLED!!");
+                    victim.Act(ActOptions.ToRoom, "{0:N} is dead.", victim);
+                    break;
+                default:
+                    if (damage > victim.MaxHitPoints / 4)
+                        victim.Send("That really did HURT!");
+                    else if (victim.HitPoints < victim.MaxHitPoints / 4)
+                        victim.Send("You sure are BLEEDING!");
+                    break;
+            }
+
+            // sleep spells or extremely wounded folks
+            if (victim.Position <= Positions.Sleeping)
+                StopFighting(true); // StopFighting will set position to standing then UpdatePosition will set it again to Dead!!!
+
+            if (victim.Position == Positions.Dead)
+            {
+                IItemCorpse corpse = RawKilled(source, true); // group group_gain + dying penalty + raw_kill
+
+                // TODO: autoloot, autosac  damage.C:96
+                return true;
+            }
+
+            if (victim == source)
+                return true;
+
+            // TODO: take care of link-dead people
+            HandleWimpy(damage);
+
+            return false;
         }
 
         public ResistanceLevels CheckResistance(SchoolTypes damageType)
@@ -985,6 +1184,7 @@ namespace Mud.Server.Character
         }
 
         public abstract void KillingPayoff(ICharacter victim);
+
         public abstract void DeathPayoff(ICharacter killer);
 
         public bool SavesSpell(int level, SchoolTypes damageType)
@@ -1184,7 +1384,7 @@ namespace Mud.Server.Character
         }
 
         // Abilities
-        public abstract int GetWeaponLearned(IItemWeapon weapon);
+        public abstract (int learned, KnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon);
 
         public abstract (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability);
 
@@ -1529,12 +1729,12 @@ namespace Mud.Server.Character
             }
         }
 
-        protected virtual bool RawKilled(IEntity killer, bool payoff)
+        protected virtual IItemCorpse RawKilled(IEntity killer, bool payoff)
         {
             if (!IsValid)
             {
                 Log.Default.WriteLine(LogLevels.Error, "RawKilled: {0} is not valid anymore", DebugName);
-                return false;
+                return null;
             }
 
             ICharacter characterKiller = killer as ICharacter;
@@ -1561,9 +1761,9 @@ namespace Mud.Server.Character
 
             // Create corpse
             ItemCorpseBlueprint itemCorpseBlueprint = World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
+            IItemCorpse corpse = null;
             if (itemCorpseBlueprint != null)
             {
-                IItemCorpse corpse;
                 if (characterKiller != null)
                     corpse = World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this, characterKiller);
                 else
@@ -1578,137 +1778,207 @@ namespace Mud.Server.Character
 
             HandleDeath();
 
-            return true;
+            return corpse;
         }
 
         protected abstract void HandleDeath();
 
         protected abstract void HandleWimpy(int damage);
 
+        protected abstract (int thac0_00, int thac0_32) GetThac0();
+
+        protected abstract int GetNoWeaponBaseDamage();
+
+        protected int GetWeaponBaseDamage(IItemWeapon weapon, int weaponLearned)
+        {
+            int damage = RandomManager.Dice(weapon.DiceCount, weapon.DiceValue) * weaponLearned / 100;
+            if (GetEquipment<IItemShield>(EquipmentSlots.OffHand) == null) // no shield -> more damage
+                damage = 11 * damage / 10;
+            if (weapon.WeaponFlags.HasFlag(WeaponFlags.Sharp)) // sharpness
+            {
+                int percent = RandomManager.Range(1, 100);
+                if (percent <= weaponLearned / 8)
+                    damage = 2 * damage + (2 * damage * percent / 100);
+            }
+
+            return damage;
+        }
+
         protected void OneHit(ICharacter victim, IItemWeapon wield) // 'this' hits 'victim'
         {
-            // TODO
-            // parry/dodge/shield block was in Damage function before
-        }
-
-        protected bool HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source'
-        {
-            // TODO wield should only be used to build damage message
-            return Damage(source, damage, damageType, dmg => Send("DEBUG DAMAGE: TAKING {0} HIT DAMAGE (was {1}) FROM {2}", dmg, damage, source.DebugName), display);
-        }
-
-        protected bool Damage(ICharacter source, int damage, SchoolTypes damageType, Action<int> damageMessageAction, bool display) // 'this' is dealt damage by 'source'
-        {
-            ICharacter victim = this;
-            if (victim.Position == Positions.Dead)
-                return false;
-            // damage reduction
-            if (damage > 35)
-                damage = (damage - 35) / 2 + 35;
-            if (damage > 80)
-                damage = (damage - 80) / 2 + 80;
-
-            if (victim != source)
+            if (victim == this || victim == null)
+                return;
+            // can't beat a dead char!
+            // guard against weird room-leavings.
+            if (victim.Position == Positions.Dead || victim.Room != Room)
+                return;
+            SchoolTypes damageType = wield?.DamageType ?? SchoolTypes.None;
+            // get weapon skill
+            var weaponLearnInfo = GetWeaponLearnInfo(wield);
+            int learned = weaponLearnInfo.learned;
+            // Calculate to-hit-armor-class-0 versus armor.
+            (int thac0_00, int thac0_32) thac0Values = GetThac0();
+            int thac0 = IntExtensions.Lerp(thac0Values.thac0_00, thac0Values.thac0_32, Level, 32);
+            if (thac0 < 0)
+                thac0 /= 2;
+            if (thac0 < -5)
+                thac0 = -5 + (thac0 + 5) / 2;
+            thac0 -= HitRoll * learned / 100;
+            thac0 += 5 * (100 - learned) / 100;
+            // TODO: if backstab thac0 -= 10 * (100 - Learned(Backstab))
+            int victimAc;
+            switch (damageType)
             {
-                // Certain attacks are forbidden.
-                // Most other attacks are returned.
-                if (victim.IsSafe(source))
-                    return false;
-                // TODO: check_killer
-                if (victim.Position > Positions.Stunned)
-                {
-                    if (victim.Fighting == null)
-                        victim.StartFighting(source);
-                    // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
-                }
-                if (source.Position >= Positions.Stunned) // TODO: in original Rom code, test was done on victim (again)
-                {
-                    if (source.Fighting == null)
-                        source.StartFighting(victim);
-                }
-                // more charm stuff
-                if (victim is INonPlayableCharacter npcVictim && npcVictim.ControlledBy == source)
-                    npcVictim.ChangeController(null);
-            }
-            // inviso attack
-            // TODO: remove invis, mass invis, flags, ... + "$n fades into existence."
-            // damage modifiers
-            if (damage > 1 && victim is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
-                damage -= damage / 10;
-            if (damage > 1 && victim.CharacterFlags.HasFlag(CharacterFlags.Sanctuary))
-                damage /= 2;
-            if (damage > 1
-                && ((victim.CharacterFlags.HasFlag(CharacterFlags.ProtectEvil) && source.IsEvil)
-                    || (victim.CharacterFlags.HasFlag(CharacterFlags.ProtectGood) && source.IsGood)))
-                damage -= damage / 4;
-            // old code was testing parry/dodge/shield block -> is done on OneHit
-            ResistanceLevels resistanceLevel = victim.CheckResistance(damageType);
-            switch (resistanceLevel)
-            {
-                case ResistanceLevels.Immune:
-                    damage = 0;
+                case SchoolTypes.Bash:
+                    victimAc = victim[Armors.Bash];
                     break;
-                case ResistanceLevels.Resistant:
-                    damage -= damage / 3;
+                case SchoolTypes.Pierce:
+                    victimAc = victim[Armors.Pierce];
                     break;
-                case ResistanceLevels.Vulnerable:
-                    damage += damage / 2;
-                    break;
-            }
-
-            if (display)
-            {
-                // TODO: see dam_message depending on ability or 
-                damageMessageAction(damage);
-            }
-
-            // no damage done, stops here
-            if (damage <= 0)
-                return false;
-
-            // hurt the victim
-            victim.UpdateHitPoints(-damage);
-            // immortals don't really die TODO
-            //if (victim is IPlayableCharacter
-            //    && victim.HitPoints < 1)
-            //    victim.UpdateHitPoints(1 - victim.HitPoints); // set to 1
-            victim.UpdatePosition();
-            switch (victim.Position)
-            {
-                case Positions.Mortal: victim.Act(ActOptions.ToAll, "{0:N} {0:b} mortally wounded, and will die soon, if not aided.", victim); break;
-                case Positions.Incap: victim.Act(ActOptions.ToAll, "{0:N} {0:b} incapacitated and will slowly die, if not aided.", victim); break;
-                case Positions.Stunned: victim.Act(ActOptions.ToAll, "{0:N} {0:b} stunned, but will probably recover.", victim); break;
-                case Positions.Dead:
-                    victim.Send("You have been KILLED!!");
-                    victim.Act(ActOptions.ToRoom, "{0:N} is dead.", victim);
+                case SchoolTypes.Slash:
+                    victimAc = victim[Armors.Slash];
                     break;
                 default:
-                    if (damage > victim.MaxHitPoints / 4)
-                        victim.Send("That really did HURT!");
-                    else if (victim.HitPoints < victim.MaxHitPoints / 4)
-                        victim.Send("You sure are BLEEDING!");
+                    victimAc = victim[Armors.Exotic];
                     break;
             }
 
-            // sleep spells or extremely wounded folks
-            if (victim.Position <= Positions.Sleeping)
-                StopFighting(true);
-
-            if (victim.Position == Positions.Dead)
+            if (victimAc < -15)
+                victimAc = -15 + (victimAc + 15) / 2;
+            if (!CanSee(victim))
+                victimAc -= 4;
+            if (victim.Position < Positions.Fighting)
+                victimAc += 4;
+            if (victim.Position < Positions.Resting)
+                victimAc += 6;
+            // miss ?
+            int diceroll = RandomManager.Range(0, 19); // 0->miss 19->success
+            if (diceroll == 0
+                || (diceroll != 19 && diceroll < thac0 - victimAc))
             {
-                RawKilled(source, true); // group group_gain + dying penalty + raw_kill
-
-                // TODO: autoloot, autosac  damage.C:96
-                return true;
+                victim.HitDamage(this, wield, 0, damageType, true);
+                return;
+            }
+            // TODO check parry/dodge/shield block (was in Damage function before)
+            // TODO vorpal -> decapitate insta-kill (see fight.C:1642)
+            // calculate weapon (or not) damage
+            int damage = wield == null
+                ? GetNoWeaponBaseDamage()
+                : GetWeaponBaseDamage(wield, learned);
+            (this as IPlayableCharacter)?.CheckAbilityImprove(weaponLearnInfo.knownAbility, true, 5); // TODO: don't like this cast
+            // bonus
+            var enhancedDamageLearnInfo = GetLearnInfo("Enhanced damage");
+            if (enhancedDamageLearnInfo.learned > 0)
+            {
+                int enhancedDamageDiceRoll = RandomManager.Range(1, 100);
+                if (enhancedDamageDiceRoll <= enhancedDamageLearnInfo.learned)
+                {
+                    (this as IPlayableCharacter)?.CheckAbilityImprove(enhancedDamageLearnInfo.knownAbility, true, 6); // TODO: don't like this cast
+                    damage += 2 * (damage * enhancedDamageDiceRoll) / 300;
+                }
             }
 
-            if (victim == source)
-                return true;
+            if (victim.Position <= Positions.Sleeping)
+                damage *= 2;
+            if (victim.Position <= Positions.Resting)
+                damage = (damage * 3) / 2;
+            // TODO: if backstab
+            // TODO     if wield is pierce -> damage *= 2 + level/8
+            // TODO     else -> damage *= 2 + level/10
+            damage += DamRoll * learned / 100;
+            if (damage <= 0)
+                damage = 1; // at least one damage :)
 
-            // TODO: take care of link-dead people
-            HandleWimpy(damage);
+            // perform damage
+            bool damageResult = victim.HitDamage(this, wield, damage, damageType, true);
+            if (Fighting != victim)
+                return;
 
-            return false;
+            // funky weapon ?
+            if (damageResult && wield != null)
+            {
+                if (wield.WeaponFlags.HasFlag(WeaponFlags.Poison))
+                {
+                    IAbility poison = AbilityManager["Poison"];
+                    IAura poisonAura = victim.GetAura(poison);
+                    int level = poisonAura?.Level ?? wield.Level;
+                    if (!victim.SavesSpell(level/2, SchoolTypes.Poison))
+                    {
+                        victim.Send("You feel poison coursing through your veins.");
+                        victim.Act(ActOptions.ToRoom, "{0:N} is poisoned by the venom on {1}.", victim, wield);
+                        if (poisonAura != null)
+                        {
+                            // weaken when already present
+                            poisonAura.DecreaseLevel();
+                            bool wornOff = poisonAura.DecreasePulseLeft(Pulse.FromMinutes(1));
+                            if (poisonAura.Level < 0 || wornOff)
+                            {
+                                victim.RemoveAura(poisonAura, true); // in original code, the affect was not removed
+                                victim.Act(ActOptions.ToCharacter, "The poison on {0} has worn off.", wield); // TODO: this could lead to strange behavior poisoned by food then worn off by weapon
+                            }
+                        }
+                        else
+                        {
+                            int duration = level / 2;
+                            World.AddAura(victim, poison, this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
+                                new CharacterFlagsAffect {Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or},
+                                new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add});
+                        }
+                    }
+                }
+
+                if (Fighting != victim)
+                    return;
+
+                if (wield.WeaponFlags.HasFlag(WeaponFlags.Vampiric))
+                {
+                    int specialDamage = RandomManager.Range(1, 1 + wield.Level / 5);
+                    victim.Act(ActOptions.ToRoom, "{0} draws life from {1}.", wield, victim);
+                    victim.Act(ActOptions.ToCharacter, "You feel $p drawing your life away.", wield);
+                    victim.Damage(this, specialDamage, SchoolTypes.Negative, null, false);
+                    UpdateHitPoints(specialDamage/2);
+                    UpdateAlignment(-1);
+                }
+
+                if (Fighting != victim)
+                    return;
+
+                if (wield.WeaponFlags.HasFlag(WeaponFlags.Flaming))
+                {
+                    int specialDamage = RandomManager.Range(1, 1 + wield.Level / 4);
+                    victim.Act(ActOptions.ToRoom, "{0} is burned by {1}.", victim, wield);
+                    victim.Act(ActOptions.ToCharacter, "{0} sears your flesh.", wield);
+                    victim.Damage(this, specialDamage, SchoolTypes.Fire, null, false);
+                    AbilityManager.FireEffect(victim, this, wield.Level/2, specialDamage);
+                }
+
+                if (Fighting != victim)
+                    return;
+
+                if (wield.WeaponFlags.HasFlag(WeaponFlags.Frost))
+                {
+                    int specialDamage = RandomManager.Range(1, 2 + wield.Level / 6);
+                    victim.Act(ActOptions.ToRoom, "{0} freezes {1}.", wield, victim);
+                    victim.Act(ActOptions.ToCharacter, "The cold touch of $p surrounds you with ice.", wield);
+                    victim.Damage(this, specialDamage, SchoolTypes.Cold, null, false);
+                    AbilityManager.ColdEffect(victim, this, wield.Level / 2, specialDamage);
+                }
+
+                if (Fighting != victim)
+                    return;
+
+                if (wield.WeaponFlags.HasFlag(WeaponFlags.Shocking))
+                {
+                    int specialDamage = RandomManager.Range(1, 2 + wield.Level / 5);
+                    victim.Act(ActOptions.ToRoom, "{0:N} is struck by lightning from {1}.", victim, wield);
+                    victim.Act(ActOptions.ToCharacter, "You are shocked by $p.", wield);
+                    victim.Damage(this, specialDamage, SchoolTypes.Lightning, null, false);
+                    AbilityManager.ShockEffect(victim, this, wield.Level / 2, specialDamage);
+                }
+
+                if (Fighting != victim)
+                    return;
+            }
         }
 
         protected KnownAbility this[IAbility ability] => _knownAbilities.SingleOrDefault(x => x.Ability == ability);
@@ -1950,298 +2220,6 @@ namespace Mud.Server.Character
                 }
             }
         }
-
-        #region Act
-
-        // Recreate behaviour of String.Format with maximum 10 arguments
-        // If an argument is ICharacter, IItem, IExit special formatting is applied (depending on who'll receive the message)
-        private enum ActParsingStates
-        {
-            Normal,
-            OpeningBracketFound,
-            ArgumentFound,
-            FormatSeparatorFound,
-        }
-
-        private static string FormatActOneLine(ICharacter target, string format, params object[] arguments)
-        {
-            StringBuilder result = new StringBuilder();
-
-            ActParsingStates state = ActParsingStates.Normal;
-            object currentArgument = null;
-            StringBuilder argumentFormat = null;
-            foreach (char c in format)
-            {
-                switch (state)
-                {
-                    case ActParsingStates.Normal: // searching for {
-                        if (c == '{')
-                        {
-                            state = ActParsingStates.OpeningBracketFound;
-                            currentArgument = null;
-                            argumentFormat = new StringBuilder();
-                        }
-                        else
-                            result.Append(c);
-                        break;
-                    case ActParsingStates.OpeningBracketFound: // searching for a number
-                        if (c == '{') // {{ -> {
-                        {
-                            result.Append('{');
-                            state = ActParsingStates.Normal;
-                        }
-                        else if (c == '}') // {} -> nothing
-                        {
-                            state = ActParsingStates.Normal;
-                        }
-                        else if (c >= '0' && c <= '9') // {x -> argument found
-                        {
-                            currentArgument = arguments[c - '0'];
-                            state = ActParsingStates.ArgumentFound;
-                        }
-                        break;
-                    case ActParsingStates.ArgumentFound: // searching for } or :
-                        if (c == '}')
-                        {
-                            FormatActOneArgument(target, result, null, currentArgument);
-                            state = ActParsingStates.Normal;
-                        }
-                        else if (c == ':')
-                            state = ActParsingStates.FormatSeparatorFound;
-                        break;
-                    case ActParsingStates.FormatSeparatorFound: // searching for }
-                        if (c == '}')
-                        {
-                            Debug.Assert(argumentFormat != null);
-                            FormatActOneArgument(target, result, argumentFormat.ToString(), currentArgument);
-                            state = ActParsingStates.Normal;
-                        }
-                        else
-                        {
-                            // argumentFormat cannot be null
-                            Debug.Assert(argumentFormat != null);
-                            argumentFormat.Append(c);
-                        }
-                        break;
-                }
-            }
-            if (result.Length > 0)
-                result[0] = char.ToUpperInvariant(result[0]);
-            return result.ToString();
-        }
-
-        // Formatting
-        //  ICharacter
-        //      default: same as n, N
-        //      p, P: same as n but you is replaced with your
-        //      n, N: argument.name if visible by target, someone otherwise
-        //      e, E: you/he/she/it, depending on argument.sex
-        //      m, M: you/him/her/it, depending on argument.sex
-        //      s, S: your/his/her/its, depending on argument.sex
-        //      f, F: yourself/himself/herself/itself
-        //      b, B: are/is
-        //      h, H: have/has
-        //      v, V: add 's' at the end of a verb if argument is different than target (take care of verb ending with y/o/h
-        // IItem
-        //      argument.Name if visible by target, something otherwhise
-        // IExit
-        //      exit name
-        // IAbility
-        //      ability name
-        [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
-        private static void FormatActOneArgument(ICharacter target, StringBuilder result, string format, object argument)
-        {
-            // Character ?
-            if (argument is ICharacter character)
-            {
-                char letter = format?[0] ?? 'n'; // if no format, n
-                switch (letter)
-                {
-                    // your/name
-                    case 'p':
-                        if (target == character)
-                            result.Append("your");
-                        else
-                        {
-                            result.Append(character.RelativeDisplayName(target));
-                            if (result[result.Length - 1] == 's')
-                                result.Append('\'');
-                            else
-                                result.Append("'s");
-                        }
-                        break;
-                    case 'P':
-                        if (target == character)
-                            result.Append("Your");
-                        else
-                        {
-                            result.Append(character.RelativeDisplayName(target));
-                            if (result[result.Length - 1] == 's')
-                                result.Append('\'');
-                            else
-                                result.Append("'s");
-                        }
-                        break;
-                    // you/name
-                    case 'n':
-                        if (target == character)
-                            result.Append("you");
-                        else
-                            result.Append(character.RelativeDisplayName(target));
-                        break;
-                    case 'N':
-                        if (target == character)
-                            result.Append("You");
-                        else
-                            result.Append(character.RelativeDisplayName(target));
-                        break;
-                    // you/he/she/it
-                    case 'e':
-                        if (target == character)
-                            result.Append("you");
-                        else
-                            result.Append(StringHelpers.Subjects[character.Sex]);
-                        break;
-                    case 'E':
-                        if (target == character)
-                            result.Append("You");
-                        else
-                            result.Append(StringHelpers.Subjects[character.Sex].UpperFirstLetter());
-                        break;
-                    // you/him/her/it
-                    case 'm':
-                        if (target == character)
-                            result.Append("you");
-                        else
-                            result.Append(StringHelpers.Objectives[character.Sex]);
-                        break;
-                    case 'M':
-                        if (target == character)
-                            result.Append("You");
-                        else
-                            result.Append(StringHelpers.Objectives[character.Sex].UpperFirstLetter());
-                        break;
-                    // your/his/her/its
-                    case 's':
-                        if (target == character)
-                            result.Append("your");
-                        else
-                            result.Append(StringHelpers.Possessives[character.Sex]);
-                        break;
-                    case 'S':
-                        if (target == character)
-                            result.Append("Your");
-                        else
-                            result.Append(StringHelpers.Possessives[character.Sex].UpperFirstLetter());
-                        break;
-                    // yourself/himself/herself/itself (almost same as 'm' + self)
-                    case 'f':
-                        if (target == character)
-                            result.Append("your");
-                        else
-                            result.Append(StringHelpers.Objectives[character.Sex]);
-                        result.Append("self");
-                        break;
-                    case 'F':
-                        if (target == character)
-                            result.Append("your");
-                        else
-                            result.Append(StringHelpers.Objectives[character.Sex].UpperFirstLetter());
-                        result.Append("self");
-                        break;
-                    // is/are
-                    case 'b':
-                        if (target == character)
-                            result.Append("are");
-                        else
-                            result.Append("is");
-                        break;
-                    case 'B':
-                        if (target == character)
-                            result.Append("Are");
-                        else
-                            result.Append("Is");
-                        break;
-                    // has/have
-                    case 'h':
-                        if (target == character)
-                            result.Append("have");
-                        else
-                            result.Append("has");
-                        break;
-                    case 'H':
-                        if (target == character)
-                            result.Append("Have");
-                        else
-                            result.Append("Has");
-                        break;
-                    // verb
-                    case 'v':
-                    case 'V':
-                        // nothing to do if target is actor
-                        if (target != character)
-                        {
-                            //http://www.grammar.cl/Present/Verbs_Third_Person.htm
-                            if (result.Length > 0)
-                            {
-                                char verbLastLetter = result[result.Length - 1];
-                                char verbBeforeLastLetter = result.Length > 1 ? result[result.Length - 2] : ' ';
-                                if (verbLastLetter == 'y' && verbBeforeLastLetter != ' ' && verbBeforeLastLetter != 'a' && verbBeforeLastLetter != 'e' && verbBeforeLastLetter != 'i' && verbBeforeLastLetter != 'o' && verbBeforeLastLetter != 'u')
-                                {
-                                    result.Remove(result.Length - 1, 1);
-                                    result.Append("ies");
-                                }
-                                else if (verbLastLetter == 'o' || verbLastLetter == 'h' || verbLastLetter == 's' || verbLastLetter == 'x')
-                                    result.Append("es");
-                                else
-                                    result.Append("s");
-                            }
-                            else
-                                Log.Default.WriteLine(LogLevels.Error, "Act: v-format on an empty string");
-                        }
-                        break;
-                    default:
-                        Log.Default.WriteLine(LogLevels.Error, "Act: invalid format {0} for ICharacter", format);
-                        result.Append("<???>");
-                        break;
-                }
-                return;
-            }
-            // Item ?
-            if (argument is IItem item)
-            {
-                // no specific format
-                result.Append(item.RelativeDisplayName(target));
-                return;
-            }
-            // Exit ?
-            if (argument is IExit exit)
-            {
-                // TODO: can see destination room ?
-                // no specific format
-                result.Append(exit.Keywords.FirstOrDefault() ?? "door");
-                return;
-            }
-            // Ability ?
-            if (argument is IAbility ability)
-            {
-                // no specific format
-                result.Append(ability.Name);
-                return;
-            }
-            // Other (int, string, ...)
-            if (format == null)
-                result.Append(argument);
-            else
-            {
-                if (argument is IFormattable formattable)
-                    result.Append(formattable.ToString(format, null));
-                else
-                    result.Append(argument);
-            }
-        }
-
-        #endregion
 
         private class CompareIAbility : IEqualityComparer<IAbility>
         {
