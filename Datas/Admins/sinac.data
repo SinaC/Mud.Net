@@ -16,14 +16,14 @@
     <CharacterData>
       <CreationTime>2020-05-07T14:08:22.9740442+02:00</CreationTime>
       <Name>sinac</Name>
-      <RoomId>3014</RoomId>
+      <RoomId>3029</RoomId>
       <Race>insectoid</Race>
       <Class>druid</Class>
       <Level>44</Level>
       <Sex>0</Sex>
       <Size>0</Size>
       <HitPoints>180</HitPoints>
-      <MovePoints>163</MovePoints>
+      <MovePoints>119</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -45,15 +45,15 @@
         </PairDataOfInt32Int32>
       </MaxResources>
       <Experience>108152</Experience>
-      <Trains>40</Trains>
-      <Practices>309</Practices>
+      <Trains>39</Trains>
+      <Practices>307</Practices>
       <Equipments>
         <EquippedItemData>
           <Slot>1</Slot>
           <Item>
             <ItemId>3365</ItemId>
             <Level>8</Level>
-            <DecayPulseLeft>14376420</DecayPulseLeft>
+            <DecayPulseLeft>14376380</DecayPulseLeft>
             <ItemFlags>65</ItemFlags>
             <Auras />
           </Item>
@@ -215,64 +215,14 @@
         </EquippedItemData>
       </Equipments>
       <Inventory>
-        <ItemData>
-          <ItemId>3090</ItemId>
-          <Level>9</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>66</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>90000</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData xsi:type="ItemDrinkContainerData">
-          <ItemId>3003</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>8192</ItemFlags>
-          <Auras />
-          <MaxLiquidAmount>12</MaxLiquidAmount>
-          <CurrentLiquidAmount>12</CurrentLiquidAmount>
-          <LiquidName>firebreather</LiquidName>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
-        <ItemData xsi:type="ItemDrinkContainerData">
-          <ItemId>3004</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>8192</ItemFlags>
-          <Auras />
-          <MaxLiquidAmount>12</MaxLiquidAmount>
-          <CurrentLiquidAmount>12</CurrentLiquidAmount>
-          <LiquidName>local specialty</LiquidName>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
-        <ItemData>
-          <ItemId>9</ItemId>
-          <Level>39</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>67</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>3040</ItemId>
-          <Level>7</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-        </ItemData>
         <ItemData xsi:type="ItemStaffData">
-          <ItemId>1326</ItemId>
-          <Level>15</Level>
+          <ItemId>1327</ItemId>
+          <Level>6</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
           <Auras />
-          <MaxChargeCount>3</MaxChargeCount>
-          <CurrentChargeCount>3</CurrentChargeCount>
+          <MaxChargeCount>4</MaxChargeCount>
+          <CurrentChargeCount>1</CurrentChargeCount>
           <AlreadyRecharged>false</AlreadyRecharged>
         </ItemData>
         <ItemData xsi:type="ItemWandData">
@@ -286,14 +236,64 @@
           <AlreadyRecharged>false</AlreadyRecharged>
         </ItemData>
         <ItemData xsi:type="ItemStaffData">
-          <ItemId>1327</ItemId>
-          <Level>6</Level>
+          <ItemId>1326</ItemId>
+          <Level>15</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
           <Auras />
-          <MaxChargeCount>4</MaxChargeCount>
-          <CurrentChargeCount>1</CurrentChargeCount>
+          <MaxChargeCount>3</MaxChargeCount>
+          <CurrentChargeCount>3</CurrentChargeCount>
           <AlreadyRecharged>false</AlreadyRecharged>
+        </ItemData>
+        <ItemData>
+          <ItemId>3040</ItemId>
+          <Level>7</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>64</ItemFlags>
+          <Auras />
+        </ItemData>
+        <ItemData>
+          <ItemId>9</ItemId>
+          <Level>39</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>67</ItemFlags>
+          <Auras />
+        </ItemData>
+        <ItemData xsi:type="ItemDrinkContainerData">
+          <ItemId>3004</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>8192</ItemFlags>
+          <Auras />
+          <MaxLiquidAmount>12</MaxLiquidAmount>
+          <CurrentLiquidAmount>12</CurrentLiquidAmount>
+          <LiquidName>local specialty</LiquidName>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData xsi:type="ItemDrinkContainerData">
+          <ItemId>3003</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>8192</ItemFlags>
+          <Auras />
+          <MaxLiquidAmount>12</MaxLiquidAmount>
+          <CurrentLiquidAmount>12</CurrentLiquidAmount>
+          <LiquidName>firebreather</LiquidName>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData>
+          <ItemId>90000</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+          <Auras />
+        </ItemData>
+        <ItemData>
+          <ItemId>3090</ItemId>
+          <Level>9</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>66</ItemFlags>
+          <Auras />
         </ItemData>
       </Inventory>
       <CurrentQuests>
@@ -328,7 +328,7 @@
         <AuraData>
           <AbilityId>54</AbilityId>
           <Level>44</Level>
-          <PulseLeft>10452</PulseLeft>
+          <PulseLeft>10420</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -444,7 +444,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>20</Level>
-          <Learned>0</Learned>
+          <Learned>75</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>

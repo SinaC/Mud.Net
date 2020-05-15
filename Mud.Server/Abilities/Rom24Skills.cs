@@ -171,7 +171,7 @@ namespace Mud.Server.Abilities
 
         }
 
-        [Skill(5002, "Dirt kicking", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, LearnDifficultyMultiplier = 2, CharacterWearOffMessage = "You rub the dirt out of your eyes.")]
+        [Skill(5002, "Dirt kicking", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, LearnDifficultyMultiplier = 2, CharacterWearOffMessage = "You rub the dirt out of your eyes.", DamageNoun = "kicked dirt")]
         public UseResults SkillDirt(IAbility ability, int learned, ICharacter source, ICharacter victim) // almost copy/paste from bash
         {
             INonPlayableCharacter npcSource = source as INonPlayableCharacter;
@@ -364,7 +364,9 @@ namespace Mud.Server.Abilities
             if (RandomManager.Chance(learned)
                 || (learned > 1 && victim.Position <= Positions.Sleeping))
             {
-                source.MultiHit(victim); // TODO: pass ability, some nasty things are done if Backstab is passed as param (thac0 modifier mainly)
+                BackstabMultitHitModifier modifier = new BackstabMultitHitModifier(ability, learned);
+
+                source.MultiHit(victim, modifier);
                 return UseResults.Ok;
             }
             else
@@ -928,6 +930,46 @@ namespace Mud.Server.Abilities
             closeable.Unlock();
             source.Act(ActOptions.ToAll, "{0:N} picks the lock on {1}.", source, closeable);
             return UseResults.Ok;
+        }
+
+        public class BackstabMultitHitModifier : IMultiHitModifier
+        {
+            public BackstabMultitHitModifier(IAbility ability, int learned)
+            {
+                Ability = ability;
+                Learned = learned;
+            }
+
+            #region IMultiHitModifier
+
+            #region IHitModifier
+
+            public int MaxAttackCount => 2;
+
+            #endregion
+
+            public IAbility Ability { get; }
+
+            public int Learned { get; }
+
+            public int DamageModifier(IItemWeapon weapon, int level, int baseDamage)
+            {
+                if (weapon != null)
+                {
+                    if (weapon?.Type != WeaponTypes.Dagger)
+                        return baseDamage * (2 + level / 10);
+                    else
+                        return baseDamage * (2 + level / 8);
+                }
+                return baseDamage;
+            }
+
+            public int Thac0Modifier(int baseThac0)
+            {
+                return baseThac0 - 10 * (100 - Learned);
+            }
+
+            #endregion
         }
     }
 }

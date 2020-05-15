@@ -146,6 +146,7 @@ namespace Mud.Server
         bool StartFighting(ICharacter victim);
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
         void MultiHit(ICharacter victim); // 'this' starts a combat with 'victim'
+        void MultiHit(ICharacter victim, IMultiHitModifier multiHitModifier); // 'this' starts a combat with 'victim' and has been initiated by an ability
         bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source' using an ability
         bool HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source' using a weapon
         bool Damage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display); // 'this' is dealt damage by 'source' using 'damageNoun'
@@ -199,5 +200,18 @@ namespace Mud.Server
                 Item = Item.MapItemData()
             };
         }
+    }
+
+    public interface IMultiHitModifier : IHitModifier
+    {
+        int MaxAttackCount { get; }
+    }
+
+    public interface IHitModifier
+    {
+        IAbility Ability { get; }
+        int Learned { get; }
+        int Thac0Modifier(int baseThac0);
+        int DamageModifier(IItemWeapon weapon, int level, int baseDamage);
     }
 }

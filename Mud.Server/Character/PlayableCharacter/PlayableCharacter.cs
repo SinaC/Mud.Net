@@ -269,7 +269,7 @@ namespace Mud.Server.Character.PlayableCharacter
         #endregion
 
         // Combat
-        public override void MultiHit(ICharacter victim) // 'this' starts a combat with 'victim'
+        public override void MultiHit(ICharacter victim, IMultiHitModifier multiHitModifier) // 'this' starts a combat with 'victim'
         {
             // no attacks for stunnies
             if (Position <= Positions.Stunned)
@@ -278,7 +278,7 @@ namespace Mud.Server.Character.PlayableCharacter
             IItemWeapon mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
             IItemWeapon offHand = GetEquipment<IItemWeapon>(EquipmentSlots.OffHand);
             // 1/ main hand attack
-            OneHit(victim, mainHand);
+            OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;
             // 2/ off hand attack
@@ -286,15 +286,19 @@ namespace Mud.Server.Character.PlayableCharacter
             int dualWieldChance = dualWield.learned;
             if (offHand != null && RandomManager.Chance(dualWieldChance))
             {
-                OneHit(victim, offHand);
+                OneHit(victim, offHand, multiHitModifier);
                 CheckAbilityImprove(dualWield.knownAbility, true, 4);
             }
             if (Fighting != victim)
                 return;
+            if (multiHitModifier?.MaxAttackCount <= 1)
+                return;
             // 3/ main hand haste attack
             if (CharacterFlags.HasFlag(CharacterFlags.Haste))
-                OneHit(victim, mainHand);
-            if (Fighting != victim) // TODO: or stop here for backstab
+                OneHit(victim, mainHand, multiHitModifier);
+            if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= 2)
                 return;
             // 4/ main hand second attack
             var secondAttackLearnInfo = GetLearnInfo("Second attack");
@@ -303,10 +307,12 @@ namespace Mud.Server.Character.PlayableCharacter
                 secondAttackChance /= 2;
             if (RandomManager.Chance(secondAttackChance))
             {
-                OneHit(victim, mainHand);
+                OneHit(victim, mainHand, multiHitModifier);
                 CheckAbilityImprove(secondAttackLearnInfo.knownAbility, true, 5);
             }
             if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= 3)
                 return;
             // 5/ main hand third attack
             var thirdAttackLearnInfo = GetLearnInfo("Third attack");
@@ -315,10 +321,12 @@ namespace Mud.Server.Character.PlayableCharacter
                 thirdAttackChance = 0;
             if (RandomManager.Chance(thirdAttackChance))
             {
-                OneHit(victim, mainHand);
+                OneHit(victim, mainHand, multiHitModifier);
                 CheckAbilityImprove(thirdAttackLearnInfo.knownAbility, true, 6);
             }
             if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= 4)
                 return;
             // TODO: 2nd main hand, 2nd off hand, 4th, 5th, ... attack
         }
@@ -991,12 +999,17 @@ namespace Mud.Server.Character.PlayableCharacter
             return (20, 0);
         }
 
-        protected override int GetNoWeaponBaseDamage()
+        protected override int NoWeaponBaseDamage
         {
-            var hand2HandLearnInfo = GetLearnInfo("Hand to hand");
-            int learned = hand2HandLearnInfo.learned;
-            return RandomManager.Range(1 + 4 * learned / 100, 2 * Level / 3 * learned / 100);
+            get
+            {
+                var hand2HandLearnInfo = GetLearnInfo("Hand to hand");
+                int learned = hand2HandLearnInfo.learned;
+                return RandomManager.Range(1 + 4 * learned / 100, 2 * Level / 3 * learned / 100);
+            }
         }
+
+        protected override string NoWeaponDamageNoun => "hit";
 
         #endregion
 

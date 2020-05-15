@@ -126,7 +126,7 @@ namespace Mud.Server.Abilities
             TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Fire, BurningsHandsDamageTable);
         }
 
-        [Spell(6, "Call Lightning", AbilityTargets.None)]
+        [Spell(6, "Call Lightning", AbilityTargets.None, DamageNoun = "lightning bolt")]
         public void SpellCallLightning(IAbility ability, int level, ICharacter caster)
         {
             if (caster.Room == null)
@@ -240,28 +240,28 @@ namespace Mud.Server.Abilities
                 caster.Send("Spell failed.");
         }
 
-        [Spell(9, "Cause Light", AbilityTargets.CharacterOffensive)]
-        public void SpellCauseLight(IAbility ability, int level, ICharacter caster, ICharacter victim)
-        {
-            int damage = RandomManager.Dice(1, 8) + level / 3;
-            victim.AbilityDamage(caster, ability, damage, SchoolTypes.Harm, true);
-        }
-
-        [Spell(10, "Cause Critical", AbilityTargets.CharacterOffensive)]
+        [Spell(9, "Cause Critical", AbilityTargets.CharacterOffensive, DamageNoun = "spell")]
         public void SpellCauseCritical(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int damage = RandomManager.Dice(3, 8) + level - 6;
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Harm, true);
         }
 
-        [Spell(11, "Cause Serious", AbilityTargets.CharacterOffensive)]
+        [Spell(10, "Cause Light", AbilityTargets.CharacterOffensive, DamageNoun = "spell")]
+        public void SpellCauseLight(IAbility ability, int level, ICharacter caster, ICharacter victim)
+        {
+            int damage = RandomManager.Dice(1, 8) + level / 3;
+            victim.AbilityDamage(caster, ability, damage, SchoolTypes.Harm, true);
+        }
+
+        [Spell(11, "Cause Serious", AbilityTargets.CharacterOffensive, DamageNoun = "spell")]
         public void SpellCauseSerious(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int damage = RandomManager.Dice(2, 8) + level / 2;
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Harm, true);
         }
 
-        [Spell(12, "Chain Lightning", AbilityTargets.CharacterOffensive)]
+        [Spell(12, "Chain Lightning", AbilityTargets.CharacterOffensive, DamageNoun = "lightning")]
         public void SpellChainLightning(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.Act(ActOptions.ToRoom, "A lightning bolt leaps from {0}'s hand and arcs to {1}.", caster, victim);
@@ -610,7 +610,7 @@ namespace Mud.Server.Abilities
             Log.Default.WriteLine(LogLevels.Error, "SpellCurse: invalid target type {0}", target.GetType());
         }
 
-        [Spell(30, "Demonfire", AbilityTargets.CharacterOffensive)]
+        [Spell(30, "Demonfire", AbilityTargets.CharacterOffensive, DamageNoun = "torments")]
         public void SpellDemonfire(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (caster is IPlayableCharacter && victim.IsEvil)
@@ -1160,7 +1160,7 @@ namespace Mud.Server.Abilities
             victim.Act(ActOptions.ToAll, "{0:P} muscles surge with heightened power.", victim);
         }
 
-        [Spell(55, "Harm", AbilityTargets.CharacterOffensive)]
+        [Spell(55, "Harm", AbilityTargets.CharacterOffensive, DamageNoun = "harm spell")]
         public void SpellHarm(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             int damage = Math.Max(20, victim.HitPoints - RandomManager.Dice(1, 4));
@@ -1341,7 +1341,7 @@ namespace Mud.Server.Abilities
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Fire, true);
         }
 
-        [Spell(59, "Holy Word", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
+        [Spell(59, "Holy Word", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, DamageNoun = "divine wrath")]
         public void SpellHolyWord(IAbility ability, int level, ICharacter caster)
         {
             IAbility bless = this["Bless"];
@@ -1596,7 +1596,7 @@ namespace Mud.Server.Abilities
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.PassDoor, duration, "You are already out of phase.", "{0:N} is already shifted out of phase.", "You turn translucent.", "{0} turns translucent.");
         }
 
-        [Spell(71, "Plague", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "Your sores vanish.", Flags = AbilityFlags.CanBeDispelled)]
+        [Spell(71, "Plague", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "Your sores vanish.", DamageNoun = "sickness", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellPlague(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.SavesSpell(level, SchoolTypes.Disease)
@@ -2095,7 +2095,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Spell(89, "Weaken", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You feel stronger.", DispelRoomMessage = "{0:N} looks stronger.", Flags = AbilityFlags.CanBeDispelled)]
+        [Spell(89, "Weaken", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You feel stronger.", DispelRoomMessage = "{0:N} looks stronger.", DamageNoun = "spell", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellWeaken(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.CharacterFlags.HasFlag(CharacterFlags.Weaken) || victim.GetAura(ability) != null || victim.SavesSpell(level, SchoolTypes.Other))
@@ -2144,7 +2144,7 @@ namespace Mud.Server.Abilities
 
         // NPC Spells
 
-        [Spell(500, "Acid Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
+        [Spell(500, "Acid Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, DamageNoun = "blast of acid")]
         public void SpellAcidBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} spits acid at {1}.", caster, victim);
@@ -2168,7 +2168,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Spell(501, "Fire Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
+        [Spell(501, "Fire Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, DamageNoun = "blast of fire")]
         public void SpellFireBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} breathes forth a cone of fire.", caster);
@@ -2183,7 +2183,7 @@ namespace Mud.Server.Abilities
             BreathAreaEffect(victim, ability, caster, level, damage, SchoolTypes.Fire, FireEffect);
         }
 
-        [Spell(502, "Frost Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
+        [Spell(502, "Frost Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, DamageNoun = "blast of frost")]
         public void SpellFrostBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} breathes out a freezing cone of frost!", caster);
@@ -2198,7 +2198,7 @@ namespace Mud.Server.Abilities
             BreathAreaEffect(victim, ability, caster, level, damage, SchoolTypes.Cold, ColdEffect);
         }
 
-        [Spell(503, "Gas Breath", AbilityTargets.None, PulseWaitTime = 24)]
+        [Spell(503, "Gas Breath", AbilityTargets.None, PulseWaitTime = 24, DamageNoun = "blast of gas")]
         public void SpellGasBreath(IAbility ability, int level, ICharacter caster)
         {
             caster.Act(ActOptions.ToRoom, "{0} breathes out a cloud of poisonous gas!", caster);
@@ -2212,7 +2212,7 @@ namespace Mud.Server.Abilities
             BreathAreaEffect(caster, ability, caster, level, damage, SchoolTypes.Poison, PoisonEffect);
         }
 
-        [Spell(504, "Lightning Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24)]
+        [Spell(504, "Lightning Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, DamageNoun = "blast of lightning")]
         public void SpellLightningBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} breathes a bolt of lightning at {1}.", caster, victim);

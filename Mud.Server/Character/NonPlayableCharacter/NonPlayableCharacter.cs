@@ -149,7 +149,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             base.UpdatePosition();
         }
 
-        public override void MultiHit(ICharacter victim) // 'this' starts a combat with 'victim'
+        public override void MultiHit(ICharacter victim, IMultiHitModifier multiHitModifier) // 'this' starts a combat with 'victim'
         {
             // no attacks for stunnies
             if (Position <= Positions.Stunned)
@@ -157,21 +157,25 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
             IItemWeapon mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
             // main attack
-            OneHit(victim, mainHand);
+            OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= 1)
                 return;
             // area attack
             if (OffensiveFlags.HasFlag(OffensiveFlags.AreaAttack))
             {
                 IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Room.People.Where(x => x != this && x.Fighting == this).ToList());
                 foreach (ICharacter character in clone)
-                    OneHit(character, mainHand);
+                    OneHit(character, mainHand, multiHitModifier);
             }
             // main hand haste attack
             if ((CharacterFlags.HasFlag(CharacterFlags.Haste) || OffensiveFlags.HasFlag(OffensiveFlags.Fast))
                 && !CharacterFlags.HasFlag(CharacterFlags.Slow))
-                OneHit(victim, mainHand);
-            if (Fighting != victim) // TODO: or stop here for backstab
+                OneHit(victim, mainHand, multiHitModifier);
+            if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= 2)
                 return;
             // main hand second attack
             var secondAttackLearnInfo = GetLearnInfo("Second attack");
@@ -179,8 +183,10 @@ namespace Mud.Server.Character.NonPlayableCharacter
             if (CharacterFlags.HasFlag(CharacterFlags.Slow) && !OffensiveFlags.HasFlag(OffensiveFlags.Fast))
                 secondAttackChance /= 2;
             if (RandomManager.Chance(secondAttackChance))
-                OneHit(victim, mainHand);
+                OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= 3)
                 return;
             // main hand third attack
             var thirdAttackLearnInfo = GetLearnInfo("Third attack");
@@ -188,8 +194,10 @@ namespace Mud.Server.Character.NonPlayableCharacter
             if (CharacterFlags.HasFlag(CharacterFlags.Slow) && !OffensiveFlags.HasFlag(OffensiveFlags.Fast))
                 thirdAttackChance = 0;
             if (RandomManager.Chance(thirdAttackChance))
-                OneHit(victim, mainHand);
+                OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= 4)
                 return;
             // fun stuff
             // TODO: if wait > 0 return
@@ -461,7 +469,9 @@ namespace Mud.Server.Character.NonPlayableCharacter
             return (thac0_00, thac0_32);
         }
 
-        protected override int GetNoWeaponBaseDamage() => RandomManager.Dice(DamageDiceCount, DamageDiceValue) + DamageDiceBonus;
+        protected override int NoWeaponBaseDamage => RandomManager.Dice(DamageDiceCount, DamageDiceValue) + DamageDiceBonus;
+
+        protected override string NoWeaponDamageNoun => DamageNoun;
 
         #endregion
     }

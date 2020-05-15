@@ -876,11 +876,16 @@ namespace Mud.Server.Character
             return true;
         }
 
-        public abstract void MultiHit(ICharacter victim); // 'this' starts a combat with 'victim'
+        public void MultiHit(ICharacter victim) // 'this' starts a combat with 'victim'
+        {
+            MultiHit(victim, null);
+        }
+
+        public abstract void MultiHit(ICharacter victim, IMultiHitModifier multiHitModifier); // 'this' starts a combat with 'victim' and has been initiated by an ability
 
         public bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using an ability
         {
-            string damageNoun = ability?.DamageNoun.ToLowerInvariant() ?? "hit";
+            string damageNoun = ability?.DamageNoun?.ToLowerInvariant() ?? ability?.Name?.ToLowerInvariant() ?? "hit";
             return Damage(source, damage, damageType, damageNoun, display);
         }
 
@@ -888,7 +893,7 @@ namespace Mud.Server.Character
         {
             string damageNoun;
             if (wield == null)
-                damageNoun = (this as INonPlayableCharacter)?.DamageNoun; // TODO: don't like this cast (replace with abstract method GetNoWeaponDamageNoun)
+                damageNoun = NoWeaponDamageNoun;
             else
                 damageNoun = wield.DamageNoun;
             if (string.IsNullOrWhiteSpace(damageNoun))
@@ -1787,7 +1792,9 @@ namespace Mud.Server.Character
 
         protected abstract (int thac0_00, int thac0_32) GetThac0();
 
-        protected abstract int GetNoWeaponBaseDamage();
+        protected abstract int NoWeaponBaseDamage { get; }
+
+        protected abstract string NoWeaponDamageNoun { get; }
 
         protected int GetWeaponBaseDamage(IItemWeapon weapon, int weaponLearned)
         {
@@ -1804,7 +1811,7 @@ namespace Mud.Server.Character
             return damage;
         }
 
-        protected void OneHit(ICharacter victim, IItemWeapon wield) // 'this' hits 'victim'
+        protected void OneHit(ICharacter victim, IItemWeapon wield, IHitModifier hitModifier) // 'this' hits 'victim' using hitModifier (optional, used only for backstab)
         {
             if (victim == this || victim == null)
                 return;
@@ -1825,7 +1832,8 @@ namespace Mud.Server.Character
                 thac0 = -5 + (thac0 + 5) / 2;
             thac0 -= HitRoll * learned / 100;
             thac0 += 5 * (100 - learned) / 100;
-            // TODO: if backstab thac0 -= 10 * (100 - Learned(Backstab))
+            if (hitModifier != null)
+                thac0 = hitModifier.Thac0Modifier(thac0);
             int victimAc;
             switch (damageType)
             {
@@ -1856,14 +1864,17 @@ namespace Mud.Server.Character
             if (diceroll == 0
                 || (diceroll != 19 && diceroll < thac0 - victimAc))
             {
-                victim.HitDamage(this, wield, 0, damageType, true);
+                if (hitModifier?.Ability != null)
+                    victim.AbilityDamage(this, hitModifier.Ability, 0, damageType, true);
+                else
+                    victim.HitDamage(this, wield, 0, damageType, true);
                 return;
             }
             // TODO check parry/dodge/shield block (was in Damage function before)
             // TODO vorpal -> decapitate insta-kill (see fight.C:1642)
             // calculate weapon (or not) damage
             int damage = wield == null
-                ? GetNoWeaponBaseDamage()
+                ? NoWeaponBaseDamage
                 : GetWeaponBaseDamage(wield, learned);
             (this as IPlayableCharacter)?.CheckAbilityImprove(weaponLearnInfo.knownAbility, true, 5); // TODO: don't like this cast
             // bonus
@@ -1882,15 +1893,18 @@ namespace Mud.Server.Character
                 damage *= 2;
             if (victim.Position <= Positions.Resting)
                 damage = (damage * 3) / 2;
-            // TODO: if backstab
-            // TODO     if wield is pierce -> damage *= 2 + level/8
-            // TODO     else -> damage *= 2 + level/10
+            if (hitModifier != null)
+                damage = hitModifier.DamageModifier(wield, Level, damage);
             damage += DamRoll * learned / 100;
             if (damage <= 0)
                 damage = 1; // at least one damage :)
 
             // perform damage
-            bool damageResult = victim.HitDamage(this, wield, damage, damageType, true);
+            bool damageResult;
+            if (hitModifier?.Ability != null)
+                damageResult = victim.AbilityDamage(this, hitModifier.Ability, damage, damageType, true);
+            else
+                damageResult = victim.HitDamage(this, wield, damage, damageType, true);
             if (Fighting != victim)
                 return;
 

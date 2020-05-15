@@ -1,17 +1,9 @@
 NEXT:
-Combat system
-    DONE MultiHit in NonPlayableCharacter and PlayableCharacter
-    DONE OneHit in CharacterBase
-    TODO AbilityDamage in CharacterBase, ADD DamageNoun where needed see const.c or spells.ini
-    TODO HitDamage in CharacterBase, ADD abstract method GetNoWeaponDamageNoun
-    DONE GenericDamage in CharacterBase
-	DONE hitpoint, manapoint, dam in CharacterBlueprint
 
 TODO:
-check ACT_WARRIOR, ACT_THIEF, ACT_CLERIC, ACT_MAGE
 reset
 room light
-admin command to switch an avatar from/to immortal
+admin command to switch an avatar from/to immortal/mortal
 money
 master/pet/follower/group
 Monitor Recompute calls
@@ -31,6 +23,14 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+check ACT_WARRIOR, ACT_THIEF, ACT_CLERIC, ACT_MAGE
+Combat system (backstab multihit included)
+    MultiHit in NonPlayableCharacter and PlayableCharacter
+    OneHit in CharacterBase
+    AbilityDamage in CharacterBase
+    HitDamage in CharacterBase
+    GenericDamage in CharacterBase
+	hitpoint, manapoint, dam in CharacterBlueprint
 Recompute call count optimized when unequiping item
 Issue fixed when recompute was causing item to be unequiped, item was removed from equipment but EquippedBy was not set to null
 weather
