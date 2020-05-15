@@ -341,7 +341,7 @@ namespace Mud.Domain
         // HeroesOnly
         NewbiesOnly = 0x00020000, // level <= 5 only
         Law         = 0x00040000,
-        Nowhere     = 0x00080000,
+        NoWhere     = 0x00080000,
     }
 
     public enum ResourceKinds // must starts at 0 and no hole (is used as index in array)

@@ -436,7 +436,7 @@ namespace Mud.Server.Character
         {
             if (Room == null)
                 return CommandExecutionResults.Error;
-            if (Room.RoomFlags.HasFlag(RoomFlags.Nowhere))
+            if (Room.RoomFlags.HasFlag(RoomFlags.NoWhere))
             {
                 Send("You don't recognize where you are.");
                 return CommandExecutionResults.InvalidTarget;
@@ -456,7 +456,7 @@ namespace Mud.Server.Character
             else
             {
                 playableCharacters = Room.Area.PlayableCharacters.Where(x => x.Room != null
-                                                                             && !x.Room.RoomFlags.HasFlag(RoomFlags.Nowhere)
+                                                                             && !x.Room.RoomFlags.HasFlag(RoomFlags.NoWhere)
                                                                              && !x.Room.IsPrivate
                                                                              && !x.CharacterFlags.HasFlag(CharacterFlags.Sneak) 
                                                                              && !x.CharacterFlags.HasFlag(CharacterFlags.Hide) 
@@ -544,7 +544,7 @@ namespace Mud.Server.Character
             if (diff <= -10)
                 Act(ActOptions.ToCharacter, "You can kill {0} naked and weaponless.", whom);
             else if (diff <= -5)
-                Act(ActOptions.ToCharacter, "0 is no match for you.", whom);
+                Act(ActOptions.ToCharacter, "{0:N} is no match for you.", whom);
             else if (diff <= -2)
                 Act(ActOptions.ToCharacter, "{0:N} looks like an easy kill.", whom);
             else if (diff <= 1)

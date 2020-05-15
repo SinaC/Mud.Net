@@ -118,8 +118,13 @@ namespace Mud.Server.Item
         {
             base.OnRemoved();
             ContainedInto?.GetFromContainer(this);
-            ContainedInto = null;
+            ContainedInto = World.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
+        }
+
+        public override void OnCleaned() // called when removing definitively an entity from the game
+        {
             Blueprint = null;
+            ContainedInto = null;
         }
 
         #endregion

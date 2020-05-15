@@ -47,6 +47,8 @@ namespace Mud.Settings.ConfigurationManager
         public int DefaultRoomId => IntSetting("DefaultRoomId", 3001);
         public int DefaultRecallRoomId => IntSetting("DefaultRoomId", 3001);
 
+        public int NullRoomId => IntSetting("NullRoomId", 1);
+
         //
         public bool CheckLoginPassword => BoolSetting("CheckLoginPassword", false);
 

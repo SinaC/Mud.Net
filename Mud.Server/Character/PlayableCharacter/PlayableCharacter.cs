@@ -263,7 +263,7 @@ namespace Mud.Server.Character.PlayableCharacter
             ResetCooldowns();
             DeleteInventory();
             DeleteEquipments();
-            Room = null;
+            Room = World.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
         }
 
         #endregion
@@ -451,7 +451,7 @@ namespace Mud.Server.Character.PlayableCharacter
         public long ExperienceToLevel =>
             Level >= Settings.MaxLevel
                 ? 0
-                : (ExperienceByLevel * Level) - Experience; //CombatHelpers.CumulativeExperienceByLevel[Level] + CombatHelpers.ExperienceToNextLevel[Level] - Experience;
+                : (ExperienceByLevel * Level) - Experience;
 
         public long Experience { get; protected set; }
 
@@ -567,7 +567,7 @@ namespace Mud.Server.Character.PlayableCharacter
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeLeader: {0} is not valid anymore", DebugName);
+                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.ChangeLeader: {0} is not valid anymore", DebugName);
                 return false;
             }
             if (newLeader != null && !newLeader.IsValid)
@@ -584,7 +584,7 @@ namespace Mud.Server.Character.PlayableCharacter
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddGroupMember: {0} is not valid anymore", DebugName);
+                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.AddGroupMember: {0} is not valid anymore", DebugName);
                 return false;
             }
             if (Leader != null)
@@ -672,7 +672,7 @@ namespace Mud.Server.Character.PlayableCharacter
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.StopImpersonation: {0} is not valid anymore", DebugName);
+                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.StopImpersonation: {0} is not valid anymore", DebugName);
                 ImpersonatedBy = null;
                 return false;
             }
@@ -690,11 +690,12 @@ namespace Mud.Server.Character.PlayableCharacter
             if (Level < Settings.MaxLevel)
             {
                 bool recompute = false;
-                Experience += experience;
+                Experience = Math.Max(ExperienceByLevel * (Level-1), Experience + experience); // don't go below current level
                 // Raise level
                 if (experience > 0)
                 {
-                    while (ExperienceToLevel <= 0)
+                    // In case multiple level are gain, check max level
+                    while (ExperienceToLevel <= 0 && Level < Settings.MaxLevel)
                     {
                         recompute = true;
                         Level++;
@@ -702,9 +703,6 @@ namespace Mud.Server.Character.PlayableCharacter
                         Send("You raise a level!!");
                         Act(ActOptions.ToGroup, "{0} has attained level {1}", this, Level);
                         AdvanceLevel();
-                        // In case multiple level are gain, check max level
-                        if (Level >= Settings.MaxLevel)
-                            break;
                     }
                 }
                 if (recompute)

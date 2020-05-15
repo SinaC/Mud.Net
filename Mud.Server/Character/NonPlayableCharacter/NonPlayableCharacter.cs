@@ -125,6 +125,12 @@ namespace Mud.Server.Character.NonPlayableCharacter
             ResetCooldowns();
             DeleteInventory();
             DeleteEquipments();
+            Room = World.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
+        }
+
+        public override void OnCleaned() // called when removing definitively an entity from the game
+        {
+            Blueprint = null;
             Room = null;
         }
 
@@ -249,7 +255,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         #endregion
 
-        public CharacterBlueprintBase Blueprint { get; }
+        public CharacterBlueprintBase Blueprint { get; private set; }
 
         public string DamageNoun { get; protected set; }
         public SchoolTypes DamageType { get; protected set; }

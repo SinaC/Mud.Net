@@ -33,6 +33,7 @@
         int FloatingDiscBlueprintId { get; }
         int DefaultRoomId { get; }
         int DefaultRecallRoomId { get; }
+        int NullRoomId { get; }
 
         bool CheckLoginPassword { get; }
 

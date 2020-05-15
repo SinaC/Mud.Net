@@ -820,7 +820,7 @@ namespace Mud.Server.WPFTestApplication
             // Q
             if (HasBit(flag, MysteryImporter.R)) flags |= RoomFlags.NewbiesOnly;
             if (HasBit(flag, MysteryImporter.S)) flags |= RoomFlags.Law;
-            if (HasBit(flag, MysteryImporter.T)) flags |= RoomFlags.Nowhere;
+            if (HasBit(flag, MysteryImporter.T)) flags |= RoomFlags.NoWhere;
 
             return flags;
         }
@@ -1678,13 +1678,28 @@ namespace Mud.Server.WPFTestApplication
             //};
             //World.AddItemBlueprint(item11Blueprint);
 
-            //
+            // MANDATORY ITEM
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
             {
                 Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
                 Name = "corpse"
             }; // this is mandatory
             World.AddItemBlueprint(corpseBlueprint);
+            // MANDATORY ROOM
+            RoomBlueprint voidBlueprint = World.GetRoomBlueprint(DependencyContainer.Current.GetInstance<ISettings>().NullRoomId);
+            if (voidBlueprint == null)
+            {
+                IArea area = World.Areas.First();
+                Log.Default.WriteLine(LogLevels.Error, "NullRoom not found -> creation of null room with id {0} in area {1}", DependencyContainer.Current.GetInstance<ISettings>().NullRoomId, area.DisplayName);
+                voidBlueprint = new RoomBlueprint
+                {
+                    Id = DependencyContainer.Current.GetInstance<ISettings>().NullRoomId,
+                    Name = "The void",
+                    RoomFlags = RoomFlags.ImpOnly | RoomFlags.NoRecall | RoomFlags.NoScan | RoomFlags.NoWhere | RoomFlags.Private
+                };
+                World.AddRoomBlueprint(voidBlueprint);
+                World.AddRoom(Guid.NewGuid(), voidBlueprint, area);
+            }
 
             // Add dummy mobs and items to allow impersonate :)
             IRoom templeOfMota = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");

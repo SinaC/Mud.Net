@@ -241,7 +241,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeController: {0} is not valid anymore", DebugName);
+                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.ChangeController: {0} is not valid anymore", DebugName);
                 return false;
             }
             Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeSlave: {0} slave: old: {1}; new {2}", DebugName, Slave?.DebugName ?? "<<none>>", slave?.DebugName ?? "<<none>>");
@@ -253,7 +253,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeController: {0} is not valid anymore", DebugName);
+                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.ChangeController: {0} is not valid anymore", DebugName);
                 return false;
             }
             if (ControlledBy != null)
@@ -1738,7 +1738,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "RawKilled: {0} is not valid anymore", DebugName);
+                Log.Default.WriteLine(LogLevels.Warning, "RawKilled: {0} is not valid anymore", DebugName);
                 return null;
             }
 

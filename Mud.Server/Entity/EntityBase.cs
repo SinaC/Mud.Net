@@ -92,7 +92,7 @@ namespace Mud.Server.Entity
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "IEntity.ChangeIncarnation: {0} is not valid anymore", DisplayName);
+                Log.Default.WriteLine(LogLevels.Warning, "IEntity.ChangeIncarnation: {0} is not valid anymore", DisplayName);
                 IncarnatedBy = null;
                 return false;
             }
@@ -118,7 +118,7 @@ namespace Mud.Server.Entity
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "IEntity.Reset: {0} is not valid anymore", DebugName);
+                Log.Default.WriteLine(LogLevels.Warning, "IEntity.Reset: {0} is not valid anymore", DebugName);
                 return;
             }
             // Remove periodic auras on character
@@ -132,7 +132,7 @@ namespace Mud.Server.Entity
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "IEntity.IsAffected: {0} is not valid anymore", DebugName);
+                Log.Default.WriteLine(LogLevels.Warning, "IEntity.GetAura: {0} is not valid anymore", DebugName);
                 return null;
             }
 
@@ -143,7 +143,7 @@ namespace Mud.Server.Entity
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "IEntity.IsAffected: {0} is not valid anymore", DebugName);
+                Log.Default.WriteLine(LogLevels.Warning, "IEntity.GetAura: {0} is not valid anymore", DebugName);
                 return null;
             }
 
@@ -154,7 +154,7 @@ namespace Mud.Server.Entity
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "IEntity.AddPeriodicAura: {0} is not valid anymore", DebugName);
+                Log.Default.WriteLine(LogLevels.Warning, "IEntity.AddPeriodicAura: {0} is not valid anymore", DebugName);
                 return;
             }
             //IPeriodicAura same = _periodicAuras.FirstOrDefault(x => ReferenceEquals(x.Ability, aura.Ability) && x.AuraType == aura.AuraType && x.School == aura.School && x.Source == aura.Source);
@@ -203,23 +203,9 @@ namespace Mud.Server.Entity
         {
             if (!IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "IEntity.AddAura: {0} is not valid anymore", DebugName);
+                Log.Default.WriteLine(LogLevels.Warning, "IEntity.AddAura: {0} is not valid anymore", DebugName);
                 return;
             }
-            ////IAura same = _auras.FirstOrDefault(x => ReferenceEquals(x.Ability, aura.Ability) && x.Modifier == aura.Modifier && x.Source == aura.Source);
-            //IAura same = _auras.FirstOrDefault(x => x.Ability == aura.Ability && x.Modifier == aura.Modifier && x.Source == aura.Source);
-            //if (same != null)
-            //{
-            //    Log.Default.WriteLine(LogLevels.Info, "IEntity.AddAura: Refresh: {0} {1}| recompute: {2}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
-            //    same.Refresh(aura);
-            //}
-            //else
-            //{
-            //    Log.Default.WriteLine(LogLevels.Info, "IEntity.AddAura: Add: {0} {1}| recompute: {2}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
-            //    _auras.Add(aura);
-            //    if (aura.Ability == null || (aura.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden)
-            //        Send("You are now affected by {0}.", aura.Ability == null ? "Something" : aura.Ability.Name);
-            //}
             Log.Default.WriteLine(LogLevels.Info, "IEntity.AddAura: Add: {0} {1}| recompute: {2}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
             _auras.Add(aura);
             if (recompute)
@@ -283,6 +269,10 @@ namespace Mud.Server.Entity
             // TODO: warn IncarnatedBy about removing
             IncarnatedBy?.StopIncarnating();
             IncarnatedBy = null;
+        }
+
+        public virtual void OnCleaned() // called when removing definitively an entity from the game
+        {
         }
 
         #endregion

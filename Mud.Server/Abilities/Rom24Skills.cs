@@ -6,6 +6,7 @@ using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Aura;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
@@ -153,7 +154,7 @@ namespace Mud.Server.Abilities
                 source.Act(ActOptions.ToCharacter, "You slam into {0}, and send {0:m} flying!", victim);
                 source.Act(ActOptions.ToRoom, "{0:N} sends {1} sprawling with a powerful bash.", source, victim);
                 // TODO: victim daze
-                // TODO: victim.Position = Positions.Resting
+                victim.ChangePosition(Positions.Resting);
                 int damage = RandomManager.Range(2, 2 + 2 * (int)source.Size + chance / 20);
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.Bash, false);
                 // TODO: check_killer(ch,victim);
@@ -164,7 +165,7 @@ namespace Mud.Server.Abilities
                 victim.AbilityDamage(source, ability, 0, SchoolTypes.Bash, false); // starts a fight
                 victim.Act(ActOptions.ToRoom, "{0:N} fall{0:v} flat on {0:s} face!", source);
                 victim.Act(ActOptions.ToCharacter, "You evade {0:p} bash, causing {0:m} to fall flat on {0:s} face.", source);
-                // TODO: victim.Position = Positions.Resting
+                victim.ChangePosition(Positions.Resting);
                 // TODO: check_killer(ch,victim);
                 return UseResults.Failed;
             }
@@ -237,7 +238,7 @@ namespace Mud.Server.Abilities
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.None, false);
                 // TODO check killer
 
-                World.AddAura(victim, ability, source, source.Level, TimeSpan.FromMinutes(0)/*TODO  0 ???*/, AuraFlags.NoDispel, true,
+                World.AddAura(victim, ability, source, source.Level, TimeSpan.FromSeconds(1)/*originally 0*/, AuraFlags.NoDispel, true,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
                     new CharacterFlagsAffect { Modifier = CharacterFlags.Blind, Operator = AffectOperators.Or });
                 return UseResults.Ok;
@@ -266,7 +267,6 @@ namespace Mud.Server.Abilities
             {
                 source.Send("You fall flat on your face!");
                 source.Act(ActOptions.ToRoom, "{0:N} trips over {0:s} own feet!", source);
-                // TODO: set GCD
                 return UseResults.InvalidTarget;
             }
 
@@ -314,7 +314,7 @@ namespace Mud.Server.Abilities
                 source.Act(ActOptions.ToCharacter, "You trip {0} and {0} goes down!", victim);
                 source.ActToNotVictim(victim, "{0} trips {1}, sending {1:m} to the ground.", source, victim);
                 //DAZE_STATE(victim, 2 * PULSE_VIOLENCE);
-                //victim->position = POS_RESTING;
+                victim.ChangePosition(Positions.Resting);
                 // TODO: check_killer(ch, victim)
                 int damage = RandomManager.Range(2, 2 + 2 * (int)source.Size);
                 victim.AbilityDamage(source, ability, damage, SchoolTypes.Bash, true);

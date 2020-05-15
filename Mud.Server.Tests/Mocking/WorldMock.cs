@@ -118,6 +118,8 @@ namespace Mud.Server.Tests.Mocking
 
         public IEnumerable<IItem> Items => _items;
 
+        public IRoom NullRoom => throw new NotImplementedException();
+
         public IRoom GetRandomRoom(ICharacter character)
         {
             throw new NotImplementedException();

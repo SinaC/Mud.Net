@@ -66,7 +66,7 @@ namespace Mud.Server.Classes
             AddAbility(19, "Energy Drain", Domain.ResourceKinds.Mana, 35, CostAmountOperators.Fixed, 2);
             AddAbility(20, "Charm Person", Domain.ResourceKinds.Mana, 5, CostAmountOperators.Fixed, 1);
             AddAbility(22, "Fireball", Domain.ResourceKinds.Mana, 15, CostAmountOperators.Fixed, 1);
-            AddAbility(26, "Call Ligthning", Domain.ResourceKinds.Mana, 15, CostAmountOperators.Fixed, 1);
+            AddAbility(26, "Call Lightning", Domain.ResourceKinds.Mana, 15, CostAmountOperators.Fixed, 1);
             AddAbility(28, "Acid Blast", Domain.ResourceKinds.Mana, 20, CostAmountOperators.Fixed, 1);
             AddAbility(33, "Chain Lightning", Domain.ResourceKinds.Mana, 25, CostAmountOperators.Fixed, 1);
             AddAbility(48, "Calm", Domain.ResourceKinds.Mana, 30, CostAmountOperators.Fixed, 1);

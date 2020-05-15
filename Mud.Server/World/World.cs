@@ -19,6 +19,9 @@ namespace Mud.Server.World
 {
     public class World : IWorld
     {
+        // Null room is used to avoid setting char.room to null when deleting and is used as container when deleting item
+        private IRoom _nullRoom; // save a reference for further use
+
         private readonly List<TreasureTable<int>> _treasureTables;
         private readonly Dictionary<int, QuestBlueprint> _questBlueprints;
         private readonly Dictionary<int, RoomBlueprint> _roomBlueprints;
@@ -47,6 +50,8 @@ namespace Mud.Server.World
         }
 
         #region IWorld
+
+        public IRoom NullRoom => _nullRoom = _nullRoom ?? Rooms.Single(x => x.Blueprint.Id == Settings.NullRoomId);
 
         // Treasure tables
         public IReadOnlyCollection<TreasureTable<int>> TreasureTables => _treasureTables;
@@ -501,8 +506,8 @@ namespace Mud.Server.World
                         RemoveItem(item);
                 }
             }
-            // Remove from room
-            character.ChangeRoom(null);
+            // Move to NullRoom
+            character.ChangeRoom(NullRoom);
             //
             character.OnRemoved();
             //_characters.Remove(character); will be removed in cleanup step
@@ -510,8 +515,7 @@ namespace Mud.Server.World
 
         public void RemoveItem(IItem item)
         {
-            //item.ContainedInto?.GetFromContainer(item);
-            item.ChangeContainer(null);
+            item.ChangeContainer(NullRoom); // move to NullRoom
             item.ChangeEquippedBy(null, false);
             // If container, remove content
             if (item is IContainer container)
@@ -556,7 +560,14 @@ namespace Mud.Server.World
             if (_characters.Any(x => !x.IsValid))
                 Log.Default.WriteLine(LogLevels.Debug, $"Cleaning {_characters.Count(x => !x.IsValid)} character(s)");
 
+            IItem[] itemsToRemove = _items.Where(x => !x.IsValid).ToArray();
+            foreach (IItem item in itemsToRemove)
+                item.OnCleaned(); // definitive remove
             _items.RemoveAll(x => !x.IsValid);
+
+            ICharacter[] charactersToRemove = _characters.Where(x => !x.IsValid).ToArray();
+            foreach (ICharacter character in charactersToRemove)
+                character.OnCleaned(); // definitive remove
             _characters.RemoveAll(x => !x.IsValid);
             // TODO: room
         }

@@ -23,6 +23,7 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+when a spell has damage + effect, the target sometimes dies on damage and can get a null ref exception on additional effect (because Room is set to null for example)
 check ACT_WARRIOR, ACT_THIEF, ACT_CLERIC, ACT_MAGE
 Combat system (backstab multihit included)
     MultiHit in NonPlayableCharacter and PlayableCharacter

@@ -12,6 +12,8 @@ namespace Mud.Server
 {
     public interface IWorld
     {
+        IRoom NullRoom { get; }
+
         // Treasures
         IReadOnlyCollection<TreasureTable<int>> TreasureTables { get; }
 
