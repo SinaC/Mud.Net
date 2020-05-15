@@ -154,14 +154,11 @@ namespace Mud.Server.Room
 
         public IExit[] Exits { get; }
 
-        public IExit Exit(ExitDirections direction)
-        {
-            return Exits[(int) direction];
-        }
+        public IExit this[ExitDirections direction] => Exits[(int) direction];
 
         public IRoom GetRoom(ExitDirections direction)
         {
-            IExit exit = Exit(direction);
+            IExit exit = this[direction];
             return exit?.Destination;
         }
 

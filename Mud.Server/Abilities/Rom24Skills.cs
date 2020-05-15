@@ -627,7 +627,7 @@ namespace Mud.Server.Abilities
             ExitDirections direction;
             if (ExitDirectionsExtensions.TryFindDirection(parameters[0].Value, out direction))
             {
-                IExit exit = source.Room.Exit(direction);
+                IExit exit = source.Room[direction];
                 if (exit != null)
                     return InnerPick(exit, source, learned);
                 else

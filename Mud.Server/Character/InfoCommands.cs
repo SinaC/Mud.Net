@@ -166,7 +166,7 @@ namespace Mud.Server.Character
             if (ExitDirectionsExtensions.TryFindDirection(parameters[0].Value, out direction))
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(6): direction");
-                IExit exit = Room.Exit(direction);
+                IExit exit = Room[direction];
                 if (exit?.Destination == null)
                     Send("Nothing special there.");
                 else
@@ -774,7 +774,7 @@ namespace Mud.Server.Character
             bool exitFound = false;
             foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
             {
-                IExit exit = Room.Exit(direction);
+                IExit exit = Room[direction];
                 IRoom destination = exit?.Destination;
                 if (destination != null && CanSee(exit))
                 {

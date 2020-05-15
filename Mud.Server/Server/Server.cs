@@ -21,6 +21,7 @@ using Mud.Settings;
 using System.Reflection;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Item;
+using System.ComponentModel;
 
 namespace Mud.Server.Server
 {
@@ -980,6 +981,8 @@ namespace Mud.Server.Server
                             character.RemoveAura(aura, false); // recompute once each aura has been processed
                             needsRecompute = true;
                         }
+                        else if (aura.Level > 0 && RandomManager.Chance(20)) // spell strength fades with time
+                            aura.DecreaseLevel();
                     }
                     if (needsRecompute)
                         character.Recompute();
@@ -1006,6 +1009,8 @@ namespace Mud.Server.Server
                             item.RemoveAura(aura, false); // recompute once each aura has been processed
                             needsRecompute = true;
                         }
+                        else if (aura.Level > 0 && RandomManager.Chance(20)) // spell strength fades with time
+                            aura.DecreaseLevel();
                     }
                     if (needsRecompute)
                         item.Recompute();
@@ -1154,23 +1159,37 @@ namespace Mud.Server.Server
             }
         }
 
-        private void HandlePlayableCharacters(int pulseCount)
+        private void HandleCharacters(int pulseCount)
         {
-            foreach (IPlayableCharacter character in World.PlayableCharacters)
+            // PC
+            foreach (ICharacter character in World.PlayableCharacters)
             {
                 try
                 {
-                    if (character.ImpersonatedBy == null) // TODO: remove after x minutes
+                    IPlayableCharacter pc = character as IPlayableCharacter;
+                    INonPlayableCharacter npc = character as INonPlayableCharacter;
+                    if (pc != null && pc.ImpersonatedBy == null) // TODO: remove after x minutes
                         Log.Default.WriteLine(LogLevels.Warning, "Impersonable {0} is not impersonated", character.DebugName);
 
-                    // Update resources
-                    character.Regen();
+                    if (character.Position >= Positions.Stunned)
+                    {
+                        // TODO: check to see if need to go home
+                        // Update resources
+                        character.Regen();
+                    }
+
+                    // Update position
+                    if (character.Position == Positions.Stunned)
+                        character.UpdatePosition();
+
+                    // TODO: update light
+
                     // Update conditions
-                    character.GainCondition(Conditions.Drunk, -1); // decrease drunk state
+                    pc?.GainCondition(Conditions.Drunk, -1); // decrease drunk state
                     // TODO: not if undead from here
-                    character.GainCondition(Conditions.Full, character.Size > Sizes.Medium ? -4 : -2);
-                    character.GainCondition(Conditions.Thirst, -1);
-                    character.GainCondition(Conditions.Hunger, character.Size > Sizes.Medium ? -2 : -1);
+                    pc?.GainCondition(Conditions.Full, character.Size > Sizes.Medium ? -4 : -2);
+                    pc?.GainCondition(Conditions.Thirst, -1);
+                    pc?.GainCondition(Conditions.Hunger, character.Size > Sizes.Medium ? -2 : -1);
 
                     // TODO: limbo
                     // TODO: autosave, autoquit
@@ -1180,10 +1199,7 @@ namespace Mud.Server.Server
                     Log.Default.WriteLine(LogLevels.Error, "Exception while handling pc character {0}. Exception: {1}", character.DebugName, ex);
                 }
             }
-        }
-
-        private void HandleNonPlayableCharacters(int pulseCount)
-        {
+            // NPC
             foreach (INonPlayableCharacter character in World.NonPlayableCharacters)
             {
                 try
@@ -1194,6 +1210,52 @@ namespace Mud.Server.Server
                 catch (Exception ex)
                 {
                     Log.Default.WriteLine(LogLevels.Error, "Exception while handling npc character {0}. Exception: {1}", character.DebugName, ex);
+                }
+            }
+        }
+
+        private void HandleNonPlayableCharacters(int pulseCount)
+        {
+            foreach (INonPlayableCharacter npc in World.NonPlayableCharacters.Where(x => x.IsValid && !x.CharacterFlags.HasFlag(CharacterFlags.Charm)))
+            {
+                // is mob update always or area not empty
+                if (npc.ActFlags.HasFlag(ActFlags.UpdateAlways) || npc.Room.Area.Characters.Count() > 0)
+                {
+                    // TODO: invoke spec_fun
+                    // TODO: give shop some money
+                    
+                    // scavenger
+                    if (npc.ActFlags.HasFlag(ActFlags.Scavenger) && npc.Room.Content.Any() && RandomManager.Range(0, 63) == 0)
+                    {
+                        Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: scavenger {0} on action", npc.DebugName);
+                        // get most valuable item in room
+                        IItem mostValuable = npc.Room.Content.Where(x => !x.NoTake && x.Cost > 0 /*&& CanLoot(npc, item)*/).OrderByDescending(x => x.Cost).FirstOrDefault();
+                        if (mostValuable != null)
+                        {
+                            npc.Act(ActOptions.ToRoom, "{0} gets {1}.", npc, mostValuable);
+                            mostValuable.ChangeContainer(npc);
+                        }
+                    }
+
+                    // sentinel
+                    if (npc.ActFlags.HasFlag(ActFlags.Sentinel) && RandomManager.Range(0,7) == 0)
+                    {
+                        Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: sentinel {0} on action", npc.DebugName);
+                        int exitNumber = RandomManager.Range(0, 31);
+                        if (exitNumber < EnumHelpers.GetCount<ExitDirections>())
+                        {
+                            ExitDirections exitDirection = (ExitDirections)exitNumber;
+                            IExit exit = npc.Room[exitDirection];
+                            if (exit != null
+                                && exit.Destination != null
+                                && !exit.IsClosed
+                                && !exit.Destination.RoomFlags.HasFlag(RoomFlags.NoMob)
+                                && (!npc.ActFlags.HasFlag(ActFlags.StayArea) || npc.Room.Area == exit.Destination.Area)
+                                && (!npc.ActFlags.HasFlag(ActFlags.Outdoors) || !exit.Destination.RoomFlags.HasFlag(RoomFlags.Indoors))
+                                && (!npc.ActFlags.HasFlag(ActFlags.Indoors) || exit.Destination.RoomFlags.HasFlag(RoomFlags.Indoors)))
+                                npc.Move(exitDirection, false, false);
+                        }
+                    }
                 }
             }
         }
@@ -1310,15 +1372,15 @@ namespace Mud.Server.Server
         private void GameLoopTask()
         {
             PulseManager pulseManager = new PulseManager();
-            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulseViolence, HandleViolence);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandlePeriodicAuras);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleAuras);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleCooldowns);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleQuests);
-            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 5, HandleItems);
-            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandlePlayableCharacters);
-            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleNonPlayableCharacters);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulseViolence, HandleViolence);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 4, HandleNonPlayableCharacters);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleCharacters);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandlePlayers);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleItems);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleRooms);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleTime); // 1 minute IRL = 1 hour IG
 

@@ -662,7 +662,7 @@ namespace Mud.Server.Character
             direction = ChangeDirectionBeforeMove(direction, fromRoom);
 
             // Get exit and destination room
-            IExit exit = fromRoom.Exit(direction);
+            IExit exit = fromRoom[direction];
             IRoom toRoom = exit?.Destination;
 
             // Check if existing exit

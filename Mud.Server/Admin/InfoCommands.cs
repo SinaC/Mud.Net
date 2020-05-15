@@ -231,7 +231,7 @@ namespace Mud.Server.Admin
             }
             foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
             {
-                IExit exit = room.Exit(direction);
+                IExit exit = room[direction];
                 if (exit?.Destination != null)
                 {
                     sb.Append(direction.DisplayName());

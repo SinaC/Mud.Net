@@ -28,7 +28,7 @@ namespace Mud.Server
 
         IExit[] Exits { get; } // fixed length
 
-        IExit Exit(ExitDirections direction);
+        IExit this[ExitDirections direction] { get; }
         IRoom GetRoom(ExitDirections direction);
 
         bool Enter(ICharacter character);

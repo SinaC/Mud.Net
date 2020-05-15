@@ -149,7 +149,7 @@ namespace Mud.Server.Character
             Send("Ok.");
 
             // Open the other side
-            IExit otherSideExit = exit.Destination.Exit(exitDirection.ReverseDirection());
+            IExit otherSideExit = exit.Destination[exitDirection.ReverseDirection()];
             if (otherSideExit != null)
             {
                 otherSideExit.Open();
@@ -213,7 +213,7 @@ namespace Mud.Server.Character
             Send("Ok.");
 
             // Close the other side
-            IExit otherSideExit = exit.Destination.Exit(exitDirection.ReverseDirection());
+            IExit otherSideExit = exit.Destination[exitDirection.ReverseDirection()];
             if (otherSideExit != null)
             {
                 otherSideExit.Close();
@@ -310,7 +310,7 @@ namespace Mud.Server.Character
             Act(ActOptions.ToRoom, "{0:N} unlocks the {1}.", this, exit);
 
             // Unlock other side
-            IExit otherSideExit = exit.Destination.Exit(exitDirection.ReverseDirection());
+            IExit otherSideExit = exit.Destination[exitDirection.ReverseDirection()];
             if (otherSideExit != null)
                 otherSideExit.Unlock();
             else
@@ -405,7 +405,7 @@ namespace Mud.Server.Character
             Act(ActOptions.ToRoom, "{0:N} locks the {1}.", this, exit);
 
             // Unlock other side
-            IExit otherSideExit = exit.Destination.Exit(exitDirection.ReverseDirection());
+            IExit otherSideExit = exit.Destination[exitDirection.ReverseDirection()];
             if (otherSideExit != null)
                 otherSideExit.Lock();
             else
@@ -792,7 +792,7 @@ namespace Mud.Server.Character
                     Send($"I see no {parameter.Value} here.");
                 return null;
             }
-            IExit exit = Room.Exit(exitDirection);
+            IExit exit = Room[exitDirection];
             if (exit == null)
                 return null;
             if (!exit.IsDoor)
@@ -814,7 +814,7 @@ namespace Mud.Server.Character
             //exit = Room.Exits.FirstOrDefault(x => x?.Destination != null && x.IsDoor && x.Keywords.Any(k => FindHelpers.StringStartsWith(k, parameter.Value)));
             foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
             {
-                IExit exit = Room.Exit(direction);
+                IExit exit = Room[direction];
                 if (exit?.Destination != null && exit.IsDoor && exit.Keywords.Any(k => StringCompareHelpers.StringStartsWith(k, parameter.Value)))
                 {
                     exitDirection = direction;
