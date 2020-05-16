@@ -7,7 +7,7 @@ namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter
     {
-        [PlayableCharacterCommand("murder", "Combat", Priority = 999/*low priority*/, NoShortcut = true)]
+        [PlayableCharacterCommand("murder", "Combat", Priority = 999/*low priority*/, NoShortcut = true, MinPosition = Positions.Fighting)]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoMurder(string rawParameters, params CommandParameter[] parameters)
         {

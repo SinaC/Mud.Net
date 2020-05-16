@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Mud.Container;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Mud.Server.Area
@@ -6,6 +7,8 @@ namespace Mud.Server.Area
     public class Area : IArea
     {
         private readonly List<IRoom> _rooms;
+
+        private IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
         public Area(string displayName, int minLevel, int maxLevel, string builders, string credits)
         {
@@ -29,6 +32,13 @@ namespace Mud.Server.Area
         public IEnumerable<IPlayer> Players => _rooms.SelectMany(x => x.People).OfType<IPlayableCharacter>().Select(x => x.ImpersonatedBy);
         public IEnumerable<ICharacter> Characters => _rooms.SelectMany(x => x.People);
         public IEnumerable<IPlayableCharacter> PlayableCharacters => _rooms.SelectMany(x => x.People).OfType<IPlayableCharacter>();
+
+        public void HandleResets()
+        {
+            foreach (IRoom room in _rooms)
+                room.HandleResets();
+            Wiznet.Wiznet($"{DisplayName} has just been reset.", Domain.WiznetFlags.Resets);
+        }
 
         public bool AddRoom(IRoom room)
         {

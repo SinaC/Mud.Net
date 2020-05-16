@@ -78,6 +78,7 @@
     <Compile Include="Character\CharacterNormalBlueprint.cs" />
     <Compile Include="Character\CharacterBlueprintBase.cs" />
     <Compile Include="Character\CharacterQuestorBlueprint.cs" />
+    <Compile Include="Reset\CharacterReset.cs" />
     <Compile Include="Item\ItemCastSpellsChargeBlueprintBase.cs" />
     <Compile Include="Item\ItemCastSpellsNoChargeBlueprintBase.cs" />
     <Compile Include="Item\ItemDrinkContainerBlueprint.cs" />
@@ -98,6 +99,12 @@
     <Compile Include="Quest\QuestKillLootTableEntry.cs" />
     <Compile Include="Quest\QuestKillObjectiveBlueprint.cs" />
     <Compile Include="Quest\QuestLocationObjectiveBlueprint.cs" />
+    <Compile Include="Reset\DoorReset.cs" />
+    <Compile Include="Reset\ItemInCharacterReset.cs" />
+    <Compile Include="Reset\ItemInEquipmentReset.cs" />
+    <Compile Include="Reset\ItemInItemReset.cs" />
+    <Compile Include="Reset\ItemInRoomReset.cs" />
+    <Compile Include="Reset\ResetBase.cs" />
     <Compile Include="Room\ExitBlueprint.cs" />
     <Compile Include="Item\ItemArmorBlueprint.cs" />
     <Compile Include="Item\ItemBlueprintBase.cs" />

@@ -474,6 +474,7 @@ namespace Mud.Server.Admin
             victim.UpdateMovePoints(victim.MaxMovePoints);
             foreach (ResourceKinds resource in victim.CurrentResourceKinds)
                 victim.UpdateResource(resource, victim.MaxResource(resource));
+            victim.UpdatePosition();
             // TODO: update_pos
             victim.Send("{0} has restored you.", Impersonating?.DisplayName ?? DisplayName);
         }

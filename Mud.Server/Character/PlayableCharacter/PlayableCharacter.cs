@@ -548,7 +548,7 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Room
-        public IRoom RecallRoom => World.GetDefaultRecallRoom(); // TODO: could be different from default one
+        public IRoom RecallRoom => World.DefaultRecallRoom; // TODO: could be different from default one
 
         // Group
         public bool IsSameGroup(IPlayableCharacter character)
@@ -972,12 +972,18 @@ namespace Mud.Server.Character.PlayableCharacter
 
         protected override void HandleDeath()
         {
+            ChangePosition(Positions.Resting);
+            HitPoints = 1;
+            MovePoints = 1;
+            foreach (var resourceKind in EnumHelpers.GetValues<ResourceKinds>())
+                this[resourceKind] = 1;
             if (ImpersonatedBy != null) // If impersonated, no real death
             {
-                // TODO: teleport player to hall room/graveyard  see fight.C:3952
+                IRoom room = World.DefaultDeathRoom ?? World.DefaultRecallRoom;
+                ChangeRoom(room);
                 Recompute(); // don't reset hp
             }
-            else // If not impersonated, remove from game
+            else // If not impersonated, remove from game // TODO: this can be a really bad idea
             {
                 World.RemoveCharacter(this);
             }

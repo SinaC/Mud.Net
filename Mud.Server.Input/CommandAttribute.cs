@@ -31,7 +31,19 @@ namespace Mud.Server.Input
     }
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class PlayableCharacterCommandAttribute : CommandAttribute // Must be impersonated
+    public class CharacterCommandAttribute : CommandAttribute
+    {
+        public Positions MinPosition { get; set; }
+
+        public CharacterCommandAttribute(string name, params string[] categories)
+            : base(name, categories)
+        {
+            MinPosition = Positions.Dead;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class PlayableCharacterCommandAttribute : CharacterCommandAttribute // Must be impersonated
     {
         public PlayableCharacterCommandAttribute(string name, params string[] categories)
             : base(name, categories)

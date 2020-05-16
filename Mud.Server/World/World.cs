@@ -130,7 +130,11 @@ namespace Mud.Server.World
 
         public IEnumerable<IItem> Items => _items.Where(x => x.IsValid);
 
-        public IRoom GetRandomRoom(ICharacter character) 
+        public IRoom DefaultRecallRoom => _rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
+
+        public IRoom DefaultDeathRoom => _rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultDeathRoomId);
+
+        public IRoom GetRandomRoom(ICharacter character)
         {
             INonPlayableCharacter nonPlayableCharacter = character as INonPlayableCharacter;
             return RandomManager.Random(Rooms.Where(x =>
@@ -140,11 +144,6 @@ namespace Mud.Server.World
                 && !x.RoomFlags.HasFlag(RoomFlags.Private)
                 && !x.RoomFlags.HasFlag(RoomFlags.Solitary)
                 && (nonPlayableCharacter == null || nonPlayableCharacter.ActFlags.HasFlag(ActFlags.Aggressive) || !x.RoomFlags.HasFlag(RoomFlags.Law))));
-        }
-
-        public IRoom GetDefaultRecallRoom() 
-        {
-            return _rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
         }
 
         public IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits)
@@ -444,6 +443,18 @@ namespace Mud.Server.World
         //    target.AddPeriodicAura(periodicAura);
         //    return periodicAura;
         //}
+
+        public void HandleResets()
+        {
+            foreach (IArea area in _areas)
+            {
+                // TODO: handle age + at load time, force age to arbitrary high value to ensure reset are computed
+                //if (area.PlayableCharacters.Any())
+                {
+                    area.HandleResets();
+                }
+            }
+        }
 
         public void RemoveCharacter(ICharacter character)
         {

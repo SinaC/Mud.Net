@@ -7,7 +7,7 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [Command("kill", "Combat", Priority = 1)]
+        [CharacterCommand("kill", "Combat", Priority = 1, MinPosition = Positions.Fighting)]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoKill(string rawParameters, params CommandParameter[] parameters)
         {
@@ -71,7 +71,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("flee", "Combat")]
+        [CharacterCommand("flee", "Combat", MinPosition = Positions.Standing)]
         protected virtual CommandExecutionResults DoFlee(string rawParameters, params CommandParameter[] parameters)
         {
             if (Fighting == null)

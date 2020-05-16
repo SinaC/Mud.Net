@@ -34,6 +34,8 @@ namespace Mud.Server
         bool Enter(ICharacter character);
         bool Leave(ICharacter character);
 
+        void HandleResets();
+
         // Affects
         void ApplyAffect(RoomFlagsAffect affect);
     }

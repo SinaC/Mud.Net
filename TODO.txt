@@ -1,7 +1,6 @@
 NEXT:
 
 TODO:
-reset
 room light
 admin command to switch an avatar from/to immortal/mortal
 money
@@ -23,6 +22,10 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+Death room added: room where PC goes when killed
+nasty bug with when PC were killed -> could never go below 1 :)
+resets
+command min position
 Scavenger/Sentinel handled
 UpdatePosition call in CharacterUpdate
 Aura's level decrease with time
@@ -158,7 +161,6 @@ when using FindHelper.FindByName on ICharacter and parameter is self -> return i
 redo rom importer
 Second/Third/Fourth wield in insectoid
 alignment at creation ?
-Resets
 Idea: move HP and move in ResourceKinds
 Cooldown
 Use SafeList where List is used
@@ -266,7 +268,6 @@ admin
 statistics: mob killed, player killed, ...
 
 !! Stunned position is not very well used/defined
-min pos to initiate command  see interp.C:935
 use more StringBuilder
 check if everywhere if Act should replace Send
 use new act formatting: h, b, v whereas possible

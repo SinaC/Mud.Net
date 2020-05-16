@@ -23,7 +23,7 @@ namespace Mud.Server.Character
         // 4/ else if an item can be found in inventory+room (matching 1st parameter), display item description or extra description
         // 5/ else, if an extra description can be found in room (matching 1st parameter), display it
         // 6/ else, if 1st parameter is a direction, display if there is an exit/door
-        [Command("look", "Information", Priority = 0)]
+        [CharacterCommand("look", "Information", Priority = 0, MinPosition = Positions.Resting)]
         [Syntax(
             "[cmd]",
             "[cmd] in <container>",
@@ -188,7 +188,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.TargetNotFound;
         }
 
-        [Command("exits", "Information")]
+        [CharacterCommand("exits", "Information", MinPosition = Positions.Resting)]
         protected virtual CommandExecutionResults DoExits(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -197,7 +197,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("examine", "Information")]
+        [CharacterCommand("examine", "Information", MinPosition = Positions.Resting)]
         [Syntax(
             "[cmd] <container>",
             "[cmd] <corpse>")]
@@ -237,7 +237,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("scan", "Information")]
+        [CharacterCommand("scan", "Information", MinPosition = Positions.Standing)]
         protected virtual CommandExecutionResults DoScan(string rawParameters, params CommandParameter[] parameters)
         {
             if (Room == null)
@@ -262,11 +262,16 @@ namespace Mud.Server.Character
                 IRoom currentRoom = Room; // starting point
                 for (int distance = 1; distance < 4; distance++)
                 {
-                    IRoom destination = currentRoom.GetRoom(direction);
-                    if (destination == null)
+                    IExit exit = currentRoom[direction];
+                    if (exit == null)
                         break; // stop in that direction if no exit found
+                    IRoom destination = exit?.Destination;
+                    if (destination == null)
+                        break; // stop in that direction if exit without linked room found
                     if (destination.RoomFlags.HasFlag(RoomFlags.NoScan))
                         break; // no need to scan further
+                    if (exit.IsClosed)
+                        break; // can't see thru closed door
                     StringBuilder roomScan = ScanRoom(destination);
                     if (roomScan.Length > 0)
                     {
@@ -281,7 +286,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("affects", "Information")]
+        [CharacterCommand("affects", "Information")]
         protected virtual CommandExecutionResults DoAffects(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -318,7 +323,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("score", "Information", Priority = 2)]
+        [CharacterCommand("score", "Information", Priority = 2)]
         protected virtual CommandExecutionResults DoScore(string rawParameters, params CommandParameter[] parameters)
         {
             IPlayableCharacter pc = this as IPlayableCharacter;
@@ -428,7 +433,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("where", "Information")]
+        [CharacterCommand("where", "Information", MinPosition = Positions.Resting)]
         [Syntax(
             "[cmd]",
             "[cmd] <player name>")]
@@ -476,7 +481,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("inventory", "Information")]
+        [CharacterCommand("inventory", "Information")]
         protected virtual CommandExecutionResults DoInventory(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -486,7 +491,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("equipment", "Information")]
+        [CharacterCommand("equipment", "Information")]
         protected virtual CommandExecutionResults DoEquipment(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -511,7 +516,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("consider", "Information")]
+        [CharacterCommand("consider", "Information", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoConsider(string rawParameters, params CommandParameter[] parameters)
         {
@@ -558,7 +563,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("weather", "Information")]
+        [CharacterCommand("weather", "Information", MinPosition = Positions.Resting)]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoWeather(string rawParameters, params CommandParameter[] parameters)
         {

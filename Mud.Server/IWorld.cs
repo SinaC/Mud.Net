@@ -47,8 +47,9 @@ namespace Mud.Server
         IEnumerable<IPlayableCharacter> PlayableCharacters { get; }
         IEnumerable<IItem> Items { get; }
 
+        IRoom DefaultRecallRoom { get; }
+        IRoom DefaultDeathRoom { get; }
         IRoom GetRandomRoom(ICharacter character);
-        IRoom GetDefaultRecallRoom();
 
         IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits);
 
@@ -70,6 +71,8 @@ namespace Mud.Server
 
         //IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks); // Hot
         //IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, SchoolTypes school, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks); // Dot
+
+        void HandleResets();
 
         void RemoveCharacter(ICharacter character);
         void RemoveItem(IItem item);

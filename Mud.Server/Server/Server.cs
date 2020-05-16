@@ -95,6 +95,9 @@ namespace Mud.Server.Server
 
             // Initialize UniquenessManager
             UniquenessManager.Initialize();
+
+            // Reset world
+            World.HandleResets();
         }
 
         public void Start()
@@ -1219,7 +1222,7 @@ namespace Mud.Server.Server
             foreach (INonPlayableCharacter npc in World.NonPlayableCharacters.Where(x => x.IsValid && !x.CharacterFlags.HasFlag(CharacterFlags.Charm)))
             {
                 // is mob update always or area not empty
-                if (npc.ActFlags.HasFlag(ActFlags.UpdateAlways) || npc.Room.Area.Characters.Count() > 0)
+                if (npc.ActFlags.HasFlag(ActFlags.UpdateAlways) || npc.Room.Area.PlayableCharacters.Count() > 0)
                 {
                     // TODO: invoke spec_fun
                     // TODO: give shop some money
@@ -1227,7 +1230,7 @@ namespace Mud.Server.Server
                     // scavenger
                     if (npc.ActFlags.HasFlag(ActFlags.Scavenger) && npc.Room.Content.Any() && RandomManager.Range(0, 63) == 0)
                     {
-                        Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: scavenger {0} on action", npc.DebugName);
+                        //Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: scavenger {0} on action", npc.DebugName);
                         // get most valuable item in room
                         IItem mostValuable = npc.Room.Content.Where(x => !x.NoTake && x.Cost > 0 /*&& CanLoot(npc, item)*/).OrderByDescending(x => x.Cost).FirstOrDefault();
                         if (mostValuable != null)
@@ -1240,7 +1243,7 @@ namespace Mud.Server.Server
                     // sentinel
                     if (npc.ActFlags.HasFlag(ActFlags.Sentinel) && RandomManager.Range(0,7) == 0)
                     {
-                        Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: sentinel {0} on action", npc.DebugName);
+                        //Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: sentinel {0} on action", npc.DebugName);
                         int exitNumber = RandomManager.Range(0, 31);
                         if (exitNumber < EnumHelpers.GetCount<ExitDirections>())
                         {
@@ -1363,6 +1366,11 @@ namespace Mud.Server.Server
             }
         }
 
+        private void HandleAreas(int pulseCount)
+        {
+            World.HandleResets();
+        }
+
         private void Cleanup()
         {
             // Remove invalid entities
@@ -1383,6 +1391,7 @@ namespace Mud.Server.Server
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleItems);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleRooms);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleTime); // 1 minute IRL = 1 hour IG
+            pulseManager.Add(Pulse.PulsePerMinutes * 3, Pulse.PulsePerMinutes * 3, HandleAreas);
 
             try
             {

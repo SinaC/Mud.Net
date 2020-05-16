@@ -34,6 +34,7 @@
         int DefaultRoomId { get; }
         int DefaultRecallRoomId { get; }
         int NullRoomId { get; }
+        int DefaultDeathRoomId { get; }
 
         bool CheckLoginPassword { get; }
 

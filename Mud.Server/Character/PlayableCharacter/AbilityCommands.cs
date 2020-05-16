@@ -11,7 +11,7 @@ namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter
     {
-        [Command("gain", "Ability")]
+        [PlayableCharacterCommand("gain", "Ability", MinPosition = Positions.Standing)]
         [Syntax(
             "[cmd] list",
             "[cmd] skills|spells",
@@ -101,7 +101,7 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.Ok;
         }
 
-        [Command("practice", "Ability")]
+        [PlayableCharacterCommand("practice", "Ability", MinPosition = Positions.Sleeping)]
         [Syntax(
             "[cmd]",
             "[cmd] <ability>")]

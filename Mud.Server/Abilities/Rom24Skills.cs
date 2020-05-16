@@ -563,7 +563,7 @@ namespace Mud.Server.Abilities
                 }
 
                 int lose = 50;
-                // TODO: gain negative experience 50
+                pcSource.GainExperience(-lose);
                 pcSource.Send("You recall from combat! You lose {0} exps.", lose);
                 pcSource.StopFighting(true);
             }

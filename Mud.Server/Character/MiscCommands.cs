@@ -1,4 +1,5 @@
-﻿using Mud.Server.Helpers;
+﻿using Mud.Domain;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
 // ReSharper disable UnusedMember.Global
 
@@ -6,7 +7,7 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [Command("order", "Group")]
+        [CharacterCommand("order", "Group", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <command>")]
         protected virtual CommandExecutionResults DoOrder(string rawParameters, params CommandParameter[] parameters)
         {

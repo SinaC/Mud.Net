@@ -468,6 +468,7 @@ namespace Mud.Server.Character
         public void UpdateHitPoints(int amount)
         {
             HitPoints = (HitPoints + amount).Range(0, MaxHitPoints);
+            UpdatePosition();
         }
 
         public void UpdateMovePoints(int amount)
@@ -643,7 +644,7 @@ namespace Mud.Server.Character
 
             // TODO: act_move.C:133
             // drunk
-            // exit flags such as climb, door closed, ...
+            // exit flags such as climb, ...
             // private room, size, swim room, guild room
 
             if (checkFighting && Fighting != null)
@@ -904,8 +905,7 @@ namespace Mud.Server.Character
 
         public bool Damage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display) // 'this' is dealt damage by 'source'
         {
-            ICharacter victim = this;
-            if (victim.Position == Positions.Dead)
+            if (Position == Positions.Dead)
                 return false;
             // damage reduction
             if (damage > 35)
@@ -913,41 +913,41 @@ namespace Mud.Server.Character
             if (damage > 80)
                 damage = (damage - 80) / 2 + 80;
 
-            if (victim != source)
+            if (this != source)
             {
                 // Certain attacks are forbidden.
                 // Most other attacks are returned.
-                if (victim.IsSafe(source))
+                if (IsSafe(source))
                     return false;
                 // TODO: check_killer
-                if (victim.Position > Positions.Stunned)
+                if (Position > Positions.Stunned)
                 {
-                    if (victim.Fighting == null)
-                        victim.StartFighting(source);
+                    if (Fighting == null)
+                        StartFighting(source);
                     // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
                 }
                 if (source.Position >= Positions.Stunned) // TODO: in original Rom code, test was done on victim (again)
                 {
                     if (source.Fighting == null)
-                        source.StartFighting(victim);
+                        source.StartFighting(this);
                 }
                 // more charm stuff
-                if (victim is INonPlayableCharacter npcVictim && npcVictim.ControlledBy == source)
+                if (this is INonPlayableCharacter npcVictim && npcVictim.ControlledBy == source)
                     npcVictim.ChangeController(null);
             }
             // inviso attack
             // TODO: remove invis, mass invis, flags, ... + "$n fades into existence."
             // damage modifiers
-            if (damage > 1 && victim is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
+            if (damage > 1 && this is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
                 damage -= damage / 10;
-            if (damage > 1 && victim.CharacterFlags.HasFlag(CharacterFlags.Sanctuary))
+            if (damage > 1 && CharacterFlags.HasFlag(CharacterFlags.Sanctuary))
                 damage /= 2;
             if (damage > 1
-                && ((victim.CharacterFlags.HasFlag(CharacterFlags.ProtectEvil) && source.IsEvil)
-                    || (victim.CharacterFlags.HasFlag(CharacterFlags.ProtectGood) && source.IsGood)))
+                && ((CharacterFlags.HasFlag(CharacterFlags.ProtectEvil) && source.IsEvil)
+                    || (CharacterFlags.HasFlag(CharacterFlags.ProtectGood) && source.IsGood)))
                 damage -= damage / 4;
             // old code was testing parry/dodge/shield block -> is done on OneHit
-            ResistanceLevels resistanceLevel = victim.CheckResistance(damageType);
+            ResistanceLevels resistanceLevel = CheckResistance(damageType);
             switch (resistanceLevel)
             {
                 case ResistanceLevels.Immune:
@@ -970,7 +970,7 @@ namespace Mud.Server.Character
                 // build phrases
                 if (string.IsNullOrWhiteSpace(damageNoun))
                 {
-                    if (victim == source)
+                    if (this == source)
                     {
                         phraseOther = "{0:N} {2} {0:f}.[{4}]";
                         phraseSource = "You {1} yourself.[{3}]";
@@ -986,7 +986,7 @@ namespace Mud.Server.Character
                 {
                     if (resistanceLevel == ResistanceLevels.Immune)
                     {
-                        if (victim == source)
+                        if (this == source)
                         {
                             phraseOther = "{0:N} is unaffected by {0:s} own {2}.";
                             phraseSource = "Luckily, you are immune to that.";
@@ -1000,7 +1000,7 @@ namespace Mud.Server.Character
                     }
                     else
                     {
-                        if (victim == source)
+                        if (this == source)
                         {
                             phraseOther = "{0:P} {3} {2} {0:m}.[{4}]";
                             phraseSource = "Your {2} {1} you.[{3}]";
@@ -1017,16 +1017,16 @@ namespace Mud.Server.Character
                 // display phrases
                 string damagePhraseSelf = StringHelpers.DamagePhraseSelf(damage);
                 string damagePhraseOther = StringHelpers.DamagePhraseOther(damage);
-                if (victim == source)
+                if (this == source)
                 {
-                    source.Act(ActOptions.ToRoom, phraseOther, source, victim, damagePhraseOther, damageNoun, damage);
-                    source.Act(ActOptions.ToCharacter, phraseSource, victim, damagePhraseSelf, damageNoun, damage);
+                    source.Act(ActOptions.ToRoom, phraseOther, source, this, damagePhraseOther, damageNoun, damage);
+                    source.Act(ActOptions.ToCharacter, phraseSource, this, damagePhraseSelf, damageNoun, damage);
                 }
                 else
                 {
-                    source.ActToNotVictim(victim, phraseOther, source, victim, damagePhraseOther, damageNoun, damage);
-                    source.Act(ActOptions.ToCharacter, phraseSource, victim, damagePhraseSelf, damageNoun, damage);
-                    victim.Act(ActOptions.ToCharacter, phraseVictim, source, damagePhraseOther, damageNoun, damage);
+                    source.ActToNotVictim(this, phraseOther, source, this, damagePhraseOther, damageNoun, damage);
+                    source.Act(ActOptions.ToCharacter, phraseSource, this, damagePhraseSelf, damageNoun, damage);
+                    Act(ActOptions.ToCharacter, phraseVictim, source, damagePhraseOther, damageNoun, damage);
                 }
             }
 
@@ -1035,34 +1035,35 @@ namespace Mud.Server.Character
                 return false;
 
             // hurt the victim
-            victim.UpdateHitPoints(-damage);
+            HitPoints -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0
             // immortals don't really die TODO
             //if (victim is IPlayableCharacter
             //    && victim.HitPoints < 1)
             //    victim.UpdateHitPoints(1 - victim.HitPoints); // set to 1
-            victim.UpdatePosition();
-            switch (victim.Position)
+            UpdatePosition();
+            switch (Position)
             {
-                case Positions.Mortal: victim.Act(ActOptions.ToAll, "{0:N} {0:b} mortally wounded, and will die soon, if not aided.", victim); break;
-                case Positions.Incap: victim.Act(ActOptions.ToAll, "{0:N} {0:b} incapacitated and will slowly die, if not aided.", victim); break;
-                case Positions.Stunned: victim.Act(ActOptions.ToAll, "{0:N} {0:b} stunned, but will probably recover.", victim); break;
+                case Positions.Mortal: Act(ActOptions.ToAll, "{0:N} {0:b} mortally wounded, and will die soon, if not aided.", this); break;
+                case Positions.Incap: Act(ActOptions.ToAll, "{0:N} {0:b} incapacitated and will slowly die, if not aided.", this); break;
+                case Positions.Stunned: Act(ActOptions.ToAll, "{0:N} {0:b} stunned, but will probably recover.", this); break;
                 case Positions.Dead:
-                    victim.Send("You have been KILLED!!");
-                    victim.Act(ActOptions.ToRoom, "{0:N} is dead.", victim);
+                    Send("You have been KILLED!!");
+                    Act(ActOptions.ToRoom, "{0:N} is dead.", this);
                     break;
                 default:
-                    if (damage > victim.MaxHitPoints / 4)
-                        victim.Send("That really did HURT!");
-                    else if (victim.HitPoints < victim.MaxHitPoints / 4)
-                        victim.Send("You sure are BLEEDING!");
+                    if (damage > MaxHitPoints / 4)
+                        Send("That really did HURT!");
+                    else if (HitPoints < MaxHitPoints / 4)
+                        Send("You sure are BLEEDING!");
                     break;
             }
 
             // sleep spells or extremely wounded folks
-            if (victim.Position <= Positions.Sleeping)
+            if (Position <= Positions.Sleeping)
                 StopFighting(true); // StopFighting will set position to standing then UpdatePosition will set it again to Dead!!!
 
-            if (victim.Position == Positions.Dead)
+            // handle dead people
+            if (Position == Positions.Dead)
             {
                 IItemCorpse corpse = RawKilled(source, true); // group group_gain + dying penalty + raw_kill
 
@@ -1070,13 +1071,13 @@ namespace Mud.Server.Character
                 return true;
             }
 
-            if (victim == source)
+            if (this == source)
                 return true;
 
             // TODO: take care of link-dead people
             HandleWimpy(damage);
 
-            return false;
+            return true;
         }
 
         public ResistanceLevels CheckResistance(SchoolTypes damageType)
@@ -1667,6 +1668,39 @@ namespace Mud.Server.Character
             {
                 RemoveBaseCharacterFlags(CharacterFlags.Hide);
                 Recompute();
+            }
+
+            // Check minimum position
+            if (methodInfo.Attribute is CharacterCommandAttribute characterCommandAttribute)
+            {
+                if (Position < characterCommandAttribute.MinPosition)
+                {
+                    switch (Position)
+                    {
+                        case Positions.Dead:
+                            Send("Lie still; you are DEAD.");
+                            return false;
+                        case Positions.Mortal:
+                        case Positions.Incap:
+                            Send("You are hurt far too bad for that.");
+                            return false;
+                        case Positions.Stunned:
+                            Send("You are too stunned to do that.");
+                            return false;
+                        case Positions.Sleeping:
+                            Send("In your dreams, or what?");
+                            return false;
+                        case Positions.Resting:
+                            Send("Nah... You feel too relaxed...");
+                            return false;
+                        case Positions.Sitting:
+                            Send("Better stand up first.");
+                            return false;
+                        case Positions.Fighting:
+                            Send("No way!  You are still fighting!");
+                            return false;
+                    }
+                }
             }
 
             return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);

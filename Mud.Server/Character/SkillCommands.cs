@@ -1,4 +1,5 @@
-﻿using Mud.Logger;
+﻿using Mud.Domain;
+using Mud.Logger;
 using Mud.Server.Input;
 // ReSharper disable UnusedMember.Global
 
@@ -6,70 +7,70 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [Command("berserk", "Combat", "Skills")]
+        [CharacterCommand("berserk", "Combat", "Skills", MinPosition = Positions.Fighting)]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoBerserk(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Berserk", rawParameters, parameters);
 
-        [Command("bash", "Combat", "Skills")]
+        [CharacterCommand("bash", "Combat", "Skills", MinPosition = Positions.Fighting)]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoBash(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Bash", rawParameters, parameters);
 
-        [Command("dirt", "Combat", "Skills")]
+        [CharacterCommand("dirt", "Combat", "Skills", MinPosition = Positions.Fighting)]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoDirt(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Dirt kicking", rawParameters, parameters);
 
-        [Command("trip", "Combat", "Skills")]
+        [CharacterCommand("trip", "Combat", "Skills", MinPosition = Positions.Fighting)]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoTrip(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Trip", rawParameters, parameters);
 
-        [Command("backstab", "Combat", "Skills")]
-        [Command("bs", "Combat", "Skills")]
+        [CharacterCommand("backstab", "Combat", "Skills", MinPosition = Positions.Fighting)]
+        [CharacterCommand("bs", "Combat", "Skills")]
         [Syntax("[cmd] <victim>")]
         protected virtual CommandExecutionResults DoBackstab(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Backstab", rawParameters, parameters);
 
-        [Command("kick", "Combat", "Skills")]
+        [CharacterCommand("kick", "Combat", "Skills", MinPosition = Positions.Fighting)]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoKick(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Kick", rawParameters, parameters);
 
-        [Command("disarm", "Combat", "Skills")]
+        [CharacterCommand("disarm", "Combat", "Skills", MinPosition = Positions.Fighting)]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoDisarm(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Disarm", rawParameters, parameters);
 
-        [Command("sneak", "Skills")]
+        [CharacterCommand("sneak", "Skills", MinPosition = Positions.Standing)]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoSneak(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Sneak", rawParameters, parameters);
 
-        [Command("hide", "Skills")]
+        [CharacterCommand("hide", "Skills", MinPosition = Positions.Resting)]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoHide(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Hide", rawParameters, parameters);
 
-        [Command("recall", "Skills")]
+        [CharacterCommand("recall", "Skills", MinPosition = Positions.Fighting)]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoRecall(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Recall", rawParameters, parameters);
 
-        [Command("pick", "Skills")]
+        [CharacterCommand("pick", "Skills", MinPosition = Positions.Resting)]
         [Syntax(
             "[cmd] <direction>",
             "[cmd] <door>",
             "[cmd] <container>|<portal>")]
         protected virtual CommandExecutionResults DoPick(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Pick lock", rawParameters, parameters);
 
-        [Command("envenom", "Skills")]
+        [CharacterCommand("envenom", "Skills", MinPosition = Positions.Resting)]
         [Syntax(
             "[cmd] <weapon>",
             "[cmd] <food>",
             "[cmd] <drink container>")]
         protected virtual CommandExecutionResults DoEnvenom(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Envenom", rawParameters, parameters);
 
-        [Command("recite", "Spells")]
+        [CharacterCommand("recite", "Spells", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <scroll> [<target>]")]
         protected virtual CommandExecutionResults DoRecite(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Scrolls", rawParameters, parameters);
 
-        [Command("zap", "Spells")]
+        [CharacterCommand("zap", "Spells", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <wand> [<target>]")]
         protected virtual CommandExecutionResults DoZap(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Wands", rawParameters, parameters);
 
-        [Command("brandish", "Spells")]
+        [CharacterCommand("brandish", "Spells", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <staff> [<target>]")]
         protected virtual CommandExecutionResults DoBrandish(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Staves", rawParameters, parameters);
 

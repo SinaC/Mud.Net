@@ -120,15 +120,15 @@ namespace Mud.Server.Tests.Mocking
 
         public IRoom NullRoom => throw new NotImplementedException();
 
+        public IRoom DefaultRecallRoom => throw new NotImplementedException();
+
+        public IRoom DefaultDeathRoom => throw new NotImplementedException();
+
         public IRoom GetRandomRoom(ICharacter character)
         {
             throw new NotImplementedException();
         }
 
-        public IRoom GetDefaultRecallRoom()
-        {
-            throw new NotImplementedException();
-        }
 
         public IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits)
         {
@@ -395,6 +395,11 @@ namespace Mud.Server.Tests.Mocking
         }
 
         public void Cleanup()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void HandleResets()
         {
             throw new NotImplementedException();
         }

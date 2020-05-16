@@ -68,4 +68,29 @@ namespace Mud.Importer.Mystery
         public int Arg3 { get; set; }
         public int Arg4 { get; set; }
     }
+
+    public enum ResetDataWearLocation
+    {
+        WEAR_NONE = -1,
+        WEAR_LIGHT = 0,
+        WEAR_FINGER_L = 1,
+        WEAR_FINGER_R = 2,
+        WEAR_NECK_1 = 3,
+        WEAR_NECK_2 = 4,
+        WEAR_BODY = 5,
+        WEAR_HEAD = 6,
+        WEAR_LEGS = 7,
+        WEAR_FEET = 8,
+        WEAR_HANDS = 9,
+        WEAR_ARMS = 10,
+        WEAR_SHIELD = 11,
+        WEAR_ABOUT = 12,
+        WEAR_WAIST = 13,
+        WEAR_WRIST_L = 14,
+        WEAR_WRIST_R = 15,
+        WEAR_WIELD = 16,
+        WEAR_HOLD = 17,
+        WEAR_FLOAT = 18,
+        MAX_WEAR = 19,
+    }
 }

@@ -12,7 +12,7 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [Command("cast", "Ability", Priority = 2)]
+        [CharacterCommand("cast", "Ability", Priority = 2, MinPosition = Positions.Fighting)]
         [Syntax("[cmd] <ability> <target>")]
         protected virtual CommandExecutionResults DoCast(string rawParameters, params CommandParameter[] parameters)
         {
@@ -22,7 +22,7 @@ namespace Mud.Server.Character
                 : CommandExecutionResults.NoExecution;
         }
 
-        [Command("abilities", "Ability")]
+        [CharacterCommand("abilities", "Ability")]
         [Syntax(
             "[cmd]",
             "[cmd] all")]
@@ -35,7 +35,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("spells", "Ability")]
+        [CharacterCommand("spells", "Ability")]
         [Syntax(
             "[cmd]",
             "[cmd] all")]
@@ -48,7 +48,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("skills", "Ability")]
+        [CharacterCommand("skills", "Ability")]
         [Syntax(
             "[cmd]",
             "[cmd] all")]
@@ -61,8 +61,8 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("cd", "Ability")]
-        [Command("cooldowns", "Ability")]
+        [CharacterCommand("cd", "Ability")]
+        [CharacterCommand("cooldowns", "Ability")]
         [Syntax(
             "[cmd]",
             "[cmd] <ability>")]

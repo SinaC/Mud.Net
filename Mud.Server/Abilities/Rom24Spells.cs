@@ -950,7 +950,11 @@ namespace Mud.Server.Abilities
             else
             {
                 damage = RandomManager.Dice(1, level);
-                // TODO: negative experience gain gain_exp( victim, 0 - number_range( level/2, 3 * level / 2 ) );
+                if (victim is IPlayableCharacter pcVictim)
+                {
+                    int lose = RandomManager.Range(level / 2, 3 * level / 2);
+                    pcVictim.GainExperience(-lose);
+                }
                 victim.UpdateResource(ResourceKinds.Mana, -victim[ResourceKinds.Mana] / 2); // half mana
                 victim.UpdateMovePoints(-victim.MovePoints / 2); // half move
                 caster.UpdateHitPoints(damage);
@@ -1063,7 +1067,7 @@ namespace Mud.Server.Abilities
             {
                 caster.Send("Somehing went wrong.");
                 Log.Default.WriteLine(LogLevels.Error, "SpellFloatingDisc: blueprint {0} is not a container", Settings.FloatingDiscBlueprintId);
-                World.RemoveItem(item); // destroy ii if invalid
+                World.RemoveItem(item); // destroy it if invalid
                 return;
             }
             int maxWeight = level * 10;

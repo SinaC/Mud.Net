@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -18,6 +19,7 @@ using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
+using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
 using Mud.Server.Item;
@@ -1067,6 +1069,34 @@ namespace Mud.Server.WPFTestApplication
             return flags;
         }
 
+        private static EquipmentSlots ConvertWearLocation(int resetDataWearLocation)
+        {
+            switch ((ResetDataWearLocation)resetDataWearLocation)
+            {
+                case ResetDataWearLocation.WEAR_NONE: return EquipmentSlots.None;
+                case ResetDataWearLocation.WEAR_LIGHT: return EquipmentSlots.Light;
+                case ResetDataWearLocation.WEAR_FINGER_L:
+                case ResetDataWearLocation.WEAR_FINGER_R: return EquipmentSlots.Ring;
+                case ResetDataWearLocation.WEAR_NECK_1:
+                case ResetDataWearLocation.WEAR_NECK_2: return EquipmentSlots.Amulet;
+                case ResetDataWearLocation.WEAR_BODY: return EquipmentSlots.Chest;
+                case ResetDataWearLocation.WEAR_HEAD: return EquipmentSlots.Head;
+                case ResetDataWearLocation.WEAR_LEGS: return EquipmentSlots.Legs;
+                case ResetDataWearLocation.WEAR_FEET: return EquipmentSlots.Feet;
+                case ResetDataWearLocation.WEAR_HANDS: return EquipmentSlots.Hands;
+                case ResetDataWearLocation.WEAR_ARMS: return EquipmentSlots.Arms;
+                case ResetDataWearLocation.WEAR_SHIELD: return EquipmentSlots.OffHand;
+                case ResetDataWearLocation.WEAR_ABOUT: return EquipmentSlots.Cloak;
+                case ResetDataWearLocation.WEAR_WAIST: return EquipmentSlots.Waist;
+                case ResetDataWearLocation.WEAR_WRIST_L:
+                case ResetDataWearLocation.WEAR_WRIST_R: return EquipmentSlots.Wrists;
+                case ResetDataWearLocation.WEAR_WIELD: return EquipmentSlots.MainHand;
+                case ResetDataWearLocation.WEAR_HOLD: return EquipmentSlots.OffHand;
+                case ResetDataWearLocation.WEAR_FLOAT: return EquipmentSlots.Float;
+            }
+            return EquipmentSlots.None;
+        }
+
         private static WearLocations ConvertWearLocation(ObjectData data)
         {
             //#define ITEM_TAKE		(A)
@@ -1119,8 +1149,7 @@ namespace Mud.Server.WPFTestApplication
                 case MysteryImporter.M: // M wrist
                     return WearLocations.Wrists;
                 case MysteryImporter.N: // N wield
-                    int weaponType2 = data.Values[4] == null ? 0 : Convert.ToInt32(data.Values[4]);
-                    if (data.ItemType == "weapon" && HasBit( weaponType2, MysteryImporter.F)) // Two-hands
+                    if (data.ItemType == "weapon" && HasBit(data.Values[4] == null ? 0 : Convert.ToInt32(data.Values[4]), MysteryImporter.F)) // Two-hands
                         return WearLocations.Wield2H;
                     return WearLocations.Wield;
                 case MysteryImporter.O: // O hold
@@ -1306,7 +1335,7 @@ namespace Mud.Server.WPFTestApplication
 
             //string fileList = System.IO.Path.Combine(path, "area.lst");
             //string[] areaFilenames = System.IO.File.ReadAllLines(fileList);
-            //foreach (string areaFilename in areaFilenames.Where(x => !x.Contains("limbo")))
+            //foreach (string areaFilename in areaFilenames)//.Where(x => !x.Contains("limbo")))
             //{
             //    if (areaFilename.Contains("$"))
             //        break;
@@ -1314,7 +1343,6 @@ namespace Mud.Server.WPFTestApplication
             //    mysteryImporter.Load(areaFullName);
             //    mysteryImporter.Parse();
             //}
-
 
             foreach (var itemTypeAndCount in mysteryImporter.Objects.GroupBy(o => o.ItemType, (itemType, list) => new {itemType, count = list.Count()}).OrderBy(x => x.count))
                 Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", itemTypeAndCount.itemType, itemTypeAndCount.count);
@@ -1380,139 +1408,63 @@ namespace Mud.Server.WPFTestApplication
                 }
             }
 
-            // Handle resets
-            // TODO: handle rom resets
-            INonPlayableCharacter lastCharacter = null;
-            IItemContainer lastContainer = null;
-            Dictionary<string, int> itemTypes = new Dictionary<string, int>();
+            // Create Resets
             foreach (RoomData importedRoom in mysteryImporter.Rooms.Where(x => x.Resets.Any()))
             {
-                IRoom room;
-                roomsByVNums.TryGetValue(importedRoom.VNum, out room);
+                RoomBlueprint room = World.GetRoomBlueprint(importedRoom.VNum);
                 foreach (ResetData reset in importedRoom.Resets)
                 {
                     switch (reset.Command)
                     {
                         case 'M':
+                            Debug.Assert(reset.Arg3 == room.Id, $"Reset arg3 '{reset.Arg3}' should be equal to room id '{room.Id}'.");
+                            room.Resets.Add(new CharacterReset
                             {
-                                CharacterBlueprintBase blueprint = World.GetCharacterBlueprint(reset.Arg1);
-                                if (blueprint != null)
-                                {
-                                    lastCharacter = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, room);
-                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} added");
-                                }
-                                else
-                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} not found");
-                                break;
-                            }
+                                RoomBlueprintId = room.Id,
+                                CharacterId = reset.Arg1,
+                                GlobalLimit = reset.Arg2,
+                                LocalLimit = reset.Arg4
+                            });
+                            break;
                         case 'O':
+                            Debug.Assert(reset.Arg3 == room.Id, $"Reset arg3 '{reset.Arg3}' should be equal to room id '{room.Id}'.");
+                            room.Resets.Add(new ItemInRoomReset
                             {
-                                ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
-                                if (blueprint != null)
-                                {
-                                    IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, room);
-                                    if (item != null)
-                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} added room");
-                                    else
-                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not created");
-                                    lastContainer = item as IItemContainer; // even if item is not a container, we have to convert it
-                                }
-                                else
-                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not found");
-                                //ObjectData obj = importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1);
-                                //if (obj != null)
-                                //{
-                                //    if (obj.ItemType == "weapon")
-                                //    {
-                                //        ItemWeaponBlueprint blueprint = World.GetItemBlueprint(reset.Arg1) as ItemWeaponBlueprint;
-                                //        World.AddItemWeapon(Guid.NewGuid(), blueprint, room);
-                                //        Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: Weapon {reset.Arg1} added on floor");
-                                //    }
-                                //    else if (obj.ItemType == "container")
-                                //    {
-                                //        ItemContainerBlueprint blueprint = World.GetItemBlueprint(reset.Arg1) as ItemContainerBlueprint;
-                                //        lastContainer = World.AddItemContainer(Guid.NewGuid(), blueprint, room);
-                                //        Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: Container {reset.Arg1} added on floor");
-                                //    }
-                                //}
-                                //else
-                                //    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: Obj {reset.Arg1} not found");
-                                break;
-                            }
-                        // P: put object arg1 (add arg2 times at once with max occurence arg4) in object arg3
+                                RoomBlueprintId = room.Id,
+                                ItemId = reset.Arg1,
+                                GlobalLimit = reset.Arg2,
+                                LocalLimit = reset.Arg4,
+                            });
+                            break;
                         case 'P':
+                            room.Resets.Add(new ItemInItemReset 
                             {
-                                ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
-                                if (blueprint != null)
-                                {
-                                    if (lastContainer != null)
-                                    {
-                                        World.AddItem(Guid.NewGuid(), blueprint.Id, lastContainer);
-                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} added in {lastContainer.Blueprint.Id}");
-                                    }
-                                    else
-                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: P: Last item was not a container");
-                                }
-                                else
-                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} (type: {mysteryImporter.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
-                                break;
-                            }
-                        // G: give object arg1 to mobile 
+                                RoomBlueprintId = room.Id,
+                                ItemId = reset.Arg1,
+                                ContainerId = reset.Arg3,
+                                GlobalLimit = reset.Arg2,
+                                LocalLimit = reset.Arg4,
+                            });
+                            break;
                         case 'G':
+                            room.Resets.Add(new ItemInCharacterReset 
                             {
-                                ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
-                                if (blueprint != null)
-                                {
-                                    if (lastCharacter != null)
-                                    {
-                                        World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
-                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
-                                    }
-                                    else
-                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: G: Last character doesn't exist");
-                                }
-                                else
-                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} (type: {mysteryImporter.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
-                                break;
-                            }
-                        // E: equip object arg1 to mobile
+                                RoomBlueprintId = room.Id,
+                                ItemId = reset.Arg1,
+                                GlobalLimit = reset.Arg2,
+                            });
+                            break;
                         case 'E':
+                            room.Resets.Add(new ItemInEquipmentReset
                             {
-                                ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
-                                if (blueprint != null)
-                                {
-                                    if (lastCharacter != null)
-                                    {
-                                        IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
-                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
-                                        // try to equip
-                                        if (item.WearLocation != WearLocations.None)
-                                        {
-                                            EquippedItem equippedItem = lastCharacter.SearchEquipmentSlot(item, false);
-                                            if (equippedItem != null)
-                                            {
-                                                equippedItem.Item = item;
-                                                item.ChangeContainer(null); // remove from inventory
-                                                item.ChangeEquippedBy(lastCharacter, true); // set as equipped by lastCharacter
-                                            }
-                                            else
-                                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Item {reset.Arg1} wear location {item.WearLocation} doesn't exist on last character");
-                                        }
-                                        else
-                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Item {reset.Arg1} cannot be equipped");
-                                    }
-                                    else
-                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Last character doesn't exist");
-                                }
-                                else
-                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} (type: {mysteryImporter.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
-                                break;
-                            }
-                            // D: set state of door  (not used)
-                            // R: randomize room exits
-                            // Z: maze at arg3 with size arg1*arg2 and map vnum arg4
-                            // TODO: other command  D, R, Z
+                                RoomBlueprintId = room.Id,
+                                ItemId = reset.Arg1,
+                                EquipmentSlot = ConvertWearLocation(reset.Arg3),
+                                GlobalLimit = reset.Arg2,
+                            });
+                            break;
                     }
+                    // TODO: D, R, Z
                 }
             }
 

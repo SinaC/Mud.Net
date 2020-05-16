@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Server.Blueprints.Reset;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -26,6 +27,9 @@ namespace Mud.Server.Blueprints.Room
         public ExitBlueprint[] Exits { get; set; } // TODO: fixed length or list (+ add direction in ExitBlueprint)
 
         // TODO: healrate, sector, ...
+
+        [DataMember]
+        public List<ResetBase> Resets { get; set; } = new List<ResetBase>();
 
         public static Dictionary<string, string> BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
         {

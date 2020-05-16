@@ -15,7 +15,7 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [Command("wear", "Item", "Equipment")]
+        [CharacterCommand("wear", "Item", "Equipment", MinPosition = Positions.Resting)]
         [Syntax(
             "[cmd] <item>",
             "[cmd] all")]
@@ -68,7 +68,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("wield", "Item", "Equipment")]
+        [CharacterCommand("wield", "Item", "Equipment", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <weapon>")]
         // Wield item
         protected virtual CommandExecutionResults DoWield(string rawParameters, params CommandParameter[] parameters)
@@ -100,7 +100,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("hold", "Item", "Equipment")]
+        [CharacterCommand("hold", "Item", "Equipment", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <item>")]
         // Hold item
         protected virtual CommandExecutionResults DoHold(string rawParameters, params CommandParameter[] parameters)
@@ -127,7 +127,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("remove", "Item", "Equipment")]
+        [CharacterCommand("remove", "Item", "Equipment", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <item>")]
         // Remove item
         protected virtual CommandExecutionResults DoRemove(string rawParameters, params CommandParameter[] parameters)
@@ -152,8 +152,8 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("get", "Item", "Inventory")]
-        [Command("take", "Item", "Inventory")]
+        [CharacterCommand("get", "Item", "Inventory", MinPosition = Positions.Resting)]
+        [CharacterCommand("take", "Item", "Inventory", MinPosition = Positions.Resting)]
         [Syntax(
             "[cmd] <item>",
             "[cmd] <item> <container>")]
@@ -273,7 +273,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("drop", "Item", "Inventory")]
+        [CharacterCommand("drop", "Item", "Inventory", MinPosition = Positions.Resting)]
         [Syntax(
             "[cmd] <item>",
             "[cmd] all")]
@@ -325,7 +325,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("give", "Item", "Equipment")]
+        [CharacterCommand("give", "Item", "Equipment", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <item> <character>")]
         // Give item victim
         protected virtual CommandExecutionResults DoGive(string rawParameters, params CommandParameter[] parameters)
@@ -392,7 +392,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("put", "Item", "Equipment")]
+        [CharacterCommand("put", "Item", "Equipment", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <item> <container>")]
         // Put item container
         // Put item [in] container
@@ -466,7 +466,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("drink", "Drink")]
+        [CharacterCommand("drink", "Drink", MinPosition = Positions.Resting)]
         [Syntax(
             "[cmd]",
             "[cmd] <container>")]
@@ -568,7 +568,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("pour", "Drink")]
+        [CharacterCommand("pour", "Drink", MinPosition = Positions.Resting)]
         [Syntax(
             "[cmd] <container> out",
             "[cmd] <container> <container>",
@@ -672,7 +672,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("fill", "Drink")]
+        [CharacterCommand("fill", "Drink", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <container>")]
         protected virtual CommandExecutionResults DoFill(string rawParameters, params CommandParameter[] parameters)
         {
@@ -722,7 +722,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("eat", "Food")]
+        [CharacterCommand("eat", "Food", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <food|pill>")]
         protected virtual CommandExecutionResults DoEat(string rawParameters, params CommandParameter[] parameters)
         {
@@ -805,7 +805,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("quaff", "Drink")]
+        [CharacterCommand("quaff", "Drink", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <potion>")]
         protected virtual CommandExecutionResults DoQuaff(string rawParameters, params CommandParameter[] parameters)
         {

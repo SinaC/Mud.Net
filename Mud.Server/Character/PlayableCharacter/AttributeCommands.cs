@@ -9,7 +9,7 @@ namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter
     {
-        [Command("train", "Attributes")]
+        [PlayableCharacterCommand("train", "Attributes", MinPosition = Positions.Resting)]
         [Syntax(
             "[cmd]",
             "[cmd] <attribute>",

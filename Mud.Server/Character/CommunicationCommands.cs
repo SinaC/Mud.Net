@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Mud.Domain;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 // ReSharper disable UnusedMember.Global
@@ -7,7 +8,7 @@ namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [Command("say", "Communication")]
+        [CharacterCommand("say", "Communication", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoSay(string rawParameters, params CommandParameter[] parameters)
         {
@@ -21,7 +22,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("yell", "Communication")]
+        [CharacterCommand("yell", "Communication", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoYell(string rawParameters, params CommandParameter[] parameters)
         {
@@ -35,7 +36,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("emote", "Communication")]
+        [CharacterCommand("emote", "Communication", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoEmote(string rawParameters, params CommandParameter[] parameters)
         {
@@ -49,7 +50,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("whisper", "Communication")]
+        [CharacterCommand("whisper", "Communication", MinPosition = Positions.Standing)]
         [Syntax("[cmd] <character> <message>")]
         protected virtual CommandExecutionResults DoWhisper(string rawParameters, params CommandParameter[] parameters)
         {
@@ -77,7 +78,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [Command("shout", "Communication")]
+        [CharacterCommand("shout", "Communication", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoShout(string rawParameters, params CommandParameter[] parameters)
         {

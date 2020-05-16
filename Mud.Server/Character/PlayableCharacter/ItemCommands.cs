@@ -1,4 +1,5 @@
-﻿using Mud.Logger;
+﻿using Mud.Domain;
+using Mud.Logger;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
@@ -9,7 +10,7 @@ namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter
     {
-        [PlayableCharacterCommand("destroy", "Item", Priority = 50, NoShortcut = true)]
+        [PlayableCharacterCommand("destroy", "Item", Priority = 50, NoShortcut = true, MinPosition = Positions.Standing)]
         [Syntax("[cmd] <item>")]
         // Destroy item
         protected virtual CommandExecutionResults DoDestroy(string rawParameters, params CommandParameter[] parameters)

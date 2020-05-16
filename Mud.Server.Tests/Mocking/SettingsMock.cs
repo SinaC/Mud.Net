@@ -60,5 +60,7 @@ namespace Mud.Server.Tests.Mocking
         public int RoseBlueprintId => throw new NotImplementedException();
 
         public int NullRoomId => throw new NotImplementedException();
+
+        public int DefaultDeathRoomId => throw new NotImplementedException();
     }
 }

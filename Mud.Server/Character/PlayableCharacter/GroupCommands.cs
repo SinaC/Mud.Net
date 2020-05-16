@@ -13,7 +13,7 @@ namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter
     {
-        [PlayableCharacterCommand("follow", "Group")]
+        [PlayableCharacterCommand("follow", "Group", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoFollow(string rawParameters, params CommandParameter[] parameters)
         {
@@ -130,7 +130,7 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.Ok;
         }
 
-        [PlayableCharacterCommand("leave", "Group", Priority = 5)]
+        [PlayableCharacterCommand("leave", "Group", Priority = 5, MinPosition = Positions.Sleeping)]
         protected virtual CommandExecutionResults DoLeave(string rawParameters, params CommandParameter[] parameters)
         {
             // Member leaving

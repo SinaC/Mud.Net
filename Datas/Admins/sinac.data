@@ -2040,6 +2040,15 @@
           <Learned>0</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
+        <KnownAbilityData>
+          <AbilityId>6</AbilityId>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>26</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </KnownAbilityData>
       </KnownAbilities>
       <Conditions>
         <PairDataOfInt32Int32>
@@ -2062,5 +2071,5 @@
     </CharacterData>
   </Characters>
   <AdminLevel>7</AdminLevel>
-  <WiznetFlags>1165</WiznetFlags>
+  <WiznetFlags>16383</WiznetFlags>
 </AdminData>

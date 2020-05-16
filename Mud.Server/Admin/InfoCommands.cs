@@ -221,7 +221,7 @@ namespace Mud.Server.Admin
             else
                 sb.AppendLine("No blueprint");
             sb.AppendFormatLine("Name: {0}", room.Blueprint?.Name ?? "(none)");
-            sb.AppendFormatLine("Flags: {0}/{1}", room.RoomFlags, room.BaseRoomFlags);
+            sb.AppendFormatLine("Flags: {0} (base: {1})", room.RoomFlags, room.BaseRoomFlags);
             sb.AppendFormatLine("DisplayName: {0}", room.DisplayName);
             sb.AppendFormatLine("Description: {0}", room.Description);
             if (room.ExtraDescriptions != null)
