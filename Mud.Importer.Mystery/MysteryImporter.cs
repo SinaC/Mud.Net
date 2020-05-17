@@ -747,4 +747,14 @@ namespace Mud.Importer.Mystery
 
         }
     }
+
+    public enum Sizes
+    {
+        SIZE_TINY			= 0,
+        SIZE_SMALL			= 1,
+        SIZE_MEDIUM			= 2,
+        SIZE_LARGE			= 3,
+        SIZE_HUGE			= 4,
+        SIZE_GIANT			= 5,
+    }
 }

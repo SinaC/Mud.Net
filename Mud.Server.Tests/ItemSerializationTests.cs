@@ -330,10 +330,11 @@ namespace Mud.Server.Tests
 
             ItemData itemData = light.MapItemData(); // no specific ItemData
 
-            Assert.IsInstanceOfType(itemData, typeof(ItemData));
+            Assert.IsInstanceOfType(itemData, typeof(ItemLightData));
             Assert.AreEqual(light.Blueprint.Id, itemData.ItemId);
             Assert.AreEqual(light.DecayPulseLeft, itemData.DecayPulseLeft);
             Assert.AreEqual(light.BaseItemFlags, itemData.ItemFlags);
+            Assert.AreEqual(light.TimeLeft, (itemData as ItemLightData).TimeLeft);
         }
 
         // Portal

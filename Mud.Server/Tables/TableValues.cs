@@ -56,7 +56,29 @@ namespace Mud.Server.Tables
                 case EquipmentSlots.OffHand: return 1;
                 case EquipmentSlots.Float: return 1;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Invalid EquipmentSlots {0}", slot);
+                    Log.Default.WriteLine(LogLevels.Error, "TableValue.EquipmentSlotMultiplier: invalid EquipmentSlots {0}", slot);
+                    return 1;
+            }
+        }
+
+        public int MovementLoss(SectorTypes sector)
+        {
+            switch (sector)
+            {
+                case SectorTypes.Inside: return 1;
+                case SectorTypes.City: return 2;
+                case SectorTypes.Field: return 2;
+                case SectorTypes.Forest: return 3;
+                case SectorTypes.Hills: return 4;
+                case SectorTypes.Mountain: return 6;
+                case SectorTypes.WaterSwim: return 4;
+                case SectorTypes.WaterNoSwim: return 1;
+                case SectorTypes.Burning: return 10;
+                case SectorTypes.Air: return 6;
+                case SectorTypes.Desert: return 10;
+                case SectorTypes.Underwater: return 15;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, "TableValue.MovementLoss: invalid SectorTypes {0}", sector);
                     return 1;
             }
         }

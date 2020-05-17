@@ -730,6 +730,40 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
+        [CharacterCommand("wake", "Movement", MinPosition = Positions.Sleeping)]
+        [Syntax(
+            "[cmd]",
+            "[cmd] <character>")]
+        protected virtual CommandExecutionResults DoWake(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+                return DoStand(rawParameters, parameters);
+            if (Position <= Positions.Sleeping)
+            {
+                Send("You are asleep yourself!");
+                return CommandExecutionResults.NoExecution;
+            }
+            ICharacter victim = FindHelpers.FindByName(Room.People, parameters[0]);
+            if (victim == null)
+            {
+                Send(StringHelpers.CharacterNotFound);
+                return CommandExecutionResults.TargetNotFound;
+            }
+            if (victim.Position > Positions.Sleeping)
+            {
+                Act(ActOptions.ToCharacter, "{0:N} is already awake.", victim);
+                return CommandExecutionResults.InvalidTarget;
+            }
+            if (victim.CharacterFlags.HasFlag(CharacterFlags.Sleep))
+            {
+                Act(ActOptions.ToCharacter, "You can't wake {0:m}!", victim);
+                return CommandExecutionResults.InvalidTarget;
+            }
+            victim.Act(ActOptions.ToCharacter, "{0:N} wakes you.", this);
+            //TODO victim.DoStand(string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
+            return CommandExecutionResults.NoExecution;
+        }
+
         [CharacterCommand("enter", "Movement", MinPosition = Positions.Standing)]
         [Syntax("[cmd] <portal>")]
         protected virtual CommandExecutionResults DoEnter(string rawParameters, params CommandParameter[] parameters)

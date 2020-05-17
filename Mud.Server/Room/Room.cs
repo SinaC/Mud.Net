@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
@@ -21,6 +22,8 @@ namespace Mud.Server.Room
     {
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> RoomCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<Room>);
 
+        private ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
+
         private readonly List<ICharacter> _people;
         private readonly List<IItem> _content;
 
@@ -33,6 +36,10 @@ namespace Mud.Server.Room
             Exits = new IExit[EnumHelpers.GetCount<ExitDirections>()];
 
             BaseRoomFlags = blueprint.RoomFlags;
+            SectorType = blueprint.SectorType;
+            HealRate = blueprint.HealRate;
+            ResourceRate = blueprint.ResourceRate;
+            MaxSize = blueprint.MaxSize;
 
             Area = area;
             Area.AddRoom(this);
@@ -126,6 +133,16 @@ namespace Mud.Server.Room
                 yield return (character, character.Blueprint as TBlueprint);
         }
 
+        public Sizes? MaxSize { get; }
+
+        public int HealRate { get; }
+
+        public int ResourceRate { get; }
+
+        public int Light { get; protected set; }
+
+        public SectorTypes SectorType { get; }
+
         public bool IsPrivate
         {
             get
@@ -146,11 +163,17 @@ namespace Mud.Server.Room
         {
             get
             {
-                // TODO: Room.Light
+                if (Light > 0)
+                    return false;
                 if (RoomFlags.HasFlag(RoomFlags.Dark))
                     return true;
-                // TODO: if sector.inside || sector.city return false
-                // TODO: if weather = sun_set || sun_dark return true
+                if (SectorType == SectorTypes.Inside
+                    || SectorType == SectorTypes.City
+                    || RoomFlags.HasFlag(RoomFlags.Indoors))
+                    return false;
+                if (TimeManager.SunPhase == SunPhases.Set
+                    || TimeManager.SunPhase == SunPhases.Dark)
+                    return true;
                 return false;
             }
         }
@@ -176,6 +199,11 @@ namespace Mud.Server.Room
                 Log.Default.WriteLine(LogLevels.Error, $"IRoom.Enter: Character {character.DebugName} is already in Room {character.Room.DebugName}");
             else
                 _people.Add(character);
+            // Update light
+            IItemLight light = character.GetEquipment<IItemLight>(EquipmentSlots.Light);
+            if (light != null
+                && light.IsLighten)
+                Light++;
             // Update location quest
             if (character is IPlayableCharacter playableCharacter)
             {
@@ -187,9 +215,26 @@ namespace Mud.Server.Room
 
         public bool Leave(ICharacter character)
         {
+            // Update light
+            IItemLight light = character.GetEquipment<IItemLight>(EquipmentSlots.Light);
+            if (light != null
+                && light.IsLighten
+                && Light > 0)
+                Light--;
+
             // TODO: check if in room
             bool removed = _people.Remove(character);
             return removed;
+        }
+
+        public void IncreaseLight()
+        {
+            Light++;
+        }
+
+        public void DecreaseLight()
+        {
+            Light = Math.Max(0, Light - 1);
         }
 
         public void HandleResets()

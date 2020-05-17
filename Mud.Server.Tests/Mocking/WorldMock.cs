@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Moq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -118,11 +119,11 @@ namespace Mud.Server.Tests.Mocking
 
         public IEnumerable<IItem> Items => _items;
 
-        public IRoom NullRoom => throw new NotImplementedException();
+        public IRoom NullRoom => new Mock<IRoom>().Object;
 
-        public IRoom DefaultRecallRoom => throw new NotImplementedException();
+        public IRoom DefaultRecallRoom => new Mock<IRoom>().Object;
 
-        public IRoom DefaultDeathRoom => throw new NotImplementedException();
+        public IRoom DefaultDeathRoom => new Mock<IRoom>().Object;
 
         public IRoom GetRandomRoom(ICharacter character)
         {
@@ -283,7 +284,7 @@ namespace Mud.Server.Tests.Mocking
                     item = new ItemKey(guid, keyBlueprint, itemData, container);
                     break;
                 case ItemLightBlueprint lightBlueprint:
-                    item = new ItemLight(guid, lightBlueprint, itemData, container);
+                    item = new ItemLight(guid, lightBlueprint, itemData as ItemLightData, container);
                     break;
                 case ItemPillBlueprint pillBlueprint:
                     item = new ItemPill(guid, pillBlueprint, itemData, container);

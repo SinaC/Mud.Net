@@ -10,6 +10,7 @@ using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
+using Mud.Server.Server;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
@@ -575,10 +576,26 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.InvalidTarget;
             }
 
-            string change = TimeHandler.PressureChange >= 0
+            string change = TimeManager.PressureChange >= 0
                 ? "a warm southerly breeze blows"
                 : "a cold northern gust blows";
-            Send("The sky is {0} and {1}.", TimeHandler.SkyState.PrettyPrint(), change);
+            Send("The sky is {0} and {1}.", TimeManager.SkyState.PrettyPrint(), change);
+
+            if (TimeManager.IsMoonNight())
+            {
+                for (int i = 0; i < TimeManager.MoonCount; i++)
+                    if (TimeManager.IsMoonVisible(i))
+                        Send(TimeManager.MoonInfo(i));
+            }
+
+            return CommandExecutionResults.Ok;
+        }
+
+        [CharacterCommand("time", "Information")]
+        [Syntax("[cmd]")]
+        protected virtual CommandExecutionResults DoTime(string rawParameters, params CommandParameter[] parameters)
+        {
+            Send(TimeManager.TimeInfo());
             return CommandExecutionResults.Ok;
         }
 

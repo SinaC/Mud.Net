@@ -21,7 +21,19 @@ namespace Mud.Server.Blueprints.Room
         public Dictionary<string, string> ExtraDescriptions { get; set; } // keyword -> description
 
         [DataMember]
-        public RoomFlags RoomFlags { get; set; }
+        public RoomFlags RoomFlags { get; set; } = RoomFlags.None;
+
+        [DataMember]
+        public SectorTypes SectorType { get; set; } = SectorTypes.City;
+
+        [DataMember]
+        public int HealRate { get; set; } = 100;
+
+        [DataMember]
+        public int ResourceRate { get; set; } = 100;
+
+        [DataMember]
+        public Sizes? MaxSize { get; set; } = null;
 
         [DataMember]
         public ExitBlueprint[] Exits { get; set; } // TODO: fixed length or list (+ add direction in ExitBlueprint)

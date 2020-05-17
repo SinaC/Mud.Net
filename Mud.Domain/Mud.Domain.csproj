@@ -92,6 +92,7 @@
     <Compile Include="ItemDrinkContainerData.cs" />
     <Compile Include="ItemFlagsAffectData.cs" />
     <Compile Include="ItemFoodData.cs" />
+    <Compile Include="ItemLightData.cs" />
     <Compile Include="ItemPortalData.cs" />
     <Compile Include="ItemStaffData.cs" />
     <Compile Include="ItemWandData.cs" />

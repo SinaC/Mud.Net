@@ -17,6 +17,8 @@ namespace Mud.Server
 
         int EquipmentSlotMultiplier(EquipmentSlots slot);
 
+        int MovementLoss(SectorTypes sector);
+
         (string name, string color, int proof, int full, int thirst, int food, int servingsize) LiquidInfo(string liquidName);
     }
 }

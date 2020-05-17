@@ -12,6 +12,7 @@ namespace Mud.Repository.Filesystem.DataContracts
     [KnownType(typeof(ItemPortalData))]
     [KnownType(typeof(ItemWandData))]
     [KnownType(typeof(ItemStaffData))]
+    [KnownType(typeof(ItemLightData))]
     [XmlInclude(typeof(ItemCorpseData))]
     [XmlInclude(typeof(ItemContainerData))]
     [XmlInclude(typeof(ItemWeaponData))]
@@ -20,6 +21,7 @@ namespace Mud.Repository.Filesystem.DataContracts
     [XmlInclude(typeof(ItemPortalData))]
     [XmlInclude(typeof(ItemWandData))]
     [XmlInclude(typeof(ItemStaffData))]
+    [XmlInclude(typeof(ItemLightData))]
     public class ItemData
     {
         [DataMember]

@@ -126,7 +126,7 @@ namespace Mud.Server.Tests
                 Experience = AutoFaker.Generate<long>(),
                 Inventory = new ItemData[]
                 {
-                    new ItemData
+                    new ItemLightData
                     {
                         ItemId = lightBlueprint.Id,
                         DecayPulseLeft = 20
@@ -215,7 +215,7 @@ namespace Mud.Server.Tests
                     new EquippedItemData
                     {
                         Slot = EquipmentSlots.Light,
-                        Item = new ItemData
+                        Item = new ItemLightData
                         {
                             ItemId = lightBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),

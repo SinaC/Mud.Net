@@ -221,7 +221,23 @@ namespace Mud.Server.Abilities
             // sloppy hack to prevent false zeroes
             if (chance % 5 == 0)
                 chance += 1;
-            // TODO: terrain
+            // terrain
+            switch (source.Room.SectorType)
+            {
+                case SectorTypes.Inside: chance -= 20; break;
+                case SectorTypes.City: chance -= 10; break;
+                case SectorTypes.Field: chance += 5; break;
+                case SectorTypes.Forest: break;
+                case SectorTypes.Hills: break;
+                case SectorTypes.Mountain: chance -= 10; break;
+                case SectorTypes.WaterSwim: chance = 0; break;
+                case SectorTypes.WaterNoSwim: chance = 0; break;
+                case SectorTypes.Burning: chance = 0; break;
+                case SectorTypes.Air: chance = 0; break;
+                case SectorTypes.Desert: chance += 10; break;
+                case SectorTypes.Underwater: chance = 0; break;
+                default: chance = 0; break;
+            }
             //
             if (chance == 0)
             {

@@ -17,6 +17,8 @@ namespace Mud.Server.Tests.Mocking
         public SunPhases SunPhase => throw new NotImplementedException();
         public SkyStates SkyState => throw new NotImplementedException();
 
+        public int MoonCount => throw new NotImplementedException();
+
         public void Initialize()
         {
             throw new NotImplementedException();
@@ -33,6 +35,41 @@ namespace Mud.Server.Tests.Mocking
         }
 
         public void ChangePressure(int changeValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int MoonPhase(int moonId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsMoonNight()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsMoonInSky(int moonId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsMoonVisible(int moonId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsMoonFull(int moonId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string MoonInfo(int moonId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string TimeInfo()
         {
             throw new NotImplementedException();
         }

@@ -361,6 +361,10 @@ namespace Mud.Server.WPFTestApplication
                 Description = data.Description,
                 ExtraDescriptions = RoomBlueprint.BuildExtraDescriptions(data.ExtraDescr),
                 RoomFlags = ConvertRoomFlags(data.Flags),
+                SectorType = ConvertSectorTypes(data.Sector),
+                HealRate = data.HealRate,
+                ResourceRate = data.ManaRate,
+                MaxSize = ConvertSize(data.MaxSize),
                 // Exits will be done when each room blueprint is created
             };
             World.AddRoomBlueprint(blueprint);
@@ -802,6 +806,40 @@ namespace Mud.Server.WPFTestApplication
         }
 
         private static bool HasBit(long data, long bit) => (data & bit) == bit;
+
+        private static Domain.Sizes ConvertSize(int size)
+        {
+            switch ((Importer.Mystery.Sizes)size)
+            {
+                case Importer.Mystery.Sizes.SIZE_TINY: return Domain.Sizes.Tiny;
+                case Importer.Mystery.Sizes.SIZE_SMALL: return Domain.Sizes.Small;
+                case Importer.Mystery.Sizes.SIZE_MEDIUM: return Domain.Sizes.Medium;
+                case Importer.Mystery.Sizes.SIZE_LARGE: return Domain.Sizes.Large;
+                case Importer.Mystery.Sizes.SIZE_HUGE: return Domain.Sizes.Huge;
+                case Importer.Mystery.Sizes.SIZE_GIANT: return Domain.Sizes.Giant;
+            }
+            return Domain.Sizes.Medium;
+        }
+
+        private static Domain.SectorTypes ConvertSectorTypes(int sector)
+        {
+            switch ((Importer.Mystery.SectorTypes)sector)
+            {
+                case Importer.Mystery.SectorTypes.SECT_INSIDE: return Domain.SectorTypes.Inside;
+                case Importer.Mystery.SectorTypes.SECT_CITY: return Domain.SectorTypes.City;
+                case Importer.Mystery.SectorTypes.SECT_FIELD: return Domain.SectorTypes.Field;
+                case Importer.Mystery.SectorTypes.SECT_FOREST: return Domain.SectorTypes.Forest;
+                case Importer.Mystery.SectorTypes.SECT_HILLS: return Domain.SectorTypes.Hills;
+                case Importer.Mystery.SectorTypes.SECT_MOUNTAIN: return Domain.SectorTypes.Mountain;
+                case Importer.Mystery.SectorTypes.SECT_WATER_SWIM: return Domain.SectorTypes.WaterSwim;
+                case Importer.Mystery.SectorTypes.SECT_WATER_NOSWIM: return Domain.SectorTypes.WaterNoSwim;
+                case Importer.Mystery.SectorTypes.SECT_BURNING: return Domain.SectorTypes.Burning;
+                case Importer.Mystery.SectorTypes.SECT_AIR: return Domain.SectorTypes.Air;
+                case Importer.Mystery.SectorTypes.SECT_DESERT: return Domain.SectorTypes.Desert;
+                case Importer.Mystery.SectorTypes.SECT_UNDERWATER: return Domain.SectorTypes.Underwater;
+                default: return Domain.SectorTypes.Inside;
+            }
+        }
 
         private static RoomFlags ConvertRoomFlags(long flag)
         {

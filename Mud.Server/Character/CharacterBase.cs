@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using Mud.Container;
 using Mud.DataStructures.Trie;
@@ -36,7 +37,7 @@ namespace Mud.Server.Character
         private readonly Dictionary<IAbility, DateTime> _cooldowns; // Key: ability.Id, Value: Next ability availability
         private readonly List<KnownAbility> _knownAbilities;
 
-        protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
+        protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
         protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
 
@@ -308,8 +309,17 @@ namespace Mud.Server.Character
         // Equipments
         public bool Unequip(IItem item)
         {
+            if (item is IItemLight itemLight && itemLight.IsLighten)
+                Room.DecreaseLight();
             foreach (EquippedItem equipmentSlot in _equipments.Where(x => x.Item == item))
                 equipmentSlot.Item = null;
+            return true;
+        }
+
+        public bool Equip(IItem item)
+        {
+            if (item is IItemLight itemLight && itemLight.IsLighten)
+                Room.IncreaseLight();
             return true;
         }
 
@@ -510,7 +520,9 @@ namespace Mud.Server.Character
             int manaGain = gains.manaGain;
 
             // TODO: other resources
-            // TODO: room heal rate
+            hitGain = hitGain * Room.HealRate / 100;
+            manaGain = manaGain * Room.ResourceRate / 100;
+
             if (Furniture != null && Furniture?.HealBonus != 0)
             {
                 hitGain = (hitGain * Furniture.HealBonus) / 100;
@@ -685,6 +697,35 @@ namespace Mud.Server.Character
                 Send("That room is private right now.");
                 return false;
             }
+            // Size
+            if (toRoom.MaxSize.HasValue && toRoom.MaxSize.Value < Size)
+            {
+                Send("You're too huge to go that direction.");
+                return false;
+            }
+            // Flying
+            if ((fromRoom.SectorType == SectorTypes.Air || toRoom.SectorType == SectorTypes.Air)
+                && !CharacterFlags.HasFlag(CharacterFlags.Flying))
+            {
+                Send("You can't fly.");
+                return false;
+            }
+            // Water
+            if ((fromRoom.SectorType == SectorTypes.WaterSwim || toRoom.SectorType == SectorTypes.WaterSwim)
+                && !CharacterFlags.HasFlag(CharacterFlags.Swim)
+                && !CharacterFlags.HasFlag(CharacterFlags.Flying)) // TODO: WalkOnWater
+            {
+                // TODO: check if boat
+                Send("You need a boat to go there, or be swimming, flying or walking on water.");
+                return false;
+            }
+            // Water no swim or underwater
+            if ((fromRoom.SectorType == SectorTypes.WaterNoSwim || toRoom.SectorType == SectorTypes.WaterNoSwim)
+                && !CharacterFlags.HasFlag(CharacterFlags.Flying)) // TODO: WalkOnWater
+            {
+                Send("You need to be flying or walking on water.");
+                return false;
+            }
 
             // Check move points left or drunk special phrase
             bool beforeMove = BeforeMove(direction, fromRoom, toRoom);
@@ -753,6 +794,12 @@ namespace Mud.Server.Character
             if (this is INonPlayableCharacter npc && npc.ActFlags.HasFlag(ActFlags.Aggressive) && destination.RoomFlags.HasFlag(RoomFlags.Law))
             {
                 Send("Something prevents you from leaving...");
+                return false;
+            }
+
+            if (destination.MaxSize.HasValue && destination.MaxSize.Value < Size)
+            {
+                Send("You're too huge to enter that.");
                 return false;
             }
 
@@ -1414,7 +1461,7 @@ namespace Mud.Server.Character
             DateTime nextAvailability;
             if (_cooldowns.TryGetValue(ability, out nextAvailability))
             {
-                TimeSpan diff = nextAvailability - TimeHandler.CurrentTime;
+                TimeSpan diff = nextAvailability - TimeManager.CurrentTime;
                 int secondsLeft = (int) Math.Ceiling(diff.TotalSeconds);
                 return secondsLeft;
             }
@@ -2060,7 +2107,7 @@ namespace Mud.Server.Character
 
                 _equipments.Clear();
                 _equipments.AddRange(Race.EquipmentSlots.Select(x => new EquippedItem(x)));
-                Recompute();
+                //Recompute();
             }
             else
             {

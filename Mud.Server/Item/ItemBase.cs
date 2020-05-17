@@ -188,11 +188,11 @@ namespace Mud.Server.Item
             EquippedBy?.Unequip(this);
             Log.Default.WriteLine(LogLevels.Info, "ChangeEquippedBy: {0} : {1} -> {2}", DebugName, EquippedBy?.DebugName ?? "<<??>>", character?.DebugName ?? "<<??>>");
             EquippedBy = character;
+            character?.Equip(this);
             if (recompute)
                 previousEquippedBy?.Recompute();
             if (recompute)
                 EquippedBy?.Recompute();
-            // TODO: call something like character.Equip ? (additional parameter EquipmentSlot)
             return true;
         }
 

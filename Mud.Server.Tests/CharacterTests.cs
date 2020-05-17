@@ -4,6 +4,7 @@ using Moq;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Character.NonPlayableCharacter;
+using Mud.Server.Common;
 
 namespace Mud.Server.Tests
 {
@@ -28,6 +29,10 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void BasicAttributes_Test()
         {
+            var randomManagerMock = new Mock<IRandomManager>();
+            randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((x, y) => x + y);
+            DependencyContainer.Current.RegisterInstance<IRandomManager>(randomManagerMock.Object);
+
             INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
             npc.Recompute();
 
@@ -39,20 +44,73 @@ namespace Mud.Server.Tests
         }
 
         [TestMethod]
+        public void HitPoints_Test()
+        {
+            var attributeTablesMock = new Mock<ITableValues>();
+            DependencyContainer.Current.RegisterInstance<ITableValues>(attributeTablesMock.Object);
+            var randomManagerMock = new Mock<IRandomManager>();
+            randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((x, y) => x * y);
+            DependencyContainer.Current.RegisterInstance<IRandomManager>(randomManagerMock.Object);
+
+            var characterBlueprint = new Blueprints.Character.CharacterNormalBlueprint 
+            { 
+                Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral,
+                HitPointDiceCount = 5, HitPointDiceValue = 10, HitPointDiceBonus = 30,
+            };
+            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            npc.Recompute();
+
+            Assert.AreEqual(characterBlueprint.HitPointDiceCount * characterBlueprint.HitPointDiceValue + characterBlueprint.HitPointDiceBonus, npc.MaxHitPoints);
+            Assert.AreEqual(characterBlueprint.HitPointDiceCount * characterBlueprint.HitPointDiceValue + characterBlueprint.HitPointDiceBonus, npc[CharacterAttributes.MaxHitPoints]);
+            Assert.AreEqual(characterBlueprint.HitPointDiceCount * characterBlueprint.HitPointDiceValue + characterBlueprint.HitPointDiceBonus, npc.HitPoints);
+        }
+
+        [TestMethod]
+        public void Mana_Test()
+        {
+            var attributeTablesMock = new Mock<ITableValues>();
+            DependencyContainer.Current.RegisterInstance<ITableValues>(attributeTablesMock.Object);
+            var randomManagerMock = new Mock<IRandomManager>();
+            randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((x, y) => x * y);
+            DependencyContainer.Current.RegisterInstance<IRandomManager>(randomManagerMock.Object);
+
+            var characterBlueprint = new Blueprints.Character.CharacterNormalBlueprint
+            {
+                Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral,
+                ManaDiceCount = 5,
+                ManaDiceValue = 10,
+                ManaDiceBonus = 30,
+            };
+            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            npc.Recompute();
+
+            Assert.AreEqual(characterBlueprint.ManaDiceCount * characterBlueprint.ManaDiceValue + characterBlueprint.ManaDiceBonus, npc.MaxResource(ResourceKinds.Mana));
+            Assert.AreEqual(characterBlueprint.ManaDiceCount * characterBlueprint.ManaDiceValue + characterBlueprint.ManaDiceBonus, npc[ResourceKinds.Mana]);
+        }
+
+        [TestMethod]
         public void Armor_Test()
         {
             int defensiveBonus = 50;
             var attributeTablesMock = new Mock<ITableValues>();
             attributeTablesMock.Setup(x => x.DefensiveBonus(It.IsAny<ICharacter>())).Returns<ICharacter>(x => defensiveBonus);
             DependencyContainer.Current.RegisterInstance<ITableValues>(attributeTablesMock.Object);
+            var randomManagerMock = new Mock<IRandomManager>();
+            randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((x, y) => x + y);
+            DependencyContainer.Current.RegisterInstance<IRandomManager>(randomManagerMock.Object);
 
-            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            var characterBlueprint = new Blueprints.Character.CharacterNormalBlueprint 
+            { 
+                Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral,
+                ArmorBash = 125, ArmorPierce = 130, ArmorSlash = 135, ArmorExotic = 140,
+            };
+            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
             npc.Recompute();
 
-            Assert.AreEqual(-npc.Level+ defensiveBonus, npc[Armors.Bash]); // Armor is initialized with -Level
-            Assert.AreEqual(-npc.Level + defensiveBonus, npc[Armors.Pierce]);
-            Assert.AreEqual(-npc.Level + defensiveBonus, npc[Armors.Slash]);
-            Assert.AreEqual(-npc.Level + defensiveBonus, npc[Armors.Exotic]);
+            Assert.AreEqual(characterBlueprint.ArmorBash + defensiveBonus, npc[Armors.Bash]); // Armor is initialized with -Level
+            Assert.AreEqual(characterBlueprint.ArmorPierce + defensiveBonus, npc[Armors.Pierce]);
+            Assert.AreEqual(characterBlueprint.ArmorSlash + defensiveBonus, npc[Armors.Slash]);
+            Assert.AreEqual(characterBlueprint.ArmorExotic + defensiveBonus, npc[Armors.Exotic]);
         }
 
         [TestMethod]
@@ -64,11 +122,19 @@ namespace Mud.Server.Tests
             attributeTablesMock.Setup(x => x.HitBonus(It.IsAny<ICharacter>())).Returns<ICharacter>(x => hitBonus);
             attributeTablesMock.Setup(x => x.DamBonus(It.IsAny<ICharacter>())).Returns<ICharacter>(x => damBonus);
             DependencyContainer.Current.RegisterInstance<ITableValues>(attributeTablesMock.Object);
+            var randomManagerMock = new Mock<IRandomManager>();
+            randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((x, y) => x + y);
+            DependencyContainer.Current.RegisterInstance<IRandomManager>(randomManagerMock.Object);
 
-            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            var characterBlueprint = new Blueprints.Character.CharacterNormalBlueprint 
+            { 
+                Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral,
+                HitRollBonus = -10,
+            };
+            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
             npc.Recompute();
 
-            Assert.AreEqual(npc.Level + hitBonus, npc.HitRoll); // HitRoll is initialized with Level
+            Assert.AreEqual(characterBlueprint.HitRollBonus + hitBonus, npc.HitRoll); // HitRoll is initialized with Level
             Assert.AreEqual(npc.Level + damBonus, npc.DamRoll); // DamRoll is initialized with Level
         }
     }

@@ -104,6 +104,7 @@ namespace Mud.Server
 
         // Equipments
         bool Unequip(IItem item);
+        bool Equip(IItem item);
 
         // Furniture
         bool ChangeFurniture(IItemFurniture furniture);

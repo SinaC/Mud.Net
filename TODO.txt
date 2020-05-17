@@ -1,9 +1,8 @@
 NEXT:
 
 TODO:
-room light
 admin command to switch an avatar from/to immortal/mortal
-money
+item: money, boat, trash, clothing
 master/pet/follower/group
 Monitor Recompute calls
 Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
@@ -22,6 +21,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+moons
+room: heal/resource rate, maxsize, sector, light
 Death room added: room where PC goes when killed
 nasty bug with when PC were killed -> could never go below 1 :)
 resets

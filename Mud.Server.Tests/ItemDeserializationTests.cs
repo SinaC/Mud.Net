@@ -211,11 +211,12 @@ namespace Mud.Server.Tests
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
                 Contains = new ItemData[]
                 {
-                    new ItemData
+                    new ItemLightData
                     {
                         ItemId = lightBlueprint.Id,
                         DecayPulseLeft = AutoFaker.Generate<int>(),
                         ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                        TimeLeft = AutoFaker.Generate<int>(),
                     }
                 }
             };
@@ -251,7 +252,7 @@ namespace Mud.Server.Tests
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
                 Contains = new ItemData[]
                 {
-                    new ItemData
+                    new ItemLightData
                     {
                         ItemId = lightBlueprint.Id,
                         Level =AutoFaker.Generate<int>(),
@@ -306,7 +307,7 @@ namespace Mud.Server.Tests
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
                 Contains = new ItemData[]
                 {
-                    new ItemData
+                    new ItemLightData
                     {
                         ItemId = lightBlueprint.Id,
                         DecayPulseLeft = AutoFaker.Generate<int>(),
@@ -434,7 +435,7 @@ namespace Mud.Server.Tests
                 CorpseName = "test",
                 Contains = new ItemData[]
                 {
-                    new ItemData
+                    new ItemLightData
                     {
                         ItemId = lightBlueprint.Id,
                         DecayPulseLeft = AutoFaker.Generate<int>(),
@@ -522,11 +523,12 @@ namespace Mud.Server.Tests
             ItemLightBlueprint lightBlueprint = new ItemLightBlueprint {Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5};
             world.AddItemBlueprint(lightBlueprint);
 
-            ItemData itemData = new ItemData
+            ItemLightData itemData = new ItemLightData
             {
                 ItemId = lightBlueprint.Id,
                 DecayPulseLeft = AutoFaker.Generate<int>(),
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                TimeLeft = AutoFaker.Generate<int>(),
             };
 
             IItem light = World.AddItem(Guid.NewGuid(), itemData, room);
@@ -535,6 +537,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(lightBlueprint.Id, light.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, light.DecayPulseLeft);
             Assert.AreEqual(itemData.ItemFlags, light.BaseItemFlags);
+            Assert.AreEqual(itemData.TimeLeft, (light as IItemLight).TimeLeft);
         }
 
         // Portal  IWorld is needed because AddItem will search for destination

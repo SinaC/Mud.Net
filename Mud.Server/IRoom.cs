@@ -23,6 +23,11 @@ namespace Mud.Server
         IEnumerable<(INonPlayableCharacter character, TBlueprint blueprint)> GetNonPlayableCharacters<TBlueprint>()
             where TBlueprint : CharacterBlueprintBase;
 
+        Sizes? MaxSize { get; }
+        int HealRate { get; }
+        int ResourceRate { get; }
+        int Light { get; }
+        SectorTypes SectorType { get; }
         bool IsPrivate { get; }
         bool IsDark { get; }
 
@@ -33,6 +38,9 @@ namespace Mud.Server
 
         bool Enter(ICharacter character);
         bool Leave(ICharacter character);
+
+        void IncreaseLight();
+        void DecreaseLight();
 
         void HandleResets();
 

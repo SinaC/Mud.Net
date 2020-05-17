@@ -47,7 +47,8 @@ namespace Mud.Repository.Filesystem
                 .Include<Domain.ItemFoodData, DataContracts.ItemFoodData>()
                 .Include<Domain.ItemPortalData, DataContracts.ItemPortalData>()
                 .Include<Domain.ItemStaffData, DataContracts.ItemStaffData>()
-                .Include<Domain.ItemWandData, DataContracts.ItemWandData>();
+                .Include<Domain.ItemWandData, DataContracts.ItemWandData>()
+                .Include<Domain.ItemLightData, DataContracts.ItemLightData>();
             CreateMap<Domain.ItemContainerData, DataContracts.ItemContainerData>()
                 .ForMember(x => x.ContainerFlags, expression => expression.MapFrom(x => MapContainerFlags(x.ContainerFlags)));
             CreateMap<Domain.ItemCorpseData, DataContracts.ItemCorpseData>();
@@ -59,6 +60,7 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.PortalFlags, expression => expression.MapFrom(x => MapPortalFlags(x.PortalFlags)));
             CreateMap<Domain.ItemStaffData, DataContracts.ItemStaffData>();
             CreateMap<Domain.ItemWandData, DataContracts.ItemWandData>();
+            CreateMap<Domain.ItemLightData, DataContracts.ItemLightData>();
 
             CreateMap<Domain.EquippedItemData, DataContracts.EquippedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
@@ -133,7 +135,8 @@ namespace Mud.Repository.Filesystem
                 .Include<DataContracts.ItemFoodData, Domain.ItemFoodData>()
                 .Include<DataContracts.ItemPortalData, Domain.ItemPortalData>()
                 .Include<DataContracts.ItemStaffData, Domain.ItemStaffData>()
-                .Include<DataContracts.ItemWandData, Domain.ItemWandData>();
+                .Include<DataContracts.ItemWandData, Domain.ItemWandData>()
+                .Include<DataContracts.ItemLightData, Domain.ItemLightData>();
             CreateMap<DataContracts.ItemContainerData, Domain.ItemContainerData>()
                 .ForMember(x => x.ContainerFlags, expression => expression.MapFrom(x => MapContainerFlags(x.ContainerFlags)));
             CreateMap<DataContracts.ItemCorpseData, Domain.ItemCorpseData>();
@@ -145,6 +148,7 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.PortalFlags, expression => expression.MapFrom(x => MapPortalFlags(x.PortalFlags)));
             CreateMap<DataContracts.ItemStaffData, Domain.ItemStaffData>();
             CreateMap<DataContracts.ItemWandData, Domain.ItemWandData>();
+            CreateMap<DataContracts.ItemLightData, Domain.ItemLightData>();
 
             CreateMap<DataContracts.EquippedItemData, Domain.EquippedItemData>()
                 .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));

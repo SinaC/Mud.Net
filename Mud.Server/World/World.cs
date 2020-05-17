@@ -346,7 +346,7 @@ namespace Mud.Server.World
                     item = new ItemKey(guid, keyBlueprint, itemData, container);
                     break;
                 case ItemLightBlueprint lightBlueprint:
-                    item = new ItemLight(guid, lightBlueprint, itemData, container);
+                    item = new ItemLight(guid, lightBlueprint, itemData as ItemLightData, container);
                     break;
                 case ItemPillBlueprint pillBlueprint:
                     item = new ItemPill(guid, pillBlueprint, itemData, container);

@@ -1185,7 +1185,21 @@ namespace Mud.Server.Server
                     if (character.Position == Positions.Stunned)
                         character.UpdatePosition();
 
-                    // TODO: update light
+                    IItemLight light = character.GetEquipment<IItemLight>(EquipmentSlots.Light);
+                    if (light != null
+                        && light.IsLighten)
+                    {
+                        bool turnedOff = light.DecreaseTimeLeft();
+                        if (turnedOff && character.Room != null)
+                        {
+                            character.Room.DecreaseLight();
+                            character.Act(ActOptions.ToRoom, "{0} goes out.", light);
+                            character.Act(ActOptions.ToCharacter, "{0} flickers and goes out.", light);
+                            World.RemoveItem(light);
+                        }
+                        else if (!light.IsInfinite && light.TimeLeft < 5)
+                            character.Act(ActOptions.ToCharacter, "{0} flickers.", light);
+                    }
 
                     // Update conditions
                     pc?.GainCondition(Conditions.Drunk, -1); // decrease drunk state
@@ -1352,7 +1366,12 @@ namespace Mud.Server.Server
             if (!string.IsNullOrWhiteSpace(timeUpdate))
             {
                 // inform non-sleeping and outdoors players
-                foreach (IPlayableCharacter character in World.PlayableCharacters.Where(x => x.Position > Positions.Sleeping && x.Room != null && !x.Room.RoomFlags.HasFlag(RoomFlags.Indoors)))
+                foreach (IPlayableCharacter character in World.PlayableCharacters.Where(x => 
+                    x.Position > Positions.Sleeping 
+                    && x.Room != null 
+                    && !x.Room.RoomFlags.HasFlag(RoomFlags.Indoors)
+                    && x.Room.SectorType != SectorTypes.Inside
+                    && x.Room.SectorType != SectorTypes.Underwater))
                 {
                     try
                     {

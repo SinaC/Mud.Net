@@ -220,10 +220,12 @@ namespace Mud.Server.Admin
                 sb.AppendFormatLine("Blueprint: {0}", room.Blueprint.Id);
             else
                 sb.AppendLine("No blueprint");
-            sb.AppendFormatLine("Name: {0}", room.Blueprint?.Name ?? "(none)");
-            sb.AppendFormatLine("Flags: {0} (base: {1})", room.RoomFlags, room.BaseRoomFlags);
+            sb.AppendFormatLine("Name: {0} Keywords: {1}", room.Blueprint?.Name ?? "(none)", string.Join(",", room.Keywords));
             sb.AppendFormatLine("DisplayName: {0}", room.DisplayName);
             sb.AppendFormatLine("Description: {0}", room.Description);
+            sb.AppendFormatLine("Flags: {0} (base: {1})", room.RoomFlags, room.BaseRoomFlags);
+            sb.AppendFormatLine("Light: {0} Sector: {1} MaxSize: {2}", room.Light, room.SectorType, room.MaxSize);
+            sb.AppendFormatLine("Heal rate: {0} Resource rate: {1}", room.HealRate, room.ResourceRate);
             if (room.ExtraDescriptions != null)
             {
                 foreach (KeyValuePair<string, string> kv in room.ExtraDescriptions)
@@ -297,7 +299,7 @@ namespace Mud.Server.Admin
             }
             else
                 sb.AppendLine("No blueprint");
-            sb.AppendFormatLine("Name: {0}", victim.Name);
+            sb.AppendFormatLine("Name: {0} Keywords: {1}", victim.Name, string.Join(",", victim.Keywords));
             sb.AppendFormatLine("DisplayName: {0}", victim.DisplayName);
             sb.AppendFormatLine("Description: {0}", victim.Description);
             if (playableVictim?.Leader != null)
@@ -413,7 +415,7 @@ namespace Mud.Server.Admin
             else
                 sb.AppendLine("No blueprint");
             sb.AppendFormatLine("Type: {0}", item.GetType());
-            sb.AppendFormatLine("Name: {0}", item.Name);
+            sb.AppendFormatLine("Name: {0} Keywords: {1}", item.Name, string.Join(",", item.Keywords));
             sb.AppendFormatLine("DisplayName: {0}", item.DisplayName);
             sb.AppendFormatLine("Description: {0}", item.Description);
             if (item.ExtraDescriptions != null)
@@ -489,6 +491,9 @@ namespace Mud.Server.Admin
                     sb.AppendLine();
                 }
             }
+            //
+            if (item is IItemLight light)
+                sb.AppendFormatLine("Time left: {0}", light.IsInfinite ? "Infinite" : StringHelpers.FormatDelay(light.TimeLeft * 60));
             //
             if (item is IItemPortal portal)
                 sb.AppendFormatLine("Destination: {0} Flags: {1} Key: {2} Current charges: {3} Max charges: {4}", portal.Destination?.DebugName ?? "???", portal.PortalFlags, portal.KeyId, portal.CurrentChargeCount, portal.MaxChargeCount);

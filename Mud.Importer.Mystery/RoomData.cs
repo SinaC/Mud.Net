@@ -93,4 +93,20 @@ namespace Mud.Importer.Mystery
         WEAR_FLOAT = 18,
         MAX_WEAR = 19,
     }
+
+    public enum SectorTypes
+    {
+        SECT_INSIDE		    = 0,
+        SECT_CITY		    = 1,
+        SECT_FIELD		    = 2,
+        SECT_FOREST		    = 3,
+        SECT_HILLS		    = 4,
+        SECT_MOUNTAIN		= 5,
+        SECT_WATER_SWIM		= 6,
+        SECT_WATER_NOSWIM	= 7,
+        SECT_BURNING		= 8,
+        SECT_AIR		    = 9,
+        SECT_DESERT		    = 10,
+        SECT_UNDERWATER     = 11,
+    }
 }

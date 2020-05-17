@@ -42,6 +42,8 @@ namespace Mud.Server.Character.PlayableCharacter
 
             ImpersonatedBy = player;
 
+            Room = World.NullRoom; // add in null room to avoid problem if an initializer needs a room
+
             // Extract informations from CharacterData
             CreationTime = data.CreationTime;
             Class = ClassManager[data.Class];
@@ -913,7 +915,7 @@ namespace Mud.Server.Character.PlayableCharacter
         protected override bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
         {
             // Compute move and check if enough move left
-            int moveCost = RandomManager.Range(1, 6); // TODO: dependends on room sector
+            int moveCost = TableValues.MovementLoss(fromRoom.SectorType) + TableValues.MovementLoss(toRoom.SectorType);
             if (CharacterFlags.HasFlag(CharacterFlags.Flying))
                 moveCost /= 2; // flying is less exhausting
             if (CharacterFlags.HasFlag(CharacterFlags.Slow))

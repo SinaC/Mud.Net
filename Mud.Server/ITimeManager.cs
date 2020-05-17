@@ -13,12 +13,22 @@ namespace Mud.Server
         int Day { get; }
         int Month { get; }
         int Year { get; }
+        string TimeInfo();
 
         // Weather
         int Pressure { get; } // in mmHg
         int PressureChange { get; }
         SunPhases SunPhase { get; }
         SkyStates SkyState { get; }
+
+        // Moons
+        int MoonCount { get; }
+        int MoonPhase(int moonId);
+        bool IsMoonNight();
+        bool IsMoonInSky(int moonId);
+        bool IsMoonVisible(int moonId);
+        bool IsMoonFull(int moonId);
+        string MoonInfo(int moonId);
 
         //
         void Initialize();

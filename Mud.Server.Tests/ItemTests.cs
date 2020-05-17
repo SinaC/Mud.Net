@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Domain;
@@ -10,6 +11,85 @@ namespace Mud.Server.Tests
     [TestClass]
     public class ItemTests
     {
+        // Light
+        [TestMethod]
+        public void Light_Creation_Values()
+        {
+            ItemLightBlueprint blueprint = new ItemLightBlueprint
+            {
+                Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", ItemFlags = ItemFlags.AntiEvil,
+                DurationHours = 60,
+            };
+
+            IItemLight light = new ItemLight(Guid.NewGuid(), blueprint, new Mock<IContainer>().Object);
+
+            Assert.AreEqual(blueprint.DurationHours * 60, light.TimeLeft);
+            Assert.IsTrue(light.IsLighten);
+            Assert.IsFalse(light.IsInfinite);
+        }
+
+        [TestMethod]
+        public void Light_Infinite_Creation_Values()
+        {
+            ItemLightBlueprint blueprint = new ItemLightBlueprint
+            {
+                Id = 1,
+                Name = "Light",
+                ShortDescription = "LightShort",
+                Description = "LightDesc",
+                ItemFlags = ItemFlags.AntiEvil,
+                DurationHours = -1,
+            };
+
+            IItemLight light = new ItemLight(Guid.NewGuid(), blueprint, new Mock<IContainer>().Object);
+
+            Assert.AreEqual(-1, light.TimeLeft);
+            Assert.IsTrue(light.IsLighten);
+            Assert.IsTrue(light.IsInfinite);
+        }
+
+        [TestMethod]
+        public void Light_DecreaseTimeLeft_Values()
+        {
+            ItemLightBlueprint blueprint = new ItemLightBlueprint
+            {
+                Id = 1,
+                Name = "Light",
+                ShortDescription = "LightShort",
+                Description = "LightDesc",
+                ItemFlags = ItemFlags.AntiEvil,
+                DurationHours = 30,
+            };
+
+            IItemLight light = new ItemLight(Guid.NewGuid(), blueprint, new Mock<IContainer>().Object);
+            light.DecreaseTimeLeft();
+
+            Assert.AreEqual(29*60+59, light.TimeLeft);
+            Assert.IsTrue(light.IsLighten);
+            Assert.IsFalse(light.IsInfinite);
+        }
+
+        [TestMethod]
+        public void Light_DecreaseTimeLeft_0Left_Values()
+        {
+            ItemLightBlueprint blueprint = new ItemLightBlueprint
+            {
+                Id = 1,
+                Name = "Light",
+                ShortDescription = "LightShort",
+                Description = "LightDesc",
+                ItemFlags = ItemFlags.AntiEvil,
+                DurationHours = 1,
+            };
+
+            IItemLight light = new ItemLight(Guid.NewGuid(), blueprint, new Mock<IContainer>().Object);
+            for(int i = 0;i < 60; i++) light.DecreaseTimeLeft();
+
+            Assert.AreEqual(0, light.TimeLeft);
+            Assert.IsFalse(light.IsLighten);
+            Assert.IsFalse(light.IsInfinite);
+        }
+
         // Wand/Staff
         [TestMethod]
         public void Staff_Creation_Values()

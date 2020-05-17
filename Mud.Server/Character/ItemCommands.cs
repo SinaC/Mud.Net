@@ -116,7 +116,7 @@ namespace Mud.Server.Character
                 Send(StringHelpers.ItemInventoryNotFound);
                 return CommandExecutionResults.TargetNotFound;
             }
-            if (item.WearLocation != WearLocations.Hold && item.WearLocation != WearLocations.Shield)
+            if (item.WearLocation != WearLocations.Hold && item.WearLocation != WearLocations.Shield && item.WearLocation != WearLocations.Light)
             {
                 Send("It cannot be hold.");
                 return CommandExecutionResults.InvalidTarget;
