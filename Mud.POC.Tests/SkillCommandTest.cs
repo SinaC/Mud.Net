@@ -35,7 +35,7 @@ namespace Mud.POC.Tests
             IPlayableCharacter source = new PlayableCharacter(randomManagerMock.Object, abilityManager, tableManagerMock.Object, new[] { new KnownAbility { Ability = abilityManager["kick"], Level = 1, Learned = 100, Rating = 1 } }, 1000, 1000, 10, Positions.Standing);
 
             string commandLine = "kick";
-            CommandHelpers.ExtractCommandAndParameters(commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame);
+            CommandHelpers.ExtractCommandAndParameters(commandLine, out string command, out string rawParameters, out CommandParameter[] parameters);
             bool executed = source.ExecuteCommand(command, rawParameters, parameters);
 
             Assert.IsTrue(executed);

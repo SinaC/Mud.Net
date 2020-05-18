@@ -29,6 +29,7 @@ namespace Mud.Server.Character.PlayableCharacter
         private readonly List<IPlayableCharacter> _groupMembers;
         private readonly List<IQuest> _quests;
         private readonly int[] _conditions;
+        private readonly Dictionary<string, string> _aliases;
 
         public PlayableCharacter(Guid guid, CharacterData data, IPlayer player, IRoom room)
             : base(guid, data.Name, string.Empty)
@@ -36,6 +37,7 @@ namespace Mud.Server.Character.PlayableCharacter
             _groupMembers = new List<IPlayableCharacter>();
             _quests = new List<IQuest>();
             _conditions = new int[EnumHelpers.GetCount<Conditions>()];
+            _aliases = new Dictionary<string, string>();
 
             ImpersonatedBy = player;
 
@@ -105,7 +107,6 @@ namespace Mud.Server.Character.PlayableCharacter
                 foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
                     this[attribute] = 1;
             }
-
             // TODO: set not-found attributes to base value (from class/race)
 
             // Must be built before equiping
@@ -181,6 +182,24 @@ namespace Mud.Server.Character.PlayableCharacter
                         };
                         AddKnownAbility(knownAbility);
                     }
+                }
+            }
+            // Aliases
+            if (data.Aliases != null)
+            {
+                foreach (KeyValuePair<string, string> alias in data.Aliases)
+                    _aliases.Add(alias.Key, alias.Value);
+            }
+            // Cooldowns
+            if (data.Cooldowns != null)
+            {
+                foreach (KeyValuePair<int, int> cooldown in data.Cooldowns)
+                {
+                    IAbility ability = AbilityManager[cooldown.Key];
+                    if (ability == null)
+                        Wiznet.Wiznet($"Cooldown ability id {cooldown.Key} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    else
+                        SetCooldown(ability, cooldown.Value);
                 }
             }
 
@@ -438,6 +457,8 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         #endregion
+
+        public IReadOnlyDictionary<string, string> Aliases => _aliases;
 
         public DateTime CreationTime { get; protected set; }
 
@@ -799,7 +820,8 @@ namespace Mud.Server.Character.PlayableCharacter
                 Vulnerabilities = BaseVulnerabilities,
                 Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttribute),
                 KnownAbilities = KnownAbilities.Select(x => x.MapKnownAbilityData()).ToArray(),
-                // TODO: cooldown, ...
+                Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
+                Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key.Id, x => x.Value),
             };
             return data;
         }

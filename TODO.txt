@@ -1,7 +1,6 @@
 NEXT:
 
 TODO:
-item order in room
 admin command to switch an avatar from/to immortal/mortal
 item: trash, clothing, map
 master/pet/follower/group
@@ -22,6 +21,9 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+Add aliases to PlayableCharacter
+Cooldown saved
+item order in room
 container are not closed/locked when resetted -> was not handled when creating blueprint
 lock/unlock/open/close fixed for container
 admin commands: Ostat, Cstat
@@ -175,16 +177,13 @@ redo rom importer
 Second/Third/Fourth wield in insectoid
 alignment at creation ?
 Idea: move HP and move in ResourceKinds
-Cooldown
 Use SafeList where List is used
 Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
 Move CanSee in IEntity
 Move AddAura in aura manager
 store an Aura list in World this will avoid looping on all room/character/item to check aura
 Save blueprint in Hashtable
-Redo whole combat system
 Add ctor to every manager with other manager as parameter to easy unit tests
-Add aliases to PlayableCharacter
 Replace out parameter with C#7-tuple if possible
 Enum string representation instead of int in Repository
 redo DoScore, DoAffects

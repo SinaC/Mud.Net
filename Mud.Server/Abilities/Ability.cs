@@ -18,6 +18,7 @@ namespace Mud.Server.Abilities
             DispelRoomMessage = dispelRoomMessage;
             DamageNoun = damageNoun;
             LearnDifficultyMultiplier = learnDifficultyMultiplier;
+            Cooldown = cooldown;
         }
 
         public Ability(AbilityKinds kind, AbilityAttribute attribute, MethodInfo methodInfo)

@@ -10,24 +10,40 @@ namespace Mud.Server.Input
 {
     public static class CommandHelpers
     {
-        public static bool ExtractCommandAndParameters(string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame)
+        public static bool ExtractCommandAndParameters(string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters)
         {
-            return ExtractCommandAndParameters(null, commandLine, out command, out rawParameters, out parameters, out forceOutOfGame);
+            return ExtractCommandAndParameters(null, commandLine, out command, out rawParameters, out parameters, out _);
         }
 
-        public static bool ExtractCommandAndParameters(IReadOnlyDictionary<string,string> aliases, string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame)
+        public static bool ExtractCommandAndParameters(Func<bool, IReadOnlyDictionary<string,string>> aliasesFunc, string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame)
         {
             Log.Default.WriteLine(LogLevels.Trace, "Extracting command and parameters [{0}]", commandLine);
 
-            //// Extract command
-            //int spaceIndex = commandLine.IndexOf(' ');
-            //command = spaceIndex == -1 ? commandLine : commandLine.Substring(0, spaceIndex);
-            //// Extract raw parameters
-            //rawParameters = spaceIndex == -1 ? String.Empty : commandLine.Substring(spaceIndex + 1);
+            // No command ?
+            if (string.IsNullOrWhiteSpace(commandLine))
+            {
+                Log.Default.WriteLine(LogLevels.Warning, "Empty command");
+                command = null;
+                rawParameters = null;
+                parameters = null;
+                forceOutOfGame = false;
+                return false;
+            }
+
             // Extract command and raw parameters
             ExtractCommand(commandLine, out command, out rawParameters);
 
+            // Check if forcing OutOfGame
+            if (command.StartsWith("/"))
+            {
+                forceOutOfGame = true;
+                command = command.Substring(1); // remove '/'
+            }
+            else
+                forceOutOfGame = false;
+
             // Substitute by alias if found
+            IReadOnlyDictionary<string, string> aliases = aliasesFunc?.Invoke(forceOutOfGame);
             if (aliases != null)
             {
                 string alias;
@@ -39,23 +55,6 @@ namespace Mud.Server.Input
                     ExtractCommand(commandLine, out command, out rawParameters);
                 }
             }
-
-            if (string.IsNullOrWhiteSpace(commandLine))
-            {
-                Log.Default.WriteLine(LogLevels.Warning, "Empty command");
-                forceOutOfGame = false;
-                parameters = null;
-                return false;
-            }
-
-            // Check if forcing OutOfGame
-            if (command.StartsWith("/"))
-            {
-                forceOutOfGame = true;
-                command = command.Substring(1); // remove '/'
-            }
-            else
-                forceOutOfGame = false;
 
             // Split parameters
             string[] splitted = SplitParameters(rawParameters).ToArray();

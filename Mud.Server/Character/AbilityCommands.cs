@@ -79,7 +79,7 @@ namespace Mud.Server.Character
                         .Select(x => new { Ability = x.Key, SecondsLeft = x.Value / Pulse.PulsePerSeconds})
                         .OrderBy(x => x.SecondsLeft))
                     {
-                        sb.AppendFormatLine("{0} is in cooldown for {1}.", cooldown.Ability.Name, StringHelpers.FormatDelay(cooldown.SecondsLeft));
+                        sb.AppendFormatLine("%B%{0}%x% is in cooldown for %W%{1}%x%.", cooldown.Ability.Name, StringHelpers.FormatDelay(cooldown.SecondsLeft));
                     }
                     Send(sb);
                     return CommandExecutionResults.Ok;

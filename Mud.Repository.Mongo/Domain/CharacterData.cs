@@ -61,6 +61,8 @@ namespace Mud.Repository.Mongo.Domain
 
         public Dictionary<int, int> Conditions { get; set; }
 
-        // TODO: cooldown, ...
+        public Dictionary<string,string> Aliases { get; set; }
+
+        public Dictionary<int,int> Cooldowns { get; set; }
     }
 }

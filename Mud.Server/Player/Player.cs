@@ -93,7 +93,7 @@ namespace Mud.Server.Player
                 }
 
                 // Extract command and parameters
-                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(Aliases, commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame);
+                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(isForceOutOfGame => isForceOutOfGame || Impersonating == null ? Aliases : Impersonating?.Aliases, commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame);
                 if (!extractedSuccessfully)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");

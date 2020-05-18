@@ -61,6 +61,8 @@ namespace Mud.Domain
 
         public Dictionary<Conditions, int> Conditions { get; set; }
 
-        // TODO: cooldown, ...
+        public Dictionary<string, string> Aliases { get; set; }
+
+        public Dictionary<int, int> Cooldowns { get; set; }
     }
 }

@@ -36,7 +36,9 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapFromDictionary(x.CurrentResources, MapResourceKind)))
                 .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapFromDictionary(x.MaxResources, MapResourceKind)))
                 .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapFromDictionary(x.Conditions, MapConditions)))
-                .ForMember(x => x.Size, expression => expression.MapFrom(x => MapSizes(x.Size)));
+                .ForMember(x => x.Size, expression => expression.MapFrom(x => MapSizes(x.Size)))
+                .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapFromDictionary(x.Aliases)))
+                .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapFromDictionary(x.Cooldowns, y => y)));
 
             CreateMap<Domain.ItemData, DataContracts.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
@@ -124,7 +126,9 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapToDictionary(x.CurrentResources, MapResourceKind)))
                 .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapToDictionary(x.MaxResources, MapResourceKind)))
                 .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapToDictionary(x.Conditions, MapConditions)))
-                .ForMember(x => x.Size, expression => expression.MapFrom(x => MapSizes(x.Size)));
+                .ForMember(x => x.Size, expression => expression.MapFrom(x => MapSizes(x.Size)))
+                .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapToDictionary(x.Aliases)))
+                .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapToDictionary(x.Cooldowns, y => y)));
 
             CreateMap<DataContracts.ItemData, Domain.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))

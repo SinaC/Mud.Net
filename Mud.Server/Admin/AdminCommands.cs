@@ -404,7 +404,7 @@ namespace Mud.Server.Admin
         }
 
         [Command("sanitycheck", "Admin")]
-
+        [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoSanityCheck(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -463,6 +463,33 @@ namespace Mud.Server.Admin
             // Display
             StringBuilder sb = TableGenerators.CommandMethodInfoTableGenerator.Value.Generate($"Commands for {type.Name}", query);
             Page(sb);
+            return CommandExecutionResults.Ok;
+        }
+
+        [Command("resetarea", "Admin")]
+        [Syntax(
+            "[cmd] <area>",
+            "[cmd] (if impersonated)")]
+        protected virtual CommandExecutionResults DoResetArea(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0 && Impersonating == null)
+                return CommandExecutionResults.SyntaxError;
+
+            IArea area;
+            if (parameters.Length == 0)
+                area = Impersonating.Room.Area;
+            else
+                area = World.Areas.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.DisplayName, parameters[0].Value));
+
+            if (area == null)
+            {
+                Send("Area not found.");
+                return CommandExecutionResults.TargetNotFound;
+            }
+
+            area.HandleResets();
+
+            Send($"{area.DisplayName} resetted.");
             return CommandExecutionResults.Ok;
         }
 

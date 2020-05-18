@@ -40,7 +40,7 @@ namespace Mud.Server.Entity
         public override bool ProcessCommand(string commandLine)
         {
             // Extract command and parameters
-            bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(commandLine, out var command, out var rawParameters, out var parameters, out _);
+            bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(commandLine, out var command, out var rawParameters, out var parameters);
             if (!extractedSuccessfully)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");

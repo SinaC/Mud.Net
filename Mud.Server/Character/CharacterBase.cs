@@ -2102,6 +2102,11 @@ namespace Mud.Server.Character
 
         protected KnownAbility this[IAbility ability] => _knownAbilities.SingleOrDefault(x => x.Ability == ability);
 
+        protected void SetCooldown(IAbility ability, int pulseLeft)
+        {
+            _cooldownsPulseLeft[ability] = pulseLeft;
+        }
+
         protected void ResetCooldowns()
         {
             _cooldownsPulseLeft.Clear();

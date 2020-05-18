@@ -88,6 +88,10 @@ namespace Mud.Repository.Filesystem.DataContracts
         [DataMember]
         public PairData<int,int>[] Conditions { get; set; }
 
-        // TODO: cooldown, ...
+        [DataMember]
+        public PairData<string, string>[] Aliases { get; set; }
+
+        [DataMember]
+        public PairData<int,int>[] Cooldowns { get; set; }
     }
 }

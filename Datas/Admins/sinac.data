@@ -330,14 +330,32 @@
       <Auras>
         <AuraData>
           <AbilityId>54</AbilityId>
-          <Level>19</Level>
-          <PulseLeft>9944</PulseLeft>
+          <Level>11</Level>
+          <PulseLeft>9856</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
               <Operator>0</Operator>
               <Location>1</Location>
               <Modifier>4</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityId>999999</AbilityId>
+          <Level>43</Level>
+          <PulseLeft>196</PulseLeft>
+          <AuraFlags>2</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterIRVAffectData">
+              <Location>1</Location>
+              <Operator>1</Operator>
+              <Modifier>4</Modifier>
+            </AffectDataBase>
+            <AffectDataBase xsi:type="CharacterIRVAffectData">
+              <Location>1</Location>
+              <Operator>1</Operator>
+              <Modifier>8</Modifier>
             </AffectDataBase>
           </Affects>
         </AuraData>
@@ -1612,6 +1630,18 @@
           <Value>0</Value>
         </PairDataOfInt32Int32>
       </Conditions>
+      <Aliases>
+        <PairDataOfStringString>
+          <Key>pouet</Key>
+          <Value>score</Value>
+        </PairDataOfStringString>
+      </Aliases>
+      <Cooldowns>
+        <PairDataOfInt32Int32>
+          <Key>999999</Key>
+          <Value>2356</Value>
+        </PairDataOfInt32Int32>
+      </Cooldowns>
     </CharacterData>
     <CharacterData>
       <CreationTime>2020-05-08T09:18:18.4342927+02:00</CreationTime>

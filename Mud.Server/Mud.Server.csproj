@@ -107,6 +107,7 @@
     <Compile Include="Admin\InfoCommands.cs" />
     <Compile Include="Aura\RoomFlagsAffect.cs" />
     <Compile Include="Character\AbilityCommands.cs" />
+    <Compile Include="Character\PlayableCharacter\MiscCommands.cs" />
     <Compile Include="ICloseable.cs" />
     <Compile Include="Item\IItemBoat.cs" />
     <Compile Include="Item\IItemCastSpellsNoCharge.cs" />

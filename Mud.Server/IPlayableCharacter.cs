@@ -9,6 +9,8 @@ namespace Mud.Server
     {
         DateTime CreationTime { get; }
 
+        IReadOnlyDictionary<string, string> Aliases { get; }
+
         long ExperienceToLevel { get; }
 
         // Attributes
