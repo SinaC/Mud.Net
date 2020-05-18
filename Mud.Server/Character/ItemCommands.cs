@@ -276,6 +276,7 @@ namespace Mud.Server.Character
         [CharacterCommand("drop", "Item", "Inventory", MinPosition = Positions.Resting)]
         [Syntax(
             "[cmd] <item>",
+            "[cmd] <amount> coin|coins|silver|gold",
             "[cmd] all")]
         // Drop item
         // Drop all
@@ -287,6 +288,59 @@ namespace Mud.Server.Character
                 Send("Drop what?");
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
+
+            // money?
+            if (parameters[0].IsLong && parameters.Length > 1)
+            {
+                long amount = parameters[0].AsLong;
+                string what = parameters[1].Value;
+                if (what == "coin" || what == "coins" || what == "silver" || what == "gold")
+                {
+                    // check parameters
+                    long silver = 0;
+                    long gold = 0;
+                    if (amount <= 0)
+                    {
+                        Send("Sorry, you can't do that.");
+                        return CommandExecutionResults.InvalidParameter;
+                    }
+
+                    if (what == "coin" || what == "coins" || what == "silver")
+                    {
+                        if (amount > SilverCoins)
+                        {
+                            Send("You don't have that much silver.");
+                            return CommandExecutionResults.InvalidParameter;
+                        }
+
+                        silver = amount;
+                    }
+                    else
+                    {
+                        if (amount > GoldCoins)
+                        {
+                            Send("You don't have that much gold.");
+                            return CommandExecutionResults.InvalidParameter;
+                        }
+
+                        gold = amount;
+                    }
+                    // group money in the room and recreate a new money item
+                    var clone = new ReadOnlyCollection<IItemMoney>(Room.Content.OfType<IItemMoney>().ToList());
+                    foreach (IItemMoney moneyInRoom in clone)
+                    {
+                        silver += moneyInRoom.SilverCoins;
+                        gold += moneyInRoom.GoldCoins;
+                        World.RemoveItem(moneyInRoom);
+                    }
+                    // recreate new money item
+                    World.AddItemMoney(Guid.NewGuid(), silver, gold, Room);
+                    Act(ActOptions.ToRoom, "{0:N} drops some coins", this);
+                    Send("Ok.");
+                    return CommandExecutionResults.Ok;
+                }
+            }
+
             // drop all, drop all.item
             if (parameters[0].IsAll)
             {
@@ -326,7 +380,9 @@ namespace Mud.Server.Character
         }
 
         [CharacterCommand("give", "Item", "Equipment", MinPosition = Positions.Resting)]
-        [Syntax("[cmd] <item> <character>")]
+        [Syntax(
+            "[cmd] <item> <character>",
+            "[cmd] <amount> coin|coins|silver|gold <character>")]
         // Give item victim
         protected virtual CommandExecutionResults DoGive(string rawParameters, params CommandParameter[] parameters)
         {
@@ -334,6 +390,57 @@ namespace Mud.Server.Character
             {
                 Send("Give what to whom?");
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
+            }
+
+            if (parameters[0].IsLong && parameters.Length > 2)
+            {
+                long amount = parameters[0].AsLong;
+                string whatMoney = parameters[1].Value;
+                if (whatMoney == "coin" || whatMoney == "coins" || whatMoney == "silver" || whatMoney == "gold")
+                {
+                    // check parameters
+                    ICharacter whomMoney = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[2]);
+                    if (whomMoney == null)
+                    {
+                        Send(StringHelpers.CharacterNotFound);
+                        return CommandExecutionResults.TargetNotFound;
+                    }
+                    long? silver = null;
+                    long? gold = null;
+                    if (amount <= 0)
+                    {
+                        Send("Sorry, you can't do that.");
+                        return CommandExecutionResults.InvalidParameter;
+                    }
+
+                    if (whatMoney == "coin" || whatMoney == "coins" || whatMoney == "silver")
+                    {
+                        if (amount > SilverCoins)
+                        {
+                            Send("You don't have that much silver.");
+                            return CommandExecutionResults.InvalidParameter;
+                        }
+
+                        silver = amount;
+                    }
+                    else
+                    {
+                        if (amount > GoldCoins)
+                        {
+                            Send("You don't have that much gold.");
+                            return CommandExecutionResults.InvalidParameter;
+                        }
+
+                        gold = amount;
+                    }
+                    // let's give the money
+                    UpdateMoney(-silver ?? 0, -gold ?? 0);
+                    whomMoney.UpdateMoney(silver ?? 0, gold ?? 0);
+                    Act(ActOptions.ToCharacter, "You give {0:N} {1} {2}.", whomMoney, silver ?? gold, silver.HasValue ? "silver" : "gold" );
+                    whomMoney.Act(ActOptions.ToCharacter, "{0:N} gives you {1} {2}.", this, silver ?? gold, silver.HasValue ? "silver" : "gold");
+                    ActToNotVictim(whomMoney, "{0:N} gives {1:N} some coins.", this, whomMoney);
+                    // TODO: money changer ?
+                }
             }
 
             IItem what = FindHelpers.FindByName(Inventory.Where(CanSee), parameters[0]);
@@ -1005,8 +1112,14 @@ namespace Mud.Server.Character
                 Act(ActOptions.ToAll, "{0:N} get{0:v} {1} from {2}.", this, item, container);
             else
                 Act(ActOptions.ToAll, "{0:N} get{0:v} {1}.", this, item);
-            item.ChangeContainer(this);
-            // TODO: money
+
+            if (item is IItemMoney money)
+            {
+                UpdateMoney(money.SilverCoins, money.GoldCoins);
+                World.RemoveItem(money);
+            }
+            else
+                item.ChangeContainer(this);
             return true;
         }
 

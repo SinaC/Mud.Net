@@ -5,10 +5,8 @@ using System.Linq;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Abilities;
 using Mud.Server.Blueprints.Character;
-using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -42,7 +40,17 @@ namespace Mud.Server.Character.NonPlayableCharacter
             BaseVulnerabilities = blueprint.Vulnerabilities;
             BaseSex = blueprint.Sex;
             Alignment = blueprint.Alignment.Range(-1000, 1000);
-
+            if (blueprint.Wealth == 0)
+            {
+                SilverCoins = 0;
+                GoldCoins = 0;
+            }
+            else
+            {
+                long wealth = RandomManager.Range(blueprint.Wealth / 2, 3 * blueprint.Wealth / 2);
+                GoldCoins = RandomManager.Range(wealth / 200, wealth / 100);
+                SilverCoins = wealth - (GoldCoins * 100);
+            }
             // TODO: see db.C:Create_Mobile
             // TODO: following values must be extracted from blueprint
             int baseValue = Math.Min(25, 11 + Level / 4);

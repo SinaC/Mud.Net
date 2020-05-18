@@ -10,6 +10,7 @@ namespace Mud.Server.Common
         bool Chance(int percentage);
         int Dice(int count, int value);
         int Range(int min, int max);
+        long Range(long min, long max);
         int Fuzzy(int number);
         T Random<T>()
             where T : Enum;

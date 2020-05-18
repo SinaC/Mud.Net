@@ -39,6 +39,10 @@ namespace Mud.Server
         int CarryWeight { get; }
         int CarryNumber { get; }
 
+        // Money
+        long SilverCoins { get; }
+        long GoldCoins { get; }
+
         // Furniture (sleep/sit/stand)
         IItemFurniture Furniture { get; }
 
@@ -105,6 +109,9 @@ namespace Mud.Server
         // Equipments
         bool Unequip(IItem item);
         bool Equip(IItem item);
+
+        // Money
+        void UpdateMoney(long silverCoins, long goldCoins);
 
         // Furniture
         bool ChangeFurniture(IItemFurniture furniture);

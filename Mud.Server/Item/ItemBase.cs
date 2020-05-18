@@ -20,10 +20,11 @@ namespace Mud.Server.Item
     {
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> ItemCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<ItemBase<TBlueprint, TData>>);
 
-        protected ItemBase(Guid guid, TBlueprint blueprint, IContainer containedInto)
-            : base(guid, blueprint.Name, blueprint.Description)
+        protected ItemBase(Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
+            : base(guid, name, description)
         {
             Blueprint = blueprint;
+            ShortDescription = shortDescription;
             ContainedInto = containedInto;
             containedInto.PutInContainer(this);
             WearLocation = blueprint.WearLocation;
@@ -34,10 +35,28 @@ namespace Mud.Server.Item
             BaseItemFlags = blueprint.ItemFlags;
         }
 
+        protected ItemBase(Guid guid, TBlueprint blueprint, IContainer containedInto)
+            : this(guid, blueprint, blueprint.Name, blueprint.ShortDescription, blueprint.Description, containedInto)
+        {
+        }
+
+        protected ItemBase(Guid guid, TBlueprint blueprint, TData data, string name, string shortDescription, string description, IContainer containedInto)
+            : this(guid, blueprint, name, shortDescription, description, containedInto)
+        {
+            Level = data.Level;
+            DecayPulseLeft = data.DecayPulseLeft;
+            BaseItemFlags = data.ItemFlags;
+            // Auras
+            if (data.Auras != null)
+            {
+                foreach (AuraData auraData in data.Auras)
+                    AddAura(new Aura.Aura(auraData), false); // TODO: !!! auras is not added thru World.AddAura
+            }
+        }
+
         protected ItemBase(Guid guid, TBlueprint blueprint, TData data, IContainer containedInto)
             : this(guid, blueprint, containedInto)
         {
-            // TODO: copy other fields
             Level = data.Level;
             DecayPulseLeft = data.DecayPulseLeft;
             BaseItemFlags = data.ItemFlags;
@@ -59,7 +78,7 @@ namespace Mud.Server.Item
 
         #endregion
 
-        public override string DisplayName => Blueprint == null ? Name.UpperFirstLetter() : Blueprint.ShortDescription;
+        public override string DisplayName => ShortDescription ?? Blueprint.ShortDescription ?? Name.UpperFirstLetter();
 
         public override string DebugName => Blueprint == null ? DisplayName : $"{DisplayName}[{Blueprint.Id}]";
 
@@ -132,6 +151,8 @@ namespace Mud.Server.Item
         public IContainer ContainedInto { get; private set; }
 
         public ItemBlueprintBase Blueprint { get; private set; }
+
+        public string ShortDescription { get; protected set; }
 
         public IReadOnlyDictionary<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
 

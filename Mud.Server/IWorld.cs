@@ -60,8 +60,9 @@ namespace Mud.Server
         IPlayableCharacter AddPlayableCharacter(Guid guid, CharacterData characterData, IPlayer player, IRoom room);
         INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room);
 
-        IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim);
-        IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, ICharacter killer);
+        IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim);
+        IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim, ICharacter killer);
+        IItemMoney AddItemMoney(Guid guid, long silverCoins, long goldCoins, IContainer container);
 
         IItem AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container);
         IItem AddItem(Guid guid, ItemData itemData, IContainer container);

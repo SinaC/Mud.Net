@@ -157,14 +157,17 @@ namespace Mud.Server.Tests.Mocking
             return character;
         }
 
-        public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
+        public IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim)
         {
-            IItemCorpse itemCorpse = new ItemCorpse(guid, blueprint, room, victim);
-            _items.Add(itemCorpse);
-            return itemCorpse;
+            throw new NotImplementedException();
         }
 
-        public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom container, ICharacter victim, ICharacter killer)
+        public IItemCorpse AddItemCorpse(Guid guid, IRoom container, ICharacter victim, ICharacter killer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IItemMoney AddItemMoney(Guid guid, long silverCoins, long goldCoins, IContainer container)
         {
             throw new NotImplementedException();
         }

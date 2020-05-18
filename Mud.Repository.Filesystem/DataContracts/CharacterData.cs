@@ -31,6 +31,12 @@ namespace Mud.Repository.Filesystem.DataContracts
         public int Size { get; set; }
 
         [DataMember]
+        public long SilverCoins { get; set; }
+
+        [DataMember]
+        public long GoldCoins { get; set; }
+
+        [DataMember]
         public int HitPoints { get; set; }
 
         [DataMember]

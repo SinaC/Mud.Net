@@ -190,24 +190,44 @@ namespace Mud.Server.World
             return character;
         }
 
-        public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
+        public IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim)
         {
+            ItemCorpseBlueprint blueprint = GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
             if (blueprint == null)
-                throw new ArgumentNullException(nameof(blueprint));
+                throw new Exception($"Corpse blueprint {Settings.CorpseBlueprintId} not found");
             IItemCorpse item = new ItemCorpse(guid, blueprint, room, victim);
             _items.Add(item);
             item.Recompute();
             return item;
         }
 
-        public IItemCorpse AddItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, ICharacter killer)
+        public IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim, ICharacter killer)
         {
+            ItemCorpseBlueprint blueprint = GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
             if (blueprint == null)
-                throw new ArgumentNullException(nameof(blueprint));
+                throw new Exception($"Corpse blueprint {Settings.CorpseBlueprintId} not found");
             IItemCorpse item = new ItemCorpse(guid, blueprint, room, victim, killer);
             _items.Add(item);
             item.Recompute();
             return item;
+        }
+
+        public IItemMoney AddItemMoney(Guid guid, long silverCoins, long goldCoins, IContainer container)
+        {
+            silverCoins = Math.Max(0, silverCoins);
+            goldCoins = Math.Max(0, goldCoins);
+            if (silverCoins == 0 && goldCoins == 0)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "World.AddItemMoney: 0 silver and 0 gold.");
+                return null;
+            }
+            int blueprintId = Settings.CoinsBlueprintId;
+            ItemMoneyBlueprint blueprint = GetItemBlueprint<ItemMoneyBlueprint>(blueprintId);
+            if (blueprint == null)
+                throw new Exception($"Money blueprint {blueprintId} not found");
+            IItemMoney money = new ItemMoney(guid, blueprint, silverCoins, goldCoins, container);
+            _items.Add(money);
+            return money;
         }
 
         public IItem AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container)
@@ -246,6 +266,9 @@ namespace Mud.Server.World
                 case ItemLightBlueprint lightBlueprint:
                     item = new ItemLight(guid, lightBlueprint, container);
                     break;
+                case ItemMoneyBlueprint moneyBlueprint:
+                    item = new ItemMoney(guid, moneyBlueprint, container);
+                    break;
                 case ItemPillBlueprint pillBlueprint:
                     item = new ItemPill(guid, pillBlueprint, container);
                     break;
@@ -278,6 +301,9 @@ namespace Mud.Server.World
                     break;
                 case ItemStaffBlueprint staffBlueprint:
                     item = new ItemStaff(guid, staffBlueprint, container);
+                    break;
+                case ItemTreasureBlueprint treasureBlueprint:
+                    item = new ItemTreasure(guid, treasureBlueprint, container);
                     break;
                 case ItemWandBlueprint wandBlueprint:
                     item = new ItemWand(guid, wandBlueprint, container);
@@ -348,6 +374,9 @@ namespace Mud.Server.World
                 case ItemLightBlueprint lightBlueprint:
                     item = new ItemLight(guid, lightBlueprint, itemData as ItemLightData, container);
                     break;
+                case ItemMoneyBlueprint moneyBlueprint:
+                    item = new ItemMoney(guid, moneyBlueprint, itemData, container);
+                    break;
                 case ItemPillBlueprint pillBlueprint:
                     item = new ItemPill(guid, pillBlueprint, itemData, container);
                     break;
@@ -381,6 +410,9 @@ namespace Mud.Server.World
                     break;
                 case ItemStaffBlueprint staffBlueprint:
                     item = new ItemStaff(guid, staffBlueprint, itemData as ItemStaffData, container);
+                    break;
+                case ItemTreasureBlueprint treasureBlueprint:
+                    item = new ItemTreasure(guid, treasureBlueprint, itemData, container);
                     break;
                 case ItemWandBlueprint wandBlueprint:
                     item = new ItemWand(guid, wandBlueprint, itemData as ItemWandData, container);

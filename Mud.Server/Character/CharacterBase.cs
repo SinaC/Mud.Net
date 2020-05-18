@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using Mud.Container;
 using Mud.DataStructures.Trie;
@@ -132,6 +131,9 @@ namespace Mud.Server.Character
         public int CarryWeight => Inventory.Sum(x => x.Weight) + Equipments.Where(x => x.Item != null).Sum(x => x.Item.Weight);
         public int CarryNumber => Inventory.Sum(x => x.CarryCount) + Equipments.Where(x => x.Item != null).Sum(x => x.Item.CarryCount);
 
+        // Money
+        public long SilverCoins { get; protected set; }
+        public long GoldCoins { get; protected set; }
 
         // Furniture (sleep/sit/stand)
         public IItemFurniture Furniture { get; protected set; }
@@ -321,6 +323,13 @@ namespace Mud.Server.Character
             if (item is IItemLight itemLight && itemLight.IsLighten)
                 Room.IncreaseLight();
             return true;
+        }
+
+        // Money
+        public void UpdateMoney(long silverCoins, long goldCoins)
+        {
+            SilverCoins = Math.Max(0, SilverCoins + silverCoins);
+            GoldCoins = Math.Max(0, GoldCoins + goldCoins);
         }
 
         // Furniture
@@ -1851,9 +1860,9 @@ namespace Mud.Server.Character
             if (itemCorpseBlueprint != null)
             {
                 if (characterKiller != null)
-                    corpse = World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this, characterKiller);
+                    corpse = World.AddItemCorpse(Guid.NewGuid(), Room, this, characterKiller);
                 else
-                    corpse = World.AddItemCorpse(Guid.NewGuid(), itemCorpseBlueprint, Room, this);
+                    corpse = World.AddItemCorpse(Guid.NewGuid(), Room, this);
             }
             else
             {

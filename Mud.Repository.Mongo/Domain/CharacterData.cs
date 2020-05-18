@@ -21,6 +21,10 @@ namespace Mud.Repository.Mongo.Domain
 
         public int Size { get; set; }
 
+        public long SilverCoins { get; set; }
+
+        public long GoldCoins { get; set; }
+
         public int HitPoints { get; set; }
 
         public int MovePoints { get; set; }

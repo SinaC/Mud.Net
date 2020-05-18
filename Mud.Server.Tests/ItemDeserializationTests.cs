@@ -385,7 +385,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
             Assert.IsFalse((item as IItemCorpse).IsPlayableCharacterCorpse);
             Assert.AreEqual(itemData.ItemFlags, item.BaseItemFlags);
-            Assert.AreEqual("corpse of "+ itemData.CorpseName, item.Name);
+            Assert.AreEqual("corpse "+ itemData.CorpseName, item.Name);
             Assert.AreEqual(0, (item as IItemCorpse).Content.Count());
             Assert.AreEqual(itemData.DecayPulseLeft, item.DecayPulseLeft);
         }
@@ -412,7 +412,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
             Assert.IsTrue((item as IItemCorpse).IsPlayableCharacterCorpse);
             Assert.AreEqual(itemData.ItemFlags, item.BaseItemFlags);
-            Assert.AreEqual("corpse of " + itemData.CorpseName, item.Name);
+            Assert.AreEqual("corpse " + itemData.CorpseName, item.Name);
             Assert.AreEqual(0, (item as IItemCorpse).Content.Count());
             Assert.AreEqual(itemData.DecayPulseLeft, item.DecayPulseLeft);
         }
@@ -450,7 +450,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
             Assert.IsFalse((item as IItemCorpse).IsPlayableCharacterCorpse);
             Assert.AreEqual(itemData.ItemFlags, item.BaseItemFlags);
-            Assert.AreEqual("corpse of " + itemData.CorpseName, item.Name);
+            Assert.AreEqual("corpse " + itemData.CorpseName, item.Name);
             Assert.AreEqual(itemData.DecayPulseLeft, item.DecayPulseLeft);
             Assert.AreEqual(1, (item as IItemCorpse).Content.Count());
             Assert.AreEqual(lightBlueprint.Id, (item as IItemCorpse).Content.First().Blueprint.Id);

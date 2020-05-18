@@ -21,7 +21,6 @@ using Mud.Settings;
 using System.Reflection;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Item;
-using System.ComponentModel;
 
 namespace Mud.Server.Server
 {
@@ -81,6 +80,17 @@ namespace Mud.Server.Server
             }
 
             TimeManager.Initialize();
+
+            if (World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Item corpse blueprint {0} not found or not a corpse", Settings.CorpseBlueprintId);
+                throw new Exception($"Item corpse blueprint {Settings.CorpseBlueprintId} not found or not a corpse");
+            }
+            if (World.GetItemBlueprint<ItemMoneyBlueprint>(Settings.CoinsBlueprintId) == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Item coins blueprint {0} not found or not money", Settings.CoinsBlueprintId);
+                throw new Exception($"Item coins blueprint {Settings.CoinsBlueprintId} not found or not money");
+            }
 
             // Perform some validity/sanity checks
             if (Settings.PerformSanityCheck)

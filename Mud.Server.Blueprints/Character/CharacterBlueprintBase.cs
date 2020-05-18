@@ -31,6 +31,9 @@ namespace Mud.Server.Blueprints.Character
         public int Level { get; set; }
 
         [DataMember]
+        public long Wealth { get; set; }
+
+        [DataMember]
         public int Alignment { get; set; }
 
         [DataMember]

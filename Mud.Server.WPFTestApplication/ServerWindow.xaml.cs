@@ -562,7 +562,7 @@ namespace Mud.Server.WPFTestApplication
                     NoTake = extraFlags.noTake,
                 };
             }
-            else if (data.ItemType == "jewelry" || data.ItemType == "treasure")
+            else if (data.ItemType == "jewelry")
             {
                 blueprint = new ItemJewelryBlueprint
                 {
@@ -576,6 +576,42 @@ namespace Mud.Server.WPFTestApplication
                     Weight = data.Weight,
                     WearLocation = ConvertWearLocation(data),
                     ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
+                };
+            }
+            else if (data.ItemType == "treasure")
+            {
+                blueprint = new ItemTreasureBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
+                };
+            }
+            else if (data.ItemType == "money")
+            {
+                blueprint = new ItemMoneyBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = extraFlags.itemFlags,
+                    SilverCoins = Convert.ToInt64(data.Values[0]),
+                    GoldCoins = Convert.ToInt64(data.Values[1]),
                     NoTake = extraFlags.noTake,
                 };
             }
@@ -777,6 +813,7 @@ namespace Mud.Server.WPFTestApplication
                 LongDescription = data.LongDescr,
                 ShortDescription = data.ShortDescr,
                 Sex = sex,
+                Wealth = data.Wealth,
                 Alignment = data.Alignment,
                 DamageNoun = damageNoun,
                 DamageType = schoolType,
@@ -1672,6 +1709,7 @@ namespace Mud.Server.WPFTestApplication
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
             {
                 Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
+                NoTake = true,
                 Name = "corpse"
             }; // this is mandatory
             World.AddItemBlueprint(corpseBlueprint);

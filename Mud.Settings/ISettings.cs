@@ -24,6 +24,7 @@
         bool PerformSanityCheck { get; }
         bool DumpOnInitialize { get; }
 
+        int CoinsBlueprintId { get; }
         int CorpseBlueprintId { get; }
         int MushroomBlueprintId { get; }
         int LightBallBlueprintId { get; }

@@ -16,16 +16,11 @@ namespace Mud.Server.Item
 
         private IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
 
-        public override string DisplayName => "The corpse of " + _corpseName;
-
         public ItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
-            : base(guid, blueprint, room)
+            : base(guid, blueprint, BuildName(victim.DisplayName), BuildShortDescription(victim.DisplayName), BuildDescription(victim.DisplayName), room)
         {
-            _corpseName = victim.DisplayName;
-            Name = "corpse of " + _corpseName;
-            // TODO: custom short description
-            Description = "The corpse of " + _corpseName + " is laying here.";
             _content = new List<IItem>();
+            _corpseName = victim.DisplayName;
 
             IsPlayableCharacterCorpse = victim is IPlayableCharacter;
 
@@ -37,7 +32,21 @@ namespace Mud.Server.Item
             else
                 DecayPulseLeft = RandomManager.Range(3, 6) * Pulse.PulsePerMinutes;
 
-            // TODO: money
+            // Money
+            if (victim.SilverCoins > 0 || victim.GoldCoins > 0)
+            {
+                long silver = victim.SilverCoins;
+                long gold = victim.GoldCoins;
+                if ((silver > 1 || gold > 1)
+                    && victim is IPlayableCharacter pcVictim) // player keep half their money
+                {
+                    silver /= 2;
+                    gold /= 2;
+                    pcVictim.UpdateMoney(-silver, -gold);
+                }
+
+                World.AddItemMoney(Guid.NewGuid(), silver, gold, this);
+            }
 
             // Fill corpse with inventory
             IReadOnlyCollection<IItem> inventory = new ReadOnlyCollection<IItem>(victim.Inventory.ToList());
@@ -71,9 +80,9 @@ namespace Mud.Server.Item
             }
 
             // Check victim loot table (only if victim is NPC)
-            if (victim is INonPlayableCharacter nonPlayableCharacterVictom)
+            if (victim is INonPlayableCharacter npcVictim)
             {
-                List<int> loots = nonPlayableCharacterVictom.Blueprint?.LootTable?.GenerateLoots();
+                List<int> loots = npcVictim.Blueprint?.LootTable?.GenerateLoots();
                 if (loots != null && loots.Any())
                 {
                     foreach (int loot in loots)
@@ -98,14 +107,11 @@ namespace Mud.Server.Item
             }
         }
 
-        public ItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, ItemCorpseData itemCorpseData, IContainer containedInto)
-            : base(guid, blueprint, itemCorpseData, containedInto)
+        public ItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, ItemCorpseData itemCorpseData, IContainer container)
+            : base(guid, blueprint, itemCorpseData, BuildName(itemCorpseData.CorpseName), BuildShortDescription(itemCorpseData.CorpseName), BuildDescription(itemCorpseData.CorpseName), container)
         {
-            _corpseName = itemCorpseData.CorpseName;
-            Name = "corpse of " + _corpseName;
-            // TODO: custom short description
-            Description = "The corpse of " + _corpseName + " is laying here.";
             _content = new List<IItem>();
+            _corpseName = itemCorpseData.CorpseName;
 
             IsPlayableCharacterCorpse = itemCorpseData.IsPlayableCharacterCorpse;
             if (itemCorpseData.Contains?.Length > 0)
@@ -146,17 +152,21 @@ namespace Mud.Server.Item
             return new ItemCorpseData
             {
                 ItemId = Blueprint.Id,
+                CorpseName = _corpseName,
                 Level = Level,
                 DecayPulseLeft = DecayPulseLeft,
                 ItemFlags = BaseItemFlags,
                 Auras = MapAuraData(),
                 Contains = MapContent(),
-                CorpseName = _corpseName,
                 IsPlayableCharacterCorpse = IsPlayableCharacterCorpse
             };
         }
 
         #endregion
+
+        private static string BuildName(string corpseName) => "corpse " + corpseName;
+        private static string BuildShortDescription(string corpseName) => "the corpse of " + corpseName;
+        private static string BuildDescription(string corpseName) => $"The corpse of {corpseName} is lying here.";
 
         // Perform actions on item before putting it in corpse
         // returns false if item must be destroyed instead of being put in corpse

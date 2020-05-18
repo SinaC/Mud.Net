@@ -37,6 +37,7 @@ namespace Mud.Settings.ConfigurationManager
         public bool DumpOnInitialize => BoolSetting("DumpOnInitialize", false);
 
         //
+        public int CoinsBlueprintId => IntSetting("CoinsBlueprintId", 5);
         public int CorpseBlueprintId => IntSetting("CorpseBlueprintId", 10);
         public int MushroomBlueprintId => IntSetting("MushroomBlueprintId", 20);
         public int LightBallBlueprintId => IntSetting("LightBallBlueprintId", 21);

@@ -21,6 +21,10 @@ namespace Mud.Domain
 
         public Sizes Size { get; set; }
 
+        public long SilverCoins { get; set; }
+
+        public long GoldCoins { get; set; }
+
         public int HitPoints { get; set; }
 
         public int MovePoints { get; set; }

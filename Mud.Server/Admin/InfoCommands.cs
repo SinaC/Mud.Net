@@ -325,6 +325,7 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Race: {0} Class: {1}", victim.Race?.DisplayName ?? "(none)", victim.Class?.DisplayName ?? "(none)");
             sb.AppendFormatLine("Sex: {0} (base: {1})", victim.Sex, victim.BaseSex);
             sb.AppendFormatLine("Size: {0} (base: {1})", victim.Size, victim.BaseSize);
+            sb.AppendFormatLine("Silver: {0} Gold: {1}", victim.SilverCoins, victim.GoldCoins);
             sb.AppendFormatLine("Carry: {0}/{1} Weight: {2}/{3}", victim.CarryNumber, victim.MaxCarryNumber, victim.CarryWeight, victim.MaxCarryWeight);
             if (playableVictim != null)
                 sb.AppendFormatLine("Level: {0} Experience: {1} NextLevel: {2}", playableVictim.Level, playableVictim.Experience, playableVictim.ExperienceToLevel);
@@ -494,6 +495,9 @@ namespace Mud.Server.Admin
             //
             if (item is IItemLight light)
                 sb.AppendFormatLine("Time left: {0}", light.IsInfinite ? "Infinite" : StringHelpers.FormatDelay(light.TimeLeft * 60));
+            //
+            if (item is IItemMoney money)
+                sb.AppendFormatLine("Silver: {0} Gold: {1}", money.SilverCoins, money.GoldCoins);
             //
             if (item is IItemPortal portal)
                 sb.AppendFormatLine("Destination: {0} Flags: {1} Key: {2} Current charges: {3} Max charges: {4}", portal.Destination?.DebugName ?? "???", portal.PortalFlags, portal.KeyId, portal.CurrentChargeCount, portal.MaxChargeCount);

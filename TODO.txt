@@ -2,7 +2,7 @@ NEXT:
 
 TODO:
 admin command to switch an avatar from/to immortal/mortal
-item: money, boat, trash, clothing
+item: boat, treasure, trash, clothing, map
 master/pet/follower/group
 Monitor Recompute calls
 Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
@@ -21,6 +21,10 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+item: money, treasure
+short description added on item
+name, short desc, description can now be set at creation
+silver/gold
 moons
 room: heal/resource rate, maxsize, sector, light
 Death room added: room where PC goes when killed

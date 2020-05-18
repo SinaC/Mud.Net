@@ -31,6 +31,8 @@ namespace Mud.Server.Tests.Mocking
 
         public bool DumpOnInitialize => throw new NotImplementedException();
 
+        public int CoinsBlueprintId => throw new NotImplementedException();
+
         public int CorpseBlueprintId => throw new NotImplementedException();
 
         public int LightBallBlueprintId => throw new NotImplementedException();

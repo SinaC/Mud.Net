@@ -78,6 +78,8 @@
     <Compile Include="Character\CharacterNormalBlueprint.cs" />
     <Compile Include="Character\CharacterBlueprintBase.cs" />
     <Compile Include="Character\CharacterQuestorBlueprint.cs" />
+    <Compile Include="Item\ItemMoneyBlueprint.cs" />
+    <Compile Include="Item\ItemTreasureBlueprint.cs" />
     <Compile Include="Reset\CharacterReset.cs" />
     <Compile Include="Item\ItemCastSpellsChargeBlueprintBase.cs" />
     <Compile Include="Item\ItemCastSpellsNoChargeBlueprintBase.cs" />

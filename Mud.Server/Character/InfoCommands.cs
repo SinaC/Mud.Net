@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using Mud.Domain;
@@ -10,7 +9,7 @@ using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
-using Mud.Server.Server;
+
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
@@ -200,6 +199,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("examine", "Information", MinPosition = Positions.Resting)]
         [Syntax(
+            "[cmd] item",
             "[cmd] <container>",
             "[cmd] <corpse>")]
         protected virtual CommandExecutionResults DoExamine(string rawParameters, params CommandParameter[] parameters)
@@ -230,10 +230,36 @@ namespace Mud.Server.Character
             //
             Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, item);
             StringBuilder sbItem = new StringBuilder();
-            if (item is IContainer container) // if container, display content
-                AppendContainerContent(sbItem, container);
-            else
-                sbItem.AppendLine(FormatItem(item, true));
+                switch (item)
+                {
+                    case IContainer container:
+                        AppendContainerContent(sbItem, container);
+                        break;
+                    case IItemMoney money:
+                        if (money.SilverCoins == 0 && money.GoldCoins == 0)
+                            sbItem.AppendLine("Odd...there's no coins in the pile.");
+                        else if (money.SilverCoins == 0 && money.GoldCoins > 0)
+                        {
+                            if (money.GoldCoins == 1)
+                                sbItem.AppendLine("Wow. one gold coin.");
+                            else
+                                sbItem.AppendFormatLine("There are {0} gold coins in the pile.", money.GoldCoins);
+                        }
+                        else if (money.SilverCoins > 0 && money.GoldCoins == 0)
+                        {
+                            if (money.SilverCoins == 1)
+                                sbItem.AppendLine("Wow. one silver coin.");
+                            else
+                                sbItem.AppendFormatLine("There are {0} silver coins in the pile.", money.SilverCoins);
+                        }
+                        else
+                            sbItem.AppendFormatLine("There are {0} gold and {1} silver coins in the pile.", money.SilverCoins, money.GoldCoins);
+                        break;
+                    default:
+                        sbItem.AppendLine(FormatItem(item, true));
+                        break;
+                }
+
             Send(sbItem);
             return CommandExecutionResults.Ok;
         }

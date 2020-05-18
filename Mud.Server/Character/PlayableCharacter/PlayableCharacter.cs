@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using Mud.Container;
@@ -10,9 +9,7 @@ using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Abilities;
-using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
-using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Item;
 using Mud.Server.Quest;
@@ -64,6 +61,8 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             Level = data.Level;
             Experience = data.Experience;
+            SilverCoins = data.SilverCoins;
+            GoldCoins = data.GoldCoins;
             HitPoints = data.HitPoints;
             MovePoints = data.MovePoints;
             if (data.CurrentResources != null)
@@ -784,6 +783,8 @@ namespace Mud.Server.Character.PlayableCharacter
                 Level = Level,
                 Sex = BaseSex,
                 Size = BaseSize,
+                SilverCoins = SilverCoins,
+                GoldCoins = GoldCoins,
                 HitPoints = HitPoints,
                 MovePoints = MovePoints,
                 CurrentResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),

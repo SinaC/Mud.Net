@@ -71,11 +71,11 @@ namespace Mud.Server.Entity
         #endregion
 
         public Guid Id { get; }
-        public bool IsValid { get; protected set; }
-        public string Name { get; protected set; }
+        public bool IsValid { get; private set; }
+        public string Name { get; }
         public abstract string DisplayName { get; }
         public IEnumerable<string> Keywords { get; }
-        public string Description { get; protected set; }
+        public string Description { get; }
         public abstract string DebugName { get; }
 
         public bool Incarnatable { get; protected set; } // TODO: assign
