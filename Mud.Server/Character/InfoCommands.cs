@@ -1014,7 +1014,7 @@ namespace Mud.Server.Character
                 case EquipmentSlots.Float:
                     return "%C%<floating nearby>        %x%";
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "DoEquipment: missing WearLocation {0}", equippedItem.Slot);
+                    Wiznet.Wiznet($"DoEquipment: missing WearLocation {equippedItem.Slot}", WiznetFlags.Bugs, AdminLevels.Implementor);
                     break;
             }
             return "%C%<unknown>%x%";

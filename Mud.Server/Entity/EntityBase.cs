@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
+using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Actor;
@@ -294,7 +295,7 @@ namespace Mud.Server.Entity
             FormatSeparatorFound,
         }
 
-        protected static string FormatActOneLine(ICharacter target, string format, params object[] arguments)
+        protected string FormatActOneLine(ICharacter target, string format, params object[] arguments)
         {
             StringBuilder result = new StringBuilder();
 
@@ -380,7 +381,7 @@ namespace Mud.Server.Entity
         // IAbility
         //      ability name
         [SuppressMessage("ReSharper", "ConvertIfStatementToConditionalTernaryExpression")]
-        protected static void FormatActOneArgument(ICharacter target, StringBuilder result, string format, object argument)
+        protected void FormatActOneArgument(ICharacter target, StringBuilder result, string format, object argument)
         {
             // Character ?
             if (argument is ICharacter character)
@@ -528,11 +529,11 @@ namespace Mud.Server.Entity
                                     result.Append("s");
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Error, "Act: v-format on an empty string");
+                                Wiznet.Wiznet("Act: v-format on an empty string", WiznetFlags.Bugs, AdminLevels.Implementor);
                         }
                         break;
                     default:
-                        Log.Default.WriteLine(LogLevels.Error, "Act: invalid format {0} for ICharacter", format);
+                        Wiznet.Wiznet($"Act: invalid format {format} for ICharacter", WiznetFlags.Bugs, AdminLevels.Implementor);
                         result.Append("<???>");
                         break;
                 }

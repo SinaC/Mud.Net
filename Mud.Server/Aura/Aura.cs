@@ -44,7 +44,7 @@ namespace Mud.Server.Aura
             {
                 Ability = AbilityManager[auraData.AbilityId];
                 if (Ability == null)
-                    Log.Default.WriteLine(LogLevels.Error, "Aura ability id {0} doesn't exist anymore", auraData.AbilityId);
+                    Wiznet.Wiznet($"Aura ability id {auraData.AbilityId} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
             }
             // TODO: source
             AuraFlags = auraData.AuraFlags;
@@ -76,9 +76,7 @@ namespace Mud.Server.Aura
                             _affects.Add(new ItemWeaponFlagsAffect(itemWeaponFlagsAffectData));
                             break;
                         default:
-                            string msg = $"Unexpected AuraAffect type {affectData.GetType()}";
-                            Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
-                            Log.Default.WriteLine(LogLevels.Error, msg);
+                            Wiznet.Wiznet($"Unexpected AuraAffect type {affectData.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
                             break;
                     }
                 }

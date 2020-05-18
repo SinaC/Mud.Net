@@ -12,6 +12,7 @@ namespace Mud.Server.Classes
         private readonly List<AbilityUsage> _abilities;
 
         protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
+        protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
         #region IClass
 
@@ -49,7 +50,7 @@ namespace Mud.Server.Classes
             IAbility ability = AbilityManager[abilityName];
             if (ability == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Trying to add unknown ability [{0}] to class [{1}]", abilityName, Name);
+                Wiznet.Wiznet($"Trying to add unknown ability [{abilityName}] to class [{Name}]", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return;
             }
             //

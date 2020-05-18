@@ -614,7 +614,7 @@ namespace Mud.Server.Character
             if (liquidInfo == default)
             {
                 Send("You can't drink from that.");
-                Log.Default.WriteLine(LogLevels.Error,"Invalid liquid name {0} item {1}", drinkable.LiquidName, drinkable.DebugName);
+                Wiznet.Wiznet($"Invalid liquid name {drinkable.LiquidName} item {drinkable.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return CommandExecutionResults.InvalidTarget;
             }
             // empty
@@ -1042,7 +1042,7 @@ namespace Mud.Server.Character
                     }
                 case EquipmentSlots.Float: return "{0:N} release{0:v} {1} to float next to {0:m}.";
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Invalid EquipmentSlots {0} for item {1} character {2}", slot, item.DebugName, this.DebugName);
+                    Wiznet.Wiznet($"Invalid EquipmentSlots {slot} for item {item.DebugName} character {DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
                     return "{0:N} wear{0:v} {1}.";
             }
         }

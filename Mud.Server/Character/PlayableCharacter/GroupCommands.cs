@@ -142,7 +142,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 IPlayableCharacter newLeader = GroupMembers.FirstOrDefault();
                 if (newLeader == null)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "DoLeave: problem with group, leader leaving but no other group member found.");
+                    Wiznet.Wiznet("DoLeave: problem with group, leader leaving but no other group member found.", WiznetFlags.Bugs, AdminLevels.Implementor);
                     return CommandExecutionResults.Error;
                 }
                 // New leader has no leader

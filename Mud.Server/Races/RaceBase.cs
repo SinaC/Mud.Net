@@ -32,6 +32,7 @@ namespace Mud.Server.Races
         };
 
         protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
+        protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
         #region IRace
 
@@ -74,7 +75,7 @@ namespace Mud.Server.Races
             IAbility ability = AbilityManager[abilityName];
             if (ability == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Trying to add unknown ability [{0}] to race [{1}]", abilityName, Name);
+                Wiznet.Wiznet($"Trying to add unknown ability [{abilityName}] to race [{Name}]", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return;
             }
             //

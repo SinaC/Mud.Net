@@ -20,17 +20,19 @@ namespace Mud.Server.Abilities
         private ISettings Settings { get; }
         private IWorld World { get; }
         private ITimeManager TimeManager { get; }
+        private IWiznet Wiznet { get; }
 
         private readonly List<IAbility> _abilities;
 
         private readonly Dictionary<string, IAbility> _abilitiesByName;
 
-        public AbilityManager(IRandomManager randomManager, ISettings settings, IWorld world, ITimeManager timeManager)
+        public AbilityManager(IRandomManager randomManager, ISettings settings, IWorld world, ITimeManager timeManager, IWiznet wiznet)
         {
             RandomManager = randomManager;
             Settings = settings;
             World = world;
             TimeManager = timeManager;
+            Wiznet = wiznet;
 
             _abilities = new List<IAbility>();
 
@@ -148,7 +150,7 @@ namespace Mud.Server.Abilities
                         cost = caster.MaxResource(resourceKind) * knownAbility.CostAmount / 100;
                         break;
                     default:
-                        Log.Default.WriteLine(LogLevels.Error, "Unexpected CostAmountOperator {0}", knownAbility.CostAmountOperator);
+                        Wiznet.Wiznet($"Unexpected CostAmountOperator {knownAbility.CostAmountOperator} for ability {knownAbility.Ability.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
                         cost = 100;
                         break;
                 }
@@ -497,7 +499,7 @@ namespace Mud.Server.Abilities
                     }
                     break;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "GetAbilityTarget: unexpected AbilityTarget {0}", ability.Target);
+                    Wiznet.Wiznet($"GetAbilityTarget: unexpected AbilityTarget {ability.Target} for ability {ability.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
                     return AbilityTargetResults.Error;
             }
             return AbilityTargetResults.Ok;
@@ -507,7 +509,7 @@ namespace Mud.Server.Abilities
         {
             if (target is IRoom)
             {
-                Log.Default.WriteLine(LogLevels.Error, "AbilityManager.GetItemAbilityTarget: preselected target was IRoom.");
+                Wiznet.Wiznet($"AbilityManager.GetItemAbilityTarget: preselected target was IRoom for ability {ability.Name}.", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return AbilityTargetResults.Error;
             }
 
@@ -613,7 +615,7 @@ namespace Mud.Server.Abilities
                     }
                     break;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "GetItemAbilityTarget: unexpected AbilityTarget {0}", ability.Target);
+                    Wiznet.Wiznet($"GetItemAbilityTarget: unexpected AbilityTarget {ability.Target}", WiznetFlags.Bugs, AdminLevels.Implementor);
                     return AbilityTargetResults.Error;
             }
 
@@ -793,7 +795,7 @@ namespace Mud.Server.Abilities
             {
                 source.Send("You use '{0}'.", ability.Name);
                 source.Act(ActOptions.ToRoom, "{0} uses '{1}'.", source, ability.Name);
-                Log.Default.WriteLine(LogLevels.Error, "Ability {0} has unknown type {1}!", ability.Name, ability.Kind);
+                Wiznet.Wiznet($"Ability {ability.Name} has unknown type {ability.Kind}!", WiznetFlags.Bugs, AdminLevels.Implementor);
             }
         }
 
@@ -811,7 +813,7 @@ namespace Mud.Server.Abilities
                     case AbilityTargetResults.Error:
                         return CastResults.Error;
                     default:
-                        Log.Default.WriteLine(LogLevels.Error, "Unexpected AbilityTargetResults {0}", result);
+                        Wiznet.Wiznet($"Unexpected AbilityTargetResults {result}", WiznetFlags.Bugs, AdminLevels.Implementor);
                         return CastResults.Error;
                 }
             }
@@ -831,7 +833,7 @@ namespace Mud.Server.Abilities
                     case AbilityTargetResults.Error:
                         return UseResults.Error;
                     default:
-                        Log.Default.WriteLine(LogLevels.Error, "Unexpected AbilityTargetResults {0}", result);
+                        Wiznet.Wiznet($"Unexpected AbilityTargetResults {result}", WiznetFlags.Bugs, AdminLevels.Implementor);
                         return UseResults.Error;
                 }
             }

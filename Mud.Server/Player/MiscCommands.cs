@@ -242,9 +242,7 @@ namespace Mud.Server.Player
                 Send("Report which bug?");
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
-            string msg = $"****USER BUG REPORTING -- {DisplayName}: {rawParameters}";
-            Log.Default.WriteLine(LogLevels.Warning, msg); // TODO: specific log file ?
-            Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Wiznet($"****USER BUG REPORTING -- {DisplayName}: {rawParameters}", WiznetFlags.Bugs, AdminLevels.Implementor);
             Send("Bug logged.");
             return CommandExecutionResults.Ok;
         }
@@ -258,9 +256,7 @@ namespace Mud.Server.Player
                 Send("Report which typo?");
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
-            string msg = $"****USER TYPO REPORTING -- {DisplayName}: {rawParameters}";
-            Log.Default.WriteLine(LogLevels.Warning, msg); // TODO: specific log file ?
-            Wiznet.Wiznet(msg, WiznetFlags.Typos);
+            Wiznet.Wiznet($"****USER TYPO REPORTING -- {DisplayName}: {rawParameters}", WiznetFlags.Typos);
             Send("Typo logged.");
             return CommandExecutionResults.Ok;
         }

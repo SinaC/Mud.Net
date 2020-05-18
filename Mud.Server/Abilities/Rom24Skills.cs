@@ -553,7 +553,7 @@ namespace Mud.Server.Abilities
             if (recallRoom == null)
             {
                 pcSource.Send("You are completely lost.");
-                Log.Default.WriteLine(LogLevels.Error, "No recall room found for {0}", pcSource.ImpersonatedBy.DisplayName);
+                Wiznet.Wiznet($"No recall room found for {pcSource.ImpersonatedBy.DisplayName}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return UseResults.TargetNotFound;
             }
 
@@ -883,7 +883,7 @@ namespace Mud.Server.Abilities
                                     cast = false;
                                 break;
                             default:
-                                Log.Default.WriteLine(LogLevels.Error, "SkillStaves: spell {0} has invalid target in staff {1}.", staff.Spell, staff.DebugName);
+                                Wiznet.Wiznet($"SkillStaves: spell {staff.Spell} has invalid target in staff {staff.DebugName}.", WiznetFlags.Bugs, AdminLevels.Implementor);
                                 return UseResults.Error;
                         }
                         if (cast)
@@ -892,7 +892,7 @@ namespace Mud.Server.Abilities
                     success = true;
                 }
                 else
-                    Log.Default.WriteLine(LogLevels.Error, "SkillStaves: no spell found in staff {0}", staff.DebugName);
+                    Wiznet.Wiznet($"SkillStaves: no spell found in staff {staff.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
 
                 staff.Use();
             }

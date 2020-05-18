@@ -99,7 +99,7 @@ namespace Mud.Server.Room
         public bool PutInContainer(IItem obj)
         {
             // TODO: check if already in a container
-            _content.Insert(0, obj);
+            _content.Add(obj);
             return true;
         }
 
@@ -190,13 +190,8 @@ namespace Mud.Server.Room
 
         public bool Enter(ICharacter character)
         {
-            //if (character.Room != null)
-            //{
-            //    Log.Default.WriteLine(LogLevels.Error, $"IRoom.Enter: Character {character.DebugName} is already in Room {character.Room.DebugName}");
-            //    return false;
-            //}
             if (_people.Contains(character))
-                Log.Default.WriteLine(LogLevels.Error, $"IRoom.Enter: Character {character.DebugName} is already in Room {character.Room.DebugName}");
+                Wiznet.Wiznet($"IRoom.Enter: Character {character.DebugName} is already in Room {character.Room.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
             else
                 _people.Add(character);
             // Update light

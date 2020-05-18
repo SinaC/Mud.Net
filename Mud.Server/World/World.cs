@@ -88,7 +88,7 @@ namespace Mud.Server.World
         public void AddQuestBlueprint(QuestBlueprint blueprint)
         {
             if (_questBlueprints.ContainsKey(blueprint.Id))
-                Log.Default.WriteLine(LogLevels.Error, $"Quest blueprint duplicate {blueprint.Id}!!!");
+                Wiznet.Wiznet($"Quest blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             else
                 _questBlueprints.Add(blueprint.Id, blueprint);
         }
@@ -96,7 +96,7 @@ namespace Mud.Server.World
         public void AddRoomBlueprint(RoomBlueprint blueprint)
         {
             if (_roomBlueprints.ContainsKey(blueprint.Id))
-                Log.Default.WriteLine(LogLevels.Error, $"Room blueprint duplicate {blueprint.Id}!!!");
+                Wiznet.Wiznet($"Room blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             else
                 _roomBlueprints.Add(blueprint.Id, blueprint);
         }
@@ -104,7 +104,7 @@ namespace Mud.Server.World
         public void AddCharacterBlueprint(CharacterBlueprintBase blueprint)
         {
             if (_characterBlueprints.ContainsKey(blueprint.Id))
-                Log.Default.WriteLine(LogLevels.Error, $"Character blueprint duplicate {blueprint.Id}!!!");
+                Wiznet.Wiznet($"Character blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             else
                 _characterBlueprints.Add(blueprint.Id, blueprint);
         }
@@ -112,7 +112,7 @@ namespace Mud.Server.World
         public void AddItemBlueprint(ItemBlueprintBase blueprint)
         {
             if (_itemBlueprints.ContainsKey(blueprint.Id))
-                Log.Default.WriteLine(LogLevels.Error, $"Item blueprint duplicate {blueprint.Id}!!!");
+                Wiznet.Wiznet($"Item blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             else
                 _itemBlueprints.Add(blueprint.Id, blueprint);
         }
@@ -218,7 +218,7 @@ namespace Mud.Server.World
             goldCoins = Math.Max(0, goldCoins);
             if (silverCoins == 0 && goldCoins == 0)
             {
-                Log.Default.WriteLine(LogLevels.Error, "World.AddItemMoney: 0 silver and 0 gold.");
+                Wiznet.Wiznet($"World.AddItemMoney: 0 silver and 0 gold.", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return null;
             }
             int blueprintId = Settings.CoinsBlueprintId;
@@ -246,7 +246,7 @@ namespace Mud.Server.World
                     item = new ItemContainer(guid, containerBlueprint, container);
                     break;
                 case ItemCorpseBlueprint _:
-                    Log.Default.WriteLine(LogLevels.Error, "World.AddItem: CorpseBlueprint cannot be added with this API.");
+                    Wiznet.Wiznet($"World.AddItem: CorpseBlueprint cannot be added with this API.", WiznetFlags.Bugs, AdminLevels.Implementor);
                     break;
                 case ItemFoodBlueprint foodBlueprint:
                     item = new ItemFood(guid, foodBlueprint, container);
@@ -287,7 +287,7 @@ namespace Mud.Server.World
                         if (destination == null)
                         {
                             destination = Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
-                            Log.Default.WriteLine(LogLevels.Error, "World.AddItem: PortalBlueprint {0} unknown destination {1} setting to recall {2}", blueprint.Id, portalBlueprint.Destination, Settings.DefaultRecallRoomId);
+                            Wiznet.Wiznet($"World.AddItem: PortalBlueprint {blueprint.Id} unknown destination {portalBlueprint.Destination} setting to recall {Settings.DefaultRecallRoomId}", WiznetFlags.Bugs, AdminLevels.Implementor);
                         }
                     }
                     item = new ItemPortal(guid, portalBlueprint, destination, container);
@@ -318,7 +318,7 @@ namespace Mud.Server.World
                     item = new ItemWeapon(guid, weaponBlueprint, container);
                     break;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Unknown Item blueprint type {0}", blueprint.GetType());
+                    Wiznet.Wiznet($"Unknown Item blueprint type {blueprint.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
                     break;
             }
             if (item != null)
@@ -328,7 +328,7 @@ namespace Mud.Server.World
                 return item;
             }
 
-            Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Invalid blueprint type {0}", blueprint.GetType().FullName);
+            Wiznet.Wiznet($"World.AddItem: Invalid blueprint type {blueprint.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
             return null;
         }
 
@@ -337,10 +337,7 @@ namespace Mud.Server.World
             ItemBlueprintBase blueprint = GetItemBlueprint(itemData.ItemId);
             if (blueprint == null)
             {
-                string msg = $"Item blueprint Id {itemData.ItemId} doesn't exist anymore";
-                Log.Default.WriteLine(LogLevels.Error, msg);
-                Wiznet.Wiznet(msg, WiznetFlags.Bugs);
-
+                Wiznet.Wiznet($"Item blueprint Id {itemData.ItemId} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return null;
             }
 
@@ -399,7 +396,7 @@ namespace Mud.Server.World
                             if (destination == null)
                             {
                                 destination = Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
-                                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: ItemPortalData unknown destination {0} setting to recall {1}", itemPortalData.DestinationRoomId, Settings.DefaultRecallRoomId);
+                                Wiznet.Wiznet($"World.AddItem: ItemPortalData unknown destination {itemPortalData.DestinationRoomId} setting to recall {Settings.DefaultRecallRoomId}", WiznetFlags.Bugs, AdminLevels.Implementor);
                             }
                         }
                         item = new ItemPortal(guid, portalBlueprint, itemPortalData, destination, container);
@@ -430,7 +427,7 @@ namespace Mud.Server.World
                     item = new ItemWeapon(guid, weaponBlueprint, itemData as ItemWeaponData, container);
                     break;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Unknown Item blueprint type {0}", blueprint.GetType());
+                    Wiznet.Wiznet($"Unknown Item blueprint type {blueprint.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
                     break;
             }
 
@@ -440,7 +437,7 @@ namespace Mud.Server.World
                 _items.Add(item);
                 return item;
             }
-            Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Invalid blueprint type {0}", blueprint.GetType().FullName);
+            Wiznet.Wiznet($"World.AddItem: Invalid blueprint type {blueprint.GetType().FullName}", WiznetFlags.Bugs, AdminLevels.Implementor);
             return null;
         }
 
@@ -449,15 +446,13 @@ namespace Mud.Server.World
             ItemBlueprintBase blueprint = GetItemBlueprint(blueprintId);
             if (blueprint == null)
             {
-                string msg = $"Item blueprint Id {blueprintId} doesn't exist anymore";
-                Log.Default.WriteLine(LogLevels.Error, msg);
-                Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+                Wiznet.Wiznet($"Item blueprint Id {blueprintId} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
 
                 return null;
             }
             IItem item = AddItem(guid, blueprint, container);
             if (item == null)
-                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Unknown blueprint id {0} or type {1}", blueprintId, blueprint.GetType().FullName);
+                Wiznet.Wiznet($"World.AddItem: Unknown blueprint id {blueprintId} or type {blueprint.GetType().FullName}", WiznetFlags.Bugs, AdminLevels.Implementor);
             return item;
         }
 

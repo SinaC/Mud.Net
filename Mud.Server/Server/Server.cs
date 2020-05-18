@@ -161,6 +161,12 @@ namespace Mud.Server.Server
 
         public void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
         {
+            LogLevels level = LogLevels.Info;
+            if (flags.HasFlag(WiznetFlags.Bugs))
+                level = LogLevels.Error;
+            else if (flags.HasFlag(WiznetFlags.Typos))
+                level = LogLevels.Warning;
+            Log.Default.WriteLine(level, "WIZNET: FLAGS: {0} {1}", flags, message);
             foreach (IAdmin admin in Admins.Where(a => a.WiznetFlags.HasFlag(flags) && a.Level >= minLevel))
                 admin.Send($"%W%WIZNET%x%:{message}");
         }

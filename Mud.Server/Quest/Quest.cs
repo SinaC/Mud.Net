@@ -49,18 +49,14 @@ namespace Mud.Server.Quest
             CharacterQuestorBlueprint characterQuestorBlueprint = World.GetCharacterBlueprint<CharacterQuestorBlueprint>(questData.GiverId);
             if (characterQuestorBlueprint == null)
             {
-                string msg = $"Quest giver blueprint id {questData.GiverId} not found!!!";
-                Log.Default.WriteLine(LogLevels.Error, msg);
-                Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet($"Quest giver blueprint id {questData.GiverId} not found!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             }
             else
             {
                 Giver = World.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id && x.Room?.Blueprint?.Id == questData.GiverRoomId) ?? World.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id);
                 if (Giver == null)
                 {
-                    string msg = $"Quest giver blueprint id {questData.GiverId} room blueprint Id {questData.GiverRoomId} not found!!!";
-                    Log.Default.WriteLine(LogLevels.Error, msg);
-                    Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Wiznet.Wiznet($"Quest giver blueprint id {questData.GiverId} room blueprint Id {questData.GiverRoomId} not found!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
                 }
             }
             // TODO: if Giver is null, player will not be able to complete quest
@@ -81,9 +77,7 @@ namespace Mud.Server.Quest
                         questObjectiveLocation.Explored = objectiveData.Count > 0;
                         break;
                     default:
-                        string msg = $"Quest ({questData.QuestId}) objective ({objectiveData.ObjectiveId}) cannot be found for character {character.DisplayName}.";
-                        Log.Default.WriteLine(LogLevels.Error, msg);
-                        Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+                        Wiznet.Wiznet($"Quest ({questData.QuestId}) objective ({objectiveData.ObjectiveId}) cannot be found for character {character.DisplayName}.", WiznetFlags.Bugs, AdminLevels.Implementor);
                         break;
                 }
             }
@@ -126,9 +120,7 @@ namespace Mud.Server.Quest
                     }
                     else
                     {
-                        string msg = $"Loot objective {loot} doesn't exist (or is not quest item) for quest {Blueprint.Id}";
-                        Log.Default.WriteLine(LogLevels.Warning, msg);
-                        Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+                        Wiznet.Wiznet($"Loot objective {loot} doesn't exist (or is not quest item) for quest {Blueprint.Id}", WiznetFlags.Bugs, AdminLevels.Implementor);
                     }
                 }
             }
@@ -288,9 +280,7 @@ namespace Mud.Server.Quest
                 case LocationQuestObjective questObjectiveLocation:
                     return questObjectiveLocation.Explored ? 1: 0;
                 default:
-                    string msg = $"Cannot convert quest objective {questObjective.Id} type {questObjective.GetType().Name} to count";
-                    Log.Default.WriteLine(LogLevels.Error, msg);
-                    Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+                    Wiznet.Wiznet($"Cannot convert quest objective {questObjective.Id} type {questObjective.GetType().Name} to count", WiznetFlags.Bugs, AdminLevels.Implementor);
                     break;
             }
 

@@ -93,7 +93,7 @@ namespace Mud.Server.Abilities
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -level / 8, Operator = AffectOperators.Add });
                 return;
             }
-            Log.Default.WriteLine(LogLevels.Error, "SpellBless: invalid target type {0}", target.GetType());
+            Wiznet.Wiznet($"SpellBless: invalid target type {target.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
 
         [Spell(4, "Blindness", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You can see again.", DispelRoomMessage = "{0:N} is no longer blinded.", Flags = AbilityFlags.CanBeDispelled)]
@@ -606,7 +606,7 @@ namespace Mud.Server.Abilities
                     new CharacterFlagsAffect { Modifier = CharacterFlags.Curse, Operator = AffectOperators.Or });
                 return;
             }
-            Log.Default.WriteLine(LogLevels.Error, "SpellCurse: invalid target type {0}", target.GetType());
+            Wiznet.Wiznet($"SpellCurse: invalid target type {target.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
 
         [Spell(30, "Demonfire", AbilityTargets.CharacterOffensive, DamageNoun = "torments")]
@@ -1065,7 +1065,7 @@ namespace Mud.Server.Abilities
             if (!(item is IItemContainer floatingDisc))
             {
                 caster.Send("Somehing went wrong.");
-                Log.Default.WriteLine(LogLevels.Error, "SpellFloatingDisc: blueprint {0} is not a container", Settings.FloatingDiscBlueprintId);
+                Wiznet.Wiznet($"SpellFloatingDisc: blueprint {Settings.FloatingDiscBlueprintId} is not a container", WiznetFlags.Bugs, AdminLevels.Implementor);
                 World.RemoveItem(item); // destroy it if invalid
                 return;
             }
@@ -1892,7 +1892,7 @@ namespace Mud.Server.Abilities
                     }
                 return;
             }
-            Log.Default.WriteLine(LogLevels.Error, "SpellRemoveCurse: invalid target type {0}", target.GetType());
+            Wiznet.Wiznet($"SpellRemoveCurse: invalid target type {target.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
 
         [Spell(80, "Sanctuary", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "The white aura around your body fades.", DispelRoomMessage = "The white aura around {0:n}'s body vanishes.", Flags = AbilityFlags.CanBeDispelled)]

@@ -23,9 +23,9 @@ namespace Mud.Server.Item
                 return null;
             IAbility ability = AbilityManager[name];
             if (ability == null)
-                Log.Default.WriteLine(LogLevels.Error, "ItemScroll.GetSpell: unknown spell {0} for blueprint id {1}", name, Blueprint.Id);
+                Wiznet.Wiznet($"ItemScroll.GetSpell: unknown ability {name} for blueprint id {Blueprint.Id}", WiznetFlags.Bugs, AdminLevels.Implementor);
             else if (ability.Kind != AbilityKinds.Spell)
-                Log.Default.WriteLine(LogLevels.Error, "ItemScroll.GetSpell: ability {0} is not a spell for blueprint id {1}", name, Blueprint.Id);
+                Wiznet.Wiznet($"ItemScroll.GetSpell: ability {name} is not a spell for blueprint id {Blueprint.Id}", WiznetFlags.Bugs, AdminLevels.Implementor);
             // No target check
             return ability;
         }

@@ -80,7 +80,7 @@ namespace Mud.Server.Character
             IAbility ability = AbilityManager[abilityName];
             if (ability == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ExecuteSkill: invalid skill {0}", abilityName);
+                Wiznet.Wiznet($"ExecuteSkill: invalid skill {abilityName}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return CommandExecutionResults.InvalidParameter;
             }
 
@@ -105,7 +105,7 @@ namespace Mud.Server.Character
                 case UseResults.MustBeFighting: return CommandExecutionResults.NoExecution;
                 case UseResults.Error: return CommandExecutionResults.Error;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Unexpected UseResults {0}", result);
+                    Wiznet.Wiznet($"Unexpected UseResults {result}", WiznetFlags.Bugs, AdminLevels.Implementor);
                     return CommandExecutionResults.Error;
             }
         }

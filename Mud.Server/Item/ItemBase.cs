@@ -187,7 +187,7 @@ namespace Mud.Server.Item
         {
             if (container == this)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Trying to put a container in itself!!");
+                Wiznet.Wiznet("Trying to put a container in itself!!", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return false;
             }
 

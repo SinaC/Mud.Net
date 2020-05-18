@@ -15,7 +15,7 @@ namespace Mud.Server.Tests.Abilities
         public void NullAbility_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null, null);
             IAbility ability = abilityManager["pouet"]; // doesnt exist
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
@@ -31,7 +31,7 @@ namespace Mud.Server.Tests.Abilities
         public void Passive_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null, null);
             IAbility ability = abilityManager["Whip"];
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
@@ -47,7 +47,7 @@ namespace Mud.Server.Tests.Abilities
         public void Spell_Test()
         {
             var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null, null);
             IAbility ability = abilityManager["Mass invis"];
             var characterMock = new Mock<ICharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
@@ -68,7 +68,7 @@ namespace Mud.Server.Tests.Abilities
                 .Returns<IEntity, IAbility, IEntity, int, TimeSpan, AuraFlags, bool, IAffect[]>((target, ability, source, level, duration, flags, recompute, affects) => new Mock<IAura>().Object);
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, worldMock.Object, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, worldMock.Object, null, null);
             IAbility berserk = abilityManager["Berserk"];
             var characterMock = new Mock<IPlayableCharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);
@@ -93,7 +93,7 @@ namespace Mud.Server.Tests.Abilities
                 .Returns<IEntity, IAbility, IEntity, int, TimeSpan, AuraFlags, bool, IAffect[]>((target, ability, source, level, duration, flags, recompute, affects) => new Mock<IAura>().Object);
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, worldMock.Object, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, worldMock.Object, null, null);
             IAbility berserk = abilityManager["Berserk"];
             var characterMock = new Mock<IPlayableCharacter>();
             characterMock.SetupGet(x => x.Name).Returns("mob1");
@@ -123,7 +123,7 @@ namespace Mud.Server.Tests.Abilities
                 .Returns<IEntity, IAbility, IEntity, int, TimeSpan, AuraFlags, bool, IAffect[]>((target, ability, source, level, duration, flags, recompute, affects) => new Mock<IAura>().Object);
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, worldMock.Object, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, worldMock.Object, null, null);
             IAbility berserk = abilityManager["Berserk"];
             var characterMock = new Mock<IPlayableCharacter>();
             characterMock.SetupGet(x => x.Name).Returns("mob1");
@@ -153,7 +153,7 @@ namespace Mud.Server.Tests.Abilities
                 .Returns<IEntity, IAbility, IEntity, int, TimeSpan, AuraFlags, bool, IAffect[]>((target, ability, source, level, duration, flags, recompute, affects) => new Mock<IAura>().Object);
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, worldMock.Object, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, worldMock.Object, null, null);
             IAbility berserk = abilityManager["Berserk"];
             var characterMock = new Mock<IPlayableCharacter>();
             characterMock.SetupGet(x => x.Name).Returns("mob1");
@@ -184,7 +184,7 @@ namespace Mud.Server.Tests.Abilities
         {
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true); // always succeed
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null);
+            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null, null);
             IAbility berserk = abilityManager["Berserk"];
             var characterMock = new Mock<IPlayableCharacter>();
             characterMock.SetupGet(x => x.Level).Returns(100);

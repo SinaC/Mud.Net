@@ -74,7 +74,7 @@ namespace Mud.Server.Abilities
                         msg = "{0} is burned into waste.";
                         break;
                     default:
-                        Log.Default.WriteLine(LogLevels.Error, "AcidEffect: default message for unexpected item type {0}", item.GetType());
+                        Wiznet.Wiznet($"AcidEffect: default message for unexpected item type {item.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
                         msg = "{0} burns.";
                         break;
                 }
@@ -125,7 +125,7 @@ namespace Mud.Server.Abilities
                 World.RemoveItem(item); // destroy item
                 return;
             }
-            Log.Default.WriteLine(LogLevels.Error, "AcidEffect: invalid target type {0}", target.GetType());
+            Wiznet.Wiznet($"AcidEffect: invalid target type {target.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
 
         public void ColdEffect(IEntity target, ICharacter source, int level, int damage) // recursive function
@@ -210,7 +210,7 @@ namespace Mud.Server.Abilities
                 World.RemoveItem(item); // destroy item
                 itemContainedInto?.Recompute();
             }
-            Log.Default.WriteLine(LogLevels.Error, "ColdEffect: invalid target type {0}", target.GetType());
+            Wiznet.Wiznet($"ColdEffect: invalid target type {target.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
 
         public void FireEffect(IEntity target, ICharacter source, int level, int damage) // recursive function
@@ -298,7 +298,7 @@ namespace Mud.Server.Abilities
                         msg = "{0} melts and drips!";
                         break;
                     default:
-                        Log.Default.WriteLine(LogLevels.Error, "FireEffect: default message for unexpected item type {0}", item.GetType());
+                        Wiznet.Wiznet($"FireEffect: default message for unexpected item type {item.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
                         msg = "{0} burns.";
                         break;
                 }
@@ -335,7 +335,7 @@ namespace Mud.Server.Abilities
                 World.RemoveItem(item); // destroy item
                 return;
             }
-            Log.Default.WriteLine(LogLevels.Error, "FireEffect: invalid target type {0}", target.GetType());
+            Wiznet.Wiznet($"FireEffect: invalid target type {target.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
 
         public void PoisonEffect(IEntity target, ICharacter source, int level, int damage) // recursive function

@@ -46,18 +46,14 @@ namespace Mud.Server.Character.PlayableCharacter
             Class = ClassManager[data.Class];
             if (Class == null)
             {
-                string msg = $"Invalid class '{data.Class}' for character {data.Name}!!";
-                Log.Default.WriteLine(LogLevels.Error, msg);
                 Class = ClassManager.Classes.First();
-                Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet($"Invalid class '{data.Class}' for character {data.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             }
             Race = RaceManager[data.Race];
             if (Race == null)
             {
-                string msg = $"Invalid race '{data.Race}' for character {data.Name}!!";
-                Log.Default.WriteLine(LogLevels.Error, msg);
                 Race = RaceManager.Races.First();
-                Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet($"Invalid race '{data.Race}' for character {data.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             }
             Level = data.Level;
             Experience = data.Experience;
@@ -72,7 +68,7 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             else
             {
-                Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.ctor: currentResources not found in pfile for {0}", data.Name);
+                Wiznet.Wiznet($"PlayableCharacter.ctor: currentResources not found in pfile for {data.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 // set to 1 if not found
                 foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
                     this[resource] = 1;
@@ -104,7 +100,7 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             else
             {
-                Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.ctor: attributes not found in pfile for {0}", data.Name);
+                Wiznet.Wiznet($"PlayableCharacter.ctor: attributes not found in pfile for {data.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 // set to 1 if not found
                 foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
                     this[attribute] = 1;
@@ -136,16 +132,12 @@ namespace Mud.Server.Character.PlayableCharacter
                         }
                         else
                         {
-                            string msg = $"Item blueprint Id {equippedItemData.Item.ItemId} cannot be equipped anymore in slot {equippedItemData.Slot} for character {data.Name}.";
-                            Log.Default.WriteLine(LogLevels.Error, msg, equippedItemData.Item.ItemId, equippedItemData.Slot);
-                            Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+                            Wiznet.Wiznet($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be equipped anymore in slot {equippedItemData.Slot} for character {data.Name}.", WiznetFlags.Bugs, AdminLevels.Implementor);
                         }
                     }
                     else
                     {
-                        string msg = $"Item blueprint Id {equippedItemData.Item.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {data.Name} but this slot doesn't exist anymore.";
-                        Log.Default.WriteLine(LogLevels.Error, msg);
-                        Wiznet.Wiznet(msg, WiznetFlags.Bugs);
+                        Wiznet.Wiznet($"Item blueprint Id {equippedItemData.Item.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {data.Name} but this slot doesn't exist anymore.", WiznetFlags.Bugs, AdminLevels.Implementor);
                     }
                 }
             }
@@ -174,7 +166,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 {
                     IAbility ability = AbilityManager[knownAbilityData.AbilityId];
                     if (ability == null)
-                        Log.Default.WriteLine(LogLevels.Error, "KnownAbility ability id {0} doesn't exist anymore", knownAbilityData.AbilityId);
+                        Wiznet.Wiznet($"KnownAbility ability id {knownAbilityData.AbilityId} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                     else
                     {
                         KnownAbility knownAbility = new KnownAbility
@@ -414,7 +406,7 @@ namespace Mud.Server.Character.PlayableCharacter
                         ability = AbilityManager["Staff(weapon)"];
                         break;
                     default:
-                        Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.GetWeaponLearned: Invalid WeaponType {0}", weapon.Type);
+                        Wiznet.Wiznet($"PlayableCharacter.GetWeaponLearned: Invalid WeaponType {weapon.Type}", WiznetFlags.Bugs, AdminLevels.Implementor);
                         break;
                 }
             }
@@ -467,7 +459,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 int index = (int)condition;
                 if (index >= _conditions.Length)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Trying to get current condition for condition {0} (index {1}) but current condition length is smaller", condition, index);
+                    Wiznet.Wiznet($"Trying to get current condition for condition {condition} (index {index}) but current condition length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
                     return NoCondition;
                 }
                 return _conditions[index];
@@ -477,7 +469,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 int index = (int)condition;
                 if (index >= _conditions.Length)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Trying to get current condition for condition {0} (index {1}) but current condition length is smaller", condition, index);
+                    Wiznet.Wiznet($"Trying to get current condition for condition {condition} (index {index}) but current condition length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
                     return;
                 }
                 _conditions[index] = value;
@@ -573,7 +565,7 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             if (newLeader != null && !newLeader.IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeLeader: {0} is not valid anymore", newLeader.DebugName);
+                Wiznet.Wiznet($"ICharacter.ChangeLeader: {newLeader.DebugName} is not valid anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return false;
             }
             Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeLeader: {0} old= {1}; new {2}", DebugName, Leader == null ? "<<none>>" : Leader.DebugName, newLeader == null ? "<<none>>" : newLeader.DebugName);
@@ -595,12 +587,12 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             if (!newMember.IsValid)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddGroupMember: new member {0} is not valid anymore");
+                Wiznet.Wiznet($"ICharacter.AddGroupMember: new member {newMember.DebugName} is not valid anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return false;
             }
             if (_groupMembers.Any(x => x == newMember))
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter.AddGroupMember: {0} already in group of {1}", newMember.DebugName, DebugName);
+                Wiznet.Wiznet($"ICharacter.AddGroupMember: {newMember.DebugName} already in group of {DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return false;
             }
             Log.Default.WriteLine(LogLevels.Debug, "ICharacter.AddGroupMember: {0} joined by {1}", DebugName, newMember.DebugName);
@@ -658,7 +650,7 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             if (follower.Leader != this)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ICharacter:StopFollower: {0} is not following {1} but {2}", follower.DebugName, DebugName, follower.Leader?.DebugName ?? "<<none>>");
+                Wiznet.Wiznet($"ICharacter:StopFollower: {follower.DebugName} is not following {DebugName} but {follower.Leader?.DebugName ?? "<<none>>"}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return false;
             }
             follower.ChangeLeader(null);
@@ -733,13 +725,13 @@ namespace Mud.Server.Character.PlayableCharacter
             // check to see if the character has a chance to learn
             if (multiplier <= 0)
             {
-                Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.CheckAbilityImprove: multiplier had invalid value {0}", multiplier);
+                Wiznet.Wiznet($"PlayableCharacter.CheckAbilityImprove: multiplier had invalid value {multiplier}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 multiplier = 1;
             }
             int difficultyMultiplier = knownAbility.Rating;
             if (difficultyMultiplier <= 0)
             {
-                Log.Default.WriteLine(LogLevels.Error, "PlayableCharacter.CheckAbilityImprove: difficulty multiplier had invalid value {0} for KnownAbility {1} Player {2}", multiplier, knownAbility.Ability, DebugName);
+                Wiznet.Wiznet($"PlayableCharacter.CheckAbilityImprove: difficulty multiplier had invalid value {multiplier} for KnownAbility {knownAbility.Ability.Name} Player {DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 difficultyMultiplier = 1;
             }
             // TODO: percentage depends on intelligence replace CurrentAttributes(CharacterAttributes.Intelligence) with values from 3 to 85

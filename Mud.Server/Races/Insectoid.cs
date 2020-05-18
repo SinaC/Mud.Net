@@ -68,7 +68,7 @@ namespace Mud.Server.Races
                 case CharacterAttributes.ArmorSlash: return 100;
                 case CharacterAttributes.ArmorExotic: return 100;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Unexpected attribute {0} for Insectoid", attribute);
+                    Wiznet.Wiznet($"Unexpected attribute {attribute} for Insectoid", WiznetFlags.Bugs, AdminLevels.Implementor);
                     return 0;
             }
         }
@@ -92,7 +92,7 @@ namespace Mud.Server.Races
                 case CharacterAttributes.ArmorSlash: return 100;
                 case CharacterAttributes.ArmorExotic: return 100;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Unexpected attribute {0} for Insectoid", attribute);
+                    Wiznet.Wiznet($"Unexpected attribute {attribute} for Insectoid", WiznetFlags.Bugs, AdminLevels.Implementor);
                     return 0;
             }
         }

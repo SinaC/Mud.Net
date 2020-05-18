@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using Mud.Container;
 using Mud.DataStructures.Trie;
+using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.Input;
@@ -272,7 +273,7 @@ namespace Mud.Server.Actor
                     : CommandExecutionResults.Error;
             if (rawResult is CommandExecutionResults commandExecutionResult)
                 return commandExecutionResult;
-            Log.Default.WriteLine(LogLevels.Error, "Command {0} return type {1} is not convertible to CommandExecutionResults", command, rawResult.GetType().Name);
+            Wiznet.Wiznet($"Command {command} return type {rawResult.GetType().Name} is not convertible to CommandExecutionResults", WiznetFlags.Bugs, AdminLevels.Implementor);
             return CommandExecutionResults.Ok;
         }
     }

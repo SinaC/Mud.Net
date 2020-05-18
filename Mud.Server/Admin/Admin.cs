@@ -148,7 +148,7 @@ namespace Mud.Server.Admin
             }
             else
             {
-                Log.Default.WriteLine(LogLevels.Error, "[{0}] is neither out of game nor impersonating", DisplayName);
+               Wiznet.Wiznet($"[{DisplayName}] is neither out of game nor impersonating", WiznetFlags.Bugs, AdminLevels.Implementor);
                 executedSuccessfully = false;
             }
             if (!executedSuccessfully)

@@ -329,12 +329,12 @@ namespace Mud.Server.Player
             }
             else if (Impersonating != null) // impersonating
             {
-                Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DebugName, commandLine);
+                Wiznet.Wiznet($"[{DisplayName}]|[{Impersonating.DebugName}] executing [{commandLine}]", WiznetFlags.Bugs, AdminLevels.Implementor);
                 executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
             }
             else
             {
-                Log.Default.WriteLine(LogLevels.Error, "[{0}] is neither out of game nor impersonating", DisplayName);
+                Wiznet.Wiznet($"[{DisplayName}] is neither out of game nor impersonating", WiznetFlags.Bugs, AdminLevels.Implementor);
                 executedSuccessfully = false;
             }
             if (!executedSuccessfully)
@@ -393,7 +393,7 @@ namespace Mud.Server.Player
             int index = _avatarList.FindIndex(x => StringCompareHelpers.StringEquals(x.Name, Impersonating.Name));
             if (index < 0)
             {
-                Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated: unknown avatar {0} for player {1}", Impersonating.Name, DisplayName);
+                Wiznet.Wiznet($"UpdateCharacterDataFromImpersonated: unknown avatar {Impersonating.DebugName} for player {DisplayName}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return;
             }
 

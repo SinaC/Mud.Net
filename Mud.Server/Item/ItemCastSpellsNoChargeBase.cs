@@ -48,15 +48,15 @@ namespace Mud.Server.Item
                 return null;
             IAbility ability = AbilityManager[name];
             if (ability == null)
-                Log.Default.WriteLine(LogLevels.Error, "{0}.GetSpell: unknown spell {1} for blueprint id {2}", GetType().Name, name, Blueprint.Id);
+                Wiznet.Wiznet($"{GetType().Name}.GetSpell: unknown ability {name} for blueprint id {Blueprint.Id}", WiznetFlags.Bugs, AdminLevels.Implementor);
             else if (ability.Kind != AbilityKinds.Spell)
-                Log.Default.WriteLine(LogLevels.Error, "{0}.GetSpell: ability {1} is not a spell for blueprint id {2}", GetType().Name, name, Blueprint.Id);
+                Wiznet.Wiznet($"{GetType().Name}.GetSpell: ability {name} is not a spell for blueprint id {Blueprint.Id}", WiznetFlags.Bugs, AdminLevels.Implementor);
             else if (ability.Target != AbilityTargets.CharacterOffensive
                         && ability.Target != AbilityTargets.CharacterDefensive
                         && ability.Target != AbilityTargets.CharacterSelf
                         && ability.Target != AbilityTargets.ItemHereOrCharacterOffensive
                         && ability.Target != AbilityTargets.ItemInventoryOrCharacterDefensive)
-                Log.Default.WriteLine(LogLevels.Error, "{0}.GetSpell: ability {1} has invalid target {2} for blueprint id {3}", GetType().Name, name, ability.Target, Blueprint.Id);
+                Wiznet.Wiznet($"{GetType().Name}.GetSpell: ability {name} has invalid target {ability.Target} for blueprint id {Blueprint.Id}", WiznetFlags.Bugs, AdminLevels.Implementor);
             return ability;
         }
     }
