@@ -41,8 +41,9 @@ namespace Mud.Server
         TargetNotFound = 4,
         CantUseRequiredResource = 5,
         NotEnoughResource = 6,
-        Failed = 7,
-        Error = 8
+        InCooldown = 7,
+        Failed = 8,
+        Error = 9
     }
 
     public enum UseResults

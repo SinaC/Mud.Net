@@ -24,7 +24,6 @@ namespace Mud.Server.Abilities
             if (victim.SavesSpell(level, SchoolTypes.Acid))
                 damage /= 2;
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Acid, true);
-            victim.AbilityDamage(caster, ability, damage, SchoolTypes.Acid, true);
         }
 
         [Spell(2, "Armor", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "You feel less armored.", Flags = AbilityFlags.CanBeDispelled)]

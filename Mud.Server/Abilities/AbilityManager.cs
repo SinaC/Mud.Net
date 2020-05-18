@@ -121,13 +121,12 @@ namespace Mud.Server.Abilities
                 return MapCastResultToCommandExecutionResult(targetResult);
 
             // 4) check cooldown
-            // TODO
-            //int cooldownSecondsLeft = caster.CooldownSecondsLeft(ability);
-            //if (cooldownSecondsLeft > 0)
-            //{
-            //    caster.Send("{0} is in cooldown for {1}.", ability.Name, StringHelpers.FormatDelay(cooldownSecondsLeft));
-            //    return false;
-            //}
+            int cooldownSecondsLeft = caster.CooldownSecondsLeft(knownAbility.Ability);
+            if (cooldownSecondsLeft > 0)
+            {
+                caster.Send("{0} is in cooldown for {1}.", knownAbility.Ability.Name, StringHelpers.FormatDelay(cooldownSecondsLeft));
+                return CastResults.InCooldown;
+            }
 
             // 5) check resource costs
             int? cost = null;
