@@ -123,8 +123,15 @@ namespace Mud.Server.Character
                         return CommandExecutionResults.InvalidTarget;
                     }
                 }
-                Send("That's not a container.");
-                return CommandExecutionResults.InvalidTarget;
+                else
+                {
+                    Send("You can't do that.");
+                    return CommandExecutionResults.InvalidTarget;
+                }
+                itemCloseable.Open();
+                Send("Ok.");
+                Act(ActOptions.ToRoom, "{0:N} opens {1}.", this, itemCloseable);
+                return CommandExecutionResults.Ok;
             }
 
             // No item found, search door
@@ -145,8 +152,8 @@ namespace Mud.Server.Character
 
             // Open this side side
             exit.Open();
-            Act(ActOptions.ToRoom, "{0:N} opens the {1}.", this, exit);
             Send("Ok.");
+            Act(ActOptions.ToRoom, "{0:N} opens the {1}.", this, exit);
 
             // Open the other side
             IExit otherSideExit = exit.Destination[exitDirection.ReverseDirection()];
@@ -192,8 +199,15 @@ namespace Mud.Server.Character
                         return CommandExecutionResults.InvalidTarget;
                     }
                 }
-                Send("That's not a container.");
-                return CommandExecutionResults.InvalidTarget;
+                else
+                {
+                    Send("You can't do that.");
+                    return CommandExecutionResults.InvalidTarget;
+                }
+                itemCloseable.Close();
+                Send("Ok.");
+                Act(ActOptions.ToRoom, "{0:N} closes {1}.", this, itemCloseable);
+                return CommandExecutionResults.Ok;
             }
 
             // No item found, search door
@@ -209,8 +223,8 @@ namespace Mud.Server.Character
 
             // Close this side
             exit.Close();
-            Act(ActOptions.ToRoom, "{0:N} closes {1}.", this, exit);
             Send("Ok.");
+            Act(ActOptions.ToRoom, "{0:N} closes {1}.", this, exit);
 
             // Close the other side
             IExit otherSideExit = exit.Destination[exitDirection.ReverseDirection()];
@@ -273,8 +287,15 @@ namespace Mud.Server.Character
                         return CommandExecutionResults.InvalidTarget;
                     }
                 }
-                Send("That's not a container.");
-                return CommandExecutionResults.InvalidTarget;
+                else
+                {
+                    Send("You can't do that.");
+                    return CommandExecutionResults.InvalidTarget;
+                }
+                itemCloseable.Unlock();
+                Send("*Click*");
+                Act(ActOptions.ToRoom, "{0:N} unlocks {1}.", this, itemCloseable);
+                return CommandExecutionResults.Ok;
             }
 
             // No item found, search door
@@ -368,8 +389,15 @@ namespace Mud.Server.Character
                         return CommandExecutionResults.InvalidTarget;
                     }
                 }
-                Send("That's not a container.");
-                return CommandExecutionResults.InvalidTarget;
+                else
+                {
+                    Send("You can't do that.");
+                    return CommandExecutionResults.InvalidTarget;
+                }
+                itemCloseable.Lock();
+                Send("*Click*");
+                Act(ActOptions.ToRoom, "{0:N} locks {1}.", this, itemCloseable);
+                return CommandExecutionResults.Ok;
             }
 
             // No item found, search door

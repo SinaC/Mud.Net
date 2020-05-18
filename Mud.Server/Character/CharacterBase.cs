@@ -615,15 +615,23 @@ namespace Mud.Server.Character
                 ApplyAuras(equipment.Item);
 
             // 3) Apply equipment armor
-            foreach (EquippedItem equipedItem in Equipments.Where(x => x.Item is IItemArmor))
+            foreach (EquippedItem equippedItem in Equipments.Where(x => x.Item is IItemArmor || x.Item is IItemShield))
             {
-                if (equipedItem.Item is IItemArmor armor) // always true
+                if (equippedItem.Item is IItemArmor armor)
                 {
-                    int equipmentSlotMultiplier = TableValues.EquipmentSlotMultiplier(equipedItem.Slot);
+                    int equipmentSlotMultiplier = TableValues.EquipmentSlotMultiplier(equippedItem.Slot);
                     this[CharacterAttributes.ArmorBash] -= armor.Bash * equipmentSlotMultiplier;
                     this[CharacterAttributes.ArmorPierce] -= armor.Pierce * equipmentSlotMultiplier;
                     this[CharacterAttributes.ArmorSlash] -= armor.Slash * equipmentSlotMultiplier;
                     this[CharacterAttributes.ArmorExotic] -= armor.Exotic * equipmentSlotMultiplier;
+                }
+                if (equippedItem.Item is IItemShield shield)
+                {
+                    int equipmentSlotMultiplier = TableValues.EquipmentSlotMultiplier(equippedItem.Slot);
+                    this[CharacterAttributes.ArmorBash] -= shield.Armor * equipmentSlotMultiplier;
+                    this[CharacterAttributes.ArmorPierce] -= shield.Armor * equipmentSlotMultiplier;
+                    this[CharacterAttributes.ArmorSlash] -= shield.Armor * equipmentSlotMultiplier;
+                    this[CharacterAttributes.ArmorExotic] -= shield.Armor * equipmentSlotMultiplier;
                 }
             }
 

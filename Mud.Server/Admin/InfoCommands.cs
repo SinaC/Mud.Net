@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using Mud.DataStructures.HeapPriorityQueue;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
@@ -561,6 +563,145 @@ namespace Mud.Server.Admin
             }
             Page(sb);
 
+            return CommandExecutionResults.Ok;
+        }
+
+        [Command("cinfo", "Information")]
+        [Command("minfo", "Information")]
+        [Syntax("[cmd] <id>")]
+        protected virtual CommandExecutionResults DoCinfo(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+                return CommandExecutionResults.SyntaxError;
+
+            if (!parameters[0].IsNumber)
+                return CommandExecutionResults.SyntaxError;
+
+            int id = parameters[0].AsNumber;
+            CharacterBlueprintBase blueprint = World.GetCharacterBlueprint(id);
+            if (blueprint == null)
+            {
+                Send("Not found.");
+                return CommandExecutionResults.TargetNotFound;
+            }
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormatLine("Id: {0} Type: {1}", blueprint.Id, blueprint.GetType());
+            sb.AppendFormatLine("Name: {0}", blueprint.Name);
+            sb.AppendFormatLine("ShortDescription: {0}", blueprint.ShortDescription);
+            sb.AppendFormatLine("LongDescription: {0}", blueprint.LongDescription);
+            sb.AppendFormatLine("Description: {0}", blueprint.Description);
+            sb.AppendFormatLine("Level: {0} Sex: {1}", blueprint.Level, blueprint.Sex);
+            sb.AppendFormatLine("Wealth: {0} Alignment {1}", blueprint.Wealth, blueprint.Alignment);
+            sb.AppendFormatLine("Damage: {0}d{1}+{2} DamageType: {3} DamageNoun: {4}", blueprint.DamageDiceCount, blueprint.DamageDiceValue, blueprint.DamageDiceBonus, blueprint.DamageType, blueprint.DamageNoun);
+            sb.AppendFormatLine("Hitpoints: {0}d{1}+{2}", blueprint.HitPointDiceCount, blueprint.HitPointDiceValue, blueprint.HitPointDiceBonus);
+            sb.AppendFormatLine("Mana: {0}d{1}+{2}", blueprint.ManaDiceCount, blueprint.ManaDiceValue, blueprint.ManaDiceBonus);
+            sb.AppendFormatLine("Hit roll: {0}", blueprint.HitRollBonus);
+            sb.AppendFormatLine("Bash: {0} Pierce: {1} Slash: {2} Exotic: {3}", blueprint.ArmorBash, blueprint.ArmorPierce, blueprint.ArmorSlash, blueprint.ArmorExotic);
+            sb.AppendFormatLine("Flags: {0}", blueprint.CharacterFlags);
+            sb.AppendFormatLine("Offensive: {0}", blueprint.OffensiveFlags);
+            sb.AppendFormatLine("Act: {0}", blueprint.ActFlags);
+            sb.AppendFormatLine("Immunities: {0}", blueprint.Immunities);
+            sb.AppendFormatLine("Resistances: {0}", blueprint.Resistances);
+            sb.AppendFormatLine("Vulnerabilities: {0}", blueprint.Vulnerabilities);
+            // TODO: loot table, script
+            // TODO: specific blueprint
+
+            Send(sb);
+            return CommandExecutionResults.Ok;
+        }
+
+        [Command("iinfo", "Information")]
+        [Command("oinfo", "Information")]
+        [Syntax("[cmd] <id>")]
+        protected virtual CommandExecutionResults DoIinfo(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0)
+                return CommandExecutionResults.SyntaxError;
+
+            if (!parameters[0].IsNumber)
+                return CommandExecutionResults.SyntaxError;
+
+            int id = parameters[0].AsNumber;
+            ItemBlueprintBase blueprint = World.GetItemBlueprint(id);
+            if (blueprint == null)
+            {
+                Send("Not found.");
+                return CommandExecutionResults.TargetNotFound;
+            }
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormatLine("Id: {0} Type: {1}", blueprint.Id, blueprint.GetType());
+            sb.AppendFormatLine("Name: {0}", blueprint.Name);
+            sb.AppendFormatLine("ShortDescription: {0}", blueprint.ShortDescription);
+            sb.AppendFormatLine("Description: {0}", blueprint.Description);
+            sb.AppendFormatLine("Level: {0} Weight: {1}", blueprint.Level, blueprint.Weight);
+            sb.AppendFormatLine("Cost: {0} NoTake: {1}", blueprint.Cost, blueprint.NoTake);
+            sb.AppendFormatLine("Flags: {0} WearLocation: {1}", blueprint.ItemFlags, blueprint.WearLocation);
+            if (blueprint.ExtraDescriptions != null)
+            {
+                foreach (KeyValuePair<string, string> kv in blueprint.ExtraDescriptions)
+                    sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", kv.Key, kv.Value);
+            }
+            switch (blueprint)
+            {
+                case ItemCastSpellsNoChargeBlueprintBase noChargeBlueprint: // pill, potion, scroll
+                    sb.AppendFormatLine("Level: {0} Spell1: {1} Spell2: {2} Spell3: {3} Spell4: {4}", noChargeBlueprint.SpellLevel, noChargeBlueprint.Spell1, noChargeBlueprint.Spell2, noChargeBlueprint.Spell3, noChargeBlueprint.Spell4);
+                    break;
+                case ItemCastSpellsChargeBlueprintBase chargeBlueprint: // wand, staff
+                    sb.AppendFormatLine("Level: {0} #MaxCharge: {1} #CurrentCharge: {2} Spell: {3} AlreadyRecharged: {4}", chargeBlueprint.SpellLevel, chargeBlueprint.MaxChargeCount, chargeBlueprint.CurrentChargeCount, chargeBlueprint.Spell, chargeBlueprint.AlreadyRecharged);
+                    break;
+
+                case ItemArmorBlueprint armor:
+                    sb.AppendFormatLine("Bash: {0} Pierce: {1} Slash: {2} Exotic: {3}", armor.Bash, armor.Pierce, armor.Slash, armor.Exotic);
+                    break;
+                case ItemBoatBlueprint _:
+                    break;
+                case ItemContainerBlueprint container:
+                    sb.AppendFormatLine("MaxWeight: {0} Key: {1} MaxWeightPerItem: {2} WeightMultiplier: {3} Flags: {4}", container.MaxWeight, container.Key, container.MaxWeightPerItem, container.WeightMultiplier, container.ContainerFlags);
+                    break;
+                case ItemCorpseBlueprint _:
+                    break;
+                case ItemDrinkContainerBlueprint drinkContainer:
+                    sb.AppendFormatLine("MaxLiquid: {0} CurrentLight: {1} LiquidType: {2} IsPoisoned: {3}", drinkContainer.MaxLiquidAmount, drinkContainer.CurrentLiquidAmount, drinkContainer.LiquidType, drinkContainer.IsPoisoned);
+                    break;
+                case ItemFoodBlueprint foodBlueprint:
+                    sb.AppendFormatLine("FullHours: {0} HungerHours: {1} IsPoisoned: {2}", foodBlueprint.FullHours, foodBlueprint.HungerHours, foodBlueprint.IsPoisoned);
+                    break;
+                case ItemFountainBlueprint fountainBlueprint:
+                    sb.AppendFormatLine("LiquidType: {0}", fountainBlueprint.LiquidType);
+                    break;
+                case ItemFurnitureBlueprint furnitureBlueprint:
+                    sb.AppendFormatLine("MaxPeople: {0} MaxWeight: {1} Action: {2} Place: {3} HealBonus: {4} ResourceBonus: {5}", furnitureBlueprint.MaxPeople, furnitureBlueprint.MaxWeight, furnitureBlueprint.FurnitureActions, furnitureBlueprint.FurniturePlacePreposition, furnitureBlueprint.HealBonus, furnitureBlueprint.ResourceBonus);
+                    break;
+                case ItemJewelryBlueprint _:
+                    break;
+                case ItemKeyBlueprint _:
+                    break;
+                case ItemLightBlueprint lightBlueprint:
+                    sb.AppendFormatLine("DurationHours: {0}", lightBlueprint.DurationHours);
+                    break;
+                case ItemMoneyBlueprint moneyBlueprint:
+                    sb.AppendFormatLine("Silver: {0} Gold: {0}", moneyBlueprint.SilverCoins, moneyBlueprint.GoldCoins);
+                    break;
+                case ItemPortalBlueprint portalBlueprint:
+                    sb.AppendFormatLine("Destination: {0} Key: {1} Flags: {2} #MaxCharge: {3} #CurrentCharge: {4}", portalBlueprint.Destination, portalBlueprint.Key, portalBlueprint.PortalFlags, portalBlueprint.MaxChargeCount, portalBlueprint.CurrentChargeCount);
+                    break;
+                case ItemQuestBlueprint _:
+                    break;
+                case ItemShieldBlueprint shieldBlueprint:
+                    sb.AppendFormatLine("Armor: {0}", shieldBlueprint.Armor);
+                    break;
+                case ItemTreasureBlueprint _:
+                    break;
+                case ItemWarpStoneBlueprint _:
+                    break;
+                case ItemWeaponBlueprint weaponBlueprint:
+                    sb.AppendFormatLine("WeaponType: {0} damage: {1}d{2} DamageType: {3} Flags: {4} DamageNoun: {5}", weaponBlueprint.Type, weaponBlueprint.DiceCount, weaponBlueprint.DiceValue, weaponBlueprint.DamageType, weaponBlueprint.Flags, weaponBlueprint.DamageNoun);
+                    break;
+            }
+
+            Send(sb);
             return CommandExecutionResults.Ok;
         }
 

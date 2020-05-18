@@ -233,7 +233,10 @@ namespace Mud.Server.Character
                 switch (item)
                 {
                     case IContainer container:
-                        AppendContainerContent(sbItem, container);
+                        if (container is IItemContainer itemContainer && itemContainer.IsClosed)
+                            sbItem.AppendLine("It's closed.");
+                        else
+                            AppendContainerContent(sbItem, container);
                         break;
                     case IItemMoney money:
                         if (money.SilverCoins == 0 && money.GoldCoins == 0)

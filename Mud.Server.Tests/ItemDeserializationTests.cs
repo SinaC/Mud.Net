@@ -118,7 +118,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemData_To_ItemWarpstone_Test()
         {
-            ItemWarpstoneBlueprint warpstoneBlueprint = new ItemWarpstoneBlueprint { Id = 1, Name = "warpstone", ShortDescription = "warpstoneShort", Description = "warpstoneDesc" };
+            ItemWarpStoneBlueprint warpstoneBlueprint = new ItemWarpStoneBlueprint { Id = 1, Name = "warpstone", ShortDescription = "warpstoneShort", Description = "warpstoneDesc" };
             ItemData itemData = new ItemData
             {
                 ItemId = warpstoneBlueprint.Id,

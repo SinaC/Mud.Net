@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
@@ -670,7 +671,7 @@ namespace Mud.Server.WPFTestApplication
             }
             else if (data.ItemType == "warp_stone")
             {
-                blueprint = new ItemWarpstoneBlueprint
+                blueprint = new ItemWarpStoneBlueprint
                 {
                     Id = data.VNum,
                     Name = data.Name,
@@ -1135,9 +1136,17 @@ namespace Mud.Server.WPFTestApplication
             return preposition;
         }
 
-        private static ContainerFlags ConvertContainerFlags(ObjectData data)
+        private static Domain.ContainerFlags ConvertContainerFlags(ObjectData data)
         {
-            return ContainerFlags.None; // never been used in Rom ?!?!?!?
+            Domain.ContainerFlags flags = Domain.ContainerFlags.None;
+            int v1 = Convert.ToInt32(data.Values[1]);
+            if (!HasBit(v1, (long)Importer.Mystery.ContainerFlags.CONT_CLOSEABLE)) flags |= Domain.ContainerFlags.NoClose;
+            if (HasBit(v1, (long)Importer.Mystery.ContainerFlags.CONT_PICKPROOF)) flags |= Domain.ContainerFlags.PickProof;
+            if (HasBit(v1, (long)Importer.Mystery.ContainerFlags.CONT_CLOSED)) flags |= Domain.ContainerFlags.Closed;
+            if (HasBit(v1, (long)Importer.Mystery.ContainerFlags.CONT_LOCKED)) flags |= Domain.ContainerFlags.Locked;
+            int v2 = Convert.ToInt32(data.Values[2]);
+            if (v2 <= 0) flags |= Domain.ContainerFlags.NoLock;
+            return flags;
         }
 
         private static PortalFlags ConvertPortalFlags(ObjectData data)

@@ -311,7 +311,7 @@ namespace Mud.Server.World
                 case ItemWandBlueprint wandBlueprint:
                     item = new ItemWand(guid, wandBlueprint, container);
                     break;
-                case ItemWarpstoneBlueprint warpstoneBlueprint:
+                case ItemWarpStoneBlueprint warpstoneBlueprint:
                     item = new ItemWarpstone(guid, warpstoneBlueprint, container);
                     break;
                 case ItemWeaponBlueprint weaponBlueprint:
@@ -423,7 +423,7 @@ namespace Mud.Server.World
                 case ItemWandBlueprint wandBlueprint:
                     item = new ItemWand(guid, wandBlueprint, itemData as ItemWandData, container);
                     break;
-                case ItemWarpstoneBlueprint warpstoneBlueprint:
+                case ItemWarpStoneBlueprint warpstoneBlueprint:
                     item = new ItemWarpstone(guid, warpstoneBlueprint, itemData, container);
                     break;
                 case ItemWeaponBlueprint weaponBlueprint:

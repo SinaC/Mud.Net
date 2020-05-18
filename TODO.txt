@@ -1,6 +1,7 @@
 NEXT:
 
 TODO:
+item order in room
 admin command to switch an avatar from/to immortal/mortal
 item: trash, clothing, map
 master/pet/follower/group
@@ -21,6 +22,10 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+container are not closed/locked when resetted -> was not handled when creating blueprint
+lock/unlock/open/close fixed for container
+admin commands: Ostat, Cstat
+Armor from shield added in Recompute
 boat
 noweapon damagetype for npc
 workaround for mystery reset bug

@@ -9,5 +9,3 @@ when mud restarts and a player with quests reconnects, quest items are not recre
 extra description not handled correctly (see item 3040)
 
 two handed weapon are not handled correctly
-
-container are not closed/locked when resetted

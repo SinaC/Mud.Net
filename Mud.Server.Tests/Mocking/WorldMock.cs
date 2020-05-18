@@ -238,7 +238,7 @@ namespace Mud.Server.Tests.Mocking
                 case ItemWeaponBlueprint weaponBlueprint:
                     item = new ItemWeapon(guid, weaponBlueprint, container);
                     break;
-                case ItemWarpstoneBlueprint warpstoneBlueprint:
+                case ItemWarpStoneBlueprint warpstoneBlueprint:
                     item = new ItemWarpstone(guid, warpstoneBlueprint, container);
                     break;
             }
@@ -324,7 +324,7 @@ namespace Mud.Server.Tests.Mocking
                 case ItemWeaponBlueprint weaponBlueprint:
                     item = new ItemWeapon(guid, weaponBlueprint, itemData as ItemWeaponData, container);
                     break;
-                case ItemWarpstoneBlueprint warpstoneBlueprint:
+                case ItemWarpStoneBlueprint warpstoneBlueprint:
                     item = new ItemWarpstone(guid, warpstoneBlueprint, container);
                     break;
             }

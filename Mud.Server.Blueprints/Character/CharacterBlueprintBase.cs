@@ -104,7 +104,7 @@ namespace Mud.Server.Blueprints.Character
 
         // TODO CharacterAttributes
 
-        // TODO: race, class, armor, ...
+        // TODO: race, class, ...
 
         [DataMember]
         public CharacterLootTable<int> LootTable { get; set; }
