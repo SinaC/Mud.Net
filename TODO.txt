@@ -2,7 +2,7 @@ NEXT:
 
 TODO:
 admin command to switch an avatar from/to immortal/mortal
-item: boat, treasure, trash, clothing, map
+item: trash, clothing, map
 master/pet/follower/group
 Monitor Recompute calls
 Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
@@ -21,6 +21,9 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+boat
+noweapon damagetype for npc
+workaround for mystery reset bug
 item: money, treasure
 short description added on item
 name, short desc, description can now be set at creation

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Mud.Domain;
 using Mud.Server.Abilities;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 // ReSharper disable UnusedMember.Global
@@ -68,40 +69,37 @@ namespace Mud.Server.Character
             "[cmd] <ability>")]
         protected virtual CommandExecutionResults DoCooldowns(string rawParameters, params CommandParameter[] parameters)
         {
-            // TODO
+            if (parameters.Length == 0)
+            {
+                if (AbilitiesInCooldown.Any())
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine("%c%Following abilities are in cooldown:%x%");
+                    foreach (var cooldown in AbilitiesInCooldown
+                        .Select(x => new { Ability = x.Key, SecondsLeft = x.Value / Pulse.PulsePerSeconds})
+                        .OrderBy(x => x.SecondsLeft))
+                    {
+                        sb.AppendFormatLine("{0} is in cooldown for {1}.", cooldown.Ability.Name, StringHelpers.FormatDelay(cooldown.SecondsLeft));
+                    }
+                    Send(sb);
+                    return CommandExecutionResults.Ok;
+                }
+                Send("%c%No abilities in cooldown.%x%");
+                return CommandExecutionResults.Ok;
+            }
+            //
+            KnownAbility knownAbility = AbilityManager.Search(KnownAbilities, Level, _ => true, parameters[0]);
+            if (knownAbility == null)
+            {
+                Send("You don't know any abilities of that name.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+            int pulseLeft = CooldownPulseLeft(knownAbility.Ability);
+            if (pulseLeft <= 0)
+                Send("{0} is not in cooldown.", knownAbility.Ability.Name);
+            else
+                Send("{0} is in cooldown for {1}.", knownAbility.Ability.Name, StringHelpers.FormatDelay(pulseLeft/Pulse.PulsePerSeconds));
             return CommandExecutionResults.Ok;
-            //if (parameters.Length == 0)
-            //{
-            //    if (AbilitiesInCooldown.Any())
-            //    {
-            //        StringBuilder sb = new StringBuilder();
-            //        sb.AppendLine("%c%Following abilities are in cooldown:%x%");
-            //        foreach (var cooldown in AbilitiesInCooldown
-            //            .Select(x => new { Ability = x.Key, SecondsLeft = (x.Value - TimeHandler.CurrentTime).TotalSeconds })
-            //            .OrderBy(x => x.SecondsLeft))
-            //        {
-            //            int secondsLeft = (int)Math.Ceiling(cooldown.SecondsLeft);
-            //            sb.AppendFormatLine("{0} is in cooldown for {1}.", cooldown.Ability.Name, StringHelpers.FormatDelay(secondsLeft));
-            //        }
-            //        Send(sb);
-            //        return CommandExecutionResults.Ok;
-            //    }
-            //    Send("%c%No abilities in cooldown.%x%");
-            //    return CommandExecutionResults.Ok;
-            //}
-            ////
-            //IAbility ability = AbilityManager.Search(parameters[0]);
-            //if (ability == null)
-            //{
-            //    Send("You don't know any abilities of that name.");
-            //    return CommandExecutionResults.InvalidTarget;
-            //}
-            //int cooldownSecondsLeft = CooldownSecondsLeft(ability);
-            //if (cooldownSecondsLeft <= 0)
-            //    Send("{0} is not in cooldown.", ability.Name);
-            //else
-            //    Send("{0} is in cooldown for {1}.", ability.Name, StringHelpers.FormatDelay(cooldownSecondsLeft));
-            //return CommandExecutionResults.Ok;
         }
 
         #region Helpers

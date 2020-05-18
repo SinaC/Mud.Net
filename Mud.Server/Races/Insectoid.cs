@@ -108,6 +108,8 @@ namespace Mud.Server.Races
             //AddAbility(1, AbilityManager.ThirdWieldAbility);
             //AddAbility(1, AbilityManager.FourthWieldAbility);
 
+            AddAbility(1, "Test", null, 0, CostAmountOperators.None, 0);
+
             // Test race with all spells
             foreach (IAbility ability in AbilityManager.Spells)
                 AddAbility(1, ability.Name, ResourceKinds.Mana, 5, CostAmountOperators.Percentage, 1);

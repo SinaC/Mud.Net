@@ -130,7 +130,6 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-
         public IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits)
         {
             throw new NotImplementedException();
@@ -179,6 +178,9 @@ namespace Mud.Server.Tests.Mocking
             {
                 case ItemArmorBlueprint armorBlueprint:
                     item = new ItemArmor(guid, armorBlueprint, container); // no specific ItemData
+                    break;
+                case ItemBoatBlueprint boatBlueprint:
+                    item = new ItemBoat(guid, boatBlueprint, container);
                     break;
                 case ItemContainerBlueprint containerBlueprint:
                     item = new ItemContainer(guid, containerBlueprint, container);
@@ -261,6 +263,9 @@ namespace Mud.Server.Tests.Mocking
             {
                 case ItemArmorBlueprint armorBlueprint:
                     item = new ItemArmor(guid, armorBlueprint, itemData, container); // no specific ItemData
+                    break;
+                case ItemBoatBlueprint boatBlueprint:
+                    item = new ItemBoat(guid, boatBlueprint, itemData, container);
                     break;
                 case ItemContainerBlueprint containerBlueprint:
                     item = new ItemContainer(guid, containerBlueprint, itemData as ItemContainerData, container);

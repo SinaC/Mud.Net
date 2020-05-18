@@ -7,3 +7,7 @@ when mud restarts and a player with quests reconnects, quest items are not recre
   same goes if player destroy item, it cannot be found in world anymore
 
 extra description not handled correctly (see item 3040)
+
+two handed weapon are not handled correctly
+
+container are not closed/locked when resetted

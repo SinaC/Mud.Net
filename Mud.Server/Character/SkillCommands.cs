@@ -101,6 +101,7 @@ namespace Mud.Server.Character
                 case UseResults.NotEnoughResource: return CommandExecutionResults.NoExecution;
                 case UseResults.Failed: return CommandExecutionResults.NoExecution;
                 case UseResults.NotKnown: return CommandExecutionResults.NoExecution;
+                case UseResults.InCooldown: return CommandExecutionResults.NoExecution;
                 case UseResults.MustBeFighting: return CommandExecutionResults.NoExecution;
                 case UseResults.Error: return CommandExecutionResults.Error;
                 default:

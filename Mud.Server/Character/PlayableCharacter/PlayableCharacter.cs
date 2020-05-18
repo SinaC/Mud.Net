@@ -712,6 +712,10 @@ namespace Mud.Server.Character.PlayableCharacter
                     Recompute();
                     // Bonus -> reset cooldown and set resource to max
                     ResetCooldowns();
+                    HitPoints = MaxHitPoints;
+                    MovePoints = MaxMovePoints;
+                    foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>())
+                        this[resourceKind] = MaxResource(resourceKind);
                     ImpersonatedBy?.Save(); // Force a save when a level is gained
                 }
             }
@@ -980,6 +984,7 @@ namespace Mud.Server.Character.PlayableCharacter
             MovePoints = 1;
             foreach (var resourceKind in EnumHelpers.GetValues<ResourceKinds>())
                 this[resourceKind] = 1;
+            ResetCooldowns();
             if (ImpersonatedBy != null) // If impersonated, no real death
             {
                 IRoom room = World.DefaultDeathRoom ?? World.DefaultRecallRoom;
@@ -1005,6 +1010,8 @@ namespace Mud.Server.Character.PlayableCharacter
                 return Class.Thac0;
             return (20, 0);
         }
+
+        protected override SchoolTypes NoWeaponDamageType => SchoolTypes.Bash;
 
         protected override int NoWeaponBaseDamage
         {

@@ -35,6 +35,21 @@ namespace Mud.Server.Tests
             Assert.AreEqual(armor.BaseItemFlags, itemData.ItemFlags);
         }
 
+        // Boat
+        [TestMethod]
+        public void ItemBoat_To_ItemData_Test()
+        {
+            ItemBoatBlueprint blueprint = new ItemBoatBlueprint { Id = 1, Name = "Boat", ShortDescription = "BoatShort", Description = "BoatDesc", ItemFlags = ItemFlags.Glowing };
+            IItemBoat boat = new ItemBoat(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
+
+            ItemData itemData = boat.MapItemData(); // no specific ItemData
+
+            Assert.IsInstanceOfType(itemData, typeof(ItemData));
+            Assert.AreEqual(boat.Blueprint.Id, itemData.ItemId);
+            Assert.AreEqual(boat.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(boat.BaseItemFlags, itemData.ItemFlags);
+        }
+
         // Staff
         [TestMethod]
         public void ItemStaff_To_ItemData_Test()

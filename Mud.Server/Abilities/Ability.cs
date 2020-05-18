@@ -5,7 +5,7 @@ namespace Mud.Server.Abilities
 {
     public class Ability : IAbility
     {
-        public Ability(AbilityKinds kind, int id, string name, AbilityTargets target, int pulseWaitTime, AbilityFlags flags, string characterWearOffMessage, string itemWearOffMessage, string dispelRoomMessage, string damageNoun, int learnDifficultyMultiplier)
+        public Ability(AbilityKinds kind, int id, string name, AbilityTargets target, int pulseWaitTime, AbilityFlags flags, string characterWearOffMessage, string itemWearOffMessage, string dispelRoomMessage, string damageNoun, int learnDifficultyMultiplier, int cooldown)
         {
             Kind = kind;
             Id = id;
@@ -21,7 +21,7 @@ namespace Mud.Server.Abilities
         }
 
         public Ability(AbilityKinds kind, AbilityAttribute attribute, MethodInfo methodInfo)
-            : this(kind, attribute.Id, attribute.Name, attribute.Target, attribute.PulseWaitTime, attribute.Flags, attribute.CharacterWearOffMessage, attribute.ItemWearOffMessage, attribute.DispelRoomMessage, attribute.DamageNoun, attribute.LearnDifficultyMultiplier)
+            : this(kind, attribute.Id, attribute.Name, attribute.Target, attribute.PulseWaitTime, attribute.Flags, attribute.CharacterWearOffMessage, attribute.ItemWearOffMessage, attribute.DispelRoomMessage, attribute.DamageNoun, attribute.LearnDifficultyMultiplier, attribute.Cooldown)
         {
             MethodInfo = methodInfo;
         }
@@ -47,6 +47,8 @@ namespace Mud.Server.Abilities
         public string DamageNoun { get; }
 
         public int LearnDifficultyMultiplier { get; }
+
+        public int Cooldown { get; }
 
         public MethodInfo MethodInfo { get; } // null for passive abilities
     }

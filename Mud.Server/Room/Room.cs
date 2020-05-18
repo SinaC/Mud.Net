@@ -249,10 +249,10 @@ namespace Mud.Server.Room
                             CharacterBlueprintBase blueprint = World.GetCharacterBlueprint(characterReset.CharacterId);
                             if (blueprint != null)
                             {
-                                int globalCount = characterReset.LocalLimit == -1 ? int.MaxValue : World.NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
+                                int globalCount = characterReset.LocalLimit == -1 ? int.MinValue : World.NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
                                 if (globalCount < characterReset.GlobalLimit)
                                 {
-                                    int localCount = characterReset.LocalLimit == -1 ? int.MaxValue : NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
+                                    int localCount = characterReset.LocalLimit == -1 ? int.MinValue : NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
                                     if (localCount < characterReset.LocalLimit)
                                     {
                                         lastCharacter = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, this);
@@ -269,10 +269,10 @@ namespace Mud.Server.Room
                             ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInRoomReset.ItemId);
                             if (blueprint != null)
                             {
-                                int globalCount = itemInRoomReset.GlobalLimit == -1 ? int.MaxValue : World.Items.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
+                                int globalCount = itemInRoomReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
                                 if (globalCount < itemInRoomReset.GlobalLimit)
                                 {
-                                    int localCount = itemInRoomReset.LocalLimit == -1 ? int.MaxValue : Content.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
+                                    int localCount = itemInRoomReset.LocalLimit == -1 ? int.MinValue : Content.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
                                     if (localCount < itemInRoomReset.LocalLimit)
                                     {
                                         IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, this);
@@ -292,7 +292,7 @@ namespace Mud.Server.Room
                             ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInItemReset.ItemId);
                             if (blueprint != null)
                             {
-                                int globalCount = itemInItemReset.GlobalLimit == -1 ? int.MaxValue : World.Items.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
+                                int globalCount = itemInItemReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
                                 if (globalCount < itemInItemReset.GlobalLimit)
                                 {
                                     ItemBlueprintBase containerBlueprint = World.GetItemBlueprint(itemInItemReset.ContainerId);
@@ -303,8 +303,8 @@ namespace Mud.Server.Room
                                             IItemContainer container = Content.OfType<IItemContainer>().LastOrDefault(x => x.Blueprint.Id == containerBlueprint.Id); // search container in room
                                             if (container != null)
                                             {
-                                                int localLimit = container.Content.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
-                                                if (localLimit < itemInItemReset.LoadCount)
+                                                int localLimit = itemInItemReset.LocalLimit == -1 ? int.MinValue : container.Content.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
+                                                if (localLimit < itemInItemReset.LocalLimit)
                                                 {
                                                     World.AddItem(Guid.NewGuid(), blueprint.Id, container);
                                                     Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: P: Obj {itemInItemReset.ItemId} added in {container.Blueprint.Id}");
@@ -329,7 +329,7 @@ namespace Mud.Server.Room
                             ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInCharacterReset.ItemId);
                             if (blueprint != null)
                             {
-                                int globalCount = itemInCharacterReset.GlobalLimit == -1 ? int.MaxValue : World.Items.Count(x => x.Blueprint.Id == itemInCharacterReset.ItemId);
+                                int globalCount = itemInCharacterReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInCharacterReset.ItemId);
                                 if (globalCount < itemInCharacterReset.GlobalLimit)
                                 {
                                     if (lastCharacter != null)
@@ -351,7 +351,7 @@ namespace Mud.Server.Room
                             ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInEquipmentReset.ItemId);
                             if (blueprint != null)
                             {
-                                int globalCount = itemInEquipmentReset.GlobalLimit == -1 ? int.MaxValue : World.Items.Count(x => x.Blueprint.Id == itemInEquipmentReset.ItemId);
+                                int globalCount = itemInEquipmentReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInEquipmentReset.ItemId);
                                 if (globalCount < itemInEquipmentReset.GlobalLimit)
                                 {
                                     if (lastCharacter != null)

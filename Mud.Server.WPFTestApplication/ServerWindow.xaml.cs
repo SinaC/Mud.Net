@@ -615,6 +615,23 @@ namespace Mud.Server.WPFTestApplication
                     NoTake = extraFlags.noTake,
                 };
             }
+            else if (data.ItemType == "boat")
+            {
+                blueprint = new ItemBoatBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Level = data.Level,
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = extraFlags.itemFlags,
+                    NoTake = extraFlags.noTake,
+                };
+            }
             else if (data.ItemType == "key")
             {
                 blueprint = new ItemKeyBlueprint
@@ -1534,7 +1551,7 @@ namespace Mud.Server.WPFTestApplication
                             {
                                 RoomBlueprintId = room.Id,
                                 ItemId = reset.Arg1,
-                                EquipmentSlot = ConvertWearLocation(reset.Arg3),
+                                EquipmentSlot = ConvertWearLocation(reset.Arg3), // bypass bug in Mystery area
                                 GlobalLimit = reset.Arg2,
                             });
                             break;

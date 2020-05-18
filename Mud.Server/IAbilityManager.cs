@@ -56,8 +56,9 @@ namespace Mud.Server
         NotEnoughResource = 6,
         Failed = 7,
         NotKnown = 8,
-        MustBeFighting = 9,
-        Error = 10
+        InCooldown = 9,
+        MustBeFighting = 10,
+        Error = 11
     }
 
     public enum AbilityTargetResults

@@ -15,46 +15,29 @@ namespace Mud.Server.Helpers
             TableGenerator<KnownAbility> generator = new TableGenerator<KnownAbility>();
             generator.AddColumn("Lvl", 5, x => x.Level.ToString());
             generator.AddColumn("Name", 23, x => x.Ability.Name, new TableGenerator<KnownAbility>.ColumnOptions { AlignLeft = true });
-            generator.AddColumn("Resource", 10,
-                x =>
+            generator.AddColumn("Cost", 10, x =>
+            {
+                if (x.Learned == 0)
+                    return "n/a";
+                if (x.Ability.Kind == AbilityKinds.Passive)
+                    return "%m%passive%x%";
+                if (x.CostAmountOperator == CostAmountOperators.Percentage)
                 {
-                    if (x.Learned == 0)
-                        return "n/a";
-                    if (x.Ability.Kind == AbilityKinds.Passive)
-                        return "%m%passive ability%x%";
-                    if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
-                    {
-                        if (x.ResourceKind.HasValue)
-                            return StringHelpers.ResourceColor(x.ResourceKind.Value);
-                        else
-                            return "???";
-                    }
+                    if (x.ResourceKind.HasValue)
+                        return $"{x.CostAmount}% {x.ResourceKind.Value.ResourceColor()}";
+                    else
+                        return "???";
+                }
+                else if (x.CostAmountOperator == CostAmountOperators.Fixed)
+                {
+                    if (x.ResourceKind.HasValue)
+                        return $"{x.CostAmount} {x.ResourceKind.Value.ResourceColor()}";
+                    else
+                        return "???";
+                }
+                else
                     return "%W%free cost ability%x%";
-                },
-                new TableGenerator<KnownAbility>.ColumnOptions
-                {
-                    GetMergeLengthFunc = x =>
-                    {
-                        if (x.Learned == 0)
-                            return 0;
-                        if (x.Ability.Kind == AbilityKinds.Passive)
-                            return 1;
-                        if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
-                            return 0;
-                        return 1;
-                    }
-                });
-            generator.AddColumn("Cost", 8, 
-                x =>
-                {
-                    if (x.Learned == 0)
-                        return "n/a";
-                    return x.CostAmount.ToString();
-                },
-                new TableGenerator<KnownAbility>.ColumnOptions
-                {
-                    GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage && x.Learned != 0 ? "%" : " "
-                });
+            });
             generator.AddColumn("Pra%", 6, 
                 x =>
                 {
@@ -64,7 +47,7 @@ namespace Mud.Server.Helpers
                         return $"{x.Learned}%";
                 });
             generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
-            //TODO: generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
+            generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
             return generator;
         });
 
@@ -79,6 +62,7 @@ namespace Mud.Server.Helpers
             return generator;
         });
 
+        // Admin specific
         public static readonly Lazy<TableGenerator<IClass>> ClassTableGenerator = new Lazy<TableGenerator<IClass>>(() =>
         {
             TableGenerator<IClass> generator = new TableGenerator<IClass>();
@@ -116,8 +100,6 @@ namespace Mud.Server.Helpers
             });
             return generator;
         });
-
-        // Admin specific
 
         public static readonly Lazy<TableGenerator<IArea>> FullInfoAreaTableGenerator = new Lazy<TableGenerator<IArea>>(() =>
         {
@@ -161,7 +143,7 @@ namespace Mud.Server.Helpers
                     if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
                     {
                         if (x.ResourceKind.HasValue)
-                            return StringHelpers.ResourceColor(x.ResourceKind.Value);
+                            return x.ResourceKind.Value.ResourceColor();
                         else
                             return "???";
                     }

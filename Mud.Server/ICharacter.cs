@@ -170,10 +170,11 @@ namespace Mud.Server
         (int learned, KnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon);
         (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability);
         (int learned, KnownAbility knownAbility) GetLearnInfo(string abilityName);
-        IDictionary<IAbility, DateTime> AbilitiesInCooldown { get; }
+        IDictionary<IAbility, int> AbilitiesInCooldown { get; }
         bool HasAbilitiesInCooldown { get; }
-        int CooldownSecondsLeft(IAbility ability); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)
+        int CooldownPulseLeft(IAbility ability); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)
         void SetCooldown(IAbility ability);
+        bool DecreaseCooldown(IAbility ability, int pulseCount); // return true if timed out
         void ResetCooldown(IAbility ability, bool verbose);
 
         // Equipment

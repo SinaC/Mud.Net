@@ -27,6 +27,8 @@ namespace Mud.Server
 
         int LearnDifficultyMultiplier { get; }
 
+        int Cooldown { get; }
+
         MethodInfo MethodInfo { get; } // null for passive abilities
     }
 }

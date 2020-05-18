@@ -483,6 +483,8 @@ namespace Mud.Server.Character.NonPlayableCharacter
             return (thac0_00, thac0_32);
         }
 
+        protected override SchoolTypes NoWeaponDamageType => DamageType;
+
         protected override int NoWeaponBaseDamage => RandomManager.Dice(DamageDiceCount, DamageDiceValue) + DamageDiceBonus;
 
         protected override string NoWeaponDamageNoun => DamageNoun;

@@ -84,6 +84,7 @@
     <Compile Include="Abilities\Rom24Passives.cs" />
     <Compile Include="Abilities\Rom24Skills.cs" />
     <Compile Include="Abilities\Rom24Spells.cs" />
+    <Compile Include="Abilities\TestSpells.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
     <Compile Include="Admin\CommunicationCommands.cs" />
     <Compile Include="Admin\MiscCommands.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Aura\RoomFlagsAffect.cs" />
     <Compile Include="Character\AbilityCommands.cs" />
     <Compile Include="ICloseable.cs" />
+    <Compile Include="Item\IItemBoat.cs" />
     <Compile Include="Item\IItemCastSpellsNoCharge.cs" />
     <Compile Include="Item\IItemCloseable.cs" />
     <Compile Include="Item\IItemDrinkContainer.cs" />
@@ -122,6 +124,7 @@
     <Compile Include="Item\IItemTreasure.cs" />
     <Compile Include="Item\IItemWand.cs" />
     <Compile Include="Item\IItemWarpstone.cs" />
+    <Compile Include="Item\ItemBoat.cs" />
     <Compile Include="Item\ItemCastSpellsChargeBase.cs" />
     <Compile Include="Item\ItemCastSpellsNoChargeBase.cs" />
     <Compile Include="Item\ItemDrinkContainer.cs" />

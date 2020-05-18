@@ -34,6 +34,27 @@ namespace Mud.Server.Tests
             Assert.AreEqual(itemData.Level, armor.Level);
         }
 
+        // Boat
+        [TestMethod]
+        public void ItemData_To_ItemBoat_Test()
+        {
+            ItemBoatBlueprint boatBlueprint = new ItemBoatBlueprint { Id = 1, Name = "Boat", ShortDescription = "BoatShort", Description = "BoatDesc" };
+            ItemData itemData = new ItemData
+            {
+                ItemId = boatBlueprint.Id,
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                Level = 10,
+            };
+
+            IItemBoat boat = new ItemBoat(Guid.NewGuid(), boatBlueprint, itemData, new Mock<IContainer>().Object);
+
+            Assert.AreEqual(boatBlueprint.Id, boat.Blueprint.Id);
+            Assert.AreEqual(itemData.DecayPulseLeft, boat.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, boat.BaseItemFlags);
+            Assert.AreEqual(itemData.Level, boat.Level);
+        }
+
         // Staff
         [TestMethod]
         public void ItemData_To_ItemStaff_Test()

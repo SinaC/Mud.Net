@@ -121,10 +121,10 @@ namespace Mud.Server.Abilities
                 return MapCastResultToCommandExecutionResult(targetResult);
 
             // 4) check cooldown
-            int cooldownSecondsLeft = caster.CooldownSecondsLeft(knownAbility.Ability);
-            if (cooldownSecondsLeft > 0)
+            int cooldownPulseLeft = caster.CooldownPulseLeft(knownAbility.Ability);
+            if (cooldownPulseLeft > 0)
             {
-                caster.Send("{0} is in cooldown for {1}.", knownAbility.Ability.Name, StringHelpers.FormatDelay(cooldownSecondsLeft));
+                caster.Send("{0} is in cooldown for {1}.", knownAbility.Ability.Name, StringHelpers.FormatDelay(cooldownPulseLeft/Pulse.PulsePerSeconds));
                 return CastResults.InCooldown;
             }
 
@@ -186,10 +186,14 @@ namespace Mud.Server.Abilities
             // 10) GCD
             pcCaster?.ImpersonatedBy?.SetGlobalCooldown(knownAbility.Ability.PulseWaitTime);
 
-            // 11) check improve true
+            // 11) set cooldown
+            if (knownAbility.Ability.Cooldown > 0)
+                caster.SetCooldown(knownAbility.Ability);
+
+            // 12) check improve true
             pcCaster?.CheckAbilityImprove(knownAbility, true, knownAbility.Ability.LearnDifficultyMultiplier);
 
-            // 12) if aggressive: multi hit if still in same room
+            // 13) if aggressive: multi hit if still in same room
             INonPlayableCharacter npcVictim = target as INonPlayableCharacter;
             if ((knownAbility.Ability.Target == AbilityTargets.CharacterOffensive
                 || knownAbility.Ability.Target == AbilityTargets.CharacterFighting
@@ -268,17 +272,29 @@ namespace Mud.Server.Abilities
             if (targetResult != AbilityTargetResults.Ok)
                 return MapUseResultToCommandExecutionResult(targetResult);
 
-            // 3) invoke skill
+            // 3) check cooldown
+            int cooldownPulseLeft = user.CooldownPulseLeft(ability);
+            if (cooldownPulseLeft > 0)
+            {
+                user.Send("{0} is in cooldown for {1}.", ability.Name, StringHelpers.FormatDelay(cooldownPulseLeft / Pulse.PulsePerSeconds));
+                return UseResults.InCooldown;
+            }
+
+            // 4) invoke skill
             var abilityLearnInfo = user.GetLearnInfo(ability);
             object rawResult = InvokeSkill(ability, abilityLearnInfo.learned, user, target, rawParameters, parameters);
             UseResults result = rawResult is UseResults results
                 ? results
                 : UseResults.Error;
 
-            // 4) GCD
+            // 5) GCD
             pcUser?.ImpersonatedBy?.SetGlobalCooldown(ability.PulseWaitTime);
 
-            // 5) improve skill
+            // 6) set cooldown
+            if (ability.Cooldown > 0)
+                user.SetCooldown(ability);
+
+            // 7) improve skill
             if (result == UseResults.Ok || result == UseResults.Failed)
                 pcUser?.CheckAbilityImprove(abilityLearnInfo.knownAbility, result == UseResults.Ok, ability.LearnDifficultyMultiplier);
 
@@ -821,7 +837,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        private static IAbility Passive(int id, string name, AbilityFlags flags = AbilityFlags.None) => new Ability(AbilityKinds.Passive, id, name, AbilityTargets.None, 0, flags, null, null, null, null, 0);
+        private static IAbility Passive(int id, string name, AbilityFlags flags = AbilityFlags.None) => new Ability(AbilityKinds.Passive, id, name, AbilityTargets.None, 0, flags, null, null, null, null, 0, 0);
 
     }
 }

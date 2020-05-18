@@ -17,7 +17,8 @@ namespace Mud.Server.Abilities
         public string ItemWearOffMessage { get; set; } // Inform item hold about aura worn off (+dispel)
         public string DispelRoomMessage { get; set; } // Used to inform room about spell being dispelled
         public string DamageNoun { get; set; } // Used by AbilityDamage, to specify if damage shouldn't be labelled with same name as ability
-        public int LearnDifficultyMultiplier { get; set; } //
+        public int LearnDifficultyMultiplier { get; set; } // multiplier when calling CheckImprove
+        public int Cooldown { get; set; }
 
         protected AbilityAttribute(int id, string name, AbilityTargets target)
         {
@@ -31,6 +32,7 @@ namespace Mud.Server.Abilities
             DispelRoomMessage = null;
             DamageNoun = null;
             LearnDifficultyMultiplier = 1;
+            Cooldown = 0;
         }
     }
 

@@ -33,7 +33,7 @@ namespace Mud.Server.Character
         private readonly int[] _currentAttributes;
         private readonly int[] _maxResources;
         private readonly int[] _currentResources;
-        private readonly Dictionary<IAbility, DateTime> _cooldowns; // Key: ability.Id, Value: Next ability availability
+        private readonly Dictionary<IAbility, int> _cooldownsPulseLeft;
         private readonly List<KnownAbility> _knownAbilities;
 
         protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
@@ -49,7 +49,7 @@ namespace Mud.Server.Character
             _currentAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
             _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _currentResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
-            _cooldowns = new Dictionary<IAbility, DateTime>(new CompareIAbility());
+            _cooldownsPulseLeft = new Dictionary<IAbility, int>(new CompareIAbility());
             _knownAbilities = new List<KnownAbility>(); // handled by RecomputeKnownAbilities
 
             Position = Positions.Standing;
@@ -722,9 +722,9 @@ namespace Mud.Server.Character
             // Water
             if ((fromRoom.SectorType == SectorTypes.WaterSwim || toRoom.SectorType == SectorTypes.WaterSwim)
                 && !CharacterFlags.HasFlag(CharacterFlags.Swim)
-                && !CharacterFlags.HasFlag(CharacterFlags.Flying)) // TODO: WalkOnWater
+                && !CharacterFlags.HasFlag(CharacterFlags.Flying)
+                && !Inventory.OfType<IItemBoat>().Any()) // TODO: WalkOnWater
             {
-                // TODO: check if boat
                 Send("You need a boat to go there, or be swimming, flying or walking on water.");
                 return false;
             }
@@ -949,6 +949,7 @@ namespace Mud.Server.Character
         public bool HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using a weapon
         {
             string damageNoun;
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (wield == null)
                 damageNoun = NoWeaponDamageNoun;
             else
@@ -1461,32 +1462,38 @@ namespace Mud.Server.Character
             return GetLearnInfo(ability);
         }
 
-        public IDictionary<IAbility, DateTime> AbilitiesInCooldown => _cooldowns;
+        public IDictionary<IAbility, int> AbilitiesInCooldown => _cooldownsPulseLeft;
 
-        public bool HasAbilitiesInCooldown => _cooldowns.Any();
+        public bool HasAbilitiesInCooldown => _cooldownsPulseLeft.Any();
 
-        public int CooldownSecondsLeft(IAbility ability)
+        public int CooldownPulseLeft(IAbility ability)
         {
-            DateTime nextAvailability;
-            if (_cooldowns.TryGetValue(ability, out nextAvailability))
-            {
-                TimeSpan diff = nextAvailability - TimeManager.CurrentTime;
-                int secondsLeft = (int) Math.Ceiling(diff.TotalSeconds);
-                return secondsLeft;
-            }
+            int pulseLeft;
+            if (_cooldownsPulseLeft.TryGetValue(ability, out pulseLeft))
+                return pulseLeft;
             return int.MinValue;
         }
 
         public void SetCooldown(IAbility ability)
         {
-            // TODO
-            //DateTime nextAvailability = TimeHandler.CurrentTime.AddSeconds(ability.Cooldown);
-            //_cooldowns[ability] = nextAvailability;
+            _cooldownsPulseLeft[ability] = ability.Cooldown;
+        }
+
+        public bool DecreaseCooldown(IAbility ability, int pulseCount)
+        {
+            int pulseLeft;
+            if (_cooldownsPulseLeft.TryGetValue(ability, out pulseLeft))
+            {
+                pulseLeft = Math.Max(0, pulseLeft - pulseCount);
+                _cooldownsPulseLeft[ability] = pulseLeft;
+                return pulseLeft == 0;
+            }
+            return false;
         }
 
         public void ResetCooldown(IAbility ability, bool verbose)
         {
-            _cooldowns.Remove(ability);
+            _cooldownsPulseLeft.Remove(ability);
             if (verbose)
                 Send("%c%{0} is available.%x%", ability.Name);
         }
@@ -1882,6 +1889,8 @@ namespace Mud.Server.Character
 
         protected abstract (int thac0_00, int thac0_32) GetThac0();
 
+        protected abstract SchoolTypes NoWeaponDamageType { get; }
+
         protected abstract int NoWeaponBaseDamage { get; }
 
         protected abstract string NoWeaponDamageNoun { get; }
@@ -1909,7 +1918,7 @@ namespace Mud.Server.Character
             // guard against weird room-leavings.
             if (victim.Position == Positions.Dead || victim.Room != Room)
                 return;
-            SchoolTypes damageType = wield?.DamageType ?? SchoolTypes.None;
+            SchoolTypes damageType = wield?.DamageType ?? NoWeaponDamageType;
             // get weapon skill
             var weaponLearnInfo = GetWeaponLearnInfo(wield);
             int learned = weaponLearnInfo.learned;
@@ -2089,7 +2098,7 @@ namespace Mud.Server.Character
 
         protected void ResetCooldowns()
         {
-            _cooldowns.Clear();
+            _cooldownsPulseLeft.Clear();
         }
 
         protected void DeleteInventory()

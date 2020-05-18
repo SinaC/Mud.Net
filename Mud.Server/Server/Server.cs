@@ -1064,14 +1064,17 @@ namespace Mud.Server.Server
 
         private void HandleCooldowns(int pulseCount) 
         {
-            // TODO: filter on character with expired cooldowns
             foreach (ICharacter character in World.Characters.Where(x => x.HasAbilitiesInCooldown))
             {
                 try
                 {
-                    IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> cooldowns = new ReadOnlyCollection<KeyValuePair<IAbility, DateTime>>(character.AbilitiesInCooldown.ToList()); // clone
-                    foreach (IAbility ability in cooldowns.Where(x => (x.Value - TimeManager.CurrentTime).TotalSeconds <= 0).Select(x => x.Key))
-                        character.ResetCooldown(ability, true);
+                    IReadOnlyCollection<IAbility> abilitiesInCooldown = new ReadOnlyCollection<IAbility>(character.AbilitiesInCooldown.Keys.ToList()); // clone
+                    foreach (IAbility ability in abilitiesInCooldown)
+                    {
+                        bool available = character.DecreaseCooldown(ability, pulseCount);
+                        if (available)
+                            character.ResetCooldown(ability, true);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -1246,7 +1249,7 @@ namespace Mud.Server.Server
             foreach (INonPlayableCharacter npc in World.NonPlayableCharacters.Where(x => x.IsValid && !x.CharacterFlags.HasFlag(CharacterFlags.Charm)))
             {
                 // is mob update always or area not empty
-                if (npc.ActFlags.HasFlag(ActFlags.UpdateAlways) || npc.Room.Area.PlayableCharacters.Count() > 0)
+                if (npc.ActFlags.HasFlag(ActFlags.UpdateAlways) || npc.Room.Area.PlayableCharacters.Any())
                 {
                     // TODO: invoke spec_fun
                     // TODO: give shop some money
@@ -1265,7 +1268,7 @@ namespace Mud.Server.Server
                     }
 
                     // sentinel
-                    if (npc.ActFlags.HasFlag(ActFlags.Sentinel) && RandomManager.Range(0,7) == 0)
+                    if (!npc.ActFlags.HasFlag(ActFlags.Sentinel) && RandomManager.Range(0,7) == 0)
                     {
                         //Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: sentinel {0} on action", npc.DebugName);
                         int exitNumber = RandomManager.Range(0, 31);
@@ -1280,7 +1283,7 @@ namespace Mud.Server.Server
                                 && (!npc.ActFlags.HasFlag(ActFlags.StayArea) || npc.Room.Area == exit.Destination.Area)
                                 && (!npc.ActFlags.HasFlag(ActFlags.Outdoors) || !exit.Destination.RoomFlags.HasFlag(RoomFlags.Indoors))
                                 && (!npc.ActFlags.HasFlag(ActFlags.Indoors) || exit.Destination.RoomFlags.HasFlag(RoomFlags.Indoors)))
-                                npc.Move(exitDirection, false, false);
+                                npc.Move(exitDirection, true, false);
                         }
                     }
                 }
