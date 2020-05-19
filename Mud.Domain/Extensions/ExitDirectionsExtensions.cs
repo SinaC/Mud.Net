@@ -57,14 +57,14 @@
             {
                 case ExitDirections.North: return "north";
                 case ExitDirections.East: return "east";
-                case ExitDirections.South: return "north";
+                case ExitDirections.South: return "south";
                 case ExitDirections.West: return "west";
-                case ExitDirections.Up: return "down";
-                case ExitDirections.Down: return "up";
+                case ExitDirections.Up: return "up";
+                case ExitDirections.Down: return "down";
                 case ExitDirections.NorthEast: return "north east";
-                case ExitDirections.NorthWest: return "south east";
-                case ExitDirections.SouthEast: return "north west";
-                case ExitDirections.SouthWest: return "north east";
+                case ExitDirections.NorthWest: return "north west";
+                case ExitDirections.SouthEast: return "south east";
+                case ExitDirections.SouthWest: return "south west";
                 default:
                     return "???";
             }

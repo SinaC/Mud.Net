@@ -232,7 +232,7 @@ namespace Mud.Server.Room
             Light = Math.Max(0, Light - 1);
         }
 
-        public void HandleResets()
+        public void ResetRoom()
         {
             INonPlayableCharacter lastCharacter = null;
             foreach (ResetBase reset in Blueprint.Resets)

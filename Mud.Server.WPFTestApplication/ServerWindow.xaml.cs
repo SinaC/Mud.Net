@@ -1521,7 +1521,7 @@ namespace Mud.Server.WPFTestApplication
                             Debug.Assert(reset.Arg3 == room.Id, $"Reset arg3 '{reset.Arg3}' should be equal to room id '{room.Id}'.");
                             room.Resets.Add(new CharacterReset
                             {
-                                RoomBlueprintId = room.Id,
+                                RoomId = room.Id,
                                 CharacterId = reset.Arg1,
                                 GlobalLimit = reset.Arg2,
                                 LocalLimit = reset.Arg4
@@ -1531,7 +1531,7 @@ namespace Mud.Server.WPFTestApplication
                             Debug.Assert(reset.Arg3 == room.Id, $"Reset arg3 '{reset.Arg3}' should be equal to room id '{room.Id}'.");
                             room.Resets.Add(new ItemInRoomReset
                             {
-                                RoomBlueprintId = room.Id,
+                                RoomId = room.Id,
                                 ItemId = reset.Arg1,
                                 GlobalLimit = reset.Arg2,
                                 LocalLimit = reset.Arg4,
@@ -1540,7 +1540,7 @@ namespace Mud.Server.WPFTestApplication
                         case 'P':
                             room.Resets.Add(new ItemInItemReset 
                             {
-                                RoomBlueprintId = room.Id,
+                                RoomId = room.Id,
                                 ItemId = reset.Arg1,
                                 ContainerId = reset.Arg3,
                                 GlobalLimit = reset.Arg2,
@@ -1550,7 +1550,7 @@ namespace Mud.Server.WPFTestApplication
                         case 'G':
                             room.Resets.Add(new ItemInCharacterReset 
                             {
-                                RoomBlueprintId = room.Id,
+                                RoomId = room.Id,
                                 ItemId = reset.Arg1,
                                 GlobalLimit = reset.Arg2,
                             });
@@ -1558,7 +1558,7 @@ namespace Mud.Server.WPFTestApplication
                         case 'E':
                             room.Resets.Add(new ItemInEquipmentReset
                             {
-                                RoomBlueprintId = room.Id,
+                                RoomId = room.Id,
                                 ItemId = reset.Arg1,
                                 EquipmentSlot = ConvertWearLocation(reset.Arg3), // bypass bug in Mystery area
                                 GlobalLimit = reset.Arg2,

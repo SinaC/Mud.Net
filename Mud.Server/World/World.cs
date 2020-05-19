@@ -484,7 +484,7 @@ namespace Mud.Server.World
                 // TODO: handle age + at load time, force age to arbitrary high value to ensure reset are computed
                 //if (area.PlayableCharacters.Any())
                 {
-                    area.HandleResets();
+                    area.ResetArea();
                 }
             }
         }

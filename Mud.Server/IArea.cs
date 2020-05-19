@@ -15,7 +15,7 @@ namespace Mud.Server
         IEnumerable<ICharacter> Characters { get; }
         IEnumerable<IPlayableCharacter> PlayableCharacters { get; }
 
-        void HandleResets();
+        void ResetArea();
 
         bool AddRoom(IRoom room);
         bool RemoveRoom(IRoom room);

@@ -487,7 +487,7 @@ namespace Mud.Server.Admin
                 return CommandExecutionResults.TargetNotFound;
             }
 
-            area.HandleResets();
+            area.ResetArea();
 
             Send($"{area.DisplayName} resetted.");
             return CommandExecutionResults.Ok;

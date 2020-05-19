@@ -42,7 +42,7 @@ namespace Mud.Server
         void IncreaseLight();
         void DecreaseLight();
 
-        void HandleResets();
+        void ResetRoom();
 
         // Affects
         void ApplyAffect(RoomFlagsAffect affect);

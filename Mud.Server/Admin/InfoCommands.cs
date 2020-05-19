@@ -9,6 +9,8 @@ using Mud.Domain.Extensions;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Quest;
+using Mud.Server.Blueprints.Reset;
+using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -701,6 +703,77 @@ namespace Mud.Server.Admin
                     break;
             }
 
+            Send(sb);
+            return CommandExecutionResults.Ok;
+        }
+
+        [AdminCommand("resets", "Information")]
+        [Syntax(
+            "[cmd] <id>",
+            "[cmd] (if impersonated)")]
+        protected virtual CommandExecutionResults DoResets(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (parameters.Length == 0 && Impersonating == null)
+                return CommandExecutionResults.SyntaxError;
+
+            if (parameters.Length >= 1 && !parameters[0].IsNumber)
+                return CommandExecutionResults.SyntaxError;
+
+            IRoom room;
+            if (Impersonating != null)
+                room = Impersonating.Room;
+            else
+            {
+                int id = parameters[0].AsNumber;
+                room = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
+            }
+            if (room == null)
+            {
+                Send("It doesn't exist.");
+                return CommandExecutionResults.TargetNotFound;
+            }
+
+            if (room.Blueprint.Resets?.Any() == false)
+            {
+                Send("No resets.");
+                return CommandExecutionResults.Ok;
+            }
+
+            Send(" No.  Loads    Description       Location         Vnum    Max   Description");
+            Send("==== ======== ============= =================== ======== [R  W] ===========");
+            StringBuilder sb = new StringBuilder();
+            int resetId = 0;
+            foreach (ResetBase reset in room.Blueprint.Resets)
+            {
+                sb.AppendFormat("[{0,2}] ", resetId);
+                switch (reset)
+                {
+                    case CharacterReset characterReset:
+                        {
+                            CharacterBlueprintBase characterBlueprint = World.GetCharacterBlueprint(characterReset.CharacterId);
+                            if (characterBlueprint == null)
+                            {
+                                sb.AppendFormat("Load Mobile - Bad Mob {0}", characterReset.CharacterId);
+                                continue;
+                            }
+                            RoomBlueprint roomBlueprint = World.GetRoomBlueprint(characterReset.RoomId);
+                            if (roomBlueprint == null)
+                            {
+                                sb.AppendFormat("Load Mobile - Bad Room {0}", characterReset.RoomId);
+                                continue;
+                            }
+                            sb.AppendFormatLine("M[{0,5}] {1,-13} in room             R[{2,5}] [{3,-2}{4,2}] {5,-15}", characterReset.CharacterId, characterBlueprint.ShortDescription, characterReset.RoomId, characterReset.LocalLimit, characterReset.GlobalLimit, roomBlueprint.Name);
+                            break;
+                        }
+                    case ItemInRoomReset itemInRoomReset:
+                        todo
+                        break;
+                    default:
+                        sb.AppendFormatLine("Bad reset command: {0}.", reset.GetType());
+                        break;
+                }
+                resetId++;
+            }
             Send(sb);
             return CommandExecutionResults.Ok;
         }

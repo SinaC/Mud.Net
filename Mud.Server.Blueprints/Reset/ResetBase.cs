@@ -2,6 +2,6 @@
 {
     public class ResetBase
     {
-        public int RoomBlueprintId { get; set; }
+        public int RoomId { get; set; }
     }
 }

@@ -33,10 +33,10 @@ namespace Mud.Server.Area
         public IEnumerable<ICharacter> Characters => _rooms.SelectMany(x => x.People);
         public IEnumerable<IPlayableCharacter> PlayableCharacters => _rooms.SelectMany(x => x.People).OfType<IPlayableCharacter>();
 
-        public void HandleResets()
+        public void ResetArea()
         {
             foreach (IRoom room in _rooms)
-                room.HandleResets();
+                room.ResetRoom();
             Wiznet.Wiznet($"{DisplayName} has just been reset.", Domain.WiznetFlags.Resets);
         }
 
