@@ -21,6 +21,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+Admin command Resets
+Mystery resets fixed, set global limit to -1 and local limit to 1
 Add aliases to PlayableCharacter
 Cooldown saved
 item order in room

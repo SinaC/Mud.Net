@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
-using Mud.Logger;
 
 namespace Mud.Server.Races
 {

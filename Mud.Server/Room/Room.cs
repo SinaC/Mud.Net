@@ -239,7 +239,7 @@ namespace Mud.Server.Room
             {
                 switch (reset)
                 {
-                    case CharacterReset characterReset:
+                    case CharacterReset characterReset: // 'M'
                         {
                             CharacterBlueprintBase blueprint = World.GetCharacterBlueprint(characterReset.CharacterId);
                             if (blueprint != null)
@@ -259,7 +259,7 @@ namespace Mud.Server.Room
                                 Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: M: Mob {characterReset.CharacterId} not found");
                             break;
                         }
-                    case ItemInRoomReset itemInRoomReset:
+                    case ItemInRoomReset itemInRoomReset: // 'O'
                         {
                             ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInRoomReset.ItemId);
                             if (blueprint != null)
@@ -282,7 +282,7 @@ namespace Mud.Server.Room
                                 Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: O: Obj {itemInRoomReset.ItemId} not found");
                             break;
                         }
-                    case ItemInItemReset itemInItemReset:
+                    case ItemInItemReset itemInItemReset: // 'P'
                         {
                             ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInItemReset.ItemId);
                             if (blueprint != null)
@@ -319,7 +319,7 @@ namespace Mud.Server.Room
                                 Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: P: Obj {itemInItemReset.ItemId} not found");
                             break;
                         }
-                    case ItemInCharacterReset itemInCharacterReset:
+                    case ItemInCharacterReset itemInCharacterReset: // 'G'
                         {
                             ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInCharacterReset.ItemId);
                             if (blueprint != null)
@@ -340,8 +340,7 @@ namespace Mud.Server.Room
                                 Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} not found");
                             break;
                         }
-                    // E: equip object arg1 to mobile
-                    case ItemInEquipmentReset itemInEquipmentReset:
+                    case ItemInEquipmentReset itemInEquipmentReset: // 'E'
                         {
                             ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInEquipmentReset.ItemId);
                             if (blueprint != null)

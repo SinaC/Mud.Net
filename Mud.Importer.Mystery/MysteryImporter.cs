@@ -461,9 +461,9 @@ namespace Mud.Importer.Mystery
                 {
                     Command = letter,
                     Arg1 = arg1,
-                    Arg2 = arg2 == 0 ? -1 : arg2, // bug in mystery area
+                    Arg2 = arg2 == 0 ? -1 : arg2, // bug in mystery area (global limit)
                     Arg3 = arg3,
-                    Arg4 = arg4 == 0 ? -1 : arg4 // bug in mystery area
+                    Arg4 = arg4 == 0 ? 1 : arg4 // bug in mystery area (local limit)
                 };
 
                 if (letter == 'M')

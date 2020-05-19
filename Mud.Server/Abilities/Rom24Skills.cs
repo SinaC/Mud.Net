@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Mud.Domain;
 using Mud.Domain.Extensions;
-using Mud.Logger;
 using Mud.Server.Aura;
 using Mud.Server.Helpers;
 using Mud.Server.Input;

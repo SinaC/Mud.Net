@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Aura;
 using Mud.Server.Common;
 using Mud.Server.Helpers;

@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Mud.Server.Common
 {
@@ -53,6 +54,11 @@ namespace Mud.Server.Common
                 return char.ToUpper(text[0]) + text.Substring(1);
 
             return text.ToUpper();
+        }
+
+        public static string MaxLength(this string input, int length)
+        {
+            return input?.Substring(0, Math.Min(length, input.Length));
         }
     }
 }

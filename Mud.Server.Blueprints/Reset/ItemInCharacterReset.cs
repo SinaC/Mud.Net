@@ -1,8 +1,8 @@
 ﻿namespace Mud.Server.Blueprints.Reset
 {
-    public class ItemInCharacterReset : ResetBase
+    public class ItemInCharacterReset : ResetBase // 'G'
     {
-        public int ItemId { get; set; }
-        public int GlobalLimit { get; set; }
+        public int ItemId { get; set; } // arg1
+        public int GlobalLimit { get; set; } // arg2
     }
 }

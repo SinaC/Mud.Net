@@ -1,5 +1,4 @@
 ﻿using Mud.Domain;
-using Mud.Logger;
 
 namespace Mud.Server.Races
 {

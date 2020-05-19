@@ -2,10 +2,10 @@
 
 namespace Mud.Server.Blueprints.Reset
 {
-    public class ItemInEquipmentReset : ResetBase
+    public class ItemInEquipmentReset : ResetBase // 'E'
     {
-        public int ItemId { get; set; }
-        public int GlobalLimit { get; set; }
-        public EquipmentSlots EquipmentSlot { get; set; }
+        public int ItemId { get; set; } // arg1
+        public int GlobalLimit { get; set; } // arg2
+        public EquipmentSlots EquipmentSlot { get; set; } // arg3
     }
 }

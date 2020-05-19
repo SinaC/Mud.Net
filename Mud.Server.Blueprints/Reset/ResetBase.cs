@@ -2,6 +2,7 @@
 {
     public class ResetBase
     {
-        public int RoomId { get; set; }
+        // Not really used
+        public int RoomId { get; set; } // Arg3
     }
 }
