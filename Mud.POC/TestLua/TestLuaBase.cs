@@ -2,6 +2,7 @@
 using System.Linq;
 using Mud.Container;
 using Mud.Server;
+using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
 
@@ -15,7 +16,7 @@ namespace Mud.POC.TestLua
 
         protected void CreateWorld()
         {
-            World.AddArea(Guid.NewGuid(), "area", 1, 100, "sinac", "sinac");
+            World.AddArea(Guid.NewGuid(),  new AreaBlueprint { Name ="area", Builders = "sinac", Credits = "sinac"});
             World.AddRoomBlueprint(new RoomBlueprint
             {
                 Name = "battle room",

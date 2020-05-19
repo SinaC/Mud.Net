@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using Mud.Domain;
 using Mud.Server.Aura;
 using Mud.Server.Blueprints.Item;
@@ -12,7 +12,7 @@ namespace Mud.Server
 
         ItemBlueprintBase Blueprint { get; }
 
-        IReadOnlyDictionary<string, string> ExtraDescriptions { get; } // keyword -> description
+        ILookup<string, string> ExtraDescriptions { get; } // keyword -> descriptions
 
         WearLocations WearLocation { get; }
         ICharacter EquippedBy { get; }

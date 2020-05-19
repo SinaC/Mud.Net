@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using Mud.Domain;
+using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
@@ -17,7 +18,9 @@ namespace Mud.Server.Tests.Mocking
         private readonly List<ICharacter> _characters;
         private readonly List<IRoom> _rooms;
         private readonly List<IItem> _items;
+        private readonly List<IArea> _areas;
         private readonly List<QuestBlueprint> _questBlueprints;
+        private readonly List<AreaBlueprint> _areaBlueprints;
         private readonly List<RoomBlueprint> _roomBlueprints;
         private readonly List<CharacterBlueprintBase> _characterBlueprints;
         private readonly List<ItemBlueprintBase> _itemBlueprints;
@@ -27,7 +30,9 @@ namespace Mud.Server.Tests.Mocking
             _characters = new List<ICharacter>();
             _rooms = new List<IRoom>();
             _items = new List<IItem>();
+            _areas = new List<IArea>();
             _questBlueprints = new List<QuestBlueprint>();
+            _areaBlueprints = new List<AreaBlueprint>();
             _roomBlueprints = new List<RoomBlueprint>();
             _characterBlueprints = new List<CharacterBlueprintBase>();
             _itemBlueprints = new List<ItemBlueprintBase>();
@@ -38,10 +43,12 @@ namespace Mud.Server.Tests.Mocking
             _characters.Clear();
             _rooms.Clear();
             _items.Clear();
+            _areas.Clear();
             _questBlueprints.Clear();
             _roomBlueprints.Clear();
             _characterBlueprints.Clear();
             _itemBlueprints.Clear();
+            _areaBlueprints.Clear();
         }
 
         #region IWorld
@@ -53,6 +60,7 @@ namespace Mud.Server.Tests.Mocking
         }
 
         public IReadOnlyCollection<QuestBlueprint> QuestBlueprints => _questBlueprints;
+        public IReadOnlyCollection<AreaBlueprint> AreaBlueprints => _areaBlueprints;
         public IReadOnlyCollection<RoomBlueprint> RoomBlueprints => _roomBlueprints;
         public IReadOnlyCollection<CharacterBlueprintBase> CharacterBlueprints => _characterBlueprints;
         public IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints => _itemBlueprints;
@@ -60,6 +68,11 @@ namespace Mud.Server.Tests.Mocking
         public QuestBlueprint GetQuestBlueprint(int id)
         {
             return _questBlueprints.FirstOrDefault(x => x.Id == id);
+        }
+
+        public AreaBlueprint GetAreaBlueprint(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public RoomBlueprint GetRoomBlueprint(int id)
@@ -94,6 +107,11 @@ namespace Mud.Server.Tests.Mocking
             _questBlueprints.Add(blueprint);
         }
 
+        public void AddAreaBlueprint(AreaBlueprint blueprint)
+        {
+            throw new NotImplementedException();
+        }
+
         public void AddRoomBlueprint(RoomBlueprint blueprint)
         {
             _roomBlueprints.Add(blueprint);
@@ -109,7 +127,7 @@ namespace Mud.Server.Tests.Mocking
             _itemBlueprints.Add(blueprint);
         }
 
-        public IEnumerable<IArea> Areas { get; }
+        public IEnumerable<IArea> Areas => _areas;
 
         public IEnumerable<IRoom> Rooms => _rooms;
 
@@ -130,7 +148,7 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits)
+        public IArea AddArea(Guid guid, AreaBlueprint blueprint)
         {
             throw new NotImplementedException();
         }

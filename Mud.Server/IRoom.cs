@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mud.Domain;
 using Mud.Server.Aura;
 using Mud.Server.Blueprints.Character;
@@ -10,7 +11,7 @@ namespace Mud.Server
     {
         RoomBlueprint Blueprint { get; }
 
-        IReadOnlyDictionary<string, string> ExtraDescriptions { get; } // keyword -> description
+        ILookup<string, string> ExtraDescriptions { get; } // keyword -> descriptions
 
         RoomFlags BaseRoomFlags { get; }
         RoomFlags RoomFlags { get; }

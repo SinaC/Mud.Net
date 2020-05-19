@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
@@ -21,11 +22,13 @@ namespace Mud.Server
 
         // Blueprints
         IReadOnlyCollection<QuestBlueprint> QuestBlueprints { get; }
+        IReadOnlyCollection<AreaBlueprint> AreaBlueprints { get; }
         IReadOnlyCollection<RoomBlueprint> RoomBlueprints { get; }
         IReadOnlyCollection<CharacterBlueprintBase> CharacterBlueprints { get; }
         IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints { get; }
 
         QuestBlueprint GetQuestBlueprint(int id);
+        AreaBlueprint GetAreaBlueprint(int id);
         RoomBlueprint GetRoomBlueprint(int id);
         CharacterBlueprintBase GetCharacterBlueprint(int id);
         ItemBlueprintBase GetItemBlueprint(int id);
@@ -35,6 +38,7 @@ namespace Mud.Server
             where TBlueprint : ItemBlueprintBase;
 
         void AddQuestBlueprint(QuestBlueprint blueprint);
+        void AddAreaBlueprint(AreaBlueprint blueprint);
         void AddRoomBlueprint(RoomBlueprint blueprint);
         void AddCharacterBlueprint(CharacterBlueprintBase blueprint);
         void AddItemBlueprint(ItemBlueprintBase blueprint);
@@ -51,7 +55,7 @@ namespace Mud.Server
         IRoom DefaultDeathRoom { get; }
         IRoom GetRandomRoom(ICharacter character);
 
-        IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits);
+        IArea AddArea(Guid guid, AreaBlueprint blueprint);
 
         IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area);
 

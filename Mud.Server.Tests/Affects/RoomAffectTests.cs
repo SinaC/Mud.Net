@@ -3,6 +3,7 @@ using Mud.Domain;
 using Mud.Server.Aura;
 using Mud.Server.Item;
 using System;
+using Moq;
 
 namespace Mud.Server.Tests.Affects
 {
@@ -15,7 +16,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomAddAffect_NoBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = RoomFlags.Dark });
             room.AddAura(roomAura, false);
             room.Recompute();
@@ -27,7 +28,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomAddAffect_IdenticalBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.Dark }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.Dark }, new Mock<IArea>().Object);
             IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = RoomFlags.Dark });
             room.AddAura(roomAura, false);
             room.Recompute();
@@ -39,7 +40,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomAddAffect_DifferentBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.ImpOnly }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.ImpOnly }, new Mock<IArea>().Object);
             IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = RoomFlags.Dark });
             room.AddAura(roomAura, false);
             room.Recompute();
@@ -51,7 +52,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomOrAffect_NoBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Or, Modifier = RoomFlags.Dark });
             room.AddAura(roomAura, false);
             room.Recompute();
@@ -63,7 +64,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomOrAffect_IdenticalBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.Dark }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.Dark }, new Mock<IArea>().Object);
             IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Or, Modifier = RoomFlags.Dark });
             room.AddAura(roomAura, false);
             room.Recompute();
@@ -75,7 +76,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomOrAffect_DifferentBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.ImpOnly }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.ImpOnly }, new Mock<IArea>().Object);
             IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Or, Modifier = RoomFlags.Dark });
             room.AddAura(roomAura, false);
             room.Recompute();
@@ -87,7 +88,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomAssignAffect_NoBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Assign, Modifier = RoomFlags.Dark });
             room.AddAura(roomAura, false);
             room.Recompute();
@@ -99,7 +100,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomAssignAffect_IdenticalBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.Dark }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.Dark }, new Mock<IArea>().Object);
             IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Assign, Modifier = RoomFlags.Dark });
             room.AddAura(roomAura, false);
             room.Recompute();
@@ -111,7 +112,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomAssignAffect_DifferentBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.ImpOnly }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.ImpOnly }, new Mock<IArea>().Object);
             IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Assign, Modifier = RoomFlags.Dark });
             room.AddAura(roomAura, false);
             room.Recompute();
@@ -123,7 +124,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomNorAffect_NoBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Nor, Modifier = RoomFlags.Dark });
             room.AddAura(roomAura, false);
             room.Recompute();
@@ -135,7 +136,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomNorAffect_IdenticalBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.Dark }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.Dark }, new Mock<IArea>().Object);
             IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Nor, Modifier = RoomFlags.Dark });
             room.AddAura(roomAura, false);
             room.Recompute();
@@ -147,7 +148,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomNorAffect_DifferentBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.ImpOnly }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.ImpOnly }, new Mock<IArea>().Object);
             IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Nor, Modifier = RoomFlags.Dark });
             room.AddAura(roomAura, false);
             room.Recompute();
@@ -169,7 +170,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomAddAffect_OneItemAddAffect_Identical_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = RoomFlags.Dark });
             room.AddAura(roomAura, false);
             IItem item = new ItemArmor(Guid.NewGuid(), new Blueprints.Item.ItemArmorBlueprint { Id = 1, Name = "item1", ShortDescription = "item1short", Description = "item1desc" }, room);

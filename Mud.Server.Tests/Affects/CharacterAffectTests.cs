@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Moq;
 
 namespace Mud.Server.Tests.Affects
 {
@@ -10,7 +11,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void OneNormalAttribute_Add_Test()
         {
-            INonPlayableCharacter npc = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1" }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            INonPlayableCharacter npc = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1" }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
             Aura.CharacterAttributeAffect strAffect = new Aura.CharacterAttributeAffect
             {
                 Location = Domain.CharacterAttributeAffectLocations.Strength,
@@ -29,7 +30,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void OneNormalAttribute_Assign_Test()
         {
-            INonPlayableCharacter npc = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1" }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            INonPlayableCharacter npc = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1" }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
             Aura.CharacterAttributeAffect intAffect = new Aura.CharacterAttributeAffect
             {
                 Location = Domain.CharacterAttributeAffectLocations.Intelligence,
@@ -47,7 +48,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void OneCombinedAttribute_Add_Test()
         {
-            INonPlayableCharacter npc = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1" }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            INonPlayableCharacter npc = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1" }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
             Aura.CharacterAttributeAffect caracAffect = new Aura.CharacterAttributeAffect
             {
                 Location = Domain.CharacterAttributeAffectLocations.Characteristics,
@@ -82,7 +83,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void OneCombinedAttribute_Assign_Test()
         {
-            INonPlayableCharacter npc = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1" }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            INonPlayableCharacter npc = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1" }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
             Aura.CharacterAttributeAffect caracAffect = new Aura.CharacterAttributeAffect
             {
                 Location = Domain.CharacterAttributeAffectLocations.AllArmor,

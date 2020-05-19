@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Mud.Server.Blueprints.Area;
 
 namespace Mud.Server
 {
     public interface IArea
     {
+        Guid Id { get; }
+
+        AreaBlueprint Blueprint { get; }
+
         string DisplayName { get; }
-        int MinLevel { get; }
-        int MaxLevel { get; }
         string Builders { get; }
         string Credits { get; }
 

@@ -3,6 +3,7 @@ using Mud.Domain;
 using Mud.Server.Aura;
 using Mud.Server.Item;
 using System;
+using Moq;
 
 namespace Mud.Server.Tests.Affects
 {
@@ -12,7 +13,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void OneWeaponAddAffect_NoBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             IItemWeapon weapon = new ItemWeapon(Guid.NewGuid(), new Blueprints.Item.ItemWeaponBlueprint { Id = 1, Name = "weapon1", ShortDescription = "weapon1short", Description = "weapon1desc", ItemFlags = ItemFlags.None, Flags = WeaponFlags.None }, room);
             IAura weaponAura = new Aura.Aura(null, null, AuraFlags.None, 10, TimeSpan.FromMinutes(20), new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Holy, Operator = AffectOperators.Add});
             weapon.AddAura(weaponAura, false);
@@ -26,7 +27,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void OneItemAddAffect_NoBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             IItemWeapon weapon = new ItemWeapon(Guid.NewGuid(), new Blueprints.Item.ItemWeaponBlueprint { Id = 1, Name = "weapon1", ShortDescription = "weapon1short", Description = "weapon1desc", ItemFlags = ItemFlags.None, Flags = WeaponFlags.None }, room);
             IAura weaponAura = new Aura.Aura(null, null, AuraFlags.None, 10, TimeSpan.FromMinutes(20), new ItemFlagsAffect { Modifier = ItemFlags.AntiEvil, Operator = AffectOperators.Add });
             weapon.AddAura(weaponAura, false);
@@ -42,7 +43,7 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void MultipleEffect_MultipleBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits"));
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             IItemWeapon weapon = new ItemWeapon(Guid.NewGuid(), new Blueprints.Item.ItemWeaponBlueprint { Id = 1, Name = "weapon1", ShortDescription = "weapon1short", Description = "weapon1desc", ItemFlags = ItemFlags.AntiNeutral | ItemFlags.Bless, Flags = WeaponFlags.Flaming | WeaponFlags.Holy }, room);
             IAura weaponAura = new Aura.Aura(null, null, AuraFlags.None, 10, TimeSpan.FromMinutes(20), 
                 new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Holy, Operator = AffectOperators.Nor }, // remove weapon holy

@@ -5,6 +5,7 @@ using System.Linq;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
@@ -24,6 +25,7 @@ namespace Mud.Server.World
 
         private readonly List<TreasureTable<int>> _treasureTables;
         private readonly Dictionary<int, QuestBlueprint> _questBlueprints;
+        private readonly Dictionary<int, AreaBlueprint> _areaBlueprints;
         private readonly Dictionary<int, RoomBlueprint> _roomBlueprints;
         private readonly Dictionary<int, CharacterBlueprintBase> _characterBlueprints;
         private readonly Dictionary<int, ItemBlueprintBase> _itemBlueprints;
@@ -40,6 +42,7 @@ namespace Mud.Server.World
         {
             _treasureTables = new List<TreasureTable<int>>();
             _questBlueprints = new Dictionary<int, QuestBlueprint>();
+            _areaBlueprints = new Dictionary<int, AreaBlueprint>();
             _roomBlueprints = new Dictionary<int, RoomBlueprint>();
             _characterBlueprints = new Dictionary<int, CharacterBlueprintBase>();
             _itemBlueprints = new Dictionary<int, ItemBlueprintBase>();
@@ -65,6 +68,8 @@ namespace Mud.Server.World
         // Blueprints
         public IReadOnlyCollection<QuestBlueprint> QuestBlueprints => _questBlueprints.Values.ToList().AsReadOnly();
 
+        public IReadOnlyCollection<AreaBlueprint> AreaBlueprints => _areaBlueprints.Values.ToList().AsReadOnly();
+
         public IReadOnlyCollection<RoomBlueprint> RoomBlueprints => _roomBlueprints.Values.ToList().AsReadOnly();
 
         public IReadOnlyCollection<CharacterBlueprintBase> CharacterBlueprints => _characterBlueprints.Values.ToList().AsReadOnly();
@@ -72,6 +77,8 @@ namespace Mud.Server.World
         public IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints => _itemBlueprints.Values.ToList().AsReadOnly();
 
         public QuestBlueprint GetQuestBlueprint(int id) => GetBlueprintById(_questBlueprints, id);
+
+        public AreaBlueprint GetAreaBlueprint(int id) => GetBlueprintById(_areaBlueprints, id);
 
         public RoomBlueprint GetRoomBlueprint(int id) => GetBlueprintById(_roomBlueprints, id);
 
@@ -91,6 +98,14 @@ namespace Mud.Server.World
                 Wiznet.Wiznet($"Quest blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             else
                 _questBlueprints.Add(blueprint.Id, blueprint);
+        }
+
+        public void AddAreaBlueprint(AreaBlueprint blueprint)
+        {
+            if (_areaBlueprints.ContainsKey(blueprint.Id))
+                Wiznet.Wiznet($"Area blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            else
+                _areaBlueprints.Add(blueprint.Id, blueprint);
         }
 
         public void AddRoomBlueprint(RoomBlueprint blueprint)
@@ -146,9 +161,9 @@ namespace Mud.Server.World
                 && (nonPlayableCharacter == null || nonPlayableCharacter.ActFlags.HasFlag(ActFlags.Aggressive) || !x.RoomFlags.HasFlag(RoomFlags.Law))));
         }
 
-        public IArea AddArea(Guid guid, string displayName, int minLevel, int maxLevel, string builders, string credits)
+        public IArea AddArea(Guid guid, AreaBlueprint blueprint)
         {
-            IArea area = new Area.Area(displayName, minLevel, maxLevel, builders, credits);
+            IArea area = new Area.Area(guid, blueprint);
             _areas.Add(area);
             return area;
         }

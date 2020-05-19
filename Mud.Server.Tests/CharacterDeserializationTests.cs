@@ -298,7 +298,7 @@ namespace Mud.Server.Tests
             var world = World;
             RoomBlueprint roomBlueprint = new RoomBlueprint {Id = 1, Name = "room1"};
             world.AddRoomBlueprint(roomBlueprint);
-            IRoom room = world.AddRoom(Guid.NewGuid(), roomBlueprint, new Area.Area("Area", 1, 100, "builders", "credits"));
+            IRoom room = world.AddRoom(Guid.NewGuid(), roomBlueprint, new Mock<IArea>().Object);
             CharacterNormalBlueprint mobBlueprint = new CharacterNormalBlueprint { Id = 1, Name = "mob1", ShortDescription = "Mob1Short", Description = "Mob1Desc" };
             world.AddCharacterBlueprint(mobBlueprint);
             ItemQuestBlueprint questItemBlueprint = new ItemQuestBlueprint { Id = 1, Name="item1", ShortDescription = "Item1Short", Description = "Item1Desc"};

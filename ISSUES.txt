@@ -11,3 +11,1216 @@ extra description not handled correctly (see item 3040)
 two handed weapon are not handled correctly
 
 reset has a bug, too many infinite global limit
+
+
+AREA ISSUES:
+2020-05-19 16:08:41.5817 1 INFO ***LOOT 0: 2
+2020-05-19 16:08:41.5997 1 INFO ***LOOT 1: 2
+2020-05-19 16:08:41.5997 1 INFO ***LOOT 2: 2
+2020-05-19 16:08:41.5997 1 INFO ***LOOT 3: 2
+2020-05-19 16:08:41.5997 1 INFO ***LOOT 4: 
+2020-05-19 16:08:41.5997 1 INFO ***LOOT 5: 
+2020-05-19 16:08:41.5997 1 INFO ***LOOT 6: 2
+2020-05-19 16:08:41.5997 1 INFO ***LOOT 7: 2
+2020-05-19 16:08:41.5997 1 INFO ***LOOT 8: 2
+2020-05-19 16:08:41.5997 1 INFO ***LOOT 9: 2
+2020-05-19 16:08:42.1137 1 DEBUG Reading C:\PRJ\Personal\muds\Rom24\area\immort.are
+2020-05-19 16:08:42.1728 1 DEBUG Reading C:\PRJ\Personal\muds\Rom24\area\ofcol2.are
+2020-05-19 16:09:17.7641 1 WARN C:\PRJ\Personal\muds\Rom24\area\canyon.are:1905->ParseResets: 'M' has arg2 or arg4 equal to 0 (room: 9204)
+2020-05-19 16:09:19.5021 1 WARN Specific area file Helps not yet available
+2020-05-19 16:09:22.7431 1 WARN Specific area file Helps not yet available
+2020-05-19 16:09:22.7431 1 WARN Specific area file Helps not yet available
+2020-05-19 16:09:22.9741 1 WARN Specific area file Socials not yet available
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [607] [gem] [16385] : glass trinket
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [614] [trash] [1] : hay pile
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3129] [trash] [16385] : hand cuffs
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3162] [map] [1] : map midgaard
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3163] [map] [1] : map thera
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3164] [map] [1] : map southern midgaard
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3165] [map] [1] : map dwarven kingdom dwarf
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3166] [map] [1] : map moria first
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3167] [map] [1] : map new thalos
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3168] [map] [1] : map olympus
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3200] [jukebox] [0] : juke box music
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3373] [gem] [16385] : pearl
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3374] [gem] [16385] : garnet gem
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3375] [gem] [16385] : emerald gem
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3376] [gem] [16385] : ruby gem
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3377] [gem] [16385] : diamond gem
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [3378] [gem] [16385] : opal
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [304] [trash] [16401] : wild flowers
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [308] [trash] [16385] : staff stick
+2020-05-19 16:09:23.8901 1 WARN ItemBlueprint cannot be created: [6105] [trash] [1] : branch
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [9212] [gem] [4097] : bracelet elemental
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [3423] [clothing] [9] : smock
+2020-05-19 16:09:23.8951 1 WARN Unknown wear location: 16389 for item 2220
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5230] [gem] [65537] : stone pale blue
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5231] [gem] [65537] : stone scarlet blue
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5232] [gem] [65537] : stone blue incandescent
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5233] [gem] [65537] : stone red deep
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5234] [gem] [65537] : stone pink
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5235] [gem] [65537] : stone pearly white
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5237] [gem] [65537] : stone lavender green
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5239] [gem] [1] : stone grey dull
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5241] [gem] [65537] : stone pink green
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5243] [gem] [65537] : stone clear
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [6511] [gem] [3] : ring golden dwarven
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [6517] [trash] [16385] : coal
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [6520] [map] [1] : map castle strangelove
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5014] [clothing] [17] : turban
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5026] [gem] [16385] : gem ruby
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5027] [gem] [16385] : gem diamond glittering
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5028] [gem] [16385] : gem sapphire
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5029] [gem] [16385] : gem lapis
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5030] [gem] [16385] : jewel tiger
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [5031] [gem] [16385] : jewel red-eyed
+2020-05-19 16:09:23.8951 1 WARN Unknown wear location: 16349 for item 9321
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [9328] [trash] [1] : chains andromeda
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [8905] [trash] [16385] : paper wad
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1307] [trash] [16385] : broom straw
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1332] [trash] [1] : wings
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1333] [trash] [16385] : eye eyeball
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1335] [clothing] [17] : spectacles glasses
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1341] [clothing] [5] : cloak brown
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1342] [clothing] [1025] : chameleon poncho
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1343] [clothing] [65] : boots worn
+2020-05-19 16:09:23.8951 1 WARN Unknown wear location: 17409 for item 1345
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1356] [trash] [1] : shackles chain
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1379] [clothing] [5] : cowl dark
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1383] [clothing] [5] : cloak grey
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1386] [gem] [16385] : minor ward cube clear
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1389] [clothing] [5] : cloak black dark
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1393] [clothing] [5] : cloak white
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1399] [gem] [16385] : ward major clear crystal
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [2116] [clothing] [5] : whistle steel police
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [10] [npc_corpse] [1] : corpse
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [11] [pc_corpse] [1] : corpse
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [12] [trash] [1] : head
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [2315] [clothing] [17] : spectacles wire rimmed
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [2332] [clothing] [2049] : belt life
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [4001] [npc_corpse] [1] : corpse
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [4154] [map] [1] : map moria second
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [4155] [map] [1] : map moria third
+2020-05-19 16:09:23.8951 1 WARN Unknown wear location: 16389 for item 9501
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [9546] [clothing] [4097] : belt
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [9547] [clothing] [65] : hiking boots
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [9548] [clothing] [1025] : fur cloak
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [9549] [clothing] [2049] : girdle
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [9550] [clothing] [33] : hose
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [9551] [clothing] [9] : common robe
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [9552] [clothing] [1033] : embroidered robe
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [9553] [clothing] [65] : sandles
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [9554] [clothing] [2049] : sash
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [9555] [clothing] [1025] : silk jacket
+2020-05-19 16:09:23.8951 1 WARN Unknown wear location: 16389 for item 9587
+2020-05-19 16:09:23.8951 1 WARN Unknown wear location: 16389 for item 9587
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [915] [trash] [1] : fan
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [916] [trash] [1] : lute
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [928] [map] [1] : map olympus secret
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [8711] [trash] [1] : dust
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [8720] [trash] [16385] : curse mummy
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [8723] [trash] [1] : diamond
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [101] [clothing] [17] : glasses
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [10424] [clothing] [17] : spectacles
+2020-05-19 16:09:23.8951 1 WARN Unknown damage type -1 for item 10427
+2020-05-19 16:09:23.8951 1 WARN ItemBlueprint cannot be created: [1616] [clothing] [5] : dark blue cloak
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 600
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 601
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 602
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 603
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 604
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 605
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 606
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 607
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 608
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 609
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 610
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 611
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 612
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 613
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 614
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 615
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 616
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 617
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 618
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 619
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 620
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 621
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 622
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 623
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 624
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 625
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 626
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 627
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 628
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 629
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 630
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 631
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 632
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 633
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 634
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1100
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1101
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1102
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1103
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1104
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1105
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1106
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1107
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1108
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1109
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1110
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1111
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1112
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1113
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1114
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1115
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1116
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1117
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1118
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1119
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1120
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1121
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1122
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1123
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1124
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1125
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1126
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1127
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1128
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1130
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1131
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1132
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 300
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 301
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 303
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 304
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 305
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 306
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 308
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 309
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 350
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6000
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6002
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6003
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6004
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6005
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6100
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6101
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6102
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6103
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6112
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6115
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6116
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1000
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1001
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6301
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6302
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6303
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6304
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6305
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6306
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6307
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6308
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6309
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6310
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6311
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6312
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6313
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6314
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6315
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6316
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6317
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6318
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6319
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7700
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7701
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7702
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7703
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7704
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7705
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7706
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7707
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7708
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7709
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7710
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7711
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7712
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7713
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7714
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7715
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7716
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7717
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7718
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7719
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9203
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9204
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9205
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9206
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9207
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9208
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9209
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9210
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9211
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9212
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9214
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9215
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9216
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9217
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9218
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9219
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9220
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9221
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9222
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9223
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9224
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9225
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9226
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9227
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9228
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9229
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9230
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9231
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9232
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9233
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9234
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9235
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9236
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9237
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9238
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2001
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2002
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2003
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2004
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2005
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2006
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2007
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2008
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2009
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2010
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2011
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2012
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2013
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2014
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2015
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2016
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2017
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3400
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3401
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3402
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3403
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3404
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3405
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3406
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3407
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3408
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3409
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3410
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3411
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3412
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3413
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3414
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3415
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3416
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2200
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2201
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2202
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2203
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2204
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2205
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2206
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2207
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2220
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2221
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2222
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2223
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2225
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2226
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2227
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2240
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2241
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2242
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2243
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8600
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5100
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5101
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5102
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5103
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5104
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5105
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5106
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5107
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5108
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5109
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5110
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5111
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5200
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5201
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5202
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5203
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5204
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5205
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5206
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5207
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5208
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6500
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6501
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6502
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6503
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6504
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6505
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6506
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6507
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6508
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6509
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6510
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6511
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6512
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6513
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6514
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6515
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6516
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 6517
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9101
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9102
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9103
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9104
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9105
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9106
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9107
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5000
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5001
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5002
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5003
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5004
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5005
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5006
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5007
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5008
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5009
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5010
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5011
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5012
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5013
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5014
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5015
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5017
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9301
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9302
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9303
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9304
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9305
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9306
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9307
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9308
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9309
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9310
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9311
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9312
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9313
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9314
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9315
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9316
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9317
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9318
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9319
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9320
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9321
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9322
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9323
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9324
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9325
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9326
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9327
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9328
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9329
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9330
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9331
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9332
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1500
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1501
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1502
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1503
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1504
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1505
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1507
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1508
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1509
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1510
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1511
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1512
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1513
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1514
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1515
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1516
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1517
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1518
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1519
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1520
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1521
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1522
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1523
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1524
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1526
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3600
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3601
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3602
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3603
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3604
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 3605
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8900
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8901
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8902
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8903
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8904
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8905
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8906
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8907
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8908
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8909
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8910
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1300
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1301
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1302
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1303
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1304
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1305
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1306
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1307
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1308
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1309
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1310
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1311
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1312
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1313
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1314
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1315
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1316
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1317
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1318
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1319
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1320
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1321
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1322
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1323
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1324
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1325
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1326
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1327
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1328
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1329
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1330
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1331
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1332
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1333
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1334
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1335
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1336
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1337
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1338
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1339
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1340
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1341
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1342
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1343
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1344
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1345
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1346
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1347
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1348
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1349
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1350
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1351
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1352
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1353
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1354
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1355
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1356
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1357
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1358
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1359
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1360
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1361
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1362
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1363
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1364
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 1365
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2300
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2301
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2302
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2303
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2304
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2305
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2306
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2307
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2308
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2309
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2310
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2311
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2312
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2313
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2314
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2315
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2316
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2317
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2318
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2319
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2320
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2321
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2322
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2323
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2324
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2325
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2326
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2327
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2328
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2329
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2330
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2331
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2332
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 2333
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8301
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8302
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8303
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8304
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8305
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8306
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8307
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8308
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8309
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8310
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8312
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8313
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8314
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8318
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8319
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8320
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8321
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8000
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8001
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8002
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8003
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8004
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8005
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8006
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8007
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8008
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8009
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8010
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8011
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8012
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5300
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5301
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5302
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5303
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5304
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5305
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5306
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5307
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5308
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5309
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5310
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5311
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5312
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5313
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5314
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5315
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5316
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5317
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5318
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5319
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5320
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5321
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5322
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5323
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5324
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5325
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5326
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5327
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5328
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5329
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5330
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5331
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5332
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5333
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 5334
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9401
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9402
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9403
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9404
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9405
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9406
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9407
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9504
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9505
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9506
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9507
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9508
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9509
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9510
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9511
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9512
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9513
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9514
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9515
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9516
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9517
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9518
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9519
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9520
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9521
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9522
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9523
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9524
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9525
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9526
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9527
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9528
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9529
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9530
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9531
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9532
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9533
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9534
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9535
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9536
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9537
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9538
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9539
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9540
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9541
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9542
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9543
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9544
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9545
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9546
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9547
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9548
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9549
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9550
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9551
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9552
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9553
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9554
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9555
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9556
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9557
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9558
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9559
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9560
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9561
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9562
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9563
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9564
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9565
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9566
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9567
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9568
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9569
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9570
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9571
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9572
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9573
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9574
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9575
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9576
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9577
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9578
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9579
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9580
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9581
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9582
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9583
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9584
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9585
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9586
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9587
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9588
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9589
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9590
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9591
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 9592
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 901
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 902
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 903
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 904
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 905
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 906
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 907
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 908
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 909
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 910
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 911
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 912
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 913
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 914
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 915
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 916
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 917
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 918
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 919
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 920
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 921
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 922
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 923
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 924
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 925
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 926
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8700
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8701
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8702
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8703
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8704
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8705
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8706
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8707
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8708
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8709
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8710
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8711
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8712
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8713
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8714
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8715
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8716
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 8717
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7000
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7001
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7002
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7003
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7004
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7005
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7006
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7007
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7008
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7010
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7011
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7013
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7040
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7041
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7042
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7043
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7044
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7045
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7046
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7200
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7201
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7202
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7203
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7204
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 7900
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 101
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 102
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 103
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 104
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 105
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 106
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 107
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 108
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 109
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 110
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 111
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 112
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 10401
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 10402
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 10403
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 10404
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 10405
+2020-05-19 16:09:23.9140 1 WARN Unknown damage type -1 for mob 10406
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10407
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10408
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10409
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10410
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10411
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10412
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10413
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10414
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10415
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10416
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10417
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10418
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10419
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10420
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10421
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10422
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10423
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10424
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10425
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10426
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10427
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10428
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10430
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10431
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10432
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10433
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10434
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10435
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10436
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10437
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10438
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10439
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10440
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10441
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10442
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10443
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10444
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10445
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10446
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10447
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10448
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10449
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10450
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10451
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10452
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10453
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10454
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10455
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10456
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10457
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10458
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10459
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10460
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10461
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10462
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10463
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10464
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10465
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10466
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10467
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10468
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10469
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10470
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 10471
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 2800
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 2801
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 2802
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 2803
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 2804
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 2805
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 2806
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 2807
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 2808
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7800
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7801
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7802
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7803
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7804
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7805
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7806
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7807
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7808
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7809
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7810
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7811
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7812
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7813
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 7814
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1601
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1602
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1603
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1604
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1605
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1606
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1607
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1608
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1609
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1610
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1612
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1613
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1614
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1615
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1616
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1617
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1702
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1704
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1706
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1707
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1708
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1710
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1711
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1712
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1714
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1715
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1716
+2020-05-19 16:09:23.9261 1 WARN Unknown damage type -1 for mob 1720
+2020-05-19 16:09:24.0361 1 WARN Destination room -1 not found for room 7745 direction South
+2020-05-19 16:09:24.0361 1 WARN Destination room -1 not found for room 7746 direction East
+2020-05-19 16:09:24.0361 1 WARN Destination room -1 not found for room 7747 direction Up
+2020-05-19 16:09:24.0361 1 WARN Destination room -1 not found for room 7748 direction West
+2020-05-19 16:09:24.0361 1 WARN Destination room -1 not found for room 7749 direction Up
+2020-05-19 16:09:24.0361 1 WARN Destination room -1 not found for room 7749 direction Down
+2020-05-19 16:09:24.0361 1 WARN Destination room -1 not found for room 7768 direction East
+2020-05-19 16:09:24.1191 1 WARN Destination room -1 not found for room 1418 direction North
+2020-05-19 16:09:24.1191 1 WARN Destination room -1 not found for room 1418 direction South
+2020-05-19 16:09:24.1191 1 WARN Destination room -1 not found for room 1418 direction West
+2020-05-19 16:09:24.1191 1 WARN Destination room -1 not found for room 1499 direction Down
+2020-05-19 16:09:24.1551 1 WARN Destination room -1 not found for room 8318 direction South
+2020-05-19 16:09:24.1611 1 WARN Destination room -1 not found for room 3518 direction East
+2020-05-19 16:09:24.1611 1 WARN Destination room -1 not found for room 3519 direction West
+2020-05-19 16:09:24.2041 1 WARN Destination room -1 not found for room 9511 direction South
+2020-05-19 16:09:24.2301 1 WARN Destination room -1 not found for room 9667 direction East
+2020-05-19 16:09:24.2301 1 WARN Destination room -1 not found for room 9667 direction West
+2020-05-19 16:09:24.2921 1 WARN Destination room -1 not found for room 7105 direction Down
+2020-05-19 16:09:24.2921 1 WARN Destination room -1 not found for room 7122 direction East
+2020-05-19 16:09:24.3051 1 WARN Destination room -1 not found for room 7301 direction North
+2020-05-19 16:09:24.3051 1 WARN Destination room -1 not found for room 7301 direction Up
+2020-05-19 16:09:24.3051 1 WARN Destination room -1 not found for room 7434 direction Down
+2020-05-19 16:09:24.3171 1 WARN Destination room -1 not found for room 7903 direction West
+2020-05-19 16:09:24.3171 1 WARN Destination room -1 not found for room 7910 direction East
+2020-05-19 16:09:24.3171 1 WARN Destination room -1 not found for room 7912 direction Down
+2020-05-19 16:09:24.5091 1 WARN Class thief doesn't have any allowed resources
+2020-05-19 16:09:24.5091 1 WARN Class warrior doesn't have any allowed resources
+2020-05-19 16:09:24.8646 1 WARN Room 1200: O: Obj 3200 not found
+2020-05-19 16:09:24.8646 1 WARN Room 606: G: Obj 607 not found
+2020-05-19 16:09:24.8646 1 WARN Room 620: O: Obj 614 not found
+2020-05-19 16:09:24.8796 1 WARN Room 647: E: Item 627 wear location Shield doesn't exist on last character
+2020-05-19 16:09:24.8796 1 WARN Room 669: E: Item 627 wear location Shield doesn't exist on last character
+2020-05-19 16:09:24.8796 1 WARN Room 698: E: Item 627 wear location Shield doesn't exist on last character
+2020-05-19 16:09:24.8796 1 WARN Room 698: E: Item 627 wear location Shield doesn't exist on last character
+2020-05-19 16:09:24.8796 1 WARN Room 698: E: Item 627 wear location Shield doesn't exist on last character
+2020-05-19 16:09:24.8796 1 WARN Room 699: E: Item 637 wear location Shield doesn't exist on last character
+2020-05-19 16:09:24.8796 1 WARN Room 699: E: Item 627 wear location Shield doesn't exist on last character
+2020-05-19 16:09:24.8796 1 WARN Room 699: E: Item 627 wear location Shield doesn't exist on last character
+2020-05-19 16:09:24.8796 1 WARN Room 699: E: Item 627 wear location Shield doesn't exist on last character
+2020-05-19 16:09:24.8796 1 WARN Room 1116: O: Obj 3200 not found
+2020-05-19 16:09:24.8796 1 WARN Room 1144: O: Obj 3200 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3003: O: Obj 3200 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3007: O: Obj 3200 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3018: O: Obj 3200 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3022: O: Obj 3200 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3028: O: Obj 3200 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3034: G: Obj 3378 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3034: G: Obj 3377 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3034: G: Obj 3376 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3034: G: Obj 3375 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3034: G: Obj 3374 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3034: G: Obj 3373 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3106: O: Obj 3200 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3142: P: Container Obj 3130 not found in room
+2020-05-19 16:09:24.8796 1 WARN Room 3142: P: Container Obj 3131 not found in room
+2020-05-19 16:09:24.8796 1 WARN Room 3150: O: Obj 3200 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3160: G: Obj 3168 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3160: G: Obj 3167 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3160: G: Obj 3166 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3160: G: Obj 3165 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3160: G: Obj 3164 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3160: G: Obj 3163 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3160: G: Obj 3162 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3352: O: Obj 3200 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3355: O: Obj 3200 not found
+2020-05-19 16:09:24.8796 1 WARN Room 3356: O: Obj 3200 not found
+2020-05-19 16:09:24.8796 1 WARN Room 316: O: Obj 304 not found
+2020-05-19 16:09:24.8796 1 WARN Room 323: O: Obj 304 not found
+2020-05-19 16:09:24.8796 1 WARN Room 323: E: Obj 308 not found
+2020-05-19 16:09:24.8796 1 WARN Room 338: O: Obj 304 not found
+2020-05-19 16:09:24.8796 1 WARN Room 6010: P: Container Obj 6005 not found in room
+2020-05-19 16:09:24.8796 1 WARN Room 6010: P: Container Obj 6003 not found in room
+2020-05-19 16:09:24.8796 1 WARN Room 6105: O: Obj 6105 not found
+2020-05-19 16:09:24.8946 1 WARN Room 7751: E: not last character
+2020-05-19 16:09:24.8946 1 WARN Room 7751: E: not last character
+2020-05-19 16:09:24.8946 1 ERROR WIZNET: FLAGS: Bugs ItemPotion.GetSpell: ability detect poison has invalid target ItemInventory for blueprint id 7722
+2020-05-19 16:09:24.8946 1 ERROR WIZNET: FLAGS: Bugs ItemPotion.GetSpell: ability detect poison has invalid target ItemInventory for blueprint id 7722
+2020-05-19 16:09:24.8946 1 WARN Room 7765: E: not last character
+2020-05-19 16:09:24.8946 1 WARN Room 7765: E: not last character
+2020-05-19 16:09:24.8946 1 WARN Room 7767: E: not last character
+2020-05-19 16:09:24.8946 1 WARN Room 7767: E: not last character
+2020-05-19 16:09:24.8946 1 WARN Room 7769: E: not last character
+2020-05-19 16:09:24.8946 1 WARN Room 7769: E: not last character
+2020-05-19 16:09:24.8946 1 WARN Room 9204: E: not last character
+2020-05-19 16:09:24.8946 1 WARN Room 9204: E: not last character
+2020-05-19 16:09:24.8946 1 WARN Room 9209: E: Obj 9212 not found
+2020-05-19 16:09:24.8946 1 WARN Room 9218: E: Item 9223 cannot be equipped
+2020-05-19 16:09:24.8946 1 WARN Room 9219: E: Item 9225 cannot be equipped
+2020-05-19 16:09:24.8946 1 WARN Room 9222: E: Item 9224 cannot be equipped
+2020-05-19 16:09:24.8946 1 WARN Room 9222: E: Item 9225 cannot be equipped
+2020-05-19 16:09:24.9106 1 WARN Room 9235: E: Item 9224 cannot be equipped
+2020-05-19 16:09:24.9106 1 WARN Room 9255: E: Item 9225 cannot be equipped
+2020-05-19 16:09:24.9106 1 WARN Room 2016: E: not last character
+2020-05-19 16:09:24.9106 1 WARN Room 2016: E: not last character
+2020-05-19 16:09:24.9106 1 WARN Room 2025: E: Item 2001 cannot be equipped
+2020-05-19 16:09:24.9106 1 WARN Room 2032: P: Container Obj 2007 not found in room
+2020-05-19 16:09:24.9106 1 WARN Room 2050: E: Item 2013 wear location Hold doesn't exist on last character
+2020-05-19 16:09:24.9276 1 WARN Room 3424: E: Item 3416 cannot be equipped
+2020-05-19 16:09:24.9276 1 WARN Room 3424: P: Container Obj 3415 not found in room
+2020-05-19 16:09:24.9276 1 WARN Room 3424: P: Container Obj 3415 not found in room
+2020-05-19 16:09:24.9276 1 WARN Room 3434: P: Container Obj 3412 not found in room
+2020-05-19 16:09:24.9276 1 WARN Room 3448: P: Container Obj 3420 not found in room
+2020-05-19 16:09:24.9276 1 WARN Room 3449: E: Item 3411 cannot be equipped
+2020-05-19 16:09:24.9276 1 WARN Room 3460: E: Item 3419 cannot be equipped
+2020-05-19 16:09:24.9276 1 WARN Room 3465: E: not last character
+2020-05-19 16:09:24.9276 1 WARN Room 3468: E: Obj 3423 not found
+2020-05-19 16:09:24.9276 1 WARN Room 6609: E: not last character
+2020-05-19 16:09:24.9276 1 WARN Room 2214: E: Item 2220 cannot be equipped
+2020-05-19 16:09:24.9416 1 WARN Room 5205: E: Obj 5230 not found
+2020-05-19 16:09:24.9416 1 WARN Room 5216: E: Obj 5233 not found
+2020-05-19 16:09:24.9416 1 WARN Room 5219: E: Obj 5231 not found
+2020-05-19 16:09:24.9416 1 WARN Room 5224: E: Obj 5243 not found
+2020-05-19 16:09:24.9416 1 WARN Room 5226: E: Obj 5235 not found
+2020-05-19 16:09:24.9416 1 WARN Room 5226: G: Obj 5239 not found
+2020-05-19 16:09:24.9416 1 WARN Room 5231: P: Container Obj 5225 not found in room
+2020-05-19 16:09:24.9416 1 WARN Room 5231: P: Container Obj 5225 not found in room
+2020-05-19 16:09:24.9416 1 WARN Room 5233: P: Container Obj 5227 not found in room
+2020-05-19 16:09:24.9416 1 WARN Room 5234: E: Obj 5232 not found
+2020-05-19 16:09:24.9416 1 WARN Room 5236: E: Obj 5237 not found
+2020-05-19 16:09:24.9416 1 WARN Room 5240: E: Obj 5241 not found
+2020-05-19 16:09:24.9416 1 WARN Room 5246: E: Item 5226 cannot be equipped
+2020-05-19 16:09:24.9416 1 WARN Room 5247: E: Item 5224 cannot be equipped
+2020-05-19 16:09:24.9416 1 WARN Room 6509: E: Obj 6511 not found
+2020-05-19 16:09:24.9416 1 WARN Room 6516: G: Obj 6511 not found
+2020-05-19 16:09:24.9416 1 WARN Room 6523: E: Item 6514 cannot be equipped
+2020-05-19 16:09:24.9416 1 WARN Room 6524: G: Obj 6520 not found
+2020-05-19 16:09:24.9416 1 WARN Room 6545: O: Obj 6517 not found
+2020-05-19 16:09:24.9576 1 WARN Room 5060: P: Container Obj 5007 not found in room
+2020-05-19 16:09:24.9576 1 WARN Room 5060: P: Container Obj 5007 not found in room
+2020-05-19 16:09:24.9576 1 WARN Room 5061: P: Obj 5014 not found
+2020-05-19 16:09:24.9576 1 WARN Room 5061: P: Container Obj 5010 not found in room
+2020-05-19 16:09:24.9576 1 WARN Room 5070: P: Container Obj 5023 not found in room
+2020-05-19 16:09:24.9576 1 WARN Room 5070: P: Obj 5026 not found
+2020-05-19 16:09:24.9576 1 WARN Room 5070: P: Obj 5027 not found
+2020-05-19 16:09:24.9576 1 WARN Room 5070: P: Obj 5028 not found
+2020-05-19 16:09:24.9576 1 WARN Room 5070: P: Obj 5029 not found
+2020-05-19 16:09:24.9576 1 WARN Room 5070: P: Obj 5030 not found
+2020-05-19 16:09:24.9576 1 WARN Room 5070: P: Obj 5031 not found
+2020-05-19 16:09:24.9576 1 WARN Room 5070: P: Container Obj 5023 not found in room
+2020-05-19 16:09:24.9576 1 WARN Room 9330: E: Obj 9328 not found
+2020-05-19 16:09:24.9576 1 WARN Room 9367: E: Item 9321 cannot be equipped
+2020-05-19 16:09:24.9576 1 WARN Room 1513: P: Container Obj 1511 not found in room
+2020-05-19 16:09:24.9576 1 WARN Room 1514: P: Container Obj 1511 not found in room
+2020-05-19 16:09:24.9576 1 WARN Room 1515: E: Item 1514 cannot be equipped
+2020-05-19 16:09:24.9736 1 WARN Room 8915: P: Container Obj 8902 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 8915: P: Container Obj 8902 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 8915: O: Obj 8905 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1320: P: Container Obj 1301 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1320: P: Container Obj 1302 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1320: P: Container Obj 1302 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1327: E: Obj 1356 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1328: E: Item 1323 cannot be equipped
+2020-05-19 16:09:24.9736 1 WARN Room 1333: O: Obj 1307 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1333: O: Obj 1307 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1382: P: Container Obj 1315 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1382: P: Container Obj 1315 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1382: P: Container Obj 1315 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1382: E: Item 1316 cannot be equipped
+2020-05-19 16:09:24.9736 1 WARN Room 1388: P: Container Obj 1364 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1388: P: Container Obj 1364 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1388: P: Container Obj 1364 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1388: P: Container Obj 1364 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1388: P: Container Obj 1364 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1402: E: Item 1325 cannot be equipped
+2020-05-19 16:09:24.9736 1 WARN Room 1402: P: Container Obj 1374 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1403: P: Container Obj 1321 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1403: P: Container Obj 1321 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1403: P: Container Obj 1322 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1403: P: Container Obj 1322 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1403: P: Container Obj 1322 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1417: P: Container Obj 1377 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1425: E: Obj 1379 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1435: P: Obj 1332 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1435: P: Obj 1333 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1445: P: Obj 1335 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1454: E: Obj 1383 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1454: E: Obj 1386 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1464: E: Obj 1389 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1464: E: Obj 1386 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1469: E: Obj 1393 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1469: E: Obj 1386 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1477: E: Obj 1399 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1480: P: Container Obj 1336 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1481: P: Container Obj 1338 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1482: O: Obj 1341 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1482: O: Obj 1342 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1482: O: Obj 1343 not found
+2020-05-19 16:09:24.9736 1 WARN Room 1482: P: Container Obj 1345 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1499: P: Container Obj 1402 not found in room
+2020-05-19 16:09:24.9736 1 WARN Room 1499: P: Container Obj 1402 not found in room
+2020-05-19 16:09:24.9886 1 WARN Room 2131: E: Obj 2116 not found
+2020-05-19 16:09:24.9886 1 WARN Room 2133: E: Obj 2116 not found
+2020-05-19 16:09:24.9886 1 WARN Room 2136: E: Obj 2116 not found
+2020-05-19 16:09:24.9886 1 WARN Room 2138: E: Obj 2116 not found
+2020-05-19 16:09:24.9886 1 WARN Room 2139: E: Obj 2116 not found
+2020-05-19 16:09:25.0046 1 WARN Room 2374: E: Item 2314 wear location Wield2H doesn't exist on last character
+2020-05-19 16:09:25.0456 1 WARN Room 2387: P: Container Obj 2382 not found in room
+2020-05-19 16:09:25.0456 1 WARN Room 2387: P: Container Obj 2382 not found in room
+2020-05-19 16:09:25.0456 1 WARN Room 2387: P: Container Obj 2382 not found in room
+2020-05-19 16:09:25.0456 1 WARN Room 2387: P: Container Obj 2382 not found in room
+2020-05-19 16:09:25.0456 1 WARN Room 2387: P: Container Obj 2382 not found in room
+2020-05-19 16:09:25.0456 1 WARN Room 2387: P: Container Obj 2382 not found in room
+2020-05-19 16:09:25.0456 1 WARN Room 2387: P: Container Obj 2382 not found in room
+2020-05-19 16:09:25.0456 1 WARN Room 2387: P: Container Obj 2382 not found in room
+2020-05-19 16:09:25.0456 1 WARN Room 2390: E: Item 2324 wear location Amulet doesn't exist on last character
+2020-05-19 16:09:25.0456 1 WARN Room 2391: E: Obj 2315 not found
+2020-05-19 16:09:25.0456 1 WARN Room 2399: E: Obj 2332 not found
+2020-05-19 16:09:25.0456 1 WARN Room 2399: E: Item 2334 wear location Wield2H doesn't exist on last character
+2020-05-19 16:09:25.0516 1 ERROR WIZNET: FLAGS: Bugs ItemWand.GetSpell: unknown ability high explosive for blueprint id 8003
+2020-05-19 16:09:25.0516 1 ERROR WIZNET: FLAGS: Bugs ItemWand.GetSpell: unknown ability high explosive for blueprint id 8003
+2020-05-19 16:09:25.0516 1 ERROR WIZNET: FLAGS: Bugs ItemWand.GetSpell: unknown ability general purpose for blueprint id 8000
+2020-05-19 16:09:25.0516 1 WARN Room 8028: P: Container Obj 8004 not found in room
+2020-05-19 16:09:25.0666 1 WARN Room 5319: E: Obj 5239 not found
+2020-05-19 16:09:25.0666 1 WARN Room 5331: E: Item 5224 cannot be equipped
+2020-05-19 16:09:25.0666 1 WARN Room 5331: P: Container Obj 5307 not found in room
+2020-05-19 16:09:25.0666 1 WARN Room 5331: P: Container Obj 5307 not found in room
+2020-05-19 16:09:25.0666 1 WARN Room 5331: P: Obj 5231 not found
+2020-05-19 16:09:25.0666 1 WARN Room 5333: P: Container Obj 5308 not found in room
+2020-05-19 16:09:25.0666 1 WARN Room 5333: P: Container Obj 5308 not found in room
+2020-05-19 16:09:25.0666 1 WARN Room 5333: P: Obj 5230 not found
+2020-05-19 16:09:25.0666 1 WARN Room 5336: E: Item 5226 cannot be equipped
+2020-05-19 16:09:25.0666 1 WARN Room 5346: E: Obj 5233 not found
+2020-05-19 16:09:25.0666 1 WARN Room 5347: E: Obj 5232 not found
+2020-05-19 16:09:25.0666 1 WARN Room 5348: E: Obj 5235 not found
+2020-05-19 16:09:25.0666 1 WARN Room 5350: E: Obj 5243 not found
+2020-05-19 16:09:25.0666 1 WARN Room 5354: E: Obj 5237 not found
+2020-05-19 16:09:25.0826 1 WARN Room 4013: E: not last character
+2020-05-19 16:09:25.0826 1 WARN Room 4021: E: not last character
+2020-05-19 16:09:25.0826 1 WARN Room 4027: E: not last character
+2020-05-19 16:09:25.0826 1 WARN Room 4027: E: not last character
+2020-05-19 16:09:25.0826 1 WARN Room 4030: G: Obj 4001 not found
+2020-05-19 16:09:25.0826 1 WARN Room 4030: P: Container Obj 4001 not found
+2020-05-19 16:09:25.0826 1 WARN Room 4030: G: Obj 4154 not found
+2020-05-19 16:09:25.0826 1 WARN Room 4114: G: Obj 4155 not found
+2020-05-19 16:09:25.0826 1 WARN Room 9502: O: Obj 3200 not found
+2020-05-19 16:09:25.0986 1 WARN Room 9614: G: Obj 9555 not found
+2020-05-19 16:09:25.0986 1 WARN Room 9614: G: Obj 9554 not found
+2020-05-19 16:09:25.0986 1 WARN Room 9614: G: Obj 9553 not found
+2020-05-19 16:09:25.0986 1 WARN Room 9614: G: Obj 9552 not found
+2020-05-19 16:09:25.0986 1 WARN Room 9614: G: Obj 9551 not found
+2020-05-19 16:09:25.0986 1 WARN Room 9614: G: Obj 9550 not found
+2020-05-19 16:09:25.0986 1 WARN Room 9614: G: Obj 9549 not found
+2020-05-19 16:09:25.0986 1 WARN Room 9614: G: Obj 9548 not found
+2020-05-19 16:09:25.0986 1 WARN Room 9614: G: Obj 9547 not found
+2020-05-19 16:09:25.0986 1 WARN Room 9614: G: Obj 9546 not found
+2020-05-19 16:09:25.1136 1 WARN Room 9638: O: Obj 3200 not found
+2020-05-19 16:09:25.1296 1 WARN Room 5555: G: Obj 304 not found
+2020-05-19 16:09:25.1296 1 WARN Room 920: G: Obj 928 not found
+2020-05-19 16:09:25.1296 1 WARN Room 925: E: Obj 915 not found
+2020-05-19 16:09:25.1296 1 WARN Room 925: E: Obj 915 not found
+2020-05-19 16:09:25.1296 1 WARN Room 926: E: Obj 916 not found
+2020-05-19 16:09:25.1296 1 WARN Room 926: E: Obj 916 not found
+2020-05-19 16:09:25.1456 1 WARN Room 8719: O: Obj 8723 not found
+2020-05-19 16:09:25.1456 1 WARN Room 8732: G: Obj 8720 not found
+2020-05-19 16:09:25.1456 1 WARN Room 8745: E: not last character
+2020-05-19 16:09:25.1456 1 WARN Room 8745: G: not last character
+2020-05-19 16:09:25.1456 1 WARN Room 8745: P: Obj 8711 not found
+2020-05-19 16:09:25.1456 1 WARN Room 8745: P: Container Obj 8710 not found in room
+2020-05-19 16:09:25.1606 1 WARN Room 7233: E: not last character
+2020-05-19 16:09:25.1606 1 WARN Room 7233: E: not last character
+2020-05-19 16:09:25.1606 1 WARN Room 7428: E: Item 7303 wear location Hold doesn't exist on last character
+2020-05-19 16:09:25.1606 1 WARN Room 7900: E: Item 7221 wear location Shield doesn't exist on last character
+2020-05-19 16:09:25.1606 1 WARN Room 7910: P: Container Obj 7910 not found in room
+2020-05-19 16:09:25.1606 1 WARN Room 7910: P: Container Obj 7910 not found in room
+2020-05-19 16:09:25.1606 1 WARN Room 3716: E: Item 3705 wear location Amulet doesn't exist on last character
+2020-05-19 16:09:25.1606 1 WARN Room 3720: E: Item 3714 cannot be equipped
+2020-05-19 16:09:25.1766 1 WARN Room 119: E: Obj 101 not found
+2020-05-19 16:09:25.1766 1 ERROR WIZNET: FLAGS: Bugs ItemStaff.GetSpell: unknown ability general purpose for blueprint id 10412
+2020-05-19 16:09:25.1766 1 ERROR WIZNET: FLAGS: Bugs ItemStaff.GetSpell: unknown ability general purpose for blueprint id 10412
+2020-05-19 16:09:25.1766 1 ERROR WIZNET: FLAGS: Bugs ItemStaff.GetSpell: unknown ability general purpose for blueprint id 10412
+2020-05-19 16:09:25.1766 1 WARN Room 10494: E: Obj 10424 not found
+2020-05-19 16:09:25.1916 1 ERROR WIZNET: FLAGS: Bugs ItemPotion.GetSpell: ability create spring has invalid target None for blueprint id 10418
+2020-05-19 16:09:25.1916 1 ERROR WIZNET: FLAGS: Bugs ItemPotion.GetSpell: ability faerie fog has invalid target None for blueprint id 10418
+2020-05-19 16:09:25.1916 1 WARN Room 2804: P: Container Obj 2800 not found in room
+2020-05-19 16:09:25.1916 1 WARN Room 2805: P: Container Obj 2801 not found in room
+2020-05-19 16:09:25.2076 1 WARN Room 7853: E: not last character
+2020-05-19 16:09:25.2076 1 WARN Room 7853: E: not last character
+2020-05-19 16:09:25.2076 1 WARN Room 7853: E: not last character
+2020-05-19 16:09:25.2076 1 WARN Room 7853: E: not last character
+2020-05-19 16:09:25.2366 1 WARN Room 1645: P: Container Obj 1651 not found in room
+2020-05-19 16:09:25.2386 1 WARN Room 1650: E: Obj 1616 not found

@@ -1,8 +1,11 @@
 NEXT:
+Rom importer
 
 TODO:
+Reset 'R'
+quest: add quest item on the fly when player takes the quest
 admin command to switch an avatar from/to immortal/mortal
-item: trash, clothing, map
+item: trash, clothing, map, gem //---, jukebox, protect, room_key
 master/pet/follower/group
 Monitor Recompute calls
 Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
@@ -21,6 +24,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+AreaBlueprint: flags, and other fields
+Reset 'D'
 Admin command Resets
 Mystery resets fixed, set global limit to -1 and local limit to 1
 Add aliases to PlayableCharacter

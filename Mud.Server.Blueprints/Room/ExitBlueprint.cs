@@ -7,6 +7,9 @@ namespace Mud.Server.Blueprints.Room
     public class ExitBlueprint
     {
         [DataMember]
+        public ExitDirections Direction { get; set; }
+
+        [DataMember]
         public string Description { get; set; }
         
         [DataMember]

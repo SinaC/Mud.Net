@@ -5,7 +5,7 @@ using Mud.Logger;
 namespace Mud.Importer
 {
     // TODO: Importer.Smaug, Importer.Rom, Importer.Merc, Importer.Classic, Importer.Circle Importer.DSA, Importer.OldMerc (see db.C)
-    public abstract class TextBasedImporter
+    public abstract class TextBasedLoader
     {
         private int _currentLine;
         private int _currentIndex;

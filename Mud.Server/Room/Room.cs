@@ -113,7 +113,7 @@ namespace Mud.Server.Room
 
         public RoomBlueprint Blueprint { get; private set; }
 
-        public IReadOnlyDictionary<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
+        public ILookup<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
 
         public RoomFlags BaseRoomFlags { get; protected set; }
         public RoomFlags RoomFlags { get; protected set; }
@@ -241,159 +241,201 @@ namespace Mud.Server.Room
                 switch (reset)
                 {
                     case CharacterReset characterReset: // 'M'
+                    {
+                        CharacterBlueprintBase blueprint = World.GetCharacterBlueprint(characterReset.CharacterId);
+                        if (blueprint != null)
                         {
-                            CharacterBlueprintBase blueprint = World.GetCharacterBlueprint(characterReset.CharacterId);
-                            if (blueprint != null)
+                            int globalCount = characterReset.LocalLimit == -1 ? int.MinValue : World.NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
+                            if (globalCount < characterReset.GlobalLimit)
                             {
-                                int globalCount = characterReset.LocalLimit == -1 ? int.MinValue : World.NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
-                                if (globalCount < characterReset.GlobalLimit)
+                                int localCount = characterReset.LocalLimit == -1 ? int.MinValue : NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
+                                if (localCount >= characterReset.LocalLimit)
+                                    isLastCharacter = false;
+                                if (localCount < characterReset.LocalLimit)
                                 {
-                                    int localCount = characterReset.LocalLimit == -1 ? int.MinValue : NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
-                                    if (localCount >= characterReset.LocalLimit)
-                                        isLastCharacter = false;
-                                    if (localCount < characterReset.LocalLimit)
-                                    {
-                                        lastCharacter = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, this);
-                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: M: Mob {characterReset.CharacterId} added");
-                                        isLastCharacter = true;
-                                    }
+                                    lastCharacter = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, this);
+                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: M: Mob {characterReset.CharacterId} added");
+                                    isLastCharacter = true;
                                 }
                             }
-                            else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: M: Mob {characterReset.CharacterId} not found");
-                            break;
                         }
+                        else
+                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: M: Mob {characterReset.CharacterId} not found");
+
+                        break;
+                    }
+
                     case ItemInRoomReset itemInRoomReset: // 'O'
+                    {
+                        ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInRoomReset.ItemId);
+                        if (blueprint != null)
                         {
-                            ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInRoomReset.ItemId);
-                            if (blueprint != null)
+                            // Global limit is not used in stock rom2.4
+                            //int globalCount = itemInRoomReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
+                            //if (globalCount < itemInRoomReset.GlobalLimit)
                             {
-                                // Global limit is not used in stock rom2.4
-                                //int globalCount = itemInRoomReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
-                                //if (globalCount < itemInRoomReset.GlobalLimit)
+                                int localCount = itemInRoomReset.LocalLimit == -1 ? int.MinValue : Content.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
+                                if (localCount < itemInRoomReset.LocalLimit)
                                 {
-                                    int localCount = itemInRoomReset.LocalLimit == -1 ? int.MinValue : Content.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
-                                    if (localCount < itemInRoomReset.LocalLimit)
-                                    {
-                                        IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, this);
-                                        if (item != null)
-                                            Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: O: Obj {itemInRoomReset.ItemId} added room");
-                                        else
-                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: O: Obj {itemInRoomReset.ItemId} not created");
-                                    }
+                                    IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, this);
+                                    if (item != null)
+                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: O: Obj {itemInRoomReset.ItemId} added room");
+                                    else
+                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: O: Obj {itemInRoomReset.ItemId} not created");
                                 }
                             }
-                            else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: O: Obj {itemInRoomReset.ItemId} not found");
-                            break;
                         }
+                        else
+                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: O: Obj {itemInRoomReset.ItemId} not found");
+
+                        break;
+                    }
+
                     case ItemInItemReset itemInItemReset: // 'P'
+                    {
+                        ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInItemReset.ItemId);
+                        if (blueprint != null)
                         {
-                            ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInItemReset.ItemId);
-                            if (blueprint != null)
+                            // Global limit is not used in stock rom2.4
+                            //int globalCount = itemInItemReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
+                            //if (globalCount < itemInItemReset.GlobalLimit)
                             {
-                                // Global limit is not used in stock rom2.4
-                                //int globalCount = itemInItemReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
-                                //if (globalCount < itemInItemReset.GlobalLimit)
+                                ItemBlueprintBase containerBlueprint = World.GetItemBlueprint(itemInItemReset.ContainerId);
+                                if (containerBlueprint != null)
                                 {
-                                    ItemBlueprintBase containerBlueprint = World.GetItemBlueprint(itemInItemReset.ContainerId);
-                                    if (containerBlueprint != null)
+                                    if (containerBlueprint is ItemContainerBlueprint)
                                     {
-                                        if (containerBlueprint is ItemContainerBlueprint)
+                                        IItemContainer container = Content.OfType<IItemContainer>().LastOrDefault(x => x.Blueprint.Id == containerBlueprint.Id); // search container in room in stock rom 2.4 it was search in the world)
+                                        if (container != null)
                                         {
-                                            IItemContainer container = Content.OfType<IItemContainer>().LastOrDefault(x => x.Blueprint.Id == containerBlueprint.Id); // search container in room in stock rom 2.4 it was search in the world)
-                                            if (container != null)
+                                            int localLimit = itemInItemReset.LocalLimit == -1 ? int.MinValue : container.Content.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
+                                            if (localLimit < itemInItemReset.LocalLimit)
                                             {
-                                                int localLimit = itemInItemReset.LocalLimit == -1 ? int.MinValue : container.Content.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
-                                                if (localLimit < itemInItemReset.LocalLimit)
-                                                {
-                                                    World.AddItem(Guid.NewGuid(), blueprint.Id, container);
-                                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: P: Obj {itemInItemReset.ItemId} added in {container.Blueprint.Id}");
-                                                }
+                                                World.AddItem(Guid.NewGuid(), blueprint.Id, container);
+                                                Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: P: Obj {itemInItemReset.ItemId} added in {container.Blueprint.Id}");
                                             }
-                                            else
-                                                Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: P: Container Obj {itemInItemReset.ContainerId} not found in room");
                                         }
                                         else
-                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: P: Container Obj {itemInItemReset.ContainerId} is not a container");
+                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: P: Container Obj {itemInItemReset.ContainerId} not found in room");
                                     }
                                     else
-                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: P: Container Obj {itemInItemReset.ContainerId} not found");
-                                }
-                            }
-                            else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: P: Obj {itemInItemReset.ItemId} not found");
-                            break;
-                        }
-                    case ItemInCharacterReset itemInCharacterReset: // 'G'
-                        {
-                            ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInCharacterReset.ItemId);
-                            if (blueprint != null)
-                            {
-                                if (isLastCharacter)
-                                {
-                                    int globalCount = itemInCharacterReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInCharacterReset.ItemId);
-                                    if (globalCount < itemInCharacterReset.GlobalLimit)
-                                    {
-                                        if (lastCharacter != null)
-                                        {
-                                            World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
-                                            Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} added on {lastCharacter.Blueprint.Id}");
-                                        }
-                                        else
-                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: G: No last character");
-                                    }
+                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: P: Container Obj {itemInItemReset.ContainerId} is not a container");
                                 }
                                 else
-                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: G: not last character");
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: P: Container Obj {itemInItemReset.ContainerId} not found");
+                            }
+                        }
+                        else
+                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: P: Obj {itemInItemReset.ItemId} not found");
+
+                        break;
+                    }
+
+                    case ItemInCharacterReset itemInCharacterReset: // 'G'
+                    {
+                        ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInCharacterReset.ItemId);
+                        if (blueprint != null)
+                        {
+                            if (isLastCharacter)
+                            {
+                                int globalCount = itemInCharacterReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInCharacterReset.ItemId);
+                                if (globalCount < itemInCharacterReset.GlobalLimit)
+                                {
+                                    if (lastCharacter != null)
+                                    {
+                                        World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
+                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} added on {lastCharacter.Blueprint.Id}");
+                                    }
+                                    else
+                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: G: No last character");
+                                }
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} not found");
-                            break;
+                                Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: G: not last character");
                         }
+                        else
+                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} not found");
+
+                        break;
+                    }
+
                     case ItemInEquipmentReset itemInEquipmentReset: // 'E'
+                    {
+                        ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInEquipmentReset.ItemId);
+                        if (blueprint != null)
                         {
-                            ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInEquipmentReset.ItemId);
-                            if (blueprint != null)
+                            if (isLastCharacter)
                             {
-                                if (isLastCharacter)
+                                int globalCount = itemInEquipmentReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInEquipmentReset.ItemId);
+                                if (globalCount < itemInEquipmentReset.GlobalLimit)
                                 {
-                                    int globalCount = itemInEquipmentReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInEquipmentReset.ItemId);
-                                    if (globalCount < itemInEquipmentReset.GlobalLimit)
+                                    if (lastCharacter != null)
                                     {
-                                        if (lastCharacter != null)
+                                        IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
+                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} added on {lastCharacter.Blueprint.Id}");
+                                        // try to equip
+                                        if (item.WearLocation != WearLocations.None)
                                         {
-                                            IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
-                                            Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} added on {lastCharacter.Blueprint.Id}");
-                                            // try to equip
-                                            if (item.WearLocation != WearLocations.None)
+                                            EquippedItem equippedItem = lastCharacter.SearchEquipmentSlot(item, false);
+                                            if (equippedItem != null)
                                             {
-                                                EquippedItem equippedItem = lastCharacter.SearchEquipmentSlot(item, false);
-                                                if (equippedItem != null)
-                                                {
-                                                    equippedItem.Item = item;
-                                                    item.ChangeContainer(null); // remove from inventory
-                                                    item.ChangeEquippedBy(lastCharacter, true); // set as equipped by lastCharacter
-                                                }
-                                                else
-                                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Item {itemInEquipmentReset.ItemId} wear location {item.WearLocation} doesn't exist on last character");
+                                                equippedItem.Item = item;
+                                                item.ChangeContainer(null); // remove from inventory
+                                                item.ChangeEquippedBy(lastCharacter, true); // set as equipped by lastCharacter
                                             }
                                             else
-                                                Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Item {itemInEquipmentReset.ItemId} cannot be equipped");
+                                                Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Item {itemInEquipmentReset.ItemId} wear location {item.WearLocation} doesn't exist on last character");
                                         }
                                         else
-                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Last character doesn't exist");
+                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Item {itemInEquipmentReset.ItemId} cannot be equipped");
                                     }
+                                    else
+                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Last character doesn't exist");
                                 }
-                                else
-                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: not last character");
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} not found");
-                            break;
+                                Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: not last character");
                         }
-                        // D: set state of door  (not used)
-                        // R: randomize room exits
+                        else
+                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} not found");
+
+                        break;
+                    }
+
+                    case DoorReset doorReset: // 'D'
+                    {
+                        IExit exit = Exits[(int) doorReset.ExitDirection];
+                        if (exit != null)
+                        {
+                            switch (doorReset.Operation)
+                            {
+                                case 0:
+                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: D: Open/Unlock {doorReset.ExitDirection}");
+                                    exit.Open();
+                                    exit.Unlock();
+                                    break;
+                                case 1:
+                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: D: Close/Unlock {doorReset.ExitDirection}");
+                                        exit.Close();
+                                    exit.Unlock();
+                                    break;
+                                case 2:
+                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: D: Close/Lock {doorReset.ExitDirection}");
+                                        exit.Close();
+                                    exit.Lock();
+                                    break;
+                                default:
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: D: Invalid operation {doorReset.Operation} for exit {doorReset.ExitDirection}");
+                                    break;
+                            }
+                        }
+                        else
+                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: D: Invalid exit {doorReset.ExitDirection}");
+
+                        break;
+                    }
+
+                    // TODO: R: randomize room exits
                 }
             }
         }

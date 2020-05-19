@@ -11,6 +11,7 @@ using Mud.Network;
 using Mud.Network.Telnet;
 using Mud.POC;
 using Mud.POC.TestLua;
+using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
@@ -253,7 +254,7 @@ namespace Mud.Server.TestApplication
             foreach (AreaData importedArea in importer.Areas)
             {
                 // TODO: levels
-                IArea area = DependencyContainer.Current.GetInstance<IWorld>().AddArea(Guid.NewGuid(), importedArea.Name, 1, 99, importedArea.Builders, importedArea.Credits);
+                IArea area = DependencyContainer.Current.GetInstance<IWorld>().AddArea(Guid.NewGuid(), new AreaBlueprint { Name = importedArea.Name, Builders = importedArea.Builders, Credits = importedArea.Credits});
                 areasByVnums.Add(importedArea.VNum, area);
             }
 
@@ -521,7 +522,7 @@ namespace Mud.Server.TestApplication
         private static void TestCommandParsing()
         {
             // server doesn't need to be started, we are not testing real runtime but basic commands
-            IArea area = DependencyContainer.Current.GetInstance<IWorld>().AddArea(Guid.NewGuid(), "testarea", 1, 99, "SinaC", "Credits");
+            IArea area = DependencyContainer.Current.GetInstance<IWorld>().AddArea(Guid.NewGuid(), new AreaBlueprint{Name = "testarea", Builders = "SinaC", Credits = "Credits"});
             // Blueprints
             RoomBlueprint room1Blueprint = new RoomBlueprint
             {

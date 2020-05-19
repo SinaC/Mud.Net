@@ -1,746 +1,1490 @@
-﻿// TODO: exit flags are incorrect (door is missing)
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Blueprints.Area;
+using Mud.Server.Blueprints.Character;
+using Mud.Server.Blueprints.Item;
+using Mud.Server.Blueprints.Reset;
+using Mud.Server.Blueprints.Room;
+// ReSharper disable InconsistentNaming
 
 namespace Mud.Importer.Rom
 {
-    public class RomImporter : TextBasedImporter
+    public class RomImporter
     {
-        public const int A = 1 << 0;   //0x00000001;
-        public const int B = 1 << 1;   //0x00000002;
-        public const int C = 1 << 2;   //0x00000004;
-        public const int D = 1 << 3;   //0x00000008;
-        public const int E = 1 << 4;   //0x00000010;
-        public const int F = 1 << 5;   //0x00000020;
-        public const int G = 1 << 6;   //0x00000040;
-        public const int H = 1 << 7;   //0x00000080;
-        public const int I = 1 << 8;   //0x00000100;
-        public const int J = 1 << 9;   //0x00000200;
-        public const int K = 1 << 10;  //0x00000400;
-        public const int L = 1 << 11;  //0x00000800;
-        public const int M = 1 << 12;  //0x00001000;
-        public const int N = 1 << 13;  //0x00002000;
-        public const int O = 1 << 14;  //0x00004000;
-        public const int P = 1 << 15;  //0x00008000;
-        public const int Q = 1 << 16;  //0x00010000;
-        public const int R = 1 << 17;  //0x00020000;
-        public const int S = 1 << 18;  //0x00040000;
-        public const int T = 1 << 19;  //0x00080000;
-        public const int U = 1 << 20;  //0x00100000;
-        public const int V = 1 << 21;  //0x00200000;
-        public const int W = 1 << 22;  //0x00400000;
-        public const int X = 1 << 23;  //0x00800000;
-        public const int Y = 1 << 24;  //0x01000000;
-        public const int Z = 1 << 25;  //0x02000000;
-        public const int aa = 1 << 26; //0x04000000;
-        public const int bb = 1 << 27; //0x8000000;
-        public const int cc = 1 << 28; //0x10000000;
-        public const int dd = 1 << 29; //0x20000000;
-        public const int ee = 1 << 30; //0x40000000;
+        private readonly List<AreaBlueprint> _areaBlueprints = new List<AreaBlueprint>();
+        private readonly List<RoomBlueprint> _roomBlueprints = new List<RoomBlueprint>();
+        private readonly List<ItemBlueprintBase> _itemBlueprints = new List<ItemBlueprintBase>();
+        private readonly List<CharacterBlueprintBase> _characterBlueprints = new List<CharacterBlueprintBase>();
 
-        private const string AreaDataHeader = "AREADATA";
-        private const string MobilesHeader = "MOBILES";
-        private const string ObjectsHeader = "OBJECTS";
-        private const string ResetsHeader = "RESETS";
-        private const string RoomsHeader = "ROOMS";
-        private const string ShopsHeader = "SHOPS";
-        private const string SpecialsHeader = "SPECIALS";
+        public IReadOnlyCollection<AreaBlueprint> Areas => _areaBlueprints.AsReadOnly();
+        public IReadOnlyCollection<RoomBlueprint> Rooms => _roomBlueprints.AsReadOnly();
+        public IReadOnlyCollection<ItemBlueprintBase> Items => _itemBlueprints.AsReadOnly();
+        public IReadOnlyCollection<CharacterBlueprintBase> Characters => _characterBlueprints.AsReadOnly();
 
-        private readonly List<AreaData> _areas;
-        private readonly List<MobileData> _mobiles;
-        private readonly List<ObjectData> _objects;
-        private readonly List<RoomData> _rooms;
-
-
-        private int _lastAreaVnum;
-
-        public IReadOnlyCollection<AreaData> Areas => _areas.AsReadOnly();
-
-        public IReadOnlyCollection<MobileData> Mobiles => _mobiles.AsReadOnly();
-
-        public IReadOnlyCollection<ObjectData> Objects => _objects.AsReadOnly();
-
-        public IReadOnlyCollection<RoomData> Rooms => _rooms.AsReadOnly();
-
-        public RomImporter()
+        public void ImportByList(string path, string areaLst)
         {
-            _areas = new List<AreaData>();
-            _mobiles = new List<MobileData>();
-            _objects = new List<ObjectData>();
-            _rooms = new List<RoomData>();
+            RomLoader loader = new RomLoader();
+            string[] areaFilenames = File.ReadAllLines(Path.Combine(path, areaLst));
+            foreach (string areaFilename in areaFilenames)
+            {
+                if (areaFilename.Contains("$"))
+                    break;
+                string areaFullName = Path.Combine(path, areaFilename);
+                loader.Load(areaFullName);
+                loader.Parse();
+            }
+
+            Convert(loader);
         }
 
-        public override void Parse()
+        public void Import(string path, params string[] filenames)
         {
-            while (true)
+            RomLoader loader = new RomLoader();
+            foreach (string filename in filenames)
             {
-                char letter = ReadLetter();
-                if (letter != '#')
-                    RaiseParseException("Parse: # not found");
+                string fullName = Path.Combine(path, filename);
+                loader.Load(fullName);
+                loader.Parse();
+            }
 
-                string word = ReadWord();
+            Convert(loader);
+        }
 
-                if (word[0] == '$')
-                    break; // done
-                if (word == AreaDataHeader)
-                    ParseArea();
-                else if (word == MobilesHeader)
-                    ParseMobiles();
-                else if (word == ObjectsHeader)
-                    ParseObjects();
-                else if (word == ResetsHeader)
-                    ParseResets();
-                else if (word == RoomsHeader)
-                    ParseRooms();
-                else if (word == ShopsHeader)
-                    ParseShops();
-                else if (word == SpecialsHeader)
-                    ParseSpecials();
-                else if (word.ToUpper() == "STYLE")
+        public void Import(string path, IEnumerable<string> filenames)
+        {
+            RomLoader loader = new RomLoader();
+            foreach (string filename in filenames)
+            {
+                string fullName = Path.Combine(path, filename);
+                loader.Load(fullName);
+                loader.Parse();
+            }
+
+            Convert(loader);
+        }
+
+        private void Convert(RomLoader loader)
+        {
+            foreach (var areaData in loader.Areas)
+            {
+                AreaBlueprint areaBlueprint = ConvertArea(areaData);
+                if (areaBlueprint != null)
+                    _areaBlueprints.Add(areaBlueprint);
+            }
+
+            foreach (var roomData in loader.Rooms)
+            {
+                RoomBlueprint roomBlueprint = ConvertRoom(roomData);
+                if (roomBlueprint != null)
+                    _roomBlueprints.Add(roomBlueprint);
+            }
+
+            foreach (var objectData in loader.Objects)
+            {
+                ItemBlueprintBase itemBlueprint = ConvertObject(objectData);
+                if (itemBlueprint != null)
+                    _itemBlueprints.Add(itemBlueprint);
+            }
+
+            foreach (var mobileData in loader.Mobiles)
+            {
+                CharacterBlueprintBase characterBlueprint = ConvertMobile(mobileData);
+                if (characterBlueprint != null)
+                    _characterBlueprints.Add(characterBlueprint);
+            }
+        }
+
+        #region Area
+
+        private AreaBlueprint ConvertArea(AreaData areaData)
+        {
+            if (_areaBlueprints.Any(x => x.Id == areaData.VNum))
+                RaiseConvertException("Duplicate area Id {0}", areaData.VNum);
+            return new AreaBlueprint
+            {
+                Id = areaData.VNum,
+                Filename = areaData.FileName,
+                Name = areaData.Name,
+                Credits = areaData.Credits,
+                MinId = areaData.MinVNum,
+                MaxId = areaData.MaxVNum,
+                Builders = areaData.Builders,
+                Flags = ConvertAreaFlags(areaData.Flags),
+                Security = areaData.Security
+            };
+        }
+
+        private AreaFlags ConvertAreaFlags(long input)
+        {
+            AreaFlags flags = AreaFlags.None;
+            if (IsSet(input, AREA_CHANGED)) flags |= AreaFlags.Changed;
+            if (IsSet(input, AREA_ADDED)) flags |= AreaFlags.Added;
+            if (IsSet(input, AREA_LOADING)) flags |= AreaFlags.Loading;
+            return flags;
+        }
+
+        // Area flags
+        private const long AREA_NONE = 0;
+        private const long AREA_CHANGED = 1;
+        private const long AREA_ADDED = 2;
+        private const long AREA_LOADING = 4;
+
+        #endregion
+
+        #region Room
+
+        private RoomBlueprint ConvertRoom(RoomData roomData)
+        {
+            if (_roomBlueprints.Any(x => x.Id == roomData.VNum))
+                RaiseConvertException("Duplicate room Id {0}", roomData.VNum);
+            return new RoomBlueprint
+            {
+                Id = roomData.VNum,
+                AreaId = roomData.AreaVnum,
+                Name = roomData.Name,
+                Description = roomData.Description,
+                ExtraDescriptions = RoomBlueprint.BuildExtraDescriptions(roomData.ExtraDescr),
+                RoomFlags = ConvertRoomFlags(roomData.Flags),
+                SectorType = ConvertSectorTypes(roomData.Sector),
+                HealRate = roomData.HealRate,
+                ResourceRate = roomData.ManaRate,
+                Exits = ConvertExits(roomData),
+                Resets = ConvertResets(roomData).ToList(),
+                MaxSize = null, // doesn't exist in Rom2.4b6
+            };
+        }
+
+        private ExitBlueprint[] ConvertExits(RoomData roomData)
+        {
+            ExitBlueprint[] blueprints = new ExitBlueprint[RoomData.MaxExits];
+            for (int i = 0; i < RoomData.MaxExits; i++)
+            {
+                ExitData exit = roomData.Exits[i];
+                if (exit != null)
                 {
-                    Log.Default.WriteLine(LogLevels.Warning, "Specific area file Style not yet available");
-                    return;
+                    blueprints[i] = new ExitBlueprint
+                    {
+                        Direction = (ExitDirections)i,
+                        Destination = exit.DestinationVNum,
+                        Description = exit.Description,
+                        Key = exit.Key,
+                        Keyword = exit.Keyword,
+                        Flags = ConvertExitFlags(exit.ExitInfo)
+                    };
                 }
                 else
-                    RaiseParseException("Bad section name: {0}", word);
+                    blueprints[i] = null;
+            }
+
+            return blueprints;
+        }
+
+        private SectorTypes ConvertSectorTypes(int sector)
+        {
+            switch (sector)
+            {
+                case SECT_INSIDE: return SectorTypes.Inside;
+                case SECT_CITY: return SectorTypes.City;
+                case SECT_FIELD: return SectorTypes.Field;
+                case SECT_FOREST: return SectorTypes.Forest;
+                case SECT_HILLS: return SectorTypes.Hills;
+                case SECT_MOUNTAIN: return SectorTypes.Mountain;
+                case SECT_WATER_SWIM: return SectorTypes.WaterSwim;
+                case SECT_WATER_NOSWIM: return SectorTypes.WaterNoSwim;
+                case SECT_AIR: return SectorTypes.Air;
+                case SECT_DESERT: return SectorTypes.Desert;
+                default: return SectorTypes.Inside;
             }
         }
 
-        private void ParseArea()
+        private RoomFlags ConvertRoomFlags(long input)
         {
-            Log.Default.WriteLine(LogLevels.Trace, "Area section");
+            RoomFlags flags = RoomFlags.None;
+            if (IsSet(input, ROOM_DARK)) flags |= RoomFlags.Dark;
+            if (IsSet(input, ROOM_NO_MOB)) flags |= RoomFlags.NoMob;
+            if (IsSet(input, ROOM_INDOORS)) flags |= RoomFlags.Indoors;
+            if (IsSet(input, ROOM_PRIVATE)) flags |= RoomFlags.Private;
+            if (IsSet(input, ROOM_SAFE)) flags |= RoomFlags.Safe;
+            if (IsSet(input, ROOM_SOLITARY)) flags |= RoomFlags.Solitary;
+            //TODO: ROOM_PET_SHOP
+            if (IsSet(input, ROOM_NO_RECALL)) flags |= RoomFlags.NoRecall;
+            if (IsSet(input, ROOM_IMP_ONLY)) flags |= RoomFlags.ImpOnly;
+            if (IsSet(input, ROOM_GODS_ONLY)) flags |= RoomFlags.GodsOnly;
+            //TODO: ROOM_HEROES_ONLY
+            if (IsSet(input, ROOM_NEWBIES_ONLY)) flags |= RoomFlags.NewbiesOnly;
+            if (IsSet(input, ROOM_LAW)) flags |= RoomFlags.Law;
+            if (IsSet(input, ROOM_NOWHERE)) flags |= RoomFlags.NoWhere;
 
-            AreaData area = new AreaData();
-            while (true)
-            {
-                if (IsEof())
-                    break;
-                string word = ReadWord();
-                if (word == "Builders")
-                    area.Builders = ReadString();
-                else if (word == "Credits")
-                    area.Credits = ReadString();
-                else if (word == "Flags")
-                    area.Flags = ReadFlags();
-                else if (word == "Name")
-                    area.Name = ReadString();
-                else if (word == "Security")
-                    area.Security = (int)ReadNumber();
-                else if (word == "VNUMs")
-                {
-                    area.MinVNum = (int)ReadNumber();
-                    area.MaxVNum = (int)ReadNumber();
-                }
-                else if (word == "End") // done
-                    break;
-            }
-            Log.Default.WriteLine(LogLevels.Trace, "Area [{0}] parsed", area.Name);
-
-            // Set unique number and filename
-            area.VNum = 10+_areas.Count;
-            area.FileName = CurrentFilename;
-            // Save area
-            _areas.Add(area);
-            //
-            _lastAreaVnum = area.VNum;
+            return flags;
         }
 
-        private void ParseMobiles()
+        private ExitFlags ConvertExitFlags(long input)
         {
-            Log.Default.WriteLine(LogLevels.Trace, "Mobiles section");
-
-            while (true)
-            {
-                char letter = ReadLetter();
-                if (letter != '#')
-                    RaiseParseException("ParseMobiles: # not found");
-
-                int vnum = (int)ReadNumber();
-                if (vnum == 0)
-                    break; // parsed
-
-                if (_mobiles.Any(x => x.VNum == vnum))
-                    RaiseParseException("ParseMobiles: vnum {0} duplicated", vnum);
-
-                MobileData mobileData = new MobileData
-                {
-                    VNum = vnum,
-                    Name = ReadString(),
-                    ShortDescr = ReadString(),
-                    LongDescr = UpperCaseFirst(ReadString()),
-                    Description = UpperCaseFirst(ReadString()),
-                    Race = ReadString(),
-                    Act = ReadFlags(),
-                    AffectedBy = ReadFlags(),
-                    Alignment = (int)ReadNumber(),
-                    Group = (int)ReadNumber(),
-                    Level = (int)ReadNumber(),
-                    HitRoll = (int)ReadNumber()
-                };
-                ReadDice(mobileData.Hit);
-                ReadDice(mobileData.Mana);
-                ReadDice(mobileData.Damage);
-                mobileData.DamageType = ReadWord();
-                mobileData.Armor[0] = (int)ReadNumber() * 10;
-                mobileData.Armor[1] = (int)ReadNumber() * 10;
-                mobileData.Armor[2] = (int)ReadNumber() * 10;
-                mobileData.Armor[3] = (int)ReadNumber() * 10;
-                mobileData.OffFlags = ReadFlags();
-                mobileData.ImmFlags = ReadFlags();
-                mobileData.ResFlags = ReadFlags();
-                mobileData.VulnFlags = ReadFlags();
-                mobileData.StartPos = ReadWord();
-                mobileData.DefaultPos = ReadWord();
-                mobileData.Sex = ReadWord();
-                mobileData.Wealth = ReadNumber();
-                mobileData.Form = ReadFlags();
-                mobileData.Parts = ReadFlags();
-                mobileData.Size = ReadWord();
-                mobileData.Material = ReadWord();
-
-                while (true)
-                {
-                    letter = ReadLetter();
-
-                    if (letter == 'F')
-                    {
-                        string category = ReadWord();
-                        long vector = ReadFlags();
-                        if (category.StartsWith("act"))
-                            mobileData.Act &= ~vector;
-                        else if (category.StartsWith("aff"))
-                            mobileData.AffectedBy &= ~vector;
-                        else if (category.StartsWith("off"))
-                            mobileData.OffFlags &= ~vector;
-                        else if (category.StartsWith("imm"))
-                            mobileData.ImmFlags &= ~vector;
-                        else if (category.StartsWith("res"))
-                            mobileData.ResFlags &= ~vector;
-                        else if (category.StartsWith("vul"))
-                            mobileData.VulnFlags &= ~vector;
-                        else if (category.StartsWith("for"))
-                            mobileData.Form &= ~vector;
-                        else if (category.StartsWith("par"))
-                            mobileData.Parts &= ~vector;
-                    }
-                    else if (letter == 'D')
-                    {
-                        long dummy = ReadFlags(); // not used
-                    }
-                    else if (letter == 'M')
-                    {
-                        mobileData.ProgramTriggers.Add(ReadString());
-                    }
-                    else if (letter == 'Y')
-                    {
-                        // TODO: affects (see db2.C:419)
-                        string where = ReadWord();
-                        string location = ReadWord();
-                        long value1 = ReadNumber();
-                        long value2 = ReadNumber();
-                    }
-                    else
-                    {
-                        UngetChar(letter);
-                        break;
-                    }
-                }
-
-                // TODO: convert act flags (see db.C:626)
-                // TODO: fix parts (see db.C:520)
-
-                Log.Default.WriteLine(LogLevels.Trace, "Mobile [{0}] parsed", vnum);
-                Debug.WriteLine("Mobile [{0}] parsed", vnum);
-
-                // Save mobile data
-                _mobiles.Add(mobileData);
-            }
+            ExitFlags flags = 0;
+            if (IsSet(input, EX_ISDOOR)) flags |= ExitFlags.Door;
+            if (IsSet(input, EX_CLOSED)) flags |= ExitFlags.Closed;
+            if (IsSet(input, EX_LOCKED)) flags |= ExitFlags.Locked;
+            if (IsSet(input, EX_PICKPROOF)) flags |= ExitFlags.PickProof;
+            if (IsSet(input, EX_NOPASS)) flags |= ExitFlags.NoPass;
+            if (IsSet(input, EX_EASY)) flags |= ExitFlags.Easy;
+            if (IsSet(input, EX_HARD)) flags |= ExitFlags.Hard;
+            // EX_INFURIATING
+            // EX_NOCLOSE
+            // EX_NOLOCK
+            return flags;
         }
 
-        private void ParseObjects()
+        // Sector types
+        private const int SECT_INSIDE = 0;
+        private const int SECT_CITY = 1;
+        private const int SECT_FIELD = 2;
+        private const int SECT_FOREST = 3;
+        private const int SECT_HILLS = 4;
+        private const int SECT_MOUNTAIN = 5;
+        private const int SECT_WATER_SWIM = 6;
+        private const int SECT_WATER_NOSWIM = 7;
+        private const int SECT_UNUSED = 8;
+        private const int SECT_AIR = 9;
+        private const int SECT_DESERT = 10;
+
+        // Room flags
+        private const long ROOM_DARK = RomLoader.A;
+        private const long ROOM_NO_MOB = RomLoader.C;
+        private const long ROOM_INDOORS = RomLoader.D;
+        private const long ROOM_PRIVATE = RomLoader.J;
+        private const long ROOM_SAFE = RomLoader.K;
+        private const long ROOM_SOLITARY = RomLoader.L;
+        private const long ROOM_PET_SHOP = RomLoader.M;
+        private const long ROOM_NO_RECALL = RomLoader.N;
+        private const long ROOM_IMP_ONLY = RomLoader.O;
+        private const long ROOM_GODS_ONLY = RomLoader.P;
+        private const long ROOM_HEROES_ONLY = RomLoader.Q;
+        private const long ROOM_NEWBIES_ONLY = RomLoader.R;
+        private const long ROOM_LAW = RomLoader.S;
+        private const long ROOM_NOWHERE = RomLoader.T;
+
+        // Exit flags
+        private const long EX_ISDOOR = RomLoader.A;
+        private const long EX_CLOSED = RomLoader.B;
+        private const long EX_LOCKED = RomLoader.C;
+        private const long EX_PICKPROOF = RomLoader.F;
+        private const long EX_NOPASS = RomLoader.G;
+        private const long EX_EASY = RomLoader.H;
+        private const long EX_HARD = RomLoader.I;
+        private const long EX_INFURIATING = RomLoader.J;
+        private const long EX_NOCLOSE = RomLoader.K;
+        private const long EX_NOLOCK = RomLoader.L;
+
+        #endregion
+
+        #region Reset
+
+        private IEnumerable<ResetBase> ConvertResets(RoomData roomData)
         {
-            Log.Default.WriteLine(LogLevels.Trace, "Objects section");
-
-            while (true)
+            foreach (ResetData reset in roomData.Resets)
             {
-                char letter = ReadLetter();
-                if (letter != '#')
-                    RaiseParseException("ParseObjects: # not found");
-
-                int vnum = (int)ReadNumber();
-                if (vnum == 0)
-                    break; // parsed
-
-                if (_objects.Any(x => x.VNum == vnum))
-                    RaiseParseException("ParseObjects: vnum {0} duplicated", vnum);
-
-                ObjectData objectData = new ObjectData
+                switch (reset.Command)
                 {
-                    VNum = vnum,
-                    Name = ReadString(),
-                    ShortDescr = ReadString(),
-                    Description = ReadString(),
-                    Material = ReadString(),
-                    ItemType = ReadWord(),
-                    ExtraFlags = ReadFlags(),
-                    WearFlags = ReadFlags()
-                };
-
-                // Specific value depending on ItemType (see db2.C:564->681)
-                switch (objectData.ItemType)
-                {
-                    case "component":
-                        objectData.Values[0] = ReadWord();
-                        objectData.Values[1] = ReadWord();
-                        objectData.Values[2] = ReadWord();
-                        objectData.Values[3] = ReadWord();
-                        objectData.Values[4] = ReadWord();
+                    case 'M':
+                        Debug.Assert(reset.Arg3 == roomData.VNum, $"Reset arg3 '{reset.Arg3}' should be equal to room id '{roomData.VNum}'.");
+                        yield return new CharacterReset
+                        {
+                            RoomId = roomData.VNum,
+                            CharacterId = reset.Arg1,
+                            GlobalLimit = reset.Arg2,
+                            LocalLimit = reset.Arg4
+                        };
                         break;
-                    case "weapon":
-                        objectData.Values[0] = ReadWord();
-                        objectData.Values[1] = ReadNumber();
-                        objectData.Values[2] = ReadNumber();
-                        objectData.Values[3] = ReadWord();
-                        objectData.Values[4] = ReadFlags();
+                    case 'O':
+                        Debug.Assert(reset.Arg3 == roomData.VNum, $"Reset arg3 '{reset.Arg3}' should be equal to room id '{roomData.VNum}'.");
+                        yield return new ItemInRoomReset
+                        {
+                            RoomId = roomData.VNum,
+                            ItemId = reset.Arg1,
+                            GlobalLimit = reset.Arg2,
+                            LocalLimit = reset.Arg4,
+                        };
                         break;
-                    case "container":
-                        objectData.Values[0] = ReadNumber();
-                        objectData.Values[1] = ReadFlags();
-                        objectData.Values[2] = ReadNumber();
-                        objectData.Values[3] = ReadNumber();
-                        objectData.Values[4] = ReadNumber();
+                    case 'P':
+                        yield return new ItemInItemReset
+                        {
+                            RoomId = roomData.VNum,
+                            ItemId = reset.Arg1,
+                            ContainerId = reset.Arg3,
+                            GlobalLimit = reset.Arg2,
+                            LocalLimit = reset.Arg4,
+                        };
                         break;
-                    case "drink":
-                    case "fountain":
-                        objectData.Values[0] = ReadNumber();
-                        objectData.Values[1] = ReadNumber();
-                        objectData.Values[2] = ReadWord();
-                        objectData.Values[3] = ReadNumber();
-                        objectData.Values[4] = ReadFlags();
+                    case 'G':
+                        yield return new ItemInCharacterReset
+                        {
+                            RoomId = roomData.VNum,
+                            ItemId = reset.Arg1,
+                            GlobalLimit = reset.Arg2,
+                        };
                         break;
-                    case "wand":
-                    case "staff":
-                        objectData.Values[0] = ReadNumber();
-                        objectData.Values[1] = ReadNumber();
-                        objectData.Values[2] = ReadNumber();
-                        objectData.Values[3] = ReadWord();
-                        objectData.Values[4] = ReadNumber();
+                    case 'E':
+                        yield return new ItemInEquipmentReset
+                        {
+                            RoomId = roomData.VNum,
+                            ItemId = reset.Arg1,
+                            EquipmentSlot = ConvertResetDataWearLocation(reset.Arg3),
+                            GlobalLimit = reset.Arg2,
+                        };
                         break;
-                    case "potion":
-                    case "pill":
-                    case "scroll":
-                    case "template":
-                        objectData.Values[0] = ReadNumber();
-                        objectData.Values[1] = ReadWord();
-                        objectData.Values[2] = ReadWord();
-                        objectData.Values[3] = ReadWord();
-                        objectData.Values[4] = ReadWord();
+                    case 'D':
+                        yield return new DoorReset
+                        {
+                            RoomId = roomData.VNum,
+                            ExitDirection = (ExitDirections)reset.Arg2,
+                            Operation = reset.Arg3
+                        };
+                        break;
+                    case 'R':
+                        yield return new RandomizeExitsReset
+                        {
+                            RoomId = roomData.VNum,
+                            MaxDoors = reset.Arg2
+                        };
                         break;
                     default:
-                        objectData.Values[0] = ReadFlags();
-                        objectData.Values[1] = ReadFlags();
-                        objectData.Values[2] = ReadFlags();
-                        objectData.Values[3] = ReadFlags();
-                        objectData.Values[4] = ReadFlags();
+                        Log.Default.WriteLine(LogLevels.Error, "Unknown Reset {0} for room {1}", reset.Command, roomData.VNum);
                         break;
                 }
-
-                objectData.Level = (int)ReadNumber();
-                objectData.Weight = (int)ReadNumber();
-                objectData.Cost = ReadNumber();
-                objectData.Condition = ReadLetter();
-
-                while (true)
-                {
-                    letter = ReadLetter();
-                    if (letter == 'S') // code moved into while loop
-                    {
-                        objectData.Size = ReadWord();
-                    }
-                    else if (letter == 'R')
-                    {
-                        // TODO: restriction (see db2.C:746)
-                        string type = ReadWord();
-                        long value = ReadNumber();
-                        long notR = ReadNumber();
-                    }
-                    else if (letter == 'W')
-                    {
-                        // TODO: restriction (see db2.C:771)
-                        string skill = ReadWord();
-                        long value = ReadNumber();
-                        long notR = ReadNumber();
-                    }
-                    else if (letter == 'Z')
-                    {
-                        // TODO: ability upgrade (see db2.C:811)
-                        string skill = ReadWord();
-                        long value = ReadNumber();
-                    }
-                    else if (letter == 'A')
-                    {
-                        // TODO: oldstyle affects (see db2.C:841)
-                        int location = (int)ReadNumber();
-                        int modifier = (int)ReadNumber();
-                    }
-                    else if (letter == 'F')
-                    {
-                        // TODO: affects (see db2.C:863)
-                        letter = ReadLetter();
-                        int location = (int)ReadNumber();
-                        int modifier = (int)ReadNumber();
-                        long vector = ReadFlags();
-                    }
-                    else if (letter == 'E')
-                    {
-                        string keyword = ReadString();
-                        string description = ReadString();
-                        if (objectData.ExtraDescr.ContainsKey(keyword))
-                            Log.Default.WriteLine(LogLevels.Error, "ParseObjects: item [vnum:{0}] Extra desc already exists", vnum);
-                        else
-                            objectData.ExtraDescr.Add(keyword, description);
-                    }
-                    else if (letter == 'Y')
-                    {
-                        // TODO: affects (see db2.C:948)
-                        string where = ReadWord();
-                        string location = ReadWord();
-                        long value1 = ReadNumber();
-                        long value2 = ReadNumber();
-                    }
-                    else if (letter == 'M')
-                    {
-                        objectData.Program = ReadWord();
-                    }
-                    else
-                    {
-                        UngetChar(letter);
-                        break;
-                    }
-                }
-
-                Log.Default.WriteLine(LogLevels.Trace, "Object [{0}] parsed", vnum);
-                Debug.WriteLine("Object [{0}] parsed", vnum);
-
-                // Save object data
-                _objects.Add(objectData);
             }
         }
 
-        private void ParseResets()
+        private static EquipmentSlots ConvertResetDataWearLocation(int resetDataWearLocation)
         {
-            Log.Default.WriteLine(LogLevels.Trace, "Resets section");
-
-            int iLastObj = 0; // TODO: replace with RoomData
-            int iLastRoom = 0; // TODO: replace with RoomData
-            while (true)
+            switch (resetDataWearLocation)
             {
-                char letter = ReadLetter();
-
-                if (letter == 'S') // done
-                    break;
-                else if (letter == '*')
-                {
-                    ReadToEol();
-                    continue;
-                }
-
-                ReadNumber(); // unused
-                int arg1 = (int)ReadNumber();
-                int arg2 = (int)ReadNumber();
-                int arg3 = (letter == 'G' || letter == 'R') ? 0 : (int)ReadNumber();
-                int arg4 = (letter == 'P' || letter == 'M' || letter == 'Z') ? (int)ReadNumber() : 0;
-                ReadToEol();
-
-                ResetData resetData = new ResetData
-                {
-                    Command = letter,
-                    Arg1 = arg1,
-                    Arg2 = arg2,
-                    Arg3 = arg3,
-                    Arg4 = arg4
-                };
-
-                if (letter == 'M')
-                {
-                    if (arg2 == 0 || arg4 == 0)
-                        Warn("ParseResets: 'M' has arg2 or arg4 equal to 0 (room: {0})", arg3);
-                    MobileData mobileData = _mobiles.FirstOrDefault(x => x.VNum == arg1);
-                    if (mobileData == null)
-                        Warn("ParseResets: 'M' unknown mobile vnum {0}", arg1);
-                    RoomData roomData = _rooms.FirstOrDefault(x => x.VNum == arg3);
-                    if (roomData == null)
-                        Warn("ParseResets: 'M' unknown room vnum {0}", arg3);
-                    else
-                    {
-                        roomData.Resets.Add(resetData);
-                        iLastRoom = arg3;
-                    }
-                }
-                else if (letter == 'O')
-                {
-                    ObjectData objectData = _objects.FirstOrDefault(x => x.VNum == arg1);
-                    if (objectData == null)
-                        Warn("ParseResets: 'O' unknown object vnum {0}", arg1);
-                    RoomData roomData = _rooms.FirstOrDefault(x => x.VNum == arg3);
-                    if (roomData == null)
-                        Warn("ParseResets: 'O' unknown room vnum {0}", arg3);
-                    else
-                    {
-                        roomData.Resets.Add(resetData);
-                        iLastObj = arg3;
-                    }
-                }
-                else if (letter == 'P')
-                {
-                    if (arg2 == 0 || arg4 == 0)
-                        Warn("ParseResets: 'P' has arg2 or arg4 equal to 0 (room: {0})", iLastObj);
-                    ObjectData objectData = _objects.FirstOrDefault(x => x.VNum == arg1);
-                    if (objectData == null)
-                        Warn("ParseResets: 'P' unknown object vnum {0}", arg1);
-                    RoomData roomData = _rooms.FirstOrDefault(x => x.VNum == iLastObj);
-                    if (roomData == null)
-                        Warn("ParseResets: 'P' unknown room vnum {0}", iLastObj);
-                    else
-                        roomData.Resets.Add(resetData);
-                }
-                else if (letter == 'G' || letter == 'E')
-                {
-                    ObjectData objectData = _objects.FirstOrDefault(x => x.VNum == arg1);
-                    if (objectData == null)
-                        Warn("ParseResets: '{0}' unknown object vnum {1}", letter, arg1);
-                    RoomData roomData = _rooms.FirstOrDefault(x => x.VNum == iLastRoom);
-                    if (roomData == null)
-                        Warn("ParseResets: '{0}' unknown room vnum {1}", letter, iLastRoom);
-                    else
-                    {
-                        roomData.Resets.Add(resetData);
-                        iLastObj = iLastRoom;
-                    }
-                }
-                else if (letter == 'D')
-                {
-                    RoomData roomData = _rooms.FirstOrDefault(x => x.VNum == arg1);
-                    if (roomData == null)
-                        Warn("ParseResets: 'D' unknown room vnum {0}", arg1);
-                    else
-                    {
-                        if (arg2 < 0 || arg2 >= RoomData.MaxExits || roomData.Exits[arg2] == null)
-                            RaiseParseException("ParseResets: 'D': exit {0} not door", arg2);
-                        else
-                        {
-                            if (arg3 == 0)
-                                ; // NOP
-                            else if (arg3 == 1)
-                                roomData.Exits[arg2].ExitInfo |= 0x2; // closed
-                            else if (arg3 == 2)
-                                roomData.Exits[arg2].ExitInfo |= 0x2 | 0x4; // closed + locked
-                            else
-                                Warn("ParseResets: 'D': bad 'locks': {0}", arg3);
-                        }
-                        // ResetData is not stored
-                    }
-                }
-                else if (letter == 'R')
-                {
-                    if (arg2 < 0 || arg2 >= RoomData.MaxExits)
-                        RaiseParseException("ParseResets: 'R': exit {0} not door", arg2);
-                    RoomData roomData = _rooms.FirstOrDefault(x => x.VNum == arg3);
-                    if (roomData == null)
-                        Warn("ParseResets: 'D' unknown room vnum {0}", arg3);
-                    else
-                    {
-                        roomData.Resets.Add(resetData);
-                    }
-                }
-                else if (letter == 'Z')
-                {
-                    if (arg1 < 2 || arg2 < 2 || arg1 * arg2 > 100)
-                        RaiseParseException("ParseResets: 'Z': bad width, height (room {0})", arg3);
-                    if (arg4 > 0)
-                    {
-                        ObjectData map = _objects.FirstOrDefault(x => x.VNum == arg4);
-                        if (map == null)
-                            RaiseParseException("ParseResets: 'Z': bad map vnum: {0}", arg4);
-                    }
-                    RoomData roomData = _rooms.FirstOrDefault(x => x.VNum == arg1);
-                    if (roomData == null)
-                        Warn("ParseResets: 'Z' unknown room vnum {0}", arg1);
-                    else
-                    {
-                        roomData.Resets.Add(resetData);
-                    }
-                }
-                else
-                    RaiseParseException("ParseResets: bad command '{0}'", letter);
+                case WEAR_NONE: return EquipmentSlots.None;
+                case WEAR_LIGHT: return EquipmentSlots.Light;
+                case WEAR_FINGER_L:
+                case WEAR_FINGER_R: return EquipmentSlots.Ring;
+                case WEAR_NECK_1:
+                case WEAR_NECK_2: return EquipmentSlots.Amulet;
+                case WEAR_BODY: return EquipmentSlots.Chest;
+                case WEAR_HEAD: return EquipmentSlots.Head;
+                case WEAR_LEGS: return EquipmentSlots.Legs;
+                case WEAR_FEET: return EquipmentSlots.Feet;
+                case WEAR_HANDS: return EquipmentSlots.Hands;
+                case WEAR_ARMS: return EquipmentSlots.Arms;
+                case WEAR_SHIELD: return EquipmentSlots.OffHand;
+                case WEAR_ABOUT: return EquipmentSlots.Cloak;
+                case WEAR_WAIST: return EquipmentSlots.Waist;
+                case WEAR_WRIST_L:
+                case WEAR_WRIST_R: return EquipmentSlots.Wrists;
+                case WEAR_WIELD: return EquipmentSlots.MainHand;
+                case WEAR_HOLD: return EquipmentSlots.OffHand;
+                case WEAR_FLOAT: return EquipmentSlots.Float;
             }
+
+            return EquipmentSlots.None;
         }
 
-        private void ParseRooms()
+        // Reset wear location
+        private const int WEAR_NONE = -1;
+        private const int WEAR_LIGHT = 0;
+        private const int WEAR_FINGER_L = 1;
+        private const int WEAR_FINGER_R = 2;
+        private const int WEAR_NECK_1 = 3;
+        private const int WEAR_NECK_2 = 4;
+        private const int WEAR_BODY = 5;
+        private const int WEAR_HEAD = 6;
+        private const int WEAR_LEGS = 7;
+        private const int WEAR_FEET = 8;
+        private const int WEAR_HANDS = 9;
+        private const int WEAR_ARMS = 10;
+        private const int WEAR_SHIELD = 11;
+        private const int WEAR_ABOUT = 12;
+        private const int WEAR_WAIST = 13;
+        private const int WEAR_WRIST_L = 14;
+        private const int WEAR_WRIST_R = 15;
+        private const int WEAR_WIELD = 16;
+        private const int WEAR_HOLD = 17;
+        private const int WEAR_FLOAT = 18;
+        private const int MAX_WEAR = 19;
+
+        #endregion
+
+        #region Object
+
+        private ItemBlueprintBase ConvertObject(ObjectData objectData)
         {
-            Log.Default.WriteLine(LogLevels.Trace, "Rooms section");
-
-            while (true)
+            if (_itemBlueprints.Any(x => x.Id == objectData.VNum))
+                RaiseConvertException("Duplicate object Id {0}", objectData.VNum);
+            switch (objectData.ItemType)
             {
-                char letter = ReadLetter();
-                if (letter != '#')
-                    RaiseParseException("ParseRooms: # not found");
-
-                int vnum = (int)ReadNumber();
-                if (vnum == 0)
-                    break; // parsed
-
-                if (_rooms.Any(x => x.VNum == vnum))
-                    RaiseParseException("ParseRooms: vnum {0} duplicated", vnum);
-
-                RoomData roomData = new RoomData
-                {
-                    AreaVnum = _lastAreaVnum,
-                    VNum = vnum,
-                    Name = ReadString(),
-                    Description = ReadString()
-                };
-                ReadNumber(); // area number not used
-                roomData.Flags = ReadFlags(); // convert_room_flags (see db.C:601)
-                roomData.Sector = (int)ReadNumber();
-
-                while (true)
-                {
-                    letter = ReadLetter();
-
-                    if (letter == 'S')
-                        break;
-                    else if (letter == 'H')
-                        roomData.HealRate = (int)ReadNumber();
-                    else if (letter == 'M')
-                        roomData.ManaRate = (int)ReadNumber();
-                    else if (letter == 'C')
-                        roomData.Clan = ReadString();
-                    else if (letter == 'D')
+                case "light":
+                    return new ItemLightBlueprint
                     {
-                        int door = (int)ReadNumber();
-                        if (door < 0 || door >= RoomData.MaxExits)
-                            RaiseParseException("ParseRooms: vnum {0} has bad door number", vnum);
-                        ExitData exitData = new ExitData
-                        {
-                            Description = ReadString(),
-                            Keyword = ReadString(),
-                            ExitInfo = ReadFlags(),
-                            Key = (int)ReadNumber(),
-                            DestinationVNum = (int)ReadNumber()
-                        };
-                        roomData.Exits[door] = exitData;
-                    }
-                    else if (letter == 'E')
-                    {
-                        string keyword = ReadString();
-                        string description = ReadString();
-                        if (roomData.ExtraDescr.ContainsKey(keyword))
-                            Warn("ParseRooms: duplicate description in vnum {0}", vnum);
-                        else
-                            roomData.ExtraDescr.Add(keyword, description);
-                    }
-                    else if (letter == 'O')
-                    {
-                        if (!string.IsNullOrWhiteSpace(roomData.Owner))
-                            RaiseParseException("ParseRooms: vnum {0} has duplicate owner", vnum);
-                        roomData.Owner = ReadString();
-                    }
-                    else if (letter == 'G')
-                    {
-                        roomData.Guilds = ReadFlags();
-                    }
-                    else if (letter == 'Z')
-                    {
-                        roomData.Program = ReadWord();
-                    }
-                    else if (letter == 'R')
-                    {
-                        roomData.TimeBetweenRepop = (int)ReadNumber();
-                        roomData.TimeBetweenRepopPeople = (int)ReadNumber();
-                    }
-                    else if (letter == 'Y')
-                    {
-                        // TODO: affects (see db.C:3502)
-                        string where = ReadWord();
-                        string location = ReadWord();
-                        long value1 = ReadNumber();
-                        long value2 = ReadNumber();
-                    }
-                    else
-                        RaiseParseException("ParseRooms: vnum {0} has unknown flag", vnum);
-                }
-                Log.Default.WriteLine(LogLevels.Trace, "Room [{0}] parsed", vnum);
-                Debug.WriteLine("Room [{0}] parsed", vnum);
-
-                // Save room data
-                _rooms.Add(roomData);
-            }
-        }
-
-        private void ParseShops()
-        {
-            Log.Default.WriteLine(LogLevels.Trace, "Shops section");
-
-            while (true)
-            {
-                int keeper = (int)ReadNumber();
-                if (keeper == 0)
-                    break; // done
-                MobileData mobileData = _mobiles.FirstOrDefault(x => x.VNum == keeper);
-                if (mobileData == null)
-                    RaiseParseException("ParseShops: unknown mobile vnum {0}", keeper);
-                else
-                {
-                    ShopData shopData = new ShopData
-                    {
-                        Keeper = keeper
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                        DurationHours = System.Convert.ToInt32(objectData.Values[2]),
                     };
-                    for (int i = 0; i < ShopData.MaxTrades; i++)
-                        shopData.BuyType[i] = (int)ReadNumber();
-                    shopData.ProfitBuy = (int)ReadNumber();
-                    shopData.ProfitSell = (int)ReadNumber();
-                    shopData.OpenHour = (int)ReadNumber();
-                    shopData.CloseHour = (int)ReadNumber();
-                    mobileData.Shop = shopData;
-
-                    Log.Default.WriteLine(LogLevels.Trace, "Shop [{0}] parsed", keeper);
-                }
-                ReadToEol();
-            }
-        }
-
-        private void ParseSpecials()
-        {
-            Log.Default.WriteLine(LogLevels.Trace, "Specials section");
-
-            while (true)
-            {
-                char letter = ReadLetter();
-
-                if (letter == 'S') // done
-                    break;
-                else if (letter == '*')
-                    ; // nop
-                else if (letter == 'M')
-                {
-                    int vnum = (int)ReadNumber();
-                    string special = ReadWord();
-                    MobileData mobileData = _mobiles.FirstOrDefault(x => x.VNum == vnum);
-                    if (mobileData != null)
-                        mobileData.Special = special;
+                case "scroll":
+                    return new ItemScrollBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                        SpellLevel = System.Convert.ToInt32(objectData.Values[0]),
+                        Spell1 = System.Convert.ToString(objectData.Values[1]),
+                        Spell2 = System.Convert.ToString(objectData.Values[2]),
+                        Spell3 = System.Convert.ToString(objectData.Values[3]),
+                        Spell4 = System.Convert.ToString(objectData.Values[4]),
+                    };
+                case "wand":
+                    return new ItemWandBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                        SpellLevel = System.Convert.ToInt32(objectData.Values[0]),
+                        MaxChargeCount = System.Convert.ToInt32(objectData.Values[1]) == 0 ? System.Convert.ToInt32(objectData.Values[2]) : System.Convert.ToInt32(objectData.Values[1]),
+                        CurrentChargeCount = System.Convert.ToInt32(objectData.Values[2]),
+                        Spell = System.Convert.ToString(objectData.Values[3]),
+                        AlreadyRecharged = System.Convert.ToInt32(objectData.Values[1]) == 0
+                    };
+                case "staff":
+                    return new ItemStaffBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                        SpellLevel = System.Convert.ToInt32(objectData.Values[0]),
+                        MaxChargeCount = System.Convert.ToInt32(objectData.Values[1]) == 0 ? System.Convert.ToInt32(objectData.Values[2]) : System.Convert.ToInt32(objectData.Values[1]),
+                        CurrentChargeCount = System.Convert.ToInt32(objectData.Values[2]),
+                        Spell = System.Convert.ToString(objectData.Values[3]),
+                        AlreadyRecharged = System.Convert.ToInt32(objectData.Values[1]) == 0
+                    };
+                case "weapon":
+                    (SchoolTypes damageType, WeaponFlags weaponFlags, string damageNoun) weaponInfo = ConvertWeaponDamageTypeFlagsAndNoun(objectData);
+                    return new ItemWeaponBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                        Type = ConvertWeaponType(objectData),
+                        DiceCount = System.Convert.ToInt32(objectData.Values[1]),
+                        DiceValue = System.Convert.ToInt32(objectData.Values[2]),
+                        DamageType = weaponInfo.damageType,
+                        Flags = weaponInfo.weaponFlags,
+                        DamageNoun = weaponInfo.damageNoun,
+                    };
+                case "treasure":
+                    return new ItemTreasureBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                    };
+                case "armor":
+                    WearLocations wearLocations = ConvertWearLocation(objectData);
+                    if (wearLocations == WearLocations.Shield)
+                        return new ItemShieldBlueprint
+                        {
+                            Id = objectData.VNum,
+                            Name = objectData.Name,
+                            ShortDescription = objectData.ShortDescr,
+                            Description = objectData.Description,
+                            ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                            Cost = System.Convert.ToInt32(objectData.Cost),
+                            Level = objectData.Level,
+                            Weight = objectData.Weight,
+                            WearLocation = ConvertWearLocation(objectData),
+                            ItemFlags = ConvertExtraFlags(objectData),
+                            NoTake = IsNoTake(objectData),
+                            Armor = objectData.Values.Take(4).Sum(System.Convert.ToInt32), // TODO
+                        };
                     else
-                        Warn("ParseSpecials: 'M' unknown mobile vnum {0}", vnum);
-                    Log.Default.WriteLine(LogLevels.Trace, "Specials [{0}] parsed", vnum);
-                }
-                else
-                    RaiseParseException("ParseSpecials: letter {0} not *MS", letter);
-                ReadToEol();
+                        return new ItemArmorBlueprint
+                        {
+                            Id = objectData.VNum,
+                            Name = objectData.Name,
+                            ShortDescription = objectData.ShortDescr,
+                            Description = objectData.Description,
+                            ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                            Cost = System.Convert.ToInt32(objectData.Cost),
+                            Level = objectData.Level,
+                            Weight = objectData.Weight,
+                            WearLocation = ConvertWearLocation(objectData),
+                            ItemFlags = ConvertExtraFlags(objectData),
+                            NoTake = IsNoTake(objectData),
+                            Pierce = System.Convert.ToInt32(objectData.Values[0]),
+                            Bash = System.Convert.ToInt32(objectData.Values[1]),
+                            Slash = System.Convert.ToInt32(objectData.Values[2]),
+                            Exotic = System.Convert.ToInt32(objectData.Values[3]),
+                        };
+                case "potion":
+                    return new ItemPotionBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                        SpellLevel = System.Convert.ToInt32(objectData.Values[0]),
+                        Spell1 = System.Convert.ToString(objectData.Values[1]),
+                        Spell2 = System.Convert.ToString(objectData.Values[2]),
+                        Spell3 = System.Convert.ToString(objectData.Values[3]),
+                        Spell4 = System.Convert.ToString(objectData.Values[4]),
+                    };
+                //TODO: case "clothing":
+                case "furniture":
+                    return new ItemFurnitureBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                        MaxPeople = System.Convert.ToInt32(objectData.Values[0]),
+                        MaxWeight = System.Convert.ToInt32(objectData.Values[1]),
+                        FurnitureActions = ConvertFurnitureActions(objectData),
+                        FurniturePlacePreposition = ConvertFurniturePreposition(objectData),
+                        HealBonus = System.Convert.ToInt32(objectData.Values[3]),
+                        ResourceBonus = System.Convert.ToInt32(objectData.Values[4]),
+                    };
+                //TODO: case "trash":
+                case "container":
+                    return new ItemContainerBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                        MaxWeight = System.Convert.ToInt32(objectData.Values[0]),
+                        ContainerFlags = ConvertContainerFlags(objectData),
+                        Key = System.Convert.ToInt32(objectData.Values[2]),
+                        MaxWeightPerItem = System.Convert.ToInt32(objectData.Values[3]),
+                        WeightMultiplier = System.Convert.ToInt32(objectData.Values[4]),
+                    };
+                case "drink":
+                    return new ItemDrinkContainerBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                        MaxLiquidAmount = System.Convert.ToInt32(objectData.Values[0]),
+                        CurrentLiquidAmount = System.Convert.ToInt32(objectData.Values[1]),
+                        LiquidType = objectData.Values[2].ToString(),
+                        IsPoisoned = System.Convert.ToInt32(objectData.Values[3]) != 0,
+                    };
+                case "key":
+                    return new ItemKeyBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                    };
+                case "food":
+                    return new ItemFoodBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                        FullHours = System.Convert.ToInt32(objectData.Values[0]),
+                        HungerHours = System.Convert.ToInt32(objectData.Values[1]),
+                        IsPoisoned = System.Convert.ToInt32(objectData.Values[3]) != 0,
+                    };
+                case "money":
+                    return new ItemMoneyBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                        SilverCoins = System.Convert.ToInt64(objectData.Values[0]),
+                        GoldCoins = System.Convert.ToInt64(objectData.Values[1]),
+                    };
+                case "boat":
+                    return new ItemBoatBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                    };
+                //TODO: case "npc_corpse":
+                //TODO: case "pc_corpse":
+                case "fountain":
+                    return new ItemFountainBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                        LiquidType = objectData.Values[2].ToString(),
+                    };
+                case "pill":
+                    return new ItemPillBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                        SpellLevel = System.Convert.ToInt32(objectData.Values[0]),
+                        Spell1 = System.Convert.ToString(objectData.Values[1]),
+                        Spell2 = System.Convert.ToString(objectData.Values[2]),
+                        Spell3 = System.Convert.ToString(objectData.Values[3]),
+                        Spell4 = System.Convert.ToString(objectData.Values[4]),
+                    };
+                //TODO: case "protect":
+                //TODO: case "map":
+                case "portal":
+                    return new ItemPortalBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                        Destination = System.Convert.ToInt32(objectData.Values[3]) <= 0 ? -1 : System.Convert.ToInt32(objectData.Values[3]),
+                        PortalFlags = ConvertPortalFlags(objectData),
+                    };
+                case "warp_stone":
+                    return new ItemWarpStoneBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                    };
+                //TODO: case "room_key":
+                //TODO: case "gem":
+                case "jewelry":
+                    return new ItemJewelryBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                    };
+                //TODO: case "jukebox":
+                default:
+                    Log.Default.WriteLine(LogLevels.Warning, $"ItemBlueprint cannot be created: [{objectData.VNum}] [{objectData.ItemType}] [{objectData.WearFlags}] : {objectData.Name}");
+                    break;
             }
 
+            return null;
         }
+
+        private bool IsNoTake(ObjectData objectData) => (objectData.WearFlags & ITEM_TAKE) != ITEM_TAKE;
+
+        private WearLocations ConvertWearLocation(ObjectData objectData) // in Rom2.4 it's a flag but in our code it a single value
+        {
+            switch (objectData.WearFlags & ~1 /*remove TAKE*/)
+            {
+                case 0:
+                    if (objectData.ItemType == "light") return WearLocations.Light;
+                    return WearLocations.None;
+                case ITEM_WEAR_FINGER: return WearLocations.Ring;
+                case ITEM_WEAR_NECK: return WearLocations.Amulet;
+                case ITEM_WEAR_BODY: return WearLocations.Chest;
+                case ITEM_WEAR_HEAD: return WearLocations.Head;
+                case ITEM_WEAR_LEGS: return WearLocations.Legs;
+                case ITEM_WEAR_FEET: return WearLocations.Feet;
+                case ITEM_WEAR_HANDS: return WearLocations.Hands;
+                case ITEM_WEAR_ARMS: return WearLocations.Arms;
+                case ITEM_WEAR_SHIELD: return WearLocations.Shield;
+                case ITEM_WEAR_ABOUT: return WearLocations.Cloak;
+                case ITEM_WEAR_WAIST: return WearLocations.Waist;
+                case ITEM_WEAR_WRIST: return WearLocations.Wrists;
+                case ITEM_WIELD:
+                    if (objectData.ItemType == "weapon" && IsSet(objectData.Values[4] == null ? 0L : System.Convert.ToInt64(objectData.Values[4]), WEAPON_TWO_HANDS)) // Two-hands
+                        return WearLocations.Wield2H;
+                    return WearLocations.Wield;
+                case ITEM_HOLD: return WearLocations.Hold;
+                //TODO: ITEM_NO_SAC
+                case ITEM_WEAR_FLOAT: return WearLocations.Float;
+            }
+
+            Log.Default.WriteLine(LogLevels.Warning, "Unknown wear location: {0} for item {1}", objectData.WearFlags, objectData.VNum);
+            return WearLocations.None;
+        }
+
+        private ItemFlags ConvertExtraFlags(ObjectData objectData)
+        {
+            ItemFlags itemFlags = ItemFlags.None;
+
+            if (IsSet(objectData.ExtraFlags, ITEM_GLOW)) itemFlags |= ItemFlags.Glowing;
+            if (IsSet(objectData.ExtraFlags, ITEM_HUM)) itemFlags |= ItemFlags.Humming;
+            if (IsSet(objectData.ExtraFlags, ITEM_DARK)) itemFlags |= ItemFlags.Dark;
+            if (IsSet(objectData.ExtraFlags, ITEM_LOCK)) itemFlags |= ItemFlags.Lock;
+            if (IsSet(objectData.ExtraFlags, ITEM_EVIL)) itemFlags |= ItemFlags.Evil;
+            if (IsSet(objectData.ExtraFlags, ITEM_INVIS)) itemFlags |= ItemFlags.Invis;
+            if (IsSet(objectData.ExtraFlags, ITEM_MAGIC)) itemFlags |= ItemFlags.Magic;
+            if (IsSet(objectData.ExtraFlags, ITEM_NODROP)) itemFlags |= ItemFlags.NoDrop;
+            if (IsSet(objectData.ExtraFlags, ITEM_BLESS)) itemFlags |= ItemFlags.Bless;
+            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_GOOD)) itemFlags |= ItemFlags.AntiGood;
+            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_EVIL)) itemFlags |= ItemFlags.AntiEvil;
+            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_NEUTRAL)) itemFlags |= ItemFlags.AntiNeutral;
+            if (IsSet(objectData.ExtraFlags, ITEM_NOREMOVE)) itemFlags |= ItemFlags.NoRemove;
+            if (IsSet(objectData.ExtraFlags, ITEM_INVENTORY)) itemFlags |= ItemFlags.Inventory;
+            if (IsSet(objectData.ExtraFlags, ITEM_NOPURGE)) itemFlags |= ItemFlags.NoPurge;
+            if (IsSet(objectData.ExtraFlags, ITEM_ROT_DEATH)) itemFlags |= ItemFlags.RotDeath;
+            if (IsSet(objectData.ExtraFlags, ITEM_VIS_DEATH)) itemFlags |= ItemFlags.VisibleDeath;
+            if (IsSet(objectData.ExtraFlags, ITEM_NONMETAL)) itemFlags |= ItemFlags.NonMetal;
+            if (IsSet(objectData.ExtraFlags, ITEM_NOLOCATE)) itemFlags |= ItemFlags.NoLocate;
+            if (IsSet(objectData.ExtraFlags, ITEM_MELT_DROP)) itemFlags |= ItemFlags.MeltOnDrop;
+            if (IsSet(objectData.ExtraFlags, ITEM_HAD_TIMER)) itemFlags |= ItemFlags.HadTimer;
+            if (IsSet(objectData.ExtraFlags, ITEM_SELL_EXTRACT)) itemFlags |= ItemFlags.SellExtract;
+            if (IsSet(objectData.ExtraFlags, ITEM_BURN_PROOF)) itemFlags |= ItemFlags.BurnProof;
+            if (IsSet(objectData.ExtraFlags, ITEM_NOUNCURSE)) itemFlags |= ItemFlags.NoUncurse;
+
+            return itemFlags;
+        }
+
+        private WeaponTypes ConvertWeaponType(ObjectData objectData)
+        {
+            string weaponType = (string) objectData.Values[0];
+            switch (weaponType)
+            {
+                case "exotic": return WeaponTypes.Exotic;
+                case "sword": return WeaponTypes.Sword;
+                case "dagger": return WeaponTypes.Dagger;
+                case "spear": return WeaponTypes.Spear;
+                case "staff": return WeaponTypes.Staff; // spear in rom2.4
+                case "mace": return WeaponTypes.Mace;
+                case "axe": return WeaponTypes.Axe;
+                case "flail": return WeaponTypes.Flail;
+                case "whip": return WeaponTypes.Whip;
+                case "polearm": return WeaponTypes.Polearm;
+            }
+
+            Log.Default.WriteLine(LogLevels.Warning, "Unknown weapon type: {0} for item {1}", weaponType, objectData.VNum);
+            return WeaponTypes.Exotic;
+        }
+
+        private (SchoolTypes schoolType, WeaponFlags weaponFlags, string damageNoun) ConvertWeaponDamageTypeFlagsAndNoun(ObjectData objectData)
+        {
+            string attackTable = (string) objectData.Values[3];
+            SchoolTypes schoolType = SchoolTypes.None;
+            string damageNoun = attackTable;
+            (string name, string noun, int damType) attackTableEntry = AttackTable.FirstOrDefault(x => x.name == attackTable);
+            if (!attackTableEntry.Equals(default))
+            {
+                schoolType = ConvertDamageType(attackTableEntry.damType, $"item {objectData.VNum}");
+                damageNoun = attackTableEntry.noun;
+            }
+
+            long weaponType2 = objectData.Values[4] == null ? 0L : System.Convert.ToInt64(objectData.Values[4]);
+            WeaponFlags weaponFlags = WeaponFlags.None;
+            if (IsSet(weaponType2, WEAPON_FLAMING)) weaponFlags |= WeaponFlags.Flaming;
+            if (IsSet(weaponType2, WEAPON_FROST)) weaponFlags |= WeaponFlags.Frost;
+            if (IsSet(weaponType2, WEAPON_VAMPIRIC)) weaponFlags |= WeaponFlags.Vampiric;
+            if (IsSet(weaponType2, WEAPON_SHARP)) weaponFlags |= WeaponFlags.Sharp;
+            if (IsSet(weaponType2, WEAPON_VORPAL)) weaponFlags |= WeaponFlags.Vorpal;
+            if (IsSet(weaponType2, WEAPON_TWO_HANDS)) weaponFlags |= WeaponFlags.TwoHands;
+            if (IsSet(weaponType2, WEAPON_SHOCKING)) weaponFlags |= WeaponFlags.Shocking;
+            if (IsSet(weaponType2, WEAPON_POISON)) weaponFlags |= WeaponFlags.Poison;
+
+            //
+            return (schoolType, weaponFlags, damageNoun);
+        }
+
+        private PortalFlags ConvertPortalFlags(ObjectData objectData)
+        {
+            // v1: exit flags
+            // v2: gate flags
+            PortalFlags flags = PortalFlags.None;
+            long v1 = System.Convert.ToInt64(objectData.Values[1]);
+            if (IsSet(v1, EX_CLOSED)) flags |= PortalFlags.Closed;
+            if (IsSet(v1, EX_LOCKED)) flags |= PortalFlags.Locked;
+            if (IsSet(v1, EX_PICKPROOF)) flags |= PortalFlags.PickProof;
+            if (IsSet(v1, EX_EASY)) flags |= PortalFlags.Easy;
+            if (IsSet(v1, EX_HARD)) flags |= PortalFlags.Hard;
+            if (IsSet(v1, EX_NOCLOSE)) flags |= PortalFlags.NoClose;
+            if (IsSet(v1, EX_NOLOCK)) flags |= PortalFlags.NoLock;
+            long v2 = System.Convert.ToInt32(objectData.Values[2]);
+            if (IsSet(v2, GATE_NOCURSE)) flags |= PortalFlags.NoCurse;
+            if (IsSet(v2, GATE_GOWITH)) flags |= PortalFlags.GoWith;
+            if (IsSet(v2, GATE_BUGGY)) flags |= PortalFlags.Buggy;
+            if (IsSet(v2, GATE_RANDOM)) flags |= PortalFlags.Random;
+            return flags;
+        }
+
+        private ContainerFlags ConvertContainerFlags(ObjectData objectData)
+        {
+            ContainerFlags flags = Domain.ContainerFlags.None;
+            long v1 = System.Convert.ToInt64(objectData.Values[1]);
+            if (!IsSet(v1, CONT_CLOSEABLE)) flags |= Domain.ContainerFlags.NoClose;
+            if (IsSet(v1, CONT_PICKPROOF)) flags |= Domain.ContainerFlags.PickProof;
+            if (IsSet(v1, CONT_CLOSED)) flags |= Domain.ContainerFlags.Closed;
+            if (IsSet(v1, CONT_LOCKED)) flags |= Domain.ContainerFlags.Locked;
+            long v2 = System.Convert.ToInt64(objectData.Values[2]);
+            if (v2 <= 0) flags |= Domain.ContainerFlags.NoLock;
+            return flags;
+        }
+
+        private FurnitureActions ConvertFurnitureActions(ObjectData objectData)
+        {
+            FurnitureActions actions = FurnitureActions.None;
+            int flag = objectData.Values[2] == null ? 0 : System.Convert.ToInt32(objectData.Values[2]);
+            if (IsSet(flag, STAND_AT) || IsSet(flag, STAND_ON) || IsSet(flag, STAND_IN)) actions |= FurnitureActions.Stand;
+            if (IsSet(flag, SIT_AT) || IsSet(flag, SIT_ON) || IsSet(flag, SIT_IN)) actions |= FurnitureActions.Sit;
+            if (IsSet(flag, REST_AT) || IsSet(flag, REST_ON) || IsSet(flag, REST_IN) || IsSet(flag, SLEEP_ON)) actions |= FurnitureActions.Rest;
+            if (IsSet(flag, SLEEP_AT) || IsSet(flag, SLEEP_ON) || IsSet(flag, SLEEP_IN) || IsSet(flag, SLEEP_ON)) actions |= FurnitureActions.Sleep;
+            return actions;
+        }
+
+        private FurniturePlacePrepositions ConvertFurniturePreposition(ObjectData objectData)
+        {
+            int flag = objectData.Values[2] == null ? 0 : System.Convert.ToInt32(objectData.Values[2]);
+            if (flag == 0)
+                return FurniturePlacePrepositions.None;
+            if (IsSet(flag, STAND_AT) || IsSet(flag, SIT_AT) || IsSet(flag, REST_AT) || IsSet(flag, SLEEP_AT)) return FurniturePlacePrepositions.At;
+            if (IsSet(flag, STAND_ON) || IsSet(flag, SIT_ON) || IsSet(flag, REST_ON) || IsSet(flag, SLEEP_ON)) return FurniturePlacePrepositions.On;
+            if (IsSet(flag, STAND_IN) || IsSet(flag, SIT_IN) || IsSet(flag, REST_IN) || IsSet(flag, SLEEP_IN)) return FurniturePlacePrepositions.In;
+            Log.Default.WriteLine(LogLevels.Warning, "Unknown Furniture preposition {0} for item {1}", flag, objectData.VNum);
+            return FurniturePlacePrepositions.None;
+        }
+
+        // Wear flags
+        private const long ITEM_TAKE = RomLoader.A;
+        private const long ITEM_WEAR_FINGER = RomLoader.B;
+        private const long ITEM_WEAR_NECK = RomLoader.C;
+        private const long ITEM_WEAR_BODY = RomLoader.D;
+        private const long ITEM_WEAR_HEAD = RomLoader.E;
+        private const long ITEM_WEAR_LEGS = RomLoader.F;
+        private const long ITEM_WEAR_FEET = RomLoader.G;
+        private const long ITEM_WEAR_HANDS = RomLoader.H;
+        private const long ITEM_WEAR_ARMS = RomLoader.I;
+        private const long ITEM_WEAR_SHIELD = RomLoader.J;
+        private const long ITEM_WEAR_ABOUT = RomLoader.K;
+        private const long ITEM_WEAR_WAIST = RomLoader.L;
+        private const long ITEM_WEAR_WRIST = RomLoader.M;
+        private const long ITEM_WIELD = RomLoader.N;
+        private const long ITEM_HOLD = RomLoader.O;
+        private const long ITEM_NO_SAC = RomLoader.P;
+        private const long ITEM_WEAR_FLOAT = RomLoader.Q;
+
+        // weapon class
+        //#define WEAPON_EXOTIC		0
+        //#define WEAPON_SWORD		1
+        //#define WEAPON_DAGGER		2
+        //#define WEAPON_SPEAR		3
+        //#define WEAPON_MACE		4
+        //#define WEAPON_AXE		5
+        //#define WEAPON_FLAIL		6
+        //#define WEAPON_WHIP		7	
+        //#define WEAPON_POLEARM		8
+
+        // weapon types
+        private const long WEAPON_FLAMING = RomLoader.A;
+        private const long WEAPON_FROST = RomLoader.B;
+        private const long WEAPON_VAMPIRIC = RomLoader.C;
+        private const long WEAPON_SHARP = RomLoader.D;
+        private const long WEAPON_VORPAL = RomLoader.E;
+        private const long WEAPON_TWO_HANDS = RomLoader.F;
+        private const long WEAPON_SHOCKING = RomLoader.G;
+        private const long WEAPON_POISON = RomLoader.H;
+
+        // extra flags
+        private const long ITEM_GLOW = RomLoader.A;
+        private const long ITEM_HUM = RomLoader.B;
+        private const long ITEM_DARK = RomLoader.C;
+        private const long ITEM_LOCK = RomLoader.D;
+        private const long ITEM_EVIL = RomLoader.E;
+        private const long ITEM_INVIS = RomLoader.F;
+        private const long ITEM_MAGIC = RomLoader.G;
+        private const long ITEM_NODROP = RomLoader.H;
+        private const long ITEM_BLESS = RomLoader.I;
+        private const long ITEM_ANTI_GOOD = RomLoader.J;
+        private const long ITEM_ANTI_EVIL = RomLoader.K;
+        private const long ITEM_ANTI_NEUTRAL = RomLoader.L;
+        private const long ITEM_NOREMOVE = RomLoader.M;
+        private const long ITEM_INVENTORY = RomLoader.N;
+        private const long ITEM_NOPURGE = RomLoader.O;
+        private const long ITEM_ROT_DEATH = RomLoader.P;
+        private const long ITEM_VIS_DEATH = RomLoader.Q;
+        private const long ITEM_NONMETAL = RomLoader.S;
+        private const long ITEM_NOLOCATE = RomLoader.T;
+        private const long ITEM_MELT_DROP = RomLoader.U;
+        private const long ITEM_HAD_TIMER = RomLoader.V;
+        private const long ITEM_SELL_EXTRACT = RomLoader.W;
+        private const long ITEM_BURN_PROOF = RomLoader.Y;
+        private const long ITEM_NOUNCURSE = RomLoader.Z;
+
+        // portal flags
+        private const long GATE_NORMAL_EXIT = RomLoader.A;
+        private const long GATE_NOCURSE = RomLoader.B;
+        private const long GATE_GOWITH = RomLoader.C;
+        private const long GATE_BUGGY = RomLoader.D;
+        private const long GATE_RANDOM = RomLoader.E;
+
+        // container flags
+        private const long CONT_CLOSEABLE = 1;
+        private const long CONT_PICKPROOF = 2;
+        private const long CONT_CLOSED = 4;
+        private const long CONT_LOCKED = 8;
+        private const long CONT_PUT_ON = 16;
+
+        // furniture flags
+        private const long STAND_AT = RomLoader.A;
+        private const long STAND_ON = RomLoader.B;
+        private const long STAND_IN = RomLoader.C;
+        private const long SIT_AT = RomLoader.D;
+        private const long SIT_ON = RomLoader.E;
+        private const long SIT_IN = RomLoader.F;
+        private const long REST_AT = RomLoader.G;
+        private const long REST_ON = RomLoader.H;
+        private const long REST_IN = RomLoader.I;
+        private const long SLEEP_AT = RomLoader.J;
+        private const long SLEEP_ON = RomLoader.K;
+        private const long SLEEP_IN = RomLoader.L;
+        private const long PUT_AT = RomLoader.M;
+        private const long PUT_ON = RomLoader.N;
+        private const long PUT_IN = RomLoader.O;
+        private const long PUT_INSIDE = RomLoader.P;
+
+        #endregion
+
+        #region Mobile
+
+        private CharacterBlueprintBase ConvertMobile(MobileData mobileData)
+        {
+            if (_characterBlueprints.Any(x => x.Id == mobileData.VNum))
+                RaiseConvertException("Duplicate mobile Id {0}", mobileData.VNum);
+
+            SchoolTypes schoolType = SchoolTypes.None;
+            string damageNoun = mobileData.DamageType;
+            (string name, string noun, int damType) attackTableEntry = AttackTable.FirstOrDefault(x => x.name == mobileData.DamageType);
+            if (!attackTableEntry.Equals(default))
+            {
+                schoolType = ConvertDamageType(attackTableEntry.damType, $"mob {mobileData.VNum}");
+                damageNoun = attackTableEntry.noun;
+            }
+
+            CharacterNormalBlueprint blueprint = new CharacterNormalBlueprint
+            {
+                Id = mobileData.VNum,
+                Name = mobileData.Name,
+                Description = mobileData.Description,
+                Level = mobileData.Level,
+                LongDescription = mobileData.LongDescr,
+                ShortDescription = mobileData.ShortDescr,
+                Sex = ConvertSex(mobileData),
+                Wealth = mobileData.Wealth,
+                Alignment = mobileData.Alignment,
+                DamageNoun = damageNoun,
+                DamageType = schoolType,
+                DamageDiceCount = mobileData.Damage[0],
+                DamageDiceValue = mobileData.Damage[1],
+                DamageDiceBonus = mobileData.Damage[2],
+                HitPointDiceCount = mobileData.Hit[0],
+                HitPointDiceValue = mobileData.Hit[1],
+                HitPointDiceBonus = mobileData.Hit[2],
+                ManaDiceCount = mobileData.Mana[0],
+                ManaDiceValue = mobileData.Mana[1],
+                ManaDiceBonus = mobileData.Mana[2],
+                HitRollBonus = mobileData.HitRoll,
+                ArmorPierce = mobileData.Armor[0],
+                ArmorBash = mobileData.Armor[1],
+                ArmorSlash = mobileData.Armor[2],
+                ArmorExotic = mobileData.Armor[3],
+                CharacterFlags = ConvertMysteryCharacterFlags(mobileData.AffectedBy),
+                ActFlags = ConvertMysteryActFlags(mobileData.Act),
+                OffensiveFlags = ConvertMysteryOffensiveFlags(mobileData.OffFlags),
+                Immunities = ConvertMysteryIRV(mobileData.ImmFlags),
+                Resistances = ConvertMysteryIRV(mobileData.ResFlags),
+                Vulnerabilities = ConvertMysteryIRV(mobileData.VulnFlags),
+            };
+            return blueprint;
+        }
+
+        private Sex ConvertSex(MobileData mobileData)
+        {
+            if (mobileData.Sex.ToLower() == "female")
+                return Sex.Female;
+            if (mobileData.Sex.ToLower() == "male")
+                return Sex.Male;
+            return Sex.Neutral;
+        }
+
+        private IRVFlags ConvertMysteryIRV(long value)
+        {
+            IRVFlags flags = 0;
+            if (IsSet(value, IMM_SUMMON)) flags |= IRVFlags.Summon;
+            if (IsSet(value, IMM_CHARM)) flags |= IRVFlags.Charm;
+            if (IsSet(value, IMM_MAGIC)) flags |= IRVFlags.Magic;
+            if (IsSet(value, IMM_WEAPON)) flags |= IRVFlags.Weapon;
+            if (IsSet(value, IMM_BASH)) flags |= IRVFlags.Bash;
+            if (IsSet(value, IMM_PIERCE)) flags |= IRVFlags.Pierce;
+            if (IsSet(value, IMM_SLASH)) flags |= IRVFlags.Slash;
+            if (IsSet(value, IMM_FIRE)) flags |= IRVFlags.Fire;
+            if (IsSet(value, IMM_COLD)) flags |= IRVFlags.Cold;
+            if (IsSet(value, IMM_LIGHTNING)) flags |= IRVFlags.Lightning;
+            if (IsSet(value, IMM_ACID)) flags |= IRVFlags.Acid;
+            if (IsSet(value, IMM_POISON)) flags |= IRVFlags.Poison;
+            if (IsSet(value, IMM_NEGATIVE)) flags |= IRVFlags.Negative;
+            if (IsSet(value, IMM_HOLY)) flags |= IRVFlags.Holy;
+            if (IsSet(value, IMM_ENERGY)) flags |= IRVFlags.Energy;
+            if (IsSet(value, IMM_MENTAL)) flags |= IRVFlags.Mental;
+            if (IsSet(value, IMM_DISEASE)) flags |= IRVFlags.Disease;
+            if (IsSet(value, IMM_DROWNING)) flags |= IRVFlags.Drowning;
+            if (IsSet(value, IMM_LIGHT)) flags |= IRVFlags.Light;
+            if (IsSet(value, IMM_SOUND)) flags |= IRVFlags.Sound;
+            if (IsSet(value, IMM_WOOD)) flags |= IRVFlags.Wood;
+            if (IsSet(value, IMM_SILVER)) flags |= IRVFlags.Silver;
+            if (IsSet(value, IMM_IRON)) flags |= IRVFlags.Iron;
+
+            return flags;
+        }
+
+        private CharacterFlags ConvertMysteryCharacterFlags(long affectedBy)
+        {
+            CharacterFlags flags = CharacterFlags.None;
+            if (IsSet(affectedBy, AFF_BLIND)) flags |= CharacterFlags.Blind;
+            if (IsSet(affectedBy, AFF_INVISIBLE)) flags |= CharacterFlags.Invisible;
+            if (IsSet(affectedBy, AFF_DETECT_EVIL)) flags |= CharacterFlags.DetectEvil;
+            if (IsSet(affectedBy, AFF_DETECT_INVIS)) flags |= CharacterFlags.DetectInvis;
+            if (IsSet(affectedBy, AFF_DETECT_MAGIC)) flags |= CharacterFlags.DetectMagic;
+            if (IsSet(affectedBy, AFF_DETECT_HIDDEN)) flags |= CharacterFlags.DetectHidden;
+            if (IsSet(affectedBy, AFF_DETECT_GOOD)) flags |= CharacterFlags.DetectGood;
+            if (IsSet(affectedBy, AFF_SANCTUARY)) flags |= CharacterFlags.Sanctuary;
+            if (IsSet(affectedBy, AFF_FAERIE_FIRE)) flags |= CharacterFlags.FaerieFire;
+            if (IsSet(affectedBy, AFF_INFRARED)) flags |= CharacterFlags.Infrared;
+            if (IsSet(affectedBy, AFF_CURSE)) flags |= CharacterFlags.Curse;
+            if (IsSet(affectedBy, AFF_POISON)) flags |= CharacterFlags.Poison;
+            if (IsSet(affectedBy, AFF_PROTECT_EVIL)) flags |= CharacterFlags.ProtectEvil;
+            if (IsSet(affectedBy, AFF_PROTECT_GOOD)) flags |= CharacterFlags.ProtectGood;
+            if (IsSet(affectedBy, AFF_SNEAK)) flags |= CharacterFlags.Sneak;
+            if (IsSet(affectedBy, AFF_HIDE)) flags |= CharacterFlags.Hide;
+            if (IsSet(affectedBy, AFF_SLEEP)) flags |= CharacterFlags.Sleep;
+            if (IsSet(affectedBy, AFF_CHARM)) flags |= CharacterFlags.Charm;
+            if (IsSet(affectedBy, AFF_FLYING)) flags |= CharacterFlags.Flying;
+            if (IsSet(affectedBy, AFF_PASS_DOOR)) flags |= CharacterFlags.PassDoor;
+            if (IsSet(affectedBy, AFF_HASTE)) flags |= CharacterFlags.Haste;
+            if (IsSet(affectedBy, AFF_CALM)) flags |= CharacterFlags.Calm;
+            if (IsSet(affectedBy, AFF_PLAGUE)) flags |= CharacterFlags.Plague;
+            if (IsSet(affectedBy, AFF_WEAKEN)) flags |= CharacterFlags.Weaken;
+            if (IsSet(affectedBy, AFF_DARK_VISION)) flags |= CharacterFlags.DarkVision;
+            if (IsSet(affectedBy, AFF_BERSERK)) flags |= CharacterFlags.Berserk;
+            if (IsSet(affectedBy, AFF_SWIM)) flags |= CharacterFlags.Swim;
+            if (IsSet(affectedBy, AFF_REGENERATION)) flags |= CharacterFlags.Regeneration;
+            if (IsSet(affectedBy, AFF_SLOW)) flags |= CharacterFlags.Slow;
+
+            return flags;
+        }
+
+        private ActFlags ConvertMysteryActFlags(long act)
+        {
+            ActFlags flags = ActFlags.None;
+
+            //ACT_IS_NPC not used
+            if (IsSet(act, ACT_SENTINEL)) flags |= ActFlags.Sentinel;
+            if (IsSet(act, ACT_SCAVENGER)) flags |= ActFlags.Scavenger;
+            if (IsSet(act, ACT_AGGRESSIVE)) flags |= ActFlags.Aggressive;
+            if (IsSet(act, ACT_STAY_AREA)) flags |= ActFlags.StayArea;
+            if (IsSet(act, ACT_WIMPY)) flags |= ActFlags.Wimpy;
+            if (IsSet(act, ACT_PET)) flags |= ActFlags.Pet;
+            if (IsSet(act, ACT_TRAIN)) flags |= ActFlags.Train;
+            if (IsSet(act, ACT_PRACTICE)) flags |= ActFlags.Practice;
+            if (IsSet(act, ACT_UNDEAD)) flags |= ActFlags.Undead;
+            if (IsSet(act, ACT_CLERIC)) flags |= ActFlags.Cleric;
+            if (IsSet(act, ACT_MAGE)) flags |= ActFlags.Mage;
+            if (IsSet(act, ACT_THIEF)) flags |= ActFlags.Thief;
+            if (IsSet(act, ACT_WARRIOR)) flags |= ActFlags.Warrior;
+            if (IsSet(act, ACT_NOALIGN)) flags |= ActFlags.NoAlign;
+            if (IsSet(act, ACT_NOPURGE)) flags |= ActFlags.NoPurge;
+            if (IsSet(act, ACT_OUTDOORS)) flags |= ActFlags.Outdoors;
+            if (IsSet(act, ACT_INDOORS)) flags |= ActFlags.Indoors;
+            if (IsSet(act, ACT_IS_HEALER)) flags |= ActFlags.IsHealer;
+            if (IsSet(act, ACT_GAIN)) flags |= ActFlags.Gain;
+            if (IsSet(act, ACT_UPDATE_ALWAYS)) flags |= ActFlags.UpdateAlways;
+            //ACT_IS_CHANGER
+            return flags;
+        }
+
+        private OffensiveFlags ConvertMysteryOffensiveFlags(long off)
+        {
+            OffensiveFlags flags = OffensiveFlags.None;
+            if (IsSet(off, OFF_AREA_ATTACK)) flags |= OffensiveFlags.AreaAttack;
+            if (IsSet(off, OFF_BACKSTAB)) flags |= OffensiveFlags.Backstab;
+            if (IsSet(off, OFF_BASH)) flags |= OffensiveFlags.Bash;
+            if (IsSet(off, OFF_BERSERK)) flags |= OffensiveFlags.Berserk;
+            if (IsSet(off, OFF_DISARM)) flags |= OffensiveFlags.Disarm;
+            if (IsSet(off, OFF_DODGE)) flags |= OffensiveFlags.Dodge;
+            if (IsSet(off, OFF_FADE)) flags |= OffensiveFlags.Fade;
+            if (IsSet(off, OFF_FAST)) flags |= OffensiveFlags.Fast;
+            if (IsSet(off, OFF_KICK)) flags |= OffensiveFlags.Kick;
+            if (IsSet(off, OFF_KICK_DIRT)) flags |= OffensiveFlags.DirtKick;
+            if (IsSet(off, OFF_PARRY)) flags |= OffensiveFlags.Parry;
+            if (IsSet(off, OFF_RESCUE)) flags |= OffensiveFlags.Rescue;
+            if (IsSet(off, OFF_TAIL)) flags |= OffensiveFlags.Tail;
+            if (IsSet(off, OFF_TRIP)) flags |= OffensiveFlags.Trip;
+            if (IsSet(off, OFF_CRUSH)) flags |= OffensiveFlags.Crush;
+            //ASSIST_ALL))
+            //ASSIST_ALIGN))
+            //ASSIST_RACE
+            //ASSIST_PLAYERS
+            //ASSIST_GUARD
+            //ASSIST_VNUM
+            return flags;
+        }
+
+        // Immunites, Resistances, Vulnerabilities
+        private const long IMM_SUMMON = RomLoader.A;
+        private const long IMM_CHARM = RomLoader.B;
+        private const long IMM_MAGIC = RomLoader.C;
+        private const long IMM_WEAPON = RomLoader.D;
+        private const long IMM_BASH = RomLoader.E;
+        private const long IMM_PIERCE = RomLoader.F;
+        private const long IMM_SLASH = RomLoader.G;
+        private const long IMM_FIRE = RomLoader.H;
+        private const long IMM_COLD = RomLoader.I;
+        private const long IMM_LIGHTNING = RomLoader.J;
+        private const long IMM_ACID = RomLoader.K;
+        private const long IMM_POISON = RomLoader.L;
+        private const long IMM_NEGATIVE = RomLoader.M;
+        private const long IMM_HOLY = RomLoader.N;
+        private const long IMM_ENERGY = RomLoader.O;
+        private const long IMM_MENTAL = RomLoader.P;
+        private const long IMM_DISEASE = RomLoader.Q;
+        private const long IMM_DROWNING = RomLoader.R;
+        private const long IMM_LIGHT = RomLoader.S;
+        private const long IMM_SOUND = RomLoader.T;
+        private const long IMM_WOOD = RomLoader.X;
+        private const long IMM_SILVER = RomLoader.Y;
+        private const long IMM_IRON = RomLoader.Z;
+
+        // Affected by
+        private const long AFF_BLIND = RomLoader.A;
+        private const long AFF_INVISIBLE = RomLoader.B;
+        private const long AFF_DETECT_EVIL = RomLoader.C;
+        private const long AFF_DETECT_INVIS = RomLoader.D;
+        private const long AFF_DETECT_MAGIC = RomLoader.E;
+        private const long AFF_DETECT_HIDDEN = RomLoader.F;
+        private const long AFF_DETECT_GOOD = RomLoader.G;
+        private const long AFF_SANCTUARY = RomLoader.H;
+        private const long AFF_FAERIE_FIRE = RomLoader.I;
+        private const long AFF_INFRARED = RomLoader.J;
+        private const long AFF_CURSE = RomLoader.K;
+        private const long AFF_UNUSED_FLAG = RomLoader.L;
+        private const long AFF_POISON = RomLoader.M;
+        private const long AFF_PROTECT_EVIL = RomLoader.N;
+        private const long AFF_PROTECT_GOOD = RomLoader.O;
+        private const long AFF_SNEAK = RomLoader.P;
+        private const long AFF_HIDE = RomLoader.Q;
+        private const long AFF_SLEEP = RomLoader.R;
+        private const long AFF_CHARM = RomLoader.S;
+        private const long AFF_FLYING = RomLoader.T;
+        private const long AFF_PASS_DOOR = RomLoader.U;
+        private const long AFF_HASTE = RomLoader.V;
+        private const long AFF_CALM = RomLoader.W;
+        private const long AFF_PLAGUE = RomLoader.X;
+        private const long AFF_WEAKEN = RomLoader.Y;
+        private const long AFF_DARK_VISION = RomLoader.Z;
+        private const long AFF_BERSERK = RomLoader.aa;
+        private const long AFF_SWIM = RomLoader.bb;
+        private const long AFF_REGENERATION = RomLoader.cc;
+        private const long AFF_SLOW = RomLoader.dd;
+
+        // Act flags
+        private const long ACT_IS_NPC = RomLoader.A;
+        private const long ACT_SENTINEL = RomLoader.B;
+        private const long ACT_SCAVENGER = RomLoader.C;
+        private const long ACT_AGGRESSIVE = RomLoader.F;
+        private const long ACT_STAY_AREA = RomLoader.G;
+        private const long ACT_WIMPY = RomLoader.H;
+        private const long ACT_PET = RomLoader.I;
+        private const long ACT_TRAIN = RomLoader.J;
+        private const long ACT_PRACTICE = RomLoader.K;
+        private const long ACT_UNDEAD = RomLoader.O;
+        private const long ACT_CLERIC = RomLoader.Q;
+        private const long ACT_MAGE = RomLoader.R;
+        private const long ACT_THIEF = RomLoader.S;
+        private const long ACT_WARRIOR = RomLoader.T;
+        private const long ACT_NOALIGN = RomLoader.U;
+        private const long ACT_NOPURGE = RomLoader.V;
+        private const long ACT_OUTDOORS = RomLoader.W;
+        private const long ACT_INDOORS = RomLoader.Y;
+        private const long ACT_IS_HEALER = RomLoader.aa;
+        private const long ACT_GAIN = RomLoader.bb;
+        private const long ACT_UPDATE_ALWAYS = RomLoader.cc;
+        private const long ACT_IS_CHANGER = RomLoader.dd;
+
+        // Offensive flags
+        private const long OFF_AREA_ATTACK = RomLoader.A;
+        private const long OFF_BACKSTAB = RomLoader.B;
+        private const long OFF_BASH = RomLoader.C;
+        private const long OFF_BERSERK = RomLoader.D;
+        private const long OFF_DISARM = RomLoader.E;
+        private const long OFF_DODGE = RomLoader.F;
+        private const long OFF_FADE = RomLoader.G;
+        private const long OFF_FAST = RomLoader.H;
+        private const long OFF_KICK = RomLoader.I;
+        private const long OFF_KICK_DIRT = RomLoader.J;
+        private const long OFF_PARRY = RomLoader.K;
+        private const long OFF_RESCUE = RomLoader.L;
+        private const long OFF_TAIL = RomLoader.M;
+        private const long OFF_TRIP = RomLoader.N;
+        private const long OFF_CRUSH = RomLoader.O;
+        private const long ASSIST_ALL = RomLoader.P;
+        private const long ASSIST_ALIGN = RomLoader.Q;
+        private const long ASSIST_RACE = RomLoader.R;
+        private const long ASSIST_PLAYERS = RomLoader.S;
+        private const long ASSIST_GUARD = RomLoader.T;
+        private const long ASSIST_VNUM = RomLoader.U;
+
+        #endregion
+
+        private SchoolTypes ConvertDamageType(int damageType, string errorMsg)
+        {
+            switch (damageType)
+            {
+                case DAM_NONE: return SchoolTypes.None;
+                case DAM_BASH: return SchoolTypes.Bash;
+                case DAM_PIERCE: return SchoolTypes.Pierce;
+                case DAM_SLASH: return SchoolTypes.Slash;
+                case DAM_FIRE: return SchoolTypes.Fire;
+                case DAM_COLD: return SchoolTypes.Cold;
+                case DAM_LIGHTNING: return SchoolTypes.Lightning;
+                case DAM_ACID: return SchoolTypes.Acid;
+                case DAM_POISON: return SchoolTypes.Poison;
+                case DAM_NEGATIVE: return SchoolTypes.Negative;
+                case DAM_HOLY: return SchoolTypes.Holy;
+                case DAM_ENERGY: return SchoolTypes.Energy;
+                case DAM_MENTAL: return SchoolTypes.Mental;
+                case DAM_DISEASE: return SchoolTypes.Disease;
+                case DAM_DROWNING: return SchoolTypes.Drowning;
+                case DAM_LIGHT: return SchoolTypes.Light;
+                case DAM_OTHER: return SchoolTypes.Other;
+                case DAM_HARM: return SchoolTypes.Harm;
+                case DAM_CHARM: return SchoolTypes.Charm;
+                case DAM_SOUND: return SchoolTypes.Sound;
+            }
+
+            Log.Default.WriteLine(LogLevels.Warning, "Unknown damage type {0} for {1}", damageType, errorMsg);
+            return SchoolTypes.None;
+        }
+
+        // damage types
+        private const int DAM_NONE = 0;
+        private const int DAM_BASH = 1;
+        private const int DAM_PIERCE = 2;
+        private const int DAM_SLASH = 3;
+        private const int DAM_FIRE = 4;
+        private const int DAM_COLD = 5;
+        private const int DAM_LIGHTNING = 6;
+        private const int DAM_ACID = 7;
+        private const int DAM_POISON = 8;
+        private const int DAM_NEGATIVE = 9;
+        private const int DAM_HOLY = 10;
+        private const int DAM_ENERGY = 11;
+        private const int DAM_MENTAL = 12;
+        private const int DAM_DISEASE = 13;
+        private const int DAM_DROWNING = 14;
+        private const int DAM_LIGHT = 15;
+        private const int DAM_OTHER = 16;
+        private const int DAM_HARM = 17;
+        private const int DAM_CHARM = 18;
+        private const int DAM_SOUND = 19;
+
+        // attack table
+        private static readonly (string name, string noun, int damType)[] AttackTable =
+        {
+            ("none", "hit", DAM_NONE), /*  0 */ // was -1 in ROm2.4
+            ("slice", "slice", DAM_SLASH),
+            ("stab", "stab", DAM_PIERCE),
+            ("slash", "slash", DAM_SLASH),
+            ("whip", "whip", DAM_SLASH),
+            ("claw", "claw", DAM_SLASH), /*  5 */
+            ("blast", "blast", DAM_BASH),
+            ("pound", "pound", DAM_BASH),
+            ("crush", "crush", DAM_BASH),
+            ("grep", "grep", DAM_SLASH),
+            ("bite", "bite", DAM_PIERCE), /* 10 */
+            ("pierce", "pierce", DAM_PIERCE),
+            ("suction", "suction", DAM_BASH),
+            ("beating", "beating", DAM_BASH),
+            ("digestion", "digestion", DAM_ACID),
+            ("charge", "charge", DAM_BASH), /* 15 */
+            ("slap", "slap", DAM_BASH),
+            ("punch", "punch", DAM_BASH),
+            ("wrath", "wrath", DAM_ENERGY),
+            ("magic", "magic", DAM_ENERGY),
+            ("divine", "divine power", DAM_HOLY), /* 20 */
+            ("cleave", "cleave", DAM_SLASH),
+            ("scratch", "scratch", DAM_PIERCE),
+            ("peck", "peck", DAM_PIERCE),
+            ("peckb", "peck", DAM_BASH),
+            ("chop", "chop", DAM_SLASH), /* 25 */
+            ("sting", "sting", DAM_PIERCE),
+            ("smash", "smash", DAM_BASH),
+            ("shbite", "shocking bite", DAM_LIGHTNING),
+            ("flbite", "flaming bite", DAM_FIRE),
+            ("frbite", "freezing bite", DAM_COLD), /* 30 */
+            ("acbite", "acidic bite", DAM_ACID),
+            ("chomp", "chomp", DAM_PIERCE),
+            ("drain", "life drain", DAM_NEGATIVE),
+            ("thrust", "thrust", DAM_PIERCE),
+            ("slime", "slime", DAM_ACID),
+            ("shock", "shock", DAM_LIGHTNING),
+            ("thwack", "thwack", DAM_BASH),
+            ("flame", "flame", DAM_FIRE),
+            ("chill", "chill", DAM_COLD),
+        };
+
+        //
+        private bool IsSet(long input, long bit) => (input & bit) == bit;
+
+        //
+        private void RaiseConvertException(string format, params object[] parameters)
+        {
+            string message = string.Format(format, parameters);
+            Log.Default.WriteLine(LogLevels.Error, message);
+            throw new RomConvertException(message);
+        }
+
+        //
+
     }
 }

@@ -154,7 +154,7 @@ namespace Mud.Server.Item
 
         public string ShortDescription { get; protected set; }
 
-        public IReadOnlyDictionary<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
+        public ILookup<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
 
         public WearLocations WearLocation { get; }
 

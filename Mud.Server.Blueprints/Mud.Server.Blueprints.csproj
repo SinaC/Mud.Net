@@ -75,6 +75,7 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Area\AreaBlueprint.cs" />
     <Compile Include="Character\CharacterNormalBlueprint.cs" />
     <Compile Include="Character\CharacterBlueprintBase.cs" />
     <Compile Include="Character\CharacterQuestorBlueprint.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Reset\ItemInEquipmentReset.cs" />
     <Compile Include="Reset\ItemInItemReset.cs" />
     <Compile Include="Reset\ItemInRoomReset.cs" />
+    <Compile Include="Reset\RandomizeExitsReset.cs" />
     <Compile Include="Reset\ResetBase.cs" />
     <Compile Include="Room\ExitBlueprint.cs" />
     <Compile Include="Item\ItemArmorBlueprint.cs" />

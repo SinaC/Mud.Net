@@ -33,7 +33,7 @@ namespace Mud.Server.Tests
             randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((x, y) => x + y);
             DependencyContainer.Current.RegisterInstance<IRandomManager>(randomManagerMock.Object);
 
-            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object));
             npc.Recompute();
 
             Assert.AreEqual(npc[CharacterAttributes.Strength], npc[BasicAttributes.Strength]);
@@ -57,7 +57,7 @@ namespace Mud.Server.Tests
                 Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral,
                 HitPointDiceCount = 5, HitPointDiceValue = 10, HitPointDiceBonus = 30,
             };
-            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object));
             npc.Recompute();
 
             Assert.AreEqual(characterBlueprint.HitPointDiceCount * characterBlueprint.HitPointDiceValue + characterBlueprint.HitPointDiceBonus, npc.MaxHitPoints);
@@ -81,7 +81,7 @@ namespace Mud.Server.Tests
                 ManaDiceValue = 10,
                 ManaDiceBonus = 30,
             };
-            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object));
             npc.Recompute();
 
             Assert.AreEqual(characterBlueprint.ManaDiceCount * characterBlueprint.ManaDiceValue + characterBlueprint.ManaDiceBonus, npc.MaxResource(ResourceKinds.Mana));
@@ -104,7 +104,7 @@ namespace Mud.Server.Tests
                 Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral,
                 ArmorBash = 125, ArmorPierce = 130, ArmorSlash = 135, ArmorExotic = 140,
             };
-            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object));
             npc.Recompute();
 
             Assert.AreEqual(characterBlueprint.ArmorBash + defensiveBonus, npc[Armors.Bash]); // Armor is initialized with -Level
@@ -131,7 +131,7 @@ namespace Mud.Server.Tests
                 Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral,
                 HitRollBonus = -10,
             };
-            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Area.Area("Area1", 1, 100, "builders", "credits")));
+            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object));
             npc.Recompute();
 
             Assert.AreEqual(characterBlueprint.HitRollBonus + hitBonus, npc.HitRoll); // HitRoll is initialized with Level

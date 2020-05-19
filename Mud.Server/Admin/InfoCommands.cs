@@ -231,8 +231,9 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Heal rate: {0} Resource rate: {1}", room.HealRate, room.ResourceRate);
             if (room.ExtraDescriptions != null)
             {
-                foreach (KeyValuePair<string, string> kv in room.ExtraDescriptions)
-                    sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", kv.Key, kv.Value);
+                foreach (var lookup in room.ExtraDescriptions)
+                    foreach (string extraDescr in lookup)
+                        sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", lookup.Key, extraDescr);
             }
             foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
             {
@@ -424,8 +425,9 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Description: {0}", item.Description);
             if (item.ExtraDescriptions != null)
             {
-                foreach (KeyValuePair<string, string> kv in item.ExtraDescriptions)
-                    sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", kv.Key, kv.Value);
+                foreach (var lookup in item.ExtraDescriptions)
+                    foreach (string extraDescr in lookup)
+                        sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", lookup.Key, extraDescr);
             }
             sb.AppendFormatLine("Type: {0}", item.GetType().Name);
             if (item.IncarnatedBy != null)
@@ -641,8 +643,9 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Flags: {0} WearLocation: {1}", blueprint.ItemFlags, blueprint.WearLocation);
             if (blueprint.ExtraDescriptions != null)
             {
-                foreach (KeyValuePair<string, string> kv in blueprint.ExtraDescriptions)
-                    sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", kv.Key, kv.Value);
+                foreach (var lookup in blueprint.ExtraDescriptions)
+                    foreach (string extraDescr in lookup)
+                        sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", lookup.Key, extraDescr);
             }
             switch (blueprint)
             {

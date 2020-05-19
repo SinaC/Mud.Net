@@ -151,12 +151,13 @@ namespace Mud.Server.Character
             {
                 // TODO: try to use ElementAtOrDefault
                 int count = 0;
-                foreach (KeyValuePair<string, string> extraDescription in Room.ExtraDescriptions)
+                foreach (var extraDescription in Room.ExtraDescriptions)
                 {
                     if (parameters[0].Tokens.All(x => StringCompareHelpers.StringStartsWith(extraDescription.Key, x))
                             && ++count == parameters[0].Count)
                     {
-                        Send(extraDescription.Value, false);
+                        foreach(string desc in extraDescription)
+                            Send(desc, false);
                         return CommandExecutionResults.Ok;
                     }
                 }
@@ -887,11 +888,11 @@ namespace Mud.Server.Character
                 // Search in item extra description keywords
                 if (item.ExtraDescriptions != null)
                 {
-                    foreach (KeyValuePair<string, string> extraDescription in item.ExtraDescriptions)
+                    foreach (var extraDescription in item.ExtraDescriptions)
                         if (parameter.Tokens.All(x => StringCompareHelpers.StringStartsWith(extraDescription.Key, x))
                             && ++count == parameter.Count)
                         {
-                            description = extraDescription.Value;
+                            description = extraDescription.FirstOrDefault(); // TODO: really what we want ?
                             return true;
                         }
                 }

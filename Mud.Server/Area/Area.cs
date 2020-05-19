@@ -1,6 +1,8 @@
-﻿using Mud.Container;
+﻿using System;
+using Mud.Container;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Server.Blueprints.Area;
 
 namespace Mud.Server.Area
 {
@@ -10,22 +12,25 @@ namespace Mud.Server.Area
 
         private IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
-        public Area(string displayName, int minLevel, int maxLevel, string builders, string credits)
+        public Area(Guid id, AreaBlueprint blueprint)
         {
-            DisplayName = displayName;
-            MinLevel = minLevel;
-            MaxLevel = maxLevel;
-            Builders = builders;
-            Credits = credits;
+            Id = id;
+
+            Blueprint = blueprint;
+            DisplayName = blueprint.Name;
+            Builders = blueprint.Builders;
+            Credits = blueprint.Credits;
 
             _rooms = new List<IRoom>();
         }
 
         #region IArea
 
+        public Guid Id { get; }
+
+        public AreaBlueprint Blueprint { get; }
+
         public string DisplayName { get; }
-        public int MinLevel { get; }
-        public int MaxLevel { get; }
         public string Builders { get; }
         public string Credits { get; }
         public IEnumerable<IRoom> Rooms => _rooms;
