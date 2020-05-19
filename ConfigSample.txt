@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <appSettings>
+    <add key="logpath" value="c:\temp\Mud.Net\Log\" />
+ 
+    <add key="port" value="11000" />
+    <!--<add key="port" value="auto"/>-->
+ 
+    <add key="UseMongo" value="false" />
+    <add key="ConnectionString" value="****" />
+ 
+    <add key="PlayerRepositoryPath" value="f:\github\Mud.Net\Datas\Players\" />
+    <add key="AdminRepositoryPath" value="f:\github\Mud.Net\Datas\Admins\" />
+    <add key="LoginRepositoryFilename" value="f:\github\Mud.Net\Datas\logins.data" />
+    <!-- <add key="ImportAreaPath" value="f:\github\OldMud\area\" /> -->
+	<add key="ImportAreaPath" value="f:\github\Mud.Net\Datas\Areas\" />
+	
+ 
+    <add key="PrefixForwardedMessages" value="false" />
+    <add key="ForwardSlaveMessages" value="false" />
+    <add key="RemovePeriodicAurasInNotInSameRoom" value="true" />
+ 
+    <add key="PerformSanityCheck" value="true"/>
+	<add key="DumpOnInitialize" value="false"/>
+ 
+	<add key="CoinsBlueprintId" value="5" />
+    <add key="CorpseBlueprintId" value="10" />
+	<add key="MushroomBlueprintId" value="20" />
+	<add key="LightBallBlueprintId" value="21" />
+	<add key="SpringBlueprintId" value="22" />
+	<add key="FloatingDiscBlueprintId" value="23" />
+	<add key="PortalBlueprintId" value="25" />
+	<add key="RoseBlueprintId" value="1001" />
+    <add key="DefaultRoomId" value="3001"/>
+	<add key="DefaultRecallRoomId" value="3001" />
+	<add key="DefaultDeathRoomId" value="3054" />
+	<add key="NullRoomId" value="1" />
+
+    <add key="CheckLoginPassword" value="false" />
+ 
+    <add key="IdleMinutesBeforeUnimpersonate" value="10" />
+    <add key="IdleMinutesBeforeDisconnect" value="10" />
+ 
+    <add key="MaxLevel" value="60" />
+    <add key="MaxAvatarCount" value="10" />
+  </appSettings>
+</configuration>
