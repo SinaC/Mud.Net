@@ -235,6 +235,7 @@ namespace Mud.Server.Room
         public void ResetRoom()
         {
             INonPlayableCharacter lastCharacter = null;
+            bool isLastCharacter = false;
             foreach (ResetBase reset in Blueprint.Resets)
             {
                 switch (reset)
@@ -248,10 +249,13 @@ namespace Mud.Server.Room
                                 if (globalCount < characterReset.GlobalLimit)
                                 {
                                     int localCount = characterReset.LocalLimit == -1 ? int.MinValue : NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
+                                    if (localCount >= characterReset.LocalLimit)
+                                        isLastCharacter = false;
                                     if (localCount < characterReset.LocalLimit)
                                     {
                                         lastCharacter = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, this);
                                         Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: M: Mob {characterReset.CharacterId} added");
+                                        isLastCharacter = true;
                                     }
                                 }
                             }
@@ -264,8 +268,9 @@ namespace Mud.Server.Room
                             ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInRoomReset.ItemId);
                             if (blueprint != null)
                             {
-                                int globalCount = itemInRoomReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
-                                if (globalCount < itemInRoomReset.GlobalLimit)
+                                // Global limit is not used in stock rom2.4
+                                //int globalCount = itemInRoomReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
+                                //if (globalCount < itemInRoomReset.GlobalLimit)
                                 {
                                     int localCount = itemInRoomReset.LocalLimit == -1 ? int.MinValue : Content.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
                                     if (localCount < itemInRoomReset.LocalLimit)
@@ -287,15 +292,16 @@ namespace Mud.Server.Room
                             ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInItemReset.ItemId);
                             if (blueprint != null)
                             {
-                                int globalCount = itemInItemReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
-                                if (globalCount < itemInItemReset.GlobalLimit)
+                                // Global limit is not used in stock rom2.4
+                                //int globalCount = itemInItemReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
+                                //if (globalCount < itemInItemReset.GlobalLimit)
                                 {
                                     ItemBlueprintBase containerBlueprint = World.GetItemBlueprint(itemInItemReset.ContainerId);
                                     if (containerBlueprint != null)
                                     {
                                         if (containerBlueprint is ItemContainerBlueprint)
                                         {
-                                            IItemContainer container = Content.OfType<IItemContainer>().LastOrDefault(x => x.Blueprint.Id == containerBlueprint.Id); // search container in room
+                                            IItemContainer container = Content.OfType<IItemContainer>().LastOrDefault(x => x.Blueprint.Id == containerBlueprint.Id); // search container in room in stock rom 2.4 it was search in the world)
                                             if (container != null)
                                             {
                                                 int localLimit = itemInItemReset.LocalLimit == -1 ? int.MinValue : container.Content.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
@@ -324,17 +330,22 @@ namespace Mud.Server.Room
                             ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInCharacterReset.ItemId);
                             if (blueprint != null)
                             {
-                                int globalCount = itemInCharacterReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInCharacterReset.ItemId);
-                                if (globalCount < itemInCharacterReset.GlobalLimit)
+                                if (isLastCharacter)
                                 {
-                                    if (lastCharacter != null)
+                                    int globalCount = itemInCharacterReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInCharacterReset.ItemId);
+                                    if (globalCount < itemInCharacterReset.GlobalLimit)
                                     {
-                                        World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
-                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} added on {lastCharacter.Blueprint.Id}");
+                                        if (lastCharacter != null)
+                                        {
+                                            World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
+                                            Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} added on {lastCharacter.Blueprint.Id}");
+                                        }
+                                        else
+                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: G: No last character");
                                     }
-                                    else
-                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: G: No last character");
                                 }
+                                else
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: G: not last character");
                             }
                             else
                                 Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} not found");
@@ -345,32 +356,37 @@ namespace Mud.Server.Room
                             ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInEquipmentReset.ItemId);
                             if (blueprint != null)
                             {
-                                int globalCount = itemInEquipmentReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInEquipmentReset.ItemId);
-                                if (globalCount < itemInEquipmentReset.GlobalLimit)
+                                if (isLastCharacter)
                                 {
-                                    if (lastCharacter != null)
+                                    int globalCount = itemInEquipmentReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInEquipmentReset.ItemId);
+                                    if (globalCount < itemInEquipmentReset.GlobalLimit)
                                     {
-                                        IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
-                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} added on {lastCharacter.Blueprint.Id}");
-                                        // try to equip
-                                        if (item.WearLocation != WearLocations.None)
+                                        if (lastCharacter != null)
                                         {
-                                            EquippedItem equippedItem = lastCharacter.SearchEquipmentSlot(item, false);
-                                            if (equippedItem != null)
+                                            IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
+                                            Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} added on {lastCharacter.Blueprint.Id}");
+                                            // try to equip
+                                            if (item.WearLocation != WearLocations.None)
                                             {
-                                                equippedItem.Item = item;
-                                                item.ChangeContainer(null); // remove from inventory
-                                                item.ChangeEquippedBy(lastCharacter, true); // set as equipped by lastCharacter
+                                                EquippedItem equippedItem = lastCharacter.SearchEquipmentSlot(item, false);
+                                                if (equippedItem != null)
+                                                {
+                                                    equippedItem.Item = item;
+                                                    item.ChangeContainer(null); // remove from inventory
+                                                    item.ChangeEquippedBy(lastCharacter, true); // set as equipped by lastCharacter
+                                                }
+                                                else
+                                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Item {itemInEquipmentReset.ItemId} wear location {item.WearLocation} doesn't exist on last character");
                                             }
                                             else
-                                                Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Item {itemInEquipmentReset.ItemId} wear location {item.WearLocation} doesn't exist on last character");
+                                                Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Item {itemInEquipmentReset.ItemId} cannot be equipped");
                                         }
                                         else
-                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Item {itemInEquipmentReset.ItemId} cannot be equipped");
+                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Last character doesn't exist");
                                     }
-                                    else
-                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Last character doesn't exist");
                                 }
+                                else
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: not last character");
                             }
                             else
                                 Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} not found");
