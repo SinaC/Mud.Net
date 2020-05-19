@@ -48,7 +48,6 @@ namespace Mud.Settings.ConfigurationManager
         public int DefaultRoomId => IntSetting("DefaultRoomId", 3001);
         public int DefaultRecallRoomId => IntSetting("DefaultRoomId", 3001);
         public int DefaultDeathRoomId => IntSetting("DefaultDeathRoomId", 3054);
-
         public int NullRoomId => IntSetting("NullRoomId", 1);
 
         //

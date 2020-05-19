@@ -418,13 +418,16 @@ namespace Mud.Server.WPFTestApplication
             World.AddItemBlueprint(questItem2Blueprint);
 
             // MANDATORY ITEM
-            ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
+            if (World.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
             {
-                Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
-                NoTake = true,
-                Name = "corpse"
-            }; // this is mandatory
-            World.AddItemBlueprint(corpseBlueprint);
+                ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
+                {
+                    Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
+                    NoTake = true,
+                    Name = "corpse"
+                };
+                World.AddItemBlueprint(corpseBlueprint);
+            }
             // MANDATORY ROOM
             RoomBlueprint voidBlueprint = World.GetRoomBlueprint(DependencyContainer.Current.GetInstance<ISettings>().NullRoomId);
             if (voidBlueprint == null)

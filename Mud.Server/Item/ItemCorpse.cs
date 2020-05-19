@@ -13,21 +13,23 @@ namespace Mud.Server.Item
     {
         private readonly string _corpseName;
         private readonly List<IItem> _content;
+        private readonly bool _hasBeenGeneratedByKillingCharacter;
 
         private IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
 
         public ItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
-            : base(guid, blueprint, BuildName(victim.DisplayName), BuildShortDescription(victim.DisplayName), BuildDescription(victim.DisplayName), room)
+            : base(guid, blueprint, BuildName(victim.DisplayName, false, blueprint), BuildShortDescription(victim.DisplayName, false, blueprint), BuildDescription(victim.DisplayName, false, blueprint), room)
         {
             _content = new List<IItem>();
             _corpseName = victim.DisplayName;
+            _hasBeenGeneratedByKillingCharacter = true;
 
             IsPlayableCharacterCorpse = victim is IPlayableCharacter;
 
             if (IsPlayableCharacterCorpse)
             {
                 DecayPulseLeft = RandomManager.Range(25, 40) * Pulse.PulsePerMinutes;
-                BaseItemFlags |= ItemFlags.NoPurge;
+                BaseItemFlags |= ItemFlags.NoPurge; // was handled in object description in limbo.are
             }
             else
                 DecayPulseLeft = RandomManager.Range(3, 6) * Pulse.PulsePerMinutes;
@@ -108,10 +110,11 @@ namespace Mud.Server.Item
         }
 
         public ItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, ItemCorpseData itemCorpseData, IContainer container)
-            : base(guid, blueprint, itemCorpseData, BuildName(itemCorpseData.CorpseName), BuildShortDescription(itemCorpseData.CorpseName), BuildDescription(itemCorpseData.CorpseName), container)
+            : base(guid, blueprint, itemCorpseData, BuildName(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), BuildShortDescription(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), BuildDescription(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), container)
         {
             _content = new List<IItem>();
             _corpseName = itemCorpseData.CorpseName;
+            _hasBeenGeneratedByKillingCharacter = itemCorpseData.HasBeenGeneratedByKillingCharacter;
 
             IsPlayableCharacterCorpse = itemCorpseData.IsPlayableCharacterCorpse;
             if (itemCorpseData.Contains?.Length > 0)
@@ -119,6 +122,15 @@ namespace Mud.Server.Item
                 foreach (ItemData itemData in itemCorpseData.Contains)
                     World.AddItem(Guid.NewGuid(), itemData, this);
             }
+        }
+
+        public ItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IContainer container)
+            : base(guid, blueprint, container)
+        {
+            _content = new List<IItem>();
+            _corpseName = null;
+            _hasBeenGeneratedByKillingCharacter = false;
+            IsPlayableCharacterCorpse = false;
         }
 
         #region IItemCorpse
@@ -129,7 +141,6 @@ namespace Mud.Server.Item
 
         public bool PutInContainer(IItem obj)
         {
-            //return false; // cannot put anything in a corpse, puttin something is done thru constructor
             _content.Add(obj);
             return true;
         }
@@ -158,15 +169,25 @@ namespace Mud.Server.Item
                 ItemFlags = BaseItemFlags,
                 Auras = MapAuraData(),
                 Contains = MapContent(),
-                IsPlayableCharacterCorpse = IsPlayableCharacterCorpse
+                IsPlayableCharacterCorpse = IsPlayableCharacterCorpse,
+                HasBeenGeneratedByKillingCharacter = _hasBeenGeneratedByKillingCharacter,
             };
         }
 
         #endregion
 
-        private static string BuildName(string corpseName) => "corpse " + corpseName;
-        private static string BuildShortDescription(string corpseName) => "the corpse of " + corpseName;
-        private static string BuildDescription(string corpseName) => $"The corpse of {corpseName} is lying here.";
+        private static string BuildName(string corpseName, bool generated, ItemCorpseBlueprint blueprint) 
+            => generated
+                ? blueprint.Name
+                : "corpse " + corpseName;
+        private static string BuildShortDescription(string corpseName, bool generated, ItemCorpseBlueprint blueprint)
+            => generated
+                ? blueprint.ShortDescription
+                : "the corpse of " + corpseName;
+        private static string BuildDescription(string corpseName, bool generated, ItemCorpseBlueprint blueprint)
+            => generated
+                ? blueprint.Description
+             : $"The corpse of {corpseName} is lying here.";
 
         // Perform actions on item before putting it in corpse
         // returns false if item must be destroyed instead of being put in corpse

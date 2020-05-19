@@ -113,7 +113,7 @@ namespace Mud.Server.Character
                     return CommandExecutionResults.InvalidTarget;
                 }
                 // closed ?
-                if (containerItem is IItemContainer itemContainer && itemContainer.IsClosed)
+                if (containerItem is ICloseable closeable && closeable.IsClosed)
                 {
                     Send("It's closed.");
                     return CommandExecutionResults.Ok;

@@ -38,7 +38,7 @@ namespace Mud.Server.Abilities
                     || RandomManager.Range(0, 4) == 0)
                     return;
                 // Affects only corpse, container, armor, clothing, wand, staff and scroll
-                if (!(item is IItemCorpse || item is IItemContainer || item is IItemArmor || item is IItemWand || item is IItemStaff || item is IItemScroll)) // TODO: clothing
+                if (!(item is IItemCorpse || item is IItemContainer || item is IItemArmor || item is IItemWand || item is IItemStaff || item is IItemScroll) || item is IItemClothing)
                     return;
                 int chance = level / 4 + damage / 10;
                 if (chance > 25)
@@ -65,7 +65,9 @@ namespace Mud.Server.Abilities
                     case IItemArmor _:
                         msg = "{0} is pitted and etched.";
                         break;
-                    // TODO: clothing "$p is corroded into scrap."
+                    case IItemClothing _:
+                        msg = "{0} is corroded into scrap.";
+                        break;
                     case IItemWand _:
                     case IItemStaff _:
                         msg = "{0} corrodes and breaks.";

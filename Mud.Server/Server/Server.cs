@@ -21,6 +21,7 @@ using Mud.Settings;
 using System.Reflection;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Item;
+using Mud.Server.Blueprints.Reset;
 
 namespace Mud.Server.Server
 {
@@ -713,6 +714,7 @@ namespace Mud.Server.Server
             SanityCheckRooms();
             SanityCheckItems();
             SanityCheckCharacters();
+            SanityCheckResets();
         }
 
         private void SanityCheckAbilities()
@@ -801,6 +803,53 @@ namespace Mud.Server.Server
         {
             Log.Default.WriteLine(LogLevels.Info, "#CharacterBlueprints: {0}", World.CharacterBlueprints.Count);
             Log.Default.WriteLine(LogLevels.Info, "#Characters: {0}", World.Characters.Count());
+        }
+
+        private void SanityCheckResets()
+        {
+            // Is this really conclusive ?
+            //// check global limit
+            ////  count number of mob/item found in reset
+            ////  check if global limit for each reset is <= related count
+            //Dictionary<int, int> characterResetCountById = new Dictionary<int, int>();
+            //Dictionary<int, int> itemResetCountById = new Dictionary<int, int>();
+            //// Count
+            //foreach (ResetBase reset in World.Rooms.SelectMany(x => x.Blueprint.Resets))
+            //{
+            //    if (reset is CharacterReset characterReset)
+            //        characterResetCountById.Increment(characterReset.CharacterId);
+            //    else if (reset is ItemInRoomReset itemInRoomReset)
+            //        itemResetCountById.Increment(itemInRoomReset.ItemId);
+            //    else if (reset is ItemInItemReset itemInItemReset)
+            //        itemResetCountById.Increment(itemInItemReset.ItemId);
+            //    else if (reset is ItemInCharacterReset itemInCharacterReset)
+            //        itemResetCountById.Increment(itemInCharacterReset.ItemId);
+            //    else if (reset is ItemInEquipmentReset itemInEquipmentReset)
+            //        itemResetCountById.Increment(itemInEquipmentReset.ItemId);
+            //}
+            //// Check
+            //foreach (ResetBase reset in World.Rooms.SelectMany(x => x.Blueprint.Resets))
+            //{
+            //    if (reset is CharacterReset characterReset)
+            //    {
+            //        if (characterReset.GlobalLimit >= 0 && characterReset.GlobalLimit < characterResetCountById[characterReset.CharacterId])
+            //            Log.Default.WriteLine(LogLevels.Warning, "Room {0}: M: Mob {1}: global limit {2} is too low, should be at least {3}", reset.RoomId, characterReset.CharacterId, characterReset.GlobalLimit, characterResetCountById[characterReset.CharacterId]);
+            //    }
+            //    else if (reset is ItemInRoomReset itemInRoomReset)
+            //        ; // no check
+            //    else if (reset is ItemInItemReset itemInItemReset)
+            //        ; // no check
+            //    else if (reset is ItemInCharacterReset itemInCharacterReset)
+            //    {
+            //        if (itemInCharacterReset.GlobalLimit >= 0 && itemInCharacterReset.GlobalLimit < itemResetCountById[itemInCharacterReset.ItemId])
+            //            Log.Default.WriteLine(LogLevels.Warning, "Room {0}: G: Obj {1}: global limit {2} is too low, should be at least {3}", reset.RoomId, itemInCharacterReset.ItemId, itemInCharacterReset.GlobalLimit, itemResetCountById[itemInCharacterReset.ItemId]);
+            //    }
+            //    else if (reset is ItemInEquipmentReset itemInEquipmentReset)
+            //    {
+            //        if (itemInEquipmentReset.GlobalLimit >= 0 && itemInEquipmentReset.GlobalLimit < itemResetCountById[itemInEquipmentReset.ItemId])
+            //            Log.Default.WriteLine(LogLevels.Warning, "Room {0}: E: Obj {1}: global limit {2} is too low, should be at least {3}", reset.RoomId, itemInEquipmentReset.ItemId, itemInEquipmentReset.GlobalLimit, itemResetCountById[itemInEquipmentReset.ItemId]);
+            //    }
+            //}
         }
 
         private void DumpCommands()

@@ -290,7 +290,11 @@ namespace Mud.Importer.Rom
                 switch (reset.Command)
                 {
                     case 'M':
-                        Debug.Assert(reset.Arg3 == roomData.VNum, $"Reset arg3 '{reset.Arg3}' should be equal to room id '{roomData.VNum}'.");
+                        Debug.Assert(reset.Arg3 == roomData.VNum, $"Reset M arg3 '{reset.Arg3}' should be equal to room id '{roomData.VNum}'.");
+                        if (reset.Arg2 == 0)
+                            Log.Default.WriteLine(LogLevels.Warning, $"Reset M arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        if (reset.Arg4 == 0)
+                            Log.Default.WriteLine(LogLevels.Warning, $"Reset M arg4 (local limit) is 0 for room id '{roomData.VNum}'.");
                         yield return new CharacterReset
                         {
                             RoomId = roomData.VNum,
@@ -300,16 +304,22 @@ namespace Mud.Importer.Rom
                         };
                         break;
                     case 'O':
-                        Debug.Assert(reset.Arg3 == roomData.VNum, $"Reset arg3 '{reset.Arg3}' should be equal to room id '{roomData.VNum}'.");
+                        Debug.Assert(reset.Arg3 == roomData.VNum, $"Reset O arg3 '{reset.Arg3}' should be equal to room id '{roomData.VNum}'.");
+                        if (reset.Arg2 == 0)
+                            Log.Default.WriteLine(LogLevels.Warning, $"Reset O arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
                         yield return new ItemInRoomReset
                         {
                             RoomId = roomData.VNum,
                             ItemId = reset.Arg1,
                             GlobalLimit = reset.Arg2,
-                            LocalLimit = reset.Arg4,
+                            LocalLimit = 1,//reset.Arg4, in db.c/reset_area once we find the item we don't load another one
                         };
                         break;
                     case 'P':
+                        if (reset.Arg2 == 0)
+                            Log.Default.WriteLine(LogLevels.Warning, $"Reset P arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        if (reset.Arg4 == 0)
+                            Log.Default.WriteLine(LogLevels.Warning, $"Reset P arg4 (local limit) is 0 for room id '{roomData.VNum}'.");
                         yield return new ItemInItemReset
                         {
                             RoomId = roomData.VNum,
@@ -320,6 +330,8 @@ namespace Mud.Importer.Rom
                         };
                         break;
                     case 'G':
+                        if (reset.Arg2 == 0)
+                            Log.Default.WriteLine(LogLevels.Warning, $"Reset G arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
                         yield return new ItemInCharacterReset
                         {
                             RoomId = roomData.VNum,
@@ -328,6 +340,8 @@ namespace Mud.Importer.Rom
                         };
                         break;
                     case 'E':
+                        if (reset.Arg2 == 0)
+                            Log.Default.WriteLine(LogLevels.Warning, $"Reset E arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
                         yield return new ItemInEquipmentReset
                         {
                             RoomId = roomData.VNum,
@@ -590,7 +604,21 @@ namespace Mud.Importer.Rom
                         Spell3 = System.Convert.ToString(objectData.Values[3]),
                         Spell4 = System.Convert.ToString(objectData.Values[4]),
                     };
-                //TODO: case "clothing":
+                case "clothing":
+                    return new ItemClothingBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                    };
                 case "furniture":
                     return new ItemFurnitureBlueprint
                     {
@@ -612,7 +640,21 @@ namespace Mud.Importer.Rom
                         HealBonus = System.Convert.ToInt32(objectData.Values[3]),
                         ResourceBonus = System.Convert.ToInt32(objectData.Values[4]),
                     };
-                //TODO: case "trash":
+                case "trash":
+                    return new ItemTrashBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                    };
                 case "container":
                     return new ItemContainerBlueprint
                     {
@@ -717,8 +759,22 @@ namespace Mud.Importer.Rom
                         ItemFlags = ConvertExtraFlags(objectData),
                         NoTake = IsNoTake(objectData),
                     };
-                //TODO: case "npc_corpse":
-                //TODO: case "pc_corpse":
+                case "npc_corpse":
+                case "pc_corpse":
+                    return new ItemCorpseBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                    };
                 case "fountain":
                     return new ItemFountainBlueprint
                     {
@@ -756,7 +812,21 @@ namespace Mud.Importer.Rom
                         Spell4 = System.Convert.ToString(objectData.Values[4]),
                     };
                 //TODO: case "protect":
-                //TODO: case "map":
+                case "map":
+                    return new ItemMapBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                    };
                 case "portal":
                     return new ItemPortalBlueprint
                     {
@@ -790,7 +860,21 @@ namespace Mud.Importer.Rom
                         NoTake = IsNoTake(objectData),
                     };
                 //TODO: case "room_key":
-                //TODO: case "gem":
+                case "gem":
+                    return new ItemGemBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                    };
                 case "jewelry":
                     return new ItemJewelryBlueprint
                     {
@@ -806,7 +890,21 @@ namespace Mud.Importer.Rom
                         ItemFlags = ConvertExtraFlags(objectData),
                         NoTake = IsNoTake(objectData),
                     };
-                //TODO: case "jukebox":
+                case "jukebox":
+                    return new ItemJukeboxBlueprint
+                    {
+                        Id = objectData.VNum,
+                        Name = objectData.Name,
+                        ShortDescription = objectData.ShortDescr,
+                        Description = objectData.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        Cost = System.Convert.ToInt32(objectData.Cost),
+                        Level = objectData.Level,
+                        Weight = objectData.Weight,
+                        WearLocation = ConvertWearLocation(objectData),
+                        ItemFlags = ConvertExtraFlags(objectData),
+                        NoTake = IsNoTake(objectData),
+                    };
                 default:
                     Log.Default.WriteLine(LogLevels.Warning, $"ItemBlueprint cannot be created: [{objectData.VNum}] [{objectData.ItemType}] [{objectData.WearFlags}] : {objectData.Name}");
                     break;

@@ -10,6 +10,22 @@ namespace Mud.Server.Tests
     [TestClass]
     public class ItemTests
     {
+        // Corpse
+        [TestMethod]
+        public void Corpse_NoVictim_Creation_Values()
+        {
+            ItemCorpseBlueprint blueprint = new ItemCorpseBlueprint
+            {
+                Id = 1, Name = "corpseName", ShortDescription = "corpseShort", Description = "corpseDescription"
+            };
+
+            IItemCorpse corpse = new ItemCorpse(Guid.NewGuid(), blueprint, new Mock<IContainer>().Object); // corpse created with other constructor should override name, short description and description
+
+            Assert.AreEqual(blueprint.Name, corpse.Name);
+            Assert.AreEqual(blueprint.ShortDescription, corpse.DisplayName);
+            Assert.AreEqual(blueprint.Description, corpse.Description);
+        }
+
         // Light
         [TestMethod]
         public void Light_Creation_Values()

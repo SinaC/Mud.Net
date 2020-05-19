@@ -1,6 +1,6 @@
 ﻿namespace Mud.Server.Blueprints.Reset
 {
-    public class ResetBase
+    public abstract class ResetBase
     {
         // Not really used
         public int RoomId { get; set; } // Arg3

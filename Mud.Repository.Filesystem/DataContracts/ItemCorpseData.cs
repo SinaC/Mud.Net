@@ -13,5 +13,8 @@ namespace Mud.Repository.Filesystem.DataContracts
 
         [DataMember]
         public ItemData[] Contains { get; set; }
+
+        [DataMember]
+        public bool HasBeenGeneratedByKillingCharacter { get; set; }
     }
 }

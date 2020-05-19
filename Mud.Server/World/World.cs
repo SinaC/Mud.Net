@@ -257,11 +257,17 @@ namespace Mud.Server.World
                 case ItemBoatBlueprint boatBlueprint:
                     item = new ItemBoat(guid, boatBlueprint, container);
                     break;
+                case ItemClothingBlueprint clothingBlueprint:
+                    item = new ItemClothing(guid, clothingBlueprint, container);
+                    break;
                 case ItemContainerBlueprint containerBlueprint:
                     item = new ItemContainer(guid, containerBlueprint, container);
                     break;
-                case ItemCorpseBlueprint _:
-                    Wiznet.Wiznet($"World.AddItem: CorpseBlueprint cannot be added with this API.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                case ItemCorpseBlueprint corpseBlueprint:
+                    item = new ItemCorpse(guid, corpseBlueprint, container);
+                    break;
+                case ItemDrinkContainerBlueprint drinkContainerBlueprint:
+                    item = new ItemDrinkContainer(guid, drinkContainerBlueprint, container);
                     break;
                 case ItemFoodBlueprint foodBlueprint:
                     item = new ItemFood(guid, foodBlueprint, container);
@@ -272,17 +278,23 @@ namespace Mud.Server.World
                 case ItemFountainBlueprint fountainBlueprint:
                     item = new ItemFountain(guid, fountainBlueprint, container);
                     break;
-                case ItemDrinkContainerBlueprint drinkContainerBlueprint:
-                    item = new ItemDrinkContainer(guid, drinkContainerBlueprint, container);
+                case ItemGemBlueprint gemBlueprint:
+                    item = new ItemGem(guid, gemBlueprint, container);
                     break;
                 case ItemJewelryBlueprint jewelryBlueprint:
                     item = new ItemJewelry(guid, jewelryBlueprint, container);
+                    break;
+                case ItemJukeboxBlueprint jukeboxBlueprint:
+                    item = new ItemJukebox(guid, jukeboxBlueprint, container);
                     break;
                 case ItemKeyBlueprint keyBlueprint:
                     item = new ItemKey(guid, keyBlueprint, container);
                     break;
                 case ItemLightBlueprint lightBlueprint:
                     item = new ItemLight(guid, lightBlueprint, container);
+                    break;
+                case ItemMapBlueprint mapBlueprint:
+                    item = new ItemMap(guid, mapBlueprint, container);
                     break;
                 case ItemMoneyBlueprint moneyBlueprint:
                     item = new ItemMoney(guid, moneyBlueprint, container);
@@ -319,6 +331,9 @@ namespace Mud.Server.World
                     break;
                 case ItemStaffBlueprint staffBlueprint:
                     item = new ItemStaff(guid, staffBlueprint, container);
+                    break;
+                case ItemTrashBlueprint trashBlueprint:
+                    item = new ItemTrash(guid, trashBlueprint, container);
                     break;
                 case ItemTreasureBlueprint treasureBlueprint:
                     item = new ItemTreasure(guid, treasureBlueprint, container);
@@ -365,11 +380,17 @@ namespace Mud.Server.World
                 case ItemBoatBlueprint boatBlueprint:
                     item = new ItemBoat(guid, boatBlueprint, itemData, container);
                     break;
+                case ItemClothingBlueprint clothingBlueprint:
+                    item = new ItemClothing(guid, clothingBlueprint, itemData, container);
+                    break;
                 case ItemContainerBlueprint containerBlueprint:
                     item = new ItemContainer(guid, containerBlueprint, itemData as ItemContainerData, container);
                     break;
-                case ItemCorpseBlueprint corpseBlueprint: // corpse can be created from ItemData
+                case ItemCorpseBlueprint corpseBlueprint:
                     item = new ItemCorpse(guid, corpseBlueprint, itemData as ItemCorpseData, container);
+                    break;
+                case ItemDrinkContainerBlueprint drinkContainerBlueprint:
+                    item = new ItemDrinkContainer(guid, drinkContainerBlueprint, itemData as ItemDrinkContainerData, container);
                     break;
                 case ItemFoodBlueprint foodBlueprint:
                     item = new ItemFood(guid, foodBlueprint, itemData as ItemFoodData, container);
@@ -380,17 +401,23 @@ namespace Mud.Server.World
                 case ItemFountainBlueprint fountainBlueprint:
                     item = new ItemFountain(guid, fountainBlueprint, itemData, container);
                     break;
-                case ItemDrinkContainerBlueprint drinkContainerBlueprint:
-                    item = new ItemDrinkContainer(guid, drinkContainerBlueprint, itemData as ItemDrinkContainerData, container);
+                case ItemGemBlueprint gemBlueprint:
+                    item = new ItemGem(guid, gemBlueprint, itemData, container);
                     break;
                 case ItemJewelryBlueprint jewelryBlueprint:
                     item = new ItemJewelry (guid, jewelryBlueprint, itemData, container);
+                    break;
+                case ItemJukeboxBlueprint jukeboxBlueprint:
+                    item = new ItemJukebox(guid, jukeboxBlueprint, itemData, container);
                     break;
                 case ItemKeyBlueprint keyBlueprint:
                     item = new ItemKey(guid, keyBlueprint, itemData, container);
                     break;
                 case ItemLightBlueprint lightBlueprint:
                     item = new ItemLight(guid, lightBlueprint, itemData as ItemLightData, container);
+                    break;
+                case ItemMapBlueprint mapBlueprint:
+                    item = new ItemMap(guid, mapBlueprint, itemData, container);
                     break;
                 case ItemMoneyBlueprint moneyBlueprint:
                     item = new ItemMoney(guid, moneyBlueprint, itemData, container);
@@ -428,6 +455,9 @@ namespace Mud.Server.World
                     break;
                 case ItemStaffBlueprint staffBlueprint:
                     item = new ItemStaff(guid, staffBlueprint, itemData as ItemStaffData, container);
+                    break;
+                case ItemTrashBlueprint trashBlueprint:
+                    item = new ItemTrash(guid, trashBlueprint, itemData, container);
                     break;
                 case ItemTreasureBlueprint treasureBlueprint:
                     item = new ItemTreasure(guid, treasureBlueprint, itemData, container);

@@ -1,9 +1,7 @@
 ﻿namespace Mud.Server.Item
 {
-    public interface IItemCorpse : IItem, IContainer
+    public interface IItemCorpse : IItemCanContain
     {
-        // TODO: any methods ???
-        // maybe  character name / impersonated or not
         bool IsPlayableCharacterCorpse { get; }
     }
 }

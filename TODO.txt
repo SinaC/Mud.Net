@@ -1,11 +1,14 @@
 NEXT:
-Rom importer
 
 TODO:
+SanityCheck on Resets
+    check if #reset for specific mob/item in room  < local limit
+    INCONCLUSIVE: check if #reset for specific mob/item in world < global limit
+Multiple wear location
 Reset 'R'
 quest: add quest item on the fly when player takes the quest
 admin command to switch an avatar from/to immortal/mortal
-item: trash, clothing, map, gem //---, jukebox, protect, room_key
+item: jukebox, protect, room_key
 master/pet/follower/group
 Monitor Recompute calls
 Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
@@ -24,6 +27,62 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+Fixing area and reset issues
+New abstraction level IItemCanContain as common level for IItemContainer and IItemCorpse
+Spells: general purpose, high explosive
+item: trash, gem, clothing, map, corpse
+Haon.are + Plains.are:
+    mobile 309: was present in 7 resets but global limit was set to 5 in Haon.are, global limit set to 10 in Haon.are
+Daycare.are:
+    room 6609: reset M 6603 was 2 times but local limit was set to 1
+    mobile 6603: was in 5 resets but global limit was set to 4
+Thalos.are:
+    item 5224, 5226: was not equippable but found in reset E, hold wear loc added
+    item 5230, 5233, 5231, 5243, 5235, 5239, 5232, 5237: was in 2 resets (one in mirror.are) but global limit was set to 1
+Chapel.are:
+    item 3411, 3416, 3419: was not equippable but found in reset E, hold wear loc added
+    room 3465: reset M 3407 was 2 times but local limit was set to 1
+Astral.are:
+    room 7751, 7765, 7767, 7769: 2 mobs 7707 were in reset but local limit was set to 1
+Caynon.are: 
+    room 9204: reset M 9202, local and global limit was set to 0
+    item 9223, 9224, 9225: was not equippable but found in reset E, hold wear loc added
+Pyramid.are:
+    room 8719: reset O 8723, local and global limit was set to 0
+    room 8745: reset M 8710 was 2 times but local limit was set to 1
+Catacombs.are:
+    room 2016: reset M 2010 was 3 times but local limit was set to 2
+    room 2025: reset E 2001 transformed to G 1 2001   1    	*   a glowing key because a key cannot be hold as light
+Moria.are:
+    room 4013, 4021, 4027: reset M 4003 was 2 times but local limit was set to 1
+    room 4103+4111: total of 3 M 4102 but global limit was set to 2
+Sewer.are:
+    room 7233: reset M 7203 was 2 times but local limit was set to 1
+School.are
+    item 3714: was not equippable but found in reset E, hold wear loc added
+Valley.are
+    room 7853+7866+7860+7848: total of 4 M 7803 but global limit was set to 1
+Dwarven.are:
+    item 6514: was not equippable but found in reset E, hold wear loc added
+Galaxy.are:
+    item 9328: was not equippable but found in reset E, hold wear loc added
+Gnome.are:
+    item 1524: was not equippable but found in reset E and was equipped as weapon but being a boat, hold wear added and changed E reset to hold
+Hitower.are
+    item 1356: was not equippable but found in reset E, wrist wear loc added
+    item 1316, 1323, 1325: was not equippable but found in reset E, hold wear loc added
+    item 1386: was present in 3 resets but global limit was set to 1, set to 3
+Olympus.are:
+    item 915, 916: was not equippable but found in reset E, hold wear loc added
+Shire.are
+    item 1116: was present in 4 resets but global limit was set to 3, set to 9 (was already set to 9 in room 1110)
+    item 621: was present in 15 resets (14 in ofcol2.are and one in shire.are) but global limit was set to 10, set to 99 (was already set to 99 in ofcol2.are)
+Drow.are:
+    item 5104: global and local limit were switched
+Mirror.are:
+    item 5230, 5233, 5243, 5235, 5239, 5232, 5237: was in 2 resets (one in thalos.are) but global limit was set to 1
+Eastern.are:
+    item 3022: was present in 26 resets but global limit was set to 25, set to 50 (was already set to 50 in room 5009)
 AreaBlueprint: flags, and other fields
 Reset 'D'
 Admin command Resets

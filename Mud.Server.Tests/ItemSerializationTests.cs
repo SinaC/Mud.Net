@@ -35,6 +35,81 @@ namespace Mud.Server.Tests
             Assert.AreEqual(armor.BaseItemFlags, itemData.ItemFlags);
         }
 
+        // Jukebox
+        [TestMethod]
+        public void ItemJukebox_To_ItemData_Test()
+        {
+            ItemJukeboxBlueprint blueprint = new ItemJukeboxBlueprint { Id = 1, Name = "Jukebox", ShortDescription = "JukeboxShort", Description = "JukeboxDesc", ItemFlags = ItemFlags.Glowing };
+            IItemJukebox jukebox = new ItemJukebox(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
+
+            ItemData itemData = jukebox.MapItemData(); // no specific ItemData
+
+            Assert.IsInstanceOfType(itemData, typeof(ItemData));
+            Assert.AreEqual(jukebox.Blueprint.Id, itemData.ItemId);
+            Assert.AreEqual(jukebox.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(jukebox.BaseItemFlags, itemData.ItemFlags);
+        }
+
+        // Map
+        [TestMethod]
+        public void ItemMap_To_ItemData_Test()
+        {
+            ItemMapBlueprint blueprint = new ItemMapBlueprint { Id = 1, Name = "Map", ShortDescription = "MapShort", Description = "MapDesc", ItemFlags = ItemFlags.Glowing };
+            IItemMap map = new ItemMap(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
+
+            ItemData itemData = map.MapItemData(); // no specific ItemData
+
+            Assert.IsInstanceOfType(itemData, typeof(ItemData));
+            Assert.AreEqual(map.Blueprint.Id, itemData.ItemId);
+            Assert.AreEqual(map.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(map.BaseItemFlags, itemData.ItemFlags);
+        }
+
+        // Clothing
+        [TestMethod]
+        public void ItemClothing_To_ItemData_Test()
+        {
+            ItemClothingBlueprint blueprint = new ItemClothingBlueprint { Id = 1, Name = "Clothing", ShortDescription = "ClothingShort", Description = "ClothingDesc", ItemFlags = ItemFlags.Glowing };
+            IItemClothing clothing = new ItemClothing(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
+
+            ItemData itemData = clothing.MapItemData(); // no specific ItemData
+
+            Assert.IsInstanceOfType(itemData, typeof(ItemData));
+            Assert.AreEqual(clothing.Blueprint.Id, itemData.ItemId);
+            Assert.AreEqual(clothing.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(clothing.BaseItemFlags, itemData.ItemFlags);
+        }
+
+        // Trash
+        [TestMethod]
+        public void ItemTrash_To_ItemData_Test()
+        {
+            ItemTrashBlueprint blueprint = new ItemTrashBlueprint { Id = 1, Name = "Trash", ShortDescription = "TrashShort", Description = "TrashDesc", ItemFlags = ItemFlags.Glowing };
+            IItemTrash trash = new ItemTrash(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
+
+            ItemData itemData = trash.MapItemData(); // no specific ItemData
+
+            Assert.IsInstanceOfType(itemData, typeof(ItemData));
+            Assert.AreEqual(trash.Blueprint.Id, itemData.ItemId);
+            Assert.AreEqual(trash.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(trash.BaseItemFlags, itemData.ItemFlags);
+        }
+
+        // Gem
+        [TestMethod]
+        public void ItemGem_To_ItemData_Test()
+        {
+            ItemGemBlueprint blueprint = new ItemGemBlueprint { Id = 1, Name = "Gem", ShortDescription = "GemShort", Description = "GemDesc", ItemFlags = ItemFlags.Glowing };
+            IItemGem gem = new ItemGem(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
+
+            ItemData itemData = gem.MapItemData(); // no specific ItemData
+
+            Assert.IsInstanceOfType(itemData, typeof(ItemData));
+            Assert.AreEqual(gem.Blueprint.Id, itemData.ItemId);
+            Assert.AreEqual(gem.DecayPulseLeft, itemData.DecayPulseLeft);
+            Assert.AreEqual(gem.BaseItemFlags, itemData.ItemFlags);
+        }
+
         // Boat
         [TestMethod]
         public void ItemBoat_To_ItemData_Test()

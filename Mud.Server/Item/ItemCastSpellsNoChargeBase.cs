@@ -54,7 +54,8 @@ namespace Mud.Server.Item
                         && ability.Target != AbilityTargets.CharacterDefensive
                         && ability.Target != AbilityTargets.CharacterSelf
                         && ability.Target != AbilityTargets.ItemHereOrCharacterOffensive
-                        && ability.Target != AbilityTargets.ItemInventoryOrCharacterDefensive)
+                        && ability.Target != AbilityTargets.ItemInventoryOrCharacterDefensive
+                        && ability.Target != AbilityTargets.None)
                 Wiznet.Wiznet($"{GetType().Name}.GetSpell: ability {name} has invalid target {ability.Target} for blueprint id {Blueprint.Id}", WiznetFlags.Bugs, AdminLevels.Implementor);
             return ability;
         }

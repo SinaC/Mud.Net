@@ -200,10 +200,14 @@ namespace Mud.Server.Tests.Mocking
                 case ItemBoatBlueprint boatBlueprint:
                     item = new ItemBoat(guid, boatBlueprint, container);
                     break;
+                case ItemClothingBlueprint clothingBlueprint:
+                    item = new ItemClothing(guid, clothingBlueprint, container);
+                    break;
                 case ItemContainerBlueprint containerBlueprint:
                     item = new ItemContainer(guid, containerBlueprint, container);
                     break;
                 case ItemCorpseBlueprint corpseBlueprint:
+                    item = new ItemCorpse(guid, corpseBlueprint, container);
                     break;
                 case ItemFurnitureBlueprint furnitureBlueprint:
                     item = new ItemFurniture(guid, furnitureBlueprint, container);
@@ -217,14 +221,23 @@ namespace Mud.Server.Tests.Mocking
                 case ItemFoodBlueprint foodBlueprint:
                     item = new ItemFood(guid, foodBlueprint, container);
                     break;
+                case ItemGemBlueprint gemBlueprint:
+                    item = new ItemGem(guid, gemBlueprint, container);
+                    break;
                 case ItemJewelryBlueprint jewelryBlueprint:
                     item = new ItemJewelry(guid, jewelryBlueprint, container);
+                    break;
+                case ItemJukeboxBlueprint jukeboxBlueprint:
+                    item = new ItemJukebox(guid, jukeboxBlueprint, container);
                     break;
                 case ItemKeyBlueprint keyBlueprint:
                     item = new ItemKey(guid, keyBlueprint, container);
                     break;
                 case ItemLightBlueprint lightBlueprint:
                     item = new ItemLight(guid, lightBlueprint, container);
+                    break;
+                case ItemMapBlueprint mapBlueprint:
+                    item = new ItemMap(guid, mapBlueprint, container);
                     break;
                 case ItemPillBlueprint pillBlueprint:
                     item = new ItemPill(guid, pillBlueprint, container);
@@ -237,6 +250,9 @@ namespace Mud.Server.Tests.Mocking
                         IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
                         item = new ItemPortal(guid, portalBlueprint, destination, container);
                     }
+                    break;
+                case ItemTrashBlueprint trashBlueprint:
+                    item = new ItemTrash(guid, trashBlueprint, container);
                     break;
                 case ItemQuestBlueprint questBlueprint:
                     item = new ItemQuest(guid, questBlueprint, container);
@@ -285,6 +301,9 @@ namespace Mud.Server.Tests.Mocking
                 case ItemBoatBlueprint boatBlueprint:
                     item = new ItemBoat(guid, boatBlueprint, itemData, container);
                     break;
+                case ItemClothingBlueprint clothingBlueprint:
+                    item = new ItemClothing(guid, clothingBlueprint, itemData, container);
+                    break;
                 case ItemContainerBlueprint containerBlueprint:
                     item = new ItemContainer(guid, containerBlueprint, itemData as ItemContainerData, container);
                     break;
@@ -303,14 +322,23 @@ namespace Mud.Server.Tests.Mocking
                 case ItemFoodBlueprint foodBlueprint:
                     item = new ItemFood(guid, foodBlueprint, itemData as ItemFoodData, container);
                     break;
+                case ItemGemBlueprint gemBlueprint:
+                    item = new ItemGem(guid, gemBlueprint, itemData, container);
+                    break;
                 case ItemJewelryBlueprint jewelryBlueprint:
                     item = new ItemJewelry(guid, jewelryBlueprint, itemData, container);
+                    break;
+                case ItemJukeboxBlueprint jukeboxBlueprint:
+                    item = new ItemJukebox(guid, jukeboxBlueprint, itemData, container);
                     break;
                 case ItemKeyBlueprint keyBlueprint:
                     item = new ItemKey(guid, keyBlueprint, itemData, container);
                     break;
                 case ItemLightBlueprint lightBlueprint:
                     item = new ItemLight(guid, lightBlueprint, itemData as ItemLightData, container);
+                    break;
+                case ItemMapBlueprint mapBlueprint:
+                    item = new ItemMap(guid, mapBlueprint, itemData, container);
                     break;
                 case ItemPillBlueprint pillBlueprint:
                     item = new ItemPill(guid, pillBlueprint, itemData, container);
@@ -323,6 +351,9 @@ namespace Mud.Server.Tests.Mocking
                         IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
                         item = new ItemPortal(guid, portalBlueprint, itemData as ItemPortalData, destination, container);
                     }
+                    break;
+                case ItemTrashBlueprint trashBlueprint:
+                    item = new ItemTrash(guid, trashBlueprint, itemData, container);
                     break;
                 case ItemQuestBlueprint questBlueprint:
                     item = new ItemQuest(guid, questBlueprint, itemData, container);

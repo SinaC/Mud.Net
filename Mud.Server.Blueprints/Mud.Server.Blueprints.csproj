@@ -80,7 +80,12 @@
     <Compile Include="Character\CharacterBlueprintBase.cs" />
     <Compile Include="Character\CharacterQuestorBlueprint.cs" />
     <Compile Include="Item\ItemBoatBlueprint.cs" />
+    <Compile Include="Item\ItemClothingBlueprint.cs" />
+    <Compile Include="Item\ItemGemBlueprint.cs" />
+    <Compile Include="Item\ItemJukeboxBlueprint.cs" />
+    <Compile Include="Item\ItemMapBlueprint.cs" />
     <Compile Include="Item\ItemMoneyBlueprint.cs" />
+    <Compile Include="Item\ItemTrashBlueprint.cs" />
     <Compile Include="Item\ItemTreasureBlueprint.cs" />
     <Compile Include="Reset\CharacterReset.cs" />
     <Compile Include="Item\ItemCastSpellsChargeBlueprintBase.cs" />

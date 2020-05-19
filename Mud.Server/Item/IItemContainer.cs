@@ -2,7 +2,7 @@
 
 namespace Mud.Server.Item
 {
-    public interface IItemContainer : IItemCloseable, IContainer
+    public interface IItemContainer : IItemCloseable, IItemCanContain
     {
         int MaxWeight { get; }
         ContainerFlags ContainerFlags { get; }

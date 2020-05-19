@@ -2147,7 +2147,7 @@ namespace Mud.Server.Abilities
 
         // NPC Spells
 
-        [Spell(500, "Acid Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, DamageNoun = "blast of acid")]
+        [Spell(500, "Acid breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, DamageNoun = "blast of acid")]
         public void SpellAcidBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} spits acid at {1}.", caster, victim);
@@ -2171,7 +2171,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Spell(501, "Fire Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, DamageNoun = "blast of fire")]
+        [Spell(501, "Fire breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, DamageNoun = "blast of fire")]
         public void SpellFireBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} breathes forth a cone of fire.", caster);
@@ -2186,7 +2186,7 @@ namespace Mud.Server.Abilities
             BreathAreaEffect(victim, ability, caster, level, damage, SchoolTypes.Fire, FireEffect);
         }
 
-        [Spell(502, "Frost Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, DamageNoun = "blast of frost")]
+        [Spell(502, "Frost breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, DamageNoun = "blast of frost")]
         public void SpellFrostBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} breathes out a freezing cone of frost!", caster);
@@ -2201,7 +2201,7 @@ namespace Mud.Server.Abilities
             BreathAreaEffect(victim, ability, caster, level, damage, SchoolTypes.Cold, ColdEffect);
         }
 
-        [Spell(503, "Gas Breath", AbilityTargets.None, PulseWaitTime = 24, DamageNoun = "blast of gas")]
+        [Spell(503, "Gas breath", AbilityTargets.None, PulseWaitTime = 24, DamageNoun = "blast of gas")]
         public void SpellGasBreath(IAbility ability, int level, ICharacter caster)
         {
             caster.Act(ActOptions.ToRoom, "{0} breathes out a cloud of poisonous gas!", caster);
@@ -2215,7 +2215,7 @@ namespace Mud.Server.Abilities
             BreathAreaEffect(caster, ability, caster, level, damage, SchoolTypes.Poison, PoisonEffect);
         }
 
-        [Spell(504, "Lightning Breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, DamageNoun = "blast of lightning")]
+        [Spell(504, "Lightning breath", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, DamageNoun = "blast of lightning")]
         public void SpellLightningBreath(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             caster.ActToNotVictim(victim, "{0} breathes a bolt of lightning at {1}.", caster, victim);
@@ -2239,7 +2239,25 @@ namespace Mud.Server.Abilities
             }
         }
 
-        // TODO: general purpose, high explosive
+        // NPC spells for mega.are
+
+        [Spell(600, "General Purpose", AbilityTargets.CharacterOffensive, DamageNoun = "general purpose ammo")]
+        public void SpellGeneralPurpose(IAbility ability, int level, ICharacter caster, ICharacter victim)
+        {
+            int damage = RandomManager.Range(25, 100);
+            if (victim.SavesSpell(level, SchoolTypes.Pierce))
+                damage /= 2;
+            victim.AbilityDamage(caster, ability, damage, SchoolTypes.Pierce, true);
+        }
+
+        [Spell(601, "High explosive", AbilityTargets.CharacterOffensive, DamageNoun = "high explosive ammo")]
+        public void SpellHighExplosive(IAbility ability, int level, ICharacter caster, ICharacter victim)
+        {
+            int damage = RandomManager.Range(30, 120);
+            if (victim.SavesSpell(level, SchoolTypes.Pierce))
+                damage /= 2;
+            victim.AbilityDamage(caster, ability, damage, SchoolTypes.Pierce, true);
+        }
 
         #region Helpers
 

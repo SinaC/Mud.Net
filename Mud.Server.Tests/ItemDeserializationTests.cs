@@ -34,6 +34,111 @@ namespace Mud.Server.Tests
             Assert.AreEqual(itemData.Level, armor.Level);
         }
 
+        // Jukebox
+        [TestMethod]
+        public void ItemData_To_ItemJukebox_Test()
+        {
+            ItemJukeboxBlueprint blueprint = new ItemJukeboxBlueprint { Id = 1, Name = "Jukebox", ShortDescription = "JukeboxShort", Description = "JukeboxDesc" };
+            ItemData itemData = new ItemData
+            {
+                ItemId = blueprint.Id,
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                Level = 10,
+            };
+
+            IItemJukebox jukebox = new ItemJukebox(Guid.NewGuid(), blueprint, itemData, new Mock<IContainer>().Object);
+
+            Assert.AreEqual(blueprint.Id, jukebox.Blueprint.Id);
+            Assert.AreEqual(itemData.DecayPulseLeft, jukebox.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, jukebox.BaseItemFlags);
+            Assert.AreEqual(itemData.Level, jukebox.Level);
+        }
+
+        // Map
+        [TestMethod]
+        public void ItemData_To_ItemMap_Test()
+        {
+            ItemMapBlueprint blueprint = new ItemMapBlueprint { Id = 1, Name = "Map", ShortDescription = "MapShort", Description = "MapDesc" };
+            ItemData itemData = new ItemData
+            {
+                ItemId = blueprint.Id,
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                Level = 10,
+            };
+
+            IItemMap map = new ItemMap(Guid.NewGuid(), blueprint, itemData, new Mock<IContainer>().Object);
+
+            Assert.AreEqual(blueprint.Id, map.Blueprint.Id);
+            Assert.AreEqual(itemData.DecayPulseLeft, map.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, map.BaseItemFlags);
+            Assert.AreEqual(itemData.Level, map.Level);
+        }
+
+        // Clothing
+        [TestMethod]
+        public void ItemData_To_ItemClothing_Test()
+        {
+            ItemClothingBlueprint blueprint = new ItemClothingBlueprint { Id = 1, Name = "Clothing", ShortDescription = "ClothingShort", Description = "ClothingDesc" };
+            ItemData itemData = new ItemData
+            {
+                ItemId = blueprint.Id,
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                Level = 10,
+            };
+
+            IItemClothing clothing = new ItemClothing(Guid.NewGuid(), blueprint, itemData, new Mock<IContainer>().Object);
+
+            Assert.AreEqual(blueprint.Id, clothing.Blueprint.Id);
+            Assert.AreEqual(itemData.DecayPulseLeft, clothing.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, clothing.BaseItemFlags);
+            Assert.AreEqual(itemData.Level, clothing.Level);
+        }
+
+        // Trash
+        [TestMethod]
+        public void ItemData_To_ItemTrash_Test()
+        {
+            ItemTrashBlueprint trashBlueprint = new ItemTrashBlueprint { Id = 1, Name = "Trash", ShortDescription = "TrashShort", Description = "TrashDesc" };
+            ItemData itemData = new ItemData
+            {
+                ItemId = trashBlueprint.Id,
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                Level = 10,
+            };
+
+            IItemTrash trash = new ItemTrash(Guid.NewGuid(), trashBlueprint, itemData, new Mock<IContainer>().Object);
+
+            Assert.AreEqual(trashBlueprint.Id, trash.Blueprint.Id);
+            Assert.AreEqual(itemData.DecayPulseLeft, trash.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, trash.BaseItemFlags);
+            Assert.AreEqual(itemData.Level, trash.Level);
+        }
+
+        // Gem
+        [TestMethod]
+        public void ItemData_To_ItemGem_Test()
+        {
+            ItemGemBlueprint gemBlueprint = new ItemGemBlueprint { Id = 1, Name = "Gem", ShortDescription = "GemShort", Description = "GemDesc" };
+            ItemData itemData = new ItemData
+            {
+                ItemId = gemBlueprint.Id,
+                DecayPulseLeft = AutoFaker.Generate<int>(),
+                ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                Level = 10,
+            };
+
+            IItemGem gem = new ItemGem(Guid.NewGuid(), gemBlueprint, itemData, new Mock<IContainer>().Object);
+
+            Assert.AreEqual(gemBlueprint.Id, gem.Blueprint.Id);
+            Assert.AreEqual(itemData.DecayPulseLeft, gem.DecayPulseLeft);
+            Assert.AreEqual(itemData.ItemFlags, gem.BaseItemFlags);
+            Assert.AreEqual(itemData.Level, gem.Level);
+        }
+
         // Boat
         [TestMethod]
         public void ItemData_To_ItemBoat_Test()

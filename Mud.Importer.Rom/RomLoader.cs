@@ -477,7 +477,7 @@ namespace Mud.Importer.Rom
                 int arg1 = (int)ReadNumber();
                 int arg2 = (int)ReadNumber();
                 int arg3 = (letter == 'G' || letter == 'R') ? 0 : (int)ReadNumber();
-                int arg4 = (letter == 'P' || letter == 'M' || letter == 'Z') ? (int)ReadNumber() : 0;
+                int arg4 = (letter == 'P' || letter == 'M') ? (int)ReadNumber() : 0;
                 ReadToEol();
 
                 ResetData resetData = new ResetData
