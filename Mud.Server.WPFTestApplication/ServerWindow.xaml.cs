@@ -9,6 +9,7 @@ using System.Windows.Media;
 using AutoMapper;
 using Mud.Container;
 using Mud.Domain;
+using Mud.Importer.Mystery;
 using Mud.Importer.Rom;
 using Mud.Logger;
 using Mud.Network;
@@ -356,6 +357,7 @@ namespace Mud.Server.WPFTestApplication
             string path = DependencyContainer.Current.GetInstance<ISettings>().ImportAreaPath;
 
             RomImporter importer = new RomImporter();
+            //MysteryImporter importer = new MysteryImporter();
             //importer.Import(path, "limbo.are", "midgaard.are", "hitower.are");
             importer.ImportByList(path, "area.lst");
 

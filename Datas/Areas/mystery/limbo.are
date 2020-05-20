@@ -1,0 +1,1491 @@
+#AREADATA
+Name Limbo~
+Builders None~
+VNUMs 1 99
+Credits {{None } Diku    Limbo~
+Security 9
+Flags D
+End
+
+
+
+#MOBILES
+#1
+zombie~
+a zombie~
+A zombie is here, slaving away for his master.
+~
+This zombie has a blank look on its face. Rest assured, it wouldn't stir if
+you held a knife to its throat.
+~
+zombie~
+0
+AOT J 0 1 -1000 0
+45 0 25d10+3000 4d10+100 0d0+0 4d4+1 punch
+0 0 0 0
+0 0 LQ G
+stand stand none 0
+CDHIM ABCDEFGHIJKR medium flesh
+#2
+mount pony~
+a pony~
+A pony is here.
+~
+You see a small brown pony.
+~
+horse~
+0
+AM S 0 0 0 0
+5 0 3d22+96 5d10+100 0d0+0 2d3+3 smash
+6 6 6 10
+CI 0 0 0
+stand stand none 0
+AGV ACDEFHK medium flesh
+M
+mount
+#3
+mount donkey~
+a donkey~
+A donkey is here.
+~
+You see a dark grey donkey.
+~
+horse~
+0
+AM S 0 0 0 0
+15 0 5d30+161 15d10+100 0d0+0 3d5+8 none
+0 0 0 5
+CI 0 0 0
+stand stand none 0
+AGV ACDEFHK medium flesh
+M
+mount
+#4
+mount horse~
+a horse~
+A horse is here.
+~
+You see a light brown horse.
+~
+horse~
+0
+AM S 0 0 0 0
+25 0 8d50+200 25d10+100 0d0+0 5d5+12 smash
+-5 -5 -5 2
+CI 0 0 0
+stand stand none 0
+AGV ACDEFHK medium flesh
+M
+mount
+#5
+mount camel~
+a camel~
+A camel is here.
+~
+You see a camel.
+~
+horse~
+0
+AM S 0 0 0 0
+35 0 10d80+500 35d10+100 0d0+0 5d7+18 smash
+-12 -12 -12 -1
+CI 0 0 0
+stand stand none 0
+AGV ACDEFHK large flesh
+M
+mount
+#6
+mount elephant~
+an elephant~
+An elephant is here.
+~
+You see a huge elephant.
+~
+horse~
+0
+AM S 0 0 0 0
+45 0 10d100+600 45d10+100 0d0+0 5d8+20 charge
+-18 -18 -18 -4
+CI 0 0 0
+stand stand none 0
+AGV ACDEFHKY huge flesh
+M
+mount
+#7
+mount griffon~
+a griffon~
+A griffon flies here.
+~
+You see a beautiful griffon.
+~
+griffon~
+0
+A HJTV 0 0 0 0
+55 0 10d200+1200 50d10+100 0d0+0 6d10+30 peck
+-24 -24 -24 -7
+FH 0 0 0
+stand stand none 0
+AGVW ACDEFKPV large flesh
+M
+mount
+#8
+dragon mount~
+a dragon~
+A huge green dragon is here.
+~
+~
+dragon~
+0
+ABIU DEFJT 0 0 0 0
+65 0 50d10+9500 65d10+100 0d0+0 6d12+40 none
+-30 -30 -30 -10
+CEFKLMO 0 BEH ABFI
+stand stand none 0
+AHZ ACDEFGHIJKPQRUVX huge flesh
+M
+mount
+#9
+familiar~
+(no short description)~
+(no long description)
+~
+~
+human~
+0
+A 0 0 0 0 0
+0 0 0d0+0 0d0+0 0d0+0 5d7+5 pound
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AMV ABCDEFGHIJKR medium unknown
+F for H
+#20
+golem lesser~
+a lesser golem~
+A lesser golem is here.
+~
+~
+unique~
+0
+AT 0 0 0 0 0
+1 0 1d1+1 1d1+1 0d0+0 3d10+12 crush
+0 0 0 0
+0 0 0 0
+stand stand none 0
+DHJM ABCGHIJKR medium clay
+#21
+golem greater~
+a greater golem~
+A greater golem is here.
+~
+~
+unique~
+0
+AT 0 0 0 0 0
+1 0 1d1+1 1d1+1 0d0+0 3d10+12 crush
+0 0 0 0
+0 0 0 0
+stand stand none 0
+DHJM ABCGHIJKR large clay
+#22
+skeleton~
+a skeleton~
+A skeleton stands here, awaiting his masters command.
+~
+The bones of this undead are pristine clean and move with an impossible life of their own. Small burning points of red reside within the eye sockets, gleaming with dark magic.
+~
+skeleton~
+0
+AOT Ja 0 1 -1000 0
+45 5 25d10+3000 4d10+100 0d0+0 4d4+1 pound
+-10 -10 -10 -10
+F 0 FLMP CE
+stand stand none 0
+CDHIM ABCDGHIJKR medium unknown
+M
+createdSkeleton
+#23
+mummy mummie~
+a mummy~
+A disgusting bloddy mummy is here.
+~
+The tattered and bloddy remains of a corpse is here bound together by ragger bits of cloth. A dark set of hollow eyes stare back at you menacingly.
+~
+mummy~
+0
+AOT Jc 0 1 -1000 0
+45 5 25d10+3000 4d10+100 0d0+0 6d7+1 pound
+-12 -12 -12 -12
+0 0 Q 0
+stand stand none 0
+CDHIM ABCDEFGHIJKR medium flesh
+#24
+flesh golem~
+a flesh golem~
+A disgusting mass of stitched flesh stands here.
+~
+The product of some twisted mage who has been tampering with the powers of necromancy. This horrible being is not quite alive, yet also not dead.
+~
+human~
+0
+AT 0 0 0 0 0
+1 0 1d1+1 1d1+1 0d0+0 3d10+12 crush
+0 0 0 0
+0 0 0 0
+stand stand none 0
+DJM ABCDEFGHIJKR small flesh
+F aff2 K
+F for AHV
+#25
+mirror image~
+a mirror image of %s~
+A mirror image of %s stands here.
+~
+A mirror image of %s
+~
+human~
+0
+AT 0 0 0 0 0
+1 0 1d1+1 1d1+1 0d0+0 3d10+12 crush
+0 0 0 0
+0 0 0 0
+stand stand none 0
+DJM ABCDEFGHIJKR small flesh
+F for AHV
+F aff2 K
+M
+mirrorImage
+#26
+animated %s~
+(Animated) %s~
+(Animated) %s stands here.
+~
+(Animated) %s
+~
+human~
+0
+AT 0 0 0 0 0
+1 0 1d1+1 1d1+1 0d0+0 3d10+12 crush
+0 0 0 0
+0 0 0 0
+stand stand none 0
+DJM ABCDEFGHIJKR small flesh
+F aff2 K
+F for AHV
+#27
+shadow~
+a shadow~
+A shadow is here, slaving away for his master.
+~
+A risen corpse's shadow serves his master.
+~
+unique~
+0
+AOT J 0 1 -1000 0
+45 0 25d10+3000 4d10+100 0d0+0 4d4+1 punch
+0 0 0 0
+G ALQR LMQ NS
+stand stand none 0
+CDIL ABCDGHIJK medium nothing
+#28
+steed mount~
+a steed~
+A steed is here.
+~
+A magical steed is here.
+~
+horse~
+0
+AMT JS 0 1 0 0
+45 0 25d10+3000 4d10+100 0d0+0 4d4+1 beating
+0 0 0 0
+CI 0 0 0
+stand stand none 0
+AGV ACDEFIJK medium nothing
+M
+mount
+#30
+elemental familiar~
+an elemental~
+An elemental is here.
+~
+~
+unique~
+D
+AT 0 0 0 0 0
+1 0 1d1+1 1d1+1 0d0+0 3d10+12 crush
+0 0 0 0
+0 0 0 0
+stand stand none 0
+DJM ABCDEFGHIJK large clay
+M
+summonedElemental
+#99
+kitten cat pet~
+the kitten~
+A small loyal kitten is here.
+~
+The kitten looks like a cute, little, fierce fighter.
+~
+cat~
+0
+ABU SZ 0 0 400 0
+1 2 2d6+11 1d1+99 0d0+0 1d4+0 scratch
+8 8 8 10
+FHW 0 C 0
+stand stand either 0
+AGV ACDEFHJKQUV tiny 0
+#0
+
+
+
+#OBJECTS
+#1
+coin silver gcash~
+a silver coin~
+One miserable coin is here~
+silver~
+money 0 A
+1 0 0 0 0
+0 10 0 P
+#2
+coin gold gcash~
+a gold coin~
+One valuable gold coin.~
+gold~
+money 0 A
+0 1 0 0 0
+0 10 0 P
+#3
+coins gold gcash~
+%d gold coins~
+A pile of gold coins.~
+gold~
+money 0 A
+0 0 0 0 0
+0 10 0 P
+#4
+coins silver gcash~
+%d silver coins~
+A pile of silver coins.~
+silver~
+money 0 A
+0 0 0 0 0
+0 10 0 P
+#5
+coins silver gold gcash~
+%d silver coins and %d gold coins~
+A pile of coins.~
+gold~
+money 0 A
+0 0 0 0 0
+0 10 0 P
+#6
+pit~
+the donation pit~
+A pit for sacrifices is in front of the altar.~
+nothingness~
+container O 0
+10000 0 0 1000 100
+0 0 0 P
+E
+pit~
+This is where you put money and items to help Doz expand this shrine and
+convert more people to the belief of Mota, lord of the gods.
+~
+#7
+rose~
+{g---`-,{{{R@{x~
+A beautiful {rred{x rose has been left here.~
+nothingness~
+trash 0 A
+0 0 0 0 0
+5 1 200 P
+#9
+warp stone~
+a warp stone~
+A warp stone floats in the air.~
+stone~
+warp_stone ABG AO
+0 0 0 0 0
+39 20 12345 P
+#10
+corpse~
+the corpse of %s~
+The corpse of %s is lying here.~
+meat~
+npc_corpse 0 A
+0 0 0 A 0
+0 1000 0 D
+#11
+corpse~
+the corpse of %s~
+The corpse of %s is lying here.~
+meat~
+pc_corpse O A
+0 0 0 A 0
+0 1000 0 D
+#12
+head~
+the head of %s~
+The severed head of %s is lying here.~
+meat~
+trash 0 A
+0 0 0 0 0
+0 50 0 D
+#13
+heart~
+the heart of %s~
+The torn-out heart of %s is lying here.~
+meat~
+food 0 A
+16 16 0 0 0
+0 20 0 D
+#14
+arm~
+the arm of %s~
+The sliced-off arm of %s is lying here.~
+meat~
+food 0 A
+20 20 0 0 0
+0 50 0 D
+#15
+leg~
+the leg of %s~
+The sliced-off leg of %s is lying here.~
+meat~
+food 0 A
+20 20 0 0 0
+0 50 0 D
+#16
+guts entrails~
+the guts of %s~
+A steaming pile of %s's entrails is lying here.~
+meat~
+food 0 A
+5 5 0 A 0
+0 20 0 D
+#17
+brains brain~
+the brains of %s~
+The splattered brains of %s are lying here.~
+meat~
+food 0 A
+10 10 0 0 0
+0 20 0 D
+#20
+mushroom~
+a Magic Mushroom~
+A delicious magic mushroom is here.~
+food~
+food 0 A
+8 8 0 0 0
+0 10 0 P
+#21
+ball light~
+a bright ball of light~
+A bright ball of light shimmers in the air.~
+energy~
+light Ab A
+0 0 999 0 0
+0 0 0 P
+#22
+spring~
+a magical spring~
+A magical spring flows from the ground here.~
+water~
+fountain G 0
+100000 100000 'water' 0 0
+1 0 0 P
+#23
+disc disk floating black~
+a floating disc~
+A floating black disc hangs in the air.~
+energy~
+container GMPUYZb AQ
+0 E 0 0 0
+0 0 0 P
+#24
+shelter tent magical~
+a magical tent~
+A magical tent is here.~
+energy~
+furniture G 0
+1 1000 IL 100 100
+0 0 0 P
+#25
+gate portal~
+a shimmering gate~
+A shimmering black gate rises from the ground, leading to parts unknown.~
+shadow~
+portal GOT 0
+0 0 0 0 0
+0 0 0 P
+#26
+mystery sword~
+a Sword of {rM{gy{bs{mt{ce{yr{ry{x~
+A great sword lies here.~
+platinum~
+weapon ABDHTZb AN
+sword 0 0 wrath D
+0 10 10000 P
+Y
+char 'strength' 0 2
+#27
+ring mystery~
+a Ring of {rM{gy{bs{mt{ce{yr{ry{x~
+A great ring lies here.~
+platinum~
+armor BDGHTZb AB
+0 0 0 0 0
+0 1 1000000 P
+Y
+char 'damroll' 0 25
+Y
+char 'hitroll' 0 25
+Y
+char 'hp' 0 50
+Y
+char 'mana' 0 50
+Y
+char 'affects2' 1 2
+#28
+amulet mystery~
+a Amulet of {rM{gy{bs{mt{ce{yr{ry{x~
+A great amulet lies here.~
+platinum~
+armor BDGHTZb AC
+0 0 0 0 0
+0 5 1000000 P
+Y
+char 'damroll' 0 25
+Y
+char 'hitroll' 0 25
+Y
+char 'hp' 0 50
+Y
+char 'mana' 0 50
+Y
+char 'affects2' 1 1
+#29
+quest shield mystery~
+a Shield of {rM{gy{bs{mt{ce{yr{ry{x~
+A great shield lies here.~
+platinum~
+armor BDGHTZb AJ
+0 0 0 0 0
+0 10 1000000 P
+W
+'shield block' 50 0
+Z
+'enhanced damage' 50
+Y
+char 'damroll' 0 25
+Y
+char 'hitroll' 0 25
+#30
+dummy object~
+a dummy object~
+Dummy object is used for loading non-existent objects~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+#31
+weird decanter~
+a Decanter of Endless Water~
+A great decanter lies here.~
+platinum~
+drink BDGHTZb A
+1000 1000 'water' 0 0
+0 5 500000 P
+#32
+token pearl~
+Blink's {yPearl{x~
+Blink's {yPearl{x lies here.~
+platinum~
+treasure TXa A
+0 0 0 0 0
+0 0 0 P
+#33
+token book~
+Seytan's {rMagic Book{x~
+Seytan's {rBook{x lies here.~
+platinum~
+treasure TXa A
+0 0 0 0 0
+0 0 0 P
+#34
+token mirror~
+Sarci's {cMirror{x~
+Sarci's {cMirror{x lies here.~
+platinum~
+treasure TXa A
+0 0 0 0 0
+0 0 0 P
+#35
+token armor~
+Sinac's {mArmor{x~
+Sinac's {mArmor{x lies here.~
+platinum~
+treasure TXa A
+0 0 0 0 0
+0 0 0 P
+#36
+token gloves~
+Indian's {gGloves{x~
+Indian's {gGloves{x lies here.~
+platinum~
+treasure TXa A
+0 0 0 0 0
+0 0 0 P
+#37
+campfire~
+a campfire~
+A campfire lies here.~
+energy~
+treasure Ab 0
+0 0 0 0 0
+0 0 0 P
+#38
+Ice Knife~
+An {bice knife{x~
+A shimmering {bice knife{x lies here.~
+platinum~
+weapon AHPb AN
+dagger 0 0 frbite B
+0 0 0 P
+#39
+Flame Blade~
+A {rflame blade{x~
+A glowing {rflame blade{x lies here.~
+platinum~
+weapon HPb AN
+sword 0 0 flbite A
+0 0 0 P
+#40
+cloak sanctuary mystery weird quest~
+a Cloak of {rM{gy{bs{mt{ce{yr{ry{x~
+A shimmering cloak lies here.~
+platinum~
+armor ABDHRTZb AK
+0 0 0 0 0
+0 10 50000 P
+Y
+char 'affects' 1 128
+Y
+char 'damroll' 0 20
+Y
+char 'hitroll' 0 20
+Y
+char 'constitution' 0 1
+Y
+char 'dexterity' 0 1
+Y
+char 'wisdom' 0 1
+Y
+char 'strength' 0 1
+Y
+char 'intelligence' 0 1
+Y
+char 'affects' 1 268435456
+#41
+token box~
+Roland's {cBox{x~
+Roland's {cBox{x lies here.~
+platinum~
+treasure TXa A
+0 0 0 0 0
+0 0 0 P
+#42
+holy sword~
+an {Wholy{x sword~
+An {Wholy{x sword lies here.~
+platinum~
+weapon HPb AN
+sword 0 0 divine I
+0 0 0 P
+#43
+unholy blade~
+an {Dunholy{x blade~
+An {Dunholy{x blade lies here.~
+platinum~
+weapon HPb AN
+sword 0 0 drain C
+0 0 0 P
+#44
+breastplate mystery weird quest~
+a Breastplate of {rM{gy{bs{mt{ce{yr{ry{x~
+A shining breastplate lies here.~
+platinum~
+armor ABDHRTZb AD
+0 0 0 0 0
+0 10 50000 P
+Y
+char 'affects' 1 1048576
+Y
+char 'affects' 1 2097152
+Y
+char 'damroll' 0 20
+Y
+char 'hitroll' 0 20
+Y
+char 'constitution' 0 1
+Y
+char 'dexterity' 0 1
+Y
+char 'wisdom' 0 1
+Y
+char 'strength' 0 1
+Y
+char 'intelligence' 0 1
+#50
+yo-yo~
+your yo-yo~
+Oxtal's yo-yo lies here~
+unknown~
+weapon Z AN
+flail 3 6 cleave 0
+10 2 300 P
+Y
+char 'dexterity' 0 2
+#51
+MournBlade~
+mournblade~
+You see mournblade... This sword is NOT for you~
+energy~
+weapon BCEPRYb AN
+sword 54 20 drain BCDEGH
+108 100 800000 P
+#52
+sword belt~
+a sword belt~
+This Is The plowshare of Mournblade~
+unknown~
+container AIPY AL
+1000 0 0 100 0
+108 20 100000 P
+Y
+char 'AC' 0 -30
+#60
+steak~
+a steak~
+A steak~
+unknown~
+food 0 A
+0 0 0 0 0
+1 0 0 P
+#61
+pill~
+a pill~
+A little pill lies here on the ground.~
+unknown~
+pill G A
+0 '' '' '' ''
+1 5 0 P
+#62
+a small piece of mithril~
+a small piece of mithril~
+A small black piece of metal lies here.~
+unknown~
+component 0 A
+'mithril' '' '' '' ''
+1 20 5000 P
+#63
+a blade soulblade soul~
+a soulblade~
+A blade made with souls.~
+unknown~
+weapon CGHJTZab AN
+exotic 0 0 drain CD
+1 20 0 P
+#64
+berry small a~
+a small {rred{x berry~
+A tiny {rred{x berry lies here.~
+unknown~
+food b A
+20 20 0 0 0
+1 5 5 P
+#65
+skeleton~
+a skeleton~
+A rotting skeleton lies here.~
+bone~
+npc_corpse 0 A
+0 0 0 B 0
+1 240 0 P
+#66
+spider web~
+A sticky piece of spider web~
+A sticky piece of spider web lies on the floor.~
+<Not Entered>~
+component 0 A
+'spider_web' '' '' '' ''
+1 5 300 P
+#71
+sphere hovering~
+an hovering sphere~
+An hovering sphere hangs in the air.~
+energy~
+container GMPUYZab AQ
+0 E 0 0 0
+0 0 0 P
+#72
+holy symbol~
+an holy symbol~
+An holy symbol is here.~
+iron~
+treasure a A
+0 0 0 0 0
+0 0 0 P
+#73
+mystic boat~
+a mystic boat~
+A mystic boat lies on the ground.~
+energy~
+boat a A
+0 0 0 0 0
+0 0 0 P
+#74
+spiritual hammer~
+A {ySpiritual Hammer{x~
+A shimmering hammer lies here.~
+platinum~
+weapon AHPZab AN
+exotic 0 0 pound J
+0 50 0 P
+#75
+mind blade~
+A {cMind Blade{x~
+A humming blade lies here.~
+platinum~
+weapon AHPZab AN
+exotic 0 0 slice D
+0 25 0 P
+#76
+oaken staff gift nature~
+An {gOaken Staff{x~
+An oaken staff lies here.~
+platinum~
+weapon AHPZab AN
+staff(weapon) 0 0 pound FJ
+0 25 0 P
+#77
+empty potion~
+An empty potion~
+An potion lies here.~
+glass~
+potion G AO
+0 '' '' '' ''
+1 10 100 P
+#78
+arrow~
+An arrow~
+An arrow lies here.~
+wood~
+weapon 0 A
+arrow 0 0 pierce 0
+1 5 0 P
+#79
+bow~
+A bow~
+A bow lies here.~
+wood~
+weapon A AN
+ranged 100 10 2 3
+1 5 0 P
+#80
+map maze battlefield~
+the map of the battlefield~
+A rolled map is here.~
+paper~
+map 0 AO
+A 0 0 0 0
+101 1 0 P
+E
+map~
+               
+ *--*  *  *  * 
+ |     |  |  | 
+ *  *--*  *--* 
+ |  |     |    
+ *--*  *  *--* 
+ |     |     | 
+ *--*  *--*--* 
+ |        |    
+ *--*--*--*--* 
+
+  *    represents rooms.
+  - |  represents passages.
+~
+#81
+vine ropelike~
+a ropelike vine~
+{gWild vines{x has grown in the ground.~
+<Not Entered>~
+rope G 0
+0 0 0 0 0
+0 0 0 P
+#88
+ropelike vine~
+a ropelike vine~
+A thick, ropelike vine dangles from one of the trees, disappearing
+into the leafy foliage.~
+vine~
+rope 0 0
+0 0 0 0 0
+1 1 0 P
+#89
+reward crystal ball token~
+A Crystal Reward Token~
+A Crystal Reward Token is here.~
+<Not Entered>~
+trash HMOTXZab A
+0 0 0 0 0
+1 1 1 P
+#90
+crystal ball one~
+a small crystal ball with a I engraved~
+A small crystal ball lies on the ground.~
+crystal~
+gem OSTXYab AO
+0 0 0 0 0
+1 1 500 P
+Y
+char 'strength' 0 2
+M
+crystalBall
+#91
+crystal ball two~
+a small crystal ball with a II engraved~
+A small crystal ball lies on the ground.~
+crystal~
+gem OSTXYab AO
+0 0 0 0 0
+1 1 500 P
+Y
+char 'intelligence' 0 2
+M
+crystalBall
+#92
+crystal ball three~
+a small crystal ball with a III engraved~
+A small crystal ball lies on the ground.~
+crystal~
+gem OSTXYab AO
+0 0 0 0 0
+1 1 500 P
+Y
+char 'wisdom' 0 2
+M
+crystalBall
+#93
+crystal ball four~
+a small crystal ball with a IV engraved~
+A small crystal ball lies on the ground.~
+crystal~
+gem OSTXYab AO
+0 0 0 0 0
+1 1 500 P
+Y
+char 'dexterity' 0 2
+M
+crystalBall
+#94
+crystal ball five~
+a small crystal ball with a V engraved~
+A small crystal ball lies on the ground.~
+crystal~
+gem OSTXYab AO
+0 0 0 0 0
+1 1 500 P
+Y
+char 'constitution' 0 2
+M
+crystalBall
+#95
+crystal ball six~
+a small crystal ball with a VI engraved~
+A small crystal ball lies on the ground.~
+crystal~
+gem OSTXYab AO
+0 0 0 0 0
+1 1 500 P
+Y
+char 'hitroll' 0 15
+M
+crystalBall
+#96
+crystal ball seven~
+a small crystal ball with a VII engraved~
+A small crystal ball lies on the ground.~
+crystal~
+gem OSTXYab AO
+0 0 0 0 0
+1 1 500 P
+Y
+char 'damroll' 0 15
+M
+crystalBall
+#97
+puddle pool blood~
+a puddle of blood~
+A puddle of {rblood{x is on the ground.~
+unknown~
+fountain 0 0
+50 50 'blood' 0 0
+1 0 0 P
+#98
+window~
+a window~
+A window to the Temple of Altar.~
+unknown~
+window 0 0
+3001 0 0 0 0
+1 0 0 P
+#0
+
+
+
+#ROOMS
+#1
+The Void~
+You are floating in nothing.
+~
+0 12 1
+5
+S
+#2
+Limbo~
+You are floating in a formless void, detached from all sensation of physical
+matter, surrounded by swirling glowing light, which fades into the relative
+darkness around you without any trace of edges or shadow.
+   There is a "No Tipping" notice pinned to the darkness.
+~
+0 8 1
+5
+D4
+~
+~
+0 -1 3001
+S
+#3
+The Battlefield Waiting Room~
+You are in a large room. You are waiting the closing of the battlefield.
+There is no exit.
+~
+0 271372 0
+5
+S
+#4
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D1
+~
+~
+0 0 5
+D2
+~
+~
+0 0 9
+S
+#5
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D3
+~
+~
+0 0 4
+S
+#6
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D2
+~
+~
+0 0 11
+S
+#7
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D2
+~
+~
+0 0 12
+S
+#8
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D2
+~
+~
+0 0 13
+S
+#9
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D0
+~
+~
+0 0 4
+D2
+~
+~
+0 0 14
+S
+#10
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D1
+~
+~
+0 0 11
+D2
+~
+~
+0 0 15
+S
+#11
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D0
+~
+~
+0 0 6
+D3
+~
+~
+0 0 10
+S
+#12
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D0
+~
+~
+0 0 7
+D1
+~
+~
+0 0 13
+D2
+~
+~
+0 0 17
+S
+#13
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D0
+~
+~
+0 0 8
+D3
+~
+~
+0 0 12
+S
+#14
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D0
+~
+~
+0 0 9
+D1
+~
+~
+0 0 15
+D2
+~
+~
+0 0 19
+S
+#15
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D0
+~
+~
+0 0 10
+D3
+~
+~
+0 0 14
+S
+#16
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D2
+~
+~
+0 0 21
+S
+#17
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D0
+~
+~
+0 0 12
+D1
+~
+~
+0 0 18
+S
+#18
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D2
+~
+~
+0 0 23
+D3
+~
+~
+0 0 17
+S
+#19
+A room~
+You are in the battlefield.
+~
+0 2097152 0
+5
+D0
+~
+~
+0 0 14
+D1
+~
+~
+0 0 20
+D2
+~
+~
+0 0 24
+S
+#20
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D3
+~
+~
+0 0 19
+S
+#21
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D0
+~
+~
+0 0 16
+D1
+~
+~
+0 0 22
+S
+#22
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D1
+~
+~
+0 0 23
+D2
+~
+~
+0 0 27
+D3
+~
+~
+0 0 21
+S
+#23
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D0
+~
+~
+0 0 18
+D3
+~
+~
+0 0 22
+S
+#24
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D0
+~
+~
+0 0 19
+D1
+~
+~
+0 0 25
+S
+#25
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D1
+~
+~
+0 0 26
+D3
+~
+~
+0 0 24
+S
+#26
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D1
+~
+~
+0 0 27
+D3
+~
+~
+0 0 25
+S
+#27
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D0
+~
+~
+0 0 22
+D1
+~
+~
+0 0 28
+D3
+~
+~
+0 0 26
+S
+#28
+A room~
+You are in the battlefield.
+~
+0 2105344 0
+5
+D3
+~
+~
+0 0 27
+S
+#50
+Rebirth Room~
+You are floating in nothing.
+~
+0 12591117 0
+5
+S
+#51
+Remort Room~
+You are floating in nothing.
+~
+0 12591117 0
+5
+S
+#99
+The Battlefield Waiting Room~
+You are in the battlefield waiting room.
+~
+0 4 0
+5
+S
+#0
+
+
+
+#SPECIALS
+M 8 spec_breath_any
+S
+
+
+
+#RESETS
+Z 0 5 5 4 80
+O 1 98 1 26
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

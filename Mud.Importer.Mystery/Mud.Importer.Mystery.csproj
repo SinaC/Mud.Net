@@ -73,12 +73,18 @@
   <ItemGroup>
     <Compile Include="AreaData.cs" />
     <Compile Include="MysteryImporter.cs" />
+    <Compile Include="MysteryLoader.cs" />
     <Compile Include="MobileData.cs" />
     <Compile Include="ObjectData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MysteryConvertException.cs" />
     <Compile Include="RoomData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
+      <Project>{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}</Project>
+      <Name>Mud.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Importer\Mud.Importer.csproj">
       <Project>{3a7f2847-d754-4eb1-ad57-805df4f9241f}</Project>
       <Name>Mud.Importer</Name>
@@ -86,6 +92,10 @@
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
+      <Project>{B85FDC6F-9D3F-4B24-AF53-AA30B6244BAB}</Project>
+      <Name>Mud.Server.Blueprints</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -116,7 +116,7 @@ namespace Mud.Importer.Rom
                 else if (word.ToUpper() == "SOCIALS")
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Specific area file Socials not yet available");
-                    ReadToNextSection();
+                    break;
                 }
                 else if (word.ToUpper() == "OLIMITS" || word.ToUpper() == "OMPROGS")
                 {

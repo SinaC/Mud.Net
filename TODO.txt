@@ -1,4 +1,5 @@
 NEXT:
+
 TODO:
 grove.are: the second jar will never appears
 O 0 8902   2 8915	* a spice jar
@@ -32,6 +33,7 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+mystery imported fixed
 trinket wear location removed
 reset fixed
 rom importer fixed
@@ -264,7 +266,7 @@ leaving impersonation should not stop fighting -> PlayableCharacter can still di
   when impersonating, first search for impersonation in world -> use Guid !! should work if player disconnect/reconnect and reimpersonate
 make text drunk in say/whisper/... see act_comm.C:2222
 when using FindHelper.FindByName on ICharacter and parameter is self -> return itself
-redo rom importer
+redo mystery importer
 Second/Third/Fourth wield in insectoid
 alignment at creation ?
 Idea: move HP and move in ResourceKinds

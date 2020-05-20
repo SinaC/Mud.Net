@@ -1,0 +1,1825 @@
+#AREADATA
+Name New area~
+Builders Blink~
+VNUMs 16500 16599
+Credits {{BLINK}~
+Security 5
+End
+
+
+
+#MOBILES
+#16500
+master~
+Master~
+Master of the Floor 1
+~
+~
+human~
+ABF 0 -500 0
+35 0 10d89+530 0d0+0 5d6+17 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16501
+master~
+Master~
+Master of the Floor 2
+~
+~
+human~
+ABF V 0 0
+35 0 10d89+530 0d0+0 5d6+17 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16502
+master~
+Master~
+Master of the Floor 3
+~
+~
+human~
+ABF 0 0 0
+36 0 10d94+555 0d0+0 5d6+19 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16503
+master~
+Master~
+Master of the Floor 4
+~
+~
+human~
+ABF V 0 0
+37 0 10d94+555 0d0+0 5d6+19 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16504
+master~
+Master~
+Master of the Floor 5
+~
+~
+human~
+ABF 0 0 0
+37 0 10d99+580 0d0+0 5d6+21 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16505
+master~
+Master~
+Master of the Floor 6
+~
+~
+human~
+ABF V 0 0
+38 0 10d99+580 0d0+0 5d6+21 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16506
+master~
+Master~
+Master of the Floor 7
+~
+~
+human~
+ABF 0 0 0
+38 0 10d104+605 0d0+0 5d7+19 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16507
+master~
+Master~
+Master of the Floor 8
+~
+~
+human~
+ABF V 0 0
+39 0 10d104+605 0d0+0 5d7+19 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16508
+master~
+Master~
+Master of the Floor 9
+~
+~
+human~
+ABF 0 0 0
+39 0 10d109+630 0d0+0 5d7+21 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16509
+master~
+Master~
+Master of the Floor 10
+~
+~
+human~
+AB HV 0 0
+40 0 10d109+630 0d0+0 5d7+21 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16510
+master~
+Master~
+Master of the Floor 11
+~
+~
+human~
+ABF 0 0 0
+40 0 10d114+650 0d0+0 5d7+23 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16511
+master~
+Master~
+Master of the Floor 12
+~
+~
+human~
+ABF V 0 0
+41 0 10d114+650 0d0+0 5d7+23 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16512
+master~
+Master~
+Master of the Floor 13
+~
+~
+human~
+ABF 0 0 0
+41 0 10d117+678 0d0+0 5d7+25 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16513
+master~
+Master~
+Master of the Floor 14
+~
+~
+human~
+ABF V 0 0
+42 0 10d120+706 0d0+0 5d7+25 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16514
+master~
+Master~
+Master of the Floor 15
+~
+~
+human~
+ABF 0 0 0
+42 0 10d120+706 0d0+0 5d8+23 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16515
+master~
+Master~
+Master of the Floor 16
+~
+~
+human~
+ABF V 0 0
+43 0 10d120+706 0d0+0 5d8+23 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16516
+master~
+Master~
+Master of the Floor 17
+~
+~
+human~
+ABF 0 0 0
+43 0 10d123+734 0d0+0 5d8+25 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16517
+master~
+Master~
+Master of the Floor 18
+~
+~
+human~
+A V 0 0
+44 0 10d123+734 0d0+0 5d8+25 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16518
+master~
+Master~
+Master of the Floor 19
+~
+~
+human~
+ABF 0 0 0
+44 0 10d126+762 0d0+0 5d8+27 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16519
+master~
+Master~
+Master of the Floor 20
+~
+~
+human~
+AB HV 0 0
+45 0 10d126+762 0d0+0 5d8+27 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16520
+master~
+Master~
+Master of the Floor 21
+~
+~
+human~
+ABF 0 0 0
+45 0 10d130+790 0d0+0 5d8+29 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16521
+master~
+Master~
+Master of the Floor 22
+~
+~
+human~
+ABF V 0 0
+46 0 10d130+790 0d0+0 5d8+29 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16522
+master~
+Master~
+Master of the Floor 23
+~
+~
+human~
+ABF 0 0 0
+46 0 10d138+816 0d0+0 5d9+27 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16523
+master~
+Master~
+Master of the Floor 24
+~
+~
+human~
+ABF V 0 0
+47 0 10d138+816 0d0+0 5d9+27 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16524
+master~
+Master~
+Master of the Floor 25
+~
+~
+human~
+ABF 0 0 0
+47 0 10d146+842 0d0+0 5d9+29 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16525
+master~
+Master~
+Master of the Floor 26
+~
+~
+human~
+ABF V 0 0
+48 0 10d146+842 0d0+0 5d9+29 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16526
+master~
+Master~
+Master of the Floor 27
+~
+~
+human~
+ABF 0 0 0
+48 0 10d154+868 0d0+0 5d9+31 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16527
+master~
+Master~
+Master of the Floor 28
+~
+~
+human~
+ABF V 0 0
+49 0 10d154+868 0d0+0 5d9+31 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16528
+master~
+Master~
+Master of the Floor 29
+~
+~
+human~
+ABF 0 0 0
+49 0 10d161+894 0d0+0 5d9+33 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16529
+master~
+Master~
+Master of the Floor 30
+~
+~
+human~
+AB HV 0 0
+50 0 10d161+894 0d0+0 5d9+33 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16530
+master~
+Master~
+Master of the Floor 31
+~
+~
+human~
+ABF 0 0 0
+50 0 10d169+920 0d0+0 5d10+31 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16531
+master~
+Master~
+Master of the Floor 32
+~
+~
+human~
+ABF V 0 0
+51 0 10d169+920 0d0+0 5d10+31 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16532
+master~
+Master~
+Master of the Floor 33
+~
+~
+human~
+ABF 0 0 0
+51 0 10d172+958 0d0+0 6d10+33 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16533
+master~
+Master~
+Master of the Floor 34
+~
+~
+human~
+ABF V 0 0
+52 0 10d172+958 0d0+0 6d10+33 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16534
+master~
+Master~
+Master of the Floor 35
+~
+~
+human~
+ABF 0 0 0
+52 0 10d175+996 0d0+0 6d10+35 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16535
+master~
+Master~
+Master of the Floor 36
+~
+~
+human~
+ABF V 0 0
+53 0 10d175+996 0d0+0 6d10+35 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16536
+master~
+Master~
+Master of the Floor 37
+~
+~
+human~
+ABF 0 0 0
+53 0 10d178+1034 0d0+0 6d10+37 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16537
+master~
+Master~
+Master of the Floor 38
+~
+~
+human~
+ABF V 0 0
+54 0 10d178+1034 0d0+0 6d10+37 none
+0 0 0 0
+EFIK 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16538
+master~
+Master~
+Master of the Floor 39
+~
+~
+human~
+ABF 0 0 0
+54 0 10d181+1072 0d0+0 7d10+35 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#16539
+master~
+Master~
+The Last Master
+~
+Look
+~
+human~
+A H 0 0
+55 0 10d185+1112 0d0+0 7d10+35 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#0
+
+
+
+#OBJECTS
+#16500
+key~
+key of the floor 1~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16501
+key~
+key of the floor 2~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16502
+key~
+key of the floor 3~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16503
+key~
+key of the floor 4~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16504
+key~
+key of the floor 5~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16505
+key~
+key of the floor 6~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16506
+key~
+key of the floor 7~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16507
+key~
+key of the floor 8~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16508
+key~
+key of the floor 9~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16509
+key~
+key of the floor 10~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16510
+key~
+key of the floor 11~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16511
+key~
+key of the floor 12~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16512
+key~
+key of the floor 13~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16513
+key~
+key of the floor 14~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16514
+key~
+key of the floor 15~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16515
+key~
+key of the floor 16~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16516
+key~
+key of the floor 17~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16517
+key~
+key of the floor 18~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16518
+key~
+key of the floor 19~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16519
+key~
+key of the floor 20~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16520
+key~
+key of the floor 21~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16521
+key~
+key of the floor 22~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16522
+key~
+key of the floor 23~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16523
+key~
+key of the floor 24~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16524
+key~
+key of the floor 25~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16525
+key~
+key of the floor 26~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16526
+key~
+key of the floor 27~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16527
+key~
+key of the floor 28~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16528
+key~
+key of the floor 29~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16529
+key~
+key of the floor 30~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16530
+key~
+key of the floor 31~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16531
+key~
+key of the floor 32~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16532
+key~
+key of the floor 33~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16533
+key~
+key of the floor 34~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16534
+key~
+key of the floor 35~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16535
+key~
+key of the floor 36~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16536
+key~
+key of the floor 38~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16537
+key~
+key of the floor 38~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16538
+key~
+key of the floor 39~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16539
+key~
+key of the floor 40~
+A key lies on the floor~
+bone~
+key 0 A
+0 0 0 0 0
+0 2 100 P
+#16540
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+32 0 0 P
+#16541
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+32 0 0 P
+#16542
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+33 0 0 P
+#16543
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+33 0 0 P
+#16544
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+34 0 0 P
+#16545
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+34 0 0 P
+#16546
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+35 0 0 P
+#16547
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+35 0 0 P
+#16548
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+36 0 0 P
+#16549
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+36 0 0 P
+#16550
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+37 0 0 P
+#16551
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+37 0 0 P
+#16552
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+38 0 0 P
+#16553
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+38 0 0 P
+#16554
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+39 0 0 P
+#16555
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+39 0 0 P
+#16556
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+40 0 0 P
+#16557
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+40 0 0 P
+#16558
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+41 0 0 P
+#16559
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+41 0 0 P
+#16560
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+42 0 0 P
+#16561
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+42 0 0 P
+#16562
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+43 0 0 P
+#16563
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+43 0 0 P
+#16564
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+44 0 0 P
+#16565
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+44 0 0 P
+#16566
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+45 0 0 P
+#16567
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+45 0 0 P
+#16568
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+46 0 0 P
+#16569
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+46 0 0 P
+#16570
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+47 0 0 P
+#16571
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+47 0 0 P
+#16572
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+48 0 0 P
+#16573
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+48 0 0 P
+#16574
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+49 0 0 P
+#16575
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+49 0 0 P
+#16576
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+50 0 0 P
+#16577
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+50 0 0 P
+#16578
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+51 0 0 P
+#16579
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+51 0 0 P
+#0
+
+
+
+#ROOMS
+#16500
+Entrance~
+Entrance of The Tower
+~
+0 0 0
+D4
+~
+~
+1 16500 16501
+S
+#16501
+Floor 1~
+You are at the Floor 1
+~
+0 0 0
+D4
+~
+~
+1 16501 16502
+S
+#16502
+Floor 2~
+You are at the Floor 2
+~
+0 0 0
+D4
+~
+~
+1 16502 16503
+S
+#16503
+Floor 3~
+You are at the Floor 3
+~
+0 0 0
+D4
+~
+~
+1 16503 16504
+S
+#16504
+Floor 4~
+You are at the Floor 4
+~
+0 0 0
+D4
+~
+~
+1 16504 16505
+S
+#16505
+Floor 5~
+You are at the Floor 5
+~
+0 0 0
+D4
+~
+~
+1 16505 16506
+S
+#16506
+Floor 6~
+You are at the Floor 6
+~
+0 0 0
+D4
+~
+~
+1 16506 16507
+S
+#16507
+Floor 7~
+You are at the Floor 7
+~
+0 0 0
+D4
+~
+~
+1 16507 16508
+S
+#16508
+Floor 8~
+You are at the Floor 8
+~
+0 0 0
+D4
+~
+~
+1 16508 16509
+S
+#16509
+Floor 9~
+You are at the Floor 9
+~
+0 0 0
+D4
+~
+~
+1 16509 16510
+S
+#16510
+Floor 10~
+~
+0 0 0
+E
+inscription~
+I like the description in this area
+~
+D4
+~
+~
+1 16510 16511
+S
+#16511
+Floor 11~
+You are at the Floor 11
+~
+0 0 0
+D4
+~
+~
+1 16511 16512
+S
+#16512
+Floor 12~
+You are at the Floor 12
+~
+0 0 0
+D4
+~
+~
+1 16512 16513
+S
+#16513
+Floor 13~
+You are at the Floor 13
+~
+0 0 0
+D4
+~
+~
+1 16513 16514
+S
+#16514
+Floor 14~
+You are at the Floor 14
+~
+0 0 0
+D4
+~
+~
+1 16514 16515
+S
+#16515
+Floor 15~
+You are at the Floor 15
+~
+0 0 0
+D4
+~
+~
+1 16515 16516
+S
+#16516
+Floor 16~
+You are at the Floor 16
+~
+0 0 0
+D4
+~
+~
+1 16516 16517
+S
+#16517
+Floor 17~
+You are at the Floor 17
+~
+0 0 0
+D4
+~
+~
+1 16517 16518
+S
+#16518
+Floor 18~
+You are at the Floor 18
+~
+0 0 0
+D4
+~
+~
+1 16518 16519
+S
+#16519
+Floor 19~
+You are at the Floor 19
+~
+0 0 0
+D4
+~
+~
+1 16519 16520
+S
+#16520
+Floor 20~
+You are at the Floor 20
+~
+0 0 0
+D4
+~
+~
+1 16520 16521
+S
+#16521
+Floor 21~
+You are at the Floor 21
+~
+0 0 0
+D4
+~
+~
+1 16521 16522
+S
+#16522
+Floor 22~
+You are at the Floor 22
+~
+0 0 0
+D4
+~
+~
+1 16522 16523
+S
+#16523
+Floor 23~
+You are at the Floor 23
+~
+0 0 0
+D4
+~
+~
+1 16523 16524
+S
+#16524
+Floor 24~
+You are at the Floor 24
+~
+0 0 0
+D4
+~
+~
+1 16524 16525
+S
+#16525
+Floor 25~
+You are at the Floor 25
+~
+0 0 0
+D4
+~
+~
+1 16525 16526
+S
+#16526
+Floor 26~
+You are at the Floor 26
+~
+0 0 0
+D4
+~
+~
+1 16526 16527
+S
+#16527
+Floor 27~
+You are at the Floor 27
+~
+0 0 0
+D4
+~
+~
+1 16527 16528
+S
+#16528
+Floor 28~
+You are at the Floor 28
+~
+0 0 0
+D4
+~
+~
+1 16528 16529
+S
+#16529
+Floor 29~
+You are at the Floor 29
+~
+0 0 0
+D4
+~
+~
+1 16529 16530
+S
+#16530
+Floor 30~
+You are at the Floor 30
+~
+0 0 0
+D4
+~
+~
+1 16530 16531
+S
+#16531
+Floor 31~
+You are at the Floor 31
+~
+0 0 0
+D4
+~
+~
+1 16531 16532
+S
+#16532
+Floor 32~
+You are at the Floor 32
+~
+0 0 0
+D4
+~
+~
+1 16532 16533
+S
+#16533
+Floor 33~
+You are at the Floor 33
+~
+0 0 0
+D4
+~
+~
+1 16533 16534
+S
+#16534
+Floor 34~
+You are at the Floor 34
+~
+0 0 0
+D4
+~
+~
+1 16534 16535
+S
+#16535
+Floor 35~
+You are at the Floor 35
+~
+0 0 0
+D4
+~
+~
+1 16535 16536
+S
+#16536
+Floor 36~
+You are at the Floor 36
+~
+0 0 0
+D4
+~
+~
+1 16536 16537
+S
+#16537
+Floor 37~
+You are at the Floor 37
+~
+0 0 0
+D4
+~
+~
+1 16537 16538
+S
+#16538
+Floor 38~
+You are at the Floor 38
+~
+0 0 0
+D4
+~
+~
+1 16538 16539
+S
+#16539
+Floor 39~
+You are at the Floor 39
+~
+0 0 0
+D4
+~
+~
+1 16539 16540
+S
+#16540
+The Last~
+You are at the Floor 40
+~
+0 4 0
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+D 0 16500 4 2
+D 0 16501 4 2
+D 0 16502 4 2
+D 0 16503 4 2
+D 0 16504 4 2
+D 0 16505 4 2
+D 0 16506 4 2
+D 0 16507 4 2
+D 0 16508 4 2
+D 0 16509 4 2
+D 0 16510 4 2
+D 0 16511 4 2
+D 0 16512 4 2
+D 0 16513 4 2
+D 0 16514 4 2
+D 0 16515 4 2
+D 0 16516 4 2
+D 0 16517 4 2
+D 0 16518 4 2
+D 0 16519 4 2
+D 0 16520 4 2
+D 0 16521 4 2
+D 0 16522 4 2
+D 0 16523 4 2
+D 0 16524 4 2
+D 0 16525 4 2
+D 0 16526 4 2
+D 0 16527 4 2
+D 0 16528 4 2
+D 0 16529 4 2
+D 0 16530 4 2
+D 0 16531 4 2
+D 0 16532 4 2
+D 0 16533 4 2
+D 0 16534 4 2
+D 0 16535 4 2
+D 0 16536 4 2
+D 0 16537 4 2
+D 0 16538 4 2
+D 0 16539 4 2
+O 0 16500 0 16500
+O 0 16500 0 16500
+M 0 16500 1 16501 1
+G 0 16501 0
+M 0 16501 1 16502 1
+G 0 16502 0
+M 0 16502 1 16503 1
+G 0 16503 0
+M 0 16503 1 16504 1
+G 0 16504 0
+M 0 16504 1 16505 1
+G 0 16505 0
+M 0 16505 1 16506 1
+G 0 16506 0
+M 0 16506 1 16507 1
+G 0 16507 0
+M 0 16507 1 16508 1
+G 0 16508 0
+M 0 16508 1 16509 1
+G 0 16509 0
+M 0 16509 1 16510 1
+G 0 16510 0
+M 0 16510 1 16511 1
+G 0 16511 0
+M 0 16511 1 16512 1
+G 0 16512 0
+M 0 16512 1 16513 1
+G 0 16513 0
+M 0 16513 1 16514 1
+G 0 16514 0
+M 0 16514 1 16515 1
+G 0 16515 0
+M 0 16515 1 16516 1
+G 0 16516 0
+M 0 16516 1 16517 1
+G 0 16517 0
+M 0 16517 1 16518 1
+G 0 16518 0
+M 0 16518 1 16519 1
+G 0 16519 0
+M 0 16519 1 16520 1
+G 0 16520 0
+M 0 16520 1 16521 1
+G 0 16521 0
+M 0 16521 1 16522 1
+G 0 16522 0
+M 0 16522 1 16523 1
+G 0 16523 0
+M 0 16523 1 16524 1
+G 0 16524 0
+M 0 16524 1 16525 1
+G 0 16525 0
+M 0 16525 1 16526 1
+G 0 16526 0
+M 0 16526 1 16527 1
+G 0 16527 0
+M 0 16527 1 16528 1
+G 0 16528 0
+M 0 16527 1 16529 1
+M 0 16528 1 16529 1
+G 0 16529 0
+M 0 16528 1 16530 1
+M 0 16529 1 16530 1
+G 0 16530 0
+M 0 16529 1 16531 1
+M 0 16530 1 16531 1
+G 0 16531 0
+M 0 16530 1 16532 1
+M 0 16531 1 16532 1
+G 0 16532 0
+M 0 16531 1 16533 1
+M 0 16532 1 16533 1
+G 0 16533 0
+M 0 16532 1 16534 1
+M 0 16533 1 16534 1
+G 0 16534 0
+M 0 16533 1 16535 1
+M 0 16534 1 16535 1
+G 0 16535 0
+M 0 16534 1 16536 1
+M 0 16535 1 16536 1
+G 0 16536 0
+M 0 16535 1 16537 1
+M 0 16536 1 16537 1
+G 0 16537 0
+M 0 16536 1 16538 1
+M 0 16537 1 16538 1
+G 0 16538 0
+M 0 16537 1 16539 1
+M 0 16538 1 16539 1
+G 0 16539 0
+M 0 16538 1 16540 1
+M 0 16539 1 16540 1
+M 0 16539 1 16540 1
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

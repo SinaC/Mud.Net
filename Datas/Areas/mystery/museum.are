@@ -1,0 +1,539 @@
+#AREADATA
+Name Weird Museum~
+Builders Oxtal~
+VNUMs 800 899
+Credits {{ All } Oxtal   Weird Museum~
+Security 9
+Flags 0
+End
+
+
+
+#MOBILES
+#800
+doorman~
+a doorman~
+The museum doorman is near exit door.
+~
+The doorman is dressed in a groom uniform.
+He seems to be bored.
+~
+human~
+0
+AB DF 0 0 0 0
+1 0 1d1+10 0d0+0 0d0+0 0d0+0 punch
+0 0 0 0
+0 ABCD 0 0
+stand stand male 1000000
+H 0 medium unknown
+F for AMV
+F par ABCDEFGHIJK
+M
+Groom
+#801
+parrot~
+a parrot~
+A takling parrot is standing on his perch.
+~
+The parrot is very beatiful.  Its feathers look bright and soft.  You'd
+like to get one!  
+
+~
+song bird~
+0
+AB T 0 0 -5 0
+2 0 1d3+15 0d0+0 0d0+0 1d2+1 none
+0 0 0 0
+FH 0 0 0
+stand stand either 0
+AGHW ACDEFHKP medium unknown
+M
+Parrot
+#802
+parrot~
+a parrot~
+A parrot is hanging to his perch
+~
+The parrot seems to be mad
+~
+song bird~
+0
+AB T 0 0 -100 0
+3 0 1d3+15 0d0+0 0d0+0 0d0+0 peck
+0 0 0 0
+FH AB 0 0
+stand stand either 0
+AGHW ACDEFHKP medium unknown
+M
+ShiftParrot
+#803
+repair man shop~
+a short man~
+A short man is waiting something to repair
+~
+The man seems happy.
+~
+hill-dwarf~
+0
+ABGe 0 0 0 0 0
+100 0 1d1+1 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 0 CL 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+M
+repairShop
+#804
+man shop shopkeeper mob merchant~
+a tall man~
+A tall man is waiting something to buy or sell
+~
+The man seems angry.
+~
+human~
+0
+ABGe 0 0 0 0 0
+100 0 1d1+1 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 CD 0 0
+stand stand none 25000000
+AHMV ABCDEFGHIJK medium unknown
+M
+MuseumShopKeeper
+#805
+man shop shopkeeper mob merchant~
+a medium man~
+A medium man is waiting something...
+~
+The man seems angry.
+~
+human~
+0
+ABGe 0 0 0 0 0
+100 0 1d1+1 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 CD 0 0
+stand stand none 25000000
+AHMV ABCDEFGHIJK medium unknown
+M
+MuseumPetShopKeeper
+#806
+rat ratling shopkeeper keeper~
+A human-sized rat~
+A human-sized rat is selling various things.
+~
+~
+ratling~
+D
+ABe 0 0 0 0 0
+90 95 50d13+14540 90d11+110 90d11+110 8d10+66 none
+-68 -68 -68 -45
+0 0 LQ E
+stand stand male 0
+AHMV ABCDEFGHIJKQ medium unknown
+M
+inventoryShopkeeper
+#807
+bird kenku shopkeeper~
+An humanoid bird~
+An humanoid bird is selling something.
+~
+An humanoid bird is selling tons of items.
+~
+kenku~
+D
+ABe T 0 0 0 0
+90 95 50d13+14540 90d11+110 90d11+110 8d10+66 none
+-68 -68 -68 -45
+0 0 HILQ EL
+stand stand male 50000
+AHMV ABCDEFGHIJKPQU medium unknown
+M
+testMob
+#808
+a taxidermist~
+A taxidermist~
+A taxidermist is here waiting to do some job.
+~
+~
+human~
+0
+ABe 0 0 0 0 0
+50 50 50d10+4500 50d10+100 50d10+100 5d8+19 none
+-20 -20 -20 -13
+0 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+M
+taxidermist
+#0
+
+
+
+#OBJECTS
+#800
+peanut~
+a peanut~
+A peanut lies on the ground~
+unknown~
+food 0 A
+1 0 0 0 0
+1 1 1 P
+#801
+the ultimate weapon~
+The Ultimate Weapon~
+The Ultimate Weapon lies here.~
+energy~
+weapon BSX AN
+exotic 20 20 wrath CH
+15 50 1000 P
+M
+ultimateWeapon
+#802
+item dummy~
+a dummy item~
+A dummy item lies here.~
+nothingness~
+staff AIN AO
+10 5 5 'windwall' 0
+1 5 75 P
+#803
+bottle slime juice~
+a {GGreen{x Bottle~
+A {Ggreen{x strange looking bottle is here.~
+<Not Entered>~
+drink N A
+10 10 'slime mold juice' 1 0
+1 5 1500 P
+#804
+template scroll parchment~
+An empty template~
+A rolled scroll lies on the ground.~
+parchment~
+template GNT O
+0 '' '' '' ''
+60 5 950000 P
+#805
+amulet planar~
+A small amulet~
+A small amulet engraved with runes lies on the ground.~
+iron~
+portal Na AC
+1 0 0 1392 0
+10 10 15000 P
+S
+ 'tiny'
+Y
+char 'mana' 0 7
+Y
+char 'hp' 0 10
+#806
+first lever~
+the first lever~
+The first lever is on the wall.~
+iron~
+trash 0 0
+0 0 0 0 0
+1 1 0 P
+M
+museumLeverSystem
+#807
+second lever~
+the second lever~
+The second lever is on the wall.~
+iron~
+trash 0 0
+0 0 0 0 0
+1 1 0 P
+M
+museumLeverSystem
+#808
+third lever~
+the third lever~
+The third lever is on the wall.~
+iron~
+trash 0 0
+0 0 0 0 0
+1 1 0 P
+M
+museumLeverSystem
+#0
+
+
+
+#ROOMS
+#800
+A path~
+You are on a path leading to the museum 
+~
+0 0 1
+5
+D0
+~
+~
+0 0 801
+S
+#801
+Museum front~
+You are in front of the museum
+~
+0 0 0
+5
+D0
+~
+door~
+AB 0 802
+D2
+~
+~
+0 0 800
+S
+#802
+south door~
+You are in a hall
+~
+0 0 0
+5
+D0
+~
+~
+0 0 805
+D1
+~
+~
+0 0 811
+D2
+~
+~
+AB 0 801
+D3
+~
+~
+0 0 803
+S
+#803
+The parrot room~
+You are in a room. There's a plaque on the north wall.
+
+~
+0 0 0
+5
+E
+plaque~
+You can talk to the parrot, but DO NOT feed him! 
+
+~
+D1
+~
+~
+0 0 802
+D3
+~
+~
+0 0 804
+S
+#804
+The Shifted parrot room~
+~
+0 0 0
+5
+D1
+~
+~
+0 0 803
+S
+#805
+A corridor~
+You are in a corridor
+~
+0 0 0
+5
+D0
+~
+~
+0 0 808
+D1
+~
+~
+0 0 806
+D2
+~
+~
+0 0 802
+D3
+~
+~
+0 0 807
+S
+#806
+The Repair Shop Room~
+You are in the repair shop room
+~
+0 0 0
+5
+D3
+~
+~
+0 0 805
+S
+#807
+The Shrine~
+You're in a big circular room, the only exit is east.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 814
+D1
+~
+~
+0 0 805
+D3
+~
+~
+0 0 813
+S
+#808
+A corridor~
+You are in a corridor
+~
+0 0 0
+5
+D0
+~
+~
+0 0 812
+D1
+~
+~
+0 0 809
+D2
+~
+~
+0 0 805
+D3
+~
+~
+0 0 810
+S
+#809
+A shop~
+You are in shop
+~
+0 0 0
+5
+D3
+~
+~
+0 0 808
+S
+#810
+A shop~
+You are in a shop
+~
+0 0 0
+5
+D1
+~
+~
+0 0 808
+S
+#811
+A new shop~
+A new shop with tons of new furnitures
+~
+0 0 0
+5
+D3
+~
+~
+0 0 802
+S
+#812
+Another shop~
+Another shop
+~
+0 0 0
+5
+D2
+~
+~
+0 0 808
+S
+#813
+Lever testing room~
+You are in a room with 3 levers ... What's the right combinaison ?
+~
+0 0 0
+5
+D1
+~
+~
+0 0 807
+S
+#814
+changed~
+~
+0 0 0
+5
+D2
+~
+~
+0 0 807
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+D 0 801 0 1
+D 0 802 2 1
+M 0 800 1 802 1
+G 0 800 0
+M 0 801 1 803 1
+O 0 800 0 803
+M 0 802 1 804 1
+M 0 803 1 806 1
+M 0 804 1 809 1
+G 0 800 0
+G 0 800 0
+G 0 800 0
+G 0 800 0
+G 0 802 0
+M 0 805 1 810 1
+M 0 806 1 811 1
+G 0 805 0
+G 0 804 0
+G 0 803 0
+G 0 800 0
+G 0 800 0
+G 0 800 0
+G 0 800 0
+G 0 800 0
+G 0 800 0
+G 0 800 0
+G 0 800 0
+G 0 800 0
+M 0 807 1 812 1
+G 0 805 0
+O 0 808 0 813
+O 0 807 0 813
+O 0 806 0 813
+M 0 808 1 814 1
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

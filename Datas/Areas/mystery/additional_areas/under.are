@@ -1,0 +1,2794 @@
+#AREADATA
+Name The Underdark~
+Builders None~
+VNUMs 21000 21099
+Credits {{20 50} Yaegar The Underdark~
+Security 9
+Flags 0
+End
+
+
+
+#MOBILES
+#21000
+umber hulk~
+an umber hulk~
+An umber hulk lumbers toward you!
+~
+This is a large, bulky creature with a thick purple hide. Multiple eyes
+glare at you from above two huge jagged tusks that protrude from its drooling
+maw. This grotesque has slain many adventurers- lets hope you're not next!
+~
+human~
+0
+AFGT JN 0 0 -1000 0
+36 0 10d87+555 36d10+100 36d10+100 5d12+21 pierce
+-12 -12 -12 -1
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21001
+riding lizard~
+a riding lizard~
+A Drow riding lizard glares sullenly at you.
+~
+This reptile resembles a huge Komodo dragon, save that it has a leather saddle
+upon its back, and an ornate bridle upon its huge scaly head. Its eyes are
+sullen and mean, but also rather lifeless, as if domesticity has drained the
+urge to kill from this beast.
+~
+human~
+0
+ABGIMRT J 0 0 0 0
+28 0 10d52+387 28d10+100 28d10+100 5d9+18 pierce
+-7 -7 -7 1
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21002
+drow merchant~
+a Drow merchant~
+A Drow merchant eyes you suspiciously.
+~
+Drow are dark-skinned elves, evil brethren of the fair surface-dwelling elves
+that you are familiar with. And while most Drow attack any outsiders on sight,
+this fellow holds back, for he is a merchant first and a drow second, and will
+never alienate potential customers...
+~
+drow~
+0
+ABGT JN 0 0 -1000 0
+27 0 10d49+360 27d10+100 27d10+100 5d9+15 slash
+-6 -6 -6 1
+EFNR 0 C QS
+stand stand male 0
+AHMV ABCDEFGHIJK medium unknown
+F aff EZ
+#21003
+bugbear~
+a bugbear guard~
+A bugbear guards eyes you suspiciously as he hefts his weapon.
+~
+Bugbears are evil creatures, eight feet tall and covered with patchy grey
+fur. Beady red eyes stare from a feline face topped with huge ears. They
+are very aggressive, but not when controlled by their Drow masters, whom they
+hate and fear.
+~
+human~
+0
+ABGT J 0 0 -1000 0
+25 0 10d42+322 25d10+100 25d10+100 5d8+16 pound
+-5 -5 -5 2
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21004
+trog troglodyte~
+a troglodyte slave~
+A troglodyte slave snarls menacingly.
+~
+The weakest creatures native to the underdark, these pathetic miscreants
+resemble slimy reptillian elves, with large fins atop their heads. They
+typically wield clubs and spears while serving as guards, but usually are
+found bearing heavy parcels for their Drow masters.
+~
+human~
+0
+ABGHT J 0 0 -1000 0
+16 0 5d34+175 16d10+100 16d10+100 4d7+8 pierce
+0 0 0 5
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21005
+displacer beast~
+A displacer beast~
+A displacer beast shimmers into existence and attacks!
+~
+These creatures resemble giant panthers with four suckered tentacles 
+protruding from their abdomens. They have the ability to distort the
+perceptions of their victims, making them very hard to hit.
+~
+human~
+0
+AFGT BJPQ 0 0 -1000 0
+32 0 10d69+462 32d10+100 32d10+100 5d11+17 slash
+-10 -10 -10 0
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21006
+hook horror~
+a hook horror~
+Seconds after you hear the dreadful clicking, a hook horror attacks!
+~
+Hook horrors are giant scaly creatures with giant sets of pincers for hands,
+which rend the flesh of their foes, causing horrific injuries. Hook horrors 
+are infamous for the distinctive clicking they make with their claws, which 
+warn an alert traveller of their imminent attack.
+~
+human~
+0
+AFGT J 0 0 0 0
+30 0 10d60+426 30d10+100 30d10+100 5d10+17 pound
+-8 -8 -8 0
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21007
+gnome svirfneblin~
+a Svirfneblin~
+A Svirfneblin, or Deep Gnome, cautiously approaches you.
+~
+These gnomes are distant cousins of the surface-dwelling variety of gnomes,
+and share many characteristics. They are the only good-natured race native
+to the underdark, but are by no means weak because of it. They share a close
+friendship with earth elementals, and it wouldn't be wise to challenge a
+deep gnome when one is nearby.
+~
+human~
+0
+AGHT JN 0 0 400 0
+22 0 9d36+270 22d10+100 22d10+100 5d7+14 pound
+-3 -3 -3 3
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21008
+drow scout~
+a Drow scout~
+A Drow scout curses as you spot him!
+~
+These scouts are intended for reconnaissance, not combat, and thus this Drow
+is irritated at being discovered, for he is woefully unprepared to deal with
+you.
+~
+drow~
+0
+AGHT J 0 0 -1000 0
+19 0 7d34+223 19d10+100 19d10+100 5d6+12 pound
+-1 -1 -1 4
+EFNR 0 C QS
+stand stand male 0
+AHMV ABCDEFGHIJK medium unknown
+F aff EZ
+#21009
+nightmare~
+a nightmare~
+A nightmare, steed of some Drow noble, is here.
+~
+These fell black stallions are native to the Lower Planes. They reek of fire
+and brimstone, and flame spews from their mouths at will.
+~
+horse~
+0
+ABFGMT JN 0 0 -1000 0
+30 0 10d60+426 30d10+100 30d10+100 5d10+17 slash
+-8 -8 -8 0
+CEFINU 0 0 0
+stand stand none 0
+AGHMV ABCDEFHK medium unknown
+#21010
+mezzodaemon demon~
+a Mezzodaemon~
+A huge Mezzodaemon roars and attacks!
+~
+This daemon is a huge bloated grotesque creature with massive claws and tiny
+wings that don't seem capable of supporting its weight, but they do.
+~
+human~
+0
+ABDFGT CDEFHJT 0 0 -1000 0
+46 0 10d142+815 46d10+100 46d10+100 5d16+23 slash
+-18 -18 -18 -4
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21011
+piercer~
+a piercer~
+A piercer drops from the ceiling toward you.
+~
+These nasties are sentient predators that resemble stalactites, and drop
+down on unwitting passers-by.
+~
+human~
+0
+ACFT 0 0 0 0 0
+24 0 10d38+311 24d10+100 24d10+100 5d8+14 slash
+-5 -5 -5 2
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21012
+lurker above~
+a lurker above~
+A lurker above seeks to enfold and suffocate you!
+~
+This foul aberration feeds on any and all that enter its lair- even the
+drow and corporeal undead avoid it...
+~
+human~
+0
+ABFHT JT 0 0 0 0
+32 0 10d69+462 32d10+100 32d10+100 5d11+17 pound
+-10 -10 -10 0
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21013
+gelatinous cube~
+a gelatinous cube~
+A gelatinous cube oozes toward you.
+~
+This huge transparent cube secretes a powerful acid that will quickly dissolve
+your flesh!
+~
+human~
+0
+AFGT N 0 0 0 0
+19 0 7d34+223 19d10+100 19d10+100 5d6+12 slash
+-1 -1 -1 4
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21014
+gray ooze~
+a gray ooze~
+A pile of gray liquid oozes toward you.
+~
+"Oh," I hear you say. "How threatening". Well, just you wait!
+~
+human~
+0
+AFT HJN 0 0 -1000 0
+32 0 10d69+462 32d10+100 32d10+100 5d11+17 pierce
+-10 -10 -10 0
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21015
+kuotoa kuotoan scout~
+a Kuotoan scout~
+A Kuotoan scout snarls at you and attacks!
+~
+This fanatic worshipper of Blibdoolpoolp seeks to eradicate all non-aquatic
+creatures, of whose ranks you number.
+~
+human~
+0
+AFHT J 0 0 -1000 0
+24 0 10d38+311 24d10+100 24d10+100 5d8+14 pierce
+-5 -5 -5 2
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21016
+earth elemental~
+an earth elemental~
+An earth elemental lumbers ungainly along here.
+~
+This earthen automaton is under the control of the Svirfneblin.
+~
+human~
+0
+ABGT HN 0 0 0 0
+40 0 10d108+648 40d10+100 40d10+100 5d14+20 pound
+-15 -15 -15 -2
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21017
+nycadaemon daemon demon~
+a nycadaemon~
+A nycadaemon cackles insanely and strikes!
+~
+This is a tall (7'), slender black-skinned daemon with a horned head and 
+sharp claws. However, it wields an evil-looking battleaxe as well.
+~
+human~
+0
+ABDFGHT CDEFHJN 0 0 -1000 0
+43 0 10d124+733 43d10+100 43d10+100 5d15+21 slash
+-16 -16 -16 -3
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21018
+ghoul~
+a ghoul~
+A ghoul gibbers insanely and attacks!
+~
+This demented undead creature is under the control of some faraway Drow
+priestess.
+~
+ghoul~
+0
+ABFGHT J 0 0 -1000 0
+19 0 7d34+223 19d10+100 19d10+100 5d6+12 slash
+-1 -1 -1 4
+EFNR P MQ H
+stand stand none 0
+CDHIM ABCDEFGHIJK medium unknown
+#21019
+ghast~
+a ghast~
+A ghast gibbers insanely and attacks!
+~
+This demented undead creature is under the control of some faraway Drow
+priestess.
+~
+human~
+0
+ABFGHT J 0 0 -1000 0
+24 0 10d38+311 24d10+100 24d10+100 5d8+14 pierce
+-5 -5 -5 2
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21020
+jermlaine~
+a jermlaine~
+A jermlaine plans some mischief!
+~
+These tiny faerie-kin are not intrinsically evil, but they do enjoy a good
+bashing of surface dwellers who stray into their lairs.
+~
+human~
+0
+ABFGHT BJPQ 0 0 0 0
+17 0 5d39+187 17d10+100 17d10+100 4d7+10 pierce
+0 0 0 4
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21021
+drow vampire mage~
+a Drow vampire mage~
+A Drow vampire mage laughs diabolically at you!
+~
+This fellow was evil enough before he met his succubus lover- now he's 
+utterly diabolical!
+~
+drow~
+0
+ABDFGHT CDEFHJU 0 0 -1000 0
+39 0 10d102+629 39d10+100 39d10+100 5d13+22 pierce
+-14 -14 -14 -2
+EFNR 0 C QS
+stand stand male 0
+AHMV ABCDEFGHIJK medium unknown
+F aff Z
+#21022
+succubus~
+a succubus~
+A beautiful female smiles charmingly at you, revealing sharp fangs...
+~
+You see a dazingly attractive voluptuous naked female here. Wait a minute.
+Is it your imagination, or does she have little horns and fangs...?
+~
+succubus~
+0
+ABDGT DFHJT 0 0 -1000 0
+38 0 10d97+603 38d10+100 38d10+100 5d13+20 slash
+-13 -13 -13 -1
+EFNR B CD NY
+stand stand female 0
+ACHMV ABCDEFGHIJKPVW medium unknown
+#21023
+gnome slave~
+a gnome slave~
+A gnome slave stares blankly at you.
+~
+This poor fellow has been drained of all his will.
+~
+human~
+0
+ABGHT 0 0 0 0 0
+16 0 5d34+175 16d10+100 16d10+100 4d7+8 pound
+0 0 0 5
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21024
+wererat lycanthrope ratman~
+a wererat~
+A wererat in ratman form brandishes a sharp Drow sword menacingly.
+~
+These fell creatures are mercenaries who work for any race as long as the
+pay is right.
+~
+human~
+0
+ABFGHT JN 0 0 -400 0
+27 0 10d49+360 27d10+100 27d10+100 5d9+15 pierce
+-6 -6 -6 1
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21025
+drow priestess~
+a Drow priestess~
+A Drow priestess screams at you and attacks!
+~
+She is in charge of this outpost and it won't look good on her report if she
+fails to apprehend a simple adventurer.
+~
+drow~
+0
+ABFGT HJ 0 0 -1000 0
+28 0 10d52+387 28d10+100 28d10+100 5d9+18 pound
+-7 -7 -7 1
+EFNR 0 C QS
+stand stand female 0
+AHMV ABCDEFGHIJK medium unknown
+F aff EZ
+#21026
+drow guard~
+a Drow guard~
+A drow guard loads his hand crossbow and fires!
+~
+These are simple male Drow soldiers- cannon fodder so to speak.
+~
+drow~
+0
+ABFGHT J 0 0 -1000 0
+24 0 10d38+311 24d10+100 24d10+100 5d8+14 pound
+-5 -5 -5 2
+EFNR 0 C QS
+stand stand male 0
+AHMV ABCDEFGHIJK medium unknown
+F aff EZ
+#21027
+drow mage~
+a Drow mage~
+A Drow mage prepares a spell.
+~
+This fellow is actually a noble, a member of house Barrison del'Armgo, the
+second house of Menzoberranzan, and will not let his house's reputation
+suffer by letting you escape!
+~
+drow~
+0
+ABFGT JN 0 0 -1000 0
+25 0 10d42+322 25d10+100 25d10+100 5d8+16 slash
+-5 -5 -5 2
+EFNR 0 C QS
+stand stand male 0
+AHMV ABCDEFGHIJK medium unknown
+F aff EZ
+#21028
+purple worm~
+a purple worm~
+A dreaded purple worm attacks!
+~
+This foul creature is over thirty feet long and has a circular mouth with
+row upon row of razor sharp teeth, which it is trying to sink into you!
+~
+human~
+0
+ABFGT FJN 0 0 0 0
+40 0 10d108+648 40d10+100 40d10+100 5d14+20 pound
+-15 -15 -15 -2
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#21029
+drow sentry~
+a drow sentry~
+A Drow sentry nods curtly and warns you to stay clear of the southern path.
+~
+This fellow is used to seeing all manner of creatures enter the city, and
+compared to them you're but a minor curiosity. He doesn't really know why
+you want to enter, nor does he really care. He's actually looking forward to
+a good romp with his dryad slave girls, then some goblin hunting in the
+mushroom forests after he finishes his shift.
+~
+drow~
+0
+ABDGT DFHJ 0 0 -1000 0
+24 0 10d38+311 24d10+100 24d10+100 5d8+14 pound
+-5 -5 -5 2
+EFNR 0 C QS
+stand stand male 0
+AHMV ABCDEFGHIJK medium unknown
+F aff EZ
+#0
+
+
+
+#OBJECTS
+#21000
+saddle~
+a riding saddle~
+This saddle is made for Drow riding lizards.~
+leather~
+saddle 0 A
+0 0 0 0 0
+28 25 280 P
+Y
+char 'AC' 0 -10
+M
+saddle
+#21001
+drow cloak~
+a drow cloak~
+A black Drow cloak is crumpled on the floor here.~
+<Not Entered>~
+armor C AK
+6 6 6 0 0
+19 1 190 P
+Y
+char 'saving throw' 0 -1
+Y
+char 'saving throw' 0 -1
+Y
+char 'hitroll' 0 1
+Y
+char 'dexterity' 0 1
+#21002
+drow boots~
+a pair of drow boots~
+A pair of black drow boots is here.~
+<Not Entered>~
+armor C AG
+6 6 6 0 0
+19 1 190 P
+Y
+char 'AC' 0 -5
+Y
+char 'moves' 0 50
+Y
+char 'dexterity' 0 1
+#21003
+drow chain chainmail~
+a suit of drow chainmail~
+A suit of finely crafted adamantite chainmail is here.~
+<Not Entered>~
+armor G AD
+6 6 6 0 0
+19 5 190 P
+Y
+char 'AC' 0 -10
+Y
+char 'hp' 0 10
+Y
+char 'constitution' 0 1
+#21004
+drow short sword~
+a drow short sword~
+An adamantite short sword with a razor sharp blade is here.~
+<Not Entered>~
+weapon G AN
+exotic 5 5 pierce 0
+19 20 190 P
+Y
+char 'hitroll' 0 4
+#21005
+crossbow~
+a drow hand crossbow~
+A Drow hand crossbow is here.~
+<Not Entered>~
+wand 0 AO
+20 10 10 'poison' 0
+19 1 190 P
+#21006
+bar silver~
+a bar of silver~
+A bar of silver has been left here.~
+<Not Entered>~
+treasure 0 A
+0 0 0 0 0
+15 10 150 P
+#21007
+bar gold~
+a bar of gold~
+A bar of gold has been left here.~
+<Not Entered>~
+treasure 0 A
+0 0 0 0 0
+15 11 150 P
+#21008
+bar mithril~
+a bar of mithril~
+A bar of mithril has been left here.~
+<Not Entered>~
+treasure 0 A
+0 0 0 0 0
+15 12 150 P
+#21009
+bar adamantite~
+a bar of adamantite~
+A bar of adamantite has been left here.~
+<Not Entered>~
+treasure 0 A
+0 0 0 0 0
+15 15 150 P
+#21010
+morning star~
+an adamantite morning star~
+This drow-fashioned morning star grants its wielder superior accuracy.~
+<Not Entered>~
+weapon G AN
+exotic 5 6 crush 0
+25 20 250 P
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 2
+#21011
+spear~
+a spear~
+This throwing spear has a barbed tip.~
+<Not Entered>~
+weapon 0 AN
+spear 3 6 none 0
+16 10 160 P
+Y
+char 'hitroll' 0 2
+#21012
+pick axe~
+a svirfneblin pick axe~
+This pick axe is extraordinarily well made.~
+<Not Entered>~
+weapon G AN
+exotic 5 5 pound 0
+22 20 220 P
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 2
+#21013
+chain chainmail~
+a suit of svirfneblin chainmail~
+A suit of finely crafted adamantite chainmail is here.~
+<Not Entered>~
+armor G AD
+7 7 7 0 0
+22 5 220 P
+Y
+char 'AC' 0 -10
+Y
+char 'hp' 0 10
+Y
+char 'strength' 0 2
+#21014
+stone~
+an earth stone~
+This earth stone has potent magical properties.~
+<Not Entered>~
+armor G AO
+7 7 7 0 0
+22 1 220 P
+Y
+char 'mana' 0 25
+Y
+char 'wisdom' 0 1
+Y
+char 'intelligence' 0 1
+#21015
+gem~
+a sparkling gem~
+A gem sparkles here.
+~
+<Not Entered>~
+treasure A AO
+0 0 0 0 0
+14 1 140 P
+#21016
+mineral pill~
+a mineral pill~
+When eaten, this mineral pill heals and repairs the wounded.~
+<Not Entered>~
+pill 0 A
+30 'cure poison' 'cure serious' 'stone skin' ''
+22 1 220 P
+#21017
+net~
+a net~
+This net snares fleeing foes.~
+<Not Entered>~
+staff 0 AO
+35 7 7 'weaken' 0
+24 1 240 P
+#21018
+trident~
+a barbed trident~
+A barbed trident is stuck in the ground here.~
+<Not Entered>~
+weapon 0 AN
+exotic 5 6 pierce 0
+24 10 240 P
+Y
+char 'damroll' 0 3
+Y
+char 'hitroll' 0 1
+#21019
+harness~
+a leather body harness~
+A leather body harness lies here.~
+<Not Entered>~
+armor 0 AD
+7 7 7 0 0
+24 5 240 P
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 2
+Y
+char 'strength' 0 1
+#21020
+battle axe~
+a battle axe~
+A battle axe lies here.~
+<Not Entered>~
+weapon BEGJ AN
+exotic 5 10 slice 0
+43 20 430 P
+Y
+char 'damroll' 0 6
+#21021
+wand~
+a wand~
+A magic wand glows brightly here.~
+<Not Entered>~
+wand AG AO
+40 8 8 'cause critical' 0
+39 1 390 P
+#21022
+jewelry~
+some expensive jewelry~
+This is very expensive jewelry.~
+<Not Entered>~
+treasure A AC
+0 0 0 0 0
+38 1 380 P
+#21023
+chest~
+an oak chest~
+A solid oak chest sits here.~
+<Not Entered>~
+container 0 AO
+1000 B 1024 0 0
+14 100 140 P
+#21024
+key~
+a key~
+A bronze key lies here.~
+<Not Entered>~
+key 0 AO
+0 0 0 0 0
+39 1 390 P
+#21025
+scroll~
+a scroll~
+A scroll lies here.~
+<Not Entered>~
+scroll G AO
+40 'blindness' 'cause serious' 'chill touch' ''
+14 1 140 P
+#21026
+jewelry~
+some expensive jewelry~
+This is very expensive jewelry.~
+<Not Entered>~
+treasure A AM
+0 0 0 0 0
+38 1 380 P
+#21027
+lesser tentacle rod~
+a Lesser Tentacle Rod~
+A Lesser Tentacle Rod writhes menacingly about here.~
+<Not Entered>~
+weapon G AN
+exotic 5 7 bite 0
+28 25 280 P
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 2
+#21028
+brooch~
+a Drow brooch~
+A brooch bearing the insignia of Barrison del'Armgo lies here.~
+<Not Entered>~
+armor 0 AO
+8 8 8 0 0
+25 1 250 P
+Y
+char 'mana' 0 25
+Y
+char 'wisdom' 0 1
+Y
+char 'intelligence' 0 1
+#21029
+key~
+a key~
+A mithril key lies here.~
+<Not Entered>~
+key 0 AO
+0 0 0 0 0
+28 1 280 P
+Y
+char 'hitroll' 0 4
+#21030
+hessian sack~
+a hessian sack~
+This sturdy sack is used for holding ore.~
+<Not Entered>~
+container 0 AO
+100 A 0 0 0
+20 1 200 P
+#21031
+ore~
+ore~
+Some valuable ore is here.
+~
+<Not Entered>~
+treasure A AO
+0 0 0 0 0
+20 10 200 P
+#21032
+portal~
+a dark portal~
+A dark portal to the Drow homeland is here.~
+<Not Entered>~
+portal AB 0
+0 0 0 5100 0
+23 1 230 P
+#0
+
+
+
+#ROOMS
+#21000
+Descent Into The Underdark~
+You slowly advance into the solid darkness that lies before you, your light
+source flickering feeble as it combats the inky blackness here. It almost has
+a substance, and you feel like it is pressing at you from all sides, suffocating
+you. Fighting off a wave of claustrophobic-induced nausea, you steel yourself
+and march into the depths.
+~
+0 13 0
+5
+D2
+~
+~
+0 -1 21001
+D4
+~
+~
+0 -1 1
+S
+#21001
+The Underdark~
+What little light that emanated from your entrance point to the north has now
+disappeared entirely, and you feel another wave of panic overcome you, as 
+your mind rebels against this utterly alien environment. Even the Dwarven
+mines weren't as bad as this- here there is no light, no sound, just utter
+darkness, only slightly lessened by your light source. It is said that the
+Underdark itself has a far greater impact on adventurers than its many
+dangerous denizens.
+~
+0 13 0
+5
+D0
+~
+~
+0 -1 21000
+D2
+~
+~
+0 -1 21002
+S
+#21002
+A Cavern~
+You suddenly emerge into a large cavern, and are relieved to see more light
+as your light source reflects off hundreds of tiny crystals imbedded in the
+walls and ceiling of this cave. Hundreds of stalactites and stalagmites
+obscure your vision, but you are fairly sure you can see exits to the east
+and south. You hear what sounds like construction going on to the east.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21001
+D1
+~
+~
+0 -1 21054
+D2
+~
+~
+0 -1 21003
+S
+#21003
+A Sloping Passage~
+This passage is very narrow and begins to slope abruptly downward as you
+advance. Up ahead it seems to drop almost vertically into the darkness.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21002
+D5
+~
+~
+0 -1 21004
+S
+#21004
+A Cavern~
+You have entered yet another of the innumerable caverns that exist in the
+underdark. This one has no crystals to enhance your light, however, and
+you slowly creep around the circumference to locate any exits. You find
+passages to the east and west, and steeply sloping passages to the north and
+south, the northern one sloping upward, the souther downward.
+~
+0 13 0
+5
+D1
+~
+~
+0 -1 21007
+D3
+~
+~
+0 -1 21005
+D4
+~
+~
+0 -1 21003
+D5
+~
+~
+0 -1 21008
+S
+#21005
+A Lair~
+You have stumbled across the lair of some horrid beast, evidenced by the
+numerous skeletons that crunch beneath your boots as you advance. You are
+not sure, but you think you can hear snorting up ahead, but your relief at
+finally hearing SOMETHING is overcome by a feeling of dread regarding what is
+making the noise.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21006
+D1
+~
+~
+0 -1 21004
+S
+#21006
+An Umber Hulk Lair~
+Oh NO! You have entered the lair of an Umber Hulk! These distinctive creatures
+are known for their penchant for gems, and the floor of this place is scattered
+with them, along with many more skeletons. You better hope the occupant isn't
+home...
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21005
+S
+#21007
+A Dead End~
+You are dispirited as you find this passage ends after a short distance in a
+dead end, as do many passages in the Underdark.
+~
+0 9 0
+5
+D3
+~
+~
+0 -1 21004
+S
+#21008
+A Junction~
+You have reached a junction, where the sloping passage meets a broad, well-
+travelled east-west thoroughfare. You think you can see dim lights bobbing
+up and down to the east. Darkness extends for what seems like forever to the
+west.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21030
+D3
+~
+~
+0 -1 21009
+D4
+~
+~
+0 -1 21004
+S
+#21009
+A Narrow Passage~
+You are cautiously working your way along a narrow east-west passage. Darkness
+extends in both directions without any apparent end.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21008
+D3
+~
+~
+0 -1 21010
+S
+#21010
+A Junction~
+You suddenly reach a junction, where you may proceed north, east or south.
+~
+0 13 0
+5
+D0
+~
+~
+0 -1 21011
+D1
+~
+~
+0 -1 21009
+D2
+~
+~
+0 -1 21012
+S
+#21011
+A Lair~
+You have entered the lair of some beast, evidenced by the bones scattered
+across the floor and the almost unbearable stench of decay that lingers in 
+the stale air. Wonder where the occupant is?
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21010
+S
+#21012
+A Small Cavern~
+This cavern was the site of a small skirmish recently. Corpses of dark elves,
+stripped of their equipment lie scattered about, though there are no corpses
+of other races- evidently the victors took their dead with them.
+
+Passages head north, east and south here.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21010
+D1
+~
+~
+0 -1 21018
+D2
+~
+~
+0 -1 21013
+S
+#21013
+Another Junction~
+You have reached a junction where you may proceed north, south or west. The
+tracks of several large creatures can be made out in some dirt heading west.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21012
+D2
+~
+~
+0 -1 21014
+D3
+~
+~
+0 -1 21015
+S
+#21014
+A Dead End~
+You are dispirited as you find this passage ends after a short distance in a
+dead end, as do many passages in the Underdark.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21013
+S
+#21015
+A Crossroads~
+You have arrived at a crossroads, at which points the passages widen 
+sufficiently to allow for the establishment of some sort of way station. A
+few tents are pitched haphazardly here and there, while small campfires burn
+near the edges, surrounded by huddled, chained figures.
+~
+0 8 0
+5
+D0
+~
+~
+0 -1 21017
+D1
+~
+~
+0 -1 21013
+D2
+~
+~
+0 -1 21016
+D3
+~
+~
+0 -1 21049
+S
+#21016
+Storage Cavern~
+This cavern is full of boxes, crates and other paraphenalia, of no use to
+you, but obviously of significant use to the merchants who stop here.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21015
+S
+#21017
+Storage Cavern~
+This cavern is full of boxes, crates and other paraphenalia, of no use to
+you, but obviously of significant use to the merchants who stop here.
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21015
+S
+#21018
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21019
+D3
+~
+~
+0 -1 21012
+S
+#21019
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21018
+D1
+~
+~
+0 -1 21020
+S
+#21020
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21021
+D3
+~
+~
+0 -1 21019
+S
+#21021
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21020
+D2
+~
+~
+0 -1 21022
+S
+#21022
+Another Junction~
+You have reached a point where you can go north, south or drop down a small
+hole into a lower passage.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21021
+D2
+~
+~
+0 -1 21038
+D5
+~
+~
+0 -1 21023
+S
+#21023
+A Narrow Passage~
+This narrow passage is cold, damp and if possible even darker than the ones
+you were following before. A chill wind blows from the east, unusual in this
+generally stuffy world, and you shiver uncomfortably. Far away, someone
+suddenly screams, and you think twice about proceeding.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21024
+D4
+~
+~
+0 -1 21022
+S
+#21024
+A Narrow Passage~
+This narrow passage is cold, damp and if possible even darker than the ones
+you were following before. A chill wind blows from the east, unusual in this
+generally stuffy world, and you shiver uncomfortably. Far away, someone
+suddenly screams, and you think twice about proceeding.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21025
+D3
+~
+~
+0 -1 21023
+S
+#21025
+Entrance to the Fungus Garden~
+You suddenly enter a spacious, well-lit (by Underdark standards) cavern,
+full of a wide variety of fungi, molds and moss, which in their own way
+are quite beautiful. You hear soft music playing far, far away, and are
+sorely tempted to enter and relax for a while.
+~
+0 8 3
+5
+D1
+~
+~
+0 -1 21026
+D3
+~
+~
+0 -1 21024
+S
+#21026
+In the Garden~
+The music is louder now, as you walk among the garden exhibits. You see some
+old statues, once fine but now chipped and stained. There is an adamantite
+door to the north, from behind which the music seems to emanate.
+~
+0 8 3
+5
+D0
+~
+adamantite door~
+AB 0 21027
+D3
+~
+~
+0 -1 21025
+S
+#21027
+A Luxurious Room~
+You have entered the boudoir of some noblewoman, if the expensive silk, 
+furniture, tapestries and unguents are any indication. The singing seems to
+be coming from the north of here, and you now hear a voice calling for you
+as well, speaking sweetly and in friendly tones.
+~
+0 8 0
+5
+D0
+~
+~
+A 0 21028
+D1
+~
+~
+AB 0 21029
+D2
+~
+adamantite door~
+AB 0 21026
+S
+#21028
+Room of the Occupants~
+You walk north, happily expecting good food, wine and the comfort of a friendly
+visitor like yourself, when suddenly there is a flash, and what was once
+luxuriant and fresh now appears decayed and stale. Torn shreds of cheap 
+material hang from battered and splintered wardrobes while stained sheets
+cover a wooden plank suspended between two barrels. The illusion which 
+enticed you has been dispelled, and now you must deal with the very real
+peril which now faces you.
+~
+0 9 0
+5
+D2
+~
+~
+AB 0 21027
+S
+#21029
+A Storage Room~
+You are appalled by what you find here- jars of blood, rotting carcasses,
+withered limbs and sacks of entrails. The stench is overwhelming and you
+fight an urge to vomit.
+~
+0 9 0
+5
+D3
+~
+~
+AB 0 21027
+S
+#21030
+A Long Passage~
+This passage continues for what seems like forever. You see no end in
+sight.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21031
+D3
+~
+~
+0 -1 21008
+S
+#21031
+An Outpost~
+You have stumbled into a Drow outpost! Soldier run everywhere as you enter,
+shouting alarms, and you instinctively ready your weapons. Passages run
+north and south of here, while iron doors block access further east.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21032
+D1
+~
+~
+ABC 21029 21036
+D2
+~
+~
+0 -1 21034
+D3
+~
+~
+0 -1 21030
+S
+#21032
+Warrior's Quarters~
+You have entered the quarters of the Drow soldiers stationed here. They ready
+their equipment with practiced precision and prepare to defend themselves.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21033
+D2
+~
+~
+0 -1 21031
+S
+#21033
+Warrior's Quarters~
+You have entered the quarters of the Drow soldiers stationed here. They ready
+their equipment with practiced precision and prepare to defend themselves.
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21032
+S
+#21034
+Cleric's Quarters~
+You have entered the quarters of the Drow priestess in command here. It is
+sacrilege for even a male Drow to do this, let alone an outsider.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21031
+D2
+~
+~
+0 -1 21035
+S
+#21035
+Cleric's Quarters~
+You have entered the quarters of the Drow priestess in command here. It is
+sacrilege for even a male Drow to do this, let alone an outsider.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21034
+S
+#21036
+Inside the Iron Doors~
+You have entered the area the Drow were guarding. There is a foul stench in
+the air, and you are not sure if you want to continue.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21037
+D3
+~
+~
+ABC 21029 21031
+S
+#21037
+The Portal Chamber~
+Here the Drow maintain a portal to their city, so they can hurry home quickly
+to make reports. Anyone is free to use it, if they can get past its guard...
+~
+0 9 0
+5
+D3
+~
+~
+0 -1 21036
+S
+#21038
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21022
+D2
+~
+~
+0 -1 21039
+S
+#21039
+A Junction~
+Passages lead to the north, south, east and west from here. There is a small
+sign affixed to a stalagmite.
+~
+0 13 0
+5
+E
+sign~
+The sign says-
+
+  "BEWARE THE LURKERS!"
+~
+D0
+~
+~
+0 -1 21038
+D1
+~
+~
+0 -1 21043
+D2
+~
+~
+0 -1 21040
+D3
+~
+~
+0 -1 21041
+S
+#21040
+An Empty Chamber~
+This corridor ends in a dead end in the form of a small empty chamber. There
+appears to be nothing of interest...
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21039
+S
+#21041
+A Dark Cave~
+You have entered a dark L-shaped cave. Bones and rubble are strewn across
+the stalagmite-peppered floor. You step lightly, hoping to avoid spraining
+an ankle. You think you can hear a clicking noise...
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21042
+D1
+~
+~
+0 -1 21039
+S
+#21042
+End of the Cave~
+The clicking is louder here... MUCH louder. You have stumbled into a HOOK
+HORROR lair. Best hope there are none too close to you...
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21041
+S
+#21043
+A Narrow Cavern~
+You are making your way through a long narrow cavern that runs east-west.
+There are several cracks in the wall that a small creature may be able
+to squeeze through, but you doubt that you could.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21044
+D3
+~
+~
+0 -1 21039
+S
+#21044
+A Narrow Cavern~
+You are making your way through a long narrow cavern that runs east-west.
+There are several cracks in the wall that a small creature may be able
+to squeeze through, but you doubt that you could.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21045
+D3
+~
+~
+0 -1 21043
+S
+#21045
+A Narrow Cavern~
+You are making your way through a long narrow cavern that runs east-west.
+There are several cracks in the wall that a small creature may be able
+to squeeze through, but you doubt that you could. However, one rather wide
+crack to the north does look navigable.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21046
+D1
+~
+~
+0 -1 21047
+D3
+~
+~
+0 -1 21044
+S
+#21046
+A Tiny Cave~
+You have squeezed into a tiny cave with no other exits. You curse wasting
+your time and prepare to leave, when you suddenly hear a tiny squeak. 
+Turning round, you see nothing. What's going on here...?
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21045
+S
+#21047
+A Narrow Cavern~
+You have reached the easternmost point of a long narrow cavern that runs 
+east-west. There are several cracks in the wall that a small creature may 
+be able to squeeze through, but you doubt that you could, save one to the
+south.
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21048
+D3
+~
+~
+0 -1 21045
+S
+#21048
+A Dead End~
+You are dispirited as you find this passage ends after a short distance in a
+dead end, as do many passages in the Underdark.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21047
+S
+#21049
+A Bend in the Passage~
+The passage bends sharply to the south, becoming much larger and even as it
+does.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21015
+D2
+~
+~
+0 -1 21050
+S
+#21050
+A Major Passage~
+The passage you are currently in is one of the most-travelled in the Underdark.
+Travellers of all descriptions continually move along this passage- most
+of them unfriendly. You ready your weapons, certain that you are bound to
+run into some of them soon.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21049
+D2
+~
+~
+0 -1 21051
+D3
+~
+~
+0 -1 21053
+S
+#21051
+A Major Passage~
+The passage you are currently in is one of the most-travelled in the Underdark.
+Travellers of all descriptions continually move along this passage- most
+of them unfriendly. You ready your weapons, certain that you are bound to
+run into some of them soon.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21050
+D2
+~
+~
+0 -1 21052
+S
+#21052
+A Major Passage~
+The passage you are currently in is one of the most-travelled in the Underdark.
+Travellers of all descriptions continually move along this passage- most
+of them unfriendly. You ready your weapons, certain that you are bound to
+run into some of them soon.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21051
+D2
+~
+~
+0 -1 21059
+S
+#21053
+A Dead End~
+You are dispirited as you find this passage ends after a short distance in a
+dead end, as do many passages in the Underdark.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21050
+S
+#21054
+A Mine Tunnel~
+You have entered what looks like a mine. Iron rails run along the ground
+to the east, and sitting atop these rails is a metal trolley half covered in
+ore. You hear shouts and the ringing sound of metal being struck against
+stone in the distance.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21055
+D3
+~
+~
+0 -1 21002
+S
+#21055
+A Mine Tunnel~
+You have entered what looks like a mine. Iron rails run along the ground
+to the east, and sitting atop these rails is a metal trolley half covered in
+ore. You hear shouts and the ringing sound of metal being struck against
+stone in the distance.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21056
+D3
+~
+~
+0 -1 21054
+S
+#21056
+A Mine Tunnel~
+You have entered what looks like a mine. Iron rails run along the ground
+to the east, and sitting atop these rails is a metal trolley half covered in
+ore. The rails end at a giant wooden buffer. You hear shouts and the ringing 
+sound of metal being struck against stone all around you.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21057
+D1
+~
+~
+0 -1 21058
+D3
+~
+~
+0 -1 21055
+S
+#21057
+A Storage Room~
+Hessian sacks full of ore are stacked neatly along the walls of this place.
+Metal racks on the walls above them hold a variety of mining tools, as well
+as an assortment of weapons.
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21056
+S
+#21058
+A Dead End~
+You are dispirited as you find this passage ends after a short distance in a
+dead end, as do many passages in the Underdark.
+~
+0 9 0
+5
+D3
+~
+~
+0 -1 21056
+S
+#21059
+A Major Passage~
+The passage you are currently in is one of the most-travelled in the Underdark.
+Travellers of all descriptions continually move along this passage- most
+of them unfriendly. You ready your weapons, certain that you are bound to
+run into some of them soon.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21052
+D2
+~
+~
+0 -1 21060
+S
+#21060
+A Large Cave~
+This cave has been cleared of all stalactites and stalagmites, for some
+purpose unclear to you. Passages run to the east south and north.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21059
+D1
+~
+~
+0 -1 21062
+D2
+~
+~
+0 -1 21061
+S
+#21061
+A Dead End~
+You are dispirited as you find this passage ends after a short distance in a
+dead end, as do many passages in the Underdark.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21060
+S
+#21062
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21063
+D3
+~
+~
+0 -1 21060
+S
+#21063
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21062
+D1
+~
+~
+0 -1 21064
+S
+#21064
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21065
+D3
+~
+~
+0 -1 21063
+S
+#21065
+A Large Cave~
+This cave has been cleared of all stalactites and stalagmites, for some
+purpose unclear to you. Passages run to the east south and north.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21064
+D1
+~
+~
+0 -1 21066
+D2
+~
+~
+0 -1 21073
+S
+#21066
+A Wide Tunnel~
+You have entered a wide, east-west tunnel that is almost perfectly circular.
+You see lines in some dirt that indicate something large has been dragged
+here, a corpse perhaps, or perhaps the passage of a snake or worm.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21067
+D3
+~
+~
+0 -1 21065
+S
+#21067
+A Junction~
+You have reached a widening of the passage where exits lead in all cardinal
+directions.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21068
+D1
+~
+~
+0 -1 21070
+D2
+~
+~
+0 -1 21076
+D3
+~
+~
+0 -1 21066
+S
+#21068
+A Rubble-Strewn Passage~
+This passage is narrow and difficult to traverse. It appears to end in a
+dead end directly ahead.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21069
+D2
+~
+~
+0 -1 21067
+S
+#21069
+A Dead End~
+You are dispirited as you find this passage ends after a short distance in a
+dead end, as do many passages in the Underdark.
+
+However, you think you could worm your way through a narrow crack in the
+north wall if you wanted, although you doubt you'd be able to return the
+same way.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21043
+D2
+~
+~
+0 -1 21068
+S
+#21070
+A Wide Tunnel~
+You have entered a wide, east-west tunnel that is almost perfectly circular.
+You see lines in some dirt that indicate something large has been dragged
+here, a corpse perhaps, or perhaps the passage of a snake or worm.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21071
+D3
+~
+~
+0 -1 21067
+S
+#21071
+A Wide Tunnel~
+You have entered a wide, east-west tunnel that is almost perfectly circular.
+You see lines in some dirt that indicate something large has been dragged
+here, a corpse perhaps, or perhaps the passage of a snake or worm.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21072
+D3
+~
+~
+0 -1 21070
+S
+#21072
+A Wide Tunnel~
+You have reached the end of a wide, east-west tunnel that is almost perfectly 
+circular. The lines in the dirt end here.
+~
+0 9 0
+5
+D3
+~
+~
+0 -1 21071
+S
+#21073
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21065
+D3
+~
+~
+0 -1 21074
+S
+#21074
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21073
+D2
+~
+~
+0 -1 21075
+S
+#21075
+A Dead End~
+You are dispirited as you find this passage ends after a short distance in a
+dead end, as do many passages in the Underdark.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21074
+S
+#21076
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21067
+D1
+~
+~
+0 -1 21077
+S
+#21077
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21078
+D3
+~
+~
+0 -1 21076
+S
+#21078
+A Cavern~
+You enter a large cavern, filled with the usual array of stalactites and
+stalagmites, with two small caves to the east and west. A north-south
+passage runs through the middle.
+~
+0 13 0
+5
+D0
+~
+~
+0 -1 21077
+D1
+~
+~
+0 -1 21079
+D2
+~
+~
+0 -1 21081
+D3
+~
+~
+0 -1 21080
+S
+#21079
+A Cave~
+This small cave is obviously the lair of some denizen of the Underdark. As
+you pick your way past decaying corpses, skeletons and pieces of broken
+equipment, you silently pray that this particular denizen is not home right 
+now.
+~
+0 9 0
+5
+D3
+~
+~
+0 -1 21078
+S
+#21080
+A Cave~
+This small cave is obviously the lair of some denizen of the Underdark. As
+you pick your way past decaying corpses, skeletons and pieces of broken
+equipment, you silently pray that this particular denizen is not home right 
+now.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21078
+S
+#21081
+A Long Passageway~
+This passageway stretches out deep into the Underdark, and begins to slope
+steeply downward directly ahead of here.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21078
+D5
+~
+~
+0 -1 21082
+S
+#21082
+A Cavern~
+This area of the Underdark looks heavily travelled. Large numbers of humanoids
+of many races have travelled east up and down from here.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21083
+D4
+~
+~
+0 -1 21081
+D5
+~
+~
+0 -1 21084
+S
+#21083
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21082
+D2
+~
+~
+0 -1 21089
+S
+#21084
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21085
+D4
+~
+~
+0 -1 21082
+S
+#21085
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21084
+D3
+~
+~
+0 -1 21086
+S
+#21086
+A Small Cave~
+Several large crates and containers have been left here, along with dozens
+of corpses- creatures who have had their brains sucked out by hungry 
+Illithids.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21088
+D1
+~
+~
+0 -1 21085
+D2
+~
+~
+0 -1 21087
+S
+#21087
+A Slow Descent~
+You find yourself heading down a sloping path that heads into the inky 
+blackness of a large cave dead ahead. 
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21086
+D2
+~
+~
+0 -1 1
+S
+#21088
+Wererat Chambers~
+Here reside the Wererat guards/bully boys who work for the Illithid slave
+traders. You see some Illithid have a penchant for brains, and the Wererats
+are excellent purveyors.
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21086
+S
+#21089
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21083
+D1
+~
+~
+0 -1 21090
+S
+#21090
+Outside the Pens~
+You are standing in a large cave with a metal gate barring access to the
+north. From behind this grate emanates an awful stench. You have no idea
+what the purpose of this area is, and you aren't sure you care to find out...
+~
+0 9 0
+5
+D0
+~
+~
+AB 0 21091
+D1
+~
+~
+0 -1 21092
+D3
+~
+~
+0 -1 21089
+S
+#21091
+The Ghoul Pens~
+Here the Drow breed new ghouls for their armies, by creating one or two and
+then throwing unarmed human slaves to them to be tortured and slain, and
+resurrected as ghouls. It is an effective, low cost breeding system. Pity
+you're in here- you're considered feed...
+~
+0 9 0
+5
+D2
+~
+~
+ABC 0 21090
+S
+#21092
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 21093
+D3
+~
+~
+0 -1 21090
+S
+#21093
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21092
+D2
+~
+~
+0 -1 21094
+S
+#21094
+A Twisting Tunnel~
+This tunnel twists and turns as it wends its sinuous way into the depths of
+the Underdark. Strange moss and lichen glow dimly in small recesses in the
+walls, though they provide insufficient light to navigate by.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21093
+D3
+~
+~
+0 -1 21095
+S
+#21095
+Outside the Pens~
+You are standing in a large cave with a metal gate barring access to the
+south. From behind this grate emanates an awful stench. You have no idea
+what the purpose of this area is, and you aren't sure you care to find out...
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21094
+D2
+~
+~
+AB 0 21096
+D3
+~
+~
+0 -1 21097
+S
+#21096
+The Ghast Pens~
+Here the Drow breed new ghasts for their armies, by creating one or two and
+then throwing unarmed human slaves to them to be tortured and slain, and
+resurrected as ghasts. It is an effective, low cost breeding system. Pity
+you're in here- you're considered feed...
+~
+0 9 0
+5
+D0
+~
+~
+ABC 0 21095
+S
+#21097
+An Even Tunnel~
+This passage runs directly east-west, and looks to lead to some sort of
+large settlement. You may want to proceed cautiously...
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21095
+D3
+~
+~
+0 -1 21098
+S
+#21098
+An Even Tunnel~
+This passage runs directly east-west, and looks to lead to some sort of
+large settlement. You may want to proceed cautiously...
+
+The entrance to a large city lies directly west of here.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 21097
+D2
+A rest stop~
+~
+0 -1 21099
+D3
+~
+~
+0 -1 5100
+S
+#21099
+A Rest Stop~
+This is a rest stop for travellers going to and from Menzoberranzan, fell
+capital of the Drow holdings. It has been deserted for some time now,
+perhaps due to the unsavory habits of its latest occupant...
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 21098
+S
+#0
+
+
+
+#SPECIALS
+M 21002 spec_cast_cleric
+M 21007 spec_cast_cleric
+M 21008 spec_cast_mage
+M 21010 spec_cast_undead
+M 21013 spec_breath_acid
+M 21014 spec_breath_gas
+M 21015 spec_cast_cleric
+M 21017 spec_cast_undead
+M 21019 spec_cast_undead
+M 21020 spec_thief
+M 21021 spec_cast_mage
+M 21022 spec_cast_undead
+M 21024 spec_thief
+M 21025 spec_cast_cleric
+M 21026 spec_cast_mage
+M 21027 spec_cast_mage
+M 21028 spec_breath_acid
+M 21029 spec_guard
+S
+
+
+
+#RESETS
+D 0 21026 0 1
+D 0 21027 1 1
+D 0 21027 2 1
+D 0 21028 2 1
+D 0 21029 3 1
+D 0 21031 1 2
+D 0 21036 3 2
+D 0 21090 0 1
+D 0 21091 2 2
+D 0 21095 2 1
+D 0 21096 0 2
+M 0 21011 6 21002 6
+M 0 21000 1 21006 1
+O 0 21015 0 21006
+M 0 21008 4 21009 4
+E 0 21001 0 12
+E 0 21002 0 8
+E 0 21003 0 5
+E 0 21004 0 16
+E 0 21005 0 17
+M 0 21005 1 21011 1
+M 0 21002 2 21015 2
+E 0 21001 0 12
+E 0 21002 0 8
+E 0 21003 0 5
+E 0 21004 0 16
+E 0 21005 0 17
+G 0 21006 0
+G 0 21007 0
+G 0 21008 0
+G 0 21009 0
+M 0 21001 2 21015 2
+E 0 21000 0 5
+M 0 21003 6 21015 6
+E 0 21010 0 16
+M 0 21004 6 21015 6
+E 0 21011 0 16
+M 0 21003 6 21016 6
+E 0 21010 0 16
+M 0 21004 6 21017 6
+E 0 21011 0 16
+M 0 21011 6 21022 6
+M 0 21008 4 21022 4
+E 0 21001 0 12
+E 0 21002 0 8
+E 0 21003 0 5
+E 0 21004 0 16
+E 0 21005 0 17
+M 0 21021 1 21028 1
+E 0 21021 0 17
+G 0 21024 0
+M 0 21022 1 21028 1
+E 0 21022 0 3
+E 0 21022 0 4
+E 0 21026 0 14
+E 0 21026 0 15
+M 0 21023 1 21029 1
+O 0 21023 0 21029
+P 0 21025 -1 21023 1
+P 0 21015 -1 21023 1
+M 0 21026 8 21031 8
+E 0 21001 0 12
+E 0 21002 0 8
+E 0 21003 0 5
+E 0 21004 0 16
+E 0 21005 0 17
+M 0 21026 8 21032 8
+E 0 21001 0 12
+E 0 21002 0 8
+E 0 21003 0 5
+E 0 21004 0 16
+E 0 21005 0 17
+M 0 21026 8 21033 8
+E 0 21001 0 12
+E 0 21002 0 8
+E 0 21003 0 5
+E 0 21004 0 16
+E 0 21005 0 17
+M 0 21025 1 21034 1
+E 0 21001 0 12
+E 0 21002 0 8
+E 0 21003 0 5
+E 0 21027 0 16
+E 0 21029 0 17
+M 0 21009 1 21035 1
+M 0 21027 1 21036 1
+E 0 21001 0 12
+E 0 21002 0 8
+E 0 21004 0 16
+E 0 21028 0 17
+O 0 21032 0 21037
+M 0 21017 1 21037 1
+E 0 21020 0 16
+M 0 21012 1 21040 1
+M 0 21006 3 21042 3
+M 0 21013 3 21044 3
+M 0 21020 3 21046 3
+E 0 21011 0 16
+M 0 21015 2 21050 2
+E 0 21017 0 17
+E 0 21018 0 16
+E 0 21019 0 5
+M 0 21008 4 21051 4
+E 0 21001 0 12
+E 0 21002 0 8
+E 0 21003 0 5
+E 0 21004 0 16
+E 0 21005 0 17
+M 0 21007 6 21055 6
+E 0 21012 0 16
+E 0 21013 0 5
+E 0 21014 0 14
+G 0 21015 0
+G 0 21016 0
+M 0 21007 6 21056 6
+E 0 21012 0 16
+E 0 21013 0 5
+E 0 21014 0 14
+G 0 21015 0
+G 0 21016 0
+M 0 21016 1 21056 1
+M 0 21007 6 21057 6
+E 0 21012 0 16
+E 0 21013 0 5
+E 0 21014 0 14
+G 0 21015 0
+G 0 21016 0
+O 0 21030 0 21057
+P 0 21031 -1 21030 1
+M 0 21013 3 21059 3
+M 0 21013 3 21066 3
+M 0 21028 1 21072 1
+M 0 21014 1 21080 1
+M 0 21011 6 21082 6
+M 0 21024 4 21088 4
+E 0 21004 0 16
+M 0 21008 4 21089 4
+E 0 21001 0 12
+E 0 21002 0 8
+E 0 21003 0 5
+E 0 21004 0 16
+E 0 21005 0 17
+M 0 21018 6 21091 6
+M 0 21019 3 21096 3
+M 0 21029 4 21098 4
+E 0 21001 0 12
+E 0 21002 0 8
+E 0 21003 0 5
+E 0 21004 0 16
+E 0 21005 0 17
+M 0 21010 1 21099 1
+S
+
+
+
+#SHOPS
+21002 2 3 4 8 12 120 80 0 23
+0
+
+
+
+#$

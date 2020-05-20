@@ -5,7 +5,7 @@
 -ROM no group and pos as int: aliens2.are
 animal.are
 -MERC STYLE: anonplis.are
-bazaar.are // missing S #$ at the end of resets
+bazaar.are ** missing S #$ at the end of resets
 bfield.are
 cage2.are
 -ROM no group and pos as int: camp.are

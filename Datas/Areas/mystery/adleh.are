@@ -1,0 +1,1422 @@
+#AREADATA
+Name Village of Adlehyde~
+Builders Albane~
+VNUMs 400 499
+Credits {{20 60}  Albane  Village of Adlehyde~
+Security 1
+Flags 0
+End
+
+
+
+#MOBILES
+#400
+little boy of adlehyde~
+a little boy from Adlehyde~
+A young boy runs around the village.
+~
+He looks to be about 8 or 9, running around playing a game of Hide-and-Seek with his friends.
+~
+human~
+0
+A 0 0 0 0 0
+15 15 4d7+1053 15d10+100 15d10+100 1d6+3 punch
+1 1 1 1
+0 0 0 0
+stand stand none 10
+AHMV ABCDEFGHIJK medium 0
+#402
+lenna herbalist shopkeeper adlehyde~
+Lenna, the herbalist~
+Lenna the Herbalist is here to serve your item needs.
+~
+She looks up at you and smiles.  She asks, "Would you like to try some of
+our herbs?  We just got a new shipment in today."  
+~
+human~
+0
+ABIe 0 0 0 0 0
+100 105 50d15+16300 100d11+110 100d11+110 9d10+81 slap
+-999 -999 -999 -999
+0 ABCD 0 0
+stand stand female 0
+AHMV ABCDEFGHIJK medium 0
+#403
+brad blacksmith apprentice adlehyde~
+Brad, the Blacksmith Apprentice~
+Brad the Blacksmith Apprentice is here, manning the counter.
+~
+He is a rather geeky-looking person.  You notice him staring dreamingly
+at Lenna.  When you pound on the counter, he comes back to reality and says,
+"Hello, how may I help you?"  
+~
+human~
+K
+ABI 0 0 1 0 0
+119 124 50d24+24322 119d11+110 119d11+110 9d12+98 none
+-999 -999 -999 -999
+FGHN ABCDOP ABCDOP 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium 0
+#404
+a drunk keeping a silent vigil adlehyde~
+a drunk keeping a silent vigil~
+A drunkard is here, keeping a silent vigil over his destroyed 'home'.
+~
+This guy really brings out the 'riff-raff' factor in Adlehyde.  His hair
+is roughed up badly, and he hasn't bathed for YEARS!!!  Maybe that stink is
+enough to kill you.  
+~
+human~
+0
+AB 0 0 0 0 0
+17 17 3d8+321 17d10+100 17d10+100 2d7+5 bite
+-2 -2 -2 -1
+0 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#405
+professor emma arms meister adlehyde~
+Professor Emma, The ARMs Meister~
+Professor Emma, the great ARMs Meister stands before you, waiting to sell you ARMs.
+~
+She is a very pretty young lady of about 24, yet she has seen many
+adventures.  Her experience surpasses her, and she now makes some of the
+best Ancient Relic Machines (ARMs) in the world.  She asks you if you would
+like to see what she has to offer.  
+~
+human~
+0
+AB 0 0 0 0 0
+50 55 50d10+7000 50d11+110 50d11+110 10d4+23 divine
+-999 -999 -999 -999
+0 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium flesh
+#406
+jack van burace adventurer adlehyde~
+Jack van Burace~
+The legendary adventurer, Jack van Burace stands here, surveying the damages.
+~
+Before you stands the legendary Jack van Burace, treasure hunter,
+adventurer, but above all, sole survivor of the Metal Demons' attack on
+Arctica Castle.  He vowed never to let such a slaughter happen again and
+began searching for the "Absolute Power" with his partner, the Wind Mouse
+Hanpan.  
+~
+human~
+0
+AB 0 0 0 0 0
+22 22 7d40+2450 22d10+100 22d10+100 2d9+6 slash
+-5 -5 -5 -3
+FIKN 0 0 0
+stand stand none 650
+AHMV ABCDEFGHIJK medium flesh
+#407
+hanpan wind mouse adlehyde~
+Hanpan~
+The wind mouse, Hanpan is here with Jack, surveying the damages.
+~
+This is the Wind Mouse, Hanpan.  Not much is known about him except that
+he is Jack's longtime best friend, comrade, and compatriot.  Amazingly, he
+is able to dart about at very high speeds and ever more shockingly, he is
+able to talk.  
+~
+ratling~
+0
+AB V 0 0 0 0
+16 16 3d8+1671 16d10+100 16d10+100 2d6+4 none
+-2 -2 -2 -1
+0 0 LQ E
+stand stand none 150
+ACHV ABCDEFGHIJKQ medium fur
+F for M
+#408
+guardian priestess adlehyde~
+A Guardian Priestess~
+A priestess here says, "Go with the Guardians. Always."
+~
+She is here to heal the wounded and the sick, as well as to give guidance
+in the light of the Guardians.  She is plain and simple, nothing other than
+the necessities and her robe.  
+~
+human~
+0
+ABae H 0 0 1000 0
+50 55 50d10+7000 50d11+110 50d11+110 10d4+23 none
+-25 -25 -25 -16
+0 0 0 0
+stand stand female 0
+AHMV ABCDEFGHIJK medium flesh
+#409
+rudy roughnight dream chaser adlehyde~
+The Dream Chaser, Rudy Roughnight~
+The legendary Dream Chaser Rudy Roughnight is here, wandering around.
+~
+Rudy Roughnight is a young, 16-year-old boy who was exiled from the
+Village of Surf for accidentally unleashing a curse on said village when he
+got some Holy Berries from a cave to heal his friend's sick father.  He has
+come to Adelhyde, like all other Dream Chasers, to seek adventure.  He uses
+a legendary weapon known as an Ancient Relic Machine, or more commonly, an
+ARM.  
+~
+human~
+0
+A H 0 0 960 0
+24 29 8d48+1070 24d11+110 24d11+110 4d6+12 blast
+-9 -9 -9 -6
+0 0 0 0
+stand stand male 2500
+AHMV ABCDEFGHIJK medium flesh
+#410
+princess cecilia adlehyde~
+Princess Cecilia Adlehyde~
+Princess Cecilia Adlehyde is here, trying desperately to commune with the Guardians.
+~
+She is a beautiful young lady, only 16 years old.  As tradition stated,
+she went to nearby Coven Abbey to study magic.  The day she turned 16, she
+was given the Tear Drop Crystal, the symbol of the Royal Adlehyde family. 
+This crystal is the one link between humans and Guardians, and it is the
+sole item that the Demon Belselk is after.  
+~
+human~
+0
+AB 0 0 1 1000 0
+24 29 6d55+1121 24d11+110 24d11+110 4d7+12 divine
+-9 -9 -9 -6
+0 B 0 0
+stand stand female 2000
+AHMV ABCDEFGHIJK medium flesh
+#411
+belselk evil demon adlehyde~
+the demon Belselk~
+The Demon Belselk waits in the shadows to steal the Tear Drop.
+~
+Here is a grotesque figure.  He brings new meaning to the word 'ugly'. 
+He has a snarl on his face, trying to think up any scheme to steal the Tear
+Drop and get it to the other Quarter Knights.  But with an IQ like his, that
+won't be happening anytime soon.  
+~
+pitfiend~
+0
+AB PQc 0 -1 -1000 0
+51 51 15d12+3789 30d11+110 30d11+110 15d6+20 thwack
+-32 -32 -32 -32
+GH H DM IN
+stand stand none 0
+ACHMV ABCEFGHIJKP medium unknown
+#412
+adlehyde royal guard~
+A member of the Adlehyde Royal Guard~
+A member of the Adlehyde Royal Guard is here, looking for demons.
+~
+Here is a man truly devoted to his job.  He looks around sternly for any
+demons, and then continues walking on his guard patrol.  That sword looks
+pretty sharp.  Better not mess with this guy...  
+~
+human~
+0
+AB 0 0 1 500 0
+22 30 5d11+878 22d11+110 22d11+110 4d7+9 punch
+-8 -8 -8 -5
+0 0 0 0
+stand stand none 150
+AHMV ABCDEFGHIJK large human
+#413
+metal demon lesser adlehyde~
+A Metal Demon~
+A lesser Metal Demon is here, hiding from the guards.
+~
+It looks like your average animal, really.  Save for the fact that its
+eyes are red, it is frothing uncontrollably, and that it's looking straight
+at YOU with a soul-piercing gaze.  
+~
+ghoul~
+0
+A Q 0 -1 -500 0
+24 29 6d40+875 24d11+110 24d11+110 3d6+8 grep
+-9 -9 -9 -6
+0 P MQ H
+stand stand none 500
+CDHIM ABCDEFGHIJK medium iron
+#414
+metal demon guard imp~
+A small imp demon~
+A small imp demon is here, guarding....nothing?
+~
+He is small, but powerful as hell.  When a guard walks by, this tiny imp
+chops his head off, mauls his corpse, and does it all without even seeming
+to move.  But what is it that he's guarding, standing in front of the
+northern rubble like that?  
+~
+quickling~
+0
+AB Q 0 0 -666 0
+30 35 15d12+2066 30d11+110 30d11+110 5d6+11 chop
+-12 -12 -12 -8
+0 0 0 C
+stand stand none 55
+AHMV ABCDEFGHIJK medium iron
+#415
+general georan adlehyde demon~
+General Georan~
+The Demon General, Georan is here, napping to restore his strength.
+~
+No wonder they call this guy a merciless killer.  I mean, look at him. 
+His hands are huge.  He looks like he could beat a normal human being into
+the ground with a single smash.  And that face- he's uglier than Belselk,
+for god sakes!  Anyways, this is one guy you do NOT want to mess with.  
+~
+unique~
+0
+AB 0 0 -1 -1000 0
+32 37 18d11+2560 32d11+110 32d11+110 6d5+12 charge
+-13 -13 -13 -9
+FK 0 0 0
+sleep sleep male 55
+HM BCJKU large iron
+#416
+ugly demon merchant adlehyde~
+an ugly demon merchant~
+A demon merchant is here, offering you contraband stolen from the Guardians.
+~
+This demon only seems interested in making a profit, that's why he's
+hiked up his prices.  He looks at you gleefully and begins filing through
+his inventory, wondering what you might like to buy.  
+~
+unique~
+0
+ABe 0 0 0 0 0
+100 105 50d15+16300 100d11+110 100d11+110 9d10+81 none
+-80 -80 -80 -53
+0 0 0 0
+stand stand none 0
+CHM 0 medium iron
+#417
+metal demon alhazad adlehyde~
+Lord Alhazad~
+The Metal Demon Alhazad is here, plotting the destruction of the humans.
+~
+He looks more like a sheepdog than a demon.  He has a wicked grin about
+him, as he schemes away to defeat the humans.  He looks at you and then goes
+back to his work, assuming you are a demon in disguise.  
+~
+unique~
+0
+AB 0 0 0 -1000 0
+35 40 24d11+3300 35d11+110 35d11+110 6d5+14 grep
+-35 -35 -35 -15
+0 0 E 0
+stand stand male 150
+CH 0 medium steel
+#418
+lady harken metal demon adlehyde~
+Lady Harken~
+Lady Harken is here, discussing a plan with Zeikfried.
+~
+A beautiful young lady is here.  Is she a demon?  Actually, she is human,
+but she was captured and brainwashed by Zeikfried before being transformed
+into a demon.  She sees herself as smarter than Alhazad, and wants both him
+and Belselk dead.  
+~
+human~
+0
+AB HV 0 1 -1000 0
+62 60 27d11+3793 37d11+110 37d11+110 7d5+15 punch
+-37 -37 -37 -19
+F AB HJKL I
+stand stand none 250
+AHMV ABCDEFGHIJK medium flesh
+#419
+zed metal demon adlehyde~
+Zed~
+Zed is here, wanting desperately to be a Quarter Knight.
+~
+Zed is a funny-looking demon with green (that's right, {ggreen{x) hair
+and purple clothes.  Since his....  'birth', he's always wanted to be one of
+the Quarter Knights.  Of course, he doesn't have half the skill necessary to
+do the job.  
+~
+human~
+0
+AB HPQ 0 0 -500 0
+58 38 20d11+3074 33d11+110 33d11+110 10d6+30 punch
+-33 -33 -33 -27
+H 0 FHIK E
+stand stand male 30
+AHMV ABCDEFGHIJK medium unknown
+#420
+executioner demon adlehyde~
+an executioner demon~
+An executioner demon is here, waiting to kill something.
+~
+Chances are more than likely that this one is more of a bloodthirsty
+killer than Georan is.  All Zeikfried has to do is give the word and this
+guy gets the job done.  Boy, that's scary, isn't it?  
+~
+unique~
+0
+AB H 0 1 -1000 0
+27 52 10d12+2955 27d11+110 27d11+110 14d8+25 punch
+-29 -29 -29 -14
+H 0 EFGHI JK
+stand stand male 66
+0 0 medium iron
+#421
+metal demon leader zeikfried adlehyde~
+Zeikfried~
+Zeikfried, the leader of the Metal Demons is here, discussing a plan with Lady Harken.
+~
+This guy looks just like your typical human being too.  His only goal in
+life is the revival of his "Mother" and the destruction of all humankind. 
+When you come in, he says to you, "Take off that disguise.  You don't need
+it here."  
+~
+human~
+0
+AB HV 0 0 0 0
+65 65 32d11+4533 40d11+110 40d11+110 18d5+20 punch
+-45 -45 -45 -27
+0 ABP GHI J
+stand stand male 300
+AHMV ABCDEFGHIJK medium flesh
+#422
+ordinary demon metal adlehyde~
+an ordinary demon~
+An ordinary Metal Demon is here, wasting away the hours.
+~
+It's just your normal, everyday Metal Demon.  These guys are pretty much
+whipped as it is.  They are ordered to perform menial tasks by Zeikfried,
+and failure to comply results in a 'head treatment' by the executioner over
+in the next tent.  They ignore you and go back to their chores.  
+~
+unique~
+0
+AB 0 0 0 -250 0
+20 20 4d9+1963 20d10+100 20d10+100 2d8+6 none
+-17 -17 -17 -13
+0 0 0 0
+stand stand either 15
+0 BCKPW medium iron
+#423
+boomerang shadow knight demon adlehyde~
+Boomerang, the Shadow Demon~
+The Shadow Demon Boomerang is here, guarding the essence along with Luceid.
+~
+This is about as charismatic as you'll get.  This guy is your typical
+'lone wolf mercenary' figure- He'll do anything for money, but at the same
+time he has morals.  Anyways, that boomerang of his looks very sharp- sharp
+enough to take your head off.  
+~
+human~
+0
+AB 0 0 0 -100 0
+40 45 32d11+4533 40d11+110 40d11+110 8d5+17 punch
+-40 -40 -40 -20
+0 0 0 0
+stand stand male 300
+AHMV ABCDEFGHIJK medium flesh
+#424
+luceid guardian desire adlehyde~
+Luceid, the Guardian of Desire~
+Luceid, the Guardian of Desire is here, guarding the essence with Boomerang.
+~
+The form of the Guardian of Desire can be anything, yet it has become a
+wolf under the influence of Boomerang and his 'lone wolf' personality.  It
+seems very fierce though, so you may not want to take on those gleaming
+fangs.  
+~
+wolven~
+0
+AB DFH 0 0 0 0
+65 60 27d11+3793 37d11+110 37d11+110 15d6+30 bite
+-26 -26 -26 -26
+GH 0 BI HS
+stand stand none 10
+AHMVd ABCDEFGHIJKQU medium fur
+#0
+
+
+
+#OBJECTS
+#400
+tear drop crystal~
+The {CTear Drop{x Crystal~
+A holy crystal is here, passed down from generation to generation in the Adlehyde family.~
+crystal~
+treasure ABI AO
+0 0 0 0 0
+24 0 0 P
+Y
+char 'damroll' 0 4
+Y
+char 'hitroll' 0 4
+Y
+char 'hp' 0 25
+Y
+char 'wisdom' 0 2
+#402
+a grasswheat herb~
+A grasswheat herb~
+A herb made from grasswheat native to Adlehyde is here.~
+herb~
+pill 0 A
+10 'cure poison' 'haste' '' ''
+10 0 75 P
+#403
+a blackened mandrake root~
+a blackened mandrake root~
+A mandrake root is here, burned to a jet black.~
+herb~
+pill 0 A
+10 'fireball' 'cure blindness' 'haste' ''
+10 0 80 P
+#404
+arctic blade sword~
+an {BArctic {CBlade{x~
+A sword with a blade as cool as ice is here.~
+crystal~
+weapon 0 AN
+sword 5 3 slash D
+10 10 155 P
+#405
+hand cannon with ice rounds~
+A Hand Cannon ARM with {BIce{x Rounds~
+An Ancient Relic Machine Hand Cannon filled with Ice Rounds is here.~
+unknown~
+weapon ABI AN
+exotic 5 4 blast B
+15 20 150 P
+Y
+char 'hitroll' 0 4
+Y
+char 'damroll' 0 4
+Y
+char 'hp' 0 7
+#406
+a hand cannon with fire rounds~
+A Hand Cannon ARM with {RFire{x Rounds~
+An Ancient Relic Machine Hand Cannon is here, loaded with fire rounds.~
+unknown~
+weapon ABI AN
+exotic 4 5 blast A
+15 20 150 P
+Y
+char 'hitroll' 0 5
+Y
+char 'damroll' 0 3
+Y
+char 'hp' 0 7
+#407
+night killer dagger~
+The {DNight {WKiller{x~
+A dagger is here, enshrouded in pure darkness.~
+silver~
+weapon ABC AN
+dagger 8 4 stab A
+19 5 1 P
+#408
+twin orbs ancient relic machine arm~
+The {RTwin {GOrbs{x ARM~
+An Ancient Relic Machine, or ARM, that shoots out magnetic steel shrapnel is here.~
+unknown~
+weapon ABI AN
+exotic 16 3 blast G
+24 30 1 P
+#409
+belselk flail of interference~
+Belselk's {RF{Bl{Ra{Bi{Rl{x of {GInterference{x~
+A flail is here, disrupting the energy fields around it.~
+bone~
+weapon ABC AN
+flail 16 4 smash CG
+51 40 0 P
+Y
+char 'damroll' 0 3
+Y
+char 'hitroll' 0 3
+#410
+replica caliburn sword~
+a replica of the legendary sword, {RC{Ba{Rl{Bi{Rb{Bu{Rr{Bn{x~
+A finely worked piece of metal, attempted to look like a legendary sword.~
+silver~
+weapon ABI AN
+sword 4 12 slash D
+24 0 0 P
+#412
+arcane rod~
+Cecilia's {RArcane{x Rod~
+A rod is here, filled with the magic of the Guardians.~
+wood~
+weapon ABI AN
+staff(weapon) 23 1 thwack F
+24 10 1 P
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 2
+Y
+char 'wisdom' 0 2
+Y
+char 'intelligence' 0 3
+#413
+solus emsu breath adlehyde~
+{CBreath{x of {bSolus {rEmsu{x~
+The very breath of the Heavens Guardian is here, waiting to be used.~
+unknown~
+armor A AD
+15 15 14 13 0
+32 0 200 P
+Y
+char 'hitroll' 0 2
+Y
+char 'damroll' 0 2
+Y
+char 'hp' 0 10
+#414
+magic key adlehyde~
+a magical key~
+A magic key is here.  Wonder what it unlocks?~
+iron~
+key b A
+0 0 0 0 0
+1 0 0 P
+#415
+justine sword longsword long adlehyde~
+{CJustine{x'{Cs {gLongsword{x~
+A longsword that was stolen from the Guardian of Courage is here.~
+emerald~
+weapon A AN
+sword 8 8 slice DF
+32 10 1 P
+#416
+eyes of raftina adlehyde mask~
+{BEyes {gof {RRaftina{x~
+A mask is here, taken from the Guardian of Love.~
+unknown~
+armor A AS
+15 15 15 15 0
+32 0 200 P
+Y
+char 'mana' 0 15
+Y
+char 'wisdom' 0 1
+#417
+earring of fengalon adlehyde~
+{CFengalon{x'{Cs {rEarring{x~
+An earring fashioned from a piece of the Wind Guardian's essence is here.~
+ruby~
+armor A AR
+15 15 14 13 0
+32 0 200 P
+Y
+char 'dexterity' 0 2
+#418
+gurdijeff wind hat adlehyde~
+{gGurdijeff{x'{gs {GEarth {yHat{x~
+A hat is here, taken from the holy place of the Earth Guardian.~
+unknown~
+armor 0 AE
+15 15 14 13 0
+32 0 200 P
+Y
+char 'hp' 0 20
+Y
+char 'dexterity' 0 2
+#419
+dan dairam chrono boots adlehyde~
+{CDan Dairam{x'{Cs{G Chrono {YBoots{x~
+The boots of the Chrono Guardian are here, blurring your vision.~
+unknown~
+armor A AG
+15 16 14 8 0
+32 0 200 P
+Y
+char 'hitroll' 0 5
+Y
+char 'damroll' 0 1
+Y
+char 'dexterity' 0 3
+#420
+magnum fang sword adlehyde~
+The {rMagnum {gFang{x~
+A sword is here, wielded by Lady Harken.~
+crystal~
+weapon AB AN
+sword 18 3 slice 0
+62 14 1 P
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 2
+#421
+zeik impulse spear adlehyde~
+{RZeik {CImpulse{x~
+A huge two-handed crystalline spear is here, used by the Metal Demon Zeikfried.~
+crystal~
+weapon AB AN
+spear 20 3 stab DF
+65 30 1 P
+Y
+char 'damroll' 0 3
+Y
+char 'hitroll' 0 3
+#422
+garyu ichimongiri sword katana adlehyde~
+{CGaryu {bIchimongiri{x~
+A heavy steel katana is here, waiting to be used in combat.~
+steel~
+weapon AB AN
+sword 22 2 slice DF
+58 20 1 P
+Y
+char 'damroll' 0 3
+Y
+char 'hitroll' 0 3
+#423
+full moon executioner axe adlehyde~
+A {bFull {YMoon{x Executioner's Axe~
+An executioner's axe is here, sharpened to perfection. Heads will roll.....~
+iron~
+weapon AB AN
+axe 12 5 cleave D
+52 40 1 P
+#424
+saber fang boomerang adlehyde~
+The {BSaber {rFang{x~
+A boomerang with a serrated edge is here, ready to lop your head off.~
+wood~
+weapon 0 AN
+exotic 22 3 thwack D
+65 5 1 P
+Y
+char 'dexterity' 0 2
+Y
+char 'hp' 0 10
+#425
+afroman 100 percent grade a weed extract pill~
+{GA{Rf{Gr{Ro{YM{Ga{Rn{x 100% Grade-A {GWeed Extract Pill{x~
+Oh yeah.......~
+herb~
+pill ABIR A
+100 'cure critical' 'haste' 'giant strength' 'sanctuary'
+0 0 100000 P
+#430
+belmont whip albane~
+The {RB{be{gl{ym{co{rn{bt {GW{yh{ci{rp{x~
+A whip used to hunt vampires is here.~
+leather~
+weapon ABGIb AN
+exotic 15 9 whip ABEI
+100 0 0 P
+#0
+
+
+
+#ROOMS
+#400
+The Entrance to the Village of Adlehyde~
+Before you stands a small town.  A nearby sign staked into the ground
+reads "Village of Adlehyde".  The village is alive with the sounds of life,
+and yet at the same time it is quiet and calm.  A path leads north into the
+village.  
+~
+0 0 0
+5
+E
+sign~
+Welcome to the Village of Adlehyde. Enjoy your stay.
+~
+D0
+~
+~
+0 0 401
+S
+#401
+An Intersection In The Village~
+There is an intersection leading four ways here.  East will take you
+towards the Inn and the Pub, West will take you towards the weapon and item
+shops, and north will take you towards the (now-destroyed) Adlehyde Castle. 
+~
+0 0 1
+5
+D0
+~
+~
+0 0 409
+D1
+~
+~
+0 0 403
+D2
+~
+~
+0 0 400
+D3
+~
+~
+0 0 402
+S
+#402
+In Front of Adlehyde's Weapon/Item Shops~
+In front of you is a large building, the Adlehyde Weapon and Item Shop. 
+The wares sold here cater with the needy in mind.  You can find most
+whatever you need, for a price that is.  East leads back to the intersection
+and west leads towards the town wall.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 404
+D1
+~
+~
+0 0 401
+D3
+~
+~
+0 0 418
+S
+#403
+In Front of The Inn~
+The building in front of you is a broken down inn.  Years ago, it housed
+many weary travelers in their journeys, but now it is just a smoking pile of
+rubble.  West leads back towards the entrance and east leads towards the
+pub.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 407
+D3
+~
+~
+0 0 401
+S
+#404
+Adlehyde's Herbs~
+This item shop sells various herbs and potions to heal and purify the
+body.  They also sell adventuring necessities.  North is the weapons vendor
+and south is a street.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 405
+D2
+~
+~
+0 0 402
+S
+#405
+The Rusty Blade Weapon Shop~
+This is The Rusty Blade, one of the most famous weapon shops in the
+vicinity.  The shop is known for sponsoring the winner of the Adlehyde Fight
+Tournament six years straight.  Their weapons are top-notch and easy to use
+for the beginner.  
+~
+0 1024 0
+5
+D2
+~
+~
+0 0 404
+S
+#406
+~
+~
+0 0 0
+5
+S
+#407
+In Front of the Pub~
+Before you is what was left standing of the Intoxicated Dragon Pub after
+the attack by the Metal Demons.  Few people were in the pub at the time, and
+thus there were no casualties.  But the pub was totalled, and the owner was
+forced to go bankrupt.  Exits are west to the Inn and east to another
+building.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 408
+D3
+~
+~
+0 0 403
+S
+#408
+The Southeastern Wall~
+This is the southeastern wall of Adlehyde, built to protect from attacks.
+Apparently, it didn't do very well a job against Belselk and his minions. 
+Exits are west to the pub and north to an alley.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 419
+D3
+~
+~
+0 0 407
+S
+#409
+Adlehyde Main Street~
+The main street down Adlehyde seems to be perfectly normal, save for the
+damaged and destroyed buildings around it.  Exits lead north to an
+intersection, or south to the entrance road.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 410
+D2
+~
+~
+0 0 401
+S
+#410
+A 4-Way Intersection~
+This is a stone-cobbled path leading in four directions.  North leads
+towards the destroyed castle, east towards Emma's Workshop, west towards a
+chapel, and south towards the exit.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 413
+D1
+~
+~
+0 0 411
+D2
+~
+~
+0 0 409
+D3
+~
+~
+0 0 414
+S
+#411
+In Front of Professor Emma's Workshop~
+Before you stands one of the only two buildings not destroyed in the
+Metal Demons' attack.  This is the entrance to the workshop of perhaps the
+greatest ARMs Meister in the land, Professor Emma.  Exits lead east to the
+stairway, west to the intersection and north to the workshop.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 412
+D1
+~
+~
+0 0 420
+D3
+~
+~
+0 0 410
+S
+#412
+Professor Emma's Workshop~
+This is the workshop of the great Professor Emma, the first and only ARMs
+Meister in Adlehyde.  For a genius, however, she must not know how to clean
+her own workshop.  This place is a MESS!  Books, papers, vials, ammunition
+strewn about everywhere.  The exit leads south out to the street.  
+~
+0 1024 0
+5
+D2
+~
+~
+0 0 411
+S
+#413
+A Path Towards Adlehyde Castle~
+This stone path leads up to the rubble that once was Adlehyde Castle.  It
+was once a beautiful and happy place, but has since been invaded by the
+Metal Demon, Belselk.  You notice a bright light coming from the castle
+rubble up ahead----What could it be?  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 416
+D2
+~
+~
+0 0 410
+S
+#414
+In Front of A Ruined Building~
+Before you stands a ruined building, destroyed during the battle with the
+Metal Demons.  The top half is totally blown off, and the bottom half is
+burned to the point that it looks more like it was painted black than it was
+burnt.  
+Exits lead west to a chapel, and east to an intersection.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 410
+D3
+~
+~
+0 0 415
+S
+#415
+A Ruined Chapel~
+This is where a holy place of the Guardians USED to stand, but no longer
+does, thanks to the invasions of the Metal Demons.  The cross that should be
+on top of the chapel is split in half on the ground.  What should be a place
+of happiness is now one of dread, fear, and anguish.  Whichever Demon did
+this must be stopped.  And he must be stopped NOW.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 414
+D2
+~
+~
+0 0 417
+S
+#416
+The Remains of Grand Adlehyde Castle~
+Rocks, dust, and debris everywhere.  The castle was totally obliterated
+by some demonic force, more than likely the Demon Belselk.  You also notice
+the source of the bright flash of light you saw earlier.  Before you stands
+Princess Cecilia Adlehyde, trying desperately to commune with the Guardians
+through her Tear Drop crystal.  Exits lead east and west to more debris and
+south back onto the path.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 422
+D2
+~
+~
+0 0 413
+D3
+~
+~
+0 0 421
+S
+#417
+Around The Weapon/Item Shop~
+This is a nondescript alleyway leading around the Weapon/Item Shop towards the Chapel.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 415
+D2
+~
+~
+0 0 418
+S
+#418
+Southwest Wall of Adlehyde~
+This is the southwest wall of the village, built to protect from attacks.
+Apparently, though, it didn't do too much good when Belselk invaded.  Exits
+are north to an alley and east to the Weapon/Item shops.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 417
+D1
+~
+~
+0 0 402
+S
+#419
+A Small Alley~
+This is a small alley leading south to the southeast wall and north to a
+ruined stairway.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 420
+D2
+~
+~
+0 0 408
+S
+#420
+An Obliterated Exit~
+This exit should lead out east to where the Ruin Festival would take
+place, but like everything else in this city, it's been destroyed by Belselk
+and his crew.  Exits lead south to an alley and west to Emma's Workshop.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 419
+D3
+~
+~
+0 0 411
+S
+#421
+The West Side of The Debris~
+This is the west side of the remnants of Adlehyde Castle.  As you can
+see, some of the demons still lurk, and the guards are doing their best to
+fend them off.  Yet, the struggle seems futile, as when a guard kills a
+demon, another one pops up to take its place.  East leads back out to the
+main castle area.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 416
+S
+#422
+The East Side of The Debris~
+This is just as bad as the other side of the castle, if not worse. 
+Guards are sprawled all over the area, looking for any sign of a
+demon--likewise, all demons are looking for a guard (dead most preferably)
+to gnaw on.  There is an exit west to the main area.  
+~
+0 0 0
+5
+D0
+~
+~
+ABC 414 423
+D3
+~
+~
+0 0 416
+S
+#423
+A Hole In The Rubble~
+This is a hole in the destroyed castle that the demons apparently carved
+in.  This must be what that demon was guarding.  You squint and you can see
+a source of light to the north.  What could that be?  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 424
+D2
+~
+~
+ABC 0 422
+S
+#424
+A Hole~
+There is a hole with a ladder here.  This must be how the Metal Demons
+snuck into the city and destroyed it.  You hear snarls and growls coming
+from the hole.  Where could it go to?  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 423
+D5
+~
+~
+0 0 425
+S
+#425
+Climbing Down....~
+You must be twenty or thirty feet below the castle now.  The snarls you
+heard earlier are getting louder and more frequent.  What the hell is down
+there?  
+~
+0 0 0
+5
+D4
+~
+~
+0 0 424
+D5
+~
+~
+0 0 426
+S
+#426
+At The Bottom Of The Hole~
+That wasn't a good idea, coming down here like that.  You stand at the
+makeshift gate to the Metal Demon frontlines.  There must be several hundred
+demons down here, yet most of them ignore you and go about their business. 
+You can climb back up the ladder or go north into the demon camp.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 427
+D4
+~
+~
+0 0 425
+S
+#427
+Inside The Demon Frontlines~
+You are inside the Metal Demon frontlines.  This place is like a
+full-fleged city- marketplaces, people (or demons, rather) walking around,
+and the sounds of life abound.  Tents lie to the east and west, south is the
+entrance, and north leads further into the frontlines.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 430
+D1
+~
+~
+0 0 429
+D2
+~
+~
+0 0 426
+D3
+~
+~
+0 0 428
+S
+#428
+A Merchant's Tent~
+Wow, even demons have to pay for their stuff.  This place is filled to
+the brim with weapons of various shapes and sizes.  An ugly merchant stands
+here, hoping that you'll buy something from him.  Of course, the prices are
+astronomical here, so start counting your money- it'll take a while.  East
+leads back out to the frontlines.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 427
+S
+#429
+General Georan's Tent~
+This is the tent (and temporary living quarters) of the demon general,
+Georan.  This demon is known throughout the land for being a merciless
+killer- fortunately, he's asleep at the moment.  Better get out of here
+before he wakes up.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 427
+S
+#430
+The Center of The Demon Frontlines~
+This is the central square of the demon 'city'.  You see so many demons
+here, you're afraid they might jump you at any moment.  East and west lead
+to more tents, south leads towards the exit, and north leads towards a large
+tent.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 433
+D1
+~
+~
+0 0 432
+D2
+~
+~
+0 0 427
+D3
+~
+~
+0 0 431
+S
+#431
+The Execution Room~
+This is the room where demons who question their cause are put to death. 
+Blood and shattered limbs are everywhere.  It seems that these demons aren't
+just killed, they're given the most painful death possible.  East leads back
+out to the center square.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 430
+S
+#432
+Demon Barracks~
+This is a room filled with beds and demons.  That's it.  It seems that
+the leaders have stuffed every demon into this one tent.  Most of them are
+sleeping, but others look at you with a deadly grin.  West leads back out to
+the center square.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 430
+S
+#433
+Tent of The Quarter Knights~
+This is it.  This is where the leaders of the Metal Demons, the Quarter
+Knights are stationed.  Belselk, Alhazad, Lady Harken, and Zeikfried, all of
+them were put here by their master, known only as "Mother".  At the moment,
+only three of the four Knights are here.  South leads back to the central
+square.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 430
+D5
+~
+~
+0 0 434
+S
+#434
+The "Mother" Room~
+Here is where the demons have brought a piece of their "Mother"'s
+essence; it is the only thing that sustains their lives.  Of course, the
+demons have made every attempt to make sure that this essence remains
+untouched- not only do they have a very skilled 'guard' and his pet, but the
+case containing the essence has an anti-phasing shield around it to
+disintegrate anything that touches it.  You decide it's probably best not to
+try.  A ladder leads back up to the Quarter Knights' Tent.  
+~
+0 0 0
+5
+D4
+~
+~
+0 0 433
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+D 0 422 0 2
+D 0 423 2 2
+M 0 400 1 401 2
+M 0 402 1 404 1
+G 0 402 0
+G 0 403 0
+M 0 403 1 405 1
+G 0 404 0
+M 0 404 1 407 1
+M 0 409 1 408 1
+E 0 408 0 16
+M 0 405 1 412 1
+G 0 405 0
+G 0 406 0
+M 0 406 1 414 1
+E 0 407 0 16
+M 0 407 1 414 1
+M 0 408 1 415 1
+M 0 410 1 416 1
+E 0 400 0 17
+E 0 412 0 16
+M 0 411 1 416 1
+E 0 409 0 16
+M 0 412 1 421 4
+E 0 410 0 16
+M 0 413 1 421 4
+M 0 414 1 422 1
+G 0 414 0
+M 0 416 1 428 1
+G 0 416 0
+G 0 417 0
+G 0 418 0
+G 0 413 0
+G 0 419 0
+M 0 415 1 429 1
+E 0 415 0 16
+M 0 420 1 431 1
+E 0 423 0 16
+M 0 422 1 432 5
+M 0 422 2 432 5
+M 0 422 3 432 5
+M 0 422 4 432 5
+M 0 422 5 432 5
+M 0 422 1 432 5
+M 0 422 1 432 5
+M 0 422 1 432 5
+M 0 417 1 433 1
+M 0 418 1 433 1
+E 0 420 0 16
+M 0 421 1 433 1
+E 0 421 0 16
+M 0 419 1 433 1
+E 0 422 0 16
+M 0 423 1 434 1
+E 0 424 0 16
+M 0 424 1 434 1
+S
+
+
+
+#SHOPS
+402 0 26 10 0 0 130 70 0 23
+403 0 9 5 0 0 130 70 0 23
+405 0 5 0 0 0 200 1 0 23
+416 5 9 0 0 0 300 50 0 23
+0
+
+
+
+#$

@@ -231,7 +231,7 @@ namespace Mud.Server.TestApplication
 
         private static void CreateMidgaard()
         {
-            MysteryImporter importer = new MysteryImporter();
+            MysteryLoader importer = new MysteryLoader();
             importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
             importer.Parse();
             //MysteryImporter importer = new MysteryImporter();
@@ -582,7 +582,7 @@ namespace Mud.Server.TestApplication
 
         private static void TestImport()
         {
-            MysteryImporter importer = new MysteryImporter();
+            MysteryLoader importer = new MysteryLoader();
             importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
             importer.Parse();
 

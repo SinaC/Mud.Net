@@ -103,13 +103,4 @@ namespace Mud.Importer.Mystery
     //{     ITEM_TEMPLATE,   "template"     },
     //{     ITEM_SADDLE,     "saddle"       },
     //{     ITEM_ROPE,       "rope"         },
-
-    public enum ContainerFlags
-    {
-        CONT_CLOSEABLE = 1,
-        CONT_PICKPROOF = 2,
-        CONT_CLOSED = 4,
-        CONT_LOCKED = 8,
-        CONT_PUT_ON = 16,
-    }
 }

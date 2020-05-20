@@ -72,7 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AreaData.cs" />
-    <Compile Include="ConvertException.cs" />
+    <Compile Include="RomConvertException.cs" />
     <Compile Include="MobileData.cs" />
     <Compile Include="ObjectData.cs" />
     <Compile Include="RomImporter.cs" />

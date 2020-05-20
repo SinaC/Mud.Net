@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using Mud.Logger;
 
@@ -298,13 +299,11 @@ namespace Mud.Importer
 
         protected void ReadToNextSection()
         {
-            char c;
+            string line;
             do
             {
-                c = GetChar();
-            } while (!IsEof() && c != '#');
-            if (c == '#')
-                UngetChar(c);
+                line = ReadLine().Replace("\r", string.Empty).Replace("\n", string.Empty);
+            } while(!IsEof() && line != "0 $~");
         }
 
         protected static string UpperCaseFirst(string s)

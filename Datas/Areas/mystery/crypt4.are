@@ -1,0 +1,1184 @@
+#AREADATA
+Name The Crypt~
+Builders None~
+VNUMs 1800 1899
+Credits {{15 45} Niblit  The Crypt~
+Security 9
+Flags 0
+End
+
+
+
+#MOBILES
+#1801
+Vicar~
+The Vicar~
+The vicar sleeps happily here, better not wake him up.
+~
+The vicar look happy when he sleeps, better not wake him.
+~
+unique~
+0
+ABQT HN 0 0 1000 0
+48 6 6d80+4000 0d0+0 0d0+0 6d6+18 pound
+0 0 0 0
+0 0 0 0
+stand stand male 2000
+AHMV ABCDEF medium 0
+#1802
+Nun~
+A Nun~
+A nun smiles at you and says: May God bless you.
+~
+The nun smiles and looks back at you.
+~
+unique~
+0
+ABQ c 0 0 1000 0
+25 -1 5d10+550 0d0+0 0d0+0 2d10+5 pound
+0 0 0 0
+0 0 0 0
+stand stand male 0
+AHMV ABCDEF medium 0
+#1803
+Settra the Tomb King~
+Settra the Tomb King~
+The Tomb King stands here looking at you behind his rotting bandage.
+~
+Those bandages are becoming a bit old, not mentioning his breath, phew!
+~
+unique~
+0
+ABT DZ 0 0 -1000 0
+57 17 50d10+9200 0d0+0 0d0+0 5d8+30 pound
+0 0 0 0
+0 0 0 0
+stand stand male 5000
+AHMV ABCDEF medium 0
+#1804
+Heinrich~
+Heinrich Count of Death~
+Heinrich The Count of Death draws his weapon and laughs.
+~
+Heinrich looks back at you with his terrible green eyes.
+~
+unique~
+0
+ABRT DVZc 0 0 -900 0
+60 5 50d10+9600 0d0+0 0d0+0 8d8+34 pound
+0 0 0 0
+0 0 0 0
+stand stand male 3000
+AHMV ABCDEF medium 0
+#1805
+Skeleton~
+A Skeleton~
+The skeleton stands here grinning and champing with its teeth.
+~
+The skeleton shouts and points at you with a bony finger.
+~
+unique~
+0
+ACFT 0 0 0 -400 0
+25 5 5d10+600 0d0+0 0d0+0 2d10+8 pound
+0 0 0 0
+0 0 0 0
+stand stand male 100
+AHMV ABCDEF medium 0
+#1806
+Mummy~
+A Mummy~
+A mummy stands here breathing through its decomposing chest.
+~
+The rotting veins creaks as the mummy turns his head to look at you with its empty eye sockets.
+~
+unique~
+0
+AT Z 0 0 -400 0
+38 1 10d10+1600 0d0+0 0d0+0 5d6+12 pound
+0 0 0 0
+0 0 0 0
+stand stand male 4000
+AHMV ABCDEF medium 0
+#1807
+Zombie~
+A Zombie~
+A Zombie walks towards you with its hands aiming for your throat.
+~
+The sight of worms burrowing through its rotting eyes makes you want to run away.
+~
+unique~
+0
+AOT Z 0 0 -300 0
+18 -1 3d9+285 0d0+0 0d0+0 2d7+4 pound
+0 0 0 0
+C 0 0 0
+stand stand male 0
+ADHIMV ABCDEF medium 0
+#1808
+Bat~
+A Bat~
+A giant bat dives towards you showing his sharp white teeth.
+~
+The giant bat almost the size of a dog, with white razor sharp teeth
+and black leathery wings. The bat dives at you neck! Take cover!
+~
+unique~
+0
+A TZ 0 0 -200 0
+28 1 6d12+710 0d0+0 0d0+0 2d12+8 pound
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AHMV ABCDEF medium 0
+#1809
+Snake~
+A Snake~
+A long enormous snake slithers across the floor in hunt of rats.
+~
+The snake looks back at you with its pale eyes.
+~
+unique~
+0
+A VZ 0 0 100 0
+24 -1 5d10+500 0d0+0 0d0+0 2d10+7 pound
+0 0 0 0
+0 0 0 0
+stand stand male 0
+AHMV ABCDEF medium 0
+#1810
+Spider~
+A Spider~
+A giant hairy spider hangs in a web just above you.
+~
+The spider looks back at you with its eight eyes.
+~
+unique~
+0
+A Z 0 0 100 0
+18 5 3d9+260 0d0+0 0d0+0 4d4+9 pound
+0 0 0 0
+0 0 0 0
+stand stand female 0
+AHMV ABCDEF medium 0
+#1811
+Black Rat~
+A Black Rat~
+A giant black rat scuttles over the floor as you approaches.
+~
+The rat looks back at you with his red eyes, before showing its yellow teeth.
+~
+unique~
+0
+AC Z 0 0 0 0
+17 -1 3d9+200 0d0+0 0d0+0 4d4+5 pound
+0 0 0 0
+0 0 0 0
+stand stand male 0
+AHMV ABCDEF medium 0
+#1812
+Ghost~
+A Ghost~
+A ghost is hovering before you making a scary grimace. 
+~
+Oh well that's it, you'll have nightmares for the rest of your life.
+~
+unique~
+0
+AT BUZ 0 0 -500 0
+22 1 5d10+400 0d0+0 0d0+0 3d6+6 pound
+0 0 0 0
+0 0 0 0
+stand stand none 100
+AHMV ABCDEF medium 0
+#1813
+Bell-Ringer~
+The Bell-ringer~
+The bell-ringer stands here waiting eagerly to strike the bell.
+~
+The bellringer looks a lot like Marty Feldman, if you know who that is...
+~
+unique~
+0
+AHT 0 0 0 500 0
+38 1 10d10+1600 0d0+0 0d0+0 5d6+12 pound
+0 0 0 0
+0 0 0 0
+stand stand male 1000
+AHMV ABCDEF medium 0
+#1814
+necromancer~
+A Necromancer~
+A necromancer stands here preparing to cast a spell on you.
+~
+The necromancer's dark evil eyes examines you closely.
+~
+unique~
+0
+AR DZ 0 0 -900 0
+40 -1 15d10+1700 0d0+0 0d0+0 5d8+14 pound
+0 0 0 0
+0 0 0 0
+stand stand male 0
+AHMV ABCDEF medium 0
+#1815
+Stork~
+A large stork~
+A large stork is defending his nest from intruders like you.
+~
+The stork dives towards you in anger.
+~
+unique~
+0
+ABF T 0 0 200 0
+17 -1 3d9+250 0d0+0 0d0+0 4d4+8 pound
+0 0 0 0
+0 0 0 0
+stand stand female 0
+AHMV ABCDEF medium 0
+#1816
+Goul~
+A Goul~
+A goul is leaning over a dead body, chewing on its head.
+~
+The goul looks back at you and want you as breakfast.
+~
+unique~
+0
+ACS Z 0 0 -700 0
+27 1 5d10+650 0d0+0 0d0+0 2d12+8 pound
+0 0 0 0
+0 0 0 0
+stand stand male 0
+AHMV ABCDEF medium 0
+#1817
+Zombie Dragon~
+The Zombie Dragon~
+The zombie dragon lies here.
+~
+The dragon looks at you with its empty eyes sockets,
+the sight almost makes you want to throw up.
+~
+unique~
+0
+AB Zc 0 0 -900 0
+50 5 10d100+3200 0d0+0 0d0+0 5d4+35 pound
+0 0 0 0
+0 0 0 0
+stand stand male 0
+AHMV ABCDEF medium 0
+#1818
+Believer~
+A Believer~
+A believer sits here praying.
+~
+The believer is too busy to notice you.
+~
+unique~
+0
+AC 0 0 0 1000 0
+21 -1 4d10+360 0d0+0 0d0+0 4d4+10 pound
+0 0 0 0
+0 0 0 0
+stand stand male 100
+AHMV ABCDEF medium 0
+#1819
+Adventurer~
+An Adventurer~
+An adventurer just like you is here searching for treasures.
+~
+The adventurer draws his sword and says with a mad glimpse in his eye:
+I was here first, the treasure is mine!
+~
+unique~
+0
+AHT 0 0 0 400 0
+38 1 10d10+1600 0d0+0 0d0+0 5d6+12 pound
+0 0 0 0
+0 0 0 0
+stand stand male 500
+AHMV ABCDEF medium 0
+#1820
+gardener~
+the Gardener~
+The gardener does some gardening.
+~
+The gardener shows you one of his favourite flowers, awwww ain't it nice.
+~
+unique~
+0
+ABQ 0 0 0 1000 0
+40 5 25d10+2700 0d0+0 0d0+0 8d4+18 pound
+0 0 0 0
+0 0 0 0
+stand stand male 2000
+AHMV ABCDEF medium 0
+#0
+
+
+
+#OBJECTS
+#1801
+Sword of Bones~
+sword of Bones~
+A sword made of yellow bone lies here.~
+bone~
+weapon AJ AN
+exotic 2 40 none 0
+57 25 40000 P
+Y
+char 'damroll' 0 4
+Y
+char 'hitroll' 0 2
+#1802
+mace~
+the Vicar's Mace~
+A white mace with a cross on it lies here.~
+wood~
+weapon K AN
+exotic 1 70 none 0
+48 15 2000 P
+Y
+char 'mana' 0 50
+Y
+char 'wisdom' 0 2
+#1803
+sword~
+the Bloodbane~
+A black sword is lying in a pool of blood.~
+ebony~
+weapon ABEJ AN
+exotic 1 78 none 0
+60 25 5000 P
+Y
+char 'damroll' 0 4
+Y
+char 'hitroll' 0 4
+#1804
+club~
+brass Club~
+A heavy looking club made of brass lies here.~
+brass~
+weapon 0 AN
+exotic 2 20 none 0
+38 10 500 P
+Y
+char 'hp' 0 2
+#1805
+bible~
+a bible~
+A nice looking bible lies here.~
+paper~
+armor K AO
+2 2 2 4 0
+0 5 50 P
+Y
+char 'intelligence' 0 3
+#1806
+scimitar~
+a rusty scimitar~
+A rusty scimitar lies here.~
+iron~
+weapon 0 AN
+exotic 1 24 none 0
+18 15 200 P
+#1807
+ring~
+heinrich's ring~
+A great ruby ring with small bat wings set around it lies here.~
+ruby~
+armor J AO
+9 9 9 9 0
+0 3 12000 P
+Y
+char 'wisdom' 0 4
+Y
+char 'strength' 0 -1
+Y
+char 'constitution' 0 4
+#1808
+flail~
+a rusty flail~
+A rusty flail lies here.~
+iron~
+weapon B AN
+exotic 1 34 none 0
+18 20 200 P
+#1809
+mace~
+a rune covered mace~
+A mace covered with lots of strange runes on it lies here.~
+wood~
+weapon H AN
+exotic 1 30 none 0
+38 10 500 P
+Y
+char 'hitroll' 0 3
+#1810
+armour~
+the death plate~
+The thorax of some giant bird lies here.~
+flesh~
+armor BFJ AD
+12 12 12 12 0
+0 15 5000 P
+Y
+char 'mana' 0 150
+Y
+char 'moves' 0 100
+#1811
+key~
+a small golden key~
+A small golden key lies here.~
+gold~
+key A A
+0 0 0 0 0
+1 3 80 P
+#1812
+crucifix~
+a golden crucifix~
+A golden crucifix lies here.~
+gold~
+armor AK AO
+6 6 6 7 0
+12 5 800 P
+Y
+char 'mana' 0 100
+Y
+char 'hp' 0 5
+#1813
+Key~
+a rusty key~
+A rusty key lies here.~
+iron~
+key 0 A
+0 0 0 0 0
+1 3 0 P
+#1814
+mushroom~
+white mushrooms~
+Some small white mushrooms are here.~
+food~
+food 0 A
+5 0 0 A 0
+1 1 0 P
+#1815
+sword~
+the sword of hope.~
+A sword with a heart at it's pommel lies here.~
+steel~
+weapon A AN
+exotic 1 25 none 0
+35 10 2000 P
+Y
+char 'damroll' 0 2
+#1816
+secateurs~
+a pair of secateurs~
+A pair of secateurs lies here.~
+iron~
+weapon K AN
+exotic 2 20 none 0
+19 5 400 P
+Y
+char 'hitroll' 0 3
+Y
+char 'mana' 0 50
+#0
+
+
+
+#ROOMS
+#1801
+Church entrance.~
+You are stand at an open gate. Beyond the gate a path leads eastward to a small stone church with a square tower and a slate roof. 
+A rare species of ivy crawls over sections of the wall framing the coloured glass windows with ragged patches of green.
+To the south you see a ancient churchyard with its tombstones and white monuments.
+~
+0 1024 2
+5
+D1
+A path towards the church goes to the east
+~
+~
+0 -1 1802
+D2
+A path stretches south to the churchyard
+~
+~
+0 -1 1830
+D4
+~
+~
+0 0 3603
+S
+#1802
+Path.~
+You are standing in the path between the gate and the church.
+The birds are singing and the grass is green, what a day!
+~
+0 0 2
+5
+D1
+A path 
+~
+~
+0 -1 1803
+D3
+A path goes to the church entrance
+~
+~
+0 -1 1801
+S
+#1803
+Vestibule.~
+You are standing in the vestibule of the church. To the west the way leads out to a path.
+To the east some doors lead out to the nave and to the north. The odour of candle wax and wood polish flows out from the nave.
+~
+0 8 0
+5
+D0
+To the stairs
+~
+~
+AB -1 1831
+D1
+Entrance to the nave
+~
+~
+A -1 1804
+D3
+A path leads out of the church
+~
+~
+0 -1 1802
+S
+#1804
+West Nave.~
+You are standing in the west end of the nave, coloured light filters through the windows and splashes among pews and columns.
+Most of the walls are covered by ancient wall paintings picturing all sorts of heavenly creatures.
+~
+0 8 0
+5
+D1
+The east nave
+~
+~
+0 -1 1805
+D3
+Entrance to the vestibule
+~
+~
+A -1 1803
+S
+#1805
+East Nave.~
+You are standing in the east end of the nave.
+A transept wing open to the north. A platform with an altar rises to the east.
+You see a large cross hanging above the altar.
+~
+0 8 0
+5
+D1
+The altar.
+~
+~
+0 -1 1806
+D3
+The west nave
+~
+~
+0 -1 1804
+S
+#1806
+The Altar.~
+You are standing on a platform and upon it stands a stone altar under a large bright coloured window.
+The nave stretches out to the west. Narrow openings are in the walls to north and south.
+~
+0 8 0
+5
+D0
+A corridor
+~
+~
+0 -1 1807
+D2
+The staircase down to the crypt
+~
+~
+0 -1 1809
+D3
+The east nave
+~
+~
+0 -1 1805
+S
+#1807
+A dimly lit corridor.~
+You are standing in a dim curving corridor.
+You hear a loud snoring behind a door to the north.
+A large wool carpet covers the chilly stone floor.
+~
+0 8 0
+5
+D0
+The vicar's room
+~
+~
+A -1 1808
+D2
+The altar
+~
+~
+0 -1 1806
+S
+#1808
+Vicar's Room~
+You are standing in a small room cluttered with small cute trappings.
+A man with a long black robe sits asleep on a comfortable couch, snoring very loudly.
+He must be the vicar. The only exit is to the south.
+~
+0 8 0
+5
+D2
+A corridor
+~
+~
+A -1 1807
+S
+#1809
+Staircase.~
+You are in a cylindrical room containing a spiral stone staircase.
+Lots of small white candles light up the room.
+You see a narrow opening to the north.
+~
+0 8 0
+5
+D0
+You see a altar to the north
+~
+~
+0 -1 1806
+D5
+Staircase to the crypt
+~
+~
+0 -1 1810
+S
+#1810
+Cellar.~
+You are at the bottom of a spiral stone staircase.
+You see a narrow curving passage leads into darkness to the north.
+A cold musty odour flows out from the darkness.
+~
+0 9 0
+5
+D0
+The Crypt entrance
+~
+~
+0 -1 1811
+D4
+Staircase to the church
+~
+~
+0 -1 1809
+S
+#1811
+Crypt Entrance.~
+You are standing in the crypt entrance. There is a narrow passage leading south.
+An ancient steel door blocks your way to the north.
+There are dark chambers off to the east and west.
+~
+0 9 0
+5
+D0
+You see a door to the north
+~
+~
+ABCF 1811 1814
+D1
+Side chamber
+~
+~
+0 -1 1812
+D2
+Side chamber
+~
+~
+0 -1 1810
+D3
+Staircase to the church
+~
+~
+0 -1 1813
+S
+#1812
+Side Chamber.~
+You are standing in a side chamber of the crypt next to a huge sarcophagus.
+Cob webs covers the mossy stone walls. The only exit is to the west.
+~
+0 9 0
+5
+D3
+Crypt entrance
+~
+~
+0 -1 1811
+S
+#1813
+Side Chamber.~
+You are standing in a sidechamber of the crypt next to a huge sarcophagus.
+Cob webs covers the mossy stone walls. The only exit is to the east.
+~
+0 9 0
+5
+D1
+Crypt entrance
+~
+~
+0 -1 1814
+S
+#1814
+Central aisle.~
+You are standing in the central aisle of the crypt,
+surrounded by an eerie darkness. Green moss cover the ancient stone walls.
+There are dark chambers off to the west and east.
+~
+0 9 0
+5
+D0
+You see a hall to the north
+~
+~
+0 -1 1815
+D1
+You see a dark chamber to the east
+~
+~
+0 -1 1818
+D2
+Crypt entrance
+~
+~
+AF -1 1811
+D3
+You see a dark chamber to the east
+~
+~
+0 -1 1817
+S
+#1815
+Hall.~
+You are standing in a large room. Mouldering hangings cover the chill walls.
+From a wall a enormous portrait of an tall and elegantly clad man glare down at you.
+There's a brass plate under the painting. You see a stone staircase going down and a way to the south.
+~
+0 9 0
+5
+E
+portrait~
+The count looks like a handsome man, but there's something feral and predatory about his features.
+On his fingers you see a great ruby ring set among black bat wings.
+~
+E
+brass plate~
+You rub away the dust from the plate and read:
+
+  Heinrich von Liech - Count of Death~
+D2
+Central aisle
+~
+~
+0 -1 1814
+D5
+You see the beginning of a corridor at the end of the stairs
+~
+~
+0 -1 1816
+S
+#1816
+A gloomy corridor.~
+You are standing in a gloomy corridor.
+Yellow boned skeletons stand alongside the grey withering stone walls.
+You can go east or up the stairs. You think you see some light further ahead...
+You hear some chanting to the east.
+~
+0 8 0
+5
+D1
+You see some light to the east
+~
+~
+0 -1 1819
+D4
+Stairs to hall
+~
+~
+0 -1 1815
+S
+#1817
+Side Chamber~
+You are standing in a side chamber of the crypt next to a huge sarcophagus.
+You try to open it but the lid remains closed. The only exit is to the east.
+Small mushrooms grow in a dark and moist corner of the room.
+~
+0 9 0
+5
+D1
+Central aisle
+~
+~
+0 -1 1814
+S
+#1818
+Side Chamber~
+You are standing in a sidechamber of the crypt next to a huge sarcophagus.
+You try to open it but the lid remains closed. The only exit is to the west.
+~
+0 9 0
+5
+D3
+Central aisle
+~
+~
+0 -1 1814
+S
+#1819
+Sacrificial room.~
+You are standing in a room, black candles are placed alongside the walls spreading their yellow sick light.
+A black stone altar rises at the northern end of the room. A staircase leads down into utter darkness.
+A corridor stretches to the west. A foul stench of decay and corruption rises out from the darkness.
+~
+0 8 0
+5
+D3
+You see a corridor to the west
+~
+~
+0 -1 1816
+D5
+A staircase into darkness...
+~
+~
+0 -1 1820
+S
+#1820
+Staircase.~
+You stand on the top of the staircase, leading down into utter darkness,
+you wonder what hideous things live down there. The foul stench gets stronger.
+~
+0 8 0
+5
+D4
+You see some light at the beginning of the stairs
+~
+~
+0 -1 1819
+D5
+Down into darkness...
+~
+~
+0 -1 1821
+S
+#1821
+The Bottom of the Staircase.~
+You stand at the bottom of this giant staircase.
+A pair of rats looks at you with their glowing small red eyes.
+A foul stench flows from the east. You see a door to the north.
+~
+0 9 0
+5
+D0
+You see a door to the north
+~
+~
+AB -1 1822
+D1
+Side chamber
+~
+~
+0 -1 1824
+D4
+Up the stairs
+~
+~
+0 -1 1820
+S
+#1822
+Hall.~
+You are standing in enormous hall.
+Firmly mounted torches expose the wet and mouldy walls.
+You hear water drip from some unseen roof.
+Large statues of long forgotten kings look upon you with their stony gaze.
+It smell like smoke in here.
+~
+0 8 0
+5
+D0
+You see a large metal door to the north
+~
+~
+ABCF 1813 1823
+D2
+To the stairs
+~
+~
+A -1 1821
+S
+#1823
+Heinrich's Chamber~
+You are in chamber of Heinrich, the Count of Death. A huge throne made of
+skulls and other boneparts sits in the centre of the room and upon it rests Heinrich.
+He doesn't notice you at first but your trembling makes him annoyed.
+He looks down at you and with a dark voice says: Welcome to my chamber,
+prepare to meet your maker... You draw your weapon and prepare to fight for your life...
+~
+0 8 0
+5
+D2
+You see a large hall to the south
+~
+~
+AF -1 1822
+S
+#1824
+Side Chamber.~
+You stand in a sidechamber of the crypt next to a sarcophagus.
+The stench of decay is overwhelming.
+The remains of a poor unfortunate adventurer like you lies scattered
+on the ground. Small mushrooms grow in a dark corner of the room.
+The only exit is to the west. There's a light breeze from the north...
+~
+0 9 0
+5
+D0
+~
+~
+AB -1 1825
+D3
+To the bottom of the stairs
+~
+~
+0 -1 1821
+S
+#1825
+A secret passage.~
+You are standing in a secret passage going north.
+Cobwebs and moss covers the grey stone walls.
+A thick layer of dust covers the floor making the air stuffy and dry.
+The passage stretches further north.
+~
+0 9 0
+5
+D0
+The passage stretches further north
+~
+~
+0 -1 1826
+D2
+To the side chamber
+~
+~
+A -1 1824
+S
+#1826
+A secret passage.~
+You have come to a point where the passage splits in two directions:
+to the east and to the west. You see some light to the west.
+~
+0 9 0
+5
+D1
+Treasury chamber
+~
+~
+0 -1 1828
+D2
+Another passage
+~
+~
+0 -1 1825
+D3
+and another
+~
+~
+0 -1 1827
+S
+#1827
+A secret passage.~
+You are standing in a passage, there is a light in front of you.
+Strange ancient hieroglyphs are engraved in the walls.
+You hear sounds of scampering rats. There are exits to the east and north.
+~
+0 9 0
+5
+D0
+The Tomb
+~
+~
+0 -1 1829
+D1
+You see a passage to the east
+~
+~
+0 -1 1826
+S
+#1828
+Treasury chamber.~
+As you enter a trapdoor opens beneath you and you fall down to a place
+with thousands of rats, you try to defend yourself but they are too many.
+The rats rip you apart and have you as lunch.
+You are DEAD. Sorry no fame and fortune here..
+~
+0 13 0
+5
+S
+#1829
+The Tomb.~
+You are standing in a tomb.
+Red sick light radiates from a large black chandelier hanging in the ceiling.
+A huge sarcophagus stands in the middle of the room.
+The ceiling is covered with black bats looking down at you with their blood red eyes.
+As you walk forth the lid of the sarcophagus is thrown away by some magical force,
+and out of it rises a mummy so big that he casts you in shadows.
+You feel a very strong motivation to run away.
+~
+0 8 0
+5
+D2
+You see a passage to the south
+~
+~
+0 -1 1827
+S
+#1830
+The Churchyard.~
+You are in the churchyard.
+Lots of beautiful flowers decorate the dull tombstones and monuments.
+There are some nuns here taking care of the graves.
+The only exit is to the north.
+~
+0 0 2
+5
+D0
+You see a path that leads to the church entrance
+~
+~
+0 -1 1801
+S
+#1831
+Staircase.~
+You are standing in a cylindrical room containing a spiral staircase going up to the tower bell.
+A wooden door leads out to the vestibule.
+~
+0 8 0
+5
+D2
+You see an open door that leads out to the vestibule
+~
+~
+AB -1 1803
+D4
+You see a staircase going upwards
+~
+~
+0 -1 1832
+S
+#1832
+The tower.~
+You are standing in the tower. What a view! You can see your house from here.
+A large bell made of brass hangs here.
+The bell-ringer stands here waiting patiently for you to go down.
+You see some nuns in the churchyard below.
+A large stork have it's nest here and don't like your intrusion.
+~
+0 0 0
+5
+D5
+You see some stairs going down
+~
+~
+0 -1 1831
+S
+#0
+
+
+
+#SPECIALS
+M 1801 spec_cast_cleric
+M 1803 spec_cast_mage
+M 1804 spec_cast_undead
+M 1809 spec_poison
+M 1810 spec_poison
+M 1814 spec_cast_undead
+M 1816 spec_poison
+S
+
+
+
+#RESETS
+D 0 1803 0 1
+D 0 1811 0 2
+D 0 1821 0 1
+D 0 1822 0 2
+D 0 1824 0 1
+D 0 1831 2 1
+M 0 1820 1 1802 1
+E 0 1805 0 16
+M 0 1820 1 1802 1
+E 0 1816 0 16
+M 0 1818 5 1804 5
+M 0 1802 2 1805 2
+E 0 1805 0 17
+M 0 1818 3 1805 3
+M 0 1801 1 1808 1
+E 0 1802 0 16
+E 0 1812 0 17
+M 0 1809 1 1812 1
+M 0 1819 1 1814 1
+E 0 1815 0 16
+M 0 1807 2 1815 2
+E 0 1808 0 16
+M 0 1812 1 1815 1
+M 0 1810 5 1816 5
+E 0 1806 0 16
+O 0 1814 0 1817
+M 0 1809 1 1818 1
+M 0 1814 1 1819 1
+G 0 1813 0
+M 0 1811 3 1821 3
+M 0 1817 1 1822 1
+M 0 1804 1 1823 1
+E 0 1803 0 16
+E 0 1810 0 5
+E 0 1807 0 2
+M 0 1807 2 1824 2
+E 0 1808 0 16
+M 0 1810 1 1825 1
+M 0 1805 1 1825 1
+M 0 1808 1 1826 1
+M 0 1810 1 1826 1
+M 0 1811 2 1827 2
+M 0 1816 1 1827 1
+M 0 1803 1 1829 1
+E 0 1801 0 16
+M 0 1808 6 1829 6
+M 0 1806 2 1829 2
+E 0 1809 0 16
+M 0 1802 3 1830 3
+E 0 1805 0 17
+M 0 1813 1 1832 1
+E 0 1804 0 16
+M 0 1815 1 1832 1
+G 0 1811 0
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

@@ -1,0 +1,4516 @@
+#AREADATA
+Name Animaland~
+Builders None~
+VNUMs 20100 20230
+Credits {{5 20} Yaegar Animaland~
+Security 9
+Flags 0
+End
+
+
+
+#MOBILES
+#20100
+knight cirrhosis hosis~
+Sir Hosis of the Liver~
+Sir Hosis of the Liver stands before you.
+~
+Sir Hosis is a brave, proud man of middle years, who has sworn by
+his God and his Honour to protect Animaland from harm until death
+takes him from this world. He is a just man, though, and is more
+than helpful and courteous to peaceful visitors.
+~
+human~
+0
+ABGT DH 0 0 1000 0
+20 0 7d38+238 20d10+100 20d10+100 5d7+10 slash
+-2 -2 -2 3
+EFNU 0 0 0
+stand stand male 5
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20101
+knight ni~
+A Knight who says "Ni!"~
+A Knight who says "Ni!" demands a shrubbery from you.
+~
+This fellow is a rather odd, demented knight who has fallen from
+his role as a protector of animal town to a lordless wanderer cursed
+by the Witch to seek out shrubberies. The whole affair has made him
+rather crabby, and he's likely to take it out on you!
+~
+human~
+0
+ABCT J 0 0 0 0
+12 0 3d32+120 12d10+100 12d10+100 3d7+6 pound
+2 2 2 6
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20102
+pig~
+The First Little Pig~
+The First Little Pig oinks petulantly at you.
+~
+This stout little porker is the rather unwise porcine chap who built
+his adobe from straw, infuriating insurance assessors and tempting
+the BBW (Big Bad Wolf) into detroying it, until the pig's older brother
+helped him out and deterred BBW from such activities.
+~
+pig~
+0
+ABCT 0 0 0 400 0
+6 0 1d24+51 6d10+100 6d10+100 2d5+3 pierce
+6 6 6 8
+EFNR 0 0 0
+stand stand male 0
+AGV ACDEFHJK medium unknown
+#20103
+pig~
+The Second Little Pig~
+The Second Little Pigs struts proudly outside his wooden A-frame.
+~
+This progressive porker decided to advance on his brother's work and
+build a house of wood, slightly more attractive, but no less safe from
+the BBW (not to mention nasty draughts and forest fires). He also ran
+to the eldest pig for succor, and now everything's jake (for now).
+~
+pig~
+0
+ABCT 0 0 0 400 0
+7 0 1d33+61 7d10+100 7d10+100 2d6+3 slash
+5 5 5 7
+EFNR 0 0 0
+stand stand male 0
+AGV ACDEFHJK medium unknown
+#20104
+pig~
+The Third Little Pig~
+The Third Little Pig stands defiantly before you!
+~
+This pig is a rather overbearing fellow with a nasty temper, but he is
+nonetheless quite bright (he built his house of brick, remember?), and
+fiercely protective of his younger brothers. He does not look
+particularly happy to see you...This is not surprising considering the
+fact that you've most probably jsut slain his brethren swine...
+~
+pig~
+0
+ABCT 0 0 0 400 0
+8 0 2d21+73 8d10+100 8d10+100 2d7+4 pierce
+5 5 5 7
+EFNR 0 0 0
+stand stand male 0
+AGV ACDEFHJK medium unknown
+#20105
+goat billy~
+The First Billy Goat Gruff~
+The First Billy Goat Gruff looks timid.
+~
+A goat of timid countenance, despite his moniker, this goat is hardly a
+foe to be feared, though his elder brothers may be tougher. This little
+whelp is a coward, but not a bad goat- so take pity on him...
+~
+human~
+0
+ABCT 0 0 0 400 0
+8 0 2d21+73 8d10+100 8d10+100 2d7+4 pound
+5 5 5 7
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20106
+goat billy~
+The Second Billy Goat Gruff~
+The Second Billy Goat Gruff glares angrily at you!
+~
+The second of the Gruff boys may act tougher, but he's no braver than his
+younger sibling. hence he puts on a tough act, but he's very likely to
+flee if harmed. So take him down a peg or two :)
+~
+human~
+0
+ABCT 0 0 0 400 0
+9 0 2d27+83 9d10+100 9d10+100 2d7+6 pound
+4 4 4 7
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20107
+goat billy~
+The Third Billy Goat Gruff~
+The Third Billy Goat Gruff stands haughtily before you.
+~
+Despite his airs, the eldest gruff lad is no pushover like his younger
+brothers. In fact, despite the small difference in age, the eldest goat
+is far superior, a veritable powerhouse of a goat. Be careful, he angers
+easily!
+~
+human~
+0
+ABGT H 0 0 400 0
+12 0 3d32+120 12d10+100 12d10+100 3d7+6 slash
+2 2 2 6
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20108
+troll~
+The Troll~
+The Troll lumbers out from under a bridge and bites you!
+~
+Uck! A big mean green creepy troll! How revolting! Be careful, the
+troll is a dangerous foe, but with some luck (and a good set of horns)
+you will prevail, hopefully...
+
+The Troll ***THWAPS*** you!
+Ouch! That REALLY did HURT!
+You sure are BLEEDING!
+You have been KILLED!
+~
+troll~
+0
+ABFT DFH 0 0 -1000 0
+12 0 3d32+120 12d10+100 12d10+100 3d7+6 slash
+2 2 2 6
+EFNR 0 HI RS
+stand stand male 0
+AHMV ABCDEFGHIJK medium unknown
+F aff Jc
+M
+specFido
+#20109
+hansel kid child brat~
+Hansel~
+Hansel whines at you as he wipes at his snotty nose.
+~
+Yuck!
+What a snot-nosed, malodorous little brat! Why anyone would want to eat
+this sticky, grimy child is beyond you. You feel an overwhelming urge
+to slay the whelp, but you fear you will contaminate your weapon.
+~
+human~
+0
+ACT 0 0 0 0 0
+5 0 1d16+42 5d10+100 5d10+100 2d4+3 slash
+6 6 6 8
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20110
+gretel kid child brat~
+Gretel~
+Gretel, matching her brother in sheer disgustingness, whines at you.
+~
+Eeyew!
+Who produces these brats! Who would want to??? No self-respecting
+Big Bad Wolf would ever deign to eat this whiny, snot-nosed kid.
+Any wonder their parents abandoned them! Even the Witch couldn't
+stand them- she kicked them out before she even had finished
+preparing the first course!
+~
+human~
+0
+ACT 0 0 0 0 0
+5 0 1d16+42 5d10+100 5d10+100 2d4+3 slash
+6 6 6 8
+EFNU 0 0 0
+stand stand female 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20111
+wolf bbw~
+The BBW (Big Bad Wolf)~
+The BBW (Big Bad Wolf) glares arrogantly at you!
+~
+The Big Bad Wolf (or BBW as he now calls himself) got sick of being
+beaten up by pigs, grandmas, girls and hunters, and so went to the gym,
+worked out, bought some gold jewellry and a baseball cap, and now
+looks like a lupine rap singer. He is a hip, fly, phat, mean, cool
+homie in this hood now!
+~
+wolf~
+0
+ACEFHT HZ 0 0 -1000 0
+15 0 4d37+162 15d10+100 15d10+100 4d6+9 slash
+0 0 0 5
+EFHNRW 0 BI HS
+stand stand male 3
+AGHMVd ABCDEFGHIJKQUV medium unknown
+#20112
+witch~
+The Witch~
+The Wicked Witch of Animaland cackles hideously and attacks!
+~
+This ugly crone is the evil Witch who has had so much influence on
+so many residents of Animaland. She is bitter and twisted, and hates
+and resents all inhabitants of Animaland. This includes you!
+~
+human~
+0
+ABCFT H 0 0 -1000 0
+20 0 7d38+238 20d10+100 20d10+100 5d7+10 pierce
+-2 -2 -2 3
+EFNU 0 0 0
+stand stand female 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20113
+white snow~
+Snow White~
+Snow White smiles sweetly at you.
+~
+Snow White- ah heck, you all know what Snow White looks like! Why
+haven't you been watching Disney Channel??? Why are you even looking
+at her? Are you a pervert??? Get lost!
+Snow White slaps you HARD! (You try not to cry...)
+~
+human~
+0
+AGT H 0 0 1000 0
+9 0 2d27+83 9d10+100 9d10+100 2d7+6 pierce
+4 4 4 7
+EFNU 0 0 0
+stand stand female 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20114
+mayor bear~
+Bear Mayor~
+Bear Mayor bids you welcome to Animaltown.
+~
+Bear Mayor is a big, friendly grizzly bear who will cheerfully
+tear your arms off and use them to play baseball with your
+severed head if you cause any trouble in his burg...However,
+an election is coming up soon, and Mayor Bear desperately wants to
+beat the Wizard Owl, and so he's likely to be more nice and
+tolerant than usual...
+~
+human~
+0
+ABGT H 0 0 400 0
+30 0 10d60+426 30d10+100 30d10+100 5d10+17 pound
+-8 -8 -8 0
+EFNU 0 0 0
+stand stand male 5
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20115
+hamster blacksmith fluffy~
+Fluffy the Blacksmith Hamster~
+Fluffy the Blacksmith Hamster towers under you!
+~
+Fluffy is a sinewy, well-muscled hamster who looms large under you,
+standing at an incredibly huge 9 inches. He can repair any damaged
+equipment you may have, and can also pound your skull in if you
+try to grift or attack him.
+~
+human~
+0
+ABGT J 0 0 400 0
+30 0 10d60+426 30d10+100 30d10+100 5d10+17 pound
+-8 -8 -8 0
+EFNU 0 0 0
+stand stand male 5
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20116
+bartender dogg dog~
+Dog the Dogg~
+Dog the Dogg offers you a drink from a freshly licked-clean glass.
+~
+Dog the Dogg is a double Dog with some great drinks for sale. He is
+calm and friendly, but has an annoying habit of cleaning things by
+licking them :)
+~
+human~
+0
+ABGT J 0 0 400 0
+30 0 10d60+426 30d10+100 30d10+100 5d10+17 pierce
+-8 -8 -8 0
+EFNU 0 0 0
+stand stand male 5
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20117
+puss cat tipsy~
+Puss in Boots~
+Puss in Boots has fallen down the well!
+~
+Puss' name is Tipsy, which also may be used to explain his current
+state of unhealthy inebriation thanks to over-indulgence at Dogg's,
+and his subsequent tumble down the well. Don't bother helping him
+out; he's fallen down so many times he's come to call it home.
+~
+human~
+0
+ABCT 0 0 0 400 0
+6 0 1d24+51 6d10+100 6d10+100 2d5+3 slash
+6 6 6 8
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20118
+whale~
+A Whale~
+A Whale lurches from the water right at you!
+~
+This mean hombre is the very whale that swallowed Jonah, and then
+subsequently didi away with Gepetto and his friends. Rumour has it
+tha Spielberg is negotiating a five picture deal with him, as a
+follow-up of sorts to the "Jaws" series, and is also slated to make
+a guest appearance as a villain in "Seaquest DSV".
+~
+human~
+0
+ACFT H 0 0 -1000 0
+11 0 3d27+107 11d10+100 11d10+100 3d6+6 pierce
+3 3 3 6
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20119
+giant~
+Rumblebottom the Giant~
+Rumblebottom the Giant rumbles his bottom...Eeyew! Run!
+~
+Phew! What a foul smell! it is unlikely that you will linger long
+enough to actually see what RumbleBottom looks like, but if you do
+you see a...well, ummm...a giant.
+~
+human~
+0
+ADT H 0 0 0 0
+16 0 5d34+175 16d10+100 16d10+100 4d7+8 pound
+0 0 0 5
+EFNU 0 0 0
+stand stand male 8
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20120
+monster creature lake~
+A Hideous Lake Creature~
+A Hideous Lake Creature lurches toward you!
+~
+The toughest bad guy in Animaland, no-one messes with him. He hates
+everything, and will attack it all, but he is dreadfully stupid, and
+thus is remarkably easy to sneak past if one has the appropriate skills.
+~
+human~
+0
+ABCDFT H 0 0 -1000 0
+20 0 7d38+238 20d10+100 20d10+100 5d7+10 slash
+-2 -2 -2 3
+EFNU 0 0 0
+stand stand male 25
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20121
+poodle dog count~
+Count Poodle~
+Count Poodle minces towards you and welcomes you to his cAAAstle :)
+~
+"Well, hello, boyths and girlths, welcome to caaastle poodle! Its a
+nice and fwiendly caaaastle, full of nice and fwiendly people! So
+have a good shtay!"
+With that, the count turns, wiggles his little bottom, and leaves.
+~
+human~
+0
+ABT H 0 0 400 0
+13 0 3d38+131 13d10+100 13d10+100 3d7+8 pierce
+1 1 1 6
+EFNU 0 0 0
+stand stand male 37
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20122
+owl wizard~
+Wizard Owl~
+Wizard owl looks at you over his spectacles, with mild curiosity.
+~
+"Yes? Hoooow can I help Yoooooou? Do yooooou wish to have something
+identified? If sooooo, hand it oooooover, there's a good mud-fodder,
+I mean adventurer." The Owl then returns to poring the pages of a
+quaint and mysterious volume of misbegotten lore.
+Wizard Owl is the most powerful spellcaster in Animaland, and is not
+trifled with even by the Witch, so be nice and stay, or leave.
+~
+human~
+0
+ABT T 0 0 1000 0
+20 0 7d38+238 20d10+100 20d10+100 5d7+10 pound
+-2 -2 -2 3
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20123
+heifer cow cowntess~
+Cowntess Heifer~
+Cowntess Heifer moos a welcome as you enter, but expects a bow or curtsey.
+~
+Cowntess is a Heifer, a full-grown prize-winning bovine from greener pastures
+who tired of her life and came to Animaland to marry a wealthy animal...
+She did. But her idea of compatability appears to be a bit skewed... Poor
+Poodle... Best bow or curtsey to her, she's very proud of her station and
+doesn't take kindly to people who don't respect it. What's that? You're
+not going to bow or curtsey to some stinking pre- abattoir t-bone?
+Cowntess Heifer slaps you HARD! (You try not to cry).
+Cowntess Heifer bonks you on the head! Are you going to take that?
+Cowntess Heifer's pound ***IMPALES*** you! You sure are BLEEDING!
+Countess Heifer's pound ***MUTILATES*** you!
+You have been incapacitated, and will die soon if not aided.
+You are hurt far too badly for that.
+You have been KILLED!
+BATTLE NOTICE : rude adventurer killed by Cowntess Heifer.
+~
+human~
+0
+ABCT H 0 0 400 0
+14 0 4d33+145 14d10+100 14d10+100 4d6+7 pound
+1 1 1 5
+EFNU 0 0 0
+stand stand female 25
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20124
+snarly dwarf~
+Snarly Dwarf~
+Snarly Dwarf swears at you then attacks!
+~
+One of the seven anti-dwarves, Snarly is mean, vicious and without
+compunction when it comes to killing all living things- just like his
+six brethren. Watch out!
+~
+human~
+0
+ACFT 0 0 0 -1000 0
+11 0 3d27+107 11d10+100 11d10+100 3d6+6 slash
+3 3 3 6
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20125
+wasted dwarf~
+Wasted Dwarf~
+Wasted Dwarf screams, clutches at his head, and attacks!
+~
+Wasted Dwarf, another of the anti-dwarves, is strung out on heroin,
+PCP, LSD and various other hallucinogenics and amphetamines, and is
+having a VERY bad trip. Oops.
+~
+human~
+0
+ACFT T 0 0 -1000 0
+10 0 2d33+96 10d10+100 10d10+100 3d5+7 slash
+3 3 3 6
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20126
+poo dwarf~
+Poo Dwarf~
+Poo dwarf smells real bad...
+~
+Poo Dwarf, another of the anti-dwarves, is a foul, foul, foul dwarf.
+he appears to be covered from head to toe in all manner of indescribable
+substances, including various forms of animal excrement. Yuck! Don't
+let him touch you!
+~
+human~
+0
+ACFT M 0 0 -1000 0
+9 0 2d27+83 9d10+100 9d10+100 2d7+6 slash
+4 4 4 7
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20127
+rotten dwarf~
+Rotten Dwarf~
+Rotten Dwarf doesn't look too good...
+~
+Rotten Dwarf, another of the anti-dwarves, was originally named for
+his bad attitude, but the name has become even more appropriate since
+he began to decompose. You see, Rotten died some time ago, and no-one
+noticed (even him...dwarves aren't too smart <Yaegar ducks Firedancer's
+slash>), and life went on, with Rotten now being undead...
+~
+human~
+0
+ACFT D 0 0 -1000 0
+13 0 3d38+131 13d10+100 13d10+100 3d7+8 pierce
+1 1 1 6
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20128
+vicious dwarf~
+Vicious Dwarf~
+Vicious dwarf smites you!
+~
+Leader of the seven anti-dwarves, Vicious is by far the toughest and
+meanest, though not necessarily the vilest or most despicable (even HE
+won't go NEAR Poo or Rotten...). He still hates you, however, and seems
+to think that your head would look REAL good hanging on his belt of skulls
+...
+~
+human~
+0
+ABFT D 0 0 -1000 0
+14 0 4d33+145 14d10+100 14d10+100 4d6+7 slash
+1 1 1 5
+EFNU 0 0 0
+stand stand male 2
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20129
+pissed dwarf~
+Pissed Dwarf~
+Pissed dwarf is real mad at YOU!
+~
+Pissed dwarf is one of the seven anti-dwarves, and is also the cousion
+of Grumpy, in the other seven dwarves. He is much meaner, though, and
+looks set to take your head off...
+~
+human~
+0
+AFT J 0 0 -1000 0
+12 0 3d32+120 12d10+100 12d10+100 3d7+6 pierce
+2 2 2 6
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20130
+sleazy dwarf~
+Sleazy Dwarf~
+Sleazy Dwarf attempts to fondle you! How revolting!
+~
+Sleazy Dwarf, one of the seven anti-dwarves, is as sleazy as they come.
+He will bonk *anything* so watch out! And since he is also so mean, he's
+likely to try and kill you if you don't co-operate...:)
+~
+human~
+0
+ACFT U 0 0 -1000 0
+8 0 2d21+73 8d10+100 8d10+100 2d7+4 pound
+5 5 5 7
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20131
+pig customer patron~
+A Porcine Patron~
+A Porcine Patron of the bar stares glumly into his ale.
+~
+This grim fellow is overworked, underpaid, and has thus become a
+chronic alcoholic. He will ignore you, but if you bother him he's
+likely to fly into a rage...Leave him be.
+~
+pig~
+0
+ABGT M 0 0 400 0
+6 0 1d24+51 6d10+100 6d10+100 2d5+3 pound
+6 6 6 8
+EFNR 0 0 0
+stand stand male 0
+AGV ACDEFHJK medium unknown
+#20132
+feline cat escort hooker~
+A Feline "Escort"~
+A Feline "Escort" attempts to woo you.
+~
+As part of his election campaign, Wizard Owl has promised to stamp out
+the prostitution ring that arose in Animaland since the legalisation
+of the profession by Mayor Bear. But with most of the town being
+clients of said hookers, he's going to be hard-pressed to score many
+votes outside of Castle Poodle. All of which makes this sexy cat VERY
+happy and VERY rich...
+~
+human~
+0
+AGT D 0 0 0 0
+7 0 1d33+61 7d10+100 7d10+100 2d6+3 pierce
+5 5 5 7
+EFNU 0 0 0
+stand stand female 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20133
+giant cushioncheeks~
+Cushioncheeks~
+Cushioncheeks, wife of Rumblebottom, smiles sweetly at you.
+~
+"Are you trying to seduce me, Mrs. Rumblebottom? You ARE??? Eeyew!"
+Run for it, she's big, she's tough, and she doesn't handle rejection
+well...
+~
+human~
+0
+ABT D 0 0 0 0
+17 0 5d39+187 17d10+100 17d10+100 4d7+10 pound
+0 0 0 4
+EFNU 0 0 0
+stand stand female 6
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20134
+warthog jester~
+Jester Warthog~
+Jester warthog is here attempting to make you laugh.
+~
+He really isn't very funny. Poor Warthog became a Jester to make ends
+meet after Mayor bear bought out his butchershop in AnimalTown. So
+take pity on him and if he's a little unskilled, if he doesn't make you
+laugh, well, forgive him.
+~
+human~
+0
+ABT K 0 0 0 0
+12 0 3d32+120 12d10+100 12d10+100 3d7+6 pound
+2 2 2 6
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20135
+guard rhino rhinocerous~
+A Rhino Guard~
+A Rhino Guard roughly accosts you.
+~
+"Oi! Where do you thinky YOU'RE going, eh?"
+Oops.
+~
+human~
+0
+ABFGT H 0 0 400 0
+15 0 4d37+162 15d10+100 15d10+100 4d6+9 pierce
+0 0 0 5
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20136
+guard escort chihuahua~
+A Chihuahua Guard~
+A Chihuahua Guard stands ready to escort visitors to see the Count.
+~
+Chihuahua may be small, but he's proud of his job and loyal to his
+Count, and is actually quite a tough little battler, though Rhino
+guard makes him look like Alsatian-Fodder...
+~
+human~
+0
+ABCGT H 0 0 400 0
+8 0 2d21+73 8d10+100 8d10+100 2d7+4 pound
+5 5 5 7
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20137
+undead zombie girl riding hood~
+An Undead Girl~
+An Undead girl wearing a cloak with a red hood lumbers towards you.
+~
+OOO!
+BBW thought she was dead, but Little Red Riding Hood is back, mad as
+hell and tougher than ever. BBW better watch out, she's pretty tough.
+Unfortunately, death has twisted her mind so that EVERYTHING looks like
+wolves, including you!
+~
+human~
+0
+ACFT D 0 0 -1000 0
+14 0 4d33+145 14d10+100 14d10+100 4d6+7 pierce
+1 1 1 5
+EFNU 0 0 0
+stand stand female 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20138
+snoopy dog beagle~
+Snoopy~
+Snoopy is here, typing away on an antique typewriter.
+~
+An old friend of Count Poodle and Bear Mayor, Snoopy has popped over
+from Peanutsville to catch up with his old pals. Snoopy has gone on
+to much greater things, and his old friends are actually quite
+envious, but he's so powerful now that there's nothing they can do
+about it...
+~
+human~
+0
+ABT J 0 0 400 0
+38 0 10d97+603 38d10+100 38d10+100 5d13+20 slash
+-13 -13 -13 -1
+EFNU 0 0 0
+stand stand male 50
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20139
+fritz cat~
+Fritz the Cat~
+Fritz the Cat sleazes onto you.
+~
+Fritz has recently been released from AnimalJail after serving an
+eight year sentence for sex offenses, and is eager to make up for
+lost time. Prison has made him VERY tough, so don't think about
+beating him up.
+~
+human~
+0
+ABGT J 0 0 0 0
+30 0 10d60+426 30d10+100 30d10+100 5d10+17 pound
+-8 -8 -8 0
+EFNU 0 0 0
+stand stand male 50
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20140
+bouncy dogg dog guard~
+Bouncy Guard Dogg~
+Bouncy Guard Dogg bounces so high that he touches the sky :P
+~
+Bouncy Guard Dogg (Double Dog- editor) is a cheerful mutt that faithfully
+guards the Castle Poodle compound from enemies and troublemakers. He's
+happy to play with you, but mess with him or his turf and he'll tear off
+your head and defecate down your throat...:)
+~
+human~
+0
+ABCT T 0 0 400 0
+18 0 6d36+205 18d10+100 18d10+100 4d7+12 pound
+-1 -1 -1 4
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20141
+mouse mickey~
+Mickey Mouse~
+Mickey Mouse invites you to join his burgeoning fan club!
+~
+Who's the leader of the gang that's made for you and me?
+M-I-C-K-E-Y- M-O-U-S-E!
+Need we say more???
+
+NO! SHUT UP! SHUT UP I TELL YOU! STOP THAT DREADFUL SINGING!
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRRRRRRRRGGGGGGGGGGGGGGGGH!
+~
+human~
+0
+ABT H 0 0 1000 0
+25 0 10d42+322 25d10+100 25d10+100 5d8+16 pierce
+-5 -5 -5 2
+EFNU 0 0 0
+stand stand male 50
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20142
+dwarf~
+One of the Seven Dwarves~
+One of the Seven Dwarves wanders aimlessly, looking for a home.
+~
+Since the anti-dwarves took over the mines and booted them out, the
+Seven Dwarves have wandered the land, searching for a place to call
+their own. Wizard Owl has promised that once he gets into office all
+that will change (he actually intends to put them into a high-rent
+low-quality housing project that is being built near Troll Bridge
+that he is part-owner of (once his Goats have kicked out the Troll
+resident nearby:))).
+~
+human~
+0
+ACT 0 0 0 1000 0
+11 0 3d27+107 11d10+100 11d10+100 3d6+6 pierce
+3 3 3 6
+EFNU 0 0 0
+stand stand male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20143
+imelda marcos~
+Imelda Marcos~
+Imelda Marcos lives here!?! Weird...
+~
+You are weird, Yaegar.
+~
+human~
+0
+ABT D 0 0 0 0
+18 0 6d36+205 18d10+100 18d10+100 4d7+12 pound
+-1 -1 -1 4
+EFNU 0 0 0
+stand stand female 4
+AHMV ABCDEF medium unknown
+F par GHIJK
+#0
+
+
+
+#OBJECTS
+#20100
+shoe~
+imelda's Shoes~
+A Pair of Imelda's many, many, many shoes is here.~
+<Not Entered>~
+armor AH AG
+6 6 6 0 0
+18 5 180 P
+Y
+char 'moves' 0 -50
+Y
+char 'dexterity' 0 -1
+#20101
+axe~
+a Dwarven Axe~
+A Dwarven Axe is here.~
+<Not Entered>~
+weapon G AN
+exotic 3 6 slash 0
+11 5 110 P
+Y
+char 'hitroll' 0 2
+Y
+char 'hitroll' 0 2
+Y
+char 'constitution' 0 1
+Y
+char 'strength' 0 1
+#20102
+hat~
+a Dwarven Hat~
+A Dwarven Hat is here.~
+<Not Entered>~
+armor 0 AE
+5 5 5 0 0
+11 10 110 P
+Y
+char 'hp' 0 20
+Y
+char 'wisdom' 0 1
+#20103
+boots~
+a Pair of Dwarven Boots~
+A Pair of Dwarven Boots are seeking an owner.~
+<Not Entered>~
+armor BH AG
+5 5 5 0 0
+11 25 110 P
+Y
+char 'moves' 0 -100
+Y
+char 'dexterity' 0 -2
+#20104
+girth~
+a Dwarven Girth~
+A Dwarven Girth is here.~
+<Not Entered>~
+armor G AL
+5 5 5 0 0
+11 15 110 P
+Y
+char 'AC' 0 10
+Y
+char 'constitution' 0 2
+Y
+char 'intelligence' 0 -1
+Y
+char 'strength' 0 1
+#20105
+glasses~
+a Pair of Glasses~
+Doc's Glasses are here.~
+<Not Entered>~
+armor AGI A
+5 5 5 0 0
+11 1 110 P
+Y
+char 'mana' 0 25
+Y
+char 'wisdom' 0 2
+Y
+char 'intelligence' 0 1
+#20106
+mickey mouse ears~
+a Pair of Mickey Mouse ears~
+A Pair of Mickey Mouse ears beckon to you to wear them.
+~
+<Not Entered>~
+armor AHKM AE
+8 8 8 0 0
+25 50 250 P
+Y
+char 'hp' 0 10
+Y
+char 'wisdom' 0 -3
+Y
+char 'intelligence' 0 -3
+#20107
+shoes~
+a Pair of White Shoes~
+Mickey's White Dancin' Shoes are here! Hey Pluto!
+~
+<Not Entered>~
+armor AGHKM AG
+8 8 8 0 0
+25 50 250 P
+Y
+char 'moves' 0 25
+Y
+char 'dexterity' 0 2
+#20108
+pants~
+a Pair of Red Pants~
+Mickey's Red Pants are here! Hey Pluto!
+~
+<Not Entered>~
+armor AGHKM AF
+8 8 8 0 0
+25 50 250 P
+Y
+char 'AC' 0 -10
+Y
+char 'hp' 0 25
+Y
+char 'constitution' 0 2
+#20109
+collar~
+a Dogg (TM) Collar~
+A Dogg (TM) Collar is here.
+~
+<Not Entered>~
+armor ABHKM AC
+6 6 6 0 0
+18 75 180 P
+Y
+char 'damroll' 0 3
+Y
+char 'hitroll' 0 3
+Y
+char 'moves' 0 -50
+Y
+char 'constitution' 0 2
+Y
+char 'intelligence' 0 -2
+#20110
+kennel~
+a Dogg (TM) Kennel~
+A Dogg (TM) Kennel sits in the corner.
+~
+<Not Entered>~
+container A 0
+500 A 0 0 0
+16 1000 160 P
+#20111
+bowl~
+a Dogg (TM) Food Bowl~
+A Dogg (TM) Food Bowl is here.~
+<Not Entered>~
+container 0 AO
+25 0 0 0 0
+16 25 160 P
+#20112
+food~
+dogg (TM) Food~
+Some Dogg (TM) Food.
+~
+<Not Entered>~
+food 0 AO
+12 0 0 0 0
+16 25 160 P
+#20113
+blanket~
+a Dogg (TM) Blanket~
+A Dogg (TM) Blanket looks like it would make an excellent cape!
+~
+<Not Entered>~
+armor G AK
+6 6 6 0 0
+16 25 160 P
+Y
+char 'AC' 0 -20
+Y
+char 'N/A' 0 10
+#20114
+typewriter~
+an antique typewriter~
+An antique typewriter is here.
+~
+<Not Entered>~
+container 0 AO
+1 A 0 0 0
+36 25 360 P
+#20115
+kennel~
+snoopy's Kennel~
+Snoopy's Kennel is in the corner.
+~
+<Not Entered>~
+furniture 0 0
+0 0 0 0 0
+36 10000 360 P
+#20116
+foodbowl~
+snoopy's Foodbowl~
+Snoopy's Foodbowl is full of his friend Dogg's fave food!
+~
+<Not Entered>~
+container 0 AO
+25 0 0 0 0
+36 25 360 P
+#20117
+paper~
+a sheet of typewriter paper~
+A sheet of paper has "It was a dark and stormy night" written on it.
+~
+<Not Entered>~
+scroll G AO
+38 'control weather' 'blindness' 'call lightning' ''
+36 5 360 P
+#20118
+collar~
+snoopy's Collar~
+Snoopy's Collar. Where's that lovable beagle???
+~
+<Not Entered>~
+armor A AC
+10 10 10 0 0
+38 25 380 P
+Y
+char 'mana' 0 25
+Y
+char 'intelligence' 0 2
+Y
+char 'dexterity' 0 2
+#20119
+hood riding~
+a Red Riding Hood~
+A Red Riding Hood floats along here.
+~
+<Not Entered>~
+armor AP AC
+5 5 5 0 0
+14 10 140 P
+Y
+char 'saving throw' 0 -2
+Y
+char 'saving throw' 0 -2
+Y
+char 'AC' 0 -10
+#20120
+collar~
+a Chihuahua Collar~
+This Collar looks like it's a wee bit small for you.
+~
+<Not Entered>~
+armor M AC
+4 4 4 0 0
+8 5 80 P
+Y
+char 'hp' 0 -25
+Y
+char 'constitution' 0 -4
+#20121
+halberd~
+a HUGE Halberd~
+A HUGE Halberd rests here.
+~
+<Not Entered>~
+weapon 0 AN
+exotic 3 5 slash 0
+8 45 80 P
+Y
+char 'damroll' 0 8
+Y
+char 'hitroll' 0 -4
+#20122
+horn~
+a Rhinocerous Horn~
+A Rhino somewhere is missing its horn...
+~
+<Not Entered>~
+armor 0 AE
+6 6 6 0 0
+15 30 150 P
+Y
+char 'damroll' 0 4
+#20123
+bag~
+a hessian bag~
+This bag looks like it could hold a LOT of stuff...
+~
+<Not Entered>~
+container 0 AO
+150 A 0 0 0
+17 25 170 P
+#20124
+dress~
+a hessian dress~
+This dress looks like it could hold a LOT of giant...
+~
+<Not Entered>~
+armor 0 AD
+6 6 6 0 0
+17 50 170 P
+Y
+char 'AC' 0 -10
+#20125
+crap~
+some Giant crap~
+The crap Giants carry around with them is here.
+~
+<Not Entered>~
+trash 0 AO
+0 0 0 0 0
+17 150 170 P
+Y
+char 'moves' 0 -250
+#20126
+staff~
+a Jester's Staff~
+A Jester's Staff is here sans Jester...
+~
+<Not Entered>~
+staff AB AO
+12 6 6 'weaken' 0
+12 10 120 P
+Y
+char 'wisdom' 0 -3
+Y
+char 'intelligence' 0 -3
+#20127
+ring~
+a Warthog's Nose-Ring~
+A Warthog's Nose-Ring looks about the right size for your finger...
+~
+<Not Entered>~
+armor A AB
+5 5 5 0 0
+12 5 120 P
+Y
+char 'mana' 0 75
+#20128
+pillow~
+a pillow~
+A pillow embroidered with a picture of a pig is here.
+~
+<Not Entered>~
+treasure A AO
+0 0 0 0 0
+0 5 0 P
+#20129
+beer~
+a beer~
+A glass of beer is here.
+~
+<Not Entered>~
+drink 0 AO
+1 1 'beer' 0 0
+0 1 0 P
+#20130
+ale~
+a mug of foamy ale~
+A mug of foamy ale foams away here.
+~
+<Not Entered>~
+drink 0 AO
+2 2 'ale' 0 0
+0 2 0 P
+#20131
+whiskey~
+a shot-glass of whiskey~
+A shot-glass of whiskey is here.
+~
+<Not Entered>~
+drink 0 AO
+1 1 'whisky' 0 0
+0 1 0 P
+#20132
+vodka~
+a shot-glass of vodka~
+A shot-glass of vodka sits here.
+~
+<Not Entered>~
+drink 0 AO
+1 1 'cranberry juice' 0 0
+0 1 0 P
+#20133
+wine~
+a glass of wine~
+A glass of wine- a fine chianti- sits here.
+~
+<Not Entered>~
+drink 0 AO
+1 1 'red wine' 0 0
+0 2 0 P
+#20134
+nuts~
+some beer nuts~
+Some beer nuts are meant to increase your thirst so that you drink more.
+~
+<Not Entered>~
+food 0 AO
+2 0 0 0 0
+11 2 110 P
+#20135
+bowl~
+a bowl~
+A bowl meant to hold nuts is here.
+~
+<Not Entered>~
+container 0 AO
+2 0 0 0 0
+11 2 110 P
+#20136
+tapestry~
+a heavy tapestry~
+This tapestry looks VERY heavy and cumbersome...
+~
+<Not Entered>~
+treasure AHM AO
+0 0 0 0 0
+11 150 110 P
+Y
+char 'moves' 0 -250
+#20137
+clothes~
+some work clothes~
+Some Levi work clothes lie in a pile here.
+~
+<Not Entered>~
+armor 0 AD
+4 4 4 0 0
+6 15 60 P
+#20138
+clogs~
+a pair of clogs~
+Some pig's Auntie Trotter brought these back from Holland...
+~
+<Not Entered>~
+armor 0 AG
+4 4 4 0 0
+6 10 60 P
+Y
+char 'moves' 0 -50
+Y
+char 'dexterity' 0 -2
+#20139
+trotters~
+some trotters~
+A pair of pig's trotters (non-kosher).
+~
+<Not Entered>~
+food 0 AG
+6 0 0 0 0
+6 5 60 P
+#20140
+ear~
+pIG'S EAR!~
+PIG'S EAR! MMMM, delicious!
+~
+<Not Entered>~
+food 0 AE
+3 0 0 0 0
+6 2 60 P
+#20141
+glasses~
+a pair of Wise-Owl Glasses~
+Wise-Owl glasses are good for your intelligence...
+~
+<Not Entered>~
+armor AG AE
+7 7 7 0 0
+20 5 200 P
+Y
+char 'intelligence' 0 3
+#20142
+desk~
+a sturdy desk~
+A sturdy desk sits near a window.
+~
+<Not Entered>~
+furniture 0 0
+0 0 0 0 0
+16 1367 160 P
+#20143
+spellbook book~
+owl's Spell-book~
+Owl's Spell-book is here.
+~
+<Not Entered>~
+scroll AB AO
+20 'fly' 'continual light' 'shield' ''
+20 25 200 P
+Y
+char 'wisdom' 0 2
+#20144
+chest~
+owl's chest~
+Owl's Chest is here.
+~
+<Not Entered>~
+container A AO
+150 D 856 0 0
+16 50 160 P
+#20145
+scroll~
+a scroll~
+A scroll is here.
+~
+<Not Entered>~
+scroll G AO
+20 'colour spray' 'fireball' 'lightning bolt' ''
+16 5 160 P
+#20146
+wand~
+a magyck wand~
+A magyck wand is here.
+~
+<Not Entered>~
+wand AG AO
+20 4 4 'pass door' 0
+16 5 160 P
+#20147
+hat~
+wise-Owl's Hat~
+Wise-Owl's Hat has blown away again <sigh>.
+~
+<Not Entered>~
+armor AFGKP AE
+7 7 7 0 0
+20 5 200 P
+Y
+char 'mana' 0 50
+Y
+char 'wisdom' 0 1
+Y
+char 'intelligence' 0 1
+Y
+char 'dexterity' 0 1
+#20148
+necklace~
+a strange necklace~
+A strange necklace floats on by.
+~
+<Not Entered>~
+armor ABKP AC
+7 7 7 0 0
+20 5 200 P
+Y
+char 'AC' 0 -10
+Y
+char 'moves' 0 50
+Y
+char 'hp' 0 20
+#20149
+gnashers~
+a set of Gnarly Gnashers~
+A set of Gnarly Gnashers is here (>*CHOMP*<*>*CHOMP*<).
+~
+<Not Entered>~
+weapon BJ AN
+exotic 3 6 bite 0
+11 15 110 P
+Y
+char 'hitroll' 0 6
+Y
+char 'hitroll' 0 2
+#20150
+drugs~
+some drugs~
+Some drugs have fallen out of someone's stash.
+~
+<Not Entered>~
+pill A AO
+10 'fly' 'poison' 'weaken' ''
+10 5 100 P
+#20151
+poo~
+poo!~
+Poo!
+~
+<Not Entered>~
+food B AD
+5 0 0 A 0
+9 5 90 P
+#20152
+underpants~
+a pair of soiled underpants~
+A pair of soiled underpants festers here.
+~
+<Not Entered>~
+armor BHK AF
+5 5 5 0 0
+13 5 130 P
+Y
+char 'damroll' 0 2
+Y
+char 'hp' 0 20
+Y
+char 'constitution' 0 1
+Y
+char 'strength' 0 1
+#20153
+belt~
+a Belt of Skulls~
+Vicious' Belt of Skulls is beatin' and hummin' here.
+~
+<Not Entered>~
+armor ABHJM AL
+5 5 5 0 0
+14 25 140 P
+Y
+char 'damroll' 0 3
+Y
+char 'hp' 0 15
+Y
+char 'constitution' 0 2
+#20154
+video~
+a Dirty Harry Video~
+"Go ahead! Make my day! Pick up the video!"
+~
+<Not Entered>~
+staff AB AO
+12 4 4 'earthquake' 0
+12 10 120 P
+#20155
+persona~
+a Hugh Grant Persona~
+A Hugh Grant Persona has been adopted by *MANY people lately...:)
+~
+<Not Entered>~
+armor AM AE
+4 4 4 0 0
+8 5 80 P
+Y
+char 'moves' 0 50
+Y
+char 'strength' 0 -2
+#20156
+key~
+a key~
+A key to Owl's chest is hanging from a chain here.
+~
+<Not Entered>~
+food AB AO
+0 0 0 0 0
+20 5 200 P
+#20157
+sceptre~
+count Poodle's Sceptre~
+Count Poodle's Sceptre is here.
+~
+<Not Entered>~
+weapon AGK AN
+exotic 4 5 pound 0
+13 15 130 P
+Y
+char 'damroll' 0 3
+Y
+char 'hitroll' 0 3
+#20158
+cloak~
+count Poodle's Cloak~
+Count Poodle's Cloak is here.
+~
+<Not Entered>~
+armor AGK AK
+5 5 5 0 0
+13 10 130 P
+Y
+char 'AC' 0 -10
+#20159
+ring~
+count Poodle's Signet Ring~
+Count Poodle's Signet Ring is here.
+~
+<Not Entered>~
+armor AGK AB
+5 5 5 0 0
+13 5 130 P
+Y
+char 'AC' 0 -5
+Y
+char 'mana' 0 15
+Y
+char 'dexterity' 0 1
+#20160
+orb~
+count Poodle's Orb~
+Count Poodle's Orb is here.
+~
+<Not Entered>~
+staff AGK AO
+13 3 3 'colour spray' 0
+13 5 130 P
+Y
+char 'mana' 0 15
+#20161
+crown~
+count Poodle's Crown~
+Count Poodle's Crown is here.
+~
+<Not Entered>~
+armor AGK AE
+5 5 5 0 0
+13 15 130 P
+Y
+char 'wisdom' 0 2
+#20162
+crown~
+cowntess' Heifer's Crown~
+Cowntess Heifer's Crown of Horns is here.
+~
+<Not Entered>~
+armor AGK AE
+4 4 4 0 0
+6 30 60 P
+Y
+char 'constitution' 0 3
+Y
+char 'intelligence' 0 -2
+#20163
+rod~
+cowntess' Rod~
+Cowntess' Rod vibrates strangely...
+~
+<Not Entered>~
+armor ABK AN
+5 5 5 8 0
+14 20 140 P
+Y
+char 'damroll' 0 8
+Y
+char 'hitroll' 0 -2
+#20164
+treasure~
+treasure~
+Treasure!
+~
+<Not Entered>~
+treasure A AO
+0 0 0 0 0
+12 25 120 P
+#20165
+bag~
+a Magic Udder~
+Cowntess' Heifer's Magic Udder is here, pulsating with a life of its own.
+~
+<Not Entered>~
+container ABK AD
+100 A 0 0 0
+14 20 140 P
+#20166
+chest~
+a chest~
+A chest that looks like its full of loot is here.
+~
+<Not Entered>~
+container 0 0
+100 D 20168 0 0
+9 100 90 P
+#20167
+loot~
+loot~
+Loot!
+~
+<Not Entered>~
+money A AO
+90 0 0 0 0
+9 1 90 P
+#20168
+key~
+a coral key~
+A coral key is here.
+~
+<Not Entered>~
+key B AO
+0 0 0 0 0
+20 5 200 P
+#20169
+shield~
+the Holy Shield of St.Arnas~
+The Holy Shield of St. Arnas! >***<!WOW!>***<
+~
+<Not Entered>~
+armor ABK AJ
+4 4 4 0 0
+9 20 90 P
+Y
+char 'saving throw' 0 -3
+Y
+char 'saving throw' 0 -3
+Y
+char 'AC' 0 -10
+Y
+char 'hp' 0 20
+Y
+char 'constitution' 0 1
+Y
+char 'strength' 0 2
+#20170
+girth~
+a Giant's Giant Girth~
+A Giant's Giant Girth dwarfs you here.
+~
+<Not Entered>~
+armor B AL
+6 6 6 0 0
+16 50 160 P
+Y
+char 'constitution' 0 2
+Y
+char 'wisdom' 0 -1
+Y
+char 'intelligence' 0 -1
+Y
+char 'strength' 0 3
+#20171
+club~
+a nasty-looking club~
+A nasty-looking club rests here.
+~
+<Not Entered>~
+weapon 0 AN
+exotic 5 4 crush 0
+16 30 160 P
+Y
+char 'damroll' 0 9
+Y
+char 'hitroll' 0 -4
+#20172
+body corpse~
+a half-digested corpse~
+The half-digested corpse of Gepetto rots here.
+~
+<Not Entered>~
+trash 0 AO
+0 0 0 0 0
+11 75 110 P
+#20173
+puppet marionette pinnochio~
+a broken puppet~
+The broken form of Pinnochio is collapsed here.
+~
+<Not Entered>~
+trash 0 AO
+0 0 0 0 0
+11 15 110 P
+#20174
+body jiminy corpse~
+a dead insect~
+The decomposing form of Jiminy Cricket is here.
+~
+<Not Entered>~
+trash 0 AO
+0 0 0 0 0
+11 5 110 P
+#20175
+mallet~
+a mallet~
+A carpenter's mallet has been carelessly left here.
+~
+<Not Entered>~
+weapon 0 AN
+exotic 3 6 pound 0
+11 5 110 P
+#20176
+tophat~
+a tiny tophat~
+A tiny tophat lies here.
+~
+<Not Entered>~
+armor 0 AE
+5 5 5 0 0
+11 1 110 P
+Y
+char 'dexterity' 0 1
+#20177
+umbrella~
+a tiny umbrella~
+A tiny umbrella lies here.
+~
+<Not Entered>~
+staff A AO
+5 1 1 'control weather' 0
+11 1 110 P
+#20178
+log book~
+jonah's Log Book~
+Jonah's Log Book, long thought lost, is here.
+~
+<Not Entered>~
+scroll AB AO
+20 'bless' 'armor' 'shield' ''
+11 10 110 P
+#20179
+boots~
+puss' Boots~
+Puss' Boots are here.
+~
+<Not Entered>~
+armor A AG
+4 4 4 0 0
+6 5 60 P
+Y
+char 'moves' 0 50
+Y
+char 'dexterity' 0 1
+#20180
+grog~
+a bottle of grog~
+A bottle of grog is here, but it looks rather strange...
+~
+<Not Entered>~
+potion B AO
+5 'poison' 'weaken' 'acid breath' ''
+6 5 60 P
+#20181
+whiskers~
+some cat whiskers~
+Some cat whiskers lie here.
+~
+<Not Entered>~
+armor 0 AE
+4 4 4 0 0
+6 1 60 P
+Y
+char 'mana' 0 10
+Y
+char 'dexterity' 0 1
+#20182
+dress~
+a dress~
+A plain-looking dress is here.
+~
+<Not Entered>~
+armor 0 AD
+4 4 4 0 0
+9 5 90 P
+#20183
+comb~
+a poison comb~
+A comb coated with a strange substance glistens here.
+~
+<Not Entered>~
+wand A AO
+9 2 2 'poison' 0
+9 1 90 P
+#20184
+cauldron~
+a bubbling cauldron~
+A bubbling cauldron sits near the hearth, bubbling over with a noxious brew.
+~
+<Not Entered>~
+drink AB AO
+25 16 'slime mold juice' 1 0
+7 50 70 P
+#20185
+shawl tattered~
+a tattered shawl~
+A tattered shawl is here.
+~
+<Not Entered>~
+armor BJ AK
+7 7 7 0 0
+20 5 200 P
+Y
+char 'mana' 0 50
+Y
+char 'constitution' 0 -1
+Y
+char 'intelligence' 0 1
+Y
+char 'strength' 0 -1
+#20186
+hat tattered~
+a tattered hat~
+A tattered hat is here.
+~
+<Not Entered>~
+armor BJ AE
+7 7 7 0 0
+20 8 200 P
+Y
+char 'mana' 0 15
+Y
+char 'wisdom' 0 1
+Y
+char 'intelligence' 0 2
+#20187
+dress tattered~
+a tattered dress~
+A tattered dress is here.
+~
+<Not Entered>~
+armor BJ AD
+7 7 7 0 0
+20 10 200 P
+Y
+char 'saving throw' 0 -3
+Y
+char 'AC' 0 -10
+Y
+char 'hp' 0 20
+#20188
+staff~
+a gnarled staff~
+A gnarled staff is here. Looks like a stout weapon.
+~
+<Not Entered>~
+weapon AG AN
+exotic 5 5 pound 0
+20 15 200 P
+Y
+char 'damroll' 0 5
+Y
+char 'hitroll' 0 5
+#20189
+herbs~
+some herbs~
+Some herbs have been scattered here.
+~
+<Not Entered>~
+food 0 AO
+1 0 0 A 0
+7 1 70 P
+#20190
+cat corpse~
+a dead cat~
+A dead cat hangs here, ready to be stewed. It looks tough enough to kill.
+~
+<Not Entered>~
+weapon 0 AN
+exotic 2 7 claw 0
+7 10 70 P
+Y
+char 'damroll' 0 5
+Y
+char 'hitroll' 0 3
+#20191
+jar~
+a herb jar~
+A herb jar is here.
+~
+<Not Entered>~
+container B AO
+5 A 0 0 0
+7 3 70 P
+#20192
+jar~
+a potion jar~
+A half-full potion jar looks ready to drink.
+~
+<Not Entered>~
+potion B AO
+20 'remove curse' 'giant strength' 'fly' ''
+7 5 70 P
+#20193
+chains gold~
+heavy gold chains~
+Heavy gold chains are piled on the ground here. Where's Run-DMC?
+~
+<Not Entered>~
+armor A AC
+6 6 6 0 0
+15 30 150 P
+Y
+char 'AC' 0 -15
+Y
+char 'moves' 0 -50
+#20194
+cap baseball~
+a baseball cap, worn backwards~
+A baseball cap, worn backwards, is without a homey here.
+~
+<Not Entered>~
+armor 0 AE
+6 6 6 0 0
+15 5 150 P
+Y
+char 'dexterity' 0 2
+#20195
+jeans~
+a pair of baggy jeans~
+These phat jeans is so fly, ya just GOTTA wear 'em...
+~
+<Not Entered>~
+armor HM AF
+6 6 6 0 0
+15 8 150 P
+Y
+char 'damroll' 0 2
+Y
+char 'AC' 0 -5
+Y
+char 'moves' 0 -25
+#20196
+hitops hi-tops sneakers~
+a pair of hi-tops~
+A pair of fly hi-tops sits here. My A-DIDAS!
+~
+<Not Entered>~
+armor A AG
+6 6 6 0 0
+15 10 150 P
+Y
+char 'moves' 0 100
+#20197
+clothing~
+some generic kids' clothing~
+Some generic kids' clothing has escaped from K-Mart.
+~
+<Not Entered>~
+armor 0 AD
+4 4 4 0 0
+5 3 50 P
+#20198
+gingerbread~
+yum! Gingerbread!~
+Yum! Gingerbread!
+~
+<Not Entered>~
+food A AO
+6 0 0 0 0
+5 1 50 P
+#20199
+oven~
+an oven~
+An oven, perfect for roasting kids (and witches) is here.
+~
+<Not Entered>~
+furniture AB 0
+0 0 0 0 0
+7 50000 70 P
+#20200
+handkerchief used filthy~
+a filthy used handkerchief~
+Eeyew! A filthy, used handkerchief!
+~
+<Not Entered>~
+trash HM AO
+0 0 0 0 0
+5 1 50 P
+#20201
+britches~
+a pair of sturdy britches~
+A pair of sturdy britches is waiting for Godot here...
+~
+<Not Entered>~
+armor 0 AF
+4 4 4 0 0
+6 7 60 P
+#20202
+beard~
+a goat's beard~
+A goat's beard is here.
+~
+<Not Entered>~
+armor 0 AE
+4 4 4 0 0
+8 5 80 P
+Y
+char 'constitution' 0 1
+#20203
+horns~
+a pair of goat's horns~
+Ouch! These goat's horns sure look sharp!
+~
+<Not Entered>~
+weapon 0 AN
+exotic 3 5 pierce 0
+8 10 80 P
+Y
+char 'damroll' 0 4
+#20204
+teeth~
+trollTeeth!~
+TrollTeeth! KEWL!
+~
+<Not Entered>~
+weapon B AN
+exotic 4 4 bite 0
+12 15 120 P
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 2
+#20205
+shrubbery~
+a shrubbery~
+A shrubbery sits here.
+~
+<Not Entered>~
+treasure B AO
+0 0 0 0 0
+10 32 100 P
+#20206
+sword~
+a Shining Sword~
+OoOOoo! A Shining Sword!
+~
+<Not Entered>~
+weapon AGK AN
+exotic 5 5 slice 0
+20 25 200 P
+Y
+char 'hitroll' 0 4
+Y
+char 'AC' 0 4
+#20207
+armor shining~
+shining metal armor~
+A suit of Shining metal armor has been left here.
+~
+<Not Entered>~
+armor AGK AD
+7 7 7 0 0
+20 25 200 P
+Y
+char 'AC' 0 -10
+Y
+char 'hp' 0 10
+Y
+char 'strength' 0 1
+#20208
+shield shining~
+a Shining Shield~
+A Shining Shield glows brilliantly here!
+~
+<Not Entered>~
+armor AGK AJ
+7 7 7 0 0
+20 20 200 P
+Y
+char 'saving throw' 0 -3
+Y
+char 'saving throw' 0 -3
+Y
+char 'AC' 0 -10
+#20209
+bracers shining~
+shining Bracers~
+Shining Bracers dazzle your eyes here.
+~
+<Not Entered>~
+armor AGK AM
+7 7 7 0 0
+20 10 200 P
+Y
+char 'hp' 0 25
+#20210
+greaves shining~
+shining Greaves~
+These Greaves are so shiny they blind you!
+~
+<Not Entered>~
+armor AGK AF
+7 7 7 0 0
+20 15 200 P
+Y
+char 'moves' 0 50
+Y
+char 'dexterity' 0 2
+#20211
+ring signet~
+a signet ring~
+A signet ring bearing the Arms of the Liver is here.
+~
+<Not Entered>~
+armor AGK AB
+7 7 7 0 0
+20 5 200 P
+Y
+char 'constitution' 0 3
+#20212
+lance~
+a lance~
+An old lance rests here.
+~
+<Not Entered>~
+weapon 0 AN
+exotic 4 4 pierce 0
+12 20 120 P
+Y
+char 'damroll' 0 3
+#20213
+surcoat~
+a Surcoat bearing the Arms of the Liver~
+A Surcoat bearing the Arms of the Liver is here.
+~
+<Not Entered>~
+armor AGK AK
+7 7 7 0 0
+20 10 200 P
+Y
+char 'AC' 0 -10
+Y
+char 'hp' 0 10
+#20214
+helm shining~
+a Shining Helm~
+A Shining Helm that has been worn by hundreds of heroes rests here.
+~
+<Not Entered>~
+armor AGK AE
+7 7 7 0 0
+20 20 200 P
+Y
+char 'saving throw' 0 -7
+Y
+char 'AC' 0 -5
+Y
+char 'wisdom' 0 2
+#20215
+cigar~
+a smelly cigar~
+A smelly cigar smoulders away here.
+~
+<Not Entered>~
+wand 0 AO
+5 1 1 'poison' 0
+6 1 60 P
+#20216
+cap~
+a Casey Jones cap~
+Wearing this cap makes you look like Casey Jones...
+~
+<Not Entered>~
+armor 0 AE
+4 4 4 0 0
+6 10 60 P
+Y
+char 'constitution' 0 2
+#20217
+anvil~
+a unmovable anvil~
+An unmovable anvil rests here.
+~
+<Not Entered>~
+furniture B 0
+0 0 0 0 0
+28 50000 280 P
+#20218
+cage wheel~
+a Cage with a Wheel~
+A Cage with a Wheel that's meant to keep a hamster amused sits here.
+~
+<Not Entered>~
+trash 0 AO
+0 0 0 0 0
+28 25 280 P
+#20219
+glass~
+a freshly-licked glass~
+A freshly-licked glass sits here.
+~
+<Not Entered>~
+drink 0 AO
+2 0 'water' 0 0
+6 1 60 P
+#20220
+collar~
+a collar that bears a tag reading "Tipsy"~
+A collar that bears a tag reading "Tipsy" is here.
+~
+<Not Entered>~
+armor 0 AC
+4 4 4 0 0
+6 2 60 P
+#20221
+beanstalk~
+a beanstalk reaches up into the sky~
+A beanstalk reaches up into the sky here.
+~
+<Not Entered>~
+furniture A 0
+0 0 0 0 0
+9 0 90 P
+#20222
+boat~
+a boat~
+This boat looks as if it has just come out of a whale. It has.
+~
+<Not Entered>~
+container NT A
+1000 0 0 1 0
+9 100 90 P
+#20223
+nightgown~
+grandma's Nightgown~
+Grandma's Nightgown has been carelessly tossed here.
+~
+<Not Entered>~
+armor 0 AD
+5 5 5 0 0
+13 5 130 P
+Y
+char 'constitution' 0 -1
+Y
+char 'strength' 0 -1
+Y
+char 'N/A' 0 10
+#20224
+basket~
+a basket for freshly-baked cookies~
+A basket of freshly-baked cookies, except that someone's eaten them all.
+~
+<Not Entered>~
+container 0 AO
+20 A 0 0 0
+13 5 130 P
+#20225
+sacchrin~
+some sacchrin~
+You start to feel sickly sweet- Sacchrin!
+~
+<Not Entered>~
+pill A AO
+9 'cure blindness' 'cure light' 'detect evil' ''
+9 1 90 P
+#20226
+gold~
+the pig's hoard of gold~
+The Pig's hoard of gold is here. Pick it up!
+~
+<Not Entered>~
+money A AO
+0 0 0 0 0
+0 1 0 P
+#20227
+straw~
+some straw~
+Some straw has been scattered here.
+~
+<Not Entered>~
+trash 0 AO
+0 0 0 0 0
+18 5 180 P
+#20228
+brick~
+a brick~
+Someone has left a brick here. ***>!OUCH!<*** You stub your toe!
+~
+<Not Entered>~
+warp_stone 0 ANO
+0 0 0 0 0
+5 5 50 P
+#20229
+sticks~
+a pile of sticks~
+A pile of sticks has been left here (huh huh fire's cool huh huh).
+~
+<Not Entered>~
+trash 0 AO
+0 0 0 0 0
+4 5 40 P
+#20230
+mattress~
+a mattress~
+A mattress lies in one corner.
+~
+<Not Entered>~
+furniture 0 0
+0 0 0 0 0
+4 100 40 P
+#0
+
+
+
+#ROOMS
+#20100
+The Path leading to Animaland~
+You are strolling along a well-trodden path that leads towards the
+boundaries of the mysterious realm of Animaland. At this point it
+may not be inappropriate to consult your history books and learn
+about the place (type `help animaland'). You see a broad, swiftly-
+flowing river up ahead, which you can cross via a ford. However,
+a well-armored knight standing outside a stone tower near the ford
+makes you hesitate...
+There is a sign here you may want to read...
+~
+0 4 2
+5
+E
+sign~
+The sign says-
+***************************************************************************
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+******* W  E  L  C  O  M  E    T  O    A  N  I  M  A  L  A  N  D  ! *******
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+***************************************************************************
+hELLO. yOU hAVE jUST eNTERED aNIMALAND. aN aREA dEVISED bY tHE wARPED miND
+oF yAEGAR eSPECIALLY fOR aNONYmUD bUT sUITABLE fOR aNY mERC mUD tHAT mAY bE :).
+My head hurts...
+There we go...
+Uhum...ok then if you are level 5-20 go right on in. In fact even 3 to
+25 can still have fun...But above that definitely not. No, you'll just
+have to go somewhere else and slay their painstakingly created mobs and
+steal all their neat stuff...
+<unless you want to tangle with the high-level guests in Castle Poodle...>
+Ahemm...yes..well, type help animaltown, dont mess with da Mayor, keep
+an eye out for special guests, and-oh yeah- keep an eye out for Imelda,
+and steal a shoe to give to Yaegar...he'll give u a prize if u do! :P
+Here endeth the sign...Why are you still here???
+~
+D1
+a tower by a ford~
+~
+0 -1 20101
+D3
+~
+~
+0 -1 1
+S
+#20101
+A Tower by a Ford~
+As you near the ford, you also grow nearer this weathered stone tower,
+which looks older than your Aunt Ethyl... A very odd-looking coat of arms
+hangs above the door, which is stoutly locked (you can't go in, so don't
+bother with this 'look door', 'op n', 'op door' crap ok? :P). The ford
+look simple enough- step on and across the shallow bit to the other side,
+which is very green and rather pleasant-looking.
+~
+0 0 2
+5
+D1
+the ford~
+~
+0 -1 20102
+D3
+the path leading to/from animaland~
+~
+0 -1 20100
+S
+#20102
+The Ford~
+You are crossing the swift-flowing River Fulem, at the point where it
+starts to REALLY pick up momentum, pouring south into distant Lake
+Cungerell, where the mysterious Lake Creature is rumored to store his
+fabulous wealth...Now if only you had a boat...
+~
+0 0 6
+5
+D1
+a green field~
+~
+0 -1 20103
+D2
+the river fulem~
+~
+0 -1 20187
+D3
+a tower by a ford~
+~
+0 -1 20101
+S
+#20103
+A Green Field~
+You are standing knee-deep in soft, green grass which covers this
+pleasant field as far as you can see. Narrow paths cut through the
+sward, going in many directions. Birds glance at you as they fly
+far overhead, and you fancy that you see a glimmer of intelligence
+in their beady eyes.
+~
+0 0 2
+5
+D0
+a path heading north~
+~
+0 -1 20145
+D2
+a path heading south~
+~
+0 -1 20104
+D3
+a path heading west~
+~
+0 -1 20102
+S
+#20104
+A Path Heading South~
+You are heading south out of the fields. Shortly you reach a junction
+where you can continue south into a dark forest, or head east towards
+some strange-looking houses.
+~
+0 0 2
+5
+D0
+a green field~
+~
+0 -1 20103
+D1
+some strange houses~
+~
+0 -1 20105
+D2
+a dark forest~
+~
+0 -1 20111
+S
+#20105
+Some Strange Houses...~
+You are heading along a road that is bordered on the left hand side
+by three strange houses. The one nearest you is fashioned from straw,
+while the ones in the distance are fashioned of other materials.
+~
+0 0 1
+5
+D0
+the house of straw~
+house door~
+AB 0 20106
+D1
+continuing~
+~
+0 -1 20107
+D3
+a junction~
+~
+0 -1 20104
+S
+#20106
+Inside the House of Straw~
+You rude bugger! This is trespassing, you know! But who cares? Anyone
+dumb enough to build their house out of straw deserves to be burgled,
+right?
+~
+0 9 0
+5
+D2
+a door made of straw~
+door~
+AB 0 20105
+S
+#20107
+Continuing...~
+Ah, this house you are now nearing appears to have been fashioned from
+sticks and bits of wood. How PostModernist! How &^$%ing tacky! Why
+don't you huff and puff and blow it down? Or better yet, *LOOT* it?
+~
+0 0 1
+5
+D0
+a door to a house of sticks~
+door~
+AB 0 20108
+D1
+continuing~
+~
+0 -1 20109
+D3
+a house of straw~
+~
+0 -1 20105
+S
+#20108
+Inside the House of Sticks~
+Well, this house is just as ugly inside as it is out. It is structurally
+deficient, and you've half a mind to report him to Town Planning. Your
+other half wants to just trash the place.
+~
+0 9 0
+5
+D2
+a door~
+door~
+AB 0 20107
+S
+#20109
+Continuing...~
+Hmph. Finally, someone with sense has built a good, solid house of
+bricks and mortar. Hmph. Still, wouldn't hurt to go in and have a good
+bash, y'know, check the structural integrity and all. Oh, and collect
+a small fee for your work..
+~
+0 0 1
+5
+D0
+a house of brick~
+door~
+AB 0 20110
+D1
+another juction~
+~
+0 -1 20117
+D3
+continuing~
+~
+0 -1 20107
+S
+#20110
+Inside the House of Brick~
+Yup. Seems secure enough. Bit lacking in decor, though. Guess the owners
+wouldn't mind a bit of free interior decorating, would they? Y'know, BR
+faves like trails of blood, steaming turds, arms, legs, hearts, heads and
+corpses?
+~
+0 9 0
+5
+D2
+outside the house~
+~
+A 0 20109
+S
+#20111
+A Dark Forest~
+Whew! This place sure is DARK! It's certainly aptly named...and what is
+that godawful smell? Smells like rotting flesh, mingled with the aroma
+of freshly-baked cookies...
+~
+0 1 3
+5
+D0
+a junction~
+~
+0 -1 20104
+D2
+further inside the wood~
+~
+0 -1 20112
+S
+#20112
+Further Inside the Wood~
+You have reached a junction in this fell wood. It is even darker here
+than near the entrance, if that is possible. There is a cottage near you,
+to the south, though it looks rather sinister. Alternatively, you can
+enter a dismal clearing to the east.
+~
+0 1 3
+5
+D0
+a dark forest~
+~
+0 -1 20111
+D1
+a dismal clearing~
+~
+0 -1 20114
+D2
+door to grandma's house~
+door~
+AB 0 20113
+S
+#20113
+Inside Grandma's House~
+This little cottage would actually be quite cosy if it wasn't for the
+blood stains on the walls and the decomposing corpse in the bed. As
+you search the room, holding your nose, you are tempted several times
+to just bolt and vomit, but something leads you to believe that there
+may be treasure here...
+~
+0 9 0
+5
+D0
+outside gandma's house~
+~
+A 0 20112
+S
+#20114
+A Dismal Clearing~
+You have entered a dismal clearing in the forest, ringed by burnt-out
+shells of once-stately oaks and twisted, dying vines that encircle the
+dead trees. A keening wail reaches your ears, and you shiver involuntarily.
+Perhaps it would be best to leave?
+~
+0 1 3
+5
+D1
+into the dense underbrush~
+~
+0 -1 20115
+D3
+further inside the forest~
+~
+0 -1 20112
+S
+#20115
+Into the Dense Underbrush~
+You are now fighting your way through near-inpenetrable underbrush, and
+after five minutes of cuts, scratches and bruises from unfriendly flora,
+you begin to wonder if it's worth it. Then the wail reaches you ears
+again, this time seeming to come from somewhere very close to the east,
+and curiosity overrides your natural sense of self-preservation.
+~
+0 1 3
+5
+D1
+the deepest part of the forest~
+~
+0 -1 20116
+D3
+a dismal clearing~
+~
+0 -1 20114
+S
+#20116
+The Deepest Part of the Forest~
+Well, you've penetrated as far as you're likely to without the aid of
+several chainsaws. Indeed, looking round, you are beginning to wonder
+whether it was worth it when you notice...something...
+~
+0 8193 3
+5
+D3
+into the thick underbrush~
+~
+0 -1 20115
+S
+#20117
+Another Junction~
+You have entered another grassy field and come to another junction.
+A huge castle looms large to the east, while a town is visible to
+the north. The south contains a hilly area that shows some evidence of
+having been mined, as well as another stretch of the Dark Wood. It has
+been rumored that interdimensional archways occasionally materialize here.
+~
+0 4 2
+5
+E
+ground earth~
+There is a circular scorch mark in the earth here.
+~
+D1
+a road to the town~
+~
+0 -1 20133
+D2
+a road to the mines~
+~
+0 -1 20118
+D3
+back to the houses of the pigs~
+~
+0 -1 20109
+S
+#20118
+A Road to the Mines~
+You have entered some hard foothills, following a dusty trail that leads
+to the mines of the Dwarves and to more of the dark forest you saw
+earlier. You also see a weatherbeaten sign.
+~
+0 0 4
+5
+E
+sign~
+The sign says-
+"I have posted this sign in the hope that someone is brave enough to
+venture this close to the cursed mines. I have not the strength to
+rid the mines of its fell inhabitants, but I beseech whoever reads this
+to try and contain the evil spread there by the Witch of the Dark Wood.
+I fear that the evil dwarves who have-" the rest is obliterated by a
+dried blood stain...
+~
+D0
+another junction~
+~
+0 -1 20117
+D2
+entrance to the mines~
+~
+0 -1 20119
+S
+#20119
+Entrance to the Mines~
+You have reached the entrance to the mines, a gaping maw that looms
+in the side of a dark and forbidding cliff-face. With some trepidation,
+you prepare to go in, but a sudden short burst of maniacal laughter
+followed by a wet squelching sound makes you consider heading to the
+forest instead...
+~
+0 0 4
+5
+D0
+path to the mines~
+~
+0 -1 20118
+D1
+the mines~
+~
+0 -1 20127
+D2
+the dark forest~
+~
+0 -1 20120
+S
+#20120
+The Dark Forest~
+This section of the forest doesn't smell or *feel* half as bad as the
+other expanse to the west, and you actually find it quite pleasant,
+as far as dark forests go. If only it wasn't so DARK...
+~
+0 1 3
+5
+D0
+entrance to the mines~
+~
+0 -1 20119
+D3
+further along the path~
+~
+0 -1 20121
+S
+#20121
+Further Along the Path~
+You have pentrated further into the dark forest. To the south you
+can see a brightly-lit cottage, while a house made entirely from
+candy and gingerbread lies to the west...YUM!
+~
+0 1 3
+5
+D1
+the forest~
+~
+0 -1 20120
+D2
+outside the brightly-lit house~
+~
+0 -1 20125
+D3
+outside the house of candy~
+~
+0 -1 20122
+S
+#20122
+Outside the House of Candy~
+This is a house made entirely of gingerbread and candy, and has
+obviously been built by an evil witch in a feeble attempt to lure
+innocent young children in so she can eat them. How pathetic! How
+dumb does she think kids are, anyway? Sheesh! Still, you better be
+careful- she might not appreciate being seen through so easily, and
+definitely won't appreciate you barging into her house...
+~
+0 1 3
+5
+D1
+further along the path~
+~
+0 -1 20121
+D2
+the door to the house~
+door~
+A 0 20123
+S
+#20123
+Inside the House~
+Eeyew! This house ain't half as nice inside as it was outside. But
+what did you expect? King Kandy? No, this is the house of a WITCH, and
+doubtless she's in here somewhere, waiting to eat you! Mind you don't
+trip on all the corpses, skins, pelts and spell components!
+~
+0 8201 0
+5
+D0
+outside the house~
+door~
+A 0 20122
+D3
+an oven~
+~
+0 -1 20124
+S
+#20124
+An Oven~
+Whew! Sure is hot in here! Oh there's an OVEN here, for cooking stupid
+children. Any kid who is dumb enough to think this house was for real
+and came in deserves to be cooked...Waitaminute! You came in here! Uh
+oh...RUN!
+~
+0 8201 0
+5
+D1
+inside the house~
+~
+0 -1 20123
+S
+#20125
+Outside A Brightly-Lit Cottage~
+You are now standing outside the cottage, a standard bungalow-style
+peasant abode. You are not certain, but you think you can hear the
+whining tones of pre-adolescent children, and your hand instinctively
+strays to your weapon...
+~
+0 1 3
+5
+D0
+further along the path~
+~
+0 -1 20121
+D2
+the door opens and reveals the inside of the house~
+door~
+AB 0 20126
+S
+#20126
+Inside the House~
+Yup!
+Kids DEFINITELY live here...Half-eaten meals are spilled all over the
+various toys, games, junk food and tv guides that litter the threadbare
+carpet in this one-room home. You begin to shudder uncontrollably...
+CHILDREN!!!!! YUCK!
+~
+0 8 0
+5
+D0
+a door outside~
+door~
+A 0 20125
+S
+#20127
+Inside the Mine~
+Uh Oh...You don't know whether it's the bones and gore scattered and
+smeared all over the place here, or the huge sign that reads "SOD OFF",
+but SOMETHING tells you that proceeding any further into the mines may
+not be too good for your health...
+~
+0 9 0
+5
+E
+sign~
+What's the matter? Can't you read room descriptions? I told you-
+It says "SOD OFF!". So why don't you? :P
+~
+D2
+further inside~
+~
+0 -1 20128
+D3
+outside the mine~
+~
+0 -1 20119
+S
+#20128
+Further Inside~
+This mine is dark, cramped and smelly. You begin to feel nauseous.
+Skeletons poke out from piles of rusted tools, junk and other debris that
+looks suspiciously like mortal remains of your own species! Looks like
+these Dwarves hate EVERYONE...
+~
+0 9 0
+5
+D0
+inside the mine~
+~
+0 -1 20127
+D1
+a crossroads~
+~
+0 -1 20129
+S
+#20129
+A Crossroads~
+You're still here? Sheesh...Well, you've reached a crossroads in the
+mine, from which point you can head north to an abandoned meeting hall,
+east to an armory, or south towards a horrid smell which could only
+herald the location of the Dwarven latrines...
+~
+0 9 0
+5
+D0
+meeting hall~
+~
+0 -1 20130
+D1
+armory~
+~
+0 -1 20132
+D2
+latrines~
+~
+0 -1 20131
+D3
+further inside~
+~
+0 -1 20128
+S
+#20130
+Abandoned Meeting Hall~
+You have entered a former meeting hall of the Dwarves who once inhabited
+this once-prosperous mine before the witch's minions drove them away.
+The leader of the anti-dwarves now uses this as a meeting hall. You notice
+a curiously-untouched parchment tacked to one wall...
+~
+0 9 0
+5
+E
+parchment paper~
+The parchment reads-
+"Dear Mr. Tarantino,
+                   Thank you for your suggestions for the next Snow
+ White film. We are always happy to hear from famous directors such
+ as yourself. However, we regret to inform you that the rape scene, the
+ shoot-outs, the violent swearing witch and the Reservoir Dwarves
+ (Wretched, Perturbed, Winded, Diseased, Conceited, Vacuous and
+ Lost) are not quite what we here at Disney had in mind.
+
+                   Yours Sincerly
+                   J. Katzenburger
+An attached note reads- &^%$ you! You *&^%ing conceited, stuck-up
+#$%^ing *&^$%ing &^%%&*^%$%^&^^! %&&%^! ^*%%$ you!
+~
+D2
+a crossroads~
+~
+0 -1 20129
+S
+#20131
+The Latrines...~
+You have entered the latrines. You are nuts. Before you gag and
+retch on account of the unspeakably vile smell that is emanating
+from a most sinister pit in the center of the room, you are
+horrified to notice that some-one actually LIVES here!
+~
+0 9 0
+5
+D0
+a crossroads~
+~
+0 -1 20129
+S
+#20132
+An Armory~
+This was perhaps an armory at one point, but now it is little more
+than a rudimentary barracks for some of the anti-dwarves. A signed
+portrait of Quentin Tarantino is one one wall- apparently he was
+considering casting them for his new film until Disney turned down
+his script. Consequently, Mr. Wolf had some new business to take care
+of in Hollywood...
+~
+0 8 0
+5
+E
+portrait~
+The portrait is of Quentin at his obnoxious best. It has bee signed
+"%$#& YOU! Love Quentin".
+~
+D3
+a crossroads~
+~
+0 -1 20129
+S
+#20133
+A Road to the Town~
+You have reached a point where you can head north to Animaltown.
+Alternatively you could continue east towards Castle Poodle, and
+pay your respects to the Count. But the Count is only a figurehead-
+real power rests with Mayor Bear, Chief Alderman of AnimalTown.
+You see a sign posted here.
+~
+0 0 2
+5
+E
+sign~
+The sign says-
+ "WELCOME TO ANIMALTOWN! I hope your visit is enjoyable. Have a good
+  time, but if you cause trouble, I will break you.
+                                  Signed,
+                                        Mayor Bear
+*THIS PUBLIC SERVICE ANNOUNCEMENT HAS BEEN BROUGHT TO YOU BY THE
+ UNITED INITIATIVE FOR A BETTER GOVERNMENT- auth. M. Bear*
+~
+D0
+animaltown~
+~
+0 -1 20134
+D1
+path to castle poodle~
+~
+0 -1 20163
+D3
+another juction~
+~
+0 -1 20117
+S
+#20134
+AnimalTown~
+Welcome to Animaltown! You can head north to the town well, east
+and west towards some local businesses, or back south out of town
+(which Bear Mayor would prefer).
+~
+0 0 1
+5
+D0
+well~
+~
+0 -1 20144
+D1
+outside the butcher~
+~
+0 -1 20142
+D2
+out of town~
+~
+0 -1 20133
+D3
+a bend in the road~
+~
+0 -1 20135
+S
+#20135
+A Bend in the Road~
+You are heading along the path that leads to the blacksmith and the
+Inn. This road is apparently called Chicken Lane, though you see no
+sign of poultry or fowl.
+~
+0 0 1
+5
+D0
+outside the blacksmith and inn~
+~
+0 -1 20136
+D1
+the entrance to town~
+~
+0 -1 20134
+S
+#20136
+Outside the Blacksmith and Inn~
+You have reached another bend in the road, but here you also have
+the option of entering the Blacksmith to the west, or the Inn to
+the north.
+~
+0 4 1
+5
+D0
+inn~
+~
+0 -1 20137
+D1
+mutt road~
+~
+0 -1 20139
+D2
+chicken lane~
+~
+0 -1 20135
+D3
+blacksmith~
+~
+0 -1 20138
+S
+#20137
+Inn~
+You have entered AnimalTown Inn. The proprietor is standing behind
+a bar, waiting to serve you. Unfortunately, all the rooms are filled,
+so you will not be able to stay the night here. An ATM is provided
+for your convenience near the bar.
+~
+0 8 0
+5
+D2
+outside the smith and inn~
+~
+0 -1 20136
+S
+#20138
+The Smithy~
+You have entered the Smithy, and are greeted gruffly by its doughty
+owner. If you have items that are broken, he's the one to help you-
+if not, you're wasting his time, and he stares at you impatiently,
+eager to get back to his work.
+~
+0 8 0
+5
+D1
+outside the smith and inn~
+~
+0 -1 20136
+S
+#20139
+Mutt Road~
+You are strolling along Mutt Road, but there are no stray dogs in this
+town- the stary dogs are the citizens. In fact, they probably consider
+YOU a stray- (look at that humanoid wandering the streets unattended-
+how revolting! Call the Mayor!).
+~
+0 0 1
+5
+D1
+outside the mayor's office~
+~
+0 -1 20140
+D2
+well~
+~
+0 -1 20144
+D3
+outside the smithy and inn~
+~
+0 -1 20136
+S
+#20140
+Outside the Mayor's Office~
+You are standing outside Bear Mayor's humble abode. Bear Mayor is
+always happy to receive visitors (especially voters) and thus his
+door is always open. But be careful that you don't offend him-
+he has a vicious temper...
+~
+0 0 1
+5
+D1
+inside mayor's office~
+~
+0 -1 20141
+D2
+outside the butcher~
+~
+0 -1 20142
+D3
+mutt road~
+~
+0 -1 20139
+S
+#20141
+Inside Bear Mayor's Office~
+You are inside Bear Mayor's (or Mayor Bear's- he uses both titles with
+impunity) air-conditioned office. Portraits of famous animals, all
+signed, line the walls, and an impressive collection of animal-related
+literature is held in a solid oak set of shelves behind his huge timber
+desk. The desk itself is scattered with papers that relate to the day
+to day runnings of AnimalTown, including details of accounts, budgets,
+administration and payoffs...
+~
+0 8 0
+5
+D3
+outside the office~
+~
+0 -1 20140
+S
+#20142
+Outside the Butcher~
+You are standing outside the Butcher's, which used to be a moderately
+successful business run by a Warthog who Bear Mayor bought out, but is
+now empty.
+~
+0 0 1
+5
+D0
+outside bear mayor's office~
+~
+0 -1 20140
+D1
+inside empty butcher~
+~
+0 -1 20143
+D3
+entrance to animaltown~
+~
+0 -1 20134
+S
+#20143
+Inside the Butcher's~
+After Bear Mayor bought out Warthog (for running against him in the last
+election), Warthog fled to Castle Poodle and became a Jester, and the
+business fell into ruin. Now there is nothing save some scraps of
+decaying meat and a couple of dulled butcher's knives.
+~
+0 9 0
+5
+D3
+outside the butcher's~
+~
+0 -1 20142
+S
+#20144
+Well~
+You have reached the well, which used to provide the town's drinking
+water, but has long since dried up, meaning that the townsfolk have
+to go as far abroad as the River Fulem for their water. Tipsy, the
+town sot, can usually be found lying around here- he continually
+forgets that its empty and ends up falling in while trying to get
+a drink of water.
+~
+0 0 1
+5
+D0
+mutt road~
+~
+0 -1 20139
+D2
+entrance to animaltown~
+~
+0 -1 20134
+S
+#20145
+A Northern Path~
+You are heading along a path that heads north away from the grassy fields,
+and makes a sharp turn to the east, running parallel to the mighty Fulum,
+which makes a similar turn to the right, diverted by the steep,
+impenetrable mountains that rise to the north. It is rumored that the
+dire Warlock of Firetop Mountain holds residence there. Perhaps one day
+you will find out? :)
+~
+0 0 3
+5
+D1
+a bend~
+~
+0 -1 20146
+D2
+grassy field~
+~
+0 -1 20103
+S
+#20146
+The Path Bendeth...~
+At the point the path bends again, this time heading north, back towards
+the river and the mountains beyond again. You fancy that you can spy a
+secluded manse off to the right of the path up ahead, but you can't be sure
+from here.
+~
+0 0 3
+5
+D0
+entrance to the manse~
+~
+0 -1 20147
+D3
+a northern path~
+~
+0 -1 20145
+S
+#20147
+Entrance to the Manse~
+Yup. It is a house. You are standing outside it right now. In fact,
+the front door is open and all, so why don't you poke your head in and have
+a look around...Heck, I might as well let you this time, you're going to
+barge in and loot it anyway:)
+You see a tiny sign above the door.
+~
+0 0 2
+5
+E
+sign~
+The sign says-
+"Keep your eyes peeled and your wits about you..."
+Also, Hide and Seek can be fun, if you have the right spells...
+~
+D0
+another bend~
+~
+0 -1 20148
+D1
+inside the manse~
+~
+AB 0 20197
+D2
+the path bendeth~
+~
+0 -1 20146
+S
+#20148
+Another Bend~
+The path bends AGAIN, heading east once more, but this time it seems
+the path remains straight, for it extends as far as you can see to the
+east. A bridge that crosses the Fulum is up ahead on the left.
+~
+0 0 2
+5
+D1
+a bridge~
+~
+0 -1 20149
+D2
+outside the manse~
+~
+0 -1 20147
+S
+#20149
+A Bridge~
+You have come to a bridge, that crosses the Fulum to the north.
+Unfortunately, there has been a landslide on the far side, and passage
+further than this is now impossible. A foul stench arises from beneath
+the bridge...
+
+UPDATE : WORKERS HAVE MANAGED TO CLEAR THE RUBBLE AND YOU CAN NOW PROCEED
+TO THE NORTH.
+
+You see a placard mounted on the bridge.
+~
+0 0 2
+5
+E
+placard~
+The placard reads-
+"Bridge closed due to act of God. Please excuse mess. Be patient until
+ renovations and clearance is possible. Sorry Messers Gruff...
+ Oh, don't spook the troll either...
+ Bear Mayor
+ (The Mayor of THE Town! :))
+~
+D0
+the path to firetop mountain~
+~
+0 -1 1
+D1
+along the river road~
+~
+0 -1 20151
+D3
+another bend~
+~
+0 -1 20148
+D5
+under the bridge~
+~
+0 -1 20150
+S
+#20150
+Under the Bridge~
+Whoa! The Red Hot Chili Peppers didn't write about being under THIS
+bridge! This is a troll lair! And by now you've probably been KILLED!
+~
+0 8329 0
+5
+D4
+the bridge~
+~
+0 -1 20149
+S
+#20151
+The Path by the Fulum~
+You are having a pleasant stroll along this eastern stretch of road which
+runs parallel to the flow of the mighty Fulum to the north, which also
+runs east-west at this point. The road continues as far as you can see.
+~
+0 0 2
+5
+D1
+the path by the fulum~
+~
+0 -1 20152
+D3
+the bridge~
+~
+0 -1 20149
+S
+#20152
+The Path by the Fulum~
+You are having a pleasant stroll along this eastern stretch of road which
+runs parallel to the flow of the mighty Fulum to the norht, which alos
+runs east-west at this point. Up ahead to the east you can see a junction.
+~
+0 0 2
+5
+D1
+a junction~
+~
+0 -1 20153
+D3
+the path by the fulum~
+~
+0 -1 20151
+S
+#20153
+A Junction~
+You have reached a point where you can head north towards a tiny beach
+where the Fulum washes up on the bank, or south towards a mammoth
+beanstalk that extends high up into the sky.
+~
+0 0 2
+5
+D0
+a beach~
+~
+0 -1 20154
+D2
+a beanstalk~
+~
+0 -1 20155
+D3
+the path by the fulum~
+~
+0 -1 20152
+S
+#20154
+A Beach~
+A small inlet has been formed here by erosion, and various objects and
+debris carried by the Fulum from the seas to the east have been washed up
+here, including the occasional aggressive sea creature!
+~
+0 0 6
+5
+D2
+a junction~
+~
+0 -1 20153
+S
+#20155
+A Beanstalk~
+You think you remember an old children's tale about such an item as you
+approach this spectacle. The beanstalk looks rather ludicrous growing here,
+but also appears quite climbable. Above it you see a castle sitting atop a
+huge grey cloud. It is not half as high as you first though, and you would
+quickly reach it were you to wish to.
+~
+0 0 2
+5
+D0
+a junction~
+~
+0 -1 20153
+D4
+a cloud~
+~
+0 -1 20156
+S
+#20156
+A Cloud~
+You quickly scale the beanstalk and emerge atop a fluffy grey cloud.
+Looking about, you see the doors to a castle looming to the west, while
+to the east there appears to be some sort of garden.
+~
+0 0 1
+5
+D1
+garden~
+~
+0 -1 20157
+D3
+doors to castle~
+door~
+A 0 20158
+D5
+down~
+~
+0 -1 20155
+S
+#20157
+A Garden~
+You have entered a giant's garden, full of giant-size vegetables, the
+smallest of which is the size of a fully-grown dwarf. Amazed, you
+wander amongst them for some time until you are startled by a deep
+rumbling from the west- "Fee Fee Fi Fi Fo Fo Fum!"- and decide you'd
+better move on.
+~
+0 0 3
+5
+D3
+a cloud~
+~
+0 -1 20156
+S
+#20158
+Inside the Castle~
+The doors creak open, making an alarmingly loud noise, and you enter,
+wincing as the slam shut behind you. Looking about, you notice that you
+are in the central room of a giant's house, small by giant standards, but
+literally a castle to you. Passages extend in all directions.
+~
+0 9 0
+5
+D0
+kitchen~
+~
+0 -1 20159
+D1
+door leading outside~
+door~
+A 0 20156
+D2
+kennel~
+~
+0 -1 20162
+D3
+bedroom~
+~
+0 -1 20161
+S
+#20159
+A Kitchen~
+You have entered the giant's kitchen, a mammoth affair that would do
+a Dragon justice in terms of object size and sheer volumes of food.
+Two giant pots look about just the right size for cooking humanoids, and
+you shiver involuntarily. Where are the residents of this place?
+~
+0 9 0
+5
+D2
+entry hall~
+~
+0 -1 20158
+D3
+pantry~
+~
+0 -1 20160
+S
+#20160
+Pantry~
+You have entered the giant's pantry, which contains some more food,
+including some of the giant-sized vegetables that you saw in the
+garden outside, and whole cows and bullocks, freshly slain and ready
+to be eaten.
+~
+0 9 0
+5
+D1
+kitchen~
+~
+0 -1 20159
+S
+#20161
+Bedroom~
+Uh Oh. You have stumbled into the private chamber of the residents of
+this place, and they are NOT impressed. You have a chance to score
+a quick glance at the giant-sized furniture in this place before you
+have to deal with its angry occupant!
+~
+0 9 0
+5
+D1
+entry hall~
+~
+0 -1 20158
+S
+#20162
+Kennel~
+Ever since they lost their Golden Goose, the giants of this place have
+become very security-conscious, and they bought a guard dog, giving it
+a nice clean kennel here in this room, which was formerly Rumblebottom's
+workshop. Unfortunately, Count Poodle took a liking to it, and now has it
+as his personal guard Dogg.
+~
+0 9 0
+5
+D0
+entry hall~
+~
+0 -1 20158
+S
+#20163
+Path Leading to the Castle~
+You are nearing Castle Poodle, home of Count Poodle and his wife
+Cowntess Heifer. The path bends sharply to the right here, heading
+east towards a giant marble staircase.
+~
+0 0 2
+5
+D2
+marble staircase~
+~
+0 -1 20164
+D3
+a road to the town~
+~
+0 -1 20133
+S
+#20164
+A Marble Staircase~
+You have reached the base of a massive set of marble steps, flanked
+by columns and statues of famous inhabitants of Animaltown (including
+three seperate depiction of Bear Mayor...). The crenelated battlements
+of Castle Poodle tower far above you, surmounted by a merloned tower
+that must be the abode of the famous Wizard Owl.
+~
+0 0 1
+5
+D0
+a path~
+~
+0 -1 20163
+D4
+up the staircase to the castle~
+~
+0 -1 20165
+S
+#20165
+The Entrance to Castle Poodle~
+Whew! What a climb. Breathing hard, you pause to catch your breath,
+looking about you as you do so. Straight in front of you looms the
+massive entrance to Castle Poodle, from which you can head north or south
+into the castle proper. Huge portraits of Count Poodle, Cowntess Heifer
+and (of course) Bear Mayor abound.
+~
+0 8 0
+5
+D0
+guest rooms~
+~
+0 -1 20166
+D2
+guest rooms~
+~
+0 -1 20174
+D5
+below the staircase~
+~
+0 -1 20164
+S
+#20166
+Guest Rooms~
+You have come into the north wing of the castle, where some guests of
+considerable power and importance are currently staying. Be quiet and
+be polite or be dead.
+~
+0 8 0
+5
+D0
+snoopy's room~
+~
+AB 0 20167
+D1
+guest rooms~
+~
+0 -1 20168
+D2
+entrance~
+~
+0 -1 20165
+S
+#20167
+Snoopy's Room~
+You have entered Snoopy's Room, a room rserved especially for him when
+he visits. He is an amiable pup, so he won't bash your skull in for
+intruding, but you'd better not rile him...
+~
+0 9 0
+5
+D2
+hallway~
+~
+AB 0 20166
+S
+#20168
+Guest Rooms~
+You have come across more guest rooms. A passage also runs south from
+here to a long east-west hall.
+~
+0 8 0
+5
+D0
+fritz'z room~
+~
+AB 0 20169
+D2
+a hall~
+~
+0 -1 20170
+D3
+guest rooms~
+~
+0 -1 20166
+S
+#20169
+Fritz the Cat's Room~
+oooOOOooo. You'd better get out of here. Fritz's *Desire* is- quite
+insatiable...And right now, you're fair game!
+~
+0 9 0
+5
+D2
+hall~
+~
+AB 0 20168
+S
+#20170
+Hallway~
+This hallway runs east towards a staircase that heads up to the second
+storey. A sign says in bold letters- "AUTHORISED GUESTS ONLY". Better
+heed it...
+~
+0 8 0
+5
+D0
+guest rooms~
+~
+0 -1 20168
+D1
+staricase~
+~
+0 -1 20171
+D2
+guest rooms~
+~
+0 -1 20172
+S
+#20171
+A Stairwell~
+This stairwell leads up to the second level. You can hear some grunting
+noises coming from above, however. You'd better be careful, buster.
+~
+0 8 0
+5
+D3
+hallway~
+~
+0 -1 20170
+D4
+level two~
+~
+0 -1 20176
+S
+#20172
+Outside Bouncy's Room~
+You are standing outside the room where Poodle keeps the guard dog he
+stole from Rumblebottom and Cushioncheeks the Giants in the clouds.
+~
+0 8 0
+5
+D0
+a hall~
+~
+0 -1 20170
+D2
+bouncy's room~
+~
+AB 0 20173
+D3
+guest rooms~
+~
+0 -1 20174
+S
+#20173
+Bouncy's Room~
+Here he comes! Don't leap up- don't lick- ugh!
+Bouncy licks you.
+Bouncy licks you.
+Bouncy licks you.
+Bouncy licks you.
+Bouncy licks you.
+Bouncy licks you.
+Bouncy licks you.
+Bouncy licks you.
+Bouncy licks you.
+Bouncy licks you.
+Bouncy licks you.
+Bouncy licks you.
+Bouncy licks you.
+Bouncy licks you.
+Bouncy licks you.
+:)
+~
+0 9 0
+5
+D0
+outside bouncy's room~
+~
+AB 0 20172
+S
+#20174
+Guest Rooms~
+You are standing outside Mickey Mouse's bedroom, which is to the south.
+Bouncy's room is to the east, while Snoopy and that pervert Fritz the
+Cat reside to the north and northeast respectively.
+~
+0 8 0
+5
+D0
+entrance hallway~
+~
+0 -1 20165
+D1
+outside bouncy's room~
+~
+0 -1 20172
+D2
+mickey's room~
+~
+AB 0 20175
+S
+#20175
+Mickey's Room~
+You are in the room reserved for Mickey Mouse. Little else needs to be
+said about the decor, I'd imagine...
+~
+0 9 0
+5
+D0
+hall~
+~
+AB 0 20174
+S
+#20176
+Level Two (Guard Post)~
+Uh Oh. Maybe you should have paid more attention to that sign below...
+If you live, you can head west to a reception area.
+~
+0 9 0
+5
+D3
+reception area~
+~
+0 -1 20177
+D5
+level one~
+~
+0 -1 20171
+S
+#20177
+Reception Hall~
+You have entered Poodle and Heifer's reception hall. It is currently
+deserted. From here you can head north to the staff quarters, or south
+to the count and countess' quarters.
+~
+0 8 0
+5
+D0
+staff quarters~
+~
+0 -1 20178
+D1
+stairs~
+~
+0 -1 20176
+D2
+count and countess rooms~
+~
+0 -1 20184
+S
+#20178
+Outside Jester's Room~
+Warthog the Jester is in here. He is rather depressed about his sudden
+reversal of fortune, and doesn't take kindly to visitors.
+~
+0 8 0
+5
+D0
+inside jester's room~
+~
+AB 0 20179
+D2
+reception hall~
+~
+0 -1 20177
+D3
+guard room~
+~
+0 -1 20180
+S
+#20179
+Inside Jester Warthog's Room~
+A bland, unimpressive place, not at all characteristic of a jester, which
+is not surprising when you consider how much Warthog hates his job. Poor
+Warthog...
+~
+0 9 0
+5
+D2
+outside jester's room~
+~
+AB 0 20178
+S
+#20180
+Outside Guard Room~
+A sign upon this door reads "KEEP OUT". Maybe THIS time you will pay
+attention to the sign...?
+~
+0 8 0
+5
+D0
+guard room~
+~
+AB 0 20181
+D1
+outside jester's room~
+~
+0 -1 20178
+D2
+a stairway~
+~
+0 -1 20186
+S
+#20181
+Inside Guard Room~
+Oh boy. You are dead. You have entered the sanctum of the berzerk Rhino
+guard of the Castle. There must be half a dozen in here, and they are
+all glaring at you!
+~
+0 9 0
+5
+D2
+outside guard room~
+~
+AB 0 20180
+S
+#20182
+Outside Cowntess' Room~
+You are standing outside Cowntess Heifer's chamber. Even from here you
+can discern the cloying odor of various unguents, perfumes and salves
+that she uses to conceal her natural odor. Yuk. You think you prefer
+the scent of cow...
+~
+0 8 0
+5
+D0
+a stairway~
+~
+0 -1 20186
+D1
+outside poodle's room~
+~
+0 -1 20184
+D2
+inside chamber~
+~
+AB 0 20183
+S
+#20183
+Cowntess Heifer's Chamber~
+This luxurious boudoir is packed with every kind of Bovine pleasure
+conceivable, plus many you never even knew about. Shelf upon shelf
+are packed with hundreds of trinkets, caskets, bells, statuettes,
+objects d'art and curios gathered from half-a-lifetime as the second
+richest inhabitant of Animaland. Best be quiet here- she hates being
+interrupted when in here alone...
+~
+0 9 0
+5
+D0
+outside chamber~
+~
+AB 0 20182
+S
+#20184
+Outside Count Poodle's Chamber~
+You are standing outside Poodle's room. He is likely to be in there. In
+fact, he has been in there for two weeks, hiding from his wife and her
+amorous advances...he has not the endurance he once possessed as a young
+pup, and thus needs a break to rest his weary bones.
+~
+0 8 0
+5
+D0
+reception hall~
+~
+0 -1 20177
+D2
+inside poodle's room~
+~
+AB 0 20185
+D3
+outside heifer's chamber~
+~
+0 -1 20182
+S
+#20185
+Inside Poodle's Chamber~
+Poodle is an effeminate kind of guy. Oh sure, he tried to act all butch,
+sticking swords and stuffed human heads  and such on his walls, and wearing
+butch count-type stuff, but it all ends up looking rather ridiculous. So
+in the end he gave up, and reverted to form, going for new-age color schemes,
+gentle modern art sculpture, and literature by camp authors.
+~
+0 9 0
+5
+D0
+outside poodle's chambers~
+~
+AB 0 20184
+S
+#20186
+Stairway~
+These steps lead up into the merloned tower you saw outside the castle.
+A sign here confirms your suspicions about the inhabitant of this part
+of Castle Poodle.
+~
+0 8 0
+5
+E
+sign~
+The sign reads-
+This Tower is the home of Wizard Owl. Visitors welcome, but please be
+quiet. Thank You.
+
+PS- Vote 1 Owl for Mayor in 567!.
+~
+D0
+guard room~
+~
+0 -1 20180
+D2
+heifer's room~
+~
+0 -1 20182
+D4
+stairwell~
+~
+0 -1 20198
+S
+#20187
+Sailing down the Fulem~
+The current grabs at your boat and swiftly bears you downstream, towards
+lake Cungerell in the distant south. Birds fly high overhead, conversing
+with each other, and you imagine that you can also hear the fish in the
+greeny depths beneath you quietly discussing philosophy and anthropology.
+~
+0 0 7
+5
+D2
+sailing further~
+~
+0 -1 20188
+S
+#20188
+Sailing Further~
+You race along the Fulem, gaining considerable speed in the grip of its
+powerful current. The lake grows nearer, and you begin to hope that the
+legend of the terrible beast that lives therein is just that- a legend.
+~
+0 0 7
+5
+D2
+the lake~
+~
+0 -1 20189
+S
+#20189
+Lake Cungerell~
+The current propels you into the lake called by man Cungerell, and you
+feel giddy as the current gradually subsides and you slow to a halt.
+The mirrored surface fo the lake extends to the west and east, and you
+may hoist your sail and explore.
+~
+0 0 7
+5
+D1
+the lake~
+~
+0 -1 20190
+D3
+the lake~
+~
+0 -1 20191
+S
+#20190
+Sailing along the Lake~
+You sail east until you reach a rocky shore which is too rough to allow
+you to beach your craft.
+~
+0 0 7
+5
+D3
+the lake~
+~
+0 -1 20189
+S
+#20191
+Sailing along the Lake~
+You sail west until you come up against a rcoky shore, which is too rough
+for you to facilitate a docking, and so you can but turn back or sail
+south along the shore.
+~
+0 0 7
+5
+D1
+the lake~
+~
+0 -1 20189
+D2
+the lake~
+~
+0 -1 20192
+S
+#20192
+The Deepest Section of the Lake~
+You have reached the deepest section of the lake, its chilly blue
+waters seeming to be bottomless. If you have appropriate equipment,
+you may wish to explore further.
+~
+0 0 7
+5
+D0
+the lake~
+~
+0 -1 20191
+D5
+the bottom of the lake~
+~
+0 -1 20193
+S
+#20193
+The Bottom of the Lake~
+You have reached the bottom of the lake. It is not as deep as you
+at first thought, and you are disappointed to find naught but
+some harmless fish. However, you have a feeling of dread, and feel
+reluctant to explore further...
+~
+0 9 7
+5
+D1
+a  grotto~
+~
+0 -1 20195
+D2
+a dead end~
+~
+0 -1 20194
+D4
+the lake~
+~
+0 -1 20192
+S
+#20194
+A Dead End~
+You have come to an impenetrable wall of rock rising from the depths and
+blocking your progress. But you feel that you are not alone...
+~
+0 9 0
+5
+D0
+the depths~
+~
+0 -1 20193
+S
+#20195
+A Grotto~
+You have stumbled onto the lair of the Lake Creature! And you're in
+luck! Its not here! Well, not at this MOMENT...Quickly, nip in and nab
+yourself some loot before it returns!
+~
+0 9 0
+5
+D3
+the depths~
+~
+0 -1 20193
+D5
+the bottom of the grotto~
+~
+0 -1 20196
+S
+#20196
+The Bottom of the Grotto~
+You have reached the bottom of the grotto, and begun your search for
+treasure. But other treasure hunters apparently frequent this place-
+you may have to fight for your share!
+~
+0 9 0
+5
+D4
+the grotto~
+~
+0 -1 20195
+S
+#20197
+Inside the Manse~
+This rather peculiar house appears to be full entirely of shoes...
+~
+0 9 0
+5
+D3
+outside the manse~
+~
+A -1 20147
+S
+#20198
+The Stairs Up~
+You begin the long haul up the narrow flight of steps to the abode
+of Wizard Owl. Along the way there are some marvelous portraits of
+great thinkers in the animal world such as P.S.Boxer, Ursiniquis,
+Felinia Maximia, Sir B. Terrier and St. Equinus of the Stable.
+~
+0 9 0
+5
+D4
+owl's study~
+~
+0 -1 20199
+D5
+back down~
+~
+0 -1 20186
+S
+#20199
+Owl's Study~
+You have entered the Sanctum Sanctorum of The Wizard Owl. As you enter,
+he regales you with a long string of calculations, asks your opinion on
+their accuracy, then promptly whips out a book and begins to read.
+Momentarily ignored, you glance about the room, amazed and impressed by
+the range of alembics, beakers, cisterns, decanters, eggtimers, feathers,
+gemstones, hangings, items, jpegs, krators, looms, manuals, necronomicons,
+objects d'art, posters, question sheets, rulers, sheets, telescopes,
+ultraviolet art, vampire bats, walrus tusks, x-ray machines, yellow powders
+and zoo exhibits.
+~
+0 8 0
+5
+D5
+stairway~
+~
+0 -1 20198
+S
+#0
+
+
+
+#SPECIALS
+M 20100 spec_guard
+M 20109 spec_thief
+M 20110 spec_thief
+M 20112 spec_cast_mage
+M 20120 spec_breath_any
+M 20122 spec_cast_mage
+M 20126 spec_poison
+M 20134 spec_cast_mage
+M 20135 spec_executioner
+M 20136 spec_guard
+M 20137 spec_cast_undead
+M 20140 spec_poison
+S
+
+
+
+#RESETS
+D 0 20105 0 1
+D 0 20106 2 1
+D 0 20107 0 1
+D 0 20108 2 1
+D 0 20109 0 1
+D 0 20112 2 1
+D 0 20125 2 1
+D 0 20147 1 1
+D 0 20166 0 1
+D 0 20167 2 1
+D 0 20168 0 1
+D 0 20169 2 1
+D 0 20172 2 1
+D 0 20173 0 1
+D 0 20174 2 1
+D 0 20175 0 1
+D 0 20178 0 1
+D 0 20179 2 1
+D 0 20180 0 1
+D 0 20181 2 1
+D 0 20182 2 1
+D 0 20183 0 1
+D 0 20184 2 1
+D 0 20185 0 1
+M 0 20100 1 20101 1
+E 0 20206 0 16
+E 0 20207 0 5
+E 0 20208 0 11
+E 0 20209 0 14
+E 0 20209 0 15
+E 0 20210 0 7
+E 0 20211 0 1
+E 0 20211 0 2
+E 0 20213 0 12
+E 0 20214 0 6
+O 0 20230 0 20106
+O 0 20227 0 20106
+M 0 20102 1 20106 1
+E 0 20216 0 6
+E 0 20201 0 7
+G 0 20215 0
+O 0 20230 0 20108
+O 0 20229 0 20108
+M 0 20103 1 20108 1
+E 0 20216 0 6
+E 0 20201 0 7
+G 0 20215 0
+O 0 20230 0 20110
+O 0 20228 0 20110
+M 0 20104 1 20110 1
+E 0 20216 0 0
+E 0 20201 0 7
+G 0 20215 0
+M 0 20111 1 20112 1
+E 0 20193 0 3
+E 0 20194 0 6
+E 0 20195 0 7
+E 0 20196 0 8
+O 0 20223 0 20113
+O 0 20224 0 20113
+M 0 20137 1 20114 1
+G 0 20119 0
+M 0 20101 1 20116 1
+E 0 20212 0 16
+O 0 20205 0 20116
+M 0 20113 1 20118 1
+E 0 20182 0 5
+G 0 20183 0
+G 0 20225 0
+O 0 20184 0 20123
+O 0 20190 0 20123
+O 0 20191 0 20123
+O 0 20192 0 20123
+P 0 20189 -1 20191 1
+O 0 20199 0 20124
+M 0 20112 1 20124 1
+E 0 20185 0 12
+E 0 20186 0 6
+E 0 20187 0 5
+E 0 20188 0 17
+M 0 20109 1 20126 1
+E 0 20197 0 5
+G 0 20198 0
+G 0 20200 0
+M 0 20110 1 20126 1
+E 0 20197 0 5
+G 0 20198 0
+G 0 20200 0
+M 0 20125 1 20127 1
+G 0 20150 0
+M 0 20130 1 20128 1
+E 0 20155 0 6
+M 0 20128 1 20130 1
+E 0 20153 0 13
+M 0 20124 1 20130 1
+E 0 20149 0 16
+M 0 20129 1 20131 1
+G 0 20154 0
+M 0 20126 1 20132 1
+E 0 20151 0 8
+M 0 20127 1 20132 1
+E 0 20152 0 7
+O 0 20136 0 20137
+O 0 20135 0 20137
+O 0 20219 0 20137
+P 0 20134 -1 20135 1
+M 0 20131 3 20137 3
+E 0 20137 0 5
+E 0 20138 0 8
+G 0 20139 0
+G 0 20140 0
+G 0 20219 0
+M 0 20132 1 20137 1
+M 0 20116 1 20137 1
+G 0 20129 0
+G 0 20130 0
+G 0 20131 0
+G 0 20132 0
+G 0 20133 0
+O 0 20217 0 20138
+O 0 20218 0 20138
+M 0 20115 1 20138 1
+M 0 20114 1 20141 1
+M 0 20117 1 20144 1
+E 0 20220 0 3
+E 0 20179 0 8
+E 0 20181 0 6
+G 0 20180 0
+M 0 20105 1 20149 1
+E 0 20201 0 7
+E 0 20202 0 6
+E 0 20203 0 16
+M 0 20106 1 20149 1
+E 0 20201 0 7
+E 0 20202 0 6
+E 0 20203 0 16
+M 0 20107 1 20149 1
+E 0 20201 0 7
+E 0 20202 0 6
+E 0 20203 0 16
+M 0 20108 1 20150 1
+E 0 20204 0 16
+M 0 20142 1 20151 1
+E 0 20105 0 6
+E 0 20101 0 16
+E 0 20103 0 8
+E 0 20104 0 13
+O 0 20222 0 20154
+M 0 20118 1 20154 1
+G 0 20172 0
+G 0 20173 0
+G 0 20174 0
+G 0 20175 0
+G 0 20176 0
+G 0 20177 0
+G 0 20178 0
+O 0 20221 0 20155
+M 0 20133 1 20159 1
+E 0 20124 0 5
+G 0 20123 0
+P 0 20125 -1 20123 1
+M 0 20119 1 20161 1
+E 0 20171 0 16
+E 0 20170 0 13
+M 0 20136 2 20165 2
+E 0 20120 0 3
+E 0 20121 0 16
+O 0 20162 0 20167
+O 0 20162 0 20167
+O 0 20162 0 20167
+M 0 20138 1 20167 1
+E 0 20118 0 3
+O 0 20115 0 20167
+O 0 20116 0 20167
+P 0 20112 -1 20116 1
+O 0 20114 0 20167
+P 0 20117 -1 20114 1
+M 0 20139 1 20169 1
+M 0 20140 1 20173 1
+E 0 20109 0 3
+O 0 20110 0 20173
+O 0 20111 0 20173
+P 0 20112 -1 20111 1
+P 0 20113 -1 20110 1
+M 0 20141 1 20175 1
+E 0 20106 0 6
+E 0 20107 0 8
+E 0 20108 0 7
+M 0 20135 1 20176 1
+E 0 20121 0 16
+E 0 20122 0 6
+M 0 20134 1 20179 1
+E 0 20126 0 17
+E 0 20127 0 1
+M 0 20135 3 20181 3
+M 0 20123 1 20183 1
+E 0 20162 0 6
+E 0 20163 0 16
+E 0 20165 0 8
+O 0 20164 0 20183
+M 0 20121 1 20185 1
+E 0 20157 0 16
+E 0 20158 0 12
+E 0 20159 0 1
+E 0 20160 0 17
+E 0 20161 0 6
+M 0 20120 1 20194 1
+G 0 20168 0
+M 0 20142 3 20195 3
+E 0 20101 0 16
+E 0 20102 0 6
+E 0 20103 0 8
+E 0 20104 0 13
+O 0 20166 0 20196
+P 0 20167 -1 20166 1
+P 0 20169 1 20166 1
+M 0 20142 7 20196 3
+E 0 20101 0 16
+E 0 20102 0 6
+E 0 20103 0 8
+E 0 20104 0 13
+M 0 20143 1 20197 1
+E 0 20100 0 8
+G 0 20100 0
+O 0 20142 0 20199
+O 0 20144 0 20199
+P 0 20145 -1 20144 1
+P 0 20146 -1 20144 1
+M 0 20122 1 20199 1
+E 0 20141 0 6
+E 0 20148 0 3
+G 0 20143 0
+G 0 20147 0
+G 0 20156 0
+S
+
+
+
+#SHOPS
+20116 17 19 0 0 0 150 50 0 23
+0
+
+
+
+#$

@@ -1,0 +1,859 @@
+#AREADATA
+Name The Lost World~
+Builders Roland~
+VNUMs 10600 10699
+Credits {{80 100} Roland The Lost World~
+Security 5
+Flags 0
+End
+
+
+
+#MOBILES
+#10600
+Deinonychus~
+a Deinoncychus~
+A vicious deinonychus lunges at you.
+~
+~
+lizards~
+0
+ABFT H 0 0 0 0
+100 25 1d1+9999 0d0+0 0d0+0 1d1+69 slice
+80 80 80 80
+0 0 IL IO
+stand stand none 0
+AGHMXc ABCDEFGHIJKQVX medium unknown
+#10601
+Proceratops~
+a Proceratops~
+A proceratops stands here.
+~
+~
+lizards~
+0
+ABT 0 0 0 0 0
+80 84 1d1+3000 0d0+0 0d0+0 1d20+80 chomp
+35 35 35 35
+O 0 GIL IO
+stand stand none 0
+AGHMXc ABCDEFGHIJKQVX medium unknown
+#10602
+Velociraptor~
+a velociraptor~
+A velociraptor leaps toward you.
+~
+~
+lizards~
+0
+ABFGT H 0 0 0 0
+100 50 1d1+9999 0d0+0 0d0+0 1d1+70 slash
+80 80 80 80
+0 0 IL IO
+stand stand none 0
+AGHMXc ABCDEFGHIJKQVX medium unknown
+#10603
+Duckbill~
+a duckbill~
+A large duckbill feeds here.
+~
+~
+lizards~
+0
+ABT 0 0 0 0 0
+80 25 1d1+3000 0d0+0 0d0+0 1d30+70 slap
+40 40 40 40
+O 0 GIL IO
+stand stand none 0
+AGHMXc ABCDEFGHIJKQVX large unknown
+#10604
+Triceratops~
+a Triceratops~
+A triceratops stands here, snorting loudly.
+~
+~
+lizards~
+0
+ABT H 0 0 0 0
+100 80 1d1+9999 0d0+0 0d0+0 1d1+100 pierce
+90 90 90 90
+CO 0 EIL IO
+stand stand none 0
+AGHMXc ABCDEFGHIJKQVX huge unknown
+#10605
+Tyrannosaurus~
+a Tyrannosaurus~
+A tyrannosaurus towers over you.
+~
+~
+lizards~
+0
+ABFT DFH 0 0 0 0
+105 110 50d18+18411 105d11+110 105d11+110 15d20+1 slash
+-84 -84 -84 -56
+0 AB IL IO
+stand stand none 0
+AGHMXc ABCDEFGHIJKQVX huge unknown
+#10606
+Diplodocus~
+a Diplodocus~
+A huge diplodocus feeds on treetops.
+~
+~
+lizards~
+0
+ABT H 0 0 0 0
+100 80 1d1+9999 0d0+0 0d0+0 1d1+70 smash
+80 80 80 80
+M 0 EGIL IO
+stand stand none 0
+AGHMXc ABCDEFGHIJKQVX medium unknown
+#10607
+Stegosaurus~
+a Stegosaurus~
+A stegosaurus eyes you cautiously.
+~
+~
+lizards~
+0
+ABT H 0 0 0 0
+100 80 1d1+9999 0d0+0 0d0+0 1d1+70 charge
+80 80 80 80
+M 0 EIL IO
+stand stand none 0
+AGHMXc ABCDEFGHIJKQVX medium unknown
+#10608
+Utahraptor~
+a Utahraptor~
+A utahraptor circles you.
+~
+~
+lizards~
+0
+ABT H 0 0 0 0
+100 80 1d1+9999 0d0+0 0d0+0 1d1+70 slash
+80 80 80 80
+FH 0 IL IO
+stand stand none 0
+AGHMXc ABCDEFGHIJKQVX medium unknown
+#10609
+Iguanodon~
+a Iguanodon~
+A iguanodon stands here feeding.
+~
+~
+lizards~
+0
+ABT H 0 0 0 0
+100 80 1d1+9999 0d0+0 0d0+0 1d1+70 slap
+80 80 80 80
+0 0 IL IO
+stand stand none 0
+AGHMXc ABCDEFGHIJKQVX huge unknown
+#10610
+Tenontosaurus~
+a Tenontosaurus~
+A tenontosaurus grazes here.
+~
+~
+lizards~
+0
+ABT H 0 0 0 0
+100 80 1d1+9999 0d0+0 0d0+0 1d1+70 pound
+80 80 80 80
+0 0 IL IO
+stand stand none 0
+AGHMXc ABCDEFGHIJKQVX medium unknown
+#10611
+Dromiceiomimus~
+(no short description)~
+(no long description)
+~
+~
+human~
+0
+A 0 0 0 0 0
+0 0 0d0+0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#10612
+Apatosaurus~
+(no short description)~
+(no long description)
+~
+~
+human~
+0
+A 0 0 0 0 0
+0 0 0d0+0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#10613
+Ankylosaur~
+an Ankylosaur~
+An ankylosaur eyes you cautiously.
+~
+~
+lizards~
+0
+ABT H 0 0 0 0
+100 80 1d1+9999 0d0+0 0d0+0 1d1+70 smash
+80 80 80 80
+0 0 IL IO
+stand stand none 0
+AGHMXc ABCDEFGHIJKQVX medium unknown
+#10614
+Oviraptor~
+(no short description)~
+(no long description)
+~
+~
+human~
+0
+A 0 0 0 0 0
+0 0 0d0+0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#0
+
+
+
+#OBJECTS
+#0
+
+
+
+#ROOMS
+#10600
+Dirt Path~
+You see a broad, swampy area. Large footprints and animal droppings
+leave evidence of recent activity.  Huge trees and thick scrub make movement
+here difficult. In the distance, large shapes move slowly through the
+swamplands. North leads further into the swamplands and south 
+heads back to the banks of the stream.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 10601
+D1
+~
+~
+0 0 6127
+S
+#10601
+Swamplands~
+You step into the fringe of the swampland. The ground grows
+soft here. Thick plants sprout from the moist ground, and
+buzzing insects fill the air. The water, dark and murky, teems
+with activity. The swamplands spread in all directions except
+south, which leads to drier ground.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 10605
+D1
+~
+~
+0 0 10603
+D2
+~
+~
+0 0 10600
+D3
+~
+~
+0 0 10602
+S
+#10602
+Swampland~
+You step further into the swamplands. Insects buzz past 
+you and small animals dart from murky homes. A strong smell
+clings in the air and seems to grow stronger to the north.
+The swamp continues to the north and east.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 10606
+D1
+~
+~
+0 0 10601
+S
+#10603
+Swampland~
+You see swampland extending out to your north and west.  Deep animal
+tracks pierce the earth here and a strong smells fill the air.  Large
+droppings of some animal cover the ground here.  In the distance, a large
+shape can seen moving slowly through the swamp.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10604
+D3
+~
+~
+0 0 10601
+S
+#10604
+Swampland~
+You move deeper into the swamplands and notice the sheer abundance to
+animal activity here.  Smalls animals, both aquatic and terrestrial, move
+through this area.  Thick swamps cover the areas the the south and west,
+while higher swampland lies to the north.  
+~
+0 0 3
+5
+D0
+~
+~
+0 0 10607
+D2
+~
+~
+0 0 10603
+D3
+~
+~
+0 0 10605
+S
+#10605
+Swampland~
+You stand deep within the swamp.  Several dark images cruise under the
+murky surface.  The swamp deepens to the east and west.  Openings to the
+north lead to shallow swamplands, while the south widens into drier land.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10608
+D1
+~
+~
+0 0 10604
+D2
+~
+~
+0 0 10601
+D3
+~
+~
+0 0 10606
+S
+#10606
+Swampland~
+You stand near the edge of the swamplands.  The swamp broadens south and
+east of here, while north leads to higher, thicker ground.  In the distance,
+several large shapes can be seen moving slowly through the swamp.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10609
+D1
+~
+~
+0 0 10605
+D2
+~
+~
+0 0 10602
+S
+#10607
+Light Swamp~
+You stand near the edge of the swamplands.  Many small animals dart
+through the trees and water.  The swamp deepens to the south, while west
+becomes shallow and thicker.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10604
+D3
+~
+~
+0 0 10608
+S
+#10608
+Light Swamp~
+You move through shallow swamp here.  The swamp deepens to the east and
+both north and west lead to higher, forested ground.  South leads to the
+swampland's center.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10611
+D1
+~
+~
+0 0 10607
+D2
+~
+~
+0 0 10605
+D3
+~
+~
+0 0 10609
+S
+#10609
+Forest Edge~
+You stand along the border of the swampland and forest.  Large animal
+droppings lie here, marking the presence of several creatures.  The
+swamplands extend to the east and south.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 10608
+D2
+~
+~
+0 0 10606
+S
+#10610
+Forest~
+You stand in the middle of the forest. Huge conifers
+and giant ferns cover the ground here. Large tracks mark
+the ground here, many of them holding small reservoirs
+of water. North leads to the forest's edge, while east
+leads to lighter woods.
+ 
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10616
+D1
+~
+~
+0 0 10611
+S
+#10611
+Small Clearing~
+You stand in a small clearing between two wooden areas.  Large conifers
+tower over you, covering you in shadows.  Tracks of all shapes and sizes
+cover the ground here, marking this as a well-travelled path.  The clearing
+continues to the north, with south leading to the swamplands.  Both east and
+west lead into the wooded areas.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10615
+D1
+~
+~
+0 0 10612
+D2
+~
+~
+0 0 10608
+D3
+~
+~
+0 0 10610
+S
+#10612
+Deep Forest~
+The woods grow thick here.  Huge conifers and ferns cover this area,
+providing cool shade to everything under them.  The thick forest continues
+to the north, while the west turns to a small clearing.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10614
+D3
+~
+~
+0 0 10611
+S
+#10613
+Near the Mound~
+You stand in a small patch of light woods.  A musky smell feels the air
+here.  A large mound lies nearby, built up from decaying leaves and sticks. 
+Large tracks cover the ground here.  West leads to a large stand of
+conifers.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 10614
+S
+#10614
+Forest~
+You stand along the border of the forest area.  Large animal tracks cover
+the ground here.  To the north, a large clearing seems to open up.  East
+leads to a small patch of woods, while west heads to a small opening in the
+cover.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10620
+D1
+~
+~
+0 0 10613
+D2
+~
+~
+0 0 10612
+D3
+~
+~
+0 0 10615
+S
+#10615
+Edge of Valley~
+You stand on the edge of a large clearing.  In the distance, many large
+shapes move over the land.  East and west lead back into the wooded areas,
+while south follows a small path through the woods.  North leads farthere
+out into the large clearing.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10619
+D1
+~
+~
+0 0 10614
+D2
+~
+~
+0 0 10611
+D3
+~
+~
+0 0 10616
+S
+#10616
+Valley~
+You stand along the border of the forest area.  Large animal tracks cover
+the ground here.  To the north, a large clearing seems to open up.  East
+leads through a small patch of woods, ending in a large clearing.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10618
+D1
+~
+~
+0 0 10615
+D2
+~
+~
+0 0 10610
+S
+#10617
+Valley~
+You stand in a large expanse of open land.  In the distance, a herd of
+dark shapes can be seen moving rapidly across the open area.  Several large
+carcasses can be seen scattered across the ground here.  To the east, the
+open land extends into a valley between two wooded areas.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 10618
+S
+#10618
+Valley~
+You stand in a large, open valley.  To the north and south, huge forested
+areas rise above the valley.  Well-trodden paths stretch into the distance
+and large shapes can be seen moving on the horizon.  West leads to the
+valley's western edge, while east moves into the valley's heart.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10623
+D1
+~
+~
+0 0 10619
+D2
+~
+~
+0 0 10616
+D3
+~
+~
+0 0 10617
+S
+#10619
+Valley Center~
+You stand in the heart of the valley.  The huge open area extends in all
+directions.  Herds of various types of beasts move across this open area,
+some in pursuit, others fleeing.  Several large skeletons can be seen here,
+bleached white by the burning sun.  
+~
+0 4 0
+5
+D0
+~
+~
+0 0 10622
+D1
+~
+~
+0 0 10620
+D2
+~
+~
+0 0 10615
+D3
+~
+~
+0 0 10618
+S
+#10620
+Valley~
+The valley reaches its eastern end here.  Clearings reach into the wooden
+areas to the north and south, while west heads farther out into the open
+valley.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10621
+D2
+~
+~
+0 0 10614
+D3
+~
+~
+0 0 10619
+S
+#10621
+Forest~
+You stand on the fringe of a wooden area that borders the valley.  A
+musky smell fills the air here, and large tracks cover the ground.  South
+heads into the valley, while north leads deeper into the woods.  
+~
+0 0 3
+5
+D0
+~
+~
+0 0 10625
+D2
+~
+~
+0 0 10620
+S
+#10622
+Light Hills~
+You stand on the edge of the valley.  Here, the land begins to rise to
+the hills above the forest.  North leads into the hills and south heads down
+into the valley.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10626
+D2
+~
+~
+0 0 10619
+S
+#10623
+Forest~
+You stand on the fringe of a wooded area that borders the valley.  A
+musky smells fills the air here, and large tracks cover the ground.  South
+heads into the valley, while north leads deeper into the woods.  
+~
+0 4 0
+5
+D0
+~
+~
+0 0 10624
+D2
+~
+~
+0 0 10618
+S
+#10624
+Mound~
+A large mound stands here, littered by remains of small carcasses lying
+nearby.  Large tracks cover the ground here, and a very strong smell fills
+the air.  South leads back to the wooded area's edge.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10623
+S
+#10625
+Mound~
+A large mound stands here, littered by remains of small carcasses lying
+nearby.  Large tracks cover the ground here, and a very strong smell fills
+the air.  South leads back to the wooded area's edge.  
+~
+0 4 0
+5
+D2
+~
+~
+0 0 10621
+S
+#10626
+Hills~
+You stand on a small range of hills.  Large rock mounds cover the ground
+here, along with many sun-bleached skeletons of various sizes.  North leads
+to even higher ground near the mountain's base and south leads back down to
+smaller hills.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10627
+D2
+~
+~
+0 0 10622
+S
+#10627
+Forest~
+You stand in a small stand of conifers near the mountain's base.  A large
+mound stands here, covered with bits of bone, leaves, and rocks.  Huge
+tracks cover the ground here, making travel difficult.  An almost unbearable
+smell fills the air here.  North leads to the mound, while south heads down
+the hillside.  
+~
+0 0 3
+5
+D0
+~
+~
+0 0 10628
+D2
+~
+~
+0 0 10626
+S
+#10628
+Mound~
+You stand within a large mound.  Several man-sized carcasses lie here,
+each in varying stages of rot and decay.  These carcasses make the stench
+here almost unbearable.  South leads out of the mound.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10627
+S
+#10629
+~
+~
+0 4 0
+5
+S
+#10630
+~
+~
+0 4 0
+5
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+M 0 10606 2 10604 1
+M 0 10609 3 10606 1
+M 0 10609 3 10606 1
+M 0 10609 3 10607 1
+M 0 10607 2 10609 1
+M 0 10603 2 10610 1
+M 0 10603 2 10610 1
+M 0 10601 3 10613 1
+M 0 10601 3 10613 1
+M 0 10608 2 10617 1
+M 0 10600 2 10618 1
+M 0 10610 3 10623 1
+M 0 10604 3 10624 1
+M 0 10604 3 10624 1
+M 0 10602 2 10625 1
+M 0 10613 3 10626 1
+M 0 10605 2 10628 1
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

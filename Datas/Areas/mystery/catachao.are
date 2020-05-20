@@ -1,0 +1,2354 @@
+#AREADATA
+Name Catacombs of Chaos~
+Builders Fewa~
+VNUMs 16800 16899
+Credits [10 40]  Fewa  Catacombs of Chaos~
+Security 0
+Flags 0
+Teleport 0
+End
+
+
+
+#MOBILES
+#16800
+Good Faith~
+Good Faith~
+A spirit filled with Gods energy.
+~
+~
+human~
+0
+A 0 0 0 0 0
+0 0 10d10+50 0d0+0 0d0+0 1d2+5 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#16801
+Evil Faith~
+Evil Faith~
+A spirit filled with demonic energy.
+~
+~
+human~
+0
+A 0 0 0 -1000 0
+0 0 10d10+50 0d0+0 0d0+0 1d2+5 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#16803
+Hard Luck~
+Hard Luck~
+You see a black cat here that looks like Buster, but has a name tage that reads Hard Luck
+~
+There is a black cat named Hard Luck here, waiting to heal people.
+~
+cat~
+0
+ABJKQab Z 0 0 1000 0
+104 5 100d100+5000 50d50+5000 50d50+500 50d50+100 claw
+50 50 50 50
+FH ABN 0 0
+stand stand female 100000
+AGV ACDEFHJKQUV medium fur
+M
+Healer
+#16804
+Aggressive Monster on Crack~
+aggressive monster on crack ~
+You see an aggressive monster doing crack here.
+~
+You see an aggressive monster doing crack here.
+~
+unique~
+0
+A 0 0 0 1000 0
+120 2 100d40+500 0d0+0 0d0+0 10d25+10 slash
+-12 -12 -12 -12
+0 0 0 0
+stand stand none 2000
+0 0 medium unknown
+#16805
+Aggressive Wimpy Monster Acid ~
+aggressive wimpy monster on acid~
+You see an aggressive wimpy monster on acid. 
+~
+You see an aggressive wimpy monster on acid. 
+~
+unique~
+0
+A 0 0 0 1000 0
+120 1 100d20+500 0d0+0 0d0+0 10d15+10 none
+-10 -10 -10 -10
+0 0 0 0
+stand stand none 2000
+0 0 medium unknown
+#16806
+Monster Shrooms~
+monster on shrooms~
+You see a monster eating shrooms.
+~
+You see a monster eating shrooms.
+~
+unique~
+0
+A 0 0 0 1000 0
+120 2 100d30+500 0d0+0 0d0+0 10d20+10 slash
+-11 -11 -11 -11
+0 0 0 0
+stand stand none 2000
+0 0 medium unknown
+#16807
+Wimpy Monster Smoking Pot~
+wimpy monster smoking pot~
+You see a wimpy monster smoking pot.
+~
+You see a wimpy monster smoking pot.
+~
+unique~
+0
+A 0 0 0 1000 0
+120 0 100d10+500 0d0+0 0d0+0 10d11+10 slash
+-9 -9 -9 -9
+0 0 0 0
+stand stand none 2000
+0 0 medium unknown
+#16808
+XP Beast~
+XP Beast~
+You see the mythological XP Beast
+~
+A beast which gives all who defeat it a huge amount
+of XP, but he isn't a push over.
+~
+unique~
+0
+A IRYd 0 0 0 0
+750 -1 1d1+0 0d0+0 0d0+0 1d1+0 blast
+100 100 100 100
+0 0 0 C
+stand stand none 0
+0 0 medium energy
+#16809
+Gold Beast~
+Gold Beast~
+You see the mythological Gold Beast.
+~
+There is the mythological Gold Beast here, all
+who defeat it gains a huge amount of gold, but it
+won't be easy.
+~
+unique~
+0
+A 0 0 0 0 0
+1 0 100d100+5000 0d0+0 0d0+0 10d10+50 smash
+-10 -10 -10 -10
+0 0 0 0
+stand stand none 100000
+0 0 medium gold
+#16880
+Buster~
+Buster~
+A giant grey and white cat is standing here healing travellers. 
+~
+You see a large grey and white cat standing here
+giving information on the dangers of the catacombs
+and healing you.
+~
+cat~
+B
+ABJKQab HVZ 0 0 1000 0
+100 10 100d100+500 100d100+500 100d100+500 25d25+100 claw
+-25 -25 -25 -25
+FHM ABN CD 0
+stand stand male 10000
+AGV ACDEFHJKQUV large fur
+M
+specCastAdept
+#16881
+Underling~
+an Underling~
+An underling is standing here
+~
+You see a rotting corpse walking around in the 
+catacombs looking for someone to eat.
+~
+ghoul~
+0
+AO 0 0 0 -1000 0
+35 -1 15d20+20 0d0+0 0d0+0 1d2+2 bite
+-4 -4 -4 -4
+E P MQ H
+stand stand none 250
+CDHIM ABCDEFGHIJK medium unknown
+#16882
+Evil Spirit~
+An Evil Spirit~
+An Evil Spirit is floating here.
+~
+You see a dark spirit floating around the
+catacombs looking for a victim, in order to
+continue its survival.
+~
+spectre~
+0
+AO U 0 0 -1000 0
+40 -1 20d20+20 10d10+10 10d10+10 1d3+3 chill
+-6 -6 -6 5
+G 0 LMN ST
+stand stand none 300
+CDHIM ABCGHIJK medium unknown
+#16883
+Scrawler~
+a Scrawler~
+You see a Scrawler scraping at the floor for an exit.
+~
+You see a strange demonic being crawling around
+the floor, searching for an exit into the outside
+world, to reek destruction and devastation.
+~
+lich~
+0
+AO 0 0 0 -1000 0
+45 -1 25d25+30 20d20+20 20d20+20 2d5+7 slash
+-7 -7 -7 -7
+0 I LMQ H
+stand stand none 500
+ACHIMV ABCGHIJK large unknown
+#16884
+corpse bow~
+A Corpse Bow~
+There is a corpse bow standing here doing target practice
+~
+You see an undead archer risen from the grave
+looking for combat to continue her legacy.
+~
+ghoul~
+0
+AO 0 0 0 -1000 0
+50 0 30d30+50 20d20+20 20d20+20 3d5+9 blast
+-8 -8 -8 -8
+F P MQ H
+stand stand female 750
+CDHIM ABCDEFGHIJK medium unknown
+#16885
+Burning Dead~
+A Burning Dead~
+A burning skeleton is wondering around the catacombs.
+~
+You see a skeleton, burning to a crisp
+but seems to be still moving as though it was
+alive.
+~
+ghoul~
+0
+AO 0 0 0 -1000 0
+55 0 30d32+25 20d20+20 20d20+20 2d10+6 flame
+-8 -8 -8 -8
+0 P MQ H
+stand stand none 800
+CDHIM ABCDEFGHIJK medium unknown
+#16886
+Undead Dragon~
+An Undead Dragon.~
+There is an Undead Dragon roaming around his lair.
+~
+You see a huge rotting dragon, roaming around
+the dragons lair, breathing icy and flaming blasts
+from his giant mouth.
+~
+dracolich~
+0
+ABO HTV 0 0 -1000 0
+70 2 40d45+50 20d20+20 20d20+20 9d9+5 frbite
+-9 -9 -9 -9
+M LM FG EHK
+stand stand none 1500
+CHIZc ABCGHIJKPQUVX medium unknown
+#16890
+grotesquenos~
+a grotesquenos~
+There is a large grotesquenos thrashing around here.
+~
+You see a large transparent, zombie like
+creature, smashing into the catacombs walls.
+~
+lich~
+0
+AO U 0 0 -1000 0
+60 0 32d33+10 20d20+20 20d20+20 5d5+6 pound
+-9 -9 -9 -9
+0 I LMQ H
+stand stand none 1000
+ACHIMV ABCGHIJK large unknown
+#0
+
+
+
+#OBJECTS
+#16800
+Fewa Blade~
+{RF{Ge{Bw{Ca {DB{rl{ga{bd{ce{x~
+You see a {RF{Ge{Bw{Ca {DB{rl{ga{bd{ce{x lying on the ground, waiting for a new master.~
+corundum~
+weapon Y AN
+sword 14 9 divine ABG
+0 0 0 P
+Y
+char 'damroll' 0 5
+Y
+char 'intelligence' 0 5
+Y
+char 'dexterity' 0 5
+Y
+char 'hitroll' 0 5
+#16801
+Fewa Armor~
+{RF{Ge{Bw{Ca {DA{rr{gm{bo{cr{x~
+{RF{Ge{Bw{Ca {DA{rr{gm{bo{cr{x is reseting on the ground, waiting for a new master.~
+corundum~
+armor 0 AD
+100 100 100 100 0
+0 0 0 P
+#16802
+Fewa Shield~
+{RF{Ge{Bw{Ca {xS{rh{gi{be{cl{Dd{x~
+You see a {RF{Ge{Bw{Ca {xS{rh{gi{be{cl{Dd{x laying here, waiting for a new master.~
+corundum~
+armor 0 AJ
+100 100 100 100 0
+0 0 0 P
+#16803
+Fewa Cloak~
+{RF{Ge{Bw{Ca {DC{rl{go{ba{ck{x~
+You see a {RF{Ge{Bw{Ca {DC{rl{go{ba{ck{x lying on the ground, waiting for a new master.~
+corundum~
+armor 0 AC
+50 50 50 50 0
+0 0 0 P
+Y
+char 'hitroll' 0 5
+Y
+char 'damroll' 0 5
+#16804
+Fewa Mask Dragon~
+{RF{Ge{Bw{Ca {rM{ga{bs{ck{x~
+You see a multicolored dragon mask laying on the ground, waiting for an ew master.~
+corundum~
+armor 0 AS
+50 50 50 50 0
+0 0 0 P
+Y
+char 'hitroll' 0 20
+Y
+char 'damroll' 0 50
+#16805
+Fewa Helmet~
+{RF{Ge{Bw{Ca {xH{re{gl{bm{ce{Dt{x~
+You see a {RF{Ge{Bw{Ca {xH{re{gl{bm{ce{Dt{x lying on the ground, waiting for a new master.~
+corundum~
+armor 0 AE
+75 75 75 75 0
+0 0 0 P
+#16806
+Fewa Ring~
+{RF{Ge{Bw{Ca {rR{gi{bn{cg{x~
+You see a {RF{Ge{Bw{Ca {rR{gi{bn{cg{x lying on the ground, waiting for a new master.~
+corundum~
+armor 0 AB
+25 25 25 25 0
+0 0 0 P
+Y
+char 'hp' 0 25
+Y
+char 'constitution' 0 1
+Y
+char 'strength' 0 1
+#16807
+Fewa Boots~
+{RF{Ge{Bw{Ca {DB{ro{go{bt{cs{x~
+You see a pair of {RF{Ge{Bw{Ca {DB{ro{go{bt{cs{x lying on the ground, waiting for a new master.~
+corundum~
+armor 0 AG
+25 25 25 25 0
+0 0 0 P
+Y
+char 'moves' 0 100
+#16808
+Fewa Cargos~
+{RF{Ge{Bw{Ca {xC{ra{gr{bg{co{Ds{x~
+You see a pair of {RF{Ge{Bw{Ca {xC{ra{gr{bg{co{Ds{x lying on the ground, waiting for a new master.~
+corundum~
+armor 0 AF
+75 75 75 75 0
+0 0 0 P
+Y
+char 'dexterity' 0 2
+Y
+char 'constitution' 0 2
+#16809
+Fewa Gauntlets~
+{RF{Ge{Bw{Ca {DG{ra{gu{bn{ct{rl{ge{bt{cs{x~
+You see a pair of {RF{Ge{Bw{Ca {DG{ra{gu{bn{ct{rl{ge{bt{cs{x lying on the ground, waiting for a new master.~
+corundum~
+armor 0 AH
+50 50 50 50 0
+0 0 0 P
+Y
+char 'dexterity' 0 1
+Y
+char 'strength' 0 2
+#16810
+Fewa Eyes~
+{RF{Ge{Bw{Ca {rE{gy{be{cs{x~
+You see {RF{Ge{Bw{Ca {rE{gy{be{cs{x glowing on the ground. waiting for a new master~
+corundum~
+light 0 A
+0 0 9999999 0 0
+0 0 0 P
+#16811
+Fewa Sleeves~
+{RF{Ge{Bw{Ca {DS{rl{ge{be{cv{re{gs{x~
+You see {RF{Ge{Bw{Ca {DS{rl{ge{be{cv{re{gs{x lying on the floor, waiting for a new master.~
+corundum~
+armor 0 AI
+50 50 50 50 0
+0 0 0 P
+#16812
+Fewa Sash~
+{RF{Ge{Bw{Ca {rS{ga{bs{ch{x~
+You see a {RF{Ge{Bw{Ca {rS{ga{bs{ch{x lying on the ground, waiting for a new master.~
+corundum~
+armor 0 AK
+25 25 25 25 0
+0 0 0 P
+Y
+char 'wisdom' 0 2
+Y
+char 'intelligence' 0 2
+#16813
+Fewa Belt~
+{RF{Ge{Bw{Ca {rB{ge{bl{ct{x~
+You see a {RF{Ge{Bw{Ca {rB{ge{bl{ct{x lying on the floor, waiting for a new master.~
+corundum~
+armor 0 AL
+50 50 50 50 0
+0 0 0 P
+#16814
+Fewa Bracers~
+{RF{Ge{Bw{Ca {DB{rr{ga{bc{ce{rr{gs{x~
+You see a {RF{Ge{Bw{Ca {DB{rr{ga{bc{ce{rr{gs{x lying on the ground, waiting for a new master.~
+corundum~
+armor 0 AM
+25 25 25 25 0
+0 0 0 P
+#16815
+Fewa Dragon Statue~
+{RF{Ge{Bw{Ca {DD{rr{ga{bg{co{rn {gS{bt{ca{rt{gu{De{x~
+You see a {RF{Ge{Bw{Ca {DD{rr{ga{bg{co{rn {gS{bt{ca{rt{gu{De{x lying on the ground, waiting for a new master.~
+corundum~
+armor 0 AO
+50 50 50 50 0
+0 0 0 P
+#16816
+Fewa Earring~
+{RF{Ge{Bw{Ca {DE{ra{gr{br{ci{rn{gg{x~
+You see a pair of {RF{Ge{Bw{Ca {DE{ra{gr{br{ci{rn{gg{x lying on the ground, waiting for a new master.~
+corundum~
+armor 0 AR
+0 0 0 0 0
+0 0 0 P
+Y
+char 'strength' 0 1
+Y
+char 'intelligence' 0 1
+Y
+char 'wisdom' 0 1
+Y
+char 'dexterity' 0 1
+Y
+char 'constitution' 0 1
+Y
+char 'hitroll' 0 5
+Y
+char 'damroll' 0 5
+#16817
+Fewa Soul~
+{RF{Ge{Bw{Ca {rS{go{bu{cl{x~
+You see a {RF{Ge{Bw{Ca {rS{go{bu{cl{x floating here, waiting for a new master.~
+corundum~
+armor 0 AQ
+50 50 50 50 0
+0 0 0 P
+#16825
+Fewa Quest Card~
+Fewa Quest Card~
+There is a Fewa Quest Card lying on the ground~
+<Not Entered>~
+trash 0 A
+0 0 0 0 0
+0 0 0 P
+#16830
+Fewa Dagger~
+{RF{Ge{Bw{Ca {xD{ra{gg{bg{ce{Dr{x~
+You see a {RF{Ge{Bw{Ca {xD{ra{gg{bg{ce{Dr{x lying on the ground, waiting for a new master.~
+corundum~
+weapon 0 AN
+dagger 13 9 divine ABG
+0 0 0 P
+Y
+char 'hitroll' 0 5
+Y
+char 'intelligence' 0 5
+Y
+char 'wisdom' 0 5
+#16887
+Undead Ring~
+A ring carried by Underlings~
+An underling ring is lying here.~
+shadow~
+armor E AB
+25 25 25 25 0
+10 1 500 P
+Y
+char 'dexterity' 0 -1
+Y
+char 'constitution' 0 1
+Y
+char 'strength' 0 1
+#16888
+COC portal~
+portal to Catacombs of Chaos~
+A portal leading to the Catacombs of Chaos~
+energy~
+portal A A
+1000 0 0 16800 0
+1 0 0 P
+#16889
+portal to Healer~
+a portal to the healer.~
+A portal that teleports you to the Midgaard Healer.~
+energy~
+portal A 0
+1000 0 0 3054 0
+1 0 0 P
+#16891
+Spirit Cloak~
+a Spirit Cloak~
+You see a Cloak made from the Evil Spirits lying here.~
+shadow~
+armor E AC
+30 30 30 30 0
+15 1 500 P
+Y
+char 'dexterity' 0 1
+#16892
+Scrawler Scale~
+A Scrawler Scale~
+A scale belonging to a scrawler is lying here.~
+dragonscale~
+armor E AO
+30 30 30 30 0
+20 1 500 P
+#16893
+Corpse Ring~
+A Corpse Ring~
+A ring carried by corpse bow's is lying here.~
+shadow~
+armor E AB
+25 25 25 25 0
+25 1 500 P
+Y
+char 'wisdom' 0 -2
+Y
+char 'dexterity' 0 1
+Y
+char 'hitroll' 0 2
+#16894
+Burning Soul~
+a {RBurning {cSoul{x~
+There is a soul of the burning dead floating here.~
+fire~
+armor E AQ
+40 40 40 40 0
+30 1 500 P
+#16895
+Undead Dragon Skull~
+The {DUndead {gDragons {DSkull{x~
+The skull of the Undead Dragon is lying here.~
+shadow~
+armor E AE
+50 50 50 50 0
+50 10 1000 P
+Y
+char 'damroll' 0 10
+#16896
+Fewa's Dragon Claws~
+{RF{Ge{Bw{Ca {DD{rr{ga{bg{co{rn {gC{bl{ca{rw{gs{x~
+Claws woren by Fewa the Dragon Avatar are lying here.~
+dragonscale~
+weapon 0 AN
+exotic 25 25 claw ABGHI
+0 0 0 P
+Y
+char 'hp' 0 1000
+Y
+char 'constitution' 0 2
+Y
+char 'dexterity' 0 2
+Y
+char 'wisdom' 0 2
+Y
+char 'intelligence' 0 2
+Y
+char 'strength' 0 2
+Y
+char 'damroll' 0 10
+Y
+char 'hitroll' 0 10
+Y
+char 'saving throw' 0 10
+#16897
+dispel~
+dispel~
+Dispel~
+<Not Entered>~
+potion 0 A
+102 'cure disease' 'remove curse' 'cure blindness' 'sanctuary'
+0 0 0 P
+#0
+
+
+
+#ROOMS
+#16800
+Entrance to the Catacombs of Chaos~
+You have entered a large room made entirely out of gold.
+There are huge silver pillars holding the roof up.
+To the right of where your standing you see a set of stairs
+leading down into a dark and gloomy corridor.
+In front of you there is a large grey and white cat
+standing and giving information about the dangers in the
+darkness of the corridor.
+ 
+WARNING : Level's 10-40
+~
+0 1028 0
+5
+D5
+~
+~
+0 0 16801
+S
+#16801
+Stairs leading to the Catacombs~
+As you start your way down the old concrete stairs, you begin
+to hear demonic noises, coming from below you.
+As you continue further down, the noises seem to get louder. 
+The walls have changed from a nice solid gold to ancient stone that
+looks as though it had never been cleaned or replaced since the
+construction of these old catacombs.
+~
+0 1 0
+5
+D4
+~
+~
+0 0 16800
+D5
+~
+~
+0 0 16802
+S
+#16802
+Beginning of the Catacombs~
+As you step off the last stair, and onto the concrete floor
+you start to smell the scent of old blood and rotting corpses.
+There are two exits to the north and south of where your standing, but
+the rotting stench seems to be coming from both paths.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16803
+D2
+~
+~
+0 0 16872
+D4
+~
+~
+0 0 16801
+S
+#16803
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16804
+D2
+~
+~
+0 0 16802
+S
+#16804
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16805
+D2
+~
+~
+0 0 16803
+S
+#16805
+Energy Room~
+You entered a room with odd symbols on the walls.
+Covering the entire walls except for the symbols is a strange   
+green energy. You get the feeling of some strange magical power
+generating from this very room, it seems to be creating the
+dangerous monsters in the catacombs.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 16806
+D2
+~
+~
+0 0 16804
+S
+#16806
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16807
+D3
+~
+~
+0 0 16805
+S
+#16807
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16808
+D3
+~
+~
+0 0 16806
+S
+#16808
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16809
+D3
+~
+~
+0 0 16807
+S
+#16809
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16810
+D3
+~
+~
+0 0 16808
+S
+#16810
+Corridor Crossroads~
+You walk into a crossroad of pathways, forcing you to make a 
+decision on which way to continue your adventure.
+There are paths to the south and another path continuing
+to the east.
+Which way to go??
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16811
+D2
+~
+~
+0 0 16867
+D3
+~
+~
+0 0 16809
+S
+#16811
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16812
+D3
+~
+~
+0 0 16810
+S
+#16812
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16813
+D3
+~
+~
+0 0 16811
+S
+#16813
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16814
+D2
+~
+~
+0 0 16812
+S
+#16814
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16815
+D3
+~
+~
+0 0 16813
+S
+#16815
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16816
+D3
+~
+~
+0 0 16814
+S
+#16816
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D2
+~
+~
+0 0 16817
+D3
+~
+~
+0 0 16815
+S
+#16817
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16816
+D2
+~
+~
+0 0 16818
+S
+#16818
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16817
+D2
+~
+~
+0 0 16819
+S
+#16819
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16818
+D1
+~
+~
+0 0 16820
+S
+#16820
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16821
+D3
+~
+~
+0 0 16819
+S
+#16821
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16822
+D3
+~
+~
+0 0 16820
+S
+#16822
+Corridor Crossroads~
+You walk into a crossroad of pathways, forcing you to make a
+decision on which way to continue your adventure.
+There are paths to the north and another path to the east. 
+Which way to go??
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16823
+D1
+~
+~
+0 0 16825
+D2
+~
+~
+0 0 16821
+S
+#16823
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D2
+~
+~
+0 0 16822
+D3
+~
+~
+0 0 16824
+S
+#16824
+Dead End~
+You entered a room with only one exit, which is the way
+you entered the room. The smell of death seems to be the
+strongest here, and there are more bones and blood in this
+room then all of the others.
+The stone walls are still stained by the blood of the 
+catacombs victims.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16823
+S
+#16825
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16826
+D3
+~
+~
+0 0 16822
+S
+#16826
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16827
+D3
+~
+~
+0 0 16825
+S
+#16827
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16828
+D3
+~
+~
+0 0 16826
+S
+#16828
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D2
+~
+~
+0 0 16829
+D3
+~
+~
+0 0 16827
+S
+#16829
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16828
+D2
+~
+~
+0 0 16830
+S
+#16830
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16829
+D2
+~
+~
+0 0 16831
+S
+#16831
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16830
+D2
+~
+~
+0 0 16832
+S
+#16832
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16831
+D2
+~
+~
+0 0 16833
+S
+#16833
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16832
+D2
+~
+~
+0 0 16834
+S
+#16834
+Energy Room~
+You entered a room with odd symbols on the walls.
+Covering the entire walls except for the symbols is a strange
+green energy. You get the feeling of some strange magical power
+generating from this very room, it seems to be creating the
+dangerous monsters in the catacombs.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16833
+D3
+~
+~
+0 0 16835
+S
+#16835
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16834
+D3
+~
+~
+0 0 16836
+S
+#16836
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16835
+D3
+~
+~
+0 0 16837
+S
+#16837
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16838
+D1
+~
+~
+0 0 16836
+D2
+~
+~
+0 0 16845
+S
+#16838
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16839
+D2
+~
+~
+0 0 16837
+S
+#16839
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16840
+D2
+~
+~
+0 0 16838
+S
+#16840
+Energy Room~
+You entered a room with odd symbols on the walls.
+Covering the entire walls except for the symbols is a strange
+green energy. You get the feeling of some strange magical power
+generating from this very room, it seems to be creating the
+dangerous monsters in the catacombs.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 16839
+D3
+~
+~
+0 0 16841
+S
+#16841
+Hall of Light~
+You have come to a huge hall where the walls are once again 
+made out of solid gold. There are torches stretching down 
+an extremly long hallway.
+You can here faint sounds of a dragons roar. but are not sure
+where they are coming from.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 16840
+D3
+~
+~
+0 0 16842
+S
+#16842
+Hall of Light~
+You have come to a huge hall where the walls are once again 
+made out of solid gold. There are torches stretching down 
+an extremly long hallway.
+You can here faint sounds of a dragons roar. but are not sure
+where they are coming from.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 16841
+D3
+~
+~
+0 0 16843
+S
+#16843
+Hall of Light~
+You see that there is an end to this on going corridor. A huge
+door made out of black onyx is just in front of you.
+The roaring sounds seem to be coming from the other side of
+the door.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 16842
+D3
+~
+~
+AB 0 16844
+S
+#16844
+Dragons Lair~
+You have come through the black onyx door into a giant lair.
+There are bodies, bones, skulls, and blood all over the
+ground. Some of the bodies have been burnt to a crisp.
+You wonder what kind of demonic creature could have done
+all this destruction and chaos. Then you see it, come from
+the darkness, it is the Undead Dragon.
+~
+0 1 0
+5
+D1
+~
+~
+AB 0 16843
+D5
+~
+~
+0 0 16880
+S
+#16845
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16837
+D2
+~
+~
+0 0 16846
+S
+#16846
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16845
+D3
+~
+~
+0 0 16847
+S
+#16847
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16846
+D3
+~
+~
+0 0 16848
+S
+#16848
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16847
+D3
+~
+~
+0 0 16849
+S
+#16849
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16850
+D1
+~
+~
+0 0 16848
+S
+#16850
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16851
+D2
+~
+~
+0 0 16849
+S
+#16851
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16852
+D2
+~
+~
+0 0 16850
+S
+#16852
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D2
+~
+~
+0 0 16851
+D3
+~
+~
+0 0 16853
+S
+#16853
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16852
+D3
+~
+~
+0 0 16854
+S
+#16854
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16853
+D3
+~
+~
+0 0 16855
+S
+#16855
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16854
+D3
+~
+~
+0 0 16856
+S
+#16856
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16855
+D3
+~
+~
+0 0 16857
+S
+#16857
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16856
+D3
+~
+~
+0 0 16858
+S
+#16858
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16859
+D1
+~
+~
+0 0 16857
+S
+#16859
+Corridor Crossroads~
+You walk into a crossroad of pathways, forcing you to make a
+decision on which way to continue your adventure.
+There are paths to the north and another path to the west.
+Which way to go??
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16860
+D2
+~
+~
+0 0 16858
+D3
+~
+~
+0 0 16868
+S
+#16860
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16861
+D2
+~
+~
+0 0 16859
+S
+#16861
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16862
+D3
+~
+~
+0 0 16860
+S
+#16862
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16863
+D3
+~
+~
+0 0 16861
+S
+#16863
+Energy Room~
+You entered a room with odd symbols on the walls.
+Covering the entire walls except for the symbols is a strange
+green energy. You get the feeling of some strange magical power
+generating from this very room, it seems to be creating the
+dangerous monsters in the catacombs.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16864
+D2
+~
+~
+0 0 16862
+S
+#16864
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D2
+~
+~
+0 0 16863
+D3
+~
+~
+0 0 16865
+S
+#16865
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16864
+D3
+~
+~
+0 0 16866
+S
+#16866
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16867
+D1
+~
+~
+0 0 16865
+S
+#16867
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16810
+D2
+~
+~
+0 0 16866
+S
+#16868
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16859
+D3
+~
+~
+0 0 16869
+S
+#16869
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16868
+D3
+~
+~
+0 0 16870
+S
+#16870
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16871
+D1
+~
+~
+0 0 16869
+S
+#16871
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D2
+~
+~
+0 0 16870
+D3
+~
+~
+0 0 16872
+S
+#16872
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you 
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16802
+D1
+~
+~
+0 0 16871
+D2
+~
+~
+0 0 16873
+S
+#16873
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16872
+D2
+~
+~
+0 0 16874
+S
+#16874
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16873
+D3
+~
+~
+0 0 16875
+S
+#16875
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16874
+D3
+~
+~
+0 0 16876
+S
+#16876
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 16875
+D3
+~
+~
+0 0 16877
+S
+#16877
+Catacomb Corridor~
+You entered a dark corridor filled with old skulls and bones
+on the floor, surrounded by blood and rotting flesh.
+The smell of rotting flesh seems to be getting stronger as you
+walk through the different pathways and corridors.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 16878
+D1
+~
+~
+0 0 16876
+S
+#16878
+Dead End~
+You entered a room with only one exit, which is the way
+you entered the room. The smell of death seems to be the
+strongest here, and there are more bones and blood in this
+room then all of the others.
+The stone walls are still stained by the blood of the
+catacombs victims.
+~
+0 1 0
+5
+D2
+~
+~
+0 0 16877
+S
+#16880
+The Cage Room on Drugs~
+You have entered the cage room again, but something is
+different this time. The walls are still blank, and no
+windows, but instead of white tones on the walls and ceilings
+it's all dark and black.
+w
+~
+0 1028 0
+5
+D0
+~
+~
+0 0 16881
+D1
+~
+~
+0 0 16887
+D2
+~
+~
+0 0 16883
+D3
+~
+~
+0 0 16885
+D4
+~
+~
+0 0 16844
+D5
+~
+~
+0 0 16889
+S
+#16881
+A Cage~
+You are in a cage. Instead of all the blood and gore everywhere
+there are drugs, and the monsters are looking weird as well.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16882
+D2
+~
+~
+0 0 16880
+S
+#16882
+A Cage~
+You are in a cage. Instead of all the blood and gore everywhere
+there are drugs, and the monsters are looking weird as well.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 16881
+S
+#16883
+A Cage~
+You are in a cage. Instead of all the blood and gore everywhere
+there are drugs, and the monsters are looking weird as well.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16880
+D2
+~
+~
+0 0 16884
+S
+#16884
+A Cage~
+You are in a cage. Instead of all the blood and gore everywhere
+there are drugs, and the monsters are looking weird as well.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16883
+S
+#16885
+A Cage~
+You are in a cage. Instead of all the blood and gore everywhere
+there are drugs, and the monsters are looking weird as well.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 16880
+D3
+~
+~
+0 0 16886
+S
+#16886
+A Cage~
+You are in a cage. Instead of all the blood and gore everywhere
+there are drugs, and the monsters are looking weird as well.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 16885
+S
+#16887
+A Cage~
+You are in a cage. Instead of all the blood and gore everywhere
+there are drugs, and the monsters are looking weird as well.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 16888
+D3
+~
+~
+0 0 16880
+S
+#16888
+A Cage~
+You are in a cage. Instead of all the blood and gore everywhere
+there are drugs, and the monsters are looking weird as well.
+~
+0 0 0
+5
+D3
+~
+~
+0 0 16887
+S
+#16889
+Final Combat~
+You enter a strange room with ancient markings
+on the walls. The walls are made of solid concrete
+which looks to be thousands of years old. You can hear
+odd noises coming from the west and east.
+You can make out some of the words on the walls 
+To the sides are the ancient monsters of the past, whoever 
+can defeat them gets honored with a gift. Defeat them to find
+out what."
+~
+0 1028 0
+5
+D1
+~
+~
+0 0 16890
+D3
+~
+~
+0 0 16891
+D4
+~
+~
+0 0 16880
+S
+#16890
+Darkness~
+All you can see is a beast in the shadows.
+~
+0 0 0
+5
+D3
+~
+~
+0 0 16889
+S
+#16891
+Darkness~
+All you can see is a giant beast in the shadows.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 16889
+S
+#16895
+Secret Quest Room~
+You have entered into an area that seems
+to have be created by the violence and hatred
+of all in the world.
+The entire room is made of fire and there are no 
+exits.
+~
+0 0 8
+5
+S
+#0
+
+
+
+#SPECIALS
+M 16880 spec_questmaster
+S
+
+
+
+#RESETS
+D 0 16843 3 1
+D 0 16844 1 1
+M 0 16880 1 16800 1
+O 0 16889 0 16800
+M 0 16881 10 16803 3
+M 0 16881 10 16804 3
+M 0 16881 10 16805 4
+E 0 16887 0 1
+M 0 16884 8 16823 4
+M 0 16884 8 16824 4
+G 0 16893 0
+M 0 16885 9 16833 3
+M 0 16885 9 16834 3
+G 0 16894 0
+M 0 16885 9 16835 3
+M 0 16890 6 16840 2
+M 0 16890 6 16841 2
+M 0 16890 6 16842 2
+M 0 16886 1 16844 1
+G 0 16895 0
+M 0 16883 8 16860 3
+G 0 16892 0
+M 0 16883 8 16861 2
+M 0 16883 8 16862 3
+M 0 16882 10 16876 3
+M 0 16882 10 16877 4
+M 0 16882 10 16878 3
+G 0 16891 0
+M 0 16803 1 16880 1
+M 0 16804 2 16881 1
+E 0 16816 0 18
+M 0 16804 2 16882 1
+E 0 16816 0 18
+M 0 16807 2 16883 1
+E 0 16808 0 7
+M 0 16807 2 16884 1
+E 0 16808 0 7
+M 0 16805 2 16885 1
+E 0 16806 0 1
+M 0 16805 2 16886 1
+E 0 16806 0 1
+M 0 16806 2 16887 1
+E 0 16812 0 12
+M 0 16806 2 16888 1
+E 0 16812 0 12
+M 0 16809 1 16890 1
+M 0 16808 20 16891 20
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$
