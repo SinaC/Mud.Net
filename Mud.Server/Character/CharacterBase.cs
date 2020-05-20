@@ -2142,10 +2142,12 @@ namespace Mud.Server.Character
             {
                 _equipments.Add(new EquippedItem(EquipmentSlots.Light));
                 _equipments.Add(new EquippedItem(EquipmentSlots.Head));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Amulet)); // 2 amulets
                 _equipments.Add(new EquippedItem(EquipmentSlots.Amulet));
                 _equipments.Add(new EquippedItem(EquipmentSlots.Chest));
                 _equipments.Add(new EquippedItem(EquipmentSlots.Cloak));
                 _equipments.Add(new EquippedItem(EquipmentSlots.Waist));
+                _equipments.Add(new EquippedItem(EquipmentSlots.Wrists)); // 2 wrists
                 _equipments.Add(new EquippedItem(EquipmentSlots.Wrists));
                 _equipments.Add(new EquippedItem(EquipmentSlots.Arms));
                 _equipments.Add(new EquippedItem(EquipmentSlots.Hands));

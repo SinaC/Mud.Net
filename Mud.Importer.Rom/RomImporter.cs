@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -33,9 +34,14 @@ namespace Mud.Importer.Rom
             {
                 if (areaFilename.Contains("$"))
                     break;
-                string areaFullName = Path.Combine(path, areaFilename);
-                loader.Load(areaFullName);
-                loader.Parse();
+                if (areaFilename.StartsWith("-"))
+                    Log.Default.WriteLine(LogLevels.Info, "Skipping {0}", areaFilename);
+                else
+                {
+                    string areaFullName = Path.Combine(path, RemoveCommentIfAny(areaFilename));
+                    loader.Load(areaFullName);
+                    loader.Parse();
+                }
             }
 
             Convert(loader);
@@ -311,7 +317,7 @@ namespace Mud.Importer.Rom
                         {
                             RoomId = roomData.VNum,
                             ItemId = reset.Arg1,
-                            GlobalLimit = reset.Arg2,
+                            GlobalLimit = reset.Arg2, // is Arg4 with OLC but arg4 is always set to 0 by load_resets
                             LocalLimit = 1,//reset.Arg4, in db.c/reset_area once we find the item we don't load another one
                         };
                         break;
@@ -917,11 +923,11 @@ namespace Mud.Importer.Rom
 
         private WearLocations ConvertWearLocation(ObjectData objectData) // in Rom2.4 it's a flag but in our code it a single value
         {
+            if (objectData.ItemType == "light")
+                return WearLocations.Light;
             switch (objectData.WearFlags & ~1 /*remove TAKE*/)
             {
-                case 0:
-                    if (objectData.ItemType == "light") return WearLocations.Light;
-                    return WearLocations.None;
+                case 0: return WearLocations.None;
                 case ITEM_WEAR_FINGER: return WearLocations.Ring;
                 case ITEM_WEAR_NECK: return WearLocations.Amulet;
                 case ITEM_WEAR_BODY: return WearLocations.Chest;
@@ -1583,6 +1589,12 @@ namespace Mud.Importer.Rom
         }
 
         //
-
+        private string RemoveCommentIfAny(string filename)
+        {
+            int index = filename.IndexOf("/", StringComparison.InvariantCultureIgnoreCase);
+            if (index >= 0)
+                return filename.Remove(index).Trim();
+            return filename;
+        }
     }
 }

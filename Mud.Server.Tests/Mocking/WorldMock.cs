@@ -397,6 +397,11 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
+        public void FixWorld()
+        {
+            throw new NotImplementedException();
+        }
+
         //public IPeriodicAura AddPeriodicAura(IEntity entity, IAbility ability, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
         //{
         //    throw new NotImplementedException();
@@ -427,37 +432,12 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
 
-        public IItem AddItemContainer(Guid guid, ItemBlueprintBase blueprint, IContainer container)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IItem AddItemArmor(Guid guid, ItemBlueprintBase blueprint, IContainer container)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IItem AddItemWeapon(Guid guid, ItemBlueprintBase blueprint, IContainer container)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IItem AddItemLight(Guid guid, ItemBlueprintBase blueprint, IContainer container)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update()
-        {
-            // TODO
-        }
-
         public void Cleanup()
         {
             throw new NotImplementedException();
         }
 
-        public void HandleResets()
+        public void ResetWorld()
         {
             throw new NotImplementedException();
         }

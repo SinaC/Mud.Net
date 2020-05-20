@@ -77,7 +77,8 @@ namespace Mud.Server
         //IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks); // Hot
         //IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, SchoolTypes school, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks); // Dot
 
-        void HandleResets();
+        void FixWorld(); // should be called before the first ResetWorld
+        void ResetWorld();
 
         void RemoveCharacter(ICharacter character);
         void RemoveItem(IItem item);

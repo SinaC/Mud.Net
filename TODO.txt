@@ -1,9 +1,14 @@
 NEXT:
-
 TODO:
-SanityCheck on Resets
-    check if #reset for specific mob/item in room  < local limit
-    INCONCLUSIVE: check if #reset for specific mob/item in world < global limit
+grove.are: the second jar will never appears
+O 0 8902   2 8915	* a spice jar
+P 1 8903   1 8902  1	*   some black powder
+O 0 8902   2 8915	* a spice jar
+P 1 8904   1 8902  1	*   some small yellow kernels
+dwarven.are: the first stick is set to local 1 but we detect 2 intances (2 different container in fact: room for the first one and mob for the second one)
+O 0 6506   1 6534	* long, black stick
+E 1 6506  10   17	*   long, black stick
+
 Multiple wear location
 Reset 'R'
 quest: add quest item on the fly when player takes the quest
@@ -27,62 +32,82 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+trinket wear location removed
+reset fixed
+rom importer fixed
+missing equipment slot amulet/wrist for npc and race
+canyon.are:
+	room 9204: M 9202 global limit was 0 -> set to 1
+	room 9204: E 9213 invalid reset wear location arms -> set reset location to wrist
+	item 9223, 9224, 9225, 9328: no wear location but found in E reset hold -> set item wear location to hold
+	room 9222: E 9225 invalid reset wear location chest -> set reset location to hold
+	room 9230: E 9218 invalid reset wear location wield -> set reset location to hold
+	room 9238: E 9217 invalid reset wear location wield -> set reset location to hold
+	room 9257: E 9216 invalid reset wear location wield -> set reset location to hold
+	room 9220: E 9222 is a light so wear location is forced to light but reset location is gold -> set reset location to light
+pyramid.are:
+	room 8732: O 8723 global limit was 0 -> set to 1
+	room 8745: M 8710 2 instances but local limit of 1 -> set local limit to 2
+ofcol2.are:
+	room 688: E 656 invalid reset wear location head -> set reset location to legs
+			  E 657 invalid reset wear location legs -> set reset location to feet
+olympus.are:
+	item 915, 916: no wear location but found in E reset hold -> set to hold
+hitower.are:
+	room 1314: M 1314 2 instances but local limit of 1 -> set local limit to 2
+	item 1316, 1323, 1325: no wear location but found in E reset hold -> set to hold
+	item 1356: no wear location but found in E reset wrist -> set to wrist
+gnome.are:
+	item 1514: no wear location but found in E reset wield -> set item wear location to hold and reset tto hold
+wyvern.are:
+	room 1638: E 1621 invalid reset wear location waist -> set reset location to hold
+catacomb.are;
+	room 2016: M 2010 3 instances but local limit of 2 -> set local limit to 3
+	room 2025: E 2001 key with reset wear location light -> change reset to G
+	room 2030: E 2006 crown with reset wear location hold -> change reset to G
+	room 2050: E 2012 shield with reset wear location chest -> change reset to G
+	room 2052: M 2001 6 instances but local limit of 3 -> set local limit to 6
+draconia.are:
+	room 2214: E 2223 invalid reset wear location cloak -> set reset location to wield
+mahntor.are:
+	room 2387: E 2382 invalid reset wear location waist -> set reset location neck
+	room 2391: E 2315 invalid reset wear location ring -> set reset location to head
+	room 2396: E 2342 invalid reset wear location wrist -> set reset location to hold
+chapel.are:
+	item 3411, 3416, 3419: no wear location but found in E reset hold -> set to hold
+	room 3465: M 3407 2 instances but local limit of 1 -> set local limit to 2
+school.are:
+	item 3714: no wear location but found in E reset hold -> set to hold
+moria.are:
+	room 4013, 4021, 4027: M 4003 2 instances in each room but local limit of 1 -> set local limit to 2
+	room 4070: E 3072 invalid reset wear location head -> set reset location to chest
+	room 4028: M 4004 2 instances but local limit of 1 -> set local limit to 2
+drop.are:
+	room 5109: E 5108 invalid reset wear location arms -> set reset location to wrist
+thalos.are, mirror.are:
+	item 5230, 5233, 5231, 5243, 5235, 5214, 5232, 5237, 5214, 5241: wear location float was incompatible with description and E reset -> set item wear location to hold
+	item 5224, 5226, 5239: no wear location but found in E reset hold -> set item wear location to hold
+	room 5229, 5238: E 5214 is a light so wear location is forced to light but reset location is hold -> set reset location to light
+dwarven.are:
+	item 6514: no wear location but found in E reset hold -> set item wear location to hold
+daycare.are:
+	room 6609: M 6603 2 instances but local limit of 1 -> set local limit to 2
+sewer.are:
+	room 7233: M 7203 2 instances but local limit of 1 -> set local limit to 2
+	room 7285: M 7002 2 instances but local limit of 1 -> set local limit to 2
+	room 7428: E 7309 invalid reset wear location arms -> set reset location to feet
+    room 7428: E 7310 invalid reset wear location feet -> set reset location to arms
+astral.are:
+	 room 7751, 7765, 7767, 7769: M: 7707 2 instances but local limit of 1 -> set local limit to 2
+tohell.are:
+	room 10456, 10465, 10467: E 10412 invalid reset wear location mainhand  -> set reset location to hold
+	room 10470: E 10414 invalid reset wear location mainhand  -> set reset location to hold
+RomImporter: light item wear location forced to light
+FixWorld: fix wear location on items and local limit in resets, warn about global limit not high enough
 Fixing area and reset issues
 New abstraction level IItemCanContain as common level for IItemContainer and IItemCorpse
 Spells: general purpose, high explosive
 item: trash, gem, clothing, map, corpse
-Haon.are + Plains.are:
-    mobile 309: was present in 7 resets but global limit was set to 5 in Haon.are, global limit set to 10 in Haon.are
-Daycare.are:
-    room 6609: reset M 6603 was 2 times but local limit was set to 1
-    mobile 6603: was in 5 resets but global limit was set to 4
-Thalos.are:
-    item 5224, 5226: was not equippable but found in reset E, hold wear loc added
-    item 5230, 5233, 5231, 5243, 5235, 5239, 5232, 5237: was in 2 resets (one in mirror.are) but global limit was set to 1
-Chapel.are:
-    item 3411, 3416, 3419: was not equippable but found in reset E, hold wear loc added
-    room 3465: reset M 3407 was 2 times but local limit was set to 1
-Astral.are:
-    room 7751, 7765, 7767, 7769: 2 mobs 7707 were in reset but local limit was set to 1
-Caynon.are: 
-    room 9204: reset M 9202, local and global limit was set to 0
-    item 9223, 9224, 9225: was not equippable but found in reset E, hold wear loc added
-Pyramid.are:
-    room 8719: reset O 8723, local and global limit was set to 0
-    room 8745: reset M 8710 was 2 times but local limit was set to 1
-Catacombs.are:
-    room 2016: reset M 2010 was 3 times but local limit was set to 2
-    room 2025: reset E 2001 transformed to G 1 2001   1    	*   a glowing key because a key cannot be hold as light
-Moria.are:
-    room 4013, 4021, 4027: reset M 4003 was 2 times but local limit was set to 1
-    room 4103+4111: total of 3 M 4102 but global limit was set to 2
-Sewer.are:
-    room 7233: reset M 7203 was 2 times but local limit was set to 1
-School.are
-    item 3714: was not equippable but found in reset E, hold wear loc added
-Valley.are
-    room 7853+7866+7860+7848: total of 4 M 7803 but global limit was set to 1
-Dwarven.are:
-    item 6514: was not equippable but found in reset E, hold wear loc added
-Galaxy.are:
-    item 9328: was not equippable but found in reset E, hold wear loc added
-Gnome.are:
-    item 1524: was not equippable but found in reset E and was equipped as weapon but being a boat, hold wear added and changed E reset to hold
-Hitower.are
-    item 1356: was not equippable but found in reset E, wrist wear loc added
-    item 1316, 1323, 1325: was not equippable but found in reset E, hold wear loc added
-    item 1386: was present in 3 resets but global limit was set to 1, set to 3
-Olympus.are:
-    item 915, 916: was not equippable but found in reset E, hold wear loc added
-Shire.are
-    item 1116: was present in 4 resets but global limit was set to 3, set to 9 (was already set to 9 in room 1110)
-    item 621: was present in 15 resets (14 in ofcol2.are and one in shire.are) but global limit was set to 10, set to 99 (was already set to 99 in ofcol2.are)
-Drow.are:
-    item 5104: global and local limit were switched
-Mirror.are:
-    item 5230, 5233, 5243, 5235, 5239, 5232, 5237: was in 2 resets (one in thalos.are) but global limit was set to 1
-Eastern.are:
-    item 3022: was present in 26 resets but global limit was set to 25, set to 50 (was already set to 50 in room 5009)
 AreaBlueprint: flags, and other fields
 Reset 'D'
 Admin command Resets
@@ -356,6 +381,9 @@ isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + f
 
 Mystery to new format converter (see olc_act.C:2578 for obj values  L4571 for mob values)
 Other format (ROM, Merc, ...)
+
+Use lennysho.are (rom2.4) lhouse.are (old format) to create a reader for old format
+
 
 combat table:
 http://wowwiki.wikia.com/wiki/Combat

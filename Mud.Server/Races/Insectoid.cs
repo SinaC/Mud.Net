@@ -12,10 +12,13 @@ namespace Mud.Server.Races
             Domain.EquipmentSlots.Light,
             Domain.EquipmentSlots.Head,
             Domain.EquipmentSlots.Amulet,
+            Domain.EquipmentSlots.Amulet,
             Domain.EquipmentSlots.Chest,
             Domain.EquipmentSlots.Cloak,
             Domain.EquipmentSlots.Waist,
             // --> 2 pair of hands
+            Domain.EquipmentSlots.Wrists,
+            Domain.EquipmentSlots.Wrists,
             Domain.EquipmentSlots.Wrists,
             Domain.EquipmentSlots.Wrists,
             Domain.EquipmentSlots.Arms,

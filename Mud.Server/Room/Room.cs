@@ -272,9 +272,9 @@ namespace Mud.Server.Room
                             ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInRoomReset.ItemId);
                             if (blueprint != null)
                             {
-                                // Global limit is not used in stock rom2.4
-                                //int globalCount = itemInRoomReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
-                                //if (globalCount < itemInRoomReset.GlobalLimit)
+                                // Global limit is not used in stock rom2.4 but used once OLC is added
+                                int globalCount = itemInRoomReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
+                                if (globalCount < itemInRoomReset.GlobalLimit)
                                 {
                                     int localCount = itemInRoomReset.LocalLimit == -1 ? int.MinValue : Content.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
                                     if (localCount < itemInRoomReset.LocalLimit)
@@ -298,9 +298,9 @@ namespace Mud.Server.Room
                             ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInItemReset.ItemId);
                             if (blueprint != null)
                             {
-                                // Global limit is not used in stock rom2.4
-                                //int globalCount = itemInItemReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
-                                //if (globalCount < itemInItemReset.GlobalLimit)
+                                // Global limit is not used in stock rom2.4 but used once OLC is added
+                                int globalCount = itemInItemReset.GlobalLimit == -1 ? int.MinValue : World.Items.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
+                                if (globalCount < itemInItemReset.GlobalLimit)
                                 {
                                     ItemBlueprintBase containerBlueprint = World.GetItemBlueprint(itemInItemReset.ContainerId);
                                     if (containerBlueprint != null)
@@ -375,7 +375,7 @@ namespace Mud.Server.Room
                                     }
                                 }
                                 else
-                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} previous character was not loaded successfully");
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} previous reset was not loaded successfully");
                             }
                             else
                                 Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} not found");
@@ -422,7 +422,7 @@ namespace Mud.Server.Room
                                     }
                                 }
                                 else
-                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} previous character was not loaded successfully");
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} previous reset was not loaded successfully");
                             }
                             else
                                 Log.Default.WriteLine(LogLevels.Warning, $"Room {Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} not found");

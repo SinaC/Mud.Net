@@ -14,69 +14,199 @@ mystery resets are totally messed up
 
 
 AREA ISSUES:
-2020-05-19 22:06:45.0758 1 WARN Specific area file Helps not yet available
-2020-05-19 22:06:46.9205 1 WARN Specific area file Helps not yet available
-2020-05-19 22:06:46.9205 1 WARN Specific area file Helps not yet available
-2020-05-19 22:06:47.0154 1 WARN Specific area file Socials not yet available
-2020-05-19 22:06:47.4901 1 WARN Unknown wear location: 16401 for item 304
-2020-05-19 22:06:47.4901 1 WARN Unknown wear location: 10 for item 3419
-2020-05-19 22:06:47.4901 1 WARN Unknown wear location: 16389 for item 2220
-2020-05-19 22:06:47.4901 1 WARN Unknown wear location: 16349 for item 9321
-2020-05-19 22:06:47.4901 1 WARN Unknown wear location: 17409 for item 1345
-2020-05-19 22:06:47.4901 1 WARN Unknown wear location: 16389 for item 9501
-2020-05-19 22:06:47.4901 1 WARN Unknown wear location: 1033 for item 9552
-2020-05-19 22:06:47.4901 1 WARN Unknown wear location: 16389 for item 9587
-2020-05-19 22:06:47.4901 1 WARN Unknown wear location: 16389 for item 9587
-2020-05-19 22:06:47.6280 1 WARN Destination room -1 not found for room 7745 direction South
-2020-05-19 22:06:47.6280 1 WARN Destination room -1 not found for room 7746 direction East
-2020-05-19 22:06:47.6280 1 WARN Destination room -1 not found for room 7747 direction Up
-2020-05-19 22:06:47.6280 1 WARN Destination room -1 not found for room 7748 direction West
-2020-05-19 22:06:47.6280 1 WARN Destination room -1 not found for room 7749 direction Up
-2020-05-19 22:06:47.6280 1 WARN Destination room -1 not found for room 7749 direction Down
-2020-05-19 22:06:47.6280 1 WARN Destination room -1 not found for room 7768 direction East
-2020-05-19 22:06:47.7269 1 WARN Destination room -1 not found for room 1418 direction North
-2020-05-19 22:06:47.7269 1 WARN Destination room -1 not found for room 1418 direction South
-2020-05-19 22:06:47.7269 1 WARN Destination room -1 not found for room 1418 direction West
-2020-05-19 22:06:47.7269 1 WARN Destination room -1 not found for room 1499 direction Down
-2020-05-19 22:06:47.7819 1 WARN Destination room -1 not found for room 8318 direction South
-2020-05-19 22:06:47.7899 1 WARN Destination room -1 not found for room 3518 direction East
-2020-05-19 22:06:47.7899 1 WARN Destination room -1 not found for room 3519 direction West
-2020-05-19 22:06:47.8388 1 WARN Destination room -1 not found for room 9511 direction South
-2020-05-19 22:06:47.8668 1 WARN Destination room -1 not found for room 9667 direction East
-2020-05-19 22:06:47.8668 1 WARN Destination room -1 not found for room 9667 direction West
-2020-05-19 22:06:47.9388 1 WARN Destination room -1 not found for room 7105 direction Down
-2020-05-19 22:06:47.9438 1 WARN Destination room -1 not found for room 7122 direction East
-2020-05-19 22:06:47.9438 1 WARN Destination room -1 not found for room 7301 direction North
-2020-05-19 22:06:47.9438 1 WARN Destination room -1 not found for room 7301 direction Up
-2020-05-19 22:06:47.9607 1 WARN Destination room -1 not found for room 7434 direction Down
-2020-05-19 22:06:47.9607 1 WARN Destination room -1 not found for room 7903 direction West
-2020-05-19 22:06:47.9607 1 WARN Destination room -1 not found for room 7910 direction East
-2020-05-19 22:06:47.9607 1 WARN Destination room -1 not found for room 7912 direction Down
-2020-05-19 22:06:48.1526 1 WARN Class thief doesn't have any allowed resources
-2020-05-19 22:06:48.1526 1 WARN Class warrior doesn't have any allowed resources
-2020-05-19 22:06:48.3794 1 WARN Room 647: E: Item 627 wear location Shield doesn't exist on last character 600
-2020-05-19 22:06:48.3794 1 WARN Room 669: E: Item 627 wear location Shield doesn't exist on last character 602
-2020-05-19 22:06:48.3794 1 WARN Room 698: E: Item 627 wear location Shield doesn't exist on last character 634
-2020-05-19 22:06:48.3794 1 WARN Room 698: E: Item 627 wear location Shield doesn't exist on last character 634
-2020-05-19 22:06:48.3794 1 WARN Room 698: E: Item 627 wear location Shield doesn't exist on last character 634
-2020-05-19 22:06:48.3794 1 WARN Room 699: E: Item 637 wear location Shield doesn't exist on last character 603
-2020-05-19 22:06:48.3794 1 WARN Room 699: E: Item 627 wear location Shield doesn't exist on last character 623
-2020-05-19 22:06:48.3794 1 WARN Room 699: E: Item 627 wear location Shield doesn't exist on last character 623
-2020-05-19 22:06:48.3794 1 WARN Room 699: E: Item 627 wear location Shield doesn't exist on last character 623
-2020-05-19 22:06:48.4094 1 ERROR WIZNET: FLAGS: Bugs ItemPotion.GetSpell: ability detect poison has invalid target ItemInventory for blueprint id 7722
-2020-05-19 22:06:48.4094 1 ERROR WIZNET: FLAGS: Bugs ItemPotion.GetSpell: ability detect poison has invalid target ItemInventory for blueprint id 7722
-2020-05-19 22:06:48.4244 1 WARN Room 2050: E: Item 2013 wear location Hold doesn't exist on last character 2016
-2020-05-19 22:06:48.4244 1 WARN Room 3460: E: Item 3419 cannot be equipped
-2020-05-19 22:06:48.4564 1 WARN Room 2214: E: Item 2220 cannot be equipped
-2020-05-19 22:06:48.4714 1 WARN Room 5246: E: Item 5226 wear location Hold doesn't exist on last character 5208
-2020-05-19 22:06:48.4714 1 WARN Room 5247: E: Item 5224 wear location Hold doesn't exist on last character 5208
-2020-05-19 22:06:48.4874 1 WARN Room 9367: E: Item 9321 cannot be equipped
-2020-05-19 22:06:48.5183 1 WARN Room 1454: E: Item 1386 wear location Hold doesn't exist on last character 1356
-2020-05-19 22:06:48.5343 1 WARN Room 2374: E: Item 2314 wear location Wield2H doesn't exist on last character 2327
-2020-05-19 22:06:48.5493 1 WARN Room 2390: E: Item 2324 wear location Amulet doesn't exist on last character 2329
-2020-05-19 22:06:48.5493 1 WARN Room 2399: E: Item 2334 wear location Wield2H doesn't exist on last character 2331
-2020-05-19 22:06:48.5653 1 WARN Room 5319: E: Item 5239 cannot be equipped
-2020-05-19 22:06:48.5853 1 WARN Room 5336: E: Item 5226 wear location Hold doesn't exist on last character 5305
-2020-05-19 22:06:48.7062 1 WARN Room 7428: E: Item 7303 wear location Hold doesn't exist on last character 7040
-2020-05-19 22:06:48.7062 1 WARN Room 7900: E: Item 7221 wear location Shield doesn't exist on last character 7900
-2020-05-19 22:06:48.7062 1 WARN Room 3716: E: Item 3705 wear location Amulet doesn't exist on last character 3702
+2020-05-20 13:37:49.9198 1 WARN Specific area file Helps not yet available
+2020-05-20 13:37:53.6317 1 WARN Specific area file Helps not yet available
+2020-05-20 13:37:53.6317 1 WARN Specific area file Helps not yet available
+2020-05-20 13:37:53.8827 1 WARN Specific area file Socials not yet available
+2020-05-20 13:37:54.8367 1 WARN Unknown wear location: 16401 for item 304
+2020-05-20 13:37:54.8367 1 WARN Unknown wear location: 16389 for item 2220
+2020-05-20 13:37:54.8367 1 WARN Unknown wear location: 17409 for item 1345
+2020-05-20 13:37:54.8367 1 WARN Unknown wear location: 16389 for item 9501
+2020-05-20 13:37:54.8367 1 WARN Unknown wear location: 1033 for item 9552
+2020-05-20 13:37:54.8367 1 WARN Unknown wear location: 16389 for item 9587
+2020-05-20 13:37:54.8367 1 WARN Unknown wear location: 16389 for item 9587
+2020-05-20 13:37:54.9737 1 WARN Destination room -1 not found for room 7745 direction South
+2020-05-20 13:37:54.9737 1 WARN Destination room -1 not found for room 7746 direction East
+2020-05-20 13:37:54.9737 1 WARN Destination room -1 not found for room 7747 direction Up
+2020-05-20 13:37:54.9747 1 WARN Destination room -1 not found for room 7748 direction West
+2020-05-20 13:37:54.9747 1 WARN Destination room -1 not found for room 7749 direction Up
+2020-05-20 13:37:54.9747 1 WARN Destination room -1 not found for room 7749 direction Down
+2020-05-20 13:37:54.9747 1 WARN Destination room -1 not found for room 7768 direction East
+2020-05-20 13:37:55.0517 1 WARN Destination room -1 not found for room 1418 direction North
+2020-05-20 13:37:55.0517 1 WARN Destination room -1 not found for room 1418 direction South
+2020-05-20 13:37:55.0527 1 WARN Destination room -1 not found for room 1418 direction West
+2020-05-20 13:37:55.0527 1 WARN Destination room -1 not found for room 1499 direction Down
+2020-05-20 13:37:55.0897 1 WARN Destination room -1 not found for room 8318 direction South
+2020-05-20 13:37:55.0897 1 WARN Destination room -1 not found for room 3518 direction East
+2020-05-20 13:37:55.0897 1 WARN Destination room -1 not found for room 3519 direction West
+2020-05-20 13:37:55.1398 1 WARN Destination room -1 not found for room 9511 direction South
+2020-05-20 13:37:55.1628 1 WARN Destination room -1 not found for room 9667 direction East
+2020-05-20 13:37:55.1628 1 WARN Destination room -1 not found for room 9667 direction West
+2020-05-20 13:37:55.2208 1 WARN Destination room -1 not found for room 7105 direction Down
+2020-05-20 13:37:55.2208 1 WARN Destination room -1 not found for room 7122 direction East
+2020-05-20 13:37:55.2317 1 WARN Destination room -1 not found for room 7301 direction North
+2020-05-20 13:37:55.2317 1 WARN Destination room -1 not found for room 7301 direction Up
+2020-05-20 13:37:55.2317 1 WARN Destination room -1 not found for room 7434 direction Down
+2020-05-20 13:37:55.2427 1 WARN Destination room -1 not found for room 7903 direction West
+2020-05-20 13:37:55.2427 1 WARN Destination room -1 not found for room 7910 direction East
+2020-05-20 13:37:55.2427 1 WARN Destination room -1 not found for room 7912 direction Down
+2020-05-20 13:37:55.4067 1 WARN Class thief doesn't have any allowed resources
+2020-05-20 13:37:55.4067 1 WARN Class warrior doesn't have any allowed resources
+2020-05-20 13:37:55.7895 1 ERROR Room 1333: O: item 1307 found 2 times in room but local limit is 1 -> modifying local limit to 2
+2020-05-20 13:37:55.7895 1 ERROR Room 1333: O: item 1307 found 2 times in room but local limit is 1 -> modifying local limit to 2
+2020-05-20 13:37:55.7895 1 ERROR Room 2214: E: item 2220 has no wear location but reset equipment slot Amulet -> modifying item wear location to Amulet
+2020-05-20 13:37:55.7895 1 ERROR Room 2387: E: item 2382 reset equipment slot OffHand incompatible with wear location Amulet -> modifying reset equipment slot to Amulet
+2020-05-20 13:37:55.7895 1 ERROR Room 6534: O: item 6506 found 2 times in room but local limit is 1 -> modifying local limit to 2
+2020-05-20 13:37:55.7895 1 ERROR Room 8915: O: item 8902 found 2 times in room but local limit is 1 -> modifying local limit to 2
+2020-05-20 13:37:55.7895 1 ERROR Room 8915: O: item 8902 found 2 times in room but local limit is 1 -> modifying local limit to 2
+2020-05-20 13:37:55.7895 1 ERROR Room 9220: E: item 9222 reset equipment slot OffHand incompatible with wear location Light -> modifying reset equipment slot to Light
+2020-05-20 13:37:55.7895 1 WARN Room 910: G: item 909 found 9 times in world but global limit is 5
+2020-05-20 13:37:55.7895 1 WARN Room 925: G: item 909 found 9 times in world but global limit is 5
+2020-05-20 13:37:55.7895 1 WARN Room 926: G: item 909 found 9 times in world but global limit is 5
+2020-05-20 13:37:55.7895 1 WARN Room 927: G: item 905 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 927: G: item 909 found 9 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 927: G: item 910 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 927: G: item 926 found 9 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 935: G: item 904 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 935: G: item 908 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 935: G: item 911 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 936: G: item 907 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 936: G: item 913 found 3 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 937: G: item 909 found 9 times in world but global limit is 5
+2020-05-20 13:37:55.7895 1 WARN Room 938: G: item 909 found 9 times in world but global limit is 5
+2020-05-20 13:37:55.7895 1 WARN Room 945: G: item 909 found 9 times in world but global limit is 5
+2020-05-20 13:37:55.7895 1 WARN Room 946: G: item 909 found 9 times in world but global limit is 5
+2020-05-20 13:37:55.7895 1 WARN Room 947: G: item 909 found 9 times in world but global limit is 5
+2020-05-20 13:37:55.7895 1 WARN Room 1119: E: item 1116 found 4 times in world but global limit is 3
+2020-05-20 13:37:55.7895 1 WARN Room 1136: E: item 621 found 15 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 1145: E: item 1116 found 4 times in world but global limit is 3
+2020-05-20 13:37:55.7895 1 WARN Room 1153: E: item 1116 found 4 times in world but global limit is 3
+2020-05-20 13:37:55.7895 1 WARN Room 1454: E: item 1386 found 3 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 1464: E: item 1386 found 3 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 1469: E: item 1386 found 3 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 3509: E: item 3072 found 7 times in world but global limit is 6
+2020-05-20 13:37:55.7895 1 WARN Room 4111: M: character 4102 found 3 times in world but global limit is 2
+2020-05-20 13:37:55.7895 1 WARN Room 4111: M: character 4102 found 3 times in world but global limit is 2
+2020-05-20 13:37:55.7895 1 WARN Room 5031: E: item 3022 found 26 times in world but global limit is 25
+2020-05-20 13:37:55.7895 1 WARN Room 5105: E: item 5104 found 6 times in world but global limit is 3
+2020-05-20 13:37:55.7895 1 WARN Room 5109: E: item 5104 found 6 times in world but global limit is 3
+2020-05-20 13:37:55.7895 1 WARN Room 5113: E: item 5104 found 6 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5116: E: item 5104 found 6 times in world but global limit is 2
+2020-05-20 13:37:55.7895 1 WARN Room 5120: E: item 5104 found 6 times in world but global limit is 2
+2020-05-20 13:37:55.7895 1 WARN Room 5125: E: item 5104 found 6 times in world but global limit is 3
+2020-05-20 13:37:55.7895 1 WARN Room 5205: E: item 5230 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5216: E: item 5233 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5219: E: item 5231 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5224: E: item 5243 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5226: E: item 5235 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5226: G: item 5239 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5234: E: item 5232 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5236: E: item 5237 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5300: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5300: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5300: E: item 5321 found 12 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5300: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5304: E: item 5321 found 12 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5304: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5307: E: item 5321 found 12 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5307: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5313: E: item 5321 found 12 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5313: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5315: E: item 5321 found 12 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5315: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5319: E: item 5239 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5324: E: item 5321 found 12 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5324: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5331: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5334: E: item 5321 found 12 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5334: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5335: E: item 5321 found 12 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5335: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5335: E: item 5321 found 12 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5335: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5335: E: item 5321 found 12 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5335: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5341: E: item 5321 found 12 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5341: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5346: E: item 5233 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5347: E: item 5232 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5348: E: item 5235 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5350: E: item 5243 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5350: E: item 5321 found 12 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5350: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5352: E: item 5319 found 16 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5354: E: item 5237 found 2 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 5381: E: item 3365 found 24 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5381: E: item 3364 found 24 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5381: E: item 3353 found 20 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5384: E: item 3365 found 24 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5384: E: item 3364 found 24 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 5384: E: item 3353 found 20 times in world but global limit is 10
+2020-05-20 13:37:55.7895 1 WARN Room 6012: M: character 309 found 7 times in world but global limit is 5
+2020-05-20 13:37:55.7895 1 WARN Room 6015: M: character 309 found 7 times in world but global limit is 5
+2020-05-20 13:37:55.7895 1 WARN Room 6017: M: character 309 found 7 times in world but global limit is 5
+2020-05-20 13:37:55.7895 1 WARN Room 6019: M: character 309 found 7 times in world but global limit is 5
+2020-05-20 13:37:55.7895 1 WARN Room 6608: M: character 6603 found 5 times in world but global limit is 4
+2020-05-20 13:37:55.7895 1 WARN Room 6609: M: character 6603 found 5 times in world but global limit is 3
+2020-05-20 13:37:55.7895 1 WARN Room 6609: M: character 6603 found 5 times in world but global limit is 4
+2020-05-20 13:37:55.7895 1 WARN Room 6610: M: character 6603 found 5 times in world but global limit is 4
+2020-05-20 13:37:55.7895 1 WARN Room 6611: M: character 6603 found 5 times in world but global limit is 4
+2020-05-20 13:37:55.7895 1 WARN Room 7827: E: item 7801 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7827: E: item 7803 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7842: E: item 7801 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7842: E: item 7803 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7848: E: item 7801 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7848: E: item 7803 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7848: E: item 7801 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7848: E: item 7803 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7850: E: item 7801 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7850: E: item 7803 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7852: E: item 7801 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7852: E: item 7803 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7853: M: character 7803 found 4 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 7853: E: item 7801 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7853: E: item 7803 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7856: E: item 7801 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7856: E: item 7803 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7860: E: item 7801 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7860: E: item 7803 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7862: E: item 7801 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7862: E: item 7803 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7863: E: item 7801 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7863: E: item 7803 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7866: E: item 7801 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7866: E: item 7803 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7876: E: item 7801 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 7876: E: item 7803 found 13 times in world but global limit is 9
+2020-05-20 13:37:55.7895 1 WARN Room 9519: E: item 9513 found 10 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 9520: E: item 9513 found 10 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 9522: E: item 9513 found 10 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 9522: E: item 9513 found 10 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 9523: E: item 9513 found 10 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 9523: E: item 9513 found 10 times in world but global limit is 1
+2020-05-20 13:37:55.7895 1 WARN Room 9629: G: item 9519 found 13 times in world but global limit is 10
+2020-05-20 13:37:55.8025 1 WARN Room 647: E: Item 627 wear location Shield doesn't exist on last character 600
+2020-05-20 13:37:55.8025 1 WARN Room 669: E: Item 627 wear location Shield doesn't exist on last character 602
+2020-05-20 13:37:55.8025 1 WARN Room 698: E: Item 627 wear location Shield doesn't exist on last character 634
+2020-05-20 13:37:55.8025 1 WARN Room 698: E: Item 627 wear location Shield doesn't exist on last character 634
+2020-05-20 13:37:55.8025 1 WARN Room 698: E: Item 627 wear location Shield doesn't exist on last character 634
+2020-05-20 13:37:55.8025 1 WARN Room 699: E: Item 637 wear location Shield doesn't exist on last character 603
+2020-05-20 13:37:55.8025 1 WARN Room 699: E: Item 627 wear location Shield doesn't exist on last character 623
+2020-05-20 13:37:55.8025 1 WARN Room 699: E: Item 627 wear location Shield doesn't exist on last character 623
+2020-05-20 13:37:55.8025 1 WARN Room 699: E: Item 627 wear location Shield doesn't exist on last character 623
+2020-05-20 13:37:55.8345 1 ERROR WIZNET: FLAGS: Bugs ItemPotion.GetSpell: ability detect poison has invalid target ItemInventory for blueprint id 7722
+2020-05-20 13:37:55.8345 1 ERROR WIZNET: FLAGS: Bugs ItemPotion.GetSpell: ability detect poison has invalid target ItemInventory for blueprint id 7722
+2020-05-20 13:37:55.8655 1 WARN Room 6611: E: Obj 6647 previous reset was not loaded successfully
+2020-05-20 13:37:55.8805 1 WARN Room 5246: E: Item 5226 wear location Hold doesn't exist on last character 5208
+2020-05-20 13:37:55.8805 1 WARN Room 5247: E: Item 5224 wear location Hold doesn't exist on last character 5208
+2020-05-20 13:37:55.9275 1 WARN Room 1454: E: Item 1386 wear location Hold doesn't exist on last character 1356
+2020-05-20 13:37:55.9775 1 WARN Room 2374: E: Item 2314 wear location Wield2H doesn't exist on last character 2327
+2020-05-20 13:37:55.9905 1 WARN Room 2399: E: Item 2334 wear location Wield2H doesn't exist on last character 2331
+2020-05-20 13:37:56.0055 1 WARN Room 5336: E: Item 5226 wear location Hold doesn't exist on last character 5305
+2020-05-20 13:37:56.0375 1 WARN Room 4111: G: Obj 4104 previous reset was not loaded successfully
+2020-05-20 13:37:56.1155 1 WARN Room 7428: E: Item 7303 wear location Hold doesn't exist on last character 7040
+2020-05-20 13:37:56.1155 1 WARN Room 7900: E: Item 7221 wear location Shield doesn't exist on last character 7900
+2020-05-20 13:37:56.1775 1 WARN Room 7853: E: Obj 7800 previous reset was not loaded successfully
+2020-05-20 13:37:56.1775 1 WARN Room 7853: E: Obj 7801 previous reset was not loaded successfully
+2020-05-20 13:37:56.1775 1 WARN Room 7853: E: Obj 7802 previous reset was not loaded successfully
+2020-05-20 13:37:56.1775 1 WARN Room 7853: E: Obj 7803 previous reset was not loaded successfully

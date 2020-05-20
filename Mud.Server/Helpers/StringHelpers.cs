@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Helpers
 {
@@ -227,5 +228,7 @@ namespace Mud.Server.Helpers
                     return state.ToString();
             }
         }
+
+        public static string ItemType(this ItemBlueprintBase blueprint) => blueprint.GetType().Name.Replace("Item", string.Empty).Replace("Blueprint", string.Empty);
     }
 }

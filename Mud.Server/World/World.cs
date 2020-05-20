@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,8 +11,10 @@ using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
+using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
+using Mud.Server.Helpers;
 using Mud.Server.Item;
 using Mud.Server.Room;
 using Mud.Settings;
@@ -522,7 +525,13 @@ namespace Mud.Server.World
         //    return periodicAura;
         //}
 
-        public void HandleResets()
+        public void FixWorld()
+        {
+            FixItems();
+            FixResets();
+        }
+
+        public void ResetWorld()
         {
             foreach (IArea area in _areas)
             {
@@ -668,5 +677,232 @@ namespace Mud.Server.World
             blueprints.TryGetValue(id, out var blueprint);
             return blueprint;
         }
+
+
+        private void FixItems()
+        {
+            Log.Default.WriteLine(LogLevels.Info, "Fixing items");
+            foreach (ItemBlueprintBase itemBlueprint in ItemBlueprints.OrderBy(x => x.Id))
+            {
+                switch (itemBlueprint)
+                {
+                    case ItemLightBlueprint _:
+                        if (itemBlueprint.WearLocation != WearLocations.Light)
+                        {
+                            Log.Default.WriteLine(LogLevels.Error, "Light {0} has wear location {1} -> set wear location to Light", itemBlueprint.Id, itemBlueprint.WearLocation);
+                            itemBlueprint.WearLocation = WearLocations.Light;
+                        }
+
+                        break;
+                    case ItemWeaponBlueprint weaponBlueprint:
+                        if (itemBlueprint.WearLocation != WearLocations.Wield && itemBlueprint.WearLocation != WearLocations.Wield2H)
+                        {
+                            WearLocations newWearLocation = WearLocations.Wield;
+                            if (weaponBlueprint.Flags.HasFlag(WeaponFlags.TwoHands))
+                                newWearLocation = WearLocations.Wield2H;
+                            Log.Default.WriteLine(LogLevels.Error, "Weapon {0} has wear location {1} -> set wear location to {2}", itemBlueprint.Id, itemBlueprint.WearLocation, newWearLocation);
+                            itemBlueprint.WearLocation = newWearLocation;
+                        }
+
+                        break;
+                    case ItemShieldBlueprint _:
+                        if (itemBlueprint.WearLocation != WearLocations.Shield)
+                        {
+                            Log.Default.WriteLine(LogLevels.Error, "Shield {0} has wear location {1} -> set wear location to Shield", itemBlueprint.Id, itemBlueprint.WearLocation);
+                            itemBlueprint.WearLocation = WearLocations.Shield;
+                        }
+
+                        break;
+                    case ItemStaffBlueprint _:
+                    case ItemWandBlueprint _:
+                        if (itemBlueprint.WearLocation != WearLocations.Hold)
+                        {
+                            Log.Default.WriteLine(LogLevels.Error, "{0} {1} has wear location {2} -> set wear location to Hold", itemBlueprint.ItemType(), itemBlueprint.Id, itemBlueprint.WearLocation);
+                            itemBlueprint.WearLocation = WearLocations.Hold;
+                        }
+
+                        break;
+                }
+            }
+
+            Log.Default.WriteLine(LogLevels.Info, "items fixed");
+        }
+
+        private void FixResets()
+        {
+            Log.Default.WriteLine(LogLevels.Info, "Fixing resets");
+
+            // Global count is used to check global limit to 0
+            Dictionary<int, int> characterResetGlobalCountById = new Dictionary<int, int>();
+            Dictionary<int, int> itemResetCountGlobalById = new Dictionary<int, int>();
+
+            foreach (IRoom room in _rooms.Where(x => x.Blueprint.Resets?.Any() == true).OrderBy(x => x.Blueprint.Id))
+            {
+                Dictionary<int, int> characterResetCountById = new Dictionary<int, int>();
+                Dictionary<int, int> itemResetCountById = new Dictionary<int, int>();
+
+                // Count to check local limit  TODO: local limit is relative to container   example in dwarven.are Room 6534: item 6506 found with reset O and reset E -> 2 different containers
+                foreach (ResetBase reset in room.Blueprint.Resets)
+                {
+                    switch (reset)
+                    {
+                        case CharacterReset characterReset:
+                            characterResetCountById.Increment(characterReset.CharacterId);
+                            characterResetGlobalCountById.Increment(characterReset.CharacterId);
+                            break;
+                        case ItemInRoomReset itemInRoomReset:
+                            itemResetCountById.Increment(itemInRoomReset.ItemId);
+                            itemResetCountGlobalById.Increment(itemInRoomReset.ItemId);
+                            break;
+                        case ItemInItemReset itemInItemReset:
+                            itemResetCountById.Increment(itemInItemReset.ItemId);
+                            itemResetCountGlobalById.Increment(itemInItemReset.ItemId);
+                            break;
+                        case ItemInCharacterReset itemInCharacterReset:
+                            itemResetCountById.Increment(itemInCharacterReset.ItemId);
+                            itemResetCountGlobalById.Increment(itemInCharacterReset.ItemId);
+                            break;
+                        case ItemInEquipmentReset itemInEquipmentReset:
+                            itemResetCountById.Increment(itemInEquipmentReset.ItemId);
+                            itemResetCountGlobalById.Increment(itemInEquipmentReset.ItemId);
+                            break;
+                    }
+                }
+
+                // Check local limit + wear location
+                foreach (ResetBase reset in room.Blueprint.Resets)
+                {
+                    switch (reset)
+                    {
+                        case CharacterReset characterReset:
+                        {
+                            int localCount = characterResetCountById[characterReset.CharacterId];
+                            int localLimit = characterReset.LocalLimit;
+                            if (localCount > localLimit)
+                            {
+                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: M: character {1} found {2} times in room but local limit is {3} -> modifying local limit to {4}", room.Blueprint.Id, characterReset.CharacterId, localCount, localLimit, localCount);
+                                characterReset.LocalLimit = localCount;
+                            }
+
+                            break;
+                        }
+
+                        case ItemInRoomReset itemInRoomReset:
+                        {
+                            int localCount = itemResetCountById[itemInRoomReset.ItemId];
+                            int localLimit = itemInRoomReset.LocalLimit;
+                            if (localCount > localLimit)
+                            {
+                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: O: item {1} found {2} times in room but local limit is {3} -> modifying local limit to {4}", room.Blueprint.Id, itemInRoomReset.ItemId, localCount, localLimit, localCount);
+                                itemInRoomReset.LocalLimit = localCount;
+                            }
+
+                            break;
+                        }
+
+                        case ItemInItemReset itemInItemReset:
+                        {
+                            int localCount = itemResetCountById[itemInItemReset.ItemId];
+                            int localLimit = itemInItemReset.LocalLimit;
+                            if (localCount > localLimit)
+                            {
+                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: O: item {1} found {2} times in room but local limit is {3} -> modifying local limit to {4}", room.Blueprint.Id, itemInItemReset.ItemId, localCount, localLimit, localCount);
+                                itemInItemReset.LocalLimit = localCount;
+                            }
+
+                            break;
+                        }
+
+                        case ItemInCharacterReset _: // no local limit check
+                            break;
+                        case ItemInEquipmentReset itemInEquipmentReset: // no local limit check but wear local check
+                        {
+                            // check wear location
+                            ItemBlueprintBase blueprint = GetItemBlueprint(itemInEquipmentReset.ItemId);
+                            if (blueprint != null)
+                            {
+                                if (blueprint.WearLocation == WearLocations.None)
+                                {
+                                    WearLocations[] wearLocations = itemInEquipmentReset.EquipmentSlot.ToWearLocations().ToArray();
+                                    WearLocations newWearLocation = wearLocations.FirstOrDefault(); // TODO: which one to choose from ?
+                                    Log.Default.WriteLine(LogLevels.Error, "Room {0}: E: item {1} has no wear location but reset equipment slot {2} -> modifying item wear location to {3}", room.Blueprint.Id, itemInEquipmentReset.ItemId, itemInEquipmentReset.EquipmentSlot, newWearLocation);
+                                    blueprint.WearLocation = newWearLocation;
+                                }
+                                else
+                                {
+                                    EquipmentSlots[] equipmentSlots = blueprint.WearLocation.ToEquipmentSlots().ToArray();
+                                    if (equipmentSlots.All(x => x != itemInEquipmentReset.EquipmentSlot))
+                                    {
+                                        EquipmentSlots newEquipmentSlot = equipmentSlots.First();
+                                        Log.Default.WriteLine(LogLevels.Error, "Room {0}: E: item {1} reset equipment slot {2} incompatible with wear location {3} -> modifying reset equipment slot to {4}", room.Blueprint.Id, itemInEquipmentReset.ItemId, itemInEquipmentReset.EquipmentSlot, blueprint.WearLocation, newEquipmentSlot);
+                                        itemInEquipmentReset.EquipmentSlot = newEquipmentSlot;
+                                    }
+                                }
+                            }
+
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Check global = 0 but found in reset
+            foreach (IRoom room in _rooms.Where(x => x.Blueprint.Resets?.Any() == true).OrderBy(x => x.Blueprint.Id))
+            {
+                foreach (ResetBase reset in room.Blueprint.Resets)
+                {
+                    switch (reset)
+                    {
+                        case CharacterReset characterReset:
+                        {
+                            int globalCount = characterResetGlobalCountById[characterReset.CharacterId];
+                            if (characterReset.GlobalLimit == 0)
+                            {
+                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: M: character {1} found {2} times in world but global limit is 0 -> modifying global limit to 1", room.Blueprint.Id, characterReset.CharacterId, globalCount);
+                                characterReset.GlobalLimit = 1;
+                            }
+                            else if (characterReset.GlobalLimit != -1 && characterReset.GlobalLimit < globalCount)
+                                Log.Default.WriteLine(LogLevels.Warning, "Room {0}: M: character {1} found {2} times in world but global limit is {3}", room.Blueprint.Id, characterReset.CharacterId, globalCount, characterReset.GlobalLimit);
+
+                            break;
+                        }
+
+                        case ItemInRoomReset _: // no global count check
+                            break;
+                        case ItemInItemReset _: // no global count check
+                            break;
+                        case ItemInCharacterReset itemInCharacterReset:
+                        {
+                            int globalCount = itemResetCountGlobalById[itemInCharacterReset.ItemId];
+                            if (itemInCharacterReset.GlobalLimit == 0)
+                            {
+                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: G: item {1} found {2} times in world but global limit is 0 -> modifying global limit to 1", room.Blueprint.Id, itemInCharacterReset.ItemId, globalCount);
+                                itemInCharacterReset.GlobalLimit = 1;
+                            }
+                            else if (itemInCharacterReset.GlobalLimit != -1 && itemInCharacterReset.GlobalLimit < globalCount)
+                                Log.Default.WriteLine(LogLevels.Warning, "Room {0}: G: item {1} found {2} times in world but global limit is {3}", room.Blueprint.Id, itemInCharacterReset.ItemId, globalCount, itemInCharacterReset.GlobalLimit);
+
+                            break;
+                        }
+                        case ItemInEquipmentReset itemInEquipmentReset:
+                        {
+                            int globalCount = itemResetCountGlobalById[itemInEquipmentReset.ItemId];
+                            if (itemInEquipmentReset.GlobalLimit == 0)
+                            {
+                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: E: item {1} found {2} times in world but global limit is 0 -> modifying global limit to 1", room.Blueprint.Id, itemInEquipmentReset.ItemId, globalCount);
+                                itemInEquipmentReset.GlobalLimit = 1;
+                            }
+                            else if (itemInEquipmentReset.GlobalLimit != -1 && itemInEquipmentReset.GlobalLimit < globalCount)
+                                Log.Default.WriteLine(LogLevels.Warning, "Room {0}: E: item {1} found {2} times in world but global limit is {3}", room.Blueprint.Id, itemInEquipmentReset.ItemId, globalCount, itemInEquipmentReset.GlobalLimit);
+
+                            break;
+                        }
+                    }
+                }
+            }
+
+            Log.Default.WriteLine(LogLevels.Info, "Resets fixed");
+        }
+
     }
 }

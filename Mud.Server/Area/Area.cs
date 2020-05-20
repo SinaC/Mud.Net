@@ -2,6 +2,7 @@
 using Mud.Container;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Logger;
 using Mud.Server.Blueprints.Area;
 
 namespace Mud.Server.Area
@@ -40,6 +41,7 @@ namespace Mud.Server.Area
 
         public void ResetArea()
         {
+            Log.Default.WriteLine(LogLevels.Debug, "Resetting {0}", DisplayName);
             foreach (IRoom room in _rooms)
                 room.ResetRoom();
             Wiznet.Wiznet($"{DisplayName} has just been reset.", Domain.WiznetFlags.Resets);

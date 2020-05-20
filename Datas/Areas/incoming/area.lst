@@ -1,0 +1,54 @@
+-- MERC STYLE: see load_old_mob or load_mob_circle in db.C
+
+2dearth.are
+-MERC STYLE with ROM area header: alice.are
+-ROM no group and pos as int: aliens2.are
+animal.are
+-MERC STYLE: anonplis.are
+bazaar.are // missing S #$ at the end of resets
+bfield.are
+cage2.are
+-ROM no group and pos as int: camp.are
+-ROM no group and pos as int: chaos.are
+-ROM no group and pos as int: cloudymt.are
+-ROM no group and pos as int and MERC header: council.are
+-ROM no group and pos as int: court.are
+-ROM no group and pos as int and MERC header: crypt4.are
+-ROM no group and pos as int + must replace ZZ and XX  group S dethkeep.are
+donjon.are
+-NOT ROM 2.4  mobile position contains xDy+z (maybe money randomizer) grail.are
+-MERC STYLE green.are
+-MERC STYLE hollywd.are
+isles.are
+-MERC STYLE kender.are
+-ROM no group and pos as int: lanfear.are
+lennysho.are
+-MERC STYLE: lhouse.are
+madanon.are
+-MERC STYLE: malathar.are
+-ROM no group and pos as int: mgoose.are
+-ROM no group and pos as int: myth.are
+nation.are
+north.are
+-ROM no group and pos as int: northrd.are
+ocean.are
+-ROM no group and pos as int: olympus2.are
+path.are
+-MERC STYLE pit.are
+-MERC STYLE prehist.are
+prison.are
+riverd.are
+-MERC STYLE rshouse.are
+-MERC STYLE seven.are
+sfield.are
+shaolin.are
+-ROM no group and pos as int: southrd.are
+-ROM no group and pos as int: starwa.are
+-ROM no group and pos as int: swroad.are
+-MERC STYLE tcwnn.are
+-MERC STYLE tcwnn2.are
+-MERC STYLE tel3.are
+tower.are
+-MERC STYLE troy.are
+under2.are
+$

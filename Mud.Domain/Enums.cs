@@ -134,7 +134,7 @@ namespace Mud.Domain
         Ring        = 10,
         Legs        = 11,
         Feet        = 12,
-        Trinket     = 13,
+        //Trinket     = 13,
         Wield       = 14,
         Hold        = 15,
         Shield      = 16,

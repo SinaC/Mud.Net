@@ -1,3 +1,16 @@
+reset differences between Rom2.4 without or with OLC
+WITHOUT OLC						WITH OLC
+M
+	global check on arg2		global check on arg2
+	local check on arg4			local check on arg4
+O
+	local check > 0				global check on arg4
+P
+	global check on arg2		global check on arg4
+	local check on arg4
+G,E
+	global check on arg2		global check on arg2
+
 ROM2.4b6 update and frequency
 
 PULSE_AREA = 120 * PULSE_PER_SECOND

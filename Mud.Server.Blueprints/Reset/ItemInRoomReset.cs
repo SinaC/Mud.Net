@@ -4,6 +4,6 @@
     {
         public int ItemId { get; set; } // arg1
         public int GlobalLimit { get; set; } // arg2
-        public int LocalLimit { get; set; } // arg4
+        public int LocalLimit { get; set; } // set to 1
     }
 }

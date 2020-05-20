@@ -246,7 +246,7 @@ namespace Mud.Importer
             {
                 while (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z'))
                 {
-                    number += flag_convert(c);
+                    number += FlagConvert(c);
                     c = GetChar();
                 }
             }
@@ -296,6 +296,17 @@ namespace Mud.Importer
             UngetChar(c);
         }
 
+        protected void ReadToNextSection()
+        {
+            char c;
+            do
+            {
+                c = GetChar();
+            } while (!IsEof() && c != '#');
+            if (c == '#')
+                UngetChar(c);
+        }
+
         protected static string UpperCaseFirst(string s)
         {
             // Check for empty string.
@@ -305,7 +316,7 @@ namespace Mud.Importer
             return char.ToUpper(s[0]) + s.Substring(1);
         }
 
-        protected static long flag_convert(char letter)
+        protected static long FlagConvert(char letter)
         {
             long bitsum = 0;
             char i;

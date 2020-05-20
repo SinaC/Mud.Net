@@ -8,6 +8,11 @@ namespace Mud.Server.Common
 {
     public static class IEnumerableExtensions
     {
+        public static IEnumerable<T> Yield<T>(this T item)
+        {
+            yield return item;
+        }
+
         //http://stackoverflow.com/questions/22152160/linq-fill-function
         public static IEnumerable<T> Fill<T>(this IEnumerable<T> source, int length)
         {

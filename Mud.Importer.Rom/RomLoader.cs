@@ -89,7 +89,7 @@ namespace Mud.Importer.Rom
                     break; // done
                 if (word == AreaDataHeader)
                     ParseArea();
-                if (word == OldAreaDataHeader)
+                else if (word == OldAreaDataHeader)
                     ParseOldArea();
                 else if (word == MobilesHeader)
                     ParseMobiles();
@@ -106,17 +106,22 @@ namespace Mud.Importer.Rom
                 else if (word.ToUpper() == "STYLE")
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Specific area file Style not yet available");
-                    return;
+                    ReadToNextSection();
                 }
                 else if (word.ToUpper() == "HELPS")
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Specific area file Helps not yet available");
-                    return;
+                    ReadToNextSection();
                 }
                 else if (word.ToUpper() == "SOCIALS")
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Specific area file Socials not yet available");
-                    return;
+                    ReadToNextSection();
+                }
+                else if (word.ToUpper() == "OLIMITS" || word.ToUpper() == "OMPROGS")
+                {
+                    Log.Default.WriteLine(LogLevels.Warning, "Specific '{0}' not handled", word);
+                    ReadToNextSection();
                 }
                 else
                     RaiseParseException("Bad section name: {0}", word);

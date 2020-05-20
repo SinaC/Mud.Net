@@ -417,7 +417,7 @@ namespace Mud.Server.WPFTestApplication
             };
             World.AddItemBlueprint(questItem2Blueprint);
 
-            // MANDATORY ITEM
+            // MANDATORY ITEMS
             if (World.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
             {
                 ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
@@ -427,6 +427,16 @@ namespace Mud.Server.WPFTestApplication
                     Name = "corpse"
                 };
                 World.AddItemBlueprint(corpseBlueprint);
+            }
+            if (World.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CoinsBlueprintId) == null)
+            {
+                ItemMoneyBlueprint moneyBlueprint = new ItemMoneyBlueprint
+                {
+                    Id = DependencyContainer.Current.GetInstance<ISettings>().CoinsBlueprintId,
+                    NoTake = true,
+                    Name = "coins"
+                };
+                World.AddItemBlueprint(moneyBlueprint);
             }
             // MANDATORY ROOM
             RoomBlueprint voidBlueprint = World.GetRoomBlueprint(DependencyContainer.Current.GetInstance<ISettings>().NullRoomId);
@@ -449,6 +459,9 @@ namespace Mud.Server.WPFTestApplication
             IRoom templeSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
             IRoom marketSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "market square");
             IRoom commonSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the common square");
+
+            if (templeOfMota == null || templeSquare == null || marketSquare == null || commonSquare == null)
+                return;
 
             World.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare); // TODO: this should be added dynamically when player takes the quest
 
