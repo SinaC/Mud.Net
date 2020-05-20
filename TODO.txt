@@ -1,7 +1,7 @@
 NEXT:
 
 TODO:
-grove.are: the second jar will never appears
+grove.are: the second jar will never appear
 O 0 8902   2 8915	* a spice jar
 P 1 8903   1 8902  1	*   some black powder
 O 0 8902   2 8915	* a spice jar
