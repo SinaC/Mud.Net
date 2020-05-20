@@ -13,7 +13,7 @@ Multiple wear location
 Reset 'R'
 quest: add quest item on the fly when player takes the quest
 admin command to switch an avatar from/to immortal/mortal
-item: jukebox, protect, room_key
+item: protect, room_key
 master/pet/follower/group
 Monitor Recompute calls
 Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
