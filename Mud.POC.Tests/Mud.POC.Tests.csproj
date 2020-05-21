@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="AbilityCheckImproveTests.cs" />
     <Compile Include="AbilityManagerTests.cs" />
+    <Compile Include="GroupTests.cs" />
     <Compile Include="SkillCommandTest.cs" />
     <Compile Include="SpellTargetTests.cs" />
     <Compile Include="AbilityTestBase.cs" />

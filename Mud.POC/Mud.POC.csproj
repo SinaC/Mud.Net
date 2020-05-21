@@ -143,6 +143,17 @@
     <Compile Include="Affects\RoomFlagsAffect.cs" />
     <Compile Include="Affects\Character.cs" />
     <Compile Include="Abilities\CombatCommands.cs" />
+    <Compile Include="Groups\CharacterBase.cs" />
+    <Compile Include="Groups\Group.cs" />
+    <Compile Include="Groups\ICharacter.cs" />
+    <Compile Include="Groups\IGroup.cs" />
+    <Compile Include="Groups\INonPlayableCharacter.cs" />
+    <Compile Include="Groups\IPlayableCharacter.cs" />
+    <Compile Include="Groups\IRoom.cs" />
+    <Compile Include="Groups\NonPlayableCharacter.cs" />
+    <Compile Include="Groups\PlayableCharacter.cs" />
+    <Compile Include="Groups\PlayableCharacterCommands.cs" />
+    <Compile Include="Groups\Room.cs" />
     <Compile Include="NewMud2\AbilityBase.cs" />
     <Compile Include="NewMud2\DamageTypes.cs" />
     <Compile Include="NewMud2\Factory.cs" />
