@@ -5,7 +5,7 @@ using Mud.POC.GroupsPetsFollowers;
 namespace Mud.POC.Tests.Followers
 {
     [TestClass]
-    public class OnRemovedTests
+    public class OnRemovedTests : FollowerTestBase
     {
         [TestMethod]
         public void OnRemoved_Leader()

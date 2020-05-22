@@ -15,6 +15,7 @@ namespace Mud.POC.GroupsPetsFollowers
             Name = name;
             Room = room;
             Room.Enter(this);
+            World.AddCharacter(this);
         }
 
         #region ICharacter
@@ -126,7 +127,7 @@ namespace Mud.POC.GroupsPetsFollowers
         }
 
         // TEST PURPOSE
-        public IWorld World { get; protected set; }
+        public IWorld World => GroupsPetsFollowers.World.Instance;
 
         #endregion
 

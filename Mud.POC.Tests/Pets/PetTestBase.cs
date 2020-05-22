@@ -1,12 +1,20 @@
 ﻿using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.POC.GroupsPetsFollowers;
 using Mud.Server.Input;
 
 namespace Mud.POC.Tests.Pets
 {
+    [TestClass]
     public abstract class PetTestBase
     {
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            World.Instance.Clear();
+        }
+
         protected Mock<INonPlayableCharacter> CreatePetMock(string name)
         {
             Mock<INonPlayableCharacter> npcMock = new Mock<INonPlayableCharacter>();

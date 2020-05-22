@@ -16,7 +16,7 @@ namespace Mud.POC.Tests.Followers
             var args = BuildParameters("");
             CommandExecutionResults result = player1.DoNofollow(args.rawParameters, args.parameters);
 
-            Assert.AreEqual(CommandExecutionResults.NoExecution, result);
+            Assert.AreEqual(CommandExecutionResults.Ok, result);
         }
 
         [TestMethod]

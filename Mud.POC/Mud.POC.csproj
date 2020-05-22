@@ -156,6 +156,7 @@
     <Compile Include="GroupsPetsFollowers\PlayableCharacter.cs" />
     <Compile Include="GroupsPetsFollowers\PlayableCharacterCommands.cs" />
     <Compile Include="GroupsPetsFollowers\Room.cs" />
+    <Compile Include="GroupsPetsFollowers\World.cs" />
     <Compile Include="NewMud2\AbilityBase.cs" />
     <Compile Include="NewMud2\DamageTypes.cs" />
     <Compile Include="NewMud2\Factory.cs" />

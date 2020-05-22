@@ -5,7 +5,7 @@ using Mud.POC.GroupsPetsFollowers;
 namespace Mud.POC.Tests.Followers
 {
     [TestClass]
-    public class AddFollowerTests
+    public class AddFollowerTests : FollowerTestBase
     {
         [TestMethod]
         public void AddFollower()
