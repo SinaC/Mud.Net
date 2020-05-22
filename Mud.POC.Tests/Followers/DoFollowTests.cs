@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.POC.GroupsPetsFollowers;
 using Mud.Server.Input;
@@ -70,8 +69,7 @@ namespace Mud.POC.Tests.Followers
             CommandExecutionResults result = player1.DoFollow(args.rawParameters, args.parameters);
 
             Assert.AreEqual(CommandExecutionResults.Ok, result);
-            Assert.AreSame(mob1, player1.Follows);
-            Assert.AreEqual(1, mob1.Followers.Count());
+            Assert.AreSame(mob1, player1.Leader);
         }
 
         [TestMethod]

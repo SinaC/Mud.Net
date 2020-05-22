@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using Mud.Server.Common;
 using Mud.Server.Input;
 
@@ -16,12 +14,12 @@ namespace Mud.POC.GroupsPetsFollowers
         {
             if (parameters.Length == 0)
             {
-                if (Follows == null)
+                if (Leader == null)
                 {
                     Send("You are not following anyone.");
                     return CommandExecutionResults.NoExecution;
                 }
-                Act(ActTargets.ToCharacter, "You are following {0:N}.", Follows);
+                Act(ActTargets.ToCharacter, "You are following {0:N}.", Leader);
                 return CommandExecutionResults.Ok;
             }
 
@@ -36,18 +34,18 @@ namespace Mud.POC.GroupsPetsFollowers
             // follow ourself -> cancel follow
             if (target == this)
             {
-                if (Follows == null)
+                if (Leader == null)
                 {
                     Send("You are not following anyone.");
                     return CommandExecutionResults.InvalidTarget;
                 }
 
-                Follows.RemoveFollower(this);
+                Leader.RemoveFollower(this);
                 return CommandExecutionResults.Ok;
             }
 
             // check cycle
-            ICharacter next = Follows;
+            ICharacter next = Leader;
             while (next != null)
             {
                 if (next == target)
@@ -55,7 +53,7 @@ namespace Mud.POC.GroupsPetsFollowers
                     Act(ActTargets.ToCharacter, "You can't follow {0:N}.", target);
                     return CommandExecutionResults.InvalidTarget; // found a cycle
                 }
-                next = next.Follows;
+                next = next.Leader;
             }
 
             target.AddFollower(this);
@@ -66,15 +64,9 @@ namespace Mud.POC.GroupsPetsFollowers
         [Syntax("[cmd]")]
         public CommandExecutionResults DoNofollow(string rawParameters, params CommandParameter[] parameters)
         {
-            if (Followers.Any())
-            {
-                IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Followers.ToList());
-                foreach (ICharacter follower in clone)
-                    RemoveFollower(follower);
-                return CommandExecutionResults.Ok;
-            }
-            Send("You don't have any followers.");
-            return CommandExecutionResults.NoExecution;
+            foreach (ICharacter follower in World.Characters.Where(x => x.Leader == this))
+                RemoveFollower(follower);
+            return CommandExecutionResults.Ok;
         }
     }
 }

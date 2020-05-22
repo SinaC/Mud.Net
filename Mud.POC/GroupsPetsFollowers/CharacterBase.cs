@@ -9,13 +9,9 @@ namespace Mud.POC.GroupsPetsFollowers
 {
     public abstract partial class CharacterBase : ICharacter
     {
-        private readonly List<ICharacter> _followers;
-
         protected CharacterBase(string name, IRoom room)
         {
             IsValid = true;
-            _followers = new List<ICharacter>();
-
             Name = name;
             Room = room;
             Room.Enter(this);
@@ -44,47 +40,45 @@ namespace Mud.POC.GroupsPetsFollowers
             Room = room;
         }
 
-        public IEnumerable<ICharacter> Followers => _followers;
-
-        public ICharacter Follows { get; protected set; }
+        public ICharacter Leader { get; protected set; }
 
         public void AddFollower(ICharacter character)
         {
-            if (Followers.Contains(character))
+            if (character.Leader == this)
                 return;
-            // check if A->B->A
-            ICharacter next = Follows;
+            // check if A->B->C->A
+            ICharacter next = Leader;
             while (next != null)
             {
                 if (next == character)
                     return; // found a cycle
-                next = next.Follows;
+                next = next.Leader;
             }
 
-            character.Follows?.RemoveFollower(character);
-            _followers.Add(character);
-            character.ChangeFollows(this);
+            character.Leader?.RemoveFollower(character);
+            character.ChangeLeader(this);
             Act(ActTargets.ToCharacter, "{0:N} starts following you.");
             character.Act(ActTargets.ToCharacter, "You start following {0:N}.", this);
         }
 
         public void RemoveFollower(ICharacter character)
         {
-            if (!Followers.Contains(character))
+            if (character.Leader != this)
                 return;
             Act(ActTargets.ToCharacter, "{0:N} stops following you.");
             character.Act(ActTargets.ToCharacter, "You stop following {0:N}.", this);
-            _followers.Remove(character);
-            character.ChangeFollows(null);
+            character.ChangeLeader(null);
         }
 
-        public void ChangeFollows(ICharacter character)
+        public void ChangeLeader(ICharacter character)
         {
-            Follows = character;
+            Leader = character;
         }
 
         public void Send(string format, params object[] args)
         {
+            if (!IsValid)
+                return;
             if (args.Length > 0)
             {
                 string msg = $"[{DisplayName}]<-" + format + string.Join(",", args.Select(x => $"[{x}]"));
@@ -99,11 +93,15 @@ namespace Mud.POC.GroupsPetsFollowers
 
         public void Send(StringBuilder sb)
         {
+            if (!IsValid)
+                return;
             Debug.Write(sb.ToString());
         }
 
         public void Act(ActTargets actTarget, string format, params object[] args)
         {
+            if (!IsValid)
+                return;
             IEnumerable<ICharacter> targets;
             if (actTarget == ActTargets.ToCharacter)
                 targets = this.Yield();
@@ -120,13 +118,15 @@ namespace Mud.POC.GroupsPetsFollowers
             IsValid = false;
 
             // Leave follower
-            Follows?.RemoveFollower(this);
+            Leader?.RemoveFollower(this);
 
             // Release followers
-            foreach (ICharacter follower in _followers)
-                follower.ChangeFollows(null);
-            _followers.Clear();
+            foreach (ICharacter follower in World.Characters.Where(x => x.Leader == this))
+                RemoveFollower(follower);
         }
+
+        // TEST PURPOSE
+        public IWorld World { get; protected set; }
 
         #endregion
 

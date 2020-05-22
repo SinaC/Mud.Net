@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.POC.GroupsPetsFollowers;
 
@@ -17,10 +16,8 @@ namespace Mud.POC.Tests.Followers
 
             player1.RemoveFollower(mob1);
 
-            Assert.IsNull(mob1.Follows);
-            Assert.IsNull(player1.Follows);
-            Assert.AreEqual(0, player1.Followers.Count());
-            Assert.AreEqual(0, mob1.Followers.Count());
+            Assert.IsNull(mob1.Leader);
+            Assert.IsNull(player1.Leader);
         }
 
         [TestMethod]
@@ -31,10 +28,8 @@ namespace Mud.POC.Tests.Followers
 
             player1.RemoveFollower(mob1);
 
-            Assert.IsNull(mob1.Follows);
-            Assert.IsNull(player1.Follows);
-            Assert.AreEqual(0, player1.Followers.Count());
-            Assert.AreEqual(0, mob1.Followers.Count());
+            Assert.IsNull(mob1.Leader);
+            Assert.IsNull(player1.Leader);
         }
     }
 }

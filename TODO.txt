@@ -1,7 +1,8 @@
 NEXT:
 Group/Pets/Follow in POC
-can group only if following us
-follow ourself if in a group, remove ourself from group
+	can group only if following us
+	follow self if in a group, remove self from group
+	unit test: add World implementation with AddCharacter method (called from ICharacter ctor) and Clear method called in TestInitialize
 
 SHORT TERM TODO:
 grove.are: the second jar will never appear

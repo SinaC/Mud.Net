@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.POC.GroupsPetsFollowers;
 
@@ -16,11 +15,9 @@ namespace Mud.POC.Tests.Followers
 
             player1.AddFollower(mob1);
 
-            Assert.IsNotNull(mob1.Follows);
-            Assert.IsNull(player1.Follows);
-            Assert.AreSame(player1, mob1.Follows);
-            Assert.AreEqual(1, player1.Followers.Count());
-            Assert.AreEqual(0, mob1.Followers.Count());
+            Assert.IsNotNull(mob1.Leader);
+            Assert.IsNull(player1.Leader);
+            Assert.AreSame(player1, mob1.Leader);
         }
 
         [TestMethod]
@@ -32,12 +29,9 @@ namespace Mud.POC.Tests.Followers
 
             player1.AddFollower(mob1);
 
-            Assert.IsNotNull(mob1.Follows);
-            Assert.IsNull(player1.Follows);
-            Assert.AreSame(player1, mob1.Follows);
-            Assert.AreEqual(1, player1.Followers.Count());
-            Assert.AreSame(mob1, player1.Followers.Single());
-            Assert.AreEqual(0, mob1.Followers.Count());
+            Assert.IsNotNull(mob1.Leader);
+            Assert.IsNull(player1.Leader);
+            Assert.AreSame(player1, mob1.Leader);
         }
 
         [TestMethod]
@@ -50,13 +44,10 @@ namespace Mud.POC.Tests.Followers
 
             player1.AddFollower(mob2);
 
-            Assert.IsNull(mob1.Follows);
-            Assert.IsNull(mob1.Follows);
-            Assert.IsNotNull(mob2.Follows);
-            Assert.AreSame(player1, mob2.Follows);
-            Assert.AreEqual(1, player1.Followers.Count());
-            Assert.AreSame(mob2, player1.Followers.Single());
-            Assert.AreEqual(0, mob1.Followers.Count());
+            Assert.IsNull(mob1.Leader);
+            Assert.IsNull(mob1.Leader);
+            Assert.IsNotNull(mob2.Leader);
+            Assert.AreSame(player1, mob2.Leader);
         }
 
         [TestMethod]
@@ -68,11 +59,9 @@ namespace Mud.POC.Tests.Followers
 
             mob1.AddFollower(player1);
 
-            Assert.IsNotNull(mob1.Follows);
-            Assert.IsNull(player1.Follows);
-            Assert.AreSame(player1, mob1.Follows);
-            Assert.AreEqual(1, player1.Followers.Count());
-            Assert.AreEqual(0, mob1.Followers.Count());
+            Assert.IsNotNull(mob1.Leader);
+            Assert.IsNull(player1.Leader);
+            Assert.AreSame(player1, mob1.Leader);
         }
 
         [TestMethod]
@@ -88,10 +77,10 @@ namespace Mud.POC.Tests.Followers
 
             mob3.AddFollower(player1);
 
-            Assert.IsNull(player1.Follows);
-            Assert.IsNotNull(mob1.Follows);
-            Assert.IsNotNull(mob2.Follows);
-            Assert.IsNotNull(mob3.Follows);
+            Assert.IsNull(player1.Leader);
+            Assert.IsNotNull(mob1.Leader);
+            Assert.IsNotNull(mob2.Leader);
+            Assert.IsNotNull(mob3.Leader);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using Mud.Server.Input;
 
 namespace Mud.POC.GroupsPetsFollowers
@@ -18,12 +17,11 @@ namespace Mud.POC.GroupsPetsFollowers
 
         void ChangeRoom(IRoom room);
 
-        IEnumerable<ICharacter> Followers { get; }
-        ICharacter Follows { get; }
+        ICharacter Leader { get; } // character we are following, different from group leader
 
         void AddFollower(ICharacter character);
         void RemoveFollower(ICharacter character);
-        void ChangeFollows(ICharacter character);
+        void ChangeLeader(ICharacter character);
 
         void Send(string format, params object[] args);
         void Send(StringBuilder sb);
@@ -32,6 +30,7 @@ namespace Mud.POC.GroupsPetsFollowers
         void OnRemoved();
 
         // TEST PURPOSE
+        IWorld World { get; }
         CommandExecutionResults DoFollow(string rawParameters, params CommandParameter[] parameters);
         CommandExecutionResults DoNofollow(string rawParameters, params CommandParameter[] parameters);
     }

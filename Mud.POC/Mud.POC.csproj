@@ -151,6 +151,7 @@
     <Compile Include="GroupsPetsFollowers\INonPlayableCharacter.cs" />
     <Compile Include="GroupsPetsFollowers\IPlayableCharacter.cs" />
     <Compile Include="GroupsPetsFollowers\IRoom.cs" />
+    <Compile Include="GroupsPetsFollowers\IWorld.cs" />
     <Compile Include="GroupsPetsFollowers\NonPlayableCharacter.cs" />
     <Compile Include="GroupsPetsFollowers\PlayableCharacter.cs" />
     <Compile Include="GroupsPetsFollowers\PlayableCharacterCommands.cs" />

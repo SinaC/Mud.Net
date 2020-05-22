@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.POC.GroupsPetsFollowers;
 using Mud.Server.Input;
 
@@ -9,7 +8,7 @@ namespace Mud.POC.Tests.Followers
     public class DoNofollowTests : FollowerTestBase
     {
         [TestMethod]
-        public void NoFollow_NoFollowers()
+        public void NoFollow_NoFollower()
         {
             IRoom room1 = new Room("room1");
             ICharacter player1 = new PlayableCharacter("player1", room1);
@@ -34,10 +33,9 @@ namespace Mud.POC.Tests.Followers
             CommandExecutionResults result = player1.DoNofollow(args.rawParameters, args.parameters);
 
             Assert.AreEqual(CommandExecutionResults.Ok, result);
-            Assert.IsNull(player1.Follows);
-            Assert.IsNull(mob1.Follows);
-            Assert.IsNull(player2.Follows);
-            Assert.AreEqual(0, player1.Followers.Count());
+            Assert.IsNull(player1.Leader);
+            Assert.IsNull(mob1.Leader);
+            Assert.IsNull(player2.Leader);
         }
     }
 }
