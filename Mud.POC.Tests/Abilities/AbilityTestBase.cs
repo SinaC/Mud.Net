@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Mud.Server.Input;
 
-namespace Mud.POC.Tests
+namespace Mud.POC.Tests.Abilities
 {
     public abstract class AbilityTestBase
     {

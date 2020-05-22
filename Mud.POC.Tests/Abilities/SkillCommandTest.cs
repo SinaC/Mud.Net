@@ -5,7 +5,7 @@ using Mud.Server.Common;
 using Mud.Server.Input;
 using System.Linq;
 
-namespace Mud.POC.Tests
+namespace Mud.POC.Tests.Abilities
 {
     [TestClass]
     public class SkillCommandTest : AbilityTestBase

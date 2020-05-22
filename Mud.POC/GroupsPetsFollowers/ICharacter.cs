@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using Mud.Server.Input;
 
-namespace Mud.POC.Groups
+namespace Mud.POC.GroupsPetsFollowers
 {
     public interface ICharacter
     {
+        bool IsValid { get; }
+
         IRoom Room { get; }
 
         string Name { get; }
@@ -27,6 +30,10 @@ namespace Mud.POC.Groups
         void Act(ActTargets target, string format, params object[] args);
 
         void OnRemoved();
+
+        // TEST PURPOSE
+        CommandExecutionResults DoFollow(string rawParameters, params CommandParameter[] parameters);
+        CommandExecutionResults DoNofollow(string rawParameters, params CommandParameter[] parameters);
     }
 
     public enum ActTargets

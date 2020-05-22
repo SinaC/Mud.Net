@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mud.POC.Groups
+namespace Mud.POC.GroupsPetsFollowers
 {
     public interface IGroup
     {
@@ -12,5 +12,6 @@ namespace Mud.POC.Groups
         bool AddMember(IPlayableCharacter member);
         bool RemoveMember(IPlayableCharacter member);
         bool ChangeLeader(IPlayableCharacter member);
+        void Disband();
     }
 }

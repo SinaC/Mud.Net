@@ -1,7 +1,7 @@
 NEXT:
-Group/Pets in POC
+Group/Pets/Follow in POC
 
-TODO:
+SHORT TERM TODO:
 grove.are: the second jar will never appear
 O 0 8902   2 8915	* a spice jar
 P 1 8903   1 8902  1	*   some black powder
@@ -11,6 +11,21 @@ dwarven.are: the first stick is set to local 1 but we detect 2 intances (2 diffe
 O 0 6506   1 6534	* long, black stick
 E 1 6506  10   17	*   long, black stick
 
+PK
+prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
+linkdead
+PlayableCharacter can be immortal or not -> don't link immortality to ImpersonatedBy is IAdmin
+Move CanSee in IEntity
+Move AddAura in aura manager
+Replace out parameter with C#7-tuple if possible
+Add ctor to every manager with other manager as parameter to easy unit tests
+each time operator IS or AS is used, this should be replaced with an overridable method
+DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
+IItem: Display(short/long) (used instead of FormatItem in InfoCommands.cs)
+EquippedItem should be responsible for displaying itself
+EquippedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
+pull/push
+buy/sell/list
 Multiple wear location
 Reset 'R'
 quest: add quest item on the fly when player takes the quest
@@ -34,6 +49,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+use wiznet(msg, WiznetFlags.Bugs) when LogLevels.Error is used
+default error message with character command if not in correct position
 mystery imported fixed
 trinket wear location removed
 reset fixed
@@ -260,63 +277,34 @@ TableGenerator with duplicate columns
 	 ----------------------
 
 *************************************************************
+LONG TERM TODO:
+isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + filter on isValid + remove them during Cleanup phease (--> no more clone of auras needed while modifying/clearing auras, same goes with periodic aura)
 automated quests
 quest history
-linkdead
 leaving impersonation should not stop fighting -> PlayableCharacter can still died while not impersonated
   when impersonating, first search for impersonation in world -> use Guid !! should work if player disconnect/reconnect and reimpersonate
 make text drunk in say/whisper/... see act_comm.C:2222
 when using FindHelper.FindByName on ICharacter and parameter is self -> return itself
-redo mystery importer
 Second/Third/Fourth wield in insectoid
 alignment at creation ?
 Idea: move HP and move in ResourceKinds
 Use SafeList where List is used
 Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
-Move CanSee in IEntity
-Move AddAura in aura manager
 store an Aura list in World this will avoid looping on all room/character/item to check aura
 Save blueprint in Hashtable
-Add ctor to every manager with other manager as parameter to easy unit tests
-Replace out parameter with C#7-tuple if possible
 Enum string representation instead of int in Repository
 redo DoScore, DoAffects
 check if IStat, MStat and RStat display new informations
-
-gsn_backstab:
-	reduce thac0 in one_hit
-		thac0 -= 10 * (100 - get_skill(ch,gsn_backstab));
-	damage is higher and depends on dagger or not
-		if ( dt == gsn_backstab && wield != NULL) 
-			if ( wield->value[0] != 2 )
-			    dam *= 2 + (ch->level / 10); 
-			else 
-			    dam *= 2 + (ch->level / 8);
-
-
-PlayableCharacter can be immortal or not -> don't link immortality to ImpersonatedBy is IAdmin
-
-When an item quest objective is complete, quest item should be NoTake
-
-refactor RawKilled: found in NonPlayableCharacter and PlayableCharacter
-
-refactor damage functions in OneHit, Ability, DamageHelpers
-
-test group
-     kill steal
-
+When an item quest objective is complete, quest item should be NoTake or should be invisible
 cannot quit while affected by an harmful aura/periodic aura
 while leaving(or reconnecting) aura should be removed ? maybe an additional flag saying if timer should decrease while disconnected ?
-
 remove Send(..., bool addTrailingNewLine)
 auto paging if data to send to too big?
 check if RelativeDisplayName should be used instead of DisplayName in Command (check if CanSee should be used)
-
 quest save completed quests
       quest tree (prereq)
       repeteable or not quests
       autogenerate
-
 better command parser: should be able to specify something like     will be possible with SyntaxAttribute
     [command] [room.character] -> first parameter will be parsed as a character found in room
     [command] [world.character] -> first parameter will be parsed as a character found in world
@@ -330,23 +318,14 @@ look no arg
      item
      extradescription
      direction
-
 multitable generator, paging a table should repeat the header at the beginning of each page
-
 autosac, autoloot, auto...
 prompt modifiable by user
-
 merge IAdminRepository and IPlayerRepository -> IAccountRepository
-
 move blueprints to Mud.Domain + refactor Mud.Domain
-
 IWorld: should create IReadonlyWorld which only contains getter
 
-default error message with character command if not in correct position
-
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
-
-unit/integration tests
 
 specialization
 talent
@@ -360,33 +339,13 @@ notes
 weather
 lua for mob IA
 
-use wiznet(msg, WiznetFlags.Bugs) when LogLevels.Error is used
-
-drink/eat/fill/pour/quaff
-pull/push
-buy/sell/list
-
-act: add IPlayer, IAdmin -> Name or Impersonated.DisplayName
-
 admin
     at(quite difficult to implement)
     most [MustBeImpersonated] command should work when incarnating
 statistics: mob killed, player killed, ...
 
-!! Stunned position is not very well used/defined
-use more StringBuilder
-check if everywhere if Act should replace Send
-use new act formatting: h, b, v whereas possible
-
-prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
-
-isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + filter on isValid + remove them during Cleanup phease (--> no more clone of auras needed while modifying/clearing auras, same goes with periodic aura)
-
 Mystery to new format converter (see olc_act.C:2578 for obj values  L4571 for mob values)
 Other format (ROM, Merc, ...)
-
-Use lennysho.are (rom2.4) lhouse.are (old format) to create a reader for old format
-
 
 combat table:
 http://wowwiki.wikia.com/wiki/Combat
@@ -395,12 +354,6 @@ http://wow.gamepedia.com/Dual_wield
 http://wow.gamepedia.com/Crushing_blow
 
 check wheelmud for mccp/mxp
-
-each time operator IS or AS is used, this should be replaced with an overridable method
-DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
-IItem: Display(short/long) (used instead of FormatItem in InfoCommands.cs)
-EquippedItem should be responsible for displaying itself
-EquippedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
 
 ability:
 http://www.wowhead.com/spell=106832/thrash

@@ -1,8 +1,6 @@
 ﻿using Mud.Server.Input;
-using System.ComponentModel.Design;
-using System.Runtime.Remoting.Messaging;
 
-namespace Mud.POC.Groups
+namespace Mud.POC.GroupsPetsFollowers
 {
     public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {

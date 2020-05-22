@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Mud.POC.Groups
+namespace Mud.POC.GroupsPetsFollowers
 {
     public partial class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
-        private List<INonPlayableCharacter> _pets;
+        private readonly List<INonPlayableCharacter> _pets;
 
         public PlayableCharacter(string name, IRoom room)
             : base(name, room)
@@ -35,6 +34,8 @@ namespace Mud.POC.Groups
         {
             if (_pets.Contains(pet))
                 return;
+            if (pet.Master != null) // cannot change master
+                return;
             _pets.Add(pet);
             pet.ChangeMaster(this);
         }
@@ -52,7 +53,13 @@ namespace Mud.POC.Groups
             base.OnRemoved();
 
             // Leave group
-            Group?.RemoveMember(this);
+            if (Group != null)
+            {
+                if (Group.Members.Count() <= 2) // group will contain only one member, disband
+                    Group.Disband();
+                else
+                    Group.RemoveMember(this);
+            }
 
             // Release pets
             foreach (INonPlayableCharacter pet in _pets)

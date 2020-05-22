@@ -1,19 +1,19 @@
 ﻿using Mud.Server.Common;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace Mud.POC.Groups
+namespace Mud.POC.GroupsPetsFollowers
 {
-    public abstract class CharacterBase : ICharacter
+    public abstract partial class CharacterBase : ICharacter
     {
-        private List<ICharacter> _followers;
+        private readonly List<ICharacter> _followers;
 
-        public CharacterBase(string name, IRoom room)
+        protected CharacterBase(string name, IRoom room)
         {
+            IsValid = true;
             _followers = new List<ICharacter>();
 
             Name = name;
@@ -22,6 +22,8 @@ namespace Mud.POC.Groups
         }
 
         #region ICharacter
+
+        public bool IsValid { get; protected set; }
 
         public IRoom Room { get; protected set; }
 
@@ -50,8 +52,16 @@ namespace Mud.POC.Groups
         {
             if (Followers.Contains(character))
                 return;
-            if (character.Follows != null)
-                character.Follows.RemoveFollower(character);
+            // check if A->B->A
+            ICharacter next = Follows;
+            while (next != null)
+            {
+                if (next == character)
+                    return; // found a cycle
+                next = next.Follows;
+            }
+
+            character.Follows?.RemoveFollower(character);
             _followers.Add(character);
             character.ChangeFollows(this);
             Act(ActTargets.ToCharacter, "{0:N} starts following you.");
@@ -98,7 +108,7 @@ namespace Mud.POC.Groups
             if (actTarget == ActTargets.ToCharacter)
                 targets = this.Yield();
             else if (actTarget == ActTargets.ToGroup && this is IPlayableCharacter playableCharacter)
-                targets = playableCharacter?.Group.Members ?? playableCharacter.Yield();
+                targets = playableCharacter.Group.Members ?? playableCharacter.Yield();
             else
                 throw new Exception($"Invalid ActTargets {actTarget}");
             foreach (ICharacter target in targets)
@@ -107,6 +117,8 @@ namespace Mud.POC.Groups
 
         public virtual void OnRemoved()
         {
+            IsValid = false;
+
             // Leave follower
             Follows?.RemoveFollower(this);
 

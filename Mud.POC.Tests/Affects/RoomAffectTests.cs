@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.POC.Affects;
 
-namespace Mud.POC.Tests
+namespace Mud.POC.Tests.Affects
 {
     [TestClass]
     public class RoomAffectTests

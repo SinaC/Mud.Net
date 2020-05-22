@@ -3,7 +3,7 @@ using Moq;
 using Mud.POC.Abilities;
 using Mud.Server.Common;
 
-namespace Mud.POC.Tests
+namespace Mud.POC.Tests.Abilities
 {
     [TestClass]
     public class AbilityCheckImproveTests

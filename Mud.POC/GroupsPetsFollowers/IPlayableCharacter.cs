@@ -1,7 +1,7 @@
 ﻿using Mud.Server.Input;
 using System.Collections.Generic;
 
-namespace Mud.POC.Groups
+namespace Mud.POC.GroupsPetsFollowers
 {
     public interface IPlayableCharacter : ICharacter
     {

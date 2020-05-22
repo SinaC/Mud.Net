@@ -9,7 +9,6 @@ using System.Windows.Media;
 using AutoMapper;
 using Mud.Container;
 using Mud.Domain;
-using Mud.Importer.Mystery;
 using Mud.Importer.Rom;
 using Mud.Logger;
 using Mud.Network;

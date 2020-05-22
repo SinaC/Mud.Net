@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.POC.Affects;
 
-namespace Mud.POC.Tests
+namespace Mud.POC.Tests.Affects
 {
     [TestClass]
     public class ItemWeaponAffectTests
@@ -10,7 +10,7 @@ namespace Mud.POC.Tests
         public void OneWeaponAddAffect_NoBaseValue_Test()
         {
             ItemWeapon weapon = new ItemWeapon("weapon1", null, null, ItemFlags.None, WeaponFlags.None);
-            IAura weaponAura = new Aura(null, null, Affects.AuraFlags.None, 10, 20, new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Holy, Operator = Affects.AffectOperators.Add});
+            IAura weaponAura = new Aura(null, null, AuraFlags.None, 10, 20, new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Holy, Operator = AffectOperators.Add});
             weapon.AddAura(weaponAura);
 
             weapon.Recompute();
@@ -23,7 +23,7 @@ namespace Mud.POC.Tests
         public void OneItemAddAffect_NoBaseValue_Test()
         {
             ItemWeapon weapon = new ItemWeapon("weapon1", null, null, ItemFlags.None, WeaponFlags.None);
-            IAura weaponAura = new Aura(null, null, Affects.AuraFlags.None, 10, 20, new ItemFlagsAffect { Modifier = ItemFlags.AntiEvil, Operator = Affects.AffectOperators.Add });
+            IAura weaponAura = new Aura(null, null, AuraFlags.None, 10, 20, new ItemFlagsAffect { Modifier = ItemFlags.AntiEvil, Operator = AffectOperators.Add });
             weapon.AddAura(weaponAura);
 
             weapon.Recompute();
@@ -38,12 +38,12 @@ namespace Mud.POC.Tests
         public void MultipleEffect_MultipleBaseValue_Test()
         {
             ItemWeapon weapon = new ItemWeapon("weapon1", null, null, ItemFlags.AntiNeutral | ItemFlags.Bless, WeaponFlags.Flaming | WeaponFlags.Holy);
-            IAura weaponAura = new Aura(null, null, Affects.AuraFlags.None, 10, 20, 
-                new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Holy, Operator = Affects.AffectOperators.Nor }, // remove weapon holy
-                new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Frost, Operator = Affects.AffectOperators.Assign }, // assign weapon frost
-                new ItemFlagsAffect { Modifier = ItemFlags.Dark, Operator = Affects.AffectOperators.Add }, // add item dark
-                new ItemFlagsAffect { Modifier = ItemFlags.Bless, Operator = Affects.AffectOperators.Or }, // or item bless (already present in base flags)
-                new ItemFlagsAffect { Modifier = ItemFlags.AntiGood, Operator = Affects.AffectOperators.Nor } // remove antigood (was present in base flags)
+            IAura weaponAura = new Aura(null, null, AuraFlags.None, 10, 20, 
+                new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Holy, Operator = AffectOperators.Nor }, // remove weapon holy
+                new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Frost, Operator = AffectOperators.Assign }, // assign weapon frost
+                new ItemFlagsAffect { Modifier = ItemFlags.Dark, Operator = AffectOperators.Add }, // add item dark
+                new ItemFlagsAffect { Modifier = ItemFlags.Bless, Operator = AffectOperators.Or }, // or item bless (already present in base flags)
+                new ItemFlagsAffect { Modifier = ItemFlags.AntiGood, Operator = AffectOperators.Nor } // remove antigood (was present in base flags)
                 );
             weapon.AddAura(weaponAura);
 

@@ -4,7 +4,7 @@ using Mud.POC.Abilities;
 using Mud.Server.Common;
 using Mud.Server.Input;
 
-namespace Mud.POC.Tests
+namespace Mud.POC.Tests.Abilities
 {
     [TestClass]
     public class SpellCastTests : AbilityTestBase

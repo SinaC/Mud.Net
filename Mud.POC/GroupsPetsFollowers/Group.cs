@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Mud.POC.Groups
+namespace Mud.POC.GroupsPetsFollowers
 {
     public class Group : IGroup
     {
         public const int MaxGroupSize = 5;
 
-        private List<IPlayableCharacter> _members;
+        private readonly List<IPlayableCharacter> _members;
 
         public Group(IPlayableCharacter leader)
         {
@@ -51,9 +51,7 @@ namespace Mud.POC.Groups
         {
             if (!IsValid)
                 return false;
-            bool wasLeader = false;
-            if (member == Leader)
-                wasLeader = true;
+            bool wasLeader = member == Leader;
             bool removed = _members.Remove(member);
             if (!removed)
                 return false;
@@ -69,7 +67,7 @@ namespace Mud.POC.Groups
             if (wasLeader)
             {
                 Leader = _members.First();
-                Leader.Act(ActTargets.ToGroup, "{0:N} {0:b} now leader of the group.");
+                Leader.Act(ActTargets.ToGroup, "{0:N} {0:b} now leader of the group.", Leader);
             }
             Leader.Act(ActTargets.ToGroup, "{0:N} has left the group.", member);
             return true;
@@ -84,8 +82,22 @@ namespace Mud.POC.Groups
             if (!_members.Contains(member))
                 return false;
             Leader = member;
-            Leader.Act(ActTargets.ToGroup, "{0:N} {0:b} now leader of the group.");
+            Leader.Act(ActTargets.ToGroup, "{0:N} {0:b} now leader of the group.", Leader);
             return true;
+        }
+
+        public void Disband()
+        {
+            if (!IsValid)
+                return;
+            foreach (IPlayableCharacter member in _members)
+            {
+                member.Send("You have left the group.");
+                member.ChangeGroup(null);
+            }
+            Leader = null;
+            _members.Clear(); // should be empty
+            IsValid = false;
         }
 
         #endregion

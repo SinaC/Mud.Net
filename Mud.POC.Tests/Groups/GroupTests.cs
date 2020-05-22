@@ -1,14 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Mud.POC.Groups;
-using Mud.Server.Input;
-using System.Collections.Generic;
-using System.Linq;
+using Mud.POC.GroupsPetsFollowers;
 
-namespace Mud.POC.Tests
+namespace Mud.POC.Tests.Groups
 {
     [TestClass]
-    public class GroupTests
+    public class GroupTests : GroupTestBase
     {
         // Group tests
         [TestMethod]
@@ -23,6 +21,7 @@ namespace Mud.POC.Tests
             Assert.AreSame(playerMock.Object, group.Leader);
             Assert.AreEqual(1, group.Members.Count());
             Assert.AreSame(playerMock.Object, group.Members.Single());
+            playerMock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
         }
 
         [TestMethod]
@@ -40,6 +39,8 @@ namespace Mud.POC.Tests
             Assert.IsNotNull(group.Leader);
             Assert.AreSame(player1Mock.Object, group.Leader);
             Assert.AreEqual(2, group.Members.Count());
+            player1Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player2Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
         }
 
         [TestMethod]
@@ -56,6 +57,7 @@ namespace Mud.POC.Tests
             Assert.AreSame(player1Mock.Object, group.Leader);
             Assert.AreEqual(1, group.Members.Count());
             Assert.AreSame(player1Mock.Object, group.Members.Single());
+            player1Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
         }
 
         [TestMethod]
@@ -85,6 +87,11 @@ namespace Mud.POC.Tests
             Assert.IsNull(player6Mock.Object.Group);
             Assert.AreSame(player1Mock.Object, group.Leader);
             Assert.AreEqual(5, group.Members.Count());
+            player1Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player2Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player3Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player4Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player5Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
         }
 
         [TestMethod]
@@ -107,6 +114,9 @@ namespace Mud.POC.Tests
             Assert.AreSame(group1, player1Mock.Object.Group);
             Assert.AreSame(group1, player2Mock.Object.Group);
             Assert.AreSame(group2, player3Mock.Object.Group);
+            player1Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player2Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player3Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
         }
 
         [TestMethod]
@@ -128,6 +138,9 @@ namespace Mud.POC.Tests
             Assert.AreSame(group, player1Mock.Object.Group);
             Assert.AreSame(group, player2Mock.Object.Group);
             Assert.AreSame(group, player3Mock.Object.Group);
+            player1Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player2Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player3Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
         }
 
         [TestMethod]
@@ -149,6 +162,9 @@ namespace Mud.POC.Tests
             Assert.AreSame(group, player1Mock.Object.Group);
             Assert.AreSame(group, player2Mock.Object.Group);
             Assert.AreSame(group, player3Mock.Object.Group);
+            player1Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player2Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player3Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
         }
 
         [TestMethod]
@@ -169,6 +185,9 @@ namespace Mud.POC.Tests
             Assert.AreSame(group, player1Mock.Object.Group);
             Assert.AreSame(group, player2Mock.Object.Group);
             Assert.IsNull(player3Mock.Object.Group);
+            player1Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player2Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player3Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Never);
         }
 
         [TestMethod]
@@ -193,6 +212,9 @@ namespace Mud.POC.Tests
             Assert.IsNull(player2Mock.Object.Group);
             Assert.AreSame(group, player1Mock.Object.Group);
             Assert.AreSame(group, player3Mock.Object.Group);
+            player1Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player2Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Exactly(2));
+            player3Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
         }
 
         [TestMethod]
@@ -217,6 +239,9 @@ namespace Mud.POC.Tests
             Assert.IsNull(player1Mock.Object.Group);
             Assert.AreSame(group, player2Mock.Object.Group);
             Assert.AreSame(group, player3Mock.Object.Group);
+            player1Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Exactly(2));
+            player2Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player3Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
         }
 
         [TestMethod]
@@ -240,6 +265,9 @@ namespace Mud.POC.Tests
             Assert.IsNull(player3Mock.Object.Group);
             Assert.AreSame(group, player1Mock.Object.Group);
             Assert.AreSame(group, player2Mock.Object.Group);
+            player1Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player2Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player3Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Never);
         }
 
         [TestMethod]
@@ -266,6 +294,9 @@ namespace Mud.POC.Tests
             Assert.AreSame(group1, player1Mock.Object.Group);
             Assert.AreSame(group1, player2Mock.Object.Group);
             Assert.AreSame(group2, player3Mock.Object.Group);
+            player1Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player2Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
+            player3Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Once);
         }
 
         [TestMethod]
@@ -286,6 +317,33 @@ namespace Mud.POC.Tests
             Assert.IsFalse(group.Members.Contains(player2Mock.Object));
             Assert.IsNull(player1Mock.Object.Group);
             Assert.IsNull(player2Mock.Object.Group);
+            player1Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Exactly(2));
+            player2Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Exactly(2));
+        }
+
+        [TestMethod]
+        public void Group_Disband()
+        {
+            var player1Mock = CreatePlayerMock();
+            var player2Mock = CreatePlayerMock();
+            var player3Mock = CreatePlayerMock();
+            var player4Mock = CreatePlayerMock();
+            IGroup group = new Group(player1Mock.Object);
+            group.AddMember(player2Mock.Object);
+            group.AddMember(player3Mock.Object);
+            group.AddMember(player4Mock.Object);
+
+            group.Disband();
+
+            Assert.IsFalse(group.IsValid);
+            Assert.IsNull(player1Mock.Object.Group);
+            Assert.IsNull(player2Mock.Object.Group);
+            Assert.IsNull(player3Mock.Object.Group);
+            Assert.IsNull(player4Mock.Object.Group);
+            player1Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Exactly(2));
+            player2Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Exactly(2));
+            player3Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Exactly(2));
+            player4Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -297,9 +355,10 @@ namespace Mud.POC.Tests
             group.AddMember(player2Mock.Object);
             group.RemoveMember(player2Mock.Object);
             group.RemoveMember(player1Mock.Object);
-            
+
             bool memberAdded = group.AddMember(player2Mock.Object);
 
+            Assert.IsFalse(group.IsValid);
             Assert.IsFalse(memberAdded);
             Assert.IsNull(group.Leader);
             Assert.AreEqual(0, group.Members.Count());
@@ -307,154 +366,10 @@ namespace Mud.POC.Tests
             Assert.IsFalse(group.Members.Contains(player2Mock.Object));
             Assert.IsNull(player1Mock.Object.Group);
             Assert.IsNull(player2Mock.Object.Group);
+            player1Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Exactly(2));
+            player2Mock.Verify(x => x.ChangeGroup(It.IsAny<IGroup>()), Times.Exactly(2));
         }
 
-        // DoGroup add member
-        [TestMethod]
-        public void DoGroup_AddMember_InSameRoom()
-        {
-            IRoom room1 = new Room("room1");
-            var player1 = new PlayableCharacter("player1", room1);
-            var player2 = new PlayableCharacter("player2", room1);
-
-            CommandExecutionResults result = player1.DoGroup("player2", new CommandParameter("player2", false));
-
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
-            Assert.IsNotNull(player1.Group);
-            Assert.IsNotNull(player2.Group);
-            Assert.AreSame(player1.Group, player2.Group);
-        }
-
-        [TestMethod]
-        public void DoGroup_AddMember_NotInSameRoom()
-        {
-            IRoom room1 = new Room("room1");
-            IPlayableCharacter player1 = new PlayableCharacter("player1", room1);
-            IRoom room2 = new Room("room2");
-            IPlayableCharacter player2 = new PlayableCharacter("player2", room2);
-
-            CommandExecutionResults result = player1.DoGroup("player2", new CommandParameter("player2", false));
-
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
-            Assert.IsNull(player1.Group);
-            Assert.IsNull(player2.Group);
-        }
-
-        [TestMethod]
-        public void DoGroup_AddMember_AdditionalInSameRoom()
-        {
-            IRoom room1 = new Room("room1");
-            IPlayableCharacter player1 = new PlayableCharacter("player1", room1);
-            IPlayableCharacter player2 = new PlayableCharacter("player2", room1);
-            IPlayableCharacter player3 = new PlayableCharacter("player3", room1);
-            player1.DoGroup("player2", new CommandParameter("player2", false));
-
-            CommandExecutionResults result = player1.DoGroup("player3", new CommandParameter("player3", false));
-
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
-            Assert.IsNotNull(player1.Group);
-            Assert.IsNotNull(player2.Group);
-            Assert.IsNotNull(player3.Group);
-            Assert.AreSame(player1.Group, player2.Group);
-            Assert.AreSame(player1.Group, player3.Group);
-        }
-
-        [TestMethod]
-        public void DoGroup_AddMember_AdditionalNoInSameRoom()
-        {
-            IRoom room1 = new Room("room1");
-            IPlayableCharacter player1 = new PlayableCharacter("player1", room1);
-            IPlayableCharacter player2 = new PlayableCharacter("player2", room1);
-            IRoom room2 = new Room("room2");
-            IPlayableCharacter player3 = new PlayableCharacter("player3", room2);
-            player1.DoGroup("player2", new CommandParameter("player2", false));
-
-            CommandExecutionResults result = player1.DoGroup("player3", new CommandParameter("player3", false));
-
-            Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
-            Assert.IsNotNull(player1.Group);
-            Assert.IsNotNull(player2.Group);
-            Assert.IsNull(player3.Group);
-            Assert.AreSame(player1.Group, player2.Group);
-        }
-
-        [TestMethod]
-        public void DoGroup_AddMember_InAnotherGroup()
-        {
-            IRoom room1 = new Room("room1");
-            IPlayableCharacter player1 = new PlayableCharacter("player1", room1);
-            IPlayableCharacter player2 = new PlayableCharacter("player2", room1);
-            IPlayableCharacter player3 = new PlayableCharacter("player3", room1);
-            player2.DoGroup("player3", new CommandParameter("player3", false));
-
-            CommandExecutionResults result = player1.DoGroup("player2", new CommandParameter("player2", false));
-
-            Assert.AreEqual(CommandExecutionResults.InvalidTarget, result);
-            Assert.IsNull(player1.Group);
-            Assert.IsNotNull(player2.Group);
-            Assert.IsNotNull(player3.Group);
-            Assert.AreSame(player2.Group, player3.Group);
-        }
-
-        [TestMethod]
-        public void DoGroup_AddMember_NotTheLeader()
-        {
-            IRoom room1 = new Room("room1");
-            IPlayableCharacter player1 = new PlayableCharacter("player1", room1);
-            IPlayableCharacter player2 = new PlayableCharacter("player2", room1);
-            IPlayableCharacter player3 = new PlayableCharacter("player3", room1);
-            player1.DoGroup("player2", new CommandParameter("player2", false));
-
-            CommandExecutionResults result = player2.DoGroup("player3", new CommandParameter("player3", false));
-
-            Assert.AreEqual(CommandExecutionResults.NoExecution, result);
-            Assert.IsNotNull(player1.Group);
-            Assert.IsNotNull(player2.Group);
-            Assert.IsNull(player3.Group);
-            Assert.AreSame(player1.Group, player2.Group);
-        }
-
-        // DoGroup: no parameter
-        [TestMethod]
-        public void DoGroup_NoGroup_NoPet()
-        {
-            IRoom room1 = new Room("room1");
-            IPlayableCharacter player1 = new PlayableCharacter("player1", room1);
-
-            CommandExecutionResults result = player1.DoGroup(string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
-
-            Assert.AreEqual(CommandExecutionResults.NoExecution, result);
-        }
-
-        [TestMethod]
-        public void DoGroup_NoGroup_OnePet()
-        {
-            IRoom room1 = new Room("room1");
-            IPlayableCharacter player1 = new PlayableCharacter("player1", room1);
-            INonPlayableCharacter mob1 = new NonPlayableCharacter("mob1", room1);
-            player1.AddPet(mob1);
-
-            CommandExecutionResults result = player1.DoGroup(string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
-
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
-        }
-
-        [TestMethod]
-        public void DoGroup_InGroup_NoPet()
-        {
-            IRoom room1 = new Room("room1");
-            IPlayableCharacter player1 = new PlayableCharacter("player1", room1);
-            IPlayableCharacter player2 = new PlayableCharacter("player2", room1);
-            player1.DoGroup("player2", new CommandParameter("player2", false));
-
-            CommandExecutionResults result = player1.DoGroup(string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
-
-            Assert.AreEqual(CommandExecutionResults.Ok, result);
-        }
-
-        // TODO: DoUngroup
-        // TODO: DoLeave
-        // TODO: OnRemoved
 
         //
         private Mock<IPlayableCharacter> CreatePlayerMock()

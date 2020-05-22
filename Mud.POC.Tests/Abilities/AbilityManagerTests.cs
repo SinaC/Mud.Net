@@ -5,7 +5,7 @@ using Mud.Server.Common;
 using System.Linq;
 using System.Reflection;
 
-namespace Mud.POC.Tests
+namespace Mud.POC.Tests.Abilities
 {
     [TestClass]
     public class AbilityManagerTests
