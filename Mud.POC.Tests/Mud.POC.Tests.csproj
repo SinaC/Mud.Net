@@ -70,7 +70,6 @@
     <Compile Include="Followers\FollowerTestBase.cs" />
     <Compile Include="Followers\OnRemovedTests.cs" />
     <Compile Include="Followers\RemoveFollowerTests.cs" />
-    <Compile Include="Groups\DoUngroupTests.cs" />
     <Compile Include="Groups\DoGroupTests.cs" />
     <Compile Include="Groups\GroupTestBase.cs" />
     <Compile Include="Groups\GroupTests.cs" />

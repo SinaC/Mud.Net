@@ -93,72 +93,61 @@ namespace Mud.POC.GroupsPetsFollowers
                 return CommandExecutionResults.Ok;
             }
 
-            // add member to group
+            // add/remove member to group
             IPlayableCharacter target = Room.PlayableCharacters.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value)); // TODO: use FindHelpers
             if (target == null)
             {
                 Send("They aren't here.");
                 return CommandExecutionResults.TargetNotFound;
             }
-            if (target.Group != null)
+
+            // can't group ourself
+            if (target == this)
             {
-                Act(ActTargets.ToCharacter, "{0:N} is already in a group.");
+                Send("You can't group yourself.");
                 return CommandExecutionResults.InvalidTarget;
             }
-            // create a new group if not already in a group
+
+            // we are not in a group -> add
             if (Group == null)
+            {
+                if(target.Group != null)
+                {
+                    Act(ActTargets.ToCharacter, "{0:N} is already in a group.");
+                    return CommandExecutionResults.InvalidTarget;
+                }
+                // create a new group
                 Group = new Group(this);
-            // if in a group, we must be the leader
-            else if (Group.Leader != this)
-            {
-                Send("You are not the group leader.");
-                return CommandExecutionResults.NoExecution;
+                // add target in the group
+                Group.AddMember(target);
+                return CommandExecutionResults.Ok;
             }
-
-            // add target in the group
-            Group.AddMember(target);
-
-            return CommandExecutionResults.Ok;
-        }
-
-        [Command("Ungroup", "Group")]
-        [Syntax("[cmd] <member>")]
-        public CommandExecutionResults DoUngroup(string rawParameters, params CommandParameter[] parameters) // remove member
-        {
-            if (parameters.Length == 0)
-            {
-                Send("Ungroup whom?");
-                return CommandExecutionResults.SyntaxErrorNoDisplay;
-            }
-            if (Group == null)
-            {
-                Send("You aren't in a group.");
-                return CommandExecutionResults.NoExecution;
-            }
+            // we are in a group -> add or remove
+            // only the leader can add or remove
             if (Group.Leader != this)
             {
                 Send("You are not the group leader.");
                 return CommandExecutionResults.NoExecution;
             }
-            // search member
-            IPlayableCharacter member = Group.Members.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value)); // TODO: use FindHelpers
-            if (member == null)
+            // if already in a group -> remove or nop
+            if (target.Group != null)
             {
-                Send("There is not member of that name.");
-                return CommandExecutionResults.TargetNotFound;
+                // not in the same group
+                if (target.Group != Group)
+                {
+                    Act(ActTargets.ToCharacter, "{0:N} is already in a group.");
+                    return CommandExecutionResults.InvalidTarget;
+                }
+                // remove target from the group or disband
+                if (Group.Members.Count() <= 2) // group will contain only one member, disband
+                    Group.Disband();
+                else
+                    Group.RemoveMember(target); // simple remove
+                return CommandExecutionResults.Ok;
             }
 
-            if (member == this)
-            {
-                Send("You can't ungroup yourself, use leave instead.");
-                return CommandExecutionResults.InvalidTarget;
-            }
-
-            if (Group.Members.Count() <= 2) // group will contain only one member, disband
-                Group.Disband();
-            else
-                Group.RemoveMember(member);
-
+            // add target in the group
+            Group.AddMember(target);
             return CommandExecutionResults.Ok;
         }
 

@@ -20,7 +20,6 @@ namespace Mud.POC.GroupsPetsFollowers
         // TEST PURPOSE
         CommandExecutionResults DoOrder(string rawParameters, params CommandParameter[] parameters); // order to one pet or all to do something
         CommandExecutionResults DoGroup(string rawParameters, params CommandParameter[] parameters); // display group info, add member
-        CommandExecutionResults DoUngroup(string rawParameters, params CommandParameter[] parameters); // remove member
         CommandExecutionResults DoLeave(string rawParameters, params CommandParameter[] parameters); // leave a group
     }
 }

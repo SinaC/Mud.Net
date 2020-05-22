@@ -114,6 +114,74 @@ namespace Mud.POC.Tests.Groups
             Assert.AreSame(player1.Group, player2.Group);
         }
 
+        // remove member
+        [TestMethod]
+        public void DoGroup_RemoveMember_Self()
+        {
+            IRoom room1 = new Room("room1");
+            IPlayableCharacter player1 = new PlayableCharacter("player1", room1);
+            IPlayableCharacter player2 = new PlayableCharacter("player2", room1);
+            CreateGroup(player1, player2);
+
+            var args = BuildParameters("player1");
+            CommandExecutionResults result = player1.DoGroup(args.rawParameters, args.parameters);
+
+            Assert.AreEqual(CommandExecutionResults.InvalidTarget, result);
+        }
+
+        [TestMethod]
+        public void DoGroup_RemoveMember_NotTheLeader()
+        {
+            IRoom room1 = new Room("room1");
+            IPlayableCharacter player1 = new PlayableCharacter("player1", room1);
+            IPlayableCharacter player2 = new PlayableCharacter("player2", room1);
+            IPlayableCharacter player3 = new PlayableCharacter("player3", room1);
+            CreateGroup(player1, player2, player3);
+
+            var args = BuildParameters("player3");
+            CommandExecutionResults result = player2.DoGroup(args.rawParameters, args.parameters);
+
+            Assert.AreEqual(CommandExecutionResults.NoExecution, result);
+            Assert.IsNotNull(player3.Group);
+        }
+
+
+        [TestMethod]
+        public void DoGroup_RemoveMember_NotLastMember()
+        {
+            IRoom room1 = new Room("room1");
+            IPlayableCharacter player1 = new PlayableCharacter("player1", room1);
+            IPlayableCharacter player2 = new PlayableCharacter("player2", room1);
+            IPlayableCharacter player3 = new PlayableCharacter("player3", room1);
+            CreateGroup(player1, player2, player3);
+
+            var args = BuildParameters("player2");
+            CommandExecutionResults result = player1.DoGroup(args.rawParameters, args.parameters);
+
+            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.IsNotNull(player1.Group);
+            Assert.IsNull(player2.Group);
+            Assert.IsNotNull(player3.Group);
+            Assert.AreSame(player1.Group, player3.Group);
+            Assert.AreSame(player1, player1.Group?.Leader);
+        }
+
+        [TestMethod]
+        public void DoGroup_RemoveMember_LastMember()
+        {
+            IRoom room1 = new Room("room1");
+            IPlayableCharacter player1 = new PlayableCharacter("player1", room1);
+            IPlayableCharacter player2 = new PlayableCharacter("player2", room1);
+            CreateGroup(player1, player2);
+
+            var args = BuildParameters("player2");
+            CommandExecutionResults result = player1.DoGroup(args.rawParameters, args.parameters);
+
+            Assert.AreEqual(CommandExecutionResults.Ok, result);
+            Assert.IsNull(player1.Group);
+            Assert.IsNull(player2.Group);
+        }
+
         // no parameter
         [TestMethod]
         public void DoGroup_NoGroup_NoPet()
