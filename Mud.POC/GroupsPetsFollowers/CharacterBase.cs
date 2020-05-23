@@ -106,6 +106,8 @@ namespace Mud.POC.GroupsPetsFollowers
             IEnumerable<ICharacter> targets;
             if (actTarget == ActTargets.ToCharacter)
                 targets = this.Yield();
+            else if (actTarget == ActTargets.ToRoom)
+                targets = this.Room.People.Where(x => x != this);
             else if (actTarget == ActTargets.ToGroup && this is IPlayableCharacter playableCharacter)
                 targets = playableCharacter.Group.Members ?? playableCharacter.Yield();
             else

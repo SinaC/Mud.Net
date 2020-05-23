@@ -17,6 +17,12 @@ namespace Mud.POC.GroupsPetsFollowers
             _characters.Add(character);
         }
 
+        public void RemoveCharacter(ICharacter character)
+        {
+            character.OnRemoved();
+            _characters.Remove(character);
+        }
+
         public void Clear()
         {
             _characters.Clear();

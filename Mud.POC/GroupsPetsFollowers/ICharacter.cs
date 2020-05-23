@@ -38,6 +38,7 @@ namespace Mud.POC.GroupsPetsFollowers
     public enum ActTargets
     {
         ToCharacter,
+        ToRoom,
 
         ToGroup, // every in the group including 'this'
     }

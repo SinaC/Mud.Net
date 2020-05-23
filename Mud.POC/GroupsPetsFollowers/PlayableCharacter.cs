@@ -63,7 +63,13 @@ namespace Mud.POC.GroupsPetsFollowers
 
             // Release pets
             foreach (INonPlayableCharacter pet in _pets)
+            {
+                if (pet.Room != null)
+                    pet.Act(ActTargets.ToRoom, "{0:N} slowly fades away.", pet);
+                RemoveFollower(pet);
                 pet.ChangeMaster(null);
+                World.RemoveCharacter(pet);
+            }
             _pets.Clear();
         }
 

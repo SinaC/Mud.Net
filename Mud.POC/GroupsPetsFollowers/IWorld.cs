@@ -7,6 +7,7 @@ namespace Mud.POC.GroupsPetsFollowers
         IEnumerable<ICharacter> Characters { get; }
 
         void AddCharacter(ICharacter character);
+        void RemoveCharacter(ICharacter character);
 
         void Clear();
     }
