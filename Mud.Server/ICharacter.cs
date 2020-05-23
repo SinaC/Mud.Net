@@ -21,7 +21,7 @@ namespace Mud.Server
         /// </summary>
         ToAll,
         /// <summary>
-        /// Everyone in the group (leader is not in group)
+        /// Everyone in the group
         /// </summary>
         ToGroup
     }
@@ -97,9 +97,11 @@ namespace Mud.Server
         // Abilities
         IEnumerable<KnownAbility> KnownAbilities { get; }
 
-        // Slave
-        INonPlayableCharacter Slave { get; } // who is our slave (related to charm command/spell)
-        ICharacter ControlledBy { get; } // who is our master (related to charm command/spell)
+        // Followers
+        ICharacter Leader { get; } // character we are following, different from group leader
+        void AddFollower(ICharacter character);
+        void RemoveFollower(ICharacter character);
+        void ChangeLeader(ICharacter character);
 
         // Act
         void Act(ActOptions option, string format, params object[] arguments);
@@ -137,10 +139,6 @@ namespace Mud.Server
 
         // Form
         bool ChangeForm(Forms form);
-
-        // Controller
-        bool ChangeSlave(INonPlayableCharacter slave); // if non-null, start slavery, else, stop slavery 
-        bool ChangeController(ICharacter master); // if non-null, start slavery, else, stop slavery 
 
         // Move
         bool Move(ExitDirections direction, bool checkFighting, bool follow = false);

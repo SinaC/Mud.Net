@@ -546,16 +546,6 @@ namespace Mud.Server.World
         {
             character.StopFighting(true);
 
-            // Remove from group if in a group + stop following
-            if (character is IPlayableCharacter playableCharacter && playableCharacter.Leader != null)
-            {
-                IPlayableCharacter leader = playableCharacter.Leader;
-                leader.StopFollower(playableCharacter);
-                if (leader.GroupMembers.Any(x => x == character))
-                    leader.RemoveGroupMember(playableCharacter, false);
-            }
-            // TODO: if leader of a group
-
             // Search IPeriodicAura with character as Source and nullify Source
             IReadOnlyCollection<ICharacter> charactersWithPeriodicAuras = new ReadOnlyCollection<ICharacter>(_characters.Where(x => x.PeriodicAuras.Any(pa => pa.Source == character)).ToList()); // clone
             foreach (ICharacter characterWithPeriodicAuras in charactersWithPeriodicAuras)

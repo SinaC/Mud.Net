@@ -308,19 +308,20 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Description: {0}", victim.Description);
             if (playableVictim?.Leader != null)
                 sb.AppendFormatLine("Leader: {0}", playableVictim.Leader.DisplayName);
-            if (playableVictim?.GroupMembers.Any() == true)
-                foreach (IPlayableCharacter member in playableVictim.GroupMembers)
+            if (playableVictim?.Group != null)
+                foreach (IPlayableCharacter member in playableVictim.Group.Members)
                     sb.AppendFormatLine("Group member: {0}", member.DisplayName);
-            if (victim.Slave != null)
-                sb.AppendFormatLine("Slave: {0}", victim.Slave.DisplayName);
+            if (playableVictim?.Pets.Any() == true)
+                foreach(INonPlayableCharacter pet in playableVictim.Pets)
+                    sb.AppendFormatLine("Pet: {0}", pet.DisplayName);
             if (victim.IncarnatedBy != null)
                 sb.AppendFormatLine("Incarnated by {0}", victim.IncarnatedBy.DisplayName);
             else
                 sb.AppendFormatLine("Incarnatable: {0}", victim.Incarnatable);
             if (playableVictim?.ImpersonatedBy != null)
                 sb.AppendFormatLine("Impersonated by {0}", playableVictim.ImpersonatedBy.DisplayName);
-            if (victim.ControlledBy != null)
-                sb.AppendFormatLine("Controlled by {0}", victim.ControlledBy.DisplayName);
+            if (nonPlayableVictim?.Master != null)
+                sb.AppendFormatLine("Master: {0}", nonPlayableVictim.Master.DisplayName);
             if (victim.Fighting != null)
                 sb.AppendFormatLine("Fighting: {0}", victim.Fighting.DisplayName);
             sb.AppendFormatLine("Position: {0}", victim.Position);

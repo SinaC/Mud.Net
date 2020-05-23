@@ -1,7 +1,7 @@
 NEXT:
-Group/Pets/Follow in POC
-	can group only if following us
-	follow self if in a group, remove self from group
+Group command is never used because groupsay has a lower priority
+Group displayed infos: resources are missing
+extensive tests
 
 SHORT TERM TODO:
 grove.are: the second jar will never appear
@@ -13,6 +13,7 @@ dwarven.are: the first stick is set to local 1 but we detect 2 intances (2 diffe
 O 0 6506   1 6534	* long, black stick
 E 1 6506  10   17	*   long, black stick
 
+save pets
 PK
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 linkdead
@@ -51,6 +52,7 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+groups/pets/followers integrate from POC
 use wiznet(msg, WiznetFlags.Bugs) when LogLevels.Error is used
 default error message with character command if not in correct position
 mystery imported fixed

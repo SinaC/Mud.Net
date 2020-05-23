@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Mud.POC.GroupsPetsFollowers
+namespace Mud.Server.Group
 {
     public class Group : IGroup
     {

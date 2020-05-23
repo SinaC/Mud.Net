@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Input;
 
 namespace Mud.Server
 {
@@ -18,5 +19,10 @@ namespace Mud.Server
         OffensiveFlags OffensiveFlags { get; }
 
         bool IsQuestObjective(IPlayableCharacter questingCharacter);
+
+        // Pet
+        IPlayableCharacter Master { get; }
+        void ChangeMaster(IPlayableCharacter master);
+        void Order(string rawParameters, params CommandParameter[] parameters);
     }
 }

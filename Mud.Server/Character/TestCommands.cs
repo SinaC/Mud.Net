@@ -117,50 +117,6 @@ namespace Mud.Server.Character
             return true;
         }
 
-        [Command("charm", "!!Test!!")]
-        protected virtual bool DoCharm(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (ControlledBy != null)
-                Send("You feel like taking, not giving, orders.");
-            else if (parameters.Length == 0)
-            {
-                if (Slave != null)
-                {
-                    Send("You stop controlling {0}.", Slave.DisplayName);
-                    Slave.ChangeController(null);
-                    Slave = null;
-                }
-                else
-                    Send("Try controlling something before trying to un-control.");
-            }
-            else
-            {
-                ICharacter target = FindHelpers.FindByName(Room.People, parameters[0]);
-                if (target != null)
-                {
-                    if (target == this)
-                        Send("You like yourself even better!");
-                    else
-                    {
-                        INonPlayableCharacter npcTarget = target as INonPlayableCharacter;
-                        if (npcTarget != null)
-                        {
-                            npcTarget.ChangeController(this);
-                            Slave = npcTarget;
-                            Send("{0} looks at you with adoring eyes.", npcTarget.DisplayName);
-                            target.Send("Isn't {0} so nice?", DisplayName);
-                        }
-                        else
-                            Send("Can't charm players");
-                    }
-                }
-                else
-                    Send(StringHelpers.CharacterNotFound);
-            }
-
-            return true;
-        }
-
         [Command("rom24", "!!Test!!")]
         protected virtual bool DoRom24(string rawParameters, params CommandParameter[] parameters)
         {

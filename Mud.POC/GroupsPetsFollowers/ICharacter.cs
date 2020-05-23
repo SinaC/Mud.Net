@@ -25,7 +25,7 @@ namespace Mud.POC.GroupsPetsFollowers
 
         void Send(string format, params object[] args);
         void Send(StringBuilder sb);
-        void Act(ActTargets target, string format, params object[] args);
+        void Act(ActOptions target, string format, params object[] args);
 
         void OnRemoved();
 
@@ -35,7 +35,7 @@ namespace Mud.POC.GroupsPetsFollowers
         CommandExecutionResults DoNofollow(string rawParameters, params CommandParameter[] parameters);
     }
 
-    public enum ActTargets
+    public enum ActOptions
     {
         ToCharacter,
         ToRoom,

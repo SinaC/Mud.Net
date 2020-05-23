@@ -36,6 +36,7 @@ namespace Mud.POC.GroupsPetsFollowers
                 return;
             if (pet.Master != null) // cannot change master
                 return;
+            AddFollower(pet);
             _pets.Add(pet);
             pet.ChangeMaster(this);
         }
@@ -44,8 +45,10 @@ namespace Mud.POC.GroupsPetsFollowers
         {
             if (!_pets.Contains(pet))
                 return;
+            RemoveFollower(pet);
             _pets.Remove(pet);
             pet.ChangeMaster(null);
+            World.RemoveCharacter(pet);
         }
 
         public override void OnRemoved()
@@ -65,7 +68,7 @@ namespace Mud.POC.GroupsPetsFollowers
             foreach (INonPlayableCharacter pet in _pets)
             {
                 if (pet.Room != null)
-                    pet.Act(ActTargets.ToRoom, "{0:N} slowly fades away.", pet);
+                    pet.Act(ActOptions.ToRoom, "{0:N} slowly fades away.", pet);
                 RemoveFollower(pet);
                 pet.ChangeMaster(null);
                 World.RemoveCharacter(pet);

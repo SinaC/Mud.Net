@@ -114,7 +114,7 @@ namespace Mud.Server.Abilities
 
             // TODO: check kill stealing
 
-            if (source.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcSource?.ControlledBy == victim)
+            if (source.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcSource?.Master == victim)
             {
                 source.Act(ActOptions.ToCharacter, "But {0:N} is your friend!", victim);
                 return UseResults.InvalidTarget;
@@ -199,7 +199,7 @@ namespace Mud.Server.Abilities
 
             // TODO: check kill stealing
 
-            if (source.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcSource?.ControlledBy == victim)
+            if (source.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcSource?.Master == victim)
             {
                 source.Act(ActOptions.ToCharacter, "But {0:N} is your friend!", victim);
                 return UseResults.InvalidTarget;
@@ -289,7 +289,7 @@ namespace Mud.Server.Abilities
 
             // TODO: check kill stealing
 
-            if (source.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcSource?.ControlledBy == victim)
+            if (source.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcSource?.Master == victim)
             {
                 source.Act(ActOptions.ToCharacter, "But {0:N} is your friend!", victim);
                 return UseResults.InvalidTarget;
@@ -589,22 +589,22 @@ namespace Mud.Server.Abilities
             pcSource.AutoLook();
 
             // Pet follows
-            ICharacter slave = pcSource.Slave;
-            if (slave != null) // no recursive call because DoRecall has been coded for IPlayableCharacter
+            foreach (INonPlayableCharacter pet in pcSource.Pets)
             {
-                if (slave.CharacterFlags.HasFlag(CharacterFlags.Curse))
+                // no recursive call because DoRecall has been coded for IPlayableCharacter
+                if (pet.CharacterFlags.HasFlag(CharacterFlags.Curse))
                     return UseResults.Ok; // slave failing doesn't impact return value
-                if (slave.Fighting != null)
+                if (pet.Fighting != null)
                 {
                     if (!RandomManager.Chance(80))
                         return UseResults.Ok;// slave failing doesn't impact return value
-                    slave.StopFighting(true);
+                    pet.StopFighting(true);
                 }
 
-                slave.Act(ActOptions.ToRoom, "{0:N} disappears", pcSource);
-                slave.ChangeRoom(recallRoom);
-                slave.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pcSource);
-                slave.AutoLook();
+                pet.Act(ActOptions.ToRoom, "{0:N} disappears", pcSource);
+                pet.ChangeRoom(recallRoom);
+                pet.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pcSource);
+                pet.AutoLook();
             }
 
             return UseResults.Ok;

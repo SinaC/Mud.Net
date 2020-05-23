@@ -64,26 +64,6 @@ namespace Mud.Server.Character
 
         public override IReadOnlyTrie<CommandMethodInfo> Commands => CharacterBaseCommands.Value;
 
-        public override void Send(string message, bool addTrailingNewLine)
-        {
-            // TODO: use Act formatter ?
-            base.Send(message, addTrailingNewLine);
-            // TODO: do we really need to receive message sent to slave ?
-            if (Settings.ForwardSlaveMessages && ControlledBy != null)
-            {
-                if (Settings.PrefixForwardedMessages)
-                    message = "<CTRL|" + DisplayName + ">" + message;
-                ControlledBy.Send(message, addTrailingNewLine);
-            }
-        }
-
-        public override void Page(StringBuilder text)
-        {
-            base.Page(text);
-            if (Settings.ForwardSlaveMessages)
-                ControlledBy?.Page(text);
-        }
-
         #endregion
 
         // TODO: override RelativeDescription ?
@@ -97,6 +77,18 @@ namespace Mud.Server.Character
                 Recompute();
             }
             return result;
+        }
+
+        public override void OnRemoved()
+        {
+            base.OnRemoved();
+
+            // Leave follower
+            Leader?.RemoveFollower(this);
+
+            // Release followers
+            foreach (ICharacter follower in World.Characters.Where(x => x.Leader == this))
+                RemoveFollower(follower);
         }
 
         #endregion
@@ -235,53 +227,40 @@ namespace Mud.Server.Character
 
         public IEnumerable<KnownAbility> KnownAbilities => _knownAbilities;
 
-        // Slave
-        public INonPlayableCharacter Slave { get; protected set; } // who is our slave (related to charm command/spell)
-        public ICharacter ControlledBy { get; protected set; } // who is our master (related to charm command/spell)
+        // Followers
+        public ICharacter Leader { get; protected set; }
 
-        // Controller
-        public bool ChangeSlave(INonPlayableCharacter slave) 
+        public void AddFollower(ICharacter character)
         {
-            if (!IsValid)
+            if (character.Leader == this)
+                return;
+            // check if A->B->C->A
+            ICharacter next = Leader;
+            while (next != null)
             {
-                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.ChangeController: {0} is not valid anymore", DebugName);
-                return false;
+                if (next == character)
+                    return; // found a cycle
+                next = next.Leader;
             }
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeSlave: {0} slave: old: {1}; new {2}", DebugName, Slave?.DebugName ?? "<<none>>", slave?.DebugName ?? "<<none>>");
-            Slave = slave;
-            return true;
+
+            character.Leader?.RemoveFollower(character);
+            character.ChangeLeader(this);
+            Act(ActOptions.ToCharacter, "{0:N} starts following you.", character);
+            character.Act(ActOptions.ToCharacter, "You start following {0:N}.", this);
         }
 
-        public bool ChangeController(ICharacter master) // if non-null, start slavery, else, stop slavery
+        public void RemoveFollower(ICharacter character)
         {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.ChangeController: {0} is not valid anymore", DebugName);
-                return false;
-            }
-            if (ControlledBy != null)
-            {
-                Wiznet.Wiznet($"ICharacter.ChangeController: {DebugName} is already controlled by {ControlledBy.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
-                return false;
-            }
+            if (character.Leader != this)
+                return;
+            Act(ActOptions.ToCharacter, "{0:N} stops following you.", character);
+            character.Act(ActOptions.ToCharacter, "You stop following {0:N}.", this);
+            character.ChangeLeader(null);
+        }
 
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeController: {0} master: old: {1}; new {2}", DebugName, ControlledBy?.DebugName ?? "<<none>>", master?.DebugName ?? "<<none>>");
-            if (master == null)
-            {
-                // TODO: remove charm flags and charm person affect
-                if (ControlledBy != null && ControlledBy.CanSee(this) && Room != null)
-                {
-                    Act(ActOptions.ToCharacter, "You stop following {0}.", ControlledBy);
-                    ControlledBy.Act(ActOptions.ToCharacter, "{0} stops following you.", this);
-                }
-            }
-            else
-            {
-                Act(ActOptions.ToCharacter, "You now follow {0}.", master);
-                master.Act(ActOptions.ToCharacter, "{0} now follows you.", this);
-            }
-            ControlledBy = master;
-            return true;
+        public void ChangeLeader(ICharacter character)
+        {
+            Leader = character;
         }
 
         // Act
@@ -681,7 +660,7 @@ namespace Mud.Server.Character
                 Send("No way! You are still fighting!");
                 return false;
             }
-            if (ControlledBy != null && ControlledBy.Room == Room)
+            if (this is INonPlayableCharacter npc && npc.Master != null && npc.Master.Room == Room) // TODO: no more cast like this
             {
                 // Slave cannot leave a room without Master
                 Send("What?  And leave your beloved master?");
@@ -997,8 +976,8 @@ namespace Mud.Server.Character
                         source.StartFighting(this);
                 }
                 // more charm stuff
-                if (this is INonPlayableCharacter npcVictim && npcVictim.ControlledBy == source)
-                    npcVictim.ChangeController(null);
+                if (this is INonPlayableCharacter npcVictim && npcVictim.Master == source) // TODO: no more cast like this
+                    npcVictim.ChangeMaster(null);
             }
             // inviso attack
             // TODO: remove invis, mass invis, flags, ... + "$n fades into existence."
@@ -1313,7 +1292,7 @@ namespace Mud.Server.Character
                     if (npcVictim.ActFlags.HasFlag(ActFlags.Pet))
                         return true;
                     // no charmed creatures unless owner
-                    if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm) && (area || caster != victim.ControlledBy))
+                    if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm) && (area || caster != npcVictim.Master))
                         return true;
                     // TODO: legal kill? -- cannot hit mob fighting non-group member
                     //if (victim->fighting != NULL && !is_same_group(ch,victim->fighting)) -> true
@@ -1334,7 +1313,7 @@ namespace Mud.Server.Character
                 if (caster is INonPlayableCharacter npcCaster)
                 {
                     // charmed mobs and pets cannot attack players while owned
-                    if (caster.CharacterFlags.HasFlag(CharacterFlags.Charm) && caster.ControlledBy != null && caster.ControlledBy.Fighting != victim)
+                    if (caster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master!= null && npcCaster.Master.Fighting != victim)
                         return true;
                     // safe room
                     if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
@@ -1400,7 +1379,7 @@ namespace Mud.Server.Character
                         return true;
                     }
                     // no charmed creatures unless owner
-                    if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm) && aggressor != victim.ControlledBy)
+                    if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm) && aggressor != npcVictim.Master)
                     {
                         aggressor.Send("You don't own that monster.");
                         return true;
@@ -1411,7 +1390,7 @@ namespace Mud.Server.Character
             else
             {
                 // Npc doing the killing
-                if (aggressor is INonPlayableCharacter npcCaster)
+                if (aggressor is INonPlayableCharacter npcAggressor)
                 {
                     // safe room
                     if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
@@ -1420,7 +1399,7 @@ namespace Mud.Server.Character
                         return true;
                     }
                     // charmed mobs and pets cannot attack players while owned
-                    if (aggressor.CharacterFlags.HasFlag(CharacterFlags.Charm) && aggressor.ControlledBy != null && aggressor.ControlledBy.Fighting != victim)
+                    if (aggressor.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcAggressor.Master != null && npcAggressor.Master.Fighting != victim)
                     {
                         aggressor.Send("Players are your friends!");
                         return true;
@@ -1793,16 +1772,11 @@ namespace Mud.Server.Character
         {
             if (fromRoom != toRoom)
             {
-                if(Slave != null)
-                { 
-                    if (Slave.ActFlags.HasFlag(ActFlags.Aggressive) && toRoom.RoomFlags.HasFlag(RoomFlags.Law))
-                    {
-                        Slave.ControlledBy?.Act(ActOptions.ToCharacter, "You can't bring {0} into the city.", Slave);
-                        Slave.Send("You aren't allowed in the city.");
-                        return;
-                    }
-                    Slave.Send("You follow {0}.", DebugName);
-                    Slave.Move(direction, true);
+                IReadOnlyCollection<IPlayableCharacter> followers = new ReadOnlyCollection<IPlayableCharacter>(fromRoom.People.OfType<IPlayableCharacter>().Where(x => x.Leader == this).ToList()); // clone because Move will modify fromRoom.People
+                foreach (IPlayableCharacter follower in followers)
+                {
+                    follower.Send("You follow {0}.", DebugName);
+                    follower.Move(direction, true);
                 }
             }
         }
@@ -1811,13 +1785,7 @@ namespace Mud.Server.Character
         {
             if (wasRoom == destination)
                 return;
-            if (Slave == null)
-                return;
-            // TODO: if slave is not standing, call DoStand
-            if (Slave.Position != Positions.Standing)
-                return;
-            Slave.Send("You follow {0}.", DebugName);
-            Slave.Enter(portal, true);
+            // Followers will not automatically enter portal
         }
 
         protected virtual IEnumerable<ICharacter> GetActTargets(ActOptions option)

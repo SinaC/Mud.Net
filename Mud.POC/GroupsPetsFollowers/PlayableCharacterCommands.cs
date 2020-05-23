@@ -113,7 +113,7 @@ namespace Mud.POC.GroupsPetsFollowers
             {
                 if(target.Group != null)
                 {
-                    Act(ActTargets.ToCharacter, "{0:N} is already in a group.");
+                    Act(ActOptions.ToCharacter, "{0:N} is already in a group.");
                     return CommandExecutionResults.InvalidTarget;
                 }
                 // create a new group
@@ -135,7 +135,7 @@ namespace Mud.POC.GroupsPetsFollowers
                 // not in the same group
                 if (target.Group != Group)
                 {
-                    Act(ActTargets.ToCharacter, "{0:N} is already in a group.");
+                    Act(ActOptions.ToCharacter, "{0:N} is already in a group.");
                     return CommandExecutionResults.InvalidTarget;
                 }
                 // remove target from the group or disband

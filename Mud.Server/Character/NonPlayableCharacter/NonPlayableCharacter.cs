@@ -100,6 +100,26 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         public override IReadOnlyTrie<CommandMethodInfo> Commands => NonPlayableCharacterCommands.Value;
 
+        public override void Send(string message, bool addTrailingNewLine)
+        {
+            // TODO: use Act formatter ?
+            base.Send(message, addTrailingNewLine);
+            // TODO: do we really need to receive message sent to slave ?
+            if (Settings.ForwardSlaveMessages && Master != null)
+            {
+                if (Settings.PrefixForwardedMessages)
+                    message = "<CTRL|" + DisplayName + ">" + message;
+                Master.Send(message, addTrailingNewLine);
+            }
+        }
+
+        public override void Page(StringBuilder text)
+        {
+            base.Page(text);
+            if (Settings.ForwardSlaveMessages)
+                Master?.Page(text);
+        }
+
         #endregion
 
         public override string DisplayName => Blueprint.ShortDescription;
@@ -128,7 +148,8 @@ namespace Mud.Server.Character.NonPlayableCharacter
             base.OnRemoved();
 
             StopFighting(true);
-            Slave?.ChangeController(null);
+            // Free from slavery
+            Master?.RemovePet(this);
             // TODO: what if character is incarnated
             ResetCooldowns();
             DeleteInventory();
@@ -282,6 +303,30 @@ namespace Mud.Server.Character.NonPlayableCharacter
                                      || questingCharacter.Quests.Where(q => !q.IsCompleted).Any(q => q.Blueprint.KillLootTable.ContainsKey(Blueprint.Id));
         }
 
+
+        public IPlayableCharacter Master { get; protected set; }
+
+        public void ChangeMaster(IPlayableCharacter master)
+        {
+            if (master == this)
+                return;
+            if (Master != null && master != null)
+                return; // cannot change from one master to another
+            Master = master;
+        }
+
+        public void Order(string rawParameters, params CommandParameter[] parameters)
+        {
+            if (Master == null)
+                return;
+            Act(ActOptions.ToCharacter, "{0:N} orders you to {1}", Master, rawParameters);
+            // TODO: real implementation
+        }
+
+        #endregion
+
+        #region CharacterBase
+
         // Abilities
         public override (int learned, KnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon)
         {
@@ -354,7 +399,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
                     break;
                 case "Disarm":
                     if (OffensiveFlags.HasFlag(OffensiveFlags.Disarm)
-                        || ActFlags.HasFlag(ActFlags.Warrior) 
+                        || ActFlags.HasFlag(ActFlags.Warrior)
                         || ActFlags.HasFlag(ActFlags.Thief))
                         learned = 20 + 3 * Level;
                     break;
@@ -398,9 +443,6 @@ namespace Mud.Server.Character.NonPlayableCharacter
             return (learned, knownAbility);
         }
 
-        #endregion
-
-        #region CharacterBase
 
         protected override (int hitGain, int moveGain, int manaGain) RegenBaseValues()
         {
@@ -458,7 +500,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             if (damage > 0) // TODO add test on wait < PULSE_VIOLENCE / 2
             {
                 if ((ActFlags.HasFlag(ActFlags.Wimpy) && HitPoints < MaxHitPoints / 5 && RandomManager.Chance(25))
-                    || (CharacterFlags.HasFlag(CharacterFlags.Charm) && ControlledBy != null && ControlledBy.Room != Room))
+                    || (CharacterFlags.HasFlag(CharacterFlags.Charm) && Master != null && Master.Room != Room))
                     DoFlee(null, null);
             }
         }

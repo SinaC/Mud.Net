@@ -108,8 +108,10 @@
     <Compile Include="Aura\RoomFlagsAffect.cs" />
     <Compile Include="Character\AbilityCommands.cs" />
     <Compile Include="Character\PlayableCharacter\MiscCommands.cs" />
+    <Compile Include="Group\Group.cs" />
     <Compile Include="Helpers\MiscHelpers.cs" />
     <Compile Include="ICloseable.cs" />
+    <Compile Include="IGroup.cs" />
     <Compile Include="Item\IItemBoat.cs" />
     <Compile Include="Item\IItemCanContain.cs" />
     <Compile Include="Item\IItemCastSpellsNoCharge.cs" />
@@ -155,7 +157,6 @@
     <Compile Include="Character\CharacterBase.cs" />
     <Compile Include="Character\CombatCommands.cs" />
     <Compile Include="Character\CommunicationCommands.cs" />
-    <Compile Include="Character\MiscCommands.cs" />
     <Compile Include="Character\PlayableCharacter\AbilityCommands.cs" />
     <Compile Include="Character\PlayableCharacter\CommunicationCommands.cs" />
     <Compile Include="Character\PlayableCharacter\CombatCommands.cs" />

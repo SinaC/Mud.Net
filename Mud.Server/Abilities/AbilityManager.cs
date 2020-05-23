@@ -201,7 +201,7 @@ namespace Mud.Server.Abilities
                 || knownAbility.Ability.Target == AbilityTargets.CharacterFighting
                 || (knownAbility.Ability.Target == AbilityTargets.ItemHereOrCharacterOffensive && target is ICharacter))
                 && target != caster
-                && npcVictim?.ControlledBy != caster)
+                && npcVictim?.Master != caster)
             {
                 // TODO: not sure why we loop on people in caster room
                 // TODO: we could just check if victim is still in the room and not fighting
@@ -240,7 +240,7 @@ namespace Mud.Server.Abilities
                 || ability.Target == AbilityTargets.CharacterFighting
                 || (ability.Target == AbilityTargets.ItemHereOrCharacterOffensive && target is ICharacter))
                 && target != caster
-                && npcVictim?.ControlledBy != caster)
+                && npcVictim?.Master != caster)
             {
                 // TODO: not sure why we loop on people in caster room
                 // TODO: we could just check if victim is still in the room and not fighting
@@ -338,7 +338,7 @@ namespace Mud.Server.Abilities
                         }
                         // TODO: check_killer
                     }
-                    if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm) && victim.ControlledBy == caster)
+                    if (victim is INonPlayableCharacter npcVictim && npcVictim.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcVictim.Master == caster)
                     {
                         caster.Send("You can't do that on your own follower.");
                         return AbilityTargetResults.InvalidTarget;

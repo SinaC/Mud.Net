@@ -22,13 +22,18 @@ namespace Mud.Server
         int this[Conditions condition] { get; }
         void GainCondition(Conditions condition, int value);
 
-        // Group/Follower
-        IPlayableCharacter Leader { get; }
-        IEnumerable<IPlayableCharacter> GroupMembers { get; } //!! leader is not be member of its own group and only leader stores GroupMembers
-        bool IsSameGroup(IPlayableCharacter character); // check is 'this' and 'character' are in the same group
-
         // Impersonation
         IPlayer ImpersonatedBy { get; }
+
+        // Group
+        IGroup Group { get; }
+        void ChangeGroup(IGroup group);
+        bool IsSameGroup(IPlayableCharacter character);
+        
+        // Pets
+        IEnumerable<INonPlayableCharacter> Pets { get; }
+        void AddPet(INonPlayableCharacter pet);
+        void RemovePet(INonPlayableCharacter pet);
 
         // Quest
         IEnumerable<IQuest> Quests { get; }
@@ -37,13 +42,6 @@ namespace Mud.Server
 
         // Room
         IRoom RecallRoom { get; }
-
-        // Group/Follower
-        bool ChangeLeader(IPlayableCharacter leader);
-        bool AddGroupMember(IPlayableCharacter member, bool silent);
-        bool RemoveGroupMember(IPlayableCharacter member, bool silent);
-        bool AddFollower(IPlayableCharacter follower);
-        bool StopFollower(IPlayableCharacter follower);
 
         // Impersonation
         bool StopImpersonation();

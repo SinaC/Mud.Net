@@ -58,16 +58,16 @@ namespace Mud.POC.GroupsPetsFollowers
 
             character.Leader?.RemoveFollower(character);
             character.ChangeLeader(this);
-            Act(ActTargets.ToCharacter, "{0:N} starts following you.");
-            character.Act(ActTargets.ToCharacter, "You start following {0:N}.", this);
+            Act(ActOptions.ToCharacter, "{0:N} starts following you.");
+            character.Act(ActOptions.ToCharacter, "You start following {0:N}.", this);
         }
 
         public void RemoveFollower(ICharacter character)
         {
             if (character.Leader != this)
                 return;
-            Act(ActTargets.ToCharacter, "{0:N} stops following you.");
-            character.Act(ActTargets.ToCharacter, "You stop following {0:N}.", this);
+            Act(ActOptions.ToCharacter, "{0:N} stops following you.");
+            character.Act(ActOptions.ToCharacter, "You stop following {0:N}.", this);
             character.ChangeLeader(null);
         }
 
@@ -99,16 +99,16 @@ namespace Mud.POC.GroupsPetsFollowers
             Debug.Write(sb.ToString());
         }
 
-        public void Act(ActTargets actTarget, string format, params object[] args)
+        public void Act(ActOptions actTarget, string format, params object[] args)
         {
             if (!IsValid)
                 return;
             IEnumerable<ICharacter> targets;
-            if (actTarget == ActTargets.ToCharacter)
+            if (actTarget == ActOptions.ToCharacter)
                 targets = this.Yield();
-            else if (actTarget == ActTargets.ToRoom)
+            else if (actTarget == ActOptions.ToRoom)
                 targets = this.Room.People.Where(x => x != this);
-            else if (actTarget == ActTargets.ToGroup && this is IPlayableCharacter playableCharacter)
+            else if (actTarget == ActOptions.ToGroup && this is IPlayableCharacter playableCharacter)
                 targets = playableCharacter.Group.Members ?? playableCharacter.Yield();
             else
                 throw new Exception($"Invalid ActTargets {actTarget}");

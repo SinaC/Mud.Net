@@ -12,158 +12,169 @@ namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter
     {
-        [PlayableCharacterCommand("follow", "Group", MinPosition = Positions.Resting)]
-        [Syntax("[cmd] <character>")]
-        protected virtual CommandExecutionResults DoFollow(string rawParameters, params CommandParameter[] parameters)
+        [PlayableCharacterCommand("Order", "Pets")]
+        [Syntax(
+            "[cmd] <pet> command",
+            "[cmd] all command")]
+        protected virtual CommandExecutionResults DoOrder(string rawParameters, params CommandParameter[] parameters) // order to one pet or all to do something
         {
-            if (parameters.Length == 0)
+            if (parameters.Length < 2)
             {
-                Send("Follow whom?");
+                Send("Order who what?");
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
-            ICharacter whom = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
-            if (whom == null)
+
+            if (!Pets.Any())
             {
-                Send(StringHelpers.CharacterNotFound);
-                return CommandExecutionResults.TargetNotFound;
-            }
-            IPlayableCharacter newLeader = whom as IPlayableCharacter;
-            if (newLeader == null)
-            {
-                Send($"You cannot follow {whom.DisplayName}");
-                return CommandExecutionResults.InvalidTarget;
-            }
-            // TODO: charmed ?
-            if (newLeader == this)
-            {
-                if (Leader == null)
-                {
-                    Send("You already follow yourself.");
-                    return CommandExecutionResults.InvalidTarget;
-                }
-                Leader.StopFollower(this);
-                return CommandExecutionResults.Ok;
+                Send("You don't have any pets");
+                return CommandExecutionResults.NoExecution;
             }
 
-            Leader?.StopFollower(this);
-            newLeader.AddFollower(this);
+            // Get pet(s)
+            IEnumerable<INonPlayableCharacter> targets;
+            if (parameters[0].IsAll)
+                targets = Pets;
+            else
+            {
+                INonPlayableCharacter pet = Pets.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value)); // TODO: use FindHelpers
+                if (pet == null)
+                {
+                    Send("You don't have any pet of that name.");
+                    return CommandExecutionResults.TargetNotFound;
+                }
+
+                targets = pet.Yield();
+            }
+
+            // Remove pet name or all from parameters
+            var (modifiedRawParameters, modifiedParameters) = CommandHelpers.SkipParameters(parameters, 1);
+
+            // Send the order to selected pets
+            foreach (INonPlayableCharacter target in targets)
+                target.Order(modifiedRawParameters, modifiedParameters);
+
             return CommandExecutionResults.Ok;
         }
 
-        [PlayableCharacterCommand("group", "Group")]
+        [Command("Group", "Group", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] <character>")]
-        protected virtual CommandExecutionResults DoGroup(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoGroup(string rawParameters, params CommandParameter[] parameters) // display group info, add member
         {
+            // no parameter: display group/pets info
             if (parameters.Length == 0)
             {
-                IPlayableCharacter leader = null;
-                // Member of a group
-                if (Leader != null && Leader.GroupMembers.Any(x => x == this))
-                    leader = Leader;
-                // Leader of a group
-                else if (Leader == null && GroupMembers.Any())
-                    leader = this;
-                if (leader == null)
+                if (Group == null)
                 {
-                    Send("You are not in a group.");
-                    return CommandExecutionResults.NoExecution;
+                    // not in a group and no pet
+                    if (!Pets.Any())
+                    {
+                        Send("You aren't in a group.");
+                        return CommandExecutionResults.NoExecution;
+                    }
+                    // not in a group but pets
+                    StringBuilder sbPets = new StringBuilder();
+                    foreach (INonPlayableCharacter pet in Pets)
+                        sbPets.AppendFormatLine("{0,10}: Lvl: {1,3} Hp:{2,6}/{3,6}", pet.DisplayName.MaxLength(10), pet.Level, pet.HitPoints, pet.MaxHitPoints); // TODO: resource
+                    Send(sbPets);
+
+                    return CommandExecutionResults.Ok;
                 }
                 StringBuilder sb = new StringBuilder();
-                sb.AppendFormatLine("{0}'s group:", leader.DisplayName); // No RelativeDisplayName because we always see people in our group
-                AppendCharacterGroupMemberInfo(sb, leader, true);
-                foreach (IPlayableCharacter member in leader.GroupMembers)
-                    AppendCharacterGroupMemberInfo(sb, member, false);
+                foreach (IPlayableCharacter member in Group.Members)
+                { 
+                    // TODO: resource
+                    // display member info
+                    sb.AppendFormatLine("{0,3}{1,10}: Lvl: {2,3} Hp:{3,6}/{4,6} Nxt: {5,6}", Group.Leader == member ? "[L]" : string.Empty, member.DisplayName.MaxLength(10), member.Level, member.HitPoints, member.MaxHitPoints, member.ExperienceToLevel);
+                    if (member.Pets.Any())
+                    {
+                        // display member's pet info
+                        foreach (INonPlayableCharacter pet in Pets)
+                            sb.AppendFormatLine("    {0,10}: Lvl: {1,3} Hp:{2,6}/{3,6}", pet.DisplayName.MaxLength(10), pet.Level, pet.HitPoints, pet.MaxHitPoints); // TODO: resource
+                    }
+                }
                 Send(sb);
                 return CommandExecutionResults.Ok;
             }
 
-            // Try to add/remove someone in group
-            if (Leader != null)
+            // add/remove member to group
+            IPlayableCharacter target = Room.PlayableCharacters.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value)); // TODO: use FindHelpers
+            if (target == null)
+            {
+                Send("They aren't here.");
+                return CommandExecutionResults.TargetNotFound;
+            }
+
+            // can't group ourself
+            if (target == this)
+            {
+                Send("You can't group yourself.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+
+            // we are not in a group -> add
+            if (Group == null)
+            {
+                if (target.Group != null)
+                {
+                    Act(ActOptions.ToCharacter, "{0:N} is already in a group.");
+                    return CommandExecutionResults.InvalidTarget;
+                }
+                // create a new group
+                Group = new Group.Group(this);
+                // add target in the group
+                Group.AddMember(target);
+                return CommandExecutionResults.Ok;
+            }
+            // we are in a group -> add or remove
+            // only the leader can add or remove
+            if (Group.Leader != this)
             {
                 Send("You are not the group leader.");
                 return CommandExecutionResults.NoExecution;
             }
-            // Remove from group if target is already in the group
-            IPlayableCharacter oldMember = FindHelpers.FindByName(GroupMembers.Where(CanSee), parameters[0]);
-            if (oldMember != null)
+            // if already in a group -> remove or nop
+            if (target.Group != null)
             {
-                RemoveGroupMember(oldMember, false);
+                // not in the same group
+                if (target.Group != Group)
+                {
+                    Act(ActOptions.ToCharacter, "{0:N} is already in a group.");
+                    return CommandExecutionResults.InvalidTarget;
+                }
+                // remove target from the group or disband
+                if (Group.Members.Count() <= 2) // group will contain only one member, disband
+                    Group.Disband();
+                else
+                    Group.RemoveMember(target); // simple remove
                 return CommandExecutionResults.Ok;
             }
-            // Search in room a new member to add
-            ICharacter whom = FindHelpers.FindByName(Room.People.Where(CanSee), parameters[0]);
-            if (whom == null)
-            {
-                Send(StringHelpers.CharacterNotFound);
-                return CommandExecutionResults.TargetNotFound;
-            }
-            IPlayableCharacter newMember = whom as IPlayableCharacter;
-            if (newMember == null) // not found
-            {
-                Send($"You cannot group {whom.DisplayName}");
-                return CommandExecutionResults.InvalidTarget;
-            }
-            if (newMember == this)
-            {
-                Send("You cannot group yourself.");
-                return CommandExecutionResults.InvalidTarget;
-            }
-            if (newMember.Leader != this)
-            {
-                Act(ActOptions.ToCharacter, "{0} is not following you.", newMember);
-                return CommandExecutionResults.InvalidTarget;
-            }
-            if (newMember.GroupMembers.Any())
-            {
-                Act(ActOptions.ToCharacter, "{0} is already in a group", newMember);
-                return CommandExecutionResults.InvalidTarget;
-            }
-            if (GroupMembers.Any(x => x == newMember))
-            {
-                Act(ActOptions.ToCharacter, "{0} is already in your group.", newMember);
-                return CommandExecutionResults.InvalidTarget;
-            }
-            AddGroupMember(newMember, false);
+
+            // add target in the group
+            Group.AddMember(target);
             return CommandExecutionResults.Ok;
         }
 
-        [PlayableCharacterCommand("leave", "Group", Priority = 5, MinPosition = Positions.Sleeping)]
-        protected virtual CommandExecutionResults DoLeave(string rawParameters, params CommandParameter[] parameters)
+        [Command("Leave", "Group")]
+        [Syntax("[cmd] <member>")]
+        protected virtual CommandExecutionResults DoLeave(string rawParameters, params CommandParameter[] parameters) // leave a group
         {
-            // Member leaving
-            if (Leader != null && Leader.GroupMembers.Any(x => x == this))
-                Leader.RemoveGroupMember(this, false);
-            // Leader leaving -> change leader
-            else if (GroupMembers.Any())
+            if (Group == null)
             {
-                IPlayableCharacter newLeader = GroupMembers.FirstOrDefault();
-                if (newLeader == null)
-                {
-                    Wiznet.Wiznet("DoLeave: problem with group, leader leaving but no other group member found.", WiznetFlags.Bugs, AdminLevels.Implementor);
-                    return CommandExecutionResults.Error;
-                }
-                // New leader has no leader
-                newLeader.ChangeLeader(null);
-                // Remove member from old leader and add it to new leader
-                IReadOnlyCollection<IPlayableCharacter> members = new ReadOnlyCollection<IPlayableCharacter>(GroupMembers.Where(x => x != newLeader).ToList()); // clone because RemoveGroupMember will modify GroupMembers
-                foreach (IPlayableCharacter member in members)
-                {
-                    RemoveGroupMember(member, true);
-                    newLeader.AddGroupMember(member, true);
-                }
-                // Warn members about leader change
-                newLeader.Send("You are the new group leader.");
-                Act(ActOptions.ToGroup, "{0} is the new group leader.", newLeader);
+                Send("You aren't in a group.");
+                return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
+            if (Group.Members.Count() <= 2) // group will contain only one member, disband
+                Group.Disband();
             else
-                Send("You are not in a group.");
+                Group.RemoveMember(this);
+
             return CommandExecutionResults.Ok;
         }
 
         [PlayableCharacterCommand("gtell", "Group", "Communication")]
-        [PlayableCharacterCommand("groupsay", "Group", "Communication", Priority = 50)]
+        [PlayableCharacterCommand("groupsay", "Group", "Communication", Priority = 1000)]
         [PlayableCharacterCommand("gsay", "Group", "Communication")]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoGroupSay(string rawParameters, params CommandParameter[] parameters)

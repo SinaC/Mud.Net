@@ -26,7 +26,7 @@ namespace Mud.POC.GroupsPetsFollowers
         {
             if (Master == null)
                 return;
-            Act(ActTargets.ToCharacter, "{0:N} orders you to {1}", Master, rawParameters);
+            Act(ActOptions.ToCharacter, "{0:N} orders you to {1}", Master, rawParameters);
             // TODO: real implementation
         }
 

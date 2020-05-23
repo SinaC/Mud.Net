@@ -19,7 +19,7 @@ namespace Mud.POC.GroupsPetsFollowers
                     Send("You are not following anyone.");
                     return CommandExecutionResults.NoExecution;
                 }
-                Act(ActTargets.ToCharacter, "You are following {0:N}.", Leader);
+                Act(ActOptions.ToCharacter, "You are following {0:N}.", Leader);
                 return CommandExecutionResults.Ok;
             }
 
@@ -50,7 +50,7 @@ namespace Mud.POC.GroupsPetsFollowers
             {
                 if (next == target)
                 {
-                    Act(ActTargets.ToCharacter, "You can't follow {0:N}.", target);
+                    Act(ActOptions.ToCharacter, "You can't follow {0:N}.", target);
                     return CommandExecutionResults.InvalidTarget; // found a cycle
                 }
                 next = next.Leader;

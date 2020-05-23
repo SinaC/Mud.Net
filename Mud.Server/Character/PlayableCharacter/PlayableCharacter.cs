@@ -30,6 +30,7 @@ namespace Mud.Server.Character.PlayableCharacter
         private readonly List<IQuest> _quests;
         private readonly int[] _conditions;
         private readonly Dictionary<string, string> _aliases;
+        private readonly List<INonPlayableCharacter> _pets;
 
         public PlayableCharacter(Guid guid, CharacterData data, IPlayer player, IRoom room)
             : base(guid, data.Name, string.Empty)
@@ -38,6 +39,7 @@ namespace Mud.Server.Character.PlayableCharacter
             _quests = new List<IQuest>();
             _conditions = new int[EnumHelpers.GetCount<Conditions>()];
             _aliases = new Dictionary<string, string>();
+            _pets = new List<INonPlayableCharacter>();
 
             ImpersonatedBy = player;
 
@@ -266,12 +268,31 @@ namespace Mud.Server.Character.PlayableCharacter
             base.OnRemoved();
 
             StopFighting(true);
-            Slave?.ChangeController(null);
+
+            // Leave group
+            if (Group != null)
+            {
+                if (Group.Members.Count() <= 2) // group will contain only one member, disband
+                    Group.Disband();
+                else
+                    Group.RemoveMember(this);
+            }
+
+            // Release pets
+            foreach (INonPlayableCharacter pet in _pets)
+            {
+                if (pet.Room != null)
+                    pet.Act(ActOptions.ToRoom, "{0:N} slowly fades away.", pet);
+                RemoveFollower(pet);
+                pet.ChangeMaster(null);
+                World.RemoveCharacter(pet);
+            }
+            _pets.Clear();
+
+
             // TODO: what if character is incarnated
             ImpersonatedBy?.StopImpersonating();
             ImpersonatedBy = null; // TODO: warn ImpersonatedBy ?
-            ControlledBy = null; // TODO: warn ControlledBy ?
-            Leader = null; // TODO: warn Leader
             ResetCooldowns();
             DeleteInventory();
             DeleteEquipments();
@@ -348,22 +369,8 @@ namespace Mud.Server.Character.PlayableCharacter
             // Gain xp and alignment
             if (this != victim && victim is INonPlayableCharacter) // gain xp only for non-playable victim
             {
-                // TODO: not the best way to do it
-                // Build group members
-                List<IPlayableCharacter> members = new List<IPlayableCharacter>
-                {
-                    this
-                };
-                IPlayableCharacter leader = null;
-                // Member of a group
-                if (Leader != null && Leader.GroupMembers.Any(x => x == this))
-                    leader = Leader;
-                // Leader of a group
-                else if (Leader == null && GroupMembers.Any())
-                    leader = this;
-                if (leader != null)
-                    members.AddRange(leader.GroupMembers);
-                int sumLevels = members.Sum(x => x.Level); // TODO: NPC in group -> level / 2
+                IPlayableCharacter[] members = (Group?.Members ?? this.Yield()).ToArray();
+                int sumLevels = members.Sum(x => x.Level);
                 // Gain xp and change alignment
                 foreach (IPlayableCharacter member in members)
                 {
@@ -375,7 +382,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     }
                     member.UpdateAlignment(gain.alignment);
                 }
-                // TODO: gold, reputation
+                // TODO: reputation
             }
         }
 
@@ -528,10 +535,6 @@ namespace Mud.Server.Character.PlayableCharacter
             }
         }
 
-        public IPlayableCharacter Leader { get; protected set; }
-
-        public IEnumerable<IPlayableCharacter> GroupMembers => _groupMembers.Where(x => x.IsValid);
-
         public override bool CanSee(IItem target)
         {
             if (target is IItemQuest questItem)
@@ -544,8 +547,49 @@ namespace Mud.Server.Character.PlayableCharacter
             return base.CanSee(target);
         }
 
-        // Impersonation/Controller
+        // Impersonation
         public IPlayer ImpersonatedBy { get; protected set; }
+
+        // Group
+        public IGroup Group { get; protected set; }
+
+        public void ChangeGroup(IGroup group)
+        {
+            if (Group != null && group != null)
+                return; // cannot change from one group to another
+            Group = group;
+        }
+
+        public bool IsSameGroup(IPlayableCharacter character)
+        {
+            if (Group == null || character.Group == null)
+                return false;
+            return Group == character.Group;
+        }
+
+        // Pets
+        public IEnumerable<INonPlayableCharacter> Pets => _pets;
+
+        public void AddPet(INonPlayableCharacter pet)
+        {
+            if (_pets.Contains(pet))
+                return;
+            if (pet.Master != null) // cannot change master
+                return;
+            AddFollower(pet);
+            _pets.Add(pet);
+            pet.ChangeMaster(this);
+        }
+
+        public void RemovePet(INonPlayableCharacter pet)
+        {
+            if (!_pets.Contains(pet))
+                return;
+            RemoveFollower(pet);
+            _pets.Remove(pet);
+            pet.ChangeMaster(null);
+            World.RemoveCharacter(pet);
+        }
 
         // Quest
         public IEnumerable<IQuest> Quests => _quests;
@@ -563,123 +607,6 @@ namespace Mud.Server.Character.PlayableCharacter
 
         // Room
         public IRoom RecallRoom => World.DefaultRecallRoom; // TODO: could be different from default one
-
-        // Group
-        public bool IsSameGroup(IPlayableCharacter character)
-        {
-            if (!IsValid || !character.IsValid)
-                return false;
-            //if (GroupMembers.Any(x => x == character) && character.GroupMembers.Any(x => x == this))
-            //    return true;
-            //return false;
-            IPlayableCharacter first = Leader ?? this;
-            IPlayableCharacter second = character.Leader ?? character;
-            return first == second;
-        }
-
-        public bool ChangeLeader(IPlayableCharacter newLeader)
-        {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.ChangeLeader: {0} is not valid anymore", DebugName);
-                return false;
-            }
-            if (newLeader != null && !newLeader.IsValid)
-            {
-                Wiznet.Wiznet($"ICharacter.ChangeLeader: {newLeader.DebugName} is not valid anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
-                return false;
-            }
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeLeader: {0} old= {1}; new {2}", DebugName, Leader == null ? "<<none>>" : Leader.DebugName, newLeader == null ? "<<none>>" : newLeader.DebugName);
-            Leader = newLeader;
-            return true;
-        }
-
-        public bool AddGroupMember(IPlayableCharacter newMember, bool silent)
-        {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.AddGroupMember: {0} is not valid anymore", DebugName);
-                return false;
-            }
-            if (Leader != null)
-            {
-                Log.Default.WriteLine(LogLevels.Warning, "ICharacter.AddGroupMember: {0} cannot add member because leader is not null", DebugName);
-                return false;
-            }
-            if (!newMember.IsValid)
-            {
-                Wiznet.Wiznet($"ICharacter.AddGroupMember: new member {newMember.DebugName} is not valid anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
-                return false;
-            }
-            if (_groupMembers.Any(x => x == newMember))
-            {
-                Wiznet.Wiznet($"ICharacter.AddGroupMember: {newMember.DebugName} already in group of {DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
-                return false;
-            }
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.AddGroupMember: {0} joined by {1}", DebugName, newMember.DebugName);
-            if (!silent)
-                Send("{0} joins group.", newMember.DisplayName);
-            newMember.ChangeLeader(this); // this is not mandatory (should be done by caller)
-            if (!silent)
-            {
-                foreach (IPlayableCharacter member in _groupMembers)
-                    member.Send("{0} joins group.", newMember.DisplayName);
-            }
-            if (!silent)
-                newMember.Act(ActOptions.ToCharacter, "You join {0}'s group.", this);
-            _groupMembers.Add(newMember);
-            return true;
-        }
-
-        public bool RemoveGroupMember(IPlayableCharacter oldMember, bool silent) // TODO: what if leader leaves group!!!
-        {
-            Log.Default.WriteLine(LogLevels.Debug, "ICharacter.RemoveGroupMember: {0} leaves {1}", oldMember.DebugName, DebugName);
-            bool removed = _groupMembers.Remove(oldMember);
-            if (!removed)
-            {
-                Log.Default.WriteLine(LogLevels.Debug, "ICharacter.RemoveGroupMember: {0} not in group of {1}", oldMember.DebugName, DebugName);
-                return false;
-            }
-            oldMember.ChangeLeader(null); // this is not mandatory (should be done by caller)
-            if (!silent)
-                Send("{0} leaves group.", oldMember.DebugName);
-            if (!silent)
-            {
-                foreach (IPlayableCharacter member in _groupMembers)
-                    member.Send("{0} leaves group.", member.DebugName);
-            }
-            if (!silent)
-                oldMember.Act(ActOptions.ToCharacter, "You leave {0}'s group.", this);
-            return true;
-        }
-
-        public bool AddFollower(IPlayableCharacter follower)
-        {
-            follower.ChangeLeader(this);
-            if (CanSee(follower))
-                Act(ActOptions.ToCharacter, "{0} now follows you.", follower);
-            follower.Act(ActOptions.ToCharacter, "You now follow {0}.", this);
-            return true;
-        }
-
-        public bool StopFollower(IPlayableCharacter follower)
-        {
-            if (follower.Leader == null)
-            {
-                Log.Default.WriteLine(LogLevels.Warning, "ICharacter:StopFollower: {0} is not following anyone", follower.DebugName);
-                return false;
-            }
-            if (follower.Leader != this)
-            {
-                Wiznet.Wiznet($"ICharacter:StopFollower: {follower.DebugName} is not following {DebugName} but {follower.Leader?.DebugName ?? "<<none>>"}", WiznetFlags.Bugs, AdminLevels.Implementor);
-                return false;
-            }
-            follower.ChangeLeader(null);
-            if (CanSee(follower))
-                Act(ActOptions.ToCharacter, "{0} stops following you.", follower);
-            follower.Act(ActOptions.ToCharacter, "You stop following {0}.", this);
-            return true;
-        }
 
         // Impersonation
         public bool StopImpersonation()
@@ -971,11 +898,36 @@ namespace Mud.Server.Character.PlayableCharacter
 
             if (fromRoom != toRoom)
             {
-                IReadOnlyCollection<IPlayableCharacter> followers = new ReadOnlyCollection<IPlayableCharacter>(fromRoom.People.OfType<IPlayableCharacter>().Where(x => x.Leader == this).ToList()); // clone because Move will modify fromRoom.People
-                foreach (IPlayableCharacter follower in followers)
+                if (Pets.Any())
                 {
-                    follower.Send("You follow {0}.", DebugName);
-                    follower.Move(direction, true);
+                    foreach (INonPlayableCharacter pet in Pets)
+                    {
+                        if (pet.ActFlags.HasFlag(ActFlags.Aggressive) && toRoom.RoomFlags.HasFlag(RoomFlags.Law))
+                        {
+                            pet.Master?.Act(ActOptions.ToCharacter, "You can't bring {0} into the city.", pet);
+                            pet.Send("You aren't allowed in the city.");
+                            return;
+                        }
+                        pet.Send("You follow {0}.", DebugName);
+                        pet.Move(direction, true);
+                    }
+                }
+            }
+        }
+
+        protected override void EnterFollow(IRoom wasRoom, IRoom destination, IItemPortal portal)
+        {
+            if (wasRoom == destination)
+                return;
+            if (Pets.Any())
+            {
+                foreach (INonPlayableCharacter pet in Pets)
+                {
+                    // TODO: if pet is not standing, call DoStand
+                    if (pet.Position != Positions.Standing)
+                        return;
+                    pet.Send("You follow {0}.", DebugName);
+                    pet.Enter(portal, true);
                 }
             }
         }
@@ -983,11 +935,7 @@ namespace Mud.Server.Character.PlayableCharacter
         protected override IEnumerable<ICharacter> GetActTargets(ActOptions option)
         {
             if (option == ActOptions.ToGroup)
-            {
-                if (Leader != null)
-                    return Leader.GroupMembers; // !! GroupMembers doesn't include Leader
-                return Enumerable.Empty<ICharacter>(); // NOP
-            }
+                return Group?.Members ?? this.Yield();
             return base.GetActTargets(option);
         }
 

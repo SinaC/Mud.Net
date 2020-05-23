@@ -40,6 +40,7 @@ namespace Mud.Server.Character
             }
 
             IPlayableCharacter playableCharacter = this as IPlayableCharacter;
+            INonPlayableCharacter nonPlayableCharacter = this as INonPlayableCharacter;
             if (target.Fighting != null)
             {
                 // if not in same group, don't allow kill stealing
@@ -51,7 +52,7 @@ namespace Mud.Server.Character
                 }
             }
 
-            if (CharacterFlags.HasFlag(CharacterFlags.Charm) && ControlledBy == target)
+            if (CharacterFlags.HasFlag(CharacterFlags.Charm) && nonPlayableCharacter?.Master == target)
             {
                 Act(ActOptions.ToCharacter, "{0:N} is your beloved master.", target);
                 return CommandExecutionResults.InvalidTarget;

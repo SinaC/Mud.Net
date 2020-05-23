@@ -222,7 +222,7 @@ namespace Mud.Server.Abilities
         [Spell(8, "Cancellation", AbilityTargets.CharacterDefensive)]
         public void SpellCancellation(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if ((caster is IPlayableCharacter && victim is INonPlayableCharacter && !caster.CharacterFlags.HasFlag(CharacterFlags.Charm) && caster.ControlledBy == victim)
+            if ((caster is IPlayableCharacter && victim is INonPlayableCharacter npcVictim && !caster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcVictim.Master == caster)
                 || (caster is INonPlayableCharacter && victim is IPlayableCharacter))
             {
                 caster.Send("You failed, try dispel magic.");
@@ -346,6 +346,13 @@ namespace Mud.Server.Abilities
                 return;
             }
 
+            IPlayableCharacter pcCaster = caster as IPlayableCharacter;
+            if (pcCaster == null)
+            {
+                caster.Send("You can't charm!");
+                return;
+            }
+
             INonPlayableCharacter npcVictim = victim as INonPlayableCharacter;
             if (npcVictim == null)
             {
@@ -366,8 +373,7 @@ namespace Mud.Server.Abilities
                 return;
             }
 
-            npcVictim.ChangeController(caster);
-            caster.ChangeSlave(npcVictim);
+            pcCaster.AddPet(npcVictim);
 
             int duration = RandomManager.Fuzzy(level / 4);
             World.AddAura(npcVictim, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
@@ -1129,20 +1135,23 @@ namespace Mud.Server.Abilities
                 return;
             }
 
-            bool gatePet = caster.Slave?.Room == caster.Room; // if has slave in same room
+            IRoom wasRoom = caster.Room;
 
             caster.Act(ActOptions.ToAll, "{0:N} step{0:v} through a gate and vanish{0:v}.", caster);
             caster.ChangeRoom(victim.Room);
             caster.Act(ActOptions.ToRoom, "{0:N} has arrived through a gate.", caster);
             caster.AutoLook();
 
-            // slave follows
-            if (gatePet)
+            // pets follows
+            if (caster is IPlayableCharacter pcCaster)
             {
-                caster.Slave.Act(ActOptions.ToAll, "{0:N} step{0:v} through a gate and vanish{0:v}.", caster.Slave);
-                caster.Slave.ChangeRoom(victim.Room);
-                caster.Slave.Act(ActOptions.ToRoom, "{0:N} has arrived through a gate.", caster.Slave);
-                caster.Slave.AutoLook();
+                foreach (INonPlayableCharacter pet in pcCaster.Pets)
+                {
+                    pet.Act(ActOptions.ToAll, "{0:N} step{0:v} through a gate and vanish{0:v}.", pet);
+                    pet.ChangeRoom(victim.Room);
+                    pet.Act(ActOptions.ToRoom, "{0:N} has arrived through a gate.", pet);
+                    pet.AutoLook();
+                }
             }
         }
 
