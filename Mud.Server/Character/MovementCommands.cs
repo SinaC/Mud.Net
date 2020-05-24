@@ -838,7 +838,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("Follow", "Group", "Movement")]
+        [CharacterCommand("follow", "Group", "Movement")]
         [Syntax(
             "[cmd]",
             "[cmd] <character>")]
@@ -856,7 +856,7 @@ namespace Mud.Server.Character
             }
 
             // search target
-            ICharacter target = Room.People.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value)); // TODO: use FindHelpers
+            ICharacter target = FindHelpers.FindByName(Room.People, parameters[0]);
             if (target == null)
             {
                 Send("They aren't here.");
@@ -892,7 +892,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("Nofollow", "Group", "Movement")]
+        [CharacterCommand("nofollow", "Group", "Movement")]
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoNofollow(string rawParameters, params CommandParameter[] parameters)
         {

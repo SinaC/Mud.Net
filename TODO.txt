@@ -1,7 +1,7 @@
 NEXT:
-Group command is never used because groupsay has a lower priority
 Group displayed infos: resources are missing
 extensive tests
+issue: cast charm on smurfette, then dispel magic, smurfette regains her free will but it still in pet list
 
 SHORT TERM TODO:
 grove.are: the second jar will never appear
@@ -52,6 +52,9 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+Order implemented
+Command attribute name forced to lower invariant
+Unfollow pc-specific added 
 groups/pets/followers integrate from POC
 use wiznet(msg, WiznetFlags.Bugs) when LogLevels.Error is used
 default error message with character command if not in correct position

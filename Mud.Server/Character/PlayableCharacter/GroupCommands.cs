@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using Mud.Domain;
 using Mud.Server.Common;
@@ -12,11 +13,11 @@ namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter
     {
-        [PlayableCharacterCommand("Order", "Pets")]
+        [PlayableCharacterCommand("order", "Pets")]
         [Syntax(
             "[cmd] <pet> command",
             "[cmd] all command")]
-        protected virtual CommandExecutionResults DoOrder(string rawParameters, params CommandParameter[] parameters) // order to one pet or all to do something
+        protected virtual CommandExecutionResults DoOrder(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length < 2)
             {
@@ -36,7 +37,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 targets = Pets;
             else
             {
-                INonPlayableCharacter pet = Pets.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value)); // TODO: use FindHelpers
+                INonPlayableCharacter pet = FindHelpers.FindByName(Pets, parameters[0]);
                 if (pet == null)
                 {
                     Send("You don't have any pet of that name.");
@@ -51,16 +52,19 @@ namespace Mud.Server.Character.PlayableCharacter
 
             // Send the order to selected pets
             foreach (INonPlayableCharacter target in targets)
+            {
+                Act(ActOptions.ToCharacter, "You order {0:N} to '{1}'", target, modifiedRawParameters);
                 target.Order(modifiedRawParameters, modifiedParameters);
+            }
 
             return CommandExecutionResults.Ok;
         }
 
-        [Command("Group", "Group", "Information")]
+        [Command("group", "Group", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] <character>")]
-        protected virtual CommandExecutionResults DoGroup(string rawParameters, params CommandParameter[] parameters) // display group info, add member
+        protected virtual CommandExecutionResults DoGroup(string rawParameters, params CommandParameter[] parameters)
         {
             // no parameter: display group/pets info
             if (parameters.Length == 0)
@@ -76,22 +80,27 @@ namespace Mud.Server.Character.PlayableCharacter
                     // not in a group but pets
                     StringBuilder sbPets = new StringBuilder();
                     foreach (INonPlayableCharacter pet in Pets)
-                        sbPets.AppendFormatLine("{0,10}: Lvl: {1,3} Hp:{2,6}/{3,6}", pet.DisplayName.MaxLength(10), pet.Level, pet.HitPoints, pet.MaxHitPoints); // TODO: resource
+                        // TODO: resource
+                        //sbPets.AppendFormatLine("[Pet]{0,10}: Lvl: {1,3} Hp:{2,6}/{3,6}", pet.DisplayName.MaxLength(10), pet.Level, pet.HitPoints, pet.MaxHitPoints);
+                        sbPets.AppendFormatLine("[{0,3} Pet] {1,20} {2,5}/{3,5} hp {4,5}/{5,5} mv", pet.Level, pet.DisplayName.MaxLength(20), pet.HitPoints, pet.MaxHitPoints, pet.MovePoints, pet.MaxMovePoints);
                     Send(sbPets);
 
                     return CommandExecutionResults.Ok;
                 }
                 StringBuilder sb = new StringBuilder();
+                sb.AppendFormatLine("{0}'s group:", Leader.DisplayName);
                 foreach (IPlayableCharacter member in Group.Members)
                 { 
                     // TODO: resource
                     // display member info
-                    sb.AppendFormatLine("{0,3}{1,10}: Lvl: {2,3} Hp:{3,6}/{4,6} Nxt: {5,6}", Group.Leader == member ? "[L]" : string.Empty, member.DisplayName.MaxLength(10), member.Level, member.HitPoints, member.MaxHitPoints, member.ExperienceToLevel);
+                    //sb.AppendFormatLine("{0,3}{1,10}: Lvl: {2,3} Hp:{3,6}/{4,6} Nxt: {5,6}", Group.Leader == member ? "[L]" : string.Empty, member.DisplayName.MaxLength(10), member.Level, member.HitPoints, member.MaxHitPoints, member.ExperienceToLevel);
+                    sb.AppendFormatLine("[{0,3} {1,3}] {2,20} {3,5}/{4,5} hp {5,5}/{6,5} mv {7,5} nxt", member.Level, member.Class.ShortName, member.DisplayName.MaxLength(20), member.HitPoints, member.MaxHitPoints, member.MovePoints, member.MaxMovePoints);
                     if (member.Pets.Any())
                     {
                         // display member's pet info
                         foreach (INonPlayableCharacter pet in Pets)
-                            sb.AppendFormatLine("    {0,10}: Lvl: {1,3} Hp:{2,6}/{3,6}", pet.DisplayName.MaxLength(10), pet.Level, pet.HitPoints, pet.MaxHitPoints); // TODO: resource
+                            // TODO: resource
+                            sb.AppendFormatLine("[{0,3} Pet] {1,20} {2,5}/{3,5} hp {4,5}/{5,5} mv", pet.Level, pet.DisplayName.MaxLength(20), pet.HitPoints, pet.MaxHitPoints, pet.MovePoints, pet.MaxMovePoints);
                     }
                 }
                 Send(sb);
@@ -99,7 +108,7 @@ namespace Mud.Server.Character.PlayableCharacter
             }
 
             // add/remove member to group
-            IPlayableCharacter target = Room.PlayableCharacters.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value)); // TODO: use FindHelpers
+            IPlayableCharacter target = FindHelpers.FindByName(Room.PlayableCharacters, parameters[0]);
             if (target == null)
             {
                 Send("They aren't here.");
@@ -156,9 +165,9 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.Ok;
         }
 
-        [Command("Leave", "Group")]
+        [Command("leave", "Group")]
         [Syntax("[cmd] <member>")]
-        protected virtual CommandExecutionResults DoLeave(string rawParameters, params CommandParameter[] parameters) // leave a group
+        protected virtual CommandExecutionResults DoLeave(string rawParameters, params CommandParameter[] parameters)
         {
             if (Group == null)
             {

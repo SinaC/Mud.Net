@@ -306,6 +306,7 @@ namespace Mud.Server.Abilities
 
         public AbilityTargetResults GetAbilityTarget(IAbility ability, ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
+            INonPlayableCharacter npcCaster = caster as INonPlayableCharacter;
             target = null;
             switch (ability.Target)
             {
@@ -338,7 +339,7 @@ namespace Mud.Server.Abilities
                         }
                         // TODO: check_killer
                     }
-                    if (victim is INonPlayableCharacter npcVictim && npcVictim.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcVictim.Master == caster)
+                    if (npcCaster != null && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == victim)
                     {
                         caster.Send("You can't do that on your own follower.");
                         return AbilityTargetResults.InvalidTarget;
@@ -400,7 +401,11 @@ namespace Mud.Server.Abilities
                         target = FindHelpers.FindByName(caster.Room.People, parameters[0]);
                     if (target != null)
                     {
-                        // TODO: check if safe/charm/...   messages.TargetIsSafe
+                        if (npcCaster != null && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == target)
+                        {
+                            caster.Send("You can't do that on your own follower.");
+                            return AbilityTargetResults.InvalidTarget;
+                        }
                     }
                     else // character not found, search item in room, in inventor, in equipment
                     {

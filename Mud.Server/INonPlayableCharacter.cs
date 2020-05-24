@@ -23,6 +23,6 @@ namespace Mud.Server
         // Pet
         IPlayableCharacter Master { get; }
         void ChangeMaster(IPlayableCharacter master);
-        void Order(string rawParameters, params CommandParameter[] parameters);
+        bool Order(string rawParameters, params CommandParameter[] parameters);
     }
 }

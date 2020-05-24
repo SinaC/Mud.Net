@@ -315,12 +315,14 @@ namespace Mud.Server.Character.NonPlayableCharacter
             Master = master;
         }
 
-        public void Order(string rawParameters, params CommandParameter[] parameters)
+        public bool Order(string rawParameters, params CommandParameter[] parameters)
         {
             if (Master == null)
-                return;
+                return false;
             Act(ActOptions.ToCharacter, "{0:N} orders you to {1}", Master, rawParameters);
-            // TODO: real implementation
+            CommandHelpers.ExtractCommandAndParameters(CommandHelpers.JoinParameters(parameters), out string command, out rawParameters, out parameters);
+            bool executed = ExecuteCommand(command, rawParameters, parameters);
+            return executed;
         }
 
         #endregion

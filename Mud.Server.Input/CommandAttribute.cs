@@ -19,7 +19,7 @@ namespace Mud.Server.Input
 
         public CommandAttribute(string name, params string[] categories)
         {
-            Name = name;
+            Name = name.ToLowerInvariant();
             Priority = DefaultPriority;
             Hidden = false;
             Categories = categories?.Length == 0 
