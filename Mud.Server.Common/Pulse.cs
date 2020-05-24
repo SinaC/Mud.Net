@@ -17,7 +17,7 @@ namespace Mud.Server.Common
 
         public static int FromMinutes(int minutes) => minutes == -1
             ? -1
-            : PulsePerMinutes;
+            : minutes * PulsePerMinutes;
 
         public static int FromTimeSpan(TimeSpan ts) => ts.Equals(Infinite)
             ? -1

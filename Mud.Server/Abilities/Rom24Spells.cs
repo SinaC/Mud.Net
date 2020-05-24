@@ -163,7 +163,7 @@ namespace Mud.Server.Abilities
                 character.Send("Lightning flashes in the sky.");
         }
 
-        [Spell(7, "Calm", AbilityTargets.None, CharacterWearOffMessage = "You have lost your peace of mind.", DispelRoomMessage = "{0:N no longer looks so peaceful...", Flags = AbilityFlags.CanBeDispelled)]
+        [Spell(7, "Calm", AbilityTargets.None, CharacterWearOffMessage = "You have lost your peace of mind.", DispelRoomMessage = "{0:N} no longer looks so peaceful...", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellCalm(IAbility ability, int level, ICharacter caster)
         {
             // Stops all fighting in the room
@@ -320,7 +320,7 @@ namespace Mud.Server.Abilities
                 if (victim == caster)
                     caster.Send("You've already been changed.");
                 else
-                    caster.Act(ActOptions.ToCharacter, "{0:N} has already had {0:s}(?) sex changed.", victim);
+                    caster.Act(ActOptions.ToCharacter, "{0:N} has already had {0:s} sex changed.", victim);
                 return;
             }
 
@@ -331,7 +331,7 @@ namespace Mud.Server.Abilities
             World.AddAura(victim, ability, caster, level, TimeSpan.FromHours(2 * level), AuraFlags.None, true,
                 new CharacterSexAffect { Value = newSex });
             victim.Send("You feel different.");
-            victim.Act(ActOptions.ToRoom, "{0:N} doesn't look like $mself anymore...", victim);
+            victim.Act(ActOptions.ToRoom, "{0:N} doesn't look like {0:m}self anymore...", victim);
         }
 
         [Spell(14, "Charm Person", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You feel more self-confident.", DispelRoomMessage = "{0:N} regains {0:s} free will.", Flags = AbilityFlags.CanBeDispelled)]

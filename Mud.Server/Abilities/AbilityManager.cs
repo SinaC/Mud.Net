@@ -806,21 +806,19 @@ namespace Mud.Server.Abilities
 
         private CastResults MapCastResultToCommandExecutionResult(AbilityTargetResults result)
         {
+            switch (result)
             {
-                switch (result)
-                {
-                    case AbilityTargetResults.MissingParameter:
-                        return CastResults.MissingParameter;
-                    case AbilityTargetResults.InvalidTarget:
-                        return CastResults.InvalidTarget;
-                    case AbilityTargetResults.TargetNotFound:
-                        return CastResults.TargetNotFound;
-                    case AbilityTargetResults.Error:
-                        return CastResults.Error;
-                    default:
-                        Wiznet.Wiznet($"Unexpected AbilityTargetResults {result}", WiznetFlags.Bugs, AdminLevels.Implementor);
-                        return CastResults.Error;
-                }
+                case AbilityTargetResults.MissingParameter:
+                    return CastResults.MissingParameter;
+                case AbilityTargetResults.InvalidTarget:
+                    return CastResults.InvalidTarget;
+                case AbilityTargetResults.TargetNotFound:
+                    return CastResults.TargetNotFound;
+                case AbilityTargetResults.Error:
+                    return CastResults.Error;
+                default:
+                    Wiznet.Wiznet($"Unexpected AbilityTargetResults {result}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    return CastResults.Error;
             }
         }
 
