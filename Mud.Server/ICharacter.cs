@@ -141,8 +141,8 @@ namespace Mud.Server
         bool ChangeForm(Forms form);
 
         // Move
-        bool Move(ExitDirections direction, bool checkFighting, bool follow = false);
-        bool Enter(IItemPortal portal, bool follow = false);
+        bool Move(ExitDirections direction, bool follow);
+        bool Enter(IItemPortal portal, bool follow);
         void ChangeRoom(IRoom destination);
         void AutoLook();
 

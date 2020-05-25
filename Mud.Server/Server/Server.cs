@@ -1255,7 +1255,7 @@ namespace Mud.Server.Server
 
         private void HandleNonPlayableCharacters(int pulseCount)
         {
-            foreach (INonPlayableCharacter npc in World.NonPlayableCharacters.Where(x => x.IsValid && !x.CharacterFlags.HasFlag(CharacterFlags.Charm)))
+            foreach (INonPlayableCharacter npc in World.NonPlayableCharacters.Where(x => x.IsValid && !x.CharacterFlags.HasFlag(CharacterFlags.Charm) && x.Position == Positions.Standing/*for all sleeping/busy monsters*/))
             {
                 // is mob update always or area not empty
                 if (npc.ActFlags.HasFlag(ActFlags.UpdateAlways) || npc.Room.Area.PlayableCharacters.Any())
@@ -1292,7 +1292,7 @@ namespace Mud.Server.Server
                                 && (!npc.ActFlags.HasFlag(ActFlags.StayArea) || npc.Room.Area == exit.Destination.Area)
                                 && (!npc.ActFlags.HasFlag(ActFlags.Outdoors) || !exit.Destination.RoomFlags.HasFlag(RoomFlags.Indoors))
                                 && (!npc.ActFlags.HasFlag(ActFlags.Indoors) || exit.Destination.RoomFlags.HasFlag(RoomFlags.Indoors)))
-                                npc.Move(exitDirection, true, false);
+                                npc.Move(exitDirection, false);
                         }
                     }
                 }

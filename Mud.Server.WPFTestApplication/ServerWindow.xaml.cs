@@ -357,8 +357,8 @@ namespace Mud.Server.WPFTestApplication
 
             RomImporter importer = new RomImporter();
             //MysteryImporter importer = new MysteryImporter();
-            //importer.Import(path, "limbo.are", "midgaard.are", "hitower.are");
-            importer.ImportByList(path, "area.lst");
+            importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
+            //importer.ImportByList(path, "area.lst");
 
             // Area
             foreach (AreaBlueprint blueprint in importer.Areas)
@@ -411,12 +411,47 @@ namespace Mud.Server.WPFTestApplication
             World.AddItemBlueprint(questItem1Blueprint);
             ItemQuestBlueprint questItem2Blueprint = new ItemQuestBlueprint
             {
-                Id = 90000,
+                Id = 80001,
                 Name = "Quest item 2",
                 ShortDescription = "Quest item 2",
                 Description = "The quest item 2 has been left here."
             };
             World.AddItemBlueprint(questItem2Blueprint);
+            CharacterNormalBlueprint construct = new CharacterNormalBlueprint
+            {
+                Id = 80000,
+                Name = "Construct",
+                ShortDescription = "A construct",
+                LongDescription = "A construct waiting orders",
+                Description = "A construct is here, built from various of gears and springs",
+                Sex = Sex.Neutral,
+                Level = 40,
+                Wealth = 0,
+                Alignment = 0,
+                DamageNoun = "buzz",
+                DamageType = SchoolTypes.Bash,
+                DamageDiceCount = 5,
+                DamageDiceValue = 10,
+                DamageDiceBonus = 10,
+                HitPointDiceCount = 20,
+                HitPointDiceValue = 30,
+                HitPointDiceBonus = 300,
+                ManaDiceCount = 0,
+                ManaDiceValue = 0,
+                ManaDiceBonus = 0,
+                HitRollBonus = 10,
+                ArmorBash = 300,
+                ArmorPierce = 200,
+                ArmorSlash = 400,
+                ArmorExotic = 0,
+                ActFlags = ActFlags.None,
+                OffensiveFlags = OffensiveFlags.Bash,
+                CharacterFlags = CharacterFlags.Haste,
+                Immunities = IRVFlags.None,
+                Resistances = IRVFlags.Slash | IRVFlags.Fire,
+                Vulnerabilities = IRVFlags.Acid,
+            };
+            World.AddCharacterBlueprint(construct);
 
             // MANDATORY ITEMS
             if (World.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)

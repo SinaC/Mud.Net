@@ -163,7 +163,7 @@ namespace Mud.Server.Abilities
                 character.Send("Lightning flashes in the sky.");
         }
 
-        [Spell(7, "Calm", AbilityTargets.None, CharacterWearOffMessage = "You have lost your peace of mind.", DispelRoomMessage = "{0:N no longer looks so peaceful...", Flags = AbilityFlags.CanBeDispelled)]
+        [Spell(7, "Calm", AbilityTargets.None, CharacterWearOffMessage = "You have lost your peace of mind.", DispelRoomMessage = "{0:N} no longer looks so peaceful...", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellCalm(IAbility ability, int level, ICharacter caster)
         {
             // Stops all fighting in the room
@@ -373,7 +373,9 @@ namespace Mud.Server.Abilities
                 return;
             }
 
-            pcCaster.AddPet(npcVictim);
+            npcVictim.Master?.RemoveFollower(npcVictim);
+            pcCaster.AddFollower(npcVictim);
+            npcVictim.ChangeMaster(pcCaster);
 
             int duration = RandomManager.Fuzzy(level / 4);
             World.AddAura(npcVictim, ability, caster, level, TimeSpan.FromHours(duration), AuraFlags.None, true,

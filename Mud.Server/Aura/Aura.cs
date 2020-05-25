@@ -150,8 +150,8 @@ namespace Mud.Server.Aura
             // TODO admin see hidden auras
 
             // TODO: better formatting with spacing like in score
-            sb.AppendFormatLine("%B%{0}%x% (lvl {1}) {2} {3}",
-                    Ability?.Name ?? "Inherent",
+            sb.AppendFormatLine("%B%{0,15}%x% (lvl {1}) {2} {3}",
+                    Ability?.Name.MaxLength(15) ?? "Inherent",
                     Level,
                     AuraFlags.HasFlag(AuraFlags.Permanent)
                         ? "%R%Permanent%x%"

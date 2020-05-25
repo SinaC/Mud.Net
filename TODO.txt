@@ -1,7 +1,17 @@
 NEXT:
 Group displayed infos: resources are missing
 extensive tests
-issue: cast charm on smurfette, then dispel magic, smurfette regains her free will but it still in pet list
+!!!! pets and charmies are different: pets are saved in pfile
+
+	ICharacter
+		ICharacter Leader // character we are following
+	INonPlayableCharacter
+		ICharacter Master // character allowed to order us
+	IPlayableCharacter
+		IEnumerable<INonPlayableCharacter> Pets // mobs which are saved in our pfile
+
+add dummy spell to create a pet
+pet save
 
 SHORT TERM TODO:
 grove.are: the second jar will never appear
@@ -9,11 +19,10 @@ O 0 8902   2 8915	* a spice jar
 P 1 8903   1 8902  1	*   some black powder
 O 0 8902   2 8915	* a spice jar
 P 1 8904   1 8902  1	*   some small yellow kernels
-dwarven.are: the first stick is set to local 1 but we detect 2 intances (2 different container in fact: room for the first one and mob for the second one)
+dwarven.are: the first stick is set to local 1 but we detect 2 intances (2 different containers in fact: room for the first one and mob for the second one)
 O 0 6506   1 6534	* long, black stick
 E 1 6506  10   17	*   long, black stick
 
-save pets
 PK
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 linkdead

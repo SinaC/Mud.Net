@@ -308,8 +308,6 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         public void ChangeMaster(IPlayableCharacter master)
         {
-            if (master == this)
-                return;
             if (Master != null && master != null)
                 return; // cannot change from one master to another
             Master = master;
@@ -319,7 +317,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
         {
             if (Master == null)
                 return false;
-            Act(ActOptions.ToCharacter, "{0:N} orders you to {1}", Master, rawParameters);
+            Act(ActOptions.ToCharacter, "{0:N} orders you to '{1}'.", Master, rawParameters);
             CommandHelpers.ExtractCommandAndParameters(CommandHelpers.JoinParameters(parameters), out string command, out rawParameters, out parameters);
             bool executed = ExecuteCommand(command, rawParameters, parameters);
             return executed;

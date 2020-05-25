@@ -588,7 +588,6 @@ namespace Mud.Server.Character.PlayableCharacter
             RemoveFollower(pet);
             _pets.Remove(pet);
             pet.ChangeMaster(null);
-            World.RemoveCharacter(pet);
         }
 
         // Quest
@@ -894,22 +893,27 @@ namespace Mud.Server.Character.PlayableCharacter
 
         protected override void MoveFollow(IRoom fromRoom, IRoom toRoom, ExitDirections direction)
         {
-            base.MoveFollow(fromRoom, toRoom, direction);
-
             if (fromRoom != toRoom)
             {
-                if (Pets.Any())
+                IReadOnlyCollection<ICharacter> followers = new ReadOnlyCollection<ICharacter>(fromRoom.People.Where(x => x.Leader == this).ToList()); // clone because Move will modify fromRoom.People
+                foreach (ICharacter follower in followers)
                 {
-                    foreach (INonPlayableCharacter pet in Pets)
+                    if (follower is INonPlayableCharacter npcFollower)
                     {
-                        if (pet.ActFlags.HasFlag(ActFlags.Aggressive) && toRoom.RoomFlags.HasFlag(RoomFlags.Law))
+                        if (npcFollower.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcFollower.Position < Positions.Standing)
+                            ; // TODO: npcFollower.DoStand
+                        if (npcFollower.ActFlags.HasFlag(ActFlags.Aggressive) && toRoom.RoomFlags.HasFlag(RoomFlags.Law))
                         {
-                            pet.Master?.Act(ActOptions.ToCharacter, "You can't bring {0} into the city.", pet);
-                            pet.Send("You aren't allowed in the city.");
-                            return;
+                            npcFollower.Master?.Act(ActOptions.ToCharacter, "You can't bring {0} into the city.", npcFollower);
+                            npcFollower.Send("You aren't allowed in the city.");
+                            continue;
                         }
-                        pet.Send("You follow {0}.", DebugName);
-                        pet.Move(direction, true);
+                    }
+
+                    if (follower.Position == Positions.Standing && follower.CanSee(toRoom))
+                    {
+                        follower.Send("You follow {0}.", DebugName);
+                        follower.Move(direction, true);
                     }
                 }
             }

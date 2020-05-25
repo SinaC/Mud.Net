@@ -868,7 +868,7 @@ namespace Mud.Server.Character
             {
                 if (Leader == null)
                 {
-                    Send("You are not following anyone.");
+                    Send("You already follow yourself.");
                     return CommandExecutionResults.InvalidTarget;
                 }
 
@@ -877,10 +877,10 @@ namespace Mud.Server.Character
             }
 
             // check cycle
-            ICharacter next = Leader;
+            ICharacter next = target.Leader;
             while (next != null)
             {
-                if (next == target)
+                if (next == this)
                 {
                     Act(ActOptions.ToCharacter, "You can't follow {0:N}.", target);
                     return CommandExecutionResults.InvalidTarget; // found a cycle
@@ -888,6 +888,7 @@ namespace Mud.Server.Character
                 next = next.Leader;
             }
 
+            target.Leader?.RemoveFollower(this);
             target.AddFollower(this);
             return CommandExecutionResults.Ok;
         }
@@ -898,6 +899,7 @@ namespace Mud.Server.Character
         {
             foreach (ICharacter follower in World.Characters.Where(x => x.Leader == this))
                 RemoveFollower(follower);
+
             return CommandExecutionResults.Ok;
         }
 

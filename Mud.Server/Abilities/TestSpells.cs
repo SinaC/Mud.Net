@@ -1,6 +1,7 @@
 ﻿using System;
 using Mud.Domain;
 using Mud.Server.Aura;
+using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 
 namespace Mud.Server.Abilities
@@ -20,6 +21,19 @@ namespace Mud.Server.Abilities
             World.AddAura(victim,ability, caster, caster.Level, TimeSpan.FromMinutes(1), AuraFlags.NoDispel, true,
                 new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = IRVFlags.Magic, Operator = AffectOperators.Or},
                 new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = IRVFlags.Weapon, Operator = AffectOperators.Or });
+        }
+
+        [Spell(999998, "Construct", AbilityTargets.None)]
+        public void SpellConstruct(IAbility ability, int level, ICharacter caster)
+        {
+            if (caster is IPlayableCharacter pcCaster)
+            {
+                CharacterBlueprintBase blueprint = World.GetCharacterBlueprint(80000);
+                INonPlayableCharacter construct = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, caster.Room);
+                pcCaster.AddPet(construct);
+                World.AddAura(construct, ability, caster, level, Pulse.Infinite, AuraFlags.Permanent, true,
+                    new CharacterFlagsAffect { Modifier = CharacterFlags.Charm, Operator = AffectOperators.Or });
+            }
         }
     }
 }

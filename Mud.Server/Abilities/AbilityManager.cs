@@ -826,25 +826,22 @@ namespace Mud.Server.Abilities
 
         private UseResults MapUseResultToCommandExecutionResult(AbilityTargetResults result)
         {
+            switch (result)
             {
-                switch (result)
-                {
-                    case AbilityTargetResults.MissingParameter:
-                        return UseResults.MissingParameter;
-                    case AbilityTargetResults.InvalidTarget:
-                        return UseResults.InvalidTarget;
-                    case AbilityTargetResults.TargetNotFound:
-                        return UseResults.TargetNotFound;
-                    case AbilityTargetResults.Error:
-                        return UseResults.Error;
-                    default:
-                        Wiznet.Wiznet($"Unexpected AbilityTargetResults {result}", WiznetFlags.Bugs, AdminLevels.Implementor);
-                        return UseResults.Error;
-                }
+                case AbilityTargetResults.MissingParameter:
+                    return UseResults.MissingParameter;
+                case AbilityTargetResults.InvalidTarget:
+                    return UseResults.InvalidTarget;
+                case AbilityTargetResults.TargetNotFound:
+                    return UseResults.TargetNotFound;
+                case AbilityTargetResults.Error:
+                    return UseResults.Error;
+                default:
+                    Wiznet.Wiznet($"Unexpected AbilityTargetResults {result}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    return UseResults.Error;
             }
         }
 
         private static IAbility Passive(int id, string name, AbilityFlags flags = AbilityFlags.None) => new Ability(AbilityKinds.Passive, id, name, AbilityTargets.None, 0, flags, null, null, null, null, 0, 0);
-
     }
 }

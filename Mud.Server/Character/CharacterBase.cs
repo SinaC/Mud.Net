@@ -256,6 +256,12 @@ namespace Mud.Server.Character
             Act(ActOptions.ToCharacter, "{0:N} stops following you.", character);
             character.Act(ActOptions.ToCharacter, "You stop following {0:N}.", this);
             character.ChangeLeader(null);
+            if (character is INonPlayableCharacter npcCharacter)
+            {
+                npcCharacter.RemoveBaseCharacterFlags(CharacterFlags.Charm);
+                npcCharacter.RemoveAuras(x => x.Ability.Name == "Charm Person", true);
+                npcCharacter.ChangeMaster(null);
+            }
         }
 
         public void ChangeLeader(ICharacter character)
@@ -646,20 +652,12 @@ namespace Mud.Server.Character
         }
 
         // Move
-        public bool Move(ExitDirections direction, bool checkFighting, bool follow = false)
+        public bool Move(ExitDirections direction, bool follow)
         {
             IRoom fromRoom = Room;
 
-            // TODO: act_move.C:133
-            // drunk
-            // exit flags such as climb, ...
-            // private room, size, swim room, guild room
+            //TODO exit flags such as climb, ...
 
-            if (checkFighting && Fighting != null)
-            {
-                Send("No way! You are still fighting!");
-                return false;
-            }
             if (this is INonPlayableCharacter npc && npc.Master != null && npc.Master.Room == Room) // TODO: no more cast like this
             {
                 // Slave cannot leave a room without Master
@@ -1772,8 +1770,8 @@ namespace Mud.Server.Character
         {
             if (fromRoom != toRoom)
             {
-                IReadOnlyCollection<IPlayableCharacter> followers = new ReadOnlyCollection<IPlayableCharacter>(fromRoom.People.OfType<IPlayableCharacter>().Where(x => x.Leader == this).ToList()); // clone because Move will modify fromRoom.People
-                foreach (IPlayableCharacter follower in followers)
+                IReadOnlyCollection<ICharacter> followers = new ReadOnlyCollection<ICharacter>(fromRoom.People.Where(x => x.Leader == this && x.Position == Positions.Standing && x.CanSee(toRoom)).ToList()); // clone because Move will modify fromRoom.People
+                foreach (ICharacter follower in followers)
                 {
                     follower.Send("You follow {0}.", DebugName);
                     follower.Move(direction, true);

@@ -306,8 +306,10 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Name: {0} Keywords: {1}", victim.Name, string.Join(",", victim.Keywords));
             sb.AppendFormatLine("DisplayName: {0}", victim.DisplayName);
             sb.AppendFormatLine("Description: {0}", victim.Description);
-            if (playableVictim?.Leader != null)
-                sb.AppendFormatLine("Leader: {0}", playableVictim.Leader.DisplayName);
+            if (victim.Leader != null)
+                sb.AppendFormatLine("Leader: {0}", victim.Leader.DisplayName);
+            if (nonPlayableVictim?.Master != null)
+                sb.AppendFormatLine("Master: {0}", nonPlayableVictim.Master.DisplayName);
             if (playableVictim?.Group != null)
                 foreach (IPlayableCharacter member in playableVictim.Group.Members)
                     sb.AppendFormatLine("Group member: {0}", member.DisplayName);
@@ -320,8 +322,6 @@ namespace Mud.Server.Admin
                 sb.AppendFormatLine("Incarnatable: {0}", victim.Incarnatable);
             if (playableVictim?.ImpersonatedBy != null)
                 sb.AppendFormatLine("Impersonated by {0}", playableVictim.ImpersonatedBy.DisplayName);
-            if (nonPlayableVictim?.Master != null)
-                sb.AppendFormatLine("Master: {0}", nonPlayableVictim.Master.DisplayName);
             if (victim.Fighting != null)
                 sb.AppendFormatLine("Fighting: {0}", victim.Fighting.DisplayName);
             sb.AppendFormatLine("Position: {0}", victim.Position);

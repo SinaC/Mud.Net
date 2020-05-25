@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
-using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -15,47 +13,58 @@ namespace Mud.Server.Character.PlayableCharacter
     {
         [PlayableCharacterCommand("order", "Pets")]
         [Syntax(
-            "[cmd] <pet> command",
+            "[cmd] <pet|charmie> command",
             "[cmd] all command")]
         protected virtual CommandExecutionResults DoOrder(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length < 2)
             {
-                Send("Order who what?");
+                Send("Order whom to do what?");
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
 
-            if (!Pets.Any())
-            {
-                Send("You don't have any pets");
-                return CommandExecutionResults.NoExecution;
-            }
-
-            // Get pet(s)
+            // Select target(s)
             IEnumerable<INonPlayableCharacter> targets;
             if (parameters[0].IsAll)
-                targets = Pets;
+                targets = Room.NonPlayableCharacters.Where(x => x.Master == this && x.CharacterFlags.HasFlag(Domain.CharacterFlags.Charm));
             else
             {
-                INonPlayableCharacter pet = FindHelpers.FindByName(Pets, parameters[0]);
-                if (pet == null)
+                INonPlayableCharacter target = FindHelpers.FindByName(Room.NonPlayableCharacters.Where(CanSee), parameters[0]);
+                if (target == null)
                 {
-                    Send("You don't have any pet of that name.");
+                    Send(StringHelpers.CharacterNotFound);
                     return CommandExecutionResults.TargetNotFound;
                 }
 
-                targets = pet.Yield();
+                if (target.Master != this || !target.CharacterFlags.HasFlag(Domain.CharacterFlags.Charm))
+                {
+                    Send("Do it yourself!");
+                    return CommandExecutionResults.InvalidTarget;
+                }
+
+                targets = target.Yield();
             }
 
-            // Remove pet name or all from parameters
+            // Remove target name or all from parameters
             var (modifiedRawParameters, modifiedParameters) = CommandHelpers.SkipParameters(parameters, 1);
 
-            // Send the order to selected pets
-            foreach (INonPlayableCharacter target in targets)
+            // Send the order to selected targets
+            bool found = false;
+            IReadOnlyCollection<INonPlayableCharacter> clone = new ReadOnlyCollection<INonPlayableCharacter>(targets.ToList());
+            foreach (INonPlayableCharacter target in clone)
             {
-                Act(ActOptions.ToCharacter, "You order {0:N} to '{1}'", target, modifiedRawParameters);
+                Act(ActOptions.ToCharacter, "You order {0:N} to '{1}'.", target, modifiedRawParameters);
                 target.Order(modifiedRawParameters, modifiedParameters);
+                found = true;
             }
+
+            if (found)
+            {
+                Send("Ok.");
+                ImpersonatedBy?.SetGlobalCooldown(Pulse.PulseViolence);
+            }
+            else
+                Send("You don't have followers here.");
 
             return CommandExecutionResults.Ok;
         }

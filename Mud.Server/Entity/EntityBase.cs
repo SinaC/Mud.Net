@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -228,6 +229,10 @@ namespace Mud.Server.Entity
                     ICharacter holder = item.ContainedInto as ICharacter ?? item.EquippedBy; 
                     holder?.Act(ActOptions.ToCharacter, aura.Ability.ItemWearOffMessage, this);
                 }
+                // TODO: remove this crappy thing, replace with wear off func
+                if (aura.Ability?.Name == "Charm Person" && this is INonPlayableCharacter npc)
+                    npc.ChangeMaster(null);
+
             }
             if (recompute && removed)
                 Recompute();
@@ -236,8 +241,9 @@ namespace Mud.Server.Entity
         public void RemoveAuras(Func<IAura, bool> filterFunc, bool recompute)
         {
             Log.Default.WriteLine(LogLevels.Info, "IEntity.RemoveAuras: {0} | recompute: {1}", DebugName, recompute);
-            _auras.RemoveAll(x => filterFunc(x));
-            // TODO: call RemoveAura to display dispel message
+            IReadOnlyCollection<IAura> clone = new ReadOnlyCollection<IAura>(Auras.ToList());
+            foreach(IAura aura in clone)
+                RemoveAura(aura, false);
             if (recompute)
                 Recompute();
         }

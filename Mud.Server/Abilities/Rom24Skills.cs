@@ -588,16 +588,16 @@ namespace Mud.Server.Abilities
             pcSource.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pcSource);
             pcSource.AutoLook();
 
-            // Pet follows
+            // Pets follows
             foreach (INonPlayableCharacter pet in pcSource.Pets)
             {
                 // no recursive call because DoRecall has been coded for IPlayableCharacter
                 if (pet.CharacterFlags.HasFlag(CharacterFlags.Curse))
-                    return UseResults.Ok; // slave failing doesn't impact return value
+                    return UseResults.Ok; // pet failing doesn't impact return value
                 if (pet.Fighting != null)
                 {
                     if (!RandomManager.Chance(80))
-                        return UseResults.Ok;// slave failing doesn't impact return value
+                        return UseResults.Ok;// pet failing doesn't impact return value
                     pet.StopFighting(true);
                 }
 
