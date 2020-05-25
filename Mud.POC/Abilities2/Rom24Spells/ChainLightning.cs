@@ -1,15 +1,11 @@
 ﻿using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.Interfaces;
 using Mud.Server.Common;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class SpellChainLightning : OffensiveSpellBase
+    public class ChainLightning : OffensiveSpellBase
     {
         public override int Id => 12;
 
@@ -17,12 +13,12 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         public override AbilityEffects Effects => AbilityEffects.DamageArea;
 
-        public SpellChainLightning(IRandomManager randomManager, IWiznet wiznet)
+        public ChainLightning(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }
 
-        protected override void Action(ICharacter caster, int level, ICharacter victim)
+        public override void Action(ICharacter caster, int level, ICharacter victim)
         {
             caster.Act(ActOptions.ToRoom, "A lightning bolt leaps from {0}'s hand and arcs to {1}.", caster, victim);
             caster.Act(ActOptions.ToCharacter, "A lightning bolt leaps from your hand and arcs to {0}.", victim);

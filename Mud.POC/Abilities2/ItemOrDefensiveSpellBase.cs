@@ -9,7 +9,7 @@ namespace Mud.POC.Abilities2
     {
         protected IEntity Target { get; private set; }
 
-        public ItemOrDefensiveSpellBase(IRandomManager randomManager, IWiznet wiznet)
+        protected ItemOrDefensiveSpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }
@@ -44,6 +44,6 @@ namespace Mud.POC.Abilities2
 
         #endregion
 
-        protected abstract void Action(ICharacter caster, int level, IEntity target);
+        public abstract void Action(ICharacter caster, int level, IEntity target);
     }
 }

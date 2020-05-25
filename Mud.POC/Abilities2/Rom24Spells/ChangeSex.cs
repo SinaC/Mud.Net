@@ -6,20 +6,20 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class SpellChangeSex : DefensiveSpellBase
+    public class ChangeSex : DefensiveSpellBase
     {
         public override int Id => 13;
         public override string Name => "Change Sex";
         public override AbilityEffects Effects => AbilityEffects.Buff;
 
         private IAuraManager AuraManager { get; }
-        public SpellChangeSex(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
+        public ChangeSex(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
             : base(randomManager, wiznet)
         {
             AuraManager = auraManager;
         }
 
-        protected override void Action(ICharacter caster, int level, ICharacter victim)
+        public override void Action(ICharacter caster, int level, ICharacter victim)
         {
             if (victim.GetAura(this) != null)
             {

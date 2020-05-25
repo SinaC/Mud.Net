@@ -5,14 +5,14 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class SpellBlindness : CharacterDebuffSpellBase
+    public class Blindness : CharacterDebuffSpellBase
     {
         public override int Id => 4;
         public override string Name => "Blindness";
         public override string CharacterWearOffMessage => "You can see again.";
         public override string DispelRoomMessage => "{0:N} is no longer blinded.";
 
-        public SpellBlindness(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
+        public Blindness(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
             : base(randomManager, wiznet, auraManager)
         {
         }

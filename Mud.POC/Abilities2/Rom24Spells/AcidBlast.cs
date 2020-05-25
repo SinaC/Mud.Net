@@ -4,12 +4,12 @@ using Mud.POC.Abilities2.Domain;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class SpellAcidBlast : CharacterDamageSpellBase
+    public class AcidBlast : CharacterDamageSpellBase
     {
         public override int Id => 1;
         public override string Name => "Acid Blast";
 
-        public SpellAcidBlast(IRandomManager randomManager, IWiznet wiznet)
+        public AcidBlast(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }

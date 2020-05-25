@@ -5,13 +5,13 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class SpellArmor : CharacterBuffSpellBase
+    public class Armor : CharacterBuffSpellBase
     {
         public override int Id => 2;
         public override string Name => "Armor";
         public override string CharacterWearOffMessage => "You feel less armored.";
 
-        public SpellArmor(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager) 
+        public Armor(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager) 
             : base(randomManager, wiznet, auraManager)
         {
         }

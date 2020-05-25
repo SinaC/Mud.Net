@@ -35,6 +35,8 @@ namespace Mud.POC.Abilities2.Interfaces
         int CooldownPulseLeft(IAbility ability);
         void SetCooldown(IAbility ability);
 
+        void AddPet(INonPlayableCharacter pet);
+
         void Send(string format, params object[] args);
         void Act(ActOptions option, string format, params object[] arguments);
     }

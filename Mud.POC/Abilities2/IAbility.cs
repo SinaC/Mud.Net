@@ -26,6 +26,8 @@ namespace Mud.POC.Abilities2
         Cure = 0x00000040,
         Dispel = 0x00000080,
         Transportation = 0x00000100,
+        Animation = 0x000000200,
+        Creation = 0x00000400,
     }
 
     public enum AbilityTargetResults

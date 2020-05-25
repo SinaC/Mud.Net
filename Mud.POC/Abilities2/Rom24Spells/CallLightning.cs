@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class SpellCallLightning : SpellBase
+    public class CallLightning : SpellBase
     {
         public override int Id => 6;
 
@@ -19,7 +19,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         private ITimeManager TimeManager { get; }
 
-        public SpellCallLightning(IRandomManager randomManager, IWiznet wiznet, ITimeManager timeManager) : base(randomManager, wiznet)
+        public CallLightning(IRandomManager randomManager, IWiznet wiznet, ITimeManager timeManager) : base(randomManager, wiznet)
         {
             TimeManager = timeManager;
         }

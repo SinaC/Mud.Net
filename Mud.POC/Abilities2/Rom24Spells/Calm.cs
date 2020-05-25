@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class SpellCalm : SpellBase, ICharacterBuff, IDispel
+    public class Calm : SpellBase, ICharacterBuff, IDispel
     {
         public override int Id => 7;
 
@@ -21,7 +21,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         private IAuraManager AuraManager { get; }
 
-        public SpellCalm(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
+        public Calm(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
             : base(randomManager, wiznet)
         {
             AuraManager = auraManager;

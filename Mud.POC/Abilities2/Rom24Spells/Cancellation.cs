@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class SpellCancellation : OffensiveSpellBase
+    public class Cancellation : OffensiveSpellBase
     {
         public override int Id => 8;
 
@@ -16,12 +16,12 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         public override AbilityEffects Effects => AbilityEffects.Dispel;
 
-        public SpellCancellation(IRandomManager randomManager, IWiznet wiznet)
+        public Cancellation(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }
 
-        protected override void Action(ICharacter caster, int level, ICharacter victim)
+        public override void Action(ICharacter caster, int level, ICharacter victim)
         {
             if ((caster is IPlayableCharacter && victim is INonPlayableCharacter npcVictim && !caster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcVictim.Master == caster)
                 || (caster is INonPlayableCharacter && victim is IPlayableCharacter))

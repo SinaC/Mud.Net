@@ -9,7 +9,7 @@ namespace Mud.POC.Abilities2
     {
         protected IAuraManager AuraManager { get; }
 
-        public CharacterDebuffSpellBase(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
+        protected CharacterDebuffSpellBase(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
             : base(randomManager, wiznet)
         {
             AuraManager = auraManager;
@@ -24,7 +24,7 @@ namespace Mud.POC.Abilities2
 
         #region OffensiveSpellBase
 
-        protected override void Action(ICharacter caster, int level, ICharacter victim)
+        public override void Action(ICharacter caster, int level, ICharacter victim)
         {
             if (!CanAffect(caster, level, victim))
                 return;

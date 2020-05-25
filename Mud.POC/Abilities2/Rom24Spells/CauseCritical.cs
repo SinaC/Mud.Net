@@ -3,13 +3,13 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class SpellCauseCritical : SpellCauseBase
+    public class CauseCritical : CauseSpellBase
     {
         public override int Id => 9;
 
         public override string Name => "Cause Critical";
 
-        public SpellCauseCritical(IRandomManager randomManager, IWiznet wiznet)
+        public CauseCritical(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }

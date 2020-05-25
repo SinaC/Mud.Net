@@ -5,7 +5,7 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class SpellBless : ItemOrCharacterBuffSpellBase
+    public class Bless : ItemOrCharacterBuffSpellBase
     {
         public override int Id => 3;
         public override string Name => "Bless";
@@ -15,13 +15,13 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         private IAuraManager AuraManager { get; }
 
-        public SpellBless(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager) 
+        public Bless(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager) 
             : base(randomManager, wiznet)
         {
             AuraManager = auraManager;
         }
 
-        protected override void Action(ICharacter caster, int level, IEntity target)
+        public override void Action(ICharacter caster, int level, IEntity target)
         {
             // item
             if (target is IItem item)

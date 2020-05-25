@@ -4,15 +4,16 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class SpellBurningHands : CharacterDamageTableSpellBase
+    public class BurningHands : CharacterDamageTableSpellBase
     {
         public override int Id => 5;
         public override string Name => "Burning Hands";
 
-        public SpellBurningHands(IRandomManager randomManager, IWiznet wiznet)
+        public BurningHands(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }
+
         protected override SchoolTypes DamageType => SchoolTypes.Fire;
         protected override string DamageNoun => "burning hands";
         protected override int[] Table => new[]

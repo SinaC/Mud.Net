@@ -15,7 +15,7 @@ namespace Mud.POC.Abilities2
         protected IRandomManager RandomManager { get; }
         protected IWiznet Wiznet { get; }
 
-        public SpellBase(IRandomManager randomManager, IWiznet wiznet)
+        protected SpellBase(IRandomManager randomManager, IWiznet wiznet)
         {
             RandomManager = randomManager;
             Wiznet = wiznet;
@@ -209,7 +209,7 @@ namespace Mud.POC.Abilities2
         {
             if (ability == null)
                 return;
-            source.Send("You cast '{0}'.", ability.Name);
+            //source.Send("You cast '{0}'.", ability.Name);
 
             // Build mystical words for spell
             StringBuilder mysticalWords = new StringBuilder();

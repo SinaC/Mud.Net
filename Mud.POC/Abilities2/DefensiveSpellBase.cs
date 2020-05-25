@@ -9,7 +9,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
     {
         protected ICharacter Victim { get; private set; }
 
-        public DefensiveSpellBase(IRandomManager randomManager, IWiznet wiznet) 
+        protected DefensiveSpellBase(IRandomManager randomManager, IWiznet wiznet) 
             : base(randomManager, wiznet)
         {
         }
@@ -44,6 +44,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         #endregion
 
-        protected abstract void Action(ICharacter caster, int level, ICharacter victim);
+        public abstract void Action(ICharacter caster, int level, ICharacter victim);
     }
 }

@@ -96,6 +96,6 @@ namespace Mud.POC.Abilities2
 
         #endregion
 
-        protected abstract void Action(ICharacter caster, int level, ICharacter victim);
+        public abstract void Action(ICharacter caster, int level, ICharacter victim);
     }
 }

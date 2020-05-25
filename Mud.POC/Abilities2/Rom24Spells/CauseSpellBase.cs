@@ -4,9 +4,9 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public abstract class SpellCauseBase : CharacterDamageSpellBase
+    public abstract class CauseSpellBase : CharacterDamageSpellBase
     {
-        public SpellCauseBase(IRandomManager randomManager, IWiznet wiznet)
+        public CauseSpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }

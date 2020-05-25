@@ -6,7 +6,7 @@ namespace Mud.POC.Abilities2
 {
     public abstract class ItemOrCharacterBuffSpellBase : ItemOrDefensiveSpellBase, ICharacterBuff, IItemBuff
     {
-        public ItemOrCharacterBuffSpellBase(IRandomManager randomManager, IWiznet wiznet)
+        protected ItemOrCharacterBuffSpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }
