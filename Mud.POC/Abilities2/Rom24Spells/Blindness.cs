@@ -19,7 +19,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         protected override SchoolTypes DebuffType => SchoolTypes.None;
         protected override string VictimAffectMessage => "You are blinded!";
-        protected override string RoomAffectMessage => throw new NotImplementedException();
+        protected override string RoomAffectMessage => "{0:N} is no longer blinded.";
 
         protected override (int level, TimeSpan duration, IAffect[] affects) AuraInfo(ICharacter caster, int level, ICharacter victim)
             => (level, TimeSpan.FromHours(1 + level),

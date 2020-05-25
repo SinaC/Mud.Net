@@ -56,7 +56,7 @@ namespace Mud.POC.Abilities2
 
         protected virtual bool CanAffect(ICharacter caster, int level, ICharacter victim)
         {
-            if (victim.GetAura(this) != null || victim.SavesSpell(level, SchoolTypes.None))
+            if (victim.GetAura(this) != null || victim.SavesSpell(level, DebuffType))
                 return false;
             return true;
         }
