@@ -32,7 +32,7 @@ namespace Mud.Server
 
         IPlayableCharacter Impersonating { get; }
 
-        IEnumerable<Domain.CharacterData> Avatars { get; }
+        IEnumerable<Domain.PlayableCharacterData> Avatars { get; }
 
         IReadOnlyDictionary<string,string> Aliases { get; }
 
@@ -60,7 +60,7 @@ namespace Mud.Server
 
         void SetSnoopBy(IAdmin snooper);
 
-        void AddAvatar(Domain.CharacterData characterData);
+        void AddAvatar(Domain.PlayableCharacterData playableCharacterData);
         void StopImpersonating();
 
         void OnDisconnected();

@@ -338,7 +338,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void PCItemCorpse_Empty_To_ItemData_Test()
         {
-            IPlayableCharacter character = new Character.PlayableCharacter.PlayableCharacter(Guid.NewGuid(), new CharacterData { Name = "Impersonate1", Level = 1, Sex = Sex.Male, Class = "Mage", Race = "Human", RoomId = 1}, new Player.Player(Guid.NewGuid(), "Player1"), new Mock<IRoom>().Object);
+            IPlayableCharacter character = new Character.PlayableCharacter.PlayableCharacter(Guid.NewGuid(), new PlayableCharacterData { Name = "Impersonate1", Level = 1, Sex = Sex.Male, Class = "Mage", Race = "Human", RoomId = 1}, new Player.Player(Guid.NewGuid(), "Player1"), new Mock<IRoom>().Object);
             IItemCorpse corpse = new ItemCorpse(Guid.NewGuid(), new ItemCorpseBlueprint { Id = 999, Name = "Corpse" }, new Mock<IRoom>().Object, character);
 
             ItemData itemData = corpse.MapItemData();

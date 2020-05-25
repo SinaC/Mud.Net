@@ -189,9 +189,9 @@ namespace Mud.Server.World
             return from2To;
         }
 
-        public IPlayableCharacter AddPlayableCharacter(Guid guid, CharacterData characterData, IPlayer player, IRoom room) // PC
+        public IPlayableCharacter AddPlayableCharacter(Guid guid, PlayableCharacterData playableCharacterData, IPlayer player, IRoom room) // PC
         {
-            IPlayableCharacter character = new Character.PlayableCharacter.PlayableCharacter(guid, characterData, player, room);
+            IPlayableCharacter character = new Character.PlayableCharacter.PlayableCharacter(guid, playableCharacterData, player, room);
             character.Recompute();
             _characters.Add(character);
             return character;
@@ -202,6 +202,16 @@ namespace Mud.Server.World
             if (blueprint == null)
                 throw new ArgumentNullException(nameof(blueprint));
             INonPlayableCharacter character = new Character.NonPlayableCharacter.NonPlayableCharacter(guid, blueprint, room);
+            _characters.Add(character);
+            character.Recompute();
+            return character;
+        }
+
+        public INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room) // pet
+        {
+            if (blueprint == null)
+                throw new ArgumentNullException(nameof(blueprint));
+            INonPlayableCharacter character = new Character.NonPlayableCharacter.NonPlayableCharacter(guid, blueprint, petData, room);
             _characters.Add(character);
             character.Recompute();
             return character;

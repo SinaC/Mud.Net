@@ -24,5 +24,8 @@ namespace Mud.Server
         IPlayableCharacter Master { get; } // character allowed to order us
         void ChangeMaster(IPlayableCharacter master);
         bool Order(string rawParameters, params CommandParameter[] parameters);
+
+        // Mapping
+        PetData MapPetData();
     }
 }

@@ -27,6 +27,8 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
 
             CreateMap<Domain.CharacterData, DataContracts.CharacterData>()
+                .Include<Domain.PlayableCharacterData, DataContracts.PlayableCharacterData>()
+                .Include<Domain.PetData, DataContracts.PetData>()
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)))
                 .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => MapCharacterFlags(x.CharacterFlags)))
                 .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
@@ -35,10 +37,12 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapFromDictionary(x.Attributes, MapCharacterAttributes)))
                 .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapFromDictionary(x.CurrentResources, MapResourceKind)))
                 .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapFromDictionary(x.MaxResources, MapResourceKind)))
+                .ForMember(x => x.Size, expression => expression.MapFrom(x => MapSizes(x.Size)));
+            CreateMap<Domain.PlayableCharacterData, DataContracts.PlayableCharacterData>()
                 .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapFromDictionary(x.Conditions, MapConditions)))
-                .ForMember(x => x.Size, expression => expression.MapFrom(x => MapSizes(x.Size)))
                 .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapFromDictionary(x.Aliases)))
                 .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapFromDictionary(x.Cooldowns, y => y)));
+            CreateMap<Domain.PetData, DataContracts.PetData>();
 
             CreateMap<Domain.ItemData, DataContracts.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
@@ -117,6 +121,8 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
 
             CreateMap<DataContracts.CharacterData, Domain.CharacterData>()
+                .Include<DataContracts.PlayableCharacterData, Domain.PlayableCharacterData>()
+                .Include<DataContracts.PetData, Domain.PetData>()
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)))
                 .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => MapCharacterFlags(x.CharacterFlags)))
                 .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
@@ -125,10 +131,12 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapToDictionary(x.Attributes, MapCharacterAttributes)))
                 .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapToDictionary(x.CurrentResources, MapResourceKind)))
                 .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapToDictionary(x.MaxResources, MapResourceKind)))
+                .ForMember(x => x.Size, expression => expression.MapFrom(x => MapSizes(x.Size)));
+            CreateMap<DataContracts.PlayableCharacterData, Domain.PlayableCharacterData>()
                 .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapToDictionary(x.Conditions, MapConditions)))
-                .ForMember(x => x.Size, expression => expression.MapFrom(x => MapSizes(x.Size)))
                 .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapToDictionary(x.Aliases)))
                 .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapToDictionary(x.Cooldowns, y => y)));
+            CreateMap<DataContracts.PetData, Domain.PetData>();
 
             CreateMap<DataContracts.ItemData, Domain.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
@@ -299,83 +307,83 @@ namespace Mud.Repository.Filesystem
             }
         }
 
-        private Mud.Domain.EquipmentSlots MapEquimentSlot(int slot)
+        private Domain.EquipmentSlots MapEquimentSlot(int slot)
         {
             switch (slot)
             {
                 case 0:
-                    return Mud.Domain.EquipmentSlots.None;
+                    return Domain.EquipmentSlots.None;
                 case 1:
-                    return Mud.Domain.EquipmentSlots.Light;
+                    return Domain.EquipmentSlots.Light;
                 case 2:
-                    return Mud.Domain.EquipmentSlots.Head;
+                    return Domain.EquipmentSlots.Head;
                 case 3:
-                    return Mud.Domain.EquipmentSlots.Amulet;
+                    return Domain.EquipmentSlots.Amulet;
                 case 4:
-                    return Mud.Domain.EquipmentSlots.Chest;
+                    return Domain.EquipmentSlots.Chest;
                 case 5:
-                    return Mud.Domain.EquipmentSlots.Cloak;
+                    return Domain.EquipmentSlots.Cloak;
                 case 6:
-                    return Mud.Domain.EquipmentSlots.Waist;
+                    return Domain.EquipmentSlots.Waist;
                 case 7:
-                    return Mud.Domain.EquipmentSlots.Wrists;
+                    return Domain.EquipmentSlots.Wrists;
                 case 8:
-                    return Mud.Domain.EquipmentSlots.Arms;
+                    return Domain.EquipmentSlots.Arms;
                 case 9:
-                    return Mud.Domain.EquipmentSlots.Hands;
+                    return Domain.EquipmentSlots.Hands;
                 case 10:
-                    return Mud.Domain.EquipmentSlots.Ring;
+                    return Domain.EquipmentSlots.Ring;
                 case 11:
-                    return Mud.Domain.EquipmentSlots.Legs;
+                    return Domain.EquipmentSlots.Legs;
                 case 12:
-                    return Mud.Domain.EquipmentSlots.Feet;
+                    return Domain.EquipmentSlots.Feet;
                 case 13:
-                    return Mud.Domain.EquipmentSlots.MainHand;
+                    return Domain.EquipmentSlots.MainHand;
                 case 14:
-                    return Mud.Domain.EquipmentSlots.OffHand;
+                    return Domain.EquipmentSlots.OffHand;
                 case 15:
-                    return Mud.Domain.EquipmentSlots.Float;
+                    return Domain.EquipmentSlots.Float;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid EquipmentSlots {slot} while reading pfile");
                     return 0;
             }
         }
 
-        private int MapEquimentSlot(Mud.Domain.EquipmentSlots slot)
+        private int MapEquimentSlot(Domain.EquipmentSlots slot)
         {
             switch (slot)
             {
-                case Mud.Domain.EquipmentSlots.None:
+                case Domain.EquipmentSlots.None:
                     return 0;
-                case Mud.Domain.EquipmentSlots.Light:
+                case Domain.EquipmentSlots.Light:
                     return 1;
-                case Mud.Domain.EquipmentSlots.Head:
+                case Domain.EquipmentSlots.Head:
                     return 2;
-                case Mud.Domain.EquipmentSlots.Amulet:
+                case Domain.EquipmentSlots.Amulet:
                     return 3;
-                case Mud.Domain.EquipmentSlots.Chest:
+                case Domain.EquipmentSlots.Chest:
                     return 4;
-                case Mud.Domain.EquipmentSlots.Cloak:
+                case Domain.EquipmentSlots.Cloak:
                     return 5;
-                case Mud.Domain.EquipmentSlots.Waist:
+                case Domain.EquipmentSlots.Waist:
                     return 6;
-                case Mud.Domain.EquipmentSlots.Wrists:
+                case Domain.EquipmentSlots.Wrists:
                     return 7;
-                case Mud.Domain.EquipmentSlots.Arms:
+                case Domain.EquipmentSlots.Arms:
                     return 8;
-                case Mud.Domain.EquipmentSlots.Hands:
+                case Domain.EquipmentSlots.Hands:
                     return 9;
-                case Mud.Domain.EquipmentSlots.Ring:
+                case Domain.EquipmentSlots.Ring:
                     return 10;
-                case Mud.Domain.EquipmentSlots.Legs:
+                case Domain.EquipmentSlots.Legs:
                     return 11;
-                case Mud.Domain.EquipmentSlots.Feet:
+                case Domain.EquipmentSlots.Feet:
                     return 12;
-                case Mud.Domain.EquipmentSlots.MainHand:
+                case Domain.EquipmentSlots.MainHand:
                     return 13;
-                case Mud.Domain.EquipmentSlots.OffHand:
+                case Domain.EquipmentSlots.OffHand:
                     return 14;
-                case Mud.Domain.EquipmentSlots.Float:
+                case Domain.EquipmentSlots.Float:
                     return 15;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid EquipmentSlots {slot} while writing pfile");
@@ -680,13 +688,13 @@ namespace Mud.Repository.Filesystem
         {
             switch (cond)
             {
-                case 0: return Mud.Domain.Conditions.Drunk;
-                case 1: return Mud.Domain.Conditions.Full;
-                case 2: return Mud.Domain.Conditions.Thirst;
-                case 3: return Mud.Domain.Conditions.Hunger;
+                case 0: return Domain.Conditions.Drunk;
+                case 1: return Domain.Conditions.Full;
+                case 2: return Domain.Conditions.Thirst;
+                case 3: return Domain.Conditions.Hunger;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid Conditions {cond} while reading pfile");
-                    return Mud.Domain.Conditions.Drunk;
+                    return Domain.Conditions.Drunk;
             }
         }
 
@@ -694,10 +702,10 @@ namespace Mud.Repository.Filesystem
         {
             switch (cond)
             {
-                case Mud.Domain.Conditions.Drunk: return 0;
-                case Mud.Domain.Conditions.Full: return 1;
-                case Mud.Domain.Conditions.Thirst: return 2;
-                case Mud.Domain.Conditions.Hunger: return 3;
+                case Domain.Conditions.Drunk: return 0;
+                case Domain.Conditions.Full: return 1;
+                case Domain.Conditions.Thirst: return 2;
+                case Domain.Conditions.Hunger: return 3;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid Conditions {cond} while writing pfile");
                     return 0;

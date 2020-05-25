@@ -10,8 +10,7 @@ extensive tests
 	IPlayableCharacter
 		IEnumerable<INonPlayableCharacter> Pets // mobs which are saved in our pfile
 
-add dummy spell to create a pet
-pet save
+make a map of calls done when a NPC is Removed/StopFollowing/...
 
 SHORT TERM TODO:
 grove.are: the second jar will never appear
@@ -61,6 +60,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+add dummy spell to create a pet
+pet save
 Order implemented
 Command attribute name forced to lower invariant
 Unfollow pc-specific added 

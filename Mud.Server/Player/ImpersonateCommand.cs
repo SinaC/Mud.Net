@@ -36,17 +36,17 @@ namespace Mud.Server.Player
                 Save();
                 return CommandExecutionResults.Ok;
             }
-            CharacterData characterData = _avatarList.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
-            if (characterData == null)
+            PlayableCharacterData playableCharacterData = _avatarList.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            if (playableCharacterData == null)
             {
                 Send("Avatar not found. Use 'listavatar' to display your avatar list.");
                 return CommandExecutionResults.TargetNotFound;
             }
 
             // Re-impersonate same character
-            if (Impersonating?.Name == characterData.Name)
+            if (Impersonating?.Name == playableCharacterData.Name)
             {
-                Send("You are already impersonation {0}.", characterData.Name);
+                Send("You are already impersonation {0}.", playableCharacterData.Name);
                 return CommandExecutionResults.InvalidTarget;
             }
 
@@ -58,13 +58,13 @@ namespace Mud.Server.Player
             }
 
             // TODO: move room extraction in World.AddPlayableCharacter and remove Room parameter
-            IRoom location = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == characterData.RoomId);
+            IRoom location = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == playableCharacterData.RoomId);
             if (location == null)
             {
                 location = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRoomId);
-                Wiznet.Wiznet($"Invalid roomId {characterData.RoomId} for character {characterData.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet($"Invalid roomId {playableCharacterData.RoomId} for character {playableCharacterData.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             }
-            IPlayableCharacter avatar = World.AddPlayableCharacter(Guid.NewGuid(), characterData, this, location);
+            IPlayableCharacter avatar = World.AddPlayableCharacter(Guid.NewGuid(), playableCharacterData, this, location);
             Send("%M%You start impersonating %C%{0}%x%.", avatar.DisplayName);
             Impersonating = avatar;
             PlayerState = PlayerStates.Impersonating;
@@ -110,12 +110,12 @@ namespace Mud.Server.Player
 
         // Helpers
         // TODO: crappy workaround because ClassManager, RaceManager and World are needed
-        private static readonly Lazy<TableGenerator<CharacterData>> AvatarTableGenerator = new Lazy<TableGenerator<CharacterData>>(() =>
+        private static readonly Lazy<TableGenerator<PlayableCharacterData>> AvatarTableGenerator = new Lazy<TableGenerator<PlayableCharacterData>>(() =>
         {
             IClassManager classManager = DependencyContainer.Current.GetInstance<IClassManager>();
             IRaceManager raceManager = DependencyContainer.Current.GetInstance<IRaceManager>();
             IWorld world = DependencyContainer.Current.GetInstance<IWorld>();
-            TableGenerator<CharacterData> generator = new TableGenerator<CharacterData>();
+            TableGenerator<PlayableCharacterData> generator = new TableGenerator<PlayableCharacterData>();
             generator.AddColumn("Name", 14, data => data.Name.UpperFirstLetter());
             generator.AddColumn("Level", 7, data => data.Level.ToString());
             generator.AddColumn("Class", 12, data => classManager[data.Class]?.DisplayName ?? "none");

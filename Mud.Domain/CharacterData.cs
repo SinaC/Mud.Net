@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Mud.Domain
 {
-    public class CharacterData
+    public abstract class CharacterData
     {
-        public DateTime CreationTime { get; set; }
-
         public string Name { get; set; }
-
-        public int RoomId { get; set; }
 
         public string Race { get; set; }
 
@@ -21,10 +16,6 @@ namespace Mud.Domain
 
         public Sizes Size { get; set; }
 
-        public long SilverCoins { get; set; }
-
-        public long GoldCoins { get; set; }
-
         public int HitPoints { get; set; }
 
         public int MovePoints { get; set; }
@@ -33,17 +24,9 @@ namespace Mud.Domain
 
         public Dictionary<ResourceKinds, int> MaxResources { get; set; }
 
-        public long Experience { get; set; }
-
-        public int Trains { get; set; }
-
-        public int Practices { get; set; }
-
         public EquippedItemData[] Equipments { get; set; }
 
         public ItemData[] Inventory { get; set; }
-
-        public CurrentQuestData[] CurrentQuests { get; set; }
 
         public AuraData[] Auras { get; set; }
 
@@ -56,13 +39,5 @@ namespace Mud.Domain
         public IRVFlags Vulnerabilities { get; set; }
 
         public Dictionary<CharacterAttributes, int> Attributes { get; set; }
-
-        public KnownAbilityData[] KnownAbilities { get; set; }
-
-        public Dictionary<Conditions, int> Conditions { get; set; }
-
-        public Dictionary<string, string> Aliases { get; set; }
-
-        public Dictionary<int, int> Cooldowns { get; set; }
     }
 }

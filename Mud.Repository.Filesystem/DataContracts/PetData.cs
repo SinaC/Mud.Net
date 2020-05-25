@@ -3,9 +3,9 @@
 namespace Mud.Repository.Filesystem.DataContracts
 {
     [DataContract(Namespace = "")]
-    public class ItemWeaponData : ItemData
+    public class PetData : CharacterData
     {
         [DataMember]
-        public int WeaponFlags { get; set; }
+        public int BlueprintId { get; set; }
     }
 }

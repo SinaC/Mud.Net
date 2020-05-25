@@ -155,7 +155,7 @@ namespace Mud.Server.Player
             {
                 _class = classes[0];
                 IRoom startingRoom = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota"); // todo: mud school
-                CharacterData characterData = new CharacterData
+                PlayableCharacterData playableCharacterData = new PlayableCharacterData
                 {
                     CreationTime = TimeHandler.CurrentTime,
                     Name = _name,
@@ -180,6 +180,7 @@ namespace Mud.Server.Player
                         // TODO: other resource
                     },
                     Experience = 0,
+                    Alignment = 0,
                     Trains = 3,
                     Practices = 5,
                     Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => 48),
@@ -197,7 +198,7 @@ namespace Mud.Server.Player
                     Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => GetStartAttributeValue(x, _race, _class))
                     // known abilities will be created in PlayableCharacter ctor
                 };
-                player.AddAvatar(characterData);
+                player.AddAvatar(playableCharacterData);
                 player.Save();
                 UniquenessManager.AddAvatarName(_name);
                 // TODO: better wording

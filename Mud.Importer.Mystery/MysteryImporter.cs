@@ -1246,6 +1246,7 @@ namespace Mud.Importer.Mystery
                 LongDescription = mobileData.LongDescr,
                 ShortDescription = mobileData.ShortDescr,
                 Sex = ConvertSex(mobileData),
+                Size = ConvertSize(mobileData),
                 Wealth = mobileData.Wealth,
                 Alignment = mobileData.Alignment,
                 DamageNoun = damageNoun,
@@ -1281,6 +1282,22 @@ namespace Mud.Importer.Mystery
             if (mobileData.Sex.ToLower() == "male")
                 return Sex.Male;
             return Sex.Neutral;
+        }
+
+        private Sizes ConvertSize(MobileData mobileData)
+        {
+            switch (mobileData.Size)
+            {
+                case "tiny": return Sizes.Tiny;
+                case "small": return Sizes.Small;
+                case "medium": return Sizes.Medium;
+                case "large": return Sizes.Large;
+                case "huge": return Sizes.Huge;
+                case "giant": return Sizes.Giant;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, "Invalid size {0} for mob {1}", mobileData.Size, mobileData.VNum);
+                    return Sizes.Medium;
+            }
         }
 
         private IRVFlags ConvertMysteryIRV(long value)

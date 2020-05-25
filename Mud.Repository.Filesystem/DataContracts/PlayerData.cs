@@ -18,6 +18,6 @@ namespace Mud.Repository.Filesystem.DataContracts
         public PairData<string, string>[] Aliases { get; set; }
 
         [DataMember]
-        public CharacterData[] Characters { get; set; }
+        public PlayableCharacterData[] Characters { get; set; }
     }
 }

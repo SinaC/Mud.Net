@@ -39,6 +39,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             BaseResistances = blueprint.Resistances;
             BaseVulnerabilities = blueprint.Vulnerabilities;
             BaseSex = blueprint.Sex;
+            BaseSize = blueprint.Size;
             Alignment = blueprint.Alignment.Range(-1000, 1000);
             if (blueprint.Wealth == 0)
             {
@@ -80,6 +81,128 @@ namespace Mud.Server.Character.NonPlayableCharacter
             }
             HitPoints = BaseAttribute(CharacterAttributes.MaxHitPoints); // can't use this[MaxHitPoints] because current has been been computed, it will be computed in ResetCurrentAttributes
             MovePoints = BaseAttribute(CharacterAttributes.MaxMovePoints);
+
+            Room = room;
+            room.Enter(this);
+
+            RecomputeKnownAbilities();
+            ResetCurrentAttributes();
+            RecomputeCurrentResourceKinds();
+            BuildEquipmentSlots();
+        }
+
+        public NonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room) // NPC
+            : base(guid, petData.Name, blueprint.Description)
+        {
+            Blueprint = blueprint;
+
+            Position = Positions.Standing;
+            // TODO: race, class, ...
+            Level = petData.Level;
+            HitPoints = petData.HitPoints;
+            MovePoints = petData.MovePoints;
+            DamageNoun = blueprint.DamageNoun;
+            DamageType = blueprint.DamageType;
+            DamageDiceCount = blueprint.DamageDiceCount;
+            DamageDiceValue = blueprint.DamageDiceValue;
+            DamageDiceBonus = blueprint.DamageDiceBonus;
+            ActFlags = blueprint.ActFlags;
+            OffensiveFlags = blueprint.OffensiveFlags;
+            BaseCharacterFlags = petData.CharacterFlags;
+            BaseImmunities = petData.Immunities;
+            BaseResistances = petData.Resistances;
+            BaseVulnerabilities = petData.Vulnerabilities;
+            BaseSex = petData.Sex;
+            BaseSize = petData.Size;
+            Alignment = blueprint.Alignment.Range(-1000, 1000);
+            if (blueprint.Wealth == 0)
+            {
+                SilverCoins = 0;
+                GoldCoins = 0;
+            }
+            else
+            {
+                long wealth = RandomManager.Range(blueprint.Wealth / 2, 3 * blueprint.Wealth / 2);
+                GoldCoins = RandomManager.Range(wealth / 200, wealth / 100);
+                SilverCoins = wealth - (GoldCoins * 100);
+            }
+            // attributes
+            if (petData.Attributes != null)
+            {
+                foreach (var attributeData in petData.Attributes)
+                    SetBaseAttributes(attributeData.Key, attributeData.Value, false);
+            }
+            else
+            {
+                Wiznet.Wiznet($"NonPlayableCharacter.ctor: attributes not found in pfile for {petData.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                // set to 1 if not found
+                foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
+                    this[attribute] = 1;
+            }
+            // resources
+            if (petData.CurrentResources != null)
+            {
+                foreach (var currentResourceData in petData.CurrentResources)
+                    this[currentResourceData.Key] = currentResourceData.Value;
+            }
+            else
+            {
+                Wiznet.Wiznet($"NonPlayableCharacter.ctor: currentResources not found in pfile for {petData.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                // set to 1 if not found
+                foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
+                    this[resource] = 1;
+            }
+            if (petData.MaxResources != null)
+            {
+                foreach (var maxResourceData in petData.MaxResources)
+                    SetMaxResource(maxResourceData.Key, maxResourceData.Value, false);
+            }
+
+            // Must be built before equiping
+            BuildEquipmentSlots();
+
+            // Equipped items
+            if (petData.Equipments != null)
+            {
+                // Create item in inventory and try to equip it
+                foreach (EquippedItemData equippedItemData in petData.Equipments)
+                {
+                    // Create in inventory
+                    var item = World.AddItem(Guid.NewGuid(), equippedItemData.Item, this);
+
+                    // Try to equip it
+                    EquippedItem equippedItem = SearchEquipmentSlot(equippedItemData.Slot, false);
+                    if (equippedItem != null)
+                    {
+                        if (item.WearLocation != WearLocations.None)
+                        {
+                            equippedItem.Item = item;
+                            item.ChangeContainer(null); // remove from inventory
+                            item.ChangeEquippedBy(this, false); // set as equipped by this
+                        }
+                        else
+                        {
+                            Wiznet.Wiznet($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be equipped anymore in slot {equippedItemData.Slot} for character {petData.Name}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                        }
+                    }
+                    else
+                    {
+                        Wiznet.Wiznet($"Item blueprint Id {equippedItemData.Item.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {petData.Name} but this slot doesn't exist anymore.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    }
+                }
+            }
+            // Inventory
+            if (petData.Inventory != null)
+            {
+                foreach (ItemData itemData in petData.Inventory)
+                    World.AddItem(Guid.NewGuid(), itemData, this);
+            }
+            // Auras
+            if (petData.Auras != null)
+            {
+                foreach (AuraData auraData in petData.Auras)
+                    AddAura(new Aura.Aura(auraData), false); // TODO: !!! auras is not added thru World.AddAura
+            }
 
             Room = room;
             room.Enter(this);
@@ -145,11 +268,12 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         public override void OnRemoved() // called before removing a character from the game
         {
+            // Free from slavery, must be done before base.OnRemoved because CharacterBase.OnRemoved will call Leader.RemoveFollower which will reset Master
+            Master?.RemovePet(this);
+
             base.OnRemoved();
 
             StopFighting(true);
-            // Free from slavery
-            Master?.RemovePet(this);
             // TODO: what if character is incarnated
             ResetCooldowns();
             DeleteInventory();
@@ -321,6 +445,39 @@ namespace Mud.Server.Character.NonPlayableCharacter
             CommandHelpers.ExtractCommandAndParameters(CommandHelpers.JoinParameters(parameters), out string command, out rawParameters, out parameters);
             bool executed = ExecuteCommand(command, rawParameters, parameters);
             return executed;
+        }
+
+        // Mapping
+        public PetData MapPetData()
+        {
+            PetData data = new PetData
+            {
+                BlueprintId = Blueprint.Id,
+                Name = Name,
+                //RoomId = Room?.Blueprint?.Id ?? 0,
+                Race = Race?.Name ?? string.Empty,
+                Class = Class?.Name ?? string.Empty,
+                Level = Level,
+                Sex = BaseSex,
+                Size = BaseSize,
+                //SilverCoins = SilverCoins,
+                //GoldCoins = GoldCoins,
+                HitPoints = HitPoints,
+                MovePoints = MovePoints,
+                CurrentResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
+                MaxResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
+                Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquippedData()).ToArray(),
+                Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
+                Auras = MapAuraData(),
+                CharacterFlags = BaseCharacterFlags,
+                Immunities = BaseImmunities,
+                Resistances = BaseResistances,
+                Vulnerabilities = BaseVulnerabilities,
+                Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttribute),
+                //KnownAbilities = KnownAbilities.Select(x => x.MapKnownAbilityData()).ToArray(),
+                //Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key.Id, x => x.Value),
+            };
+            return data;
         }
 
         #endregion

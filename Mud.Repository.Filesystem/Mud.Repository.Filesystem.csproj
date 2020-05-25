@@ -86,6 +86,8 @@
     <Compile Include="DataContracts\AuraData.cs" />
     <Compile Include="DataContracts\CharacterAttributeAffectData.cs" />
     <Compile Include="DataContracts\CharacterData.cs" />
+    <Compile Include="DataContracts\PetData.cs" />
+    <Compile Include="DataContracts\PlayableCharacterData.cs" />
     <Compile Include="DataContracts\CharacterFlagsAffectData.cs" />
     <Compile Include="DataContracts\CharacterIRVAffectData.cs" />
     <Compile Include="DataContracts\CharacterSexAffectData.cs" />

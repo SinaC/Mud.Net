@@ -549,7 +549,7 @@ namespace Mud.Server.TestApplication
             player.ProcessCommand("unknown"); // INVALID
             player.ProcessCommand("/test");
 
-            IPlayableCharacter character = DependencyContainer.Current.GetInstance<IWorld>().AddPlayableCharacter(Guid.NewGuid(), new CharacterData
+            IPlayableCharacter character = DependencyContainer.Current.GetInstance<IWorld>().AddPlayableCharacter(Guid.NewGuid(), new PlayableCharacterData
             {
                 Name = "toto",
                 Class = DependencyContainer.Current.GetInstance<IClassManager>()["Mage"].Name,

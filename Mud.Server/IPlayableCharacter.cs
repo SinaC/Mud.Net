@@ -53,6 +53,6 @@ namespace Mud.Server
         bool CheckAbilityImprove(KnownAbility ability, bool abilityUsedSuccessfully, int multiplier);
 
         // Mapping
-        CharacterData MapCharacterData();
+        PlayableCharacterData MapPlayableCharacterData();
     }
 }

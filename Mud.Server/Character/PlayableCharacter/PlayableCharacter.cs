@@ -9,6 +9,7 @@ using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Abilities;
+using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Input;
 using Mud.Server.Item;
@@ -26,16 +27,14 @@ namespace Mud.Server.Character.PlayableCharacter
 
         protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
 
-        private readonly List<IPlayableCharacter> _groupMembers;
         private readonly List<IQuest> _quests;
         private readonly int[] _conditions;
         private readonly Dictionary<string, string> _aliases;
         private readonly List<INonPlayableCharacter> _pets;
 
-        public PlayableCharacter(Guid guid, CharacterData data, IPlayer player, IRoom room)
+        public PlayableCharacter(Guid guid, PlayableCharacterData data, IPlayer player, IRoom room)
             : base(guid, data.Name, string.Empty)
         {
-            _groupMembers = new List<IPlayableCharacter>();
             _quests = new List<IQuest>();
             _conditions = new int[EnumHelpers.GetCount<Conditions>()];
             _aliases = new Dictionary<string, string>();
@@ -45,7 +44,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
             Room = World.NullRoom; // add in null room to avoid problem if an initializer needs a room
 
-            // Extract informations from CharacterData
+            // Extract informations from PlayableCharacterData
             CreationTime = data.CreationTime;
             Class = ClassManager[data.Class];
             if (Class == null)
@@ -65,6 +64,7 @@ namespace Mud.Server.Character.PlayableCharacter
             GoldCoins = data.GoldCoins;
             HitPoints = data.HitPoints;
             MovePoints = data.MovePoints;
+            Alignment = data.Alignment;
             if (data.CurrentResources != null)
             {
                 foreach (var currentResourceData in data.CurrentResources)
@@ -202,6 +202,23 @@ namespace Mud.Server.Character.PlayableCharacter
                         Wiznet.Wiznet($"Cooldown ability id {cooldown.Key} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                     else
                         SetCooldown(ability, cooldown.Value);
+                }
+            }
+            // Pets
+            if (data.Pets != null)
+            {
+                foreach (PetData petData in data.Pets)
+                {
+                    CharacterNormalBlueprint blueprint = World.GetCharacterBlueprint<CharacterNormalBlueprint>(petData.BlueprintId);
+                    if (blueprint == null)
+                    {
+                        Wiznet.Wiznet($"Pet blueprint id {petData.BlueprintId} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    }
+                    else
+                    {
+                        INonPlayableCharacter pet = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, petData, room);
+                        AddPet(pet);
+                    }
                 }
             }
 
@@ -714,9 +731,9 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Mapping
-        public CharacterData MapCharacterData()
+        public PlayableCharacterData MapPlayableCharacterData()
         {
-            CharacterData data = new CharacterData
+            PlayableCharacterData data = new PlayableCharacterData
             {
                 CreationTime = CreationTime,
                 Name = Name,
@@ -732,6 +749,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 MovePoints = MovePoints,
                 CurrentResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
                 MaxResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
+                Alignment = Alignment,
                 Experience = Experience,
                 Trains = Trains,
                 Practices = Practices,
@@ -748,6 +766,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 KnownAbilities = KnownAbilities.Select(x => x.MapKnownAbilityData()).ToArray(),
                 Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
                 Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key.Id, x => x.Value),
+                Pets = Pets.Select(x => x.MapPetData()).ToArray(),
             };
             return data;
         }

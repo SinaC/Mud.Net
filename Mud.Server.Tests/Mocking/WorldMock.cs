@@ -160,7 +160,7 @@ namespace Mud.Server.Tests.Mocking
             return room;
         }
 
-        public IPlayableCharacter AddPlayableCharacter(Guid guid, CharacterData characterData, IPlayer player, IRoom room)
+        public IPlayableCharacter AddPlayableCharacter(Guid guid, PlayableCharacterData characterData, IPlayer player, IRoom room)
         {
             IPlayableCharacter character = new Character.PlayableCharacter.PlayableCharacter(guid, characterData, player, room);
             _characters.Add(character);
@@ -172,6 +172,11 @@ namespace Mud.Server.Tests.Mocking
             INonPlayableCharacter character = new Character.NonPlayableCharacter.NonPlayableCharacter(guid, blueprint, room);
             _characters.Add(character);
             return character;
+        }
+
+        public INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room)
+        {
+            throw new NotImplementedException();
         }
 
         public IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim)

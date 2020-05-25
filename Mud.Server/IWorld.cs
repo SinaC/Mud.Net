@@ -61,8 +61,9 @@ namespace Mud.Server
 
         IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction);
 
-        IPlayableCharacter AddPlayableCharacter(Guid guid, CharacterData characterData, IPlayer player, IRoom room);
+        IPlayableCharacter AddPlayableCharacter(Guid guid, PlayableCharacterData playableCharacterData, IPlayer player, IRoom room);
         INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room);
+        INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room);
 
         IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim);
         IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim, ICharacter killer);

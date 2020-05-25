@@ -76,6 +76,8 @@
     <Compile Include="AuraData.cs" />
     <Compile Include="CharacterAttributeAffectData.cs" />
     <Compile Include="CharacterData.cs" />
+    <Compile Include="PetData.cs" />
+    <Compile Include="PlayableCharacterData.cs" />
     <Compile Include="CharacterFlagsAffectData.cs" />
     <Compile Include="CharacterIRVAffectData.cs" />
     <Compile Include="CharacterSizeAffectData.cs" />

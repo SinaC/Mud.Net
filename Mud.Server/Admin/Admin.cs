@@ -25,7 +25,7 @@ namespace Mud.Server.Admin
         }
 
         // used for promotion
-        public Admin(Guid id, string name, AdminLevels level, IReadOnlyDictionary<string,string> aliases, IEnumerable<CharacterData> avatarList)
+        public Admin(Guid id, string name, AdminLevels level, IReadOnlyDictionary<string,string> aliases, IEnumerable<PlayableCharacterData> avatarList)
             : base(id, name, aliases, avatarList)
         {
             Level = level;

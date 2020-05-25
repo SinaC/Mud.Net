@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Mud.Repository.Mongo.Domain
 {
-    public class CharacterData
+    [BsonKnownTypes(typeof(PlayableCharacterData), typeof(PetData))]
+    public abstract class CharacterData
     {
-        public DateTime CreationTime { get; set; }
-
         public string Name { get; set; }
-
-        public int RoomId { get; set; }
 
         public string Race { get; set; }
 
@@ -21,10 +18,6 @@ namespace Mud.Repository.Mongo.Domain
 
         public int Size { get; set; }
 
-        public long SilverCoins { get; set; }
-
-        public long GoldCoins { get; set; }
-
         public int HitPoints { get; set; }
 
         public int MovePoints { get; set; }
@@ -33,17 +26,9 @@ namespace Mud.Repository.Mongo.Domain
 
         public Dictionary<int, int> MaxResources { get; set; }
 
-        public long Experience { get; set; }
-
-        public int Trains { get; set; }
-
-        public int Practices { get; set; }
-
         public EquippedItemData[] Equipments { get; set; }
 
         public ItemData[] Inventory { get; set; }
-
-        public CurrentQuestData[] CurrentQuests { get; set; }
 
         public AuraData[] Auras { get; set; }
 
@@ -56,13 +41,5 @@ namespace Mud.Repository.Mongo.Domain
         public int Vulnerabilities { get; set; }
 
         public Dictionary<int, int> Attributes { get; set; } // TODO: this could create duplicate key exception while deserializing if CharacterAttribute is not found anymore
-
-        public KnownAbilityData[] KnownAbilities { get; set; }
-
-        public Dictionary<int, int> Conditions { get; set; }
-
-        public Dictionary<string,string> Aliases { get; set; }
-
-        public Dictionary<int,int> Cooldowns { get; set; }
     }
 }
