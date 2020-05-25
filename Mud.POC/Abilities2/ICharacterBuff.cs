@@ -3,6 +3,5 @@
     public interface ICharacterBuff
     {
         string CharacterWearOffMessage { get; }
-
     }
 }
