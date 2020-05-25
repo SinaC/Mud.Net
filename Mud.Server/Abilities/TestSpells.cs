@@ -31,7 +31,7 @@ namespace Mud.Server.Abilities
                 CharacterBlueprintBase blueprint = World.GetCharacterBlueprint(80000);
                 INonPlayableCharacter construct = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, caster.Room);
                 pcCaster.AddPet(construct);
-                World.AddAura(construct, ability, caster, level, Pulse.Infinite, AuraFlags.Permanent, true,
+                World.AddAura(construct, ability, caster, level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
                     new CharacterFlagsAffect { Modifier = CharacterFlags.Charm, Operator = AffectOperators.Or });
             }
         }

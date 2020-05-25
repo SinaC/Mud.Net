@@ -1,4 +1,7 @@
-﻿using AutoBogus;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using AutoBogus;
 using AutoMapper;
 using DeepEqual.Syntax;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -26,8 +29,8 @@ namespace Mud.Repository.Tests
         {
             var original = AutoFaker.Generate<Domain.PlayerData>();
 
-            var internalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.PlayerData, Filesystem.DataContracts.PlayerData>(original);
-            var externalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.DataContracts.PlayerData, Domain.PlayerData>(internalPlayerData);
+            var internalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.PlayerData, Filesystem.Domain.PlayerData>(original);
+            var externalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.Domain.PlayerData, Domain.PlayerData>(internalPlayerData);
 
             original.WithDeepEqual(externalPlayerData).Assert();
         }
@@ -38,8 +41,8 @@ namespace Mud.Repository.Tests
         {
             var original = AutoFaker.Generate<Domain.PlayerData>();
 
-            var internalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.PlayerData, Filesystem.DataContracts.PlayerData>(original);
-            var externalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.DataContracts.PlayerData, Domain.PlayerData>(internalPlayerData);
+            var internalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.PlayerData, Filesystem.Domain.PlayerData>(original);
+            var externalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.Domain.PlayerData, Domain.PlayerData>(internalPlayerData);
 
             externalPlayerData.Name = AutoFaker.Generate<string>();
 
@@ -52,8 +55,8 @@ namespace Mud.Repository.Tests
         {
             var original = AutoFaker.Generate<Domain.AdminData>();
 
-            var internalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.AdminData, Filesystem.DataContracts.AdminData>(original);
-            var externalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.DataContracts.AdminData, Domain.AdminData>(internalAdminData);
+            var internalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.AdminData, Filesystem.Domain.AdminData>(original);
+            var externalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.Domain.AdminData, Domain.AdminData>(internalAdminData);
 
             original.WithDeepEqual(externalAdminData).Assert();
         }
@@ -64,8 +67,8 @@ namespace Mud.Repository.Tests
         {
             var original = AutoFaker.Generate<Domain.AdminData>();
 
-            var internalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.AdminData, Filesystem.DataContracts.AdminData>(original);
-            var externalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.DataContracts.AdminData, Domain.AdminData>(internalAdminData);
+            var internalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.AdminData, Filesystem.Domain.AdminData>(original);
+            var externalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.Domain.AdminData, Domain.AdminData>(internalAdminData);
 
             externalAdminData.Name = AutoFaker.Generate<string>();
 
@@ -114,10 +117,37 @@ namespace Mud.Repository.Tests
                 }
             };
 
-            var internalAuraData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.AuraData, Filesystem.DataContracts.AuraData>(original);
-            var externalAuraData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.DataContracts.AuraData, Domain.AuraData>(internalAuraData);
+            var internalAuraData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.AuraData, Filesystem.Domain.AuraData>(original);
+            var externalAuraData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.Domain.AuraData, Domain.AuraData>(internalAuraData);
 
             original.WithDeepEqual(externalAuraData).Assert();
+        }
+
+        [Ignore]
+        [TestMethod]
+        public void Test_Concrete_Types()
+        {
+            var fileSystemDomainConcreteTypes = Assembly.GetAssembly(typeof(Filesystem.Domain.AdminData))
+                .GetTypes()
+                .Where(x => !x.IsAbstract && x.IsClass && x.Namespace == "Mud.Repository.Filesystem.Domain" && x.Name.Contains("Data"))
+                .ToArray();
+            var mudDomainConcreteTypes = Assembly.GetAssembly(typeof(Domain.AdminData))
+                .GetTypes()
+                .Where(x => !x.IsAbstract && x.IsClass && x.Namespace == "Mud.Domain" && x.Name.Contains("Data"))
+                .ToArray();
+
+            IMapper mapper = DependencyContainer.Current.GetInstance<IMapper>();
+
+            // file system -> mud
+            foreach (Type fileSystemDomainConcreteType in fileSystemDomainConcreteTypes)
+            {
+                Type mudDomainRelated = mudDomainConcreteTypes.FirstOrDefault(x => x.Name == fileSystemDomainConcreteType.Name);
+
+                //var a = typeof(SpecimenFactory).GetMethods().Single(x => x.IsStatic && x.IsGenericMethod && x.Name == "Create" && x.GetParameters().Length == 1 && x.GetParameters().Single().ParameterType == typeof(ISpecimenBuilder)).MakeGenericMethod(fileSystemDomainConcreteType).Invoke(fixture, new[] { fixture });
+                //var a = new SpecimenContext(fixture).Resolve(mudDomainRelated);
+            }
+
+            // mud -> file system
         }
     }
 }

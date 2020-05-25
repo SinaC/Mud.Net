@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Mud.Repository.Filesystem.Common;
-using Mud.Repository.Filesystem.DataContracts;
 using Mud.Logger;
+using Mud.Repository.Filesystem.Domain;
 
 namespace Mud.Repository.Filesystem
 {
@@ -160,7 +160,7 @@ namespace Mud.Repository.Filesystem
                 {
                     LoginRepositoryData repository = new LoginRepositoryData
                     {
-                        Logins = _table.Values.ToList()
+                        Logins = _table.Values.ToArray()
                     };
                     serializer.Serialize(file, repository);
                 }
