@@ -1,4 +1,7 @@
 NEXT:
+IsSameGroup should consider Pet as in group
+check if autoassist works when a pet starts the fight
+
 Group displayed infos: resources are missing
 extensive tests
 	ICharacter
@@ -23,7 +26,6 @@ E 1 6506  10   17	*   long, black stick
 PK
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 linkdead
-PlayableCharacter can be immortal or not -> don't link immortality to ImpersonatedBy is IAdmin
 Move CanSee in IEntity
 Move AddAura in aura manager
 Replace out parameter with C#7-tuple if possible
@@ -57,6 +59,11 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+autoassist, autoexits, autosplit, autogold, autosacrifice, autoloot
+Auto, Sacrifice, Split command
+ActPet specific code
+PlayableCharacter can be immortal or not -> don't link immortality to ImpersonatedBy is IAdmin
+Admin command: peace
 command SAffects added
 third wield, fourth wield
 add dummy spell to create a pet
@@ -294,6 +301,8 @@ TableGenerator with duplicate columns
 
 *************************************************************
 LONG TERM TODO:
+specials
+assist_guard
 aggro table
 isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + filter on isValid + remove them during Cleanup phease (--> no more clone of auras needed while modifying/clearing auras, same goes with periodic aura)
 automated quests
@@ -434,3 +443,7 @@ https://github.com/vedicveko/Mud-Areas
 
 old mobprogram
 http://dsmud.wikidot.com/mprog-guide-written-by-xzylvador-from-aarchon-mud
+
+building
+http://www.ansalon.net/Building_Ansalon2.2.3.txt
+http://www.eotmud.com/NewbieOLC.txt

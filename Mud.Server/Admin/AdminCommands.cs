@@ -265,7 +265,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("xpbonus", "Admin")]
+        [AdminCommand("xpbonus", "Admin")]
         [Syntax("[cmd] <player name> <experience>")]
         protected virtual CommandExecutionResults DpXpBonus(string rawParameters, params CommandParameter[] parameters)
         {
@@ -302,7 +302,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("transfer", "Admin")]
+        [AdminCommand("transfer", "Admin")]
         [Syntax(
             "[cmd] <character> (if impersonated)",
             "[cmd] <character> <location>")]
@@ -363,7 +363,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("restore", "Admin")]
+        [AdminCommand("restore", "Admin")]
         [Syntax(
             "[cmd] <character>",
             "[cmd] all",
@@ -403,7 +403,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("sanitycheck", "Admin")]
+        [AdminCommand("sanitycheck", "Admin")]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoSanityCheck(string rawParameters, params CommandParameter[] parameters)
         {
@@ -424,7 +424,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("commanddebug", "Admin", Priority = 10)]
+        [AdminCommand("commanddebug", "Admin", Priority = 10)]
         [Syntax(
             "[cmd] admin", 
             "[cmd] player",
@@ -466,7 +466,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("resetarea", "Admin")]
+        [AdminCommand("resetarea", "Admin")]
         [Syntax(
             "[cmd] <area>",
             "[cmd] (if impersonated)")]
@@ -490,6 +490,22 @@ namespace Mud.Server.Admin
             area.ResetArea();
 
             Send($"{area.DisplayName} resetted.");
+            return CommandExecutionResults.Ok;
+        }
+
+        [AdminCommand("peace", "Admin", MustBeImpersonated = true)]
+        [Syntax("[cmd]")]
+        protected virtual CommandExecutionResults DoPeace(string rawParameters, params CommandParameter[] parameters)
+        {
+            foreach (ICharacter character in Impersonating.Room.People)
+            {
+                character.StopFighting(true);
+                // Needed ?
+                //if (character is INonPlayableCharacter npc && npc.ActFlags.HasFlag(ActFlags.Aggressive))
+                //    npc.Remove
+            }
+            Send("Ok.");
+
             return CommandExecutionResults.Ok;
         }
 

@@ -18,6 +18,8 @@ namespace Mud.Repository.Filesystem.Domain
 
         public int Practices { get; set; }
 
+        public int AutoFlags { get; set; }
+
         public CurrentQuestData[] CurrentQuests { get; set; }
 
         public KnownAbilityData[] KnownAbilities { get; set; }

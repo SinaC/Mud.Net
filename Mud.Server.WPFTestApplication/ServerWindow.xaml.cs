@@ -444,7 +444,7 @@ namespace Mud.Server.WPFTestApplication
                 ArmorPierce = 200,
                 ArmorSlash = 400,
                 ArmorExotic = 0,
-                ActFlags = ActFlags.None,
+                ActFlags = ActFlags.Pet,
                 OffensiveFlags = OffensiveFlags.Bash,
                 CharacterFlags = CharacterFlags.Haste,
                 Immunities = IRVFlags.None,

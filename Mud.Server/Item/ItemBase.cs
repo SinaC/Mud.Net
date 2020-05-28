@@ -118,7 +118,7 @@ namespace Mud.Server.Item
                 displayName.Append("Something");
             else
                 displayName.Append("something");
-            if (playableBeholder?.ImpersonatedBy is IAdmin)
+            if (playableBeholder?.IsImmortal == true)
                 displayName.Append($" [id: {Blueprint?.Id.ToString() ?? " ??? "}]");
             return displayName.ToString();
         }
@@ -167,7 +167,7 @@ namespace Mud.Server.Item
 
         public int Cost { get; }
 
-        public bool NoTake { get; }
+        public bool NoTake { get; protected set; }
 
         public virtual int TotalWeight => Weight;
 

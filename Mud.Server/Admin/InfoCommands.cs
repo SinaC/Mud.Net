@@ -21,7 +21,7 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [Command("who", "Information")]
+        [AdminCommand("who", "Information")]
 
         protected override CommandExecutionResults DoWho(string rawParameters, params CommandParameter[] parameters)
         {
@@ -34,12 +34,13 @@ namespace Mud.Server.Admin
                 {
                     case PlayerStates.Impersonating:
                         if (player.Impersonating != null)
-                            sb.AppendFormatLine("[ IG] {0} playing {1} [lvl: {2} Class: {3} Race: {4}]",
+                            sb.AppendFormatLine("[ IG] {0} playing {1} [lvl: {2} Class: {3} Race: {4}] {5}",
                                 player.DisplayName,
                                 player.Impersonating.DisplayName,
                                 player.Impersonating.Level,
                                 player.Impersonating.Class?.DisplayName ?? "(none)",
-                                player.Impersonating.Race?.DisplayName ?? "(none)");
+                                player.Impersonating.Race?.DisplayName ?? "(none)",
+                                player.Impersonating.IsImmortal ? "{IMMORTAL}" : string.Empty);
                         else
                             sb.AppendFormatLine("[ IG] {0} playing something", player.DisplayName);
                         break;
@@ -56,7 +57,13 @@ namespace Mud.Server.Admin
                 {
                     case PlayerStates.Impersonating:
                         if (admin.Impersonating != null)
-                            sb.AppendFormatLine("[ IG] [{0}] {1} impersonating {2}", admin.Level, admin.DisplayName, admin.Impersonating.DisplayName);
+                            sb.AppendFormatLine("[ IG] {0} playing {1} [lvl: {2} Class: {3} Race: {4}] {5}",
+                                admin.DisplayName,
+                                admin.Impersonating.DisplayName,
+                                admin.Impersonating.Level,
+                                admin.Impersonating.Class?.DisplayName ?? "(none)",
+                                admin.Impersonating.Race?.DisplayName ?? "(none)",
+                                admin.Impersonating.IsImmortal ? "{IMMORTAL}" : string.Empty);
                         else if (admin.Incarnating != null)
                             sb.AppendFormatLine("[ IG] [{0}] {1} incarnating {2}", admin.Level, admin.DisplayName, admin.Incarnating.DisplayName);
                         else
@@ -72,7 +79,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("areas", "Information", Priority = 10)]
+        [AdminCommand("areas", "Information", Priority = 10)]
         protected override CommandExecutionResults DoAreas(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = TableGenerators.FullInfoAreaTableGenerator.Value.Generate("Areas", World.Areas);
@@ -80,7 +87,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("abilities", "Information")]
+        [AdminCommand("abilities", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] <class>",
@@ -94,7 +101,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("spells", "Information")]
+        [AdminCommand("spells", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] <class>",
@@ -108,7 +115,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("skills", "Information")]
+        [AdminCommand("skills", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] <class>",
@@ -122,7 +129,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("wiznet", "Information")]
+        [AdminCommand("wiznet", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] all",
@@ -167,7 +174,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("stat", "Information")]
+        [AdminCommand("stat", "Information")]
         protected virtual CommandExecutionResults DoStat(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -189,7 +196,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("rstat", "Information")]
+        [AdminCommand("rstat", "Information")]
         [Syntax("[cmd] <id>")]
         protected virtual CommandExecutionResults DoRstat(string rawParameters, params CommandParameter[] parameters)
         {
@@ -261,8 +268,8 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("cstat", "Information")]
-        [Command("mstat", "Information")]
+        [AdminCommand("cstat", "Information")]
+        [AdminCommand("mstat", "Information")]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoCstat(string rawParameters, params CommandParameter[] parameters)
         {
@@ -352,6 +359,7 @@ namespace Mud.Server.Admin
             {
                 sb.AppendFormatLine("Act: {0}", nonPlayableVictim.ActFlags);
                 sb.AppendFormatLine("Offensive: {0}", nonPlayableVictim.OffensiveFlags);
+                sb.AppendFormatLine("Assist: {0}", nonPlayableVictim.AssistFlags);
             }
             if (playableVictim != null)
             {
@@ -397,8 +405,8 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("istat", "Information")]
-        [Command("ostat", "Information")]
+        [AdminCommand("istat", "Information")]
+        [AdminCommand("ostat", "Information")]
         [Syntax("[cmd] <item>")]
         protected virtual CommandExecutionResults DoIstat(string rawParameters, params CommandParameter[] parameters)
         {
@@ -522,8 +530,8 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("cfind", "Information")]
-        [Command("mfind", "Information")]
+        [AdminCommand("cfind", "Information")]
+        [AdminCommand("mfind", "Information")]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoCfind(string rawParameters, params CommandParameter[] parameters)
         {
@@ -546,8 +554,8 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("ifind", "Information")]
-        [Command("ofind", "Information")]
+        [AdminCommand("ifind", "Information")]
+        [AdminCommand("ofind", "Information")]
         [Syntax("[cmd] <item>")]
         protected virtual CommandExecutionResults DoIfind(string rawParameters, params CommandParameter[] parameters)
         {
@@ -570,8 +578,8 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("cinfo", "Information")]
-        [Command("minfo", "Information")]
+        [AdminCommand("cinfo", "Information")]
+        [AdminCommand("minfo", "Information")]
         [Syntax("[cmd] <id>")]
         protected virtual CommandExecutionResults DoCinfo(string rawParameters, params CommandParameter[] parameters)
         {
@@ -615,8 +623,8 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("iinfo", "Information")]
-        [Command("oinfo", "Information")]
+        [AdminCommand("iinfo", "Information")]
+        [AdminCommand("oinfo", "Information")]
         [Syntax("[cmd] <id>")]
         protected virtual CommandExecutionResults DoIinfo(string rawParameters, params CommandParameter[] parameters)
         {
@@ -889,7 +897,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("info", "Information")]
+        [AdminCommand("info", "Information")]
         [Syntax(
             "[cmd] race",
             "[cmd] class",

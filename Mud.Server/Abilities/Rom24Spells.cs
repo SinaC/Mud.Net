@@ -185,7 +185,7 @@ namespace Mud.Server.Abilities
             // Compute chance of stopping combat
             int chance = 4 * level - maxLevel + 2 * count;
             // Always works if admin
-            if (caster is IPlayableCharacter pcCaster && pcCaster.ImpersonatedBy is Admin.Admin)
+            if (caster is IPlayableCharacter pcCaster && pcCaster.IsImmortal)
                 sumLevel = 0;
             // Harder to stop large fights
             if (RandomManager.Range(0, chance) < sumLevel)
@@ -1477,7 +1477,7 @@ namespace Mud.Server.Abilities
         public void SpellLocateObject(IAbility ability, int level, ICharacter caster, string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
-            int maxFound = (caster as IPlayableCharacter)?.ImpersonatedBy is IAdmin
+            int maxFound = (caster as IPlayableCharacter)?.IsImmortal == true
                 ? 200
                 : level * 2;
             int number = 0;
@@ -1496,7 +1496,12 @@ namespace Mud.Server.Abilities
                 }
 
                 if (item.ContainedInto is IRoom room)
-                    sb.AppendFormatLine("One is in {0}", room.DisplayName);
+                {
+                    if ((caster as IPlayableCharacter)?.IsImmortal == true)
+                        sb.AppendFormatLine("One is in {0} (room {1})", room.DisplayName, room.Blueprint?.Id.ToString() ?? "???");
+                    else
+                        sb.AppendFormatLine("One is in {0}", room.DisplayName);
+                }
                 else if (item.ContainedInto is ICharacter character && caster.CanSee(character))
                     sb.AppendFormatLine("One is carried by {0}", character.DisplayName);
                 else if (item.EquippedBy != null && caster.CanSee(item.EquippedBy))
@@ -1562,16 +1567,19 @@ namespace Mud.Server.Abilities
 
             // search warpstone
             IItemWarpstone stone = caster.GetEquipment(EquipmentSlots.OffHand) as IItemWarpstone;
-            if (stone == null)
+            if (stone == null && (caster as IPlayableCharacter)?.IsImmortal != true)
             {
                 caster.Send("You lack the proper component for this spell.");
                 return;
             }
 
             // destroy warpstone
-            caster.Act(ActOptions.ToCharacter, "You draw upon the power of {0}.", stone);
-            caster.Act(ActOptions.ToCharacter, "It flares brightly and vanishes!");
-            World.RemoveItem(stone);
+            if (stone != null)
+            {
+                caster.Act(ActOptions.ToCharacter, "You draw upon the power of {0}.", stone);
+                caster.Act(ActOptions.ToCharacter, "It flares brightly and vanishes!");
+                World.RemoveItem(stone);
+            }
 
             int duration = 1 + level / 10;
 
@@ -1698,16 +1706,19 @@ namespace Mud.Server.Abilities
 
             // search warpstone
             IItemWarpstone stone = caster.GetEquipment(EquipmentSlots.OffHand) as IItemWarpstone;
-            if (stone == null)
+            if (stone == null && (caster as IPlayableCharacter)?.IsImmortal != true)
             {
                 caster.Send("You lack the proper component for this spell.");
                 return;
             }
 
             // destroy warpsone
-            caster.Act(ActOptions.ToCharacter, "You draw upon the power of {0}.", stone);
-            caster.Act(ActOptions.ToCharacter, "It flares brightly and vanishes!");
-            World.RemoveItem(stone);
+            if (stone != null)
+            {
+                caster.Act(ActOptions.ToCharacter, "You draw upon the power of {0}.", stone);
+                caster.Act(ActOptions.ToCharacter, "It flares brightly and vanishes!");
+                World.RemoveItem(stone);
+            }
 
             // create portal
             IItemPortal portal = World.AddItem(Guid.NewGuid(), Settings.PortalBlueprintId, caster.Room) as IItemPortal;
@@ -2045,7 +2056,7 @@ namespace Mud.Server.Abilities
                 || victim.Room.RoomFlags.HasFlag(RoomFlags.ImpOnly)
                 || npcVictim?.ActFlags.HasFlag(ActFlags.Aggressive) == true
                 || victim.Level >= level+3
-                || pcVictim?.ImpersonatedBy is IAdmin
+                || pcVictim?.IsImmortal == true
                 || victim.Fighting != null
                 || npcVictim?.Immunities.HasFlag(IRVFlags.Summon) == true
                 //TODO: shop || nonPlayableCharacterVictim
@@ -2154,6 +2165,25 @@ namespace Mud.Server.Abilities
             pcVictim.ChangeRoom(recallRoom);
             pcVictim.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pcVictim);
             pcVictim.AutoLook();
+
+            // Pets follows
+            foreach (INonPlayableCharacter pet in pcVictim.Pets)
+            {
+                // no recursive call because DoRecall has been coded for IPlayableCharacter
+                if (pet.CharacterFlags.HasFlag(CharacterFlags.Curse))
+                    continue; // pet failing doesn't impact return value
+                if (pet.Fighting != null)
+                {
+                    if (!RandomManager.Chance(80))
+                        continue;// pet failing doesn't impact return value
+                    pet.StopFighting(true);
+                }
+
+                pet.Act(ActOptions.ToRoom, "{0:N} disappears", pet);
+                pet.ChangeRoom(recallRoom);
+                pet.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pet);
+                pet.AutoLook();
+            }
         }
 
         // NPC Spells

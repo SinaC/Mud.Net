@@ -276,7 +276,7 @@ namespace Mud.Server.Character
                         return CommandExecutionResults.InvalidTarget;
                     }
                     bool closeableItemKeyFound = Inventory.OfType<IItemKey>().Any(x => x.Blueprint.Id == itemCloseable.KeyId);
-                    if (!closeableItemKeyFound)
+                    if (!closeableItemKeyFound && (this as IPlayableCharacter)?.IsImmortal != true)
                     {
                         Send("You lack the key.");
                         return CommandExecutionResults.NoExecution;
@@ -378,7 +378,7 @@ namespace Mud.Server.Character
                         return CommandExecutionResults.InvalidTarget;
                     }
                     bool closeableItemKeyFound = Inventory.OfType<IItemKey>().Any(x => x.Blueprint.Id == itemCloseable.KeyId);
-                    if (!closeableItemKeyFound)
+                    if (!closeableItemKeyFound && (this as IPlayableCharacter)?.IsImmortal != true)
                     {
                         Send("You lack the key.");
                         return CommandExecutionResults.NoExecution;

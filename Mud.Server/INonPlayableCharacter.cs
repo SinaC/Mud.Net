@@ -15,8 +15,8 @@ namespace Mud.Server
         int DamageDiceBonus { get; }
 
         ActFlags ActFlags { get; }
-
         OffensiveFlags OffensiveFlags { get; }
+        AssistFlags AssistFlags { get; }
 
         bool IsQuestObjective(IPlayableCharacter questingCharacter);
 

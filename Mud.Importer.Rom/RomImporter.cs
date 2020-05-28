@@ -982,6 +982,8 @@ namespace Mud.Importer.Rom
             if (IsSet(objectData.ExtraFlags, ITEM_BURN_PROOF)) itemFlags |= ItemFlags.BurnProof;
             if (IsSet(objectData.ExtraFlags, ITEM_NOUNCURSE)) itemFlags |= ItemFlags.NoUncurse;
 
+            if (IsSet(objectData.WearFlags, ITEM_NO_SAC)) itemFlags |= ItemFlags.NoSacrifice;
+
             return itemFlags;
         }
 
@@ -1206,6 +1208,8 @@ namespace Mud.Importer.Rom
                 damageNoun = attackTableEntry.noun;
             }
 
+            (OffensiveFlags offensiveFlags, AssistFlags assistFlags) offAssistFlags = ConvertOffensiveFlags(mobileData.OffFlags);
+
             CharacterNormalBlueprint blueprint = new CharacterNormalBlueprint
             {
                 Id = mobileData.VNum,
@@ -1234,12 +1238,13 @@ namespace Mud.Importer.Rom
                 ArmorBash = mobileData.Armor[1],
                 ArmorSlash = mobileData.Armor[2],
                 ArmorExotic = mobileData.Armor[3],
-                CharacterFlags = ConvertMysteryCharacterFlags(mobileData.AffectedBy),
-                ActFlags = ConvertMysteryActFlags(mobileData.Act),
-                OffensiveFlags = ConvertMysteryOffensiveFlags(mobileData.OffFlags),
-                Immunities = ConvertMysteryIRV(mobileData.ImmFlags),
-                Resistances = ConvertMysteryIRV(mobileData.ResFlags),
-                Vulnerabilities = ConvertMysteryIRV(mobileData.VulnFlags),
+                CharacterFlags = ConvertCharacterFlags(mobileData.AffectedBy),
+                ActFlags = ConvertActFlags(mobileData.Act),
+                OffensiveFlags = offAssistFlags.offensiveFlags,
+                AssistFlags = offAssistFlags.assistFlags,
+                Immunities = ConvertIRV(mobileData.ImmFlags),
+                Resistances = ConvertIRV(mobileData.ResFlags),
+                Vulnerabilities = ConvertIRV(mobileData.VulnFlags),
             };
             return blueprint;
         }
@@ -1269,7 +1274,7 @@ namespace Mud.Importer.Rom
             }
         }
 
-        private IRVFlags ConvertMysteryIRV(long value)
+        private IRVFlags ConvertIRV(long value)
         {
             IRVFlags flags = 0;
             if (IsSet(value, IMM_SUMMON)) flags |= IRVFlags.Summon;
@@ -1299,7 +1304,7 @@ namespace Mud.Importer.Rom
             return flags;
         }
 
-        private CharacterFlags ConvertMysteryCharacterFlags(long affectedBy)
+        private CharacterFlags ConvertCharacterFlags(long affectedBy)
         {
             CharacterFlags flags = CharacterFlags.None;
             if (IsSet(affectedBy, AFF_BLIND)) flags |= CharacterFlags.Blind;
@@ -1335,7 +1340,7 @@ namespace Mud.Importer.Rom
             return flags;
         }
 
-        private ActFlags ConvertMysteryActFlags(long act)
+        private ActFlags ConvertActFlags(long act)
         {
             ActFlags flags = ActFlags.None;
 
@@ -1364,31 +1369,34 @@ namespace Mud.Importer.Rom
             return flags;
         }
 
-        private OffensiveFlags ConvertMysteryOffensiveFlags(long off)
+        private (OffensiveFlags, AssistFlags) ConvertOffensiveFlags(long input)
         {
-            OffensiveFlags flags = OffensiveFlags.None;
-            if (IsSet(off, OFF_AREA_ATTACK)) flags |= OffensiveFlags.AreaAttack;
-            if (IsSet(off, OFF_BACKSTAB)) flags |= OffensiveFlags.Backstab;
-            if (IsSet(off, OFF_BASH)) flags |= OffensiveFlags.Bash;
-            if (IsSet(off, OFF_BERSERK)) flags |= OffensiveFlags.Berserk;
-            if (IsSet(off, OFF_DISARM)) flags |= OffensiveFlags.Disarm;
-            if (IsSet(off, OFF_DODGE)) flags |= OffensiveFlags.Dodge;
-            if (IsSet(off, OFF_FADE)) flags |= OffensiveFlags.Fade;
-            if (IsSet(off, OFF_FAST)) flags |= OffensiveFlags.Fast;
-            if (IsSet(off, OFF_KICK)) flags |= OffensiveFlags.Kick;
-            if (IsSet(off, OFF_KICK_DIRT)) flags |= OffensiveFlags.DirtKick;
-            if (IsSet(off, OFF_PARRY)) flags |= OffensiveFlags.Parry;
-            if (IsSet(off, OFF_RESCUE)) flags |= OffensiveFlags.Rescue;
-            if (IsSet(off, OFF_TAIL)) flags |= OffensiveFlags.Tail;
-            if (IsSet(off, OFF_TRIP)) flags |= OffensiveFlags.Trip;
-            if (IsSet(off, OFF_CRUSH)) flags |= OffensiveFlags.Crush;
-            //ASSIST_ALL))
-            //ASSIST_ALIGN))
-            //ASSIST_RACE
-            //ASSIST_PLAYERS
-            //ASSIST_GUARD
-            //ASSIST_VNUM
-            return flags;
+            OffensiveFlags off = OffensiveFlags.None;
+            if (IsSet(input, OFF_AREA_ATTACK)) off |= OffensiveFlags.AreaAttack;
+            if (IsSet(input, OFF_BACKSTAB)) off |= OffensiveFlags.Backstab;
+            if (IsSet(input, OFF_BASH)) off |= OffensiveFlags.Bash;
+            if (IsSet(input, OFF_BERSERK)) off |= OffensiveFlags.Berserk;
+            if (IsSet(input, OFF_DISARM)) off |= OffensiveFlags.Disarm;
+            if (IsSet(input, OFF_DODGE)) off |= OffensiveFlags.Dodge;
+            if (IsSet(input, OFF_FADE)) off |= OffensiveFlags.Fade;
+            if (IsSet(input, OFF_FAST)) off |= OffensiveFlags.Fast;
+            if (IsSet(input, OFF_KICK)) off |= OffensiveFlags.Kick;
+            if (IsSet(input, OFF_KICK_DIRT)) off |= OffensiveFlags.DirtKick;
+            if (IsSet(input, OFF_PARRY)) off |= OffensiveFlags.Parry;
+            if (IsSet(input, OFF_RESCUE)) off |= OffensiveFlags.Rescue;
+            if (IsSet(input, OFF_TAIL)) off |= OffensiveFlags.Tail;
+            if (IsSet(input, OFF_TRIP)) off |= OffensiveFlags.Trip;
+            if (IsSet(input, OFF_CRUSH)) off |= OffensiveFlags.Crush;
+
+            AssistFlags assist = AssistFlags.None;
+            if (IsSet(input, ASSIST_ALL)) assist |= AssistFlags.All;
+            if (IsSet(input, ASSIST_ALIGN)) assist |= AssistFlags.Align;
+            if (IsSet(input, ASSIST_RACE)) assist |= AssistFlags.Race;
+            if (IsSet(input, ASSIST_PLAYERS)) assist |= AssistFlags.Players;
+            if (IsSet(input, ASSIST_GUARD)) assist |= AssistFlags.Guard;
+            if (IsSet(input, ASSIST_VNUM)) assist |= AssistFlags.Vnum;
+
+            return (off, assist);
         }
 
         // Immunites, Resistances, Vulnerabilities

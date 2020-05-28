@@ -229,6 +229,20 @@ namespace Mud.Server.Helpers
             }
         }
 
+        public static string PrettyPrint(this AutoFlags flag)
+        {
+            switch (flag)
+            {
+                case AutoFlags.Assist: return "autoassist";
+                case AutoFlags.Exit: return "autoexit";
+                case AutoFlags.Sacrifice: return "autosacrifice";
+                case AutoFlags.Gold: return "autogold";
+                case AutoFlags.Split: return "autosplit";
+                case AutoFlags.Loot: return "autoloot";
+                default: return "???";
+            }
+        }
+
         public static string ItemType(this ItemBlueprintBase blueprint) => blueprint.GetType().Name.Replace("Item", string.Empty).Replace("Blueprint", string.Empty);
     }
 }

@@ -335,6 +335,8 @@ namespace Mud.Server.Character
         // Visibility
         public bool CanSee(ICharacter victim)
         {
+            if ((this as IPlayableCharacter)?.IsImmortal == true)
+                return true;
             if (victim == this)
                 return true;
             // blind
@@ -372,6 +374,8 @@ namespace Mud.Server.Character
 
         public virtual bool CanSee(IItem item)
         {
+            if ((this as IPlayableCharacter)?.IsImmortal == true)
+                return true;
 
             // visible death
             if (item.ItemFlags.HasFlag(ItemFlags.VisibleDeath))
@@ -401,15 +405,21 @@ namespace Mud.Server.Character
             if (item.ItemFlags.HasFlag(ItemFlags.Glowing))
                 return true;
 
-            // todo: check on dark room + infrared
-            //if (room_is_dark(ch->in_room) && !IS_AFFECTED(ch, AFF_INFRARED))
-            //    return FALSE;
+            // room dark
+            if (Room.IsDark && !CharacterFlags.HasFlag(CharacterFlags.Infrared))
+                return false;
 
             return true;
         }
 
         public bool CanSee(IExit exit)
         {
+            if ((this as IPlayableCharacter)?.IsImmortal == true)
+                return true;
+            if (CharacterFlags.HasFlag(CharacterFlags.DetectHidden))
+                return true;
+            //if (exit.ExitFlags.HasFlag(ExitFlags.IsHidden))
+            //    return false;
             return true; // TODO: Hidden
         }
 
@@ -422,15 +432,15 @@ namespace Mud.Server.Character
             //&& get_trust(ch) < MAX_LEVEL)
             //            return FALSE;
 
-            //        if (IS_SET(pRoomIndex->room_flags, ROOM_GODS_ONLY)
-            //        && !IS_IMMORTAL(ch))
-            //            return FALSE;
+            if (room.RoomFlags.HasFlag(RoomFlags.GodsOnly)
+                && (this as IPlayableCharacter)?.IsImmortal != true)
+                return false;
 
             //        if (IS_SET(pRoomIndex->room_flags, ROOM_HEROES_ONLY)
             //        && !IS_IMMORTAL(ch))
             //            return FALSE;
 
-            if (room.RoomFlags.HasFlag(RoomFlags.NewbiesOnly) && Level > 5)
+            if (room.RoomFlags.HasFlag(RoomFlags.NewbiesOnly) && Level > 5 && (this as IPlayableCharacter)?.IsImmortal != true)
                 return false;
 
             //        if (!IS_IMMORTAL(ch) && pRoomIndex->clan && ch->clan != pRoomIndex->clan)
@@ -699,13 +709,14 @@ namespace Mud.Server.Character
             }
             // Flying
             if ((fromRoom.SectorType == SectorTypes.Air || toRoom.SectorType == SectorTypes.Air)
-                && !CharacterFlags.HasFlag(CharacterFlags.Flying))
+                && (!CharacterFlags.HasFlag(CharacterFlags.Flying) && (this as IPlayableCharacter)?.IsImmortal != true))
             {
                 Send("You can't fly.");
                 return false;
             }
             // Water
             if ((fromRoom.SectorType == SectorTypes.WaterSwim || toRoom.SectorType == SectorTypes.WaterSwim)
+                && (this as IPlayableCharacter)?.IsImmortal != true
                 && !CharacterFlags.HasFlag(CharacterFlags.Swim)
                 && !CharacterFlags.HasFlag(CharacterFlags.Flying)
                 && !Inventory.OfType<IItemBoat>().Any()) // TODO: WalkOnWater
@@ -715,6 +726,7 @@ namespace Mud.Server.Character
             }
             // Water no swim or underwater
             if ((fromRoom.SectorType == SectorTypes.WaterNoSwim || toRoom.SectorType == SectorTypes.WaterNoSwim)
+                && (this as IPlayableCharacter)?.IsImmortal != true
                 && !CharacterFlags.HasFlag(CharacterFlags.Flying)) // TODO: WalkOnWater
             {
                 Send("You need to be flying or walking on water.");
@@ -867,6 +879,10 @@ namespace Mud.Server.Character
         }
 
         // Combat
+        public abstract SchoolTypes NoWeaponDamageType { get; }
+        public abstract int NoWeaponBaseDamage { get; }
+        public abstract string NoWeaponDamageNoun { get; }
+
         public virtual void UpdatePosition()
         {
             if (HitPoints > 0)
@@ -936,7 +952,7 @@ namespace Mud.Server.Character
             string damageNoun;
             // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (wield == null)
-                damageNoun = NoWeaponDamageNoun;
+                damageNoun = source.NoWeaponDamageNoun;
             else
                 damageNoun = wield.DamageNoun;
             if (string.IsNullOrWhiteSpace(damageNoun))
@@ -1078,10 +1094,11 @@ namespace Mud.Server.Character
 
             // hurt the victim
             HitPoints -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0
-            // immortals don't really die TODO
-            //if (victim is IPlayableCharacter
-            //    && victim.HitPoints < 1)
-            //    victim.UpdateHitPoints(1 - victim.HitPoints); // set to 1
+            // immortals don't really die
+            if ((this as IPlayableCharacter)?.IsImmortal == true
+                && HitPoints < 1)
+                HitPoints = 1;
+            // Update position
             UpdatePosition();
             switch (Position)
             {
@@ -1231,7 +1248,7 @@ namespace Mud.Server.Character
             RawKilled(killer, false);
         }
 
-        public abstract void KillingPayoff(ICharacter victim);
+        public abstract void KillingPayoff(ICharacter victim, IItemCorpse corpse);
 
         public abstract void DeathPayoff(ICharacter killer);
 
@@ -1268,7 +1285,7 @@ namespace Mud.Server.Character
                 return true;
             if (victim.Fighting == caster || victim == caster)
                 return false;
-            if (!area && (caster is IPlayableCharacter pcCaster && pcCaster.ImpersonatedBy is IAdmin))
+            if (!area && (caster is IPlayableCharacter pcCaster && pcCaster.IsImmortal))
                 return false;
             // Killing npc
             if (victim is INonPlayableCharacter npcVictim)
@@ -1305,7 +1322,7 @@ namespace Mud.Server.Character
             // Killing players
             else
             {
-                if (area && (victim is IPlayableCharacter pcVictim && pcVictim.ImpersonatedBy is IAdmin))
+                if (area && (victim is IPlayableCharacter pcVictim && pcVictim.IsImmortal))
                     return true;
                 // Npc doing the killing
                 if (caster is INonPlayableCharacter npcCaster)
@@ -1346,7 +1363,7 @@ namespace Mud.Server.Character
                 return true;
             if (victim.Fighting == aggressor || victim == aggressor)
                 return false;
-            if (aggressor is IPlayableCharacter pcCaster && pcCaster.ImpersonatedBy is IAdmin)
+            if (aggressor is IPlayableCharacter pcCaster && pcCaster.IsImmortal)
                 return false;
             // Killing npc
             if (victim is INonPlayableCharacter npcVictim)
@@ -1430,7 +1447,7 @@ namespace Mud.Server.Character
             }
             return false;
         }
-
+        
         // Abilities
         public abstract (int learned, KnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon);
 
@@ -1828,13 +1845,6 @@ namespace Mud.Server.Character
             // Death cry
             ActToNotVictim(this, "You hear {0}'s death cry.", this); // TODO: custom death cry
 
-            // Gain/lose xp/reputation   damage.C:32   was done before removing auras and stop fighting
-            if (payoff)
-            {
-                characterKiller?.KillingPayoff(this);
-                DeathPayoff(characterKiller);
-            }
-
             // Create corpse
             ItemCorpseBlueprint itemCorpseBlueprint = World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
             IItemCorpse corpse = null;
@@ -1850,6 +1860,14 @@ namespace Mud.Server.Character
                 Wiznet.Wiznet($"ItemCorpseBlueprint (id:{Settings.CorpseBlueprintId}) doesn't exist !!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             }
 
+            // Gain/lose xp/reputation   damage.C:32   was done before removing auras and stop fighting
+            if (payoff)
+            {
+                characterKiller?.KillingPayoff(this, corpse);
+                DeathPayoff(characterKiller);
+            }
+
+            //
             HandleDeath();
 
             return corpse;
@@ -1860,12 +1878,6 @@ namespace Mud.Server.Character
         protected abstract void HandleWimpy(int damage);
 
         protected abstract (int thac0_00, int thac0_32) GetThac0();
-
-        protected abstract SchoolTypes NoWeaponDamageType { get; }
-
-        protected abstract int NoWeaponBaseDamage { get; }
-
-        protected abstract string NoWeaponDamageNoun { get; }
 
         protected int GetWeaponBaseDamage(IItemWeapon weapon, int weaponLearned)
         {
@@ -1931,7 +1943,7 @@ namespace Mud.Server.Character
             if (victim.Position < Positions.Resting)
                 victimAc += 6;
             // miss ?
-            int diceroll = RandomManager.Range(0, 19); // 0->miss 19->success
+            int diceroll = RandomManager.Range(0, 19); // 0:miss 19:success
             if (diceroll == 0
                 || (diceroll != 19 && diceroll < thac0 - victimAc))
             {

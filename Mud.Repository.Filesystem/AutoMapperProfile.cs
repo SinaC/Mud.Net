@@ -41,7 +41,8 @@ namespace Mud.Repository.Filesystem
             CreateMap<Mud.Domain.PlayableCharacterData, Domain.PlayableCharacterData>()
                 .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapFromDictionary(x.Conditions, MapConditions)))
                 .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapFromDictionary(x.Aliases)))
-                .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapFromDictionary(x.Cooldowns, y => y)));
+                .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapFromDictionary(x.Cooldowns, y => y)))
+                .ForMember(x => x.AutoFlags, expression => expression.MapFrom(x => MapAutoFlags(x.AutoFlags)));
             CreateMap<Mud.Domain.PetData, Domain.PetData>();
 
             CreateMap<Mud.Domain.ItemData, Domain.ItemData>()
@@ -135,7 +136,8 @@ namespace Mud.Repository.Filesystem
             CreateMap<Domain.PlayableCharacterData, Mud.Domain.PlayableCharacterData>()
                 .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapToDictionary(x.Conditions, MapConditions)))
                 .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapToDictionary(x.Aliases)))
-                .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapToDictionary(x.Cooldowns, y => y)));
+                .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapToDictionary(x.Cooldowns, y => y)))
+                .ForMember(x => x.AutoFlags, expression => expression.MapFrom(x => MapAutoFlags(x.AutoFlags)));
             CreateMap<Domain.PetData, Mud.Domain.PetData>();
 
             CreateMap<Domain.ItemData, Mud.Domain.ItemData>()
@@ -762,6 +764,16 @@ namespace Mud.Repository.Filesystem
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid Sizes {size} while writing pfile");
                     return 0;
             }
+        }
+
+        private Mud.Domain.AutoFlags MapAutoFlags(int flags)
+        {
+            return (Mud.Domain.AutoFlags) flags;
+        }
+
+        private int MapAutoFlags(Mud.Domain.AutoFlags flags)
+        {
+            return (int)flags;
         }
     }
 }

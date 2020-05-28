@@ -30,9 +30,13 @@ namespace Mud.Server.Item
             {
                 DecayPulseLeft = RandomManager.Range(25, 40) * Pulse.PulsePerMinutes;
                 BaseItemFlags |= ItemFlags.NoPurge; // was handled in object description in limbo.are
+                NoTake = true;
             }
             else
+            {
                 DecayPulseLeft = RandomManager.Range(3, 6) * Pulse.PulsePerMinutes;
+                NoTake = false;
+            }
 
             // Money
             if (victim.SilverCoins > 0 || victim.GoldCoins > 0)
@@ -202,8 +206,10 @@ namespace Mud.Server.Item
             if (item.ItemFlags.HasFlag(ItemFlags.Inventory))
                 return PerformActionOnItemResults.Destroy;
             // TODO: check stay death flag
-            // TODO: if potion: timer 500->1000
-            // TODO: if scroll: timer 1000->2500
+            if (item is IItemPotion)
+                item.SetTimer(TimeSpan.FromMinutes(RandomManager.Range(500,1000)));
+            else if (item is IItemScroll)
+                item.SetTimer(TimeSpan.FromMinutes(RandomManager.Range(1000, 2500)));
             if (item.ItemFlags.HasFlag((ItemFlags.VisibleDeath)))
                 item.RemoveBaseItemFlags(ItemFlags.VisibleDeath);
             bool isFloating = item.WearLocation == WearLocations.Float;

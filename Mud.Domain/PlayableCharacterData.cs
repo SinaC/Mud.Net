@@ -21,6 +21,8 @@ namespace Mud.Domain
 
         public int Practices { get; set; }
 
+        public AutoFlags AutoFlags { get; set; }
+
         public CurrentQuestData[] CurrentQuests { get; set; }
 
         public KnownAbilityData[] KnownAbilities { get; set; }

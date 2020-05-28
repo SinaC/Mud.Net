@@ -18,10 +18,13 @@ namespace Mud.Server.Common
             return Enum.TryParse(name, true, out value);
         }
 
-        public static bool TryFindByPrefix<T>(string prefix, out T value)
+        public static bool TryFindByPrefix<T>(string prefix, out T value, params T[] excluded)
             where T : struct, Enum
         {
-            string name = Enum.GetNames(typeof(T)).FirstOrDefault(x => x.StartsWith(prefix, StringComparison.InvariantCultureIgnoreCase));
+            IEnumerable<string> names = excluded?.Length > 0 
+                ? Enum.GetValues(typeof(T)).Cast<T>().Except(excluded).Select(x => x.ToString())
+                : Enum.GetNames(typeof(T));
+            string name = names.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x, prefix));
             if (!string.IsNullOrWhiteSpace(name))
                 return Enum.TryParse(name, true, out value);
             value = default;

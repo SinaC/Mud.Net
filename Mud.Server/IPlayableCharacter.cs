@@ -12,11 +12,14 @@ namespace Mud.Server
         IReadOnlyDictionary<string, string> Aliases { get; }
 
         long ExperienceToLevel { get; }
+        bool IsImmortal { get; }
 
         // Attributes
         long Experience { get; }
         int Trains { get; }
         int Practices { get; }
+
+        AutoFlags AutoFlags { get; }
 
         // Conditions: drunk, full, thirst, hunger
         int this[Conditions condition] { get; }
@@ -51,6 +54,9 @@ namespace Mud.Server
 
         // Ability
         bool CheckAbilityImprove(KnownAbility ability, bool abilityUsedSuccessfully, int multiplier);
+
+        // Immortality
+        void ChangeImmortalState(bool isImmortal);
 
         // Mapping
         PlayableCharacterData MapPlayableCharacterData();

@@ -27,6 +27,7 @@ namespace Mud.Repository.Mongo
 
             CreateMap<Mud.Domain.CharacterData, Domain.CharacterData>()
                 .Include<Mud.Domain.PlayableCharacterData, Domain.PlayableCharacterData>()
+                .Include<Mud.Domain.PetData, Domain.PetData>()
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)))
                 .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => MapCharacterFlags(x.CharacterFlags)))
                 .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
@@ -37,7 +38,9 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapFromDictionary(x.MaxResources, MapResourceKind)))
                 .ForMember(x => x.Size, expression => expression.MapFrom(x => MapSizes(x.Size)));
             CreateMap<Mud.Domain.PlayableCharacterData, Domain.PlayableCharacterData>()
-                .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapFromDictionary(x.Conditions, MapConditions)));
+                .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapFromDictionary(x.Conditions, MapConditions)))
+                .ForMember(x => x.AutoFlags, expression => expression.MapFrom(x => MapAutoFlags(x.AutoFlags)));
+            CreateMap<Mud.Domain.PetData, Domain.PetData>();
 
             CreateMap<Mud.Domain.ItemData, Domain.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
@@ -113,6 +116,7 @@ namespace Mud.Repository.Mongo
 
             CreateMap<Domain.CharacterData, Mud.Domain.CharacterData>()
                 .Include<Domain.PlayableCharacterData, Mud.Domain.PlayableCharacterData>()
+                .Include<Domain.PetData, Mud.Domain.PetData>()
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)))
                 .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => MapCharacterFlags(x.CharacterFlags)))
                 .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
@@ -123,7 +127,9 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapToDictionary(x.MaxResources, MapResourceKind)))
                 .ForMember(x => x.Size, expression => expression.MapFrom(x => MapSizes(x.Size)));
             CreateMap<Domain.PlayableCharacterData, Mud.Domain.PlayableCharacterData>()
-                .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapToDictionary(x.Conditions, MapConditions)));
+                .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapToDictionary(x.Conditions, MapConditions)))
+                .ForMember(x => x.AutoFlags, expression => expression.MapFrom(x => MapAutoFlags(x.AutoFlags)));
+            CreateMap<Domain.PetData, Mud.Domain.PetData>();
 
             CreateMap<Domain.ItemData, Mud.Domain.ItemData>()
                 .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
@@ -733,6 +739,16 @@ namespace Mud.Repository.Mongo
                     Log.Default.WriteLine(LogLevels.Error, $"Invalid Sizes {size} while writing pfile");
                     return 0;
             }
+        }
+
+        private Mud.Domain.AutoFlags MapAutoFlags(int flags)
+        {
+            return (Mud.Domain.AutoFlags)flags;
+        }
+
+        private int MapAutoFlags(Mud.Domain.AutoFlags flags)
+        {
+            return (int)flags;
         }
     }
 }

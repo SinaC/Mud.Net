@@ -94,6 +94,9 @@ namespace Mud.Server.Blueprints.Character
         public OffensiveFlags OffensiveFlags { get; set; }
 
         [DataMember]
+        public AssistFlags AssistFlags { get; set; }
+
+        [DataMember]
         public CharacterFlags CharacterFlags { get; set; }
 
         [DataMember]

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Configuration;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -647,7 +649,7 @@ namespace Mud.Server.Server
         private void ProcessInput()
         {
             // Read one command from each client and process it
-            foreach (PlayingClient playingClient in _players.Values.Shuffle()) // !! players list cannot be modified while processing inputs
+            foreach (PlayingClient playingClient in _players.Values.Shuffle(RandomManager)) // !! players list cannot be modified while processing inputs
             {
                 if (playingClient.Player != null)
                 {
@@ -1122,6 +1124,9 @@ namespace Mud.Server.Server
             IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(World.Characters.Where(x => x.Fighting != null && x.Room != null).ToList()); // clone because multi hit could kill character and then modify list
             foreach (ICharacter character in clone)
             {
+                INonPlayableCharacter npcCharacter = character as INonPlayableCharacter;
+                IPlayableCharacter pcCharacter = character as IPlayableCharacter;
+
                 ICharacter victim = character.Fighting;
                 if (victim != null)
                 {
@@ -1136,13 +1141,70 @@ namespace Mud.Server.Server
                         {
                             Log.Default.WriteLine(LogLevels.Debug, "Stop fighting between {0} and {1}, because not in same room", character.DebugName, victim.DebugName);
                             character.StopFighting(false);
-                            if (character is INonPlayableCharacter nonPlayableCharacter)
+                            if (npcCharacter != null)
                             {
                                 Log.Default.WriteLine(LogLevels.Debug, "Non-playable character stop fighting, resetting it");
-                                nonPlayableCharacter.Reset();
+                                npcCharacter.Reset();
                             }
                         }
-                        // TODO: check assist
+                        // check auto-assist
+                        foreach (ICharacter inRoom in character.Room.People.Where(x => x.Fighting == null && x.Position > Positions.Sleeping))
+                        {
+                            INonPlayableCharacter npcInRoom = inRoom as INonPlayableCharacter;
+                            IPlayableCharacter pcInRoom = inRoom as IPlayableCharacter;
+                            // quick check for ASSIST_PLAYER
+                            if (pcCharacter != null && npcInRoom != null && npcInRoom.AssistFlags.HasFlag(AssistFlags.Players)
+                                && npcInRoom.Level + 6 > victim.Level)
+                            {
+                                npcInRoom.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcInRoom);
+                                npcInRoom.MultiHit(victim);
+                                continue;
+                            }
+                            // PCs next
+                            if (pcCharacter != null || character.CharacterFlags.HasFlag(CharacterFlags.Charm))
+                            {
+                                bool isPlayerAutoassisting = pcInRoom != null && pcInRoom.AutoFlags.HasFlag(AutoFlags.Assist) && pcCharacter != null && pcCharacter.IsSameGroup(pcInRoom);
+                                bool isNpcAutoassisting = npcInRoom != null && npcInRoom.Master == pcCharacter;
+                                if ((isPlayerAutoassisting || isNpcAutoassisting)
+                                    && !victim.IsSafe(inRoom))
+                                {
+                                    npcInRoom.MultiHit(victim);
+                                    continue;
+                                }
+                            }
+                            // now check the NPC cases
+                            if (npcCharacter != null && !npcCharacter.CharacterFlags.HasFlag(CharacterFlags.Charm)
+                                && npcInRoom != null)
+                            {
+                                bool isAssistAll = npcInRoom.AssistFlags.HasFlag(AssistFlags.All);
+                                bool isAssistGroup = false; // TODO
+                                bool isAssistRace = npcInRoom.AssistFlags.HasFlag(AssistFlags.Race) && npcInRoom.Race == npcCharacter.Race;
+                                bool isAssistAlign = npcInRoom.AssistFlags.HasFlag(AssistFlags.Align) && ((npcInRoom.IsGood && npcCharacter.IsGood) || (npcInRoom.IsNeutral && npcCharacter.IsNeutral) || (npcInRoom.IsEvil && npcCharacter.IsEvil));
+                                bool isAssistVnum = npcInRoom.AssistFlags.HasFlag(AssistFlags.Vnum) && npcInRoom.Blueprint.Id == npcCharacter.Blueprint.Id;
+                                if (isAssistAll || isAssistGroup || isAssistRace || isAssistAlign || isAssistVnum)
+                                {
+                                    if (RandomManager.Chance(50))
+                                        continue;
+
+                                    bool IsInSameGroup(ICharacter ch1, ICharacter ch2)
+                                    {
+                                        INonPlayableCharacter npcCh1 = ch1 as INonPlayableCharacter;
+                                        IPlayableCharacter pcCh1 = ch1 as IPlayableCharacter;
+                                        INonPlayableCharacter npcCh2 = ch2 as INonPlayableCharacter;
+                                        IPlayableCharacter pcCh2 = ch2 as IPlayableCharacter;
+                                        return (pcCh1 != null && pcCh2 != null && pcCh1.IsSameGroup(pcCh2)) || (pcCh1 != null && npcCh2 != null && npcCh2.Master == pcCh1) || (npcCh1 != null && pcCh2 != null && npcCh1.Master == pcCh2);
+                                    }
+
+                                    ICharacter target = character.Room.People.Where(x => npcInRoom.CanSee(x) && IsInSameGroup(x, victim)).Random(RandomManager);
+                                    if (target != null)
+                                    {
+                                        npcInRoom.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcInRoom);
+                                        npcInRoom.MultiHit(target);
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -1186,13 +1248,11 @@ namespace Mud.Server.Server
 
         private void HandleCharacters(int pulseCount)
         {
-            // PC
-            foreach (ICharacter character in World.PlayableCharacters)
+            foreach (ICharacter character in World.Characters)
             {
                 try
                 {
                     IPlayableCharacter pc = character as IPlayableCharacter;
-                    INonPlayableCharacter npc = character as INonPlayableCharacter;
                     if (pc != null && pc.ImpersonatedBy == null) // TODO: remove after x minutes
                         Log.Default.WriteLine(LogLevels.Warning, "Impersonable {0} is not impersonated", character.DebugName);
 
@@ -1235,20 +1295,7 @@ namespace Mud.Server.Server
                 }
                 catch (Exception ex)
                 { 
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling pc character {0}. Exception: {1}", character.DebugName, ex);
-                }
-            }
-            // NPC
-            foreach (INonPlayableCharacter character in World.NonPlayableCharacters)
-            {
-                try
-                {
-                    //
-                    character.Regen();
-                }
-                catch (Exception ex)
-                {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling npc character {0}. Exception: {1}", character.DebugName, ex);
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling character {0}. Exception: {1}", character.DebugName, ex);
                 }
             }
         }
@@ -1257,44 +1304,51 @@ namespace Mud.Server.Server
         {
             foreach (INonPlayableCharacter npc in World.NonPlayableCharacters.Where(x => x.IsValid && !x.CharacterFlags.HasFlag(CharacterFlags.Charm) && x.Position == Positions.Standing/*for all sleeping/busy monsters*/))
             {
-                // is mob update always or area not empty
-                if (npc.ActFlags.HasFlag(ActFlags.UpdateAlways) || npc.Room.Area.PlayableCharacters.Any())
+                try
                 {
-                    // TODO: invoke spec_fun
-                    // TODO: give shop some money
-                    
-                    // scavenger
-                    if (npc.ActFlags.HasFlag(ActFlags.Scavenger) && npc.Room.Content.Any() && RandomManager.Range(0, 63) == 0)
+                    // is mob update always or area not empty
+                    if (npc.ActFlags.HasFlag(ActFlags.UpdateAlways) || npc.Room.Area.PlayableCharacters.Any())
                     {
-                        //Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: scavenger {0} on action", npc.DebugName);
-                        // get most valuable item in room
-                        IItem mostValuable = npc.Room.Content.Where(x => !x.NoTake && x.Cost > 0 /*&& CanLoot(npc, item)*/).OrderByDescending(x => x.Cost).FirstOrDefault();
-                        if (mostValuable != null)
-                        {
-                            npc.Act(ActOptions.ToRoom, "{0} gets {1}.", npc, mostValuable);
-                            mostValuable.ChangeContainer(npc);
-                        }
-                    }
+                        // TODO: invoke spec_fun
+                        // TODO: give shop some money
 
-                    // sentinel
-                    if (!npc.ActFlags.HasFlag(ActFlags.Sentinel) && RandomManager.Range(0,7) == 0)
-                    {
-                        //Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: sentinel {0} on action", npc.DebugName);
-                        int exitNumber = RandomManager.Range(0, 31);
-                        if (exitNumber < EnumHelpers.GetCount<ExitDirections>())
+                        // scavenger
+                        if (npc.ActFlags.HasFlag(ActFlags.Scavenger) && npc.Room.Content.Any() && RandomManager.Range(0, 63) == 0)
                         {
-                            ExitDirections exitDirection = (ExitDirections)exitNumber;
-                            IExit exit = npc.Room[exitDirection];
-                            if (exit != null
-                                && exit.Destination != null
-                                && !exit.IsClosed
-                                && !exit.Destination.RoomFlags.HasFlag(RoomFlags.NoMob)
-                                && (!npc.ActFlags.HasFlag(ActFlags.StayArea) || npc.Room.Area == exit.Destination.Area)
-                                && (!npc.ActFlags.HasFlag(ActFlags.Outdoors) || !exit.Destination.RoomFlags.HasFlag(RoomFlags.Indoors))
-                                && (!npc.ActFlags.HasFlag(ActFlags.Indoors) || exit.Destination.RoomFlags.HasFlag(RoomFlags.Indoors)))
-                                npc.Move(exitDirection, false);
+                            //Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: scavenger {0} on action", npc.DebugName);
+                            // get most valuable item in room
+                            IItem mostValuable = npc.Room.Content.Where(x => !x.NoTake && x.Cost > 0 /*&& CanLoot(npc, item)*/).OrderByDescending(x => x.Cost).FirstOrDefault();
+                            if (mostValuable != null)
+                            {
+                                npc.Act(ActOptions.ToRoom, "{0} gets {1}.", npc, mostValuable);
+                                mostValuable.ChangeContainer(npc);
+                            }
+                        }
+
+                        // sentinel
+                        if (!npc.ActFlags.HasFlag(ActFlags.Sentinel) && RandomManager.Range(0, 7) == 0)
+                        {
+                            //Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: sentinel {0} on action", npc.DebugName);
+                            int exitNumber = RandomManager.Range(0, 31);
+                            if (exitNumber < EnumHelpers.GetCount<ExitDirections>())
+                            {
+                                ExitDirections exitDirection = (ExitDirections)exitNumber;
+                                IExit exit = npc.Room[exitDirection];
+                                if (exit != null
+                                    && exit.Destination != null
+                                    && !exit.IsClosed
+                                    && !exit.Destination.RoomFlags.HasFlag(RoomFlags.NoMob)
+                                    && (!npc.ActFlags.HasFlag(ActFlags.StayArea) || npc.Room.Area == exit.Destination.Area)
+                                    && (!npc.ActFlags.HasFlag(ActFlags.Outdoors) || !exit.Destination.RoomFlags.HasFlag(RoomFlags.Indoors))
+                                    && (!npc.ActFlags.HasFlag(ActFlags.Indoors) || exit.Destination.RoomFlags.HasFlag(RoomFlags.Indoors)))
+                                    npc.Move(exitDirection, false);
+                            }
                         }
                     }
+                }
+                catch (Exception ex)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling npc {0}. Exception: {1}", npc.DebugName, ex);
                 }
             }
         }

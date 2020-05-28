@@ -428,6 +428,13 @@ namespace Mud.Server.Character
             else
                 sb.AppendFormatLine("| %g%Hit:  %W%{0,6}%x%    %g%Dam:  %W%{1,6}%x% |                       |", HitRoll, DamRoll);
             sb.AppendLine("+------------------------------+-------------------------+");
+            if (pc != null)
+            {
+                if (pc.IsImmortal)
+                    sb.AppendLine("You are %G%IMMORTAL%x%");
+                else
+                    sb.AppendLine("You are %R%MORTAL%x%");
+            }
             // TODO: resistances, gold, item, weight, conditions
             //if (!IS_NPC(ch) && ch->pcdata->condition[COND_DRUNK] > 10)
             //    send_to_char("You are drunk.\n\r", ch);
@@ -671,15 +678,17 @@ namespace Mud.Server.Character
         // Helpers
         private void AppendRoom(StringBuilder sb, IRoom room) // equivalent to act_info.C:do_look("auto")
         {
+            IPlayableCharacter playableCharacter = this as IPlayableCharacter;
             // Room name
-            if (this is IPlayableCharacter playableCharacter && playableCharacter.ImpersonatedBy is IAdmin)
+            if (playableCharacter?.IsImmortal == true)
                 sb.AppendFormatLine($"%c%{room.DisplayName} [{room.Blueprint?.Id.ToString() ?? "???"}]%x%");
             else
                 sb.AppendFormatLine("%c%{0}%x%", room.DisplayName);
             // Room description
             sb.Append(room.Description);
             // Exits
-            AppendExits(sb, true);
+            if (playableCharacter != null && playableCharacter.AutoFlags.HasFlag(AutoFlags.Exit))
+                AppendExits(sb, true);
             AppendItems(sb, Room.Content.Where(CanSee), false, false);
             AppendCharacters(sb, Room);
         }
@@ -860,6 +869,8 @@ namespace Mud.Server.Character
         {
             if (compact)
                 sb.Append("[Exits:");
+            else if (this is IPlayableCharacter playableCharacter && playableCharacter.IsImmortal)
+                sb.AppendFormatLine($"Obvious exits from room {Room.Blueprint?.Id.ToString() ?? "???"}:");
             else
                 sb.AppendLine("Obvious exits:");
             bool exitFound = false;
@@ -897,8 +908,8 @@ namespace Mud.Server.Character
                             sb.Append(" (CLOSED)");
                         if (exit.IsHidden)
                             sb.Append(" [HIDDEN]");
-                        if (this is IPlayableCharacter playableCharacter && playableCharacter.ImpersonatedBy is IAdmin)
-                            sb.Append($" [{exit.Destination.Blueprint?.Id.ToString() ?? "???"}]");
+                        if (this is IPlayableCharacter playableCharacter && playableCharacter.IsImmortal)
+                            sb.Append($" (room {exit.Destination.Blueprint?.Id.ToString() ?? "???"})");
                         sb.AppendLine();
                     }
                     exitFound = true;

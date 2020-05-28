@@ -34,6 +34,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             DamageDiceBonus = blueprint.DamageDiceBonus;
             ActFlags = blueprint.ActFlags;
             OffensiveFlags = blueprint.OffensiveFlags;
+            AssistFlags = blueprint.AssistFlags;
             BaseCharacterFlags = blueprint.CharacterFlags;
             BaseImmunities = blueprint.Immunities;
             BaseResistances = blueprint.Resistances;
@@ -108,6 +109,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             DamageDiceBonus = blueprint.DamageDiceBonus;
             ActFlags = blueprint.ActFlags;
             OffensiveFlags = blueprint.OffensiveFlags;
+            AssistFlags = blueprint.AssistFlags;
             BaseCharacterFlags = petData.CharacterFlags;
             BaseImmunities = petData.Immunities;
             BaseResistances = petData.Resistances;
@@ -261,7 +263,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 displayName.Append("Someone");
             else
                 displayName.Append("someone");
-            if (playableBeholder?.ImpersonatedBy is IAdmin)
+            if (playableBeholder?.IsImmortal == true)
                 displayName.Append($" [id: {Blueprint?.Id.ToString() ?? " ??? "}]");
             return displayName.ToString();
         }
@@ -298,6 +300,12 @@ namespace Mud.Server.Character.NonPlayableCharacter
             : base.MaxCarryNumber;
 
         // Combat
+        public override SchoolTypes NoWeaponDamageType => DamageType;
+
+        public override int NoWeaponBaseDamage => RandomManager.Dice(DamageDiceCount, DamageDiceValue) + DamageDiceBonus;
+
+        public override string NoWeaponDamageNoun => DamageNoun;
+
         public override void UpdatePosition()
         {
             if (HitPoints < 1)
@@ -416,7 +424,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             }
         }
 
-        public override void KillingPayoff(ICharacter victim)
+        public override void KillingPayoff(ICharacter victim, IItemCorpse corpse)
         {
             // NOP
         }
@@ -439,6 +447,8 @@ namespace Mud.Server.Character.NonPlayableCharacter
         public ActFlags ActFlags { get; protected set; }
 
         public OffensiveFlags OffensiveFlags { get; protected set; }
+
+        public AssistFlags AssistFlags { get; protected set; }
 
         public bool IsQuestObjective(IPlayableCharacter questingCharacter)
         {
@@ -701,12 +711,6 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
             return (thac0_00, thac0_32);
         }
-
-        protected override SchoolTypes NoWeaponDamageType => DamageType;
-
-        protected override int NoWeaponBaseDamage => RandomManager.Dice(DamageDiceCount, DamageDiceValue) + DamageDiceBonus;
-
-        protected override string NoWeaponDamageNoun => DamageNoun;
 
         #endregion
     }
