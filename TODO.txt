@@ -1,8 +1,6 @@
 NEXT:
 Group displayed infos: resources are missing
 extensive tests
-!!!! pets and charmies are different: pets are saved in pfile
-
 	ICharacter
 		ICharacter Leader // character we are following
 	INonPlayableCharacter
@@ -42,7 +40,6 @@ Reset 'R'
 quest: add quest item on the fly when player takes the quest
 admin command to switch an avatar from/to immortal/mortal
 item: protect, room_key
-master/pet/follower/group
 Monitor Recompute calls
 Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
@@ -60,6 +57,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+command SAffects added
+third wield, fourth wield
 add dummy spell to create a pet
 pet save
 Order implemented
@@ -295,6 +294,7 @@ TableGenerator with duplicate columns
 
 *************************************************************
 LONG TERM TODO:
+aggro table
 isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + filter on isValid + remove them during Cleanup phease (--> no more clone of auras needed while modifying/clearing auras, same goes with periodic aura)
 automated quests
 quest history

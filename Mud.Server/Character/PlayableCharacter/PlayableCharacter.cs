@@ -306,7 +306,6 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             _pets.Clear();
 
-
             // TODO: what if character is incarnated
             ImpersonatedBy?.StopImpersonating();
             ImpersonatedBy = null; // TODO: warn ImpersonatedBy ?
@@ -379,6 +378,32 @@ namespace Mud.Server.Character.PlayableCharacter
             if (multiHitModifier?.MaxAttackCount <= 4)
                 return;
             // TODO: 2nd main hand, 2nd off hand, 4th, 5th, ... attack
+            var thirdWieldLearnInfo = GetLearnInfo("Third wield");
+            var thirdWieldChance = thirdWieldLearnInfo.learned / 6;
+            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+                thirdWieldChance = 0;
+            if (RandomManager.Chance(thirdWieldChance))
+            {
+                OneHit(victim, mainHand, multiHitModifier);
+                CheckAbilityImprove(thirdWieldLearnInfo.knownAbility, true, 6);
+            }
+            if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= 5)
+                return;
+            var FourthWieldLearnInfo = GetLearnInfo("Fourth wield");
+            var FourthWieldChance = FourthWieldLearnInfo.learned / 8;
+            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+                FourthWieldChance = 0;
+            if (RandomManager.Chance(FourthWieldChance))
+            {
+                OneHit(victim, mainHand, multiHitModifier);
+                CheckAbilityImprove(FourthWieldLearnInfo.knownAbility, true, 6);
+            }
+            if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= 6)
+                return;
         }
 
         public override void KillingPayoff(ICharacter victim) // Gain xp/gold/reputation/...
@@ -970,6 +995,16 @@ namespace Mud.Server.Character.PlayableCharacter
             foreach (var resourceKind in EnumHelpers.GetValues<ResourceKinds>())
                 this[resourceKind] = 1;
             ResetCooldowns();
+            // release pets
+            foreach (INonPlayableCharacter pet in _pets)
+            {
+                if (pet.Room != null)
+                    pet.Act(ActOptions.ToRoom, "{0:N} slowly fades away.", pet);
+                RemoveFollower(pet);
+                pet.ChangeMaster(null);
+                World.RemoveCharacter(pet);
+            }
+            _pets.Clear();
             if (ImpersonatedBy != null) // If impersonated, no real death
             {
                 IRoom room = World.DefaultDeathRoom ?? World.DefaultRecallRoom;

@@ -927,7 +927,7 @@ namespace Mud.Server.Character
 
         public bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using an ability
         {
-            string damageNoun = ability?.DamageNoun?.ToLowerInvariant() ?? ability?.Name?.ToLowerInvariant() ?? "hit";
+            string damageNoun = ability?.DamageNoun?.ToLowerInvariant() ?? ability?.Name?.ToLowerInvariant() ?? "spell";
             return Damage(source, damage, damageType, damageNoun, display);
         }
 

@@ -358,6 +358,26 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 return;
             if (multiHitModifier?.MaxAttackCount <= 4)
                 return;
+            var thirdWieldLearnInfo = GetLearnInfo("Third wield");
+            var thirdWieldChance = thirdWieldLearnInfo.learned / 6;
+            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+                thirdWieldChance = 0;
+            if (RandomManager.Chance(thirdWieldChance))
+                OneHit(victim, mainHand, multiHitModifier);
+            if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= 5)
+                return;
+            var FourthWieldLearnInfo = GetLearnInfo("Fourth wield");
+            var FourthWieldChance = FourthWieldLearnInfo.learned / 8;
+            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+                FourthWieldChance = 0;
+            if (RandomManager.Chance(FourthWieldChance))
+                OneHit(victim, mainHand, multiHitModifier);
+            if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= 6)
+                return;
             // fun stuff
             // TODO: if wait > 0 return
             int number = 0;//int number = RandomManager.Range(0, 8);

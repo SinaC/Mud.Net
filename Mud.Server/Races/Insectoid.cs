@@ -111,6 +111,9 @@ namespace Mud.Server.Races
             //AddAbility(1, AbilityManager.FourthWieldAbility);
 
             AddAbility(1, "Test", null, 0, CostAmountOperators.None, 0);
+            AddAbility(1, "Dual wield", null, 0, CostAmountOperators.None, 0);
+            AddAbility(1, "Third wield", null, 0, CostAmountOperators.None, 0); // only if warrior
+            AddAbility(1, "Fourth wield", null, 0, CostAmountOperators.None, 0); // only if warrior
 
             // Test race with all spells
             foreach (IAbility ability in AbilityManager.Spells)

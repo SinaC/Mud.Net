@@ -33,7 +33,7 @@ namespace Mud.Server
         void OnRemoved(); // set IsValid, Ability, Source
 
         // Display
-        void Append(StringBuilder sb);
+        void Append(StringBuilder sb, bool shortDisplay = false);
 
         // Serialization
         AuraData MapAuraData();
