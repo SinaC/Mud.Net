@@ -40,7 +40,6 @@ buy/sell/list
 Multiple wear location
 Reset 'R'
 quest: add quest item on the fly when player takes the quest
-admin command to switch an avatar from/to immortal/mortal
 item: protect, room_key
 Monitor Recompute calls
 Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
@@ -345,7 +344,6 @@ look no arg
      extradescription
      direction
 multitable generator, paging a table should repeat the header at the beginning of each page
-autosac, autoloot, auto...
 prompt modifiable by user
 merge IAdminRepository and IPlayerRepository -> IAccountRepository
 move blueprints to Mud.Domain + refactor Mud.Domain

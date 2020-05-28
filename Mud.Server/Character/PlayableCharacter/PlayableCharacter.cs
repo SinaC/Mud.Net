@@ -646,6 +646,15 @@ namespace Mud.Server.Character.PlayableCharacter
             return Group == character.Group;
         }
 
+        public bool IsSameGroupOrPet(ICharacter character)
+        {
+            if (character is IPlayableCharacter pc)
+                return IsSameGroup(pc);
+            if (character is INonPlayableCharacter npc)
+                return npc.Master == this;
+            return false;
+        }
+
         // Pets
         public IEnumerable<INonPlayableCharacter> Pets => _pets;
 

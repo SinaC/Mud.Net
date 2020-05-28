@@ -1161,7 +1161,8 @@ namespace Mud.Server.Server
                                 continue;
                             }
                             // PCs next
-                            if (pcCharacter != null || character.CharacterFlags.HasFlag(CharacterFlags.Charm))
+                            if (pcCharacter != null 
+                                || character.CharacterFlags.HasFlag(CharacterFlags.Charm))
                             {
                                 bool isPlayerAutoassisting = pcInRoom != null && pcInRoom.AutoFlags.HasFlag(AutoFlags.Assist) && pcCharacter != null && pcCharacter.IsSameGroup(pcInRoom);
                                 bool isNpcAutoassisting = npcInRoom != null && npcInRoom.Master == pcCharacter;
@@ -1184,23 +1185,21 @@ namespace Mud.Server.Server
                                 if (isAssistAll || isAssistGroup || isAssistRace || isAssistAlign || isAssistVnum)
                                 {
                                     if (RandomManager.Chance(50))
-                                        continue;
-
-                                    bool IsInSameGroup(ICharacter ch1, ICharacter ch2)
                                     {
-                                        INonPlayableCharacter npcCh1 = ch1 as INonPlayableCharacter;
-                                        IPlayableCharacter pcCh1 = ch1 as IPlayableCharacter;
-                                        INonPlayableCharacter npcCh2 = ch2 as INonPlayableCharacter;
-                                        IPlayableCharacter pcCh2 = ch2 as IPlayableCharacter;
-                                        return (pcCh1 != null && pcCh2 != null && pcCh1.IsSameGroup(pcCh2)) || (pcCh1 != null && npcCh2 != null && npcCh2.Master == pcCh1) || (npcCh1 != null && pcCh2 != null && npcCh1.Master == pcCh2);
-                                    }
+                                        bool IsSameGroupOrPet(ICharacter ch1, ICharacter ch2)
+                                        {
+                                            IPlayableCharacter pcCh1 = ch1 as IPlayableCharacter;
+                                            IPlayableCharacter pcCh2 = ch2 as IPlayableCharacter;
+                                            return (pcCh1 != null && pcCh1.IsSameGroupOrPet(ch2)) || (pcCh2 != null && pcCh2.IsSameGroupOrPet(ch1));
+                                        }
 
-                                    ICharacter target = character.Room.People.Where(x => npcInRoom.CanSee(x) && IsInSameGroup(x, victim)).Random(RandomManager);
-                                    if (target != null)
-                                    {
-                                        npcInRoom.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcInRoom);
-                                        npcInRoom.MultiHit(target);
-                                        continue;
+                                        ICharacter target = character.Room.People.Where(x => npcInRoom.CanSee(x) && IsSameGroupOrPet(x, victim)).Random(RandomManager);
+                                        if (target != null)
+                                        {
+                                            npcInRoom.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcInRoom);
+                                            npcInRoom.MultiHit(target);
+                                            continue;
+                                        }
                                     }
                                 }
                             }
