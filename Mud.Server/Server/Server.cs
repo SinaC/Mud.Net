@@ -1148,7 +1148,8 @@ namespace Mud.Server.Server
                             }
                         }
                         // check auto-assist
-                        foreach (ICharacter inRoom in character.Room.People.Where(x => x.Fighting == null && x.Position > Positions.Sleeping))
+                        IReadOnlyCollection<ICharacter> cloneInRoom = new ReadOnlyCollection<ICharacter>(character.Room.People.Where(x => x.Fighting == null && x.Position > Positions.Sleeping).ToList());
+                        foreach (ICharacter inRoom in cloneInRoom)
                         {
                             INonPlayableCharacter npcInRoom = inRoom as INonPlayableCharacter;
                             IPlayableCharacter pcInRoom = inRoom as IPlayableCharacter;
@@ -1164,12 +1165,12 @@ namespace Mud.Server.Server
                             if (pcCharacter != null 
                                 || character.CharacterFlags.HasFlag(CharacterFlags.Charm))
                             {
-                                bool isPlayerAutoassisting = pcInRoom != null && pcInRoom.AutoFlags.HasFlag(AutoFlags.Assist) && pcCharacter != null && pcCharacter.IsSameGroup(pcInRoom);
-                                bool isNpcAutoassisting = npcInRoom != null && npcInRoom.Master == pcCharacter;
+                                bool isPlayerAutoassisting = pcInRoom != null && pcInRoom.AutoFlags.HasFlag(AutoFlags.Assist) && pcInRoom != null && pcInRoom.IsSameGroupOrPet(character);
+                                bool isNpcAutoassisting = npcInRoom != null && npcInRoom.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcInRoom.Master == pcCharacter;
                                 if ((isPlayerAutoassisting || isNpcAutoassisting)
                                     && !victim.IsSafe(inRoom))
                                 {
-                                    npcInRoom.MultiHit(victim);
+                                    inRoom.MultiHit(victim);
                                     continue;
                                 }
                             }

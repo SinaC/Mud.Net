@@ -1,6 +1,4 @@
 NEXT:
-IsSameGroup should consider Pet as in group
-check if autoassist works when a pet starts the fight
 
 Group displayed infos: resources are missing
 extensive tests
@@ -58,6 +56,7 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+IsSameGroup should consider Pet as in group: IsSameGroupOrPet method
 autoassist, autoexits, autosplit, autogold, autosacrifice, autoloot
 Auto, Sacrifice, Split command
 ActPet specific code
