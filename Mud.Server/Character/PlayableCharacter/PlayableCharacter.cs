@@ -466,7 +466,9 @@ namespace Mud.Server.Character.PlayableCharacter
 
         public override void DeathPayoff(ICharacter killer) // Lose xp/reputation..
         {
-            // TODO
+            // 5/6 way back to previous level.
+            var loss = -5 * ExperienceToLevel / 6;
+            GainExperience(loss);
         }
 
         // Abilities
@@ -644,6 +646,8 @@ namespace Mud.Server.Character.PlayableCharacter
 
         public bool IsSameGroup(IPlayableCharacter character)
         {
+            if (this == character)
+                return true;
             if (Group == null || character.Group == null)
                 return false;
             return Group == character.Group;

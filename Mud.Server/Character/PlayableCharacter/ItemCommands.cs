@@ -84,7 +84,7 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.Ok;
         }
 
-        [PlayableCharacterCommand("split", "Item", MinPosition = Positions.Standing)]
+        [PlayableCharacterCommand("split", "Item", MinPosition = Positions.Standing, Priority = 600)]
         [Syntax("[cmd] <silver amount> <gold amount>")]
         protected virtual CommandExecutionResults DoSplit(string rawParameters, params CommandParameter[] parameters)
         {

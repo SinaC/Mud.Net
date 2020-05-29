@@ -1126,8 +1126,6 @@ namespace Mud.Server.Character
             if (Position == Positions.Dead)
             {
                 IItemCorpse corpse = RawKilled(source, true); // group group_gain + dying penalty + raw_kill
-
-                // TODO: autoloot, autosac  damage.C:96
                 return true;
             }
 

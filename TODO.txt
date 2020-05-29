@@ -41,7 +41,7 @@ Monitor Recompute calls
 Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
 skills: steal/lore/rescue
-spells: create rose, farsight, identfy, mass invis
+spells: create rose, farsight, identify
 assign abilities to classes
 race form, parts
 Dictionary to store Character known ability + keep only one LearnedAbility or replace with KnownAbilities getter based on name
@@ -54,6 +54,9 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+Mass invis added
+IsSameGroup return true when checking 2 same character
+Xp loss when dying added
 Rot importer
 Group displayed infos: resources are missing
 Newly created character were drunk :p
