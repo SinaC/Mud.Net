@@ -14,6 +14,8 @@ namespace Mud.Server.Admin
     {
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> AdminCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<Admin>);
 
+        protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
+        protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
         protected IServerAdminCommand ServerAdminCommand => DependencyContainer.Current.GetInstance<IServerAdminCommand>();
         protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
         protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();

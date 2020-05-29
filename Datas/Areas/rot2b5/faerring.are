@@ -1,0 +1,527 @@
+#AREADATA
+Name Faerie Ring~
+Builders None~
+VNUMs 6800 6899
+Credits {10 15} Lok     Faerie Ring~
+Security 9
+End
+
+#MOBILES
+#6800
+pixie faerie~
+a giggling pixie~
+A pixie pokes you in the butt with its sword and giggles! 
+~
+The pixie is about 6" tall, is human like, and has dragonfly wings. 
+~
+pixie~
+ACEH A EJT AHMV 0 0
+10 0 5d6+51 5d8+67 2d3+6 pierce
+6 7 5 7
+EFR BP BCDPZ HZ
+stand stand male 5
+ABCDEFGHIJKMPVW ABCDEFGHIJKOP tiny unknown
+#6801
+nixie faerie~
+a fluttering nixie~
+A fluttering nixie rummages through your possessions looking for wine! 
+~
+The nixie, like the pixie has dragonfly wings, but is taller (9"). 
+~
+pixie~
+ACEH A EJT AHMV 0 0
+12 0 4d12+75 6d10+99 2d5+8 slash
+3 5 5 8
+EFU BP BCPZ HZ
+stand stand male 10
+ABCDEFGHIJKMPVW ABCDEFGHIJKOP tiny unknown
+#6802
+sprite faerie~
+a dancing sprite~
+A sprite casts a spell and you do a merry little dance! 
+~
+The sprite has dragonfly wings like the nixie and pixie, but she towers over 
+them at an amazing 12" height!
+~
+pixie~
+ACEH A EJT ABHMV 0 0
+11 0 6d9+91 5d6+51 2d4+7 pierce
+7 5 5 8
+EFNU BP BCPZ HZ
+stand stand female 20
+ABCDEFGHIJKMPVW ABCDEFGHIJKOP tiny unknown
+#6803
+brownie faerie~
+a stern brownie~
+A stern brownie stands guard here - you better watch it bub! 
+~
+The beefy 2' tall brownie wears earth colored clothing, and seems intent on 
+its task of guarding.
+~
+unique~
+ABCE A V 0 0 0
+13 0 6d9+91 6d10+99 2d4+7 pierce
+3 3 4 7
+EFHNU 0 C Z
+stand stand male 30
+AHMV ABCDEFGHIJK small unknown
+#6804
+puck faerie~
+Puck~
+Uh oh! You see Puck!
+~
+Puck is an amazing 3' tall. He snaps his head back and forth in quick darting 
+motions checking if his pile is still there.
+~
+unique~
+ABCES A QV 0 0 0
+14 0 6d10+99 6d10+99 2d6+9 stab
+6 3 2 7
+EFHNU 0 CD Z
+stand stand male 300
+AHMV ABCDEFGHIJK small unknown
+#6805
+queen faerie~
+the Faerie Queen~
+The Faerie Queen sits in a circle of dancing twinkling faeries! 
+~
+The faerie queen is here teaching her subjects court in a gossamer gown  of 
+moonbeams. She towers at 4' tall. She is by far the most beautiful creature
+ you have ever  seen. Maybe you should stay here a while. Hmmm. Why  bother
+going back?
+~
+elf~
+ABCER A DJT AHMV 0 0
+15 0 7d7+82 7d10+116 2d6+8 pierce
+2 3 2 7
+EFNU B BCZ Z
+stand stand female 500
+ABCDEFGHIJKMV ABCDEFGHIJKO medium unknown
+#6806
+lucky leprechaun faerie~
+Lucky~
+A little leprechaun garbed in green says 'Wooo-hooo-hoo' and tickles you! 
+~
+Lucky wears green and is mumbling something about blue diamonds. 
+~
+unique~
+ACEH A QUV 0 0 0
+13 0 2d21+59 6d10+99 3d4+9 slash
+5 5 6 8
+EFHNU 0 C Z
+stand stand male 400
+AHMV ABCDEFGHIJK small unknown
+#6807
+faerie drunken~
+a drunken faerie~
+A drunken faerie snores happily on the floor.  
+~
+The drunken faerie lies nude on the floor, snoring happily away. Looks like 
+somebody is playing a practical joke on him.
+~
+pixie~
+ABCE A EJRT AHMV 0 0
+10 0 5d5+43 2d21+59 2d4+7 pierce
+7 7 2 9
+EFNU BP BCDPZ HZ
+sleep sleep male 5
+ABCDEFGHIJKMPV ABCDEFGHIJKOP tiny unknown
+#6808
+twinkletoes bartender faerie~
+Twinkletoes~
+A faerie bartender is here, serving up faerie wine and finger food. 
+~
+Twinkletoes is a fierce, old looking brownie. Maybe you should leave her 
+alone.
+~
+unique~
+ABCEb A V 0 0 0
+100 0 18d71+5917 28d47+6463 3d39+61 pierce
+-40 -38 -42 -33
+EFNU 0 CD Z
+stand stand female 5000
+AHMV ABCDEFGHIJK medium unknown
+#0
+
+
+
+#OBJECTS
+#6800
+rhyme catchy little~
+a catchy little rhyme~
+There is a tiny rolled up paper lying on the ground. 
+~
+paper~
+scroll AG AO
+15 'faerie fog' '' '' ''
+10 1 200 P
+E
+rhyme catchy little~
+You look at the rhyme. It reads:
+-
+Turn your clothes inside out
+Circle three times and shout
+Iron and cross, make you be
+Revealed to all, and to me
+~
+#6801
+light twinkle twinkling ball~
+a *twinkling* ball of light~
+A twinkling ball of light sparkles here! 
+~
+unknown~
+light AGI AO
+0 0 ABCFGHIJ 0 0
+15 0 1000 P
+#6802
+belt sprite~
+a sprite belt~
+A loop of rainbow thread lies here.
+~
+mithril~
+armor FM AL
+B AC C ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0
+11 1 500 P
+#6803
+bracer brownie~
+a brownie bracer~
+An earthen colored band lies here.
+~
+mithril~
+armor G AM
+AB C AC BCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0
+13 1 700 P
+#6804
+vial moonlight bottled~
+a vial of bottled moonlight~
+A vial of sparkling liquid emits a soft white glow. 
+~
+glass~
+potion AG AO
+15 'fly' 'cure poison' 'cure critical' ''
+12 1 700 P
+#6805
+robe gossamer~
+a gossamer robe~
+A gossamer robe sparkles with a pale white glow! 
+~
+cloth~
+armor IM AK
+AB AC C 0 0
+15 1 1500 P
+#6806
+moonbeam~
+a moonbeam~
+A sparkling pale light ray glows here! 
+~
+unknown~
+weapon AF AN
+exotic 3 6 pierce 0
+15 0 1500 P
+#6807
+wine goblet faerie~
+a goblet of faerie wine~
+A crystal goblet filled with a sparkling wine is here. 
+~
+glass~
+potion G A
+1 'change sex' 'invisibility' 'cure blindness' ''
+10 1 100 P
+#6808
+britches dirty~
+a pair of dirty britches~
+A pair of dirty britches lies here. Get the laundry soap. 
+~
+leather~
+armor C AF
+C BC C 0 0
+14 0 900 P
+#6809
+key sparkling~
+a sparkling key~
+A sparkling key glistens on the ground. 
+~
+silver~
+key BG AO
+0 0 0 0 0
+13 1 130 P
+#6810
+cloak dirty~
+a dirty cloak~
+A dirty cloak lies here. Ugh! Get the laundry soap.~
+leather~
+armor C AC
+B B C ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0
+14 2 900 P
+#6811
+wand blue diamond~
+a blue diamond wand~
+A wand with a huge blue diamond on it is just lying here! Pick it up! 
+~
+wood~
+wand G AO
+14 12 12 'create food' 0
+13 2 1200 P
+E
+diamond blue~
+They're magically delicious!
+~
+#6812
+gold~
+whoooooopie! Gold!~
+A rainbow ends at this pot of gold!
+~
+gold~
+money A AO
+CEFGHI 0 0 0 0
+13 0 130 P
+#6813
+food finger~
+delicious finger food~
+A delicious little plate of scrumptious finger foods lies beckons to you. 
+~
+flesh~
+food 0 AN
+24 24 0 0 0
+0 0 5 P
+#0
+
+
+
+#ROOMS
+#6800
+Forest Clearing~
+You stand in a grassy clearing in the forest. Moonlight causes the shadwows to 
+move in an eerie dance. There is a strange circle of mushrooms about 30'  in 
+diameter in the center of the clearing.
+~
+0 4 3
+E
+mushrooms circle~
+You look at the mushroom circle. You see tiny footprints and the faint outline 
+of a trap door in the center of the ring.
+~
+D3
+~
+~
+0 -1 3513
+D5
+A small trap door
+~
+door trap~
+0 -1 6801
+S
+#6801
+Entrance Hall~
+You are in a cramped, low ceiling tunnel. Roots dangle overhead and caress 
+you. There are tiny doors to the north, south and west, which you think you 
+could crawl your way into. A ladder fashioned of woven roots leads up. You 
+hear sounds of a raucous celebration to the east.
+~
+0 8 1
+D0
+A tiny door
+~
+door tiny~
+0 -1 6802
+D1
+A smoky hallway
+~
+~
+0 -1 6803
+D2
+A tiny door
+~
+door tiny~
+0 -1 6804
+D3
+A tiny door
+~
+door tiny~
+0 -1 6805
+D4
+A small trap door
+~
+door trap~
+0 -1 6800
+S
+#6802
+Puck's Room~
+You are hunched over in Puck's room. You know this by the sign that says 
+"Pucks stuff- keep your grubby hands off". There is a bed of forest leaves, 
+some rude hollowed out shelves, a tiny table with a half full jack of ale, 
+and a great pile of junk beneath the sign.
+~
+0 8 1
+E
+sign~
+The sign says: "Puck's stuff- keep your grubby hands off" 
+~
+D2
+A tiny door
+~
+door tiny~
+0 -1 6801
+S
+#6803
+Little People's Bar and Grill~
+You squeeze into the famous Little People's Bar and Grill! Conversation 
+abruptly stops as you enter. Around you little people are drinking from 
+beautifully crafted crystal glasses. The smoke is thick and buoys your 
+spirits. Maybe you should stay a while and try the faerie wine? A low tunnel 
+heads west, and you hear a thunderous racket coming from the east.
+~
+0 8 1
+D1
+Towards the racket
+~
+~
+0 -1 6806
+D3
+A smoky hallway
+~
+~
+0 -1 6801
+S
+#6804
+Snooze Den~
+You hunker in the snooze den. A large sign is on the wall. Many little people 
+lie collapsed in drunken heaps about this large room. To the north is a tiny 
+door.
+~
+0 8 1
+E
+sign~
+The sign says 'Close the door, stupid'~
+D0
+A tiny door
+~
+door tiny~
+0 -1 6801
+S
+#6805
+Guarded Burrow~
+You are once again hunched over in a earthy burrow. There is sign of much 
+passage through here, many little feet have packed the dirt hard. To the east 
+lies a door, and to the south is a normal sized door.
+~
+0 8 1
+D1
+A tiny door
+~
+door tiny~
+0 -1 6801
+D2
+A normal sized door
+~
+door normal~
+0 6809 6807
+S
+#6806
+Bowling Alley~
+You are hunched over in a bowling alley! Little people are rolling round 
+objects down grooved tracks at long white targets. The whole cave echoes in a 
+dreadful crash each time they hit the targets! Oh you wish you had that glass 
+of faerie wine. To the west is the Little People's Bar and grill.
+~
+0 8 1
+E
+targets white~
+You look carefully at the white targets and discover they are human bones! 
+~
+E
+round objects~
+You look at the round objects. Each object is a human head! Yikes! 
+~
+D3
+Little People's Bar and Grill
+~
+~
+0 -1 6803
+S
+#6807
+Hall of the Faerie Queen~
+You stand in the hall of the Faerie Queen. Rainbow colors dance across the 
+room in a colorful display. Faerie folk flutter furiously fanning forge fires. 
+Say that 3 times fast. Maybe you should have had that faerie wine.
+~
+0 8 1
+E
+forge fires~
+They are being fanned furiously by fluttering faerie folk.~
+D0
+A normal sized door
+~
+door normal~
+0 6809 6805
+S
+#0
+
+
+
+#SPECIALS
+M 6804 spec_thief
+M 6805 spec_cast_mage
+S
+
+
+
+#RESETS
+M 0 6800 4 6801 1
+G 0 6800 0
+O 0 6807 0 6802
+M 0 6804 1 6802 1
+E 0 6808 0 7
+E 0 6810 0 4
+M 0 6801 3 6803 1
+G 0 6804 0
+M 0 6800 4 6803 1
+G 0 6800 0
+M 0 6802 3 6803 1
+E 0 6802 0 13
+M 0 6808 1 6803 1
+G 0 6807 0
+G 0 6813 0
+M 0 6806 1 6803 1
+G 0 6811 0
+G 0 6812 0
+M 0 6807 2 6804 2
+M 0 6807 2 6804 2
+G 0 6807 0
+M 0 6803 3 6805 2
+E 0 6803 0 14
+M 0 6803 3 6805 2
+G 0 6809 0
+E 0 6803 0 14
+M 0 6800 4 6806 1
+G 0 6800 0
+M 0 6801 3 6806 1
+G 0 6804 0
+M 0 6802 3 6806 1
+E 0 6802 0 13
+M 0 6805 1 6807 1
+E 0 6801 0 0
+E 0 6805 0 5
+E 0 6806 0 16
+M 0 6800 4 6807 1
+G 0 6800 0
+M 0 6801 3 6807 1
+G 0 6804 0
+M 0 6802 3 6807 1
+E 0 6802 0 13
+M 0 6803 3 6807 1
+E 0 6803 0 14
+S
+
+
+
+#SHOPS
+6808 1 2 3 4 18 120 80 0 23
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

@@ -19,10 +19,7 @@ namespace Mud.Server.Actor
         protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
         protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
-        protected IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
         protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
-        protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
-        protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
 
         #region IActor
 

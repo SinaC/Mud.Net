@@ -1,0 +1,665 @@
+#AREADATA
+Name Haunted House~
+Builders None~
+VNUMs 27001 27032
+Credits [ ALL ] Hanted  House Arena Rooms~
+Security 9
+End
+
+#MOBILES
+#27001
+statue artimus~
+{&A Giant Statue of Artimus{0~
+{&A Giant Statue of Artimus stands here, {!glaring{& in your direction.{0
+~
+~
+giant~
+ABF A DLVZ AHMV 0 0
+63 55 600d3+600 500d2+400 12d2+1 pound
+-10 -10 -10 -10
+E 0 0 0
+stand stand male 0
+ABCDEFGHIJK 0 medium unknown
+F imm HI
+F res JP
+#27002
+count heinrich~
+{!Count Heinrich{0~
+{!Count Heinrich stands here, glaring at your sinisterly.{0
+~
+~
+goblin~
+ABF A DFLTU AHMV -1000 0
+57 0 1d1+1300 0d0+0 12d2+3 none
+0 0 0 0
+0 0 0 0
+stand stand male 0
+ABCDEFGHIJK A large unknown
+F imm P
+F res NSXY
+#27003
+rat vicious~
+desc a rat~
+Desc {&a rat scuttles around here.{0
+~
+~
+human~
+ABF A DF AHMV 0 0
+20 500 1d1+800 0d0+0 12d2+30 bite
+-3 -3 -3 -3
+PR 0 0 0
+stand stand male 0
+GHX 0 small unknown
+F for ABCDEFIJK
+#0
+
+
+
+#OBJECTS
+#0
+
+
+
+#ROOMS
+#27001
+Entrance.~
+You are stand at an open gate. Beyond the gate a path leads eastward to a old
+delapidated house.  A rare species of ivy crawls over sections of the wall
+framing the broken glass windows with ragged patches of green.
+Far to the south you see an ancient graveyard with its tombstones and
+white monuments.
+~
+0 2105352 2
+D1
+A path towards the house goes to the east
+~
+~
+0 -1 27002
+D2
+A path stretches south to the graveyard
+~
+~
+0 -1 27030
+S
+#27002
+Path.~
+You are standing in the path between the gate and the house.
+~
+0 2105352 2
+D1
+A path 
+~
+~
+0 -1 27003
+D3
+A path goes to the house entrance
+~
+~
+0 -1 27001
+S
+#27003
+Hallway.~
+To the west the way leads out to a path.
+To the east some doors lead out to the west wing and to the north. 
+The odour of death and decay almost overpowers you.
+~
+0 2105352 1
+D0
+To the stairs
+~
+~
+0 -1 27031
+D1
+Entrance
+~
+~
+0 -1 27004
+D3
+A path leads out of the house
+~
+~
+0 -1 27002
+S
+#27004
+West wing.~
+You are standing in the west end of the house.
+Most of the walls are covered by ancient wall paintings 
+picturing all sorts of creatures.
+~
+0 2105352 1
+D1
+The east wing
+~
+~
+0 -1 27005
+D3
+~
+~
+0 -1 27003
+S
+#27005
+East Wing.~
+You are standing in the east end of the wing.
+A transept wing opens to the north. A strange platform with an altar rises
+to the east. You see a large cross hanging above the altar.
+~
+0 2105352 1
+D1
+The altar.
+~
+~
+0 -1 27006
+D3
+The west wing
+~
+~
+0 -1 27004
+S
+#27006
+The Altar.~
+You are standing on a platform and upon it stands a stone altar under a large bright coloured window.
+The nave stretches out to the west. Narrow openings are in the walls to north and south.
+~
+0 2105352 1
+D0
+A corridor
+~
+~
+0 -1 27007
+D2
+The staircase down to the crypt
+~
+~
+0 -1 27009
+D3
+The east wing
+~
+~
+0 -1 27005
+S
+#27007
+A dimly lit corridor.~
+You are standing in a dim curving corridor.
+You hear a loud snoring behind a door to the north.
+A large wool carpet covers the chilly stone floor.
+~
+0 2105352 1
+D0
+~
+~
+0 -1 27008
+D2
+The altar
+~
+~
+0 -1 27006
+S
+#27008
+Dusty Room~
+You are standing in a small room cluttered with small cute trappings.
+There is a pile of dust at least two inches deep in this room.
+~
+0 2105352 1
+D2
+A corridor
+~
+~
+0 -1 27007
+S
+#27009
+Staircase.~
+You are in a cylindrical room containing a spiral stone staircase.
+Lots of small white candles light up the room.
+You see a narrow opening to the north.
+~
+0 2105352 1
+D0
+You see an altar to the north
+~
+~
+0 -1 27006
+D5
+Staircase to the crypt
+~
+~
+0 -1 27010
+S
+#27010
+Cellar.~
+You are at the bottom of a spiral stone staircase.
+You see a narrow curving passage leads into darkness to the north.
+A cold musty odour flows out from the darkness.
+~
+0 2105352 1
+D0
+The Crypt entrance
+~
+~
+0 -1 27011
+D4
+Staircase to the house
+~
+~
+0 -1 27009
+S
+#27011
+Crypt Entrance.~
+You are standing in the crypt entrance. There is a narrow passage leading south.
+An ancient steel door blocks your way to the north.
+There are dark chambers off to the east and west.
+~
+0 2105352 1
+D0
+You see a door to the north
+~
+~
+0 27011 27014
+D1
+Side chamber
+~
+~
+0 -1 27012
+D2
+Side chamber
+~
+~
+0 -1 27010
+D3
+Staircase to the house
+~
+~
+0 -1 27013
+S
+#27012
+Side Chamber.~
+You are standing in a side chamber of the crypt next to a huge sarcophagus.
+Cob webs covers the mossy stone walls. The only exit is to the west.
+~
+0 2105352 1
+D3
+Crypt entrance
+~
+~
+0 -1 27011
+S
+#27013
+Side Chamber.~
+You are standing in a sidechamber of the crypt next to a huge sarcophagus.
+Cob webs covers the mossy stone walls. The only exit is to the east.
+~
+0 2105352 1
+D1
+Crypt entrance
+~
+~
+0 -1 27014
+S
+#27014
+Central aisle.~
+You are standing in the central aisle of the crypt,
+surrounded by an eerie darkness. Green moss cover the ancient stone walls.
+There are dark chambers off to the west and east.
+~
+0 2105352 1
+D0
+You see a hall to the north
+~
+~
+0 -1 27015
+D1
+You see a dark chamber to the east
+~
+~
+0 -1 27018
+D2
+Crypt entrance
+~
+~
+0 -1 27011
+D3
+You see a dark chamber to the east
+~
+~
+0 -1 27017
+S
+#27015
+Hall.~
+You are standing in a large room. Mouldering hangings cover the chill walls.
+From a wall a enormous portrait of an tall and elegantly clad man glare down at you.
+There's a brass plate under the painting. You see a stone staircase going down and a way to the south.
+~
+0 2105352 1
+E
+portrait~
+The count looks like a handsome man, but there's something feral and predatory about his features.
+On his fingers you see a great ruby ring set among black bat wings.
+~
+E
+brass plate~
+You rub away the dust from the plate and read:
+
+  Heinrich von Liech - Count of Death~
+D2
+Central aisle
+~
+~
+0 -1 27014
+D5
+You see the beginning of a corridor at the end of the stairs
+~
+~
+0 -1 27016
+S
+#27016
+A gloomy corridor.~
+You are standing in a gloomy corridor.
+Yellow boned skeletons stand alongside the grey withering stone walls.
+You can go east or up the stairs. You think you see some light further ahead...
+You hear some chanting to the east. 
+
+~
+0 2105352 1
+D1
+You see some light to the east
+~
+~
+0 -1 27019
+D4
+Stairs to hall
+~
+~
+0 -1 27015
+S
+#27017
+Side Chamber~
+You are standing in a side chamber of the crypt next to a huge sarcophagus.
+You try to open it but the lid remains closed. The only exit is to the east.
+Small mushrooms grow in a dark and moist corner of the room.
+~
+0 2105352 1
+D1
+Central aisle
+~
+~
+0 -1 27014
+S
+#27018
+Side Chamber~
+You are standing in a sidechamber of the crypt next to a huge sarcophagus.
+You try to open it but the lid remains closed. The only exit is to the west.
+~
+0 2105352 1
+D3
+Central aisle
+~
+~
+0 -1 27014
+S
+#27019
+Sacrificial room.~
+You are standing in a room, black candles are placed alongside the walls spreading their yellow sick light.
+A black stone altar rises at the northern end of the room. A staircase leads down into utter darkness.
+A corridor stretches to the west. A foul stench of decay and corruption rises out from the darkness.
+~
+0 2105352 1
+D3
+You see a corridor to the west
+~
+~
+0 -1 27016
+D5
+A staircase into darkness...
+~
+~
+0 -1 27020
+S
+#27020
+Staircase.~
+You stand on the top of the staircase, leading down into utter darkness,
+you wonder what hideous things live down there. The foul stench gets stronger.
+~
+0 2105352 1
+D4
+You see some light at the beginning of the stairs
+~
+~
+0 -1 27019
+D5
+Down into darkness...
+~
+~
+0 -1 27021
+S
+#27021
+The Bottom of the Staircase.~
+You stand at the bottom of this giant staircase.
+A pair of rats looks at you with their glowing small red eyes.
+A foul stench flows from the east. You see a door to the north.
+~
+0 2105352 1
+D0
+You see a door to the north
+~
+~
+0 -1 27022
+D1
+Side chamber
+~
+~
+0 -1 27024
+D4
+Up the stairs
+~
+~
+0 -1 27020
+S
+#27022
+Hall.~
+You are standing in enormous hall.
+Firmly mounted torches expose the wet and mouldy walls.
+You hear water drip from some unseen roof.
+Large statues of long forgotten kings look upon you with their stony gaze.
+It smell like smoke in here.
+~
+0 2105352 1
+D0
+You see a large metal door to the north
+~
+~
+0 27013 27023
+D2
+To the stairs
+~
+~
+0 -1 27021
+S
+#27023
+Heinrich's Chamber~
+You are in chamber of Heinrich, the Count of Death. A huge throne made of
+skulls and other boneparts sits in the centre of the room and upon it rests Heinrich.
+He doesn't notice you at first but your trembling makes him annoyed.
+He looks down at you and with a dark voice says: Welcome to my chamber,
+prepare to meet your maker... You draw your weapon and prepare to fight for your life...
+~
+0 2105352 1
+D2
+You see a large hall to the south
+~
+~
+0 -1 27022
+S
+#27024
+Side Chamber.~
+You stand in a sidechamber of the crypt next to a sarcophagus.
+The stench of decay is overwhelming.
+The remains of a poor unfortunate adventurer like you lies scattered
+on the ground. Small mushrooms grow in a dark corner of the room.
+The only exit is to the west. There's a light breeze from the north...
+~
+0 2105352 1
+D0
+~
+~
+0 -1 27025
+D3
+To the bottom of the stairs
+~
+~
+0 -1 27021
+S
+#27025
+A secret passage.~
+You are standing in a secret passage going north.
+Cobwebs and moss covers the grey stone walls.
+A thick layer of dust covers the floor making the air stuffy and dry.
+The passage stretches further north.
+~
+0 2105352 1
+D0
+The passage stretches further north
+~
+~
+0 -1 27026
+D2
+To the side chamber
+~
+~
+0 -1 27024
+S
+#27026
+A secret passage.~
+You have come to a point where the passage splits in two directions:
+to the east and to the west. You see some light to the west.
+~
+0 2105352 1
+D1
+Treasury chamber
+~
+~
+0 -1 27028
+D2
+Another passage
+~
+~
+0 -1 27025
+D3
+and another
+~
+~
+0 -1 27027
+S
+#27027
+A secret passage.~
+You are standing in a passage, there is a light in front of you.
+Strange ancient hieroglyphs are engraved in the walls.
+You hear sounds of scampering rats. There are exits to the east and north.
+~
+0 2105352 1
+D0
+The Tomb
+~
+~
+0 -1 27029
+D1
+You see a passage to the east
+~
+~
+0 -1 27026
+S
+#27028
+Treasury chamber.~
+As you enter a trapdoor opens beneath you and you fall down to a place
+with thousands of rats, you try to defend yourself but they are too many.
+The rats rip you apart and have you as lunch.
+You are DEAD. Sorry no fame and fortune here..
+~
+0 2105352 1
+D3
+~
+~
+0 -1 27026
+S
+#27029
+The Tomb.~
+You are standing in a tomb.
+Red sick light radiates from a large black chandelier hanging in the ceiling.
+A huge sarcophagus stands in the middle of the room.
+The ceiling is covered with black bats looking down at you with their blood red eyes.
+As you walk forth the lid of the sarcophagus is thrown away by some magical force,
+and out of it rises a mummy so big that he casts you in shadows.
+You feel a very strong motivation to run away.
+~
+0 2105352 1
+D2
+You see a passage to the south
+~
+~
+0 -1 27027
+S
+#27030
+The yard.~
+You are in the yard.
+Lots of beautiful flowers decorate the dull tombstones and monuments.
+There are some nuns here taking care of the graves.
+The only exit is to the north.
+~
+0 2105352 2
+D0
+~
+~
+0 -1 27001
+S
+#27031
+Staircase.~
+You are standing in a cylindrical room containing a spiral staircase going 
+up to the tower.  A wooden door leads out to the hall.
+~
+0 2105352 1
+D2
+~
+~
+0 -1 27003
+D4
+You see a staircase going upwards
+~
+~
+0 -1 27032
+S
+#27032
+The tower.~
+You are standing in the tower. What a view! You can see your house from here.
+~
+0 2105352 1
+D5
+You see some stairs going down
+~
+~
+0 -1 27031
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+M 0 27001 1 27008 1
+M 0 27002 1 27023 1
+M 0 27003 10 27028 1
+M 0 27001 1 27032 1
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

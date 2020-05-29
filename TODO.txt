@@ -1,6 +1,5 @@
 NEXT:
 
-Group displayed infos: resources are missing
 extensive tests
 	ICharacter
 		ICharacter Leader // character we are following
@@ -26,7 +25,6 @@ prevent kill stealing: a player fights a mob, brings it to 1% and another player
 linkdead
 Move CanSee in IEntity
 Move AddAura in aura manager
-Replace out parameter with C#7-tuple if possible
 Add ctor to every manager with other manager as parameter to easy unit tests
 each time operator IS or AS is used, this should be replaced with an overridable method
 DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
@@ -56,6 +54,9 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+Rot importer
+Group displayed infos: resources are missing
+Newly created character were drunk :p
 IsSameGroup should consider Pet as in group: IsSameGroupOrPet method
 autoassist, autoexits, autosplit, autogold, autosacrifice, autoloot
 Auto, Sacrifice, Split command

@@ -165,6 +165,10 @@
       <Project>{5be3b1dc-2039-450c-ad58-ab35620ffc4e}</Project>
       <Name>Mud.Importer.Rom</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Importer.Rot\Mud.Importer.Rot.csproj">
+      <Project>{4c7bc035-7c0c-4d18-b225-efc3556e51fd}</Project>
+      <Name>Mud.Importer.Rot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Importer\Mud.Importer.csproj">
       <Project>{3a7f2847-d754-4eb1-ad57-805df4f9241f}</Project>
       <Name>Mud.Importer</Name>

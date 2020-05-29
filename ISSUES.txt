@@ -1,3 +1,6 @@
+MYSTERY AND ALL ROM2.4 AREAS ARE CORRUPTED
+spell are missing on potion, scroll, ... or Vulnerabilities/Act/Off are missing
+
 when fighting multiple mobs
 	when one mob dies and try to flee, we are not considered as fightning until next tick
 

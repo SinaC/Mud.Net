@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AutoMapper;
 using Mud.Logger;
 using Mud.Repository.Filesystem.Common;
+using Mud.Settings;
 
 namespace Mud.Repository.Filesystem
 {
@@ -11,6 +13,11 @@ namespace Mud.Repository.Filesystem
         private string AdminRepositoryPath => Settings.AdminRepositoryPath;
 
         private string BuildFilename(string adminName) => Path.Combine(AdminRepositoryPath, adminName + ".data");
+
+        public AdminRepository(IMapper mapper, ISettings settings)
+            : base(mapper, settings)
+        {
+        }
 
         #region IAdminRepository
 

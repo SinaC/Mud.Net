@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -89,27 +90,22 @@ namespace Mud.Server.Character.PlayableCharacter
                     // not in a group but pets
                     StringBuilder sbPets = new StringBuilder();
                     foreach (INonPlayableCharacter pet in Pets)
-                        // TODO: resource
-                        //sbPets.AppendFormatLine("[Pet]{0,10}: Lvl: {1,3} Hp:{2,6}/{3,6}", pet.DisplayName.MaxLength(10), pet.Level, pet.HitPoints, pet.MaxHitPoints);
-                        sbPets.AppendFormatLine("[{0,3} Pet] {1,20} {2,5}/{3,5} hp {4,5}/{5,5} mv", pet.Level, pet.DisplayName.MaxLength(20), pet.HitPoints, pet.MaxHitPoints, pet.MovePoints, pet.MaxMovePoints);
+                        AppendPetGroupMemberInfo(sbPets, pet);
                     Send(sbPets);
 
                     return CommandExecutionResults.Ok;
                 }
                 StringBuilder sb = new StringBuilder();
-                sb.AppendFormatLine("{0}'s group:", Leader.DisplayName);
+                sb.AppendFormatLine("{0}'s group:", Group.Leader.DisplayName);
                 foreach (IPlayableCharacter member in Group.Members)
-                { 
-                    // TODO: resource
+                {
                     // display member info
-                    //sb.AppendFormatLine("{0,3}{1,10}: Lvl: {2,3} Hp:{3,6}/{4,6} Nxt: {5,6}", Group.Leader == member ? "[L]" : string.Empty, member.DisplayName.MaxLength(10), member.Level, member.HitPoints, member.MaxHitPoints, member.ExperienceToLevel);
-                    sb.AppendFormatLine("[{0,3} {1,3}] {2,20} {3,5}/{4,5} hp {5,5}/{6,5} mv {7,5} nxt", member.Level, member.Class.ShortName, member.DisplayName.MaxLength(20), member.HitPoints, member.MaxHitPoints, member.MovePoints, member.MaxMovePoints);
+                    AppendPlayerGroupMemberInfo(sb, member);
                     if (member.Pets.Any())
                     {
                         // display member's pet info
                         foreach (INonPlayableCharacter pet in Pets)
-                            // TODO: resource
-                            sb.AppendFormatLine("[{0,3} Pet] {1,20} {2,5}/{3,5} hp {4,5}/{5,5} mv", pet.Level, pet.DisplayName.MaxLength(20), pet.HitPoints, pet.MaxHitPoints, pet.MovePoints, pet.MaxMovePoints);
+                            AppendPetGroupMemberInfo(sb, pet);
                     }
                 }
                 Send(sb);
@@ -208,13 +204,25 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         //******************************************** Helpers ********************************************
-        private void AppendCharacterGroupMemberInfo(StringBuilder sb, IPlayableCharacter member, bool isLeader)
+        private void AppendPlayerGroupMemberInfo(StringBuilder sb, IPlayableCharacter member)
         {
-            sb.AppendFormat("[{0,3}]{1} {2,-30} {3,5}/{4,5}hp {5,5}/{6,5}Mv", member.Level, isLeader ? "L" : " ", member.DisplayName, member.HitPoints, member.MaxHitPoints, member.MovePoints, member.MaxMovePoints);
-            // TODO: add class, mana, xp, ...
+            sb.AppendFormat("[{0,3} {1,3}] {2,20} {3,5}/{4,5} hp {5} {6,5}/{7,5} mv", member.Level, member.Class.ShortName, member.DisplayName.MaxLength(20), member.HitPoints, member.MaxHitPoints, BuildResources(member), member.MovePoints, member.MaxMovePoints);
             if (member.Level >= Settings.MaxLevel)
-                sb.AppendFormat(" {0}Nxt", member.ExperienceToLevel);
+                sb.AppendFormat(" {0} nxt", member.ExperienceToLevel);
             sb.AppendLine();
+        }
+
+        private void AppendPetGroupMemberInfo(StringBuilder sb, INonPlayableCharacter member)
+        {
+            sb.AppendFormatLine("[{0,3} Pet] {1,20} {2,5}/{3,5} hp {4} {5,5}/{6,5} mv", member.Level, member.DisplayName.MaxLength(20), member.HitPoints, member.MaxHitPoints, BuildResources(member), member.MovePoints, member.MaxMovePoints);
+        }
+
+        private StringBuilder BuildResources(ICharacter character)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (ResourceKinds resource in character.CurrentResourceKinds)
+                sb.AppendFormat("{0,5}/{1,5} {2}", character[resource], character.MaxResource(resource), resource.ToString().ToLowerInvariant());
+            return sb;
         }
     }
 }

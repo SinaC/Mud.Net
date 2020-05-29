@@ -10,6 +10,7 @@ using AutoMapper;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Importer.Rom;
+using Mud.Importer.Rot;
 using Mud.Logger;
 using Mud.Network;
 using Mud.Network.Telnet;
@@ -355,10 +356,11 @@ namespace Mud.Server.WPFTestApplication
         {
             string path = DependencyContainer.Current.GetInstance<ISettings>().ImportAreaPath;
 
-            RomImporter importer = new RomImporter();
+            //RomImporter importer = new RomImporter();
             //MysteryImporter importer = new MysteryImporter();
-            importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
-            //importer.ImportByList(path, "area.lst");
+            RotImporter importer = new RotImporter();
+            //importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
+            importer.ImportByList(path, "area.lst");
 
             // Area
             foreach (AreaBlueprint blueprint in importer.Areas)
@@ -491,10 +493,10 @@ namespace Mud.Server.WPFTestApplication
             }
 
             // Add dummy mobs and items to allow impersonate :)
-            IRoom templeOfMota = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
-            IRoom templeSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
-            IRoom marketSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "market square");
-            IRoom commonSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the common square");
+            IRoom templeOfMota = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3001);
+            IRoom templeSquare = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3005);
+            IRoom marketSquare = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3014);
+            IRoom commonSquare = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3025);
 
             if (templeOfMota == null || templeSquare == null || marketSquare == null || commonSquare == null)
                 return;

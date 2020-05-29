@@ -36,6 +36,7 @@ namespace Mud.Server.Character
         private readonly Dictionary<IAbility, int> _cooldownsPulseLeft;
         private readonly List<KnownAbility> _knownAbilities;
 
+        protected IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
         protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
         protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();

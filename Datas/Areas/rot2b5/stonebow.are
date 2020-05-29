@@ -1,0 +1,5751 @@
+#AREADATA
+Name StoneBow Dale~
+Builders None~
+VNUMs 13000 13199
+Credits { ALL } Eriana  StoneBow Dale~
+Security 9
+End
+
+#MOBILES
+#13000
+rhoda morgenstern bridal consultant seamstress~
+Rhoda~
+Rhoda Morgenstern is the seamstress here.
+~
+A pretty, darkhaired woman bustles about.  She speaks in a broad New York
+accent.
+~
+elf~
+ABCG A DFJ AHMV 900 0
+50 1 14d26+769 16d24+835 6d8+31 scratch
+-14 -13 -15 -13
+AF AB BZ Z
+stand stand female 500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13001
+serge tailor~
+Serge~
+Serge flutters about, clicking his tongue.
+~
+A pale, dark haired man flutters about, waving his hands and looking upset.
+~
+human~
+ACGHW A I AHMV 0 0
+10 1 2d21+59 7d7+82 2d4+6 slap
+4 6 6 9
+DFIJ 0 ABCN DEFGP
+stand stand none 0
+ABCDEFGHIJKMV ABCDEFGHIJKLU medium unknown
+#13002
+mary richards shoe saleswoman~
+Mary Richards~
+Mary Richards, the shoe saleswoman, beams a big, toothy smile.
+~
+This young, dark haired woman is very organized, but very nervous and rather
+shy.
+~
+human~
+ABCGV A DFV AHMV 900 0
+50 0 11d38+904 10d36+737 7d7+31 slap
+-13 -15 -15 -12
+F AB 0 0
+stand stand female 500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13003
+higgins haberdasher~
+Higgins~
+The haberdasher raises his eyebrows at you and exclaims, "Oh, my God!"
+~
+A middle-aged, pudgy Englishman dressed in a khaki safari suit.  He is
+balding, has a squidgy little mustache, and apparently feels intellectually
+superior.
+~
+human~
+ABCV A CDF AHMV 900 0
+100 0 18d71+5917 22d59+6184 3d39+61 bite
+-41 -41 -40 -37
+ADEFHIKN AB B EFG
+stand stand male 1000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13004
+thomas magnum shirt salesman~
+Magnum~
+Magnum beams at you, waggles his eyebrows, and says "Hey, you can trust me!"
+~
+A well-built, disarmingly handsome man with deep dimples, dark curly hair
+and mustache, and blue eyes.  Magnum is wearing a gaudy Hawaiian shirt,
+shorts, and sandals, and he has a pair of sunglasses hanging from a string
+around his neck.
+~
+human~
+ABGTVW A Cc AHMV 900 0
+100 0 18d71+5917 18d71+5917 5d23+63 punch
+-37 -40 -41 -36
+ADEFHIKN AB 0 0
+stand stand male 1000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13005
+thurston howell jeweler~
+Thurston Howell III~
+Thurston peers his eyes at you craftily through his jeweler's loop and rubs
+his hands together.
+~
+A man of medium build.  He has greying hair, and wears a dark blue yachting
+suit and deck shoes.
+~
+human~
+ABCGHV A Ic AHMV 0 0
+50 0 10d36+737 13d31+869 5d10+30 thwack
+-16 -15 -16 -11
+D 0 0 0
+stand stand male 500000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13006
+joel robinson florist~
+Joel Robinson~
+Joel stares at you sleepily and offers you a bouquet.
+~
+A slender young man stands here.  He has a heavy-lidded, sleepy look and a
+slow, drowsy smile.
+~
+human~
+ABCGRT A 0 AHMNV 0 13006
+70 1 18d32+1516 20d32+1817 5d16+45 punch
+-24 -24 -23 -21
+FK AB 0 0
+stand stand male 50
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13007
+crow robot florist assistant~
+Crow T. Robot~
+Crow looks at you and laughs.
+~
+A short golden robot with keen white bulbous eyes stands here.
+~
+doll~
+ABCG A 0 EHJMNc 0 13006
+50 1 10d36+737 15d25+802 7d7+32 scratch
+-13 -13 -18 -11
+DFIKLMNPQR EILMNPQRS EGHJKOS GHIJKO
+stand stand none 0
+ABCEGHJKMc ABCGHK small unknown
+#13008
+tom servo florist assistant~
+Tom Servo~
+Tom Servo says, "Can you give me a hand?  My arms don't work."
+~
+A short robot with a gumball-machine head and short slinky arms is here,
+wheeling around and insulting Crow.
+~
+doll~
+ACG A 0 EJMNc 0 13006
+50 0 16d24+835 11d38+904 5d10+30 none
+-15 -13 -17 -8
+DFIKLMNPQR EILMNPQRS EGHJKOS GHIJKO
+stand stand none 0
+ABCEGHJKMc ABCGHK small unknown
+#13009
+clayton forrester photographer~
+Dr. Clayton Forrester~
+The photogragrapher grimaces at you to "smile like a BIG cheese!"
+~
+Forrester is tall, wiry, and wild-eyed.  His greying hair sticks
+out in rakish spikes pointing in every direction.  He scowls at
+you through hideous neon-green hornrimmed glasses.  He wears
+a bright green labcoat and grimaces at you condescendingly.
+~
+human~
+ABCGHV A FGV AHMV -500 13009
+90 1 25d37+3384 31d31+3848 8d12+57 scratch
+-36 -35 -36 -29
+ADHI AB 0 0
+stand stand male 50
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13010
+frank assistant photographer~
+TV's Frank~
+TV's Frank raises an eyebrow, chortles, and nods is head slowly.
+~
+A pudgy, stupid man stands here grinning and trying to be intelligent.
+~
+human~
+ABCGHV A FG AHMNV -500 13009
+86 0 26d33+2992 28d32+3247 2d51+53 none
+-34 -33 -33 -29
+AI AB 0 0
+stand stand male 50
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13011
+infested rat~
+an infested rat~
+A disgusting rat is spreading the plague here.
+~
+The disgusting rat is mud-caked and filthy, and is covered in blood and
+dripping with pus.  It has blazing red eyes and long, vicious yellow fangs.
+~
+fido~
+AGU A FRVZ ABGV 0 0
+21 0 6d15+146 9d11+168 3d7+13 bite
+0 -1 -2 5
+DFHRU BLQ CM CD
+stand stand either 0
+ABCDEFGHJKQV ACDEFHJKQV small unknown
+#13012
+grubby street urchin~
+a grubby street urchin~
+A skinny urchin stands here with a hand outstretched, begging for money.
+~
+The urchin is bruised and bloodied, it is wearing tatters that cling in
+filthy layers to its emaciated body.  There is no telling how long it's
+been since this thing bathed.
+~
+human~
+ACGHV A FG AHMNV 100 0
+10 0 7d7+82 4d12+75 2d3+6 bite
+3 5 5 9
+DFHI A IR 0
+stand stand either 10
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13013
+pickpocket thief~
+the pickpocket~
+A sly pickpocket stands here leering at you.
+~
+The pickpocket looks like a vagabond, only more confident, it leers
+at you lopsidedly.  The pickpocket is wearing nondescript clothes,
+and blends into the crowd rather well.
+~
+elf~
+AGHNT A DFJPVZ AHMNV -300 0
+26 0 6d24+238 3d39+181 4d7+18 charge
+-4 -2 -1 0
+DEFHI AB BZ Z
+stand stand either 250
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13014
+hooker prostitute streeter~
+a hooker~
+A common hooker is here, hawking her wares.
+~
+Raising the hem of her skirt a bit, the hooker grins and swishes at you.
+She is dressed in dirty, tattered cloth and stockings that sport huge holes.
+Her bodice conveniently laces up the front and exposes a shockingly vast
+amount of her wares...
+~
+human~
+AGH A V AHMV 100 0
+42 0 14d21+623 7d44+589 4d12+28 none
+-12 -12 -13 -8
+DEFIK AM 0 NPQ
+stand stand female 205
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13015
+slut street~
+a slut~
+A pathetic street slut is here leering toothlessly and offering herself.
+~
+This pathetic creature is wearing a shift that barely covers what she's
+offering for sale.  She smells pretty rancid, and you shudder involuntarily.
+Sliding up and groping you, the slut winks and leers.
+~
+human~
+AGH A V AHMV 100 0
+22 0 10d11+194 9d11+168 3d7+14 bite
+-2 -1 -3 4
+DEFIK AM 0 NPQ
+stand stand female 150
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13016
+monk quiet~
+a quiet monk~
+A monk is here, smiling piously.
+~
+Dressed in simple dark Church vestments, the monk in quite unobtrusive.
+Beaming and looking cheerful, he crosses you and bows.
+~
+human~
+AGHVZ A C AHMV 800 0
+38 0 7d33+411 9d29+482 5d7+23 divine
+-8 -8 -9 -6
+ADEF AB 0 0
+stand stand male 20
+ABCDEFGHIJKMV ABCDEFGHIJKL medium unknown
+#13017
+church priest~
+a church priest~
+A church priest is here , looking somber.
+~
+Dressed in black vestments, the priest fingers his beads and peers at you.
+He wears a large, heavy iron crucifix around his neck.
+~
+human~
+AGHVZ A C AHMV 900 0
+78 1 23d31+2188 23d31+2188 5d17+48 divine
+-29 -29 -27 -24
+ADEF AB 0 0
+stand stand male 200
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13018
+humble friar~
+a humble friar~
+A friar is here, looking pious.
+~
+The friar is wearing a dark brown, simple robe, cinched at the waist by a
+plain cord.  Softly muttering prayers, the friar wanders about, lost in
+thought.
+~
+human~
+AGHVZ A Cc AHMV 900 0
+58 1 17d28+1136 6d81+1095 7d8+36 divine
+-18 -19 -21 -13
+ADEF AB 0 0
+stand stand male 20
+ABCDEFGHIJKMV ABCDEFGHIJKL medium unknown
+#13019
+streetwalker 'streeter hooker prostitute~
+the 'streeter~
+A streetwalker is here, offering her bodacious wares.
+~
+The 'streeter, being a higher-class of prostitute, is better attired.
+Her garments are clean, though well-worn, probably hand-me-downs.  She wears
+a simply lacing bodice and colorful though faded skirt.  She wears a
+loose-fitting shawl.  Brushing against you, the 'streeter winks suggestively.
+~
+human~
+AGH A V AHMV 100 0
+52 1 13d31+869 11d38+904 6d9+33 punch
+-15 -15 -14 -12
+DEIKU AM 0 NPQ
+stand stand female 178
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13020
+madame~
+a madame~
+A madame is here, looking after her girls.
+~
+The madame seldom offers herself for profit anymore, having enough girls
+to make her rich.  She is dressed in a bright crimson, tight-fitting dress
+with a low-cut neckline and many buttons.  Looking shrewd, the madame watches
+her girls and counts her money.
+~
+human~
+AGHVZa A Cc AHMV 100 0
+98 2 25d45+4979 33d37+5662 3d39+62 none
+-37 -40 -40 -35
+ADEF AB 0 0
+stand stand female 5465
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13021
+nun~
+a nun~
+A nun is here, humming and looking cheerful.
+~
+Dressed in simple black robes and wimple, the nun is rather nondescript.
+Humming and singing, she cheerfully smiles and offers to pray for you.
+~
+human~
+AGHZa A Cc AHMV 900 0
+58 1 6d81+1095 6d81+1095 7d8+36 divine
+-20 -19 -19 -14
+ADEF AB 0 0
+stand stand female 20
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13022
+noble knight~
+a noble knight~
+A noble, virtuous knight is here keeping the peace.
+~
+The knight is dressed in heavy studded plate armor and wears a massive
+shield.  He carries a heavy longsword, its hilt decorated with simple gems.
+He watches the crowd warily for troublemakers and pickpockets.
+~
+human~
+AGTV A CVc AHMV 400 0
+105 2 35d38+6755 31d46+7713 9d12+64 none
+-41 -44 -43 -39
+ACEFHKS AMQ BEFG HIL
+stand stand either 7000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13023
+squire~
+the squire~
+A busy squire tends a knight loyally.
+~
+Dressed in light armor and tabard, the squire has more mobility than his
+knight.  He wears a slouch hat with a long, trailing feather and carries a
+small sword.
+~
+human~
+AGTV A CVc AHMV 400 0
+90 1 31d31+3848 17d61+4003 6d17+58 none
+-34 -35 -36 -32
+CDEFHKS AM BEFG HIL
+stand stand either 4000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13024
+flower girl~
+a flower girl~
+A young girl is here, selling fresh flowers.
+~
+The young girl is dressed in tatters and bare feet.  A simple shawl is
+draped about her, and she wears one of her flowers in her hair.  The
+ poor but proud young girl offers you a fresh flower from her basket.
+~
+human~
+AGH A 0 AHMNV 600 0
+30 0 14d14+367 7d23+271 4d7+18 scratch
+-5 -5 -5 -1
+FIK A M FGHI
+stand stand female 200
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13025
+sweets seller~
+a seller of sweetmeats~
+The sweetmeat seller is here hawking fruits and candies.
+~
+The seller is dressed in colorful cotton and is wearing a big canvas apron.
+Pushing a small cart laden with fruit and candies, the seller smiles and
+offers you a sweet.
+~
+human~
+AGH A 0 AHMNV 500 0
+46 0 5d65+687 17d17+658 5d10+30 bite
+-13 -13 -13 -7
+FIK A M FGHI
+stand stand either 657
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13026
+fleabitten shaggy dog~
+a fleabitten dog~
+A mangy dog scratches its fleas and pants at you.
+~
+A large, nondescript, shaggy dog is here scratching its fleas.
+~
+fido~
+ACH A FR ABGV -100 0
+6 -1 4d5+35 3d5+26 1d5+4 bite
+10 7 7 13
+FNR 0 C CJT
+stand stand either 0
+ABCDEFGHJKQV ACDEFHJKQV small unknown
+#13027
+large grey dog mastiff~
+a mastiff~
+A large, muscular grey dog sits here, growling.
+~
+The large grey dog appears to have blood dripping from a piece of flesh in
+its mouth.
+~
+fido~
+ACH A FR ABGV -50 0
+24 0 7d19+223 7d19+223 4d5+14 bite
+-2 1 -4 2
+FNR 0 C CJT
+stand stand either 0
+ABCDEFGHJKQV ACDEFHJKQV medium unknown
+#13028
+nobleman rich~
+a nobleman~
+A rich nobleman is here, looking proud.
+~
+Dressed in rich silks, the nobleman is looking for a bargain.
+~
+human~
+AGNT A D AHMV 300 0
+76 1 24d27+1884 24d27+1884 8d10+49 wrath
+-27 -30 -26 -26
+ACEHIK AM BCE FG
+stand stand male 5000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13029
+merchant travelling~
+a travelling merchant~
+A merchant is here, selling his goods.
+~
+Dressed in fine robes, the merchant is examining goods and counting his
+cash.
+~
+human~
+AGNT A D AHMV 200 0
+50 1 16d27+977 11d38+904 2d27+29 none
+-15 -15 -16 -12
+ACDEFK AM BCE FG
+stand stand male 599
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13030
+monk~
+a quiet monk~
+A pensive monk is here, smiling piously.
+~
+Dressed in a simple, shapeless brown wool robe cinched at the waist with a
+dark cord, the monk is the epitome of "simplistic".  He smiles at you and
+bows his head.
+~
+human~
+AGHV A C AHMV 800 0
+38 0 16d16+508 9d29+482 5d8+25 divine
+-9 -9 -9 -6
+ADEF AB 0 0
+stand stand male 20
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13031
+Church priest~
+A church priest~
+A church priest is here looking somber.
+~
+Dressed in black vestments and starched white collar, the priest fingers his
+beads and peers at you questioningly.
+~
+human~
+AGHV A C AHMV 900 0
+78 0 23d31+2188 15d51+2361 8d10+49 divine
+-29 -32 -29 -25
+ADEF AB 0 0
+stand stand male 200
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13032
+church bishop~
+a church Bishop~
+A stern bishop of the Church is here, blessing his supplicants.
+~
+He is wearing long, flowing purple robes and a tall, pointed hat.
+He carries a long staff adorned with a large silver crucifix.
+~
+human~
+AGQVa A CFc AHMOV 800 0
+104 0 37d39+8061 27d51+7060 10d11+66 divine
+-43 -42 -43 -38
+AEHKNQ ABD LNPQ HIJKMO
+stand stand male 4000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13033
+high priest~
+the high priest of Thoth~
+A High Priest of Thoth is here, smiling beguilingly and inviting you to join him.
+~
+The High Priest is dressed in deep purple robes spangled with tiny silver
+stars.  There is an amulet in the shape of a crescent around his neck.
+~
+elf~
+AGQV A CEGJc AHMNV 900 0
+107 0 37d39+8061 39d39+9201 8d15+68 divine
+-44 -45 -45 -40
+ADEHNQ ABCD BMNOPQZ HIJKLZ
+stand stand male 6500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13034
+priestess~
+high priestess of Thoth~
+A High Priestess of Thoth is here beguiling you and beckoning you to join her.
+~
+The High Priestess is wearing low-cut deep purple robes with tiny silver
+stars around the neckling, hem, and sleeves.  She is wearing a circlet with a
+crescent moon in the center of her forehead.
+~
+elf~
+AGQV A CEGJc AHMNV 900 0
+107 0 13d119+8804 31d46+7713 7d17+66 divine
+-41 -42 -40 -39
+ADEHNQ ABCD BMNOPQZ HIJKLZ
+stand stand female 6500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13035
+angry father~
+an angry father~
+An angry father is here, clutching a shotgun and scowling at you.
+~
+The angry father is looking for a PARTICULAR man to marry his daughter!
+The father wears worn overalls and a flannel workshirt.  He is clutching a
+long, double-barrelled shotgun.
+~
+troll~
+AFGTV A DFJPVc ABHMV 100 0
+66 0 13d42+1361 22d27+1696 2d39+42 punch
+-22 -23 -22 -18
+CDEH ABEL BCEHKPQ DFGHIJKZ
+stand stand male 11000
+ABCDEFGHIJKMUV ABCDEFGHIJKUV medium unknown
+#13036
+huge cockroach~
+A HUGE cockroach~
+A huge, vile cockroach is here, fluttering its antennae and rasping its
+claws against the cobbles.
+~
+This cockroach looks like it has lived a LONG time...considering it's the
+size of a large dog!!  Oily, glistening, its mandibles clicking, it stares at
+you with fathomless, cold eyes.
+~
+centipede~
+ACFGU A JVZ ABGO -500 0
+36 0 14d17+458 4d51+347 2d21+23 chomp
+-8 -5 -6 -5
+DHV AEFGIN EFIP EHJKLR
+stand stand either 0
+ABCGKO ACFKMU medium unknown
+#13037
+honeymooning bride~
+a honeymooning bride~
+A honeymooning bride is here, blissfully wandering about.
+~
+The honeymooning bride is dressed in a comfortable yet pretty dress and
+shoes.  She is carrying a large bag.
+~
+human~
+AGH A 0 AHMNV 500 0
+46 0 10d35+705 17d17+658 5d10+30 slap
+-11 -15 -15 -11
+FK RSTXYZ ABCNP DHIO
+stand stand female 51045
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13038
+honeymooning groom~
+a honeymooning groom~
+A honeymooning groom is here, gazing happily at his bride.
+~
+The groom is dressed in comfortable tabard and tights.  He is carrying a
+large wallet.
+~
+human~
+AGH A 0 AHMNV 500 0
+46 0 14d26+769 5d65+687 4d12+28 punch
+-13 -10 -13 -8
+FK RSTXYZ ABCNP DHIO
+stand stand male 51000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13039
+young noble~
+a young noble~
+A young noble is here looking to spend a LOT of money.
+~
+A young noble is here looking to spend a LOT of money.
+~
+human~
+AGNRV A CFV AHMOV 500 0
+101 0 18d71+5917 33d37+5662 7d16+63 stab
+-41 -42 -37 -35
+EKS MNP Q CDHI
+stand stand male 25250
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13040
+common soldier~
+a common soldier~
+A common soldier is here, warily eyeing you.
+~
+The soldier is wearing a navy blue tabard and striped tights.  He is
+holding a long, glittering sword.  He watches you suspiciously.
+~
+dwarf~
+AGTV A CDIJ AHMV 400 0
+36 0 7d33+411 14d17+458 2d21+23 smash
+-8 -7 -9 -4
+CEHKSU LNQ DLQR CHIOPR
+stand stand male 250
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13041
+choir boy~
+a choir boy~
+A choir boy is here, practicing his scales.
+~
+The choir boy is dressed in his choir robes.  He holds a candle in one
+hand, and a songbook in the other.
+~
+human~
+AGHS A C AHMV 500 0
+18 0 8d10+135 9d11+168 3d7+13 slap
+2 1 1 6
+FK 0 KL CDNP
+stand stand male 1500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13042
+gardener~
+a gardener~
+A gardener is here dutifully clipping the hedges and tending the flowers.
+~
+The gardener is dressed in simple grey flannel robes.  He is carrying a
+pruning knife.
+~
+human~
+ACGHSV A 0 AHMV 200 0
+66 0 24d24+1572 23d24+1463 8d8+41 beating
+-22 -24 -24 -20
+CEIKN JR CMNO HIQ
+stand stand male 2550
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13043
+guildsman~
+a guildsman~
+A guildsman is here tending his goods.
+~
+The guildsman is dressed in brightly-colored robes.  He is carrying a pack
+of his wares.
+~
+human~
+ACGV A 0 AHMV 100 0
+68 0 20d32+1817 23d24+1463 6d12+43 stab
+-24 -22 -23 -17
+FN 0 ABNP CDQ
+stand stand male 3365
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13044
+gypsy dancer~
+a gypsy dancer~
+A beautiful young gypsy woman is here, rattling a tambourine and twirling.
+~
+The dancer is dark-skinned and dark-eyed with exotic features.  She is
+wearing handcrafted scarves in many layers, adorned with colorful ribbons.
+She is carrying a tambourine.
+~
+human~
+AGHSV A CEV AHMV 300 0
+68 0 11d56+1629 23d27+1752 6d12+43 bite
+-25 -25 -22 -18
+BCHN 0 CP DNO
+stand stand female 6756
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13045
+gypsy musician~
+a gypsy musician~
+A gypsy musician is here, tapping a drum.
+~
+The musician is swarthy and wears dark reds and purples and blues, his
+vest is cropped short, and he wears baggy silk pants.  He is playing a drum.
+~
+human~
+AGHSV A E AHMV 100 0
+68 0 24d24+1572 22d27+1696 2d39+42 none
+-23 -25 -25 -21
+BCHN 0 CP DNO
+stand stand male 4265
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13046
+gypsy leader~
+the gypsy leader~
+The leader of the gypsies is here, watching the crowd.
+~
+The gypsy leader is dressed in bright colors and wears a bright red head
+scarf.
+~
+human~
+AGSTV A EJZ AHMNOV 100 0
+105 0 37d39+8061 27d52+7380 7d17+66 punch
+-40 -42 -41 -35
+BDEN BQ ACD JMNOP
+stand stand either 67560
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13047
+crying mother~
+a crying mother~
+A bereft mother is here, sobbing piteously.
+~
+A crying mother is dressed in black and is sobbing into an expensive lace
+handkerchief.
+~
+human~
+ACGH A C AHMNV 500 0
+40 0 15d18+534 15d18+534 5d8+26 none
+-13 -12 -13 -6
+DR A HIJ BCNP
+stand stand female 6000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13048
+townsman~
+a townsman~
+A townsman is here, relaxing and watching the world go by.
+~
+The townsman is dressed in plain, earthy browns and greens.  He holds a
+mug in one hand, and grins lopsidedly as you approach.
+~
+human~
+ACGT A 0 AHMV 500 0
+78 0 16d51+2654 28d29+2762 6d14+48 punch
+-31 -31 -29 -24
+CHNQ AR CDHIJ 0
+stand stand male 9652
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13049
+townswoman~
+a townswoman~
+A townswoman is here shopping.
+~
+The townswoman is dressed in plain colors and wears a shawl.  She carries a
+willow basket.
+~
+human~
+ACGHV A 0 AHMV 500 0
+78 0 14d56+2454 15d51+2361 5d17+48 punch
+-30 -30 -29 -26
+CHNQ AR CDHIJ 0
+stand stand female 10652
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13050
+Arthur Fonzerelli Fonzie~
+Fonzie~
+Fonzie is here combing his slicked-back hair and admiring himself in the mirror.
+~
+Fonzie is dressed in jeans and a leather jacket.  He has slicked back dark
+hair and admires himself in the mirror.  He is carrying a comb.
+~
+human~
+AGTVW A F AHMV 300 0
+109 1 31d46+7713 37d39+8061 7d17+67 punch
+-45 -45 -44 -42
+CEKN EPR BC MNQ
+stand stand male 12000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13051
+humble friar~
+a humble friar~
+A humble friar is here quietly tending his plants.
+~
+The friar is wearing a long, simple brown robe and sandals.  He has a cord
+tied around his waist to adjust the fit of his garment.  He is carrying a
+bota of nectar.
+~
+human~
+ACGHQRV A CGc AHMNV 800 0
+86 0 24d35+2874 26d33+2992 2d51+54 divine
+-32 -32 -34 -28
+FINQ AN BLP FGHMO
+stand stand male 560
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13052
+healer~
+a holy healer~
+A Holy Healer of the goddess Eriana is here healing the wounded and meditating.
+~
+The healer is dressed in simply-cut blue silk robes and sandals.  He sits
+cross-legged on a zabuton pillow, quietly tending the ailing.  He appears to
+be very, VERY old...and very wise.
+~
+human~
+ABGJQRVab A CDEFZ AHMV 1000 0
+109 0 15d101+8425 39d49+9601 9d13+68 divine
+-46 -43 -42 -38
+EHI ABL CDN HIJMOP
+sit sit male 100
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13053
+Father Tom~
+Father Tom~
+Father Tom is here, grumbling and making irreverent observations and scathing witticisms.
+~
+Father Tom is dressed in flowing black robes and is wearing a heavy Celtic
+cross.  He is wearing the Ring of the Grand Inquisitor and carries an incense
+burner.
+~
+human~
+AGQRV A CDZ AHMNV -500 0
+109 2 15d101+8425 39d39+9201 8d15+69 divine
+-44 -43 -43 -39
+ACDEN ABP CQS DIOY
+stand stand male 10000
+ABCDEFGHIJKMV ABCDEFGHIJK large unknown
+#13054
+Innkeeper Yuri~
+Yuri the Innkeeper~
+Yuri is here scowling at you.
+~
+Yuri appears much fiercer than he really is.  His hair and beard are wild,
+but he has kind grey eyes.  He is smoking an immaculate meerschaum pipe.
+~
+human~
+ABGTV A 0 AHMNV 300 0
+98 0 30d39+5433 18d71+5917 3d39+62 none
+-39 -40 -40 -36
+CE RTX ABEPY CHQZ
+stand stand male 7524
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13055
+wife bella~
+Bella, the Innkeeper's wife~
+Bella is here smiling warmly and greeting you.
+~
+Bella is heavyset, motherly woman.  She wears a simple workdress and apron,
+and carries a dusting cloth.
+~
+human~
+ABGTV A 0 AHMNV 300 0
+92 0 21d49+4190 14d80+4553 6d17+58 slap
+-35 -33 -35 -32
+CE RTX ABEPY HLQZ
+stand stand female 7500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13056
+Mother Superior~
+Mother Superior~
+Mother Superior is here watching you approvingly.
+~
+Mother Superior is an older woman with sharp features and gentle, wise blue
+eyes.  She is wearing dark nun's robes and a starched wimple.  There is a
+heavy silver crucifix around her neck.
+~
+human~
+AGQV A C AHMNV 900 0
+107 0 13d119+8804 13d119+8804 9d13+68 divine
+-43 -42 -41 -37
+FKS MN CPQ FZ
+stand stand female 3265
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13057
+barmaid~
+a barmaid~
+A pretty young barmaid is here ready to serve you.
+~
+The young barmaid is slender and buxom.  She has long dark curly hair and
+soft blue eyes.  She wears simple, colorful skirts and a plain bodice.
+She dimples at you prettily as you look at her.
+~
+human~
+AGH A 0 AHMNV 400 0
+42 0 13d22+561 7d44+589 5d8+26 slap
+-11 -10 -10 -4
+DEFIK AM 0 NPQ
+stand stand female 6500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#13058
+jackie banker~
+Jackie the Banker~
+Jackie the Banker sits behind her desk, smiling brightly.
+~
+Jackie is lovely wood elf dressed in rich clothes.  How a wood elf came
+to be a banker in a human city is a long story.
+~
+elf~
+ABVd A DFJ AHMV 900 0
+50 0 16d24+835 14d26+769 6d8+31 slap
+-12 -13 -13 -12
+FG ABCD BZ Z
+stand stand female 1000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#0
+
+
+
+#OBJECTS
+#13000
+black tails tuxedo~
+a black tuxedo~
+A black satin-lapelled tuxedo.~
+wool~
+clothing AIN AD
+0 0 0 0 0
+5 30 7500 P
+#13001
+worn used black tuxedo coat~
+a worn black tuxedo~
+A worn black tuxedo.~
+wool~
+clothing IN AD
+0 0 0 0 0
+5 30 15 P
+#13002
+white beaded satin wedding gown~
+a white beaded satin gown~
+A white beaded satin gown.~
+satin~
+clothing AIN AK
+0 0 0 0 0
+5 30 20000 P
+#13003
+faded wedding gown gray~
+a faded gray wedding gown~
+A faded soiled gown.~
+cloth~
+clothing IN AK
+0 0 0 0 0
+5 80 30 P
+#13004
+black wool pants~
+black wool pants~
+Black wool pants.~
+wool~
+clothing AIN AF
+0 0 0 0 0
+5 20 3500 P
+#13005
+worn black trousers~
+worn black trousers~
+Worn black threadbare trousers.~
+cloth~
+clothing IN AF
+0 0 0 0 0
+5 15 100 P
+#13006
+black satin bow tie~
+black satin bow tie~
+A black satin bow tie.~
+satin~
+clothing AIN AC
+0 0 0 0 0
+5 5 500 P
+#13007
+stained black bow tie~
+stained black bow tie~
+A worn, stained black bow tie.~
+satin~
+clothing AIN AC
+0 0 0 0 0
+5 5 10 P
+#13008
+crisp starched white shirt~
+a crisp, starched white shirt~
+A crisp, starched white shirt.~
+linen~
+clothing AMN AD
+0 0 0 0 0
+5 8 2500 P
+#13009
+greg brady ruffled white shirt~
+a Greg Brady ruffled white shirt~
+A Greg Brady ruffled white shirt radiates its warmth.~
+velvet~
+clothing AMNY AD
+0 0 0 0 0
+5 10 0 P
+#13010
+black cummerbund satin~
+a black satin cummerbund~
+A black satin cummerbund.~
+satin~
+clothing AIN AL
+0 0 0 0 0
+5 5 1000 P
+#13011
+worn black polyester cummerbund~
+a worn black polyester cummerbund~
+A worn black polyester cummerbund with a mysterious green stain.~
+polyester~
+clothing AMNUY AL
+0 0 0 0 0
+5 5 5 P
+E
+stain~
+Gosh, that is a bad stain.
+You decide to not look any closer.
+~
+#13012
+black wingtips~
+shiny black wingtips~
+Shiny black wingtips.~
+patent leather~
+clothing AIN AG
+0 0 0 0 0
+5 1 500 P
+#13013
+bowling shoes~
+{rred{x {Yand {bblue{x bowling shoes~
+{rRed{x {Yand {bblue{x bowling shoes are here.~
+hard leather~
+clothing AMNY AG
+0 0 0 0 0
+5 1 3 P
+E
+shoes bowling~
+A moth escapes from within... and expires.
+~
+#13014
+black felt tophat~
+a black felt tophat~
+A black felt tophat.~
+felt~
+clothing AIN AE
+0 0 0 0 0
+5 8 1500 P
+#13015
+white silk gloves~
+white silk gloves~
+White silk gloves.~
+silk~
+clothing AIN AH
+0 0 0 0 0
+5 1 500 P
+#13016
+tammy faye bakker makeup~
+Tammy Faye Bakker makeup~
+A thick, gooey layer of nasty makeup...comes with its own spatula.~
+jelly~
+clothing AEGHJMNOUYZ AR
+0 0 0 0 0
+5 150 10 P
+E
+face makeup~
+And you thought Bozo wore makeup.
+~
+#13017
+white garter lace~
+a white lace garter~
+A white lace garter.~
+lace~
+clothing IN AF
+0 0 0 0 0
+5 5 150 P
+#13018
+edible undies~
+Eri's edible undies~
+Tasty cinammon flavored candy undies from your favorite goddess.~
+candy~
+food NU AL
+5 8 0 0 0
+0 2 500 P
+#13019
+white silk veil~
+a white silk veil~
+A white silk veil.~
+silk~
+clothing AIN AR
+0 0 0 0 0
+5 2 2000 P
+#13020
+sheer silk stockings white~
+white sheer silk stockings~
+White sheer silk stockings.~
+silk~
+clothing IN AF
+0 0 0 0 0
+5 1 500 P
+#13021
+white patent pumps~
+white patent pumps~
+White patent pumps.~
+soft leather~
+clothing AIN AG
+0 0 0 0 0
+5 3 1200 P
+#13022
+flowers~
+sumkinda flowers~
+We need flowers.~
+soft leather~
+clothing AIN AG
+0 0 0 0 0
+5 3 1200 P
+#0
+
+
+
+#ROOMS
+#13000
+Florist shop & Herbalist~
+You are standing in a fragrant, sunny room surrounded by dried herbs,
+fresh-cut and potted flowers, and plants.  Sprigs of herbs hang from
+the stucco walls, tied with twine or ribbon, pots of herbal extracts
+and medicines line the wall behind the long marble counter in the
+back corner.  A large skylight opening allows sunlight to stream across
+the leafy, lush green plants.  Small stands and carts are arranged
+throughout.  Large bouquets of fresh-cut flowers and garlands festoon
+the marble counter, ready to be purchased for the last-minute wedding...
+or a quick romantic evening.  A stone door is located to the west,
+and there is a staircase leading down.
+~
+0 1036 1
+E
+daisies~
+Immaculate, cheerful daisies are caught up into bouquets.
+~
+E
+corsages~
+Small, colorful flowers are tied together into corsages.
+~
+E
+container bouquets~
+Mixed bouquets of bright, beautiful flowers are tied with colorful
+ribbons.
+~
+E
+wispy ferns~
+Long, delicate ferns trail gently over your shoulders.
+~
+E
+vase roses~
+A glass vase is filled with beautiful red roses.
+~
+E
+long marble counter~
+The counter is clean and smooth.  There is a vase of roses on one end,
+bouquets of daisies and small corsages are arranged on the other.  Long,
+wispy ferns trail over the edge.
+~
+D2
+You see a busy, cobbled street.
+~
+~
+0 -1 13153
+D3
+You see a stone vault for keeping flowers fresh.
+~
+stone door~
+0 -1 13001
+D5
+You see a staircase leading down to the cellar.
+~
+~
+0 -1 13002
+S
+#13001
+A stone vault~
+A small stone vault lined with shelves of various planters, plants,
+fresh-cut flowers, and bags of soil.  The variety of flowers is endless,
+roses, tulips, violets, and daffodils, fragrant jasmine, hyacinths, and
+magnolias, long-stemmed irises, brilliant peonies, soft fern, heather,
+and lilacs, garlands, baby's breath, and broad-leaved laurels...
+~
+0 524 1
+E
+Laurel~
+Broad-leaf, shining laurels are braided into ropes and twisted into
+garlands.
+~
+E
+Baby's breath~
+Tiny clusters of delicate baby's breath are tied together to add color
+to bouquets.
+~
+E
+Garlands~
+Fresh and dried flower garlands, formed into circlets for any fair
+maiden's hair, hang from pegs.
+~
+E
+Lilacs~
+Pink, purple, and white clusters of fragrant lilacs brighten the room.
+~
+E
+Heather~
+Pink and purple fronds rest here in vases.
+~
+E
+Fern~
+Long, lacy fern fronds are here, scattered on the table, waiting to be
+tied into bouquets.
+~
+E
+Peonies~
+Blood-red, brilliant peonies from Eriana's personal garden are here,
+glowing softly.
+~
+E
+Irises~
+Long-stemmed, brilliant irises are gathered here in a jar.
+~
+E
+Magnolias~
+Giant, fragrant magnolias nearly overpower the tiny room with their
+perfume.
+~
+E
+Hyacinths~
+Pink, white, and blue hyacinths fill the air with sweet fragrance from
+their heavy clusters.
+~
+E
+Jasmine~
+Sweet, fragrant jasmine blossoms are here in a clay vase.
+~
+E
+Daffodils~
+Bright, cheerful daffodils are here in a vase.
+~
+E
+Violets~
+Rich, deep purple violets are being grown in pots here.
+~
+E
+Tulips~
+A large vase is filled with varicolored tulips.
+~
+E
+Roses~
+Long-stemmed, dusky red roses.
+~
+D1
+You see a large stone door
+~
+stone door~
+0 -1 13000
+S
+#13002
+A dark, cool cellar~
+This cellar is rather humid and cool.  Surprisingly clean for such a
+dark place, the room is filled with the aroma of damp earth and wet
+stone, fresh growth, and fertilizer.  Along one wall a variety of
+smooth, bulbous mushrooms are growing in long, shallow troughs.  A low,
+heavy wood-plank table sits in one corner.  A variety of herbs and
+leaves are spread here on drying racks.  A mortar and pestle of dark
+grey granite rest here.  Bunches of herbs and drying mosses are caught
+up into bunches, and hang from the low ceiling.  Along the left wall is
+a row of colorful spools of ribbon, a spool of floral wire, and a
+variety of floral supplies.
+~
+0 1033 1
+D4
+You see a staircase leading up.
+~
+~
+0 -1 13000
+S
+#13003
+An empty, abandoned shop~
+The room is dark and musty, its windows boarded up.  There is trash
+littering the floor.
+~
+0 9 1
+D2
+You see a busy, cobbled street.
+~
+~
+0 -1 13152
+S
+#13004
+Southern Thera Savings and Loan~
+A large steel vault dominates the north wall.  A small nondescript
+desk sits in the middle of the room.  Though you see no guards,
+small ambush slots cut into the walls on both sides of you make
+it obvious you are being watched.
+A small sign sits on the desk.
+~
+0 8 1
+E
+sign~
+Welcome to Southern Thera Savings and Loan.
+    You may DEPOSIT or WITHDRAW platinum coins only,
+    in equal amounts of 50 coins.  A 4% penalty will
+    be imposed on all early withdrawals.
+    Do not leave your PASSBOOK unguarded, and your
+    money will be safe.
+    Our operating hours are 8am to 4pm.
+~
+D2
+You see a busy, cobbled street.
+~
+~
+0 -1 13151
+S
+#13005
+Howell's Jeweller's~
+This well-lit shop is accentuated by the light dancing off the surfaces
+of virtually hundreds of gems, jewels, and precious & semi-precious
+stones.  Along the north wall is a padded counter lined with silk.  On
+the east wall is a glass counter of blue gems.  To the south, red gems
+line another case, and to the west, green gems radiantly glow in a
+fourth case.  With so many beautiful items from which to choose, it
+should be a simple task to select a ring or gift.  There is a sign on
+the counter.
+~
+0 9224 1
+E
+A case of green gems~
+Beautiful, deep-green emeralds, cool jades, passionate Moongems,
+dragons' tears, and a number of rare green gems are here.
+~
+E
+A case with red gems~
+Blazing, fiery rubies, topazes, firegems, and mysterious stones of
+unknown make glitter and glow here.
+~
+E
+A long glass counter lined with blue gems and stones.~
+Fiery sapphires, paua shells, turquoise, and varicolored amethysts catch
+the light and seem to alight with an inner glow from beneath the glass.
+~
+E
+A long padded counter, lined with iridescent pearls, radiant opals, and
+
+glittering diamonds.~
+Brilliant diamonds and shimmering pearls, both fresh and salt-water,
+glow from under the case.
+~
+D2
+You see a busy, cobbled street, with shops to the south.
+~
+~
+0 -1 13154
+D3
+You see a busy, cobbled street, and an empty shop across the way.
+~
+~
+0 -1 13149
+S
+#13006
+A dark alleyway~
+An eerie, silent black alleyway is here.  You can hear a soft
+"scratch-scratch", as though of scales or claws on stone from the
+darkened corners.
+~
+0 8193 1
+D0
+You see a dark, chilling alleyway continuing in this direction.
+~
+~
+0 -1 13007
+D2
+You see an entrance to the cheerier, cobbled street to the south.
+~
+~
+0 -1 13155
+S
+#13007
+A dark alleyway~
+An eerie, silent black alleyway is here.  You can hear a soft
+"scratch-scratch", as though of scales or claws on stone from the
+darkened corners.
+~
+0 8193 1
+D2
+You see a dark, chilling alleyway continuing in this direction.
+~
+~
+0 -1 13006
+D3
+You see that this alley continues to the west.
+~
+~
+0 -1 13008
+S
+#13008
+A dark alleyway~
+An eerie, silent black alleyway is here.  You can hear a soft
+"scratch-scratch", as though of scales or claws on stone from the
+darkened corners.
+~
+0 8193 1
+D1
+You see a dark alley to the east.
+~
+~
+0 -1 13007
+D3
+You see a lighted street to the west.
+~
+~
+0 -1 13148
+S
+#13009
+Magnum's Formalwear~
+This unusual formal wear shop has typical vertical racks of clothing to
+the east and the west.  The racks on the left contain new, clean,
+sharply-pressed clothing, suits, trousers, tuxedos, and clawhammer-style
+coats.  To the right are racks and bundles of worn, forlorn, threadbare,
+grungy items for the groom-on-a-budget.  At the back of the shop is the
+typical counter, but prominently displayed on and around it on a shelf
+are bright, gaudy, shocking Hawaiian-print shirts, pants, and shorts.
+~
+0 12 1
+E
+shelf~
+A shelf of gaudy Hawaiian-print shirts in every imaginable color
+<and a NUMBER you'd rather not!>.
+~
+E
+tailored rack~
+A rack of well-tailored men's suits and tuxedos.
+~
+E
+vertical rack~
+A vertical rack of tattered, worn, and grungy clothes.
+~
+D0
+You see a wooden door marked "Dressing Room".
+~
+wooden door~
+0 -1 13010
+D1
+You see a doorway leading into the bridal shop next door.
+~
+~
+0 -1 13013
+D2
+You see a wooden door leading to a cobbled street.
+~
+door~
+0 -1 13156
+S
+#13010
+The men's dressing room~
+This small foyer leads into two dressing areas, one to the east, one to
+the west.  Due north is a full-length, three-sided mirror.
+~
+0 1545 1
+D1
+You see a wooden dressing-room door.
+~
+wooden door~
+0 -1 13011
+D2
+You see the doorway leading back into the shop.
+~
+wooden door~
+0 -1 13009
+D3
+You see a wooden dressing-room door.
+~
+wooden door~
+0 -1 13012
+S
+#13011
+The dressing room cubicle~
+This small dressing room has a bench against one wall, and a mirror on
+the other.  Small wooden pegs are driven into the wall about six feet
+from the floor level.
+~
+0 3081 1
+D3
+You see a door leading into the main dressing room area.
+~
+wooden door~
+0 -1 13010
+S
+#13012
+The dressing room cubicle~
+This small dressing room has a bench against one wall, and a mirror on
+the other.  Small wooden pegs are driven into the wall about six feet
+from the floor level.
+~
+0 3081 1
+D1
+A door leading into the main dressing room area.
+~
+wooden door~
+0 -1 13010
+S
+#13013
+Sherri Bridals~
+This neat, airy shop is bustling with activity.  The seamstress seems to
+virtually fly from customer to customer to keep up with the rush.  Along
+the east and west walls are long racks of white and off-white wedding
+dresses, and sequined formal gowns in every color.  A wooden shelf of
+lingerie and hoopskirts hangs above the rack.  Along the back wall is a
+counter in one corner, and a carpeted pedestal in the other, surrounded
+by a three-sided full-length mirror.  Racks of flowing veils are scattered
+throughout the shop.  A small counter containing tiaras, lace gloves,
+handkerchiefs, and various bridal accessories is located near the front of
+the shop.  There are windows along the east wall of the shop, showing the
+street outside.
+~
+0 1036 1
+E
+veil rack~
+A tall rack containing veils in various lengths and shades.
+~
+E
+long rack west~
+A rack of sequined formals in various colors.
+~
+E
+wooden shelves~
+A set of wooden shelves containing petticoats, hoopskirts, and various
+lingerie.
+~
+E
+long rack east~
+A long horizontal rack of white and off-white wedding gowns.
+~
+D0
+You see a white-painted wooden door marked "Dressing Room".
+~
+white painted door~
+0 -1 13014
+D2
+You see a doorway leading onto the street.
+~
+~
+0 -1 13157
+D3
+You see a doorway leading into the Formal shop next door.
+~
+~
+0 -1 13009
+S
+#13014
+The ladies' dressing room~
+This spacious area was constructed with the bride and her maids-of-honor
+in mind, it is large enough for at least ten people to sit or stand
+comfortably.  There are no adjacent dressing rooms here, all changes are
+done in some part of this general room.  Mirrors line the walls, and a
+large three-sided mirror is at the back of the room.  Large racks of
+discarded dresses are prominent.  Comfortable chairs and couches are
+spread around the room.
+~
+0 1036 1
+D2
+You see a door leading back into the shop.
+~
+white wooden door~
+0 -1 13013
+S
+#13015
+An empty, abandoned store~
+Cobwebs canopy the ceiling and blanket the piles of trash and fallen
+debris in this abandoned building.  Litter is scattered across the floor,
+covered with dust and rat droppings.  There are exits east & north.
+~
+0 9 1
+D0
+You see a doorway leading to the church square.
+~
+~
+0 -1 13145
+D1
+You see a doorway leading to a cobbled street.
+~
+~
+0 -1 13187
+S
+#13016
+Photographer's studio~
+Hmmm...this place looks more like a mad scientist's laboratory than a
+photographer's studio...test tubes, bubbling potions, steaming flasks,
+and coils of copper and glass tubing litter the main counter, as well as
+those along each wall.  Long strips of sticky yellow film hang from the
+rafters, twisting lazily.  Upon closer examination, you discover
+partially decomposed fly bodies scattered on the strips....EWWWW! This
+is a flystrip, not a roll of film!!! Exits are north to the street and
+west to a darkened room.
+~
+0 9 1
+D0
+You see a doorway leading to the church square.
+~
+~
+0 -1 13144
+D3
+You see a doorway leading to the darkroom.
+~
+~
+0 -1 13017
+S
+#13017
+A darkened room~
+This room is completely black.  There appear to be no windows, and no
+exits, save the one through which you entered.
+~
+0 9 1
+D1
+You see a doorway leading into the photographer's shop.
+~
+~
+0 -1 13016
+S
+#13018
+An abandoned storehouse~
+This old storehouse has long shelves lining each of the walls.  A few
+dusty wooden bins line the east wall.  Pieces of withered, desiccated
+corn hulls and bits of grain litter the floor.  The place smells musty.
+There are exits to the north and to the west.
+~
+0 9 1
+D0
+You see a doorway leading to the church square.
+~
+~
+0 -1 13143
+D3
+You see a doorway leading to a cobbled street.
+~
+~
+0 -1 13146
+S
+#13019
+Higgins' Haberdashery~
+This small, well-tended shop has a clean-pressed, immaculate look to it.
+The north wall is lined with trim, narrow shelves sporting a wide array
+of hats in all shapes, styles, and colors.  The south wall is similarly
+constructed, thought these hats look slightly more worn.  A neat row of
+hat racks lines each side of the aisle leading to the back of the shop
+and a long, polished wooden counter.  You can hear classical music being
+played faintly from somewhere nearby.
+~
+0 9 1
+D3
+A doorway leading to the cobbled street.
+~
+~
+0 -1 13147
+S
+#13020
+The Cobbler & Shoe Store~
+A small shop containing a maze of tall racks, each containing several
+horizontal rows of shelves.  Each shelf has, prominently displayed, a
+variety of boots, shoes, dancing slippers, and "mules".  A tall rack
+near the door contains laces, polish, shoehorns, and shoe trees.  Along
+the south side of the aisle running down the middle of store are several
+long, low, padded benches.  The only exit is east.
+~
+0 9 1
+D1
+You see a doorway leading to the cobbled street.
+~
+~
+0 -1 13148
+S
+#13021
+A Gift Shop~
+This mid-sized shop is crammed full of items both rare and common.
+Although there seems to be nothing holding the items up for display, you
+think you can see a bit of wooden shelving peeking through the items
+here and there.  Blenders, antique furniture, afghans, books, jewelry,
+glass doorknobs, rusty chainmail, brass lamps, carved ivory tusks...it
+ALL seems to be here.  There is an exit east.
+~
+0 8 1
+D1
+This door opens out onto the cobbled street.
+~
+~
+0 -1 13147
+D3
+This heavy oak door appears to be swelled shut.  Through the small,
+cloudy window, you can see a dark, unkempt courtyard and a huge tree.
+~
+door heavy oak~
+0 -1 13021
+S
+#13022
+An empty room.~
+This room is completely empty.  The walls are dull grey, and you can
+peer through the cracks in the planks.  The floor is dirty and dusty.
+The only exit is east.
+~
+0 9 1
+D1
+You see a doorway opening onto a cobbled street.
+~
+~
+0 -1 13146
+S
+#13023
+An alleyway~
+An alleyway running north and south.  To the north, you can see the
+church square.  To the south, you can see an unkempt courtyard and a
+large tree.
+~
+0 8193 1
+D0
+You see an entrance to the church square.
+~
+~
+0 -1 13139
+D2
+You see an entryway to an old courtyard.
+~
+~
+0 -1 13024
+S
+#13024
+An abandoned, unkempt courtyard~
+Scraggly weeds lie forlornly tangled at about knee-height.  Ivy clings
+desperately to the cobbles of the surrounding buildings, and creeps
+upward toward the eaves.  A huge tree with faded, papery silver bark
+grows in the center of the courtyard, its branches spreading parallel
+to the ground, and reaching up much farther than the eyes can see.
+Small, dull gold-brown leaves seem to cling for dear life to the tree,
+and appear to be long dead.  There is an exit north, and one to the east.
+~
+0 8192 1
+D0
+You see an alleyway leading to the church square.
+~
+~
+0 -1 13023
+D1
+You see a heavy, rotting wooden door.
+~
+solid, rotting door~
+0 -1 13021
+S
+#13025
+A caterer's shop~
+This small shop is sparsely decorated, save for a long glass counter and
+a few chairs.  There are a few engravings of various food items carved
+into the wooden walls on each side.  A delightful aroma of roasting meat
+and fresh baked goods wafts from the back of the shop.
+~
+0 9 1
+D0
+You see an exit to the church square.
+~
+~
+0 -1 13140
+S
+#13026
+Erasmus' Mystical Oils and Potions~
+This moderately-lit, aromatic shop is totally disorganized....vials,
+flasks, jars, canisters, and tubes of all shapes and sizes seem to be
+cast about the shop haphazardly.  Despite the disarray, the place has
+a cheery feel, the scent of orange peel and rose hips, cinnamon and
+cloves, bergamot, jasmine, berries, and cedar and sandalwood intermingle
+and seem to seep into your senses.  In the middle of the store is a
+narrow granite counter, almost hidden by potions, petals, and powders.
+In the center of it is a large mortar and pestle, and a burner upon
+which some mysterious but arousing liquid bubbles and foams.
+~
+0 8 1
+D0
+You see an exit to the street.
+~
+~
+0 -1 13141
+S
+#13027
+The Linens Shop~
+A well-lighted, dazzlingly bright shop.  Shelves line each wall, and
+are loaded with neatly-folded, crisply-pressed sheets, pillowcases, and
+shams.  Fluffy towels are piled high on the west wall, their colors
+varying from pristine, brilliant white to deepest midnight blue.
+Finger towels, hand towels, and washcloths are stacked neatly on the
+counter.
+~
+0 1036 1
+D0
+You see an exit to a street.
+~
+~
+0 -1 13142
+D3
+You see an exit to a street.
+~
+~
+0 -1 13167
+S
+#13028
+An Overgrown Room~
+Outcast plants seem to congregate here.  They grow out of the floorboard,
+out of the walls, and down from the ceiling.  In fact, they seem to walk
+in unaccompanied and sit in the corner.  Go figure.  There is a fern in
+the corner.  Ivy dribbles down the south wall.  A lack of oxygen makes
+it difficult to breathe.
+~
+0 9 1
+D3
+You see an exit to a street.
+~
+~
+0 -1 13168
+S
+#13029
+The Library~
+This is a very nice place to spend an afternoon.  Books are scattered
+about shelves that run N-S across the entire length of the room.  The
+librarian must be either very lazy or very dead.  Most of the books here
+are heaped into the book return bin.
+~
+0 9 1
+E
+playdragon~
+Naughty!
+~
+E
+shelf shelves~
+You see a copy of PlayDragon Magazine.
+~
+D3
+You see an exit to a street.
+~
+~
+0 -1 13169
+S
+#13030
+We Be Weddings~
+This wooden-plank lined room is....unimpressive at best.  Black and
+pink checkered curtains hang limply from the windows.  A single,
+tattered brown streamer is tiredly tacked to the front of the plywood
+podium.  A gilded-frame picture of the Almighty Elvis hangs lopsidedly
+next to an old photo labeled "Forrest Gump".  Near the ramshackle podium
+is an old willow rocker, in which slumps perhaps the OLDEST creature
+living...you know it's alive, as a thin trickle of smoke dribbles lazily
+from a drooping corncob pipe between its withered lips.  A large
+sunflower is displayed prominently in front of the podium.
+~
+0 8 1
+E
+sunflower~
+A huge sunflower sits here...but it appears to be...PLASTIC??
+~
+D1
+You see the church vestibule.
+~
+~
+0 -1 13031
+D2
+You see an exit to the church square.
+~
+~
+0 -1 13143
+S
+#13031
+The Church foyer~
+This foyer is rather sparse in furnishings.  There are a few iron candle
+stick holders and candelabras scattered about, with dimly-glowing tapers
+atop them.  A long, heavy tapestry hangs from each side of the northern
+door, fairly simplistic in design, it is nonetheless richly embroidered
+with blue and gold threads.  There is an exit to the north into the
+sanctuary, east into another foyer, west into the Budget Wedding chapel,
+and south to the church square.
+~
+0 1037 1
+D0
+A doorway leading into the sanctuary.
+~
+~
+0 -1 13036
+D1
+An arch leading into the adjacent foyer.
+~
+~
+0 -1 13032
+D2
+A doorway leading into the church square.
+~
+~
+0 -1 13144
+D3
+You see We Be Weddings.
+~
+~
+0 -1 13030
+S
+#13032
+The Church foyer~
+This foyer is rather sparse in furnishings.  There are a few iron candle
+stick holders and candelabras scattered about, with dimly-glowing tapers
+atop them.  A long, heavy tapestry hangs from each side of the northern
+door, fairly simplistic in design, it is nonetheless richly embroidered
+with blue and gold threads.  There is an exit to the north, into the
+sanctuary, west into another foyer, and south to the church square.
+~
+0 1037 1
+D0
+You see a doorway leading into the sanctuary.
+~
+~
+0 -1 13035
+D2
+You see a doorway leading into the church square.
+~
+~
+0 -1 13145
+D3
+You see an arch leading into the adjacent foyer.
+~
+~
+0 -1 13031
+S
+#13033
+The healing room~
+This peaceful, quiet room is the epitome of tranquillity.  Pecan paneling
+and flooring glisten throughout, its medium-colored wood polished to an
+unearthly brightness.  A small fountain, spring-fed from the watersource
+behind the church, bubbles quietly in the center of the room, and is
+surrounded by four walkways, each leading from the four central
+directions to its edge.  The cistern is cool black marble, and a light
+from some unknown source glows from within its depths.  Bright,
+brilliant goldfish and carp flash and flip about the pool surrounding
+the central square.  Leafy, feathery plants grow throughout and surround
+the fountain and the wall perimeter.  The south wall is paneled in a
+darker-pecan carved screen, from behind which a soft yellow light glows
+peacefully.  Zabuton pillows, thin yet comfortable, are scattered about
+the floor.  The exit is to the north.
+~
+0 1036 1
+D0
+You see a heavy, wooden-paneled door leading to the chapel.
+~
+A wooden-paneled door~
+0 -1 13034
+S
+#13034
+The chapel~
+This small, intimate chapel is more druidic than not, it is filled with
+trees and leafy green plants.  Sunshine streams in through skylights and
+the east wall, which is paneled in carved wooden screens.  A small brook
+winds through the chapel from north to south, and disappears under the
+floor to the south.  A small footbridge divides the brook, and small fish
+can be seen darting about beneath the water.  There is a carved wooden
+altar near the north wall, small, comfortable benches face the altar in
+two columns forming a single row from north to south.  There is a paneled
+door to the north, a door to the south, and an exit to the west.
+~
+0 1036 1
+D0
+You see a paneled door leading to the gardens.
+~
+A paneled door~
+0 -1 13046
+D2
+You see a door to the healing room.
+~
+wooden-paneled door~
+0 -1 13033
+D3
+You see a doorway leading into the sanctuary.
+~
+~
+0 -1 13035
+S
+#13035
+The sanctuary~
+This massive room is lavishly paneled in dark, rich mahogany, polished
+to an unearthly glow.  Rows and rows of matching dark pews are lined
+up neatly on either side of a long central aisle.  A lavishly
+embroidered runner in blues, golds, and reds runs between the rows of
+pews.  Four ceiling-high, elaborately-colored stained glass windows
+decorate the north wall behind the main altar, and depict the four
+primary gods and goddess of Thera in various poses: Vengeance, Eriana,
+Felix, and Tim, as they represent the four primary directions of the map.
+Deep, rolling bass organ music plays softly from a hidden source, and
+seems to roll from the top of the carved wooden cathedral ceiling.
+Silver candelabras holding long white tapers glow softly at the back of
+the room, along the aisle, and around the altar.  There is a door to the
+north, near the altar, an exit east into the chapel, one south to the
+vestibule, and one west into the sister-sanctuary.
+~
+0 1036 1
+E
+Tim west~
+Another stained-glass panel depicts the deity Tim, the Enchanter,
+holding a long-toothed rabbit in one arm, and a skull in the other...
+~
+E
+Felix east~
+A colorful window showing a pose of the deity Felix, a White Raven
+perched atop his left arm, his other atop the hilt of a sword.
+~
+E
+Eriana south~
+An elaborately-tiled stained glass window showing the wife of His
+Benevolence with one hand atop the head of a white tiger, the other
+poised above the head of an injured man.
+~
+E
+Vengeance north~
+A stained glass window depicting His Benevolence holding a dragon's head
+in one hand, and a staff in the other.
+~
+D0
+You see a dark-paneled door leading into the gardens.
+~
+A dark-paneled door~
+0 -1 13045
+D1
+You see a doorway leading into the chapel.
+~
+~
+0 0 13034
+D2
+You see a doorway leading into the vestibule.
+~
+~
+0 -1 13032
+D3
+You see an arch leading into the sister-sanctuary.
+~
+A dark, carved wooden archway~
+0 -1 13036
+S
+#13036
+The sister-sanctuary~
+This sanctuary is paneled in modest oak.  The benches, which form two
+parallel rows running alongside a central aisle, and the wall paneling
+re also oak.  Clear, multi-paned windows stretching to the ceiling allow
+sunlight to flood the sanctuary with an almost holy light.  Beyond the
+windows, you see the church garden and the summerhouse, in which many
+weddings are performed.  There is an exit to the north, to the gazebo
+and gardens, an exit east into the sister-sanctuary, an exit south into
+the vestibule, and an exit west.
+~
+0 1036 1
+D0
+You see a modest door leading into the gazebo and gardens.
+~
+~
+0 -1 13040
+D1
+You see an arch leading into the sister-sanctuary.
+~
+A dark, carved wooden archway~
+0 -1 13035
+D2
+You see a doorway leading into the vestibule.
+~
+~
+0 -1 13031
+D3
+You see a doorway leading into another room.
+~
+~
+0 -1 13037
+S
+#13037
+An empty room~
+This room is featureless and empty, save a few benches piled against the
+west wall.  There is a door north and an exit east.
+~
+0 1037 1
+D0
+You see a plain wooden door.
+~
+wooden door~
+0 -1 13038
+D1
+You see a doorway
+~
+~
+0 -1 13036
+S
+#13038
+A corner of the garden~
+A large 10' hedge runs the perimeter of this corner of the garden.
+Close-cropped, cool green grass peeks from between flagstone footpaths,
+and from beneath groundflowers.  The flagstones twist about through the
+garden and disappear under the willows.  A narrow brook bubbles merrily
+at the north end, running east to west, and disappears beneath the
+willows and cattails to the east.  There is an exit east, into another
+part of the garden, and one south.
+~
+0 1028 1
+D1
+You see a pathway east into the garden
+~
+a garden pathway~
+0 -1 13039
+D2
+You see a door to the church.
+~
+wooden door~
+0 -1 13037
+S
+#13039
+The garden~
+This expanse of garden is very like the rest, a large 10' hedge runs the
+perimeter of this corner of the garden.  Close-cropped, cool green grass
+peeks from between flagstone footpaths, and from beneath groundflowers.
+The flagstones twist about through the garden and disappear under the
+willows.  A narrow brook bubbles merrily at the north end, running east
+to west, and disappears beneath the willows and cattails to the east.
+However, to the northeast you can see the large gazebo, towering over
+the trees and disappearing from view.  There is an exit east into
+another section of garden, and another exit west.
+~
+0 1028 1
+D1
+You see a pathway into the gazebo area
+~
+~
+0 -1 13040
+D3
+You see a pathway into another part of the garden
+~
+~
+0 -1 13038
+S
+#13040
+The main garden~
+This expanse of lush, cool, manicured lawn runs basically north-south.
+Cool, matronly willows are scattered here, their branches high enough
+to not annoy most guests.  A sanded path leads from the south exit to
+the sanctuary to the gazebo at the north end.  On either side of the
+path is a row of smooth, polished brown stones, interspersed with
+groundflowers, violets, starflowers, dandelions, and chrysanthemums.
+There is ample room on each side of the path for benches or chairs,
+used frequently for large weddings and parties.  The large, glistening
+white summerhouse is to the north, beneath it runs the east-west
+running brook, from which an outlet has been formed to create a large
+rock garden and waterfall to the southeast of the gazebo.  A tall hedge
+grows behind it, running north-south, and obscuring a corner of the
+gardens.  The exits here are north to the summerhouse, east to the
+garden, south into the sanctuary, and west into another garden corner.
+~
+0 1028 1
+D0
+You see the path to the summerhouse
+~
+~
+0 -1 13041
+D1
+You see a path to the east gardens
+~
+~
+0 -1 13045
+D2
+You see a wooden door into the sanctuary.
+~
+wooden door~
+0 -1 13036
+D3
+You see a path leading into the western gardens.
+~
+~
+0 -1 13039
+S
+#13041
+The gazebo (summerhouse)~
+This immaculately painted white summerhouse is a popular locale for
+spring and summer weddings.  It is octagonal, with white latticework
+paneling on the off-walls.  Leafy plants and dazzling flowers trail
+lazily from hanging baskets anchored around the ceiling perimeter.
+Padded, comfortable white benches are arranged in two rows on either
+side of the central north-south aisle.  The garden brook runs beneath
+the summerhouse in an east-west direction, one arm of it bends southward
+and spills into a waterfall and rock garden immediately to the southeast.
+The paneling north is butted up against a tight privet hedge, beyond
+which nothing can be seen.  The only exit is south, into the central
+garden.
+~
+0 1028 1
+D2
+You see a doorway to the gardens.
+~
+~
+0 -1 13040
+S
+#13042
+A gardener's hut~
+This small hut is lined in shelves containing typical gardening
+equipment, shears, trimmers, pruners, etc.  A few bags of fertilizer
+and sand are piled on the dusty floor.  The only exit is south.
+~
+0 2057 1
+D2
+You see the exit to the garden.
+~
+~
+0 1 13044
+S
+#13043
+A quiet section of garden~
+This area is secluded and quiet.  Protected on all four sides by a tall,
+thick hedge, many people are unaware that it exists.  At ground level to
+the north, you can catch glimpses of the brook.  A thick canopy of
+willows obscures the sky here, and the temperature is much cooler here
+than in any part of the garden.  This is an excellent place to meditate,
+rest, or recuperate, it seems well-protected and hidden enough that no
+enemy could easily find it.  In the north east corner is a small
+alabaster statue of the goddess Eriana, and an inscription at her feet.
+There are hidden exits to the east and to the south.
+~
+0 1028 1
+E
+Inscription~
+"Seek Peace, and welcome here, find rest, and food, and sanctuary from thy
+burdens, All are welcome in the Gardens of the Goddess."
+~
+E
+statue Eriana~
+A three-foot-high statue of Eriana, the Goddess of Life.  Her hands are
+outstretched as though welcoming someone to her.
+~
+D1
+You see a hidden exit into a corner of the garden.
+~
+~
+0 0 13044
+D2
+You see a hidden exit into the garden.
+~
+~
+0 0 13045
+S
+#13044
+The northeastern corner of the garden~
+This corner of the garden is secluded enough that it is nearly hidden.
+A few flowers are neatly planted in stone planters.  Trees overhang the
+section, and it is cool and pleasant.  There is a shed to the north, and
+an exit to the south.
+~
+0 1028 1
+D0
+You see a door into the shed.
+~
+A wooden door~
+0 -1 13042
+D2
+You see a path to another part of the garden.
+~
+~
+0 -1 13046
+D3
+You see a hidden path to the secret garden.
+~
+~
+0 -1 13043
+S
+#13045
+A part of the garden~
+This part of the garden is well-traveled, sanded footpaths run from the
+southern door to the east and to the west.  Trees are more sparse here
+than in other areas of the garden.  Flowers are planted neatly along the
+footpaths.  Eastward is another corner of garden, westward is the main
+garden and summerhouse.  The exits here are east, south to the sanctuary,
+and west to the main garden.
+~
+0 1028 1
+D0
+You see a hidden entrance to the secret garden
+~
+~
+0 0 13043
+D1
+You see a path into the garden
+~
+~
+0 0 13046
+D2
+You see a wooden door into the Sanctuary
+~
+a wooden door~
+0 -1 13035
+D3
+You see an entrance to the main garden
+~
+~
+0 -1 13040
+S
+#13046
+A corner of the garden~
+This corner of garden is less-traveled.  There are fewer flowers and
+plants here.  There is an exit to the north, one south into the chapel,
+and one west into another portion of garden.
+~
+0 1028 1
+D0
+You see a path toward the shed.
+~
+~
+0 -1 13044
+D2
+You see a door into the chapel.
+~
+~
+0 -1 13034
+D3
+You see a path into the garden.
+~
+~
+0 -1 13045
+S
+#13047
+The Willowtree Inn~
+This quiet little inn is a popular spot both for the townsfolk and
+newlyweds.  This main room sports a long, L-shaped bar in the southeast
+corner, behind which is a long mirror.  The paneling throughout the inn
+is a warm lacquered golden oak.  A few tables are scattered about,
+surrounded by chairs and benches.  Round iron candle racks are suspended
+from the flat plank ceiling, and give off a bright, cheery light.  There
+is a cobblestone hearth in the northeast corner, complete with an iron
+beetle and rotisserie.  There are exits to the north, into the dining
+area, and to the west onto the street.
+~
+0 8 1
+D0
+You see an entrance to the dining area.
+~
+~
+0 -1 13048
+D3
+You see a door to the street.
+~
+~
+0 -1 13159
+S
+#13048
+The dining room~
+This cozy room is lit by hanging candleracks and a large stone hearth in
+the southeast corner.  A haunch of deer is roasting and sizzling on a
+rotisserie on the fire, and the aroma of rabbit stew, roasting corn, and
+fresh soda bread drift in from the kitchen.  In the center of the room
+is a wooden staircase leading both down to the cellar, and up to the
+rooms.  The other exits are east into the kitchen, and south to the main
+room.
+~
+0 8 1
+D1
+You see the doorway to the kitchen
+~
+~
+0 -1 13049
+D2
+You see the doorway to the main room
+~
+~
+0 -1 13047
+D4
+You see the staircase leading up
+~
+~
+0 -1 13050
+D5
+You see a staircase leading down.
+~
+~
+0 -1 13056
+S
+#13049
+The kitchen~
+This large room is lined neatly with shelves of spices, condiments, and
+staples.  In the center of the room is a long, heavy butcher block,
+overhead is an iron butcher's rack from which hang ladles, stirring
+spoons, whisks, and bowls.  A knife block is filled with knives of
+varying shapes & sizes on the counter.  Along the north wall is a long
+wooden counter, at the far end is an enormous washtub filled with dirty
+dishes.  On the south wall is a large iron cookstove.  Shelves of serving
+utensils and earthenware plates and cups and bowls are on either side of
+the door.  The only exit is west.
+~
+0 8 1
+D3
+You see the entrance to the dining room.
+~
+~
+0 -1 13048
+S
+#13050
+The upstairs hallway~
+This simple hallway is lighted by sconces every few feet along both
+walls at shoulder height.  There are a few braided rag rugs tossed on
+the floor.  The exits are north, east, west, and down.
+~
+0 9 1
+D0
+You see the entry to the back hallway.
+~
+~
+0 -1 13053
+D1
+You see a plain wooden door.
+~
+plain wooden door~
+0 -1 13051
+D3
+You see a brown wooden door.
+~
+brown wooden door~
+0 -1 13052
+D5
+You see the stairway down.
+~
+~
+0 -1 13048
+S
+#13051
+An inn room~
+This cozy bedroom is fairly simple, against the east wall is an
+enormous, heavy, oak-post bed layered in featherbeds.  Matching
+nightstands are on either side of the bed, beneath paned windows.
+Against the south wall is a low, heavy dresser.  There is a basin and
+pitcher atop the dresser, braided rag rugs are scattered across the
+smooth plank floor.  There are bright cotton curtains in the windows,
+and a matching comforter atop the bed.  In the northwest corner is a
+tall, narrow chiffarobe.  The only exit is west.
+~
+0 520 1
+E
+rug~
+A braided multicolored rag rug, coiled and sewn into several rows covers
+the floor here.
+~
+E
+night stand~
+A small, single-drawer nightstand of oak matching the dresser and bed.
+On top is a white lace doily and a lantern.
+~
+E
+oak dresser~
+A large, four-drawer oak dresser, made of wood matching the bed and
+nightstands.  There is a matching mithril brush and mirror set on top
+of the dresser.
+~
+E
+bed~
+An enormous four-post bed made of heavy oak posts, rounded and polished,
+then lacquered.  There is a huge, fluffy comforter of quilted cotton in
+a starburst pattern on top of the bed.
+~
+D3
+You see a wooden door.
+~
+~
+0 -1 13050
+S
+#13052
+An inn room~
+This cozy bedroom is fairly simple, against the west wall is an
+enormous, heavy, oak-post bed layered in featherbeds.  Matching
+nightstands are on either side of the bed, beneath paned windows.
+Against the south wall is a low, heavy dresser.  There is a basin and
+pitcher atop the dresser, braided rag rugs are scattered across the
+smooth plank floor.  There are bright cotton curtains in the windows,
+and a matching comforter atop the bed.  In the northeast corner is a
+tall, narrow chiffarobe.  The only exit is east.
+~
+0 520 1
+E
+rug~
+A braided multicolored rag rug, coiled and sewn into several rows covers
+the floor here.
+~
+E
+night stand~
+A small, single-drawer nightstand of oak matching the dresser and bed.
+On top is a white lace doily and a lantern.
+~
+E
+oak dresser~
+A large, four-drawer oak dresser, made of wood matching the bed and
+nightstands.  There is a matching mithril brush and mirror set on top
+of the dresser.
+~
+E
+bed~
+An enormous four-post bed made of heavy oak posts, rounded and polished,
+then lacquered.  There is a huge, fluffy comforter of quilted cotton in
+a starburst pattern on top of the bed.
+~
+D1
+You see a wooden door.
+~
+~
+0 -1 13050
+S
+#13053
+The upstairs hallway~
+This simple hallway is lighted by sconces every few feet along both
+walls at shoulder height.  There are a few braided rag rugs tossed on
+the floor.  The exits are south, east, and west.
+~
+0 9 1
+D1
+You see a plain wooden door
+~
+plain wooden door~
+0 -1 13054
+D2
+You see the doorway to the main hallway
+~
+~
+0 -1 13050
+D3
+You see a brown wooden door
+~
+brown wooden door~
+0 -1 13055
+S
+#13054
+An inn room~
+This cozy bedroom is fairly simple, against the east wall is an
+enormous, heavy, oak-post bed layered in featherbeds.  Matching
+nightstands are on either side of the bed, beneath paned windows.
+Against the south wall is a low, heavy dresser.  There is a basin and
+pitcher atop the dresser, braided rag rugs are scattered across the
+smooth plank floor.  There are bright cotton curtains in the windows,
+and a matching comforter atop the bed.  In the northwest corner is a
+tall, narrow chiffarobe.  The only exit is west.
+~
+0 520 1
+E
+rug~
+A braided multicolored rag rug, coiled and sewn into several rows covers
+the floor here.
+~
+E
+night stand~
+A small, single-drawer nightstand of oak matching the dresser and bed.
+On top is a white lace doily and a lantern.
+~
+E
+oak dresser~
+A large, four-drawer oak dresser, made of wood matching the bed and
+nightstands.  There is a matching mithril brush and mirror set on top
+of the dresser.
+~
+E
+bed~
+An enormous four-post bed made of heavy oak posts, rounded and polished,
+then lacquered.  There is a huge, fluffy comforter of quilted cotton in
+a starburst pattern on top of the bed.
+~
+D3
+You see a wooden door.
+~
+wooden door~
+0 -1 13050
+S
+#13055
+An inn room~
+This cozy bedroom is fairly simple, against the west wall is an
+enormous, heavy, oak-post bed layered in featherbeds.  Matching
+nightstands are on either side of the bed, beneath paned windows.
+Against the south wall is a low, heavy dresser.  There is a basin and
+pitcher atop the dresser, braided rag rugs are scattered across the
+smooth plank floor.  There are bright cotton curtains in the windows,
+and a matching comforter atop the bed.  In the northeast corner is a
+tall, narrow chiffarobe.  The only exit is east.
+~
+0 520 1
+E
+rug~
+A braided multicolored rag rug, coiled and sewn into several rows covers
+the floor here.
+~
+E
+night stand~
+A small, single-drawer nightstand of oak matching the dresser and bed.
+On top is a white lace doily and a lantern.
+~
+E
+oak dresser~
+A large, four-drawer oak dresser, made of wood matching the bed and
+nightstands.  There is a matched mithril brush and mirror set here.
+~
+E
+bed~
+An enormous four-post bed made of heavy oak posts, rounded and polished,
+then lacquered.  There is a huge, fluffy comforter of quilted cotton in
+a starburst pattern on top of the bed.
+~
+D1
+You see a wooden door
+~
+wooden door~
+0 -1 13050
+S
+#13056
+The wine cellar~
+This dark, cool cellar smells faintly of alcohol and rancid berries.
+It is quiet and clean, and much cooler than the rest of the inn.  Large
+wooden casks line the north and east walls.  Wine racks line the south
+wall, and form freestanding rows to the south.  There is a small door
+to the west, and the staircase leading up.
+~
+0 9 1
+D3
+You see a heavy, painted door
+~
+heavy, painted door~
+0 -1 13057
+D4
+You see the staircase leading up.
+~
+~
+0 -1 13048
+S
+#13057
+The meat locker~
+It is extremely cold in here! Sides of pork, beef, goat, and mutton hang
+from heavy ceiling hooks.  Chickens, turkeys, ducks, and geese hang by
+the neck in the northeast corner.  Various other types of meat, mostly
+unidentifiable, are hanging here as well.  The south wall contains a
+long shelved rack of vegetables, onions, peppers, potatoes, carrots,
+leeks, celery, and others.  The only exit is east.
+~
+0 8713 1
+D1
+You see the heavy locker door.
+~
+heavy locker door~
+0 -1 13056
+S
+#13058
+The winery~
+This is a large, clean, well-tended room.  Huge wooden casks line all
+three walls, each is fitted with a tap.  An enormous wooden vat in the
+center of the room is partly encircled by a wooden platform, and a
+ladder leading into it.  Alongside the vat, to the south, is a long
+table, upon which are a variety of bottles and corks.  There are dark
+stains deeply embedded into the floorboards, the air is filled with a
+heavy, sickish-sweet odour of fermented grapes.  The only exit is west.
+~
+0 8 1
+D3
+You see a door to the vineyards.
+~
+~
+0 -1 13059
+S
+#13059
+The vineyards~
+This part of the vineyard is surrounded on the north, south, and west
+sides by a tall, impenetrable hedge.  Long, staked rows of grapevines
+grow in twisted lines here.  Each row is separated by roughly five feet
+of turf.  Rich, sweet clusters of varied grapes...concord, flamereds,
+Billings, Marcuses, Schwemps, and Heinekens cling ponderously from the
+vines.  Bees dance lazily around the clusters, and the air is redolent
+with the scent of dew-washed fruit.  The exits are north to the street,
+east to the winery, south to the orchard, and west to the rest of the
+vineyards.
+~
+0 0 2
+D0
+You see the exit to the street.
+~
+~
+0 -1 13152
+D1
+You see the door to the winery.
+~
+heavy oak door~
+0 -1 13058
+D2
+You see the path to the orchards.
+~
+~
+0 -1 13062
+D3
+You see the path to the west vineyard.
+~
+~
+0 -1 13060
+S
+#13060
+The west vineyard.~
+This corner of the vineyard is surrounded by a tall, impenetrable hedge.
+More rows of orderly-planted grapevines are planted here.  The exits are
+east and south.
+~
+0 0 2
+D1
+You see the path to the east vineyard.
+~
+~
+0 -1 13059
+D2
+You see the path to the orchard.
+~
+~
+0 -1 13061
+S
+#13061
+The west orchards~
+A surprisingly wide variety of fruit trees, lined up in neat rows, grows
+here, apples, plums, peaches, pears, oranges, lemons, nectarines, and
+cherries.  Songbirds flit and warble joyously among the many differed
+branches, feasting here and there on the wide array of nectars available.
+There is a tall hedge in every direction, with exits through it to the
+north and east.
+~
+0 0 2
+D0
+You see a path to the west vineyards.
+~
+~
+0 -1 13060
+D1
+You see a path to the eastern orchard.
+~
+~
+0 -1 13062
+S
+#13062
+The east orchard~
+A surprisingly wide variety of fruit trees lined up in neat rows, grows
+here, apples, plums, peaches, pears, oranges, lemons, nectarines, and
+cherries.  Songbirds flit and warble joyously among the many differed
+branches, feasting here and there on the wide array of nectars available.
+There is a tall hedge in every direction, with exits through it to the
+north and west.
+~
+0 0 2
+D0
+You see a path to the east vineyards.
+~
+~
+0 -1 13059
+D3
+You see a path to the western orchard.
+~
+~
+0 -1 13061
+S
+#13063
+An abandoned shop~
+Boards cover the windows on the west and south walls, daylight barely
+peers through them.  A thin film of dust and cobwebs covers the plank
+floor, and you can hear the occasional skittering of dry insects and
+clawed feet from the shadows.  The exits are south and west.
+~
+0 9 1
+D2
+You see a doorway to the street.
+~
+~
+0 -1 13176
+D3
+You see a doorway to the street.
+~
+~
+0 -1 13174
+S
+#13064
+The leather shop~
+A delightful aroma of newly-tanned leather touches you immediately.  A
+few leather items are hung from wooden pegs throughout the store, the
+only furniture is a long wooden counter at the back of the shop.  A stove
+against the back wall crackles quietly, and a large black pot atop it bubbles
+and gives off a meaty, bitter smell.  The only exit is south.
+~
+0 8 1
+D2
+You see a doorway south to the street.
+~
+~
+0 -1 13177
+S
+#13065
+An empty shop~
+This room is completely empty, there are no windows, back rooms, or
+exits, save the one to the south.  A few cobwebs stretch across the
+corners, desiccated roach carcasses litter the floor intermingled with
+dust and leaves.
+~
+0 9 1
+D2
+You see a doorway to the street.
+~
+~
+0 -1 13178
+S
+#13066
+The metalsmith~
+This store is incredibly HOT and stuffy.  In the northwest corner is a
+rack sporting several implements used for extruding and working metal
+objects.  Displays of tinware, metal jewelry, iron and steel implements
+of all sorts, garden tools, and tin snuffboxes are lined on wall shelves
+and racks near the counter in the northeast corner.  A large magnifying
+glass on a pivoting pedestal is on the counter.  Exits are east and south.
+~
+0 9 1
+D1
+You see an exit to the east street
+~
+~
+0 -1 13159
+D2
+You see an exit to the southern street
+~
+~
+0 -1 13179
+S
+#13067
+An empty shop~
+This shop appears to once have sold some sort of foodstuffs, loose,
+dried chaff and bits of grain are scattered across the floor, dried
+rinds and seeds are intermingled with dirt, cobwebs, and general filth.
+The only exit is east.
+~
+0 9 1
+D1
+You see the exit to the street.
+~
+~
+0 -1 13158
+S
+#13068
+The Blacksmith shop~
+This room is enormous.  The heat from the huge forge against the east wall
+is STAGGERING, your face seems to want to crisp like a leg of mutton over a
+campfire.  Against the north wall is a long counter of farrier and blacksmith
+supplies, hoof knives, halters, heavy sledgehammers, long iron tongs.
+Horseshoes are scattered everywhere, staked to the support posts, scattered
+on the floor, around the furnace, and on the counter.  Anvils in varying sizes
+are located throughout the room.  Along the west wall is a row of stalls,and
+large iron rings attach to the wall, to allow a horse to be tied while being
+shoed.  Straw, hay, iron filings, and tools are scattered over the floor.  The
+exits are north into the carriage house, and south to the street.
+~
+0 9 1
+E
+Furnace~
+A roaring furnace used to heat iron for smelting and forging.
+~
+E
+anvil~
+A large iron anvil, used for pounding heated iron.
+~
+E
+Stall~
+A plain, wooden stall for cornering horses.  There is straw on the floor here.
+~
+D0
+You see a doorway into the carriage house.
+~
+~
+0 -1 13132
+D2
+You see a double-wide doorway south.
+~
+~
+0 -1 13139
+S
+#13069
+The convent gardens~
+This enormous garden spreads out across a vast area of ground, and
+disappears northward.  Arranged in neat, well-hoed rows are a vast array of
+vegetables and fruits, stakes of tomatoes, stalks of tall corn, thick poles
+of beans and slender ones of peas.  The produce is used to feed the friars,
+nuns, and orphans, the remainder is sold by wandering vendors.  The exits are
+north, deeper into the garden, and south to the street.
+~
+0 1024 2
+E
+slender pole peas~
+Slender poles of curling pea plants are here, the pods themselves are
+large and heavy, ready to be picked.
+~
+E
+stake tomatoes~
+Tall, strong stakes of tomatoes plants are pendulous with deep-red fruit.
+~
+E
+thick pole beans~
+Tall, heavy poles of cedarwood support the heavy beans.
+~
+E
+corn stalk~
+Neat rows of tall, rigid corn, their silken tassels spilling like golden
+hair down the sharp leaves.
+~
+D0
+You see a path to the garden
+~
+~
+0 -1 13070
+D2
+You see an entrance to the street
+~
+~
+0 -1 13140
+S
+#13070
+A garden square~
+This patch of garden has the low, bushy vegetables, poles of trailing
+summer and pattypan squash, long, twisted pumpkin vines, twisted tendrils
+ofcucumber, and bushes of green peppers.  There is another garden patch
+west, a path north to the main garden, and a south path to the taller
+gardens.
+~
+0 1024 2
+D0
+You see a path to the main garden.
+~
+~
+0 -1 13072
+D2
+You see a path to the tall garden section
+~
+~
+0 -1 13069
+D3
+You see the orchard section
+~
+~
+0 -1 13071
+S
+#13071
+Orchard section~
+This area of garden has been set aside as a small orchard, complete with
+trees of plums and apples, rich, juicy peaches, bushes of raspberry,
+blueberry, boysenberry, and gooseberry, earthen pots of ruby
+strawberries, and a tree of elderberries.  The only exit is east.
+~
+0 1024 2
+D1
+You see a path to a patch of garden
+~
+~
+0 -1 13070
+S
+#13072
+The main garden~
+This section of garden is larger than the rest, here the "primary"
+plants were seeded and grown, mounds of potatoes, carrots, and leeks,
+several varieties of onions, stalks of celery and rhubarb, bushes of all
+sorts of peppers...green, jalapeno, Anaheim, golden, and vargas, tangled
+vines of summer squashes, zucchini, crookneck, and spaghetti, and heads
+of cabbages, lettuces, greens and kales.  The only exits are north, into
+a walled courtyard, and south to more garden.
+~
+0 1024 2
+D0
+You see a gate to a courtyard
+~
+gate~
+0 -1 13114
+D2
+You see a path to the garden
+~
+~
+0 -1 13070
+S
+#13073
+Kestra's Exotic Pets~
+A wave of exotic animal smells assaults you as you step in the door,
+sweat, excrement, ammonia, cedarwood, and castor oil.  The walls are
+lined with cages and pens for a wide variety of animals in every shape
+and color and breed imaginable.  A variety of creatures chirp, squeal,
+snort, grunt, bark, purr, trill and hoot in a bizarre cacophony.  Most
+of the pets are kept elsewhere, this is, after all, a special order
+shop for LARGE breeds as well as small.  There is a sign tacked to the
+wall above the counter.  Behind the counter is a curtained room, the
+only exit is south.
+~
+0 4104 1
+D2
+You see an exit to the street.
+~
+~
+0 -1 13141
+S
+#13074
+The Pet Shop Store~
+This is a small, dark room where Kestra's special-order pets are kept.
+~
+0 262156 1
+S
+#13075
+The foyer~
+You are standing in a luxurious, immaculate foyer, entry to the famed
+"DragonCove Inn".  Bookshelves of leather-bound books line the north and
+east walls.  A dazzling white marble fireplace takes up part of the west
+wall.  Thick wool rugs cover the floor in bright colors, burgundy, royal,
+and gold.  In the center of the room is a rosewood-trimmed couch and
+matching coffee table.  Exits are north into a hallway, east to an
+office, and south to the street.
+~
+0 8 1
+E
+couch sofa~
+A large, stylish sofa, comfortably padded.  It is covered in deep blue
+linen, and trimmed with rosewood accents.
+~
+E
+sign~
+Welcome to the DragonCove Inn! Please knock on door for assistyle.
+~
+D0
+You see a white door to the hallway.
+~
+white door~
+0 -1 13077
+D1
+You see a painted door to the office.
+~
+painted door~
+0 -1 13076
+D2
+You see a doorway to the street.
+~
+~
+0 -1 13142
+S
+#13076
+The office~
+A medium-sized, comfortable office.  Bookshelves line the east and south
+walls and reach floor to ceiling.  A large desk is situated diagonally
+in the southeast corner, in front of it are two padded chairs.  A globe
+sits in the northwest corner, surrounded by several plants.  Exits are
+north and west.
+~
+0 12 1
+D0
+You see a paneled door.
+~
+paneled door~
+0 -1 13078
+D3
+You see a painted door.
+~
+painted door~
+0 -1 13075
+S
+#13077
+A hallway~
+A fairly dark hallway.  A few richly-colored braided rugs are laid on
+the wooden floor.  Crystal and silver sconces line the walls and hold
+bright knots of scented wood for light.  A small rosewood table is on
+the south wall.  Exits are north, south, east, and west.
+~
+0 9 1
+D0
+You see a door numbered "Room 1"
+~
+room door~
+0 -1 13080
+D1
+You see a doorway to the east hall
+~
+~
+0 -1 13078
+D2
+You see a wooden door
+~
+wooden door~
+0 -1 13075
+D3
+You see a glass-paned door.
+~
+glass-paneled door~
+0 -1 13165
+S
+#13078
+The east hall~
+A fairly dark hallway.  A few richly-colored braided rugs are laid on
+the wooden floor.  Crystal and silver sconces line the walls and hold
+bright knots of scented wood for light.  Exits are north, south, and
+west, there is a staircase leading up.
+~
+0 9 1
+D0
+You see a door marked "Suite 1"
+~
+suite door~
+0 -1 13079
+D2
+You see a door marked "Office"
+~
+office door~
+0 -1 13076
+D3
+You see a doorway
+~
+~
+0 -1 13077
+D4
+You see a staircase leading up
+~
+~
+0 -1 13081
+S
+#13079
+Suite 1~
+This spacious hotel suite is lavishly decorated in deep, bright colors,
+royal blue, burgundy, and gold.  A black marble fireplace stands against
+the west wall, over which is an enormous painting of an outdoor scene.
+There is a large bed in the northeast corner.  A small settee is placed
+diagonally in the southwest corner, with a low table next to it.  There
+is a dressing screen opposite it.  The only exit is south.
+~
+0 1032 1
+E
+settee couch~
+Covered in burgundy fabric, this settee adds a touch of elegance to the
+suite.
+~
+E
+fireplace~
+Logs crackle merrily in this large fireplace.  It is accented with silver
+log holders and a matching silver fireplace set.
+~
+D2
+You see a paneled door
+~
+paneled door~
+0 -1 13078
+S
+#13080
+Room 1~
+This small bedroom is simple, yet elegant.  Large windows line the west
+wall from floor to ceiling, and are covered in white lace drapes.  The
+French windows face the street.  There is a large rosewood bed in the
+southwest corner, and a matching dressing screen in the northeast corner.
+The only exit is south.
+~
+0 1032 1
+E
+bed~
+A small, comfortable bed, piled high with feather beds and rich quilts.
+The frame is rosewood polished to a high gloss.
+~
+E
+dressing screen~
+A shoulder-high rosewood and lace-panel dressing screen.
+~
+D2
+You see a painted door
+~
+painted door~
+0 -1 13077
+S
+#13081
+The upstairs hall~
+This hall is elaborately carpeted in deep blues, reds, and golds.
+Expensive silver and crystal sconces are attached to the walls, and hold
+heavy, bright candles that cast a cheerful light.  The hall continues to
+the west, there is a staircase down, exits are north and south.
+~
+0 8 1
+D0
+You see a painted door
+~
+painted door~
+0 -1 13082
+D2
+You see a paneled door
+~
+paneled door~
+0 -1 13083
+D3
+You see an entryway to the hall
+~
+~
+0 -1 13084
+D5
+You see the staircase down
+~
+~
+0 -1 13078
+S
+#13082
+Room 2~
+This small bedroom is simple, yet elegant.  Large windows line the north
+wall from floor to ceiling, and are covered in white lace drapes.  The
+French windows overlook the tavern next door.  There is a large rosewood
+bed in the northwest corner, and a matching dressing screen in the
+southwest corner.  The only exit is south.
+~
+0 1032 1
+E
+bed~
+A small, comfortable bed, piled high with feather beds and rich quilts.
+The frame is rosewood polished to a high gloss.
+~
+E
+dressing screen~
+A shoulder-high rosewood and lace-panel dressing screen.
+~
+D2
+You see a painted door
+~
+painted door~
+0 -1 13077
+S
+#13083
+Room 3~
+This small bedroom is simple, yet elegant.  Large windows line the south
+wall from floor to ceiling, and are covered in white lace drapes.  The
+French windows overlook the street.  There is a large rosewood bed in
+the northeast corner, and a matching dressing screen in the southwest
+corner.  The only exit is north.
+~
+0 1032 1
+E
+bed~
+A small, comfortable bed, piled high with feather beds and rich quilts.
+The frame is rosewood polished to a high gloss.
+~
+E
+dressing screen~
+A shoulder-high rosewood and lace-panel dressing screen.
+~
+D0
+You see a paneled door
+~
+paneled door~
+0 -1 13081
+S
+#13084
+The upstairs hall west~
+This hall is elaborately carpeted in deep blues, reds, and golds.
+Expensive silver and crystal sconces are attached to the walls, and hold
+heavy, bright candles that cast a cheerful light.  The hall continues to
+the east, there are exits north and south.
+~
+0 8 1
+D0
+You see a painted door
+~
+painted door~
+0 -1 13086
+D1
+You see an entryway to the hall
+~
+~
+0 -1 13081
+D2
+You see a paneled door
+~
+paneled door~
+0 -1 13085
+S
+#13085
+Suite 2~
+This spacious hotel suite is lavishly decorated in deep, bright colors,
+forest green, royal reds, and gold.  A white marble fireplace stands
+against the east wall, over which is an enormous painting of an outdoor
+scene.  There is a large bed in the northwest corner.  A small settee
+is placed diagonally in the southeast corner, with a low table next to
+it.  There is a dressing screen opposite it.  The only exit is north.
+~
+0 1032 1
+E
+settee couch~
+Covered in deep red fabric, this settee adds a touch of elegance to the
+suite.
+~
+E
+fireplace~
+Logs crackle merrily in this large fireplace.  It is accented with silver
+log holders and a matching silver fireplace set.
+~
+D0
+You see a paneled door.
+~
+paneled door~
+0 -1 13084
+S
+#13086
+Suite 3~
+This spacious hotel suite is lavishly decorated in whites, blacks, and
+greys.  A grey marble fireplace stands against the west wall, over which
+is an enormous painting of an outdoor scene.  There is a large bed in
+the northeast corner.  A small settee is placed diagonally in the
+southwest corner, with a low table next to it.  There are tall French
+windows on the north wall, curtained in white and black drapes.  There
+is a dressing screen opposite the settee.  The only exit is south.
+~
+0 1032 1
+E
+settee couch~
+Covered in burgundy fabric, this settee adds a touch of elegance to the
+suite.
+~
+E
+fireplace~
+Logs crackle merrily in this large fireplace.  It is accented with silver
+log holders and a matching silver fireplace set.
+~
+D2
+You see a painted door.
+~
+painted door~
+0 -1 13084
+S
+#13087
+The Unicorn's Horn~
+Smoke, music, and alcohol fumes smack you in the face as you enter this
+pub.  Small tables are scattered randomly about, surrounded by barrelback
+chairs occupied by townsfolk and 'streeters.  A long bar in the southeast
+corner is festooned with a wide array of drunks, card players, townsfolk,
+and knights.  The focal point of the room is a four-foot-long spiral ivory
+horn protruding from a wooden plaque above the bar.  There is a sign here.
+The only exit is west.
+~
+0 9 1
+D3
+You see a doorway to the street.
+~
+~
+0 -1 13164
+S
+#13088
+Ste. Catherine's Convent~
+This foyer is a small, unadorned waiting room for visitors to the
+convent.  A few wooden chars are arranged against the east wall.  A
+small statue of Ste. Catherine graces the northwest corner.  There is a
+hallway to the east along the south wall, an exit west to the street,
+and a door to the north.
+~
+0 1037 1
+D0
+You see a door marked "OFFICE"
+~
+office door~
+0 -1 13089
+D1
+You see the hallway
+~
+~
+0 -1 13092
+D3
+You see a doorway to the street
+~
+~
+0 -1 13163
+S
+#13089
+The convent office~
+This rather austere room is sparsely decorated, only a huge black desk,
+a few chairs, and a large statue of Ste. Catherine adorn the room.  A
+large iron crucifix hangs on the west wall, behind the desk.  The exits
+are north and south.
+~
+0 1036 1
+D0
+You see a doorway to the chapel
+~
+~
+0 -1 13105
+D2
+You see a door to the foyer
+~
+door~
+0 -1 13088
+S
+#13090
+The dining room~
+A large, rectangular oak table overpowers this clean, threadbare room.
+The floors are bare, with an occasional worn rag rug thrown down.  A
+large flagstone fireplace takes up a large part of the east wall.  High
+above the floor, near the ceiling, is a row of small windows, that allow
+the pale sunlight to filter through.  The exits are north to the kitchen,
+and south to the hallway.
+~
+0 1037 1
+D0
+You see a doorway to the kitchen.
+~
+~
+0 -1 13091
+D2
+Doorway to the hall
+~
+~
+0 -1 13092
+S
+#13091
+The kitchen~
+There is a large cookstove on the east wall, a few pots bubble and
+simmer on top of it.  There is a locked larder on the south wall.  A
+square butcher block is in the center of the room, a large cleaver sunk
+into the top.  The only exit is south.
+~
+0 1037 1
+D2
+You see the doorway to the dining room.
+~
+~
+0 -1 13090
+S
+#13092
+The hallway.~
+The hallway leads further east, and west into the foyer, there is a door
+north, into the dining room.
+~
+0 521 1
+D0
+You see the doorway to the dining room
+~
+~
+0 -1 13090
+D1
+You see the hallway
+~
+~
+0 -1 13093
+D3
+You see a doorway to the foyer
+~
+~
+0 -1 13088
+S
+#13093
+The hall~
+The hall continues east and west.
+~
+0 521 1
+D1
+You see the east hallway
+~
+~
+0 -1 13094
+D3
+You see the west hallway
+~
+~
+0 -1 13092
+S
+#13094
+A bend in the hallway.~
+The hallway bends north and west here.  To the east is a door.
+~
+0 521 1
+D0
+You see a bend north
+~
+~
+0 -1 13096
+D1
+You see a door east
+~
+door~
+0 -1 13095
+D3
+You see a bend west
+~
+~
+0 -1 13093
+S
+#13095
+A small chamber~
+This small, sparse chamber is dimly-lit.  There is a small, clean but
+threadbare bed against the south wall.  A small dresser is pushed against
+the north wall.  Dim light filtered through a colorful stained-glass
+window in the east wall.  The only exit is west.
+~
+0 1549 1
+D3
+You see a heavy studded door
+~
+heavy studded door~
+0 -1 13094
+S
+#13096
+the hallway~
+The hallway connects to more of the same to the north and to the south.
+There is a door to the east.
+~
+0 521 1
+D0
+You see more hallway
+~
+~
+0 -1 13098
+D1
+You see a door east
+~
+door~
+0 -1 13097
+D2
+You see more hallway
+~
+~
+0 -1 13094
+S
+#13097
+A small chamber~
+This small, sparse chamber is dimly-lit.  There is a small, clean but
+threadbare bed against the south wall.  A small dresser is pushed against
+the north wall.  Dim light filtered through a colorful stained-glass
+window in the east wall.  The only exit is west.
+~
+0 1549 1
+D3
+You see a heavy studded door
+~
+heavy studded door~
+0 -1 13096
+S
+#13098
+the hallway~
+The hallway connects to more of the same to the north and to the south.
+There is a door to the east.
+~
+0 521 1
+D0
+You see more hallway
+~
+~
+0 -1 13100
+D1
+You see a door east
+~
+door~
+0 -1 13099
+D2
+You see more hallway
+~
+~
+0 -1 13096
+S
+#13099
+A small chamber~
+This small, sparse chamber is dimly-lit.  There is a small, clean but
+threadbare bed against the south wall.  A small dresser is pushed against
+the north wall.  Dim light filtered through a colorful stained-glass
+window in the east wall.  The only exit is west.
+~
+0 1549 1
+D3
+You see a heavy studded door
+~
+heavy studded door~
+0 -1 13098
+S
+#13100
+The hallway~
+The hallway connects to more of the same to the north and to the south.
+There is a door to the east.
+~
+0 521 1
+D0
+You see more hallway
+~
+~
+0 -1 13102
+D1
+You see a door east
+~
+door~
+0 -1 13101
+D2
+You see more hallway
+~
+~
+0 -1 13098
+S
+#13101
+A small chamber~
+This small, sparse chamber is dimly-lit.  There is a small, clean but
+threadbare bed against the south wall.  A small dresser is pushed against
+the north wall.  Dim light filtered through a colorful stained-glass
+window in the east wall.  The only exit is west.
+~
+0 1549 1
+D3
+You see a heavy studded door
+~
+heavy studded door~
+0 -1 13100
+S
+#13102
+the hallway~
+The hallway connects to more of the same to the north and to the south.
+There is a door to the east.
+~
+0 521 1
+D0
+You see more hallway
+~
+~
+0 -1 13104
+D1
+You see a door east
+~
+door~
+0 -1 13103
+D2
+You see more hallway
+~
+~
+0 -1 13100
+S
+#13103
+A small chamber~
+This small, sparse chamber is dimly-lit.  There is a small, clean but
+threadbare bed against the south wall.  A small dresser is pushed against
+the north wall.  Dim light filtered through a colorful stained-glass
+window in the east wall.  The only exit is west.
+~
+0 1549 1
+D3
+You see a heavy studded door
+~
+heavy studded door~
+0 -1 13102
+S
+#13104
+A long hallway~
+This long hallway runs between the back of the chapel to the west, and
+the side of a large bedroom to the east.  The only exits are north and
+south.
+~
+0 9 1
+D0
+You see an entrance to the T-junction of hallway
+~
+~
+0 -1 13109
+D2
+You see an entrance to the hall
+~
+~
+0 -1 13102
+S
+#13105
+The chapel~
+This bare-floored chapel serves the needs of the nearby convent,
+monastery, and orphanage.  Few items have been used to adorn the simple,
+pale, paneled walls.  Neatly-lined rows of wooden pews are set on each
+side of the central aisle running west-east toward the altar.  The altar,
+at the east end, is a simple wooden podium, decorated by a few green
+plants.  A life-size crucifix is located in the northwest corner.
+Exits include a door on the street end, which opens south, and an exit
+west to the street.
+~
+0 9 1
+D2
+You see a plain wooden door
+~
+wooden door~
+0 -1 13089
+D3
+You see a doorway to the street
+~
+~
+0 -1 13162
+S
+#13106
+The hallway~
+This long, darkly-carpeted hallway is the main travelway for the Little
+Annie Orphanage.  The hall continues east, the office door is north, or
+you can exit west to the street.
+~
+0 8 1
+D0
+You see a door marked "Adoption Office"
+~
+adoption door~
+0 -1 13107
+D1
+You see the hallway
+~
+~
+0 -1 13109
+D3
+You see the doorway to the street
+~
+~
+0 -1 13161
+S
+#13107
+Little Annie's Adoption Office~
+This office is cheerful, sunny, and comfortable.  Large west-facing
+windows are thrown open to let the sunshine and breeze through.  A thin
+carpet covers the floor in a bright splash of green.  There is a large
+maple desk on the north wall, in front of which are two padded wingback
+chairs.  The only exit is south.
+~
+0 4096 1
+D2
+You see the door to the hall
+~
+door~
+0 -1 13106
+S
+#13108
+The adoption pool~
+This is the room where the orphanage keeps adoptable children.
+~
+0 262156 1
+S
+#13109
+The T-shaped hallway~
+This hall continues to the east in the direction of the courtyard, it
+makes a bend south to the convent chambers, and west to the office.  The
+only other exit is north to a room.
+~
+0 8 1
+D0
+You see a wooden door
+~
+wooden door~
+0 -1 13110
+D1
+You see the hallway
+~
+~
+0 -1 13111
+D2
+You see the bend south
+~
+~
+0 -1 13104
+D3
+You see the hall
+~
+~
+0 -1 13106
+S
+#13110
+A medium-sized sitting room~
+Windows along the north wall face a dusty street.  There are several
+comfortable, upholstered chairs here, each with a small table nearby.
+Books are organized neatly in shelves across three walls.  There is a
+wooden box of toys against the south wall, and a rocking horse next to
+it.  The only exit is south.
+~
+0 8 1
+D2
+You see the door to the hall
+~
+door~
+0 -1 13109
+S
+#13111
+The courtyard hall~
+This hall connects the courtyard to the orphanage and convent rooms.
+Exits are north, east, south, and west.
+~
+0 8 1
+D0
+You see a wooden door
+~
+wooden door~
+0 -1 13113
+D1
+You see the door to the courtyard
+~
+courtyard door~
+0 -1 13114
+D2
+You see a heavy, studded door.
+~
+heavy, studded door~
+0 -1 13112
+D3
+You see the hall
+~
+~
+0 -1 13109
+S
+#13112
+A large bedroom~
+A large, arched window on the east wall overlooks the monastery gardens.
+There is a large bed in the southwest corner.  A comfortable-looking
+willow rocker is situated near the southeast corner, and there is a
+dresser against the west wall.  The only exit is north.
+~
+0 8 1
+D0
+You see the heavy, studded door.
+~
+heavy door~
+0 -1 13111
+S
+#13113
+A large bedroom~
+A large, arched window on the north wall overlooks the monastery
+gardens.  There is a large bed in the northwest corner.  A
+comfortable-looking willow rocker is situated near the northeast
+corner, and there is a dresser against the west wall.  The only exit
+is south.
+~
+0 8 1
+D3
+You see the heavy, studded door.
+~
+heavy door~
+0 -1 13111
+S
+#13114
+The courtyard~
+This small courtyard is secluded by a twelve-foot stucco wall, which is
+nearly hidden by a tall, impenetrable privet hedge.  Large, comfortable
+oak trees spread long, heavy branches over the yard, allowing sunlight
+to filter in.  Grass grows in a continuous, thick carpet, though
+untended by human hands.  A few flowers are scattered here, growing
+haphazardly.  There is a single rope swing in the largest oak in the
+northwest corner.  Exits are east and west into respective halls, and
+there is an iron gate to the south.
+~
+0 0 1
+D1
+You see a wooden-plank door
+~
+plank door~
+0 -1 13115
+D2
+You see a gate
+~
+gate~
+0 -1 13072
+D3
+You see a painted door
+~
+painted door~
+0 -1 13111
+S
+#13115
+The hall~
+This portion of hall connects the courtyard with the monastery rooms.
+There are exits north, east, and west.
+~
+0 521 1
+D0
+You see a wooden door
+~
+wooden door~
+0 -1 13116
+D1
+You see the hallway
+~
+~
+0 -1 13117
+D3
+You see the door to the courtyard
+~
+~
+0 -1 13114
+S
+#13116
+A small room~
+This bedchamber is small, clean, and somber.  It is adorned only by a
+simple bed, a small dresser, and a small window in the north wall.  The
+only exit is south.
+~
+0 521 1
+D2
+You see a small wooden door
+~
+~
+0 -1 13115
+S
+#13117
+The hall~
+This is the continuation of hallway from the monastery bedchambers to
+the courtyard.  Exits here are north through a door, east, south to the
+dining room, and west to more hall.
+~
+0 521 1
+D0
+You see a small wooden door
+~
+~
+0 -1 13118
+D1
+You see the hallway
+~
+~
+0 -1 13119
+D2
+You see a doorway to the dining room
+~
+~
+0 -1 13128
+D3
+You see a door to the hallway
+~
+~
+0 -1 13115
+S
+#13118
+A small room~
+This bedchamber is small, clean, and somber.  It is adorned only by a
+simple bed, a small dresser, and a small window in the north wall.  The
+only exit is south.
+~
+0 521 1
+D2
+You see a small wooden door
+~
+wppden door~
+0 -1 13117
+S
+#13119
+The hall~
+This is the continuation of hallway from the monastery bedchambers to
+the courtyard.  Exits here are north through a door, east, and west to
+more hall.
+~
+0 521 1
+D0
+You see a small wooden door
+~
+~
+0 -1 13120
+D1
+You see the hallway
+~
+~
+0 -1 13121
+D3
+You see the hallway
+~
+~
+0 -1 13117
+S
+#13120
+A small room~
+This bedchamber is small, clean, and somber.  It is adorned only by a
+simple bed, a small dresser, and a small window in the north wall.  The
+only exit is south.
+~
+0 521 1
+D2
+A small wooden door
+~
+wooden door~
+0 -1 13117
+S
+#13121
+The hallway~
+This is the continuation of hallway from the monastery bedchambers to
+the courtyard.  Exits here are north through a door, east, and west to
+more hall.
+~
+0 521 1
+D0
+A small wooden door
+~
+wooden door~
+0 -1 13122
+D1
+You see the hallway
+~
+~
+0 -1 13123
+D3
+You see the hallway
+~
+~
+0 -1 13119
+S
+#13122
+A small room~
+This bedchamber is small, clean, and somber.  It is adorned only by a
+simple bed, a small dresser, and a small window in the north wall.  The
+only exit is south.
+~
+0 521 1
+D2
+You see a small wooden door
+~
+small door~
+0 -1 13121
+S
+#13123
+The hallway~
+This is the continuation of hallway from the monastery bedchambers to
+the courtyard.  Exits here are north through a door, east, south to the
+foyer, and west to more hall.
+~
+0 521 1
+D0
+You see a small wooden door.
+~
+small wooden door~
+0 -1 13124
+D1
+You see the hallway
+~
+~
+0 -1 13125
+D2
+You see the entrance to the foyer.
+~
+~
+0 -1 13127
+D3
+You see the hallway
+~
+~
+0 -1 13121
+S
+#13124
+A small room~
+This bedchamber is small, clean, and somber.  It is adorned only by a
+simple bed, a small dresser, and a small window in the north wall.  The
+only exit is south.
+~
+0 521 1
+D2
+You see a small wooden door
+~
+~
+0 -1 13123
+S
+#13125
+The hallway~
+This is the continuation of hallway from the monastery bedchambers to
+the courtyard.  Exits here are north through a door, and west to more
+hall.
+~
+0 521 1
+D0
+You see a small wooden door
+~
+~
+0 -1 13126
+D3
+You see the hallway
+~
+~
+0 -1 13123
+S
+#13126
+A small room~
+This bedchamber is small, clean, and somber.  It is adorned only by a
+simple bed, a small dresser, and a small window in the north wall.  The
+only exit is south.
+~
+0 521 1
+D2
+You see a small wooden door
+~
+~
+0 -1 13125
+S
+#13127
+The Monastery Foyer~
+This is a simple waiting area.  The bare floor creaks with every step,
+the boards are worn smooth by many feet.  The only adornment in this
+room is a large wooden statue of Ste. Francis in the northwest corner.
+There are doors east, south, and west, there is a hallway north.
+~
+0 8 1
+D0
+You see the hallway
+~
+~
+0 -1 13123
+D1
+You see a door to the street
+~
+~
+0 -1 13135
+D2
+You see a door marked "Office"
+~
+~
+0 -1 13130
+D3
+You see a door to the dining room
+~
+~
+0 -1 13128
+S
+#13128
+The dining room~
+Furnished in deep, dark walnut, this room is only dimly lit by soft
+tallow candles.  An immense walnut dining table sits in the middle of
+the room, surrounded by matching wooden benches.  There is a fruit bowl
+in the middle of the table.  Arched, diamond-paned windows adorn the
+room from the west wall, and add more light and a certain calming aura
+to the room.  There are exits north, east, and south.
+~
+0 8 1
+D0
+You see an exit to the hall
+~
+~
+0 -1 13117
+D1
+You see a door to the foyer
+~
+~
+0 -1 13127
+D2
+You see an entrance to the kitchen
+~
+~
+0 -1 13129
+S
+#13129
+The kitchen~
+Two large but sparse cupboards line the south wall, one contains cracked
+earthenware dishes, the other a few stoneware bowls and iron skillets,
+pans, and Dutch ovens.  A large sink is against the west wall, a butcher
+block table is in the center of the room.  Overhead, a small iron butcher's
+rack is suspended from the rafters by a heavy iron chain.  Another cupboard
+on the east wall contains an array of spices, condiments, and staple goods.
+The exit is north.
+~
+0 8 1
+D0
+You see a doorway to the dining room
+~
+~
+0 -1 13128
+S
+#13130
+The monastery office~
+The floor here is polished to a high gloss.  A polished, smiling statue
+of Ste. Francis graces the room from the southeast corner, next to the
+windows.  There is a large walnut desk in the south west corner, and
+booksheles lining the walls behind it on either side.  The only exit
+is north.
+~
+0 8 1
+D0
+You see a door
+~
+door~
+0 -1 13127
+S
+#13131
+The stables~
+A broad, double-wide door swings both ways on large hinges.  The stable
+itself is dark and cool, and smells of manure, sweet hay, and mice.
+Stalls line the north and south walls, and there is a long row of feed
+bins on the west wall next to the door.  Several horses snort and wicker
+as you enter the stable, others pull calmly at hay racks or stare at you,
+unafraid.  The exits are east and west.
+~
+0 9 1
+D1
+You see the wide door to the street
+~
+~
+0 -1 13136
+D3
+You see the doorway to the carriage house
+~
+~
+0 -1 13132
+S
+#13132
+The carriage house~
+This room smells of rich leather, sweat, and oil.  Halters, bridles,
+cruppers, and saddles hang from pegs and shelves, and are tossed on the
+floor here and there.  Several large carriages in varying states of
+repair are here.  A small window overlooks the monastery garden.  The
+exits are east and south.
+~
+0 9 1
+D1
+You see the doorway to the stables
+~
+~
+0 -1 13131
+D2
+You see the doorway to the blacksmith shop
+~
+~
+0 -1 13068
+S
+#13133
+The corral~
+Several horses are penned up here in this area between the blacksmith
+shop and the stable.  The third wall is formed by the outer wall of the
+carriage house.  A few rough-hewn logs form the front, where the gate is
+located.  A rack of hay is located near the wide-swinging gate to the east.
+~
+0 9 1
+D1
+You see the wide gate
+~
+~
+0 -1 13137
+S
+#13134
+Willowby Bridge~
+This is an arched, stone-and-wood bridge that spans the Cottonwood river
+and leads into StoneBow Dale.  The crystal, bubbling waters of the
+Cottonwood are ten feet below you.  You can see flashes of silver and
+rainbow colors as fish flip and swim.  There are stone keeps on either
+side of the bridge, and a guard peers out at you intently as you step on
+the bridge.  There is a large wooden sign on the right tower.
+~
+0 8192 2
+E
+left guard tower~
+A tall, grey tower made of large boulders.  There is a wooden door here
+that opens into the tower.
+~
+E
+right keep guard tower~
+A tall, grey tower made of large boulders.  There is an arched window
+opening near the top, from which a guard peers at you questioningly.
+~
+E
+A large wooden sign~
+WELCOME To StoneBow Dale! Please observe all rules, this is a quiet town
+and a honeymoon haven, let's keep it that way! -The Mayor
+~
+D0
+A small path to the forest
+~
+~
+0 -1 3585
+D2
+A cobbled road leading into town
+~
+~
+0 -1 13135
+S
+#13135
+A cobblestone road~
+A broad, pleasantly-clean cobbled road.  There is a large sign above
+your head.  There is a tall building to your west, and the side of an
+enormous church on your east.  This road runs north-south.  There is a
+door to the west.
+~
+0 0 1
+E
+A large building~
+The building is of stone-and-mortar construction.  An old, faded sign
+reads "The Monastery".
+~
+E
+A sign~
+DragonCove Road North
+~
+D0
+You see Willowby bridge
+~
+~
+0 -1 13134
+D2
+You see a cobblestone road
+~
+~
+0 -1 13136
+D3
+You see a door
+~
+wooden door~
+0 -1 13127
+S
+#13136
+Dragoncove Road~
+A broad, pleasantly-clean cobbled road.  A stable lies west, to the east
+is an enormous church.  There is a corral to the southwest.  The street
+continues north and south.
+~
+0 0 1
+D0
+You see DragonCove Road
+~
+~
+0 -1 13135
+D2
+You see DragonCove Road
+~
+~
+0 -1 13137
+D3
+You see the stable door
+~
+stable door~
+0 -1 13131
+S
+#13137
+DragonCove Road~
+A broad, pleasantly-clean cobbled road.  To the east is an enormous
+church.  There is a corral to the west.  The street continues north, to
+the south is Unity Square.
+~
+0 0 1
+D0
+You see DragonCove Road North
+~
+~
+0 -1 13136
+D2
+You see Unity Square
+~
+~
+0 -1 13138
+D3
+You see a gate into the corral
+~
+~
+0 -1 13133
+S
+#13138
+Unity Square~
+A large white marble fountain stands in the center of this large, grassy
+square.  Water spouts from the top of the fountain from the hand of a
+statue of the goddess Eriana.  Beneath her feet, figurines of animals,
+flowers, and birds are carved, spiralling downward to the base.  Around
+the perimeter of the fountain is planted an array of fragrant, colorful
+flowers.  A huge church looms to the northeast.  There is a signpost
+here, pointing in every direction.
+~
+0 1024 1
+E
+Sign post~
+This signpost points in the four major directions.  The arrow north
+indicates that DragonCove Road north lies in that direction, to the
+south is DragonCove Road south.  East is Nightbane Avenue east, west
+is the western portion of that street.
+~
+E
+statue~
+The figure of Eriana stands barefoot, her hand atop the head of a
+massive tiger, the other hand holds a pitcher, from which water pours
+into the fountain.
+~
+D0
+You see DragonCove Road North
+~
+~
+0 -1 13137
+D1
+You see Nightbane Avenue East
+~
+~
+0 -1 13143
+D2
+You see DragonCove Road south
+~
+~
+0 -1 13146
+D3
+You see Nightbane Avenue West
+~
+~
+0 -1 13139
+S
+#13139
+Nightbane Avenue~
+You are standing on the western portion of Nightbane Avenue, near Unity
+Square.  The street continues east and west.  The blacksmith shop is
+north, an alleyway lies south.
+~
+0 0 1
+D0
+You see the blacksmith shop
+~
+~
+0 -1 13068
+D1
+You see the Intersection of Nightbane Avenue & DragonCove
+~
+~
+0 -1 13138
+D2
+You see the alleyway
+~
+~
+0 -1 13023
+D3
+You see Nightbane Avenue
+~
+~
+0 -1 13140
+S
+#13140
+Nightbane Avenue west~
+You are standing on the western portion of Nightbane Avenue, which
+continues east and west.  To the north is the monastery garden, south is
+the caterer.
+~
+0 0 1
+D0
+You see the monastery garden
+~
+~
+0 -1 13069
+D1
+You see Nightbane Avenue
+~
+~
+0 -1 13139
+D2
+You see the caterer
+~
+~
+0 -1 13025
+D3
+You see Nightbane Avenue
+~
+~
+0 -1 13141
+S
+#13141
+Nightbane Avenue west~
+You are standing on the western portion of Nightbane Avenue, which
+continues east and west.  To the north is the pet shop, the potions shop
+is south.
+~
+0 0 1
+D0
+You see Kestra's Pet shop
+~
+~
+0 -1 13073
+D1
+You see Nightbane Avenue
+~
+~
+0 -1 13140
+D2
+You see the potions shop
+~
+~
+0 -1 13026
+D3
+You see Nightbane Avenue
+~
+~
+0 -1 13142
+S
+#13142
+Nightbane Avenue West~
+You are standing on the western end of Nightbane Avenue, which stretches
+east toward Unity Square, and west toward the intersection with
+Castlerock Avenue.  To the north lies the Inn foyer, to the south is a
+linens shop.
+~
+0 0 1
+D0
+You see the Inn foyer
+~
+~
+0 -1 13075
+D1
+You see Nightbane Avenue
+~
+~
+0 -1 13141
+D2
+You see the Linens shop
+~
+~
+0 -1 13027
+D3
+You see Nightbane Avenue & Castlerock
+~
+~
+0 -1 13166
+S
+#13143
+Nightbane Avenue east~
+You are standing due east of Unity Square on Nightbane Avenue.  This
+street continues east to Briarwood and west to the square.  The church
+lies north of you.  South is an empty shop.
+~
+0 0 1
+D0
+You see the church
+~
+~
+0 -1 13030
+D1
+You see Nightbane Avenue
+~
+~
+0 -1 13144
+D2
+You see an empty shop
+~
+~
+0 -1 13018
+D3
+You see Unity Square
+~
+~
+0 -1 13138
+S
+#13144
+Nightbane Avenue east~
+You are standing on Nightbane Avenue due south of the church.  The
+street continues east to Briarwood, and west to the square.  South is a
+photography shop, and north is the church.
+~
+0 0 1
+D0
+You see the church
+~
+~
+0 -1 13031
+D1
+You see Nightbane Avenue
+~
+~
+0 -1 13145
+D2
+You see the photography shop
+~
+~
+0 -1 13016
+D3
+You see Nightbane Avenue
+~
+~
+0 -1 13143
+S
+#13145
+Nightbane Avenue east~
+You are standing on Nightbane Avenue,due south of the church.  The
+street continues east to the intersection of Briarwood and Nightbane,
+and west to the square.  To the south lies an empty shop, north is the
+church entrance.
+~
+0 0 1
+D0
+You see the church
+~
+~
+0 -1 13032
+D1
+You see Nightbane Avenue
+~
+~
+0 -1 13188
+D2
+You see an abandoned shop
+~
+~
+0 -1 13015
+D3
+You see Nightbane Avenue
+~
+~
+0 -1 13144
+S
+#13146
+DragonCove Road~
+A broad, pleasantly-clean cobbled road.  North is Unity Square, east is
+the entrance to a shop, south the road continues, and west is an
+abandoned shop.
+~
+0 0 1
+D0
+You see the intersection at Unity Square
+~
+~
+0 -1 13138
+D1
+You see a doorway to an abandoned storehouse
+~
+~
+0 -1 13018
+D2
+You see south DragonCove Road
+~
+~
+0 -1 13147
+D3
+You see a doorway to an abandoned store
+~
+~
+0 -1 13022
+S
+#13147
+A cobblestone street~
+South DragonCove Road continues south.  To the east is a doorway to
+Higgins' Haberdashery, to the west is the door to a giftshop.  The road
+continues north to Unity Square, and south toward Crystal Square.
+~
+0 0 1
+D0
+You see DragonCove Road
+~
+~
+0 -1 13146
+D1
+You see a doorway to Higgins' Haberdashery
+~
+~
+0 -1 13019
+D2
+You see DragonCove Road
+~
+~
+0 -1 13148
+D3
+You see a door to the Gift Shop
+~
+~
+0 -1 13021
+S
+#13148
+DragonCove Road~
+A broad, pleasantly-clean cobblestone road.  The road continues north
+and south toward Crystal Square, east is a dark alley, west is the
+door to the shoe shop.
+~
+0 0 1
+D0
+You see DragonCove Road
+~
+~
+0 -1 13147
+D1
+You see a dark alley
+~
+~
+0 -1 13008
+D2
+You see DragonCove Road
+~
+~
+0 -1 13149
+D3
+You see the doorway to the shoe shop
+~
+~
+0 -1 13020
+S
+#13149
+DragonCove Road~
+A broad, pleasantly-clean cobblestone street.  To the east is the door
+to Howell's Jewellers, to the north, the road continues, south is
+Crystal Square, and west is the corner of a shop.
+~
+0 0 1
+D0
+You see DragonCove Road
+~
+~
+0 -1 13148
+D1
+You see Howell's Jewelers
+~
+~
+0 -1 13005
+D2
+You see Crystal Square
+~
+~
+0 -1 13150
+S
+#13150
+Crystal Square~
+Located at the intersection of Redfern Road and DragonCove, this square
+is rather small in contrast to its northern counterpart.  Instead of a
+fountain, here is situated an obsidian pedestal, upon which is balanced
+a huge blue crystal.  It appears that nothing holds the crystal in place,
+yet it balances perfectly on one pointed tip.  Redfern Road runs east and
+west of here, DragonCove Road runs north and south.  There is a signpost
+here.
+~
+0 1024 1
+E
+blue crystal~
+This crystal is a complete mystery, it stands about eight feet tall,
+and is made of some completely clear crystal of unknown origin or
+purpose.  Roughly marquis-shaped, it balances on one point, its other
+pointed skyward.  Lights dance within the depths of the glass, bursting
+into a myriad of colors deep within, and radiate outward, causing the
+crystal to appear surrounded by some mystical aura It hums faintly.
+~
+E
+Signpost~
+This sign points in each of the four directions: North DragonCove &
+South DragonCove lie north and south, respectively, and East and West
+Redfern lie in their respective directions
+~
+D0
+You see DragonCove Road
+~
+~
+0 -1 13149
+D1
+You see East Redfern Road
+~
+~
+0 -1 13154
+D2
+You see DragonCove Road
+~
+~
+0 -1 13158
+D3
+You see West Redfern Road
+~
+~
+0 -1 13151
+S
+#13151
+Redfern Road~
+You are standing just west of Crystal Square, the enormous, mystically-
+suspended blue crystal glitters from its place in the square.  West of
+you, Redfern continues toward Castlerock.  To the north is a savings
+and loan, south is the wall of the winery.
+~
+0 0 1
+D0
+You see a bank
+~
+~
+0 -1 13004
+D1
+You see Crystal Square
+~
+~
+0 -1 13150
+D3
+You see Redfern Road
+~
+~
+0 -1 13152
+S
+#13152
+Redfern Road~
+From this part of Redfern Road you can see Crystal Square to your east,
+and Castlerock Avenue to the west.  North of you is an abandoned,
+boarded-up shop.  Southward is the hedgerow entrance to the monastery
+vineyards.
+~
+0 0 1
+D0
+You see an abandoned shop
+~
+~
+0 -1 13003
+D1
+You see Redfern Road
+~
+~
+0 -1 13151
+D2
+You see the vineyards
+~
+~
+0 -1 13059
+D3
+You see Redfern Road
+~
+~
+0 -1 13153
+S
+#13153
+West Redfern Road~
+You are standing at the far west end of Redfern, near its intersection
+with Castlerock Avenue to the west.  Redfern continues east toward
+Crystal Square.  To the north lies a florist & herbalist shop, south is
+a tall stone wall faced by a hedge, over the top of which you can see
+twisted grape vines clinging to poles.
+~
+0 0 1
+D0
+You see the Florist
+~
+~
+0 -1 13000
+D1
+You see Redfern Road
+~
+~
+0 -1 13152
+D3
+You see Castlerock & Redfern
+~
+~
+0 -1 13171
+S
+#13154
+Redfern Road~
+You are now due east of Crystal Square.  Redfern Road continues west
+beyond the square, and east toward Briarwood.  Howell's Jewellers lies
+due north, the Willowtree Inn is directly south.
+~
+0 0 1
+D0
+You see Howell's Jewellers
+~
+~
+0 -1 13005
+D1
+You see Redfern Road
+~
+~
+0 -1 13155
+D3
+You see Crystal Square
+~
+~
+0 -1 13150
+S
+#13155
+Redfern Road~
+You are now east of Crystal Square.  Redfern Road continues west, and to
+the east toward Briarwood.  An alley lies due north, the Willowtree Inn
+is directly south.
+~
+0 0 1
+D0
+You see an alley
+~
+~
+0 -1 13006
+D1
+You see Redfern Road
+~
+~
+0 -1 13156
+D3
+You see Redfern Road
+~
+~
+0 -1 13154
+S
+#13156
+Redfern Road~
+Redfern Road continues westward from here, and east toward Briarwood.
+Magnum's Formalwear shop lies due north, the Willowtree Inn is
+directly south.
+~
+0 0 1
+D0
+You see a Formalwear shop
+~
+~
+0 -1 13009
+D1
+You see Redfern Road
+~
+~
+0 -1 13157
+D3
+You see Redfern Road
+~
+~
+0 -1 13154
+S
+#13157
+Redfern Road~
+You are standing due west of Briarwood.  Redfern Road continues west to
+Crystal Square, and to the east toward its intersection with Briarwood.
+Sherri Bridals is directly north, on the corner, the Willowtree Inn is
+directly south.
+~
+0 0 1
+D0
+You see Sherri Bridals
+~
+~
+0 -1 13013
+D1
+You see the intersection of Redfern Road & Briarwood Avenue
+~
+~
+0 -1 13183
+D3
+You see Redfern Road
+~
+~
+0 -1 13156
+S
+#13158
+DragonCove Road~
+A broad, pleasantly-clean cobblestone street.  To the east is the
+northwestern corner of the Willowtree Inn, to the west is the back of
+the old winery, and a doorway to an abandoned shop.  DragonCove Road
+runs north and south from here.
+~
+0 0 1
+D0
+You see Crystal Square
+~
+~
+0 -1 13150
+D2
+You see DragonCove Road
+~
+~
+0 -1 13159
+D3
+You see a doorway
+~
+~
+0 -1 13067
+S
+#13159
+DragonCove Road~
+A broad, pleasantly-clean cobblestone street.  DragonCove Road runs
+north and south here, to the east is the entrance to the Willowtree Inn,
+to the west is an entrance to the metalsmith shop.
+~
+0 0 1
+D0
+You see DragonCove Road
+~
+~
+0 -1 13158
+D1
+You see a door to the Inn
+~
+wooden door~
+0 -1 13047
+D2
+You see a dead end
+~
+~
+0 -1 13160
+D3
+You see a door to the metalsmith shop
+~
+~
+0 -1 13066
+S
+#13160
+The Dead End~
+Here the broad cobblestone street dead ends.  There is a short road,
+Willow Way, to the west, to the east is the edge of the Inn.  The only
+other exit is north, up DragonCove Road.
+~
+0 0 1
+D0
+You see DragonCove Road
+~
+~
+0 -1 13159
+D3
+You see Willow Way
+~
+~
+0 -1 13179
+S
+#13161
+Castlerock Avenue~
+A smooth, cobbled road begins here at the river and stretches southward.
+To the west of you is a tall stone wall that surrounds the entire town.
+To the east is a large building, from somewhere nearby, you can hear
+children laughing, from the other side of the wall, you hear rushing
+water.  A bell begins to toll from the chapel tower to the south.  The
+exits are east, to the orphanage, and south down Castlerock, to the
+north and west is the city wall.
+~
+0 0 1
+D1
+You see the Orphanage door
+~
+~
+0 -1 13106
+D2
+You see Castlerock Avenue
+~
+~
+0 -1 13162
+S
+#13162
+Castlerock Avenue~
+The avenue continues north to the dead end, and south toward Nightbane
+Avenue.  The wall continues on the west side, to the east is the Convent
+Chapel.
+~
+0 0 1
+D0
+You see Castlerock Avenue
+~
+~
+0 -1 13161
+D1
+You see the door to the Chapel
+~
+wooden door~
+0 -1 13105
+D2
+You see Castlerock Avenue
+~
+~
+0 -1 13163
+S
+#13163
+Castlerock Avenue~
+The avenue continues north to the dead end, and south toward Nightbane
+Avenue.  The wall continues on the west side, to the east is the Convent.
+~
+0 0 1
+D0
+You see Castlerock Avenue
+~
+~
+0 -1 13162
+D1
+You see the door to the Convent
+~
+wooden door~
+0 -1 13088
+D2
+You see Castlerock Avenue
+~
+~
+0 -1 13164
+S
+#13164
+Castlerock Avenue~
+The avenue continues north to the dead end, and south toward Nightbane
+Avenue.  The wall continues on the west side, to the east is the Unicorn
+Horn Tavern.
+~
+0 0 1
+D0
+You see Castlerock Avenue
+~
+~
+0 -1 13163
+D1
+You see the door to the Tavern
+~
+wooden door~
+0 -1 13087
+D2
+You see Castlerock Avenue
+~
+~
+0 -1 13165
+S
+#13165
+Castlerock Avenue~
+The avenue continues north to the dead end, and south toward Nightbane
+Avenue.  The wall continues on the west side, to the east is the
+DragonCove Inn.
+~
+0 0 1
+D0
+You see Castlerock Avenue
+~
+~
+0 -1 13164
+D1
+You see the door to the Inn
+~
+wooden door~
+0 -1 13077
+D2
+You see Castlerock Avenue
+~
+~
+0 -1 13166
+S
+#13166
+Castlerock Avenue~
+The avenue continues north to the river, and south toward Redfern Road.
+The wall continues on the west side, to the east is Nightbane Avenue.
+~
+0 0 1
+D0
+You see Castlerock Avenue
+~
+~
+0 -1 13165
+D1
+You see Nightbane Avenue
+~
+~
+0 -1 13142
+D2
+You see Castlerock Avenue
+~
+~
+0 -1 13167
+S
+#13167
+Castlerock Avenue~
+The avenue continues north to the river, and south toward Redfern Road.
+The wall continues on the west side, to the east is the linen shop.
+~
+0 0 1
+D0
+You see Castlerock Avenue
+~
+~
+0 -1 13166
+D1
+You see the Linen Shop
+~
+~
+0 -1 13027
+D2
+You see Castlerock Avenue
+~
+~
+0 -1 13168
+S
+#13168
+Castlerock Avenue~
+The avenue continues north to Nightbane Avenue, and south toward Redfern
+Road.  The wall continues on the west side, to the east is an odd-looking
+shop.
+~
+0 0 1
+D0
+You see Castlerock Avenue
+~
+~
+0 -1 13167
+D1
+You see a shop
+~
+~
+0 -1 13028
+D2
+You see Castlerock Avenue
+~
+~
+0 -1 13169
+S
+#13169
+Castlerock Avenue~
+The avenue continues north to the Nightbane Avenue, and south toward
+Redfern Road.  The wall continues on the west side, to the east is a
+library.
+~
+0 0 1
+D0
+You see Castlerock Avenue
+~
+~
+0 -1 13168
+D1
+You see the library
+~
+~
+0 -1 13029
+D2
+You see Castlerock Avenue
+~
+~
+0 -1 13170
+S
+#13170
+Castlerock Avenue~
+The avenue continues north to Nightbane Avenue, and south toward Redfern
+Road.  The wall continues on the west side, to the east is the side of a
+shop.
+~
+0 0 1
+D0
+You see Castlerock Avenue
+~
+~
+0 -1 13169
+D2
+You see Castlerock Avenue
+~
+~
+0 -1 13171
+S
+#13171
+Castlerock Avenue~
+This broad cobbled avenue continues north toward Nightbane Avenue, and
+south toward Willow Way.  To the east is Redfern Road, to the west is
+the city wall.
+~
+0 0 1
+D0
+You see Castlerock Avenue
+~
+~
+0 -1 13170
+D1
+You see Redfern Road
+~
+~
+0 -1 13153
+D2
+You see Castlerock Avenue
+~
+~
+0 -1 13172
+S
+#13172
+Castlerock Avenue~
+This broad cobbled avenue continues north toward Redfern Road, and south
+toward Willow Way.  To the east is a high wall and a thick privet hedge,
+over the top of which you can see the tops of fruit trees.  To the west
+is the city wall.
+~
+0 0 1
+D0
+You see Castlerock Avenue
+~
+~
+0 -1 13171
+D2
+You see Castlerock Avenue
+~
+~
+0 -1 13173
+S
+#13173
+Castlerock Avenue~
+This broad cobbled avenue continues north toward Redfern Road, and south
+toward Willow Way.  To the east is a high wall and a thick privet hedge,
+over the top of which you can see the tops of fruit trees.  To the west
+is the city wall.
+~
+0 0 1
+D0
+You see Castlerock Avenue
+~
+~
+0 -1 13172
+D2
+You see Castlerock Avenue
+~
+~
+0 -1 13174
+S
+#13174
+Castlerock Avenue~
+This broad cobbled avenue continues north toward Redfern Road, and south
+toward Willow Way.  To the east is an abandoned shop.  The city wall
+lies west.
+~
+0 0 1
+D0
+You see Castlerock Avenue
+~
+~
+0 -1 13173
+D1
+You see a shop
+~
+~
+0 -1 13063
+D2
+You see Castlerock Avenue & Willow Way
+~
+~
+0 -1 13175
+S
+#13175
+The intersection of Castlerock Avenue & Willow Way~
+Here the long avenue of Castlerock intersects in the couthwest corner of
+the city with Willow Way.  The only exits are north onto Castlerock,
+toward Redfern Road, and east onto Willow Way.
+~
+0 0 1
+D0
+You see Castlerock Avenue
+~
+~
+0 -1 13174
+D1
+You see Willow Way
+~
+~
+0 -1 13176
+S
+#13176
+Willow Way~
+This short street consists of a few small shops.  Due north is an
+abandoned shop.  West is the intersection of Willow Way and Castlerock,
+to the south is the southern city wall.  Willow Way continues east
+toward DragonCove.
+~
+0 0 1
+D0
+You see an abandoned shop
+~
+~
+0 -1 13063
+D1
+You see Willow Way
+~
+~
+0 -1 13177
+D3
+You see the intersection of Castle Rock & Willow Way
+~
+~
+0 -1 13175
+S
+#13177
+Willow Way~
+This quiet backstreet continues east and west, east lies DragonCove,
+west is Castlerock Avenue.  Due north is Fonzerelli's Leathers, south is
+the southern city wall.
+~
+0 0 1
+D0
+You see Fonzerelli's Leathers
+~
+~
+0 -1 13064
+D1
+You see Willow Way
+~
+~
+0 -1 13178
+D3
+You see Willow Way
+~
+~
+0 -1 13176
+S
+#13178
+Willow Way~
+The little street continues east toward DragonCove, and west toward
+Castlerock.  An empty shop lies north, south is the south wall of the
+city.
+~
+0 0 1
+D0
+You see an empty shop
+~
+~
+0 -1 13065
+D1
+You see Willow Way
+~
+~
+0 -1 13179
+D3
+You see Willow Way
+~
+~
+0 -1 13177
+S
+#13179
+Willow Way~
+Here the quiet little backstreet of Willow Way begins and ends
+(depending on the direction from which you arrived).  To the east is the
+intersection of this small street with the busy main thoroughfare,
+DragonCove Avenue.  To the west the little street continues toward
+Castlerock.  To the north is the metalsmith shop.
+~
+0 0 1
+D0
+You see the metalsmith shop
+~
+~
+0 -1 13066
+D1
+You see the intersection of Willow Way & DragonCove
+~
+~
+0 -1 13160
+D3
+You see Willow Way
+~
+~
+0 -1 13178
+S
+#13180
+Briarwood Road~
+Briarwood Road ends in this alley.  The Inn lies due west, the city wall
+lies south and east, the street continues north.
+~
+0 1 1
+D0
+You see Briarwood Road
+~
+~
+0 -1 13181
+S
+#13181
+Briarwood Road~
+Briarwood Road continues here.  The Inn lies due west, the city wall
+lies east, and the street continues north and south to the dead end.
+~
+0 1 1
+D0
+You see Briarwood Road
+~
+~
+0 -1 13182
+D2
+You see the dead end
+~
+~
+0 -1 13180
+S
+#13182
+Briarwood Road~
+Briarwood Road intersects Redfern just north of here.  The Inn lies due
+west, the city wall lies east, and Briarwood continues north.
+~
+0 1 1
+D0
+You see Briarwood Road intersect Redfern
+~
+~
+0 -1 13183
+D2
+Briarwood Road~
+Briarwood continues southward toward a dead end.  The Inn is due south, the
+
+city wall is east, and the street continues north toward Redfern.
+
+~
+0 -1 13181
+S
+#13183
+The intersection of Redfern and Briarwood~
+Here Briarwood intersects with Redfern.  Briarwood runs north toward
+Nightbane, and south to the southern wall terminus.  Redfern spans westward
+toward Crystal Square. An open gate leads east out of the city.
+~
+0 0 1
+D0
+You see Briarwood Road
+~
+~
+0 -1 13184
+D1
+You see the start of Oceanside road.
+~
+~
+0 -1 13192
+D2
+You see Briarwood Road
+~
+~
+0 -1 13182
+D3
+You see Redfern Road
+~
+~
+0 -1 13157
+S
+#13184
+Briarwood Road~
+Briarwood continues north and south here, north toward Nightbane, and south
+toward Redfern.  The city wall is directly east of you, and there are shops
+to the west.
+~
+0 0 1
+D0
+You see Briarwood Road
+~
+~
+0 -1 13185
+D2
+You see Briarwood Road
+~
+~
+0 -1 13183
+S
+#13185
+Briarwood Road~
+Briarwood continues north and south here, north toward Nightbane, and south
+toward Redfern.  The city wall is directly east of you, and there are shops
+to the west.
+~
+0 0 1
+D0
+You see Briarwood Road
+~
+~
+0 -1 13186
+D2
+You see Briarwood Road
+~
+~
+0 -1 13184
+S
+#13186
+Briarwood Road~
+Briarwood continues north and south here, north toward Nightbane, and
+south toward Redfern.  The city wall is directly east of you, and there
+are shops to the west.
+~
+0 0 1
+D0
+You see Briarwood Road
+~
+~
+0 -1 13187
+D2
+You see Briarwood Road
+~
+~
+0 -1 13185
+S
+#13187
+Briarwood Road~
+Briarwood continues north and south here, north toward Nightbane, and
+south toward Redfern.  The city wall is directly east of you, and there
+is a shop to the west.
+~
+0 0 1
+D0
+You see Briarwood Road
+~
+~
+0 -1 13188
+D2
+You see Briarwood Road
+~
+~
+0 -1 13186
+D3
+A door west
+~
+door~
+0 -1 13015
+S
+#13188
+Intersection of Briarwood & Nightbane~
+The intersection of Briarwood and Nightbane Avenue.  Briarwood continues
+north to the city wall, and south toward Redfern Road.  The city wall
+lies east.  Nightbane stretches west toward Unity Square.
+~
+0 0 1
+D0
+You see Briarwood
+~
+~
+0 -1 13189
+D2
+You see Briarwood Road
+~
+~
+0 -1 13187
+D3
+You see Nightbane Avenue
+~
+~
+0 -1 13145
+S
+#13189
+Briarwood Road~
+The road continues north and south here, north toward the city wall, and
+south toward Nightbane Avenue.  The church complex lies due west, the
+city wall parallels you on the east.
+~
+0 0 1
+D0
+You see Briarwood Road
+~
+~
+0 -1 13190
+D2
+You see the intersection of Nightbane & Briarwood
+~
+~
+0 -1 13188
+S
+#13190
+Briarwood Road~
+The road continues north and south here, north toward the city wall, and
+south toward Nightbane Avenue.  The church complex lies due west, the
+city wall parallels you on the east.
+~
+0 0 1
+D0
+You see Briarwood Road
+~
+~
+0 -1 13191
+D2
+You see Briarwood Road
+~
+~
+0 -1 13189
+S
+#13191
+The end of Briarwood Road~
+Briarwood ends in this alley near the church.  To the north, beyond the
+city wall, you can hear the sound of rushing waters from the Cottonwood
+River.  Trees peer over the top of the stone walls to the east.  To the
+west is the massive church complex, southward, the road continues toward
+Nightbane Avenue.
+~
+0 0 1
+D2
+You see that Briarwood continues
+~
+~
+0 -1 13190
+S
+#13192
+Outside the City Gate~
+You stand outside the small eastern gate of Stonebow Dale.  Far to
+the south, you see the great southern ocean. Oceanside road leads
+off to the east.
+~
+0 0 1
+D1
+Oceanside roads continues to the east.
+~
+~
+0 -1 13193
+D3
+You see Briarwood Road intersect Redfern.
+~
+~
+0 -1 13183
+S
+#13193
+Oceanside Road~
+You stand on the edge of a cliff overlooking the southern ocean.
+To the north, a dense forest forces you to walk a little too close
+to the sheer drop-off to your south.  A city wall is just visible
+to the west.  To the east, the forest thins out and the shoreline
+below you improves.
+~
+0 0 1
+D1
+~
+~
+0 -1 2317
+D3
+~
+~
+0 -1 13192
+S
+#0
+
+
+
+#SPECIALS
+M 13011 spec_cast_cleric
+M 13052 spec_cast_adept
+S
+
+
+
+#RESETS
+M 0 13006 1 13000 1
+M 0 13007 1 13000 1
+M 0 13008 1 13000 1
+M 0 13058 1 13004 1
+M 0 13005 1 13005 1
+M 0 13001 1 13009 1
+M 0 13004 1 13009 1
+G 0 13008 0
+G 0 13009 0
+M 0 13000 1 13013 1
+G 0 13002 0
+G 0 13003 0
+M 0 13009 1 13016 1
+M 0 13010 1 13016 1
+M 0 13003 1 13019 1
+G 0 13014 0
+M 0 13002 1 13020 1
+G 0 13012 0
+G 0 13013 0
+G 0 13021 0
+M 0 13052 1 13033 1
+M 0 13018 6 13058 1
+M 0 13018 6 13061 1
+M 0 13016 8 13062 2
+M 0 13023 4 13064 1
+M 0 13016 8 13066 2
+M 0 13017 6 13066 1
+M 0 13023 4 13066 1
+M 0 13016 8 13067 2
+M 0 13016 8 13068 2
+M 0 13017 6 13068 1
+M 0 13021 8 13068 1
+M 0 13021 8 13071 1
+M 0 13016 8 13072 2
+M 0 13017 6 13072 1
+M 0 13021 8 13072 1
+M 0 13018 6 13073 1
+M 0 13021 8 13073 1
+M 0 13022 4 13134 1
+M 0 13011 16 13135 4
+M 0 13019 8 13136 1
+M 0 13012 16 13137 4
+M 0 13024 6 13137 1
+G 0 13022 0
+M 0 13011 16 13138 4
+M 0 13014 4 13138 1
+M 0 13015 6 13142 1
+M 0 13024 6 13142 1
+G 0 13022 0
+M 0 13015 6 13144 1
+M 0 13019 8 13148 1
+M 0 13012 16 13150 4
+M 0 13013 8 13150 2
+M 0 13014 4 13150 1
+M 0 13024 6 13150 1
+G 0 13022 0
+M 0 13025 6 13150 1
+M 0 13015 6 13155 1
+M 0 13011 16 13158 4
+M 0 13022 4 13160 1
+M 0 13012 16 13164 4
+M 0 13011 16 13167 4
+M 0 13019 8 13168 1
+M 0 13019 8 13170 1
+M 0 13012 16 13171 4
+M 0 13013 8 13171 2
+M 0 13020 1 13171 1
+M 0 13015 6 13172 1
+M 0 13012 16 13175 4
+M 0 13011 16 13177 4
+M 0 13012 16 13182 4
+M 0 13011 16 13183 4
+M 0 13013 8 13183 2
+M 0 13019 8 13186 1
+M 0 13024 6 13187 1
+G 0 13022 0
+M 0 13012 16 13188 4
+M 0 13013 8 13188 2
+S
+
+
+
+#SHOPS
+13000 11 0 0 0 0 105 15 0 23
+13002 11 0 0 0 0 101 75 0 23
+13003 11 0 0 0 0 105 15 0 23
+13004 11 0 0 0 0 145 5 0 23
+13005 32 33 0 0 0 195 1 0 23
+13006 8 0 0 0 0 100 50 0 23
+13024 11 0 0 0 0 101 75 0 23
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

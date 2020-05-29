@@ -1,0 +1,5713 @@
+#AREADATA
+Name Monster Guild~
+Builders Darkblade Spirko~
+VNUMs 21000 21999
+Credits [80 HR] Monstr  Guild Rooms~
+Security 4
+End
+
+#MOBILES
+#21000
+dark knight~
+Dark Knight~
+A Dark Knight is here.
+~
+A darkly clad man is here.
+~
+human~
+ACT A CGTUVc AHMOV -400 21000
+102 102 210d35+2061 102d11+95 35d2+75 cleave
+-63 -63 -63 -43
+ABCDEFHKLQ ABQ 0 0
+stand stand male 310
+ABCDEFGHIJK 0 large unknown
+#21001
+Red Knight~
+Red Knight~
+A Red Knight is here.
+~
+A man is here, glowing with a red aura.
+~
+human~
+ACT A CGTUVc AHMOV -400 21001
+95 95 196d32+1919 95d11+95 32d2+70 cleave
+-59 -59 -59 -39
+ABCDEFHKLQ ABQ 0 0
+stand stand male 310
+ABCDEFGHIJK 0 large unknown
+#21002
+gavin white knight~
+Gavin~
+Gavin the White Knight is here.
+~
+You can't believe it it's Gavin, really here.
+Gavin is too busy fighting evil to even notice you.
+~
+human~
+ACMNQRTV A CGTUVc AHMOV 1000 21000
+102 102 210d35+2061 102d11+95 35d2+75 cleave
+-63 -63 -63 -43
+ABCDEFHKLQS ABNQ 0 Y
+stand stand male 100370
+ABCDEFGHIJK 0 large unknown
+#21005
+Gavin's bodyguard~
+Gavin's bodyguard~
+One of Gavin's personal body guards is here.
+~
+One of Gavin's personal body guards is here.
+~
+human~
+ABCPQRSV A PQc ABHMV 400 21000
+108 108 223d37+3271 108d11+95 37d2+79 slash
+-68 -68 -68 -46
+ABLQS F 0 0
+stand stand male 33700
+ABCDEFGHIJK 0 large unknown
+#21006
+Dark Knight assassin~
+Dark Knight assassin~
+A Dark Knight assassin is here.
+~
+A Dark Knight assassin is here.
+~
+human~
+ABCPS A PQc ABHMV -400 21000
+108 108 223d37+3271 108d11+95 37d2+79 slash
+-68 -68 -68 -46
+ABLMQ ABF 0 0
+stand stand male 5000
+ABCDEFGHIJK 0 large unknown
+#21007
+Thornblade~
+Thornblade~
+Thornblade is here.
+~
+Thornblade Master assassin.
+
+~
+human~
+ACFGMNPa A PTUVb AHMV -700 0
+109 109 225d37+3301 109d11+95 37d2+80 slice
+-68 -68 -68 -46
+BEJMQ ABMY 0 CHIJKLMNSZ
+stand stand male 2000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#21008
+Nightman~
+Evil Nightman~
+Nightman is here.
+~
+Nightman is here.
+Creeping around in the shadows.
+~
+human~
+ACFGS A PTUVbc AHMV -500 21000
+105 105 216d36+2121 105d11+95 36d2+77 cleave
+-66 -66 -66 -44
+BEJMQ ABMY 0 CHIJKLMNSZ
+stand stand male 1000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#21200
+dark knight~
+Dark Knight~
+A Dark Knight is here.
+~
+A darkly clad man is here.
+~
+human~
+ACT A CGTUVc AHMOV -450 21901
+75 75 155d26+1515 75d11+95 26d2+57 punch
+-44 -44 -44 -29
+ABCDEFHKLQ ABQ 0 0
+stand stand male 320
+ABCDEFGHIJK 0 large unknown
+#21201
+Red Knight~
+Red Knight~
+A Red Knight is here.
+~
+A man is here, glowing with a red aura.
+~
+human~
+ACT A CGTUVc AHMOV -450 21201
+90 90 186d31+1819 90d11+95 31d2+67 cleave
+-55 -55 -55 -37
+ABCDEFHKLQ ABQ 0 0
+stand stand male 320
+ABCDEFGHIJK 0 large unknown
+#21205
+Gavin's bodyguard~
+Gavin's bodyguard~
+One of Gavin's personal body guards is here.
+~
+One of Gavin's personal body guards is here.
+~
+human~
+ABCPQRSV A PQc ABHMV 450 21200
+107 107 221d36+3241 107d11+95 36d2+78 slash
+-67 -67 -67 -45
+ABLQS F 0 0
+stand stand male 320
+ABCDEFGHIJK 0 large unknown
+#21206
+Dark Knight assassin~
+Dark Knight assassin~
+A Dark Knight assassin is here.
+~
+A Dark Knight assassin is here.
+~
+human~
+ABCPS A PQc ABHMV -450 21200
+105 105 216d36+2121 105d11+95 36d2+77 slash
+-66 -66 -66 -44
+ABLMQ ABF 0 0
+stand stand male 320
+ABCDEFGHIJK 0 large unknown
+#21300
+dark knight~
+Dark Knight~
+A Dark Knight is here.
+~
+A darkly clad man is here.
+~
+human~
+ACT A CGTUVc AHMOV -500 21300
+93 93 192d32+1879 93d11+95 32d2+69 cleave
+-57 -57 -57 -38
+ABCDEFHKLQ ABQ 0 0
+stand stand male 330
+ABCDEFGHIJK 0 large unknown
+#21301
+Red Knight~
+Red Knight~
+A Red Knight is here.
+~
+A man is here, glowing with a red aura.
+~
+human~
+ACT A CGTUVc AHMOV -500 21301
+93 93 192d32+1879 93d11+95 32d2+69 cleave
+-57 -57 -57 -38
+ABCDEFHKLQ ABQ 0 0
+stand stand male 330
+ABCDEFGHIJK 0 large unknown
+#21305
+Gavin's bodyguard~
+Gavin's bodyguard~
+One of Gavin's personal body guards is here.
+~
+One of Gavin's personal body guards is here.
+~
+human~
+ABCPS A PQc ABHMV 500 21300
+80 80 165d27+1617 80d11+95 27d2+60 slash
+-48 -48 -48 -32
+ABLQS F 0 0
+stand stand male 330
+ABCDEFGHIJK 0 large unknown
+#21306
+Dark Knight assassin~
+Dark Knight assassin~
+A Dark Knight assassin is here.
+~
+A Dark Knight assassin is here.
+~
+human~
+ABCPS A PQc ABHMV -500 21300
+85 85 175d29+1717 85d11+95 29d2+64 slash
+-52 -52 -52 -34
+ABLMQ ABF 0 0
+stand stand male 330
+ABCDEFGHIJK 0 large unknown
+#21400
+dark knight~
+Dark Knight~
+A Dark Knight is here.
+~
+A darkly clad man is here.
+~
+human~
+ACFT A CGTUVc AHMOV -950 21400
+70 70 145d24+1415 70d11+95 24d2+54 cleave
+-41 -41 -41 -26
+ABCDEFHKLQ ABQ 0 0
+stand stand male 320
+ABCDEFGHIJK 0 large unknown
+#21401
+Red Knight~
+Red Knight~
+A Red Knight is here.
+~
+A man is here, glowing with a red aura.
+~
+human~
+ACFT A CGTUVc AHMOV -950 21400
+102 102 210d35+2061 102d11+95 35d2+75 cleave
+-63 -63 -63 -43
+ABCDEFHKLQ ABQ 0 0
+stand stand male 320
+ABCDEFGHIJK 0 large unknown
+#21406
+Dark Knight assassin~
+Dark Knight assassin~
+A Dark Knight assassin is here.
+~
+A Dark Knight assassin is here.
+~
+dragon~
+ABCFPS A PQc ABHZ -1000 21400
+109 109 225d37+3301 109d11+95 37d2+80 slice
+-68 -68 -68 -46
+ABLMQ ABEFH FI 0
+stand stand male 5000
+ACDEFGHIJKPQUVX 0 large unknown
+#21497
+dragon master~
+Dragon Master~
+The Clan Dragon Master is here.
+~
+The Dragon Master is a beautiful Dragon.  He is sworn to serve
+clan Soldier. May he serve you well.
+~
+dragon~
+ABGJKOQRTVabcd A DFJTUZ AHNZ 1000 0
+102 102 210d35+2061 102d11+95 35d2+75 claw
+-63 -63 -63 -43
+ADGHLMS BEHKLQR BCEFGHIMNOPS DFIJY
+rest stand female 10000
+ACDEFGHIJKLPQUVXZc ACDEFGHIJKLPQUVX giant unknown
+#21901
+Dark Shaman~
+Dark Shaman~
+The Dark Shaman is here.
+~
+The Dark Shaman is here.
+~
+human~
+AHNOQRVW A EFIPQUWZc ABHMOV -1000 21900
+109 109 225d37+3301 109d11+95 37d2+80 flbite
+-68 -68 -68 -46
+AHJQS ABCKM EHJO XYZ
+stand stand either 98000
+ABCDEFGHIJK ABCDEFGHIJKP medium unknown
+#0
+
+
+
+#OBJECTS
+#21000
+Ancient sword~
+An Ancient sword~
+A really ancient looking sword lies here.~
+adamantite~
+weapon BGW AN
+sword 17 15 cleave CDE
+91 85 10000 P
+#21001
+Black hole~
+A large Black Hole~
+A large Black Hole is pulsing here.~
+energy~
+portal 0 0
+DFGHIJ 0 BE ADJMO 0
+0 0 0 P
+#21002
+Dark Knight Platemail~
+Dark Knight Platemail~
+Some Dark Knight Platemail is here.~
+steel~
+armor ABGJW AD
+BCG BCG BCG ABDG BEF
+91 75 10000 P
+#21003
+ALTURIAN sword~
+An ALTURIAN sword~
+A really ancient looking ALTURIAN sword is here.~
+silver~
+weapon BGW AN
+sword 15 20 cleave CE
+91 50 250000 P
+#21004
+White Knight Platemail~
+White Knight Platemail~
+Some Gleaming White Knight Platemail is here.~
+adamantite~
+armor ABGIKLW AD
+BCDI BCDI BCDI ABEI BDEFGH
+91 175 140000 P
+#21005
+Gavin's Gleaming White Sword~
+Gavin's Gleaming White Sword~
+Gavin's Gleaming White Sword is here!~
+adamantite~
+weapon ABGHIKLMRTUY AN
+sword 27 24 divine CEFH
+85 120 30000 P
+F
+S 0 0 CDEHN
+F
+I 0 0 IKRSXY
+F
+A 2 4 CDEFGJLTUWZbc
+A
+20 120
+A
+19 12
+A
+18 12
+A
+17 -1200
+A
+14 120
+A
+13 120
+A
+12 120
+A
+7 12
+A
+5 5
+A
+4 5
+A
+3 5
+A
+2 5
+#21009
+glowing talisman ~
+a Glowing Talisman~
+An engraved Talisman is here, Glowing.~
+mithril~
+armor AI AC
+F F F BCF CE
+101 30 10000 P
+A
+19 15
+A
+18 15
+A
+12 135
+A
+3 6
+E
+Glowing Talisman ~
+~
+#21010
+Glowing blue robe~
+a Glowing blue robe~
+A blue robe is glowing here.~
+light~
+armor A AK
+BCE BCE BCE BE 0
+97 50 10000 P
+A
+12 130
+A
+3 3
+E
+Glowing blue robe~
+~
+#21011
+magic flame~
+a magic flame~
+A strange flame hovers here.~
+fire~
+light A A
+0 0 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0 0
+97 0 10000 P
+A
+19 5
+A
+12 115
+#21012
+engraved ring ~
+an engraved ring~
+An intricately engraved ring lies here.~
+mithril~
+armor B AB
+BCE BCE BCE BE 0
+97 10 10000 P
+A
+18 10
+A
+13 90
+A
+12 110
+A
+1 3
+E
+Glowing ring ~
+~
+#21013
+Glowing crest ~
+a Glowing crest~
+An ornate crest is here.~
+mithril~
+armor A AO
+ACE ACE BCE BE 0
+97 20 10000 P
+A
+17 -10
+A
+12 100
+A
+4 1
+A
+3 2
+A
+2 1
+E
+Glowing crest ~
+~
+#21014
+Glowing bracelet~
+a Glowing bracelet~
+An ornate Glowing bracelet is here, gleaming.~
+mithril~
+armor A AM
+ACE BCE BCE BE 0
+95 20 9500 P
+A
+19 6
+A
+12 90
+#21015
+glowing chain belt ~
+a Glowing chain belt~
+An Glowing chain belt glitters here.~
+mithril~
+armor A AL
+ACE CE CE AE 0
+92 50 9000 P
+A
+19 6
+A
+12 100
+A
+5 -2
+#21016
+glowing shoes ~
+a pair of Glowing shoes~
+A pair of Glowing shoes is here.~
+mithril~
+armor A AG
+CE CE ACE AE 0
+90 50 11100 P
+A
+18 -2
+A
+13 30
+A
+12 95
+A
+3 2
+A
+2 2
+#21017
+glowing arm bands ~
+some Glowing armbands~
+A pair of armbands are glowing here.~
+mithril~
+armor AI AI
+ACE CE ACE E 0
+92 50 11000 P
+A
+19 5
+A
+12 75
+A
+6 -1
+A
+4 2
+#21018
+H.U.D. ~
+A sleek looking H.U.D.~
+A sleek looking Heads Up Display is here.~
+adamantite~
+armor AG AR
+BCDE BCDE BCDE BDE BD
+75 10 14400 P
+A
+19 7
+A
+13 60
+A
+12 140
+A
+5 -4
+A
+1 2
+#21019
+glowing sphere ~
+a glowing sphere~
+A sphere floats here, glowing with an eerie light.~
+light~
+armor ABI AQ
+CE CE CE ACE 0
+90 10 10000 P
+A
+19 6
+A
+18 5
+A
+12 100
+A
+9 -5
+A
+6 -1
+#21020
+glowing tunic ~
+a Glowing tunic~
+A tunic emblazoned with the crest is here.~
+silk~
+armor 0 AD
+CE CE CE E 0
+90 40 10000 P
+A
+20 -5
+A
+13 60
+A
+12 80
+A
+3 3
+#21021
+contact lenses~
+contact lenses~
+A pair of contact lenses are here.~
+glass~
+armor GI AR
+ACE BCE ACE AE 0
+95 10 9000 P
+A
+20 -5
+A
+18 5
+A
+12 100
+A
+4 4
+#21022
+staff guarding ~
+a staff of guarding~
+A polished staff lies here.~
+mithril~
+staff B AO
+90 11 11 'sanctuary' 0
+95 30 10100 P
+A
+17 -20
+#21023
+Borellian circlet ~
+a Borellian circlet~
+An Borellian circlet gleams here.~
+fire~
+armor AIL AE
+ACE ACE ACE AE 0
+95 20 10500 P
+A
+19 7
+A
+18 6
+A
+4 3
+A
+3 3
+#21024
+Borellian chain armor ~
+a set of Borellian chain armor~
+A set of Borellian armor lies here.~
+fire~
+armor IL AD
+ACE ACE ACE AE 0
+95 100 15000 P
+A
+19 6
+A
+13 110
+A
+2 2
+A
+1 3
+#21025
+white belt treniste~
+a white belt~
+A gleaming white belt lies here.~
+leather~
+armor IKL AL
+ACE ACE ACE AE 0
+95 30 10000 P
+A
+19 6
+A
+13 75
+A
+12 50
+A
+4 3
+#21026
+Borellian gauntlets ~
+a pair of Borellian gauntlets~
+A pair of Borellian gauntlets gleams here.~
+fire~
+armor IL AH
+ACE ACE ACE AE 0
+93 50 10150 P
+A
+19 6
+A
+18 7
+A
+13 105
+A
+4 -2
+#21027
+Borellian leggings ~
+a pair of Borellian leggings~
+A pair of engraved firey leggings lies here.~
+fire~
+armor IL AF
+BCE ACE ACE AE 0
+92 50 12000 P
+A
+14 60
+A
+13 80
+A
+12 80
+A
+1 3
+#21028
+Borellian visor ~
+A Borellian visor~
+A Borellian visor is here.~
+fire~
+armor AL AR
+CE CE CE E 0
+88 30 9000 P
+A
+19 6
+A
+13 90
+A
+4 3
+A
+2 2
+#21029
+firey bracer ~
+a firey bracer~
+An intricately carved firey bracer lies here.~
+fire~
+armor IL AM
+ACE ACE ACE AE 0
+93 20 11000 P
+A
+19 6
+A
+13 75
+A
+12 75
+A
+5 3
+#21030
+embroidered cape ~
+an embroidered cape~
+A beautifully embroidered cape is here.~
+linen~
+armor IKL AK
+CE CE ACE E 0
+89 40 11200 P
+A
+19 6
+A
+18 4
+A
+13 -20
+A
+12 105
+A
+6 -1
+A
+3 2
+#21031
+ancient tome~
+an ancient tome~
+An ancient tome is here, covered with dust.~
+parchment~
+staff BFG AO
+95 11 11 'detect hidden' 0
+89 50 10000 P
+A
+3 4
+#21032
+ornate mask~
+an ornate mask~
+An ornately engraved mask is here.~
+wood~
+armor BFI AR
+CE CE CE E 0
+88 20 11000 P
+A
+19 5
+A
+13 95
+A
+9 6
+A
+8 2
+A
+6 -1
+#21033
+sleeves pair firey ~
+some Borellian sleeves~
+A pair of engraved Borellian sleeves lies here.~
+fire~
+armor AL AI
+CE CE CE E 0
+89 40 10000 P
+A
+19 6
+A
+13 85
+A
+4 3
+A
+2 2
+#21034
+gleaming white sword~
+a gleaming white sword~
+A white sword gleams brightly.~
+mithril~
+weapon IK AN
+sword 7 12 cleave V
+70 200 10000 P
+A
+19 15
+A
+18 10
+#21035
+gleaming white shield~
+a gleaming white shield~
+a white shield lies here gleaming.~
+mithril~
+armor IK AJ
+BEF ABCEF ABCEF CDEF 0
+71 50 10000 P
+A
+19 6
+A
+2 5
+A
+1 5
+#21036
+colored pill~
+a strangley colored pill~
+A strangley colored pill lies here.~
+food~
+pill 0 A
+90 'iceshield' 'fireshield' 'shockshield' 'stone skin'
+80 10 1850 P
+#21037
+jet black helm ~
+a jet black helm~
+An engraved black helm absorbs the light.~
+obsidian~
+armor CJL AE
+ACE ACE ACE AE 0
+95 40 10000 P
+A
+19 7
+A
+18 6
+A
+13 100
+A
+1 3
+#21038
+taloned gloves~
+a pair of taloned gloves~
+A pair of gloves with long, wicked talons lies here.~
+obsidian~
+armor JL AH
+ACE ACE ACE AE 0
+95 30 10000 P
+A
+19 9
+A
+18 7
+A
+12 85
+#21039
+breast plate ~
+a breast plate~
+A dark breast plate is here.~
+obsidian~
+armor EJL AD
+ACE ACE BCE AE 0
+95 100 15000 P
+A
+19 7
+A
+13 90
+A
+2 2
+A
+1 2
+#21040
+dark orb ~
+a dark orb~
+A dark orb floats here, radiating evil.~
+nothingness~
+armor CEJL AQ
+ACE ACE ACE AE 0
+93 0 10000 P
+A
+19 6
+A
+13 75
+A
+12 60
+A
+3 2
+#21041
+legplates leg plates evil~
+some legplates~
+Some evil looking legplates are here.~
+obsidian~
+armor EJLM AF
+ACE ACE ACE AE 0
+92 50 10200 P
+A
+19 6
+A
+13 80
+A
+5 2
+A
+2 2
+#21042
+carved ring ~
+a carved ring~
+A dark ring carved with strange symbols lies here.~
+obsidian~
+armor EJLM AB
+CE CE CE E 0
+89 10 10000 P
+A
+19 6
+A
+18 4
+A
+13 85
+A
+3 3
+#21043
+cloak nightmares black~
+a cloak of nightmares~
+A shadowy black cloak writhes with agony.~
+shadows~
+armor CEFJ AK
+ACE CE CE E 0
+89 20 10000 P
+A
+19 6
+A
+13 60
+A
+12 85
+A
+9 15
+A
+5 -3
+A
+3 -2
+A
+2 4
+#21044
+ebony bracer ~
+an ebony bracer~
+A carved ebony bracer is here.~
+ebony~
+armor EJL AM
+ACE ACE ACE AE 0
+92 20 12500 P
+A
+5 5
+A
+4 5
+A
+3 5
+#21045
+dark necklace ~
+a dark necklace~
+A dark necklace lies here.~
+obsidian~
+treasure EL AC
+0 0 0 0 0
+88 20 25000 P
+A
+13 75
+A
+12 75
+A
+9 5
+A
+2 3
+#21046
+humanoid skull~
+a humanoid skull~
+A humanoid skull stares at you with empty sockets.~
+bone~
+treasure E AO
+0 0 0 0 0
+88 20 5000 P
+A
+19 5
+A
+12 95
+A
+2 3
+A
+1 3
+#21047
+pair obsidian boots ~
+a pair of boots~
+A pair of engraved obsidian boots lies here.~
+obsidian~
+armor EJL AG
+ABE ABE ABE ABCD 0
+85 30 11000 P
+A
+13 75
+A
+12 70
+A
+2 4
+#21048
+tempered silver throwing dagger~
+a tempered throwing dagger~
+A silver dagger with a sharply tempered edge gleams wickedly.~
+silver~
+weapon CE AN
+dagger 5 11 pierce DH
+90 200 15000 P
+A
+19 25
+A
+18 20
+#21049
+sleeves obsidian ~
+some sleeves~
+Some carved obsidian sleeves are here.~
+obsidian~
+armor EJL AI
+CE CE CE E 0
+88 30 10000 P
+A
+19 6
+A
+18 6
+A
+3 3
+A
+1 3
+#21050
+black collar runes runed leather~
+a black runed collar~
+A black leather collar engraved with Glowing runes lies here.~
+leather~
+armor BEGHM AC
+ABE ABE ABE ABCD 0
+85 30 5500 P
+A
+19 6
+A
+18 -2
+A
+13 70
+A
+12 65
+A
+5 -2
+A
+4 -1
+A
+1 2
+#21051
+demon's wings demon black~
+demon's wings~
+A pair of membranous black wings lie here.~
+leather~
+armor BE AI
+BCE BCE BCE BE 0
+99 50 15000 P
+A
+19 7
+A
+18 6
+A
+13 100
+A
+12 95
+A
+9 20
+A
+6 1
+A
+5 4
+A
+1 4
+#21052
+onyx earring ~
+an onyx earring~
+An earring of polished onyx glimmers in the shadows.~
+stone~
+armor CFI AR
+BE BE BE BCD 0
+78 10 10000 P
+A
+19 6
+A
+13 80
+A
+12 75
+A
+2 4
+#21053
+dark gloves ~
+some dark gloves~
+A pair of dark gloves absorbs the light.~
+leather~
+armor CFI AH
+BE ABE BE BCD 0
+78 30 10000 P
+A
+19 6
+A
+18 6
+A
+2 2
+A
+1 2
+#21054
+sharpened stiletto sharp~
+a sharpened stiletto~
+A wickedly sharp stiletto gleams here.~
+silver~
+weapon CHI AN
+dagger 11 5 pierce DH
+80 200 12500 P
+A
+19 25
+A
+18 20
+#21055
+invisible flame~
+an invisible flame~
+An invisible flame burns silently.~
+fire~
+light CF A
+0 0 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0 0
+80 0 11500 P
+A
+19 5
+A
+12 80
+A
+2 3
+#21056
+pair sleeves ~
+a pair of sleeves~
+Dark sleeves disappear in the shadows.~
+leather~
+armor CFI AI
+BE BE BE BCD 0
+78 30 9900 P
+A
+19 5
+A
+18 5
+A
+3 2
+A
+2 3
+#21057
+engraved platinum ring ~
+an engraved platinum ring~
+An engraved platinum ring lies here.~
+platinum~
+armor 0 AB
+E E AE CD 0
+69 20 12000 P
+A
+19 4
+A
+13 70
+A
+2 1
+A
+1 1
+#21058
+dark shroud shadows ~
+a dark shroud~
+Deep shadows absorb the light.~
+shadow~
+armor CFI AK
+AE E AE ACD 0
+75 10 10000 P
+A
+19 5
+A
+18 5
+A
+13 70
+#21059
+black slim bracer ~
+a slim bracer~
+A slender black bracer gleams darkly.~
+stone~
+armor CFI AM
+AE BE AE ACD 0
+73 20 8000 P
+A
+19 5
+A
+18 5
+A
+17 -15
+A
+2 3
+#21060
+shadowy neckchain neck chain ~
+a shadowy neckchain~
+A dark neckchain is here, shrouded in shadow.~
+adamantite~
+armor CFI AC
+AE AE AE ACD 0
+72 20 12000 P
+A
+19 4
+A
+13 60
+A
+12 60
+A
+1 1
+#21061
+black leggings leather pair ~
+a pair of black leggings~
+A pair of black leather leggings lies here in a pool of shadow.~
+leather~
+armor CFI AF
+BE BE BE BCD 0
+77 40 10000 P
+A
+19 5
+A
+18 5
+A
+13 85
+A
+2 3
+#21062
+silent boots ~
+silent boots~
+Some silent looking boots lie here.~
+leather~
+armor CFI AG
+ABE BE BE BCD 0
+75 20 8900 P
+A
+19 5
+A
+18 5
+A
+2 4
+#21063
+ring black~
+a black ring ~
+A black ring gleams darkly.~
+ebony~
+armor CFI AB
+BE BE BE BCD 0
+75 10 10000 P
+A
+19 5
+A
+18 5
+A
+12 80
+A
+2 3
+#21064
+black belt ~
+a black belt~
+An engraved black belt lies here.~
+leather~
+armor CFI AL
+BE ABE BE BCD 0
+75 40 7900 P
+A
+2 5
+A
+1 5
+#21065
+ring lynx~
+a ring of the lynx~
+A darkly beautiful ring lies here.~
+fur~
+armor CFI AB
+BE BE BE BCD 0
+75 10 10000 P
+A
+19 5
+A
+18 5
+A
+13 80
+A
+1 3
+#21066
+night hawk talons~
+night hawk talons~
+The sharp talons of a hawk gleam cruelly in the darkness.~
+bone~
+armor CFI AH
+AE AE AE ACD 0
+73 40 9000 P
+A
+19 5
+A
+2 2
+A
+1 2
+#21067
+hunter's hunters hunter arrow ~
+a hunter's arrow~
+A sharp arrow gleams here.~
+mithril~
+weapon A AN
+exotic 2 22 pierce E
+70 200 10000 P
+A
+19 15
+A
+18 15
+#21068
+set platemail plate mail ~
+a set of platemail~
+A set of engraved platemail is here.~
+adamantite~
+armor 0 AD
+BE BE BE BCD 0
+78 100 10000 P
+A
+19 6
+A
+18 6
+A
+13 100
+A
+1 4
+#21069
+bracer power~
+a bracer of power~
+A bracer lies here, humming with power.~
+adamantite~
+armor B AM
+ABE BE BE BCD 0
+78 20 9900 P
+A
+19 6
+A
+13 75
+A
+1 4
+#21070
+shield ~
+a shield~
+An engraved shield is here.~
+adamantite~
+armor 0 AJ
+BE BE BE BCD 0
+77 50 10000 P
+A
+19 6
+A
+5 3
+A
+1 2
+#21071
+grey legplates leg plates ~
+some grey legplates~
+A pair of strong grey legplates are here.~
+platinum~
+armor 0 AF
+BE BE BE BCD 0
+75 90 10000 P
+A
+19 4
+A
+13 75
+A
+5 2
+A
+1 2
+#21072
+helm ~
+a helm~
+A sturdy helm lies here.~
+adamantite~
+armor 0 AE
+AE AE AE ACD 0
+71 50 8000 P
+A
+19 5
+A
+18 4
+A
+13 80
+A
+5 2
+#21073
+engraved crest ~
+an engraved crest~
+The crest of house Borellian is here, gleaming.~
+platinum~
+armor AL AO
+E E E CD 0
+68 50 11000 P
+A
+19 4
+A
+13 65
+A
+1 3
+#21074
+armplates arm plates ~
+strong armplates~
+Some strong looking armplates are here.~
+adamantite~
+armor 0 AI
+AE AE AE ACD 0
+73 50 10000 P
+A
+19 5
+A
+18 5
+A
+13 50
+A
+5 3
+#21075
+balanced adamantite longsword long sword~
+a finely balance adamantite longsword~
+An adamantite longsword of superb craftsmanship gleams here.~
+adamantite~
+weapon AI AN
+sword 4 12 cleave D
+45 300 17800 P
+A
+19 15
+A
+18 15
+#21076
+silver carven ring ~
+a carven signet ring~
+A beautiful silver signet ring lies here.~
+silver~
+armor AI AB
+BE BE BE BCD 0
+78 10 10000 P
+A
+13 80
+A
+12 80
+A
+4 3
+A
+3 3
+#21077
+niobium circlet ~
+a niobium circlet~
+A beautiful niobium circlet lies here.~
+silver~
+armor AI AE
+BE BE BE BCD 0
+78 20 21500 P
+A
+18 5
+A
+12 100
+A
+4 4
+#21078
+light Glowing sphere ~
+a Glowing sphere~
+A sphere of Glowing light floats here.~
+light~
+armor ABI AQ
+BE BE BE BCD 0
+77 0 15500 P
+A
+13 50
+A
+12 85
+A
+4 3
+A
+3 3
+#21079
+inlaid silver bracelet ~
+an inlaid silver bracelet~
+A silver bracelet inlaid with fire is here.~
+silver~
+armor AI AM
+AE AE BE ACD 0
+74 20 12200 P
+A
+12 95
+A
+5 2
+A
+4 2
+#21080
+girth ~
+a beautiful girth~
+A beautifully engraved girth lies here.~
+silver~
+armor AI AL
+AE AE AE ACD 0
+71 50 10000 P
+A
+18 5
+A
+13 50
+A
+12 75
+A
+1 2
+#21081
+pair sleeves ~
+a pair of sleeves~
+Some gleaming sleeves lie here.~
+silver~
+armor AI AI
+E E E CD 0
+69 50 9900 P
+A
+19 3
+A
+13 85
+A
+5 3
+#21082
+pair gloves ~
+some finely crafted gloves~
+A pair of finely crafted gloves lies here.~
+leather~
+armor I AH
+AE AE AE ACD 0
+73 30 11250 P
+A
+18 5
+A
+12 75
+A
+5 2
+A
+2 2
+#21083
+filligree necklace ~
+a filligree necklace~
+A beautiful filligree necklace bearing the crest of Borellian is here.~
+silver~
+armor AL AC
+E E E CD 0
+68 20 25500 P
+A
+5 4
+A
+4 4
+A
+3 4
+#21084
+tooled boots ~
+some tooled boots~
+Some intricately tooled boots stand here.~
+leather~
+armor I AG
+E E E CD 0
+68 60 11200 P
+A
+19 4
+A
+18 5
+A
+12 75
+A
+5 3
+#21085
+Borellian~
+Borellian~
+The purity of Borellian is here.~
+fire~
+armor AL AQ
+BCE BCE BCE BE 0
+99 0 50000 P
+A
+19 6
+A
+12 250
+A
+3 6
+#21086
+Borellian justice shield~
+Borellian justice~
+A finely crafted shield is here.~
+mithril~
+armor ALW AJ
+BCE BCE BCE BE 0
+99 50 50000 P
+A
+20 -15
+A
+17 -25
+A
+13 110
+A
+5 6
+#21087
+Borellian gauntlets~
+Borellian gauntlets~
+The powerfull Borellian gauntlets are here~
+dragonscale~
+armor ABILRTWY AH
+BCE BCE BCE BE 0
+99 0 50000 P
+A
+19 15
+A
+18 10
+A
+13 100
+A
+1 4
+#21088
+Borellian shoes~
+Borellian shoes~
+Borellian shoes.~
+dragonscale~
+armor CFILW AG
+BCE BCE BCE BE 0
+99 0 50000 P
+F
+A 0 0 P
+A
+19 10
+A
+18 10
+A
+12 100
+A
+2 6
+#21089
+Borellian platemail~
+Borellian platemail~
+The Borellian clan platemail is here, humming.~
+black dragonscale~
+armor BGLTWY AD
+BCE BCE BCE BE 0
+99 100 50000 P
+A
+20 -200
+A
+17 -150
+A
+19 150
+A
+18 10
+A
+13 100
+A
+1 6
+#21090
+Borellian talisman~
+Borellian talisman~
+The Borellian clan talisman, theres is an inscription.~
+red dragonscale~
+armor AI AC
+BCE BCE BCE BE 0
+99 0 50000 P
+A
+18 8
+A
+17 -50
+A
+13 250
+A
+5 6
+E
+Born of the fire beneath Ashtoria
+
+	by the red crystal formed
+
+	from the souls of those tormented
+
+	by their souls The Borellian mourn~
+~
+#21091
+Borellian bracers~
+Borellian bracers~
+The Borellian clan bracers.~
+black dragonscale~
+armor ABGILRW AM
+BCE BCE BCE BE 0
+99 0 55000 P
+F
+A 0 0 V
+A
+19 16
+A
+18 12
+A
+13 300
+A
+12 300
+A
+2 4
+A
+1 4
+#21092
+Borellian~
+Borellian~
+A powerfull weapon known as Borellian.~
+adamantite~
+weapon ACGHLMRTUWY AN
+exotic 8 12 slash ABC
+88 250 55000 P
+A
+19 50
+A
+18 40
+#21093
+flame balance silver~
+flame of balance~
+A Glowing silver flame hovers here.~
+fire~
+light AFIJK A
+0 0 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0 0
+99 0 55000 P
+A
+19 12
+A
+18 12
+A
+13 175
+A
+12 175
+A
+5 2
+A
+4 2
+A
+3 2
+A
+2 2
+A
+1 2
+E
+flame balance silver~
+The flame flickers blindingly, and you are forced to look away.
+~
+#21094
+arm guards pair silvery~
+arm guards~
+A pair of silvery arm guards gleam here.~
+mithril~
+armor A AI
+ABCD ABCD ABCD ABD 0
+62 40 7500 P
+A
+19 4
+A
+2 2
+A
+1 2
+#21095
+girth silvery~
+a girth~
+A gleaming silvery girth is here.~
+mithril~
+armor AI AL
+ABCD ABCD ABCD ABD 0
+62 40 7500 P
+A
+19 4
+A
+12 70
+A
+3 3
+#21096
+wrist guard~
+a wrist guard~
+A wrist guard gleams here.~
+mithril~
+armor AI AM
+ABCD ABCD ABCD ABD 0
+62 20 7500 P
+A
+19 4
+A
+18 4
+A
+13 70
+A
+5 2
+#21097
+dagger ~
+a dagger~
+A sharp dagger lies here.~
+mithril~
+weapon AI AN
+dagger 6 6 pierce 0
+62 200 7500 P
+A
+19 5
+A
+18 5
+A
+2 2
+#21098
+green greenish energy pill~
+an energy pill~
+A greenish pill is here, humming with energy.~
+food~
+pill B A
+65 'haste' '' '' ''
+55 10 500 P
+#21099
+warp pill~
+a warp pill~
+A mysterious looking pill lies here.~
+food~
+pill B A
+65 'teleport' '' '' ''
+55 10 300 P
+#21109
+Glowing Talisman ~
+a Glowing Talisman~
+An engraved Glowing Talisman is here.~
+mithril~
+armor AI AC
+BCE BCE BCE BE 0
+97 30 10000 P
+A
+19 7
+A
+18 7
+A
+12 125
+A
+3 5
+E
+Glowing Talisman ~
+~
+#21192
+shortsword Borellian~
+a powerfull shortsword 'Borellian'~
+A powerfull shortsword gleams wickedly.~
+mithril~
+weapon BCI AN
+sword 12 15 pierce ADH
+98 250 75000 P
+A
+19 70
+A
+18 50
+#21209
+Glowing Talisman ~
+a Glowing Talisman~
+An engraved Glowing Talisman is here.~
+mithril~
+armor AI AC
+BDF BDF BDF BCF CE
+90 30 10000 P
+A
+19 7
+A
+18 7
+A
+12 125
+A
+3 5
+E
+Glowing Talisman ~
+~
+#21210
+Glowing blue robe~
+a Glowing blue robe~
+A blue robe is glowing here.~
+light~
+armor A AK
+BDF BDF BDF BCF CE
+90 50 10000 P
+A
+12 130
+A
+3 3
+E
+Glowing blue robe~
+~
+#21211
+magic flame~
+a magic flame~
+A strange flame hovers here.~
+fire~
+light A A
+0 0 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0 0
+90 0 10000 P
+A
+19 7
+A
+12 120
+#21212
+engraved ring ~
+an engraved ring~
+An intricately engraved ring lies here.~
+mithril~
+armor B AB
+BDF BDF BDF BCF CE
+90 10 10000 P
+A
+18 10
+A
+13 90
+A
+12 110
+A
+1 3
+E
+Glowing ring ~
+~
+#21213
+Glowing crest ~
+a Glowing crest~
+An ornate crest is here.~
+mithril~
+armor A AO
+ADF ADF BDF BCF CE
+90 20 10000 P
+A
+17 -10
+A
+12 100
+A
+4 1
+A
+3 2
+A
+2 1
+E
+Glowing crest ~
+~
+#21218
+H.U.D. ~
+A sleek looking H.U.D.~
+A sleek looking Heads Up Display is here.~
+adamantite~
+armor AG AR
+BCDE BCDE BCDE BDE BD
+90 10 12400 P
+A
+19 6
+A
+13 50
+A
+12 100
+A
+1 1
+#21223
+Borellian circlet ~
+a Borellian circlet~
+An Borellian circlet gleams here.~
+fire~
+armor AIL AE
+ABCDE ABCDE ABCDE ABDE BD
+90 20 10500 P
+A
+19 7
+A
+18 6
+A
+4 3
+A
+3 3
+#21236
+colored pill~
+a strangley colored pill~
+A strangley colored pill lies here.~
+food~
+pill 0 A
+90 'iceshield' 'fireshield' 'shockshield' 'stone skin'
+90 10 1850 P
+#21268
+platemail~
+platemail~
+A set of engraved platemail is here.~
+adamantite~
+armor L AD
+BCF CDE CDE DE BD
+98 100 10000 P
+A
+19 6
+A
+18 6
+A
+13 100
+A
+1 4
+#21286
+Borellian shield~
+Borellian shield~
+The Borellian clan shield is here.~
+dragonscale~
+armor AL AJ
+F F F BCF BD
+90 50 50000 P
+A
+20 -15
+A
+17 -25
+A
+13 110
+A
+5 6
+#21289
+Borellian platemail~
+Borellian platemail~
+The Borellian clan platemail is here, humming.~
+white dragonscale~
+armor AL AD
+F F F CDE BD
+90 100 50000 P
+A
+19 15
+A
+18 10
+A
+13 100
+A
+1 6
+#21292
+Borellian~
+Borellian~
+A powerfull weapon known as Borellian.~
+adamantite~
+weapon ACGHLMRTUWY AN
+exotic 10 14 cleave ABC
+98 250 75000 P
+A
+19 60
+A
+18 50
+#21401
+Monster weapon~
+Monster Weapon~
+A {x{GMonster{x {%Weapon{x lies here.~
+adamantite~
+weapon BRTY AN
+exotic 17 22 cleave AB
+90 100 0 P
+F
+A 0 0 CDEFGJLVZ
+A
+2 -2
+A
+14 -50
+A
+19 5
+A
+18 4
+E
+extra description~
+weapon Monster.
+~
+#21402
+Ancient sword~
+Ancient {x{GSword{x~
+An {x{GAncient Sword{x lies here.~
+adamantite~
+weapon AGRTY AN
+sword 17 19 cleave A
+1 100 0 P
+#21403
+Ancient dagger~
+{x{GAncient Dagger{x~
+A {x{GAncient{x Dagger lies here.~
+adamantite~
+weapon ABGITWY AN
+dagger 16 18 pierce E
+1 10 0 P
+#21404
+Monster breastplate~
+{x{GMonster Breastplate{x~
+A {x{GMonster{x Breastplate lies here.~
+black dragonscale~
+armor ABCEFGHIMOQVY AD
+CFG BCEH FH FH BDFH
+1 10 0 P
+A
+17 8
+#21405
+Ancient visor~
+{x{GAncient Visor{x~
+A {x{GAncient{x Visor is here.~
+black dragonscale~
+armor ABGITWY AR
+DF DF BEF BEF CDEF
+1 10 0 P
+A
+12 50
+#21406
+Monster arm plates~
+{x{GMonster Arm plates{x~
+Some {x{GMonster{x Arm plates are here.~
+adamantite~
+armor ABGITWY AI
+CE CE CE CE DF
+1 10 0 P
+A
+18 10
+#21407
+Monster girth~
+{x{GMonster Girth{x~
+A {x{GMonster Girth{x is here.~
+black dragonscale~
+armor ABGITWY AL
+DF DF DF DF BEF
+1 10 0 P
+A
+13 50
+#21408
+Black Dragonscale leg plates~
+{x{GBlack Dragonscale Leg{x plates~
+Some {x{GBlack Dragonscale Leg{x plates are here.~
+black dragonscale~
+armor ABGITWY AF
+CE CE CE CE DF
+1 10 0 P
+A
+19 10
+#21410
+ring darkknight~
+A Ring of the DarkKnight~
+A Ring of the DarkKnight's is here.~
+black dragonscale~
+armor ABGHORTUWY AB
+BCDE ADE ADE ADE ACDF
+1 95 12450 P
+#21411
+talisman~
+A Talisman~
+A Rare and beautiful talisman.~
+mithral~
+armor AGT AC
+CE ABCE DE DF BDEF
+1 105 13090 G
+#21412
+cloak~
+A Cloak~
+A Black Cloak.~
+silk~
+armor ABGRY AC
+AF BCDE DF BF ABCDEF
+1 115 13190 G
+#21413
+armor alturian piecemeal~
+Alturian Piecemeal Plate~
+A set of Alturian Piecemeal BreastPlate Armor is here.~
+leather~
+armor 0 AD
+AG AG ACEG BDEG CFG
+1 130 15080 G
+#21414
+armor shroud~
+A Dark Shroud~
+A Dark Shroud is here.~
+cloth~
+armor 0 AK
+ABCD ABCD ABF DF BCG
+1 70 14140 G
+#21415
+armor helmet~
+An Ancient Helmet~
+An Ancient Helmet is here.~
+metal~
+armor TY AE
+ADE ADE ADE DF DF
+1 40 13000 G
+#21416
+armor boots~
+Ancient Boots~
+Some Ancient Boots are here.~
+adamantite~
+armor TY AG
+ABF ADE ADE ABF BEF
+1 40 12050 G
+#21417
+belt pouch~
+Belt pouch~
+A Bejeweled Belt Pouch is here~
+black dragonscale~
+container ACGTY AL
+414 ABCD 21418 40 5
+1 15 1200 G
+A
+20 200
+A
+7 2
+A
+2 4
+#21419
+bracer armor~
+Bracer~
+Some wrist guards are here.~
+black dragonscale~
+armor G AM
+ADE ADE BCE BCE BF
+1 10 1250 P
+A
+20 20
+A
+18 12
+A
+19 8
+A
+2 2
+A
+1 2
+#21460
+galactic credit~
+One Galactic Credit~
+The standard unit of currency in the Milky Way Galaxy.~
+plastic~
+money 0 A
+GJOQRST 0 0 0 0
+0 0 0 P
+#21485
+ethereal doorway top~
+An Ethereal doorway~
+An ethereal gateway to the top of the tower is beckoning to you.~
+etherealness~
+portal 0 A
+DFGHIJ 0 AB DJMO 0
+0 3000 0 P
+#21498
+couch~
+The clan couch, stuffed away in the shadows~
+~
+wood~
+furniture 0 0
+B DFGHIJ BEHKN EGHIJK EGHIJK
+0 0 0 P
+#21500
+amulet ancients~
+an amulet of the Ancients~
+An amulet once worn by the Ancients is here.~
+adamantite~
+armor ABGORTWY AC
+BDEFG BDEFG BDEFG AG DF
+21 30 170000 P
+A
+19 4
+A
+18 4
+A
+12 -115
+A
+3 4
+E
+Amulet of the Ancients ~
+~
+#21501
+shield ancients~
+a shield of the Ancients~
+A shield of the Ancients is here~
+adamantite~
+armor ABGORTWY AJ
+CH CH CH ABDG ACDF
+21 50 190000 P
+A
+20 -115
+A
+17 -124
+#21502
+Sword of the Ancients~
+Sword of the Ancients~
+One of the most powerful weapons in the realm is here.~
+adamantite~
+weapon AGHORTWYa AN
+sword 25 100 divine ABG
+21 250 875000 P
+F
+A 4 15 BHJLPQTUVZ
+F
+S 0 0 BH
+F
+I 0 0 AIKRSXY
+A
+17 -500
+A
+13 1000
+A
+20 -150
+A
+19 130
+A
+18 145
+#21503
+decantur of endless sustenance~
+Decantur of endless sustenance~
+The legendary Decantur of endless sustenance is here.~
+glass~
+drink BGHORWY A
+10000 10000 'protein' 0 0
+10 100 100 G
+#21504
+Rocking Chair~
+Rocking Chair~
+An Old and Creaking Rocking Chair is here.~
+white dragonscale~
+furniture BY A
+A DGH FILN EGHIJK EGHIJK
+0 0 0 P
+#21505
+ring of the ancients~
+ring of the ancients~
+A holy ring sits hear~
+gold~
+armor ABCGHIOY AB
+DFGHIJ DFGHIJ DFGHIJ DFGHIJ 0
+0 1 11500 P
+A
+19 100
+A
+18 100
+A
+5 8
+A
+2 8
+A
+1 8
+A
+19 90
+A
+18 90
+A
+13 1000
+A
+12 1000
+#21506
+blue crystal gem~
+a very rare and beautiful {x{Bblue {x{bcrystal{x~
+The rare {Bdeep blue crystal{x winks at you.~
+gem~
+gem 0 AO
+0 0 0 0 0
+0 1 10000 P
+A
+12 700
+#21507
+artimus spellbook~
+artimus' spellbook~
+Artimus' spellbook is here, he must be looking all over for it,
+so get it back to the library fast before he catches you with it.~
+parchment~
+treasure 0 AO
+0 0 0 0 0
+0 1 16000 P
+A
+20 -1000
+A
+12 1200
+#21508
+sceptre of might~
+sceptre of might~
+The very sceptre that Artimus wielded during the mage wars,
+kept safe in the treasury so no one else can wield its power.~
+adamantite~
+treasure 0 AO
+0 0 0 0 0
+0 5 18000 P
+A
+19 100
+A
+18 100
+A
+12 1300
+#21509
+ancient artifact~
+Ancient Artifact~
+A strange device is here, you have no clue as to what it may be used for.~
+iron~
+treasure OPTUW AO
+0 0 0 0 0
+0 1 1000000 P
+A
+2 4
+A
+14 2000
+A
+12 1500
+#21510
+quest token~
+Quest Token~
+A mysterious Blueish colored token used by immortals for who knows what.~
+energy~
+gem 0 A
+0 0 0 0 0
+0 1 1 P
+#21551
+carved chest~
+the carved chest~
+A beautiful chest made from a single piece of mahogany is here.~
+oldstyle~
+container 0 0
+1000 A 0 100 5
+0 3000 0 P
+#21572
+mouldy key~
+mouldy key~
+A mouldy key is here.~
+metal~
+key 0 A
+B 0 0 0 0
+0 10 0 P
+#21900
+colored pill~
+a strangley colored pill~
+A strangley colored pill is here.~
+food~
+pill 0 A
+115 'iceshield' 'fireshield' 'shockshield' 'stone skin'
+90 10 1850 P
+#21901
+Glowing Talisman ~
+a Glowing Talisman~
+An engraved Glowing Talisman is here.~
+black dragonscale~
+armor AI AC
+CEFH EFGH DGH CDEHIJKLMNOPQRSTUVWXYZabcdef CFG
+90 220 971000 P
+A
+20 85
+A
+13 120
+A
+12 200
+A
+6 1
+A
+5 3
+A
+2 2
+E
+The Shaman's Glowing Talisman ~
+~
+#21902
+shaman ring ~
+the shaman's ring~
+An mysterious looking ring with runes and other 
+symbols drawn upon it is here.~
+red dragonscale~
+armor B AB
+BEF DF DF BFGHIJKLMNOPQRSTUVWXYZabcdef CFG
+90 120 167000 P
+A
+20 116
+A
+17 150
+A
+14 200
+A
+2 1
+E
+The ring seems to glow from its own inner light~
+~
+#21903
+The Shaman's Demon Wings~
+The Shaman's Demon Wings~
+A powerfull spell has separated some demon from his most prized
+treasure, be carfull that you meet him not.~
+black dragonscale~
+armor AL AK
+DEI BCDEGI BDGI DHIJKLMNOPQRSTUVWXYZabcdef CFG
+90 470 904300 P
+A
+19 15
+A
+18 10
+A
+13 100
+A
+1 6
+#21904
+dark shaman staff~
+the Dark Shaman's Mystical Staff~
+The Dark Shaman's Mystical Staff, the staff wickedly snickers at you.~
+bone~
+weapon CEFHJLMORTWYZ AN
+exotic 14 24 none A
+90 450 2275000 P
+A
+20 66
+A
+19 13
+A
+18 13
+A
+17 35
+A
+14 1000
+A
+13 1000
+A
+12 1000
+A
+7 3
+A
+3 2
+A
+4 2
+E
+The staff wickedly snickers at you then whispers 'don't trust Gavin' ~
+~
+#21905
+staff of power~
+a staff of power~
+A odd looking staff lies here.~
+bone~
+staff B AO
+201 30 30 'resurrect' 0
+90 30 410100 P
+#21906
+scroll~
+Shaman's scroll~
+The Shaman's special scroll is here.~
+parchment~
+scroll AGHLOUW A
+201 'conjure' 'acid blast' '' 'fire breath'
+90 20 14630 P
+E
+scroll~
+A faded yellowing piece of parchment that the Shaman values very much.
+~
+#21907
+piece of bone~
+Piece of bone~
+A small chip of bone is here~
+bone~
+demon_stone CG AO
+CE 0 0 0 0
+90 0 0 P
+#0
+
+
+
+#ROOMS
+#21552
+The Tower ground floor~
+Clan guardsmen are guarding their hoard. A dank smelly room with high slitted walls, tapestries 
+and curtains adorn these, four large doors are in each direction and a trap door is above you 
+and below, these are barely seen. Every once in a while a high pitch scream can be heard, 
+followed by whimpering and sobs.
+~
+0 532490 1
+D0
+The Clan Grounds are north of you.
+~
+~
+0 -1 21554
+D1
+~
+~
+0 -1 21557
+D2
+~
+~
+0 -1 21559
+D3
+~
+~
+0 -1 21556
+D4
+~
+~
+0 -1 21561
+S
+#21553
+The Tower grounds ~
+The northwest part of the clan yard.
+~
+0 532490 10
+D1
+~
+~
+0 -1 21554
+D2
+~
+~
+0 -1 21556
+S
+#21554
+The Tower grounds ~
+the Northern most part of the clan yard.
+~
+0 532490 10
+D0
+The iron door leading to the tower.
+~
+~
+0 21572 21590
+D1
+~
+~
+0 -1 21555
+D2
+~
+~
+0 -1 21552
+D3
+~
+~
+0 -1 21553
+S
+#21555
+The Tower grounds ~
+The northeastern part of the yard.
+~
+0 532490 10
+D2
+~
+~
+0 -1 21557
+D3
+~
+~
+0 -1 21554
+S
+#21556
+The Tower grounds ~
+The western part of the clan yard.
+~
+0 532490 10
+D0
+~
+~
+0 -1 21553
+D1
+~
+~
+0 -1 21552
+D2
+~
+~
+0 -1 21558
+S
+#21557
+The Tower grounds ~
+The eastern part of the clan yard.
+~
+0 532490 10
+D0
+~
+~
+0 -1 21555
+D1
+~
+~
+0 -1 3100
+D2
+~
+~
+0 -1 21560
+D3
+~
+~
+0 -1 21552
+S
+#21558
+The Tower grounds ~
+The southwest part of the clan yard.
+~
+0 532490 10
+D0
+~
+~
+0 -1 21556
+D1
+~
+~
+0 -1 21559
+S
+#21559
+The Tower grounds ~
+The southern part of the clan yard.
+~
+0 532490 10
+D0
+~
+~
+0 -1 21552
+D1
+~
+~
+0 -1 21560
+D3
+~
+~
+0 -1 21558
+S
+#21560
+The Tower grounds ~
+The southeastern part of the clan yard.
+~
+0 532490 10
+D0
+~
+~
+0 -1 21557
+D3
+~
+~
+0 -1 21559
+S
+#21561
+The Tower treasure room~
+feel free to take anything you need.
+~
+0 532490 1
+D1
+you see the door to the vault.
+~
+door vault~
+0 21572 21570
+D5
+~
+~
+0 -1 21552
+S
+#21570
+The Clan Vault~
+The Dragon Master has provided a Vault for all your valuables.
+Place the clan valuables here, and keep the key secure.
+~
+0 8 1
+D3
+You see the clan vault door.
+~
+vault door~
+0 21572 21561
+S
+#21590
+The Crypt~
+Rats scurry from your light, as it illuminates a dusty tomb, about twelve
+empty coffins are placed neatly in here, dust hangs in the air and makes
+your nose run, the aroma of death is lingering.
+~
+0 532489 1
+D0
+large iron doors.
+~
+iron door~
+0 21572 21450
+D2
+secret door.
+~
+secret door~
+0 21572 21554
+S
+#21000
+Monster Clan Tower~
+The Monster Clan Tower. 
+The tower looms ominously before you.
+~
+0 8 1
+D1
+A trail is east of you.
+~
+~
+0 -1 1101
+D5
+Tower continues downward.
+~
+~
+0 -1 21001
+M 200 H 200
+S
+#21001
+Monster Clan Tower~
+A room in the Monster Clan Tower. 
+What a mess these guys really need a maid!
+oops there are her bones over there in the corner.
+~
+0 8 1
+D0
+a narrow walkway is to the north.
+~
+~
+0 -1 21003
+D4
+The Tower looms above you.
+~
+~
+0 -1 21000
+D5
+Some stairs lead down.
+~
+~
+0 -1 21002
+M 200 H 200
+S
+#21002
+Clan Tower stairs~
+Clan Tower stairs. 
+~
+0 8 1
+D2
+~
+~
+0 -1 21103
+D4
+portal room.
+~
+~
+0 0 21001
+M 200 H 200
+S
+#21003
+Narrow walkway~
+Narrow walkway. 
+~
+0 8 1
+D2
+The portal room is south.
+~
+~
+0 -1 21001
+D3
+The narrow walkway continues west.
+~
+~
+0 -1 21004
+M 200 H 200
+S
+#21004
+Narrow walkway~
+Narrow walkway.
+There is another black hole here.
+You begin to wonder why so many? 
+~
+0 8 1
+D1
+The narrow walkway continues east.
+~
+~
+0 0 21003
+M 200 H 200
+S
+#21100
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21101
+D2
+~
+~
+0 -1 21104
+S
+#21101
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21102
+D2
+~
+~
+0 -1 21105
+D3
+~
+~
+0 -1 21100
+S
+#21102
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21103
+D2
+~
+~
+0 -1 21106
+D3
+~
+~
+0 -1 21101
+S
+#21103
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21002
+D2
+~
+~
+0 -1 21107
+D3
+~
+~
+0 -1 21102
+S
+#21104
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21100
+D1
+~
+~
+0 -1 21105
+D2
+~
+~
+0 -1 21108
+S
+#21105
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21101
+D1
+~
+~
+0 -1 21106
+D2
+~
+~
+0 -1 21109
+D3
+~
+~
+0 -1 21104
+S
+#21106
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21102
+D1
+~
+~
+0 -1 21107
+D2
+~
+~
+0 -1 21110
+D3
+~
+~
+0 -1 21105
+S
+#21107
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21103
+D2
+~
+~
+0 -1 21111
+D3
+~
+~
+0 -1 21106
+S
+#21108
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21104
+D1
+~
+~
+0 -1 21109
+D2
+~
+~
+0 -1 21112
+S
+#21109
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21105
+D1
+~
+~
+0 -1 21110
+D2
+~
+~
+0 -1 21113
+D3
+~
+~
+0 -1 21108
+S
+#21110
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21106
+D1
+~
+~
+0 -1 21111
+D2
+~
+~
+0 -1 21114
+D3
+~
+~
+0 -1 21109
+S
+#21111
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21107
+D2
+~
+~
+0 -1 21115
+D3
+~
+~
+0 -1 21110
+S
+#21112
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21108
+D1
+~
+~
+0 -1 21113
+D5
+~
+~
+0 -1 21203
+S
+#21113
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21109
+D1
+~
+~
+0 -1 21114
+D3
+~
+~
+0 -1 21112
+S
+#21114
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21110
+D1
+~
+~
+0 -1 21115
+D3
+~
+~
+0 -1 21113
+S
+#21115
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21111
+D3
+~
+~
+0 -1 21114
+S
+#21116
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D3
+~
+~
+0 -1 21115
+S
+#21117
+Dungeon level~
+The Dungeon levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21100
+S
+#21200
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21201
+D2
+~
+~
+0 -1 21204
+S
+#21201
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21202
+D2
+~
+~
+0 -1 21205
+D3
+~
+~
+0 -1 21200
+S
+#21202
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21203
+D2
+~
+~
+0 -1 21206
+D3
+~
+~
+0 -1 21201
+S
+#21203
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D2
+~
+~
+0 -1 21207
+D3
+~
+~
+0 -1 21202
+D4
+~
+~
+0 -1 21112
+S
+#21204
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21200
+D1
+~
+~
+0 -1 21205
+D2
+~
+~
+0 -1 21208
+S
+#21205
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21201
+D1
+~
+~
+0 -1 21206
+D2
+~
+~
+0 -1 21209
+D3
+~
+~
+0 -1 21204
+S
+#21206
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21202
+D1
+~
+~
+0 -1 21207
+D2
+~
+~
+0 -1 21210
+D3
+~
+~
+0 -1 21205
+S
+#21207
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21203
+D2
+~
+~
+0 -1 21211
+D3
+~
+~
+0 -1 21206
+S
+#21208
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21204
+D1
+~
+~
+0 -1 21209
+D2
+~
+~
+0 -1 21212
+S
+#21209
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21205
+D1
+~
+~
+0 -1 21210
+D2
+~
+~
+0 -1 21213
+D3
+~
+~
+0 -1 21208
+S
+#21210
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21206
+D1
+~
+~
+0 -1 21211
+D2
+~
+~
+0 -1 21219
+D3
+~
+~
+0 -1 21209
+S
+#21211
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21207
+D2
+~
+~
+0 -1 21215
+D3
+~
+~
+0 -1 21210
+S
+#21212
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21208
+D1
+~
+~
+0 -1 21213
+D5
+~
+~
+0 -1 21303
+S
+#21213
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21209
+D1
+~
+~
+0 -1 21219
+D3
+~
+~
+0 -1 21212
+S
+#21215
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21211
+D3
+~
+~
+0 -1 21219
+S
+#21216
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D3
+~
+~
+0 -1 21215
+S
+#21217
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21200
+S
+#21219
+Dungeon 2nd level~
+The Dungeon 2nd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21210
+D1
+~
+~
+0 -1 21215
+D3
+~
+~
+0 -1 21213
+S
+#21300
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21301
+D2
+~
+~
+0 -1 21304
+S
+#21301
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21302
+D2
+~
+~
+0 -1 21305
+D3
+~
+~
+0 -1 21300
+S
+#21302
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21303
+D2
+~
+~
+0 -1 21306
+D3
+~
+~
+0 -1 21301
+S
+#21303
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D2
+~
+~
+0 -1 21307
+D3
+~
+~
+0 -1 21302
+D4
+~
+~
+0 -1 21203
+S
+#21304
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21300
+D1
+~
+~
+0 -1 21305
+D2
+~
+~
+0 -1 21308
+S
+#21305
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21301
+D1
+~
+~
+0 -1 21306
+D2
+~
+~
+0 -1 21309
+D3
+~
+~
+0 -1 21304
+S
+#21306
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21302
+D1
+~
+~
+0 -1 21307
+D2
+~
+~
+0 -1 21310
+D3
+~
+~
+0 -1 21305
+S
+#21307
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21303
+D2
+~
+~
+0 -1 21311
+D3
+~
+~
+0 -1 21306
+S
+#21308
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21304
+D1
+~
+~
+0 -1 21309
+D2
+~
+~
+0 -1 21312
+S
+#21309
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21305
+D1
+~
+~
+0 -1 21310
+D2
+~
+~
+0 -1 21313
+D3
+~
+~
+0 -1 21308
+S
+#21310
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21306
+D1
+~
+~
+0 -1 21311
+D2
+~
+~
+0 -1 21314
+D3
+~
+~
+0 -1 21309
+S
+#21311
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21307
+D2
+~
+~
+0 -1 21315
+D3
+~
+~
+0 -1 21310
+S
+#21312
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21308
+D1
+~
+~
+0 -1 21313
+S
+#21313
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21309
+D1
+~
+~
+0 -1 21314
+D3
+~
+~
+0 -1 21312
+S
+#21314
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21310
+D1
+~
+~
+0 -1 21315
+D3
+~
+~
+0 -1 21313
+D5
+trapdoor
+~
+trapdoor~
+0 21572 21400
+S
+#21315
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21311
+D3
+~
+~
+0 -1 21314
+S
+#21316
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D3
+~
+~
+0 -1 21315
+S
+#21317
+Dungeon 3rd level~
+The Dungeon 3rd levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21300
+S
+#21400
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21401
+D2
+~
+~
+0 -1 21404
+D4
+~
+trapdoor~
+0 21572 21314
+S
+#21401
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21402
+D2
+~
+~
+0 -1 21405
+D3
+~
+~
+0 -1 21400
+S
+#21402
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21403
+D2
+~
+~
+0 -1 21406
+D3
+~
+~
+0 -1 21401
+S
+#21403
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D2
+~
+~
+0 -1 21407
+D3
+~
+~
+0 -1 21402
+S
+#21404
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21400
+D1
+~
+~
+0 -1 21405
+D2
+~
+~
+0 -1 21408
+S
+#21405
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21401
+D1
+~
+~
+0 -1 21406
+D2
+~
+~
+0 -1 21409
+D3
+~
+~
+0 -1 21404
+S
+#21406
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21402
+D1
+~
+~
+0 -1 21407
+D2
+~
+~
+0 -1 21410
+D3
+~
+~
+0 -1 21405
+S
+#21407
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21403
+D2
+~
+~
+0 -1 21411
+D3
+~
+~
+0 -1 21406
+S
+#21408
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21404
+D1
+~
+~
+0 -1 21409
+D2
+~
+~
+0 -1 21412
+S
+#21409
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21405
+D1
+~
+~
+0 -1 21410
+D2
+~
+~
+0 -1 21413
+D3
+~
+~
+0 -1 21408
+S
+#21410
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21406
+D1
+~
+~
+0 -1 21411
+D2
+~
+~
+0 -1 21414
+D3
+~
+~
+0 -1 21409
+S
+#21411
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21407
+D2
+~
+~
+0 -1 21415
+D3
+~
+~
+0 -1 21410
+S
+#21412
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21408
+D1
+~
+~
+0 -1 21413
+D2
+~
+~
+0 -1 21421
+S
+#21413
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21409
+D1
+~
+~
+0 -1 21414
+D3
+~
+~
+0 -1 21412
+S
+#21414
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21410
+D1
+~
+~
+0 -1 21415
+D3
+~
+~
+0 -1 21413
+S
+#21415
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21411
+D2
+~
+~
+0 -1 21418
+D3
+~
+~
+0 -1 21414
+S
+#21416
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D3
+~
+~
+0 -1 21415
+S
+#21417
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21400
+S
+#21418
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21415
+D1
+~
+~
+0 -1 21419
+D2
+~
+~
+0 -1 21422
+S
+#21419
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21420
+D2
+~
+~
+0 -1 21423
+D3
+~
+~
+0 -1 21418
+S
+#21420
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21421
+D2
+~
+~
+0 -1 21424
+D3
+~
+~
+0 -1 21432
+S
+#21421
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21412
+D2
+~
+~
+0 -1 21425
+D3
+~
+~
+0 -1 21420
+S
+#21422
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21418
+D1
+~
+~
+0 -1 21423
+D2
+~
+~
+0 -1 21426
+S
+#21423
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21432
+D1
+~
+~
+0 -1 21424
+D2
+~
+~
+0 -1 21427
+D3
+~
+~
+0 -1 21422
+S
+#21424
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21420
+D1
+~
+~
+0 -1 21425
+D2
+~
+~
+0 -1 21428
+D3
+~
+~
+0 -1 21423
+S
+#21425
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21421
+D2
+~
+~
+0 -1 21429
+D3
+~
+~
+0 -1 21424
+S
+#21426
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21422
+D1
+~
+~
+0 -1 21427
+D2
+~
+~
+0 -1 21430
+S
+#21427
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21423
+D1
+~
+~
+0 -1 21428
+D2
+~
+~
+0 -1 21431
+D3
+~
+~
+0 -1 21426
+S
+#21428
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21424
+D1
+~
+~
+0 -1 21429
+D2
+~
+~
+0 -1 21432
+D3
+~
+~
+0 -1 21427
+S
+#21429
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21425
+D2
+~
+~
+0 -1 21433
+D3
+~
+~
+0 -1 21428
+S
+#21430
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21426
+D1
+~
+~
+0 -1 21431
+D2
+~
+~
+0 -1 21433
+S
+#21431
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21427
+D1
+~
+~
+0 -1 21432
+D3
+~
+~
+0 -1 21430
+S
+#21432
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21428
+D1
+~
+~
+0 -1 21433
+D3
+~
+~
+0 -1 21431
+S
+#21433
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21430
+D2
+~
+~
+0 -1 21439
+D3
+~
+~
+0 -1 21432
+S
+#21434
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D3
+~
+~
+0 -1 21433
+S
+#21435
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21418
+S
+#21436
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21437
+D2
+~
+~
+0 -1 21440
+S
+#21437
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21438
+D2
+~
+~
+0 -1 21441
+D3
+~
+~
+0 -1 21436
+S
+#21438
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21439
+D2
+~
+~
+0 -1 21442
+D3
+~
+~
+0 -1 21437
+S
+#21439
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21421
+D2
+~
+~
+0 -1 21443
+D3
+~
+~
+0 -1 21438
+S
+#21440
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21436
+D1
+~
+~
+0 -1 21441
+D2
+~
+~
+0 -1 21433
+S
+#21441
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21437
+D1
+~
+~
+0 -1 21442
+D2
+~
+~
+0 -1 21445
+D3
+~
+~
+0 -1 21440
+S
+#21442
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21438
+D1
+~
+~
+0 -1 21443
+D2
+~
+~
+0 -1 21446
+D3
+~
+~
+0 -1 21441
+S
+#21443
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21439
+D2
+~
+~
+0 -1 21447
+D3
+~
+~
+0 -1 21442
+S
+#21445
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21441
+D1
+~
+~
+0 -1 21446
+D2
+~
+~
+0 -1 21449
+D3
+~
+~
+0 -1 21433
+S
+#21446
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21442
+D1
+~
+~
+0 -1 21447
+D2
+~
+~
+0 -1 21450
+D3
+~
+~
+0 -1 21445
+S
+#21447
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21443
+D2
+~
+~
+0 -1 21451
+D3
+~
+~
+0 -1 21446
+S
+#21448
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21433
+D1
+~
+~
+0 -1 21449
+S
+#21449
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21445
+D1
+~
+~
+0 -1 21450
+D3
+~
+~
+0 -1 21448
+S
+#21450
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21446
+D1
+~
+~
+0 -1 21451
+D2
+~
+iron door~
+0 21572 21590
+D3
+~
+~
+0 -1 21449
+S
+#21451
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D0
+~
+~
+0 -1 21447
+D3
+~
+~
+0 -1 21450
+S
+#21452
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D3
+~
+~
+0 -1 21451
+S
+#21453
+Dungeon 4th level~
+The Dungeon 4th levels. 
+The lower levels of the tower.
+Sounds can be heard coming from almost everywhere,
+screams of the innocent and guilty alike set your
+nerves on edge.
+~
+0 8 1
+D1
+~
+~
+0 -1 21436
+S
+#0
+
+
+
+#SPECIALS
+M 21901 spec_dark_magic
+M 21001 spec_circle
+M 21002 spec_ai_actor
+M 21005 spec_prog_two
+M 21006 spec_circle
+M 21007 spec_circle
+M 21008 spec_circle
+M 21200 spec_prog_two
+M 21201 spec_circle
+M 21205 spec_wear
+M 21206 spec_circle
+M 21301 spec_circle
+M 21305 spec_prog_two
+M 21306 spec_circle
+M 21400 spec_circle
+M 21401 spec_ai_magic
+M 21406 spec_prog_three
+S
+
+
+
+#RESETS
+O 0 21485 0 21552
+O 0 21551 0 21552
+P 0 21401 -1 21551 4
+P 0 21402 -1 21551 4
+P 0 21403 -1 21551 4
+P 0 21404 -1 21551 2
+P 0 21405 -1 21551 2
+P 0 21406 -1 21551 2
+P 0 21407 -1 21551 2
+P 0 21408 -1 21551 2
+P 0 21410 -1 21551 2
+P 0 21411 -1 21551 2
+P 0 21412 -1 21551 2
+P 0 21413 -1 21551 2
+P 0 21414 -1 21551 2
+P 0 21415 -1 21551 2
+P 0 21416 -1 21551 2
+P 0 21572 -1 21551 2
+P 0 21419 -1 21551 2
+O 0 21460 0 21552
+O 0 21498 0 21552
+M 0 21406 45 21552 22
+G 0 21401 0
+G 0 21402 0
+G 0 21403 0
+G 0 21404 0
+G 0 21405 0
+G 0 21406 0
+G 0 21407 0
+G 0 21408 0
+G 0 21460 0
+G 0 21410 0
+G 0 21411 0
+M 0 21000 18 21000 3
+E 0 21003 0 16
+M 0 21000 25 21001 4
+E 0 21002 0 5
+E 0 21000 0 16
+M 0 21000 25 21002 4
+E 0 21002 0 5
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21000 0 16
+M 0 21000 25 21002 4
+E 0 21002 0 5
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21047 0 8
+E 0 21064 0 13
+E 0 21000 0 16
+M 0 21005 10 21003 4
+E 0 21026 0 9
+E 0 21027 0 7
+E 0 21028 0 20
+E 0 21004 0 5
+E 0 21003 0 16
+M 0 21005 10 21004 4
+E 0 21004 0 5
+E 0 21003 0 16
+M 0 21001 18 21004 3
+E 0 21003 0 16
+M 0 21001 18 21004 3
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+M 0 21005 10 21102 4
+E 0 21004 0 5
+E 0 21003 0 16
+E 0 21026 0 9
+E 0 21027 0 7
+E 0 21028 0 20
+M 0 21006 4 21102 4
+E 0 21029 0 15
+E 0 21030 0 12
+E 0 21031 0 17
+E 0 21033 0 10
+E 0 21002 0 5
+E 0 21000 0 16
+M 0 21001 18 21106 4
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+E 0 21003 0 16
+M 0 21005 10 21107 4
+E 0 21004 0 5
+E 0 21003 0 16
+M 0 21001 18 21107 3
+E 0 21003 0 16
+M 0 21000 25 21109 4
+E 0 21002 0 5
+E 0 21000 0 16
+M 0 21005 10 21110 4
+E 0 21004 0 5
+E 0 21003 0 16
+M 0 21000 25 21110 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21001 18 21112 4
+E 0 21029 0 15
+E 0 21030 0 12
+E 0 21031 0 17
+E 0 21033 0 10
+E 0 21092 0 16
+M 0 21005 10 21114 4
+E 0 21004 0 5
+E 0 21003 0 16
+M 0 21001 18 21114 4
+E 0 21003 0 16
+M 0 21200 25 21201 4
+E 0 21002 0 5
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21047 0 8
+E 0 21064 0 13
+E 0 21000 0 16
+M 0 21205 10 21202 4
+E 0 21029 0 15
+E 0 21030 0 12
+E 0 21031 0 17
+E 0 21033 0 10
+E 0 21004 0 5
+E 0 21092 0 16
+M 0 21206 4 21202 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21200 25 21202 4
+E 0 21002 0 5
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21047 0 8
+E 0 21064 0 13
+E 0 21000 0 16
+M 0 21200 25 21202 4
+E 0 21002 0 5
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21047 0 8
+E 0 21064 0 13
+E 0 21000 0 16
+M 0 21205 10 21203 4
+E 0 21004 0 5
+E 0 21003 0 16
+E 0 21026 0 9
+E 0 21027 0 7
+E 0 21028 0 20
+M 0 21205 10 21204 4
+E 0 21004 0 5
+E 0 21003 0 16
+E 0 21026 0 9
+E 0 21027 0 7
+E 0 21028 0 20
+M 0 21201 18 21204 3
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+E 0 21003 0 16
+M 0 21201 18 21204 3
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+E 0 21003 0 16
+M 0 21201 18 21206 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21205 10 21207 4
+E 0 21029 0 15
+E 0 21030 0 12
+E 0 21031 0 17
+E 0 21033 0 10
+E 0 21004 0 5
+E 0 21092 0 16
+M 0 21201 18 21207 3
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+E 0 21192 0 16
+M 0 21200 25 21209 4
+E 0 21002 0 5
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21047 0 8
+E 0 21064 0 13
+E 0 21000 0 16
+M 0 21205 10 21210 4
+E 0 21004 0 5
+E 0 21003 0 16
+E 0 21026 0 9
+E 0 21027 0 7
+E 0 21028 0 20
+M 0 21200 25 21210 4
+E 0 21002 0 5
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21047 0 8
+E 0 21064 0 13
+E 0 21000 0 16
+M 0 21201 18 21212 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21205 10 21219 4
+E 0 21029 0 15
+E 0 21030 0 12
+E 0 21031 0 17
+E 0 21033 0 10
+E 0 21004 0 5
+E 0 21192 0 16
+M 0 21201 18 21219 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21300 25 21301 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21305 20 21302 4
+E 0 21018 0 20
+E 0 21029 0 15
+E 0 21009 0 3
+E 0 21009 0 4
+E 0 21030 0 12
+E 0 21031 0 17
+E 0 21033 0 10
+E 0 21004 0 5
+E 0 21003 0 16
+E 0 21192 0 19
+M 0 21306 12 21302 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21300 25 21302 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21300 25 21302 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21305 20 21304 4
+E 0 21018 0 20
+E 0 21029 0 15
+E 0 21009 0 3
+E 0 21009 0 4
+E 0 21030 0 12
+E 0 21031 0 17
+E 0 21033 0 10
+E 0 21004 0 5
+E 0 21003 0 16
+E 0 21192 0 19
+M 0 21301 18 21304 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21301 18 21304 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21901 2 21304 1
+G 0 21900 0
+E 0 21904 0 16
+E 0 21905 0 17
+E 0 21901 0 3
+E 0 21902 0 2
+E 0 21903 0 12
+G 0 21906 0
+G 0 21907 0
+M 0 21301 18 21306 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21301 18 21307 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21305 20 21309 4
+E 0 21018 0 20
+E 0 21029 0 15
+E 0 21009 0 3
+E 0 21009 0 4
+E 0 21030 0 12
+E 0 21031 0 17
+E 0 21033 0 10
+E 0 21004 0 5
+E 0 21003 0 16
+E 0 21192 0 19
+M 0 21300 25 21309 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21305 20 21310 4
+E 0 21018 0 20
+E 0 21029 0 15
+E 0 21009 0 3
+E 0 21009 0 4
+E 0 21030 0 12
+E 0 21031 0 17
+E 0 21033 0 10
+E 0 21004 0 5
+E 0 21003 0 16
+E 0 21192 0 19
+M 0 21300 25 21310 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21301 18 21312 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21305 20 21313 4
+E 0 21018 0 20
+E 0 21029 0 15
+E 0 21009 0 3
+E 0 21009 0 4
+E 0 21030 0 12
+E 0 21031 0 17
+E 0 21033 0 10
+E 0 21004 0 5
+E 0 21003 0 16
+E 0 21192 0 19
+M 0 21305 20 21314 4
+E 0 21018 0 20
+E 0 21029 0 15
+E 0 21009 0 3
+E 0 21009 0 4
+E 0 21030 0 12
+E 0 21031 0 17
+E 0 21033 0 10
+E 0 21004 0 5
+E 0 21003 0 16
+E 0 21192 0 19
+M 0 21301 18 21314 4
+E 0 21042 0 1
+E 0 21045 0 3
+E 0 21003 0 16
+E 0 21035 0 11
+E 0 21037 0 6
+E 0 21039 0 5
+E 0 21040 0 18
+E 0 21041 0 7
+M 0 21002 1 21315 1
+E 0 21029 0 15
+E 0 21030 0 12
+E 0 21031 0 17
+E 0 21033 0 10
+E 0 21004 0 5
+E 0 21005 0 16
+G 0 21572 0
+M 0 21406 125 21416 12
+G 0 21401 0
+G 0 21402 0
+G 0 21403 0
+G 0 21404 0
+G 0 21405 0
+G 0 21406 0
+G 0 21407 0
+G 0 21408 0
+G 0 21460 0
+G 0 21410 0
+G 0 21411 0
+M 0 21406 125 21417 112
+G 0 21401 0
+G 0 21402 0
+G 0 21403 0
+G 0 21404 0
+G 0 21405 0
+G 0 21406 0
+G 0 21407 0
+G 0 21408 0
+G 0 21460 0
+G 0 21410 0
+G 0 21411 0
+M 0 21400 125 21431 12
+G 0 21401 0
+G 0 21402 0
+G 0 21403 0
+G 0 21404 0
+G 0 21405 0
+G 0 21406 0
+G 0 21407 0
+G 0 21408 0
+G 0 21460 0
+G 0 21410 0
+G 0 21411 0
+M 0 21400 125 21432 112
+G 0 21401 0
+G 0 21402 0
+G 0 21403 0
+G 0 21404 0
+G 0 21405 0
+G 0 21406 0
+G 0 21407 0
+G 0 21408 0
+G 0 21460 0
+G 0 21410 0
+G 0 21411 0
+M 0 21406 25 21432 12
+G 0 21401 0
+G 0 21402 0
+G 0 21403 0
+G 0 21404 0
+G 0 21405 0
+G 0 21406 0
+G 0 21407 0
+G 0 21408 0
+G 0 21460 0
+G 0 21410 0
+G 0 21411 0
+M 0 21406 235 21452 212
+G 0 21401 0
+G 0 21402 0
+G 0 21403 0
+G 0 21404 0
+G 0 21405 0
+G 0 21406 0
+G 0 21407 0
+G 0 21408 0
+G 0 21460 0
+G 0 21410 0
+G 0 21411 0
+M 0 21401 125 21452 112
+G 0 21401 0
+G 0 21402 0
+G 0 21403 0
+G 0 21404 0
+G 0 21405 0
+G 0 21406 0
+G 0 21407 0
+G 0 21408 0
+G 0 21460 0
+G 0 21410 0
+G 0 21411 0
+M 0 21401 125 21453 112
+G 0 21401 0
+G 0 21402 0
+G 0 21403 0
+G 0 21404 0
+G 0 21405 0
+G 0 21406 0
+G 0 21407 0
+G 0 21408 0
+G 0 21460 0
+G 0 21410 0
+G 0 21411 0
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

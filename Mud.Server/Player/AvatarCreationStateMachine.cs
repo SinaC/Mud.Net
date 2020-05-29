@@ -183,7 +183,7 @@ namespace Mud.Server.Player
                     Alignment = 0,
                     Trains = 3,
                     Practices = 5,
-                    Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => 48),
+                    Conditions = EnumHelpers.GetValues<Conditions>().Where(x => x != Conditions.Drunk).ToDictionary(x => x, x => 48),
                     //TODO: Equipments
                     //TODO: Inventory
                     //TODO: CurrentQuests

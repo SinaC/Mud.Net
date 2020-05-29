@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AutoMapper;
 using Mud.Logger;
 using Mud.Repository.Filesystem.Common;
+using Mud.Settings;
 
 namespace Mud.Repository.Filesystem
 {
@@ -11,6 +13,11 @@ namespace Mud.Repository.Filesystem
         private string PlayerRepositoryPath => Settings.PlayerRepositoryPath;
 
         private string BuildFilename(string playerName) => Path.Combine(PlayerRepositoryPath, playerName + ".data");
+
+        public PlayerRepository(IMapper mapper, ISettings settings)
+            : base(mapper, settings)
+        {
+        }
 
         #region IPlayerRepository
 

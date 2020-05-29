@@ -25,6 +25,7 @@ namespace Mud.Server.Player
         protected IInputTrap<IPlayer> CurrentStateMachine;
         protected bool DeletionConfirmationNeeded;
 
+        protected IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
         protected IServerPlayerCommand ServerPlayerCommand => DependencyContainer.Current.GetInstance<IServerPlayerCommand>();
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
         protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
@@ -93,7 +94,12 @@ namespace Mud.Server.Player
                 }
 
                 // Extract command and parameters
-                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(isForceOutOfGame => isForceOutOfGame || Impersonating == null ? Aliases : Impersonating?.Aliases, commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame);
+                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(
+                    isForceOutOfGame => isForceOutOfGame || Impersonating == null 
+                        ? Aliases
+                        : Impersonating?.Aliases,
+                    commandLine,
+                    out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame);
                 if (!extractedSuccessfully)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
@@ -329,7 +335,7 @@ namespace Mud.Server.Player
             }
             else if (Impersonating != null) // impersonating
             {
-                Wiznet.Wiznet($"[{DisplayName}]|[{Impersonating.DebugName}] executing [{commandLine}]", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DebugName, commandLine);
                 executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
             }
             else

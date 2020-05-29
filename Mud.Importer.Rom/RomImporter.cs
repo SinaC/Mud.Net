@@ -1058,14 +1058,14 @@ namespace Mud.Importer.Rom
 
         private ContainerFlags ConvertContainerFlags(ObjectData objectData)
         {
-            ContainerFlags flags = Domain.ContainerFlags.None;
+            ContainerFlags flags = ContainerFlags.None;
             long v1 = System.Convert.ToInt64(objectData.Values[1]);
-            if (!IsSet(v1, CONT_CLOSEABLE)) flags |= Domain.ContainerFlags.NoClose;
-            if (IsSet(v1, CONT_PICKPROOF)) flags |= Domain.ContainerFlags.PickProof;
-            if (IsSet(v1, CONT_CLOSED)) flags |= Domain.ContainerFlags.Closed;
-            if (IsSet(v1, CONT_LOCKED)) flags |= Domain.ContainerFlags.Locked;
+            if (!IsSet(v1, CONT_CLOSEABLE)) flags |= ContainerFlags.NoClose;
+            if (IsSet(v1, CONT_PICKPROOF)) flags |= ContainerFlags.PickProof;
+            if (IsSet(v1, CONT_CLOSED)) flags |= ContainerFlags.Closed;
+            if (IsSet(v1, CONT_LOCKED)) flags |= ContainerFlags.Locked;
             long v2 = System.Convert.ToInt64(objectData.Values[2]);
-            if (v2 <= 0) flags |= Domain.ContainerFlags.NoLock;
+            if (v2 <= 0) flags |= ContainerFlags.NoLock;
             return flags;
         }
 
@@ -1276,7 +1276,8 @@ namespace Mud.Importer.Rom
 
         private IRVFlags ConvertIRV(long value)
         {
-            IRVFlags flags = 0;
+            IRVFlags flags = IRVFlags.None;
+
             if (IsSet(value, IMM_SUMMON)) flags |= IRVFlags.Summon;
             if (IsSet(value, IMM_CHARM)) flags |= IRVFlags.Charm;
             if (IsSet(value, IMM_MAGIC)) flags |= IRVFlags.Magic;
@@ -1307,6 +1308,7 @@ namespace Mud.Importer.Rom
         private CharacterFlags ConvertCharacterFlags(long affectedBy)
         {
             CharacterFlags flags = CharacterFlags.None;
+
             if (IsSet(affectedBy, AFF_BLIND)) flags |= CharacterFlags.Blind;
             if (IsSet(affectedBy, AFF_INVISIBLE)) flags |= CharacterFlags.Invisible;
             if (IsSet(affectedBy, AFF_DETECT_EVIL)) flags |= CharacterFlags.DetectEvil;
@@ -1372,6 +1374,7 @@ namespace Mud.Importer.Rom
         private (OffensiveFlags, AssistFlags) ConvertOffensiveFlags(long input)
         {
             OffensiveFlags off = OffensiveFlags.None;
+
             if (IsSet(input, OFF_AREA_ATTACK)) off |= OffensiveFlags.AreaAttack;
             if (IsSet(input, OFF_BACKSTAB)) off |= OffensiveFlags.Backstab;
             if (IsSet(input, OFF_BASH)) off |= OffensiveFlags.Bash;
@@ -1389,6 +1392,7 @@ namespace Mud.Importer.Rom
             if (IsSet(input, OFF_CRUSH)) off |= OffensiveFlags.Crush;
 
             AssistFlags assist = AssistFlags.None;
+
             if (IsSet(input, ASSIST_ALL)) assist |= AssistFlags.All;
             if (IsSet(input, ASSIST_ALIGN)) assist |= AssistFlags.Align;
             if (IsSet(input, ASSIST_RACE)) assist |= AssistFlags.Race;

@@ -9,9 +9,16 @@ namespace Mud.Server.Server
     {
         private readonly HashSet<string> _unavailableNames = new HashSet<string>(1024); // Lock ?
 
-        protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
-        protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();
-        protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
+        protected IPlayerRepository PlayerRepository { get; }
+        protected IAdminRepository AdminRepository { get; }
+        protected ILoginRepository LoginRepository { get; }
+
+        public UniquenessManager(IPlayerRepository playerRepository, IAdminRepository adminRepository, ILoginRepository loginRepository)
+        {
+            PlayerRepository = playerRepository;
+            AdminRepository = adminRepository;
+            LoginRepository = loginRepository;
+        }
 
         #region IUniquenessManager
 

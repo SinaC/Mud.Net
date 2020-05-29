@@ -1,0 +1,2184 @@
+#AREADATA
+Name Death Knights~
+Builders Irix~
+VNUMs 24000 24099
+Credits [CLOSE] Irix    TBA~
+Security 9
+End
+
+#MOBILES
+#24001
+undead knight grayskull~
+Grayskull~
+A death knight roams the citadel ruins, searching for something.
+~
+~
+human~
+AFGO A DFJPQVZ ABH -1000 0
+55 55 114d19+1111 55d11+95 19d2+44 drain
+-30 -30 -30 -19
+ACEFHK ABLR MQ NSY
+stand stand none 0
+HIKM ABCGHIJK medium unknown
+F shd MV
+F for ABCDEFGJ
+#24002
+undead knight stonevictor~
+Stonevictor~
+A death knight roams the citadel ruins, searching for something.
+~
+~
+human~
+AFGO A DFJPQVZ ABH -1000 0
+55 55 114d19+1111 55d11+95 19d2+44 drain
+-30 -30 -30 -19
+ACEFHK ABLR MQ NSY
+stand stand none 0
+HIKM ABCGHIJK medium unknown
+F shd MV
+F for ABCDEFGJ
+#24003
+undead knight vileblow~
+Vileblow~
+A death knight roams the citadel ruins, searching for something.
+~
+~
+human~
+AFGO A DFJPQVZ ABH -1000 0
+55 55 114d19+1111 55d11+95 19d2+44 drain
+-30 -30 -30 -19
+ACEFHK ABLR MQ NSY
+stand stand none 0
+HIKM ABCGHIJK medium unknown
+F shd MV
+F for ABCDEFGJ
+#24004
+undead knight ivorysnake~
+Ivorysnake~
+A death knight roams the citadel ruins, searching for something.
+~
+~
+human~
+AFGO A DFJPQVZ ABH -1000 0
+60 60 124d21+1213 60d11+95 21d2+47 drain
+-33 -33 -33 -21
+ACEFHK ABLR MQ NSY
+stand stand none 0
+HIKM ABCGHIJK medium unknown
+F shd MV
+F for ABCDEFGJ
+#24005
+undead knight bonecarver~
+Bonecarver~
+A death knight roams the citadel ruins, searching for something.
+~
+~
+human~
+AFGO A DFJPQVZ ABH -1000 0
+60 60 124d21+1213 60d11+95 21d2+47 drain
+-33 -33 -33 -21
+ACEFHK ABLR MQ NSY
+stand stand none 0
+HIKM ABCGHIJK medium unknown
+F shd MV
+F for ABCDEFGJ
+#24006
+undead knight bloodsky~
+Bloodsky~
+A death knight roams the citadel ruins, searching for something.
+~
+~
+human~
+AFGO A DFJPQVZ ABH -1000 0
+60 60 124d21+1213 60d11+95 21d2+47 drain
+-33 -33 -33 -21
+ACEFHK ABLR MQ NSY
+stand stand none 0
+HIKM ABCGHIJK medium unknown
+F shd MV
+F for ABCDEFGJ
+#24007
+undead knight banecurse~
+Banecurse~
+A death knight roams the citadel ruins, searching for something.
+~
+~
+human~
+AFGO A DFJPQVZ ABH -1000 0
+65 65 134d22+1313 65d11+95 22d2+50 drain
+-37 -37 -37 -24
+ACEFHK ABLR MQ NSY
+stand stand none 0
+HIKM ABCGHIJK medium unknown
+F shd MV
+F for ABCDEFGJ
+#24008
+undead knight flameghost~
+Flameghost~
+A death knight roams the citadel ruins, searching for something.
+~
+~
+human~
+AFGO A DFJPQVZ ABH -1000 0
+65 65 134d22+1313 65d11+95 22d2+50 drain
+-37 -37 -37 -24
+ACEFHK ABLR MQ NSY
+stand stand none 0
+HIKM ABCGHIJK medium unknown
+F shd MV
+F for ABCDEFGJ
+#24009
+undead knight pearlscar~
+Pearlscar~
+A death knight roams the citadel ruins, searching for something.
+~
+~
+human~
+AFGO A DFJPQVZ ABH -1000 0
+65 65 134d22+1313 65d11+95 22d2+50 drain
+-37 -37 -37 -24
+ACEFHK ABLR MQ NSY
+stand stand none 0
+HIKM ABCGHIJK medium unknown
+F shd MV
+F for ABCDEFGJ
+#24010
+undead knight shadefall~
+Shadefall~
+A death knight roams the citadel ruins, searching for something.
+~
+~
+human~
+AFGO A DFJPQVZ ABH -1000 0
+70 70 145d24+1415 70d11+95 24d2+54 drain
+-41 -41 -41 -26
+ACEFHK ABLR MQ NSY
+stand stand none 0
+HIKM ABCGHIJK medium unknown
+F shd MV
+F for ABCDEFGJ
+#24011
+undead knight coldshadow~
+Coldshadow~
+A death knight roams the citadel ruins, searching for something.
+~
+~
+human~
+AFGO A DFJPQVZ ABH -1000 0
+70 70 145d24+1415 70d11+95 24d2+54 drain
+-41 -41 -41 -26
+ACEFHK ABLR MQ NSY
+stand stand none 0
+HIKM ABCGHIJK medium unknown
+F shd MV
+F for ABCDEFGJ
+#24012
+undead knight windfang~
+Windfang~
+A death knight roams the citadel ruins, searching for something.
+~
+~
+human~
+AFGO A DFJPQVZ ABH -1000 0
+70 70 145d24+1415 70d11+95 24d2+54 drain
+-41 -41 -41 -26
+ACEFHK ABLR MQ NSY
+stand stand none 0
+HIKM ABCGHIJK medium unknown
+F shd MV
+F for ABCDEFGJ
+#24013
+dragon painchiller~
+Painchiller~
+A dragon, with translucent white scales, has been chained here.
+~
+This dragon's thick, translucent scales are white, shading to darker
+towards its hindquarters and getting finer and less thick on its underbelly.
+It has fanlike wings that stretch between its limbs.  This dragon has a tiny
+mouth.  It has tiny slitted nostrils.  This dragon has beady eyes that are
+amber.  Tendrils surround its mouth.  
+~
+human~
+ABG A Wd C 0 0
+60 60 124d21+1213 60d11+95 21d2+47 frbite
+-33 -33 -33 -21
+CDKMO ABILQ 0 H
+stand stand none 0
+AHZc ADEFPQUVWX giant unknown
+F shd AHMV
+F for BCDEFGIJK
+#24014
+dragon stormgore~
+Stormgore~
+A dragon, with metallic scales, is chained to the floor.
+~
+This dragon has a stocky body.  Its plate-like, metallic scales are
+lemon-yellow.  It has elegant, frill-like wings running from its shoulders
+to its hips.  A row of bony knobs runs from the base of its skull to its
+shoulders.  This dragon has one eye that is the color of fine china.  It has
+strange membranes that function as ears.  A series of tendrils extends,
+hair-like, from the back of its head.  
+~
+human~
+ABG A Wd E 0 0
+60 60 124d21+1213 60d11+95 21d2+47 shbite
+-33 -33 -33 -21
+CDKMO ABJLQ O PT
+stand stand none 0
+AHZc ADEFPQUVWX giant unknown
+F shd AHMV
+F for BCDEFGIJK
+#24015
+dragon sunhide~
+Sunhide~
+A serpentine dragon, the color of the sun, is chained here.
+~
+This dragon has a serpentine body with a very long, slender tail and
+neck.  Its scales are the color of the sun, shading to lighter on its
+underside and getting finer and less thick on its underbelly.  It has wings
+like those of a butterfly.  This dragon has a mouth that takes up most of
+its face with fine, sharp teeth.  Two large frilled membranes sprout from
+each side of its head, framing its face.  
+~
+human~
+ABG A Wd D 0 0
+65 65 134d22+1313 65d11+95 22d2+50 flbite
+-37 -37 -37 -24
+CDFHKMO ABH 0 IR
+stand stand none 0
+AHZc ADEFPQUVWX giant unknown
+F shd AHMV
+F for BCDEFGIJK
+#24016
+dragon poisontooth~
+Poisontooth~
+A dragon, with scales the color of smoke, is chained to the wall here.
+~
+This dragon has an elegant body with a thin tail and neck.  Its thick
+scales are the color of smoke.  It has wings running from its shoulders to
+its hips.  This dragon has a wide mouth with a pronounced underbite and
+multiple rows of teeth.  It has hooded mirror-like eyes that are purple. 
+Two short horns extend backwards from its forhead.  
+~
+human~
+ABG A Wd H 0 0
+65 65 134d22+1313 65d11+95 22d2+50 acbite
+-37 -37 -37 -24
+CDFHKMO ABQ 0 LNPT
+stand stand none 0
+AHZc ADEFPQUVWX giant unknown
+F shd AMV
+F for BCDEFGIJK
+#24017
+dragon cruelcharmer~
+Cruelcharmer~
+A dragon, with scales the color of bleached bones, is chained here. 
+~
+This dragon's thick scales are the color of bleached bone.  It has a
+serpentine, elongated body.  It has no wings.  This dragon's head is
+misshapen.  It has three slitted eyes that are the color of cold ashes. 
+Spiky, bony knobs surround its mouth.  Flaps of skin allow it to completely
+close its nostrils.  
+~
+human~
+ABG A QVc BHNO 0 0
+70 70 145d24+1415 70d11+95 24d2+54 claw
+-41 -41 -41 -26
+CDFHKMO ABHI CD NOX
+stand stand none 0
+AHZc ADEFPQUVWX giant unknown
+F shd AMV
+F for BCDEFGIJK
+#24018
+shadow~
+a Shadow~
+The brief shadow of something is cast against the wall.
+~
+The shadow is vaguely humanoid in shape, but it blends into the darkness
+so well that its actual form is unknown.  It seems to be roaming the ruins
+of the citadel in search of something.  
+~
+human~
+ACGMNO A FPQVZac BCNO 0 0
+50 50 104d17+506 50d11+95 17d2+40 drain
+-27 -27 -27 -16
+DEHJKOU ABIMQR 0 HNS
+stand stand none 0
+CDHIKM 0 medium unknown
+F shd AHMV
+F for ABEFGJ
+#24019
+skeletal skeleton~
+a skeleton~
+The skeletal remains of a humanoid creature hovers just above the ground.
+~
+The skeleton is that of a humanoid, but what race is was in life is not
+known.  Its bones are bleached white, with the tattered remains of flesh in
+spots.  The stench that it gives off is that of decay, which is very strong
+when the breeze is just right.  
+~
+human~
+AFGO A TVZa CNO -1000 0
+65 65 131d21+1181 65d9+60 19d3+33 drain
+-31 -31 -31 -18
+ADEFHJKQ ABIPT FG EHN
+stand stand none 0
+CHIJMc ABCGHIU medium unknown
+F shd AHMV
+F for ABDEFGK
+#0
+
+
+
+#OBJECTS
+#24001
+glowing portal mist~
+a glowing portal of mist~
+A glowing portal, filled with mists is here.~
+unknown~
+portal ABFG 0
+0 0 D CJKLMO 0
+0 0 0 P
+#24002
+glowing portal mist~
+a portal of mist~
+A glowing portal, filled with mists is here.~
+unknown~
+portal ABFG 0
+0 0 0 BCJKLMO 0
+0 0 0 P
+#24003
+glowing portal mist~
+a portal of mist~
+A glowing portal, filled with mists is here.~
+unknown~
+portal ABFG 0
+0 0 0 BCDJKLMO 0
+0 0 0 P
+#24004
+glowing portal mist~
+a portal of mist~
+A glowing portal, filled with mists is here.~
+unknown~
+portal ABFG 0
+0 0 0 EJKLMO 0
+0 0 0 P
+#24005
+glowing portal mist~
+a glowing portal of mist~
+A glowing portal, filled with mist is here.~
+unknown~
+portal ABFG 0
+0 0 0 ABCDEGHIKLMO 0
+0 0 0 P
+#24011
+black dragonscale boots~
+black dragonscale boots~
+A pair of black boots, made from dragonscale, have been dropped here.~
+dragonscale~
+armor CJLS AG
+0 0 0 0 0
+0 20 0 P
+#24012
+black dragonscale leggings~
+some black dragonscale leggings~
+Some black leggings, made from dragonscale, have been dropped here.~
+dragonscale~
+armor CJLS AF
+0 0 0 0 0
+0 50 0 P
+#24013
+dragon tooth necklace~
+a dragon tooth necklace~
+A long tooth, from some large creature, has been dropped here.~
+bone~
+jewelry JLS AC
+0 0 0 0 0
+0 5 0 P
+#24014
+oval bone~
+an oval bone~
+A large oval bone has been dropped here.~
+bone~
+armor JLS AJ
+0 0 0 0 0
+0 100 0 P
+#24015
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+#24016
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+#24017
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+#24018
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+#0
+
+
+
+#ROOMS
+#24000
+Death Knights Control Room~
+~
+0 557068 0
+S
+#24001
+The Northwest Corner of the Citadel Ruins~
+The ground is littered with various stone pieces making it uneven and
+hard to move around.  A thick column, made of grey stone, has fallen down
+leaving a hole in the ceiling above.  The walls of the ancient citadel are
+still standing to the north and west, making passage impossible.  The way is
+clear to the south and east and climbing the column would allow access to
+the chamber above.  
+~
+0 9 0
+D1
+~
+~
+0 0 24002
+D2
+~
+~
+0 0 24010
+D4
+~
+~
+0 0 24062
+S
+#24002
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24003
+D3
+~
+~
+0 0 24001
+S
+#24003
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24004
+D3
+~
+~
+0 0 24002
+S
+#24004
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24005
+D2
+~
+~
+0 0 24011
+D3
+~
+~
+0 0 24003
+S
+#24005
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24006
+D3
+~
+~
+0 0 24004
+S
+#24006
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24007
+D2
+~
+~
+0 0 24012
+D3
+~
+~
+0 0 24005
+S
+#24007
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24008
+D3
+~
+~
+0 0 24006
+S
+#24008
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24009
+D3
+~
+~
+0 0 24007
+S
+#24009
+The Northeast Corner of the Citadel Ruins~
+The ground is littered with various stone pieces making it uneven and
+hard to move around.  A thick column, made of grey stone, has fallen down
+leaving a hole in the ceiling above.  The walls of the ancient citadel are
+still standing to the north and west, making passage impossible.  The way is
+clear to the south and west and climbing the column would allow access to
+the chamber above.  
+~
+0 9 0
+D2
+~
+~
+0 0 24013
+D3
+~
+~
+0 0 24008
+D4
+~
+~
+0 0 24066
+S
+#24010
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24001
+D2
+~
+~
+0 0 24014
+S
+#24011
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24004
+D2
+~
+~
+0 0 24016
+S
+#24012
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24006
+D2
+~
+~
+0 0 24018
+S
+#24013
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24009
+D2
+~
+~
+0 0 24020
+S
+#24014
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24010
+D2
+~
+~
+0 0 24021
+S
+#24015
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24016
+D2
+~
+~
+0 0 24023
+S
+#24016
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24011
+D1
+~
+~
+0 0 24017
+D3
+~
+~
+0 0 24015
+S
+#24017
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24018
+D2
+~
+~
+0 0 24024
+D3
+~
+~
+0 0 24016
+S
+#24018
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24012
+D1
+~
+~
+0 0 24019
+D3
+~
+~
+0 0 24017
+S
+#24019
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D2
+~
+~
+0 0 24025
+D3
+~
+~
+0 0 24018
+S
+#24020
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24013
+D2
+~
+~
+0 0 24027
+S
+#24021
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24014
+D1
+~
+~
+0 0 24022
+D2
+~
+~
+0 0 24028
+S
+#24022
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24023
+D3
+~
+~
+0 0 24021
+S
+#24023
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24015
+D2
+~
+~
+0 0 24029
+D3
+~
+~
+0 0 24022
+S
+#24024
+The Center of the Citadel Ruins~
+At some time in the distant past the citadel must have been quite lovely
+with the stylized images carved all over the stones that were used in the
+construction, but sadly it is now in ruins.  Thick columns of stone are
+located south, east and west, and although there are gaps in the floor and
+ceiling, they are not large enough to permit passage.  The only way to go is
+back to the north.  
+~
+0 9 0
+D0
+~
+~
+0 0 24017
+S
+#24025
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24019
+D1
+~
+~
+0 0 24026
+D2
+~
+~
+0 0 24033
+S
+#24026
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24027
+D3
+~
+~
+0 0 24025
+S
+#24027
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24020
+D2
+~
+~
+0 0 24034
+D3
+~
+~
+0 0 24026
+S
+#24028
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24021
+D2
+~
+~
+0 0 24035
+S
+#24029
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24023
+D1
+~
+~
+0 0 24030
+D2
+~
+~
+0 0 24037
+S
+#24030
+The Center of the Citadel Ruins~
+At some time in the distant past the citadel must have been quite lovely
+with the stylized images carved all over the stones that were used in the
+construction, but sadly it is now in ruins.  Thick columns of stone are
+located north, south and east, and although there are gaps in the floor and
+ceiling, they are not large enough to permit passage.  The only way to go is
+back to the west.  
+~
+0 9 0
+D3
+~
+~
+0 0 24029
+S
+#24031
+The Center of the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24024
+D1
+~
+~
+0 0 24032
+D2
+~
+~
+0 0 24038
+D3
+~
+~
+0 0 24030
+S
+#24032
+The Center of the Citadel Ruins~
+At some time in the distant past the citadel must have been quite lovely
+with the stylized images carved all over the stones that were used in the
+construction, but sadly it is now in ruins.  Thick columns of stone are
+located north, south and west, and although there are gaps in the floor and
+ceiling, they are not large enough to permit passage.  The only way to go is
+back to the east.  
+~
+0 9 0
+D1
+~
+~
+0 0 24033
+S
+#24033
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24025
+D2
+~
+~
+0 0 24039
+D3
+~
+~
+0 0 24032
+S
+#24034
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24027
+D2
+~
+~
+0 0 24041
+S
+#24035
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24028
+D1
+~
+~
+0 0 24036
+D2
+~
+~
+0 0 24042
+S
+#24036
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24037
+D3
+~
+~
+0 0 24035
+S
+#24037
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24029
+D2
+~
+~
+0 0 24043
+D3
+~
+~
+0 0 24036
+S
+#24038
+The Center of the Citadel Ruins~
+At some time in the distant past the citadel must have been quite lovely
+with the stylized images carved all over the stones that were used in the
+construction, but sadly it is now in ruins.  Thick columns of stone are
+located north, east and west, and although there are gaps in the floor and
+ceiling, they are not large enough to permit passage.  The only way to go is
+back to the south.  
+~
+0 9 0
+D2
+~
+~
+0 0 24045
+S
+#24039
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24033
+D1
+~
+~
+0 0 24040
+D2
+~
+~
+0 0 24047
+S
+#24040
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24041
+D3
+~
+~
+0 0 24039
+S
+#24041
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24034
+D2
+~
+~
+0 0 24048
+D3
+~
+~
+0 0 24040
+S
+#24042
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24035
+D2
+~
+~
+0 0 24049
+S
+#24043
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24037
+D1
+~
+~
+0 0 24044
+S
+#24044
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24045
+D2
+~
+~
+0 0 24050
+D3
+~
+~
+0 0 24043
+S
+#24045
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24038
+D1
+~
+~
+0 0 24046
+D3
+~
+~
+0 0 24044
+S
+#24046
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24047
+D2
+~
+~
+0 0 24051
+D3
+~
+~
+0 0 24045
+S
+#24047
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24039
+D3
+~
+~
+0 0 24046
+S
+#24048
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24041
+D2
+~
+~
+0 0 24052
+S
+#24049
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24042
+D2
+~
+~
+0 0 24053
+S
+#24050
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24044
+D2
+~
+~
+0 0 24056
+S
+#24051
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24046
+D2
+~
+~
+0 0 24058
+S
+#24052
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24048
+D2
+~
+~
+0 0 24061
+S
+#24053
+The Southwest Corner of the Citadel Ruins~
+The ground is littered with various stone pieces making it uneven and
+hard to move around.  A thick column, made of grey stone, has fallen down
+leaving a hole in the ceiling above.  The walls of the ancient citadel are
+still standing to the north and west, making passage impossible.  The way is
+clear to the north and east and climbing the column would allow access to
+the chamber above.  
+~
+0 9 0
+D0
+~
+~
+0 0 24049
+D1
+~
+~
+0 0 24054
+D4
+~
+~
+0 0 24082
+S
+#24054
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24055
+D3
+~
+~
+0 0 24053
+S
+#24055
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24056
+D3
+~
+~
+0 0 24054
+S
+#24056
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24050
+D1
+~
+~
+0 0 24057
+D3
+~
+~
+0 0 24055
+S
+#24057
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24058
+D3
+~
+~
+0 0 24056
+S
+#24058
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24051
+D1
+~
+~
+0 0 24059
+D3
+~
+~
+0 0 24057
+S
+#24059
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24060
+D3
+~
+~
+0 0 24058
+S
+#24060
+Wandering in the Citadel Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24061
+D3
+~
+~
+0 0 24059
+S
+#24061
+The Southeast Corner of the Citadel Ruins~
+The ground is littered with various stone pieces making it uneven and
+hard to move around.  A thick column, made of grey stone, has fallen down
+leaving a hole in the ceiling above.  The walls of the ancient citadel are
+still standing to the north and west, making passage impossible.  The way is
+clear to the north and east and climbing the column would allow access to
+the chamber above.  
+~
+0 9 0
+D0
+~
+~
+0 0 24052
+D3
+~
+~
+0 0 24060
+D4
+~
+~
+0 0 24086
+S
+#24062
+Climbing in the Citadel Ruins~
+There seems to be less damage to the citadel higher up in the building
+complex, but there is still evidence of a major battle here.  Large chunks
+of the walls are missing in places, meaning more rubble to wade through. 
+Everything is made from the same dull grey stone as the rest of the ancient
+citadel, with bits of unrecognized writing and pictures everywhere.  Passage
+is allowed to the south and east, or back below through a hole on the floor.
+~
+0 9 0
+D1
+~
+~
+0 0 24063
+D2
+~
+~
+0 0 24067
+D5
+~
+~
+0 0 24001
+S
+#24063
+Climbing in the Citadel Ruins~
+The floor is made of grey stone, into which runes and images have been
+carved.  A slight wind fills the air with the smell of sulfur, although the
+origins are unknown.  Passage is permissible to the east or west, with a
+large column blocking movement to the south.  
+~
+0 9 0
+D1
+~
+~
+0 0 24064
+D3
+~
+~
+0 0 24062
+S
+#24064
+Climbing in the Citadel Ruins~
+The runes and images, which have been carved into the stone floor, have a
+flow to them, although their meaning is unknown.  A thick layer of dust
+covers everything in sight, and bits of stone litter the floor, showing the
+age and disuse of the citadel.  Passage is allowed to the south, east and
+west through the ruins of the ancient structure.  
+~
+0 9 0
+D1
+~
+~
+0 0 24065
+D2
+~
+~
+0 0 24069
+D3
+~
+~
+0 0 24063
+S
+#24065
+Climbing in the Citadel Ruins~
+The floor is made of grey stone, into which runes and images have been
+carved.  A slight wind fills the air with the smell of sulfur, although the
+origins are unknown.  Passage is permissible to the east or west, with a
+large column blocking movement to the south.  
+~
+0 9 0
+D1
+~
+~
+0 0 24066
+D3
+~
+~
+0 0 24064
+S
+#24066
+Climbing in the Citadel Ruins~
+There seems to be less damage to the citadel higher up in the building
+complex, but there is still evidence of a major battle here.  Large chunks
+of the walls are missing in places, meaning more rubble to wade through. 
+Everything is made from the same dull grey stone as the rest of the ancient
+citadel, with bits of unrecognized writing and pictures everywhere.  Passage
+is allowed to the south and west, or back below through a hole on the floor.
+~
+0 9 0
+D2
+~
+~
+0 0 24071
+D3
+~
+~
+0 0 24065
+D5
+~
+~
+0 0 24009
+S
+#24067
+Climbing in the Citadel Ruins~
+The floor is made of grey stone, into which runes and images have been
+carved.  A slight wind fills the air with the smell of sulfur, although the
+origins are unknown.  Passage is permissible to the north and south, with a
+large column blocking movement to the east.  
+~
+0 9 0
+D0
+~
+~
+0 0 24062
+D2
+~
+~
+0 0 24072
+S
+#24068
+In a Misty Chamber~
+The grey stone walls of the chamber have been inscribed with strange
+runes which glow with a faint green color.  On the floor, drawn in a dull
+red liquid, is a large pentagram, which appears to be the source of the
+white haze that fills the chamber.  The smell of death and decay are strong
+in the air.  
+~
+0 8205 0
+D0
+~
+~
+0 0 24068
+D1
+~
+~
+0 0 24068
+D2
+~
+~
+0 0 24068
+D3
+~
+~
+0 0 24068
+D4
+~
+~
+0 0 24068
+D5
+~
+~
+0 0 24068
+S
+#24069
+Climbing in the Citadel Ruins~
+Large stone columns, which have been carved with intricate runes and
+stylized images are located to the east and west, creating a corridor
+leading north and south.  A large hole in the low ceiling leads into the
+darkness above.  The floor has a dense coating of dust, showing that nothing
+solid has disturbed it in some time.  The air is filled with an acidity from
+something unknown.  
+~
+0 9 0
+D0
+~
+~
+0 0 24064
+D2
+~
+~
+0 0 24074
+D4
+~
+~
+0 0 24087
+S
+#24070
+In a Misty Chamber~
+The grey stone walls of the chamber have been inscribed with strange
+runes which glow with a faint green color.  On the floor, drawn in a dull
+red liquid, is a large pentagram, which appears to be the source of the
+white haze that fills the chamber.  The smell of death and decay are strong
+in the air.  
+~
+0 8205 0
+D0
+~
+~
+0 0 24070
+D1
+~
+~
+0 0 24070
+D2
+~
+~
+0 0 24070
+D3
+~
+~
+0 0 24070
+D4
+~
+~
+0 0 24070
+D5
+~
+~
+0 0 24070
+S
+#24071
+Climbing in the Citadel Ruins~
+The floor is made of grey stone, into which runes and images have been
+carved.  A slight wind fills the air with the smell of sulfur, although the
+origins are unknown.  Passage is permissible to the north and south, with a
+large column blocking movement to the west.  
+~
+0 9 0
+D0
+~
+~
+0 0 24066
+D2
+~
+~
+0 0 24076
+S
+#24072
+Climbing in the Citadel Ruins~
+The runes and images, which have been carved into the stone floor, have a
+flow to them, although their meaning is unknown.  A thick layer of dust
+covers everything in sight, and bits of stone litter the floor, showing the
+age and disuse of the citadel.  Passage is allowed to the north, south and
+east through the ruins of the ancient structure.  
+~
+0 9 0
+D0
+~
+~
+0 0 24067
+D1
+~
+~
+0 0 24073
+D2
+~
+~
+0 0 24077
+S
+#24073
+Climbing in the Citadel Ruins~
+Large stone columns, which have been carved with intricate runes and
+stylized images are located to the north and south, creating a corridor
+leading east and west.  A large hole in the low ceiling leads into the
+darkness above.  The floor has a dense coating of dust, showing that nothing
+solid has disturbed it in some time.  The air is filled with an acidity from
+something unknown.  
+~
+0 9 0
+D1
+~
+~
+0 0 24074
+D3
+~
+~
+0 0 24072
+D4
+~
+~
+0 0 24088
+S
+#24074
+Climbing in the Citadel Ruins~
+On every surface unknown runes and images have been carved directly into
+the grey stone which was used in constructing the ancient citadel.  Bits of
+stone cover the floor along with dirt and what might have at one time been
+banners or tapestries.  Exits are in the four cardinal direction in which
+stone corridors are located.  
+~
+0 9 0
+D0
+~
+~
+0 0 24069
+D1
+~
+~
+0 0 24075
+D2
+~
+~
+0 0 24079
+D3
+~
+~
+0 0 24073
+S
+#24075
+Climbing in the Citadel Ruins~
+Large stone columns, which have been carved with intricate runes and
+stylized images are located to the north and south, creating a corridor
+leading east and west.  A large hole in the low ceiling leads into the
+darkness above.  The floor has a dense coating of dust, showing that nothing
+solid has disturbed it in some time.  The air is filled with an acidity from
+something unknown.  
+~
+0 9 0
+D1
+~
+~
+0 0 24076
+D3
+~
+~
+0 0 24074
+D4
+~
+~
+0 0 24090
+S
+#24076
+Climbing in the Citadel Ruins~
+The runes and images, which have been carved into the stone floor, have a
+flow to them, although their meaning is unknown.  A thick layer of dust
+covers everything in sight, and bits of stone litter the floor, showing the
+age and disuse of the citadel.  Passage is allowed to the north, south and
+west through the ruins of the ancient structure.  
+~
+0 9 0
+D0
+~
+~
+0 0 24071
+D2
+~
+~
+0 0 24081
+D3
+~
+~
+0 0 24075
+S
+#24077
+Climbing in the Citadel Ruins~
+The floor is made of grey stone, into which runes and images have been
+carved.  A slight wind fills the air with the smell of sulfur, although the
+origins are unknown.  Passage is permissible to the north and south, with a
+large column blocking movement to the east.  
+~
+0 9 0
+D0
+~
+~
+0 0 24072
+D2
+~
+~
+0 0 24082
+S
+#24078
+In a Misty Chamber~
+The grey stone walls of the chamber have been inscribed with strange
+runes which glow with a faint green color.  On the floor, drawn in a dull
+red liquid, is a large pentagram, which appears to be the source of the
+white haze that fills the chamber.  The smell of death and decay are strong
+in the air.  
+~
+0 8205 0
+D0
+~
+~
+0 0 24078
+D1
+~
+~
+0 0 24078
+D2
+~
+~
+0 0 24078
+D3
+~
+~
+0 0 24078
+D4
+~
+~
+0 0 24078
+D5
+~
+~
+0 0 24078
+S
+#24079
+Climbing in the Citadel Ruins~
+Large stone columns, which have been carved with intricate runes and
+stylized images are located to the east and west, creating a corridor
+leading north and south.  A large hole in the low ceiling leads into the
+darkness above.  The floor has a dense coating of dust, showing that nothing
+solid has disturbed it in some time.  The air is filled with an acidity from
+something unknown.  
+~
+0 9 0
+D0
+~
+~
+0 0 24074
+D2
+~
+~
+0 0 24084
+D4
+~
+~
+0 0 24091
+S
+#24080
+In a Misty Chamber~
+The grey stone walls of the chamber have been inscribed with strange
+runes which glow with a faint green color.  On the floor, drawn in a dull
+red liquid, is a large pentagram, which appears to be the source of the
+white haze that fills the chamber.  The smell of death and decay are strong
+in the air.  
+~
+0 8205 0
+D0
+~
+~
+0 0 24080
+D1
+~
+~
+0 0 24080
+D2
+~
+~
+0 0 24080
+D3
+~
+~
+0 0 24080
+D4
+~
+~
+0 0 24080
+D5
+~
+~
+0 0 24080
+S
+#24081
+Climbing in the Citadel Ruins~
+The floor is made of grey stone, into which runes and images have been
+carved.  A slight wind fills the air with the smell of sulfur, although the
+origins are unknown.  Passage is permissible to the north and south, with a
+large column blocking movement to the west.  
+~
+0 9 0
+D0
+~
+~
+0 0 24076
+D2
+~
+~
+0 0 24086
+S
+#24082
+Climbing in the Citadel Ruins~
+There seems to be less damage to the citadel higher up in the building
+complex, but there is still evidence of a major battle here.  Large chunks
+of the walls are missing in places, meaning more rubble to wade through. 
+Everything is made from the same dull grey stone as the rest of the ancient
+citadel, with bits of unrecognized writing and pictures everywhere.  Passage
+is allowed to the north and east, or back below through a hole on the floor.
+~
+0 9 0
+D0
+~
+~
+0 0 24077
+D1
+~
+~
+0 0 24083
+D5
+~
+~
+0 0 24053
+S
+#24083
+Climbing in the Citadel Ruins~
+The floor is made of grey stone, into which runes and images have been
+carved.  A slight wind fills the air with the smell of sulfur, although the
+origins are unknown.  Passage is permissible to the east or west, with a
+large column blocking movement to the north.  
+~
+0 9 0
+D1
+~
+~
+0 0 24084
+D3
+~
+~
+0 0 24082
+S
+#24084
+Climbing in the Citadel Ruins~
+The runes and images, which have been carved into the stone floor, have a
+flow to them, although their meaning is unknown.  A thick layer of dust
+covers everything in sight, and bits of stone litter the floor, showing the
+age and disuse of the citadel.  Passage is allowed to the north, east and
+west through the ruins of the ancient structure.  
+~
+0 9 0
+D0
+~
+~
+0 0 24079
+D1
+~
+~
+0 0 24085
+D3
+~
+~
+0 0 24083
+S
+#24085
+Climbing in the Citadel Ruins~
+The floor is made of grey stone, into which runes and images have been
+carved.  A slight wind fills the air with the smell of sulfur, although the
+origins are unknown.  Passage is permissible to the east or west, with a
+large column blocking movement to the north.  
+~
+0 9 0
+D1
+~
+~
+0 0 24086
+D3
+~
+~
+0 0 24084
+S
+#24086
+Climbing in the Citadel Ruins~
+There seems to be less damage to the citadel higher up in the building
+complex, but there is still evidence of a major battle here.  Large chunks
+of the walls are missing in places, meaning more rubble to wade through. 
+Everything is made from the same dull grey stone as the rest of the ancient
+citadel, with bits of unrecognized writing and pictures everywhere.  Passage
+is allowed to the north and west, or back below through a hole on the floor.
+~
+0 9 0
+D0
+~
+~
+0 0 24081
+D3
+~
+~
+0 0 24085
+D5
+~
+~
+0 0 24061
+S
+#24087
+Above in the Citadel Ruins~
+Although one might assume the view from high above the ruins would be
+good, the fog and mist which is present everywhere in the ruins blocks
+everything below.  The floor has a large circular hole in it, but what may
+be below is obscured by a swirling mist which is white in color.  A chilling
+breeze seems to be coming from all direction, and the source is unknown.  
+~
+0 9 0
+D2
+~
+~
+0 0 24089
+D5
+~
+~
+0 0 24092
+S
+#24088
+Above in the Citadel Ruins~
+Although one might assume the view from high above the ruins would be
+good, the fog and mist which is present everywhere in the ruins blocks
+everything below.  The floor has a large circular hole in it, but what may
+be below is obscured by a swirling mist which is white in color.  A chilling
+breeze seems to be coming from all direction, and the source is unknown.  
+~
+0 9 0
+D1
+~
+~
+0 0 24089
+D5
+~
+~
+0 0 24093
+S
+#24089
+Above in the Citadel Ruins~
+Although one might assume the view from high above the ruins would be
+good, the fog and mist which is present everywhere in the ruins blocks
+everything below.  The floor has a large circular hole in it, but what may
+be below is obscured by a swirling mist which is white in color.  A chilling
+breeze seems to be coming from all direction, and the source is unknown.  
+~
+0 9 0
+D0
+~
+~
+0 0 24087
+D1
+~
+~
+0 0 24090
+D2
+~
+~
+0 0 24091
+D3
+~
+~
+0 0 24088
+D5
+~
+~
+0 0 24094
+S
+#24090
+Above in the Citadel Ruins~
+Although one might assume the view from high above the ruins would be
+good, the fog and mist which is present everywhere in the ruins blocks
+everything below.  The floor has a large circular hole in it, but what may
+be below is obscured by a swirling mist which is white in color.  A chilling
+breeze seems to be coming from all direction, and the source is unknown.  
+~
+0 9 0
+D3
+~
+~
+0 0 24089
+D5
+~
+~
+0 0 24095
+S
+#24091
+Above in the Citadel Ruins~
+Although one might assume the view from high above the ruins would be
+good, the fog and mist which is present everywhere in the ruins blocks
+everything below.  The floor has a large circular hole in it, but what may
+be below is obscured by a swirling mist which is white in color.  A chilling
+breeze seems to be coming from all direction, and the source is unknown.  
+~
+0 9 0
+D0
+~
+~
+0 0 24089
+D5
+~
+~
+0 0 24096
+S
+#24092
+Inside an Immense Chamber~
+This vast chamber has deep grey colored partitions on all sides, with the
+exception of straight up.  Intricate runes, which glow with an unearthly red
+light completely cover the walls.  Bones are scattered all about the area,
+some with bits of meats and flesh still on them.  The dank smell of death
+hangs heavy in the hot and humid air.  
+~
+0 9 0
+D4
+~
+~
+0 0 24031
+S
+#24093
+Inside an Immense Chamber~
+This vast chamber has deep grey colored partitions on all sides, with the
+exception of straight up.  Intricate runes, which glow with an unearthly red
+light completely cover the walls.  Bones are scattered all about the area,
+some with bits of meats and flesh still on them.  The dank smell of death
+hangs heavy in the hot and humid air.  
+~
+0 9 0
+D4
+~
+~
+0 0 24031
+S
+#24094
+Inside in the Citadel Ruins~
+This vast chamber has deep grey colored partitions on all sides, with the
+exception of straight up.  Intricate runes, which glow with an unearthly red
+light completely cover the walls.  Bones are scattered all about the area,
+some with bits of meats and flesh still on them.  The dank smell of death
+hangs heavy in the hot and humid air.  
+~
+0 9 0
+D4
+~
+~
+0 0 24031
+S
+#24095
+Inside an Immense Chamber~
+This vast chamber has deep grey colored partitions on all sides, with the
+exception of straight up.  Intricate runes, which glow with an unearthly red
+light completely cover the walls.  Bones are scattered all about the area,
+some with bits of meats and flesh still on them.  The dank smell of death
+hangs heavy in the hot and humid air.  
+~
+0 9 0
+D4
+~
+~
+0 0 24031
+S
+#24096
+Inside an Immense Chamber~
+This vast chamber has deep grey colored partitions on all sides, with the
+exception of straight up.  Intricate runes, which glow with an unearthly red
+light completely cover the walls.  Bones are scattered all about the area,
+some with bits of meats and flesh still on them.  The dank smell of death
+hangs heavy in the hot and humid air.  
+~
+0 9 0
+D4
+~
+~
+0 0 24031
+S
+#24097
+Death Knights Mob Chute~
+~
+0 557068 0
+S
+#24098
+Death Knights Mob Chute~
+~
+0 557068 0
+S
+#24099
+Death Knights Mob Chute~
+~
+0 557068 0
+S
+#0
+
+
+
+#SPECIALS
+M 24001 spec_cast_undead
+M 24002 spec_cast_undead
+M 24003 spec_cast_undead
+M 24004 spec_cast_undead
+M 24005 spec_cast_undead
+M 24006 spec_cast_undead
+M 24007 spec_cast_undead
+M 24008 spec_cast_undead
+M 24009 spec_cast_undead
+M 24010 spec_cast_undead
+M 24011 spec_cast_undead
+M 24012 spec_cast_undead
+M 24013 spec_breath_frost
+M 24014 spec_breath_lightning
+M 24015 spec_breath_fire
+M 24016 spec_breath_gas
+M 24017 spec_breath_any
+M 24018 spec_thief
+S
+
+
+
+#RESETS
+O 0 24001 0 24031
+O 0 24002 0 24068
+O 0 24003 0 24070
+O 0 24004 0 24078
+O 0 24005 0 24080
+M 0 24013 1 24092 1
+M 0 24014 1 24093 1
+M 0 24017 1 24094 1
+M 0 24015 1 24095 1
+M 0 24016 1 24096 1
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$
