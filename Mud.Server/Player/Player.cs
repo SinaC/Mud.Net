@@ -19,12 +19,13 @@ namespace Mud.Server.Player
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<Player>);
 
         private readonly List<string> _delayedTells;
-        private readonly List<CharacterData> _avatarList;
+        private readonly List<PlayableCharacterData> _avatarList;
         private readonly Dictionary<string, string> _aliases;
 
         protected IInputTrap<IPlayer> CurrentStateMachine;
         protected bool DeletionConfirmationNeeded;
 
+        protected IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
         protected IServerPlayerCommand ServerPlayerCommand => DependencyContainer.Current.GetInstance<IServerPlayerCommand>();
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
         protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
@@ -35,7 +36,7 @@ namespace Mud.Server.Player
             PlayerState = PlayerStates.Loading;
 
             _delayedTells = new List<string>();
-            _avatarList = new List<CharacterData>();
+            _avatarList = new List<PlayableCharacterData>();
             _aliases = new Dictionary<string, string>();
 
             CurrentStateMachine = null;
@@ -51,10 +52,10 @@ namespace Mud.Server.Player
         }
 
         // Used for promotion
-        public Player(Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<CharacterData> avatarList) : this(id, name)
+        public Player(Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList) : this(id, name)
         {
             _aliases = aliases?.ToDictionary(x => x.Key, x => x.Value) ?? new Dictionary<string, string>();
-            _avatarList = avatarList?.ToList() ?? new List<CharacterData>();
+            _avatarList = avatarList?.ToList() ?? new List<PlayableCharacterData>();
         }
 
         #region IPlayer
@@ -93,7 +94,12 @@ namespace Mud.Server.Player
                 }
 
                 // Extract command and parameters
-                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(isForceOutOfGame => isForceOutOfGame || Impersonating == null ? Aliases : Impersonating?.Aliases, commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame);
+                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(
+                    isForceOutOfGame => isForceOutOfGame || Impersonating == null 
+                        ? Aliases
+                        : Impersonating?.Aliases,
+                    commandLine,
+                    out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame);
                 if (!extractedSuccessfully)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
@@ -157,7 +163,7 @@ namespace Mud.Server.Player
 
         public IPlayableCharacter Impersonating { get; private set; }
 
-        public IEnumerable<CharacterData> Avatars => _avatarList;
+        public IEnumerable<PlayableCharacterData> Avatars => _avatarList;
 
         public IReadOnlyDictionary<string, string> Aliases => _aliases;
 
@@ -231,9 +237,9 @@ namespace Mud.Server.Player
             SnoopBy = snooper;
         }
 
-        public void AddAvatar(CharacterData characterData)
+        public void AddAvatar(PlayableCharacterData playableCharacterData)
         {
-            _avatarList.Add(characterData);
+            _avatarList.Add(playableCharacterData);
         }
 
         public void StopImpersonating()
@@ -329,7 +335,7 @@ namespace Mud.Server.Player
             }
             else if (Impersonating != null) // impersonating
             {
-                Wiznet.Wiznet($"[{DisplayName}]|[{Impersonating.DebugName}] executing [{commandLine}]", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DebugName, commandLine);
                 executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
             }
             else
@@ -369,8 +375,8 @@ namespace Mud.Server.Player
 
             if (data.Characters != null)
             {
-                foreach (CharacterData characterData in data.Characters)
-                    _avatarList.Add(characterData);
+                foreach (PlayableCharacterData playableCharacterData in data.Characters)
+                    _avatarList.Add(playableCharacterData);
             }
         }
 
@@ -379,7 +385,7 @@ namespace Mud.Server.Player
             data.Name = Name;
             data.PagingLineCount = PagingLineCount;
             data.Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value);
-            // TODO: copy from Impersonated to CharacterData
+            // TODO: copy from Impersonated to PlayableCharacterData
             data.Characters = _avatarList.ToArray();
         }
 
@@ -397,7 +403,7 @@ namespace Mud.Server.Player
                 return;
             }
 
-            CharacterData updatedCharacterData = Impersonating.MapCharacterData();
+            PlayableCharacterData updatedCharacterData = Impersonating.MapPlayableCharacterData();
             _avatarList[index] = updatedCharacterData; // replace with new character data
         }
 

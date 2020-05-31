@@ -9,6 +9,7 @@ using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Abilities;
+using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Input;
 using Mud.Server.Item;
@@ -24,18 +25,19 @@ namespace Mud.Server.Character.PlayableCharacter
 
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<PlayableCharacter>);
 
+        protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
+        protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
+
         protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
 
-        private readonly List<IPlayableCharacter> _groupMembers;
         private readonly List<IQuest> _quests;
         private readonly int[] _conditions;
         private readonly Dictionary<string, string> _aliases;
         private readonly List<INonPlayableCharacter> _pets;
 
-        public PlayableCharacter(Guid guid, CharacterData data, IPlayer player, IRoom room)
+        public PlayableCharacter(Guid guid, PlayableCharacterData data, IPlayer player, IRoom room)
             : base(guid, data.Name, string.Empty)
         {
-            _groupMembers = new List<IPlayableCharacter>();
             _quests = new List<IQuest>();
             _conditions = new int[EnumHelpers.GetCount<Conditions>()];
             _aliases = new Dictionary<string, string>();
@@ -45,7 +47,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
             Room = World.NullRoom; // add in null room to avoid problem if an initializer needs a room
 
-            // Extract informations from CharacterData
+            // Extract informations from PlayableCharacterData
             CreationTime = data.CreationTime;
             Class = ClassManager[data.Class];
             if (Class == null)
@@ -65,6 +67,7 @@ namespace Mud.Server.Character.PlayableCharacter
             GoldCoins = data.GoldCoins;
             HitPoints = data.HitPoints;
             MovePoints = data.MovePoints;
+            Alignment = data.Alignment;
             if (data.CurrentResources != null)
             {
                 foreach (var currentResourceData in data.CurrentResources)
@@ -84,6 +87,7 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             Trains = data.Trains;
             Practices = data.Practices;
+            AutoFlags = data.AutoFlags;
             // Conditions
             if (data.Conditions != null)
             {
@@ -204,6 +208,23 @@ namespace Mud.Server.Character.PlayableCharacter
                         SetCooldown(ability, cooldown.Value);
                 }
             }
+            // Pets
+            if (data.Pets != null)
+            {
+                foreach (PetData petData in data.Pets)
+                {
+                    CharacterNormalBlueprint blueprint = World.GetCharacterBlueprint<CharacterNormalBlueprint>(petData.BlueprintId);
+                    if (blueprint == null)
+                    {
+                        Wiznet.Wiznet($"Pet blueprint id {petData.BlueprintId} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    }
+                    else
+                    {
+                        INonPlayableCharacter pet = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, petData, room);
+                        AddPet(pet);
+                    }
+                }
+            }
 
             //
             Room = room;
@@ -257,7 +278,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 displayName.Append("Someone");
             else
                 displayName.Append("someone");
-            if (beholder is IPlayableCharacter playableBeholder && playableBeholder.ImpersonatedBy is IAdmin)
+            if (beholder is IPlayableCharacter playableBeholder && playableBeholder.IsImmortal)
                 displayName.Append($" [PLR {ImpersonatedBy?.DisplayName ?? " ??? "}]");
             return displayName.ToString();
         }
@@ -289,7 +310,6 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             _pets.Clear();
 
-
             // TODO: what if character is incarnated
             ImpersonatedBy?.StopImpersonating();
             ImpersonatedBy = null; // TODO: warn ImpersonatedBy ?
@@ -300,6 +320,14 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         #endregion
+
+        public override int MaxCarryWeight => IsImmortal
+            ? 10000000
+            : base.MaxCarryWeight;
+
+        public override int MaxCarryNumber => IsImmortal
+            ? 1000
+            : base.MaxCarryNumber;
 
         // Combat
         public override void MultiHit(ICharacter victim, IMultiHitModifier multiHitModifier) // 'this' starts a combat with 'victim'
@@ -362,9 +390,35 @@ namespace Mud.Server.Character.PlayableCharacter
             if (multiHitModifier?.MaxAttackCount <= 4)
                 return;
             // TODO: 2nd main hand, 2nd off hand, 4th, 5th, ... attack
+            var thirdWieldLearnInfo = GetLearnInfo("Third wield");
+            var thirdWieldChance = thirdWieldLearnInfo.learned / 6;
+            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+                thirdWieldChance = 0;
+            if (RandomManager.Chance(thirdWieldChance))
+            {
+                OneHit(victim, mainHand, multiHitModifier);
+                CheckAbilityImprove(thirdWieldLearnInfo.knownAbility, true, 6);
+            }
+            if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= 5)
+                return;
+            var FourthWieldLearnInfo = GetLearnInfo("Fourth wield");
+            var FourthWieldChance = FourthWieldLearnInfo.learned / 8;
+            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+                FourthWieldChance = 0;
+            if (RandomManager.Chance(FourthWieldChance))
+            {
+                OneHit(victim, mainHand, multiHitModifier);
+                CheckAbilityImprove(FourthWieldLearnInfo.knownAbility, true, 6);
+            }
+            if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= 6)
+                return;
         }
 
-        public override void KillingPayoff(ICharacter victim) // Gain xp/gold/reputation/...
+        public override void KillingPayoff(ICharacter victim, IItemCorpse corpse) // Gain xp/gold/reputation/...
         {
             // Gain xp and alignment
             if (this != victim && victim is INonPlayableCharacter) // gain xp only for non-playable victim
@@ -383,12 +437,38 @@ namespace Mud.Server.Character.PlayableCharacter
                     member.UpdateAlignment(gain.alignment);
                 }
                 // TODO: reputation
+                if (corpse != null && !corpse.IsPlayableCharacterCorpse)
+                {
+                    // autoloot
+                    if (AutoFlags.HasFlag(AutoFlags.Loot) && corpse.Content.Any())
+                    {
+                        IReadOnlyCollection<IItem> corpseContent = new ReadOnlyCollection<IItem>(corpse.Content.Where(CanSee).ToList());
+                        foreach (IItem item in corpseContent)
+                            GetItem(item, corpse);
+                    }
+
+                    // autogold
+                    if (AutoFlags.HasFlag(AutoFlags.Gold) && corpse.Content.Any())
+                    {
+                        IReadOnlyCollection<IItemMoney> corpseContent = new ReadOnlyCollection<IItemMoney>(corpse.Content.OfType<IItemMoney>().Where(CanSee).ToList());
+                        foreach (IItemMoney money in corpseContent)
+                            GetItem(money, corpse);
+                    }
+
+                    // autosac
+                    if (AutoFlags.HasFlag(AutoFlags.Sacrifice) && !corpse.Content.Any()) // TODO: corpse empty only if autoloot is set?
+                    {
+                        SacrificeItem(corpse);
+                    }
+                }
             }
         }
 
         public override void DeathPayoff(ICharacter killer) // Lose xp/reputation..
         {
-            // TODO
+            // 5/6 way back to previous level.
+            var loss = -5 * ExperienceToLevel / 6;
+            GainExperience(loss);
         }
 
         // Abilities
@@ -474,11 +554,15 @@ namespace Mud.Server.Character.PlayableCharacter
                 ? 0
                 : (ExperienceByLevel * Level) - Experience;
 
+        public bool IsImmortal { get; protected set; }
+
         public long Experience { get; protected set; }
 
         public int Trains { get; protected set; }
 
         public int Practices { get; protected set; }
+
+        public AutoFlags AutoFlags { get; protected set; }
 
         public int this[Conditions condition]
         {
@@ -562,9 +646,20 @@ namespace Mud.Server.Character.PlayableCharacter
 
         public bool IsSameGroup(IPlayableCharacter character)
         {
+            if (this == character)
+                return true;
             if (Group == null || character.Group == null)
                 return false;
             return Group == character.Group;
+        }
+
+        public bool IsSameGroupOrPet(ICharacter character)
+        {
+            if (character is IPlayableCharacter pc)
+                return IsSameGroup(pc);
+            if (character is INonPlayableCharacter npc)
+                return npc.Master == this;
+            return false;
         }
 
         // Pets
@@ -588,7 +683,6 @@ namespace Mud.Server.Character.PlayableCharacter
             RemoveFollower(pet);
             _pets.Remove(pet);
             pet.ChangeMaster(null);
-            World.RemoveCharacter(pet);
         }
 
         // Quest
@@ -626,6 +720,20 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Combat
+        public override SchoolTypes NoWeaponDamageType => SchoolTypes.Bash;
+
+        public override int NoWeaponBaseDamage
+        {
+            get
+            {
+                var hand2HandLearnInfo = GetLearnInfo("Hand to hand");
+                int learned = hand2HandLearnInfo.learned;
+                return RandomManager.Range(1 + 4 * learned / 100, 2 * Level / 3 * learned / 100);
+            }
+        }
+
+        public override string NoWeaponDamageNoun => "hit";
+
         public void GainExperience(long experience)
         {
             if (Level < Settings.MaxLevel)
@@ -714,10 +822,20 @@ namespace Mud.Server.Character.PlayableCharacter
             return false;
         }
 
-        // Mapping
-        public CharacterData MapCharacterData()
+        // Immortality
+        public void ChangeImmortalState(bool isImmortal)
         {
-            CharacterData data = new CharacterData
+            if (IsImmortal && !isImmortal)
+                Wiznet.Wiznet($"{DebugName} is not immortal anymore.", WiznetFlags.Immortal, AdminLevels.God);
+            else if (!IsImmortal && isImmortal)
+                Wiznet.Wiznet($"{DebugName} is now immortal.", WiznetFlags.Immortal, AdminLevels.God);
+            IsImmortal = isImmortal;
+        }
+
+        // Mapping
+        public PlayableCharacterData MapPlayableCharacterData()
+        {
+            PlayableCharacterData data = new PlayableCharacterData
             {
                 CreationTime = CreationTime,
                 Name = Name,
@@ -733,9 +851,11 @@ namespace Mud.Server.Character.PlayableCharacter
                 MovePoints = MovePoints,
                 CurrentResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
                 MaxResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
+                Alignment = Alignment,
                 Experience = Experience,
                 Trains = Trains,
                 Practices = Practices,
+                AutoFlags = AutoFlags,
                 Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => this[x]),
                 Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquippedData()).ToArray(),
                 Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
@@ -749,6 +869,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 KnownAbilities = KnownAbilities.Select(x => x.MapKnownAbilityData()).ToArray(),
                 Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
                 Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key.Id, x => x.Value),
+                Pets = Pets.Select(x => x.MapPetData()).ToArray(),
             };
             return data;
         }
@@ -894,22 +1015,27 @@ namespace Mud.Server.Character.PlayableCharacter
 
         protected override void MoveFollow(IRoom fromRoom, IRoom toRoom, ExitDirections direction)
         {
-            base.MoveFollow(fromRoom, toRoom, direction);
-
             if (fromRoom != toRoom)
             {
-                if (Pets.Any())
+                IReadOnlyCollection<ICharacter> followers = new ReadOnlyCollection<ICharacter>(fromRoom.People.Where(x => x.Leader == this).ToList()); // clone because Move will modify fromRoom.People
+                foreach (ICharacter follower in followers)
                 {
-                    foreach (INonPlayableCharacter pet in Pets)
+                    if (follower is INonPlayableCharacter npcFollower)
                     {
-                        if (pet.ActFlags.HasFlag(ActFlags.Aggressive) && toRoom.RoomFlags.HasFlag(RoomFlags.Law))
+                        if (npcFollower.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcFollower.Position < Positions.Standing)
+                            ; // TODO: npcFollower.DoStand
+                        if (npcFollower.ActFlags.HasFlag(ActFlags.Aggressive) && toRoom.RoomFlags.HasFlag(RoomFlags.Law))
                         {
-                            pet.Master?.Act(ActOptions.ToCharacter, "You can't bring {0} into the city.", pet);
-                            pet.Send("You aren't allowed in the city.");
-                            return;
+                            npcFollower.Master?.Act(ActOptions.ToCharacter, "You can't bring {0} into the city.", npcFollower);
+                            npcFollower.Send("You aren't allowed in the city.");
+                            continue;
                         }
-                        pet.Send("You follow {0}.", DebugName);
-                        pet.Move(direction, true);
+                    }
+
+                    if (follower.Position == Positions.Standing && follower.CanSee(toRoom))
+                    {
+                        follower.Send("You follow {0}.", DebugName);
+                        follower.Move(direction, true);
                     }
                 }
             }
@@ -947,6 +1073,16 @@ namespace Mud.Server.Character.PlayableCharacter
             foreach (var resourceKind in EnumHelpers.GetValues<ResourceKinds>())
                 this[resourceKind] = 1;
             ResetCooldowns();
+            // release pets
+            foreach (INonPlayableCharacter pet in _pets)
+            {
+                if (pet.Room != null)
+                    pet.Act(ActOptions.ToRoom, "{0:N} slowly fades away.", pet);
+                RemoveFollower(pet);
+                pet.ChangeMaster(null);
+                World.RemoveCharacter(pet);
+            }
+            _pets.Clear();
             if (ImpersonatedBy != null) // If impersonated, no real death
             {
                 IRoom room = World.DefaultDeathRoom ?? World.DefaultRecallRoom;
@@ -972,20 +1108,6 @@ namespace Mud.Server.Character.PlayableCharacter
                 return Class.Thac0;
             return (20, 0);
         }
-
-        protected override SchoolTypes NoWeaponDamageType => SchoolTypes.Bash;
-
-        protected override int NoWeaponBaseDamage
-        {
-            get
-            {
-                var hand2HandLearnInfo = GetLearnInfo("Hand to hand");
-                int learned = hand2HandLearnInfo.learned;
-                return RandomManager.Range(1 + 4 * learned / 100, 2 * Level / 3 * learned / 100);
-            }
-        }
-
-        protected override string NoWeaponDamageNoun => "hit";
 
         #endregion
 
@@ -1026,7 +1148,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (!noAlign)
             {
                 if (alignDiff > 500) // more good than member
-                    alignment = -Math.Max(1, (alignDiff - 500) * baseExp / 500 * Level / totalLevel); // become move evil
+                    alignment = -Math.Max(1, (alignDiff - 500) * baseExp / 500 * Level / totalLevel); // become more evil
                 else if (alignDiff < -500) // more evil than member
                     alignment = Math.Max(1, (-alignDiff - 500) * baseExp / 500 * Level / totalLevel); // become more good
                 else
@@ -1039,7 +1161,7 @@ namespace Mud.Server.Character.PlayableCharacter
             {
                 if (victim.Alignment < -750)
                     experience = (baseExp * 4) / 3;
-                if (victim.Alignment < -500)
+                else if (victim.Alignment < -500)
                     experience = (baseExp * 5) / 4;
                 else if (victim.Alignment > 750)
                     experience = baseExp / 4;
@@ -1054,7 +1176,7 @@ namespace Mud.Server.Character.PlayableCharacter
             {
                 if (victim.Alignment > 750)
                     experience = (baseExp * 5) / 4;
-                if (victim.Alignment > 500)
+                else if (victim.Alignment > 500)
                     experience = (baseExp * 11) / 10;
                 else if (victim.Alignment < -750)
                     experience = baseExp / 2;
@@ -1144,14 +1266,10 @@ namespace Mud.Server.Character.PlayableCharacter
             KnownAbility[] newAbilities = KnownAbilities.Where(x => x.Level == Level && x.Learned == 0).ToArray();
             if (newAbilities.Any())
             {
-                StringBuilder sb = new StringBuilder("You can now gain following abilities: %y%");
+                StringBuilder sb = new StringBuilder("You can now gain following abilities: %C%");
                 foreach (KnownAbility knownAbility in newAbilities)
-                {
-                    sb.Append(knownAbility.Ability.Name);
-                    sb.Append(", ");
-                }
-                sb.Remove(sb.Length - 2, 2); // remove trailing comma
-                sb.AppendLine("%x%");
+                    sb.AppendLine(knownAbility.Ability.Name);
+                sb.Append("%x%");
                 Send(sb);
             }
         }

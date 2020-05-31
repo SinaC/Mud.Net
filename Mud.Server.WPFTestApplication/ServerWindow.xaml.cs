@@ -10,6 +10,7 @@ using AutoMapper;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Importer.Rom;
+using Mud.Importer.Rot;
 using Mud.Logger;
 using Mud.Network;
 using Mud.Network.Telnet;
@@ -355,10 +356,11 @@ namespace Mud.Server.WPFTestApplication
         {
             string path = DependencyContainer.Current.GetInstance<ISettings>().ImportAreaPath;
 
-            RomImporter importer = new RomImporter();
+            //RomImporter importer = new RomImporter();
             //MysteryImporter importer = new MysteryImporter();
-            //importer.Import(path, "limbo.are", "midgaard.are", "hitower.are");
-            importer.ImportByList(path, "area.lst");
+            RotImporter importer = new RotImporter();
+            importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
+            //importer.ImportByList(path, "area.lst");
 
             // Area
             foreach (AreaBlueprint blueprint in importer.Areas)
@@ -411,12 +413,47 @@ namespace Mud.Server.WPFTestApplication
             World.AddItemBlueprint(questItem1Blueprint);
             ItemQuestBlueprint questItem2Blueprint = new ItemQuestBlueprint
             {
-                Id = 90000,
+                Id = 80001,
                 Name = "Quest item 2",
                 ShortDescription = "Quest item 2",
                 Description = "The quest item 2 has been left here."
             };
             World.AddItemBlueprint(questItem2Blueprint);
+            CharacterNormalBlueprint construct = new CharacterNormalBlueprint
+            {
+                Id = 80000,
+                Name = "Construct",
+                ShortDescription = "A construct",
+                LongDescription = "A construct waiting orders",
+                Description = "A construct is here, built from various of gears and springs",
+                Sex = Sex.Neutral,
+                Level = 40,
+                Wealth = 0,
+                Alignment = 0,
+                DamageNoun = "buzz",
+                DamageType = SchoolTypes.Bash,
+                DamageDiceCount = 5,
+                DamageDiceValue = 10,
+                DamageDiceBonus = 10,
+                HitPointDiceCount = 20,
+                HitPointDiceValue = 30,
+                HitPointDiceBonus = 300,
+                ManaDiceCount = 0,
+                ManaDiceValue = 0,
+                ManaDiceBonus = 0,
+                HitRollBonus = 10,
+                ArmorBash = 300,
+                ArmorPierce = 200,
+                ArmorSlash = 400,
+                ArmorExotic = 0,
+                ActFlags = ActFlags.Pet,
+                OffensiveFlags = OffensiveFlags.Bash,
+                CharacterFlags = CharacterFlags.Haste,
+                Immunities = IRVFlags.None,
+                Resistances = IRVFlags.Slash | IRVFlags.Fire,
+                Vulnerabilities = IRVFlags.Acid,
+            };
+            World.AddCharacterBlueprint(construct);
 
             // MANDATORY ITEMS
             if (World.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
@@ -456,10 +493,10 @@ namespace Mud.Server.WPFTestApplication
             }
 
             // Add dummy mobs and items to allow impersonate :)
-            IRoom templeOfMota = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
-            IRoom templeSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
-            IRoom marketSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "market square");
-            IRoom commonSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the common square");
+            IRoom templeOfMota = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3001);
+            IRoom templeSquare = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3005);
+            IRoom marketSquare = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3014);
+            IRoom commonSquare = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3025);
 
             if (templeOfMota == null || templeSquare == null || marketSquare == null || commonSquare == null)
                 return;

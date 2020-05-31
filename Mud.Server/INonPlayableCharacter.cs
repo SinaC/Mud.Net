@@ -15,14 +15,17 @@ namespace Mud.Server
         int DamageDiceBonus { get; }
 
         ActFlags ActFlags { get; }
-
         OffensiveFlags OffensiveFlags { get; }
+        AssistFlags AssistFlags { get; }
 
         bool IsQuestObjective(IPlayableCharacter questingCharacter);
 
-        // Pet
-        IPlayableCharacter Master { get; }
+        // Pet/charmies
+        IPlayableCharacter Master { get; } // character allowed to order us
         void ChangeMaster(IPlayableCharacter master);
         bool Order(string rawParameters, params CommandParameter[] parameters);
+
+        // Mapping
+        PetData MapPetData();
     }
 }

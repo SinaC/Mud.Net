@@ -28,6 +28,9 @@ namespace Mud.Server.Blueprints.Character
         public Sex Sex { get; set; }
 
         [DataMember]
+        public Sizes Size { get; set; }
+
+        [DataMember]
         public int Level { get; set; }
 
         [DataMember]
@@ -89,6 +92,9 @@ namespace Mud.Server.Blueprints.Character
 
         [DataMember]
         public OffensiveFlags OffensiveFlags { get; set; }
+
+        [DataMember]
+        public AssistFlags AssistFlags { get; set; }
 
         [DataMember]
         public CharacterFlags CharacterFlags { get; set; }

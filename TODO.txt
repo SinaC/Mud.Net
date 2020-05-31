@@ -1,7 +1,14 @@
 NEXT:
-Group displayed infos: resources are missing
+
 extensive tests
-issue: cast charm on smurfette, then dispel magic, smurfette regains her free will but it still in pet list
+	ICharacter
+		ICharacter Leader // character we are following
+	INonPlayableCharacter
+		ICharacter Master // character allowed to order us
+	IPlayableCharacter
+		IEnumerable<INonPlayableCharacter> Pets // mobs which are saved in our pfile
+
+make a map of calls done when a NPC is Removed/StopFollowing/...
 
 SHORT TERM TODO:
 grove.are: the second jar will never appear
@@ -9,18 +16,15 @@ O 0 8902   2 8915	* a spice jar
 P 1 8903   1 8902  1	*   some black powder
 O 0 8902   2 8915	* a spice jar
 P 1 8904   1 8902  1	*   some small yellow kernels
-dwarven.are: the first stick is set to local 1 but we detect 2 intances (2 different container in fact: room for the first one and mob for the second one)
+dwarven.are: the first stick is set to local 1 but we detect 2 intances (2 different containers in fact: room for the first one and mob for the second one)
 O 0 6506   1 6534	* long, black stick
 E 1 6506  10   17	*   long, black stick
 
-save pets
 PK
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 linkdead
-PlayableCharacter can be immortal or not -> don't link immortality to ImpersonatedBy is IAdmin
 Move CanSee in IEntity
 Move AddAura in aura manager
-Replace out parameter with C#7-tuple if possible
 Add ctor to every manager with other manager as parameter to easy unit tests
 each time operator IS or AS is used, this should be replaced with an overridable method
 DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
@@ -32,14 +36,12 @@ buy/sell/list
 Multiple wear location
 Reset 'R'
 quest: add quest item on the fly when player takes the quest
-admin command to switch an avatar from/to immortal/mortal
 item: protect, room_key
-master/pet/follower/group
 Monitor Recompute calls
 Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
 skills: steal/lore/rescue
-spells: create rose, farsight, identfy, mass invis
+spells: create rose, farsight, identify
 assign abilities to classes
 race form, parts
 Dictionary to store Character known ability + keep only one LearnedAbility or replace with KnownAbilities getter based on name
@@ -52,6 +54,22 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+Mass invis added
+IsSameGroup return true when checking 2 same character
+Xp loss when dying added
+Rot importer
+Group displayed infos: resources are missing
+Newly created character were drunk :p
+IsSameGroup should consider Pet as in group: IsSameGroupOrPet method
+autoassist, autoexits, autosplit, autogold, autosacrifice, autoloot
+Auto, Sacrifice, Split command
+ActPet specific code
+PlayableCharacter can be immortal or not -> don't link immortality to ImpersonatedBy is IAdmin
+Admin command: peace
+command SAffects added
+third wield, fourth wield
+add dummy spell to create a pet
+pet save
 Order implemented
 Command attribute name forced to lower invariant
 Unfollow pc-specific added 
@@ -285,6 +303,9 @@ TableGenerator with duplicate columns
 
 *************************************************************
 LONG TERM TODO:
+specials
+assist_guard
+aggro table
 isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + filter on isValid + remove them during Cleanup phease (--> no more clone of auras needed while modifying/clearing auras, same goes with periodic aura)
 automated quests
 quest history
@@ -326,7 +347,6 @@ look no arg
      extradescription
      direction
 multitable generator, paging a table should repeat the header at the beginning of each page
-autosac, autoloot, auto...
 prompt modifiable by user
 merge IAdminRepository and IPlayerRepository -> IAccountRepository
 move blueprints to Mud.Domain + refactor Mud.Domain
@@ -424,3 +444,7 @@ https://github.com/vedicveko/Mud-Areas
 
 old mobprogram
 http://dsmud.wikidot.com/mprog-guide-written-by-xzylvador-from-aarchon-mud
+
+building
+http://www.ansalon.net/Building_Ansalon2.2.3.txt
+http://www.eotmud.com/NewbieOLC.txt

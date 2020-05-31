@@ -1,0 +1,894 @@
+#AREADATA
+Name dungeon~
+Builders None~
+VNUMs 28800 29999
+Credits [05 75} Rayne   Ancient Temple~
+Security 9
+End
+
+#MOBILES
+#28800
+ancient mummy~
+ancient mummy~
+An ancient mummy is standing here.
+~
+An Ancient Mummy is found in the Ancient Temple.  He is wrapped with
+tissue paper and other strings.  He is very ugly looking.  
+~
+human~
+ABG A d CE 0 0
+70 5 5d5+25 5d5+25 5d5+25 shock
+0 0 0 0
+MO T AS HI
+stand stand male 25
+ABCDEFGHIJK ABCDEJ small unknown
+F shd AHMV
+#28801
+mob clay~
+Mob Clay~
+Mob Clay is here, waiting to be molded.
+~
+Type I
+~
+human~
+A A 0 AHMV 0 0
+1 1 1d1+1 1d1+1 1d1+1 beating
+-10 -10 -10 -10
+0 0 0 0
+stand stand male 10
+ABCDEFGHIJK A medium unknown
+#28802
+an ancient lizard~
+an ancient lizard~
+An ancient lizard is here.
+~
+A long Ancient Lizard awaits you.  The lizard isn't very noticeable as it
+isn't the biggest lizard.  
+~
+school monster~
+AGU A Ka CDEH 0 0
+50 8 5d5+15 5d5+15 5d5+15 none
+0 0 0 0
+AB I C HX
+stand stand none 20
+ABCDEFHJKQU CDFQ medium unknown
+F shd AMV
+#28804
+ancient snake~
+ancient snake~
+A snake is here, hissing at you.
+~
+An ancient snake is here hissing.  Slithering around you see a pathway
+from the snake.  The hissing is a loud hiss, hearing it from far away.  
+~
+snake~
+A A U 0 0 0
+68 10 10d5+15 10d5+15 10d5+15 none
+0 0 0 0
+CM L I 0
+stand stand none 20
+ADEFKLQVX EF small unknown
+F shd AGXYc
+#0
+
+
+
+#OBJECTS
+#28801
+Blackened Sphere~
+Blackened Sphere~
+A {x{GBlackened{x {%Sphere{x lies here.~
+adamantite~
+weapon BRTY AN
+exotic 3 5 frbite E
+1 100 0 P
+F
+A 0 0 CDEFGJLVZ
+A
+2 -2
+A
+14 -50
+A
+19 5
+A
+18 4
+E
+extra description~
+Sphere Blackened.
+~
+#28802
+Ancient sword~
+Ancient {x{GSword{x~
+An {x{GAncient Sword{x lies here.~
+adamantite~
+weapon AGRTY AN
+sword 3 5 cleave 0
+1 100 0 P
+#28803
+Ancient dagger~
+{x{GAncient Dagger{x~
+A {x{GAncient{x Dagger lies here.~
+adamantite~
+weapon ABGITWY AN
+dagger 2 5 pierce 0
+1 10 0 P
+#28804
+Blackened breastplate~
+{x{GBlackened Breastplate{x~
+A {x{GBlackened{x Breastplate lies here.~
+dragonscale~
+armor CEFHMOQUZ AD
+AC AC AC AC CD
+1 10 0 P
+A
+17 8
+#28805
+Ancient visor~
+{x{GAncient Visor{x~
+A {x{GAncient{x Visor is here.~
+dragonscale~
+armor ABGITWY AR
+AB AB AB AB ACD
+1 10 0 P
+A
+12 50
+#28806
+Kevlar arm plates~
+{x{GKevlar Arm plates{x~
+Some {x{GKevlar{x Arm plates are here.~
+adamantite~
+armor ABGITWY AI
+AB AB AB AB D
+1 10 0 P
+A
+18 10
+#28807
+Kevlar girth~
+{x{GKevlar Girth{x~
+A {x{GKevlar Girth{x is here.~
+dragonscale~
+armor ABGITWY AL
+C C C C CD
+1 10 0 P
+A
+13 50
+#28808
+Dragonscale leg plates~
+{x{GDragonscale Leg{x plates~
+Some {x{GDragonscale Leg{x plates are here.~
+dragonscale~
+armor ABGITWY AF
+C C C C CD
+1 10 0 P
+A
+19 10
+#28809
+solar credit~
+One Solar Credit~
+The standard unit of currency in the Solar system.~
+plastic~
+gem 0 A
+DHIJM 0 0 0 0
+0 0 0 P
+#28810
+ring darkknight~
+A Ring of the DarkKnight~
+A Ring of the DarkKnight's is here.~
+dragonscale~
+armor ABGORTUWYZ AB
+AC C C C BD
+1 95 12450 P
+#28811
+talisman~
+A Talisman~
+A Rare and beautiful talisman.~
+mithral~
+armor AGT AC
+AB AB AB AB ACD
+1 105 13090 G
+#28812
+cloak~
+A Cloak~
+A Black Cloak.~
+silk~
+armor ABGRY AC
+AB AB AB AB D
+1 115 13190 G
+#28813
+armor alturian piecemeal~
+Alturian Piecemeal Plate~
+A set of Alturian Piecemeal BreastPlate Armor is here.~
+leather~
+armor 0 AD
+C C C C D
+1 130 15080 G
+#28814
+armor shroud~
+A Dark Shroud~
+A Dark Shroud is here.~
+cloth~
+armor 0 AK
+BC BC CD ABCD BCE
+1 70 14140 G
+#28815
+armor helmet~
+An Ancient Helmet~
+An Ancient Helmet is here.~
+metal~
+armor TY AE
+AB AC AB AC CD
+1 40 13000 G
+#28816
+armor boots~
+Ancient Boots~
+Some Ancient Boots are here.~
+adamantite~
+armor TY AG
+D C C D CD
+1 40 12050 G
+#28817
+belt pouch~
+Belt pouch~
+A Bejeweled Belt Pouch is here~
+white dragonscale~
+container ACGTY AL
+288 ABCD 28818 20 10
+1 15 1200 G
+A
+20 200
+A
+7 2
+A
+2 4
+#28818
+white key~
+White key~
+A small white key is here.~
+metal~
+key 0 A
+B 0 0 0 0
+0 10 0 P
+#28819
+bracer armor~
+Bracer~
+Some wrist guards are here.~
+white dragonscale~
+armor G AM
+AB AB AB AB D
+1 10 1250 P
+A
+20 20
+A
+18 12
+A
+19 8
+A
+2 2
+A
+1 2
+#28850
+object~
+{WA sign{x~
+{WA sign is here.{x~
+unknown~
+furniture 0 0
+0 0 0 0 0
+0 0 0 P
+#29101
+token~
+a Black PK Token~
+A Black PK Token is here.~
+glass~
+potion 0 AO
+210 'quest pill' 'sanctuary' 'shield' 'armor'
+0 0 0 P
+A
+19 12
+A
+18 12
+A
+13 1200
+F
+A 0 0 CDEFGJLU
+#29102
+token~
+a Gold PK Token~
+A Gold PK Token is here.~
+metal~
+potion 0 AO
+210 'quest pill' 'quest pill' 'quest pill' 'quest pill'
+0 0 0 P
+A
+19 15
+A
+18 15
+A
+13 1300
+F
+A 0 0 CDEFGJLPQUZ
+#29103
+ball token~
+a BLACK PK Ball~
+A BLACK PK Ball is here.~
+silver~
+weapon 0 AN
+exotic 12 34 frbite ABDEFGHIJKLMNOPQRSTUVWXYZ
+70 270 0 P
+A
+19 19
+A
+18 19
+A
+13 1700
+F
+A 0 0 CDEFGJLPQUZ
+#29104
+%s amulet token~
+A PK Amulet of the victory of %s over %s~
+A PK Amulet depicting the victory of %s over %s is here.~
+glass~
+armor 0 AC
+BDEG BDEG BDEG BDEG BDEG
+40 8 35000 P
+#29105
+token~
+PK {BBATT{RLE{rARM{bOR~
+Some PK {BBATT{RLE{rARM{bOR is here.~
+adamantite~
+armor 0 AD
+BDEFGH BDEFGH BDEFGH BDEFGH BDEFGH
+71 100 347000 P
+#29106
+token~
+a PK Wand of RASP!~
+A PK Wand of RASP! is here.~
+wood~
+wand G AO
+201 20 20 'rasp' 0
+101 40 232000 P
+#29107
+imptoken~
+ImpToken!~
+Uh oh ImpToken! is here.~
+fire~
+wand G AO
+201 20 20 'meteor' 0
+101 40 232000 P
+#29108
+mob weapon~
+Mob Gear Weapon~
+Mob Gear Weapon is here.~
+energy~
+weapon 0 AN
+exotic 1 1 pound A
+1 1 0 P
+#29109
+mob armor~
+Mob Gear Armor~
+Mob Gear Armor is here.~
+energy~
+armor 0 A
+BD BD BD BD BD
+1 1 3 P
+#29959
+potion quest~
+A clear colored Quest Potion.~
+A clear colored Quest Potion is here.~
+glass~
+potion G AO
+210 'quest pill' 'quest pill' 'quest pill' 'quest pill'
+0 10 220 P
+#29960
+curse~
+~
+~
+mithral~
+armor MUZb AC
+EFGHLMOPQRSTUVWXYZabcdef EFGHLMOPQRSTUVWXYZabcdef EFGHLMOPQRSTUVWXYZabcdef EFGHLMOPQRSTUVWXYZabcdef EFGHLMOPQRSTUVWXYZabcdef
+1 5 0 P
+A
+13 -30000
+#29961
+anticurse~
+Protection against curse~
+~
+mithral~
+armor MU AC
+EIJKN EIJKN EIJKN EIJKN EIJKN
+1 5 0 P
+A
+13 10000
+#29989
+stagecoach~
+A Stagecoach~
+A magical Stage coach is here.~
+etherealness~
+vehicle 0 0
+ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0 A ACFIKMNO 0
+120 0 0 P
+#29990
+back~
+back~
+The passenger part of the coach.~
+etherealness~
+portal 0 0
+EIJKN DFGHIJ A BCFIKMNO 0
+0 3000 0 P
+#29991
+front~
+front~
+The drivers part of the coach.~
+etherealness~
+portal 0 0
+EIJKN DFGHIJ A ACFIKMNO 0
+0 3000 0 P
+#0
+
+
+
+#ROOMS
+#28800
+{RT{Ch{ce {RA{Cn{cc{Wi{ce{Cn{Rt T{Ce{cmp{Cl{Re{x~
+{DHere is the Ancient Temple.  Long ago, in ancient times, things were
+questioned about what happened.  Go east or down and you'll find yourself
+entering imagination.  A very large magical pool is here.  Inside the
+Ancient Temple you'll find many rooms.  {x 
+~
+0 1028 1
+D1
+~
+~
+0 0 28801
+D3
+~
+~
+0 0 28802
+D4
+~
+~
+0 0 28803
+S
+#28801
+{WE{Cn{ct{wra{Cn{cc{We {WG{Ca{ct{We{x~
+{D                        |\\                     |\\
+{D                        | \|                    | \|
+{D                        |                       |     
+{D                 |-|_|-|A|-|_|-|         |-|_|-|A|-|_|-|  
+{D                  \ _________ /           \ _________ /
+{D                   |_|__|__|_|             |_|__|__|_|
+{D      \-,_         |__|__|__||             ||__|__|__|        _,-/
+{D   ,   \  --,      |_|__|__|_|_|-|_|-|_|-|_|_|__|__|_|     ,--  /   ,
+{D  _)\   |    `\    |__|__|__|__|__|___|__|__|__|__|__|   /'    |   /(_
+{D /,  \_,/  \   `\  |_|__|__|__|__|__|__|__|__|__|__|_| /'   /  \,_/  .\
+{D `-,  ,\    |    \  \ |__|__|__|__|__|__|__|___|__| / /    |    /,  ,-'
+{D |G,/ / ,-, |     |  |__|__|__|__|__|__|__|__|__|__| |     | ,-, \ \_3|
+{D _\_,/_  \ \|-,   |  ||__|__|__|__|__|__|__|__|___|| |   ,-|/ / ,_\,_/_
+{D(_  ,__`  |    `\ |  |__|__|__|__|__|__|__|__|__|__| | /'    |   __,  _)
+{D  ---._--;'      \|  ||___|__|__|__|__|__|__|__|__|| |/      `;--_.---
+{D     __/ /        |  |__|__|__| _,-----,_ |__|__|__|           \ \__
+{D    ((|))     ((|))  |__|__|__| | | | | | |__|__|__|  ((|))     ((|))
+{D     |||,-'-`-,|||_,-||__|__|_|=|=|=|=|=|=|_|__|__||-,_|||,-'-`-,|||
+{D     |||,-'-'-,||| ,-|__|__|__| | | | | | |__|__|__|-, |||,-'-`-,|||
+{D     |||       |||/  ||__|__|_| | | | | | |_|__|__||  \|||       |||
+{D     |||       ||| _/|__|__|__| | | | | | |__|__|__|\_ |||       |||
+{D     |||       ||||     |     | | | | | | |     |     ||||       |||
+{D    //|\\     //|\|_____|_____|=|=|=|=|=|=|_____|_____|/|\\     //|\\
+{D   |||||||---|||||            | | | | | | |            |||||---|||||||   
+{D The Ancient Temple{x
+~
+0 0 1
+D1
+~
+~
+0 0 28804
+D3
+~
+~
+0 0 28800
+S
+#28802
+{RB{re{Wfo{rr{Re {Rt{rh{We {RT{re{Wmp{rl{Re{x~
+{DWalking past the pathway, you find yourself Before the Ancient Temple. 
+To the east your will find yourself entering the Ancient Temple.  Type
+"{WREAD SIGN{D" to read a sign that was left behind.  {x 
+~
+0 0 1
+E
+sign~
+{&Go East{0. {#East is the Entrance to the Ancient Temple. This is a leveling area for levels 1-20. Inside the temple you will find a healer and healing pool{0.
+~
+E
+sign~
+~
+E
+sign~
+{D"{WGo East{D".  East is the entrance to the Ancient Temple.  This is a
+leveling area for levels 1-20.  Inside the temple you will find a healer and
+healing pool.  {x 
+~
+D1
+~
+~
+0 0 28800
+D5
+~
+~
+0 0 6103
+S
+#28803
+{RInside the Ancient Temple{x~
+{DInside the Ancient Temple are different lizards.  Watch your feet, you
+might step on one!  Down is the entrance to the Ancient Temple.  The lizards
+swither around the room sticking there long tongues out at you.  {x 
+~
+0 0 1
+D5
+~
+~
+0 0 28800
+S
+#28804
+{CF{cu{yrth{ce{Cr {Ci{cn{yt{Co {Ct{ch{ye {CT{ce{ymp{cl{Ce{x~
+{DAs you walk east, you find yourself getting deeper into the Ancient
+Temple.  Looking around there are stone walls and candlesticks.  {x 
+~
+0 0 1
+D0
+~
+~
+0 0 28809
+D1
+~
+~
+0 0 28805
+D2
+~
+~
+0 0 28808
+D3
+~
+~
+0 0 28801
+S
+#28805
+{WT{Ye{cmp{Yl{We {WC{Yi{ct{Wy{x~
+{DThe Eastern Temple is where you find yourself.  All around you are all
+kinds of leveling mobs.  The Eastern part of the Temple is the smallest part
+of the Temple.  {x 
+~
+0 0 1
+D0
+~
+~
+1 0 28810
+D1
+~
+~
+0 0 28806
+D2
+~
+~
+0 0 28811
+D3
+~
+~
+0 0 28804
+S
+#28806
+{BEa{gste{Brn {BTe{gmp{Ble{x~
+{DThe Eastern Temple is where you find yourself.  All around you are all
+kinds of leveling mobs.  The Eastern part of the Temple is the smallest part
+of the Temple.  {x 
+~
+0 0 1
+D0
+~
+~
+0 0 28812
+D1
+~
+~
+0 0 28807
+D2
+~
+~
+0 0 28813
+D3
+~
+~
+0 0 28805
+S
+#28807
+{WAncient Closet{x~
+{DThe closet may have held wonderous garments in the ancient times, but now
+it is empty except for a few swirled piles of dust.  The walls are a dull
+grey stone which might have been smooth at one time, but now they have
+slowly eroded and have a few jagged edges.  An exit leads back to the west. 
+~
+0 0 1
+D3
+~
+~
+0 0 28806
+S
+#28808
+{BSo{guthe{Brn {BTe{gmp{Ble{x~
+{DWalking in you notice you've reached the Southern part of the Temple. 
+The stone walls cover the room and become noticeable.  The smells of corpses
+capture your senses.  The Southern part of the Temple lead you back to town.
+{x 
+~
+0 0 1
+D0
+~
+~
+0 0 28804
+D5
+~
+~
+0 0 28814
+S
+#28809
+{YAncient Ball Room{x~
+{DIn the Ancient times, the ball room was the most likely place to be at
+when you're lonely.  Looking around there are mobs.  The Ancient ball room
+consists of stone walls around the room and stone floor.  {x 
+~
+0 0 1
+D2
+~
+~
+0 0 28804
+S
+#28810
+{CN{Worther{Cn T{Wempl{Ce{x~
+{DThe Northern Ancient Temple is where you are now.  Coming through the
+doors, you feel something different.  The smell of corpses catches your
+sense of smell.  Around are stone walls, noting but urben writings cover the
+walls.  {x 
+~
+0 0 1
+D0
+~
+~
+0 0 28818
+D2
+~
+~
+1 0 28805
+S
+#28811
+{cAncient Bedroom{x~
+{DEntering the Bedroom, you find yourself where the one bedroom was. 
+Even though there were stone walls all over the Ancient Temple, the Bedroom
+was the one and only place where it didnt have stone walls.  {x 
+~
+0 0 1
+D0
+~
+~
+0 0 28805
+S
+#28812
+{wA{Gnc{Wi{Gen{wt {wS{Gto{Wr{Gag{we{x~
+{DHere is the Ancient Storage.  The Acient Storage is kept for storage
+that needs to be stored in.  Looking around, there are stone walls.  Without
+a light, you won't see from the stone walls.  {x 
+~
+0 0 1
+D2
+~
+~
+0 0 28806
+S
+#28813
+{wA{Gnc{Wi{Gen{wt {wS{Gto{Wr{Gag{we{x~
+{DHere is the Ancient Storage.  The Acient Storage is kept for storage
+that needs to be stored in.  Looking around, there are stone walls.  Without
+a light, you won't see from the stone walls.  {x 
+~
+0 0 1
+D0
+~
+~
+0 0 28806
+S
+#28814
+{WA{rn{Ccie{rn{Wt {WT{re{Cmp{rl{We {WB{ra{Cs{cem{Ce{rn{Wt{x~
+{DThe Ancient Basement stinks!{x
+~
+0 0 1
+D4
+~
+~
+0 0 28808
+S
+#28815
+~
+~
+0 0 1
+D3
+~
+~
+0 0 28816
+D4
+~
+~
+0 0 28817
+S
+#28816
+~
+~
+0 0 1
+D1
+~
+~
+0 0 28815
+S
+#28817
+~
+~
+0 0 1
+D5
+~
+~
+0 0 28815
+S
+#28818
+{GA{Wn{ycie{Wn{Gt {GH{Wa{yllw{Wa{Gy{x~
+{DAncient Hallway leads north and south.  Heading north will lead you
+further into the hallway and leads to a deadend.  The hallways branch off
+into the Ancient Bedrooms.  {x 
+~
+0 0 1
+D0
+~
+~
+0 0 28819
+D2
+~
+~
+0 0 28810
+S
+#28819
+{gA{Wn{Ycie{Wn{gt {gH{Wa{Yllw{Wa{gy{x~
+{DAncient Hallway leads north and south.  Heading north will lead you
+further into the hallway and leads to a deadend.  The hallways branch off
+into the Ancient Bedrooms.  {x 
+~
+0 0 1
+D0
+~
+~
+0 0 28820
+D2
+~
+~
+0 0 28818
+S
+#28820
+{GA{gn{Dcie{gn{Gt {GH{ga{Dllw{ga{Gy{x~
+{DAncient Hallway leads north and south.  Heading north will lead you
+further into the hallway and leads to a deadend.  The hallways branch off
+into the Ancient Bedrooms.  {x 
+~
+0 0 1
+D0
+~
+~
+0 0 28823
+D1
+~
+~
+0 0 28822
+D2
+~
+~
+0 0 28819
+D3
+~
+~
+0 0 28821
+S
+#28821
+{mA{Cn{gcie{Cn{mt {mB{Ce{gdro{Co{mm{x~
+{DAn old Ancient Bedroom is here.  The bedroom is very small.  There are
+ancient stone walls around the bedroom.  {x 
+~
+0 0 1
+D1
+~
+~
+0 0 28820
+S
+#28822
+{mA{Cn{gcie{Cn{mt {mB{Ce{gdro{Co{mm{x~
+{DAn old Ancient Bedroom is here.  The bedroom is very small.  There are
+ancient stone walls around the bedroom.  {x 
+~
+0 0 1
+D3
+~
+~
+0 0 28820
+S
+#28823
+{DA deadend{x~
+{DThe Deadend!  You have found the deadend in the Ancient Temple.  Head
+back south and explore!  The Ancient Temple is fairly big but this deadend
+helps you get distracted.  {x 
+~
+0 0 1
+D2
+~
+~
+0 0 28820
+S
+#29989
+Stagecoach~
+Inside the magical stagecoach.
+looking out of the dusty glass in front of you you see the faint outline of
+glowing horses pulling the stagecoach to its destination, the horses snort
+expectantly at you, maybe they need some rest or would rather go on.
+There is a small curtain behind you that leads into the passenger side.
+~
+0 525320 1
+D2
+~
+curtain~
+0 -1 29990
+S
+#29990
+Stagecoach~
+Inside the back of the stagecoach.
+looking out of the dusty glass windows you see the dusty trail and hear the
+snorting horses, The passenger area is large anc comfortable sit back and
+enjoy the ride.  
+~
+0 525320 1
+D0
+~
+curtain~
+0 -1 29989
+S
+#29000
+~
+~
+0 4 0
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+D 0 28805 0 1
+D 0 28810 2 1
+M 0 9999 1 28800 1
+O 0 3397 0 28800
+M 0 3703 3 28801 3
+M 0 3703 3 28801 3
+O 0 28850 0 28802
+M 0 28804 4 28803 4
+M 0 3704 6 28804 6
+M 0 3702 4 28805 4
+M 0 28800 5 28806 5
+M 0 28800 6 28807 6
+M 0 28802 4 28809 4
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

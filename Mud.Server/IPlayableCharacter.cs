@@ -12,11 +12,14 @@ namespace Mud.Server
         IReadOnlyDictionary<string, string> Aliases { get; }
 
         long ExperienceToLevel { get; }
+        bool IsImmortal { get; }
 
         // Attributes
         long Experience { get; }
         int Trains { get; }
         int Practices { get; }
+
+        AutoFlags AutoFlags { get; }
 
         // Conditions: drunk, full, thirst, hunger
         int this[Conditions condition] { get; }
@@ -28,8 +31,10 @@ namespace Mud.Server
         // Group
         IGroup Group { get; }
         void ChangeGroup(IGroup group);
-        bool IsSameGroup(IPlayableCharacter character);
-        
+        bool IsSameGroup(IPlayableCharacter character); // in group
+        bool IsSameGroupOrPet(ICharacter character); // in group or pet
+
+
         // Pets
         IEnumerable<INonPlayableCharacter> Pets { get; }
         void AddPet(INonPlayableCharacter pet);
@@ -52,7 +57,10 @@ namespace Mud.Server
         // Ability
         bool CheckAbilityImprove(KnownAbility ability, bool abilityUsedSuccessfully, int multiplier);
 
+        // Immortality
+        void ChangeImmortalState(bool isImmortal);
+
         // Mapping
-        CharacterData MapCharacterData();
+        PlayableCharacterData MapPlayableCharacterData();
     }
 }

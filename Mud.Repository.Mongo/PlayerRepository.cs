@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using MongoDB.Driver;
 using Mud.Repository.Mongo.Common;
+using Mud.Settings;
 
 namespace Mud.Repository.Mongo
 {
     public class PlayerRepository : RepositoryBase<Domain.PlayerData>, IPlayerRepository
     {
-        public PlayerRepository()
-            : base("Player")
+        public PlayerRepository(IMapper mapper, ISettings settings)
+            : base(mapper, settings, "Player")
         {
         }
 

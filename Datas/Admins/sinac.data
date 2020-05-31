@@ -13,23 +13,19 @@
     </PairDataOfStringString>
   </Aliases>
   <Characters>
-    <CharacterData>
-      <CreationTime>2020-05-07T14:08:22.9740442+02:00</CreationTime>
+    <PlayableCharacterData>
       <Name>sinac</Name>
-      <RoomId>129</RoomId>
       <Race>insectoid</Race>
       <Class>druid</Class>
       <Level>60</Level>
       <Sex>0</Sex>
       <Size>0</Size>
-      <SilverCoins>18</SilverCoins>
-      <GoldCoins>0</GoldCoins>
-      <HitPoints>215</HitPoints>
-      <MovePoints>205</MovePoints>
+      <HitPoints>160</HitPoints>
+      <MovePoints>169</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>194</Value>
+          <Value>146</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -46,9 +42,6 @@
           <Value>0</Value>
         </PairDataOfInt32Int32>
       </MaxResources>
-      <Experience>148152</Experience>
-      <Trains>55</Trains>
-      <Practices>355</Practices>
       <Equipments>
         <EquippedItemData>
           <Slot>1</Slot>
@@ -58,7 +51,7 @@
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>65</ItemFlags>
             <Auras />
-            <TimeLeft>53</TimeLeft>
+            <TimeLeft>52</TimeLeft>
           </Item>
         </EquippedItemData>
         <EquippedItemData>
@@ -219,56 +212,20 @@
       </Equipments>
       <Inventory>
         <ItemData>
-          <ItemId>3090</ItemId>
-          <Level>9</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>66</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData>
-          <ItemId>90000</ItemId>
+          <ItemId>80001</ItemId>
           <Level>0</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
-          <Auras />
-        </ItemData>
-        <ItemData xsi:type="ItemDrinkContainerData">
-          <ItemId>3003</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>8192</ItemFlags>
-          <Auras />
-          <MaxLiquidAmount>12</MaxLiquidAmount>
-          <CurrentLiquidAmount>12</CurrentLiquidAmount>
-          <LiquidName>firebreather</LiquidName>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
-        <ItemData xsi:type="ItemDrinkContainerData">
-          <ItemId>3004</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>8192</ItemFlags>
-          <Auras />
-          <MaxLiquidAmount>12</MaxLiquidAmount>
-          <CurrentLiquidAmount>12</CurrentLiquidAmount>
-          <LiquidName>local specialty</LiquidName>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
-        <ItemData>
-          <ItemId>3040</ItemId>
-          <Level>7</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
           <Auras />
         </ItemData>
         <ItemData xsi:type="ItemStaffData">
-          <ItemId>1326</ItemId>
-          <Level>15</Level>
+          <ItemId>1327</ItemId>
+          <Level>6</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
           <Auras />
-          <MaxChargeCount>3</MaxChargeCount>
-          <CurrentChargeCount>3</CurrentChargeCount>
+          <MaxChargeCount>4</MaxChargeCount>
+          <CurrentChargeCount>1</CurrentChargeCount>
           <AlreadyRecharged>false</AlreadyRecharged>
         </ItemData>
         <ItemData xsi:type="ItemWandData">
@@ -282,49 +239,57 @@
           <AlreadyRecharged>false</AlreadyRecharged>
         </ItemData>
         <ItemData xsi:type="ItemStaffData">
-          <ItemId>1327</ItemId>
-          <Level>6</Level>
+          <ItemId>1326</ItemId>
+          <Level>15</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
           <Auras />
-          <MaxChargeCount>4</MaxChargeCount>
-          <CurrentChargeCount>1</CurrentChargeCount>
+          <MaxChargeCount>3</MaxChargeCount>
+          <CurrentChargeCount>3</CurrentChargeCount>
           <AlreadyRecharged>false</AlreadyRecharged>
         </ItemData>
+        <ItemData>
+          <ItemId>3040</ItemId>
+          <Level>7</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>64</ItemFlags>
+          <Auras />
+        </ItemData>
+        <ItemData xsi:type="ItemDrinkContainerData">
+          <ItemId>3004</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>8192</ItemFlags>
+          <Auras />
+          <MaxLiquidAmount>12</MaxLiquidAmount>
+          <CurrentLiquidAmount>12</CurrentLiquidAmount>
+          <LiquidName>local specialty</LiquidName>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData xsi:type="ItemDrinkContainerData">
+          <ItemId>3003</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>8192</ItemFlags>
+          <Auras />
+          <MaxLiquidAmount>12</MaxLiquidAmount>
+          <CurrentLiquidAmount>12</CurrentLiquidAmount>
+          <LiquidName>firebreather</LiquidName>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData>
+          <ItemId>3090</ItemId>
+          <Level>9</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>66</ItemFlags>
+          <Auras />
+        </ItemData>
       </Inventory>
-      <CurrentQuests>
-        <CurrentQuestData>
-          <QuestId>1</QuestId>
-          <StartTime>2020-05-11T21:19:59.3568471+02:00</StartTime>
-          <PulseLeft>0</PulseLeft>
-          <CompletionTime xsi:nil="true" />
-          <GiverId>10</GiverId>
-          <GiverRoomId>3025</GiverRoomId>
-          <Objectives>
-            <CurrentQuestObjectiveData>
-              <ObjectiveId>1</ObjectiveId>
-              <Count>1</Count>
-            </CurrentQuestObjectiveData>
-            <CurrentQuestObjectiveData>
-              <ObjectiveId>2</ObjectiveId>
-              <Count>0</Count>
-            </CurrentQuestObjectiveData>
-            <CurrentQuestObjectiveData>
-              <ObjectiveId>0</ObjectiveId>
-              <Count>1</Count>
-            </CurrentQuestObjectiveData>
-            <CurrentQuestObjectiveData>
-              <ObjectiveId>3</ObjectiveId>
-              <Count>1</Count>
-            </CurrentQuestObjectiveData>
-          </Objectives>
-        </CurrentQuestData>
-      </CurrentQuests>
       <Auras>
         <AuraData>
           <AbilityId>54</AbilityId>
-          <Level>8</Level>
-          <PulseLeft>9680</PulseLeft>
+          <Level>1</Level>
+          <PulseLeft>8968</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -335,27 +300,9 @@
           </Affects>
         </AuraData>
         <AuraData>
-          <AbilityId>999999</AbilityId>
-          <Level>31</Level>
-          <PulseLeft>20</PulseLeft>
-          <AuraFlags>2</AuraFlags>
-          <Affects>
-            <AffectDataBase xsi:type="CharacterIRVAffectData">
-              <Location>1</Location>
-              <Operator>1</Operator>
-              <Modifier>4</Modifier>
-            </AffectDataBase>
-            <AffectDataBase xsi:type="CharacterIRVAffectData">
-              <Location>1</Location>
-              <Operator>1</Operator>
-              <Modifier>8</Modifier>
-            </AffectDataBase>
-          </Affects>
-        </AuraData>
-        <AuraData>
           <AbilityId>70</AbilityId>
-          <Level>37</Level>
-          <PulseLeft>2292</PulseLeft>
+          <Level>5</Level>
+          <PulseLeft>1580</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -427,6 +374,42 @@
           <Value>0</Value>
         </PairDataOfInt32Int32>
       </Attributes>
+      <CreationTime>2020-05-07T14:08:22.9740442+02:00</CreationTime>
+      <RoomId>3001</RoomId>
+      <SilverCoins>18</SilverCoins>
+      <GoldCoins>0</GoldCoins>
+      <Experience>148152</Experience>
+      <Trains>55</Trains>
+      <Practices>355</Practices>
+      <AutoFlags>63</AutoFlags>
+      <CurrentQuests>
+        <CurrentQuestData>
+          <QuestId>1</QuestId>
+          <StartTime>2020-05-11T21:19:59.3568471+02:00</StartTime>
+          <PulseLeft>0</PulseLeft>
+          <CompletionTime xsi:nil="true" />
+          <GiverId>10</GiverId>
+          <GiverRoomId>3025</GiverRoomId>
+          <Objectives>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>1</ObjectiveId>
+              <Count>1</Count>
+            </CurrentQuestObjectiveData>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>2</ObjectiveId>
+              <Count>0</Count>
+            </CurrentQuestObjectiveData>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>0</ObjectiveId>
+              <Count>1</Count>
+            </CurrentQuestObjectiveData>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>3</ObjectiveId>
+              <Count>1</Count>
+            </CurrentQuestObjectiveData>
+          </Objectives>
+        </CurrentQuestData>
+      </CurrentQuests>
       <KnownAbilities>
         <KnownAbilityData>
           <AbilityId>5000</AbilityId>
@@ -1603,8 +1586,8 @@
           <ResourceKind>-1</ResourceKind>
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
-          <Level>10</Level>
-          <Learned>0</Learned>
+          <Level>1</Level>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </KnownAbilityData>
         <KnownAbilityData>
@@ -1630,6 +1613,33 @@
           <ResourceKind>0</ResourceKind>
           <CostAmount>5</CostAmount>
           <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </KnownAbilityData>
+        <KnownAbilityData>
+          <AbilityId>999998</AbilityId>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </KnownAbilityData>
+        <KnownAbilityData>
+          <AbilityId>4001</AbilityId>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </KnownAbilityData>
+        <KnownAbilityData>
+          <AbilityId>4002</AbilityId>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
           <Level>1</Level>
           <Learned>100</Learned>
           <Rating>1</Rating>
@@ -1660,20 +1670,170 @@
         </PairDataOfStringString>
       </Aliases>
       <Cooldowns />
-    </CharacterData>
-    <CharacterData>
-      <CreationTime>2020-05-08T09:18:18.4342927+02:00</CreationTime>
+      <Pets>
+        <CharacterData xsi:type="PetData">
+          <Name>Construct</Name>
+          <Race />
+          <Class />
+          <Level>40</Level>
+          <Sex>0</Sex>
+          <Size>0</Size>
+          <HitPoints>808</HitPoints>
+          <MovePoints>1000</MovePoints>
+          <CurrentResources>
+            <PairDataOfInt32Int32>
+              <Key>0</Key>
+              <Value>0</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>1</Key>
+              <Value>0</Value>
+            </PairDataOfInt32Int32>
+          </CurrentResources>
+          <MaxResources>
+            <PairDataOfInt32Int32>
+              <Key>0</Key>
+              <Value>0</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>1</Key>
+              <Value>0</Value>
+            </PairDataOfInt32Int32>
+          </MaxResources>
+          <Equipments />
+          <Inventory />
+          <Auras>
+            <AuraData>
+              <AbilityId>999998</AbilityId>
+              <Level>60</Level>
+              <PulseLeft>-1</PulseLeft>
+              <AuraFlags>6</AuraFlags>
+              <Affects>
+                <AffectDataBase xsi:type="CharacterFlagsAffectData">
+                  <Operator>1</Operator>
+                  <Modifier>262144</Modifier>
+                </AffectDataBase>
+              </Affects>
+            </AuraData>
+            <AuraData>
+              <AbilityId>80</AbilityId>
+              <Level>48</Level>
+              <PulseLeft>143744</PulseLeft>
+              <AuraFlags>0</AuraFlags>
+              <Affects>
+                <AffectDataBase xsi:type="CharacterFlagsAffectData">
+                  <Operator>1</Operator>
+                  <Modifier>128</Modifier>
+                </AffectDataBase>
+              </Affects>
+            </AuraData>
+            <AuraData>
+              <AbilityId>2</AbilityId>
+              <Level>51</Level>
+              <PulseLeft>345380</PulseLeft>
+              <AuraFlags>0</AuraFlags>
+              <Affects>
+                <AffectDataBase xsi:type="CharacterAttributeAffectData">
+                  <Operator>0</Operator>
+                  <Location>16</Location>
+                  <Modifier>-20</Modifier>
+                </AffectDataBase>
+              </Affects>
+            </AuraData>
+            <AuraData>
+              <AbilityId>3</AbilityId>
+              <Level>52</Level>
+              <PulseLeft>950192</PulseLeft>
+              <AuraFlags>0</AuraFlags>
+              <Affects>
+                <AffectDataBase xsi:type="CharacterAttributeAffectData">
+                  <Operator>0</Operator>
+                  <Location>9</Location>
+                  <Modifier>7</Modifier>
+                </AffectDataBase>
+                <AffectDataBase xsi:type="CharacterAttributeAffectData">
+                  <Operator>0</Operator>
+                  <Location>8</Location>
+                  <Modifier>-7</Modifier>
+                </AffectDataBase>
+              </Affects>
+            </AuraData>
+          </Auras>
+          <CharacterFlags>2097152</CharacterFlags>
+          <Immunities>0</Immunities>
+          <Resistances>192</Resistances>
+          <Vulnerabilities>1024</Vulnerabilities>
+          <Attributes>
+            <PairDataOfInt32Int32>
+              <Key>0</Key>
+              <Value>21</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>1</Key>
+              <Value>21</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>2</Key>
+              <Value>21</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>3</Key>
+              <Value>21</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>4</Key>
+              <Value>21</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>5</Key>
+              <Value>808</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>6</Key>
+              <Value>0</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>7</Key>
+              <Value>10</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>8</Key>
+              <Value>40</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>9</Key>
+              <Value>1000</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>10</Key>
+              <Value>300</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>11</Key>
+              <Value>200</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>12</Key>
+              <Value>400</Value>
+            </PairDataOfInt32Int32>
+            <PairDataOfInt32Int32>
+              <Key>13</Key>
+              <Value>0</Value>
+            </PairDataOfInt32Int32>
+          </Attributes>
+          <BlueprintId>80000</BlueprintId>
+        </CharacterData>
+      </Pets>
+    </PlayableCharacterData>
+    <PlayableCharacterData>
       <Name>alhazred</Name>
-      <RoomId>3026</RoomId>
       <Race>elf</Race>
       <Class>mage</Class>
       <Level>10</Level>
       <Sex>1</Sex>
       <Size>0</Size>
-      <SilverCoins>25</SilverCoins>
-      <GoldCoins>0</GoldCoins>
       <HitPoints>60</HitPoints>
-      <MovePoints>94</MovePoints>
+      <MovePoints>70</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -1694,9 +1854,6 @@
           <Value>100</Value>
         </PairDataOfInt32Int32>
       </MaxResources>
-      <Experience>9513</Experience>
-      <Trains>0</Trains>
-      <Practices>9</Practices>
       <Equipments>
         <EquippedItemData>
           <Slot>15</Slot>
@@ -1713,7 +1870,6 @@
         </EquippedItemData>
       </Equipments>
       <Inventory />
-      <CurrentQuests />
       <Auras />
       <CharacterFlags>0</CharacterFlags>
       <Immunities>0</Immunities>
@@ -1777,6 +1933,15 @@
           <Value>100</Value>
         </PairDataOfInt32Int32>
       </Attributes>
+      <CreationTime>2020-05-08T09:18:18.4342927+02:00</CreationTime>
+      <RoomId>3001</RoomId>
+      <SilverCoins>25</SilverCoins>
+      <GoldCoins>0</GoldCoins>
+      <Experience>9513</Experience>
+      <Trains>0</Trains>
+      <Practices>9</Practices>
+      <AutoFlags>0</AutoFlags>
+      <CurrentQuests />
       <KnownAbilities>
         <KnownAbilityData>
           <AbilityId>35</AbilityId>
@@ -2130,8 +2295,11 @@
           <Value>0</Value>
         </PairDataOfInt32Int32>
       </Conditions>
-    </CharacterData>
+      <Aliases />
+      <Cooldowns />
+      <Pets />
+    </PlayableCharacterData>
   </Characters>
   <AdminLevel>7</AdminLevel>
-  <WiznetFlags>16383</WiznetFlags>
+  <WiznetFlags>65535</WiznetFlags>
 </AdminData>

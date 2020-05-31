@@ -1,11 +1,11 @@
-﻿using Mud.Container;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
 namespace Mud.Server.Common
 {
+    // ReSharper disable once InconsistentNaming
     public static class IEnumerableExtensions
     {
         public static IEnumerable<T> Yield<T>(this T item)
@@ -27,9 +27,9 @@ namespace Mud.Server.Common
                 yield return default;
         }
 
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, IRandomManager randomManager)
         {
-            return source.Shuffle(DependencyContainer.Current.GetInstance<IRandomManager>().Next);
+            return source.Shuffle(randomManager.Next);
         }
 
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Func<int, int, int> randomNextFunc)
@@ -50,6 +50,11 @@ namespace Mud.Server.Common
 
                 buffer[j] = buffer[i];
             }
+        }
+
+        public static T Random<T>(this IEnumerable<T> source, IRandomManager randomManager)
+        {
+            return randomManager.Random(source);
         }
 
         //public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> collection, int batchSize)

@@ -117,6 +117,7 @@ namespace Mud.Domain
         // not used
         BurnProof       = 0x01000000,
         NoUncurse       = 0x02000000,
+        NoSacrifice     = 0x04000000,
     }
 
     public enum WearLocations
@@ -456,6 +457,18 @@ namespace Mud.Domain
     }
 
     [Flags]
+    public enum AssistFlags
+    {
+        None            = 0x00000000,
+        All             = 0x00000001,
+        Align           = 0x00000002,
+        Race            = 0x00000004,
+        Players         = 0x00000008,
+        Guard           = 0x00000010,
+        Vnum            = 0x00000020,
+    }
+
+    [Flags]
     public enum AuraFlags
     {
         None        = 0x0,
@@ -547,8 +560,10 @@ namespace Mud.Domain
         Help      = 0x00000200,
         Load      = 0x00000400,
         Promote   = 0x00000800,
-        Resets    = 0x00001000, // TODO: use
+        Resets    = 0x00001000,
         Restore   = 0x00002000,
+        Immortal  = 0x00004000,
+        Saccing   = 0x00008000,
     }
 
     [Flags]
@@ -634,5 +649,17 @@ namespace Mud.Domain
         Changed = 0x0001,
         Added = 0x0002,
         Loading = 0x0004
+    }
+
+    [Flags]
+    public enum AutoFlags
+    {
+        None      = 0x0000,
+        Assist    = 0x0001,
+        Exit      = 0x0002,
+        Sacrifice = 0x0004,
+        Gold      = 0x0008,
+        Split     = 0x0010,
+        Loot      = 0x0020,
     }
 }

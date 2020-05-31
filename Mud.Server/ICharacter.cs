@@ -141,12 +141,15 @@ namespace Mud.Server
         bool ChangeForm(Forms form);
 
         // Move
-        bool Move(ExitDirections direction, bool checkFighting, bool follow = false);
-        bool Enter(IItemPortal portal, bool follow = false);
+        bool Move(ExitDirections direction, bool follow);
+        bool Enter(IItemPortal portal, bool follow);
         void ChangeRoom(IRoom destination);
         void AutoLook();
 
         // Combat
+        SchoolTypes NoWeaponDamageType { get; }
+        int NoWeaponBaseDamage { get; }
+        string NoWeaponDamageNoun { get; }
         void UpdatePosition();
         bool StartFighting(ICharacter victim);
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
@@ -157,7 +160,7 @@ namespace Mud.Server
         bool Damage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display); // 'this' is dealt damage by 'source' using 'damageNoun'
         ResistanceLevels CheckResistance(SchoolTypes damageType);
         void Slay(IPlayableCharacter killer);
-        void KillingPayoff(ICharacter victim);
+        void KillingPayoff(ICharacter victim, IItemCorpse corpse);
         void DeathPayoff(ICharacter killer);
         bool SavesSpell(int level, SchoolTypes damageType);
         bool IsSafeSpell(ICharacter caster, bool area);

@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Mud.Repository.Filesystem.Common;
-using Mud.Repository.Filesystem.DataContracts;
 using Mud.Logger;
+using Mud.Repository.Filesystem.Domain;
+using Mud.Settings;
+using AutoMapper;
 
 namespace Mud.Repository.Filesystem
 {
@@ -18,7 +20,8 @@ namespace Mud.Repository.Filesystem
         private Dictionary<string, LoginData> _table = new Dictionary<string, LoginData>();
         private bool _loaded;
 
-        public LoginRepository()
+        public LoginRepository(IMapper mapper, ISettings settings)
+            : base(mapper, settings)
         {
             _loaded = false;
         }
@@ -160,7 +163,7 @@ namespace Mud.Repository.Filesystem
                 {
                     LoginRepositoryData repository = new LoginRepositoryData
                     {
-                        Logins = _table.Values.ToList()
+                        Logins = _table.Values.ToArray()
                     };
                     serializer.Serialize(file, repository);
                 }

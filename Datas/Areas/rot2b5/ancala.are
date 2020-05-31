@@ -1,0 +1,1858 @@
+#AREADATA
+Name Ancalador~
+Builders None~
+VNUMs 5400 5499
+Credits {15 35} Mercuti Ancalador~
+Security 9
+End
+
+#MOBILES
+#5400
+zombie putrid~
+the putrid zombie~
+A putrid zombie is here.
+~
+It is a prime example of the undead:  sickly green skin, sunken eyes
+with a yellowish tinge, and sharp, dirt-encrusted claws.
+~
+human~
+AB A 0 AHMV 0 0
+23 0 9d11+168 10d11+194 3d7+14 none
+0 1 -1 1
+0 0 0 0
+stand stand none 0
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5401
+asp snake~
+the deadly asp~
+A poisonous asp slithers here.
+~
+This small snake looks quite dangerous, better take a wide detour around
+it.
+~
+human~
+AF A 0 AHMV 0 0
+22 0 9d11+168 6d21+208 3d7+14 none
+-2 0 0 3
+0 0 0 0
+stand stand none 0
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5402
+morticia guildhead~
+Morticia~
+Morticia, Guildhead of the Living Dead, is here.
+~
+Her long, raven black hair drapes those stunning curves of hers.  How
+did such a sweet thing become the leader of this cult?  As a bard once
+wrote,
+
+        'You could tell she was practiced at the art of deception
+         by her bloodstained hands.'
+
+~
+human~
+ABC A D AHMV -1000 0
+33 2 7d33+411 12d14+307 5d6+21 none
+-4 -6 -6 -3
+0 0 0 0
+stand stand female 2476
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5403
+lazarus assassin physician~
+Lazarus~
+Lazarus, Assassin and Guild Physician, is here.
+~
+This master herbalist was found too valuable to the Guild as a maker
+of both soothing balms and poisons.  Even death could not release
+him... the necromancers just reanimated him.
+~
+human~
+AB A 0 AHMV -900 0
+29 2 7d24+289 12d14+307 4d6+17 none
+-5 -5 -4 -1
+0 0 0 0
+stand stand male 1338
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5404
+beetle undead~
+the undead riding beetle~
+An undead riding beetle is parked here.
+~
+A fine example of Necromancy, this giant beast can travel for miles
+with no need for food nor water.  A most economical mount -- and
+sporty too!
+~
+human~
+AB A 0 AHMV -300 0
+21 0 9d11+168 9d11+168 3d7+13 none
+3 0 -1 4
+0 0 0 0
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5405
+wraith knight~
+the wraith knight~
+A wraith knight stands a silent watch here.
+~
+This was probably some poor adventurer, like you, before the
+Necromancers got their hold on him.  Now he just awaits, blade
+drawn, like some ethereal beefeater.
+~
+human~
+ABF A 0 AHMV -800 0
+25 1 3d39+181 6d24+238 4d5+14 none
+-3 -2 -3 2
+0 0 0 0
+stand stand male 155
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5406
+keeper~
+the Crypt Keeper~
+The Crypt Keeper, grinning at you maliciously, is here.
+~
+The dessicated little fellow cackles with mad glee as he approaches
+you.  He twitches from excitement so much that his scraggly hair
+jostles as he flashes his dull yellow teeth.
+~
+human~
+ABF A D AHMV -1000 0
+35 2 7d27+327 8d30+434 2d21+23 none
+-6 -6 -5 -3
+0 0 0 0
+stand stand male 2525
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5407
+hermit~
+the hermit~
+A Hermit, starved for company, is here.
+~
+Although raving mad, the hermit has come out of his isolation since he
+has not spoken with anyone for ages.  The shaggy hermit draws you over
+and begins to tell a strange tale,
+
+       'Some 600 years ago, when I was but a lad, a great dragon
+	ruled the land.  His name was Ancalador.  Many heroes came
+	to do battle with him, but all failed and died, horribly,
+	I imagine.  But one wizard challenged the Drake to a magic
+	duel.  He too died, like the others, but with his last
+	breath, the wizard turned the mighty Ancalador to stone!
+	Many believed the dragon's evil reign ended, but after the
+	dancing and drinking were over, and life returned to its
+	quiet pace, the people began to notice that the Dragon's
+	presence could still be felt.  Ancalador did, in fact,
+	continue to rule from his petrified prison through the 
+	manipulation of the minds of men.  Indeed, he has done so
+	to this day.  Many believe he is plotting the day he can
+        return in the flesh, so to speak...'
+
+With that the Hermit begins to cackle madly, tears running down his
+leathery face.
+You can get no more out of him.
+~
+human~
+AB A 0 AHMV 500 0
+20 0 7d11+125 6d15+146 3d7+13 none
+2 2 -3 4
+0 0 0 0
+stand stand none 23
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5408
+slime blob~
+the green slime~
+A blob of green slime drops upon you!
+~
+It looks like animated mucous, dissolving and eating all it touches.
+~
+human~
+ABF A 0 AHMV 0 0
+16 0 7d10+116 8d10+135 2d6+9 none
+2 4 0 9
+0 0 0 0
+stand stand none 0
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5409
+dweller flame~
+the flame dweller~
+A flame dweller is basking in fire here.
+~
+Its shape changes like the flame it lives in.  One moment it may
+resemble a serpent, the next, a man.  It seems to be thoroughly
+enjoying itself.
+~
+human~
+AB A 0 AHMV -50 0
+24 2 9d11+168 6d21+208 3d8+16 none
+-3 -2 -3 4
+0 0 0 0
+sit sit none 1800
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5410
+spider green~
+the green crystal spider~
+A green crystal spider is roaming here.
+~
+The fantastic beast seems to be made of a crystalline substyle
+which is giving off a green light.  It clicks its crystal mandibles
+in irritation with you.
+~
+human~
+AH A 0 AHMV -400 0
+18 0 7d10+116 8d10+135 3d5+11 none
+0 1 1 5
+0 0 0 0
+stand stand none 0
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5411
+spider yellow~
+the yellow crystal spider~
+A yellow crystal spider is clicking its mandibles here.
+~
+Slightly smaller than its green cousin, this creature also appears
+to be made of living crystalline substyle which glows yellow.
+~
+human~
+AF A 0 AHMV -350 0
+17 0 6d11+107 7d11+125 3d5+11 none
+2 1 0 7
+0 0 0 0
+stand stand none 351
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5412
+warden petrified~
+the Petrified Warden~
+The Petrified Warden guards the way.
+~
+It wears the sneer of cold command upon its stony visage.
+~
+human~
+AB A 0 AHMV -700 0
+22 0 6d21+208 10d11+194 3d7+13 none
+-3 -1 -1 3
+0 0 0 0
+stand stand none 109
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5413
+hulk umber~
+the umber hulk~
+A lumbering umber hulk is here.
+~
+This great beast has huge mandibles and a mammals' mouth, angry animal
+eyes set between unreadable insect eyes.  The effect is confusing.
+~
+human~
+AF A 0 AHMV -750 0
+28 0 7d23+271 6d21+208 3d11+19 none
+-5 -3 -2 -1
+0 0 0 0
+stand stand none 0
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5414
+jello ochre~
+the ochre jello~
+A hideous ochre jello approaches.
+~
+As it oozes slowly at you, you can make out items undigested within
+it.  From past unfortunates, you presume.
+~
+human~
+AF A 0 AHMV -700 0
+26 0 11d13+254 6d24+238 4d7+18 none
+-4 -4 -5 0
+0 0 0 0
+stand stand none 156
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#5415
+necromancer~
+the Necromancer~
+A Necromancer of the Bloodstone, creating zombies, is here.
+~
+Evil reeks from his dark robes.  His hands are adorned with the
+long, wicked nails which are stained with the ichor of embalmers
+and malignant salves.
+~
+human~
+ABFH A 0 AHMV -900 0
+27 2 7d23+271 6d24+238 4d6+17 none
+-4 -3 -5 2
+0 0 0 0
+stand stand male 666
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#0
+
+
+
+#OBJECTS
+#5400
+falchion sword~
+a falchion~
+A strange looking sword lies discarded here.~
+none~
+weapon 0 AN
+sword 4 7 slash 0
+25 5 900 P
+E
+falchion sword~
+It is a short sword of the hacking variety, it seems a bit worn.
+~
+#5401
+chalice~
+a chalice~
+A blood-stained chalice has been set down here.~
+none~
+drink 0 AO
+6 2 'blood' 1 0
+1 1 300 P
+E
+chalice~
+What a perfect gift for mother!
+~
+#5402
+coffer copper ornate~
+the copper coffer~
+An ornate copper coffer is set against the far wall.~
+none~
+container 0 0
+200 ACD 0 200 90
+1 0 0 P
+E
+coffer copper ornate~
+This small coffer looks like it could contain all of your belongings,
+which isn't really saying a lot.
+~
+#5403
+tonic root comfrey~
+a tonic of comfrey root~
+A tonic of comfrey root has been discarded here.~
+none~
+potion G AO
+25 'giant strength' 'giant strength' 'poison' ''
+1 1 60 P
+E
+tonic root comfrey~
+What doesn't kill you makes you stronger, right?
+~
+#5404
+elixir tongue adder~
+an elixir of Adder's Tongue~
+An elixir of Adder's Tongue lies here.~
+none~
+potion G AO
+25 'detect hidden' 'detect poison' '' ''
+1 1 60 P
+E
+elixir tongue adder~
+This elixer may be good for you, but it sure looks disgusting.
+Adder's tongue indeed.
+~
+#5405
+key skeleton~
+a skeleton key~
+An old skeleton key lies on the floor.~
+none~
+key 0 AO
+0 0 0 0 0
+1 2 50 P
+E
+key skeleton~
+It is made of bone.  What did you expect, in this place of death?
+~
+#5406
+blowgun bamboo~
+a blowgun~
+A long, bamboo blowgun rests on the ground.~
+none~
+weapon 0 AN
+flail 3 12 pound 0
+29 5 160 P
+A
+18 1
+E
+blowgun bamboo~
+How odd, who would have ever expected you to find a bamboo blowgun in
+these parts...
+~
+#5407
+water pool~
+the pool~
+You seem to be standing in a dirty pool of water.~
+none~
+fountain 0 0
+15 15 'water' 1 0
+1 500 500 P
+#5408
+Bloodstone stone red~
+the Bloodstone~
+A large, dull red stone awaits, invitingly, to be picked up.~
+none~
+staff BGJ AO
+23 7 7 'energy drain' 0
+35 8 30000 P
+A
+20 15
+A
+4 -2
+E
+bloodstone stone red~
+It glows malignantly with its own ruddy light.  You peer within
+the stone only to see the vague impression of some misshaped soul
+trapped within.
+~
+#5409
+Heartseeker stiletto blade~
+the Heartseeker~
+A nasty looking stiletto with a shiny black blade lies amid the dust.~
+none~
+weapon BGJ AN
+dagger 3 14 pierce 0
+33 3 10000 P
+A
+13 -10
+A
+18 3
+E
+Heartseeker stiletto blade~
+This blade has a distinct aura of evil surrounding its fine blade.
+~
+#5410
+shield scarab~
+a scarab shield~
+A shield with a large, dead scarab mounted in the center lies here.~
+none~
+armor G AJ
+D AC ABC AB 0
+33 17 9000 P
+A
+5 1
+E
+shield scarab beetle~
+This shield is unremarkable except for the oversized scarab beetle
+mounted in the center.  The beetle appears to be an enormous strain
+of the ordinary scarab.
+~
+#5411
+mace fred skull~
+the Mace of Undead Fred~
+A skull-headed mace has been left here.~
+none~
+weapon BGJ AN
+mace 4 11 blast 0
+35 14 12000 P
+A
+20 -15
+A
+19 3
+E
+mace fred skull~
+The stout leather-wrapped shaft is topped with the animated skull of Fred 
+himself.  Though the jawbone is missing, you can hear him scream obscenities
+even in the midst of a fray.  A vague light stirs within his eyesockets as
+he says, 'What are ye looking at, maggot breath!'
+~
+#5412
+buckler arsenal~
+an arsenal buckler~
+A spiked buckler with a circle of knives set in it, has been left here.~
+none~
+container 0 AJ
+3 0 -1 3 100
+1 7 2400 P
+A
+19 1
+A
+17 -5
+E
+buckler arsenal~
+The buckler has a circle of throwing knives set around its center spike.
+~
+#5413
+knife throwing~
+a throwing knife~
+A well balanced throwing knife lies on the ground.~
+none~
+weapon 0 AN
+dagger 1 6 slash 0
+1 1 10 P
+E
+knife throwing~
+This knife has been carefully crafted to provide maximum balance,
+so that it can be used for accurate throwing.
+~
+#5414
+pile debris~
+the pile~
+A pile of debris has been stacked on a small plateau, away from the acid.~
+none~
+container 0 0
+1000 0 -1 1000 100
+1 0 0 P
+E
+pile debris~
+It contains all manner of rusty items and beaten equipment garnered by
+the fastidious denizens of this place.
+~
+#5415
+guisarme polearm~
+a guisarme~
+A long, sharp polearm has been left here.~
+none~
+weapon 0 AN
+polearm 3 9 slash 0
+22 16 1500 P
+A
+19 2
+A
+18 -2
+E
+guisarme polearm~
+What more can be said?  It is a rather long weapon of destruction.
+~
+#5416
+glove minstrels minstrel~
+a minstrel's glove~
+A single, white minstrel's glove has been discarded here.~
+none~
+armor AG AH
+AB C ABC A 0
+18 8 4500 P
+A
+18 2
+E
+glove minstrels minstrel harp pattern~
+The glove has a small needlework pattern in the back formed in the
+shape of a small harp.
+~
+#5417
+mail shabby~
+some shabby mail~
+A worn and shabby suit of ring mail has been cast away here.~
+none~
+armor G AD
+BC BC ABC AB 0
+26 20 70000 P
+E
+mail shabby~
+It seems about ready to fall apart!
+~
+#5418
+key granite~
+a granite key~
+A key fashioned of stone has been left here.~
+none~
+key 0 AO
+0 0 0 0 0
+1 2 1500 P
+E
+key granite~
+This key appears to have be crafted from solid granite.  You wonder what
+kind of tools could have been used to do such a thing.
+~
+#5419
+flesh embalmed~
+the embalmed flesh~
+A large pile of presumably human flesh has been embalmed and stored here.~
+none~
+trash 0 A
+0 0 0 0 0
+1 100 600 P
+E
+flesh embalmed~
+Ugh.  You have never seen such sickly looking flesh before in your
+life.  And the smell of it!
+~
+#5420
+flail beater grave~
+a grave beater~
+A rusty grave beater flail has been dropped here.~
+none~
+weapon 0 AN
+flail 4 8 pound 0
+27 12 1500 P
+A
+19 1
+E
+flail beater grave~
+This flail seems only to have been used to keep the dead in their place.
+~
+#5421
+dagger rusty~
+a rusty dagger~
+An old and rusty dagger has been left here.~
+none~
+weapon 0 AN
+dagger 4 8 slash 0
+26 1 2 P
+E
+dagger rusty~
+This dagger appears to be rather old and by the looks of it,
+has been left here to rust for quite some time.
+~
+#5422
+vial potion puce~
+a puce potion~
+A small vial has been forgotten here.~
+none~
+potion G AO
+35 'detect invis' 'poison' '' ''
+1 2 35 P
+E
+vial potion puce~
+The vial contains a disgusting looking liquid, which appears to
+be almost puce in colour.
+~
+#5423
+shield large shiny~
+a large, shiny shield~
+A glistening metal object is here, it appears to be a shield.~
+none~
+armor G AJ
+C ABC AD B 0
+26 1 1000 P
+A
+9 10
+A
+1 -2
+E
+shield large shiny~
+This shield is very shiny, and appears to have been recently polished
+by something or someone, yet it also appears to be several decades old
+from the style is has been crafted in.
+~
+#5424
+torch green~
+a green torch~
+An odd torch glowing green has been left here.~
+none~
+light A AO
+0 0 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0 0
+1 1 1 P
+E
+torch green~
+This torch is quite odd, since you have never seen a torch glow with
+an everlasting flame before, and a green flame no less...
+~
+#5425
+helm silver metal~
+a silver helm~
+A helm made of a silverish metal has been left here.~
+none~
+armor 0 AEO
+B 0 A ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0
+1 10 1000 P
+E
+engravings lines pattern~
+The lines appear to be a part of a pattern, but you cannot make out
+exactly what the pattern is.
+~
+E
+helm silver metal~
+This helm looks to be purely ornamental, and does not look like it
+would afford the wearer any protection whatsoever.  It is finely
+engraven with small wavy lines however.
+~
+#5426
+jacket rotted leather~
+a rotted leather jacket~
+An old, rotted leather jacket is decomposing on the ground here.~
+none~
+armor 0 AD
+ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef B A ACDEFGHIJKLMNOPQRSTUVWXYZabcdef 0
+1 3 0 P
+E
+jacket rotted leather~
+This jacket looks like it may have once been in decent condition,
+but is no longer in any condition to speak of.
+~
+#5427
+rod metal strange~
+a strange metal rod~
+A rather strange rod of a metallic material has been left here.~
+none~
+trash 0 AO
+0 0 0 0 0
+1 15 7 P
+E
+rod metal strange~
+This strange metallic rod looks like it was once a wooden branch, so
+carefully crafted are the "knots", bends, and bumps along the shaft.
+You have no clue whatsoever of anything you could use it for, but you
+should hang onto it since there could always be some use beyond your
+imagination.
+~
+#0
+
+
+
+#ROOMS
+#5400
+A Wild Valley~
+You move slowly through the green vines and thick undergrowth that
+cover the valley floor.  It would appear that not many have come here
+in ages.  To the west, the land rises to leave the valley.  To the
+east the vegetation clears to give way to a strange uprising of stone.
+~
+0 4 4
+E
+uprising stone~
+The uprising looks like some huge beast set to pounce.
+~
+D1
+The uprising looks like some huge beast set to pounce.
+~
+~
+0 -1 5401
+D3
+~
+~
+0 -1 5457
+S
+#5401
+Before The Dragon~
+You stand before the Dragon Ancalador.  You can still make out
+its petrified form despite the earth that has filled in the crevices
+between its limbs and the huge oaks, dwarfed by the dragon itself,
+which have grown there.  A vague evil emanates from the once-alive
+stone that terrorized nations long ago.
+~
+0 0 4
+D1
+The huge maw lies frozen in midsnarl.  You could find enough purchase
+to scale the tongue and enter inside, should you want to.
+~
+~
+0 -1 5402
+D3
+~
+~
+0 -1 5400
+S
+#5402
+In The Dragon's Mouth~
+Rows of stone teeth as large as trolls line the walls here.  A
+tongue of pitted stone leads east, behind stone molars as large as
+iron shields.
+~
+0 8 1
+D1
+~
+~
+0 -1 5403
+D3
+~
+~
+0 -1 5401
+S
+#5403
+By Some Stone Tonsils~
+You are in the back of the dragon's mouth.  The throat continues
+down and something oozes from petrified sinuses above.
+~
+0 9 1
+D3
+~
+~
+0 -1 5402
+D5
+~
+~
+0 -1 5404
+S
+#5404
+A Throat Of Stone~
+The floor is uneven -- the middle of the passage being lower than
+the sides, which rise up to the walls.  The whole passage is slightly
+graded, moving east and downward.
+~
+0 9 1
+D4
+~
+~
+0 -1 5403
+D5
+~
+~
+0 -1 5405
+S
+#5405
+Further Down The Dragon's Throat~
+The tunnel begins to lose its steepness and merely runs eastward
+now.  The shapes of what might be petrified muscles line the walls.
+~
+0 9 1
+D1
+~
+~
+0 -1 5406
+D4
+~
+~
+0 -1 5404
+S
+#5406
+A Junction~
+You are in a four way junction.  The dragon's throat continues east
+and west, but by squeezing under some stone flaps you can make out
+tunnels leading north and south.
+~
+0 9 1
+E
+flaps flap~
+Who can say which part of draconian anatomy this might be?
+~
+D0
+You peer under the petrified flap and see a faint light amid darkness.
+~
+~
+0 -1 5407
+D1
+~
+~
+0 -1 5455
+D2
+You peer under the petrified flap and see a faint light amid darkness.
+~
+~
+0 -1 5410
+D3
+~
+~
+0 -1 5405
+S
+#5407
+A Stone Tunnel~
+This circular passage of stone gradually curves up to a place of
+great light and heat.
+~
+0 9 1
+D2
+~
+~
+0 -1 5406
+D4
+All you can see upwards in a great glare followed by gusts of hot wind.
+~
+~
+0 -1 5408
+S
+#5408
+A Dragon Lung~
+Ancient fires burns here, awaiting the rebirth of their master.
+~
+0 8 1
+D5
+~
+~
+0 -1 5407
+S
+#5409
+The Heart Of The Dragon~
+Runes which glow with a blue light are carved into the stone walls
+of Ancalador's heart chamber here.  Their magical purity counters his
+evil and makes for a holy balance that is Neutrality.  It seems some
+music lover has set up residence here, judging by all the instruments
+and sheet music floating here.
+~
+0 520 1
+D0
+You see the chamber wall dilate open for you, leading to the tunnel beyond.
+~
+~
+0 -1 5455
+S
+#5410
+A Stone Tunnel~
+This stone passage is lit by a great light and fierce heat from its
+far end, which lies above.
+~
+0 9 1
+D0
+~
+~
+0 -1 5406
+D4
+You must cover your eyes rather than peer into the sun-like brightness.
+~
+~
+0 -1 5411
+S
+#5411
+A Dragon Lung~
+The nuclear fires that empowered the dragon with its frightful
+breath are here, and though they have been smoldered for so very
+long, they scorch you and make you rue the choice wearing of metal
+armor.
+~
+0 8 1
+D5
+~
+~
+0 -1 5410
+S
+#5412
+Ancalador's Stomach~
+The dragon's throat ends, revealing a huge cavern lit from below by
+eerie and diffuse lights of yellow and green.  Even more amazingly, a
+wooden bridge spans the the stalactite-roofed cavern!  A steep grade
+leads down to the cavern floor safely enough and the bridge leads
+east.
+~
+0 12 1
+D1
+~
+~
+0 -1 5413
+D3
+~
+~
+0 -1 5455
+D5
+Though steep, the climb down seems arduous, but not overly hazardous.
+~
+~
+0 -1 5420
+S
+#5413
+A Wooden Bridge~
+You cannot imagine who would want to build a bridge in this
+fantastic cavern.  Large stalagmites sit and rise up while the eerie
+lights seem to move in the mists below.  The bridge continues to the
+east.
+~
+0 8 1
+D1
+~
+~
+0 -1 5414
+D3
+You see the entrance ledge to the stomach chamber.
+~
+~
+0 -1 5412
+D5
+The stalagmites look up menacingly at you.
+~
+~
+0 -1 5416
+S
+#5414
+A Wooden Bridge~
+You are in the middle of the wooden bridge.  Large stalagmites rise
+around you and the eerie lights continue to dance in the mists below.
+The bridge continues to the east and west.
+~
+0 8 1
+D1
+~
+~
+0 -1 5415
+D3
+~
+~
+0 -1 5413
+D5
+The stalagmites look up menacingly at you.
+~
+~
+0 -1 5416
+S
+#5415
+A Wooden Bridge~
+The wood here is old and acid eaten, similar to the rest of the
+bridge. The deadly stalagmites jut up from below and more of the green
+and yellow light can be seen to move in the mists below.  The bridge
+ends at a small plateau to the east.
+~
+0 8 1
+D1
+You see the bridge meet the end of the cavern.
+~
+~
+0 -1 5426
+D3
+~
+~
+0 -1 5414
+D5
+The stalagmites look up menacingly at you.
+~
+~
+0 -1 5416
+S
+#5416
+A Stalagmite Forest~
+You take the plunge off of the wooden bridge and find yourself stuck
+between several stalagmites.  It hurts to move much, and you cannot see
+any way short of magic to escape this predicament.
+~
+0 12 1
+S
+#5417
+The Acid Forest~
+Sharp stalagmites reach up wards, created by the mineral ichors
+dripping off stalactites far above.  Pools of acid fill every crevice
+on the craggy cavern floor.  The cavern continues to the south and
+east.
+~
+0 8 4
+D1
+~
+~
+0 -1 5418
+D2
+~
+~
+0 -1 5420
+S
+#5418
+The Acid Forest~
+The stalagmites here are large and rainbow-hued, like giants in
+jester's garb.  Puddles of weak stomach acid are pooled on the floor.
+The cavern stretches in all directions but north.
+~
+0 8 4
+D1
+~
+~
+0 -1 5419
+D2
+~
+~
+0 -1 5421
+D3
+~
+~
+0 -1 5417
+S
+#5419
+The Acid Forest~
+Sharp stalagmites reach upwards, created by the mineral ichors
+dripping off stalactites far above.  Pools of acid fill every crevice
+on the craggy cavern floor.
+~
+0 8 4
+D2
+~
+~
+0 -1 5422
+D3
+~
+~
+0 -1 5418
+S
+#5420
+The Acid Forest~
+You stand before an amazing sight.  Wrapped within the mists here
+on the cavern floor is a forest of oddly shaped stalagmites surrounded
+everywhere by puddles of what must be the remnants of the dragons
+stomach acid.
+~
+0 8 4
+D0
+~
+~
+0 -1 5417
+D1
+~
+~
+0 -1 5421
+D2
+~
+~
+0 -1 5423
+D4
+You see the ledge at the entrance to the stomach cavern.
+~
+~
+0 -1 5412
+S
+#5421
+The Acid Forest~
+You are in the center of the dragons stomach cavern.  A wooden
+bridge passes far overhead.  Sharp stalagmites poise here to meet
+those who would drop from it.
+~
+0 8 4
+D0
+~
+~
+0 -1 5418
+D1
+~
+~
+0 -1 5422
+D2
+~
+~
+0 -1 5424
+D3
+~
+~
+0 -1 5420
+S
+#5422
+The Acid Forest~
+The stalagmites here are large and rainbow-hued, like giants in
+jester's garb.  Puddles of weak stomach acid are pooled on the floor.
+A steep climb up leads to a large plateau at the end of the cavern.
+~
+0 8 4
+D0
+~
+~
+0 -1 5419
+D2
+~
+~
+0 -1 5425
+D3
+~
+~
+0 -1 5421
+S
+#5423
+The Acid Forest~
+Mists swirl around strange crystal egg shells here.  The cavern
+continues to the north and to the east.
+~
+0 8 4
+D0
+~
+~
+0 -1 5420
+D1
+~
+~
+0 -1 5424
+S
+#5424
+The Acid Forest~
+Sharp stalagmites reach upwards, created by the mineral ichors
+dripping off stalactites far above.  Pools of acid fill every crevice
+on the craggy cavern floor.
+~
+0 8 4
+D0
+~
+~
+0 -1 5421
+D1
+~
+~
+0 -1 5425
+D3
+~
+~
+0 -1 5423
+S
+#5425
+The Acid Forest~
+The stalagmites here are large and rainbow-hued, like giants in
+jester's garb.  Puddles of weak stomach acid are pooled on the floor.
+The cavern stretches to the north and west.
+~
+0 8 4
+D0
+~
+~
+0 -1 5422
+D3
+~
+~
+0 -1 5424
+S
+#5426
+The End Of The Stomach~
+The wooden bridge ends here, on a large plateau above the cavern
+floor. The plateau overlooks the entire forest of acid and stone
+below.  A tunnel set in the cavern wall to the east has been shored up
+with a wall of plaster and bones.  Two very large skull-knobbed doors
+have been set in it.
+~
+0 9 1
+D1
+You see a huge set of doors fashioned from bones.
+~
+door doors skull~
+0 5418 5456
+D3
+You see the wooden bridge.
+~
+~
+0 -1 5415
+D5
+You see a steep climb down to the cavern floor.
+~
+~
+0 -1 5422
+S
+#5427
+The Dragon's Pancreas~
+You are in an oddly shaped chamber, what might have been some foul
+organ of Ancalador.  A yellowish light fills the room from nowhere, as
+if only by the dragon's will alone.  The feeling of malignant evil is
+great here, which is only compounded by the large sign overhead which
+reads, 'Memento Mori', or in the common tongue, 'Remember to Die.'
+   The chamber has exits worked into it, to the east and down.
+~
+0 8 1
+D0
+You see a fissure in the organ wall.
+~
+fissure~
+0 -1 5456
+D1
+~
+~
+0 -1 5445
+D5
+~
+~
+0 -1 5449
+S
+#5428
+The Small Intestine~
+You enter a featureless tunnel of what must be the beginning of the
+dragon's small intestine.  Small piles of human bones and armor bits
+have been left here.  The tunnel continues north and to the west a
+rougher tunnel can be seen.
+~
+0 9 1
+D0
+~
+~
+0 -1 5429
+D3
+~
+~
+0 -1 5456
+S
+#5429
+The Small Intestine~
+The tunnel twists to the south and to the east.
+~
+0 9 1
+D1
+~
+~
+0 -1 5430
+D2
+~
+~
+0 -1 5428
+S
+#5430
+The Small Intestine~
+The smooth tunnel curves to the west and to the south.
+~
+0 9 1
+D2
+~
+~
+0 -1 5431
+D3
+~
+~
+0 -1 5429
+S
+#5431
+The Small Intestine~
+The blank walls of the tunnel run north and south.
+~
+0 9 1
+D0
+~
+~
+0 -1 5430
+D2
+~
+~
+0 -1 5432
+S
+#5432
+The Small Intestine~
+The tunnel comes from the north and dips sharply downward here.
+~
+0 9 1
+D0
+~
+~
+0 -1 5431
+D5
+~
+~
+0 -1 5433
+S
+#5433
+The Small Intestine~
+The featureless tunnel leads up and north.  Echo bounce off the
+blank walls, whether from near or far, you cannot tell.
+~
+0 9 1
+D0
+~
+~
+0 -1 5434
+D4
+~
+~
+0 -1 5432
+S
+#5434
+The Small Intestine~
+Bits of broken equipment from long dead adventurers have been
+collected here.  The tunnel runs north and south.
+~
+0 9 1
+D0
+~
+~
+0 -1 5435
+D2
+~
+~
+0 -1 5433
+S
+#5435
+The Small Intestine~
+The tunnel bends from the south to the east.  You imagine the
+remains of many a brave warrior who dared the dragon passed here,
+torn and unmourned.
+~
+0 9 1
+D1
+~
+~
+0 -1 5436
+D2
+~
+~
+0 -1 5434
+S
+#5436
+The Small Intestine~
+The blank walls of the tunnel lead west and south.
+~
+0 9 1
+D2
+~
+~
+0 -1 5437
+D3
+~
+~
+0 -1 5435
+S
+#5437
+The Small Intestine~
+The smooth tunnel contracts to the south of here into a new tunnel.
+~
+0 9 1
+D0
+~
+~
+0 -1 5436
+D2
+The new tunnel seems composed of different textures.
+~
+~
+0 -1 5438
+S
+#5438
+The Large Intestine~
+Unlike the the small intestine, the walls here have a nook and
+cranny quality about them.  They are quite rough and dust fills many
+of the spaces.
+~
+0 9 1
+D0
+~
+~
+0 -1 5437
+D1
+~
+~
+0 -1 5439
+S
+#5439
+The Large Intestine~
+The smell of dust is thick in this section of the tunnel that runs
+to the west and to the north.
+~
+0 9 1
+D0
+~
+~
+0 -1 5440
+D3
+~
+~
+0 -1 5438
+S
+#5440
+The Large Intestine~
+The rough walls of the tunnel scrape your armor and cuts your
+exposed skin as you travel north or south.
+~
+0 9 1
+D0
+~
+~
+0 -1 5441
+D2
+~
+~
+0 -1 5439
+S
+#5441
+The Large Intestine~
+The tunnel drops to the east but you find many handholds among the
+nooks and crannies.
+~
+0 9 1
+D1
+~
+~
+0 -1 5442
+D2
+~
+~
+0 -1 5440
+S
+#5442
+The Large Intestine~
+The roughly hewn tunnel constricts to the south.
+~
+0 9 1
+D2
+~
+~
+0 -1 5443
+D3
+~
+~
+0 -1 5441
+S
+#5443
+A Stony Sphincter~
+You are in a narrow tunnel, barely able to walk upright without
+knocking your head.  A breeze from the south swirls the dust here and
+you begin to believe that safety is not far off.
+~
+0 9 1
+D0
+~
+~
+0 -1 5442
+D1
+~
+~
+0 -1 5444
+S
+#5444
+At The Dragon's Tail~
+You have never been so happy to see the light of day!  You are by
+the dragon's stone tail, which is covered with green, growing vines
+and small, violet flowers.  The birds sing and you can make out a
+faint path to the south, leading back around the dragon-hill.
+A skull-topped signpost flanks an unused road to the north.
+There is a large plot device blocking the way along the road to the north.
+~
+0 4 3
+E
+plot device~
+This large and strange creation is merely a device often used by writers
+to steer people away from something that he or she does not want them to
+see at the present moment.  Speaking of which, you *did* see the path
+leading away to the south did you not?
+~
+E
+sign signpost~
+The signpost reads in ancient runic script:
+
+The Penultimate Tower of Wizardry was rumored to exist, once, just
+down this road... who knows if this is true?  For though many have
+went on to see, none have returned to claim it true...
+
+                                --Mercutio the Bard of the Realm
+
+~
+D2
+You see a path leading around the dragon, back to its toothy maw.
+~
+~
+0 -1 5401
+D3
+There is a strange hole in the rock wall, circular in shape.
+~
+~
+0 -1 5443
+S
+#5445
+An Undead Garden~
+Shaking shrubberies and quivering palms surround a few skeletal
+trees that make up this gruesome garden.  The shriveled plantlife, set
+in niches within the deformed chamber walls, seem to have all died and
+come back from the afterlife somehow.  Openings in the petrified organ
+wall lead west and down.
+~
+0 8 1
+D3
+~
+~
+0 -1 5427
+D5
+~
+~
+0 -1 5450
+S
+#5446
+The Private Chambers~
+This small room seems to have been carved by hand from the pancreas
+of Ancalador.  It has some amenities, like a soft bed and a small
+alchemist's workbench, but if the dragon is ever freed from his stone
+prison, he will surely be quite unhappy about this situation. The only
+exit is west.
+~
+0 8 1
+D3
+Outside is the amphitheatre chamber.
+~
+door coffin~
+0 -1 5447
+S
+#5447
+The Macabre Amphitheather~
+You are in on a wide, circular ledge overlooking a large slab of
+stone in the chamber below.  Crude seats are fashioned here from the
+surrounding porous rock and the walls are decorated with various
+bonesaws and a quote in blood, 'That fell arrest without bail.'  A
+coffin lid door is set in the east wall, while steps cut into the
+rock lead down and west.
+~
+0 8 1
+D1
+You see a doorway made from a coffin's lid.
+~
+door coffin~
+0 -1 5446
+D3
+~
+~
+0 -1 5448
+D5
+~
+~
+0 -1 5451
+S
+#5448
+The Temple Of Death~
+You are in a small shrine in honor of the 'Pale Priest of the Mute
+People'.  Here, Hell's Grim Tyrant is sought as a source of
+inspiration and wisdom by the Guildmembers.  The chamber walls open to
+exits heading down and east.
+~
+0 8 1
+D1
+~
+~
+0 -1 5447
+D5
+~
+~
+0 -1 5452
+S
+#5449
+Cold Storage~
+The stink of this storage chamber makes you balk at once.  Through
+your nausea you make out cadavers kept cool in niches in the stone
+walls.  Barrels of dust and decanters of blood fill the room.  On the
+wall, in some dark ink, is scrawled, 'That dreamless sleep.'  The
+chamber exits south and up.
+~
+0 8 1
+D2
+~
+~
+0 -1 5452
+D4
+~
+~
+0 -1 5427
+S
+#5450
+The Kennel Of The Demised~
+This chamber of hard stone is empty save for a sturdy iron ring set
+in the floor.  A large, heavy chain with collar at one end is attached
+to the ring.  Small print on the collar reads, 'Quietus.'
+~
+0 8 1
+D2
+~
+~
+0 -1 5451
+D4
+~
+~
+0 -1 5445
+S
+#5451
+The Operating Room~
+This circular chamber is dominated by a large stone slab in the
+center which bears the stains of countless horrible experiments.  The
+cruel work that goes on here is generally viewed from the amphitheatre
+above by the guild apprentices and patrons.
+~
+0 8 1
+D0
+~
+~
+0 -1 5450
+D4
+~
+~
+0 -1 5447
+S
+#5452
+The Guildhall~
+This is the largest chamber cut from Ancalador's pancreas.  A long
+feasting table made of coffins lashed together fills the length of the
+room.  On the wall, in the dried ichor that passes for blood in
+demons, is written, 'A debt we must all pay.'  A set of double
+coffin-lid doors is to the west, and other exits are to the north and
+up.
+~
+0 8 1
+D0
+~
+~
+0 -1 5449
+D3
+~
+door doors coffin~
+0 -1 5453
+D4
+~
+~
+0 -1 5448
+S
+#5453
+The Altar Of Annihilation~
+You stand before the horrific Altar of Annihilation where the magic
+and power of extinguishment and dissolution are full explored.  You
+feel the countless ceremonies of extinction performed here, like a
+gloom that pervades the altar, which looks like a huge rib cage
+centered with a demon's skull.  Before the altar is a black iron
+grating covering a dark pit where the ebb of life is glorified in
+sacrifice.
+~
+0 8 1
+D1
+~
+door doors coffin~
+0 -1 5452
+D5
+You can't see much, but you don't like the little you do see.
+~
+grating grate~
+0 5405 5454
+S
+#5454
+The Darken Pit~
+The very evil of this place seeks to extinguish your light as if
+the gloom had a nefarious soul of its own.  You know true fear as
+something moves in the darkness... toward you.
+~
+0 9 1
+D4
+You see a black iron grating above you.
+~
+grating grate~
+0 5405 5453
+S
+#5455
+A Stone Tunnel~
+The dragon's throat continues east and west on a path which neither
+rises nor falls.  On the south wall, to the dragon's left, a warmth
+can be felt, followed by a feeling of pure evil.
+~
+0 9 1
+D1
+You see the tunnel open up to a great cavern beyond.
+~
+~
+0 -1 5412
+D3
+~
+~
+0 -1 5406
+S
+#5456
+A Stone Corridor~
+You are in a circular tunnel of stone.  The walls are irregular and
+pockmarked.  The tunnel continues east and west.
+~
+0 13 1
+E
+walls~
+A small fissure appears to be set in the south wall.
+~
+D1
+You see the beginning of a new, smoother tunnel.
+~
+~
+0 -1 5428
+D2
+It seems you might be able to pry the fissure open.
+~
+fissure~
+0 -1 5427
+D3
+You see the bone doorway leading towards the stomach cavern.
+~
+door doors bone~
+0 5418 5426
+S
+#5457
+Muddy Riverbank~
+You are on the south bank of a rushing river.  An old, mossy and
+huge stone slab hangs over the riverbank, allowing you to cross
+towards a great forest.  A verdant valley stretches before you to the
+east, while the terrain to the west and south quickly become
+mountainous, and impassible.
+~
+0 0 5
+D0
+You see the forest of Haon-Dor across a roiling river with bits of
+junk floating by occasionally from Midgaard, to the northeast.
+~
+~
+0 -1 6121
+D1
+~
+~
+0 -1 5400
+S
+#0
+
+
+
+#SPECIALS
+M 5400 spec_cast_undead
+M 5401 spec_poison
+M 5402 spec_cast_mage
+M 5403 spec_cast_undead
+M 5404 spec_cast_undead
+M 5405 spec_cast_undead
+M 5406 spec_cast_undead
+M 5409 spec_breath_fire
+M 5410 spec_poison
+M 5412 spec_cast_undead
+M 5415 spec_cast_mage
+S
+
+
+
+#RESETS
+M 0 5407 1 5400 1
+M 0 5408 2 5403 2
+M 0 5408 2 5403 2
+M 0 5409 2 5408 1
+M 0 5409 2 5411 1
+M 0 5410 5 5417 1
+M 0 5411 5 5418 1
+M 0 5410 5 5419 1
+E 0 5416 0 9
+M 0 5411 5 5420 1
+M 0 5410 5 5421 1
+M 0 5411 5 5422 1
+O 0 5414 0 5423
+P 0 5421 0 5414 1
+P 0 5424 0 5414 1
+P 0 5425 0 5414 1
+P 0 5426 0 5414 1
+M 0 5410 5 5423 1
+E 0 5412 0 11
+P 0 5413 0 5412 1
+P 0 5413 0 5412 1
+P 0 5413 0 5412 1
+P 0 5413 0 5412 1
+P 0 5413 0 5412 1
+P 0 5413 0 5412 1
+P 0 5413 0 5412 1
+M 0 5411 5 5423 1
+M 0 5410 5 5425 1
+M 0 5411 5 5425 1
+M 0 5412 1 5426 1
+E 0 5415 0 16
+E 0 5418 0 17
+M 0 5400 4 5427 1
+M 0 5413 6 5429 1
+M 0 5414 6 5430 1
+G 0 5421 0
+M 0 5413 6 5433 1
+M 0 5414 6 5434 1
+G 0 5423 0
+M 0 5413 6 5436 1
+M 0 5414 6 5437 1
+G 0 5422 0
+M 0 5413 6 5438 1
+M 0 5414 6 5438 1
+G 0 5427 0
+M 0 5413 6 5439 1
+M 0 5413 6 5440 1
+M 0 5414 6 5441 2
+G 0 5422 0
+M 0 5414 6 5441 2
+G 0 5417 0
+M 0 5404 2 5445 1
+O 0 5402 0 5446
+P 0 5403 0 5402 1
+P 0 5404 0 5402 1
+M 0 5403 1 5446 1
+E 0 5406 0 16
+M 0 5405 6 5448 2
+E 0 5400 0 16
+M 0 5405 6 5448 2
+E 0 5400 0 16
+M 0 5415 3 5448 1
+G 0 5401 0
+E 0 5420 0 16
+M 0 5405 6 5449 1
+E 0 5400 0 16
+O 0 5407 0 5451
+M 0 5400 4 5451 2
+M 0 5400 4 5451 2
+M 0 5415 3 5451 1
+E 0 5420 0 16
+E 0 5405 0 17
+M 0 5400 4 5452 1
+M 0 5415 3 5452 1
+G 0 5419 0
+E 0 5420 0 16
+M 0 5402 1 5453 1
+E 0 5409 0 16
+E 0 5410 0 11
+M 0 5405 6 5453 3
+E 0 5400 0 16
+M 0 5405 6 5453 3
+E 0 5400 0 16
+M 0 5405 6 5453 3
+E 0 5400 0 16
+M 0 5401 3 5454 3
+M 0 5401 3 5454 3
+M 0 5401 3 5454 3
+M 0 5406 1 5454 1
+E 0 5411 0 16
+E 0 5408 0 17
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

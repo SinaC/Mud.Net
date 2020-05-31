@@ -141,7 +141,7 @@ namespace Mud.Server.Aura
             Source = null;
         }
 
-        public void Append(StringBuilder sb)
+        public void Append(StringBuilder sb, bool shortDisplay = false)
         {
             // TODO // if lvl < 10: only ability
             // TODO // if lvl < 15: only ability and duration
@@ -150,8 +150,8 @@ namespace Mud.Server.Aura
             // TODO admin see hidden auras
 
             // TODO: better formatting with spacing like in score
-            sb.AppendFormatLine("%B%{0}%x% (lvl {1}) {2} {3}",
-                    Ability?.Name ?? "Inherent",
+            sb.AppendFormatLine("%B%{0,15}%x% (lvl {1}) {2} {3}",
+                    Ability?.Name.MaxLength(15) ?? "Inherent",
                     Level,
                     AuraFlags.HasFlag(AuraFlags.Permanent)
                         ? "%R%Permanent%x%"
@@ -159,12 +159,13 @@ namespace Mud.Server.Aura
                     AuraFlags == AuraFlags.None
                         ? ""
                         : AuraFlags.ToString());
-            foreach (IAffect affect in Affects)
-            {
-                sb.Append("    ");
-                affect.Append(sb);
-                sb.AppendLine();
-            }
+            if (!shortDisplay)
+                foreach (IAffect affect in Affects)
+                {
+                    sb.Append("    ");
+                    affect.Append(sb);
+                    sb.AppendLine();
+                }
         }
 
         public virtual AuraData MapAuraData()

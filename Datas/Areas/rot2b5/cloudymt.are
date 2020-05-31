@@ -1,0 +1,6337 @@
+#AREADATA
+Name Cloudy Mountain~
+Builders None~
+VNUMs 12000 12199
+Credits {45 91} Scourge Cloudy Mountain~
+Security 9
+End
+
+#MOBILES
+#12000
+guard palace~
+A palace guard~
+A palace guard is ready to attack at the slightest sign of trouble.
+~
+You see a huge, heavily armored dragon guard.  This is one of the city's best
+guards.  Palace guards are chosen by the King himself as the last line of 
+protection against attacks.
+~
+dragon~
+ABGT A JT AHZ -175 0
+70 4 11d56+1629 23d27+1752 3d27+43 slash
+-24 -23 -25 -23
+CERTU BEH BEFHIQ FI
+stand stand either 560
+ACDEFGHIJKMPQUVXZ ABCDEFGHIJKPQUVWX huge unknown
+#12001
+bodyguard guard~
+The King's Bodyguard~
+One of the King's Bodyguards is keeping a watch for strangers.
+~
+This half-minotaur, half-dragon is one of Cloudy Mountain's finest warriors.
+Each Bodyguard has sworn to give their life to protect the king.
+~
+dragon~
+AGTd A CJT AHZ 0 0
+75 5 22d31+2029 21d35+2272 4d21+47 slice
+-28 -26 -26 -23
+ABEK BEH BEFHIQ FI
+stand stand either 960
+ACDEFGHIJKMPQUVXZ ABCDEFGHIJKPQUVWX huge unknown
+#12002
+guard elite~
+An Elite guard~
+An Elite guard of the city stands watch.
+~
+This guard has reached the higher ranks among the guards.  Although the 
+position of Elite Guard is supposed to be open to all, they tend to be half
+minotaur.
+~
+dragon~
+AGT A JT AHZ -350 0
+65 3 24d24+1572 20d26+1313 8d8+41 pound
+-20 -22 -22 -19
+CIK BEH BEFHIQ FI
+stand stand either 520
+ACDEFGHIJKMPQUVXZ ABCDEFGHIJKPQUVWX huge unknown
+#12003
+lieutenant dragon~
+a dragon lieutenant~
+A lieutenant is drilling his troops.
+~
+This half-minotaur is very powerful and doesn't take kindly to slackers in his
+ranks.
+~
+dragon~
+ABGT A JT AHZ -400 0
+60 2 8d65+1221 9d59+1266 6d10+36 pierce
+-21 -21 -20 -17
+EKN BEH BEFHIQ FI
+stand stand male 240
+ACDEFGHIJKMPQUVXZ ABCDEFGHIJKPQUVWX huge unknown
+#12004
+lieutenant dragon~
+a dragon lieutenant~
+A lieutenant is surveying the troops
+~
+Although most dragons with human blood are usually discriminated against, this
+half-human has risen quickly through the ranks.~
+dragon~
+AGT A JT AHZ -375 0
+60 2 8d65+1221 8d65+1221 5d13+38 pierce
+-17 -20 -21 -16
+DEKN BEH BEFHI FI
+stand stand female 240
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12005
+guard dragon~
+a dragon guard~
+A guard of Cloudy Mountain stands watch.
+~
+Cloudy Mountain's first line of defense once the enemy has made it to the walls
+of the city.  This guard appears to have a lot of human qualities.
+~
+dragon~
+AGT A JT AHZ 360 0
+55 2 11d38+904 8d59+1054 6d9+33 punch
+-18 -17 -18 -13
+DEKU BEH BEFHI FI
+stand stand either 220
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12006
+guard dragon~
+a dragon guard~
+A guard of cloudy mountain stands watch
+~
+The first line of defense for the city itself.  This guard appears to be a 
+giant with dragon features.
+~
+dragon~
+AGT A JT AHZ -360 0
+55 2 13d31+869 8d59+1054 7d8+36 crush
+-16 -16 -15 -13
+CDEKU BEH BEFHI FIP
+stand stand either 210
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12007
+soldier dragon~
+a dragon soldier~
+A soldier of Cloudy Mountain is here.
+~
+This fierce warrior is not only strong, but well trained in battle and in
+strategy.  This combination makes this army one of the finest and most feared
+in the land.
+~
+dragon~
+AGT A JT AHZ 375 0
+50 1 10d36+737 15d25+802 7d7+32 pierce
+-13 -13 -18 -11
+DKN BEH BEFHI FI
+stand stand either 100
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12008
+soldier dragon~
+a dragon soldier~
+A soldier of Cloudy Mountain is here.
+~
+This fierce warrior is not only strong, but well trained in battle and in 
+strategy.  This combination makes this army one of the finest and most feared
+in the land.
+~
+dragon~
+AGT A JT AHZ -375 0
+50 1 16d24+835 11d38+904 5d10+30 pierce
+-15 -13 -17 -8
+DKN BEH BEFHI FI
+stand stand either 100
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12009
+gateguard guard~
+a gateguard~
+A guard is protecting the city entrance.
+~
+This dragon appears to be very short and stocky.  You don't seem to be 
+intimidated by this guard even though you are being challenged.  Is this the
+city's best defense, or is this a trick to make you underestimate the defenses?
+~
+dragon~
+ABGT A JT AHZ 0 0
+50 1 10d36+737 16d24+835 7d7+32 slash
+-16 -15 -16 -9
+EKU BEH BEFHILQ FI
+stand stand either 200
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12010
+dragon winged~
+The winged dragon~
+A winged dragon guards a half to the Crown of Kings.
+~
+These dragons have inhabited Cloudy Mountain for centuries.  They have kept the
+Crown of Kings in their possession all this time and do not intend to give them
+up to you.
+~
+dragon~
+ABFG A JT AHNZ -600 0
+100 2 30d39+5433 18d71+5917 3d39+62 claw
+-41 -40 -40 -36
+ACDE ABEH BEFHIJR FI
+sleep sleep either 4341
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX giant unknown
+#12011
+dragon mountain~
+a mountain dragon~
+A dragon searches Cloudy Mountain for it's next meal.
+~
+A ferocious dragon that views you as food and nothing else.
+~
+dragon~
+ABFG A JT AHZ -550 0
+77 0 14d51+2107 21d35+2272 6d14+48 claw
+-28 -29 -30 -23
+CIKU BEH ABEFHI FI
+stand stand either 30
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12012
+snake~
+a giant snake~
+A HUGE snake towers over you.
+~
+This snake looks like it could swallow a man whole!
+~
+snake~
+ABFG A 0 AGXYc -500 0
+73 0 14d51+2107 22d31+2029 5d16+45 bite
+-28 -26 -26 -22
+DU L IL I
+stand stand either 0
+ADEFGKLQVXYc ADEFKLQVX huge unknown
+#12013
+demon~
+a demon~
+A demon searches the caverns for victims.
+~
+A large, lizard like creature sizes you up as a good meal.
+~
+unique~
+ABFG A 0 0 -500 0
+72 0 24d27+1884 11d56+1629 4d21+47 scratch
+-27 -25 -24 -23
+DFNU 0 0 0
+stand stand either 0
+0 0 medium unknown
+#12014
+rat~
+a cave rat~
+A large cave rat is searching for it's next meal
+~
+This is the biggest rat you've ever seen!  Even though you are still bigger,
+it is still bent on killing you.
+~
+unique~
+ABFGH A 0 0 -450 0
+21 0 3d39+181 9d11+168 3d8+15 bite
+-1 -1 -2 3
+U 0 0 0
+stand stand either 0
+AGV ACDEFHJKQUV small unknown
+#12015
+bat~
+a bat~
+A big brown bat is making noise
+~
+This bat keeps flying close to you, but doesn't attack.  You have the feeling
+that it's purpose is to distract you from noticing a larger foe.
+~
+bat~
+AGH A FHTZ AGV -390 0
+13 0 6d10+99 7d7+82 2d6+8 bite
+3 4 2 9
+FHU AB S S
+stand stand either 0
+ACDEFGHJKPV ACDEFHJKP tiny unknown
+#12016
+spider~
+a giant spider~
+A giant, hairy spider eyes your inventory
+~
+A large, black, hairy spider that will eat your inventory the instant you 
+turn your back to it.
+~
+unique~
+ACGHS A D 0 -350 0
+25 0 3d39+181 7d19+223 4d5+14 bite
+-1 -1 -2 1
+0 0 0 0
+stand stand either 0
+AGP ACFKV small unknown
+#12017
+blob~
+the blob~
+The blob is eating everything in it's path
+~
+Although slow moving, this....thing...will drain your life very quickly if 
+you are foolish enough to get too close.
+~
+unique~
+ABCG A 0 0 -400 0
+100 -3 30d39+5433 30d39+5433 3d39+61 digestion
+-40 -40 -38 -35
+0 ABEFG DKQS C
+stand stand either 0
+BES 0 huge unknown
+#12018
+citizen dragon~
+A citizen~
+A citizen of Cloudy Mountain passes by.
+~
+A half-giant dragon lumbers by, paying no heed to you.
+~
+dragon~
+AGH A JT AHZ 200 0
+45 0 5d65+687 17d17+658 5d9+28 pound
+-11 -12 -14 -6
+DI BEH BEFHI FIP
+stand stand either 21
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12019
+citizen dragon~
+A citizen~
+A citizen of Cloudy Mountain eyes you suspiciously.
+~
+A half-drawf, this dragon is suspicious of strangers in the city.
+~
+dragon~
+AGH A JT AHZ 350 0
+45 0 17d17+658 5d65+687 4d12+29 punch
+-11 -11 -10 -8
+DK BEH BEFHILQ FI
+stand stand either 36
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12020
+citizen dragon~
+a citizen~
+A citizen of Cloudy Mountain is here.
+~
+This dragon is half-elf and is rather slender for a dragon.
+~
+dragon~
+AGH A JT AHZ 500 0
+45 1 14d21+623 10d35+705 4d12+29 stab
+-10 -13 -13 -8
+EN BEH BEFHI FI
+stand stand either 61
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12021
+citizen dragon~
+a citizen~
+A citizen of Cloudy Mountain smiles happily.
+~
+Although some high ranking officials in the city believe mating with humans
+will save dragons since humans appear to be taking over as the dominate 
+intelligent life-form, many are suspicious of half-humans for this very reason.
+Others simply believe that it is ruining the dragon race.   
+~
+dragon~
+AGH A JT AHZ 100 0
+45 0 17d17+658 17d17+658 5d9+28 slap
+-13 -12 -12 -7
+DEK BEH BEFHI FI
+stand stand either 51
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12022
+citizen dragon~
+a citizen~
+A citizen of Cloudy Mountain grins evilly.
+~
+Although some high ranking officials in the city believe mating with humans will
+save dragons since humans appear to be taking over as the dominate intelligent
+life-form, many are suspicious of half-humans for this very reason.  Others 
+simply believe that it is ruining the dragon race.
+~
+dragon~
+AGH A JT AHZ -100 0
+45 0 14d21+623 10d35+705 4d11+26 slap
+-11 -14 -13 -9
+DJK BEH BEFHI FI
+stand stand either 52
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12023
+citizen dragon~
+a citizen~
+A citizen of Cloudy Mountain glares at you.
+~
+This mean-spirited dragon is half-orc.
+~
+dragon~
+AGH A JT AHZ -200 0
+45 0 5d65+687 10d35+705 2d27+29 beating
+-11 -12 -13 -9
+DEIN BEH BEFHIQ FIS
+stand stand either 25
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12024
+citizen dragon~
+a citizen~
+A citizen of Cloudy Mountain looks you over.
+~
+Because they are so strong and skilled in battle, half-minotaurs are favored 
+by many of the higher ranking officials in the city.
+~
+dragon~
+AGH A JT AHZ -350 0
+45 1 14d26+769 14d21+623 5d9+28 smash
+-12 -12 -12 -8
+DK BEH BEFHIR FI
+stand stand either 57
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12025
+citizen dragon~
+a citizen~
+A citizen of Cloudy Mountain snarls at you.
+~
+Although not as intelligent as the other dragons, this half-troll looks like
+a fierce fighter.
+~
+dragon~
+AGH A FJT AHZ -500 0
+45 0 17d17+658 14d21+623 2d27+29 claw
+-12 -12 -12 -6
+ILN BEH BEFHI FHI
+stand stand either 39
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12026
+citizen dragon~
+a dragon citizen~
+A citizen of Cloudy Mountain looms before you.
+~
+This dragon nearly takes up the whole room, since this is one of the true
+dragons in the city.
+~
+dragon~
+AG A JT AHZ 0 0
+47 0 10d36+737 10d35+705 2d27+29 slash
+-10 -13 -13 -7
+DEK BEH BEFHI FI
+stand stand either 188
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX giant unknown
+#12027
+thief~
+a thief~
+A thief is here.
+~
+Although rather large, this half-human thief is certainly not clumsy and will
+rob you blind.
+~
+dragon~
+ACGHS A DFJT AHNZ -370 0
+51 1 11d38+904 11d38+904 7d7+31 stab
+-15 -12 -17 -11
+EJKNU BEH BEFHI FI
+stand stand either 290
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12028
+rogue~
+a rogue~
+A rogue is here.
+~
+A rogue is looking for a fight.  
+~
+dragon~
+ACGHS A FJT AHZ -400 0
+48 0 17d17+658 17d17+658 7d7+31 cleave
+-13 -16 -12 -12
+DINU BEH BEFHI FHI
+stand stand either 197
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12029
+assassin~
+the assassin~
+An assassin guards the entrance.
+~
+Every official must watch their back because of these deadly dragon assassins.
+Although large, they strike quickly and quietly and have the brawn to 
+engage in a straight fight.
+~
+dragon~
+ABFGT A DJT AHZ -500 0
+52 0 8d59+1054 16d27+977 6d8+31 pierce
+-16 -16 -17 -13
+BEKU BEH BEFHIQ FI
+stand stand either 324
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12030
+dragon anarchy~
+A Dragon of Anarchy~
+A member of the clan Dragons of Anarchy is here.
+~
+These dragons are a part of a clan dedicated to evil.  They hope to someday
+control the city and use it's army to conquer the surrounding lands.
+~
+dragon~
+AGH A JT AHZ -600 0
+58 1 18d27+1178 17d28+1136 5d13+38 wrath
+-19 -19 -19 -16
+IKU BEH BEFHI FI
+stand stand either 215
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12031
+dragon virtue~
+A Dragon of Virtue~
+A member of the group Dragons of Virtue is here.
+~
+These dragons are dedicated to spreading good will and hope to eliminate
+the fear other races have for these large beings.
+~
+dragon~
+AGH A JT AHNZ 600 0
+58 0 8d59+1054 17d28+1136 6d10+36 divine
+-19 -22 -19 -15
+ENU BEH BEFHI FI
+stand stand either 208
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12032
+Dracolich Gimp~
+The dracolich of Gimp~
+The dracolich of Gimp rears his head to attack.
+~
+It is the un-dead transformation of Gimp in his true dragon form that was 
+only observed when he was in a state of extreme anger.
+~
+dragon~
+AFG A JT AHZ -1000 0
+95 1 30d39+5433 28d39+4767 8d13+60 bite
+-38 -37 -38 -33
+ACKM ABEH BEFHI FI
+stand stand male 0
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX giant unknown
+#12033
+lag monster~
+Lag~
+OH NO! IT'S THE HORRIBLE LAG MONSTER!!!!!!~
+It can't be killed, it kills players slowly by rendering them helpless with
+it's lag spell.  Everyone from the clueless newbie to the experienced hero
+falls victim to the lag monster.~
+unique~
+ABCFGV A D H -1000 0
+110 1 39d39+9201 39d54+9801 8d19+70 suction
+-46 -47 -47 -42
+ACE AB CLQR 0
+stand stand either 40000
+BES FKMNV giant unknown
+#12034
+cloaker~
+A cloaker~
+A large, black cloak lies here.~
+What you thought was a cloak rises to reveal a pale body and head with 
+piercing red eyes and a VERY large mouth.  It's tail uncurls and anticipates
+it's next meal.
+~
+unique~
+ABFG A P 0 -500 0
+58 2 8d65+1221 6d81+1095 7d8+36 bite
+-17 -18 -16 -15
+FG AB 0 0
+rest rest either 0
+AH AEFKQUV large unknown
+#12035
+piercer stalactite~
+a piercer~
+A small stalactite hangs from the cave ceiling.
+~
+You see what appears to be a harmless stalactite.	
+~
+unique~
+ABF A 0 0 -200 0
+10 5 5d5+43 6d9+91 2d4+7 pierce
+6 5 6 10
+U AB F 0
+stand stand either 0
+GQ FKM small unknown
+#12036
+piercer~
+A piercer~
+A stalactite hangs from the cave ceiling
+~
+You see what appears to be a harmless stalactite.
+~
+unique~
+ABF A 0 0 -200 0
+20 5 9d11+168 7d10+116 3d7+13 pierce
+0 3 2 3
+U AB F 0
+stand stand either 0
+GQ FKM small unknown
+#12037
+piercer~
+A piercer~
+A large stalactite hangs from the cave ceiling.
+~
+You see what appears to be a harmless stalactite.
+~
+unique~
+ABF A 0 0 -200 0
+30 5 12d14+307 7d23+271 5d6+20 pierce
+-3 -7 -7 -3
+U AB F 0
+stand stand either 0
+GQ FKM small unknown
+#12038
+piercer~
+A piercer~
+A very large sharp stalactite hangs from the cave ceiling.
+~
+You see what appears to be a harmless stalactite.
+~
+unique~
+ABF A 0 0 -200 0
+40 5 7d44+589 16d16+508 4d10+24 pierce
+-10 -7 -10 -5
+U AB F 0
+stand stand either 0
+CQ FKM medium unknown
+#12039
+piercer stalactite~
+a piercer~
+A small stalactite hangs from the cave ceiling.
+~
+You see what appears to be a harmless stalactite.
+~
+unique~
+ABF A 0 0 -200 0
+10 5 2d21+59 5d6+51 2d4+6 pierce
+4 3 8 10
+U AB F 0
+stand stand either 0
+GQ FKM small unknown
+#12040
+piercer~
+a piercer~
+A stalactite hangs from the cave ceiling
+~
+You see what appears to be a harmless stalactite.
+~
+unique~
+ABF A 0 0 -200 0
+20 5 6d15+146 9d11+168 3d7+13 pierce
+0 1 -1 4
+U AB F 0
+stand stand either 0
+GQ FKM small unknown
+#12041
+piercer~
+a piercer~
+A large stalactite hangs from the cave ceiling.
+~
+You see what appears to be a harmless stalactite.
+~
+unique~
+ABF A 0 0 -200 0
+30 5 12d14+307 14d14+367 5d6+21 pierce
+-4 -5 -5 0
+U AB F 0
+stand stand either 0
+GQ FKM small unknown
+#12042
+piercer~
+a piercer~
+A very large, sharp stalactite hangs from the cave ceiling.
+~
+You see what appears to be a harmless stalactite.
+~
+unique~
+ABF A 0 0 -200 0
+40 5 13d22+561 16d16+508 4d10+24 pierce
+-9 -11 -11 -7
+U AB F 0
+stand stand either 0
+GQ FKM medium unknown
+#12043
+anarchy~
+A Dragon of Anarchy~
+A member of the clan Dragons of Anarchy is here.
+~
+This dragon has sworn an oath to fighting good either directly or through 
+deception.
+~
+dragon~
+AGH A JT AHNZ -900 0
+59 0 20d26+1313 8d59+1054 6d10+37 slash
+-19 -17 -18 -12
+C BEH BEFHI FI
+stand stand either 232
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12044
+virtue~
+A Dragon of Virtue~
+A member of the group Dragons of Virtue is here.
+~
+This dragon has sworn an oath to battle evil either through negotiation, or
+if necessary, through combat.
+~
+dragon~
+AGH A JT AHNZ 900 0
+59 0 18d27+1178 9d59+1266 6d10+37 cleave
+-20 -20 -17 -13
+C BEH BEFHI FI
+stand stand either 233
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12045
+Drakknar~
+Drakknar~
+The Great Cloud Dragon, Drakknar, towers above you.
+~
+He is a pure dragon, and doesn't like other races, especially humans.  However
+he is a great politician, and it is he that prevents the two halves of the 
+city from destroying each other.
+~
+dragon~
+AB A JT AHZ 0 0
+93 0 21d49+4190 14d80+4553 6d17+58 claw
+-35 -37 -37 -33
+AC ABEHI BEFHI FI
+stand stand male 1781
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX giant unknown
+#12046
+Kringe~
+Kringe~
+Kringe is thinking dreadful thoughts.
+~
+The leader of the clan Dragons of Anarchy.  Being a red dragon, he is very
+greedy.  It is rumored that he leads covert bands to sack other cities in 
+order to increase his wealth.  After appraising you as being no threat, he 
+begins counting his money...again.
+~
+dragon~
+ABR A JQT AHZ -1000 0
+93 0 28d39+4767 32d33+4361 9d11+59 pound
+-34 -36 -35 -29
+ACDEK ABEH BEFHI FI
+stand stand male 3429
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX giant unknown
+#12047
+Maaklan~
+Maaklan~
+Maaklan smiles at you.
+~
+The leader of the group Dragons of Virtue.  She is pure silver dragon, but 
+likes to take on humanoid forms.  She especially enjoys the company of humans
+and elves.  Her favorite form is that of an elf with the best dragon features.
+She appears as a VERY tall, slender, gorgeous elven woman with a pale 
+complexion and flowing silver hair.
+~
+dragon~
+ABT A CJT AHNZ 1000 0
+93 1 32d33+4361 32d33+4361 9d11+59 divine
+-39 -38 -39 -32
+ACEIK ABEHI BEFHI FI
+stand stand female 2174
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX giant unknown
+#12048
+Bazarnog bronze puppy~
+Bazarnog~
+A bronze colored puppy wags it's tail.
+~
+The cute little puppy smirks.  Suddenly it transforms into a bronze hulk of
+a dragon.  He introduces himself to you as Bazarnog, leader of the warrior
+guild of Cloudy Mountain.
+~
+dragon~
+ABT A JT AHZ 800 0
+91 0 14d80+4553 28d39+4767 7d14+56 beating
+-37 -37 -35 -30
+ACDK ABEHJ BEFHI FI
+stand stand male 1462
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX giant unknown
+#12049
+Barnok~
+Barnok~
+Barnok is memorizing spells.
+~
+The blue dragon, Barnok, leader of the Druid Guild.  Being a dragon Druid
+Hero, he has learned all of the dragon breath weapons.  Since he is a quarter 
+minotaur himself, Barnok has made sure many half-minotaurs have risen to 
+high ranks among the guards.
+~
+dragon~
+ABR A JQT AHZ -800 0
+91 0 21d49+4190 17d61+4003 5d20+56 magic
+-36 -36 -35 -32
+ADKM ABEHJ BEFHI FI
+stand stand male 1429
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX giant unknown
+#12050
+Nara Saan~
+Nara Saan~
+Nara Saan is speaking very rapidly.
+~
+Nara Saan, the high priestess of the cleric guild.  She is a mercury dragon, 
+smaller, but fleeter.  She knows every cleric spell in the book.  She would
+rather preach to an opponent than fight.
+~
+dragon~
+ABQ A JT AHNZ 800 0
+91 1 27d35+3527 14d71+3678 5d20+56 divine
+-36 -36 -35 -33
+AFHI ABEH BEFHILS FI
+stand stand female 1223
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12051
+Gringle shadow~
+Gringle~
+Something very large looms in the shadows.
+~
+You shine your light in the corner to expose Gringle, Head Master of the 
+vampire guild.  He is a shadow dragon who loves surprises.  In fact, chances
+are he found you first.
+~
+dragon~
+ABCFGHS A DJQT AHZ -800 0
+91 0 27d35+3527 14d71+3678 8d12+57 stab
+-34 -34 -36 -30
+ABEIN ABEHMO BEFHI FIS
+stand stand male 3030
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12052
+Ghanekar~
+Ghanekar~
+General Ghanekar becomes angry at your intrusion and attacks!
+~
+You are fighting Kringe's right hand man, or so Kringe thinks.  Ghanekar has
+a lot of shady deals on the side and no one really controls him.  He is a 
+green dragon and just so happens to be Gimp's dad.
+~
+dragon~
+ABFT A DJT AHZ -750 0
+90 0 14d71+3678 32d33+4361 5d20+56 wrath
+-37 -34 -33 -29
+ACEK ABEH BEFHI FI
+stand stand male 2313
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX giant unknown
+#12053
+Arnog~
+Arnog~
+General Arnog the dragon-giant smiles at you.
+~
+You see the second in command of the Dragons of Virtue.  He is half giant,
+half gold dragon.  He appears to be a giant with gold scales instead of skin.
+He is also much more intelligent that your average giant, since gold dragons
+are geniuses.
+~
+dragon~
+ABT A JT AHZ 750 0
+90 0 14d71+3678 17d61+4003 8d12+57 punch
+-35 -34 -34 -30
+ACKN ABEH BEFHI FI
+stand stand male 1028
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX giant unknown
+#12054
+Gauzrah~
+Commander Gauzrah~
+Commander Gauzrah stands silent.
+~
+One of the leaders of the Cloudy Mountain army.  He is also an active member of
+the Anarchy Clan.  He is half brown dragon and half minotaur.  Like Barnok,
+he prefers those with minotaur blood and thins his kind is superior on and 
+off the battlefield.
+~
+unique~
+AT A 0 0 -300 0
+85 0 19d47+3117 25d37+3384 2d51+54 pound
+-32 -33 -33 -29
+DEIK ABK HQ 0
+stand stand male 1000
+AH ABCDEFHKLQUVWX giant unknown
+#12055
+Raechalin~
+Raechalin~
+Commander Raechalin admires her troops.
+~
+You are surprised to see a human amongst all these dragons and half-dragons.
+Unless of course you are a steel dragon and recognize Raechalin as one of your
+own.  She is the army's best tactician.
+~
+dragon~
+AT A JT AHZ 350 0
+85 0 19d47+3117 25d37+3384 2d51+53 slice
+-31 -29 -31 -28
+FKN ABEH BEFHI FI
+stand stand female 1400
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12056
+Captain~
+The captain~
+The captain of the guard stands watch over the city.
+~
+She is a sapphire dragon sparkling in the sunlight.  Her wings are folded
+behind her like a cloak.
+~
+dragon~
+AT A JT AHZ 200 0
+75 0 21d35+2272 21d35+2272 5d17+48 claw
+-27 -26 -25 -21
+EK ABEH BEFHI FI
+stand stand female 1200
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12057
+King~
+The King~
+The King of Cloudy Mountain sits here.
+~
+You see the king on a very large throne.  He is an amethyst dragon.  He keeps
+to himself in the castle, but always allows guests.  His main function is 
+keeping Drakknar from leaving the city, but stays out of the internal affairs
+as much as possible.  He likes humans and used to be married to one until her
+mysterious death.
+~
+dragon~
+ABR A JQT AHZ 0 0
+80 0 14d56+2454 10d81+2552 9d9+49 scratch
+-30 -29 -29 -23
+AIK ABEHL BEFHI FI
+sit sit male 1915
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX giant unknown
+#12058
+noble~
+A dragon noble~
+A dragon noble brushes past.
+~
+A dragon who has devoted it's life to hoarding as many jewels, gold, and riches
+as possible.  Status in this city is determined by wealth and the individual's
+determination to get it.
+~
+dragon~
+A A JT AHZ -25 0
+49 0 15d25+802 10d36+737 5d10+30 none
+-11 -12 -12 -11
+F BEH BEFHI FI
+stand stand either 391
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12059
+Zilch~
+Zilch~
+Zilch is here giggling.
+~
+Although she is the most intelligent of the King's court, this half-human
+half-copper dragon spends most of her time planning practical jokes.  She is 
+the half-sister of Zonk.
+~
+dragon~
+AB A JT AHZ 425 0
+70 0 23d27+1752 24d27+1884 6d12+43 bite
+-25 -24 -24 -22
+K BEH BEFHI FI
+stand stand female 945
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12060
+Zonk~
+Zonk~
+Zonk is staring off into space.
+~
+Big and stupid.  Zonk is half white dragon and half human.  He is the half-
+brother of Zilch.
+~
+dragon~
+AB A JT AHZ -350 0
+70 0 10d69+1956 23d27+1752 3d27+43 charge
+-25 -26 -26 -21
+D BEH BEFHI FI
+stand stand male 386
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12061
+narz~
+Narz~
+Narz grins evilly at you.
+~
+Narz is half black dragon and half drow.  In fact she looks like a drow except
+she is extremely tall for a drow and has a long dragon's tail that she keeps
+hidden beneath her cloak.  She has more natural beauty (from a human's 
+perspective, not a dragon's) than any other in Cloudy Mountain.  She is very
+vain and very dangerous.
+~
+dragon~
+ABT A JT AHZ -500 0
+71 1 23d27+1752 22d27+1696 5d16+45 wrath
+-26 -25 -25 -23
+EIK ABEH BEFHI FI
+stand stand female 854
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12062
+Fred~
+Fred~
+Fred the dragon is talking your ear off.
+~
+Fred is a brass dragon who is always talking but has little to say.
+~
+dragon~
+AB A JT AHZ 325 0
+70 0 10d69+1956 24d24+1572 2d39+42 scratch
+-25 -22 -27 -21
+C BEH BEFHI FI
+stand stand male 787
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX giant unknown
+#12063
+hatchling~
+A hatchling~
+A dragon hatchling is crying.
+~
+Aw.... how cute! A baby dragon!
+A hatchling bites your toe off!
+~
+dragon~
+A A JT AHZ 0 0
+5 0 3d5+26 5d6+51 1d3+3 bite
+9 7 10 11
+0 BEH BEFHI FI
+stand stand either 0
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX small unknown
+#12064
+young dragon very~
+A very young dragon~
+A very young dragon is playing.
+~
+A very young dragon is playing.
+Ouch! A very young dragon tries to tackle you!
+~
+dragon~
+A A JT AHZ 0 0
+12 0 4d12+75 6d9+91 2d4+7 charge
+4 5 2 7
+0 BEH BEFHI FI
+stand stand either 0
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX medium unknown
+#12065
+young dragon~
+A young dragon~
+A young dragon is here.
+~
+Although young by dragon standards, this dragon is already bigger than you.
+~
+dragon~
+A A JT AHZ 0 0
+19 0 10d11+194 7d11+125 2d9+11 claw
+1 0 0 5
+0 BEH BEFHI FI
+stand stand either 0
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12066
+juvenile~
+a juvenile dragon~
+A juvenile dragon is here.
+~
+A juvenile dragon tackles you and knocks you out of the room!
+~
+dragon~
+A A JT AHZ 0 0
+27 0 7d24+289 11d13+254 4d6+16 crush
+-4 -3 -5 2
+K BEH BEFHI FI
+stand stand either 3
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12067
+peddler~
+A peddler~
+A shady looking peddler is in the corner.
+~
+The peddler is wearing a dark brown cloak.  The hood is pulled over it's head
+and only two large red eyes can be seen in the shadows.  The peddler cackles
+quietly.
+~
+dragon~
+A A JT AHZ 0 0
+100 0 30d39+5433 18d71+5917 9d12+64 slice
+-40 -39 -40 -36
+0 ABCDEH BEFHI FI
+stand stand either 400
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12068
+warrior~
+A warrior~
+A warrior smiles happily.
+~
+A half-giant, this dragon makes the perfect warrior.
+~
+dragon~
+AT A JT AHZ 375 0
+63 1 13d42+1361 8d65+1221 7d9+38 pierce
+-22 -21 -22 -16
+K BEH BDEFHI CFI
+stand stand either 252
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12069
+warrior~
+A warrior~
+A warrior snarls at you.
+~
+A half-giant, this dragon could easily snap you like a twig.
+~
+dragon~
+AT A JT AHZ -200 0
+63 1 8d65+1221 18d32+1516 7d9+38 crush
+-21 -24 -20 -17
+K BEH BDEFHI CFI
+stand stand either 252
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12070
+mage~
+A mage~
+A mage utters the words, 'powerword kill'.
+~
+A half-drow, this dragon mage is a master of casting deadly combat spells.
+~
+dragon~
+AR A JT AHZ -400 0
+62 0 13d42+1361 9d59+1266 7d9+39 magic
+-20 -22 -20 -17
+0 BEH BCEFHI DFI
+stand stand either 248
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12071
+mage~
+A mage~
+A mage utters the words, 'zjjdf aljljwed'.
+~
+An elven-dragon, this mage is very powerful.
+~
+dragon~
+AR A JT AHZ 250 0
+62 0 8d65+1221 8d65+1221 2d39+41 magic
+-18 -22 -21 -18
+0 BEH BCEFHI DFI
+stand stand either 248
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12072
+knight~
+A knight~
+A knight stands guard.
+~
+This dragon knight has sworn to honor and protect the warrior guild.
+~
+dragon~
+A A JT AHZ 500 0
+64 0 23d24+1463 20d26+1313 8d8+40 slash
+-22 -22 -23 -19
+E BEH BEFHI FI
+stand stand either 256
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12073
+knight~
+A knight~
+A knight of evil glares at you.
+~
+A dragon knight that has fallen from the path of good.  This dragon will 
+surely be recruited by the Dragons of Anarchy.
+~
+dragon~
+A A JT AHZ -500 0
+64 0 13d42+1361 22d24+1418 2d39+42 cleave
+-24 -24 -22 -20
+E BEH BEFHI FI
+stand stand either 256
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12074
+sorcerer~
+A sorcerer~
+A sorcerer of Barnok.
+~
+This half-minotaur mage is one of Barnok's favorites.  Knowing that only the
+most powerful mages may become one of his personal sorcerers, you think twice
+about attacking.
+~
+dragon~
+AR A JT AHZ -500 0
+65 0 23d24+1463 18d32+1516 2d39+41 wrath
+-20 -23 -22 -20
+0 BEH BEFHI FI
+stand stand either 284
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#12075
+samurai~
+A samurai warrior~
+A samurai warrior stands guard.
+~
+Dressed in ancient robes, this warrior is a master of swords.
+~
+dragon~
+ABT A JT AHZ 300 0
+63 0 23d24+1463 8d65+1221 6d11+39 slice
+-19 -19 -22 -16
+K BEH BEFHI FI
+stand stand either 252
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12076
+ranger~
+A ranger~
+A ranger is here.
+~
+A half-elf ranger.
+~
+dragon~
+AT A JT AHZ 500 0
+58 0 9d59+1266 8d59+1054 7d8+36 chop
+-22 -18 -18 -14
+E BEH BEFHI FIM
+stand stand either 232
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12077
+cleric~
+A cleric~
+A cleric is here.
+~
+The clerics of Cloudy Mountain have mastered the art of healing that is 
+second to none.
+~
+dragon~
+AQ A JT AHZ 490 0
+59 0 17d28+1136 8d65+1221 6d10+36 claw
+-20 -19 -19 -17
+I BEH BEFHI FI
+stand stand either 236
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12078
+priest~
+A priest~
+A priest of Nara Saan is here worshiping.
+~
+A priest dressed in mercury robes is saying prayers in honor of Nara Saan.
+The priests also serve as Saan's personal bodyguards.
+~
+dragon~
+ABQ A JT AHZ 600 0
+64 0 20d26+1313 18d32+1516 8d8+41 divine
+-21 -22 -19 -20
+N ABEH BCEFHIN FI
+stand stand either 325
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#12079
+flas cat~
+Flash~
+A gray cat with looks at you with demanding yellow eyes.
+~
+This is Scourge's gate mob since he does not have goto.  It is also his 
+childhood pet.  He was a *real* cat, may he rest in peace.
+~
+cat~
+AB A FHZ AGV 500 0
+3 0 2d6+21 3d5+26 1d3+2 scratch
+9 9 9 14
+FH CD 0 0
+stand stand either 0
+ACDEFGHJKQUV ACDEFHJKQUV small unknown
+#12080
+Monk~
+a monk~
+A monk guards the entrance.
+~
+These silent guards are respected by the city for their vow of silence.  It does
+not include spell casting, which equal the most powerful sorcerers'.
+~
+dragon~
+ABQ A JT AHZ 550 0
+61 0 9d59+1266 9d59+1266 8d8+40 magic
+-17 -21 -20 -14
+K BEH BCEFHIN DFI
+stand stand either 244
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#0
+
+
+
+#OBJECTS
+#12000
+drout drought~
+Drout~
+You see a patch of ground that looks bone dry and void of grass.~
+unknown~
+armor BEY AH
+ABE BCE CE ABCD 0
+101 1 800 G
+A
+12 100
+A
+13 100
+A
+18 5
+A
+19 5
+E
+drout~
+You possess the power to reward or destroy the farmer.~
+E
+drought~
+Dry weather, want of rain.~
+#12001
+frostbite bite dagger~
+FrostBite~
+A dagger made of a metal devoid of any heat awaits you.~
+steel~
+weapon B AN
+dagger 9 10 frbite 0
+70 5 1160 P
+A
+2 2
+A
+19 5
+E
+frostbite~
+The power of cold~
+#12002
+singe whip~
+Singe~
+A whip of fire is burning the grass around it.~
+steel~
+weapon B AN
+whip 9 10 flbite 0
+70 4 1160 P
+A
+18 3
+A
+19 4
+E
+Singe~
+The power of fire~
+#12003
+spark axe~
+Spark~
+An axe formed by lightning crackles here.~
+iron~
+weapon B AN
+flail 2 51 shbite 0
+70 6 1159 P
+A
+18 3
+A
+19 4
+E
+Spark~
+The power of lightning~
+#12004
+volcano mace~
+Volcano~
+A mace made of molten lava eats away the grass.~
+iron~
+weapon B AN
+mace 9 10 acbite 0
+70 7 1160 P
+A
+1 2
+A
+18 2
+A
+19 5
+E
+volcano~
+The power of corrosion~
+#12005
+liquidator sword~
+The Liquidator~
+A sword stained with the blood of humanity lies buried in a corpse.~
+steel~
+weapon ACEJ AN
+sword 2 81 cleave 0
+99 18 2000 P
+A
+12 60
+A
+13 130
+A
+18 6
+A
+19 7
+E
+liquidator~
+The sword used by Kringe, leader of the Dragons of Anarchy.~
+#12006
+resurgence sword~
+Resurgence~
+A sword that is the embodiment of hope that humanity will survive.~
+steel~
+weapon AK AN
+sword 12 12 slice 0
+99 18 2000 P
+A
+12 60
+A
+13 130
+A
+18 6
+A
+19 7
+E
+resurgence~
+The sword used by <>, leader of the Dragons of Virtue.~
+#12007
+ring~
+large ring shaped like a dragon's head.~
+A LARGE ring shaped like a dragon's head lies here.~
+iron~
+armor G AB
+CE ACE ABE ABCD 0
+98 8 2200 P
+A
+1 3
+A
+4 1
+A
+2 -1
+A
+13 198
+A
+14 -50
+A
+18 8
+A
+19 8
+#12008
+spectre~
+spectre~
+~
+iron~
+wand FG AO
+50 10 10 '' 0
+70 9 2400 P
+A
+18 4
+A
+19 4
+#12009
+shield~
+The King's Shield~
+~
+iron~
+armor B AJ
+AE CE E ACD 0
+85 15 1400 P
+A
+12 10
+A
+13 120
+A
+18 5
+A
+19 5
+#12010
+neckguard~
+~
+~
+steel~
+armor B AC
+ACD ABCD ABCD BD 0
+65 8 1360 P
+A
+12 65
+A
+18 4
+A
+19 1
+#12011
+wind draft~
+Wind~
+You notice a strong draft.~
+iron~
+armor BF AK
+ABCD ABCD ABCD BD 0
+75 1 1440 P
+A
+2 2
+A
+12 55
+A
+13 45
+A
+14 150
+A
+18 5
+A
+19 1
+E
+wind~
+A powerful gale nearly knocks you to the 
+ground.  Those who control the wind find it very useful.~
+#12012
+firestorm blaze~
+FireStorm~
+A blaze quickly spreads through the room.~
+iron~
+light AEJ AO
+ABCD BCD E BCD 0
+80 1 1800 P
+A
+13 120
+A
+18 2
+A
+19 5
+#12013
+northern lights aurora~
+Aurora Borealis~
+The northern lights are glowing brightly.~
+iron~
+light AK AO
+ABCD E BCD BCD 0
+80 1 1800 P
+A
+12 10
+A
+13 120
+A
+18 3
+A
+19 4
+#12014
+boots~
+Boots~
+~
+steel~
+armor G AG
+CD CD CD ABC 0
+60 10 1200 P
+A
+12 35
+A
+13 35
+A
+14 -40
+A
+19 4
+#12015
+spring~
+Spring~
+It's that time of year when the flowers begin to pop up and birds return.~
+steel~
+armor FG AF
+ABE BE ACE BE 0
+100 1 2400 P
+A
+5 1
+A
+12 40
+A
+13 145
+A
+14 55
+A
+18 7
+#12016
+autumn fall~
+Autumn~
+It's the time of year when plants die and birds fly south.~
+steel~
+armor FG AI
+CE ACE ABCE BE 0
+100 1 1600 P
+A
+5 -1
+A
+12 165
+A
+13 35
+A
+18 2
+A
+19 7
+#12017
+summer~
+Summer~
+It's the time of year when nature is alive and you are sweating.~
+steel~
+armor FGK AC
+CE CE ACE AE 0
+101 1 2600 P
+A
+5 2
+A
+13 110
+A
+18 8
+A
+19 7
+#12018
+winter~
+Winter~
+It's the time of the year when everything is dead and cold.~
+steel~
+armor FGJ AC
+ACE DE BCE AE 0
+101 1 2600 P
+A
+5 -2
+A
+12 110
+A
+18 7
+A
+19 8
+#12019
+flood~
+Flood~
+~
+steel~
+armor E AH
+AE BE ABE BCD 0
+90 1 2400 P
+A
+12 5
+A
+13 168
+A
+19 6
+A
+18 2
+#12020
+cloudburst rainshower~
+CloudBurst~
+A small rainshower is bringing life to the parched land.~
+steel~
+armor B AL
+ABE CE BCE E 0
+98 2 2400 P
+A
+12 148
+A
+13 52
+A
+18 7
+A
+19 3
+#12021
+hailstorm~
+HailStorm~
+You avoid a small hailstorm.~
+steel~
+armor B AE
+ACE ACE DE ABE 0
+98 1 2400 P
+A
+13 193
+A
+18 3
+A
+19 7
+A
+23 -7
+#12022
+cloudy mountain armor plate~
+Cloudy Mountain guard armor~
+A large breast plate with a mountain surrounded by clouds on it lies here.~
+iron~
+armor 0 AD
+BCD ABCD E ACD 0
+75 20 360 P
+A
+1 1
+A
+13 140
+A
+18 3
+A
+19 4
+#12023
+elite cloudy bracer~
+a bracer of the Cloudy Mountain Elite Guard~
+A large bracer lies here.~
+steel~
+armor G AM
+CD BCD E ABD 0
+70 10 400 P
+A
+13 85
+A
+18 4
+#12024
+shirt lag~
+a shirt that says "I survived the lag monster"~
+A shirt lies here.~
+cloth~
+armor 0 AD
+C BC AC B 0
+25 1 0 P
+#12025
+hat silly~
+a hat that says "I killed the lag monster!"~
+A silly hat lies here.~
+cloth~
+armor G AE
+ACE ACE BCE ABCD 0
+100 1 400 P
+A
+1 2
+A
+12 100
+A
+13 100
+A
+18 9
+A
+19 9
+E
+hat~
+The hat says:  "I killed the lag monster!" - wow! Whoever owns this hat rocks!!~
+#12026
+boat~
+an old boat~
+An old boat sits by the bank.~
+wood~
+boat 0 A
+0 0 0 0 0
+50 8 4 P
+#12027
+ring guild~
+A Warrior's Guild Ring~
+A ring with a sword and shield emblem lies here.~
+gold~
+armor 0 AB
+ABE ACE ABE BE 0
+101 1 2400 P
+A
+1 2
+A
+5 2
+A
+13 120
+A
+18 4
+A
+19 8
+#12028
+ring guild~
+A Druid's Guild Ring~
+A ring with magic symbols lies here.~
+gold~
+armor G AB
+ABE CE BCE AE 0
+101 1 2400 P
+A
+12 200
+A
+18 5
+A
+19 7
+A
+3 2
+A
+4 2
+#12029
+ring guild~
+a Cleric's Guild Ring~
+A ring with holy symbols lies here.~
+gold~
+armor G AB
+ACE BCE ACE ABCD 0
+101 1 2400 P
+A
+12 130
+A
+13 50
+A
+18 7
+A
+19 5
+A
+3 2
+A
+4 2
+#12030
+ring guild~
+A Vampire's Guild Ring~
+A ring with a bat on it lies here.~
+gold~
+armor 0 AB
+CE BE ABE ABCD 0
+101 1 2400 P
+A
+12 40
+A
+13 160
+A
+18 8
+A
+2 2
+A
+5 1
+A
+1 1
+A
+19 4
+#12031
+sword~
+A guard's sword~
+A sword of Cloudy Mountain lies here.~
+steel~
+weapon 0 AN
+sword 8 9 slice 0
+58 9 80 P
+A
+18 3
+A
+19 3
+#12032
+axe~
+a snake-skin axe~
+An axe made of snake scales lies here.~
+steel~
+weapon 0 AN
+axe 9 10 chop 0
+70 8 120 P
+A
+18 4
+A
+19 4
+#12033
+key crown kings~
+A half to the Crown of Kings~
+Half a crown lies here.~
+gold~
+key 0 A
+0 0 0 0 0
+0 1 0 P
+#12034
+crown king key~
+A half to the Crown of Kings~
+Half a crown lies here.~
+gold~
+key 0 A
+0 0 0 0 0
+0 1 0 P
+#12035
+happiness~
+Happiness~
+You see something that makes you extremely happy.~
+iron~
+armor AE AR
+CE ACE BCE ABE 0
+101 16 400 P
+A
+5 1
+A
+12 100
+A
+13 100
+A
+14 50
+A
+18 5
+A
+19 6
+#12036
+Battle Armor~
+Aesirian Battle Armor~
+A spiked breast plate is on the wall.~
+iron~
+armor E AD
+CE CE CE AE 0
+101 10 4000 P
+A
+1 1
+A
+2 2
+A
+5 1
+A
+12 150
+A
+13 150
+A
+14 75
+A
+18 8
+A
+19 7
+#12037
+boots stompin~
+Katyusha Boots of Stompin'~
+A pair of black boots sit here.~
+leather~
+armor E AF
+ABE CE BE E 0
+101 8 4000 P
+A
+1 2
+A
+12 75
+A
+13 75
+A
+18 5
+A
+19 7
+#12038
+chest treasure~
+A treasure chest~
+A treasure chest sits on the big pile of gold.~
+steel~
+container 0 0
+10 B 13233 0 0
+1 500 0 P
+#12039
+chest treasure~
+A treasure chest~
+A treasure chest sits on the big piles of gold.~
+iron~
+container 0 0
+10 B 13234 0 0
+1 500 0 P
+#12040
+flesh human~
+human flesh~
+A strange looking steak lies here.~
+food~
+food 0 A
+35 0 0 0 0
+1 2 4 P
+#12041
+dwarf donuts~
+Dwarf Donuts~
+Some very repulsive donuts lie here.~
+food~
+food 0 A
+20 0 0 0 0
+1 1 1 P
+#12042
+omelet orc~
+An orc omelet~
+A hideous looking omelet lays here.~
+food~
+food 0 A
+24 0 0 0 0
+1 3 2 P
+#12043
+ears elf~
+elf ears~
+A pair of severed pointy ears lie hear.~
+food~
+food 0 A
+18 0 0 0 0
+1 1 1 P
+#12044
+chest~
+A large gold chest~
+A gold chest is in the corner.~
+gold~
+container 0 A
+200 A 0 0 0
+45 15 100 P
+#12045
+needle pine~
+A pine needle~
+A pine needle is on the floor.~
+wood~
+weapon 0 AN
+dagger 4 15 stab 0
+45 1 200 P
+#12046
+gold watch~
+A gold watch~
+A gold pocket watch lies here.~
+gold~
+treasure 0 AO
+0 0 0 0 0
+45 2 200 P
+A
+3 3
+A
+4 2
+#12047
+grail~
+A grail~
+A grail lies here.~
+steel~
+drink 0 A
+10 10 'water' 0 0
+1 2 20 P
+#12048
+gold~
+gold~
+A pile of gold.~
+gold~
+money 0 A
+DFHINO 0 0 0 0
+0 1 1000 P
+#12049
+skis blizzard~
+A pair of Blizzard(TM) Skis~
+A pair of black giant slalom skis is standing against the wall.~
+wood~
+armor 0 AG
+ABE ACE ACE E 0
+101 7 4000 P
+A
+2 2
+A
+12 100
+A
+13 100
+A
+14 150
+A
+18 7
+A
+19 5
+A
+20 -3
+A
+22 -3
+#12050
+a crossbow~
+A crossbow~
+A crossbow of the Cloudy Mountain guard lies here.~
+steel~
+weapon 0 AN
+exotic 9 12 pierce 0
+78 14 400 P
+A
+12 25
+A
+13 50
+A
+18 6
+A
+19 3
+E
+bow cross~
+This steel crossbow is painted red.  It is the weapon used by the tower guards
+of Cloudy Mountain to stop enemies from scaling the huge walls of the city.
+~
+#12051
+sword sam~
+Samurai sword~
+A sword lies here.~
+steel~
+weapon 0 AN
+sword 6 15 slash 0
+63 3 40 P
+A
+18 4
+A
+19 3
+#0
+
+
+
+#ROOMS
+#12000
+A Mountain Road~
+You are at the beginning of a steep mountain path.  The road appears to 
+be very wide and well-traveled.  You wonder what could possible be at the top
+of a mountain so steep.
+~
+0 0 5
+D1
+a road
+~
+~
+0 -1 12001
+D3
+back to Aesir
+~
+~
+0 -1 3512
+S
+#12001
+A Mountain Road~
+Your pace quickens as you remember a legend about a city inhabited by 
+dragons in these parts.  Could it be true? It would explain the width of this
+road.
+~
+0 0 5
+D1
+a road
+~
+~
+0 -1 12002
+D3
+a road
+~
+~
+0 -1 12000
+S
+#12002
+A Mountain Road~
+The road continues east here.  You notice there are very large footprints
+in the dirt, whomever left them must have been marching.  You thought the
+city didn't exist or was destroyed, but there are signs that it exists!
+A sign is on the side of the road.
+~
+0 0 5
+E
+sign~
+This area is based on the Intellivison game "Advanced Dungeons and Dragons" 
+which is of course based on TSR's role playing game.  The name Cloudy Mountain,
+the caves in Cloudy Mountain and the mobs in Cloudy Mountain are taken 
+directly from the game and credit should be given to Matel Electronics and TSR.
+The city/village is from Scourge, summer 1996.  Some mob ideas are from TSR's
+Monstrous Manual, copyright 1993, TSR, Inc.
+~
+D1
+a road
+~
+~
+0 -1 12003
+D3
+a road
+~
+~
+0 -1 12001
+S
+#12003
+A Mountain Road~
+You see a city up ahead, your excitement turns to fear as you remember that
+this legendary city has one of the best armies in the land.  Cloudy Mountain
+rises high into the clouds behind the city.
+~
+0 0 5
+D0
+a road
+~
+~
+0 -1 12004
+D3
+a road
+~
+~
+0 -1 12002
+S
+#12004
+A Mountain Path~
+You gasp as you realize that the city was not close but rather far away.  
+You were mistaken by the shear size of the city walls.  The city is not very
+large for a dragon, but from your perspective it is huge and the walls are
+unscaleable.
+~
+0 0 5
+D0
+a road
+~
+~
+0 -1 12005
+D2
+a road
+~
+~
+0 -1 12003
+S
+#12005
+Before the City of Cloudy Mountain~
+In this are many dragons and half-dragons.  Under normal circumstyles,
+dragons tend to live in solitary environments, but due to disappearing 
+territories, many have gathered in this city.  Some have also have taken 
+spouses from other races, creating new half-races.  Although legally these
+half-dragons are to be treated equal, most of the high ranking officials and
+officers are pure dragon.
+~
+0 0 5
+D0
+A large iron gate
+~
+gate no north~
+0 -1 12007
+D2
+a road
+~
+~
+0 -1 12004
+S
+#12006
+The Court~
+You are in the busy court of the city.  Many soldiers and citizens gather
+in this central part of the city for assemblys, meetings, and simple gatherings.
+The court continues north and east and a street running along the south wall is
+to the west.  The wall of Cloudy Mountain towers over you to the south.
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12009
+D1
+The court
+~
+~
+0 -1 12007
+D3
+along south wall
+~
+~
+0 -1 12020
+S
+#12007
+The Court~
+Behold! The City of Cloudy Mountain!  The Court is covered with large
+tiles of polished stones.  There is quite a variety of beings that live in the
+city.  Although good, neutral, and evil share the same city, they tend to live
+in separate sections.  By looking closer, you realize that there is tension
+and prejudice among the citizens of this grand city.
+~
+0 0 1
+D0
+The court
+~
+~
+0 -1 12010
+D1
+the court
+~
+~
+0 -1 12008
+D2
+A large iron gate.
+~
+gate so~
+0 -1 12005
+D3
+the court
+~
+~
+0 -1 12006
+S
+#12008
+The Court~
+You are in the busy court of the city.  This is the central part of the 
+town where gatherings of military, political, and personal take place.  A road
+that circles the city is to the east and the court continues west and north.
+The tall wall that surrounds the city is south.  Off in the distyle, the peak
+of Cloudy Mountain rises far above the clouds.
+~
+0 0 1
+D0
+The Court
+~
+~
+0 -1 12011
+D1
+along south wall
+~
+~
+0 -1 12068
+D3
+the court
+~
+~
+0 -1 12007
+S
+#12009
+The Court~
+You are in the heart of the city.  Many gatherings take place here for
+various reasons.  Tall town houses crowd the west side and the court continues
+north, east, and south.
+~
+0 0 1
+E
+houses town~
+These houses are big, very big.  
+~
+D0
+the court
+~
+~
+0 -1 12012
+D1
+the court
+~
+~
+0 -1 12010
+D2
+the court
+~
+~
+0 -1 12006
+S
+#12010
+The Court~
+You are in the Court of Cloudy Mountain.  Polished stone, looks like marble
+but harder, covers the entire court.  To the north you here sounds of a 
+military assembly, and the court expands in all four directions.
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12013
+D1
+the court
+~
+~
+0 -1 12011
+D2
+the court
+~
+~
+0 -1 12007
+D3
+the court
+~
+~
+0 -1 12009
+S
+#12011
+The Court~
+You are on the court.  This serves as the main gathering place for the 
+city.  To the east are many houses crowed together.  The court continues
+north, west, and south.
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12014
+D2
+the court
+~
+~
+0 -1 12008
+D3
+the court
+~
+~
+0 -1 12010
+S
+#12012
+The Court~
+You continue walking through the court.  You are beginning to notice more of
+a military presence here.  A large shadow looms over you and then quickly 
+disappears as one of the winged warriors of the city scans the area.  The 
+court continues north, east, and south.
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12015
+D1
+the count
+~
+~
+0 -1 12013
+D2
+the court
+~
+~
+0 -1 12009
+S
+#12013
+The Court~
+You come upon what appears to be some sort of military assembly.  Knowing 
+that the city has one of the most powerful armies, you tremble with fear as
+the soldiers peer at you.  You quickly notice exits in all four directions.
+~
+0 0 1
+D0
+The Court
+~
+~
+0 -1 12016
+D1
+The court
+~
+~
+0 -1 12014
+D2
+the court
+~
+~
+0 -1 12010
+D3
+the court
+~
+~
+0 -1 12012
+S
+#12014
+The Court~
+You notice that the tiles that cover the ground are cut to perfect squares
+with edges that are about a foot long.  Although well-polished, the stones seem
+rather boring, they are a neutral whitish color.  The sunlight gleams off of 
+the jewels that decorate a noble's house to the east.  The court continues
+north, south, and west. 
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12017
+D1
+a house
+~
+~
+0 -1 12069
+D2
+the court
+~
+~
+0 -1 12011
+D3
+the court
+~
+~
+0 -1 12013
+S
+#12015
+The Court~
+You continue walking through the court.  The shadow of Cloudy Mountain
+falls over the entire city.  You try to look at the peak, but it is always
+covered by dense fog.  The court continues north, east and south.
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12018
+D1
+the court
+~
+~
+0 -1 12016
+D2
+the court
+~
+~
+0 -1 12012
+S
+#12016
+The Court~
+Soldiers are continuously passing through this part of the court.  Exits are
+in all four directions.
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12019
+D1
+the court
+~
+~
+0 -1 12017
+D2
+the court
+~
+~
+0 -1 12013
+D3
+the court
+~
+~
+0 -1 12015
+S
+#12017
+The Court~
+You continue along the court.  The stones that make up the court do not 
+seem boring to you anymore.  It strikes you odd that light does not seem to
+reflect off of them even though they appear to be polished.  And just how do
+they stay in such good condition with all this traffic?  The court continues
+north, south, and west.
+
+~
+0 0 1
+D0
+the court 
+~
+~
+0 -1 12020
+D2
+the court
+~
+~
+0 -1 12014
+D3
+the court
+~
+~
+0 -1 12016
+S
+#12018
+The Court~
+You are in the heart of the city.   There are so many officers and soldiers,
+that it is hard to move.  You wonder why such a large assembly is taking place.
+Perhaps they are planning an invasion?  The center of the court is east, a 
+dark alley is west and the court continues north and south.
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12021
+D1
+the court
+~
+~
+0 -1 12019
+D2
+the court
+~
+~
+0 -1 12015
+D3
+a dark alley
+~
+~
+0 -1 12021
+S
+#12019
+The Court~
+You are in the center of the court which also serves as the center of the 
+city.  The Captain of the guard is giving out instructions  to the soldiers.
+With their size and strength along with their intelligence, these soldiers are
+superior to soldiers of other armies in every aspect.  With the advantage of a
+winged army as well, this battalion is nearly unstoppable.
+~
+0 0 1
+D0
+The court
+~
+~
+0 -1 12022
+D1
+the court
+~
+~
+0 -1 12020
+D2
+the court
+~
+~
+0 -1 12016
+D3
+the court
+~
+~
+0 -1 12018
+S
+#12020
+The Court~
+A large amount of military activity is taking place in this part of town.  
+You almost fear for your life until you realize that they are not very 
+interested in someone as puny as you.  An alley is east, the center of the 
+court is west, and the court also continues north and south.
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12023
+D1
+a dark alley
+~
+~
+0 -1 12070
+D2
+the court
+~
+~
+0 -1 12017
+D3
+the court
+~
+~
+0 -1 12019
+S
+#12021
+The Court~
+As you continue along the court, you notice that the city is becoming darker
+as the shadow of the mountain blocks out more light.  You hear sounds of a 
+military gathering to the south and the court continues north and east.
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12024
+D1
+the court
+~
+~
+0 -1 12022
+D2
+the court
+~
+~
+0 -1 12018
+S
+#12022
+The Court~
+You are before a very large house.  The court continues east, south, and 
+west.
+~
+0 0 1
+D0
+a large house
+~
+~
+0 -1 12025
+D1
+the court
+~
+~
+0 -1 12023
+D2
+the court
+~
+~
+0 -1 12019
+D3
+the court
+~
+~
+0 -1 12021
+S
+#12023
+The Court~
+You continue wandering through the court.  Citizens continue to eye you
+suspiciously.  The court continues north, south, and west.
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12026
+D2
+the court
+~
+~
+0 -1 12020
+D3
+the court
+~
+~
+0 -1 12022
+S
+#12024
+The Court~
+To the west are rows of buildings and houses, and to the east is the 
+house of Drakknor.  The court continues north and south.  
+~
+0 0 1
+D0
+The court
+~
+~
+0 -1 12027
+D2
+the court
+~
+~
+0 -1 12021
+S
+#12025
+Drakknor's Home~
+You are in the home of Drakknor, one of the highest ranked nobles of the 
+city.  The building is very large, but rather barren for a noble.  The only
+possessions he seems to own are the treasures and gold piled in the back of 
+the room.
+~
+0 8 1
+D2
+the court
+~
+~
+0 -1 12022
+S
+#12026
+The Court~
+You begin to tire from walking through the enormous court of Cloudy
+Mountain.  The court continues north and south.  Many homes line the east side
+and a large house blocks the way west.
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12029
+D2
+the court
+~
+~
+0 -1 12023
+S
+#12027
+The Court~
+You are nearing the north side of the city.  With the shadow of the 
+mountain, it almost seems like dusk here.  The court continues north, east
+and south.  Homes line the west edge.
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12030
+D1
+the court
+~
+~
+0 -1 12028
+D2
+the court
+~
+~
+0 -1 12024
+S
+#12028
+The Court~
+You are behind a house on the court.  A grate is on the ground, you wonder
+where it goes?  The court continues north, east, and west.
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12031
+D1
+the court
+~
+~
+0 -1 12029
+D3
+the court
+~
+~
+0 -1 12027
+D5
+a grate
+~
+grate do~
+0 -1 12043
+S
+#12029
+The Court~
+The homes appear to be more friendly and elegant in this section.  The 
+court continues north, south, and west.
+~
+0 0 1
+D0
+the court
+~
+~
+0 -1 12032
+D2
+the court
+~
+~
+0 -1 12026
+D3
+the court
+~
+~
+0 -1 12028
+S
+#12030
+The Court~
+You are at the north side of the city.  The palace blocks your way north, a
+road runs along the north wall to the west and the court is east and south.
+~
+0 0 1
+D1
+the court
+~
+~
+0 -1 12031
+D2
+the court
+~
+~
+0 -1 12027
+D3
+along the north wall
+~
+~
+0 -1 12097
+S
+#12031
+Before the Palace~
+You see the palace of Cloudy Mountain before you.  The walls are covered with
+silver and large tapestries bearing the colors and crest of Cloudy Mountain 
+hang from the ledges and windows.  North is inside, and the court is east,
+south, and west.
+~
+0 0 1
+E
+colors~
+Red, Black, and Green.
+~
+E
+crest~
+A black mountain on a red background with two winged dragons crawling up both
+sides.
+~
+D0
+the court
+~
+~
+0 -1 12034
+D1
+the court
+~
+~
+0 -1 12032
+D2
+the court
+~
+~
+0 -1 12028
+D3
+the court
+~
+~
+0 -1 12030
+S
+#12032
+The Court~
+The north end of the court doesn't seem as busy, but the number of guards is
+at least the same, if not more.  To the north is the King's palace, and a road
+follows the north wall east.  The court is south and west.
+~
+0 0 1
+D1
+along the north wall
+~
+~
+0 -1 12045
+D2
+the court
+~
+~
+0 -1 12029
+D3
+the court
+~
+~
+0 -1 12031
+S
+#12033
+Narz's Chamber~
+You are in a room lit only by strange scented candles.  A full body-length
+mirror is on the other wall.  Jewelry and robes of expensive fabrics can be
+seen through the room.
+~
+0 8 1
+D1
+the palace
+~
+~
+0 -1 12034
+S
+#12034
+The Palace~
+The King's palace.  To the right and left are the rooms of the King's court.
+Although they are rich and live in the palace, they have no real power.  The 
+real influential citizens live in various parts of the city.  Narz's room
+is to the west, and Fred's room is east.
+~
+0 8 1
+D0
+the palace
+~
+~
+0 -1 12037
+D1
+Fred's room
+~
+~
+0 -1 12035
+D2
+the court
+~
+~
+0 -1 12031
+D3
+Narz's chamber
+~
+~
+0 -1 12033
+S
+#12035
+Fred's Room~
+A messy room with beer mugs and barrels scattered about.  Many useless
+treasures litter the room.  A table with half-eaten food is in the center of 
+the room.
+~
+0 8 1
+D3
+the palace
+~
+~
+0 -1 12034
+S
+#12036
+Zonk's Bedroom~
+A room empty except for a bed and chair.
+~
+0 8 1
+D1
+the palace
+~
+~
+0 -1 12037
+S
+#12037
+The Palace~
+To the right and left are the rooms of Zonk and Zilch.  They both had the
+same human father, but two different dragon mothers.  The King's chambers are
+to the north.
+~
+0 8 1
+D0
+the King's section
+~
+~
+0 -1 12040
+D1
+Zilch's pad
+~
+~
+0 -1 12038
+D2
+the palace
+~
+~
+0 -1 12034
+D3
+Zonk's bedroom
+~
+~
+0 -1 12036
+S
+#12038
+Zilch's Pad~
+A well-lit room with all sorts of objects and potions for the sole purpose
+of pranks and mischief.  A bucket of water falls on your head.
+~
+0 8 1
+D3
+the palace
+~
+~
+0 -1 12037
+S
+#12039
+The King's Throne Room~
+You are in the King's throne room.  The king is sitting on a _huge_
+throne discussing matters with his loyal subjects.  Like most of the powerful
+dragons in the city, you can see a horde of gold in the corner.
+~
+0 8 1
+D1
+the waiting room
+~
+~
+0 -1 12040
+S
+#12040
+The Waiting Room~
+You are in the King's section of the palace.  Bodyguards interrogate you 
+before you are allowed to enter the throne room.  As far as you can tell, exits
+are east and west.
+~
+0 8 1
+D0
+The wall looks like it's a different color here.
+~
+door wall no~
+0 -1 12042
+D1
+the queen's bedroom
+~
+~
+0 -1 12041
+D2
+the palace
+~
+~
+0 -1 12037
+D3
+the King's throne room
+~
+~
+0 -1 12039
+S
+#12041
+The Queen's Bedroom~
+This empty room belonged to the human Queen of Cloudy Mountain.  No one 
+know for sure how the queen died, but it is generally thought to be foul play.
+Although the marriage was widely celebrated publicly, many of the pure dragon
+nobles were against the marriage.  It has been rumored that Drakknar committed
+this ghastly act, but those who know him well do not believe this.
+~
+0 8 1
+D3
+the waiting room
+~
+~
+0 -1 12040
+S
+#12042
+A Secret Room~
+You have discovered a room in the back of the palace.  There is a trap door
+on the floor.  There are no windows, you think this room must actually be 
+inside the mountain.
+~
+0 9 1
+D2
+the waiting room
+~
+~
+0 -1 12040
+D5
+a cave
+~
+~
+0 -1 12152
+S
+#12043
+A Dark Room~
+You have stumbled upon a dark, damp room.  You see a sign on the wall.
+~
+0 13 1
+E
+sign~
+North of Here Waits Certain
+          Death.  Many Have Fallen
+          To This Horrible Monster.
+~
+D0
+your death
+~
+~
+0 -1 12044
+D4
+back to the land of the living
+~
+grate~
+0 -1 12028
+S
+#12044
+The Lag Monster's Lair~
+Oh No! A mudder's worst nightmare come true!! You should get out while you
+still can!  Many corpses are strewn about, yours will join them shortly.
+~
+0 9 1
+D2
+a room 
+~
+~
+0 -1 12043
+S
+#12045
+The North Wall~
+You are along the north wall of Cloudy Mountain.  The road is covered with 
+the same tiles as the court.  Looking to the north you only see a stone wall
+and the mountain behind it.  The court is west and the road continues east.
+~
+0 8 1
+D1
+the north wall
+~
+~
+0 -1 12046
+D3
+the court
+~
+~
+0 -1 12032
+S
+#12046
+The North Wall~
+You are along the north wall of Cloudy Mountain.  Looking north you only 
+see a stone wall and if you look high enough, the mountain behind it.  Many
+homes are south and the road continues east and west.  
+~
+0 8 1
+D1
+the north wall
+~
+~
+0 -1 12047
+D3
+the north wall
+~
+~
+0 -1 12045
+S
+#12047
+The North Wall~
+You are along the north wall of Cloudy Mountain.  Looking north you only 
+see a stone wall and if you look high enough, the mountain behind it.  Many
+homes are south and the road continues east and west.
+~
+0 0 1
+D1
+along north wall
+~
+~
+0 -1 12048
+D3
+along north wall
+~
+~
+0 -1 12046
+S
+#12048
+The North Wall~
+You are along the north wall of Cloudy Mountain.  Looking north you only 
+see a stone wall and if you look high enough, the mountain behind it.  A home
+is to the south and the road continues east and west.
+~
+0 0 1
+D1
+along the north wall
+~
+~
+0 -1 12049
+D2
+a house
+~
+~
+0 -1 12078
+D3
+along north wall
+~
+~
+0 -1 12047
+S
+#12049
+The North Wall~
+You are traveling along the north wall of the city.  To the north the 
+high walls of Cloudy Mountain block your way, and the mountain is behind it.
+Many homes are to the south and the road continues east and west.
+~
+0 0 1
+D1
+The North Wall
+~
+~
+0 -1 12050
+D3
+the north wall
+~
+~
+0 -1 12048
+S
+#12050
+The North Wall~
+You are traveling along the north wall of the city.  To the north the 
+high walls of Cloudy Mountain block your way, and the mountain is behind it.
+Many homes are to the south and the road continues west.  The northeast corner
+is east.
+~
+0 0 1
+D1
+The northeast corner
+~
+~
+0 -1 12051
+D3
+the north wall
+~
+~
+0 -1 12049
+S
+#12051
+The Northeast Corner~
+You are standing at the northeast corner of the city.  A watchtower is above
+you.  Roads are leading along the city walls south and west.
+~
+0 0 1
+D2
+the east wall
+~
+~
+0 -1 12053
+D3
+the north wall
+~
+~
+0 -1 12050
+D4
+the northeast tower
+~
+~
+0 -1 12052
+S
+#12052
+The Northeast Tower~
+From here the guards can see approaching attacks from the mountain range
+to the east.  To the north you see the mountain sloping down to meet the bottom
+of the city wall.  From these towers it appears that the city is made up of
+perfect squares and rectangles.
+~
+0 8 1
+D5
+back to the village
+~
+~
+0 -1 12051
+S
+#12053
+The East Wall~
+You are traveling along the east wall of the city.  The city wall towers 
+over you to the east.  Homes line the road to the west and the northeast 
+corner is north.  The road continues south.
+~
+0 0 1
+D0
+the northeast corner
+~
+~
+0 -1 12051
+D2
+the east wall
+~
+~
+0 -1 12054
+S
+#12054
+The East Wall~
+You are traveling along the east wall of the city.  The city wall towers
+over you to the east.  Homes line the road to the west and the road continues
+north and south.
+~
+0 0 1
+D0
+the east wall
+~
+~
+0 -1 12053
+D2
+the east wall
+~
+~
+0 -1 12055
+S
+#12055
+The East Wall~
+You are traveling along the east wall of the city.  The city wall towers
+over you to the east.  Homes line the road to the west and the road continues
+north and south.
+~
+0 0 1
+D0
+the east wall
+~
+~
+0 -1 12054
+D2
+an intersection
+~
+~
+0 -1 12056
+S
+#12056
+An Intersection~
+You are on a road following the east wall.  The road is covered with the 
+same stone tiles as the court.  An alley is to the west and the road is north
+and south.
+~
+0 0 1
+D0
+the east wall
+~
+~
+0 -1 12055
+D2
+the east wall
+~
+~
+0 -1 12057
+D3
+a dark alley
+~
+~
+0 -1 12190
+S
+#12057
+The East Wall~
+You are traveling along the east wall of Cloudy Mountain.  A citizen's
+house is to the west and the road continues north and south.
+~
+0 0 1
+D0
+an intersection
+~
+~
+0 -1 12056
+D2
+the east wall
+~
+~
+0 -1 12059
+D3
+a home
+~
+~
+0 -1 12058
+S
+#12058
+A Home~
+You are in what seems to be an ordinary home, only much larger than what 
+you are accustomed to.
+~
+0 8 1
+D1
+the east wall
+~
+~
+0 -1 12057
+S
+#12059
+The East Wall~
+You continue to follow the east wall road.  The wall towers over you to the 
+east and homes are to the west.  The road is north and south.
+~
+0 0 1
+D0
+the east wall
+~
+~
+0 -1 12057
+D2
+along the east wall
+~
+~
+0 -1 12060
+S
+#12060
+The East Wall~
+You are traveling along the east wall of Cloudy Mountain.  The east wall
+towers above you.  Homes are to the west and the road continues north.  The 
+southeast corner is south.
+~
+0 0 1
+D0
+the east wall
+~
+~
+0 -1 12059
+D2
+the southeast corner
+~
+~
+0 -1 12061
+S
+#12061
+The Southeast Corner~
+The southeast corner of the city.  A guard tower is above you and roads 
+travel north and west.
+~
+0 0 1
+D0
+the east wall
+~
+~
+0 -1 12060
+D3
+the south wall
+~
+~
+0 -1 12063
+D4
+the southeast tower
+~
+~
+0 -1 12062
+S
+#12062
+The Southeast Tower~
+From this tower guards can see approaching attacks from the valleys south 
+and southeast.  Directly east is a mountain range.
+~
+0 8 1
+D5
+back to the village
+~
+~
+0 -1 12061
+S
+#12063
+The South Wall~
+You are on a road following the south wall.  The wall towers over you to 
+the south, with blue sky above it.  Homes are north and the southeast corner
+is east.  The road continues west.
+~
+0 0 1
+D1
+The southeast corner
+~
+~
+0 -1 12061
+D3
+The south wall
+~
+~
+0 -1 12064
+S
+#12064
+The South Wall~
+You are on a road following the south wall.  The wall towers over to the 
+south, with only blue sky above it.  Homes are north and the road continues
+east and west.
+~
+0 0 1
+D1
+the south wall
+~
+~
+0 -1 12063
+D3
+along south wall
+~
+~
+0 -1 12065
+S
+#12065
+The South Wall~
+You are on a road following the south wall.  The wall towers over to the 
+south, with only blue sky above it.  Homes are north and the road continues
+east and west.
+~
+0 0 1
+D1
+along south wall
+~
+~
+0 -1 12064
+D3
+along south wall
+~
+~
+0 -1 12066
+S
+#12066
+The South Wall~
+You are on a road following the south wall.  The wall towers over to the 
+south, with only blue sky above it.  Homes are north and the road continues
+east and west.
+~
+0 0 1
+D1
+along south wall
+~
+~
+0 -1 12065
+D3
+along south wall
+~
+~
+0 -1 12067
+S
+#12067
+The South Wall~
+You are on a road following the south wall.  The wall towers over to the 
+south, with only blue sky above it.  Homes are north and the road continues
+east and west.
+~
+0 0 1
+D1
+the south wall
+~
+~
+0 -1 12066
+D3
+the south wall
+~
+~
+0 -1 12068
+S
+#12068
+The South Wall~
+You are on a road following the south wall.  The road is covered with the
+same stone tiles as the court.  Homes are to the north.  The court is west
+and the road continues east.
+~
+0 0 1
+D1
+along south wall
+~
+~
+0 -1 12067
+D3
+the court
+~
+~
+0 -1 12008
+S
+#12069
+A Noble's Home~
+You are in a large manor with all kinds of treasures, paintings, and 
+luxuries.  The court is west.
+~
+0 8 1
+D3
+the court
+~
+~
+0 -1 12014
+S
+#12070
+A Dark Alley~
+A small alley way that connects the court and the eastern market square.
+~
+0 1 1
+D1
+the eastern market
+~
+~
+0 -1 12071
+D3
+the court
+~
+~
+0 -1 12020
+S
+#12071
+The East Market Square~
+You are on one of two market squares in the city.  These squares are where 
+citizens buy their food and supplies.  More casual gatherings take place
+here to be made of gold.  The market continues north and south.  An alleyway
+is west and a mansion blocks your path east.
+~
+0 0 1
+D0
+east market
+~
+~
+0 -1 12072
+D2
+the east market
+~
+~
+0 -1 12094
+D3
+a dark alley
+~
+~
+0 -1 12070
+S
+#12072
+The East Market Square~
+You are on the eastern market square.  The people of this section of town
+appear to be friendlier, yet are still suspicious of you.  The market continues
+north, east, and south.
+~
+0 0 1
+D0
+east market
+~
+~
+0 -1 12073
+D1
+east market
+~
+~
+0 -1 12198
+D2
+east market
+~
+~
+0 -1 12071
+S
+#12073
+The East Market Square~
+This part of the market appears to be the richer section judging from the
+appearance and the size of the homes to the north and west.  The market 
+continues east and south.
+~
+0 0 1
+D1
+east market
+~
+~
+0 -1 12074
+D2
+east market
+~
+~
+0 -1 12072
+S
+#12074
+The East Market Square~
+This part of the market appears to be the wealthy section judging from 
+the size and appearance of the homes.  The warriors' guild is north and the 
+court is east, south, and west.
+~
+0 0 1
+D0
+warrior guild
+~
+~
+0 -1 12075
+D1
+east market
+~
+~
+0 -1 12079
+D2
+east market
+~
+~
+0 -1 12198
+D3
+east market
+~
+~
+0 -1 12073
+S
+#12075
+Warrior's Guild~
+You enter into the warrior guild.  Many guards look at you and demand that
+you state your business.
+~
+0 8 1
+D0
+warrior guild
+~
+~
+0 -1 12076
+D2
+east market square
+~
+~
+0 -1 12074
+S
+#12076
+The Warrior Guild~
+You are in a lounge.  Shields and arms are on the walls.  A bar is in the
+corner and many warriors are relaxing.
+~
+0 8 1
+D0
+Baz chamber
+~
+~
+0 -1 12077
+D2
+warrior guild
+~
+~
+0 -1 12075
+S
+#12077
+Baz Chamber~
+~
+0 8 1
+D2
+Warrior guild
+~
+~
+0 -1 12076
+S
+#12078
+A Citizen's Home~
+A rather roomy house for a citizen.  You think that the owner must be a 
+merchant of some type since this is the wealthier side of town.
+~
+0 8 1
+D0
+the north wall
+~
+~
+0 -1 12048
+S
+#12079
+The East Market Square~
+This part of the market appears to be the wealthier section of town 
+judging from the size and appearance of the homes.  The market is east, south
+and west.
+~
+0 0 1
+D1
+east market
+~
+~
+0 -1 12080
+D2
+east market
+~
+~
+0 -1 12197
+D3
+east market
+~
+~
+0 -1 12074
+S
+#12080
+The East Market Square~
+This part of the market appears to be the wealthier section of the city 
+judging from the size and appearance of the houses.  A manor is to the east and
+the market continues south and west.
+~
+0 0 1
+D1
+Arnok's adobe
+~
+~
+0 -1 12081
+D2
+east market
+~
+~
+0 -1 12082
+D3
+east market
+~
+~
+0 -1 12079
+S
+#12081
+Arnok's Adobe~
+You see a room gleaming with gold.  Throughout the room are all kinds of 
+gold treasures and trinkets.  You feel like you could stay forever in this 
+room.
+~
+0 8 1
+D3
+east market
+~
+~
+0 -1 12080
+S
+#12082
+The East Market Square~
+You are on the eastern market square.  The people of this part of town
+appear to be friendlier, yet are still suspicious of you.  Homes are to the 
+east.  The market continues north, east, and south.
+~
+0 0 1
+D0
+east market
+~
+~
+0 -1 12080
+D2
+east market
+~
+~
+0 -1 12083
+D3
+east market
+~
+~
+0 -1 12197
+S
+#12083
+The East Market Square~
+You are on one of two market squares in the city.  These squares are where
+citizens buy their food and supplies.  More casual gatherings take place here
+than on the court.  Unlike the court, the tiles appear to be made of gold.  A
+large, beautiful mansion made of pure silver is to the west.  An alley is east
+and the market continues north and south.
+~
+0 0 1
+D0
+east market
+~
+~
+0 -1 12082
+D1
+a dark alley
+~
+~
+0 -1 12190
+D2
+east market
+~
+~
+0 -1 12086
+D3
+Maaklan  Residence
+~
+~
+0 -1 12084
+S
+#12084
+Maaklan Residence~
+You are inside what appears to be a huge meeting hall.  Many members of the
+Dragons of Virtue are here.  In the corner are some members taking donations.
+Others are passing out pamphlets about the principles of kindness.
+~
+0 8 1
+D1
+east market
+~
+~
+0 -1 12083
+D3
+Maaklan quarters
+~
+~
+0 -1 12085
+S
+#12085
+Maaklan Quarters~
+An inviting, warm room.  The walls are painted white and the furniture is
+made from silver.
+~
+0 8 1
+D2
+the rest of residence
+~
+~
+0 -1 12084
+S
+#12086
+The East Market Square~
+You are on the eastern market square.  The people of this section of town
+appear to be friendlier, yet are still suspicious of you.  Homes are to the east
+and the market continues north, south, and west.
+~
+0 0 1
+D0
+the east market
+~
+~
+0 -1 12083
+D2
+the east market
+~
+~
+0 -1 12087
+D3
+the east market
+~
+~
+0 -1 12096
+S
+#12087
+The East Market Square~
+You are at the southeast corner of the market.  Even though the citizens in
+this section aren't wealthy, they appear to be the richest in personality.  
+Market continues north and west.
+~
+0 0 1
+D0
+east market
+~
+~
+0 -1 12086
+D3
+east market
+~
+~
+0 -1 12088
+S
+#12088
+The East Market Square~
+You are on the eastern market square.  The people of this section of town
+appear to be friendlier, yet are still suspicious of you.  The market continues
+north, south, and west.
+~
+0 0 1
+D0
+east market
+~
+~
+0 -1 12096
+D1
+east market
+~
+~
+0 -1 12087
+D3
+east market
+~
+~
+0 -1 12089
+S
+#12089
+The East Market Square~
+You are on the eastern market square.  The people of this section appear to
+be friendlier, yet more suspicious of strangers.  The cleric's guild is south
+and the market continues north, east, and west.
+~
+0 0 1
+D0
+east market
+~
+~
+0 -1 12095
+D1
+east market
+~
+~
+0 -1 12088
+D2
+cleric guild
+~
+~
+0 -1 12090
+D3
+east market
+~
+~
+0 -1 12093
+S
+#12090
+Cleric's Guild~
+The Clerics guild is a peaceful place, you feel it would be a terrible 
+thing to start a fight in here.  Stained glass windows provide natural 
+lighting.  Exits are east and west.  The city is north.
+~
+0 0 1
+D0
+east market
+~
+~
+0 -1 12089
+D1
+altar
+~
+~
+0 -1 12092
+D3
+cleric's guild
+~
+~
+0 -1 12091
+S
+#12091
+Inside the Cleric Guild~
+You are in a meditation chamber.  Candles provide the only light.  Monks 
+stand guard to make sure this room remains peaceful.  The smell of incense is
+very potent.
+~
+0 8 1
+D1
+cleric's guild
+~
+~
+0 -1 12090
+S
+#12092
+The Altar~
+You are at the altar of the cleric guild.  This is where the high priestess
+Nara Saan spends most of her hours.
+~
+0 8 1
+D3
+Cleric's Guild
+~
+~
+0 -1 12090
+S
+#12093
+The East Market Square~
+You are at the southwest corner of the east market.  Citizens are laughing
+gleefully outside one of the many homes to the west and south.  The market 
+continues north and east.
+~
+0 0 1
+D0
+east market
+~
+~
+0 -1 12094
+D1
+east market
+~
+~
+0 -1 12089
+S
+#12094
+The East Market Square~
+You are on the market square.  People are friendlier here, but are still
+suspicious of strangers such as yourself.  The market continues north, east
+and south.
+~
+0 0 1
+D0
+east market
+~
+~
+0 -1 12071
+D1
+east market
+~
+~
+0 -1 12095
+D2
+east market
+~
+~
+0 -1 12093
+S
+#12095
+The East Market Square~
+The market continues.  Many people are passing through this part of the 
+square, paying no heed to you.  A mansion is north and the market keeps going
+east, south, and west.
+~
+0 0 1
+D1
+the east market
+~
+~
+0 -1 12096
+D2
+east market
+~
+~
+0 -1 12089
+D3
+east market
+~
+~
+0 -1 12094
+S
+#12096
+The East Market Square~
+You are south of a large mansion.  The market continues east, south, and 
+west.  Many merchants are trying to sell you stuff.
+~
+0 0 1
+D1
+east market
+~
+~
+0 -1 12086
+D2
+east market
+~
+~
+0 -1 12088
+D3
+sigh...one last market exit
+~
+~
+0 -1 12095
+S
+#12097
+The North Wall~
+You are traveling along the north wall.  The road is made up of the same
+tiles as the court.  The wall and the mountain behind cast a shadow over you.
+The court is east and the road continues west.
+~
+0 0 1
+D1
+the court
+~
+~
+0 -1 12030
+D3
+the north wall
+~
+~
+0 -1 12098
+S
+#12098
+The North Wall~
+You are traveling along the north wall.  The wall and the mountain behind
+cast a shadow over you.  A noble's home is south and the road continues 
+east and west.
+~
+0 0 1
+D1
+the north wall
+~
+~
+0 -1 12097
+D2
+the north wall
+~
+~
+0 -1 12099
+D3
+the north wall
+~
+~
+0 -1 12100
+S
+#12099
+A Noble's Home~
+You are in a home with more room than anyone could possibly need.
+~
+0 8 1
+D0
+along wall
+~
+~
+0 -1 12098
+S
+#12100
+The North Wall~
+You continue along the north road.  The city wall blocks your way north and
+Cloudy Mountain casts a shadow over the street.  Homes are to the south and 
+the road is east and west.
+~
+0 0 1
+D1
+the north wall
+~
+~
+0 -1 12098
+D3
+north wall
+~
+~
+0 -1 12101
+S
+#12101
+The North Wall~
+You continue along the north road.  The city wall blocks your way north and
+Cloudy Mountain casts a shadow over the street.  Homes are to the south and the
+road is east and west.
+~
+0 0 1
+D1
+north wall
+~
+~
+0 -1 12100
+D3
+north wall
+~
+~
+0 -1 12102
+S
+#12102
+The North Wall~
+You continue along the north road.  The city wall blocks your way north and
+Cloudy Mountain casts a shadow over the street.  Homes are to the south and the
+road is east and west.
+~
+0 0 1
+D1
+north wall
+~
+~
+0 -1 12101
+D3
+north wall
+~
+~
+0 -1 12103
+S
+#12103
+The North Wall~
+You travel along the north road.  The city wall blocks your way north and
+Cloudy Mountain cast a shadow over the street.  Homes are to the south and the 
+road continues east and west.
+~
+0 0 1
+D1
+north wall
+~
+~
+0 -1 12102
+D3
+northwest corner
+~
+~
+0 -1 12104
+S
+#12104
+The Northwest Corner~
+You are at a corner of the city.  The entire layout of the town appears to
+be made up of squares and rectangles.  Roads continue along the walls east and
+south.
+~
+0 0 1
+D1
+the north wall
+~
+~
+0 -1 12103
+D3
+the west wall
+~
+~
+0 -1 12106
+D4
+the northwest tower
+~
+~
+0 -1 12105
+S
+#12105
+The Northwest Tower~
+From this lookout tower, guards can see for miles along the mountain range to
+the west and Cloudy Mountain blocks the view north.  The sunsets from this 
+tower are breathtaking and are second to none in the land of Aesir.
+~
+0 8 1
+D5
+the village
+~
+~
+0 -1 12104
+S
+#12106
+The West Wall~
+You travel on a road along the west wall.  At sunset, an orange glow can be
+seen at the top of the wall.  Homes are east, a corner is north, and the road
+continues south.
+~
+0 0 1
+D0
+the northwest corner
+~
+~
+0 -1 12104
+D2
+west wall
+~
+~
+0 -1 12107
+S
+#12107
+The West Wall~
+You travel on a road along the west wall.  At sunset, an orange glow can be
+seen at the top of the wall.  Homes are east, and the road continues north and
+south.
+~
+0 0 1
+D0
+the west wall
+~
+~
+0 -1 12106
+D2
+along west wall
+~
+~
+0 -1 12108
+S
+#12108
+The West Wall~
+You travel on a road along the west wall.  At sunset, an orange glow can be
+seen at the top of the wall.  Homes are east and the road continues north and
+south.
+~
+0 0 1
+D0
+along west wall
+~
+~
+0 -1 12108
+D2
+west wall
+~
+~
+0 -1 12109
+S
+#12109
+An Intersection~
+You are on a road that runs parallel to the west wall.  It is made from the
+same tiles as the court.  A dark alley is east and the road continues north 
+and south.
+~
+0 0 1
+D0
+the west wall
+~
+~
+0 -1 12108
+D1
+a dark alley
+~
+~
+0 -1 12135
+D2
+west wall
+~
+~
+0 -1 12110
+S
+#12110
+The West Wall~
+You are on the west road of the city.  The wall blocks your path to the 
+west and homes are east.  The road continues north and south.
+~
+0 0 1
+D0
+the west wall
+~
+~
+0 -1 12109
+D2
+west wall
+~
+~
+0 -1 12111
+S
+#12111
+The West Wall~
+You are on the west road of the city.  The wall blocks your path to the 
+west and homes are east.  The road continues north and south.
+~
+0 0 1
+D0
+west wall
+~
+~
+0 -1 12110
+D2
+west wall
+~
+~
+0 -1 12112
+S
+#12112
+The West Wall~
+You are traveling on the west road.  The wall blocks your path west and 
+houses are to the east.  The road continues north and the southwest corner is
+south.
+~
+0 0 1
+D0
+west wall
+~
+~
+0 -1 12111
+D2
+southwest corner
+~
+~
+0 -1 12113
+S
+#12113
+The Southwest Corner~
+You are at one of the corners of the city.  A tower is to the southwest and 
+the city walls block your path south and west.  Roads continue along the walls
+north and east.
+~
+0 0 1
+D0
+west wall
+~
+~
+0 -1 12112
+D1
+south wall
+~
+~
+0 -1 12115
+D4
+southwest tower
+~
+~
+0 -1 12114
+S
+#12114
+The Southwest Tower~
+From this tower the guards can spot attacks from the mountain range to the
+west, can oversee the valley to the southwest, and has the perfect view of
+the road leading to the city.
+~
+0 0 1
+D5
+the village
+~
+~
+0 -1 12113
+S
+#12115
+The South Wall~
+You are traveling along the south wall.  The wall blocks your path south and
+homes are north.  The southwest corner is west and the road continues east.
+~
+0 0 1
+D1
+south wall
+~
+~
+0 -1 12116
+D3
+south wall
+~
+~
+0 -1 12113
+S
+#12116
+The South Wall~
+You are traveling along the south wall.  You see nothing but the stone wall
+and blue sky to the south.  Homes are north and the road continues east and
+west.
+~
+0 0 1
+D1
+south wall
+~
+~
+0 -1 12117
+D3
+south wall
+~
+~
+0 -1 12115
+S
+#12117
+The South Wall~
+You are traveling along the south wall.  You see nothing but the stone wall
+and blue sky to the south.  Homes are north and the road continues east and 
+west.
+~
+0 0 1
+D1
+south wall
+~
+~
+0 -1 12118
+D3
+south wall
+~
+~
+0 -1 12116
+S
+#12118
+The South Wall~
+You are traveling along the south wall.  You see nothing but the stone wall
+and blue sky to the south.  Homes are north and the road continues east and 
+west.
+~
+0 0 1
+D1
+south wall
+~
+~
+0 -1 12119
+D3
+south wall
+~
+~
+0 -1 12117
+S
+#12119
+The South Wall~
+You are traveling along the south wall.  You see nothing but the stone wall
+and blue sky to the south.  Homes are north and the road continues east and
+west.
+~
+0 0 1
+D1
+south wall
+~
+~
+0 -1 12120
+D3
+south wall
+~
+~
+0 -1 12118
+S
+#12120
+The South Wall~
+You are on a road traveling west along the south wall.  The road is made 
+of the same stone tiles as the court to the east.  Homes are to the north.
+
+~
+0 0 1
+D1
+the court 
+~
+~
+0 -1 12006
+D3
+the south wall
+~
+~
+0 -1 12119
+S
+#12121
+A Dark Alley~
+You are a little nervous as you see rift-rafts and other shady characters
+lurking in this alley.  The court is east and the west market is, well, west.
+~
+0 1 1
+D1
+the court
+~
+~
+0 -1 12018
+D2
+a citizen's house
+~
+~
+0 -1 12122
+D3
+west market
+~
+~
+0 -1 12123
+S
+#12122
+A Citizen's House~
+A home with only the comforts necessary to live a content life.
+~
+0 8 1
+D0
+a dark alley
+~
+~
+0 -1 12121
+S
+#12123
+The West Market Square~
+The city appears to be darker here.  The tiles on the market are a flat
+black color.  Although this is gloomier than the remainder of the city, it is 
+not in the least bit run-down.  A dark alley is east and the market continues
+north, east, and south.
+~
+0 0 1
+D0
+west market
+~
+~
+0 -1 12124
+D1
+a dark alley
+~
+~
+0 -1 12121
+D2
+west market
+~
+~
+0 -1 12147
+S
+#12124
+The West Market Square~
+You are on one of two market squares of Cloudy Mountain.  The people here
+do not seem very friendly and only seem interested in how much money you want
+to spend.  Homes are east and the market continues north, east and south.
+~
+0 0 1
+D0
+west market
+~
+~
+0 -1 12124
+D2
+west market
+~
+~
+0 -1 12123
+D3
+west market
+~
+~
+0 -1 12151
+S
+#12125
+The West Market Square~
+You are in the wealthy part of the square.  Many snobbish nobles are walking
+past and pay no attention to you.  Large town houses are north and east.  The
+court continues south and west.
+~
+0 0 1
+D2
+west market
+~
+~
+0 -1 12124
+D3
+west market
+~
+~
+0 -1 12126
+S
+#12126
+The West Market Square~
+You are in the wealthy part of the square.  Many snobbish nobles are walking
+past and pay no attention to you.  Large town houses are north and the court
+continues east, south, and west.
+~
+0 0 1
+D1
+west market
+~
+~
+0 -1 12125
+D2
+west market
+~
+~
+0 -1 12151
+D3
+west market
+~
+~
+0 -1 12127
+S
+#12127
+The West Market Square~
+The people here are rich and will kill you to get richer if they see the
+opportunity.  The druid's guild is north and the market continues east, south,
+and west.
+~
+0 0 1
+D0
+the druid guild
+~
+~
+0 -1 12128
+D1
+market square
+~
+~
+0 -1 12126
+D2
+west market
+~
+~
+0 -1 12150
+D3
+west market
+~
+~
+0 -1 12131
+S
+#12128
+The Druid Guild~
+You feel a tingling sensation as the increase of mana in the air becomes
+obvious.  Paintings of great druids and sages are on the walls.  
+~
+0 8 1
+D1
+druid's guild
+~
+~
+0 -1 12129
+D2
+west market
+~
+~
+0 -1 12127
+S
+#12129
+Druid's Guild~
+Many spell books are on a bookshelf against one of the walls.  There are many
+tables where magic potions and dusts are being made.  Magic items and scrolls 
+are on the walls.
+~
+0 8 1
+D1
+Barnok's Study
+~
+~
+0 -1 12130
+D3
+druid guild
+~
+~
+0 -1 12128
+S
+#12130
+Barnok's Study~
+Fire, lightning, and ice are all swirling through the room as the mana 
+is insanely high in this room.  The walls, ceiling, and floor disappear and
+you feel like you are in some kind of void.  You think you can go west.
+~
+0 8 1
+D3
+druid guild
+~
+~
+0 -1 12129
+S
+#12131
+The West Market Square~
+You are in a corner of the market, many large, but dull houses are to the
+north and west.  The people traveling through here appear to be very 
+wealthy.  They only care about getting richer and certainly don't want to help
+you.
+~
+0 0 1
+D1
+west market
+~
+~
+0 -1 12127
+D2
+west market
+~
+~
+0 -1 12132
+S
+#12132
+The West Market Square~
+You are on a busy section of the market.  Many shady merchants and dealers
+are lurking about.  You tighten your grip on your wallet.  A noble's home is 
+west and the market continues north, east, and south.
+~
+0 0 1
+D0
+west market
+~
+~
+0 -1 12131
+D1
+west market
+~
+~
+0 -1 12150
+D2
+west market
+~
+~
+0 -1 12134
+D3
+a noble's manor
+~
+~
+0 -1 12133
+S
+#12133
+A Noble's Manor~
+A large stuffy house with many needless items and treasures.  The furniture 
+looks ridiculously expensive.
+~
+0 8 1
+D1
+the market
+~
+~
+0 -1 12132
+S
+#12134
+The West Market Square~
+You are on one of two market squares in Cloudy Mountain.  The tiles here are
+a dull black color.  Even though this market seems rather gloomy, the city
+here is still in excellent condition.  A dark alley is west and a dark mansion
+is east.  The market continues north and south.
+~
+0 0 1
+D0
+west market
+~
+~
+0 -1 12132
+D1
+Kringe's domain
+~
+~
+0 -1 12136
+D2
+the market
+~
+~
+0 -1 12138
+D3
+a dark alley
+~
+~
+0 -1 12135
+S
+#12135
+A Dark Alley~
+You hurry though a dark alley as many large shadows loom in the shadows.
+You feel a hand reaching for your wallet, but you knock it away with the butt
+of your weapon.  The west market is east and the city wall is west.
+~
+0 1 1
+D1
+west market
+~
+~
+0 -1 12134
+D3
+west wall
+~
+~
+0 -1 12109
+S
+#12136
+Kringe's Domain~
+A dark room with a large, smoked oak table in the center.  Lots of 
+slime-balls and rift-rafts turn and stare at you.  You wonder if this was a 
+good idea, you seem to have stumbled upon the headquarters of the Dragons of
+Anarchy.
+~
+0 9 1
+D1
+Kringe's treasure room
+~
+~
+0 -1 12137
+D3
+west market
+~
+~
+0 -1 12134
+S
+#12137
+Kringe's Treasure Room~
+You are blinded by the reflection from the mountains of gold in this room.
+Kringe sleeps, eats, and swims through the treasure.  He also probably buries
+the bodies of his enemies here.
+~
+0 8 1
+D3
+Kringe's domain
+~
+~
+0 -1 12136
+S
+#12138
+The West Market Square~
+You are on the western marketplace.  Many shady characters do their business
+here.  Although the city is still well-kept in this section, it appears to be
+gloomy and drab.  The market continues north, east, and south.
+~
+0 0 1
+D0
+west market
+~
+~
+0 -1 12134
+D1
+west market
+~
+~
+0 -1 12149
+D2
+west market
+~
+~
+0 -1 12139
+S
+#12139
+The West Market Square~
+This corner of the market is filled with all kinds of sleazy looking beings.
+The citizens seems to be more in a hurry when they pass through these parts.
+You clutch your wallet tightly as you see that the market continues north and
+east.  The vampire guild is west and Ghanekar's Lair is to the south.
+~
+0 0 1
+D0
+the market
+~
+~
+0 -1 12138
+D1
+west market
+~
+~
+0 -1 12144
+D2
+Ghanekar's lair
+~
+~
+0 -1 12143
+D3
+vampire guild
+~
+~
+0 -1 12140
+S
+#12140
+The Vampire's Guild~
+You enter a dark room filled with shady characters.  They check you out 
+to make sure you aren't an undercover guard before being allowed to continue
+into the guild.
+~
+0 9 1
+D1
+west market
+~
+~
+0 -1 12139
+D2
+vampire guild
+~
+~
+0 -1 12141
+S
+#12141
+The Vampire Guild~
+You shine your light throughout the dark room and discover the skeletal
+remains of those who trespassed throughout this large hall.  Many beady eyes
+are watching your every move.  The only obvious exit is north.
+~
+0 9 1
+D0
+the vampire's guild
+~
+~
+0 -1 12140
+D3
+the masters room
+~
+wall west~
+0 -1 12142
+S
+#12142
+The Masters Room~
+The room is pitch black, you sense someone moving towards you.
+~
+0 9 1
+D1
+vampire guild
+~
+wall east door~
+0 -1 12141
+S
+#12143
+Ghanekar's Lair~
+A large forest green house.  Many plants and small trees are in the windows
+and along the walls.  The smells of the forest are strong in here.
+~
+0 9 1
+D0
+west market
+~
+~
+0 -1 12139
+S
+#12144
+The West Market Square~
+The western market.  This is where evil congregate to make sleazy deals.  
+Homes are to the south and the market continues north, east, and west.
+~
+0 0 1
+D0
+~
+~
+0 -1 12149
+D1
+west market
+~
+~
+0 -1 12145
+D3
+west market
+~
+~
+0 -1 12139
+S
+#12145
+The West Market Square~
+The western market.  This is where evil congregate to make sleazy deals.  
+Homes are to the south and the market continues north, east, and west.
+~
+0 0 1
+D0
+west market
+~
+~
+0 -1 12148
+D1
+west market
+~
+~
+0 -1 12146
+D3
+west market
+~
+~
+0 -1 12144
+S
+#12146
+The West Market Square~
+The western market.  This is where evil congregate to make sleazy deals.
+Homes are east and south.  The market continues north and west.
+~
+0 0 1
+D0
+west market
+~
+~
+0 -1 12147
+D3
+west market
+~
+~
+0 -1 12145
+S
+#12147
+The West Market Square~
+The western market.  This is where evil congregate to make sleazy deals.
+Homes are east and the market continues north, south, and west.
+~
+0 0 1
+D0
+west market
+~
+~
+0 -1 12123
+D2
+west market
+~
+~
+0 -1 12146
+D3
+west market
+~
+~
+0 -1 12148
+S
+#12148
+The West Market Square~
+The western market.  This is where evil congregate to make sleazy deals.
+A mansion is north and the market is east, south, and west.
+~
+0 0 1
+D1
+west market
+~
+~
+0 -1 12147
+D2
+west market
+~
+~
+0 -1 12145
+D3
+the market
+~
+~
+0 -1 12149
+S
+#12149
+The West Market Square~
+The western market.  This is where evil congregate to make sleazy deals.  
+A mansion blocks the way north and the market continues east, south, and west.
+~
+0 0 1
+D1
+west market
+~
+~
+0 -1 12148
+D2
+west market
+~
+~
+0 -1 12144
+D3
+west market
+~
+~
+0 -1 12138
+S
+#12150
+The West Market Square~
+You are on the western market.  The people here are ill-tempered and are
+unwilling to help or answer questions.  A mansion blocks the way south and the
+market continues north, east and west.
+~
+0 0 1
+D0
+west market
+~
+~
+0 -1 12127
+D1
+~
+~
+0 -1 12151
+D3
+west market
+~
+~
+0 -1 12132
+S
+#12151
+The West Market Square~
+You are on the western market.  The people here are ill-tempered and 
+unwilling to help or answer questions.  A mansion blocks the way south and 
+the market continues north, east and west.
+~
+0 0 1
+D0
+west market
+~
+~
+0 -1 12126
+D1
+west market
+~
+~
+0 -1 12124
+D3
+west market
+~
+~
+0 -1 12150
+S
+#12152
+A Cavern~
+You seem to have entered Cloudy Mountain itself.  The caves appear dark from
+a distant but seem to light up when you enter them.  The cavern is damp and
+you hear dragons snoring deep within.  Legend has it that the Crown of Kings
+are guarded by two winged dragons.  High levels may adventure forth, whereas
+low and middle levels should turn back.
+~
+0 9 5
+D0
+a cave
+~
+~
+0 -1 12154
+D1
+a large cavern
+~
+~
+0 -1 12153
+D4
+back to the palace
+~
+trapdoor~
+0 -1 12042
+S
+#12153
+The Dracolich's Lair~
+The room is black and a blue flame roars in the center of the cave.  The
+smell of death nearly over powers you.  You gasp in terror as you see skulls
+from adventurers that have come before you.  
+~
+0 9 5
+D3
+cavern
+~
+~
+0 -1 12152
+S
+#12154
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north
+east and south.  You see tiny paw-prints on the ground.
+~
+0 9 5
+D0
+the cave
+~
+~
+0 -1 12159
+D1
+the cave
+~
+~
+0 -1 12155
+D2
+a cavern
+~
+~
+0 -1 12152
+S
+#12155
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+east and west.  
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12158
+D1
+the caves
+~
+~
+0 -1 12156
+D3
+the caves
+~
+~
+0 -1 12154
+S
+#12156
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+south and west.  You see paw prints on the floor.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12157
+D2
+the caves
+~
+~
+0 -1 12169
+D3
+the caves
+~
+~
+0 -1 12155
+S
+#12157
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+south and west.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12170
+D2
+the caves
+~
+~
+0 -1 12156
+D3
+the caves
+~
+~
+0 -1 12158
+S
+#12158
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+east and south.  You notice paw prints on the ground.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12161
+D1
+the caves
+~
+~
+0 -1 12157
+D2
+the caves
+~
+~
+0 -1 12155
+S
+#12159
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+south and west.  You hear a strange slurping sound from another room.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12160
+D2
+the caves
+~
+~
+0 -1 12154
+D3
+the caves
+~
+~
+0 -1 12177
+S
+#12160
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are east,
+south and west.  You hear a strange slurping sound coming from another room.
+~
+0 9 5
+D1
+the caves
+~
+~
+0 -1 12161
+D2
+the caves
+~
+~
+0 -1 12159
+D3
+the caves
+~
+~
+0 -1 12179
+S
+#12161
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+south and west.  
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12162
+D2
+the caves
+~
+~
+0 -1 12158
+D3
+the caves
+~
+~
+0 -1 12160
+S
+#12162
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are east,
+south and west.  You hear a strange slurping sound in another room.
+~
+0 9 5
+D1
+the caves
+~
+~
+0 -1 12169
+D2
+the caves
+~
+~
+0 -1 12161
+D3
+the caves
+~
+~
+0 -1 12163
+S
+#12163
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+east and west.  You hear a dragon snoring.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12164
+D1
+the caves
+~
+~
+0 -1 12162
+D3
+the caves
+~
+~
+0 -1 12182
+S
+#12164
+A Winding Cavern~
+You are now in a cavern.  It is slightly wider here, and the ceiling is very
+high.  You cringe at the thought of all the stalactites falling on top of you.
+Your light reflects off of certain parts of the cave wall.
+~
+0 9 5
+D0
+cavern
+~
+~
+0 -1 12165
+D2
+the caves
+~
+~
+0 -1 12163
+S
+#12165
+A Winding Cavern~
+There are more stalactites hanging from the ceiling here and you realize 
+the reflections on the walls are diamonds and other jewels.  A constant
+snoring echos through the cavern.
+~
+0 9 5
+D2
+the cavern
+~
+~
+0 -1 12164
+D3
+cavern
+~
+~
+0 -1 12166
+S
+#12166
+A Winding Cavern~
+You are very uneasy because of all the stalactites on the ceiling.  You
+look up and swear one of them is moving until you take a second look.  The 
+walls glitter with gems and gold.
+~
+0 9 5
+D0
+the cavern
+~
+~
+0 -1 12167
+D1
+the cavern
+~
+~
+0 -1 12165
+S
+#12167
+A Winding Cavern~
+The walls are covered with all kinds of raw gems, diamonds, and precious
+metals.  There are even treasures hidden in the nooks and crannies.  There is
+an unusual number of stalactites on the ceiling.  You hear a very loud 
+snoring to the west.
+~
+0 9 5
+D2
+a cavern
+~
+~
+0 -1 12166
+D3
+a chamber
+~
+~
+0 -1 12168
+S
+#12168
+A Large Chamber~
+You are nearly blinded by all the gold and treasures in this room!  You 
+quickly come to your senses as you see the winged dragon rearing his head to
+strike.  He is guarding half of the crown of kings.
+~
+0 9 5
+D1
+cavern
+~
+~
+0 -1 12167
+S
+#12169
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+south and west.  
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12156
+D2
+the caves
+~
+~
+0 -1 12170
+D3
+the caves
+~
+~
+0 -1 12162
+S
+#12170
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+east and south.  Strange, lizard-like tracks are on the ground.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12169
+D1
+the caves
+~
+~
+0 -1 12171
+D2
+the caves
+~
+~
+0 -1 12157
+S
+#12171
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+south and west.  
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12182
+D2
+the caves
+~
+~
+0 -1 12172
+D3
+the caves
+~
+~
+0 -1 12170
+S
+#12172
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out the rock.  Exits are north,
+east and south.  Strange, lizard-like tracks are on the ground.  You hear a 
+dragon snoring.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12171
+D1
+the caves
+~
+~
+0 -1 12180
+D2
+the caves
+~
+~
+0 -1 12173
+S
+#12173
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+east and south.  A skull is lying in the dust.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12172
+D1
+the caves
+~
+~
+0 -1 12181
+D2
+the caves
+~
+~
+0 -1 12174
+S
+#12174
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+east and west.  Some paw prints are on the ground.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12174
+D1
+the caves
+~
+~
+0 -1 12175
+D3
+the caves
+~
+~
+0 -1 12152
+S
+#12175
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+east and west.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12181
+D1
+the caves
+~
+~
+0 -1 12176
+D3
+the caves
+~
+~
+0 -1 12174
+S
+#12176
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+west and down.  Some paw prints are on the ground.  You hear a strange, 
+slurping sound from another room.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12177
+D3
+the caves
+~
+~
+0 -1 12175
+D5
+~
+~
+0 -1 12179
+S
+#12177
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+east and south.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12178
+D1
+the caves
+~
+~
+0 -1 12159
+D2
+the caves
+~
+~
+0 -1 12176
+S
+#12178
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+south and west.  You hear a dragon snoring.  You also hear a strange, slurping
+sound.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12179
+D2
+the caves
+~
+~
+0 -1 12177
+D3
+the caves
+~
+~
+0 -1 12180
+S
+#12179
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are east,
+south and up.  
+~
+0 9 5
+D1
+the caves
+~
+~
+0 -1 12160
+D2
+the caves
+~
+~
+0 -1 12178
+D4
+the caves
+~
+~
+0 -1 12176
+S
+#12180
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are east,
+south and west.
+~
+0 9 5
+D1
+the caves
+~
+~
+0 -1 12178
+D2
+the caves
+~
+~
+0 -1 12181
+D3
+the caves
+~
+~
+0 -1 12172
+S
+#12181
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+south and west.  You see paw prints in the dirt.  You hear a dragon snoring.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12180
+D2
+the caves
+~
+~
+0 -1 12175
+D3
+the caves
+~
+~
+0 -1 12173
+S
+#12182
+The Caves of Cloudy Mountain~
+You only see a large, stone room carved out of the rock.  Exits are north,
+east and south.  Some strange lizard-like prints are in the dirt.
+~
+0 9 5
+D0
+the caves
+~
+~
+0 -1 12183
+D1
+the caves
+~
+~
+0 -1 12163
+D2
+the caves
+~
+~
+0 -1 12171
+S
+#12183
+A Cavern~
+You enter a large cavern that appears to be somewhat natural, but has
+been expanded by someone or something.
+~
+0 9 5
+D0
+the cavern
+~
+~
+0 -1 12184
+D2
+the caves
+~
+~
+0 -1 12182
+S
+#12184
+The Cavern~
+The cavern becomes slightly narrower here.  Some stalactites hang from the 
+cave ceiling.  You shudder at the though of being impaled by one.  You notice
+some gems glittering in the rock.
+~
+0 9 5
+D1
+the cavern~
+~
+0 -1 12185
+D2
+the cavern
+~
+~
+0 -1 12183
+S
+#12185
+The Cavern~
+The cavern turns east and then north again.  You hear a dragon snoring to 
+the north.  Many stalactites hang from the ceiling, you hurry through the room
+in fear that they will rain down upon you.  Many jewels reflect your light, this
+room appears to be mined or excavated by some intelligent life form.
+~
+0 9 5
+D0
+the cavern
+~
+~
+0 -1 12186
+D3
+the cavern
+~
+~
+0 -1 12184
+S
+#12186
+The Cavern~
+The cave is very wide here and there are many raw gems glowing in the rock.
+You see a skeleton in the corner that appears to have been impaled, but the 
+object that did so is nowhere to be found.  An unusual number of stalactites
+hang from the ceiling.  A dragon's snoring is rumbling from the east.
+~
+0 9 5
+D1
+the treasure room
+~
+~
+0 -1 12187
+D2
+~
+~
+0 -1 12185
+S
+#12187
+The Treasure Room~
+The cavern is shining with a golden light!  There is so much treasure and
+gold here that the reflection makes the rock appear to be made of gold!  But,
+alas, your entrance has not gone unnoticed.
+~
+0 8 5
+D3
+the cavern
+~
+~
+0 -1 12186
+S
+#12188
+Scourge's Storeroom~
+This is a room where imms, if they choose, may find powerful equipment that
+mortals are not allowed to have.
+~
+0 32772 1
+S
+#12189
+Scourge' Room~
+You have entered Scourge's private room.  It is rather dark, those of 
+good alignment may find it sinister and feel uncomfortable...those who walk
+the path of evil are right at home.  There is a roaring fire in the fireplace,
+yet the room feels chilly.  There are some plants in the window, but they 
+appear to be dead.  Scourge is sitting in a black and red chair, he grins 
+at you evilly.
+~
+0 1549 1
+E
+fire fireplace roaring~
+A fire roars here, for a second you think you see a body in the fire, but you
+blink and it's gone.
+~
+E
+plants window~
+The plants look like they died from lack of water and disease, you notice
+that you are developing a cough as you sit in your chair.
+~
+E
+chair red black~
+The chair looks very comfortable, the pattern is the colors of the Katyusha 
+clan.
+~
+E
+scourge~
+You meet his cold stare, as a chill runs up and down your spine, he speaks.
+Scourge says, 'I am not here right now, if you would like to leave a message,
+please leave your name, number, and I'll get back to you as soon as possible.'
+*BEEP*
+~
+S
+#12190
+A Dark Alley~
+You are in a dark, cobblestone alley.  To the west is the eastern market
+square and the east wall is east.
+~
+0 1 1
+D1
+the east wall 
+~
+~
+0 -1 12156
+D3
+east market
+~
+~
+0 -1 12183
+S
+#12197
+The East Market~
+You are on the east market of Cloudy Mountain.  A large mansion is south and
+the market continues north, east, and west.
+~
+0 0 1
+D0
+market
+~
+~
+0 -1 12079
+D1
+market
+~
+~
+0 -1 12082
+D3
+market
+~
+~
+0 -1 12198
+S
+#12198
+The East Market~
+You are on the east market of Cloudy Mountain.  A large mansion is south and
+the market continues north, east, and west.
+~
+0 0 1
+D0
+market
+~
+~
+0 -1 12074
+D1
+market
+~
+~
+0 -1 12197
+D3
+market
+~
+~
+0 -1 12072
+S
+#0
+
+
+
+#SPECIALS
+M 12010 spec_breath_lightning
+M 12016 spec_thief
+M 12027 spec_thief
+M 12045 spec_breath_frost
+M 12046 spec_breath_fire
+M 12047 spec_breath_gas
+M 12048 spec_breath_lightning
+M 12049 spec_breath_any
+M 12050 spec_cast_cleric
+M 12051 spec_breath_gas
+M 12052 spec_breath_gas
+M 12053 spec_breath_fire
+M 12054 spec_breath_acid
+M 12055 spec_breath_gas
+M 12057 spec_cast_mage
+M 12061 spec_cast_undead
+M 12070 spec_cast_mage
+M 12071 spec_cast_mage
+M 12077 spec_cast_cleric
+M 12078 spec_cast_cleric
+M 12079 spec_cast_cleric
+S
+
+
+
+#RESETS
+M 0 12007 20 12002 1
+M 0 12009 1 12005 1
+M 0 12002 16 12006 1
+E 0 12031 0 16
+E 0 12022 0 5
+E 0 12023 0 10
+M 0 12005 10 12007 1
+E 0 12010 0 3
+M 0 12006 10 12007 1
+E 0 12031 0 16
+M 0 12002 16 12008 1
+E 0 12031 0 16
+E 0 12022 0 5
+E 0 12023 0 10
+M 0 12021 5 12008 1
+M 0 12071 4 12008 1
+M 0 12008 20 12009 1
+M 0 12021 5 12010 1
+M 0 12007 20 12011 1
+M 0 12022 5 12012 1
+M 0 12004 4 12013 2
+M 0 12004 4 12013 2
+M 0 12007 20 12013 2
+M 0 12007 20 12013 2
+M 0 12008 20 12013 2
+M 0 12008 20 12013 2
+M 0 12018 5 12014 1
+M 0 12008 20 12015 1
+M 0 12022 5 12016 1
+M 0 12007 20 12017 1
+M 0 12031 11 12017 1
+M 0 12003 5 12018 1
+M 0 12008 20 12018 2
+M 0 12008 20 12018 2
+M 0 12054 1 12018 1
+E 0 12012 0 17
+M 0 12007 20 12019 2
+M 0 12007 20 12019 2
+M 0 12008 20 12019 2
+M 0 12008 20 12019 2
+M 0 12056 1 12019 1
+E 0 12011 0 12
+E 0 12023 0 10
+E 0 12031 0 16
+M 0 12003 5 12020 1
+M 0 12007 20 12020 2
+M 0 12007 20 12020 2
+M 0 12055 1 12020 1
+E 0 12013 0 17
+M 0 12022 5 12021 1
+M 0 12008 20 12022 1
+M 0 12021 5 12023 1
+M 0 12031 11 12023 1
+M 0 12006 10 12024 1
+M 0 12026 8 12024 1
+M 0 12045 1 12025 1
+E 0 12007 0 2
+M 0 12005 10 12026 1
+M 0 12030 11 12027 1
+M 0 12005 10 12028 1
+E 0 12014 0 8
+M 0 12002 16 12030 1
+E 0 12031 0 16
+E 0 12022 0 5
+E 0 12023 0 10
+M 0 12000 5 12031 2
+E 0 12022 0 5
+E 0 12031 0 16
+E 0 12023 0 10
+E 0 12014 0 8
+M 0 12000 5 12031 2
+E 0 12022 0 5
+E 0 12031 0 16
+E 0 12023 0 10
+E 0 12014 0 8
+M 0 12002 16 12032 1
+E 0 12031 0 16
+E 0 12022 0 5
+E 0 12023 0 10
+M 0 12026 8 12032 1
+M 0 12031 11 12032 1
+M 0 12061 1 12033 1
+E 0 12004 0 16
+M 0 12000 5 12034 2
+E 0 12022 0 5
+E 0 12031 0 16
+E 0 12023 0 10
+M 0 12000 5 12034 2
+E 0 12022 0 5
+E 0 12031 0 16
+E 0 12023 0 10
+M 0 12062 1 12035 1
+E 0 12002 0 16
+M 0 12060 1 12036 1
+E 0 12001 0 16
+M 0 12000 5 12037 1
+E 0 12031 0 16
+E 0 12022 0 5
+E 0 12023 0 10
+E 0 12014 0 8
+E 0 12010 0 3
+M 0 12059 1 12038 1
+E 0 12003 0 16
+M 0 12001 4 12039 1
+E 0 12031 0 16
+M 0 12057 1 12039 1
+E 0 12008 0 17
+E 0 12009 0 11
+M 0 12001 4 12040 2
+M 0 12001 4 12040 2
+M 0 12001 4 12041 1
+O 0 12024 0 12044
+M 0 12033 1 12044 1
+E 0 12025 0 6
+M 0 12018 5 12045 1
+M 0 12071 4 12046 1
+M 0 12007 20 12047 1
+M 0 12005 10 12048 1
+M 0 12031 11 12049 1
+M 0 12002 16 12051 1
+E 0 12031 0 16
+E 0 12023 0 10
+M 0 12002 16 12052 1
+E 0 12050 0 16
+E 0 12010 0 3
+M 0 12026 8 12053 1
+M 0 12020 5 12054 1
+M 0 12002 16 12056 1
+E 0 12031 0 16
+E 0 12023 0 10
+M 0 12020 5 12058 1
+M 0 12065 2 12058 1
+M 0 12066 1 12058 1
+M 0 12044 9 12059 1
+M 0 12020 5 12060 1
+M 0 12002 16 12061 2
+E 0 12031 0 16
+E 0 12023 0 10
+M 0 12002 16 12061 2
+E 0 12050 0 16
+E 0 12010 0 3
+M 0 12007 20 12063 1
+M 0 12031 11 12065 1
+M 0 12005 10 12066 1
+M 0 12026 8 12067 1
+M 0 12031 11 12068 1
+M 0 12058 4 12069 1
+M 0 12002 16 12070 1
+E 0 12023 0 10
+E 0 12014 0 8
+M 0 12071 4 12070 1
+M 0 12007 20 12071 1
+M 0 12018 5 12071 1
+M 0 12031 11 12071 1
+M 0 12067 2 12072 1
+G 0 12045 0
+G 0 12046 0
+G 0 12047 0
+M 0 12005 10 12073 1
+M 0 12068 3 12074 1
+M 0 12076 2 12074 1
+M 0 12031 11 12075 1
+M 0 12075 2 12075 2
+E 0 12051 0 16
+M 0 12075 2 12075 2
+E 0 12051 0 16
+M 0 12076 2 12075 1
+M 0 12068 3 12076 1
+E 0 12010 0 3
+M 0 12072 3 12076 1
+M 0 12048 1 12077 1
+E 0 12027 0 2
+M 0 12019 5 12078 1
+M 0 12063 2 12078 1
+M 0 12065 2 12078 1
+M 0 12044 9 12079 1
+M 0 12072 3 12079 1
+M 0 12005 10 12080 1
+M 0 12053 1 12081 1
+E 0 12015 0 3
+E 0 12020 0 13
+M 0 12019 5 12082 1
+M 0 12007 20 12083 1
+M 0 12031 11 12084 1
+M 0 12044 9 12084 2
+M 0 12044 9 12084 2
+M 0 12047 1 12085 1
+E 0 12006 0 16
+E 0 12017 0 3
+M 0 12019 5 12086 1
+M 0 12005 10 12087 1
+M 0 12077 5 12088 1
+M 0 12077 5 12089 1
+M 0 12077 5 12090 1
+M 0 12077 5 12091 1
+M 0 12080 2 12091 2
+M 0 12080 2 12091 2
+M 0 12078 2 12092 2
+M 0 12078 2 12092 2
+M 0 12005 10 12093 1
+M 0 12077 5 12093 1
+M 0 12031 11 12094 1
+M 0 12044 9 12096 1
+M 0 12044 9 12097 1
+M 0 12004 4 12098 1
+M 0 12043 9 12098 1
+M 0 12058 4 12099 1
+M 0 12023 5 12100 1
+M 0 12006 10 12101 1
+E 0 12010 0 3
+M 0 12024 5 12102 1
+M 0 12030 11 12103 1
+M 0 12002 16 12104 1
+E 0 12031 0 16
+E 0 12023 0 10
+M 0 12002 16 12105 1
+E 0 12050 0 16
+E 0 12010 0 3
+M 0 12025 5 12106 1
+M 0 12006 10 12107 1
+M 0 12025 5 12108 1
+M 0 12002 16 12109 1
+E 0 12031 0 16
+E 0 12023 0 10
+M 0 12043 9 12109 1
+M 0 12025 5 12110 1
+M 0 12043 9 12110 1
+M 0 12006 10 12111 1
+M 0 12026 8 12112 1
+M 0 12002 16 12113 1
+E 0 12031 0 16
+E 0 12023 0 10
+M 0 12073 3 12113 1
+M 0 12002 16 12114 1
+E 0 12050 0 16
+E 0 12010 0 3
+M 0 12008 20 12115 1
+M 0 12024 5 12116 1
+M 0 12043 9 12117 1
+M 0 12006 10 12118 1
+M 0 12069 3 12120 1
+M 0 12002 16 12121 1
+E 0 12023 0 10
+E 0 12014 0 8
+M 0 12026 8 12122 1
+M 0 12064 1 12122 1
+M 0 12030 11 12123 1
+M 0 12069 3 12124 1
+M 0 12006 10 12125 1
+M 0 12030 11 12126 1
+M 0 12067 2 12127 1
+G 0 12040 0
+G 0 12041 0
+G 0 12042 0
+G 0 12043 0
+M 0 12070 8 12127 1
+M 0 12074 3 12127 1
+M 0 12070 8 12128 2
+M 0 12070 8 12128 2
+M 0 12030 11 12129 1
+M 0 12070 8 12129 2
+M 0 12070 8 12129 2
+M 0 12049 1 12130 1
+E 0 12028 0 2
+M 0 12070 8 12130 1
+M 0 12074 3 12130 1
+M 0 12006 10 12131 1
+M 0 12070 8 12132 1
+M 0 12058 4 12133 1
+M 0 12008 20 12134 1
+M 0 12026 8 12135 1
+M 0 12030 11 12136 2
+M 0 12030 11 12136 2
+M 0 12043 9 12136 1
+M 0 12046 1 12137 1
+E 0 12005 0 16
+E 0 12018 0 3
+M 0 12024 5 12138 1
+M 0 12027 5 12138 1
+M 0 12030 11 12138 1
+M 0 12006 10 12139 1
+M 0 12028 7 12139 1
+M 0 12073 3 12139 1
+M 0 12028 7 12140 3
+M 0 12028 7 12140 3
+M 0 12028 7 12140 3
+M 0 12029 5 12140 2
+M 0 12029 5 12140 2
+M 0 12027 5 12141 2
+M 0 12027 5 12141 2
+M 0 12028 7 12141 1
+M 0 12030 11 12141 1
+M 0 12029 5 12142 3
+M 0 12029 5 12142 3
+M 0 12029 5 12142 3
+E 0 12031 0 16
+M 0 12051 1 12142 1
+E 0 12030 0 2
+M 0 12052 1 12143 1
+E 0 12016 0 10
+E 0 12021 0 6
+M 0 12023 5 12144 1
+M 0 12028 7 12145 1
+M 0 12043 9 12145 1
+M 0 12006 10 12146 1
+M 0 12023 5 12148 1
+M 0 12008 20 12149 1
+M 0 12030 11 12149 1
+M 0 12003 5 12150 1
+E 0 12014 0 8
+M 0 12032 1 12153 1
+E 0 12000 0 9
+M 0 12014 2 12155 1
+M 0 12015 7 12157 1
+M 0 12017 1 12158 1
+M 0 12015 7 12159 1
+M 0 12034 1 12160 1
+M 0 12012 2 12161 1
+M 0 12016 3 12163 1
+M 0 12011 3 12164 1
+M 0 12035 3 12165 2
+M 0 12035 20 12165 2
+M 0 12040 20 12165 1
+M 0 12037 3 12165 1
+M 0 12041 20 12165 1
+M 0 12042 20 12165 1
+M 0 12015 7 12166 1
+M 0 12039 20 12166 1
+M 0 12040 20 12166 1
+M 0 12037 3 12166 1
+M 0 12041 20 12166 2
+M 0 12041 20 12166 2
+M 0 12042 20 12166 1
+M 0 12035 3 12167 1
+M 0 12039 20 12167 2
+M 0 12039 20 12167 2
+M 0 12036 3 12167 1
+M 0 12040 20 12167 2
+M 0 12040 20 12167 2
+M 0 12041 20 12167 2
+M 0 12041 20 12167 2
+M 0 12038 3 12167 1
+M 0 12042 20 12167 2
+M 0 12042 20 12167 2
+O 0 12039 0 12168
+P 0 12048 1 12039 1
+M 0 12010 2 12168 1
+G 0 12033 0
+M 0 12015 7 12169 1
+O 0 12026 0 12171
+M 0 12013 1 12171 1
+M 0 12014 2 12175 1
+O 0 12032 0 12177
+M 0 12012 2 12177 1
+M 0 12015 7 12178 1
+M 0 12016 3 12179 1
+M 0 12011 3 12180 1
+M 0 12011 3 12183 1
+M 0 12016 3 12184 1
+M 0 12039 20 12184 1
+M 0 12036 3 12184 1
+M 0 12040 20 12184 1
+M 0 12041 20 12184 1
+M 0 12038 3 12184 1
+M 0 12042 20 12184 2
+M 0 12042 20 12184 2
+M 0 12035 3 12185 1
+M 0 12039 20 12185 2
+M 0 12039 20 12185 2
+M 0 12036 3 12185 1
+M 0 12040 20 12185 2
+M 0 12040 20 12185 2
+M 0 12041 20 12185 1
+M 0 12038 3 12185 1
+M 0 12042 20 12185 1
+M 0 12015 7 12186 1
+M 0 12039 20 12186 2
+M 0 12039 20 12186 2
+M 0 12040 20 12186 2
+M 0 12040 20 12186 2
+M 0 12037 3 12186 1
+M 0 12041 20 12186 2
+M 0 12041 20 12186 2
+M 0 12042 20 12186 2
+M 0 12042 20 12186 2
+O 0 12038 0 12187
+P 0 12048 1 12038 1
+M 0 12010 2 12187 1
+G 0 12034 0
+M 0 12080 1 12188 1
+O 0 12035 0 12189
+O 0 12036 0 12189
+O 0 12037 0 12189
+O 0 12049 0 12189
+M 0 12026 8 12190 1
+M 0 12044 9 12190 1
+S
+
+
+
+#SHOPS
+12067 0 0 0 0 0 100 100 0 23
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

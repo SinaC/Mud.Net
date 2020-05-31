@@ -1,0 +1,518 @@
+#AREADATA
+Name The Hive~
+Builders Darkblade~
+VNUMs 31001 31100
+Credits [CLOSE] Drkbde  TBA~
+Security 9
+End
+
+#MOBILES
+#31010
+Mark I Drone~
+Mark I Drone~
+A Mark I Drone marches back and forth barring your way.
+~
+The Mark I Drone is instructed not to interfere with you unless you try
+to pass him, other members of the hive pass by without noticing you, a Mark
+I Warrior class has taken notice of you a bit farther down.  
+~
+elf~
+AF A JVZ AHMV -500 0
+10 10 21d3+102 10d10+85 3d3+10 none
+2 2 2 4
+FGHIRU B EPZ NSYZ
+stand stand none 200
+ABCDEFGHIJK 0 medium unknown
+#31011
+Mark I Warrior~
+Mark I Warrior~
+Mark I Warrior is here.
+~
+The Mark I Warrior is looking at you and preparing his attack, his eyes
+are cold grey metallic, and his arms are bristling with scaly muscles, fresh
+out of the vat this one is stupid but ready to take on anything.  
+~
+giant~
+A A 0 0 0 0
+12 12 25d4+122 12d10+85 4d3+11 none
+1 1 1 3
+0 HI JP 0
+stand stand none 100
+ABCDEFGHIJK 0 medium unknown
+F shd AHMV
+#31020
+Mark II Drone~
+Mark II Drone~
+Mark II Drone marches back and forth barring your way.
+~
+A Mark II Drone is a slight upgrade from the Mark I, the eyes are a bit
+brighter and the body is a bit more muscled.  
+~
+giant~
+A A 0 0 0 0
+20 20 41d6+203 20d10+85 6d3+15 none
+-3 -3 -3 0
+0 HI JP 0
+stand stand none 0
+ABCDEFGHIJK 0 medium unknown
+F shd AHMV
+#31022
+Mark II Warrior~
+Mark II Warrior~
+The Mark II Warrior is sharpening his weapon for battle.
+~
+The Mark II Warrior's eyes reflect an intelligence not seen here before,
+perhaps the genetic formula is getting more potent.  
+~
+giant~
+A A 0 0 0 0
+22 22 45d7+223 22d10+85 7d3+16 none
+-5 -5 -5 0
+0 HI JP 0
+stand stand none 0
+ABCDEFGHIJK 0 medium unknown
+F shd AHMV
+#0
+
+
+
+#OBJECTS
+#0
+
+
+
+#ROOMS
+#31001
+Walkway~
+A long walkway leading into a vast cavern, on either side you can see
+large vats of bubbling liquid.  Every once in a while something almost rises
+to the surface and you get a glimpse of what is within.
+~
+0 4 0
+D0
+~
+~
+0 0 31002
+D1
+~
+~
+0 0 31012
+D2
+~
+~
+0 0 31010
+D3
+~
+~
+0 0 31013
+S
+#31002
+Walkway~
+A long walkway leading into a vast cavern, on either side you can see
+large vats of bubbling liquid.  Every once in a while something almost rises
+to the surface and you get a glimpse of what is within.
+~
+0 0 0
+D0
+~
+~
+0 0 31003
+D1
+~
+~
+0 0 31004
+D2
+~
+~
+0 0 31001
+D3
+~
+~
+0 0 31005
+S
+#31003
+Walkway~
+The walkways converge here going east west north and south, the center of
+the hive, all around you are bubbling vats and a nauseating stench, drones
+and workers scurry about tending to larvae and preparing for the invasion.  
+~
+0 0 0
+D0
+~
+~
+0 0 31011
+D1
+~
+~
+0 0 31006
+D2
+~
+~
+0 0 31002
+D3
+~
+~
+1 0 31007
+S
+#31004
+Walkway~
+A long walkway leading into a vast cavern, on either side you can see
+large vats of bubbling liquid.  Every once in a while something almost rises
+to the surface and you get a glimpse of what is within.  
+~
+0 0 0
+D0
+~
+~
+0 0 31006
+D1
+~
+~
+0 0 31008
+D2
+~
+~
+0 0 31012
+D3
+~
+~
+0 0 31002
+S
+#31005
+Walkway~
+A long walkway leading into a vast cavern, on either side you can see
+large vats of bubbling liquid.  Every once in a while something almost rises
+to the surface and you get a glimpse of what is within.  
+~
+0 0 0
+D0
+~
+~
+1 0 31007
+D1
+~
+~
+0 0 31002
+D2
+~
+~
+0 0 31013
+D3
+~
+~
+0 0 31009
+S
+#31006
+Walkway~
+A long walkway leading into a vast cavern, on either side you can see
+large vats of bubbling liquid.  Every once in a while something almost rises
+to the surface and you get a glimpse of what is within.  
+~
+0 0 0
+D2
+~
+~
+0 0 31004
+D3
+~
+~
+0 0 31003
+S
+#31007
+Walkway~
+A long walkway leading into a vast cavern, on either side you can see
+large vats of bubbling liquid.  Every once in a while something almost rises
+to the surface and you get a glimpse of what is within.  
+~
+0 0 0
+D1
+~
+~
+1 0 31003
+D2
+~
+~
+1 0 31005
+S
+#31008
+Walkway~
+A long walkway leading into a vast cavern, on either side you can see
+large vats of bubbling liquid.  Every once in a while something almost rises
+to the surface and you get a glimpse of what is within.  
+~
+0 0 0
+D3
+~
+~
+0 0 31004
+S
+#31009
+Walkway~
+A long walkway leading into a vast cavern, on either side you can see
+large vats of bubbling liquid.  Every once in a while something almost rises
+to the surface and you get a glimpse of what is within.  
+~
+0 0 0
+D1
+~
+~
+0 0 31005
+S
+#31010
+Walkway~
+A long walkway leading into a vast cavern, on either side you can see
+large vats of bubbling liquid.  Every once in a while something almost rises
+to the surface and you get a glimpse of what is within.  
+~
+0 0 0
+D0
+~
+~
+0 0 31001
+S
+#31011
+Walkway~
+A long walkway leading into a vast cavern, on either side you can see
+large vats of bubbling liquid.  Every once in a while something almost rises
+to the surface and you get a glimpse of what is within.  
+~
+0 0 0
+D2
+~
+~
+0 0 31003
+D5
+~
+~
+0 0 31020
+S
+#31012
+Walkway~
+A long walkway leading into a vast cavern, on either side you can see
+large vats of bubbling liquid.  Every once in a while something almost rises
+to the surface and you get a glimpse of what is within.  
+~
+0 0 0
+D0
+~
+~
+0 0 31004
+D3
+~
+~
+0 0 31001
+S
+#31013
+Walkway~
+A long walkway leading into a vast cavern, on either side you can see
+large vats of bubbling liquid.  Every once in a while something almost rises
+to the surface and you get a glimpse of what is within.  
+~
+0 0 0
+D0
+~
+~
+0 0 31005
+D1
+~
+~
+0 0 31001
+S
+#31020
+Ramp~
+A ramp leading downwards toward a lower level.
+~
+0 0 0
+D4
+~
+~
+0 0 31011
+D5
+~
+~
+0 0 31021
+S
+#31021
+~
+~
+0 0 0
+D0
+~
+~
+0 0 31022
+D4
+~
+~
+0 0 31020
+S
+#31022
+~
+~
+0 0 0
+D0
+~
+~
+0 0 31023
+D2
+~
+~
+0 0 31021
+S
+#31023
+~
+~
+0 0 0
+D0
+~
+~
+0 0 31024
+D2
+~
+~
+0 0 31022
+S
+#31024
+~
+~
+0 0 0
+D0
+~
+~
+0 0 31025
+D2
+~
+~
+0 0 31023
+S
+#31025
+~
+~
+0 0 0
+D0
+~
+~
+0 0 31026
+D2
+~
+~
+0 0 31024
+S
+#31026
+~
+~
+0 0 0
+D0
+~
+~
+0 0 31027
+D2
+~
+~
+0 0 31025
+S
+#31027
+~
+~
+0 0 0
+D0
+~
+~
+0 0 31028
+D2
+~
+~
+0 0 31026
+S
+#31028
+~
+~
+0 0 0
+D0
+~
+~
+0 0 31029
+D2
+~
+~
+0 0 31027
+S
+#31029
+~
+~
+0 0 0
+D0
+~
+~
+0 0 31030
+D2
+~
+~
+0 0 31028
+S
+#31030
+~
+~
+0 0 0
+D2
+~
+~
+0 0 31029
+S
+#0
+
+
+
+#SPECIALS
+M 31010 spec_ai_actor
+M 31020 spec_ai_actor
+M 31022 spec_ai_actor
+S
+
+
+
+#RESETS
+M 0 31010 2 31001 1
+M 0 31010 5 31001 2
+M 0 31011 4 31002 1
+M 0 31010 4 31002 1
+M 0 31011 4 31003 1
+M 0 31011 4 31004 1
+M 0 31011 4 31005 1
+M 0 31010 4 31006 1
+M 0 31010 4 31007 1
+M 0 31010 4 31008 1
+M 0 31010 4 31009 1
+M 0 31011 4 31011 1
+M 0 31020 10 31021 1
+M 0 31022 15 31021 1
+M 0 31020 10 31022 1
+M 0 31022 15 31022 1
+M 0 31020 10 31023 1
+M 0 31022 15 31023 1
+M 0 31020 10 31024 1
+M 0 31022 15 31024 1
+M 0 31020 10 31025 1
+M 0 31022 15 31025 1
+M 0 31020 10 31026 1
+M 0 31022 15 31026 1
+M 0 31020 10 31027 1
+M 0 31022 15 31027 1
+M 0 31020 10 31028 1
+M 0 31022 15 31028 1
+M 0 31020 10 31029 1
+M 0 31022 15 31029 1
+M 0 31020 10 31030 1
+M 0 31022 15 31030 1
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

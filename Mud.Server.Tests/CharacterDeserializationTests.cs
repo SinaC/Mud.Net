@@ -19,11 +19,11 @@ namespace Mud.Server.Tests
     public class CharacterDeserializationTests : TestBase
     {
         [TestMethod]
-        public void CharacterData_NoEquipmentInventoryQuest_To_PlayableCharacter_Test()
+        public void PlayableCharacterData_NoEquipmentInventoryQuest_To_PlayableCharacter_Test()
         {
             //AutoFaker cannot be used because BluePrint for each Item/Quest must be created
-            //CharacterData characterData = AutoFaker.Generate<CharacterData>();
-            CharacterData characterData = new CharacterData
+            //PlayableCharacterData playableCharacterData = AutoFaker.Generate<PlayableCharacterData>();
+            PlayableCharacterData playableCharacterData = new PlayableCharacterData
             {
                 CreationTime = AutoFaker.Generate<DateTime>(),
                 Name = AutoFaker.Generate<string>(),
@@ -50,52 +50,52 @@ namespace Mud.Server.Tests
                 Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>())
             };
 
-            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
+            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), playableCharacterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
 
             Assert.IsNotNull(playableCharacter);
-            Assert.AreEqual(characterData.CreationTime, playableCharacter.CreationTime);
-            Assert.AreEqual(characterData.Name, playableCharacter.Name);
+            Assert.AreEqual(playableCharacterData.CreationTime, playableCharacter.CreationTime);
+            Assert.AreEqual(playableCharacterData.Name, playableCharacter.Name);
             // RoomId is only used to retrieve Room in ImpersonateCommand
-            Assert.AreEqual(characterData.Race, playableCharacter.Race.Name);
-            Assert.AreEqual(characterData.Class, playableCharacter.Class.Name);
-            Assert.AreEqual(characterData.Level, playableCharacter.Level);
-            Assert.AreEqual(characterData.Sex, playableCharacter.BaseSex);
-            Assert.AreEqual(characterData.Size, playableCharacter.BaseSize);
-            Assert.AreEqual(characterData.Experience, playableCharacter.Experience);
-            Assert.AreEqual(characterData.HitPoints, playableCharacter.HitPoints);
-            Assert.AreEqual(characterData.MovePoints, playableCharacter.MovePoints);
-            Assert.AreEqual(characterData.CurrentResources[ResourceKinds.Mana], playableCharacter[ResourceKinds.Mana]);
-            Assert.AreEqual(characterData.CurrentResources[ResourceKinds.Psy], playableCharacter[ResourceKinds.Psy]);
-            Assert.AreEqual(characterData.MaxResources[ResourceKinds.Mana], playableCharacter.MaxResource(ResourceKinds.Mana));
-            Assert.AreEqual(characterData.MaxResources[ResourceKinds.Psy], playableCharacter.MaxResource(ResourceKinds.Psy));
-            Assert.AreEqual(characterData.Trains, playableCharacter.Trains);
-            Assert.AreEqual(characterData.Practices, playableCharacter.Practices);
+            Assert.AreEqual(playableCharacterData.Race, playableCharacter.Race.Name);
+            Assert.AreEqual(playableCharacterData.Class, playableCharacter.Class.Name);
+            Assert.AreEqual(playableCharacterData.Level, playableCharacter.Level);
+            Assert.AreEqual(playableCharacterData.Sex, playableCharacter.BaseSex);
+            Assert.AreEqual(playableCharacterData.Size, playableCharacter.BaseSize);
+            Assert.AreEqual(playableCharacterData.Experience, playableCharacter.Experience);
+            Assert.AreEqual(playableCharacterData.HitPoints, playableCharacter.HitPoints);
+            Assert.AreEqual(playableCharacterData.MovePoints, playableCharacter.MovePoints);
+            Assert.AreEqual(playableCharacterData.CurrentResources[ResourceKinds.Mana], playableCharacter[ResourceKinds.Mana]);
+            Assert.AreEqual(playableCharacterData.CurrentResources[ResourceKinds.Psy], playableCharacter[ResourceKinds.Psy]);
+            Assert.AreEqual(playableCharacterData.MaxResources[ResourceKinds.Mana], playableCharacter.MaxResource(ResourceKinds.Mana));
+            Assert.AreEqual(playableCharacterData.MaxResources[ResourceKinds.Psy], playableCharacter.MaxResource(ResourceKinds.Psy));
+            Assert.AreEqual(playableCharacterData.Trains, playableCharacter.Trains);
+            Assert.AreEqual(playableCharacterData.Practices, playableCharacter.Practices);
             Assert.AreEqual(0, playableCharacter.Equipments.Count(x => x.Item != null));
             Assert.AreEqual(0, playableCharacter.Inventory.Count());
             Assert.AreEqual(0, playableCharacter.Quests.Count());
-            Assert.AreEqual(characterData.CharacterFlags, playableCharacter.BaseCharacterFlags);
-            Assert.AreEqual(characterData.Immunities, playableCharacter.BaseImmunities);
-            Assert.AreEqual(characterData.Resistances, playableCharacter.BaseResistances);
-            Assert.AreEqual(characterData.Vulnerabilities, playableCharacter.BaseVulnerabilities);
-            Assert.AreEqual(characterData.Attributes.Sum(x => (int)x.Key ^ x.Value), EnumHelpers.GetValues<CharacterAttributes>().Sum(x => (int)x ^ playableCharacter.BaseAttribute(x)));
-            Assert.AreEqual(characterData.Auras.Length, playableCharacter.Auras.Count());
-            Assert.AreEqual(characterData.Auras.SelectMany(x => x.Affects).Count(), playableCharacter.Auras.SelectMany(x => x.Affects).Count()); // can't test AffectData because AutoFaker doesn't handle abstract class
-            Assert.AreEqual(characterData.KnownAbilities.Length, playableCharacter.KnownAbilities.Count());
+            Assert.AreEqual(playableCharacterData.CharacterFlags, playableCharacter.BaseCharacterFlags);
+            Assert.AreEqual(playableCharacterData.Immunities, playableCharacter.BaseImmunities);
+            Assert.AreEqual(playableCharacterData.Resistances, playableCharacter.BaseResistances);
+            Assert.AreEqual(playableCharacterData.Vulnerabilities, playableCharacter.BaseVulnerabilities);
+            Assert.AreEqual(playableCharacterData.Attributes.Sum(x => (int)x.Key ^ x.Value), EnumHelpers.GetValues<CharacterAttributes>().Sum(x => (int)x ^ playableCharacter.BaseAttribute(x)));
+            Assert.AreEqual(playableCharacterData.Auras.Length, playableCharacter.Auras.Count());
+            Assert.AreEqual(playableCharacterData.Auras.SelectMany(x => x.Affects).Count(), playableCharacter.Auras.SelectMany(x => x.Affects).Count()); // can't test AffectData because AutoFaker doesn't handle abstract class
+            Assert.AreEqual(playableCharacterData.KnownAbilities.Length, playableCharacter.KnownAbilities.Count());
             //Assert.AreEqual(ArithmeticOverflow!!!
-            //    characterData.KnownAbilities.Sum(x => (int)x.AbilityId ^ (int)x.ResourceKind ^ (int)x.CostAmount ^ (int)x.CostAmountOperator ^ (int)x.Learned ^ (int)x.Level ^ (int)x.Rating),
+            //    playableCharacterData.KnownAbilities.Sum(x => (int)x.AbilityId ^ (int)x.ResourceKind ^ (int)x.CostAmount ^ (int)x.CostAmountOperator ^ (int)x.Learned ^ (int)x.Level ^ (int)x.Rating),
             //    playableCharacter.KnownAbilities.Sum(x => (int)x.Ability.Id ^ (int)x.ResourceKind ^ (int)x.CostAmount ^ (int)x.CostAmountOperator ^ (int)x.Learned ^ (int)x.Level ^ (int)x.Rating));
-            Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().AbilityId, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Ability.Id);
-            Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().ResourceKind, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().ResourceKind);
-            Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().CostAmount, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().CostAmount);
-            Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().CostAmountOperator, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().CostAmountOperator);
-            Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Learned, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Learned);
-            Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Level, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Level);
-            Assert.AreEqual(characterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Rating, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Rating);
-            Assert.AreEqual(characterData.Conditions.Sum(x => (int)x.Key ^ x.Value), EnumHelpers.GetValues<Conditions>().Sum(x => (int)x ^ playableCharacter[x]));
+            Assert.AreEqual(playableCharacterData.KnownAbilities.OrderBy(x => x.AbilityId).First().AbilityId, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Ability.Id);
+            Assert.AreEqual(playableCharacterData.KnownAbilities.OrderBy(x => x.AbilityId).First().ResourceKind, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().ResourceKind);
+            Assert.AreEqual(playableCharacterData.KnownAbilities.OrderBy(x => x.AbilityId).First().CostAmount, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().CostAmount);
+            Assert.AreEqual(playableCharacterData.KnownAbilities.OrderBy(x => x.AbilityId).First().CostAmountOperator, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().CostAmountOperator);
+            Assert.AreEqual(playableCharacterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Learned, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Learned);
+            Assert.AreEqual(playableCharacterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Level, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Level);
+            Assert.AreEqual(playableCharacterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Rating, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Rating);
+            Assert.AreEqual(playableCharacterData.Conditions.Sum(x => (int)x.Key ^ x.Value), EnumHelpers.GetValues<Conditions>().Sum(x => (int)x ^ playableCharacter[x]));
         }
 
         [TestMethod]
-        public void CharacterData_Inventory_To_PlayableCharacter_Test()
+        public void PlayableCharacterData_Inventory_To_PlayableCharacter_Test()
         {
             // TODO: Can't mock IWorld because World.AddItem is used when deserializing inventory
             var world = World;
@@ -113,8 +113,8 @@ namespace Mud.Server.Tests
             world.AddItemBlueprint(armorBlueprint);
 
             //AutoFaker cannot be used because BluePrint for each Item/Quest must be created
-            //CharacterData characterData = AutoFaker.Generate<CharacterData>();
-            CharacterData characterData = new CharacterData
+            //PlayableCharacterData playableCharacterData = AutoFaker.Generate<CharacterData>();
+            PlayableCharacterData playableCharacterData = new PlayableCharacterData
             {
                 CreationTime = AutoFaker.Generate<DateTime>(),
                 Name = AutoFaker.Generate<string>(),
@@ -157,20 +157,20 @@ namespace Mud.Server.Tests
                 }
             };
 
-            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
+            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), playableCharacterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
 
             Assert.IsNotNull(playableCharacter);
-            Assert.AreEqual(characterData.CreationTime, playableCharacter.CreationTime);
-            Assert.AreEqual(characterData.Name, playableCharacter.Name);
+            Assert.AreEqual(playableCharacterData.CreationTime, playableCharacter.CreationTime);
+            Assert.AreEqual(playableCharacterData.Name, playableCharacter.Name);
             // RoomId is only used to retrieve Room in ImpersonateCommand
-            Assert.AreEqual(characterData.Race, playableCharacter.Race.Name);
-            Assert.AreEqual(characterData.Class, playableCharacter.Class.Name);
-            Assert.AreEqual(characterData.Level, playableCharacter.Level);
-            Assert.AreEqual(characterData.Sex, playableCharacter.BaseSex);
-            Assert.AreEqual(characterData.Experience, playableCharacter.Experience);
+            Assert.AreEqual(playableCharacterData.Race, playableCharacter.Race.Name);
+            Assert.AreEqual(playableCharacterData.Class, playableCharacter.Class.Name);
+            Assert.AreEqual(playableCharacterData.Level, playableCharacter.Level);
+            Assert.AreEqual(playableCharacterData.Sex, playableCharacter.BaseSex);
+            Assert.AreEqual(playableCharacterData.Experience, playableCharacter.Experience);
             Assert.AreEqual(0, playableCharacter.Equipments.Count(x => x.Item != null));
             Assert.AreEqual(0, playableCharacter.Quests.Count());
-            Assert.AreEqual(characterData.Inventory.Length, playableCharacter.Inventory.Count());
+            Assert.AreEqual(playableCharacterData.Inventory.Length, playableCharacter.Inventory.Count());
             Assert.AreEqual(1, playableCharacter.Inventory.Count(x => x.Blueprint.Id == lightBlueprint.Id));
             Assert.AreEqual(1, playableCharacter.Inventory.Count(x => x.Blueprint.Id == portalBlueprint.Id));
             Assert.AreEqual(1, playableCharacter.Inventory.Count(x => x.Blueprint.Id == containerBlueprint2.Id));
@@ -183,7 +183,7 @@ namespace Mud.Server.Tests
         }
 
         [TestMethod]
-        public void CharacterData_Equipment_To_PlayableCharacter_Test()
+        public void PlayableCharacterData_Equipment_To_PlayableCharacter_Test()
         {
             // TODO: Can't mock IWorld because World.AddItem is used when deserializing equipment
             var world = World;
@@ -199,8 +199,8 @@ namespace Mud.Server.Tests
             world.AddItemBlueprint(portalBlueprint);
 
             //AutoFaker cannot be used because BluePrint for each Item/Quest must be created
-            //CharacterData characterData = AutoFaker.Generate<CharacterData>();
-            CharacterData characterData = new CharacterData
+            //PlayableCharacterData playableCharacterData = AutoFaker.Generate<CharacterData>();
+            PlayableCharacterData playableCharacterData = new PlayableCharacterData
             {
                 CreationTime = AutoFaker.Generate<DateTime>(),
                 Name = AutoFaker.Generate<string>(),
@@ -264,20 +264,20 @@ namespace Mud.Server.Tests
                 },
             };
 
-            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
+            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), playableCharacterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
 
             Assert.IsNotNull(playableCharacter);
-            Assert.AreEqual(characterData.CreationTime, playableCharacter.CreationTime);
-            Assert.AreEqual(characterData.Name, playableCharacter.Name);
+            Assert.AreEqual(playableCharacterData.CreationTime, playableCharacter.CreationTime);
+            Assert.AreEqual(playableCharacterData.Name, playableCharacter.Name);
             // RoomId is only used to retrieve Room in ImpersonateCommand
-            Assert.AreEqual(characterData.Race, playableCharacter.Race.Name);
-            Assert.AreEqual(characterData.Class, playableCharacter.Class.Name);
-            Assert.AreEqual(characterData.Level, playableCharacter.Level);
-            Assert.AreEqual(characterData.Sex, playableCharacter.BaseSex);
-            Assert.AreEqual(characterData.Experience, playableCharacter.Experience);
+            Assert.AreEqual(playableCharacterData.Race, playableCharacter.Race.Name);
+            Assert.AreEqual(playableCharacterData.Class, playableCharacter.Class.Name);
+            Assert.AreEqual(playableCharacterData.Level, playableCharacter.Level);
+            Assert.AreEqual(playableCharacterData.Sex, playableCharacter.BaseSex);
+            Assert.AreEqual(playableCharacterData.Experience, playableCharacter.Experience);
             Assert.AreEqual(0, playableCharacter.Quests.Count());
             Assert.AreEqual(0 , playableCharacter.Inventory.Count());
-            Assert.AreEqual(characterData.Equipments.Length, playableCharacter.Equipments.Count(x => x.Item != null));
+            Assert.AreEqual(playableCharacterData.Equipments.Length, playableCharacter.Equipments.Count(x => x.Item != null));
             Assert.IsNotNull(playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.Light).Item);
             Assert.IsNotNull(playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.OffHand).Item);
             Assert.IsNotNull(playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.Ring).Item);
@@ -293,7 +293,7 @@ namespace Mud.Server.Tests
         }
 
         [TestMethod]
-        public void CharacterData_Quest_To_PlayableCharacter_Test()
+        public void PlayableCharacterData_Quest_To_PlayableCharacter_Test()
         {
             var world = World;
             RoomBlueprint roomBlueprint = new RoomBlueprint {Id = 1, Name = "room1"};
@@ -348,8 +348,8 @@ namespace Mud.Server.Tests
             world.AddNonPlayableCharacter(Guid.NewGuid(), questorBlueprint, room);
 
             //AutoFaker cannot be used because BluePrint for each Item/Quest must be created
-            //CharacterData characterData = AutoFaker.Generate<CharacterData>();
-            CharacterData characterData = new CharacterData
+            //PlayableCharacterData playableCharacterData = AutoFaker.Generate<CharacterData>();
+            PlayableCharacterData playableCharacterData = new PlayableCharacterData
             {
                 CreationTime = AutoFaker.Generate<DateTime>(),
                 Name = AutoFaker.Generate<string>(),
@@ -386,17 +386,17 @@ namespace Mud.Server.Tests
                 }
             };
 
-            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), characterData, new Mock<IPlayer>().Object, room);
+            PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), playableCharacterData, new Mock<IPlayer>().Object, room);
 
             Assert.IsNotNull(playableCharacter);
-            Assert.AreEqual(characterData.CreationTime, playableCharacter.CreationTime);
-            Assert.AreEqual(characterData.Name, playableCharacter.Name);
+            Assert.AreEqual(playableCharacterData.CreationTime, playableCharacter.CreationTime);
+            Assert.AreEqual(playableCharacterData.Name, playableCharacter.Name);
             // RoomId is only used to retrieve Room in ImpersonateCommand
-            Assert.AreEqual(characterData.Race, playableCharacter.Race.Name);
-            Assert.AreEqual(characterData.Class, playableCharacter.Class.Name);
-            Assert.AreEqual(characterData.Level, playableCharacter.Level);
-            Assert.AreEqual(characterData.Sex, playableCharacter.BaseSex);
-            Assert.AreEqual(characterData.Experience, playableCharacter.Experience);
+            Assert.AreEqual(playableCharacterData.Race, playableCharacter.Race.Name);
+            Assert.AreEqual(playableCharacterData.Class, playableCharacter.Class.Name);
+            Assert.AreEqual(playableCharacterData.Level, playableCharacter.Level);
+            Assert.AreEqual(playableCharacterData.Sex, playableCharacter.BaseSex);
+            Assert.AreEqual(playableCharacterData.Experience, playableCharacter.Experience);
             Assert.AreEqual(0, playableCharacter.Equipments.Count(x => x.Item != null));
             Assert.AreEqual(0, playableCharacter.Inventory.Count());
             Assert.AreEqual(1, playableCharacter.Quests.Count());

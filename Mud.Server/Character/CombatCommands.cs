@@ -100,6 +100,12 @@ namespace Mud.Server.Character
                         //
                         Send("You flee from combat!");
                         Act(from.People, "{0} has fled!", this);
+
+                        if (this is IPlayableCharacter pc)
+                        {
+                            Send("You lost 10 exp.");
+                            pc.GainExperience(-10);
+                        }
                         return CommandExecutionResults.Ok;
                         // TODO: xp loss
                     }

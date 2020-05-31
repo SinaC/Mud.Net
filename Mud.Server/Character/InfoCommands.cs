@@ -318,6 +318,7 @@ namespace Mud.Server.Character
         }
 
         [CharacterCommand("affects", "Information")]
+        [CharacterCommand("auras", "Information")]
         protected virtual CommandExecutionResults DoAffects(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -327,6 +328,44 @@ namespace Mud.Server.Character
                 // Auras
                 foreach (IAura aura in Auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.PulseLeft))
                     aura.Append(sb);
+                // TODO
+                //// Periodic auras
+                //foreach (IPeriodicAura pa in _periodicAuras.Where(x => x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
+                //{
+                //    if (pa.AuraType == PeriodicAuraTypes.Damage)
+                //        sb.AppendFormatLine("%B%{0}%x% %W%deals {1}{2}%x% {3} damage every %g%{4}%x% for %c%{5}%x%",
+                //            pa.Ability == null ? "Unknown" : pa.Ability.Name,
+                //            pa.Amount,
+                //            pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
+                //            StringHelpers.SchoolTypeColor(pa.School),
+                //            StringHelpers.FormatDelay(pa.TickDelay),
+                //            StringHelpers.FormatDelay(pa.SecondsLeft));
+                //    else
+                //        sb.AppendFormatLine("%B%{0}%x% %W%heals {1}{2}%x% hp every %g%{3}%x% for %c%{4}%x%",
+                //            pa.Ability == null ? "Unknown" : pa.Ability.Name,
+                //            pa.Amount,
+                //            pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
+                //            StringHelpers.FormatDelay(pa.TickDelay),
+                //            StringHelpers.FormatDelay(pa.SecondsLeft));
+                //}
+            }
+            else
+                sb.AppendLine("%c%You are not affected by any spells.%x%");
+            Page(sb);
+            return CommandExecutionResults.Ok;
+        }
+
+        [CharacterCommand("saffects", "Information")]
+        [CharacterCommand("sauras", "Information")]
+        protected virtual CommandExecutionResults DoShortAffects(string rawParameters, params CommandParameter[] parameters)
+        {
+            StringBuilder sb = new StringBuilder();
+            if (Auras.Any() || PeriodicAuras.Any())
+            {
+                sb.AppendLine("%c%You are affected by the following auras:%x%");
+                // Auras
+                foreach (IAura aura in Auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.PulseLeft))
+                    aura.Append(sb, true);
                 // TODO
                 //// Periodic auras
                 //foreach (IPeriodicAura pa in _periodicAuras.Where(x => x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
@@ -389,6 +428,13 @@ namespace Mud.Server.Character
             else
                 sb.AppendFormatLine("| %g%Hit:  %W%{0,6}%x%    %g%Dam:  %W%{1,6}%x% |                       |", HitRoll, DamRoll);
             sb.AppendLine("+------------------------------+-------------------------+");
+            if (pc != null)
+            {
+                if (pc.IsImmortal)
+                    sb.AppendLine("You are %G%IMMORTAL%x%");
+                else
+                    sb.AppendLine("You are %R%MORTAL%x%");
+            }
             // TODO: resistances, gold, item, weight, conditions
             //if (!IS_NPC(ch) && ch->pcdata->condition[COND_DRUNK] > 10)
             //    send_to_char("You are drunk.\n\r", ch);
@@ -632,15 +678,17 @@ namespace Mud.Server.Character
         // Helpers
         private void AppendRoom(StringBuilder sb, IRoom room) // equivalent to act_info.C:do_look("auto")
         {
+            IPlayableCharacter playableCharacter = this as IPlayableCharacter;
             // Room name
-            if (this is IPlayableCharacter playableCharacter && playableCharacter.ImpersonatedBy is IAdmin)
+            if (playableCharacter?.IsImmortal == true)
                 sb.AppendFormatLine($"%c%{room.DisplayName} [{room.Blueprint?.Id.ToString() ?? "???"}]%x%");
             else
                 sb.AppendFormatLine("%c%{0}%x%", room.DisplayName);
             // Room description
             sb.Append(room.Description);
             // Exits
-            AppendExits(sb, true);
+            if (playableCharacter != null && playableCharacter.AutoFlags.HasFlag(AutoFlags.Exit))
+                AppendExits(sb, true);
             AppendItems(sb, Room.Content.Where(CanSee), false, false);
             AppendCharacters(sb, Room);
         }
@@ -821,6 +869,8 @@ namespace Mud.Server.Character
         {
             if (compact)
                 sb.Append("[Exits:");
+            else if (this is IPlayableCharacter playableCharacter && playableCharacter.IsImmortal)
+                sb.AppendFormatLine($"Obvious exits from room {Room.Blueprint?.Id.ToString() ?? "???"}:");
             else
                 sb.AppendLine("Obvious exits:");
             bool exitFound = false;
@@ -858,8 +908,8 @@ namespace Mud.Server.Character
                             sb.Append(" (CLOSED)");
                         if (exit.IsHidden)
                             sb.Append(" [HIDDEN]");
-                        if (this is IPlayableCharacter playableCharacter && playableCharacter.ImpersonatedBy is IAdmin)
-                            sb.Append($" [{exit.Destination.Blueprint?.Id.ToString() ?? "???"}]");
+                        if (this is IPlayableCharacter playableCharacter && playableCharacter.IsImmortal)
+                            sb.Append($" (room {exit.Destination.Blueprint?.Id.ToString() ?? "???"})");
                         sb.AppendLine();
                     }
                     exitFound = true;

@@ -761,7 +761,6 @@ namespace Mud.Importer.Rom
                     RaiseParseException("ParseSpecials: letter {0} not *MS", letter);
                 ReadToEol();
             }
-
         }
     }
 }

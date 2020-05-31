@@ -623,7 +623,7 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.NoExecution;
             }
             // full ?
-            if (pc?[Conditions.Full] > 45)
+            if (pc?[Conditions.Full] > 45 && (this as IPlayableCharacter)?.IsImmortal != true)
             {
                 Send("You're too full to drink more.");
                 return CommandExecutionResults.NoExecution;
@@ -854,7 +854,7 @@ namespace Mud.Server.Character
             }
 
             IPlayableCharacter pc = this as IPlayableCharacter;
-            if (pc?[Conditions.Full] > 40)
+            if (pc?[Conditions.Full] > 40 && (this as IPlayableCharacter)?.IsImmortal != true)
             {
                 Send("You are too full to eat more.");
                 return CommandExecutionResults.NoExecution;
@@ -954,7 +954,7 @@ namespace Mud.Server.Character
         //********************************************************************
         // Helpers
         //********************************************************************
-        private bool WearItem(IItem item, bool replace) // equivalent to wear_obj in act_obj.C:1467
+        protected virtual bool WearItem(IItem item, bool replace) // equivalent to wear_obj in act_obj.C:1467
         {
             // check level
             if (item.Level > Level)
@@ -1064,7 +1064,7 @@ namespace Mud.Server.Character
             return "You don't even know which end is up on {0:N}.";
         }
 
-        private bool DropItem(IItem item)
+        protected virtual bool DropItem(IItem item)
         {
             //
             if (item.ItemFlags.HasFlag(ItemFlags.NoDrop))
@@ -1087,7 +1087,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        private bool GetItem(IItem item, IContainer container) // equivalent to get_obj in act_obj.C:211
+        protected virtual bool GetItem(IItem item, IContainer container) // equivalent to get_obj in act_obj.C:211
         {
             //
             if (item.NoTake)
@@ -1122,7 +1122,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        private bool RemoveItem(EquippedItem equipmentSlot)
+        protected virtual bool RemoveItem(EquippedItem equipmentSlot)
         {
             //
             if (equipmentSlot.Item.ItemFlags.HasFlag(ItemFlags.NoRemove))
@@ -1140,7 +1140,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        private bool PutItem(IItem item, IItemContainer container)
+        protected virtual bool PutItem(IItem item, IItemContainer container)
         {
             //
             if (item.ItemFlags.HasFlag(ItemFlags.NoDrop))

@@ -992,14 +992,14 @@ namespace Mud.Importer.Mystery
             if (IsSet(objectData.ExtraFlags, ITEM_NOPURGE)) itemFlags |= ItemFlags.NoPurge;
             if (IsSet(objectData.ExtraFlags, ITEM_ROT_DEATH)) itemFlags |= ItemFlags.RotDeath;
             if (IsSet(objectData.ExtraFlags, ITEM_VIS_DEATH)) itemFlags |= ItemFlags.VisibleDeath;
-            //UNIQUE if (IsSet(objectData.ExtraFlags, ITEM_NONMETAL)) itemFlags |= ItemFlags.NonMetal;
+            //UNIQUE nonmetal replaced with material if (IsSet(objectData.ExtraFlags, ITEM_NONMETAL)) itemFlags |= ItemFlags.NonMetal;
             if (IsSet(objectData.ExtraFlags, ITEM_NOLOCATE)) itemFlags |= ItemFlags.NoLocate;
             if (IsSet(objectData.ExtraFlags, ITEM_MELT_DROP)) itemFlags |= ItemFlags.MeltOnDrop;
             if (IsSet(objectData.ExtraFlags, ITEM_HAD_TIMER)) itemFlags |= ItemFlags.HadTimer;
             if (IsSet(objectData.ExtraFlags, ITEM_SELL_EXTRACT)) itemFlags |= ItemFlags.SellExtract;
             if (IsSet(objectData.ExtraFlags, ITEM_BURN_PROOF)) itemFlags |= ItemFlags.BurnProof;
             if (IsSet(objectData.ExtraFlags, ITEM_NOUNCURSE)) itemFlags |= ItemFlags.NoUncurse;
-            // ITEM_NOSAC
+            if (IsSet(objectData.ExtraFlags, ITEM_NOSAC)) itemFlags |= ItemFlags.NoSacrifice;
             // ITEM_NOIDENT
             // ITEM_NOCOND
             return itemFlags;
@@ -1129,7 +1129,6 @@ namespace Mud.Importer.Mystery
         private const long ITEM_WEAR_WRIST = MysteryLoader.M;
         private const long ITEM_WIELD = MysteryLoader.N;
         private const long ITEM_HOLD = MysteryLoader.O;
-        private const long ITEM_NO_SAC = MysteryLoader.P;
         private const long ITEM_WEAR_FLOAT = MysteryLoader.Q;
         private const long ITEM_WEAR_EAR = MysteryLoader.R;
         private const long ITEM_WEAR_EYES = MysteryLoader.S;
@@ -1237,6 +1236,8 @@ namespace Mud.Importer.Mystery
                 damageNoun = attackTableEntry.noun;
             }
 
+            (OffensiveFlags offensiveFlags, AssistFlags assistFlags) offAssistFlags = ConvertMysteryOffensiveFlags(mobileData.OffFlags);
+
             CharacterNormalBlueprint blueprint = new CharacterNormalBlueprint
             {
                 Id = mobileData.VNum,
@@ -1246,6 +1247,7 @@ namespace Mud.Importer.Mystery
                 LongDescription = mobileData.LongDescr,
                 ShortDescription = mobileData.ShortDescr,
                 Sex = ConvertSex(mobileData),
+                Size = ConvertSize(mobileData),
                 Wealth = mobileData.Wealth,
                 Alignment = mobileData.Alignment,
                 DamageNoun = damageNoun,
@@ -1266,7 +1268,8 @@ namespace Mud.Importer.Mystery
                 ArmorExotic = mobileData.Armor[3],
                 CharacterFlags = ConvertMysteryCharacterFlags(mobileData.AffectedBy),
                 ActFlags = ConvertMysteryActFlags(mobileData.Act),
-                OffensiveFlags = ConvertMysteryOffensiveFlags(mobileData.OffFlags),
+                OffensiveFlags = offAssistFlags.offensiveFlags,
+                AssistFlags = offAssistFlags.assistFlags,
                 Immunities = ConvertMysteryIRV(mobileData.ImmFlags),
                 Resistances = ConvertMysteryIRV(mobileData.ResFlags),
                 Vulnerabilities = ConvertMysteryIRV(mobileData.VulnFlags),
@@ -1281,6 +1284,22 @@ namespace Mud.Importer.Mystery
             if (mobileData.Sex.ToLower() == "male")
                 return Sex.Male;
             return Sex.Neutral;
+        }
+
+        private Sizes ConvertSize(MobileData mobileData)
+        {
+            switch (mobileData.Size)
+            {
+                case "tiny": return Sizes.Tiny;
+                case "small": return Sizes.Small;
+                case "medium": return Sizes.Medium;
+                case "large": return Sizes.Large;
+                case "huge": return Sizes.Huge;
+                case "giant": return Sizes.Giant;
+                default:
+                    Log.Default.WriteLine(LogLevels.Error, "Invalid size {0} for mob {1}", mobileData.Size, mobileData.VNum);
+                    return Sizes.Medium;
+            }
         }
 
         private IRVFlags ConvertMysteryIRV(long value)
@@ -1402,33 +1421,36 @@ namespace Mud.Importer.Mystery
             return flags;
         }
 
-        private OffensiveFlags ConvertMysteryOffensiveFlags(long off)
+        private (OffensiveFlags, AssistFlags) ConvertMysteryOffensiveFlags(long input)
         {
-            OffensiveFlags flags = OffensiveFlags.None;
-            if (IsSet(off, OFF_AREA_ATTACK)) flags |= OffensiveFlags.AreaAttack;
-            if (IsSet(off, OFF_BACKSTAB)) flags |= OffensiveFlags.Backstab;
-            if (IsSet(off, OFF_BASH)) flags |= OffensiveFlags.Bash;
-            if (IsSet(off, OFF_BERSERK)) flags |= OffensiveFlags.Berserk;
-            if (IsSet(off, OFF_DISARM)) flags |= OffensiveFlags.Disarm;
-            if (IsSet(off, OFF_DODGE)) flags |= OffensiveFlags.Dodge;
-            if (IsSet(off, OFF_FADE)) flags |= OffensiveFlags.Fade;
-            if (IsSet(off, OFF_FAST)) flags |= OffensiveFlags.Fast;
-            if (IsSet(off, OFF_KICK)) flags |= OffensiveFlags.Kick;
-            if (IsSet(off, OFF_KICK_DIRT)) flags |= OffensiveFlags.DirtKick;
-            if (IsSet(off, OFF_PARRY)) flags |= OffensiveFlags.Parry;
-            if (IsSet(off, OFF_RESCUE)) flags |= OffensiveFlags.Rescue;
-            if (IsSet(off, OFF_TAIL)) flags |= OffensiveFlags.Tail;
-            if (IsSet(off, OFF_TRIP)) flags |= OffensiveFlags.Trip;
-            if (IsSet(off, OFF_CRUSH)) flags |= OffensiveFlags.Crush;
-            //ASSIST_ALL
-            //ASSIST_ALIGN
-            //ASSIST_RACE
-            //ASSIST_PLAYERS
-            //ASSIST_GUARD
-            //ASSIST_VNUM
+            OffensiveFlags off = OffensiveFlags.None;
+            if (IsSet(input, OFF_AREA_ATTACK)) off |= OffensiveFlags.AreaAttack;
+            if (IsSet(input, OFF_BACKSTAB)) off |= OffensiveFlags.Backstab;
+            if (IsSet(input, OFF_BASH)) off |= OffensiveFlags.Bash;
+            if (IsSet(input, OFF_BERSERK)) off |= OffensiveFlags.Berserk;
+            if (IsSet(input, OFF_DISARM)) off |= OffensiveFlags.Disarm;
+            if (IsSet(input, OFF_DODGE)) off |= OffensiveFlags.Dodge;
+            if (IsSet(input, OFF_FADE)) off |= OffensiveFlags.Fade;
+            if (IsSet(input, OFF_FAST)) off |= OffensiveFlags.Fast;
+            if (IsSet(input, OFF_KICK)) off |= OffensiveFlags.Kick;
+            if (IsSet(input, OFF_KICK_DIRT)) off |= OffensiveFlags.DirtKick;
+            if (IsSet(input, OFF_PARRY)) off |= OffensiveFlags.Parry;
+            if (IsSet(input, OFF_RESCUE)) off |= OffensiveFlags.Rescue;
+            if (IsSet(input, OFF_TAIL)) off |= OffensiveFlags.Tail;
+            if (IsSet(input, OFF_TRIP)) off |= OffensiveFlags.Trip;
+            if (IsSet(input, OFF_CRUSH)) off |= OffensiveFlags.Crush;
             //OFF_COUNTER
             //OFF_BITE
-            return flags;
+
+            AssistFlags assist = AssistFlags.None;
+            if (IsSet(input, ASSIST_ALL)) assist |= AssistFlags.All;
+            if (IsSet(input, ASSIST_ALIGN)) assist |= AssistFlags.Align;
+            if (IsSet(input, ASSIST_RACE)) assist |= AssistFlags.Race;
+            if (IsSet(input, ASSIST_PLAYERS)) assist |= AssistFlags.Players;
+            if (IsSet(input, ASSIST_GUARD)) assist |= AssistFlags.Guard;
+            if (IsSet(input, ASSIST_VNUM)) assist |= AssistFlags.Vnum;
+
+            return (off, assist);
         }
 
         // Immunites, Resistances, Vulnerabilities

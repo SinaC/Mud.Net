@@ -588,22 +588,22 @@ namespace Mud.Server.Abilities
             pcSource.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pcSource);
             pcSource.AutoLook();
 
-            // Pet follows
+            // Pets follows
             foreach (INonPlayableCharacter pet in pcSource.Pets)
             {
                 // no recursive call because DoRecall has been coded for IPlayableCharacter
                 if (pet.CharacterFlags.HasFlag(CharacterFlags.Curse))
-                    return UseResults.Ok; // slave failing doesn't impact return value
+                    continue; // pet failing doesn't impact return value
                 if (pet.Fighting != null)
                 {
                     if (!RandomManager.Chance(80))
-                        return UseResults.Ok;// slave failing doesn't impact return value
+                        continue;// pet failing doesn't impact return value
                     pet.StopFighting(true);
                 }
 
-                pet.Act(ActOptions.ToRoom, "{0:N} disappears", pcSource);
+                pet.Act(ActOptions.ToRoom, "{0:N} disappears", pet);
                 pet.ChangeRoom(recallRoom);
-                pet.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pcSource);
+                pet.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pet);
                 pet.AutoLook();
             }
 
@@ -926,7 +926,7 @@ namespace Mud.Server.Abilities
                 source.Send("It can't be unlocked.");
                 return UseResults.InvalidTarget;
             }
-            if (closeable.IsPickProof)
+            if (closeable.IsPickProof && (source as IPlayableCharacter)?.IsImmortal != true)
             {
                 source.Send("You failed.");
                 return UseResults.InvalidTarget;
@@ -936,7 +936,7 @@ namespace Mud.Server.Abilities
                 chance *= 2;
             if (closeable.IsHard)
                 chance /= 2;
-            if (!RandomManager.Chance(chance))
+            if (!RandomManager.Chance(chance) && (source as IPlayableCharacter)?.IsImmortal != true)
             {
                 source.Send("You failed.");
                 return UseResults.Failed;

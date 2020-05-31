@@ -1,0 +1,3411 @@
+#AREADATA
+Name Archonian Chessboard~
+Builders None~
+VNUMs 11100 11200
+Credits [80 HR] Rza     Archonian Chessboard~
+Security 9
+End
+
+#MOBILES
+#11100
+valkyrie princess~
+A valkyrie princess~
+A beautiful valkyric princess stands here courageously.
+~
+You gaze upon a beautiful young warrior with silky golden hair glittering
+your eyes.  Her tan skin appears soft and smooth, her height only 5'4",
+however, she eyes you sternly at your appearance and smiles momentarily but
+places her hands on her weapon as to expect the unexpected from you.
+~
+human~
+ABT A CJ AHMV 1000 0
+85 0 25d10+5100 85d10+100 3d12+15 punch
+-16 -16 -16 -16
+FIQ I 0 BCP
+stand stand female 2500
+ABCDEFGHIJKMV ABCDEFGHIJKR medium unknown
+#11101
+golem~
+The monstrous golem~
+A humongous stone-bred golem stands here suspended in animation.
+~
+This colossal rock-hard plated monster stands here motionless in a pose
+holding a huge boulder over him ready to supress any foe that stands in his
+way.  Standing at almost seven feet, the golem nods at your arrival but
+takes close watch at your every move.
+~
+giant~
+ABT A CJ AHMV 1000 0
+90 0 25d10+6000 90d10+100 8d4+16 crush
+-22 -22 -22 -22
+0 HI DHIJP JP
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJKR giant unknown
+#11102
+unicorn~
+a unicorn~
+A unicorn wanders about here in a restless manner.
+~
+Bred from the lands of the distant realms, this magnificant four-legged
+horse, contently meanders about resting its head in an almost state of
+serene drowsiness.  Its long golden horn shines brilliantly over its eyes as
+the fluffy wings flap about hastingly but again settles restedly.
+~
+human~
+AB A CJT AHMV 1000 0
+100 0 50d10+6900 100d10+100 5d8+19 pierce
+-24 -24 -24 -24
+CH 0 0 T
+stand stand female 0
+ABCDEFGHIJKMV ABCDEFGHIJKPW medium unknown
+#11103
+majestical djinni~
+A majestical djinni~
+A floating djinni seats here in the air indian style with his eyes closed.
+~
+He seems to be in a hypnotized state.  A sparkling aura surrounds his
+large built as he hums some unknown chant leaving you confused by his
+actions.  He wears a golden vest with silk baggie trousers and a pony tail
+that mysteriously hangs straight up with a shiny sparkle at the tip of the
+hair.  His clean-cut image makes you gaze at this divinely specimen of
+magical abilities.
+~
+human~
+ABR A CJTV ACDEHMV 1000 0
+140 0 50d10+15000 25d10+3000 10d4+20 pierce
+-60 -60 -60 -60
+KQ AP 0 CJ
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJKR medium unknown
+#11104
+wizard holiness~
+The Wizard of Holiness~
+The Wizard of Holiness looks upon you with a grim look as you enter.
+~
+This elderly wizard wears a huge cylindrical hat and a long cloak
+designed with moons and stars.  His age shows by his rugged, wrinkled face
+and long grey moustache and beard.  However, he seems not bothered by any of
+his appearance for he is the wizard and he possesses the powers within.  You
+figure maybe he's been smoking too much of something.
+~
+human~
+ABR A CJ ACDHMNV 1000 0
+155 0 50d10+20000 110d10+100 10d4+23 wrath
+-60 -60 -60 -60
+DGQ A QT JK
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJKR medium unknown
+#11105
+phoenix of life~
+The phoenix of life~
+A phoenix of life flies around the room squwaking in animosity.
+~
+You duck swiftly as the phoenix soars right past you flying around the
+room in animosity.  This tiny spirited little fellow has orangish- red
+feathers with a yellow belly and wields sharp talons and a razor sharp beak.
+~
+song bird~
+AB A CFHTV ACDEGW 1000 0
+140 0 50d10+15000 105d10+100 6d7+20 claw
+-60 -60 -60 -60
+FH AB 0 C
+stand stand none 0
+ACDEFGHKPW ACDEFHKPR small unknown
+#11116
+guardian knight ~
+the guardian knight of protection~
+A guardian knight wanders about on a mission for war.
+~
+This young spirited knight runs around in a rampage in search for evil.
+He only stands at 5'5" and is stocky, but possesses mercenary skills adapted
+from their mentor whoever he is.  He appears to be on a mission of onslaught
+to rid of the world of all evil.  Hmm, what alignment are you?
+~
+human~
+ACT A CJPa AHMNV 1000 0
+50 0 5d10+1550 50d10+100 2d10+7 punch
+-8 -8 -8 -8
+DHQ 0 0 CDJ
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJKR large unknown
+#11117
+sherwood archer~
+An archer of Sherwood~
+A Sherwood archer points his bow and arrow straight at you!!
+~
+This keen archer possesses the eyes of an owl and the dexterity of a
+snake with his bow and arrow.  Draped in all green, this archer strokes his
+curly moustache in a cocky way and looks as if he is god-like ..  Or
+something like that.
+~
+human~
+ACT A 0 AHMV 1000 0
+80 0 15d10+4200 80d10+100 4d8+13 charge
+-14 -14 -14 -14
+0 B 0 D
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJKR medium unknown
+#11118
+Titanis~
+Titanis~
+Titanis, the earth elemental, rumbles the ground beneath you.
+~
+A giant dirt lifeform rises from the ground standing at about 6'5" and
+stands motionless towering high above you.
+~
+giant~
+AB A CTa AHMNV 1000 0
+60 0 6d10+2550 60d10+100 4d6+8 pound
+-12 -12 -12 -12
+DHQ HI HIJP JP
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJKR large unknown
+#11119
+Siren~
+Siren~
+Siren, the water elemental, freezes itself into a huge ice-like figure peering
+at you.
+~
+This liquidated form of elemental floats about in the room here changing
+its form into a biped form of ice and stands enormously at about 6'5".  Its
+hands used for devastating pound to pound damage on its enemies.  However,
+this elemental is content with its nature and uses its powers only in the
+situation of self-defense.
+~
+water fowl~
+AB A CTb AGNW 1000 0
+60 0 6d10+2550 60d10+100 4d6+8 pound
+-12 -12 -12 -12
+HQ IJR R DH
+stand stand female 0
+ACDEFGHKMPW ACDEFHKPR medium unknown
+#11125
+ifrit~
+Ifrit ~
+Ifrit, the air elemental, blows by your face.
+~
+Ifrit - the elemental of the air, morphs into a cylindrical whirlwind
+filled with dust, air, leaves, and debree.  His contentness allows himself
+to breeze by you with a constant peace.  His rage however, intensifies into
+a storm of air forbidding you from any possibility of easy combat to it.
+~
+modron~
+AB A CJQRT EH 1000 0
+70 0 10d10+3300 70d10+100 4d7+11 blast
+-15 -15 -15 -15
+BMNPQR BHIKMNPQ HIK 0
+stand stand none 0
+ABCGHJKMV ABCDEFGHIJKR medium unknown
+#11126
+firebird fire elemental~
+Firebird~
+Firebird, the fire elemental, floats here ablaze in brightness.
+~
+This enormous bird-shaped fire emits intense heat as you near her.
+Although the beauty of the bird catches you in awe, her abilities with fire
+itself signifies to you what she can do when engaged in the heat of battle.
+~
+song bird~
+AB A CFHT AGNW 1000 0
+70 0 10d10+3300 70d10+100 2d6+3 bite
+-15 -15 -15 -15
+DFHQ CHJKLOQ 0 IR
+stand stand female 0
+ACDEFGHKPW ACDEFHKPR large unknown
+#11171
+goblin~
+an ugly goblin warrior~
+An ugly little goblin-at-arms snorts loudly at you.
+~
+This stout little goblin stands about 5'3" and has the face of a boar.
+His chunky fat belly overlaps the armor that he wears from all the past
+victims he's been binging on.  His weapons and armor are layered with spots
+of blood as well as his whole body.  He snorts loudly at the sight of you
+and readys for battle!
+~
+goblin~
+ACT A GJa AHMOV -1000 0
+50 0 5d10+1550 50d10+100 2d10+7 punch
+-8 -8 -8 -8
+DFIKQ P NPSXY DNPSXY
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJKRU medium unknown
+#11172
+manticore~
+A mischievous manticore~
+A manticore lashes its tail with a sharp *WHAP*!
+~
+This frightening creature has the head of a lion, a snake and a goat with
+a lethal lashing tail spraying poisonous liquid from it.  Its mighty body is
+that of a lion layered with a mane around its neck.  As fearful as this
+creature looks it is agile but small, dangerous however.
+~
+wolf~
+AC A DFGHVZa AGOV -1000 0
+80 0 15d10+4200 80d10+100 4d8+13 sting
+-14 -14 -14 -14
+FH 0 0 0
+stand stand none 0
+ACDEFGJKQV ACDEFJKQRUV large unknown
+#11173
+banshee death~
+the banshee of death~
+The banshee of death growls at your intrusion!
+~
+This entity of invisible abilities wanders here back and forth with only
+his fearful-looking eyes visible in your sights.  A stench of mist and
+coldness is felt when you peer about in the room feeling the banshee's
+presence.
+~
+human~
+ABO A GJTZ ABHMOV -1000 0
+85 0 25d10+5100 85d10+100 3d12+15 bite
+-16 -16 -16 -16
+FQ LOQSXYZ FHIJ BCNPT
+stand stand none 0
+ABCDEFGHIJKMV ABCDEFGHIJKR large unknown
+#11174
+giant troll~
+A giant troll~
+A giant troll exhales nose-damaging body odor as you enter.
+~
+This enormous troll stands at 6'4" and is considered stocky in frame.
+His odorizing smell emits a frown as he looks at your direction.  His
+ripped-up clothes are covered with stench and his filthiness alone makes you
+want to vomit.
+~
+troll~
+ABT A DFGJVac ABHMOV -1000 0
+90 0 25d10+6000 20d10+3000 8d4+16 claw
+-22 -22 -22 -22
+DKQ BE BCDEHK HKPS
+stand stand male 0
+ABCDEFGHIJKMUV ABCDEFGHIJKRUV large unknown
+#11175
+basilisk~
+a Basilisk of Fury~
+A four-legged basilisk sharpens his eyes on you!
+~
+This amphibious four-legged creature possesses the power to turn you into
+stone with the glareness of his eyes!  His agile quickness allows him to use
+his speed as a reinforcement to fights.  His brown-shaded scales have
+certain patches of blood about him from past confrontations against those
+who fight for good.
+~
+lizard~
+AB A GJa AGOXc -1000 0
+85 0 50d10+6900 100d10+100 5d8+19 claw
+-24 -24 -24 -24
+DHKQ L IL I
+stand stand male 0
+ACDEFGHKQVXc ACDEFHKQV medium unknown
+#11176
+black dragon~
+the black dragon of annihilation ~
+An extremely large, black dragon thunderously roars at you!
+~
+Look up and gaze upon your possible doom!  This monstrous 25 foot high
+dragon snarls fumes of fire in his nostrils and is coated heavily with a
+thick black material of scales across his body head to tail.  Thunderous
+thumps from its footprints leave a constant vibration to your ears as you
+peer at him.  His presence alone leaves you with a rapid heartbeat!
+~
+dragon~
+ABELQ A DFGJTVa ACDEHOZ -1000 0
+140 0 50d10+15000 105d10+100 6d7+20 blast
+-60 -60 -60 -60
+DFMNOQ ABEH BDEFHI BCFI
+stand stand male 0
+ACDEFGHIJKMPQUVXZ ABCDEFGHIJKPQRUVX huge unknown
+#11177
+sorceress sorcer hag~
+the sorceress of eternal doom~
+A hag-like sorceress twinkles her fingers emitting a glowing force.
+~
+The sorceress is enchanted with an evil aura about her.  Her long grey
+hair, her evil, left snake eye, those claw-like nails about her hands, those
+hideous-shaped teeth, the blackness that surrounds her presence!  What...
+What..  What will you do?
+~
+human~
+ABR A GJ ACDEHMOV -1000 0
+160 0 50d10+20000 110d10+100 10d4+23 claw
+-60 -60 -60 -60
+JQ AP 0 CDN
+stand stand female 0
+ABCDEFGHIJKMV ABCDEFGHIJKR medium unknown
+#11178
+hobgoblin~
+a menacing hobgoblin~
+A gross-looking hobgoblin readys himself to attack your sorry ass!
+~
+This horrid-looking thing stand at about 6'0" and is rather thin a normal
+hobgoblin.  His oliveish-green skin is all greased up with black sweat as he
+roars menacingly at you.  His horned helmet and his shattered chain mail
+allows you to do some damage to it.
+~
+hobgoblin~
+ABT A GJP ACDHMOV -1000 0
+140 0 50d10+15000 105d10+100 6d7+20 claw
+-60 -60 -60 -60
+DKQ ALQ LQ C
+stand stand none 0
+ABCDEFGHIJKMVY ABCDEFGHIJKRY medium unknown
+#11196
+juggernaut~
+The Mighty Juggernaut~
+A gigantic stocky-looking juggernaut squats in charging position.
+~
+This humongous specimen ...  Runs around breaking walls, furniture,
+china, anything he sees...  He can break a steel wall like nothing..  You
+better watch it sonny boy..  He's no joke.
+~
+human~
+AB A JLa AHMOV -1000 0
+70 0 60d10+3700 70d10+100 4d8+1 charge
+-15 -15 -15 -15
+CDFHIKO AIORS FG BK
+stand stand none 0
+ABCDEFGHIJKMV ABCDEFGHIJK large unknown
+#11197
+chimaera canine dog~
+The Two-Headed Chimaera~
+A ferocious two-headed canine growls in rage at your presence.
+~
+He ain't no ordinary dog.  He's a ferocious two-headed dog.  Known to
+bite the hell out of your body parts.  Thick brown fur for armor protection
+and quick agile moves as well.
+~
+wolf~
+AB A FHZ AGHOV -1000 0
+70 0 60d10+3600 70d10+100 4d8+1 bite
+-14 -14 -14 -14
+DFHI AQST EI B
+stand stand none 0
+ACDEFGJKQV ACDEFJKQUV medium unknown
+#11198
+gorgon medusa~
+The Gorgon of Medusa~
+A snaky-haired gorgon slithers around here ready to attack!
+~
+Slithery.. snaky.... evil.... wicked.... once beautiful.. but now ugly.. the
+gorgon of medusa... ack!
+~
+lizard~
+AB A DVZ AEGHXc -1000 0
+60 0 60d10+2754 60d10+100 4d7+20 bite
+-11 -11 -11 -11
+CHM AL IL INS
+stand stand female 0
+ACDEFGHKQVXc ACDEFHKQV medium unknown
+#11199
+apparition wraith~
+The Wraith of Horrors~
+An ugly apparition of a wraith laughs evilly as you enter.
+~
+This ugly apparition of evil.. floats about here laughing hysterically at your
+puniness.
+
+~
+human~
+ABO A TU ADHLMV -1000 0
+60 0 60d10+2550 60d10+100 4d7+10 wrath
+-27 -27 -27 -9
+DGH BDIK CDIKNS CNS
+stand stand none 0
+ABCDEFGHIJKLMV ABCDEFGHIJK huge unknown
+#11200
+guard skeletal~
+A Skeletal Guard of the Archonian Castle~
+A skeletal guard stands here frozen from animation watching you.
+~
+Nothing but bones... he sucks anyways.
+~
+unique~
+AB A JTc AHMV -1000 0
+75 0 10d10+3500 70d10+110 4d7+15 punch
+-19 -19 -19 -19
+HNR ABNS BCMNS CM
+stand stand none 0
+ABCDEFGHIJKMPV ABCDEFGHIJKP medium unknown
+#0
+
+
+
+#OBJECTS
+#11100
+sword ~
+the Sword of Magnificance~
+A gleaming steel sword sparkles here grabbing your attention~
+steel~
+weapon AY AN
+sword 10 8 slash D
+50 5 1250 P
+#11101
+adamantite breastplate armor~
+the Adamantite Breastplate~
+A huge piece of armor made of adamantite lies here for your use.~
+adamantite ~
+armor TY AK
+BD BD BD BD 0
+50 75 1500 P
+A
+17 -20
+#11102
+masked helmet~
+a Masked Helmet~
+A steel-engraved helmet worn over the face is lying here waiting to be worn.~
+steel~
+armor Y AE
+BD BD BD BD 0
+50 50 2340 P
+A
+24 -5
+A
+18 5
+A
+19 5
+#11103
+axe ~
+the Axe of Slaughters~
+A large bladed axe used for bloody massacres lies here.~
+steel~
+weapon TY AN
+axe 10 9 slice D
+50 30 1450 G
+A
+1 3
+A
+18 5
+#11104
+golden shield~
+the Golden Shield~
+A bashed-up golden shield lies here rotting away.~
+gold~
+armor TY AJ
+ABD ABD ABD ABD 0
+50 25 2500 G
+A
+17 -25
+#11105
+spiked vest~
+a Spiked Vest~
+A strange vest with spikes lies here leaving somebody topless.~
+steel~
+armor T AK
+BD BD BD BD 0
+50 45 5500 G
+A
+1 2
+A
+24 -5
+#11106
+ice dagger icicle~
+the Glacial Ice Dagger~
+A long sharp icicle lies here vaporized but emitting a faint glow.~
+ice~
+weapon AMTY AN
+dagger 10 11 stab BDH
+60 35 7500 G
+A
+19 5
+A
+18 5
+#11107
+iron lung~
+the Iron Lung~
+A strange armor with two lungs etched on it lies here glowing mysteriously.~
+iron~
+armor ABMTY AK
+CD CD CD CD 0
+60 20 5500 G
+A
+13 80
+A
+19 10
+A
+18 10
+#11108
+air wand~
+an Air Wand~
+A strange wand made of some mysterious material lies here.~
+light~
+wand BIUY AO
+80 20 20 'gas breath' 0
+60 15 0 P
+#11109
+jaw weapon jaws~
+the Jaws of Cessation~
+A strange exotic jaw-like weapon lies here waiting to be wielded.~
+gold~
+weapon IMY AN
+exotic 10 11 bite AE
+60 15 0 P
+A
+19 8
+A
+18 5
+#11110
+tail armor lashing~
+the Lashing Tail of the Manticore~
+A long tail-like armor worn around the waist lies here.~
+mithril~
+armor BY AL
+ACD ACD ACD ACD 0
+80 35 0 P
+A
+13 100
+A
+17 -2
+A
+14 100
+A
+1 2
+#11111
+bow ivory flaming~
+the Flaming Bow of the Archers~
+A large bow made of ivory lies here carelessly.~
+ivory~
+weapon BIY AN
+exotic 10 17 pierce AD
+80 25 0 P
+A
+19 8
+A
+1 3
+#11112
+cap feathered~
+a Feathered Green Cap~
+A polyester green cap with a feather worn on top of it lies here.~
+unknown~
+armor I AE
+ACD ACD ACD ACD 0
+80 5 0 P
+A
+18 10
+A
+20 -3
+A
+13 50
+A
+12 50
+A
+14 50
+#11113
+shoes green~
+a pair of green pointy shoes~
+A pair of green pointy shoes lie here.~
+cotton ~
+armor I AG
+ACD ACD ACD ACD 0
+80 10 0 P
+A
+2 2
+A
+19 10
+A
+12 50
+A
+14 50
+A
+13 50
+#11114
+weapon scream ~
+( S C R E A M )~
+A strange mouth-like weapon lies here for you to wield.~
+steel ~
+weapon ABGMY AN
+dagger 10 12 wrath C
+85 30 0 P
+A
+18 15
+A
+24 -5
+#11115
+garment hooded hood ~
+a Dark Hooded Garment~
+A heavy-woolen garment with a hood is left here.~
+wool~
+armor CGY AL
+ACD ACD ACD ACD 0
+85 25 0 P
+A
+14 75
+A
+12 100
+A
+13 150
+#11116
+helmet~
+a Valkyric Helmet~
+A horned helmet made by the valkyries is lying here.~
+steel~
+armor IY AE
+ACD ACD ACD ACD 0
+85 20 0 P
+A
+13 75
+A
+19 15
+A
+18 15
+A
+2 2
+#11117
+sword valkyries~
+the Sword of the Valkyries~
+A strange-looking sword with a strange electrical aura lies here vibrating.~
+steel~
+weapon IY AN
+sword 10 19 slash DG
+85 20 0 P
+A
+19 9
+A
+18 15
+#11118
+bra breastplate iron~
+an Iron Bra-Strapped Breastplate~
+A breastplate designed like a bra lies here for you to wear.. yes even men.~
+iron~
+armor IY AK
+ACD ACD ACD ACD 0
+85 30 0 P
+A
+9 -1
+A
+13 100
+A
+14 85
+A
+13 75
+A
+17 -5
+#11119
+axe~
+a Bloody-Soaked Two-Handed Axe~
+A disgustingly blood-drenched axe lies here colorfully blotching the ground.~
+mithril~
+weapon CMY AN
+axe 8 15 cleave FH
+90 40 0 P
+A
+1 4
+A
+18 17
+#11120
+vest shaggy~
+a Shaggy Vest of the Stinky Troll~
+A long-shaggy clothed vest lies here rugged and dirty.~
+cloth~
+armor CEY AK
+BCD BCD BCD BCD 0
+90 15 0 P
+A
+14 100
+A
+13 200
+A
+12 -100
+A
+19 20
+A
+18 20
+A
+3 -2
+A
+1 3
+#11121
+crystal ring~
+a Crystalized Ring of the Golem~
+A glittering ring made of a unique crystal diamond is left here.~
+crystal~
+armor AMY AB
+ABD ABD ABD ABD 0
+90 10 0 P
+A
+13 80
+A
+4 -1
+A
+3 -1
+A
+18 10
+A
+19 10
+A
+14 50
+#11122
+boulder~
+a Giant Boulder of Annihilation~
+A humongous boulder with handles on the bottom stands here unstable.~
+stone~
+weapon BOY AN
+exotic 10 19 crush F
+90 100 0 P
+A
+19 20
+A
+18 20
+#11123
+acid wand~
+the Acid Wand~
+A long acidic wand of sorts lies here making a strange noise.~
+steel~
+wand AB AO
+100 150 150 'acid breath' 0
+100 10 0 P
+#11124
+horn ~
+the Golden Horn of Piercing~
+A long golden horn of a unicorn lies here.~
+unknown~
+weapon AIMY AN
+dagger 3 55 pierce D
+100 30 0 P
+A
+1 3
+A
+18 17
+#11125
+ring majestics~
+the Ring of Majestics~
+A shiny ring with an evil djinni emblemed lies here.~
+crystal~
+armor GIY AB
+ABCD ABCD ABCD ABCD 0
+101 10 0 P
+A
+2 2
+A
+4 3
+A
+9 3
+A
+13 100
+A
+19 20
+A
+18 20
+#11126
+patch emblem phoenix~
+the Emblem of the Mighty Phoenix~
+A small shield-shaped patch of a phoenix lies here.~
+feather~
+armor ABMY AW
+AE AE AE AE 0
+101 20 0 P
+A
+19 20
+A
+18 20
+A
+12 175
+A
+4 4
+A
+1 4
+A
+13 100
+#11127
+scales skin ~
+the Invulnerable Skin of the Black Dragon~
+A gigantic piece of tough scaly skin lies here.~
+scale~
+armor CY AL
+ABF ABF ABF ABF 0
+100 95 0 P
+#11128
+sword~
+the Sword of Pre-Divinity~
+A sword with 'Rzarecta' written on the blade lies here shaking.~
+unknown~
+weapon ABGIMPY AN
+sword 10 14 divine ACDEH
+100 80 0 P
+#11129
+stench evil~
+the Stench of Evil~
+An evil stench of some sort floats about here.~
+unknown~
+armor GY AQ
+ABCD ABCD ABCD ABCD 0
+100 15 0 P
+A
+17 -5
+A
+19 30
+A
+18 30
+A
+12 200
+A
+13 200
+A
+5 2
+A
+4 2
+A
+3 2
+#11130
+mask holiness~
+the Mask of Holiness~
+A mask of the holy wizard lies here faceless.~
+plastic~
+armor AG AR
+CE CE CE CE 0
+101 20 0 P
+A
+19 10
+A
+18 10
+A
+12 300
+A
+3 5
+A
+4 5
+A
+9 4
+#11131
+face evil mask~
+the Face of Evil~
+An evil mask of mysterious intentions lies here.~
+plastic~
+armor AG AR
+CE CE CE CE 0
+101 20 0 P
+A
+19 40
+A
+18 40
+A
+10 4
+A
+9 3
+A
+17 -5
+A
+5 5
+A
+1 4
+#11132
+anklet spiked~
+a Spiked Anklet of the Chimaera~
+A spiked anklet is lying on the ground here~
+fur ~
+armor CY AT
+ACDF ACDF ACDF ACDF 0
+70 20 34500 P
+A
+14 100
+A
+2 1
+A
+19 10
+A
+18 10
+A
+20 -20
+#11133
+banner robe back~
+the Banner of the Mighty Juggernaut~
+A long banner-like robe worn for the back lies here with a strange drawing.~
+cotton~
+armor Y AX
+ACD ACD ACD ACD 0
+70 25 0 P
+A
+13 85
+A
+24 -5
+A
+14 65
+#11134
+headpiece head snake wig hair~
+the Snaky-Hair Wig of the Gorgon~
+A nasty-looking headpiece with silthering snakes lies here moving!~
+unknown~
+armor BGY AE
+CD CD CD CD 0
+60 18 0 P
+A
+18 5
+A
+6 2
+A
+5 2
+A
+13 50
+#11135
+patch religion~
+the Patch of Absolute Evil~
+A small shield-shaped patch of some religion lies here blowing about.~
+unknown~
+armor BCEY AV
+CD CD CD CD 0
+60 5 200 P
+#11199
+black eye patch~
+the Black Eye-Patch of the Skeletal Guardian~
+A black eye patch with a long black strap lies here.~
+cloth~
+armor BY AER
+CD CD CD CD 0
+75 3 0 P
+A
+19 7
+A
+2 -1
+A
+14 50
+#11200
+falchion sword bone~
+a Falchion of the Skeletal Guardians~
+A long finely-made falchion with a bone-made handgrip lies here.~
+steel~
+weapon IY AN
+sword 10 14 slash DE
+75 76 4545 P
+A
+18 7
+A
+13 50
+A
+5 2
+#0
+
+
+
+#ROOMS
+#11100
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D1
+~
+~
+0 0 11101
+D2
+~
+~
+0 0 11117
+S
+#11101
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with plattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total balckness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D1
+~
+~
+0 0 11102
+D2
+~
+~
+0 0 11116
+D3
+~
+~
+0 0 11100
+S
+#11102
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D1
+~
+~
+0 0 11103
+D2
+~
+~
+0 0 11115
+D3
+~
+~
+0 0 11101
+S
+#11103
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with plattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D1
+~
+~
+0 0 11104
+D2
+~
+~
+0 0 11114
+D3
+~
+~
+0 0 11102
+S
+#11104
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D1
+~
+~
+0 0 11105
+D2
+~
+~
+0 0 11113
+D3
+~
+~
+0 0 11103
+S
+#11105
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with plattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D1
+~
+~
+0 0 11106
+D2
+~
+~
+0 0 11112
+D3
+~
+~
+0 0 11104
+S
+#11106
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D1
+~
+~
+0 0 11107
+D2
+~
+~
+0 0 11111
+D3
+~
+~
+0 0 11105
+S
+#11107
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with plattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total balckness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D1
+~
+~
+0 0 11108
+D2
+~
+~
+0 0 11110
+D3
+~
+~
+0 0 11106
+S
+#11108
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D2
+~
+~
+0 0 11109
+D3
+~
+~
+0 0 11107
+S
+#11109
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with plattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total balckness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11108
+D2
+~
+~
+0 0 11126
+D3
+~
+~
+0 0 11110
+S
+#11110
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11107
+D1
+~
+~
+0 0 11109
+D2
+~
+~
+0 0 11125
+D3
+~
+~
+0 0 11111
+S
+#11111
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with splattered blood along the white walls and the hard
+white marble floor.  Corridors into the other rooms lead into total
+blackness as your heart beats rapidly, wondering what you'll encounter next.
+~
+0 8 0
+D0
+~
+~
+0 0 11106
+D1
+~
+~
+0 0 11110
+D2
+~
+~
+0 0 11124
+D3
+~
+~
+0 0 11112
+S
+#11112
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11105
+D1
+~
+~
+0 0 11111
+D2
+~
+~
+0 0 11123
+D3
+~
+~
+0 0 11113
+S
+#11113
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with plattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total balckness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11104
+D1
+~
+~
+0 0 11112
+D2
+~
+~
+0 0 11122
+D3
+~
+~
+0 0 11114
+S
+#11114
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11103
+D1
+~
+~
+0 0 11113
+D2
+~
+~
+0 0 11121
+D3
+~
+~
+0 0 11115
+S
+#11115
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with plattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total balckness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11102
+D1
+~
+~
+0 0 11114
+D2
+~
+~
+0 0 11120
+D3
+~
+~
+0 0 11116
+S
+#11116
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11101
+D1
+~
+~
+0 0 11115
+D2
+~
+~
+0 0 11119
+D3
+~
+~
+0 0 11117
+S
+#11117
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with plattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11100
+D1
+~
+~
+0 0 11116
+D2
+~
+~
+0 0 11118
+D3
+~
+~
+0 0 333
+S
+#11118
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11117
+D1
+~
+~
+0 0 11119
+D2
+~
+~
+0 0 11135
+S
+#11119
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with plattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total balckness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11116
+D1
+~
+~
+0 0 11120
+D2
+~
+~
+0 0 11134
+D3
+~
+~
+0 0 11118
+S
+#11120
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11115
+D1
+~
+~
+0 0 11121
+D2
+~
+~
+0 0 11133
+D3
+~
+~
+0 0 11119
+S
+#11121
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with plattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total balckness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11114
+D1
+~
+~
+0 0 11122
+D2
+~
+~
+0 0 11132
+D3
+~
+~
+0 0 11120
+S
+#11122
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11113
+D1
+~
+~
+0 0 11123
+D2
+~
+~
+0 0 11131
+D3
+~
+~
+0 0 11121
+S
+#11123
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about along here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11112
+D1
+~
+~
+0 0 11124
+D2
+~
+~
+0 0 11130
+D3
+~
+~
+0 0 11122
+S
+#11124
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11111
+D1
+~
+~
+0 0 11125
+D2
+~
+~
+0 0 11129
+D3
+~
+~
+0 0 11123
+S
+#11125
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about along here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11110
+D1
+~
+~
+0 0 11126
+D2
+~
+~
+0 0 11128
+D3
+~
+~
+0 0 11124
+S
+#11126
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11109
+D2
+~
+~
+0 0 11127
+D3
+~
+~
+0 0 11125
+S
+#11127
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about along here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11126
+D2
+~
+~
+0 0 11145
+D3
+~
+~
+0 0 11128
+S
+#11128
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11125
+D1
+~
+~
+0 0 11127
+D2
+~
+~
+0 0 11144
+D3
+~
+~
+0 0 11129
+S
+#11129
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about along here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11124
+D1
+~
+~
+0 0 11128
+D2
+~
+~
+0 0 11143
+D3
+~
+~
+0 0 11130
+S
+#11130
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11123
+D1
+~
+~
+0 0 11129
+D2
+~
+~
+0 0 11142
+D3
+~
+~
+0 0 11131
+S
+#11131
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about along here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11122
+D1
+~
+~
+0 0 11130
+D2
+~
+~
+0 0 11141
+D3
+~
+~
+0 0 11132
+S
+#11132
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11121
+D1
+~
+~
+0 0 11131
+D2
+~
+~
+0 0 11140
+D3
+~
+~
+0 0 11133
+S
+#11133
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about along here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11120
+D1
+~
+~
+0 0 11132
+D2
+~
+~
+0 0 11139
+D3
+~
+~
+0 0 11134
+S
+#11134
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11119
+D1
+~
+~
+0 0 11133
+D2
+~
+~
+0 0 11138
+D3
+~
+~
+0 0 11135
+S
+#11135
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about along here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11118
+D1
+~
+~
+0 0 11134
+D2
+~
+~
+0 0 11137
+S
+#11136
+The Black Square~
+~
+0 4 0
+S
+#11137
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11135
+D1
+~
+~
+0 0 11138
+D2
+~
+~
+0 0 11154
+S
+#11138
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about along here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11134
+D1
+~
+~
+0 0 11139
+D2
+~
+~
+0 0 11153
+D3
+~
+~
+0 0 11137
+S
+#11139
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11133
+D1
+~
+~
+0 0 11140
+D2
+~
+~
+0 0 11152
+D3
+~
+~
+0 0 11138
+S
+#11140
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about along here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11132
+D1
+~
+~
+0 0 11141
+D2
+~
+~
+0 0 11151
+D3
+~
+~
+0 0 11139
+S
+#11141
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11131
+D1
+~
+~
+0 0 11142
+D2
+~
+~
+0 0 11150
+D3
+~
+~
+0 0 11140
+S
+#11142
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about along here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11130
+D1
+~
+~
+0 0 11143
+D2
+~
+~
+0 0 11149
+D3
+~
+~
+0 0 11141
+S
+#11143
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11129
+D1
+~
+~
+0 0 11144
+D2
+~
+~
+0 0 11148
+D3
+~
+~
+0 0 11142
+S
+#11144
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated into the other
+rooms lead into total blackness as your heart beats rapidly wondering what
+you'd encounter next.  Into the other rooms lead into total blackness as
+your heart beats rapidly wondering what you'd encounter next.
+~
+0 8 0
+D0
+~
+~
+0 0 11128
+D1
+~
+~
+0 0 11145
+D2
+~
+~
+0 0 11147
+D3
+~
+~
+0 0 11143
+S
+#11145
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.  A gate exiting this hideous castle
+is to the east.
+~
+0 8 0
+D0
+~
+~
+0 0 11127
+D1
+~
+~
+1 0 11184
+D2
+~
+~
+0 0 11146
+D3
+~
+~
+0 0 11144
+S
+#11146
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts
+lies about here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11145
+D2
+~
+~
+0 0 11163
+D3
+~
+~
+0 0 11147
+S
+#11147
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11144
+D1
+~
+~
+0 0 11146
+D2
+~
+~
+0 0 11162
+D3
+~
+~
+0 0 11148
+S
+#11148
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts
+lies about here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11143
+D1
+~
+~
+0 0 11147
+D2
+~
+~
+0 0 11161
+D3
+~
+~
+0 0 11149
+S
+#11149
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11142
+D1
+~
+~
+0 0 11148
+D2
+~
+~
+0 0 11160
+D3
+~
+~
+0 0 11150
+S
+#11150
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts
+lies about here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11141
+D1
+~
+~
+0 0 11149
+D2
+~
+~
+0 0 11159
+D3
+~
+~
+0 0 11151
+S
+#11151
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11140
+D1
+~
+~
+0 0 11150
+D2
+~
+~
+0 0 11158
+D3
+~
+~
+0 0 11152
+S
+#11152
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts
+lies about here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11139
+D1
+~
+~
+0 0 11151
+D2
+~
+~
+0 0 11157
+D3
+~
+~
+0 0 11153
+S
+#11153
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11138
+D1
+~
+~
+0 0 11152
+D2
+~
+~
+0 0 11156
+D3
+~
+~
+0 0 11154
+S
+#11154
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts
+lies about here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11137
+D1
+~
+~
+0 0 11153
+D2
+~
+~
+0 0 11155
+S
+#11155
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11154
+D1
+~
+~
+0 0 11156
+D2
+~
+~
+0 0 11172
+S
+#11156
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts
+lies about here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11153
+D1
+~
+~
+0 0 11157
+D2
+~
+~
+0 0 11171
+D3
+~
+~
+0 0 11155
+S
+#11157
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11152
+D1
+~
+~
+0 0 11158
+D2
+~
+~
+0 0 11170
+D3
+~
+~
+0 0 11156
+S
+#11158
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts
+lies about here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11151
+D1
+~
+~
+0 0 11159
+D2
+~
+~
+0 0 11169
+D3
+~
+~
+0 0 11157
+S
+#11159
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11150
+D1
+~
+~
+0 0 11160
+D2
+~
+~
+0 0 11168
+D3
+~
+~
+0 0 11158
+S
+#11160
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts
+lies about here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11149
+D1
+~
+~
+0 0 11161
+D2
+~
+~
+0 0 11167
+D3
+~
+~
+0 0 11159
+S
+#11161
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11148
+D1
+~
+~
+0 0 11162
+D2
+~
+~
+0 0 11166
+D3
+~
+~
+0 0 11160
+S
+#11162
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts
+lies about here along with splattering marks of blood along the white walls
+and the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11147
+D1
+~
+~
+0 0 11163
+D2
+~
+~
+0 0 11165
+D3
+~
+~
+0 0 11161
+S
+#11163
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11146
+D2
+~
+~
+0 0 11164
+D3
+~
+~
+0 0 11162
+S
+#11164
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with splattering marks of blood along the white walls and
+the hard white marbled-floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11163
+D2
+~
+~
+0 0 11181
+D3
+~
+~
+0 0 11165
+S
+#11165
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11162
+D1
+~
+~
+0 0 11164
+D2
+~
+~
+0 0 11180
+D3
+~
+~
+0 0 11166
+S
+#11166
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with splattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11161
+D1
+~
+~
+0 0 11165
+D2
+~
+~
+0 0 11179
+D3
+~
+~
+0 0 11167
+S
+#11167
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11160
+D1
+~
+~
+0 0 11166
+D2
+~
+~
+0 0 11178
+D3
+~
+~
+0 0 11168
+S
+#11168
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with splattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11159
+D1
+~
+~
+0 0 11167
+D2
+~
+~
+0 0 11177
+D3
+~
+~
+0 0 11169
+S
+#11169
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11158
+D1
+~
+~
+0 0 11168
+D2
+~
+~
+0 0 11176
+D3
+~
+~
+0 0 11170
+S
+#11170
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with splattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11157
+D1
+~
+~
+0 0 11169
+D2
+~
+~
+0 0 11175
+D3
+~
+~
+0 0 11171
+S
+#11171
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11156
+D1
+~
+~
+0 0 11170
+D2
+~
+~
+0 0 11174
+D3
+~
+~
+0 0 11172
+S
+#11172
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with splattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11155
+D1
+~
+~
+0 0 11171
+D2
+~
+~
+0 0 11173
+S
+#11173
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11172
+D1
+~
+~
+0 0 11174
+S
+#11174
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with splattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11171
+D1
+~
+~
+0 0 11175
+D3
+~
+~
+0 0 11173
+S
+#11175
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11170
+D1
+~
+~
+0 0 11176
+D3
+~
+~
+0 0 11174
+S
+#11176
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with splattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11169
+D1
+~
+~
+0 0 11177
+D3
+~
+~
+0 0 11175
+S
+#11177
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11168
+D1
+~
+~
+0 0 11178
+D3
+~
+~
+0 0 11176
+S
+#11178
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with splattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11167
+D1
+~
+~
+0 0 11179
+D3
+~
+~
+0 0 11177
+S
+#11179
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11166
+D1
+~
+~
+0 0 11180
+D3
+~
+~
+0 0 11178
+S
+#11180
+The White Square~
+Although the brightness of this room leaves you with some relief, it also
+silences the noise into a shivering nothingness.  Decapitated body parts lie
+about here along with splattering marks of blood along the white walls and
+the hard white marbled floor.  Corridors into the other rooms lead into
+total blackness as your heart beats rapidly wondering what you'd encounter
+next.
+~
+0 8 0
+D0
+~
+~
+0 0 11165
+D1
+~
+~
+0 0 11181
+D3
+~
+~
+0 0 11179
+S
+#11181
+The Black Square~
+Obscure darkness overlays the room as you enter.  Perched along the four
+corners of the room lies a small torch, each giving off some sense of relief
+from absolute darkness.  The surface under your feet is made of a strange
+black hardened marble as you also notice several blotches of blood recumbent
+around you.  Distant battle-cries and shrieks of death can be heard from
+around leaving you somewhat hesitated as you wield your weapon tightly and
+become more aware of your surroundings.
+~
+0 8 0
+D0
+~
+~
+0 0 11164
+D3
+~
+~
+0 0 11180
+S
+#11182
+The Opening~
+The once lush greeneries of the Haon Dor Forest has now widened & cleared
+into the open to reveal a wide open space here in the green fields.  Many
+wildlife can be seen all around you as a long path is visible to the west
+and east.  A great castle is now more into view to the west.  Huge trees and
+mountains from a distant Shadow Grove can be seen far beyond the castle in
+the distance.  Small little insects scurry about the air here giving it
+somewhat of a seasonal portrait of peace and serenity.  To the east is the
+quiet forest.  To the west lies the castle.
+~
+0 0 2
+D1
+~
+~
+0 0 6135
+D3
+~
+~
+0 0 11183
+S
+#11183
+A Long Path Through the Meadows ~
+The path continues on east and west through this lovely and yet such
+peaceful meadows outside the Haon Dor Forest which can be seen to the far
+east of you.  The castle to your west is fully in view and you scan to the
+west to see a huge gate leading into the premises.  
+~
+0 0 0
+D1
+~
+~
+0 0 11182
+D3
+~
+~
+0 0 11184
+S
+#11184
+Before the Huge Castle~
+You have now come upon a huge deserted castle which seems to be ancient
+from the outer layered material of the premises.  Thick, cracked bricks are
+shown all across the structure as you gaze to your left and right at this
+sightly wonder.  The height of this castle stretches up about twenty feet
+covered with a triangular roofing done on the corner ends of the building.
+As you gaze to the east, the beauty of the meadows can be seen as far as it
+goes back into the forest.  A huge GATE lies to your west blocking your
+entrance into this castle.  A strange SIGN is posted by the GATE..  Maybe
+you should read it.
+~
+0 0 0
+E
+sign~
+T H E
+
+     A R C H O N I A N
+
+              C H E S S B O A R D
+
+                       By --- Rzarecta...
+
+                              E N T E R  I F ...
+
+                                        Y O U   D A R E . . . .
+~
+D1
+~
+~
+0 0 11183
+D3
+~
+gate~
+1 0 11145
+S
+#11185
+~
+~
+0 0 0
+D3
+~
+~
+0 0 11186
+S
+#11186
+~
+~
+0 0 0
+D1
+~
+~
+0 0 11185
+D3
+~
+~
+0 0 11187
+S
+#11187
+~
+~
+0 0 0
+D1
+~
+~
+0 0 11186
+D3
+~
+~
+0 0 11188
+S
+#11188
+~
+~
+0 0 0
+D1
+~
+~
+0 0 11187
+D3
+~
+~
+0 0 11189
+S
+#11189
+~
+~
+0 0 0
+D1
+~
+~
+0 0 11188
+S
+#11190
+Before the Gates of the Archonian Chessboard~
+Before you lies a towering castle that leads inside it headed north.  Strange
+screaming noises and wailings echo from the towers hanging high above as
+many weird occurrences have been happening according to the commoners in
+Midgaard.  To the south the flow of traffic in and out of Midgaard is
+dense while inside to this castle seems more mysteriously quiet.
+ 
+     |Zz.                      |Zz.
+     |                         |
+    _L__                      _|
+   (____)      _             /__\
+   /____\     /_\           /____\
+  (______)    | |          (______)
+   |  U |_____| |___________| U  |
+   |u   | |  |   __   |  |  |   u|
+   |    | |  |  ||||  |  |  |    |
+   -------------""""--------------js
+ 
+~
+0 0 0
+D0
+~
+gate~
+1 0 11100
+D2
+~
+~
+0 0 3503
+S
+#11200
+The Realms of Eternal Rzarection~
+Here you find an empty room..  The Rza's room.  Sit back, relax and enjoy
+the ride.  Rzarecta is inda house and the house is packed..  Get it?  Got
+it?  Good.
+~
+0 4 0
+S
+#0
+
+
+
+#SPECIALS
+M 11100 spec_circle
+M 11104 spec_cast_mage
+M 11175 spec_breath_fire
+M 11176 spec_breath_fire
+M 11177 spec_cast_mage
+M 11199 spec_cast_mage
+S
+
+
+
+#RESETS
+D 0 11145 1 1
+D 0 11184 3 1
+D 0 11190 0 1
+M 0 11100 2 11100 1
+E 0 11116 0 6
+E 0 11117 0 16
+E 0 11118 0 12
+M 0 11101 2 11101 1
+E 0 11122 0 16
+E 0 11121 0 2
+M 0 11102 2 11102 1
+E 0 11124 0 16
+M 0 11103 1 11103 1
+E 0 11125 0 1
+M 0 11104 1 11104 1
+E 0 11130 0 20
+M 0 11105 1 11105 1
+E 0 11126 0 27
+M 0 11102 2 11106 1
+E 0 11124 0 16
+M 0 11101 2 11107 1
+E 0 11121 0 1
+E 0 11122 0 16
+M 0 11100 2 11108 1
+E 0 11117 0 16
+E 0 11116 0 6
+E 0 11118 0 12
+M 0 11117 2 11109 1
+E 0 11111 0 16
+E 0 11112 0 6
+E 0 11113 0 8
+M 0 11116 7 11110 1
+E 0 11100 0 16
+E 0 11101 0 12
+E 0 11102 0 6
+M 0 11116 7 11111 1
+E 0 11100 0 16
+E 0 11101 0 12
+E 0 11102 0 6
+M 0 11116 7 11112 1
+E 0 11100 0 16
+E 0 11101 0 12
+E 0 11102 0 6
+M 0 11116 7 11113 1
+E 0 11100 0 16
+E 0 11101 0 12
+E 0 11102 0 6
+M 0 11116 7 11114 1
+E 0 11100 0 16
+E 0 11101 0 12
+E 0 11102 0 6
+M 0 11116 7 11115 1
+E 0 11100 0 16
+E 0 11101 0 12
+E 0 11102 0 6
+M 0 11116 7 11116 1
+E 0 11100 0 16
+E 0 11101 0 12
+E 0 11102 0 6
+M 0 11117 2 11117 1
+E 0 11111 0 16
+E 0 11112 0 6
+E 0 11113 0 8
+M 0 11118 1 11118 1
+E 0 11107 0 12
+M 0 11119 1 11119 1
+E 0 11106 0 16
+M 0 11125 1 11125 1
+E 0 11108 0 17
+M 0 11126 1 11126 1
+E 0 11109 0 16
+M 0 11199 1 11155 1
+E 0 11135 0 26
+M 0 11198 1 11156 1
+E 0 11134 0 6
+M 0 11196 1 11162 1
+E 0 11133 0 28
+M 0 11197 1 11163 1
+E 0 11132 0 24
+M 0 11172 2 11164 1
+E 0 11110 0 13
+M 0 11171 7 11165 1
+E 0 11103 0 16
+E 0 11104 0 11
+E 0 11105 0 12
+M 0 11171 7 11166 1
+E 0 11103 0 16
+E 0 11104 0 11
+E 0 11105 0 12
+M 0 11171 7 11167 1
+E 0 11103 0 16
+E 0 11104 0 11
+E 0 11105 0 12
+M 0 11171 7 11168 1
+E 0 11103 0 16
+E 0 11104 0 11
+E 0 11105 0 12
+M 0 11171 7 11169 1
+E 0 11103 0 16
+E 0 11104 0 11
+E 0 11105 0 12
+M 0 11171 7 11170 1
+E 0 11103 0 16
+E 0 11104 0 11
+E 0 11105 0 12
+M 0 11171 7 11171 1
+E 0 11103 0 16
+E 0 11104 0 11
+E 0 11105 0 12
+M 0 11172 2 11172 1
+E 0 11110 0 13
+M 0 11173 2 11173 1
+E 0 11114 0 16
+E 0 11115 0 13
+M 0 11174 2 11174 1
+E 0 11119 0 16
+E 0 11120 0 12
+M 0 11175 2 11175 1
+E 0 11123 0 17
+M 0 11176 1 11176 1
+E 0 11127 0 13
+M 0 11177 1 11177 1
+E 0 11131 0 20
+M 0 11178 1 11178 1
+E 0 11128 0 16
+E 0 11129 0 18
+M 0 11175 2 11179 1
+E 0 11123 0 17
+M 0 11174 2 11180 1
+E 0 11120 0 12
+E 0 11119 0 16
+M 0 11173 2 11181 1
+E 0 11114 0 16
+E 0 11115 0 13
+M 0 11200 2 11184 2
+E 0 11199 0 20
+E 0 11200 0 16
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$
