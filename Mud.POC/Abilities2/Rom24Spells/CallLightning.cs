@@ -12,13 +12,10 @@ namespace Mud.POC.Abilities2.Rom24Spells
     public class CallLightning : SpellBase
     {
         public override int Id => 6;
-
         public override string Name => "Call lightning";
-
         public override AbilityEffects Effects => throw new NotImplementedException();
 
         private ITimeManager TimeManager { get; }
-
         public CallLightning(IRandomManager randomManager, IWiznet wiznet, ITimeManager timeManager) : base(randomManager, wiznet)
         {
             TimeManager = timeManager;

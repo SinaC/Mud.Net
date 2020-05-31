@@ -5,11 +5,11 @@ using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2
 {
-    public abstract class OptionalItemSpellBase : SpellBase
+    public abstract class OptionalItemInventorySpellBase : SpellBase
     {
         protected IItem Item { get; private set; }
 
-        protected OptionalItemSpellBase(IRandomManager randomManager, IWiznet wiznet)
+        protected OptionalItemInventorySpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }

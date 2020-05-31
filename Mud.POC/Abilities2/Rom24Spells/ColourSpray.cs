@@ -4,7 +4,7 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class ColourSpray : CharacterDamageTableSpellBase
+    public class ColourSpray : DamageTableSpellBase
     {
         public override int Id => 16;
         public override string Name => "Colour Spray";

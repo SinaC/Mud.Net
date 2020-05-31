@@ -11,5 +11,12 @@ namespace Mud.POC.Abilities2.Helpers
         public static TEntity FindByName<TEntity>(IEnumerable<TEntity> entities, CommandParameter parameter)
             where TEntity : IEntity
              => entities.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameter.Value));
+
+        public static IItem FindItemHere(ICharacter character, CommandParameter parameter)
+            => FindByName(
+                character.Room.Content.Where(character.CanSee)
+                    .Concat(character.Inventory.Where(character.CanSee))
+                    .Concat(character.Equipments.Where(character.CanSee)),
+                parameter);
     }
 }

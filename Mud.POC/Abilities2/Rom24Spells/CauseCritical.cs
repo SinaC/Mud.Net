@@ -6,7 +6,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
     public class CauseCritical : CauseSpellBase
     {
         public override int Id => 9;
-
         public override string Name => "Cause Critical";
 
         public CauseCritical(IRandomManager randomManager, IWiznet wiznet)
@@ -14,6 +13,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
         {
         }
 
-        protected override int DamageValue(int level) => RandomManager.Dice(3, 8) + level - 6;
+        protected override int DamageValue(ICharacter caster, int level, ICharacter victim) => RandomManager.Dice(3, 8) + level - 6;
     }
 }

@@ -4,7 +4,7 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class BurningHands : CharacterDamageTableSpellBase
+    public class BurningHands : DamageTableSpellBase
     {
         public override int Id => 5;
         public override string Name => "Burning Hands";

@@ -10,17 +10,12 @@ namespace Mud.POC.Abilities2.Rom24Spells
     public class Calm : SpellBase, IAbilityCharacterBuff, IAbilityDispellable
     {
         public override int Id => 7;
-
         public override string Name => "Calm";
-
         public override AbilityEffects Effects => AbilityEffects.Debuff;
-
         public string CharacterWearOffMessage => "You have lost your peace of mind.";
-
         public string DispelRoomMessage => "{0:N} no longer looks so peaceful...";
 
         private IAuraManager AuraManager { get; }
-
         public Calm(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
             : base(randomManager, wiznet)
         {

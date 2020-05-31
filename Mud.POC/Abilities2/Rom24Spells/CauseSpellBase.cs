@@ -4,7 +4,7 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public abstract class CauseSpellBase : CharacterDamageSpellBase
+    public abstract class CauseSpellBase : DamageSpellBase
     {
         public CauseSpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
@@ -12,7 +12,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
         }
 
         protected override SchoolTypes DamageType => SchoolTypes.Harm;
-
         protected override string DamageNoun => "spell";
     }
 }

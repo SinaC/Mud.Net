@@ -19,7 +19,18 @@ namespace Mud.POC.Abilities2.Interfaces
         IEnumerable<ResourceKinds> CurrentResourceKinds { get; }
         int UpdateResource(ResourceKinds kind, int amount);
 
+        int HitPoints { get; }
+        void UpdateHitPoints(int amount);
+
         IRVFlags Immunities { get; }
+
+        int Alignment { get; }
+        bool IsEvil { get; }
+        bool IsNeutral { get; }
+        bool IsGood { get; }
+        void UpdateAlignment(int amount);
+
+        bool CanSee(IItem item);
 
         ICharacter Fighting { get; }
         bool IsSafe(ICharacter aggressor);

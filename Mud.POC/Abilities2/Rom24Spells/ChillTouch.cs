@@ -5,7 +5,7 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class ChillTouch : CharacterDamageTableSpellBase, IAbilityCharacterBuff, IAbilityDispellable
+    public class ChillTouch : DamageTableSpellBase, IAbilityCharacterBuff, IAbilityDispellable
     {
         public override int Id => 15;
         public override string Name => "Chill Touch";

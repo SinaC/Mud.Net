@@ -6,7 +6,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
     public class CauseLight : CauseSpellBase
     {
         public override int Id => 10;
-
         public override string Name => "Cause Light";
 
         public CauseLight(IRandomManager randomManager, IWiznet wiznet)
@@ -14,6 +13,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
         {
         }
 
-        protected override int DamageValue(int level) => RandomManager.Dice(1, 8) + level / 3;
+        protected override int DamageValue(ICharacter caster, int level, ICharacter victim) => RandomManager.Dice(1, 8) + level / 3;
     }
 }

@@ -4,7 +4,7 @@ using Mud.POC.Abilities2.Domain;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class AcidBlast : CharacterDamageSpellBase
+    public class AcidBlast : DamageSpellBase
     {
         public override int Id => 1;
         public override string Name => "Acid Blast";
@@ -15,7 +15,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
         }
 
         protected override SchoolTypes DamageType => SchoolTypes.Acid;
-        protected override int DamageValue(int level) => RandomManager.Dice(level, 12);
+        protected override int DamageValue(ICharacter caster, int level, ICharacter victim) => RandomManager.Dice(level, 12);
         protected override string DamageNoun => "acid blast";
     }
 }

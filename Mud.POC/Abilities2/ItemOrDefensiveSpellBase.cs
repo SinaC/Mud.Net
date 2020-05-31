@@ -1,4 +1,5 @@
-﻿using Mud.POC.Abilities2.Helpers;
+﻿using Mud.POC.Abilities2.Domain;
+using Mud.POC.Abilities2.Helpers;
 using Mud.POC.Abilities2.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Input;
@@ -20,7 +21,12 @@ namespace Mud.POC.Abilities2
         {
             if (Target == null)
                 return;
-            Action(caster, level, Target);
+            if (Target is ICharacter victim)
+                Action(caster, level, victim);
+            else if (Target is IItem item)
+                Action(caster, level, item);
+            else
+                Wiznet.Wiznet($"{GetType().Name}: invalid target type {Target.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
 
         protected override AbilityTargetResults SetTargets(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
@@ -44,6 +50,7 @@ namespace Mud.POC.Abilities2
 
         #endregion
 
-        public abstract void Action(ICharacter caster, int level, IEntity target);
+        public abstract void Action(ICharacter caster, int level, ICharacter victim);
+        public abstract void Action(ICharacter caster, int level, IItem item);
     }
 }

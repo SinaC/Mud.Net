@@ -2,5 +2,6 @@
 {
     public interface IAbilityManager
     {
+        IAbility this[string abilityName] { get; }
     }
 }

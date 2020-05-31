@@ -4,9 +4,9 @@ using Mud.POC.Abilities2.Interfaces;
 
 namespace Mud.POC.Abilities2
 {
-    public abstract class CharacterDamageSpellBase : OffensiveSpellBase
+    public abstract class DamageSpellBase : OffensiveSpellBase
     {
-        protected CharacterDamageSpellBase(IRandomManager randomManager, IWiznet wiznet)
+        protected DamageSpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }
@@ -21,22 +21,35 @@ namespace Mud.POC.Abilities2
 
         public override void Action(ICharacter caster, int level, ICharacter victim)
         {
-            int damage = DamageValue(level);
+            //
+            bool preDamage = PreDamage(caster, level, victim);
+            if (!preDamage)
+                return;
+            //
+            int damage = DamageValue(caster, level, victim);
             bool savesSpellResult = victim.SavesSpell(level, DamageType);
             if (savesSpellResult)
                 damage /= 2;
             DamageResults damageResult = victim.AbilityDamage(caster, this, damage, DamageType, DamageNoun, true);
+            //
             PostDamage(caster, level, victim, savesSpellResult, damageResult);
         }
 
         #endregion
 
         protected abstract SchoolTypes DamageType { get; }
-        protected abstract int DamageValue(int level);
+        protected abstract int DamageValue(ICharacter caster, int level, ICharacter victim);
         protected abstract string DamageNoun { get; }
+
+        protected virtual bool PreDamage(ICharacter caster, int level, ICharacter victim)
+        {
+            // NOP
+            return true;
+        }
 
         protected virtual void PostDamage(ICharacter caster, int level, ICharacter victim, bool savesSpellResult, DamageResults damageResult)
         {
+            // NOP
         }
     }
 }

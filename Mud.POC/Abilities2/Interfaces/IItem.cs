@@ -1,4 +1,5 @@
 ﻿using Mud.POC.Abilities2.Domain;
+using System;
 
 namespace Mud.POC.Abilities2.Interfaces
 {
@@ -8,5 +9,8 @@ namespace Mud.POC.Abilities2.Interfaces
 
         ItemFlags ItemFlags { get; }
         bool RemoveBaseItemFlags(ItemFlags flags);
+
+        int DecayPulseLeft { get; }
+        void SetTimer(TimeSpan duration);
     }
 }

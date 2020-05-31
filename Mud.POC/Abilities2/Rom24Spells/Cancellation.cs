@@ -1,19 +1,16 @@
 ﻿using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.Interfaces;
 using Mud.Server.Common;
-using Mud.Server.Input;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class Cancellation : OffensiveSpellBase
+    public class Cancellation : DefensiveSpellBase
     {
         public override int Id => 8;
-
         public override string Name => "Cancellation";
-
         public override AbilityEffects Effects => AbilityEffects.Dispel;
 
         public Cancellation(IRandomManager randomManager, IWiznet wiznet)
@@ -39,8 +36,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
             else
                 caster.Send("Spell failed.");
         }
-
-        protected override AbilityTargetResults SetTargets(ICharacter caster, string rawParameters, params CommandParameter[] parameters) => AbilityTargetResults.Ok;
 
         private bool TryDispels(int dispelLevel, ICharacter victim) // dispels every spells
         {

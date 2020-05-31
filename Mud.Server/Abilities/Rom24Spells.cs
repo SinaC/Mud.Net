@@ -617,9 +617,9 @@ namespace Mud.Server.Abilities
         }
 
         [Spell(30, "Demonfire", AbilityTargets.CharacterOffensive, DamageNoun = "torments")]
-        public void SpellDemonfire(IAbility ability, int level, ICharacter caster, ICharacter victim)
+        public void SpellDemonfire(IAbility ability, int level, ICharacter caster, ICharacter victim) 
         {
-            if (caster is IPlayableCharacter && victim.IsEvil)
+            if (caster is IPlayableCharacter && !caster.IsEvil)
             {
                 victim = caster;
                 caster.Send("The demons turn upon you!");
@@ -689,7 +689,7 @@ namespace Mud.Server.Abilities
         [Spell(37, "Dispel Evil", AbilityTargets.CharacterOffensive)]
         public void SpellDispelEvil(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (caster is IPlayableCharacter && victim.IsEvil)
+            if (caster is IPlayableCharacter && caster.IsEvil)
                 victim = caster;
             if (victim.IsGood)
             {
@@ -712,7 +712,7 @@ namespace Mud.Server.Abilities
         [Spell(38, "Dispel Good", AbilityTargets.CharacterOffensive)]
         public void SpellDispelGood(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            if (caster is IPlayableCharacter && victim.IsGood)
+            if (caster is IPlayableCharacter && caster.IsGood)
                 victim = caster;
             if (victim.IsEvil)
             {
@@ -1004,6 +1004,7 @@ namespace Mud.Server.Abilities
         [Spell(46, "Farsight", AbilityTargets.None)]
         public void SpellFarsight(IAbility ability, int level, ICharacter caster)
         {
+            // TODO: see Rot -> give an affect which is used in scan command
             // TODO: simple call to command scan
             caster.Send(StringHelpers.NotYetImplemented);
         }

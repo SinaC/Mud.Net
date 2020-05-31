@@ -5,12 +5,10 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class ContinualLight : OptionalItemSpellBase
+    public class ContinualLight : OptionalItemInventorySpellBase
     {
         public override int Id => 17;
-
         public override string Name => "Continual Light";
-
         public override AbilityEffects Effects => AbilityEffects.Creation;
 
         private IAuraManager AuraManager { get; }

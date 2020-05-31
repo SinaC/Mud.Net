@@ -8,7 +8,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
     public class ChainLightning : OffensiveSpellBase
     {
         public override int Id => 12;
-
         public override string Name => "Chain Lightning";
 
         public override AbilityEffects Effects => AbilityEffects.DamageArea;

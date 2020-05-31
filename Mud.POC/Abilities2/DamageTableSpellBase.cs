@@ -3,16 +3,16 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2
 {
-    public abstract class CharacterDamageTableSpellBase : CharacterDamageSpellBase
+    public abstract class DamageTableSpellBase : DamageSpellBase
     {
-        protected CharacterDamageTableSpellBase(IRandomManager randomManager, IWiznet wiznet)
+        protected DamageTableSpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }
 
         #region CharacterDamageSpellBase
 
-        protected override int DamageValue(int level)
+        protected override int DamageValue(ICharacter caster, int level, ICharacter victim)
         {
             int baseDamage = Table.Get(level);
             int minDamage = baseDamage / 2;
