@@ -1,6 +1,6 @@
 ﻿namespace Mud.POC.Abilities2
 {
-    public interface ICharacterBuff
+    public interface IAbilityCharacterBuff
     {
         string CharacterWearOffMessage { get; }
     }

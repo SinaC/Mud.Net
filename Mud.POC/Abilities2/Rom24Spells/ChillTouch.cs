@@ -5,7 +5,7 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class ChillTouch : CharacterDamageTableSpellBase, ICharacterBuff, IDispel
+    public class ChillTouch : CharacterDamageTableSpellBase, IAbilityCharacterBuff, IAbilityDispellable
     {
         public override int Id => 15;
         public override string Name => "Chill Touch";
@@ -32,9 +32,9 @@ namespace Mud.POC.Abilities2.Rom24Spells
             24, 24, 24, 25, 25, 25, 26, 26, 26, 27
         };
 
-        protected override void PostDamage(ICharacter caster, int level, ICharacter victim)
+        protected override void PostDamage(ICharacter caster, int level, ICharacter victim, bool savesSpellResult, DamageResults damageResult)
         {
-            if (!SavesSpellResult)
+            if (!savesSpellResult)
             {
                 victim.Act(ActOptions.ToRoom, "{0} turns blue and shivers.", victim);
                 IAura existingAura = victim.GetAura(this);

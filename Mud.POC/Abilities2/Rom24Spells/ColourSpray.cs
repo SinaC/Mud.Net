@@ -28,9 +28,9 @@ namespace Mud.POC.Abilities2.Rom24Spells
             73, 73, 74, 75, 76, 76, 77, 78, 79, 79
         };
 
-        protected override void PostDamage(ICharacter caster, int level, ICharacter victim)
+        protected override void PostDamage(ICharacter caster, int level, ICharacter victim, bool savesSpellResult, DamageResults damageResult)
         {
-            if (!SavesSpellResult)
+            if (!savesSpellResult && damageResult == DamageResults.Done)
             {
                 Blindness blindness = new Blindness(RandomManager, Wiznet, AuraManager);
                 blindness.Action(caster, level/2, victim);

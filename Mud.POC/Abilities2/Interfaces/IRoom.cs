@@ -3,12 +3,11 @@ using System.Collections.Generic;
 
 namespace Mud.POC.Abilities2.Interfaces
 {
-    public interface IRoom
+    public interface IRoom : IEntity, IContainer
     {
         IArea Area { get; }
 
         IEnumerable<ICharacter> People { get; }
-        IEnumerable<IItem> Content { get; }
 
         RoomFlags RoomFlags { get; }
     }

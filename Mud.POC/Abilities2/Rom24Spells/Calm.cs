@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class Calm : SpellBase, ICharacterBuff, IDispel
+    public class Calm : SpellBase, IAbilityCharacterBuff, IAbilityDispellable
     {
         public override int Id => 7;
 

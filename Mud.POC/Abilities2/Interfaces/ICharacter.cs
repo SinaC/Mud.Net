@@ -3,7 +3,7 @@ using Mud.POC.Abilities2.Domain;
 
 namespace Mud.POC.Abilities2.Interfaces
 {
-    public interface ICharacter : IEntity
+    public interface ICharacter : IEntity, IContainer
     {
         IRoom Room { get; }
         IEnumerable<IItem> Inventory { get; }
@@ -25,7 +25,7 @@ namespace Mud.POC.Abilities2.Interfaces
         bool IsSafe(ICharacter aggressor);
         bool IsSafeSpell(ICharacter caster, bool area);
         bool SavesSpell(int level, SchoolTypes damageType);
-        bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, string damageNoun, bool isVisible);
+        DamageResults AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, string damageNoun, bool isVisible);
         bool MultiHit(ICharacter aggressor);
         bool StopFighting(bool both);
 
@@ -59,5 +59,13 @@ namespace Mud.POC.Abilities2.Interfaces
         /// Everyone in the group
         /// </summary>
         ToGroup
+    }
+
+    public enum DamageResults
+    {
+        Killed,
+        Absorbed,
+        NoDamage,
+        Done
     }
 }

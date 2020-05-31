@@ -52,7 +52,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 {
                     found = true;
                     victim.RemoveAura(aura, false); // RemoveAura will display DispelMessage
-                    if (aura.Ability != null && aura.Ability is IDispel dispellableAbility && !string.IsNullOrWhiteSpace(dispellableAbility.DispelRoomMessage))
+                    if (aura.Ability != null && aura.Ability is IAbilityDispellable dispellableAbility && !string.IsNullOrWhiteSpace(dispellableAbility.DispelRoomMessage))
                         victim.Act(ActOptions.ToRoom, dispellableAbility.DispelRoomMessage, victim);
                 }
                 else

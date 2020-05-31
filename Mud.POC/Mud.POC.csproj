@@ -84,12 +84,13 @@
   <ItemGroup>
     <Compile Include="Abilities2\CharacterDamageTableSpellBase.cs" />
     <Compile Include="Abilities2\Domain\Enums.cs" />
+    <Compile Include="Abilities2\Domain\ItemData.cs" />
     <Compile Include="Abilities2\Helpers\FindHelpers.cs" />
     <Compile Include="Abilities2\IAbility.cs" />
     <Compile Include="Abilities2\IAbilityManager.cs" />
-    <Compile Include="Abilities2\ICharacterBuff.cs" />
-    <Compile Include="Abilities2\IDispel.cs" />
-    <Compile Include="Abilities2\IItemBuff.cs" />
+    <Compile Include="Abilities2\IAbilityCharacterBuff.cs" />
+    <Compile Include="Abilities2\IAbilityDispellable.cs" />
+    <Compile Include="Abilities2\IAbilityItemBuff.cs" />
     <Compile Include="Abilities2\Interfaces\CharacterAttributeAffect.cs" />
     <Compile Include="Abilities2\Interfaces\CharacterFlagsAffect.cs" />
     <Compile Include="Abilities2\Interfaces\CharacterIRVAffect.cs" />
@@ -101,13 +102,16 @@
     <Compile Include="Abilities2\Interfaces\IAura.cs" />
     <Compile Include="Abilities2\Interfaces\IAuraManager.cs" />
     <Compile Include="Abilities2\Interfaces\ICharacter.cs" />
+    <Compile Include="Abilities2\Interfaces\IContainer.cs" />
     <Compile Include="Abilities2\Interfaces\IEntity.cs" />
     <Compile Include="Abilities2\Interfaces\IItem.cs" />
+    <Compile Include="Abilities2\Interfaces\IItemManager.cs" />
     <Compile Include="Abilities2\Interfaces\IItemWeapon.cs" />
     <Compile Include="Abilities2\Interfaces\INonPlayableCharacter.cs" />
     <Compile Include="Abilities2\Interfaces\IPlayableCharacter.cs" />
     <Compile Include="Abilities2\Interfaces\IPlayer.cs" />
     <Compile Include="Abilities2\Interfaces\IRoom.cs" />
+    <Compile Include="Abilities2\Interfaces\ISettings.cs" />
     <Compile Include="Abilities2\Interfaces\ItemFlagsAffect.cs" />
     <Compile Include="Abilities2\Interfaces\ItemWeaponFlagsAffect.cs" />
     <Compile Include="Abilities2\Interfaces\ITimeManager.cs" />
@@ -120,6 +124,7 @@
     <Compile Include="Abilities2\ItemOrDefensiveSpellBase.cs" />
     <Compile Include="Abilities2\OffensiveSpellBase.cs" />
     <Compile Include="Abilities2\DefensiveSpellBase.cs" />
+    <Compile Include="Abilities2\OptionalItemSpellBase.cs" />
     <Compile Include="Abilities2\Rom24Spells\AcidBlast.cs" />
     <Compile Include="Abilities2\Rom24Spells\Armor.cs" />
     <Compile Include="Abilities2\Rom24Spells\Bless.cs" />
@@ -140,6 +145,7 @@
     <Compile Include="Abilities2\Rom24Spells\CharmPerson.cs" />
     <Compile Include="Abilities2\Rom24Spells\ChillTouch.cs" />
     <Compile Include="Abilities2\Rom24Spells\ColourSpray.cs" />
+    <Compile Include="Abilities2\Rom24Spells\ContinualLight.cs" />
     <Compile Include="Abilities2\SkillBase.cs" />
     <Compile Include="Abilities2\SpellBase.cs" />
     <Compile Include="Abilities2\Helpers\StringHelpers.cs" />

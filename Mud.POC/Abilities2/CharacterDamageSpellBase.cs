@@ -6,8 +6,6 @@ namespace Mud.POC.Abilities2
 {
     public abstract class CharacterDamageSpellBase : OffensiveSpellBase
     {
-        protected bool SavesSpellResult { get; private set; }
-
         protected CharacterDamageSpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
@@ -24,12 +22,11 @@ namespace Mud.POC.Abilities2
         public override void Action(ICharacter caster, int level, ICharacter victim)
         {
             int damage = DamageValue(level);
-            SavesSpellResult = victim.SavesSpell(level, DamageType);
-            if (SavesSpellResult)
+            bool savesSpellResult = victim.SavesSpell(level, DamageType);
+            if (savesSpellResult)
                 damage /= 2;
-            bool killed = victim.AbilityDamage(caster, this, damage, DamageType, DamageNoun, true);
-            if (!killed)
-                PostDamage(caster, level, victim);
+            DamageResults damageResult = victim.AbilityDamage(caster, this, damage, DamageType, DamageNoun, true);
+            PostDamage(caster, level, victim, savesSpellResult, damageResult);
         }
 
         #endregion
@@ -38,7 +35,7 @@ namespace Mud.POC.Abilities2
         protected abstract int DamageValue(int level);
         protected abstract string DamageNoun { get; }
 
-        protected virtual void PostDamage(ICharacter caster, int level, ICharacter victim)
+        protected virtual void PostDamage(ICharacter caster, int level, ICharacter victim, bool savesSpellResult, DamageResults damageResult)
         {
         }
     }

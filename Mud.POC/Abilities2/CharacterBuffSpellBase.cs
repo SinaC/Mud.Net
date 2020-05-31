@@ -6,7 +6,7 @@ using System;
 
 namespace Mud.POC.Abilities2
 {
-    public abstract class CharacterBuffSpellBase : DefensiveSpellBase, ICharacterBuff
+    public abstract class CharacterBuffSpellBase : DefensiveSpellBase, IAbilityCharacterBuff
     {
         protected IAuraManager AuraManager { get; }
 

@@ -4,7 +4,7 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2
 {
-    public abstract class ItemOrCharacterBuffSpellBase : ItemOrDefensiveSpellBase, ICharacterBuff, IItemBuff
+    public abstract class ItemOrCharacterBuffSpellBase : ItemOrDefensiveSpellBase, IAbilityCharacterBuff, IAbilityItemBuff
     {
         protected ItemOrCharacterBuffSpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
