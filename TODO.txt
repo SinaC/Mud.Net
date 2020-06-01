@@ -32,7 +32,6 @@ IItem: Display(short/long) (used instead of FormatItem in InfoCommands.cs)
 EquippedItem should be responsible for displaying itself
 EquippedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
 pull/push
-buy/sell/list
 Multiple wear location
 Reset 'R'
 quest: add quest item on the fly when player takes the quest
