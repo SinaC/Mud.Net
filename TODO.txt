@@ -20,6 +20,15 @@ dwarven.are: the first stick is set to local 1 but we detect 2 intances (2 diffe
 O 0 6506   1 6534	* long, black stick
 E 1 6506  10   17	*   long, black stick
 
+commands dynamically added to Character depending on room they are, for example
+	we could add list/buy/sell/value to commands if a shopkeeper is in the room
+	brandish only when holding a staff
+
+clan/guild, auction house, help, socials, wimpy, note
+commands: auction, channels, clantalk, compare, report, read, socials, whois, bet, brief, combine, compact, description, noloot, nosummon, outfit, prompt, title, wimpy, config, deaf, pmote, note, board, quote, nwrite,
+	heal, autoaffect, wake, myclan, petition, clanlist
+admin commands: sockets, exlist, vlist, rename, omatch, mmatch, spy, violate, allow, ban, deny, disconnect, flag, freeze, permban, protect, set, xset, wizlock, newlock, nochannels, noemote, noshout, notell, pecho, 
+	teleport, mwhere, owhere, recho, mset, oset, rset, sset, xstat, string, vnum, zecho, clone, smote, prefix, olevel, mlevel, slookup, clans, guild, confiscate/grab, 
 PK
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 linkdead
