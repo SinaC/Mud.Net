@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Mud.Container;
+using Mud.DataStructures.Graph;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
@@ -127,6 +128,35 @@ namespace Mud.Server.Character
         // Money
         public long SilverCoins { get; protected set; }
         public long GoldCoins { get; protected set; }
+
+        public (long silver, long gold) DeductCost(long cost)
+        {
+            long silver = Math.Min(SilverCoins, cost);
+            long gold = 0;
+
+            if (silver < cost)
+            {
+                gold = ((cost - silver + 99) / 100);
+                silver = cost - 100 * gold;
+            }
+
+            SilverCoins -= silver;
+            GoldCoins -= gold;
+
+            if (GoldCoins < 0)
+            {
+                Wiznet.Wiznet($"DeductCost: gold {GoldCoins} < 0", WiznetFlags.Bugs, AdminLevels.Implementor);
+                GoldCoins = 0;
+            }
+            if (SilverCoins < 0)
+            {
+                Wiznet.Wiznet($"DeductCost: silver {SilverCoins} < 0", WiznetFlags.Bugs, AdminLevels.Implementor);
+                SilverCoins = 0;
+            }
+
+            return (silver, gold);
+        }
+
 
         // Furniture (sleep/sit/stand)
         public IItemFurniture Furniture { get; protected set; }
@@ -1292,7 +1322,13 @@ namespace Mud.Server.Character
                 // safe room ?
                 if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
                     return true;
-                // TODO: No fight in a shop -> send_to_char("The shopkeeper wouldn't like that.\n\r",ch);
+
+                if (npcVictim.Blueprint is CharacterShopBlueprint)
+                {
+                    caster.Send("The shopkeeper wouldn't like that.");
+                    return true;
+                }
+
                 if (npcVictim.ActFlags.HasFlag(ActFlags.Train)
                     || npcVictim.ActFlags.HasFlag(ActFlags.Gain)
                     || npcVictim.ActFlags.HasFlag(ActFlags.Practice)
@@ -1372,7 +1408,13 @@ namespace Mud.Server.Character
                     aggressor.Send("Not in the room.");
                     return true;
                 }
-                // TODO: No fight in a shop -> send_to_char("The shopkeeper wouldn't like that.\n\r",ch);
+
+                if (npcVictim.Blueprint is CharacterShopBlueprint)
+                {
+                    aggressor.Send("The shopkeeper wouldn't like that.");
+                    return true;
+                }
+
                 if (npcVictim.ActFlags.HasFlag(ActFlags.Train)
                     || npcVictim.ActFlags.HasFlag(ActFlags.Gain)
                     || npcVictim.ActFlags.HasFlag(ActFlags.Practice)

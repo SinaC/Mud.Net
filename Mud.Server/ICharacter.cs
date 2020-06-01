@@ -41,6 +41,7 @@ namespace Mud.Server
         // Money
         long SilverCoins { get; }
         long GoldCoins { get; }
+        (long silver, long gold) DeductCost(long cost);
 
         // Furniture (sleep/sit/stand)
         IItemFurniture Furniture { get; }

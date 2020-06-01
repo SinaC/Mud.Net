@@ -1212,44 +1212,91 @@ namespace Mud.Importer.Rot
 
             (OffensiveFlags offensiveFlags, AssistFlags assistFlags) offAssistFlags = ConvertOffensiveFlags(mobileData.OffFlags);
 
-            CharacterNormalBlueprint blueprint = new CharacterNormalBlueprint
+            if (mobileData.Shop == null)
             {
-                Id = mobileData.VNum,
-                Name = mobileData.PlayerName,
-                Description = mobileData.Description,
-                Level = mobileData.Level,
-                LongDescription = mobileData.LongDescr,
-                ShortDescription = mobileData.ShortDescr,
-                Sex = ConvertSex(mobileData),
-                Size = ConvertSize(mobileData),
-                Wealth = mobileData.Wealth,
-                Alignment = mobileData.Alignment,
-                DamageNoun = damageNoun,
-                DamageType = schoolType,
-                DamageDiceCount = mobileData.Dam[0],
-                DamageDiceValue = mobileData.Dam[1],
-                DamageDiceBonus = mobileData.Dam[2],
-                HitPointDiceCount = mobileData.Hit[0],
-                HitPointDiceValue = mobileData.Hit[1],
-                HitPointDiceBonus = mobileData.Hit[2],
-                ManaDiceCount = mobileData.Mana[0],
-                ManaDiceValue = mobileData.Mana[1],
-                ManaDiceBonus = mobileData.Mana[2],
-                HitRollBonus = mobileData.HitRoll,
-                ArmorPierce = mobileData.Armor[0],
-                ArmorBash = mobileData.Armor[1],
-                ArmorSlash = mobileData.Armor[2],
-                ArmorExotic = mobileData.Armor[3],
-                CharacterFlags = ConvertCharacterFlags(mobileData.AffectedBy),
-                ActFlags = ConvertActFlags(mobileData.Act, mobileData.Act2),
-                OffensiveFlags = offAssistFlags.offensiveFlags,
-                AssistFlags = offAssistFlags.assistFlags,
-                Immunities = ConvertIRV(mobileData.ImmFlags),
-                Resistances = ConvertIRV(mobileData.ResFlags),
-                Vulnerabilities = ConvertIRV(mobileData.VulnFlags),
-            };
-            // ShieldedBy, Group, StartPos, DefaultPos, Form, Parts, Material not used
-            return blueprint;
+                // ShieldedBy, Group, StartPos, DefaultPos, Form, Parts, Material not used
+                return new CharacterNormalBlueprint
+                {
+                    Id = mobileData.VNum,
+                    Name = mobileData.PlayerName,
+                    Description = mobileData.Description,
+                    Level = mobileData.Level,
+                    LongDescription = mobileData.LongDescr,
+                    ShortDescription = mobileData.ShortDescr,
+                    Sex = ConvertSex(mobileData),
+                    Size = ConvertSize(mobileData),
+                    Wealth = mobileData.Wealth,
+                    Alignment = mobileData.Alignment,
+                    DamageNoun = damageNoun,
+                    DamageType = schoolType,
+                    DamageDiceCount = mobileData.Dam[0],
+                    DamageDiceValue = mobileData.Dam[1],
+                    DamageDiceBonus = mobileData.Dam[2],
+                    HitPointDiceCount = mobileData.Hit[0],
+                    HitPointDiceValue = mobileData.Hit[1],
+                    HitPointDiceBonus = mobileData.Hit[2],
+                    ManaDiceCount = mobileData.Mana[0],
+                    ManaDiceValue = mobileData.Mana[1],
+                    ManaDiceBonus = mobileData.Mana[2],
+                    HitRollBonus = mobileData.HitRoll,
+                    ArmorPierce = mobileData.Armor[0],
+                    ArmorBash = mobileData.Armor[1],
+                    ArmorSlash = mobileData.Armor[2],
+                    ArmorExotic = mobileData.Armor[3],
+                    CharacterFlags = ConvertCharacterFlags(mobileData.AffectedBy),
+                    ActFlags = ConvertActFlags(mobileData.Act, mobileData.Act2),
+                    OffensiveFlags = offAssistFlags.offensiveFlags,
+                    AssistFlags = offAssistFlags.assistFlags,
+                    Immunities = ConvertIRV(mobileData.ImmFlags),
+                    Resistances = ConvertIRV(mobileData.ResFlags),
+                    Vulnerabilities = ConvertIRV(mobileData.VulnFlags),
+                };
+            }
+            else 
+            {
+                return new CharacterShopBlueprint
+                {
+                    Id = mobileData.VNum,
+                    Name = mobileData.PlayerName,
+                    Description = mobileData.Description,
+                    Level = mobileData.Level,
+                    LongDescription = mobileData.LongDescr,
+                    ShortDescription = mobileData.ShortDescr,
+                    Sex = ConvertSex(mobileData),
+                    Size = ConvertSize(mobileData),
+                    Wealth = mobileData.Wealth,
+                    Alignment = mobileData.Alignment,
+                    DamageNoun = damageNoun,
+                    DamageType = schoolType,
+                    DamageDiceCount = mobileData.Dam[0],
+                    DamageDiceValue = mobileData.Dam[1],
+                    DamageDiceBonus = mobileData.Dam[2],
+                    HitPointDiceCount = mobileData.Hit[0],
+                    HitPointDiceValue = mobileData.Hit[1],
+                    HitPointDiceBonus = mobileData.Hit[2],
+                    ManaDiceCount = mobileData.Mana[0],
+                    ManaDiceValue = mobileData.Mana[1],
+                    ManaDiceBonus = mobileData.Mana[2],
+                    HitRollBonus = mobileData.HitRoll,
+                    ArmorPierce = mobileData.Armor[0],
+                    ArmorBash = mobileData.Armor[1],
+                    ArmorSlash = mobileData.Armor[2],
+                    ArmorExotic = mobileData.Armor[3],
+                    CharacterFlags = ConvertCharacterFlags(mobileData.AffectedBy),
+                    ActFlags = ConvertActFlags(mobileData.Act, mobileData.Act2),
+                    OffensiveFlags = offAssistFlags.offensiveFlags,
+                    AssistFlags = offAssistFlags.assistFlags,
+                    Immunities = ConvertIRV(mobileData.ImmFlags),
+                    Resistances = ConvertIRV(mobileData.ResFlags),
+                    Vulnerabilities = ConvertIRV(mobileData.VulnFlags),
+                    //
+                    BuyBlueprintTypes = ConvertBuyTypes(mobileData.Shop).ToList(),
+                    ProfitBuy = mobileData.Shop.ProfitBuy,
+                    ProfitSell = mobileData.Shop.ProfitSell,
+                    OpenHour = mobileData.Shop.OpenHour,
+                    CloseHour = mobileData.Shop.CloseHour,
+                };
+            }
         }
 
         private Sex ConvertSex(MobileData mobileData)
@@ -1417,6 +1464,57 @@ namespace Mud.Importer.Rot
             return (off, assist);
         }
 
+        private IEnumerable<Type> ConvertBuyTypes(ShopData shopData)
+        {
+            foreach (int buyType in shopData.BuyType)
+            {
+                switch (buyType)
+                {
+                    case ITEM_LIGHT: yield return typeof(ItemLightBlueprint); break;
+                    case ITEM_SCROLL: yield return typeof(ItemScrollBlueprint); break;
+                    case ITEM_WAND: yield return typeof(ItemWandBlueprint); break;
+                    case ITEM_STAFF: yield return typeof(ItemStaffBlueprint); break;
+                    case ITEM_WEAPON: yield return typeof(ItemWeaponBlueprint); break;
+                    case ITEM_TREASURE: yield return typeof(ItemTreasureBlueprint); break;
+                    case ITEM_ARMOR: yield return typeof(ItemArmorBlueprint); break;
+                    case ITEM_POTION: yield return typeof(ItemPotionBlueprint); break;
+                    case ITEM_CLOTHING: yield return typeof(ItemClothingBlueprint); break;
+                    case ITEM_FURNITURE: yield return typeof(ItemFurnitureBlueprint); break;
+                    case ITEM_TRASH: yield return typeof(ItemTrashBlueprint); break;
+                    case ITEM_CONTAINER: yield return typeof(ItemContainerBlueprint); break;
+                    case ITEM_DRINK_CON: yield return typeof(ItemDrinkContainerBlueprint); break;
+                    case ITEM_KEY: yield return typeof(ItemKeyBlueprint); break;
+                    case ITEM_FOOD: yield return typeof(ItemFoodBlueprint); break;
+                    case ITEM_MONEY: yield return typeof(ItemMoneyBlueprint); break;
+                    case ITEM_BOAT: yield return typeof(ItemBoatBlueprint); break;
+                    case ITEM_CORPSE_NPC:
+                    case ITEM_CORPSE_PC: yield return typeof(ItemLightBlueprint); break;
+                    case ITEM_FOUNTAIN: yield return typeof(ItemFountainBlueprint); break;
+                    case ITEM_PILL: yield return typeof(ItemPillBlueprint); break;
+                    case ITEM_PROTECT:
+                        Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0}", buyType);
+                        break;
+                    case ITEM_MAP: yield return typeof(ItemMapBlueprint); break;
+                    case ITEM_PORTAL: yield return typeof(ItemPortalBlueprint); break;
+                    case ITEM_WARP_STONE: yield return typeof(ItemWarpStoneBlueprint); break;
+                    case ITEM_ROOM_KEY:
+                        Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0}", buyType);
+                        break;
+                    case ITEM_GEM: yield return typeof(ItemGemBlueprint); break;
+                    case ITEM_JEWELRY: yield return typeof(ItemJewelryBlueprint); break;
+                    case ITEM_JUKEBOX: yield return typeof(ItemJukeboxBlueprint); break;
+                    case ITEM_DEMON_STONE:
+                    case ITEM_EXIT:
+                    case ITEM_PIT:
+                    case ITEM_PASSBOOK:
+                    case ITEM_VEHICLE:
+                    default:
+                        Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0}", buyType);
+                        break;
+                }
+            }
+        }
+
         // Immunites, Resistances, Vulnerabilities
         private const long IMM_SUMMON = RotLoader.A;
         private const long IMM_CHARM = RotLoader.B;
@@ -1535,6 +1633,42 @@ namespace Mud.Importer.Rot
         private const long ASSIST_VNUM = RotLoader.U;
         private const long OFF_FEED = RotLoader.V;
         private const long OFF_CLAN_GUARD = RotLoader.W;
+
+        // Item types
+        private const int ITEM_LIGHT = 1;
+        private const int ITEM_SCROLL = 2;
+        private const int ITEM_WAND = 3;
+        private const int ITEM_STAFF = 4;
+        private const int ITEM_WEAPON = 5;
+        private const int ITEM_TREASURE = 8;
+        private const int ITEM_ARMOR = 9;
+        private const int ITEM_POTION = 10;
+        private const int ITEM_CLOTHING = 11;
+        private const int ITEM_FURNITURE = 12;
+        private const int ITEM_TRASH = 13;
+        private const int ITEM_CONTAINER = 15;
+        private const int ITEM_DRINK_CON = 17;
+        private const int ITEM_KEY = 18;
+        private const int ITEM_FOOD = 19;
+        private const int ITEM_MONEY = 20;
+        private const int ITEM_BOAT = 22;
+        private const int ITEM_CORPSE_NPC = 23;
+        private const int ITEM_CORPSE_PC = 24;
+        private const int ITEM_FOUNTAIN = 25;
+        private const int ITEM_PILL = 26;
+        private const int ITEM_PROTECT = 27;
+        private const int ITEM_MAP = 28;
+        private const int ITEM_PORTAL = 29;
+        private const int ITEM_WARP_STONE = 30;
+        private const int ITEM_ROOM_KEY = 31;
+        private const int ITEM_GEM = 32;
+        private const int ITEM_JEWELRY = 33;
+        private const int ITEM_JUKEBOX = 34;
+        private const int ITEM_DEMON_STONE = 35;
+        private const int ITEM_EXIT = 36;
+        private const int ITEM_PIT = 37;
+        private const int ITEM_PASSBOOK = 38;
+        private const int ITEM_VEHICLE = 39;
 
         #endregion
 

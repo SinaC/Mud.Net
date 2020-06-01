@@ -21,6 +21,7 @@ using Mud.Settings;
 using System.Reflection;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Item;
+using Mud.Server.Blueprints.Character;
 
 namespace Mud.Server.Server
 {
@@ -1300,7 +1301,7 @@ namespace Mud.Server.Server
 
         private void HandleNonPlayableCharacters(int pulseCount)
         {
-            foreach (INonPlayableCharacter npc in World.NonPlayableCharacters.Where(x => x.IsValid && !x.CharacterFlags.HasFlag(CharacterFlags.Charm) && x.Position == Positions.Standing/*for all sleeping/busy monsters*/))
+            foreach (INonPlayableCharacter npc in World.NonPlayableCharacters.Where(x => x.IsValid && x.Room != null && !x.CharacterFlags.HasFlag(CharacterFlags.Charm)))
             {
                 try
                 {
@@ -1308,7 +1309,25 @@ namespace Mud.Server.Server
                     if (npc.ActFlags.HasFlag(ActFlags.UpdateAlways) || npc.Room.Area.PlayableCharacters.Any())
                     {
                         // TODO: invoke spec_fun
-                        // TODO: give shop some money
+
+                        // give some money to shopkeeper
+                        if (npc.Blueprint is CharacterShopBlueprint)
+                        {
+                            if (npc.SilverCoins + npc.GoldCoins * 100 < npc.Blueprint.Wealth)
+                            {
+                                long silver = npc.Blueprint.Wealth * RandomManager.Range(1, 20) / 5000000;
+                                long gold = npc.Blueprint.Wealth * RandomManager.Range(1, 20) / 50000;
+                                if (silver > 0 || gold > 0)
+                                {
+                                    Log.Default.WriteLine(LogLevels.Debug, "Giving {0} silver {1} gold to {2}.", silver, gold, npc.DebugName);
+                                    npc.UpdateMoney(silver, gold);
+                                }
+                            }
+                        }
+
+                        // that's all for all sleeping/busy monsters
+                        if (npc.Position != Positions.Standing)
+                            continue;
 
                         // scavenger
                         if (npc.ActFlags.HasFlag(ActFlags.Scavenger) && npc.Room.Content.Any() && RandomManager.Range(0, 63) == 0)

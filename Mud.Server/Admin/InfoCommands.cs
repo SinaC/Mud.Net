@@ -307,6 +307,13 @@ namespace Mud.Server.Admin
                         // TODO: display KillLootTable, ItemObjectives, KillObjectives, LocationObjectives
                     }
                 }
+                if (nonPlayableVictim.Blueprint is CharacterShopBlueprint characterShopBlueprint)
+                {
+                    sb.AppendLine("Shopkeeper:");
+                    sb.AppendFormatLine("BuyTypes: {0}", string.Join(",", characterShopBlueprint.BuyBlueprintTypes.Select(x => x.ToString().AfterLast('.').Replace("Blueprint", string.Empty))));
+                    sb.AppendFormatLine("Profit buy: {0}% sell: {1}%", characterShopBlueprint.ProfitBuy, characterShopBlueprint.ProfitSell);
+                    sb.AppendFormatLine("Open hour: {0} Close hour: {1}", characterShopBlueprint.OpenHour, characterShopBlueprint.CloseHour);
+                }
             }
             else
                 sb.AppendLine("No blueprint");
@@ -428,7 +435,7 @@ namespace Mud.Server.Admin
             // TODO: display blueprint
             else
                 sb.AppendLine("No blueprint");
-            sb.AppendFormatLine("Type: {0}", item.GetType());
+            sb.AppendFormatLine("Type: {0}", item.GetType().ToString().AfterLast('.'));
             sb.AppendFormatLine("Name: {0} Keywords: {1}", item.Name, string.Join(",", item.Keywords));
             sb.AppendFormatLine("DisplayName: {0}", item.DisplayName);
             sb.AppendFormatLine("Description: {0}", item.Description);

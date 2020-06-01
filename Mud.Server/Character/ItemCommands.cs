@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Mud.Domain;
 using Mud.Server.Aura;
+using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -483,6 +484,12 @@ namespace Mud.Server.Character
             if (what is ItemQuest)
             {
                 Act(ActOptions.ToCharacter, "You cannot give quest items.");
+                return CommandExecutionResults.InvalidTarget;
+            }
+
+            if (whom is INonPlayableCharacter npcVictim && npcVictim.Blueprint is CharacterShopBlueprint)
+            {
+                Act(ActOptions.ToCharacter, "{0:N} tells you 'Sorry, you'll have to sell that.'", npcVictim);
                 return CommandExecutionResults.InvalidTarget;
             }
 

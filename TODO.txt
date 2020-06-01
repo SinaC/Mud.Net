@@ -54,6 +54,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+commands: buy, list, value, sell
+CharacterShopBlueprint
 Mass invis added
 IsSameGroup return true when checking 2 same character
 Xp loss when dying added
@@ -303,6 +305,7 @@ TableGenerator with duplicate columns
 
 *************************************************************
 LONG TERM TODO:
+Shop: appraise
 specials
 assist_guard
 aggro table

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using Mud.Server.Aura;
 using Mud.Server.Input;
+using Mud.Server.Blueprints.Character;
 
 // ReSharper disable UnusedMember.Global
 
@@ -2073,7 +2074,7 @@ namespace Mud.Server.Abilities
                 || pcVictim?.IsImmortal == true
                 || victim.Fighting != null
                 || npcVictim?.Immunities.HasFlag(IRVFlags.Summon) == true
-                //TODO: shop || nonPlayableCharacterVictim
+                || (npcVictim?.Blueprint is CharacterShopBlueprint) == true
                 //TODO: plr_nosummon || playableCharacterVictim
                 || (npcVictim != null && victim.SavesSpell(level, SchoolTypes.Other)))
             {
