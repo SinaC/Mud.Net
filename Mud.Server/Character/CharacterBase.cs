@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Mud.Container;
-using Mud.DataStructures.Graph;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
@@ -972,13 +971,13 @@ namespace Mud.Server.Character
 
         public abstract void MultiHit(ICharacter victim, IMultiHitModifier multiHitModifier); // 'this' starts a combat with 'victim' and has been initiated by an ability
 
-        public bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using an ability
+        public DamageResults AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using an ability
         {
             string damageNoun = ability?.DamageNoun?.ToLowerInvariant() ?? ability?.Name?.ToLowerInvariant() ?? "spell";
             return Damage(source, damage, damageType, damageNoun, display);
         }
 
-        public bool HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using a weapon
+        public DamageResults HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using a weapon
         {
             string damageNoun;
             // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
@@ -992,10 +991,10 @@ namespace Mud.Server.Character
             return Damage(source, damage, damageType, damageNoun, display);
         }
 
-        public bool Damage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display) // 'this' is dealt damage by 'source'
+        public DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display) // 'this' is dealt damage by 'source'
         {
             if (Position == Positions.Dead)
-                return false;
+                return DamageResults.Dead;
             // damage reduction
             if (damage > 35)
                 damage = (damage - 35) / 2 + 35;
@@ -1007,7 +1006,7 @@ namespace Mud.Server.Character
                 // Certain attacks are forbidden.
                 // Most other attacks are returned.
                 if (IsSafe(source))
-                    return false;
+                    return DamageResults.Safe;
                 // TODO: check_killer
                 if (Position > Positions.Stunned)
                 {
@@ -1121,7 +1120,7 @@ namespace Mud.Server.Character
 
             // no damage done, stops here
             if (damage <= 0)
-                return false;
+                return DamageResults.NoDamage;
 
             // hurt the victim
             HitPoints -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0
@@ -1156,16 +1155,16 @@ namespace Mud.Server.Character
             if (Position == Positions.Dead)
             {
                 IItemCorpse corpse = RawKilled(source, true); // group group_gain + dying penalty + raw_kill
-                return true;
+                return DamageResults.Killed;
             }
 
             if (this == source)
-                return true;
+                return DamageResults.Damaged;
 
             // TODO: take care of link-dead people
             HandleWimpy(damage);
 
-            return true;
+            return DamageResults.Damaged;
         }
 
         public ResistanceLevels CheckResistance(SchoolTypes damageType)
@@ -2024,7 +2023,7 @@ namespace Mud.Server.Character
                 damage = 1; // at least one damage :)
 
             // perform damage
-            bool damageResult;
+            DamageResults damageResult;
             if (hitModifier?.Ability != null)
                 damageResult = victim.AbilityDamage(this, hitModifier.Ability, damage, damageType, true);
             else
@@ -2033,7 +2032,7 @@ namespace Mud.Server.Character
                 return;
 
             // funky weapon ?
-            if (damageResult && wield != null)
+            if (damageResult == DamageResults.Damaged && wield != null)
             {
                 if (wield.WeaponFlags.HasFlag(WeaponFlags.Poison))
                 {

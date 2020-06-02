@@ -156,9 +156,9 @@ namespace Mud.Server
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
         void MultiHit(ICharacter victim); // 'this' starts a combat with 'victim'
         void MultiHit(ICharacter victim, IMultiHitModifier multiHitModifier); // 'this' starts a combat with 'victim' and has been initiated by an ability
-        bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source' using an ability
-        bool HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source' using a weapon
-        bool Damage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display); // 'this' is dealt damage by 'source' using 'damageNoun'
+        DamageResults AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source' using an ability
+        DamageResults HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source' using a weapon
+        DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display); // 'this' is dealt damage by 'source' using 'damageNoun'
         ResistanceLevels CheckResistance(SchoolTypes damageType);
         void Slay(IPlayableCharacter killer);
         void KillingPayoff(ICharacter victim, IItemCorpse corpse);
@@ -223,5 +223,14 @@ namespace Mud.Server
         int Learned { get; }
         int Thac0Modifier(int baseThac0);
         int DamageModifier(IItemWeapon weapon, int level, int baseDamage);
+    }
+
+    public enum DamageResults
+    {
+        Dead, // target was already dead
+        Safe, // target is safe
+        NoDamage, // damage has been reduced to 0
+        Killed, // target has been killed by damage
+        Damaged, // normal damage
     }
 }

@@ -398,8 +398,8 @@ namespace Mud.Server.Abilities
         [Spell(15, "Chill Touch", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "You feel less cold.", DispelRoomMessage = "{0:N} looks warmer.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellChillTouch(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            bool savesSpell = TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Cold, ChillTouchDamageTable);
-            if (!savesSpell)
+            var result = TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Cold, ChillTouchDamageTable);
+            if (!result.savesSpell && result.damageResult == DamageResults.Damaged)
             {
                 victim.Act(ActOptions.ToRoom, "{0} turns blue and shivers.", victim);
                 IAura existingAura = victim.GetAura(ability);
@@ -429,8 +429,8 @@ namespace Mud.Server.Abilities
         [Spell(16, "Colour Spray", AbilityTargets.CharacterOffensive)]
         public void SpellColourSpray(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
-            bool savesSpell = TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Light, ColourSprayDamageTable);
-            if (!savesSpell)
+            var result = TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Light, ColourSprayDamageTable);
+            if (!result.savesSpell && result.damageResult == DamageResults.Damaged)
                 SpellBlindness(this["Blindness"], level / 2, caster, victim);
         }
 
@@ -638,8 +638,9 @@ namespace Mud.Server.Abilities
             int damage = RandomManager.Dice(level, 10);
             if (victim.SavesSpell(level, SchoolTypes.Negative))
                 damage /= 2;
-            victim.AbilityDamage(caster, ability, damage, SchoolTypes.Negative, true);
-            SpellCurse(this["Curse"], 3*level/4, caster, victim);
+            DamageResults damageResult = victim.AbilityDamage(caster, ability, damage, SchoolTypes.Negative, true);
+            if (damageResult == DamageResults.Damaged)
+                SpellCurse(this["Curse"], 3*level/4, caster, victim);
         }
 
         [Spell(31, "Detect Evil", AbilityTargets.CharacterSelf, CharacterWearOffMessage = "The red in your vision disappears.", Flags = AbilityFlags.CanBeDispelled)]
@@ -1451,7 +1452,7 @@ namespace Mud.Server.Abilities
             else if (ap > 350) msg = "{0:N} is of excellent moral character.";
             else if (ap > 100) msg = "{0:N} is often kind and thoughtful.";
             else if (ap > -100) msg = "{0:N} doesn't have a firm moral commitment.";
-            else if (ap > -350) msg = "{0:N} lies to $S friends.";
+            else if (ap > -350) msg = "{0:N} lies to {0:s} friends.";
             else if (ap > -700) msg = "{0:N} is a black-hearted murderer.";
             else msg = "{0:N} is the embodiment of pure evil!.";
             caster.Act(ActOptions.ToCharacter, msg, victim);
@@ -2376,7 +2377,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        private bool TableBaseDamageSpell(IAbility ability, int level, ICharacter caster, ICharacter victim, SchoolTypes damageType, int[] table) // returns Rom24Common.SavesSpell result
+        private (bool savesSpell, DamageResults damageResult) TableBaseDamageSpell(IAbility ability, int level, ICharacter caster, ICharacter victim, SchoolTypes damageType, int[] table) // returns Rom24Common.SavesSpell result
         {
             int baseDamage = table.Get(level);
             int minDamage = baseDamage / 2;
@@ -2385,8 +2386,8 @@ namespace Mud.Server.Abilities
             bool savesSpell = victim.SavesSpell(level, damageType);
             if (savesSpell)
                 damage /= 2;
-            victim.AbilityDamage(caster, ability, damage, damageType, true);
-            return savesSpell;
+            DamageResults damageResult = victim.AbilityDamage(caster, ability, damage, damageType, true);
+            return (savesSpell, damageResult);
         }
 
         private void GenericCharacterFlagsAbility(IAbility ability, int level, ICharacter caster, ICharacter victim, CharacterFlags characterFlags, int duration, string selfAlreadyAffected, string notSelfAlreadyAffected, string success, string notSelfSuccess)
