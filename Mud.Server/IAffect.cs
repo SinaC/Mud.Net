@@ -31,4 +31,9 @@ namespace Mud.Server
 
         void Apply(ICharacter character);
     }
+
+    public interface ICharacterPeriodicAffect : IAffect
+    {
+        void Apply(IAura aura, ICharacter character);
+    }
 }

@@ -86,6 +86,7 @@
     <Compile Include="Domain\CharacterAttributeAffectData.cs" />
     <Compile Include="Domain\CharacterData.cs" />
     <Compile Include="Domain\PetData.cs" />
+    <Compile Include="Domain\PlagueSpreadAndDamageAffectData.cs" />
     <Compile Include="Domain\PlayableCharacterData.cs" />
     <Compile Include="Domain\CharacterFlagsAffectData.cs" />
     <Compile Include="Domain\CharacterIRVAffectData.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Domain\LoginData.cs" />
     <Compile Include="Domain\PairData.cs" />
     <Compile Include="Domain\PlayerData.cs" />
+    <Compile Include="Domain\PoisonDamageAffectData.cs" />
     <Compile Include="LoginRepository.cs" />
     <Compile Include="Domain\LoginRepositoryData.cs" />
     <Compile Include="PlayerRepository.cs" />

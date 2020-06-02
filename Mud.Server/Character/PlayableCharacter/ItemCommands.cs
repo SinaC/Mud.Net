@@ -49,6 +49,8 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.Ok;
         }
 
+        [PlayableCharacterCommand("tap", "Item", MinPosition = Positions.Standing)]
+        [PlayableCharacterCommand("junk", "Item", MinPosition = Positions.Standing)]
         [PlayableCharacterCommand("sacrifice", "Item", MinPosition = Positions.Standing)]
         [Syntax(
             "[cmd] all",

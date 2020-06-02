@@ -2,7 +2,7 @@
 
 namespace Mud.Server.Races
 {
-    public class Human : RaceBase
+    public class Human : PlayableRaceBase
     {
         #region IRace
 
@@ -11,9 +11,18 @@ namespace Mud.Server.Races
 
         public override Sizes Size => Sizes.Medium;
 
+        public override CharacterFlags CharacterFlags => CharacterFlags.None;
+
         public override IRVFlags Immunities => IRVFlags.None;
         public override IRVFlags Resistances => IRVFlags.None;
         public override IRVFlags Vulnerabilities => IRVFlags.None;
+
+        public override BodyForms BodyForms => BodyForms.Edible | BodyForms.Sentient | BodyForms.Biped | BodyForms.Mammal;
+        public override BodyParts BodyParts => BodyParts.Head | BodyParts.Arms | BodyParts.Legs | BodyParts.Head | BodyParts.Brains | BodyParts.Guts | BodyParts.Hands | BodyParts.Feet | BodyParts.Fingers | BodyParts.Ear | BodyParts.Eye | BodyParts.Body;
+
+        public override ActFlags ActFlags => ActFlags.None;
+        public override OffensiveFlags OffensiveFlags => OffensiveFlags.None;
+        public override AssistFlags AssistFlags => AssistFlags.None;
 
         public override int GetStartAttribute(CharacterAttributes attribute)
         {

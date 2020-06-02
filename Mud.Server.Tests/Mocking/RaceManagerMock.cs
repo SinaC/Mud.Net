@@ -9,9 +9,10 @@ namespace Mud.Server.Tests.Mocking
 {
     internal class RaceManagerMock : IRaceManager
     {
-        public IRace this[string name] => new RaceMock(name);
-
+        public IEnumerable<IPlayableRace> PlayableRaces => throw new NotImplementedException();
         public IEnumerable<IRace> Races => throw new NotImplementedException();
+
+        public IRace this[string name] => new RaceMock(name);
     }
 
     internal class RaceMock : IRace
@@ -25,13 +26,17 @@ namespace Mud.Server.Tests.Mocking
 
         public string DisplayName => Name;
 
-        public string ShortName => Name;
-
         public IEnumerable<AbilityUsage> Abilities => Enumerable.Empty<AbilityUsage>();
 
         public IEnumerable<EquipmentSlots> EquipmentSlots => EnumHelpers.GetValues<EquipmentSlots>().SelectMany(x => Enumerable.Repeat(x, 2)); // two of each
 
+        public BodyForms BodyForms => BodyForms.Amphibian;
+
+        public BodyParts BodyParts => BodyParts.Fins;
+
         public Sizes Size => Sizes.Medium;
+
+        public CharacterFlags CharacterFlags => CharacterFlags.None;
 
         public IRVFlags Immunities => IRVFlags.None;
 
@@ -39,10 +44,10 @@ namespace Mud.Server.Tests.Mocking
 
         public IRVFlags Vulnerabilities => IRVFlags.None;
 
-        public int ClassExperiencePercentageMultiplier(IClass c) => 100;
+        public ActFlags ActFlags => ActFlags.None;
 
-        public int GetMaxAttribute(CharacterAttributes attribute) => 13;
+        public OffensiveFlags OffensiveFlags => OffensiveFlags.None;
 
-        public int GetStartAttribute(CharacterAttributes attribute) => 18;
+        public AssistFlags AssistFlags => AssistFlags.None;
     }
 }

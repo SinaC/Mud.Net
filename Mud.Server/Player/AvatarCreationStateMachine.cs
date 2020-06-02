@@ -25,7 +25,7 @@ namespace Mud.Server.Player
     {
         private string _name;
         private Sex _sex;
-        private IRace _race;
+        private IPlayableRace _race;
         private IClass _class;
 
         protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
@@ -131,7 +131,7 @@ namespace Mud.Server.Player
                 player.Send("Creation cancelled.");
                 return AvatarCreationStates.Quit;
             }
-            List<IRace> races = RaceManager.Races.Where(x => StringCompareHelpers.StringStartsWith(x.Name, input)).ToList();
+            List<IPlayableRace> races = RaceManager.PlayableRaces.Where(x => StringCompareHelpers.StringStartsWith(x.Name, input)).ToList();
             if (races.Count == 1)
             {
                 _race = races[0];
@@ -188,10 +188,7 @@ namespace Mud.Server.Player
                     //TODO: Inventory
                     //TODO: CurrentQuests
                     //TODO: Auras
-                    //TODO: CharacterFlags: from race
-                    //TODO: Immunities: from race
-                    //TODO: Resistances: from race
-                    //TODO: Vulnerabilities: from race
+                    CharacterFlags = _race.CharacterFlags,
                     Immunities = _race.Immunities,
                     Resistances = _race.Resistances,
                     Vulnerabilities = _race.Vulnerabilities,
@@ -249,7 +246,7 @@ namespace Mud.Server.Player
         {
             if (displayHeader)
                 player.Send("Please choose a race (type quit to stop creation).");
-            string races = string.Join(" | ", RaceManager.Races.Select(x => x.DisplayName));
+            string races = string.Join(" | ", RaceManager.PlayableRaces.Select(x => x.DisplayName));
             player.Send(races);
         }
 
@@ -261,7 +258,7 @@ namespace Mud.Server.Player
             player.Send(classes);
         }
 
-        private int GetStartAttributeValue(CharacterAttributes attribute, IRace race, IClass @class)
+        private int GetStartAttributeValue(CharacterAttributes attribute, IPlayableRace race, IClass @class)
         {
             int value = race.GetStartAttribute(attribute);
             if ((int)attribute == (int)@class.PrimeAttribute)

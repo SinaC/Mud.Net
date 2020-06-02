@@ -363,7 +363,13 @@ namespace Mud.Server.Room
                                     {
                                         if (lastCharacter != null)
                                         {
-                                            World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
+                                            IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
+                                            if (lastCharacter.Blueprint is CharacterShopBlueprint)
+                                            {
+                                                // TODO: randomize level
+                                                item.AddBaseItemFlags(ItemFlags.Inventory);
+                                                item.Recompute();
+                                            }
                                             Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} added on {lastCharacter.Blueprint.Id}");
                                             wasPreviousLoaded = true;
                                         }

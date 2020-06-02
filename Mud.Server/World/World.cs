@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Area;
@@ -36,12 +35,16 @@ namespace Mud.Server.World
         private readonly List<ICharacter> _characters;
         private readonly List<IItem> _items;
 
-        private IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
-        private IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
-        private ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
+        private IWiznet Wiznet { get; }
+        private IRandomManager RandomManager { get; }
+        private ISettings Settings { get; }
 
-        public World()
+        public World(IWiznet wiznet, IRandomManager randomManager, ISettings settings)
         {
+            Wiznet = wiznet;
+            RandomManager = randomManager;
+            Settings = settings;
+
             _treasureTables = new List<TreasureTable<int>>();
             _questBlueprints = new Dictionary<int, QuestBlueprint>();
             _areaBlueprints = new Dictionary<int, AreaBlueprint>();

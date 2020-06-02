@@ -13,15 +13,17 @@ namespace Mud.Server.Races
         public RaceManager()
         {
             // Get races using reflection
-            Type iRaceType = typeof (IRace);
+            Type iPlayableRaceType = typeof (IRace);
             _races = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(x => x.IsClass && !x.IsAbstract && iRaceType.IsAssignableFrom(x))
+                .Where(x => x.IsClass && !x.IsAbstract && iPlayableRaceType.IsAssignableFrom(x))
                 .Select(Activator.CreateInstance)
                 .OfType<IRace>()
                 .ToList();
         }
         
         #region IRaceManager
+
+        public IEnumerable<IPlayableRace> PlayableRaces => Races.OfType<IPlayableRace>();
 
         public IEnumerable<IRace> Races => _races;
 

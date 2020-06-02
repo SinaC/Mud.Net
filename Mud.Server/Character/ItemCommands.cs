@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Mud.Domain;
 using Mud.Server.Aura;
+using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -486,6 +487,12 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.InvalidTarget;
             }
 
+            if (whom is INonPlayableCharacter npcVictim && npcVictim.Blueprint is CharacterShopBlueprint)
+            {
+                Act(ActOptions.ToCharacter, "{0:N} tells you 'Sorry, you'll have to sell that.'", npcVictim);
+                return CommandExecutionResults.InvalidTarget;
+            }
+
             // Give item to victim
             what.ChangeContainer(whom);
             whom.Recompute();
@@ -658,16 +665,11 @@ namespace Mud.Server.Character
                 int duration = amount * 3;
                 int level = RandomManager.Fuzzy(amount);
                 if (poisonAura != null)
-                {
                     poisonAura.Update(level, TimeSpan.FromMinutes(duration));
-                    poisonAura.AddOrUpdateAffect(
-                        x => x.Modifier == CharacterFlags.Poison,
-                        () => new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
-                        null);
-                }
                 else
                     World.AddAura(this, poison, drinkable, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                        new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
+                        new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                        new PoisonDamageAffect());
                 Recompute();
             }
 
@@ -886,14 +888,11 @@ namespace Mud.Server.Character
                     if (poisonAura != null)
                     {
                         poisonAura.Update(level, TimeSpan.FromMinutes(duration));
-                        poisonAura.AddOrUpdateAffect(
-                            x => x.Modifier == CharacterFlags.Poison,
-                            () => new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
-                            null);
                     }
                     else
                         World.AddAura(this, poison, food, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                            new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
+                            new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                            new PoisonDamageAffect());
                     Recompute();
                 }
                 World.RemoveItem(food);

@@ -29,6 +29,8 @@ namespace Mud.Server.Common
 
         #endregion
 
+        public static string AfterLast(this string s, char c) => s.Substring(s.LastIndexOf(c) + 1);
+
         public static int LengthNoColor(this string s)
         {
             string output = ColorTagRegex.Replace(s, match => string.Empty);
@@ -56,9 +58,6 @@ namespace Mud.Server.Common
             return text.ToUpper();
         }
 
-        public static string MaxLength(this string input, int length)
-        {
-            return input?.Substring(0, Math.Min(length, input.Length));
-        }
+        public static string MaxLength(this string input, int length) => input?.Substring(0, Math.Min(length, input.Length));
     }
 }

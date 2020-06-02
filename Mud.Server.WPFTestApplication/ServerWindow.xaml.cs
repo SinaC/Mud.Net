@@ -355,9 +355,9 @@ namespace Mud.Server.WPFTestApplication
         {
             string path = DependencyContainer.Current.GetInstance<ISettings>().ImportAreaPath;
 
-            //RomImporter importer = new RomImporter();
+            RomImporter importer = new RomImporter();
             //MysteryImporter importer = new MysteryImporter();
-            RotImporter importer = new RotImporter();
+            //RotImporter importer = new RotImporter();
             importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
             //importer.ImportByList(path, "area.lst");
 

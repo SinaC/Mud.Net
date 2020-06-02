@@ -20,12 +20,12 @@
       <Level>60</Level>
       <Sex>0</Sex>
       <Size>0</Size>
-      <HitPoints>160</HitPoints>
-      <MovePoints>169</MovePoints>
+      <HitPoints>174</HitPoints>
+      <MovePoints>83</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>146</Value>
+          <Value>164</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -51,7 +51,7 @@
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>65</ItemFlags>
             <Auras />
-            <TimeLeft>52</TimeLeft>
+            <TimeLeft>48</TimeLeft>
           </Item>
         </EquippedItemData>
         <EquippedItemData>
@@ -212,6 +212,20 @@
       </Equipments>
       <Inventory>
         <ItemData>
+          <ItemId>3356</ItemId>
+          <Level>9</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+          <Auras />
+        </ItemData>
+        <ItemData>
+          <ItemId>3360</ItemId>
+          <Level>9</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+          <Auras />
+        </ItemData>
+        <ItemData>
           <ItemId>80001</ItemId>
           <Level>0</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
@@ -289,7 +303,7 @@
         <AuraData>
           <AbilityId>54</AbilityId>
           <Level>1</Level>
-          <PulseLeft>8968</PulseLeft>
+          <PulseLeft>8184</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -301,8 +315,8 @@
         </AuraData>
         <AuraData>
           <AbilityId>70</AbilityId>
-          <Level>5</Level>
-          <PulseLeft>1580</PulseLeft>
+          <Level>1</Level>
+          <PulseLeft>796</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -375,9 +389,9 @@
         </PairDataOfInt32Int32>
       </Attributes>
       <CreationTime>2020-05-07T14:08:22.9740442+02:00</CreationTime>
-      <RoomId>3001</RoomId>
-      <SilverCoins>18</SilverCoins>
-      <GoldCoins>0</GoldCoins>
+      <RoomId>3020</RoomId>
+      <SilverCoins>1287</SilverCoins>
+      <GoldCoins>4</GoldCoins>
       <Experience>148152</Experience>
       <Trains>55</Trains>
       <Practices>355</Practices>
@@ -1652,11 +1666,11 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
-          <Value>0</Value>
+          <Value>8</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>2</Key>
-          <Value>0</Value>
+          <Value>46</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>3</Key>
@@ -1717,8 +1731,8 @@
             </AuraData>
             <AuraData>
               <AbilityId>80</AbilityId>
-              <Level>48</Level>
-              <PulseLeft>143744</PulseLeft>
+              <Level>7</Level>
+              <PulseLeft>142960</PulseLeft>
               <AuraFlags>0</AuraFlags>
               <Affects>
                 <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -1729,8 +1743,8 @@
             </AuraData>
             <AuraData>
               <AbilityId>2</AbilityId>
-              <Level>51</Level>
-              <PulseLeft>345380</PulseLeft>
+              <Level>17</Level>
+              <PulseLeft>344596</PulseLeft>
               <AuraFlags>0</AuraFlags>
               <Affects>
                 <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -1742,8 +1756,8 @@
             </AuraData>
             <AuraData>
               <AbilityId>3</AbilityId>
-              <Level>52</Level>
-              <PulseLeft>950192</PulseLeft>
+              <Level>6</Level>
+              <PulseLeft>949408</PulseLeft>
               <AuraFlags>0</AuraFlags>
               <Affects>
                 <AffectDataBase xsi:type="CharacterAttributeAffectData">

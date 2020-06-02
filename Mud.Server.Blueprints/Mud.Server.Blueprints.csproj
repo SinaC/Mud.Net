@@ -79,6 +79,7 @@
     <Compile Include="Character\CharacterNormalBlueprint.cs" />
     <Compile Include="Character\CharacterBlueprintBase.cs" />
     <Compile Include="Character\CharacterQuestorBlueprint.cs" />
+    <Compile Include="Character\CharacterShopBlueprint.cs" />
     <Compile Include="Item\ItemBoatBlueprint.cs" />
     <Compile Include="Item\ItemClothingBlueprint.cs" />
     <Compile Include="Item\ItemGemBlueprint.cs" />

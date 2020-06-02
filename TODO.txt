@@ -1,13 +1,5 @@
 NEXT:
 
-extensive tests
-	ICharacter
-		ICharacter Leader // character we are following
-	INonPlayableCharacter
-		ICharacter Master // character allowed to order us
-	IPlayableCharacter
-		IEnumerable<INonPlayableCharacter> Pets // mobs which are saved in our pfile
-
 make a map of calls done when a NPC is Removed/StopFollowing/...
 
 SHORT TERM TODO:
@@ -20,19 +12,28 @@ dwarven.are: the first stick is set to local 1 but we detect 2 intances (2 diffe
 O 0 6506   1 6534	* long, black stick
 E 1 6506  10   17	*   long, black stick
 
+commands dynamically added to Character depending on room they are, for example
+	we could add list/buy/sell/value to commands if a shopkeeper is in the room
+	brandish only when holding a staff
+
+offensive flags: rescue, bite, crush, ...
+clan/guild, auction house, help, socials, wimpy, note
+commands: auction, channels, clantalk, compare, report, read, socials, whois, bet, brief, combine, compact, description, noloot, nosummon, outfit, prompt, title, wimpy, config, deaf, pmote, note, board, quote, nwrite,
+	heal, autoaffect, wake, myclan, petition, clanlist
+admin commands: sockets, exlist, vlist, rename, omatch, mmatch, spy, violate, allow, ban, deny, disconnect, flag, freeze, permban, protect, set, xset, wizlock, newlock, nochannels, noemote, noshout, notell, pecho, 
+	teleport, mwhere, owhere, recho, mset, oset, rset, sset, xstat, string, vnum, zecho, clone, smote, prefix, olevel, mlevel, slookup, clans, guild, confiscate/grab, 
 PK
+Add ctor to every manager with other manager as parameter to easy unit tests
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 linkdead
 Move CanSee in IEntity
 Move AddAura in aura manager
-Add ctor to every manager with other manager as parameter to easy unit tests
 each time operator IS or AS is used, this should be replaced with an overridable method
 DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
 IItem: Display(short/long) (used instead of FormatItem in InfoCommands.cs)
 EquippedItem should be responsible for displaying itself
 EquippedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
 pull/push
-buy/sell/list
 Multiple wear location
 Reset 'R'
 quest: add quest item on the fly when player takes the quest
@@ -43,10 +44,8 @@ Create item from blueprint with specific level and attributes (used for SpellFlo
 skills: steal/lore/rescue
 spells: create rose, farsight, identify
 assign abilities to classes
-race form, parts
 Dictionary to store Character known ability + keep only one LearnedAbility or replace with KnownAbilities getter based on name
 Unit tests on spell/skill to check if method argument matches AbilityTarget, check if ItemInventoryOrCharacterDefensive have both dispel message
-Spell with damage + effect (such as ColourSpray) can lead to strange behaviour -> damage kill victim then blindness is cast on victim  -> Damage should return if character has been killed
 UnitTests CastFromItem/GetItemAbilityTarget
 UnitTests on Rom24Effects
 
@@ -54,6 +53,12 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+race form, parts
+plague spread to other people in room
+poison does periodic damage
+Spell with damage + effect (such as ColourSpray) can lead to strange behaviour -> damage kill victim then blindness is cast on victim  -> Damage should return if character has been killed
+commands: buy, list, value, sell
+CharacterShopBlueprint
 Mass invis added
 IsSameGroup return true when checking 2 same character
 Xp loss when dying added
@@ -303,6 +308,7 @@ TableGenerator with duplicate columns
 
 *************************************************************
 LONG TERM TODO:
+Shop: appraise
 specials
 assist_guard
 aggro table

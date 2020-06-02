@@ -128,6 +128,35 @@ namespace Mud.Server.Character
         public long SilverCoins { get; protected set; }
         public long GoldCoins { get; protected set; }
 
+        public (long silver, long gold) DeductCost(long cost)
+        {
+            long silver = Math.Min(SilverCoins, cost);
+            long gold = 0;
+
+            if (silver < cost)
+            {
+                gold = ((cost - silver + 99) / 100);
+                silver = cost - 100 * gold;
+            }
+
+            SilverCoins -= silver;
+            GoldCoins -= gold;
+
+            if (GoldCoins < 0)
+            {
+                Wiznet.Wiznet($"DeductCost: gold {GoldCoins} < 0", WiznetFlags.Bugs, AdminLevels.Implementor);
+                GoldCoins = 0;
+            }
+            if (SilverCoins < 0)
+            {
+                Wiznet.Wiznet($"DeductCost: silver {SilverCoins} < 0", WiznetFlags.Bugs, AdminLevels.Implementor);
+                SilverCoins = 0;
+            }
+
+            return (silver, gold);
+        }
+
+
         // Furniture (sleep/sit/stand)
         public IItemFurniture Furniture { get; protected set; }
 
@@ -942,13 +971,13 @@ namespace Mud.Server.Character
 
         public abstract void MultiHit(ICharacter victim, IMultiHitModifier multiHitModifier); // 'this' starts a combat with 'victim' and has been initiated by an ability
 
-        public bool AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using an ability
+        public DamageResults AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using an ability
         {
             string damageNoun = ability?.DamageNoun?.ToLowerInvariant() ?? ability?.Name?.ToLowerInvariant() ?? "spell";
             return Damage(source, damage, damageType, damageNoun, display);
         }
 
-        public bool HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using a weapon
+        public DamageResults HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using a weapon
         {
             string damageNoun;
             // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
@@ -962,10 +991,10 @@ namespace Mud.Server.Character
             return Damage(source, damage, damageType, damageNoun, display);
         }
 
-        public bool Damage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display) // 'this' is dealt damage by 'source'
+        public DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display) // 'this' is dealt damage by 'source'
         {
             if (Position == Positions.Dead)
-                return false;
+                return DamageResults.Dead;
             // damage reduction
             if (damage > 35)
                 damage = (damage - 35) / 2 + 35;
@@ -977,7 +1006,7 @@ namespace Mud.Server.Character
                 // Certain attacks are forbidden.
                 // Most other attacks are returned.
                 if (IsSafe(source))
-                    return false;
+                    return DamageResults.Safe;
                 // TODO: check_killer
                 if (Position > Positions.Stunned)
                 {
@@ -1091,7 +1120,7 @@ namespace Mud.Server.Character
 
             // no damage done, stops here
             if (damage <= 0)
-                return false;
+                return DamageResults.NoDamage;
 
             // hurt the victim
             HitPoints -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0
@@ -1126,16 +1155,16 @@ namespace Mud.Server.Character
             if (Position == Positions.Dead)
             {
                 IItemCorpse corpse = RawKilled(source, true); // group group_gain + dying penalty + raw_kill
-                return true;
+                return DamageResults.Killed;
             }
 
             if (this == source)
-                return true;
+                return DamageResults.Damaged;
 
             // TODO: take care of link-dead people
             HandleWimpy(damage);
 
-            return true;
+            return DamageResults.Damaged;
         }
 
         public ResistanceLevels CheckResistance(SchoolTypes damageType)
@@ -1292,7 +1321,13 @@ namespace Mud.Server.Character
                 // safe room ?
                 if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
                     return true;
-                // TODO: No fight in a shop -> send_to_char("The shopkeeper wouldn't like that.\n\r",ch);
+
+                if (npcVictim.Blueprint is CharacterShopBlueprint)
+                {
+                    caster.Send("The shopkeeper wouldn't like that.");
+                    return true;
+                }
+
                 if (npcVictim.ActFlags.HasFlag(ActFlags.Train)
                     || npcVictim.ActFlags.HasFlag(ActFlags.Gain)
                     || npcVictim.ActFlags.HasFlag(ActFlags.Practice)
@@ -1372,7 +1407,13 @@ namespace Mud.Server.Character
                     aggressor.Send("Not in the room.");
                     return true;
                 }
-                // TODO: No fight in a shop -> send_to_char("The shopkeeper wouldn't like that.\n\r",ch);
+
+                if (npcVictim.Blueprint is CharacterShopBlueprint)
+                {
+                    aggressor.Send("The shopkeeper wouldn't like that.");
+                    return true;
+                }
+
                 if (npcVictim.ActFlags.HasFlag(ActFlags.Train)
                     || npcVictim.ActFlags.HasFlag(ActFlags.Gain)
                     || npcVictim.ActFlags.HasFlag(ActFlags.Practice)
@@ -1982,7 +2023,7 @@ namespace Mud.Server.Character
                 damage = 1; // at least one damage :)
 
             // perform damage
-            bool damageResult;
+            DamageResults damageResult;
             if (hitModifier?.Ability != null)
                 damageResult = victim.AbilityDamage(this, hitModifier.Ability, damage, damageType, true);
             else
@@ -1991,7 +2032,7 @@ namespace Mud.Server.Character
                 return;
 
             // funky weapon ?
-            if (damageResult && wield != null)
+            if (damageResult == DamageResults.Damaged && wield != null)
             {
                 if (wield.WeaponFlags.HasFlag(WeaponFlags.Poison))
                 {
@@ -2018,7 +2059,8 @@ namespace Mud.Server.Character
                             int duration = level / 2;
                             World.AddAura(victim, poison, this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                                 new CharacterFlagsAffect {Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or},
-                                new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add});
+                                new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add},
+                                new PoisonDamageAffect());
                         }
                     }
                 }
@@ -2195,7 +2237,7 @@ namespace Mud.Server.Character
             return Equipments.Where(x => x.Slot == EquipmentSlots.OffHand && x.Item == null).ElementAtOrDefault(countMainhand2H);
         }
 
-        protected void RecomputeKnownAbilities()
+        protected virtual void RecomputeKnownAbilities()
         {
             // Add abilities from Class/Race/...
 
@@ -2205,8 +2247,6 @@ namespace Mud.Server.Character
             //else
             if (Class != null)
                 MergeAbilities(Class.Abilities, false);
-            if (Race != null)
-                MergeAbilities(Race.Abilities, true);
         }
 
         protected void RecomputeCurrentResourceKinds()
@@ -2273,7 +2313,7 @@ namespace Mud.Server.Character
                 _knownAbilities.Add(knownAbility);
         }
 
-        private void ApplyAuras(IEntity entity)
+        protected void ApplyAuras(IEntity entity)
         {
             if (!entity.IsValid)
                 return;
@@ -2286,7 +2326,7 @@ namespace Mud.Server.Character
             }
         }
 
-        private void MergeAbilities(IEnumerable<AbilityUsage> abilities, bool naturalBorn)
+        protected void MergeAbilities(IEnumerable<AbilityUsage> abilities, bool naturalBorn)
         {
             // If multiple identical abilities, keep only one with lowest level
             foreach (AbilityUsage abilityUsage in abilities)

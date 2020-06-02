@@ -58,7 +58,7 @@ namespace Mud.Server.Character.PlayableCharacter
             Race = RaceManager[data.Race];
             if (Race == null)
             {
-                Race = RaceManager.Races.First();
+                Race = RaceManager.PlayableRaces.First();
                 Wiznet.Wiznet($"Invalid race '{data.Race}' for character {data.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             }
             Level = data.Level;
@@ -1109,9 +1109,16 @@ namespace Mud.Server.Character.PlayableCharacter
             return (20, 0);
         }
 
+        protected override void RecomputeKnownAbilities()
+        {
+            base.RecomputeKnownAbilities();
+            if (Race is IPlayableRace playableRace)
+                MergeAbilities(playableRace.Abilities, true);
+        }
+
         #endregion
 
-        private int ExperienceByLevel => 1000 * (Race?.ClassExperiencePercentageMultiplier(Class) ?? 100) / 100;
+        private int ExperienceByLevel => 1000 * ((Race as IPlayableRace)?.ClassExperiencePercentageMultiplier(Class) ?? 100) / 100;
 
         private (int experience, int alignment) ComputeExperienceAndAlignment(ICharacter victim, int totalLevel)
         {

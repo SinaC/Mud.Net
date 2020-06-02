@@ -369,15 +369,12 @@ namespace Mud.Server.Abilities
                             x => x.Location == CharacterAttributeAffectLocations.Strength,
                             () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
                             x => x.Modifier -= 1);
-                        poisonAura.AddOrUpdateAffect(
-                            x => x.Modifier == CharacterFlags.Poison,
-                            () => new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
-                            null);
                     }
                     else
                         World.AddAura(victim, poisonAbility, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
-                            new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
+                            new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                            new PoisonDamageAffect());
                 }
                 // equipment
                 foreach (IItem itemOnVictim in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)))

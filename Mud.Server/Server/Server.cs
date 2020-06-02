@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,6 +22,7 @@ using Mud.Settings;
 using System.Reflection;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Item;
+using Mud.Server.Blueprints.Character;
 
 namespace Mud.Server.Server
 {
@@ -760,7 +762,7 @@ namespace Mud.Server.Server
 
         private void SanityCheckRaces()
         {
-            Log.Default.WriteLine(LogLevels.Info, "#Races: {0}", RaceManager.Races.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#Races: {0}", RaceManager.PlayableRaces.Count());
         }
 
         private void SanityCheckQuests()
@@ -846,7 +848,7 @@ namespace Mud.Server.Server
 
         private void DumpRaces()
         {
-            StringBuilder sb = TableGenerators.RaceTableGenerator.Value.Generate("Races", RaceManager.Races.OrderBy(x => x.Name));
+            StringBuilder sb = TableGenerators.PlayableRaceTableGenerator.Value.Generate("Races", RaceManager.PlayableRaces.OrderBy(x => x.Name));
             Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 
@@ -1288,6 +1290,25 @@ namespace Mud.Server.Server
                     pc?.GainCondition(Conditions.Thirst, -1);
                     pc?.GainCondition(Conditions.Hunger, character.Size > Sizes.Medium ? -2 : -1);
 
+                    // apply a random periodic affect if any
+                    IAura[] periodicAuras = character.Auras.Where(x => x.Affects.Any(a => a is ICharacterPeriodicAffect)).ToArray();
+                    if (periodicAuras.Length > 0)
+                    {
+                        IAura aura = periodicAuras.Random(RandomManager);
+                        ICharacterPeriodicAffect affect = aura.Affects.OfType<ICharacterPeriodicAffect>().FirstOrDefault();
+                        affect?.Apply(aura, character);
+                    }
+                    // Incap character takes damage
+                    else if (character.Position == Positions.Incap && RandomManager.Chance(50))
+                    {
+                        character.Damage(character, 1, SchoolTypes.None, string.Empty, false);
+                    }
+                    // Mortal character takes damage
+                    else if (character.Position == Positions.Mortal)
+                    {
+                        character.Damage(character, 1, SchoolTypes.None, string.Empty, false);
+                    }
+
                     // TODO: limbo
                     // TODO: autosave, autoquit
                 }
@@ -1300,7 +1321,7 @@ namespace Mud.Server.Server
 
         private void HandleNonPlayableCharacters(int pulseCount)
         {
-            foreach (INonPlayableCharacter npc in World.NonPlayableCharacters.Where(x => x.IsValid && !x.CharacterFlags.HasFlag(CharacterFlags.Charm) && x.Position == Positions.Standing/*for all sleeping/busy monsters*/))
+            foreach (INonPlayableCharacter npc in World.NonPlayableCharacters.Where(x => x.IsValid && x.Room != null && !x.CharacterFlags.HasFlag(CharacterFlags.Charm)))
             {
                 try
                 {
@@ -1308,7 +1329,25 @@ namespace Mud.Server.Server
                     if (npc.ActFlags.HasFlag(ActFlags.UpdateAlways) || npc.Room.Area.PlayableCharacters.Any())
                     {
                         // TODO: invoke spec_fun
-                        // TODO: give shop some money
+
+                        // give some money to shopkeeper
+                        if (npc.Blueprint is CharacterShopBlueprint)
+                        {
+                            if (npc.SilverCoins + npc.GoldCoins * 100 < npc.Blueprint.Wealth)
+                            {
+                                long silver = npc.Blueprint.Wealth * RandomManager.Range(1, 20) / 5000000;
+                                long gold = npc.Blueprint.Wealth * RandomManager.Range(1, 20) / 50000;
+                                if (silver > 0 || gold > 0)
+                                {
+                                    Log.Default.WriteLine(LogLevels.Debug, "Giving {0} silver {1} gold to {2}.", silver, gold, npc.DebugName);
+                                    npc.UpdateMoney(silver, gold);
+                                }
+                            }
+                        }
+
+                        // that's all for all sleeping/busy monsters
+                        if (npc.Position != Positions.Standing)
+                            continue;
 
                         // scavenger
                         if (npc.ActFlags.HasFlag(ActFlags.Scavenger) && npc.Room.Content.Any() && RandomManager.Range(0, 63) == 0)

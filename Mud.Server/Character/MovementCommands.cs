@@ -54,32 +54,32 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("northeast", "Movement", Priority = 1, MinPosition = Positions.Standing)]
-        [CharacterCommand("ne", "Movement", Priority = 0, MinPosition = Positions.Standing)]
+        [CharacterCommand("northeast", "Movement", Priority = 2, MinPosition = Positions.Standing)]
+        [CharacterCommand("ne", "Movement", Priority = 1, MinPosition = Positions.Standing)]
         protected virtual CommandExecutionResults DoNorthEast(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.NorthEast, true);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("northwest", "Movement", Priority = 1, MinPosition = Positions.Standing)]
-        [CharacterCommand("nw", "Movement", Priority = 0, MinPosition = Positions.Standing)]
+        [CharacterCommand("northwest", "Movement", Priority = 2, MinPosition = Positions.Standing)]
+        [CharacterCommand("nw", "Movement", Priority = 1, MinPosition = Positions.Standing)]
         protected virtual CommandExecutionResults DoNorthWest(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.NorthWest, true);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("southeast", "Movement", Priority = 1, MinPosition = Positions.Standing)]
-        [CharacterCommand("se", "Movement", Priority = 0, MinPosition = Positions.Standing)]
+        [CharacterCommand("southeast", "Movement", Priority = 2, MinPosition = Positions.Standing)]
+        [CharacterCommand("se", "Movement", Priority = 1, MinPosition = Positions.Standing)]
         protected virtual CommandExecutionResults DoSouthEast(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.SouthEast, true);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("southwest", "Movement", Priority = 1, MinPosition = Positions.Standing)]
-        [CharacterCommand("sw", "Movement", Priority = 0, MinPosition = Positions.Standing)]
+        [CharacterCommand("southwest", "Movement", Priority = 2, MinPosition = Positions.Standing)]
+        [CharacterCommand("sw", "Movement", Priority = 1, MinPosition = Positions.Standing)]
         protected virtual CommandExecutionResults DoSouthWest(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.SouthWest, true);
