@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class Calm : SpellBase, IAbilityCharacterBuff, IAbilityDispellable
+    public class Calm : NoTargetSpellBase, IAbilityCharacterBuff, IAbilityDispellable
     {
         public override int Id => 7;
         public override string Name => "Calm";
@@ -22,7 +22,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             AuraManager = auraManager;
         }
 
-        protected override void Invoke(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
+        public override void Action(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
         {
             // Stops all fighting in the room
 
@@ -76,7 +76,5 @@ namespace Mud.POC.Abilities2.Rom24Spells
                     new CharacterFlagsAffect { Modifier = CharacterFlags.Calm, Operator = AffectOperators.Or });
             }
         }
-
-        protected override AbilityTargetResults SetTargets(ICharacter caster, string rawParameters, params CommandParameter[] parameters) => AbilityTargetResults.Ok;
     }
 }

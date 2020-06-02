@@ -8,6 +8,14 @@ namespace Mud.POC.Abilities2
 {
     public abstract class SkillBase : ISkill
     {
+        protected IRandomManager RandomManager { get; }
+        protected IWiznet Wiznet { get; }
+
+        public SkillBase(IRandomManager randomManager, IWiznet wiznet)
+        {
+            RandomManager = randomManager;
+            Wiznet = wiznet;
+        }
 
         public abstract int Id { get; }
 
@@ -23,34 +31,74 @@ namespace Mud.POC.Abilities2
 
         public abstract AbilityEffects Effects { get; }
 
-        public virtual UseResults Use(ICharacter user, IAbility ability, string rawParameters, params CommandParameter[] parameters)
+        public virtual UseResults Use(ICharacter user, string rawParameters, params CommandParameter[] parameters)
         {
+            IPlayableCharacter pcUser = user as IPlayableCharacter;
+
             // 1) get targets if any
-            GetTargets(rawParameters, parameters);
+            IEntity target;
+            AbilityTargetResults targetResult = GetTarget(user, out target, rawParameters, parameters);
+            if (targetResult != AbilityTargetResults.Ok)
+                return MapAbilityTargetResultsToUseResults(targetResult);
 
             // 2) check cooldown
-            int cooldownPulseLeft = user.CooldownPulseLeft(ability);
+            int cooldownPulseLeft = user.CooldownPulseLeft(this);
             if (cooldownPulseLeft > 0)
             {
-                user.Send("{0} is in cooldown for {1}.", ability.Name, StringHelpers.FormatDelay(cooldownPulseLeft / Pulse.PulsePerSeconds));
+                user.Send("{0} is in cooldown for {1}.", Name, StringHelpers.FormatDelay(cooldownPulseLeft / Pulse.PulsePerSeconds));
                 return UseResults.InCooldown;
             }
 
-            // 3) invoke skill
+            // 4) invoke skill
+            var abilityLearnInfo = user.GetLearnInfo(this);
+            UseResults result = Invoke(abilityLearnInfo.learned, user, target, rawParameters, parameters);
 
             // 4) GCD
+            pcUser?.ImpersonatedBy?.SetGlobalCooldown(PulseWaitTime);
 
             // 5) set cooldown
-            if (ability.Cooldown > 0)
-                user.SetCooldown(ability);
+            if (Cooldown > 0)
+                user.SetCooldown(this);
 
             // 6) check improve true
+            if (result == UseResults.Ok || result == UseResults.Failed)
+                pcUser?.CheckAbilityImprove(abilityLearnInfo.ability, result == UseResults.Ok, LearnDifficultyMultiplier);
 
-            // 7) if aggressive: multi hit if still in same room
-
-            return UseResults.Ok;
+            return result;
         }
 
-        protected abstract void GetTargets(string rawParameters, params CommandParameter[] parameters);
+        protected abstract AbilityTargetResults GetTarget(ICharacter user, out IEntity target, string rawParameters, params CommandParameter[] parameters);
+        protected abstract UseResults Invoke(int learned, ICharacter source, IEntity target, string rawParameters, params CommandParameter[] parameters);
+        protected virtual void PostInvoke(ICharacter user, IEntity target)
+        {
+            // NOP
+        }
+
+        private UseResults MapAbilityTargetResultsToUseResults(AbilityTargetResults result)
+        {
+            switch (result)
+            {
+                case AbilityTargetResults.MissingParameter:
+                    return UseResults.MissingParameter;
+                case AbilityTargetResults.InvalidTarget:
+                    return UseResults.InvalidTarget;
+                case AbilityTargetResults.TargetNotFound:
+                    return UseResults.TargetNotFound;
+                case AbilityTargetResults.Error:
+                    return UseResults.Error;
+                default:
+                    Wiznet.Wiznet($"Unexpected AbilityTargetResults {result}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    return UseResults.Error;
+            }
+        }
+
+        #region IEquatable
+
+        public bool Equals(IAbility other)
+        {
+            return Id == other.Id;
+        }
+
+        #endregion
     }
 }

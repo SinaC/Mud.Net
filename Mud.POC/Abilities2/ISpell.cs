@@ -5,7 +5,7 @@ namespace Mud.POC.Abilities2
 {
     public interface ISpell : IAbility
     {
-        CastResults Cast(ICharacter caster, KnownAbility knownAbility, string rawParameters, params CommandParameter[] parameters);
+        CastResults Cast(ICharacter caster, string rawParameters, params CommandParameter[] parameters);
     }
 
     public enum CastResults

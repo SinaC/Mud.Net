@@ -9,19 +9,20 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class CallLightning : SpellBase
+    public class CallLightning : NoTargetSpellBase
     {
         public override int Id => 6;
         public override string Name => "Call lightning";
         public override AbilityEffects Effects => throw new NotImplementedException();
 
         private ITimeManager TimeManager { get; }
-        public CallLightning(IRandomManager randomManager, IWiznet wiznet, ITimeManager timeManager) : base(randomManager, wiznet)
+        public CallLightning(IRandomManager randomManager, IWiznet wiznet, ITimeManager timeManager)
+            : base(randomManager, wiznet)
         {
             TimeManager = timeManager;
         }
 
-        protected override void Invoke(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
+        public override void Action(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
         {
             if (caster.Room == null)
                 return;
@@ -58,7 +59,5 @@ namespace Mud.POC.Abilities2.Rom24Spells
             foreach (ICharacter character in caster.Room.Area.Characters.Where(x => x.Position > Positions.Sleeping && !x.Room.RoomFlags.HasFlag(RoomFlags.Indoors)))
                 character.Send("Lightning flashes in the sky.");
         }
-
-        protected override AbilityTargetResults SetTargets(ICharacter caster, string rawParameters, params CommandParameter[] parameters) => AbilityTargetResults.Ok;
     }
 }

@@ -11,8 +11,6 @@ namespace Mud.POC.Abilities2
 {
     public abstract class OffensiveSpellBase : SpellBase
     {
-        protected ICharacter Victim { get; set; }
-
         protected OffensiveSpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
@@ -20,15 +18,11 @@ namespace Mud.POC.Abilities2
 
         #region SpellBase
 
-        public override CastResults Cast(ICharacter caster, KnownAbility knownAbility, string rawParameters, params CommandParameter[] parameters)
+        protected override void PostInvoke(ICharacter caster, int level, IEntity target)
         {
-            CastResults result = base.Cast(caster, knownAbility, rawParameters, parameters);
-            if (result != CastResults.Ok)
-                return result;
-
             // multi hit if still in same room
-            INonPlayableCharacter npcVictim = Victim as INonPlayableCharacter;
-            if (Victim != caster
+            INonPlayableCharacter npcVictim = target as INonPlayableCharacter;
+            if (target != caster
                 && npcVictim?.Master != caster)
             {
                 // TODO: not sure why we loop on people in caster room
@@ -36,7 +30,7 @@ namespace Mud.POC.Abilities2
                 IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(caster.Room.People.ToList());
                 foreach (ICharacter victim in clone)
                 {
-                    if (victim == Victim && victim.Fighting == null)
+                    if (victim == target && victim.Fighting == null)
                     {
                         // TODO: check_killer
                         victim.MultiHit(caster);
@@ -44,54 +38,53 @@ namespace Mud.POC.Abilities2
                     }
                 }
             }
-            return CastResults.Ok;
         }
 
-        protected override AbilityTargetResults SetTargets(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        protected override AbilityTargetResults GetTarget(ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
-            ICharacter target;
+            ICharacter victim;
             INonPlayableCharacter npcCaster = caster as INonPlayableCharacter;
-
+            target = null;
             if (parameters.Length < 1)
             {
-                target = caster.Fighting;
-                if (target == null)
+                victim = caster.Fighting;
+                if (victim == null)
                 {
                     caster.Send("Cast the spell on whom?");
                     return AbilityTargetResults.MissingParameter;
                 }
             }
             else
-                target = FindHelpers.FindByName(caster.Room.People, parameters[0]);
-            if (target == null)
+                victim = FindHelpers.FindByName(caster.Room.People, parameters[0]);
+            if (victim == null)
             {
                 caster.Send("They aren't here.");
                 return AbilityTargetResults.TargetNotFound;
             }
             if (caster is IPlayableCharacter)
             {
-                if (caster != target && target.IsSafe(caster))
+                if (caster != victim && victim.IsSafe(caster))
                 {
                     caster.Send("Not on that Victim.");
                     return AbilityTargetResults.InvalidTarget;
                 }
                 // TODO: check_killer
             }
-            if (npcCaster != null && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == target)
+            if (npcCaster != null && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == victim)
             {
                 caster.Send("You can't do that on your own follower.");
                 return AbilityTargetResults.InvalidTarget;
             }
             // victim found
-            Victim = target;
+            target = victim;
             return AbilityTargetResults.Ok;
         }
 
-        protected override void Invoke(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
+        protected override void Invoke(ICharacter caster, int level, IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
-            if (Victim == null)
+            if (target == null)
                 return;
-            Action(caster, level, Victim);
+            Action(caster, level, target as ICharacter);
         }
 
         #endregion

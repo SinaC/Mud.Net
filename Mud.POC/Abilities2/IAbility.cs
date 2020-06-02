@@ -3,7 +3,7 @@ using Mud.POC.Abilities2.Domain;
 
 namespace Mud.POC.Abilities2
 {
-    public interface IAbility
+    public interface IAbility : IEquatable<IAbility>
     {
         int Id { get; }
         string Name { get; }

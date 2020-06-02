@@ -7,8 +7,6 @@ namespace Mud.POC.Abilities2
 {
     public abstract class OptionalItemInventorySpellBase : SpellBase
     {
-        protected IItem Item { get; private set; }
-
         protected OptionalItemInventorySpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
@@ -16,26 +14,25 @@ namespace Mud.POC.Abilities2
 
         #region SpellBase
 
-        protected override void Invoke(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
+        protected override void Invoke(ICharacter caster, int level, IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
-            if (Item == null)
-                return;
-            Action(caster, level, Item);
+            Action(caster, level, target as IItem);
         }
 
-        protected override AbilityTargetResults SetTargets(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        protected override AbilityTargetResults GetTarget(ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
-            IItem target = null;
+            IItem item = null;
+            target = null;
             if (parameters.Length >= 1)
             {
-                target = FindHelpers.FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?
-                if (target == null)
+                item = FindHelpers.FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?
+                if (item == null)
                 {
                     caster.Send("You are not carrying that.");
                     return AbilityTargetResults.TargetNotFound;
                 }
             }
-            Item = target;
+            target = item;
             return AbilityTargetResults.Ok;
         }
 

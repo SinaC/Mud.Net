@@ -263,7 +263,7 @@ namespace Mud.Server.Abilities
         public UseResults Use(IAbility ability, ICharacter user, string rawParameters, params CommandParameter[] parameters)
         {
             IPlayableCharacter pcUser = user as IPlayableCharacter;
-            
+
             // 1) check if it's a skill
             if (ability == null || ability.Kind != AbilityKinds.Skill)
                 return UseResults.Error;

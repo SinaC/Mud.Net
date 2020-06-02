@@ -5,7 +5,8 @@ namespace Mud.POC.Abilities2
 {
     public abstract class ItemOrCharacterDebuffSpellBase : ItemOrOffensiveSpellBase, IAbilityCharacterBuff, IAbilityItemBuff
     {
-        public ItemOrCharacterDebuffSpellBase(IRandomManager randomManager, IWiznet wiznet) : base(randomManager, wiznet)
+        public ItemOrCharacterDebuffSpellBase(IRandomManager randomManager, IWiznet wiznet)
+            : base(randomManager, wiznet)
         {
         }
 

@@ -11,8 +11,6 @@ namespace Mud.POC.Abilities2
 {
     public abstract class ItemOrOffensiveSpellBase : SpellBase
     {
-        protected IEntity Target { get; private set; }
-
         public ItemOrOffensiveSpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
@@ -20,15 +18,11 @@ namespace Mud.POC.Abilities2
 
         #region SpellBase
 
-        public override CastResults Cast(ICharacter caster, KnownAbility knownAbility, string rawParameters, params CommandParameter[] parameters)
+        protected override void PostInvoke(ICharacter caster, int level, IEntity target)
         {
-            CastResults result = base.Cast(caster, knownAbility, rawParameters, parameters);
-            if (result != CastResults.Ok)
-                return result;
-
             // multi hit if still in same room
-            INonPlayableCharacter npcVictim = Target as INonPlayableCharacter;
-            if (Target != caster
+            INonPlayableCharacter npcVictim = target as INonPlayableCharacter;
+            if (target != caster
                 && npcVictim?.Master != caster)
             {
                 // TODO: not sure why we loop on people in caster room
@@ -36,7 +30,7 @@ namespace Mud.POC.Abilities2
                 IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(caster.Room.People.ToList());
                 foreach (ICharacter victim in clone)
                 {
-                    if (victim == Target && victim.Fighting == null)
+                    if (victim == target && victim.Fighting == null)
                     {
                         // TODO: check_killer
                         victim.MultiHit(caster);
@@ -44,25 +38,23 @@ namespace Mud.POC.Abilities2
                     }
                 }
             }
-            return CastResults.Ok;
         }
 
-        protected override void Invoke(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
+        protected override void Invoke(ICharacter caster, int level, IEntity entity, string rawParameters, params CommandParameter[] parameters)
         {
-            if (Target == null)
+            if (entity == null)
                 return;
-            if (Target is ICharacter victim)
+            if (entity is ICharacter victim)
                 Action(caster, level, victim);
-            else if (Target is IItem item)
+            else if (entity is IItem item)
                 Action(caster, level, item);
             else
-                Wiznet.Wiznet($"{GetType().Name}: invalid target type {Target.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet($"{GetType().Name}: invalid target type {entity.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
 
-        protected override AbilityTargetResults SetTargets(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        protected override AbilityTargetResults GetTarget(ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
             INonPlayableCharacter npcCaster = caster as INonPlayableCharacter;
-            IEntity target;
             if (parameters.Length < 1)
             {
                 target = caster.Fighting;
@@ -92,7 +84,6 @@ namespace Mud.POC.Abilities2
                 }
             }
             // victim or item (target) found
-            Target = target;
             return AbilityTargetResults.Ok;
         }
 

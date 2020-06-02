@@ -8,8 +8,6 @@ namespace Mud.POC.Abilities2
 {
     public abstract class ItemOrDefensiveSpellBase : SpellBase
     {
-        protected IEntity Target { get; private set; }
-
         protected ItemOrDefensiveSpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
@@ -17,21 +15,21 @@ namespace Mud.POC.Abilities2
 
         #region SpellBase
 
-        protected override void Invoke(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
+        protected override void Invoke(ICharacter caster, int level, IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
-            if (Target == null)
+            if (target == null)
                 return;
-            if (Target is ICharacter victim)
+            if (target is ICharacter victim)
                 Action(caster, level, victim);
-            else if (Target is IItem item)
+            else if (target is IItem item)
                 Action(caster, level, item);
             else
-                Wiznet.Wiznet($"{GetType().Name}: invalid target type {Target.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet($"{GetType().Name}: invalid target type {target.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
 
-        protected override AbilityTargetResults SetTargets(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        protected override AbilityTargetResults GetTarget(ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
-            IEntity target = parameters.Length < 1
+            target = parameters.Length < 1
                         ? caster
                         : FindHelpers.FindByName(caster.Room.People, parameters[0]);
             if (target == null)
@@ -44,7 +42,6 @@ namespace Mud.POC.Abilities2
                 }
             }
             // victim or item (target) found
-            Target = target;
             return AbilityTargetResults.Ok;
         }
 

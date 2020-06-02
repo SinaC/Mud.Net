@@ -7,8 +7,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
 {
     public abstract class DefensiveSpellBase : SpellBase
     {
-        protected ICharacter Victim { get; private set; }
-
         protected DefensiveSpellBase(IRandomManager randomManager, IWiznet wiznet) 
             : base(randomManager, wiznet)
         {
@@ -16,29 +14,30 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         #region SpellBase
 
-        protected override void Invoke(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
+        protected override void Invoke(ICharacter caster, int level, IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
-            if (Victim == null)
+            if (target == null)
                 return;
-            Action(caster, level, Victim);
+            Action(caster, level, target as ICharacter);
         }
 
-        protected override AbilityTargetResults SetTargets(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        protected override AbilityTargetResults GetTarget(ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
-            ICharacter target;
+            ICharacter victim;
+            target = null;
             if (parameters.Length < 1)
-                target = caster;
+                victim = caster;
             else
             {
-                target = FindHelpers.FindByName(caster.Room.People, parameters[0]);
-                if (target == null)
+                victim = FindHelpers.FindByName(caster.Room.People, parameters[0]);
+                if (victim == null)
                 {
                     caster.Send("They aren't here.");
                     return AbilityTargetResults.TargetNotFound;
                 }
             }
             // victim found
-            Victim = target;
+            target = victim;
             return AbilityTargetResults.Ok;
         }
 

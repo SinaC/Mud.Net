@@ -5,7 +5,7 @@ namespace Mud.POC.Abilities2
 {
     public interface ISkill : IAbility
     {
-        UseResults Use(ICharacter user, IAbility ability, string rawParameters, params CommandParameter[] parameters);
+        UseResults Use(ICharacter user, string rawParameters, params CommandParameter[] parameters);
     }
 
     public enum UseResults

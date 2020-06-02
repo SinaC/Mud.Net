@@ -11,16 +11,17 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        protected override void Invoke(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
+        protected override void Invoke(ICharacter caster, int level, IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
-            Action(caster, level);
+            Action(caster, level, rawParameters, parameters);
         }
 
-        protected override AbilityTargetResults SetTargets(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        protected override AbilityTargetResults GetTarget(ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
+            target = null;
             return AbilityTargetResults.Ok;
         }
 
-        public abstract void Action(ICharacter caster, int level);
+        public abstract void Action(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters);
     }
 }

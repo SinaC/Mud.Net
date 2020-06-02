@@ -6,10 +6,8 @@ using Mud.Server.Input;
 namespace Mud.POC.Abilities2
 {
     public abstract class ItemInventorySpellBase<TItem> : SpellBase
-        where TItem : IItem
+        where TItem : class, IItem
     {
-        protected TItem Item { get; private set; }
-
         protected ItemInventorySpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
@@ -17,21 +15,22 @@ namespace Mud.POC.Abilities2
 
         #region SpellBase
 
-        protected override void Invoke(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
+        protected override void Invoke(ICharacter caster, int level, IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
-            if (Item == null)
+            if (target == null)
                 return;
-            Action(caster, level, Item);
+            Action(caster, level, target as TItem);
         }
 
-        protected override AbilityTargetResults SetTargets(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        protected override AbilityTargetResults GetTarget(ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
+            target = null;
             if (parameters.Length < 1)
             {
                 caster.Send("What should the spell be cast upon?");
                 return AbilityTargetResults.MissingParameter;
             }
-            IItem target = FindHelpers.FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?
+            target = FindHelpers.FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?
             if (target == null)
             {
                 caster.Send("You are not carrying that.");
@@ -42,7 +41,6 @@ namespace Mud.POC.Abilities2
                 caster.Send(InvalidItemTypeMsg);
                 return AbilityTargetResults.InvalidTarget;
             }
-            Item = (TItem)target;
             return AbilityTargetResults.Ok;
         }
 

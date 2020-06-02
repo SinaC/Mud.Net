@@ -1,5 +1,6 @@
 ﻿using Mud.POC.Abilities2.Interfaces;
 using Mud.Server.Common;
+using Mud.Server.Input;
 using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
@@ -14,7 +15,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
         {
         }
 
-        public override void Action(ICharacter caster, int level)
+        public override void Action(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
         {
             IItemFountain fountain = ItemManager.AddItem(Guid.NewGuid(), Settings.SpringBlueprintId, caster.Room) as IItemFountain;
             int duration = level;

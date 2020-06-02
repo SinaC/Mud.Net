@@ -35,15 +35,15 @@ namespace Mud.POC.Abilities2.Rom24Spells
             caster.UpdateAlignment(-50);
         }
 
-        protected override AbilityTargetResults SetTargets(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        protected override AbilityTargetResults GetTarget(ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
         {
-            AbilityTargetResults result = base.SetTargets(caster, rawParameters, parameters);
+            AbilityTargetResults result = base.GetTarget(caster, out target, rawParameters, parameters);
             if (result != AbilityTargetResults.Ok)
                 return result;
             // Check alignment
             if (caster is IPlayableCharacter && !caster.IsEvil)
             {
-                Victim = caster;
+                target = caster;
                 caster.Send("The demons turn upon you!");
             }
             return AbilityTargetResults.Ok;

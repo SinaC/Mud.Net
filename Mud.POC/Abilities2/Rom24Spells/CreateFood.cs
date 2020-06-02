@@ -1,5 +1,6 @@
 ﻿using Mud.POC.Abilities2.Interfaces;
 using Mud.Server.Common;
+using Mud.Server.Input;
 using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
@@ -14,7 +15,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
         {
         }
 
-        public override void Action(ICharacter caster, int level)
+        public override void Action(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
         {
             IItemFood mushroom = ItemManager.AddItem(Guid.NewGuid(), Settings.MushroomBlueprintId, caster.Room) as IItemFood;
             mushroom?.SetHours(level / 2, level);
