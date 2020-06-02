@@ -2059,7 +2059,8 @@ namespace Mud.Server.Character
                             int duration = level / 2;
                             World.AddAura(victim, poison, this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                                 new CharacterFlagsAffect {Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or},
-                                new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add});
+                                new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add},
+                                new PoisonDamageAffect());
                         }
                     }
                 }

@@ -1648,7 +1648,8 @@ namespace Mud.Server.Abilities
 
             World.AddAura(victim, ability, caster, (3 * level) / 4, TimeSpan.FromMinutes(level), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = CharacterFlags.Plague, Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = CharacterFlags.Plague, Operator = AffectOperators.Or },
+                new PlagueSpreadAndDamageAffect());
             victim.Act(ActOptions.ToAll, "{0:N} scream{0:V} in agony as plague sores erupt from {0:s} skin.", victim);
         }
 
@@ -1703,9 +1704,14 @@ namespace Mud.Server.Abilities
                 }
 
                 int duration = level;
-                World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
-                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
-                    new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
+                IAura poisonAura = victim.GetAura(ability);
+                if (poisonAura != null)
+                    poisonAura.Update(level, TimeSpan.FromMinutes(duration));
+                else
+                    World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                        new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
+                        new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                        new PoisonDamageAffect());
                 victim.Send("You feel very sick.");
                 victim.Act(ActOptions.ToRoom, "{0:N} looks very ill.", victim);
             }

@@ -16,8 +16,6 @@ commands dynamically added to Character depending on room they are, for example
 	we could add list/buy/sell/value to commands if a shopkeeper is in the room
 	brandish only when holding a staff
 
-plague spread to other people in room
-poison does periodic damage
 clan/guild, auction house, help, socials, wimpy, note
 commands: auction, channels, clantalk, compare, report, read, socials, whois, bet, brief, combine, compact, description, noloot, nosummon, outfit, prompt, title, wimpy, config, deaf, pmote, note, board, quote, nwrite,
 	heal, autoaffect, wake, myclan, petition, clanlist
@@ -55,6 +53,8 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+plague spread to other people in room
+poison does periodic damage
 Spell with damage + effect (such as ColourSpray) can lead to strange behaviour -> damage kill victim then blindness is cast on victim  -> Damage should return if character has been killed
 commands: buy, list, value, sell
 CharacterShopBlueprint

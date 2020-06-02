@@ -665,16 +665,11 @@ namespace Mud.Server.Character
                 int duration = amount * 3;
                 int level = RandomManager.Fuzzy(amount);
                 if (poisonAura != null)
-                {
                     poisonAura.Update(level, TimeSpan.FromMinutes(duration));
-                    poisonAura.AddOrUpdateAffect(
-                        x => x.Modifier == CharacterFlags.Poison,
-                        () => new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
-                        null);
-                }
                 else
                     World.AddAura(this, poison, drinkable, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                        new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
+                        new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                        new PoisonDamageAffect());
                 Recompute();
             }
 
@@ -893,14 +888,11 @@ namespace Mud.Server.Character
                     if (poisonAura != null)
                     {
                         poisonAura.Update(level, TimeSpan.FromMinutes(duration));
-                        poisonAura.AddOrUpdateAffect(
-                            x => x.Modifier == CharacterFlags.Poison,
-                            () => new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
-                            null);
                     }
                     else
                         World.AddAura(this, poison, food, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                            new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or });
+                            new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                            new PoisonDamageAffect());
                     Recompute();
                 }
                 World.RemoveItem(food);

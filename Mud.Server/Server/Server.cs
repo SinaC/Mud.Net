@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -1288,6 +1289,25 @@ namespace Mud.Server.Server
                     pc?.GainCondition(Conditions.Full, character.Size > Sizes.Medium ? -4 : -2);
                     pc?.GainCondition(Conditions.Thirst, -1);
                     pc?.GainCondition(Conditions.Hunger, character.Size > Sizes.Medium ? -2 : -1);
+
+                    // apply a random periodic affect if any
+                    IAura[] periodicAuras = character.Auras.Where(x => x.Affects.Any(a => a is ICharacterPeriodicAffect)).ToArray();
+                    if (periodicAuras.Length > 0)
+                    {
+                        IAura aura = periodicAuras.Random(RandomManager);
+                        ICharacterPeriodicAffect affect = aura.Affects.OfType<ICharacterPeriodicAffect>().FirstOrDefault();
+                        affect?.Apply(aura, character);
+                    }
+                    // Incap character takes damage
+                    else if (character.Position == Positions.Incap && RandomManager.Chance(50))
+                    {
+                        character.Damage(character, 1, SchoolTypes.None, string.Empty, false);
+                    }
+                    // Mortal character takes damage
+                    else if (character.Position == Positions.Mortal)
+                    {
+                        character.Damage(character, 1, SchoolTypes.None, string.Empty, false);
+                    }
 
                     // TODO: limbo
                     // TODO: autosave, autoquit
