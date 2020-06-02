@@ -1274,6 +1274,8 @@ namespace Mud.Importer.Mystery
                     Immunities = ConvertMysteryIRV(mobileData.ImmFlags),
                     Resistances = ConvertMysteryIRV(mobileData.ResFlags),
                     Vulnerabilities = ConvertMysteryIRV(mobileData.VulnFlags),
+                    Race = mobileData.Race,
+                    //Class = mobileData.Classes
                 };
             else
                 return new CharacterShopBlueprint
@@ -1502,6 +1504,8 @@ namespace Mud.Importer.Mystery
             {
                 switch (buyType)
                 {
+                    case 0:
+                        break;
                     case ITEM_LIGHT: yield return typeof(ItemLightBlueprint); break;
                     case ITEM_SCROLL: yield return typeof(ItemScrollBlueprint); break;
                     case ITEM_WAND: yield return typeof(ItemWandBlueprint); break;
@@ -1527,7 +1531,7 @@ namespace Mud.Importer.Mystery
                     case ITEM_PORTAL: yield return typeof(ItemPortalBlueprint); break;
                     case ITEM_WARP_STONE: yield return typeof(ItemWarpStoneBlueprint); break;
                     case ITEM_COMPONENT:
-                        Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0}", buyType);
+                        Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
                         break;
                     case ITEM_GEM: yield return typeof(ItemGemBlueprint); break;
                     case ITEM_JEWELRY: yield return typeof(ItemJewelryBlueprint); break;
@@ -1537,7 +1541,7 @@ namespace Mud.Importer.Mystery
                     case ITEM_SADDLE:
                     case ITEM_ROPE:
                     default:
-                        Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0}", buyType);
+                        Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
                         break;
                 }
             }

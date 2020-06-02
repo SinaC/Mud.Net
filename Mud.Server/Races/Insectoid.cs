@@ -3,7 +3,7 @@ using Mud.Domain;
 
 namespace Mud.Server.Races
 {
-    public class Insectoid : RaceBase // 4-arms
+    public class Insectoid : PlayableRaceBase // 4-arms
     {
         #region IRace
 
@@ -44,12 +44,20 @@ namespace Mud.Server.Races
         public override string ShortName => "Ins";
 
         public override Sizes Size => Sizes.Medium;
+        public override CharacterFlags CharacterFlags => CharacterFlags.Haste;
 
         public override IEnumerable<EquipmentSlots> EquipmentSlots => _slots;
 
         public override IRVFlags Immunities => IRVFlags.None;
         public override IRVFlags Resistances => IRVFlags.Bash | IRVFlags.Slash | IRVFlags.Poison | IRVFlags.Disease | IRVFlags.Acid;
         public override IRVFlags Vulnerabilities => IRVFlags.Pierce | IRVFlags.Fire | IRVFlags.Cold;
+
+        public override BodyForms BodyForms => BodyForms.Poison | BodyForms.Sentient | BodyForms.Biped | BodyForms.Insect | BodyForms.FourArms;
+        public override BodyParts BodyParts => BodyParts.Head | BodyParts.Arms | BodyParts.Legs | BodyParts.Head | BodyParts.Brains | BodyParts.Guts | BodyParts.Hands | BodyParts.Feet | BodyParts.Fingers | BodyParts.Ear | BodyParts.Eye | BodyParts.Body;
+
+        public override ActFlags ActFlags => ActFlags.None;
+        public override OffensiveFlags OffensiveFlags => OffensiveFlags.Fast;
+        public override AssistFlags AssistFlags => AssistFlags.None;
 
         public override int GetStartAttribute(CharacterAttributes attribute)
         {
@@ -105,11 +113,6 @@ namespace Mud.Server.Races
 
         public Insectoid()
         {
-            // TODO
-            //AddAbility(1, AbilityManager.DualWieldAbility);
-            //AddAbility(1, AbilityManager.ThirdWieldAbility);
-            //AddAbility(1, AbilityManager.FourthWieldAbility);
-
             AddAbility(1, "Test", null, 0, CostAmountOperators.None, 0);
             AddAbility(1, "Dual wield", null, 0, CostAmountOperators.None, 0);
             AddAbility(1, "Third wield", null, 0, CostAmountOperators.None, 0); // only if warrior

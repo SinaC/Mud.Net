@@ -355,7 +355,9 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", victim.HitPoints, victim.MaxHitPoints);
             sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", victim.MovePoints, victim.MaxMovePoints);
             sb.AppendFormatLine("Flags: {0} (base: {1})", victim.CharacterFlags, victim.BaseCharacterFlags);
-            sb.AppendFormatLine("Immunites: {0} (base: {1})  Resistances: {2} (base: {3})  Vulnerabilities: {4} (base: {5})", victim.Immunities, victim.BaseImmunities, victim.Resistances, victim.BaseResistances, victim.Vulnerabilities, victim.BaseVulnerabilities);
+            sb.AppendFormatLine("Immunites: {0} (base: {1})", victim.Immunities, victim.BaseImmunities);
+            sb.AppendFormatLine("Resistances: {0} (base: {1})", victim.Resistances, victim.BaseResistances);
+            sb.AppendFormatLine("Vulnerabilities: {0} (base: {1})", victim.Vulnerabilities, victim.BaseVulnerabilities);
             sb.AppendFormatLine("Alignment: {0}", victim.Alignment);
             sb.AppendLine("Attributes:");
             foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
@@ -611,6 +613,7 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("LongDescription: {0}", blueprint.LongDescription);
             sb.AppendFormatLine("Description: {0}", blueprint.Description);
             sb.AppendFormatLine("Level: {0} Sex: {1}", blueprint.Level, blueprint.Sex);
+            sb.AppendFormatLine("Race: {0} Class: {1}", blueprint.Race, blueprint.Class);
             sb.AppendFormatLine("Wealth: {0} Alignment {1}", blueprint.Wealth, blueprint.Alignment);
             sb.AppendFormatLine("Damage: {0}d{1}+{2} DamageType: {3} DamageNoun: {4}", blueprint.DamageDiceCount, blueprint.DamageDiceValue, blueprint.DamageDiceBonus, blueprint.DamageType, blueprint.DamageNoun);
             sb.AppendFormatLine("Hitpoints: {0}d{1}+{2}", blueprint.HitPointDiceCount, blueprint.HitPointDiceValue, blueprint.HitPointDiceBonus);
@@ -625,6 +628,29 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Vulnerabilities: {0}", blueprint.Vulnerabilities);
             // TODO: loot table, script
             // TODO: specific blueprint
+            switch (blueprint)
+            {
+                case CharacterQuestorBlueprint characterQuestorBlueprint:
+                    sb.AppendLine($"Quest giver: {characterQuestorBlueprint.QuestBlueprints?.Length ?? 0}");
+                    foreach (var questBlueprint in characterQuestorBlueprint.QuestBlueprints ?? Enumerable.Empty<QuestBlueprint>())
+                    {
+                        sb.AppendLine($"  Quest: {questBlueprint.Id}");
+                        sb.AppendLine($"    Title: {questBlueprint.Title}");
+                        sb.AppendLine($"    Level: {questBlueprint.Level}");
+                        sb.AppendLine($"    Description: {questBlueprint.Description}");
+                        sb.AppendLine($"    Experience: {questBlueprint.Experience}");
+                        sb.AppendLine($"    Gold: {questBlueprint.Gold}");
+                        sb.AppendLine($"    ShouldQuestItemBeDestroyed: {questBlueprint.ShouldQuestItemBeDestroyed}");
+                        // TODO: display KillLootTable, ItemObjectives, KillObjectives, LocationObjectives
+                    }
+                    break;
+                case CharacterShopBlueprint characterShopBlueprint:
+                    sb.AppendLine("Shopkeeper:");
+                    sb.AppendFormatLine("BuyTypes: {0}", string.Join(",", characterShopBlueprint.BuyBlueprintTypes.Select(x => x.ToString().AfterLast('.').Replace("Blueprint", string.Empty))));
+                    sb.AppendFormatLine("Profit buy: {0}% sell: {1}%", characterShopBlueprint.ProfitBuy, characterShopBlueprint.ProfitSell);
+                    sb.AppendFormatLine("Open hour: {0} Close hour: {1}", characterShopBlueprint.OpenHour, characterShopBlueprint.CloseHour);
+                    break;
+            }
 
             Send(sb);
             return CommandExecutionResults.Ok;
@@ -928,7 +954,7 @@ namespace Mud.Server.Admin
             if (parameters[0].Value == "race")
             {
                 // Name, ShortName, DisplayName
-                StringBuilder sb = TableGenerators.RaceTableGenerator.Value.Generate("Races", RaceManager.Races);
+                StringBuilder sb = TableGenerators.PlayableRaceTableGenerator.Value.Generate("Races", RaceManager.PlayableRaces);
                 Page(sb);
                 return CommandExecutionResults.Ok;
             }
@@ -953,7 +979,7 @@ namespace Mud.Server.Admin
             }
 
             // race name
-            IRace matchingRace = RaceManager.Races.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            IPlayableRace matchingRace = RaceManager.PlayableRaces.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingRace != null)
             {
                 StringBuilder sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate(
@@ -1018,7 +1044,7 @@ namespace Mud.Server.Admin
             }
 
             // filter on race?
-            IRace matchingRace = RaceManager.Races.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            IPlayableRace matchingRace = RaceManager.PlayableRaces.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
             if (matchingRace != null)
             {
                 StringBuilder sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate($"{title} for {matchingRace.DisplayName}", matchingRace.Abilities

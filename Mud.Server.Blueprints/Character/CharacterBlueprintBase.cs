@@ -108,9 +108,15 @@ namespace Mud.Server.Blueprints.Character
         [DataMember]
         public IRVFlags Vulnerabilities { get; set; }
 
+        [DataMember]
+        public string Race { get; set; }
+
+        [DataMember]
+        public string Class { get; set; }
+
         // TODO CharacterAttributes
 
-        // TODO: race, class, ...
+        // TODO: affects, ...
 
         [DataMember]
         public CharacterLootTable<int> LootTable { get; set; }

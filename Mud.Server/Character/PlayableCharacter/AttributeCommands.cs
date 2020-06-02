@@ -40,7 +40,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 gainAction = () =>
                 {
                     CharacterAttributes attribute = attributeFound.attribute;
-                    int max = GetMaxAttributeValue(attribute, Race, Class);
+                    int max = GetMaxAttributeValue(attribute, Race as IPlayableRace, Class);
                     if (BaseAttribute(attribute) >= max)
                     {
                         Send("Your {0} is already at maximum.", attributeFound.name);
@@ -93,13 +93,13 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         //
-        private int GetMaxAttributeValue(CharacterAttributes attribute, IRace race, IClass @class)
+        private int GetMaxAttributeValue(CharacterAttributes attribute, IPlayableRace race, IClass @class)
         {
             int value = race?.GetStartAttribute(attribute) ?? 18;
             if (@class != null && (int)attribute == (int)@class.PrimeAttribute)
             {
                 value += 2;
-                if (race.Name == "Human")
+                if (race?.Name == "Human")
                     value++;
             }
             return value;

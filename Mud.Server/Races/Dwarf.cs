@@ -1,8 +1,8 @@
 ﻿using Mud.Domain;
 
-namespace Mud.Server.Races
+namespace Mud.Server.Races.PlayableRaces
 {
-    public class Dwarf : RaceBase
+    public class Dwarf : PlayableRaceBase
     {
         public Dwarf()
         {
@@ -16,9 +16,18 @@ namespace Mud.Server.Races
 
         public override Sizes Size => Sizes.Small;
 
+        public override CharacterFlags CharacterFlags => CharacterFlags.Infrared;
+
         public override IRVFlags Immunities => IRVFlags.None;
         public override IRVFlags Resistances => IRVFlags.Poison | IRVFlags.Disease;
         public override IRVFlags Vulnerabilities => IRVFlags.Drowning;
+
+        public override BodyForms BodyForms => BodyForms.Edible | BodyForms.Sentient | BodyForms.Biped | BodyForms.Mammal;
+        public override BodyParts BodyParts => BodyParts.Head | BodyParts.Arms | BodyParts.Legs | BodyParts.Head | BodyParts.Brains | BodyParts.Guts | BodyParts.Hands | BodyParts.Feet | BodyParts.Fingers | BodyParts.Ear | BodyParts.Eye | BodyParts.Body;
+
+        public override ActFlags ActFlags => ActFlags.None;
+        public override OffensiveFlags OffensiveFlags => OffensiveFlags.None;
+        public override AssistFlags AssistFlags => AssistFlags.None;
 
         public override int GetStartAttribute(CharacterAttributes attribute)
         {

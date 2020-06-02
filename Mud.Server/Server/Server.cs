@@ -762,7 +762,7 @@ namespace Mud.Server.Server
 
         private void SanityCheckRaces()
         {
-            Log.Default.WriteLine(LogLevels.Info, "#Races: {0}", RaceManager.Races.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#Races: {0}", RaceManager.PlayableRaces.Count());
         }
 
         private void SanityCheckQuests()
@@ -848,7 +848,7 @@ namespace Mud.Server.Server
 
         private void DumpRaces()
         {
-            StringBuilder sb = TableGenerators.RaceTableGenerator.Value.Generate("Races", RaceManager.Races.OrderBy(x => x.Name));
+            StringBuilder sb = TableGenerators.PlayableRaceTableGenerator.Value.Generate("Races", RaceManager.PlayableRaces.OrderBy(x => x.Name));
             Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 

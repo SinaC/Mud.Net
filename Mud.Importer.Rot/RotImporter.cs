@@ -1250,6 +1250,7 @@ namespace Mud.Importer.Rot
                     Immunities = ConvertIRV(mobileData.ImmFlags),
                     Resistances = ConvertIRV(mobileData.ResFlags),
                     Vulnerabilities = ConvertIRV(mobileData.VulnFlags),
+                    Race = mobileData.Race,
                 };
             }
             else 
@@ -1470,6 +1471,8 @@ namespace Mud.Importer.Rot
             {
                 switch (buyType)
                 {
+                    case 0:
+                        break;
                     case ITEM_LIGHT: yield return typeof(ItemLightBlueprint); break;
                     case ITEM_SCROLL: yield return typeof(ItemScrollBlueprint); break;
                     case ITEM_WAND: yield return typeof(ItemWandBlueprint); break;
@@ -1492,13 +1495,13 @@ namespace Mud.Importer.Rot
                     case ITEM_FOUNTAIN: yield return typeof(ItemFountainBlueprint); break;
                     case ITEM_PILL: yield return typeof(ItemPillBlueprint); break;
                     case ITEM_PROTECT:
-                        Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0}", buyType);
+                        Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
                         break;
                     case ITEM_MAP: yield return typeof(ItemMapBlueprint); break;
                     case ITEM_PORTAL: yield return typeof(ItemPortalBlueprint); break;
                     case ITEM_WARP_STONE: yield return typeof(ItemWarpStoneBlueprint); break;
                     case ITEM_ROOM_KEY:
-                        Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0}", buyType);
+                        Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
                         break;
                     case ITEM_GEM: yield return typeof(ItemGemBlueprint); break;
                     case ITEM_JEWELRY: yield return typeof(ItemJewelryBlueprint); break;
@@ -1509,7 +1512,7 @@ namespace Mud.Importer.Rot
                     case ITEM_PASSBOOK:
                     case ITEM_VEHICLE:
                     default:
-                        Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0}", buyType);
+                        Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
                         break;
                 }
             }

@@ -78,10 +78,10 @@ namespace Mud.Server.Helpers
             return generator;
         });
 
-        public static readonly Lazy<TableGenerator<IRace>> RaceTableGenerator = new Lazy<TableGenerator<IRace>>(() =>
+        public static readonly Lazy<TableGenerator<IPlayableRace>> PlayableRaceTableGenerator = new Lazy<TableGenerator<IPlayableRace>>(() =>
         {
-            TableGenerator<IRace> generator = new TableGenerator<IRace>();
-            generator.AddColumn("Name", 20, x => x.DisplayName, new TableGenerator<IRace>.ColumnOptions { AlignLeft = true });
+            TableGenerator<IPlayableRace> generator = new TableGenerator<IPlayableRace>();
+            generator.AddColumn("Name", 20, x => x.DisplayName, new TableGenerator<IPlayableRace>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("ShortName", 10, x => x.ShortName);
             generator.AddColumn("Size", 10, x => x.Size.ToString());
             generator.AddColumn(BasicAttributes.Strength.ShortName(), 5, x => x.GetMaxAttribute(CharacterAttributes.Strength).ToString());

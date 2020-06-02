@@ -454,6 +454,7 @@ namespace Mud.Domain
         Tail            = 0x00001000,
         Trip            = 0x00002000,
         Crush           = 0x00004000,
+        Bite            = 0x00008000,
     }
 
     [Flags]
@@ -661,5 +662,72 @@ namespace Mud.Domain
         Gold      = 0x0008,
         Split     = 0x0010,
         Loot      = 0x0020,
+    }
+
+    [Flags]
+    public enum BodyForms
+    {
+        Edible       = 0x00000001,
+        Poison       = 0x00000002,
+        Magical      = 0x00000004,
+        InstantDecay = 0x00000008,
+        Other        = 0x00000010, // defined by material
+        // 0x00000020
+        Animal       = 0x00000040,
+        Sentient     = 0x00000080,
+        Undead       = 0x00000100,
+        Construct    = 0x00000200,
+        Mist         = 0x00000400,
+        Intangible   = 0x00000800,
+
+        Biped        = 0x00001000,
+        Centaur      = 0x00002000,
+        Insect       = 0x00004000,
+        Spider       = 0x00008000,
+        Crustacean   = 0x00010000,
+        Worm         = 0x00020000,
+        Blob         = 0x00040000,
+        //0x00080000
+        //0x00100000
+        Mammal       = 0x00080000,
+        Bird         = 0x00400000,
+        Reptile      = 0x00800000,
+        Snake        = 0x01000000,
+        Dragon       = 0x02000000,
+        Amphibian    = 0x04000000,
+        Fish         = 0x08000000,
+        ColdBlood    = 0x10000000,
+        Fur          = 0x20000000,
+        FourArms     = 0x40000000,
+    }
+
+    [Flags]
+    public enum BodyParts
+    {
+        Head            = 0x00000001,
+        Arms            = 0x00000002,
+        Legs            = 0x00000004,
+        Heart           = 0x00000008,
+        Brains          = 0x00000010,
+        Guts            = 0x00000020,
+        Hands           = 0x00000040,
+        Feet            = 0x00000080,
+        Fingers         = 0x00000100,
+        Ear             = 0x00000200,
+        Eye             = 0x00000400,
+        LongTongue      = 0x00000800,
+        Eyestalks       = 0x00001000,
+        Tentacles       = 0x00002000,
+        Fins            = 0x00004000,
+        Wings           = 0x00008000,
+        Tail            = 0x00010000,
+        Body            = 0x00020000,
+        // 0x00040000
+        // 0x00080000
+        Claws           = 0x00100000,
+        Fangs           = 0x00200000,
+        Horns           = 0x00400000,
+        Scales          = 0x00800000,
+        Tusks           = 0x01000000,
     }
 }

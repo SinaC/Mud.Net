@@ -2237,7 +2237,7 @@ namespace Mud.Server.Character
             return Equipments.Where(x => x.Slot == EquipmentSlots.OffHand && x.Item == null).ElementAtOrDefault(countMainhand2H);
         }
 
-        protected void RecomputeKnownAbilities()
+        protected virtual void RecomputeKnownAbilities()
         {
             // Add abilities from Class/Race/...
 
@@ -2247,8 +2247,6 @@ namespace Mud.Server.Character
             //else
             if (Class != null)
                 MergeAbilities(Class.Abilities, false);
-            if (Race != null)
-                MergeAbilities(Race.Abilities, true);
         }
 
         protected void RecomputeCurrentResourceKinds()
@@ -2315,7 +2313,7 @@ namespace Mud.Server.Character
                 _knownAbilities.Add(knownAbility);
         }
 
-        private void ApplyAuras(IEntity entity)
+        protected void ApplyAuras(IEntity entity)
         {
             if (!entity.IsValid)
                 return;
@@ -2328,7 +2326,7 @@ namespace Mud.Server.Character
             }
         }
 
-        private void MergeAbilities(IEnumerable<AbilityUsage> abilities, bool naturalBorn)
+        protected void MergeAbilities(IEnumerable<AbilityUsage> abilities, bool naturalBorn)
         {
             // If multiple identical abilities, keep only one with lowest level
             foreach (AbilityUsage abilityUsage in abilities)

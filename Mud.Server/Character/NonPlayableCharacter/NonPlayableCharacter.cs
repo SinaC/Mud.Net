@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
+using Mud.Logger;
 using Mud.Server.Abilities;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
@@ -19,26 +21,32 @@ namespace Mud.Server.Character.NonPlayableCharacter
     {
         private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> NonPlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<NonPlayableCharacter>);
 
-        public NonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
-            : base(guid, blueprint.Name, blueprint.Description)
+        private IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
+        private IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
+
+        protected NonPlayableCharacter(Guid guid, string name, string description, CharacterBlueprintBase blueprint, IRoom room)
+            : base(guid, name, description)
         {
             Blueprint = blueprint;
 
-            Position = Positions.Standing;
-            // TODO: race, class, ...
             Level = blueprint.Level;
+            Position = Positions.Standing;
+            Race = RaceManager[blueprint.Race];
+            if (Race == null && !string.IsNullOrWhiteSpace(blueprint.Race))
+                Log.Default.WriteLine(LogLevels.Warning, "Unknown race '{0}' for npc {1}", blueprint.Race, blueprint.Id);
+            Class = ClassManager[blueprint.Class];
             DamageNoun = blueprint.DamageNoun;
             DamageType = blueprint.DamageType;
             DamageDiceCount = blueprint.DamageDiceCount;
             DamageDiceValue = blueprint.DamageDiceValue;
             DamageDiceBonus = blueprint.DamageDiceBonus;
-            ActFlags = blueprint.ActFlags;
-            OffensiveFlags = blueprint.OffensiveFlags;
-            AssistFlags = blueprint.AssistFlags;
-            BaseCharacterFlags = blueprint.CharacterFlags;
-            BaseImmunities = blueprint.Immunities;
-            BaseResistances = blueprint.Resistances;
-            BaseVulnerabilities = blueprint.Vulnerabilities;
+            ActFlags = blueprint.ActFlags | (Race?.ActFlags ?? ActFlags.None);
+            OffensiveFlags = blueprint.OffensiveFlags | (Race?.OffensiveFlags ?? OffensiveFlags.None);
+            AssistFlags = blueprint.AssistFlags | (Race?.AssistFlags ?? AssistFlags.None);
+            BaseCharacterFlags = blueprint.CharacterFlags | (Race?.CharacterFlags ?? CharacterFlags.None);
+            BaseImmunities = blueprint.Immunities | (Race?.Immunities ?? IRVFlags.None);
+            BaseResistances = blueprint.Resistances | (Race?.Resistances ?? IRVFlags.None);
+            BaseVulnerabilities = blueprint.Vulnerabilities | (Race?.Vulnerabilities ?? IRVFlags.None);
             BaseSex = blueprint.Sex;
             BaseSize = blueprint.Size;
             Alignment = blueprint.Alignment.Range(-1000, 1000);
@@ -83,51 +91,25 @@ namespace Mud.Server.Character.NonPlayableCharacter
             HitPoints = BaseAttribute(CharacterAttributes.MaxHitPoints); // can't use this[MaxHitPoints] because current has been been computed, it will be computed in ResetCurrentAttributes
             MovePoints = BaseAttribute(CharacterAttributes.MaxMovePoints);
 
+            BuildEquipmentSlots();
+
             Room = room;
             room.Enter(this);
+        }
 
+        public NonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
+            : this(guid, blueprint.Name, blueprint.Description, blueprint, room)
+        {
             RecomputeKnownAbilities();
             ResetCurrentAttributes();
             RecomputeCurrentResourceKinds();
-            BuildEquipmentSlots();
         }
 
-        public NonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room) // NPC
-            : base(guid, petData.Name, blueprint.Description)
+        public NonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room) // Pet
+            : this(guid, petData.Name, blueprint.Description, blueprint, room)
         {
-            Blueprint = blueprint;
-
-            Position = Positions.Standing;
-            // TODO: race, class, ...
-            Level = petData.Level;
-            HitPoints = petData.HitPoints;
-            MovePoints = petData.MovePoints;
-            DamageNoun = blueprint.DamageNoun;
-            DamageType = blueprint.DamageType;
-            DamageDiceCount = blueprint.DamageDiceCount;
-            DamageDiceValue = blueprint.DamageDiceValue;
-            DamageDiceBonus = blueprint.DamageDiceBonus;
-            ActFlags = blueprint.ActFlags;
-            OffensiveFlags = blueprint.OffensiveFlags;
-            AssistFlags = blueprint.AssistFlags;
-            BaseCharacterFlags = petData.CharacterFlags;
-            BaseImmunities = petData.Immunities;
-            BaseResistances = petData.Resistances;
-            BaseVulnerabilities = petData.Vulnerabilities;
             BaseSex = petData.Sex;
             BaseSize = petData.Size;
-            Alignment = blueprint.Alignment.Range(-1000, 1000);
-            if (blueprint.Wealth == 0)
-            {
-                SilverCoins = 0;
-                GoldCoins = 0;
-            }
-            else
-            {
-                long wealth = RandomManager.Range(blueprint.Wealth / 2, 3 * blueprint.Wealth / 2);
-                GoldCoins = RandomManager.Range(wealth / 200, wealth / 100);
-                SilverCoins = wealth - (GoldCoins * 100);
-            }
             // attributes
             if (petData.Attributes != null)
             {
@@ -159,9 +141,6 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 foreach (var maxResourceData in petData.MaxResources)
                     SetMaxResource(maxResourceData.Key, maxResourceData.Value, false);
             }
-
-            // Must be built before equiping
-            BuildEquipmentSlots();
 
             // Equipped items
             if (petData.Equipments != null)
@@ -206,13 +185,9 @@ namespace Mud.Server.Character.NonPlayableCharacter
                     AddAura(new Aura.Aura(auraData), false); // TODO: !!! auras is not added thru World.AddAura
             }
 
-            Room = room;
-            room.Enter(this);
-
             RecomputeKnownAbilities();
             ResetCurrentAttributes();
             RecomputeCurrentResourceKinds();
-            BuildEquipmentSlots();
         }
 
         #region INonPlayableCharacter
