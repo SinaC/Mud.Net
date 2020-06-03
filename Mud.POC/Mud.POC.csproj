@@ -184,6 +184,7 @@
     <Compile Include="Abilities2\SkillBase.cs" />
     <Compile Include="Abilities2\SpellBase.cs" />
     <Compile Include="Abilities2\Helpers\StringHelpers.cs" />
+    <Compile Include="Abilities2\SpellTest.cs" />
     <Compile Include="Abilities\Ability.cs" />
     <Compile Include="Abilities\AbilityAttribute.cs" />
     <Compile Include="Abilities\AbilityManager.cs" />
