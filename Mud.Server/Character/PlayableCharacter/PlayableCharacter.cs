@@ -653,7 +653,7 @@ namespace Mud.Server.Character.PlayableCharacter
             return Group == character.Group;
         }
 
-        public bool IsSameGroupOrPet(ICharacter character)
+        public override bool IsSameGroupOrPet(ICharacter character)
         {
             if (character is IPlayableCharacter pc)
                 return IsSameGroup(pc);

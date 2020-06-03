@@ -1552,16 +1552,9 @@ namespace Mud.Server.Abilities
         [Spell(68, "Mass Invis", AbilityTargets.None, CharacterWearOffMessage = "You are no longer invisible.", DispelRoomMessage = "{0:N} fades into existance.", Flags = AbilityFlags.CanBeDispelled, PulseWaitTime = 24)]
         public void SpellMassInvis(IAbility ability, int level, ICharacter caster)
         {
-            bool IsSameGroupOrPet(ICharacter ch1, ICharacter ch2)
-            {
-                IPlayableCharacter pcCh1 = ch1 as IPlayableCharacter;
-                IPlayableCharacter pcCh2 = ch2 as IPlayableCharacter;
-                return (pcCh1 != null && pcCh1.IsSameGroupOrPet(ch2)) || (pcCh2 != null && pcCh2.IsSameGroupOrPet(ch1));
-            }
-
             foreach (ICharacter victim in caster.Room.People)
             {
-                if (IsSameGroupOrPet(caster, victim))
+                if (caster.IsSameGroupOrPet(victim))
                 {
                     victim.Act(ActOptions.ToAll, "{0:N} slowly fade{0:v} out of existence.", victim);
 

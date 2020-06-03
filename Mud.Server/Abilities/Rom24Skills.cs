@@ -908,6 +908,57 @@ namespace Mud.Server.Abilities
                 : UseResults.InvalidParameter;
         }
 
+        [Skill(5015, "Rescue", AbilityTargets.CharacterOffensive)]
+        public UseResults SkillRescue(IAbility ability, int learned, ICharacter source, ICharacter victim)
+        {
+            if (source == victim)
+            {
+                source.Send("What about fleeing instead?");
+                return UseResults.InvalidTarget;
+            }
+
+            if (victim is INonPlayableCharacter && source is IPlayableCharacter)
+            {
+                source.Send("Doesn't need your help!");
+                return UseResults.InvalidTarget;
+            }
+
+            if (source.Fighting == victim)
+            {
+                source.Send("Too late.");
+                return UseResults.InvalidTarget;
+            }
+
+            ICharacter fighting = victim.Fighting;
+            if (fighting == null)
+            {
+                source.Send("That person is not fighting right now.");
+                return UseResults.InvalidTarget;
+            }
+
+            if (fighting is INonPlayableCharacter && source.IsSameGroupOrPet(victim))
+            {
+                source.Send("Kill stealing is not permitted.");
+            }
+
+            if (!RandomManager.Chance(learned))
+            {
+                source.Send("You fail the rescue.");
+                return UseResults.Failed;
+            }
+
+            source.Act(ActOptions.ToAll, "{0:N} rescue{0:v} {1:N}.", source, victim);
+            fighting.StopFighting(false);
+            victim.StopFighting(false);
+            source.StopFighting(false);
+
+            // TODO: check killer
+            source.StartFighting(victim);
+            victim.StartFighting(source);
+
+            return UseResults.Ok;
+        }
+
         //*******************************
         private UseResults InnerPick(ICloseable closeable, ICharacter source, int learned)
         {
