@@ -3,7 +3,7 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("cure Light", AbilityEffects.Healing)]
+    [Spell("Cure Light", AbilityEffects.Healing)]
     public class CureLight : HealSpellBase
     {
         public CureLight(IRandomManager randomManager, IWiznet wiznet)

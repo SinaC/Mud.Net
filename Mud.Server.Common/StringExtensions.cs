@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Mud.Server.Common
 {
@@ -59,5 +62,7 @@ namespace Mud.Server.Common
         }
 
         public static string MaxLength(this string input, int length) => input?.Substring(0, Math.Min(length, input.Length));
+
+        public static string ToPascalCase(this string s) => string.Join(" ", s.Split(' ').Select(token => char.ToUpperInvariant(token[0]) + token.Substring(1)));
     }
 }

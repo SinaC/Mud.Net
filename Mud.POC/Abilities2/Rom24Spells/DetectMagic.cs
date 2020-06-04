@@ -5,7 +5,7 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Detect Invis", AbilityEffects.Buff | AbilityEffects.Detection)]
+    [Spell("Detect Magic", AbilityEffects.Buff | AbilityEffects.Detection)]
     [AbilityCharacterWearOffMessage("The detect magic wears off.")]
     [AbilityDispellable]
     public class DetectMagic : CharacterFlagsSpellBase

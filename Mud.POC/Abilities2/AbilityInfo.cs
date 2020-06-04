@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Mud.Logger;
+using Mud.Server.Common;
+using System;
 using System.Linq;
 using System.Reflection;
 
@@ -21,7 +23,11 @@ namespace Mud.POC.Abilities2
             AbilityExecutionType = abilityExecutionType;
 
             AbilityBaseAttribute abilityBaseAttribute = abilityExecutionType.GetCustomAttribute<AbilityBaseAttribute>();
-            Name = abilityBaseAttribute.Name;
+
+            string pascalCaseName = abilityBaseAttribute.Name.ToPascalCase();
+            if (pascalCaseName != abilityBaseAttribute.Name)
+                Log.Default.WriteLine(LogLevels.Warning, "Ability: {0} is not a valid name, its has been modified to {1}.", abilityBaseAttribute.Name, pascalCaseName);
+            Name = pascalCaseName;
             Effects = abilityBaseAttribute.Effects;
             PulseWaitTime = abilityBaseAttribute.PulseWaitTime;
             Cooldown = abilityBaseAttribute.Cooldown;

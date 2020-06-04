@@ -51,6 +51,9 @@
     <Reference Include="Moq, Version=4.14.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.14.1\lib\net45\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleInjector, Version=4.10.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.10.2\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -62,6 +65,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abilities2\AbilityManagerTests.cs" />
+    <Compile Include="Abilities2\CastTests.cs" />
+    <Compile Include="Abilities2\TestBase.cs" />
     <Compile Include="Abilities\AbilityCheckImproveTests.cs" />
     <Compile Include="Abilities\AbilityManagerTests.cs" />
     <Compile Include="Followers\AddFollowerTests.cs" />
@@ -94,6 +100,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
+      <Project>{B9D5A4DD-8418-4E00-BC90-582359F7F05D}</Project>
+      <Name>Mud.Container</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
       <Project>{00B458AF-C87B-4558-8BA7-B21D9626621E}</Project>
       <Name>Mud.DataStructures</Name>
