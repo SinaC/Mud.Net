@@ -1,5 +1,5 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.Interfaces;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,36 +7,36 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
+    [Spell("Cancellation", AbilityEffects.Dispel)]
     public class Cancellation : DefensiveSpellBase
     {
-        public override int Id => 8;
-        public override string Name => "Cancellation";
-        public override AbilityEffects Effects => AbilityEffects.Dispel;
-
-        public Cancellation(IRandomManager randomManager, IWiznet wiznet)
+        private IAbilityManager AbilityManager { get; }
+        public Cancellation(IRandomManager randomManager, IWiznet wiznet, IAbilityManager abilityManager)
             : base(randomManager, wiznet)
         {
+            AbilityManager = abilityManager;
         }
 
-        public override void Action(ICharacter caster, int level, ICharacter victim)
+        protected override void Invoke()
         {
-            if ((caster is IPlayableCharacter && victim is INonPlayableCharacter npcVictim && !caster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcVictim.Master == caster)
-                || (caster is INonPlayableCharacter && victim is IPlayableCharacter))
+            if ((Caster is IPlayableCharacter && Victim is INonPlayableCharacter npcVictim && !Caster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcVictim.Master == Caster)
+                || (Caster is INonPlayableCharacter && Victim is IPlayableCharacter))
             {
-                caster.Send("You failed, try dispel magic.");
+                Caster.Send("You failed, try dispel magic.");
                 return;
             }
 
             // unlike dispel magic, no save roll
-            bool found = TryDispels(level + 2, victim);
+            bool found = TryDispels(Level + 2, Victim);
 
             // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (found)
-                caster.Send("Ok.");
+                Caster.Send("Ok.");
             else
-                caster.Send("Spell failed.");
+                Caster.Send("Spell failed.");
         }
 
+        // TODO: refactor, same code in DispelMagic
         private bool TryDispels(int dispelLevel, ICharacter victim) // dispels every spells
         {
             bool found = false;
@@ -46,9 +46,14 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 if (!SavesDispel(dispelLevel, aura))
                 {
                     found = true;
-                    victim.RemoveAura(aura, false); // RemoveAura will display DispelMessage
-                    if (aura.Ability != null && aura.Ability is IAbilityDispellable dispellableAbility && !string.IsNullOrWhiteSpace(dispellableAbility.DispelRoomMessage))
-                        victim.Act(ActOptions.ToRoom, dispellableAbility.DispelRoomMessage, victim);
+                    victim.RemoveAura(aura, false); // RemoveAura will display WearOff message
+                    if (aura.AbilityName != null)
+                    {
+                        AbilityInfo abilityInfo = AbilityManager[aura.AbilityName];
+                        string dispelRoomMessage = abilityInfo?.DispelRoomMessage;
+                        if (!string.IsNullOrWhiteSpace(dispelRoomMessage))
+                            victim.Act(ActOptions.ToRoom, dispelRoomMessage, victim);
+                    }
                 }
                 else
                     aura.DecreaseLevel();

@@ -1,5 +1,5 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.Interfaces;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,35 +7,35 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
+    [Spell("Dispel Magic", AbilityEffects.Dispel)]
     public class DispelMagic : OffensiveSpellBase
     {
-        public override int Id => 39;
-        public override string Name => "Dispel Magic";
-        public override AbilityEffects Effects => AbilityEffects.Dispel;
-
-        public DispelMagic(IRandomManager randomManager, IWiznet wiznet)
+        private IAbilityManager AbilityManager { get; }
+        public DispelMagic(IRandomManager randomManager, IWiznet wiznet, IAbilityManager abilityManager)
             : base(randomManager, wiznet)
         {
+            AbilityManager = abilityManager;
         }
 
-        public override void Action(ICharacter caster, int level, ICharacter victim)
+        protected override void Invoke()
         {
-            if (victim.SavesSpell(level, SchoolTypes.Other))
+            if (Victim.SavesSpell(Level, SchoolTypes.Other))
             {
-                victim.Send("You feel a brief tingling sensation.");
-                caster.Send("You failed.");
+                Victim.Send("You feel a brief tingling sensation.");
+                Caster.Send("You failed.");
                 return;
             }
 
-            bool found = TryDispels(level, victim);
+            bool found = TryDispels(Level, Victim);
 
             // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (found)
-                caster.Send("Ok.");
+                Caster.Send("Ok.");
             else
-                caster.Send("Spell failed.");
+                Caster.Send("Spell failed.");
         }
 
+        // TODO: refactor, same code in DispelMagic
         private bool TryDispels(int dispelLevel, ICharacter victim) // dispels every spells
         {
             bool found = false;
@@ -45,9 +45,14 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 if (!SavesDispel(dispelLevel, aura))
                 {
                     found = true;
-                    victim.RemoveAura(aura, false); // RemoveAura will display DispelMessage
-                    if (aura.Ability != null && aura.Ability is IAbilityDispellable dispellableAbility && !string.IsNullOrWhiteSpace(dispellableAbility.DispelRoomMessage))
-                        victim.Act(ActOptions.ToRoom, dispellableAbility.DispelRoomMessage, victim);
+                    victim.RemoveAura(aura, false); // RemoveAura will display WearOff message
+                    if (aura.AbilityName != null)
+                    {
+                        AbilityInfo abilityInfo = AbilityManager[aura.AbilityName];
+                        string dispelRoomMessage = abilityInfo?.DispelRoomMessage;
+                        if (!string.IsNullOrWhiteSpace(dispelRoomMessage))
+                            victim.Act(ActOptions.ToRoom, dispelRoomMessage, victim);
+                    }
                 }
                 else
                     aura.DecreaseLevel();

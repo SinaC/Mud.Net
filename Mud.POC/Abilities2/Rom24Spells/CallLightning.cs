@@ -1,63 +1,56 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.Interfaces;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
-using Mud.Server.Input;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
+    [Spell("Call Lighning", AbilityEffects.DamageArea)]
     public class CallLightning : NoTargetSpellBase
     {
-        public override int Id => 6;
-        public override string Name => "Call lightning";
-        public override AbilityEffects Effects => throw new NotImplementedException();
-
         private ITimeManager TimeManager { get; }
+
         public CallLightning(IRandomManager randomManager, IWiznet wiznet, ITimeManager timeManager)
             : base(randomManager, wiznet)
         {
             TimeManager = timeManager;
         }
 
-        public override void Action(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
+        protected override void Invoke()
         {
-            if (caster.Room == null)
-                return;
-
-            if (caster.Room.RoomFlags.HasFlag(RoomFlags.Indoors))
-            {
-                caster.Send("You must be out of doors.");
-                return;
-            }
-
-            if (TimeManager.SkyState < SkyStates.Raining)
-            {
-                caster.Send("You need bad weather.");
-                return;
-            }
-
-            INonPlayableCharacter npcCaster = caster as INonPlayableCharacter;
-            int damage = RandomManager.Dice(level / 2, 8);
-            caster.Send("Mota's lightning strikes your foes!");
-            caster.Act(ActOptions.ToRoom, "{0:N} calls Mota's lightning to strike {0:s} foes!", caster);
-            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(caster.Room.People.Where(x => x != caster).ToList()); // clone because damage could kill and remove character from list
+            INonPlayableCharacter npcCaster = Caster as INonPlayableCharacter;
+            int damage = RandomManager.Dice(Level / 2, 8);
+            Caster.Send("Mota's lightning strikes your foes!");
+            Caster.Act(ActOptions.ToRoom, "{0:N} calls Mota's lightning to strike {0:s} foes!", Caster);
+            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Caster.Room.People.Where(x => x != Caster).ToList()); // clone because damage could kill and remove character from list
             foreach (ICharacter victim in clone)
             {
                 INonPlayableCharacter npcVictim = victim as INonPlayableCharacter;
                 if (npcCaster != null ? npcVictim == null : npcVictim != null) // NPC on PC and PC on NPC
                 {
-                    if (victim.SavesSpell(level, SchoolTypes.Lightning))
-                        victim.AbilityDamage(caster, this, damage / 2, SchoolTypes.Lightning, "lightning bolt", true);
+                    if (victim.SavesSpell(Level, SchoolTypes.Lightning))
+                        victim.AbilityDamage(Caster, this, damage / 2, SchoolTypes.Lightning, "lightning bolt", true);
                     else
-                        victim.AbilityDamage(caster, this, damage, SchoolTypes.Lightning, "lightning bolt", true);
+                        victim.AbilityDamage(Caster, this, damage, SchoolTypes.Lightning, "lightning bolt", true);
                 }
             }
             // Inform in area about it
-            foreach (ICharacter character in caster.Room.Area.Characters.Where(x => x.Position > Positions.Sleeping && !x.Room.RoomFlags.HasFlag(RoomFlags.Indoors)))
+            foreach (ICharacter character in Caster.Room.Area.Characters.Where(x => x.Position > Positions.Sleeping && !x.Room.RoomFlags.HasFlag(RoomFlags.Indoors)))
                 character.Send("Lightning flashes in the sky.");
+        }
+
+        public override string Guards(AbilityActionInput actionInput)
+        {
+            string baseGuards = base.Guards(actionInput);
+            if (baseGuards != null)
+                return baseGuards;
+            if (Caster.Room.RoomFlags.HasFlag(RoomFlags.Indoors))
+                return "You must be out of doors.";
+            if (TimeManager.SkyState < SkyStates.Raining)
+                return "You need bad weather.";
+            return null;
         }
     }
 }

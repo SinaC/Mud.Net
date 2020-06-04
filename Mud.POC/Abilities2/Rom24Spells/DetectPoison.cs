@@ -1,13 +1,11 @@
-﻿using Mud.POC.Abilities2.Interfaces;
+﻿using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
+    [Spell("Detect Poison", AbilityEffects.Detection)]
     public class DetectPoison : ItemInventorySpellBase<IItemPoisonable>
     {
-        public override int Id => 36;
-        public override string Name => "Detect Poison";
-        public override AbilityEffects Effects => AbilityEffects.Detection;
         protected override string InvalidItemTypeMsg => "It doesn't look poisoned.";
 
         public DetectPoison(IRandomManager randomManager, IWiznet wiznet)
@@ -15,12 +13,13 @@ namespace Mud.POC.Abilities2.Rom24Spells
         {
         }
 
-        public override void Action(ICharacter caster, int level, IItemPoisonable item)
+        protected override void Invoke()
         {
-            if (item.IsPoisoned)
-                caster.Send("You smell poisonous fumes.");
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+            if (Item.IsPoisoned)
+                Caster.Send("You smell poisonous fumes.");
             else
-                caster.Send("It looks delicious.");
+                Caster.Send("It looks delicious.");
         }
     }
 }

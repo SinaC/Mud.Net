@@ -1,55 +1,48 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.Interfaces;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
-using Mud.Server.Input;
 using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
+    [Spell("Dispel Evil", AbilityEffects.Damage)]
     public class DispelEvil : DamageSpellBase
     {
-        public override int Id => 37;
-
-        public override string Name => "Dispel Evil";
-
         protected override SchoolTypes DamageType => SchoolTypes.Holy;
 
         protected override string DamageNoun => "dispel evil";
 
-        protected override int DamageValue(ICharacter caster, int level, ICharacter victim)
-            => victim.HitPoints >= caster.Level * 4
-                ? RandomManager.Dice(level, 4)
-                : Math.Max(victim.HitPoints, RandomManager.Dice(level, 4));
+        protected override int DamageValue
+            => Victim.HitPoints >= Caster.Level * 4
+                ? RandomManager.Dice(Level, 4)
+                : Math.Max(Victim.HitPoints, RandomManager.Dice(Level, 4));
 
         public DispelEvil(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }
 
-        protected override AbilityTargetResults GetTarget(ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
+        protected override string SetTargets(AbilityActionInput abilityActionInput)
         {
-            AbilityTargetResults result = base.GetTarget(caster, out target, rawParameters, parameters);
-            if (result != AbilityTargetResults.Ok)
-                return result;
+            string baseSetTargets = base.SetTargets(abilityActionInput);
+            if (baseSetTargets != null)
+                return baseSetTargets;
             // Check alignment
-            if (caster is IPlayableCharacter && caster.IsEvil)
-                target = caster;
-            return AbilityTargetResults.Ok;
-        }
+            if (Caster is IPlayableCharacter && Caster.IsEvil)
+                Victim = Caster;
 
-        protected override bool PreDamage(ICharacter caster, int level, ICharacter victim)
-        {
-            if (victim.IsGood)
+            if (Victim.IsGood)
             {
-                caster.Act(ActOptions.ToAll, "Mota protects {0}.", victim);
-                return false;
+                Caster.Act(ActOptions.ToAll, "Mota protects {0}.", Victim);
+                return string.Empty; // TODO: should return above message
             }
-            if (victim.IsNeutral)
+            if (Victim.IsNeutral)
             {
-                caster.Act(ActOptions.ToCharacter, "{0:N} does not seem to be affected.", victim);
-                return false;
+                Caster.Act(ActOptions.ToCharacter, "{0:N} does not seem to be affected.", Victim);
+                return string.Empty; // TODO: should return above message
             }
-            return true;
+
+            return null;
         }
     }
 }

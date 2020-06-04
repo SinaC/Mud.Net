@@ -1,11 +1,11 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.Interfaces;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 using System;
 
 namespace Mud.POC.Abilities2
 {
-    public abstract class CharacterDebuffSpellBase : OffensiveSpellBase, IAbilityCharacterBuff, IAbilityDispellable
+    public abstract class CharacterDebuffSpellBase : OffensiveSpellBase
     {
         protected IAuraManager AuraManager { get; }
 
@@ -15,48 +15,25 @@ namespace Mud.POC.Abilities2
             AuraManager = auraManager;
         }
 
-        #region IAbility
-
-        public override AbilityEffects Effects => AbilityEffects.Debuff;
-        public override AbilityFlags Flags => AbilityFlags.CanBeDispelled;
-
-        #endregion
-
-        #region OffensiveSpellBase
-
-        public override void Action(ICharacter caster, int level, ICharacter victim)
+        protected override void Invoke()
         {
-            if (!CanAffect(caster, level, victim))
+            if (!CanAffect())
                 return;
-            (int level, TimeSpan duration, IAffect[] affects) aura = AuraInfo(caster, level, victim);
-            AuraManager.AddAura(victim, this, caster, aura.level, aura.duration, AuraFlags.None, true, aura.affects);
-            victim.Act(ActOptions.ToCharacter, VictimAffectMessage, caster);
-            victim.Act(ActOptions.ToRoom, RoomAffectMessage, victim);
+            var auraInfo = AuraInfo;
+            AuraManager.AddAura(Victim, this, Caster, auraInfo.level, auraInfo.duration, AuraFlags.None, true, auraInfo.affects);
+            Victim.Act(ActOptions.ToCharacter, VictimAffectMessage, Caster);
+            Victim.Act(ActOptions.ToRoom, RoomAffectMessage, Victim);
         }
-
-        #endregion
-
-        #region ICharacterBuff
-
-        public abstract string CharacterWearOffMessage { get; }
-
-        #endregion
-
-        #region IDispel
-
-        public abstract string DispelRoomMessage { get; }
-
-        #endregion
 
         protected abstract SchoolTypes DebuffType { get; }
         protected abstract string VictimAffectMessage { get; }
         protected abstract string RoomAffectMessage { get; }
 
-        protected abstract (int level, TimeSpan duration, IAffect[] affects) AuraInfo(ICharacter caster, int level, ICharacter victim);
+        protected abstract (int level, TimeSpan duration, IAffect[] affects) AuraInfo { get; }
 
-        protected virtual bool CanAffect(ICharacter caster, int level, ICharacter victim)
+        protected virtual bool CanAffect()
         {
-            if (victim.GetAura(this) != null || victim.SavesSpell(level, DebuffType))
+            if (Victim.GetAura(this) != null || Victim.SavesSpell(Level, DebuffType))
                 return false;
             return true;
         }

@@ -1,12 +1,10 @@
-﻿using Mud.POC.Abilities2.Interfaces;
+﻿using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2
 {
     public abstract class ItemCreationSpellBase : NoTargetSpellBase
     {
-        public override AbilityEffects Effects => AbilityEffects.Creation;
-
         protected IItemManager ItemManager { get; }
         protected ISettings Settings { get; }
 

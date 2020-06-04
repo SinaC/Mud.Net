@@ -1,52 +1,47 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.Interfaces;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
-using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
+    [Spell("Demonfire", AbilityEffects.Damage)]
     public class Demonfire : DamageSpellBase
     {
-        public override int Id => 30;
-        public override string Name => "Demonfire";
         protected override SchoolTypes DamageType => SchoolTypes.Negative;
         protected override string DamageNoun => "torments";
+        protected override int DamageValue => RandomManager.Dice(Level, 10);
 
         public Demonfire(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }
 
-        protected override int DamageValue(ICharacter caster, int level, ICharacter victim) => RandomManager.Dice(level, 10);
-
-        protected override bool PreDamage(ICharacter caster, int level, ICharacter victim)
+        protected override string SetTargets(AbilityActionInput abilityActionInput)
         {
-            if (victim != caster)
-            {
-                caster.Act(ActOptions.ToRoom, "{0} calls forth the demons of Hell upon {1}!", caster, victim);
-                victim.Act(ActOptions.ToCharacter, "{0} has assailed you with the demons of Hell!", caster);
-                caster.Send("You conjure forth the demons of hell!");
-            }
-            return true;
-        }
-
-        protected override void PostDamage(ICharacter caster, int level, ICharacter victim, bool savesSpellResult, DamageResults damageResult)
-        {
-            caster.UpdateAlignment(-50);
-        }
-
-        protected override AbilityTargetResults GetTarget(ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
-        {
-            AbilityTargetResults result = base.GetTarget(caster, out target, rawParameters, parameters);
-            if (result != AbilityTargetResults.Ok)
-                return result;
+            string baseSetTargets = base.SetTargets(abilityActionInput);
+            if (baseSetTargets != null)
+                return baseSetTargets;
             // Check alignment
-            if (caster is IPlayableCharacter && !caster.IsEvil)
+            if (Caster is IPlayableCharacter && !Caster.IsEvil)
             {
-                target = caster;
-                caster.Send("The demons turn upon you!");
+                Victim = Caster;
+                Caster.Send("The demons turn upon you!");
             }
-            return AbilityTargetResults.Ok;
+            return null;
+        }
+
+        protected override void Invoke()
+        {
+            if (Victim != Caster)
+            {
+                Caster.Act(ActOptions.ToRoom, "{0} calls forth the demons of Hell upon {1}!", Caster, Victim);
+                Victim.Act(ActOptions.ToCharacter, "{0} has assailed you with the demons of Hell!", Caster);
+                Caster.Send("You conjure forth the demons of hell!");
+            }
+
+            base.Invoke();
+
+            Caster.UpdateAlignment(-50);
         }
     }
 }

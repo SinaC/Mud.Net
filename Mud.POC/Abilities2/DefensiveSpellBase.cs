@@ -1,48 +1,30 @@
 ﻿using Mud.Server.Common;
-using Mud.Server.Input;
-using Mud.POC.Abilities2.Interfaces;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
 
-namespace Mud.POC.Abilities2.Rom24Spells
+namespace Mud.POC.Abilities2
 {
     public abstract class DefensiveSpellBase : SpellBase
     {
+        protected ICharacter Victim { get; set; }
+
         protected DefensiveSpellBase(IRandomManager randomManager, IWiznet wiznet) 
             : base(randomManager, wiznet)
         {
         }
 
-        #region SpellBase
-
-        protected override void Invoke(ICharacter caster, int level, IEntity target, string rawParameters, params CommandParameter[] parameters)
+        protected override string SetTargets(AbilityActionInput abilityActionInput)
         {
-            if (target == null)
-                return;
-            Action(caster, level, target as ICharacter);
-        }
-
-        protected override AbilityTargetResults GetTarget(ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
-        {
-            ICharacter victim;
-            target = null;
-            if (parameters.Length < 1)
-                victim = caster;
+            if (abilityActionInput.Parameters.Length < 1)
+                Victim = Caster;
             else
             {
-                victim = FindHelpers.FindByName(caster.Room.People, parameters[0]);
-                if (victim == null)
-                {
-                    caster.Send("They aren't here.");
-                    return AbilityTargetResults.TargetNotFound;
-                }
+                Victim = FindHelpers.FindByName(Caster.Room.People, abilityActionInput.Parameters[0]);
+                if (Victim == null)
+                    return "They aren't here.";
             }
             // victim found
-            target = victim;
-            return AbilityTargetResults.Ok;
+            return null;
         }
-
-        #endregion
-
-        public abstract void Action(ICharacter caster, int level, ICharacter victim);
     }
 }

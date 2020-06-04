@@ -1,53 +1,40 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.Interfaces;
-using Mud.POC.Abilities2.Rom24Spells;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 using System;
 
 namespace Mud.POC.Abilities2
 {
-    public abstract class CharacterFlagsSpellBase : DefensiveSpellBase, IAbilityCharacterBuff
+    public abstract class CharacterFlagsSpellBase : DefensiveSpellBase
     {
         protected IAuraManager AuraManager { get; }
 
-        public CharacterFlagsSpellBase(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
+        protected CharacterFlagsSpellBase(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
             : base(randomManager, wiznet)
         {
             AuraManager = auraManager;
         }
 
-        public override void Action(ICharacter caster, int level, ICharacter victim)
+        protected override void Invoke()
         {
-            if (victim.CharacterFlags.HasFlag(CharacterFlags))
+            if (Victim.CharacterFlags.HasFlag(CharacterFlags))
             {
-                if (victim == caster)
-                    caster.Send(SelfAlreadyAffected);
+                if (Victim == Caster)
+                    Caster.Send(SelfAlreadyAffected);
                 else
-                    caster.Act(ActOptions.ToCharacter, NotSelfAlreadyAffected, victim);
+                    Caster.Act(ActOptions.ToCharacter, NotSelfAlreadyAffected, Victim);
                 return;
             }
-            TimeSpan duration = Duration(level);
-            AuraManager.AddAura(victim, this, caster, level, duration, AuraFlags.None, true,
+            TimeSpan duration = Duration;
+            AuraManager.AddAura(Victim, this, Caster, Level, duration, AuraFlags.None, true,
                 new CharacterFlagsAffect { Modifier = CharacterFlags, Operator = AffectOperators.Or });
-            victim.Send(Success);
-            if (victim != caster)
-                victim.Act(ActOptions.ToRoom, NotSelfSuccess, victim);
+            Victim.Send(Success);
+            if (Victim != Caster)
+                Victim.Act(ActOptions.ToRoom, NotSelfSuccess, Victim);
         }
 
-        #region IAbility
-
-        public override AbilityEffects Effects => AbilityEffects.Buff;
-
-        #endregion
-
-        #region IAbilityCharacterBuff
-
-        public abstract string CharacterWearOffMessage { get; }
-
-        #endregion
-
         protected abstract CharacterFlags CharacterFlags { get; }
-        protected abstract TimeSpan Duration(int level);
+        protected abstract TimeSpan Duration { get; }
         protected abstract string SelfAlreadyAffected { get; }
         protected abstract string NotSelfAlreadyAffected { get; }
         protected abstract string Success { get; }

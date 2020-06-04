@@ -1,18 +1,16 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.Interfaces;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
+    [Spell("Blindness", AbilityEffects.Debuff)]
+    [AbilityCharacterWearOffMessage("You can see again.")]
+    [AbilityDispellable("{0:N} is no longer blinded.")]
     public class Blindness : CharacterDebuffSpellBase
     {
-        public override int Id => 4;
-        public override string Name => "Blindness";
-        public override string CharacterWearOffMessage => "You can see again.";
-        public override string DispelRoomMessage => "{0:N} is no longer blinded.";
-
-        public Blindness(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
+       public Blindness(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
             : base(randomManager, wiznet, auraManager)
         {
         }
@@ -21,8 +19,8 @@ namespace Mud.POC.Abilities2.Rom24Spells
         protected override string VictimAffectMessage => "You are blinded!";
         protected override string RoomAffectMessage => "{0:N} is no longer blinded.";
 
-        protected override (int level, TimeSpan duration, IAffect[] affects) AuraInfo(ICharacter caster, int level, ICharacter victim)
-            => (level, TimeSpan.FromHours(1 + level),
+        protected override (int level, TimeSpan duration, IAffect[] affects) AuraInfo
+            => (Level, TimeSpan.FromHours(1 + Level),
             new IAffect[]
             {
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },

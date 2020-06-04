@@ -16,6 +16,7 @@ commands dynamically added to Character depending on room they are, for example
 	we could add list/buy/sell/value to commands if a shopkeeper is in the room
 	brandish only when holding a staff
 
+remove position incap, mortal, stunned -> probably remove UpdatePosition, replaced stunned with a 'timer'
 offensive flags: rescue, bite, crush, ...
 clan/guild, auction house, help, socials, wimpy, note
 commands: auction, channels, clantalk, compare, report, read, socials, whois, bet, brief, combine, compact, description, noloot, nosummon, outfit, prompt, title, wimpy, config, deaf, pmote, note, board, quote, nwrite,

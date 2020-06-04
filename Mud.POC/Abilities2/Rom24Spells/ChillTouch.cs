@@ -1,24 +1,21 @@
 ﻿using System;
 using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.Interfaces;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    public class ChillTouch : DamageTableSpellBase, IAbilityCharacterBuff, IAbilityDispellable
+    [Spell("Chill Touch", AbilityEffects.Damage | AbilityEffects.Debuff)]
+    [AbilityCharacterWearOffMessage("You feel less cold.")]
+    [AbilityDispellable("{0:N} looks warmer.")]
+    public class ChillTouch : DamageTableSpellBase
     {
-        public override int Id => 15;
-        public override string Name => "Chill Touch";
-
         private IAuraManager AuraManager { get; }
         public ChillTouch(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
             : base(randomManager, wiznet)
         {
             AuraManager = auraManager;
         }
-
-        public string CharacterWearOffMessage => "You feel less cold.";
-        public string DispelRoomMessage => "{0:N} looks warmer.";
 
         protected override SchoolTypes DamageType => SchoolTypes.Cold;
         protected override string DamageNoun => "chill touch";
@@ -32,24 +29,24 @@ namespace Mud.POC.Abilities2.Rom24Spells
             24, 24, 24, 25, 25, 25, 26, 26, 26, 27
         };
 
-        protected override void PostDamage(ICharacter caster, int level, ICharacter victim, bool savesSpellResult, DamageResults damageResult)
+        protected override void Invoke()
         {
-            if (!savesSpellResult)
+            base.Invoke();
+            if (SavesSpellResult || DamageResult != DamageResults.Done)
+                return;
+            Victim.Act(ActOptions.ToRoom, "{0} turns blue and shivers.", Victim);
+            IAura existingAura = Victim.GetAura(this);
+            if (existingAura != null)
             {
-                victim.Act(ActOptions.ToRoom, "{0} turns blue and shivers.", victim);
-                IAura existingAura = victim.GetAura(this);
-                if (existingAura != null)
-                {
-                    existingAura.Update(level, TimeSpan.FromHours(6));
-                    existingAura.AddOrUpdateAffect(
-                        x => x.Location == CharacterAttributeAffectLocations.Strength,
-                        () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
-                        x => x.Modifier -= 1);
-                }
-                else
-                    AuraManager.AddAura(victim, this, caster, level, TimeSpan.FromHours(6), AuraFlags.None, true,
-                        new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
+                existingAura.Update(Level, TimeSpan.FromHours(6));
+                existingAura.AddOrUpdateAffect(
+                    x => x.Location == CharacterAttributeAffectLocations.Strength,
+                    () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
+                    x => x.Modifier -= 1);
             }
+            else
+                AuraManager.AddAura(Victim, this, Caster, Level, TimeSpan.FromHours(6), AuraFlags.None, true,
+                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
         }
     }
 }

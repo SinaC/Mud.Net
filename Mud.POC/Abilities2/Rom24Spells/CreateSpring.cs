@@ -1,26 +1,23 @@
-﻿using Mud.POC.Abilities2.Interfaces;
+﻿using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
-using Mud.Server.Input;
 using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
+    [Spell("Create Spring", AbilityEffects.Creation)]
     public class CreateSpring : ItemCreationSpellBase
     {
-        public override int Id => 21;
-        public override string Name => "Create Spring";
-
         public CreateSpring(IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings)
             : base(randomManager, wiznet, itemManager, settings)
         {
         }
 
-        public override void Action(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
+        protected override void Invoke()
         {
-            IItemFountain fountain = ItemManager.AddItem(Guid.NewGuid(), Settings.SpringBlueprintId, caster.Room) as IItemFountain;
-            int duration = level;
+            IItemFountain fountain = ItemManager.AddItem(Guid.NewGuid(), Settings.SpringBlueprintId, Caster.Room) as IItemFountain;
+            int duration = Level;
             fountain?.SetTimer(TimeSpan.FromMinutes(duration));
-            caster.Act(ActOptions.ToAll, "{0} flows from the ground.", fountain);
+            Caster.Act(ActOptions.ToAll, "{0} flows from the ground.", fountain);
         }
     }
 }

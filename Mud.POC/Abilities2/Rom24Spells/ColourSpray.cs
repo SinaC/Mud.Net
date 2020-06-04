@@ -1,19 +1,19 @@
-﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.Interfaces;
+﻿using Mud.Container;
+using Mud.POC.Abilities2.Domain;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
+using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
+    [Spell("Colour Spray", AbilityEffects.Damage | AbilityEffects.Debuff)]
     public class ColourSpray : DamageTableSpellBase
     {
-        public override int Id => 16;
-        public override string Name => "Colour Spray";
-
-        private IAuraManager AuraManager { get; }
-        public ColourSpray(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
+        private IAbilityManager AbilityManager { get; }
+        public ColourSpray(IRandomManager randomManager, IWiznet wiznet, IAbilityManager abilityManager)
             : base(randomManager, wiznet)
         {
-            AuraManager = auraManager;
+            AbilityManager = abilityManager;
         }
 
         protected override SchoolTypes DamageType => SchoolTypes.Light;
@@ -28,13 +28,17 @@ namespace Mud.POC.Abilities2.Rom24Spells
             73, 73, 74, 75, 76, 76, 77, 78, 79, 79
         };
 
-        protected override void PostDamage(ICharacter caster, int level, ICharacter victim, bool savesSpellResult, DamageResults damageResult)
+        protected override void Invoke()
         {
-            if (!savesSpellResult && damageResult == DamageResults.Done)
-            {
-                Blindness blindness = new Blindness(RandomManager, Wiznet, AuraManager);
-                blindness.Action(caster, level/2, victim);
-            }
+            base.Invoke();
+            if (SavesSpellResult || DamageResult != DamageResults.Done)
+                return;
+            // TODO: not a huge fan of following code
+            // TODO: we have to register every GameAction in DependencyContainer
+            AbilityInfo blindnessAbilityInfo = AbilityManager["Blindness"];
+            IAbilityAction blindnessAbilityInstance = (IAbilityAction)DependencyContainer.Current.GetInstance(blindnessAbilityInfo.AbilityExecutionType);
+            AbilityActionInput abilityActionInput = new AbilityActionInput(blindnessAbilityInfo, Caster, Victim.Name, new CommandParameter(Victim.Name, false));
+            blindnessAbilityInstance.Execute(abilityActionInput);
         }
     }
 }

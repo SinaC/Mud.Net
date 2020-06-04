@@ -1,8 +1,7 @@
 ﻿using Mud.Logger;
 using Mud.Server.Common;
-using Mud.Server.Input;
 using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.Interfaces;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,127 +14,121 @@ namespace Mud.POC.Abilities2
         protected IRandomManager RandomManager { get; }
         protected IWiznet Wiznet { get; }
 
+        protected AbilityInfo AbilityInfo { get; private set; }
+        protected ICharacter Caster { get; private set; }
+        protected int Level { get; private set; }
+        protected int? Cost { get; private set; }
+        protected ResourceKinds? ResourceKind { get; private set; }
+
         protected SpellBase(IRandomManager randomManager, IWiznet wiznet)
         {
             RandomManager = randomManager;
             Wiznet = wiznet;
         }
 
-        #region IAbility
+        #region IAbilityAction
 
-        public abstract int Id { get; }
-
-        public abstract string Name { get; }
-
-        public virtual int PulseWaitTime => 12;
-
-        public virtual int Cooldown => 0;
-
-        public virtual int LearnDifficultyMultiplier => 1;
-
-        public virtual AbilityFlags Flags => AbilityFlags.None;
-
-        public abstract AbilityEffects Effects { get; }
-
-        public virtual CastResults Cast(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        public virtual string Guards(AbilityActionInput abilityActionInput)
         {
-            IPlayableCharacter pcCaster = caster as IPlayableCharacter;
-
-            // 1) get learn info
-            var abilityLearnInfo = caster.GetLearnInfo(this);
-
-            IEntity target;
-            // 2) set targets if any
-            AbilityTargetResults targetResult = GetTarget(caster, out target, rawParameters, parameters);
-            if (targetResult != AbilityTargetResults.Ok)
-                return MapAbilityTargetResultsToCastResults(targetResult);
-
-            // 3) check cooldown
-            int cooldownPulseLeft = caster.CooldownPulseLeft(this);
+            // 1) check context
+            AbilityInfo = abilityActionInput.AbilityInfo;
+            if (AbilityInfo == null)
+                return "Internal error: AbilityInfo is null.";
+            if (AbilityInfo.AbilityExecutionType != GetType())
+                return $"Internal error: AbilityInfo is not of the right type: {AbilityInfo.GetType().Name} instead of {GetType().Name}.";
+            // 2) check actor
+            Caster = abilityActionInput.Actor as ICharacter;
+            if (Caster == null)
+                return "Spell must be cast by a character.";
+            if (Caster.Room == null)
+                return "You are nowhere...";
+            Level = Caster.Level;
+            // 3) check targets
+            string setTargetResult = SetTargets(abilityActionInput);
+            if (setTargetResult != null)
+                return setTargetResult;
+            // 4) check cooldown
+            int cooldownPulseLeft = Caster.CooldownPulseLeft(this);
             if (cooldownPulseLeft > 0)
+                return $"{AbilityInfo.Name} is in cooldown for {StringHelpers.FormatDelay(cooldownPulseLeft / Pulse.PulsePerSeconds)}.";
+            // 5) check resource cost
+            var abilityPercentage = Caster.GetAbilityPercentage(this);
+            if (abilityPercentage.abilityLearned.ResourceKind.HasValue && abilityPercentage.abilityLearned.CostAmount > 0 && abilityPercentage.abilityLearned.CostAmountOperator != CostAmountOperators.None)
             {
-                caster.Send("{0} is in cooldown for {1}.", Name, StringHelpers.FormatDelay(cooldownPulseLeft / Pulse.PulsePerSeconds));
-                return CastResults.InCooldown;
-            }
-
-            // 4) check resources
-            int? cost = null;
-            if (abilityLearnInfo.ability.ResourceKind.HasValue && abilityLearnInfo.ability.CostAmount > 0 && abilityLearnInfo.ability.CostAmountOperator != CostAmountOperators.None)
-            {
-                ResourceKinds resourceKind = abilityLearnInfo.ability.ResourceKind.Value;
-                if (!caster.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
-                {
-                    caster.Send("You can't use {0} as resource for the moment.", abilityLearnInfo.ability.ResourceKind);
-                    return CastResults.CantUseRequiredResource;
-                }
-                int resourceLeft = caster[resourceKind];
-                switch (abilityLearnInfo.ability.CostAmountOperator)
+                ResourceKinds resourceKind = abilityPercentage.abilityLearned.ResourceKind.Value;
+                if (!Caster.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
+                    return $"You can't use {resourceKind} as resource for the moment.";
+                int resourceLeft = Caster[resourceKind];
+                int cost = 0;
+                switch (abilityPercentage.abilityLearned.CostAmountOperator)
                 {
                     case CostAmountOperators.Fixed:
-                        cost = abilityLearnInfo.ability.CostAmount;
+                        cost = abilityPercentage.abilityLearned.CostAmount;
                         break;
                     case CostAmountOperators.Percentage:
-                        cost = caster.MaxResource(resourceKind) * abilityLearnInfo.ability.CostAmount / 100;
+                        cost = Caster.MaxResource(resourceKind) * abilityPercentage.abilityLearned.CostAmount / 100;
                         break;
                     default:
-                        Wiznet.Wiznet($"Unexpected CostAmountOperator {abilityLearnInfo.ability.CostAmountOperator} for ability {abilityLearnInfo.ability.Ability.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                        Wiznet.Wiznet($"Unexpected CostAmountOperator {abilityPercentage.abilityLearned.CostAmountOperator} for ability {AbilityInfo.Name}.", WiznetFlags.Bugs, AdminLevels.Implementor);
                         cost = 100;
                         break;
                 }
                 bool enoughResource = cost <= resourceLeft;
                 if (!enoughResource)
-                {
-                    caster.Send("You don't have enough {0}.", abilityLearnInfo.ability.ResourceKind);
-                    return CastResults.NotEnoughResource;
-                }
+                    return $"You don't have enough {abilityPercentage.abilityLearned.ResourceKind}.";
+                Cost = cost;
+                ResourceKind = resourceKind;
+            }
+            else
+            {
+                Cost = null;
+                ResourceKind = null;
             }
 
-            // 5) check if failed
-            if (!RandomManager.Chance(abilityLearnInfo.learned))
+            return null;
+        }
+
+        public virtual void Execute(AbilityActionInput actionInput)
+        {
+            IPlayableCharacter pcCaster = Caster as IPlayableCharacter;
+
+            // check if failed
+            var abilityPercentage = Caster.GetAbilityPercentage(this);
+            if (!RandomManager.Chance(abilityPercentage.percentage))
             {
-                caster.Send("You lost your concentration.");
-                pcCaster?.CheckAbilityImprove(abilityLearnInfo.ability, false, 1);
+                Caster.Send("You lost your concentration.");
+                pcCaster?.CheckAbilityImprove(abilityPercentage.abilityLearned, false, 1);
                 // pay half resource
-                if (cost.HasValue && cost.Value > 1)
-                    caster.UpdateResource(abilityLearnInfo.ability.ResourceKind.Value, -cost.Value / 2);
-                return CastResults.Failed;
+                if (Cost.HasValue && Cost.Value > 1 && ResourceKind.HasValue)
+                    Caster.UpdateResource(ResourceKind.Value, -Cost.Value / 2);
+                return;
             }
 
             // 6) pay resource
-            if (cost.HasValue && cost.Value >= 1)
-                caster.UpdateResource(abilityLearnInfo.ability.ResourceKind.Value, -cost.Value);
+            if (Cost.HasValue && Cost.Value >= 1 && ResourceKind.HasValue)
+                Caster.UpdateResource(ResourceKind.Value, -Cost.Value);
 
             // 7) say spell if not ventriloquate
-            SaySpell(caster);
+            SaySpell();
 
             // 8) invoke spell
-            Invoke(caster, caster.Level, target, rawParameters, parameters);
+            Invoke();
 
             // 9) GCD
-            pcCaster?.ImpersonatedBy?.SetGlobalCooldown(PulseWaitTime);
+            pcCaster?.ImpersonatedBy?.SetGlobalCooldown(AbilityInfo.PulseWaitTime);
 
             // 10) set cooldown
-            if (Cooldown > 0)
-                caster.SetCooldown(this);
+            if (AbilityInfo.Cooldown.HasValue && AbilityInfo.Cooldown.Value > 0)
+                Caster.SetCooldown(this);
 
             // 11) check improve true
-            pcCaster?.CheckAbilityImprove(abilityLearnInfo.ability, true, LearnDifficultyMultiplier);
-
-            // 12) PostInvoke
-            PostInvoke(caster, caster.Level, target);
-
-            //
-            return CastResults.Ok;
+            pcCaster?.CheckAbilityImprove(abilityPercentage.abilityLearned, true, AbilityInfo.LearnDifficultyMultiplier);
         }
 
         #endregion
 
-        protected abstract AbilityTargetResults GetTarget(ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters);
-        protected abstract void Invoke(ICharacter caster, int level, IEntity target, string rawParameters, params CommandParameter[] parameters);
-        protected virtual void PostInvoke(ICharacter caster, int level, IEntity target)
-        { 
-            // NOP
-        }
+        protected abstract string SetTargets(AbilityActionInput abilityActionInput);
+        protected abstract void Invoke();
 
         protected bool SavesDispel(int dispelLevel, int spellLevel, int pulseLeft)
         {
@@ -159,24 +152,6 @@ namespace Mud.POC.Abilities2
             int save = 50 + (auraLevel - dispelLevel) * 5;
             save = save.Range(5, 95);
             return RandomManager.Chance(save);
-        }
-
-        private CastResults MapAbilityTargetResultsToCastResults(AbilityTargetResults result)
-        {
-            switch (result)
-            {
-                case AbilityTargetResults.MissingParameter:
-                    return CastResults.MissingParameter;
-                case AbilityTargetResults.InvalidTarget:
-                    return CastResults.InvalidTarget;
-                case AbilityTargetResults.TargetNotFound:
-                    return CastResults.TargetNotFound;
-                case AbilityTargetResults.Error:
-                    return CastResults.Error;
-                default:
-                    Wiznet.Wiznet($"Unexpected AbilityTargetResults {result}", WiznetFlags.Bugs, AdminLevels.Implementor);
-                    return CastResults.Error;
-            }
         }
 
         private static readonly Dictionary<string, string> SyllableTable = new Dictionary<string, string> // TODO: use Trie ?
@@ -214,13 +189,13 @@ namespace Mud.POC.Abilities2
         };
 
         // TODO: maybe a table should be constructed for each spell to avoid computing at each cast
-        protected virtual void SaySpell(ICharacter source)
+        protected virtual void SaySpell()
         {
             //source.Send("You cast '{0}'.", ability.Name);
 
             // Build mystical words for spell
             StringBuilder mysticalWords = new StringBuilder();
-            string abilityName = Name.ToLowerInvariant();
+            string abilityName = AbilityInfo.Name.ToLowerInvariant();
             string remaining = abilityName;
             while (remaining.Length > 0)
             {
@@ -239,30 +214,21 @@ namespace Mud.POC.Abilities2
                 {
                     mysticalWords.Append('?');
                     remaining = remaining.Substring(1);
-                    Log.Default.WriteLine(LogLevels.Warning, "Spell {0} contains a character which is not found in syllable table", Name);
+                    Log.Default.WriteLine(LogLevels.Warning, "Spell {0} contains a character which is not found in syllable table", AbilityInfo.Name);
                 }
             }
 
             // Say to people in room except source
-            foreach (ICharacter target in source.Room.People.Where(x => x != source))
+            foreach (ICharacter target in Caster.Room.People.Where(x => x != Caster))
             {
-                if (target.KnownAbilities.Any(x => x.Ability == this && x.Level < target.Level))
-                    target.Act(ActOptions.ToCharacter, "{0} casts the spell '{1}'.", source, Name);
+                if (target.LearnedAbilities.Any(x => x.Name == AbilityInfo.Name && x.Level < target.Level))
+                    target.Act(ActOptions.ToCharacter, "{0} casts the spell '{1}'.", Caster, AbilityInfo.Name);
                 else
                 {
 
-                    target.Act(ActOptions.ToCharacter, "{0} utters the words, '{1}'.", source, mysticalWords);
+                    target.Act(ActOptions.ToCharacter, "{0} utters the words, '{1}'.", Caster, mysticalWords);
                 }
             }
         }
-
-        #region IEquatable
-
-        public bool Equals(IAbility other)
-        {
-            return Id == other.Id;
-        }
-
-        #endregion
     }
 }

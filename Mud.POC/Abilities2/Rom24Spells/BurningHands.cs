@@ -1,14 +1,12 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.Interfaces;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
+    [Spell("Burning Hands", AbilityEffects.Damage)]
     public class BurningHands : DamageTableSpellBase
     {
-        public override int Id => 5;
-        public override string Name => "Burning Hands";
-
         public BurningHands(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {

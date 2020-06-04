@@ -286,7 +286,7 @@ namespace Mud.Server.Abilities
                     damage = RandomManager.Dice(level, 6);
                     if (victim.SavesSpell(level, SchoolTypes.Lightning))
                         damage /= 3;
-                    victim.AbilityDamage(caster, ability, damage, SchoolTypes.Lightning, true);
+                    target.AbilityDamage(caster, ability, damage, SchoolTypes.Lightning, true);
                     level -= 4; // decrement damage
                     lastVictim = target;
                 }
@@ -303,9 +303,9 @@ namespace Mud.Server.Abilities
                     caster.Act(ActOptions.ToRoom, "The bolt arcs to {0}...whoops!", caster);
                     caster.Send("You are struck by your own lightning!");
                     damage = RandomManager.Dice(level, 6);
-                    if (victim.SavesSpell(level, SchoolTypes.Lightning))
+                    if (caster.SavesSpell(level, SchoolTypes.Lightning))
                         damage /= 3;
-                    victim.AbilityDamage(caster, ability, damage, SchoolTypes.Lightning, true);
+                    caster.AbilityDamage(caster, ability, damage, SchoolTypes.Lightning, true);
                     level -= 4; // decrement damage
                     lastVictim = caster;
                 }

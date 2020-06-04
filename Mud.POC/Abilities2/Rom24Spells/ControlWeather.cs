@@ -1,15 +1,12 @@
-﻿using Mud.POC.Abilities2.Interfaces;
+﻿using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
-using Mud.Server.Input;
-using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
+    [Spell("Control Weather", AbilityEffects.None)]
     public class ControlWeather : NoTargetSpellBase
     {
-        public override int Id => 18;
-        public override string Name => "Control Weather";
-        public override AbilityEffects Effects => throw new NotImplementedException();
+        private bool _isBetterRequired;
 
         private ITimeManager TimeManager { get; }
         public ControlWeather(IRandomManager randomManager, IWiznet wiznet, ITimeManager timeManager) 
@@ -18,22 +15,29 @@ namespace Mud.POC.Abilities2.Rom24Spells
             TimeManager = timeManager;
         }
 
-        public override void Action(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
+        protected override void Invoke()
         {
-            bool betterWanted;
-            if (StringCompareHelpers.StringEquals(rawParameters, "better"))
-                betterWanted = true;
-            else if (StringCompareHelpers.StringEquals(rawParameters, "worse"))
-                betterWanted = false;
-            else
-            {
-                caster.Send("Do you want it to get better or worse?");
-                return;
-            }
-
-            int value = RandomManager.Dice(level / 3, 4) * (betterWanted ? 1 : -1);
+            int value = RandomManager.Dice(Level / 3, 4) * (_isBetterRequired ? 1 : -1);
             TimeManager.ChangePressure(value);
-            caster.Send("Ok");
+            Caster.Send("Ok");
+        }
+
+        public override string Guards(AbilityActionInput actionInput)
+        {
+            string baseGuards = base.Guards(actionInput);
+            if (baseGuards != null)
+                return null;
+            if (StringCompareHelpers.StringEquals(actionInput.RawParameters, "better"))
+            {
+                _isBetterRequired = true;
+                return null;
+            }
+            if (StringCompareHelpers.StringEquals(actionInput.RawParameters, "worse"))
+            {
+                _isBetterRequired = false;
+                return null;
+            }
+            return "Do you want it to get better or worse?";
         }
     }
 }

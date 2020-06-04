@@ -1,16 +1,13 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.Interfaces;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
+    [Spell("Continual Light", AbilityEffects.Creation | AbilityEffects.Buff)]
     public class ContinualLight : OptionalItemInventorySpellBase
     {
-        public override int Id => 17;
-        public override string Name => "Continual Light";
-        public override AbilityEffects Effects => AbilityEffects.Creation;
-
         private IAuraManager AuraManager { get; }
         private IItemManager ItemManager { get; }
         private ISettings Settings { get; }
@@ -22,24 +19,24 @@ namespace Mud.POC.Abilities2.Rom24Spells
             Settings = settings;
         }
 
-        public override void Action(ICharacter caster, int level, IItem item)
+        protected override void Invoke()
         {
-            if (item != null)
+            if (Item != null)
             {
-                if (item.ItemFlags.HasFlag(ItemFlags.Glowing))
+                if (Item.ItemFlags.HasFlag(ItemFlags.Glowing))
                 {
-                    caster.Act(ActOptions.ToCharacter, "{0} is already glowing.", item);
+                    Caster.Act(ActOptions.ToCharacter, "{0} is already glowing.", Item);
                     return;
                 }
 
-                AuraManager.AddAura(item, this, caster, level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
+                AuraManager.AddAura(Item, this, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
                     new ItemFlagsAffect { Modifier = ItemFlags.Glowing, Operator = AffectOperators.Or });
-                caster.Act(ActOptions.ToAll, "{0} glows with a white light.", item);
+                Caster.Act(ActOptions.ToAll, "{0} glows with a white light.", Item);
                 return;
             }
             // create item
-            IItem light = ItemManager.AddItem(Guid.NewGuid(), Settings.LightBallBlueprintId, caster.Room);
-            caster.Act(ActOptions.ToAll, "{0} twiddle{0:v} {0:s} thumbs and {1} appears.", caster, light);
+            IItem light = ItemManager.AddItem(Guid.NewGuid(), Settings.LightBallBlueprintId, Caster.Room);
+            Caster.Act(ActOptions.ToAll, "{0} twiddle{0:v} {0:s} thumbs and {1} appears.", Caster, light);
         }
     }
 }

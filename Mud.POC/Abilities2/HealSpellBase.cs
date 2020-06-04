@@ -1,36 +1,25 @@
-﻿using Mud.POC.Abilities2.Interfaces;
-using Mud.POC.Abilities2.Rom24Spells;
+﻿using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2
 {
     public abstract class HealSpellBase : DefensiveSpellBase
     {
-        public HealSpellBase(IRandomManager randomManager, IWiznet wiznet) 
+        protected HealSpellBase(IRandomManager randomManager, IWiznet wiznet) 
             : base(randomManager, wiznet)
         {
         }
 
-        #region IAbility
-
-        public override AbilityEffects Effects => AbilityEffects.Healing;
-
-        #endregion
-
-        #region DefensiveSpellBase
-
-        public override void Action(ICharacter caster, int level, ICharacter victim)
+        protected override void Invoke()
         {
-            int value = HealValue(level);
-            victim.UpdateHitPoints(value);
-            victim.Send(HealVictimPhrase);
-            if (caster != victim)
-                caster.Send(HealCasterPhrase);
+            int value = HealValue;
+            Victim.UpdateHitPoints(value);
+            Victim.Send(HealVictimPhrase);
+            if (Caster != Victim)
+                Caster.Send(HealCasterPhrase);
         }
 
-        #endregion
-
-        protected abstract int HealValue(int level);
+        protected abstract int HealValue { get; }
         protected abstract string HealVictimPhrase { get; }
         protected virtual string HealCasterPhrase => "Ok.";
     }

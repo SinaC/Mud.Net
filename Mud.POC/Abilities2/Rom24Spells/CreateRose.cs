@@ -1,23 +1,27 @@
-﻿using Mud.POC.Abilities2.Interfaces;
+﻿using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
-using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
+    [Spell("Create Rose", AbilityEffects.Creation)]
     public class CreateRose : ItemCreationSpellBase
     {
-        public override int Id => 20;
-        public override string Name => "Create Rose";
-
         public CreateRose(IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings) 
             : base(randomManager, wiznet, itemManager, settings)
         {
         }
 
-        public override void Action(ICharacter caster, int level, string rawParameters, params CommandParameter[] parameters)
+        protected override void Invoke()
         {
-            caster.Send("Not Yet Implemented");
             //TODO: add rose blueprint
+        }
+
+        public override string Guards(AbilityActionInput actionInput)
+        {
+            string baseGuards = base.Guards(actionInput);
+            if (baseGuards != null)
+                return baseGuards;
+            return "Not Yet Implemented";
         }
     }
 }

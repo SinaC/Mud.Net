@@ -1,8 +1,7 @@
 ﻿using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.Helpers;
-using Mud.POC.Abilities2.Interfaces;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
-using Mud.Server.Input;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,85 +10,72 @@ namespace Mud.POC.Abilities2
 {
     public abstract class ItemOrOffensiveSpellBase : SpellBase
     {
-        public ItemOrOffensiveSpellBase(IRandomManager randomManager, IWiznet wiznet)
+        protected IEntity Target { get; set; }
+
+        protected ItemOrOffensiveSpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }
 
-        #region SpellBase
-
-        protected override void PostInvoke(ICharacter caster, int level, IEntity target)
+        public override void Execute(AbilityActionInput actionInput)
         {
+            base.Execute(actionInput);
+
             // multi hit if still in same room
-            INonPlayableCharacter npcVictim = target as INonPlayableCharacter;
-            if (target != caster
-                && npcVictim?.Master != caster)
+            INonPlayableCharacter npcVictim = Target as INonPlayableCharacter;
+            if (Target != Caster
+                && npcVictim?.Master != Caster)
             {
                 // TODO: not sure why we loop on people in caster room
                 // TODO: we could just check if victim is still in the room and not fighting
-                IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(caster.Room.People.ToList());
+                IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Caster.Room.People.ToList());
                 foreach (ICharacter victim in clone)
                 {
-                    if (victim == target && victim.Fighting == null)
+                    if (victim == Target && victim.Fighting == null)
                     {
                         // TODO: check_killer
-                        victim.MultiHit(caster);
+                        victim.MultiHit(Caster);
                         break;
                     }
                 }
             }
         }
 
-        protected override void Invoke(ICharacter caster, int level, IEntity entity, string rawParameters, params CommandParameter[] parameters)
+        protected override void Invoke()
         {
-            if (entity == null)
-                return;
-            if (entity is ICharacter victim)
-                Action(caster, level, victim);
-            else if (entity is IItem item)
-                Action(caster, level, item);
-            else
-                Wiznet.Wiznet($"{GetType().Name}: invalid target type {entity.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            if (Target is IItem item)
+                Invoke(item);
+            if (Target is ICharacter victim)
+                Invoke(victim);
         }
 
-        protected override AbilityTargetResults GetTarget(ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
+        protected override string SetTargets(AbilityActionInput abilityActionInput)
         {
-            INonPlayableCharacter npcCaster = caster as INonPlayableCharacter;
-            if (parameters.Length < 1)
+            INonPlayableCharacter npcCaster = Caster as INonPlayableCharacter;
+            if (abilityActionInput.Parameters.Length < 1)
             {
-                target = caster.Fighting;
-                if (target == null)
-                {
-                    caster.Send("Cast the spell on whom or what?");
-                    return AbilityTargetResults.MissingParameter;
-                }
+                Target = Caster.Fighting;
+                if (Target == null)
+                    return "Cast the spell on whom or what?";
             }
             else
-                target = FindHelpers.FindByName(caster.Room.People, parameters[0]);
-            if (target != null)
+                Target = FindHelpers.FindByName(Caster.Room.People, abilityActionInput.Parameters[0]);
+            if (Target != null)
             {
-                if (npcCaster != null && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == target)
-                {
-                    caster.Send("You can't do that on your own follower.");
-                    return AbilityTargetResults.InvalidTarget;
-                }
+                if (npcCaster != null && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == Target)
+                    return "You can't do that on your own follower.";
             }
             else // character not found, search item in room, in inventor, in equipment
             {
-                target = FindHelpers.FindItemHere(caster, parameters[0]);
-                if (target == null)
-                {
-                    caster.Send("You don't see that here.");
-                    return AbilityTargetResults.TargetNotFound;
-                }
+                Target = FindHelpers.FindItemHere(Caster, abilityActionInput.Parameters[0]);
+                if (Target == null)
+                    return "You don't see that here.";
             }
             // victim or item (target) found
-            return AbilityTargetResults.Ok;
+            return null;
         }
 
-        #endregion
-
-        public abstract void Action(ICharacter caster, int level, ICharacter victim);
-        public abstract void Action(ICharacter caster, int level, IItem item);
+        protected abstract void Invoke(ICharacter victim);
+        protected abstract void Invoke(IItem item);
     }
 }

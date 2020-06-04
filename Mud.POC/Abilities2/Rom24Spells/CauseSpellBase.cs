@@ -1,12 +1,12 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.Interfaces;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
     public abstract class CauseSpellBase : DamageSpellBase
     {
-        public CauseSpellBase(IRandomManager randomManager, IWiznet wiznet)
+        protected CauseSpellBase(IRandomManager randomManager, IWiznet wiznet)
             : base(randomManager, wiznet)
         {
         }

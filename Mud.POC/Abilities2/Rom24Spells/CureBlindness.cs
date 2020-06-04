@@ -1,15 +1,13 @@
-﻿using Mud.POC.Abilities2.Interfaces;
+﻿using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
+    [Spell("Cure Blindness", AbilityEffects.Cure)]
     public class CureBlindness : CureSpellBase
     {
-        public override int Id => 23;
-        public override string Name => "Cure Blindness";
-
-        public CureBlindness(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public CureBlindness(IRandomManager randomManager, IWiznet wiznet, IAbilityManager abilityManager)
+            : base(randomManager, wiznet, abilityManager)
         {
         }
 

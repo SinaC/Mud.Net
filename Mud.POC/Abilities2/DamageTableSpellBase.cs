@@ -1,4 +1,4 @@
-﻿using Mud.POC.Abilities2.Interfaces;
+﻿using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2
@@ -10,17 +10,16 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        #region CharacterDamageSpellBase
-
-        protected override int DamageValue(ICharacter caster, int level, ICharacter victim)
+        protected override int DamageValue
         {
-            int baseDamage = Table.Get(level);
-            int minDamage = baseDamage / 2;
-            int maxDamage = baseDamage * 2;
-            return RandomManager.Range(minDamage, maxDamage);
+            get
+            {
+                int baseDamage = Table.Get(Level);
+                int minDamage = baseDamage / 2;
+                int maxDamage = baseDamage * 2;
+                return RandomManager.Range(minDamage, maxDamage);
+            }
         }
-
-        #endregion
 
         protected abstract int[] Table { get; }
     }
