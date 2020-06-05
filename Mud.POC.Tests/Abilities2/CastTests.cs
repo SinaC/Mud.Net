@@ -110,10 +110,44 @@ namespace Mud.POC.Tests.Abilities2
             Assert.AreNotEqual("You don't know any spells of that name.", result);
         }
 
+        [TestMethod]
+        public void AcidBlast_Guards_NoTarget()
+        {
+            var acidBlastLearned = new AbilityLearned { Name = "Acid Blast" };
+            // register RandomManager and Wiznet
+            Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
+            randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(x => true);
+            randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((count, value) => count * value);
+            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
+            DependencyContainer.Current.RegisterInstance(randomManagerMock.Object);
+            DependencyContainer.Current.RegisterInstance(wiznetMock.Object);
+            // create ability manager
+            IAbilityManager abilityManager = new AbilityManager();
+            // create room and character mock
+            Mock<IRoom> roomMock = new Mock<IRoom>();
+            Mock<ICharacter> casterMock = new Mock<ICharacter>();
+            Mock<ICharacter> victimMock = new Mock<ICharacter>();
+            casterMock.SetupGet(x => x.Name).Returns("Sinac");
+            casterMock.SetupGet(x => x.Level).Returns(50);
+            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, acidBlastLearned));
+            victimMock.SetupGet(x => x.Name).Returns("Toto");
+            victimMock.Setup(x => x.SavesSpell(It.IsAny<int>(), It.IsAny<SchoolTypes>())).Returns<int, SchoolTypes>((level, damageType) => false);
+            roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { casterMock.Object, victimMock.Object });
+            casterMock.SetupGet(x => x.LearnedAbilities).Returns(acidBlastLearned.Yield());
+            casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+            //
+            Cast cast = new Cast(abilityManager);
+            ActionInput actionInput = new ActionInput(casterMock.Object, "'Acid Blast'");
+
+            string result = cast.Guards(actionInput);
+
+            Assert.AreEqual("Cast the spell on whom?", result);
+        }
+
         // TODO: Test AcidBlast guard
 
         [TestMethod]
-        public void Cast_Execute_Spell()
+        public void AcidBlast_Execute_Spell()
         {
             var acidBlastLearned = new AbilityLearned { Name = "Acid Blast" };
             // register RandomManager and Wiznet
