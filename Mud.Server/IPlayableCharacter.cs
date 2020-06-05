@@ -32,8 +32,6 @@ namespace Mud.Server
         IGroup Group { get; }
         void ChangeGroup(IGroup group);
         bool IsSameGroup(IPlayableCharacter character); // in group
-        bool IsSameGroupOrPet(ICharacter character); // in group or pet
-
 
         // Pets
         IEnumerable<INonPlayableCharacter> Pets { get; }

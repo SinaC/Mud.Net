@@ -14,6 +14,8 @@ namespace Mud.Repository.Filesystem.Domain
 
         public long Experience { get; set; }
 
+        public int Alignment { get; set; }
+
         public int Trains { get; set; }
 
         public int Practices { get; set; }
