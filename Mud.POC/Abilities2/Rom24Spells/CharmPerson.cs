@@ -61,7 +61,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             ((IPlayableCharacter)Caster).AddPet(npcVictim); // Guards ensure this will never failed
 
             int duration = RandomManager.Fuzzy(Level / 4);
-            AuraManager.AddAura(npcVictim, this, Caster, Level, TimeSpan.FromHours(duration), AuraFlags.None, true,
+            AuraManager.AddAura(npcVictim, AbilityInfo.Name, Caster, Level, TimeSpan.FromHours(duration), AuraFlags.None, true,
                 new CharacterFlagsAffect { Modifier = CharacterFlags.Charm, Operator = AffectOperators.Or });
 
             npcVictim.Act(ActOptions.ToCharacter, "Isn't {0} just so nice?", Caster);

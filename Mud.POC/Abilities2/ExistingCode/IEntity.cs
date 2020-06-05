@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Mud.POC.Abilities2.ExistingCode
 {
@@ -7,9 +8,9 @@ namespace Mud.POC.Abilities2.ExistingCode
         string Name { get; }
 
         IEnumerable<IAura> Auras { get; }
-        IAura GetAura(IAbility ability);
         IAura GetAura(string abilityName);
         bool RemoveAura(IAura aura, bool recompute);
+        bool RemoveAuras(Func<IAura, bool> filterFunc, bool recompute);
 
         bool Recompute();
     }

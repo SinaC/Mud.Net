@@ -20,7 +20,7 @@ namespace Mud.POC.Abilities2
             if (!CanAffect())
                 return;
             var auraInfo = AuraInfo;
-            AuraManager.AddAura(Victim, this, Caster, auraInfo.level, auraInfo.duration, AuraFlags.None, true, auraInfo.affects);
+            AuraManager.AddAura(Victim, AbilityInfo.Name, Caster, auraInfo.level, auraInfo.duration, AuraFlags.None, true, auraInfo.affects);
             Victim.Act(ActOptions.ToCharacter, VictimAffectMessage, Caster);
             Victim.Act(ActOptions.ToRoom, RoomAffectMessage, Victim);
         }
@@ -33,7 +33,7 @@ namespace Mud.POC.Abilities2
 
         protected virtual bool CanAffect()
         {
-            if (Victim.GetAura(this) != null || Victim.SavesSpell(Level, DebuffType))
+            if (Victim.GetAura(AbilityInfo.Name) != null || Victim.SavesSpell(Level, DebuffType))
                 return false;
             return true;
         }

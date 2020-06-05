@@ -29,7 +29,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                     return;
                 }
 
-                AuraManager.AddAura(Item, this, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
+                AuraManager.AddAura(Item, AbilityInfo.Name, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
                     new ItemFlagsAffect { Modifier = ItemFlags.Glowing, Operator = AffectOperators.Or });
                 Caster.Act(ActOptions.ToAll, "{0} glows with a white light.", Item);
                 return;

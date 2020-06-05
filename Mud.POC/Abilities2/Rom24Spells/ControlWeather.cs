@@ -19,7 +19,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
         {
             int value = RandomManager.Dice(Level / 3, 4) * (_isBetterRequired ? 1 : -1);
             TimeManager.ChangePressure(value);
-            Caster.Send("Ok");
+            Caster.Send("Ok.");
         }
 
         public override string Guards(AbilityActionInput actionInput)

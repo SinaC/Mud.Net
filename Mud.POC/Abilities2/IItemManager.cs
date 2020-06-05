@@ -10,5 +10,7 @@ namespace Mud.POC.Abilities2
         IItem AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container);
         IItem AddItem(Guid guid, ItemData itemData, IContainer container);
         IItem AddItem(Guid guid, int blueprintId, IContainer container);
+
+        void RemoveItem(IItem item);
     }
 }

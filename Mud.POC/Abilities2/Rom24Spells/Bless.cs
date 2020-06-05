@@ -11,6 +11,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
     public class Bless : ItemOrDefensiveSpellBase
     {
         private IAuraManager AuraManager { get; }
+
         public Bless(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager) 
             : base(randomManager, wiznet)
         {
@@ -19,7 +20,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         protected override void Invoke(ICharacter victim)
         {
-            IAura blessAura = victim.GetAura("Bless");
+            IAura blessAura = victim.GetAura(AbilityInfo.Name);
             if (victim.Position == Positions.Fighting || blessAura != null)
             {
                 if (Caster == victim)
@@ -32,7 +33,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             if (victim != Caster)
                 Caster.Act(ActOptions.ToCharacter, "You grant {0} the favor of your god.", victim);
             int duration = 6 + Level;
-            AuraManager.AddAura(victim, this, Caster, Level, TimeSpan.FromHours(duration), AuraFlags.None, true,
+            AuraManager.AddAura(victim, AbilityInfo.Name, Caster, Level, TimeSpan.FromHours(duration), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = Level / 8, Operator = AffectOperators.Add },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -Level / 8, Operator = AffectOperators.Add });
         }
@@ -58,7 +59,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 Caster.Act(ActOptions.ToCharacter, "The evil of {0} is too powerful for you to overcome.", item);
                 return;
             }
-            AuraManager.AddAura(item, this, Caster, Level, TimeSpan.FromHours(6 + Level), AuraFlags.None, true,
+            AuraManager.AddAura(item, AbilityInfo.Name, Caster, Level, TimeSpan.FromHours(6 + Level), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
                 new ItemFlagsAffect { Modifier = ItemFlags.Bless, Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToAll, "{0} glows with a holy aura.", item);

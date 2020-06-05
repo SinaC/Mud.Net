@@ -5,6 +5,26 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2
 {
+    public abstract class ItemInventorySpellBase : SpellBase
+    {
+        protected IItem Item { get; private set; }
+
+        protected ItemInventorySpellBase(IRandomManager randomManager, IWiznet wiznet)
+            : base(randomManager, wiznet)
+        {
+        }
+
+        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        {
+            if (abilityActionInput.Parameters.Length < 1)
+                return "What should the spell be cast upon?";
+            Item = FindHelpers.FindByName(Caster.Inventory.Where(Caster.CanSee), abilityActionInput.Parameters[0]); // TODO: equipments ?
+            if (Item == null)
+                return "You are not carrying that.";
+            return null;
+        }
+    }
+
     public abstract class ItemInventorySpellBase<TItem> : SpellBase
         where TItem : class, IItem
     {

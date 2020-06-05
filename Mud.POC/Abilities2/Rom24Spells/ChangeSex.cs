@@ -18,7 +18,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         protected override void Invoke()
         {
-            if (Victim.GetAura(this) != null)
+            if (Victim.GetAura(AbilityInfo.Name) != null)
             {
                 if (Victim == Caster)
                     Caster.Send("You've already been changed.");
@@ -31,7 +31,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 return;
 
             Sex newSex = RandomManager.Random(EnumHelpers.GetValues<Sex>().Where(x => x != Victim.Sex));
-            AuraManager.AddAura(Victim, this, Caster, Level, TimeSpan.FromHours(2 * Level), AuraFlags.None, true,
+            AuraManager.AddAura(Victim, AbilityInfo.Name, Caster, Level, TimeSpan.FromHours(2 * Level), AuraFlags.None, true,
                 new CharacterSexAffect { Value = newSex });
             Victim.Send("You feel different.");
             Victim.Act(ActOptions.ToRoom, "{0:N} doesn't look like {0:m}self anymore...", Victim);

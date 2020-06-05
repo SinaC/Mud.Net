@@ -17,6 +17,7 @@ namespace Mud.POC.Abilities2
         Transportation = 0x00000100,
         Animation = 0x00000200,
         Creation = 0x00000400,
-        Detection = 0x00000800
+        Detection = 0x00000800,
+        Enchantment = 0x00001000,
     }
 }

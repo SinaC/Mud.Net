@@ -20,7 +20,7 @@ namespace Mud.POC.Abilities2
             if (IsAffected())
                 return;
             var auraInfo = AuraInfo;
-            AuraManager.AddAura(Victim, this, Caster, auraInfo.level, auraInfo.duration, AuraFlags.None, true, auraInfo.affects);
+            AuraManager.AddAura(Victim, AbilityInfo.Name, Caster, auraInfo.level, auraInfo.duration, AuraFlags.None, true, auraInfo.affects);
             Victim.Act(ActOptions.ToCharacter, VictimAffectMessage, Caster);
             if (Victim != Caster)
                 Caster.Act(ActOptions.ToCharacter, CasterAffectMessage, Victim);
@@ -34,7 +34,7 @@ namespace Mud.POC.Abilities2
 
         protected virtual bool IsAffected()
         {
-            if (Victim.GetAura(this) != null)
+            if (Victim.GetAura(AbilityInfo.Name) != null)
             {
                 Caster.Act(ActOptions.ToCharacter, AlreadyAffectedMessage, Victim);
                 return true;

@@ -35,7 +35,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             if (SavesSpellResult || DamageResult != DamageResults.Done)
                 return;
             Victim.Act(ActOptions.ToRoom, "{0} turns blue and shivers.", Victim);
-            IAura existingAura = Victim.GetAura(this);
+            IAura existingAura = Victim.GetAura(AbilityInfo.Name);
             if (existingAura != null)
             {
                 existingAura.Update(Level, TimeSpan.FromHours(6));
@@ -45,7 +45,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                     x => x.Modifier -= 1);
             }
             else
-                AuraManager.AddAura(Victim, this, Caster, Level, TimeSpan.FromHours(6), AuraFlags.None, true,
+                AuraManager.AddAura(Victim, AbilityInfo.Name, Caster, Level, TimeSpan.FromHours(6), AuraFlags.None, true,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
         }
     }

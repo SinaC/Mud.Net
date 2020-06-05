@@ -7,5 +7,6 @@ namespace Mud.POC.Abilities2.ExistingCode
         IPlayableCharacter Master { get; }
 
         ActFlags ActFlags { get; }
+        OffensiveFlags OffensiveFlags { get; }
     }
 }

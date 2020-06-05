@@ -20,7 +20,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         protected override void Invoke(ICharacter victim)
         {
-            IAura curseAura = victim.GetAura("Curse");
+            IAura curseAura = victim.GetAura(AbilityInfo.Name);
             if (curseAura != null || victim.CharacterFlags.HasFlag(CharacterFlags.Curse) || victim.SavesSpell(Level, SchoolTypes.Negative))
                 return;
             victim.Send("You feel unclean.");
@@ -28,7 +28,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 Caster.Act(ActOptions.ToCharacter, "{0:N} looks very uncomfortable.", victim);
             int duration = 2 * Level;
             int modifier = Level / 8;
-            AuraManager.AddAura(victim, this, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+            AuraManager.AddAura(victim, AbilityInfo.Name, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -modifier, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = CharacterFlags.Curse, Operator = AffectOperators.Or });
@@ -56,7 +56,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                     Caster.Act(ActOptions.ToCharacter, "The holy aura of {0} is too powerful for you to overcome.");
                 return;
             }
-            AuraManager.AddAura(item, this, Caster, Level, TimeSpan.FromMinutes(2 * Level), AuraFlags.None, true,
+            AuraManager.AddAura(item, AbilityInfo.Name, Caster, Level, TimeSpan.FromMinutes(2 * Level), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = 1, Operator = AffectOperators.Add },
                 new ItemFlagsAffect { Modifier = ItemFlags.Evil, Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToAll, "{0} glows with a malevolent aura.", item);

@@ -1026,7 +1026,7 @@ namespace Mud.Server.Abilities
             TableBaseDamageSpell(ability, level, caster, victim, SchoolTypes.Fire, FireballDamageTable);
         }
 
-        [Spell(48, "Fireproof", AbilityTargets.CharacterOffensive, ItemWearOffMessage = "{0}'s protective aura fades.")]
+        [Spell(48, "Fireproof", AbilityTargets.ItemInventory, ItemWearOffMessage = "{0}'s protective aura fades.")]
         public void SpellFireproof(IAbility ability, int level, ICharacter caster, IItem item)
         {
             if (item.ItemFlags.HasFlag(ItemFlags.BurnProof))
@@ -1059,7 +1059,7 @@ namespace Mud.Server.Abilities
                 if (victim == caster)
                     caster.Send("You are already airborne.");
                 else
-                    caster.Act(ActOptions.ToCharacter, "{0:N} doesn't need your help to fly.");
+                    caster.Act(ActOptions.ToCharacter, "{0:N} doesn't need your help to fly.", victim);
                 return;
             }
             World.AddAura(victim, ability, caster, level, TimeSpan.FromMinutes(level + 3), AuraFlags.None, true,
@@ -1087,7 +1087,7 @@ namespace Mud.Server.Abilities
 
             caster.Act(ActOptions.ToGroup, "{0} has created a floating black disc.", caster);
             caster.Send("You create a floating disc.");
-            // TODO: Try to equip it
+            // TODO: Try to equip it ?
         }
 
         [Spell(52, "Frenzy", AbilityTargets.CharacterDefensive, CharacterWearOffMessage = "Your rage ebbs.", DispelRoomMessage = "{0:N} no longer looks so wild.", Flags = AbilityFlags.CanBeDispelled, PulseWaitTime = 24)]
@@ -1138,8 +1138,6 @@ namespace Mud.Server.Abilities
                 caster.Send("You failed.");
                 return;
             }
-
-            IRoom wasRoom = caster.Room;
 
             caster.Act(ActOptions.ToAll, "{0:N} step{0:v} through a gate and vanish{0:v}.", caster);
             caster.ChangeRoom(victim.Room);
@@ -1252,7 +1250,7 @@ namespace Mud.Server.Abilities
                     {
                         switch (item)
                         {
-                            case ItemArmor itemArmor:
+                            case IItemArmor itemArmor:
                                 if (!itemArmor.ItemFlags.HasFlag(ItemFlags.NoDrop) // remove the item
                                     && !itemArmor.ItemFlags.HasFlag(ItemFlags.NoRemove)
                                     && itemArmor.Weight / 10 < RandomManager.Range(1, 2 * victim[CharacterAttributes.Dexterity]))
@@ -1307,7 +1305,7 @@ namespace Mud.Server.Abilities
                     {
                         switch (item)
                         {
-                            case ItemArmor itemArmor:
+                            case IItemArmor itemArmor:
                                 if (!itemArmor.ItemFlags.HasFlag(ItemFlags.NoDrop)) // drop it if we can
                                 {
                                     itemArmor.ChangeContainer(victim.Room);
@@ -1357,7 +1355,7 @@ namespace Mud.Server.Abilities
             victim.AbilityDamage(caster, ability, damage, SchoolTypes.Fire, true);
         }
 
-        [Spell(59, "Holy Word", AbilityTargets.CharacterOffensive, PulseWaitTime = 24, DamageNoun = "divine wrath")]
+        [Spell(59, "Holy Word", AbilityTargets.None, PulseWaitTime = 24, DamageNoun = "divine wrath")]
         public void SpellHolyWord(IAbility ability, int level, ICharacter caster)
         {
             IAbility bless = this["Bless"];

@@ -1,9 +1,5 @@
 NEXT:
-ItemInventorySpellBaseTests, OptionalItemInventorySpellBaseTests, ItemOrDefensiveSpellBaseTests:
-	// TODO: add fail test with item in equipment or in room
-ItemOrOffensiveSpellBaseTests
-	// TODO: add success test with item in equipment or in room
-
+unit tests for EnchantWeapon and EnchantArmor
 
 make a map of calls done when a NPC is Removed/StopFollowing/...
 

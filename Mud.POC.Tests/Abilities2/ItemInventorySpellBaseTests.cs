@@ -77,7 +77,53 @@ namespace Mud.POC.Tests.Abilities2
             Assert.AreEqual("Ceci n'est pas une pipe", result);
         }
 
-        // TODO: add test with item in equipment or in room
+        [TestMethod]
+        public void Guards_ItemInEquipment()
+        {
+            Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
+            randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
+            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
+            Mock<IRoom> roomMock = new Mock<IRoom>();
+            Mock<IItemWeapon> itemMock = new Mock<IItemWeapon>();
+            Mock<IPlayableCharacter> casterMock = new Mock<IPlayableCharacter>();
+            casterMock.SetupGet(x => x.Name).Returns("player");
+            casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+            casterMock.SetupGet(x => x.Equipments).Returns(new EquippedItem(POC.Abilities2.Domain.EquipmentSlots.Chest) { Item = itemMock.Object }.Yield());
+            casterMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
+            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = SpellName }));
+            itemMock.SetupGet(x => x.Name).Returns("item");
+            roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
+            ItemInventorySpellBaseTestsSpell spell = new ItemInventorySpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
+            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "item", new CommandParameter("item", false));
+
+            string result = spell.Guards(abilityActionInput);
+
+            Assert.AreEqual("You are not carrying that.", result);
+        }
+
+        [TestMethod]
+        public void Guards_ItemInRoom()
+        {
+            Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
+            randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
+            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
+            Mock<IRoom> roomMock = new Mock<IRoom>();
+            Mock<IItemWeapon> itemMock = new Mock<IItemWeapon>();
+            Mock<IPlayableCharacter> casterMock = new Mock<IPlayableCharacter>();
+            casterMock.SetupGet(x => x.Name).Returns("player");
+            casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+            casterMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
+            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = SpellName }));
+            itemMock.SetupGet(x => x.Name).Returns("item");
+            roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
+            roomMock.SetupGet(x => x.Content).Returns(itemMock.Object.Yield());
+            ItemInventorySpellBaseTestsSpell spell = new ItemInventorySpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
+            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "item", new CommandParameter("item", false));
+
+            string result = spell.Guards(abilityActionInput);
+
+            Assert.AreEqual("You are not carrying that.", result);
+        }
 
         [TestMethod]
         public void Guards_ItemFoundInInventory()

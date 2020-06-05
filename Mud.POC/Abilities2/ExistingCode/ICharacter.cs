@@ -7,7 +7,7 @@ namespace Mud.POC.Abilities2.ExistingCode
     {
         IRoom Room { get; }
         IEnumerable<IItem> Inventory { get; }
-        IEnumerable<IItem> Equipments { get; }
+        IEnumerable<EquippedItem> Equipments { get; }
 
         int Level { get; }
         CharacterFlags CharacterFlags { get; }
@@ -19,10 +19,22 @@ namespace Mud.POC.Abilities2.ExistingCode
         IEnumerable<ResourceKinds> CurrentResourceKinds { get; }
         int UpdateResource(ResourceKinds kind, int amount);
 
+        int this[CharacterAttributes attribute] { get; }
+
         int HitPoints { get; }
+        int MovePoints { get; }
         void UpdateHitPoints(int amount);
+        void UpdateMovePoints(int amount);
 
         IRVFlags Immunities { get; }
+
+        void GainExperience(long amount);
+
+        void ChangeRoom(IRoom destination);
+
+        void AutoLook();
+
+        IEnumerable<INonPlayableCharacter> Pets { get; }
 
         int Alignment { get; }
         bool IsEvil { get; }
@@ -32,6 +44,7 @@ namespace Mud.POC.Abilities2.ExistingCode
 
         bool CanSee(IItem item);
         bool CanSee(ICharacter character);
+        bool CanSee(IRoom room);
 
         ICharacter Fighting { get; }
         bool IsSafe(ICharacter aggressor);
@@ -48,6 +61,26 @@ namespace Mud.POC.Abilities2.ExistingCode
         void SetCooldown(string abilityName, int seconds);
 
         void AddPet(INonPlayableCharacter pet);
+    }
+
+    public class EquippedItem
+    {
+        public EquipmentSlots Slot { get; }
+        public IItem Item { get; set; }
+
+        public EquippedItem(EquipmentSlots slot)
+        {
+            Slot = slot;
+        }
+
+        //public EquippedItemData MapEquippedData()
+        //{
+        //    return new EquippedItemData
+        //    {
+        //        Slot = Slot,
+        //        Item = Item.MapItemData()
+        //    };
+        //}
     }
 
     public enum ActOptions

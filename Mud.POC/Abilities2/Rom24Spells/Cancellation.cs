@@ -11,6 +11,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
     public class Cancellation : DefensiveSpellBase
     {
         private IAbilityManager AbilityManager { get; }
+
         public Cancellation(IRandomManager randomManager, IWiznet wiznet, IAbilityManager abilityManager)
             : base(randomManager, wiznet)
         {

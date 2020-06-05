@@ -26,7 +26,7 @@ namespace Mud.POC.Abilities2
                 return;
             }
             TimeSpan duration = Duration;
-            AuraManager.AddAura(Victim, this, Caster, Level, duration, AuraFlags.None, true,
+            AuraManager.AddAura(Victim, AbilityInfo.Name, Caster, Level, duration, AuraFlags.None, true,
                 new CharacterFlagsAffect { Modifier = CharacterFlags, Operator = AffectOperators.Or });
             Victim.Send(Success);
             if (Victim != Caster)

@@ -38,6 +38,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             AbilityInfo blindnessAbilityInfo = AbilityManager["Blindness"];
             IAbilityAction blindnessAbilityInstance = (IAbilityAction)DependencyContainer.Current.GetInstance(blindnessAbilityInfo.AbilityExecutionType);
             AbilityActionInput abilityActionInput = new AbilityActionInput(blindnessAbilityInfo, Caster, Victim.Name, new CommandParameter(Victim.Name, false));
+            blindnessAbilityInstance.Guards(abilityActionInput);
             blindnessAbilityInstance.Execute(abilityActionInput);
         }
     }
