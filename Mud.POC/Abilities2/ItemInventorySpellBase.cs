@@ -1,4 +1,5 @@
-﻿using Mud.POC.Abilities2.Helpers;
+﻿using System.Linq;
+using Mud.POC.Abilities2.Helpers;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 
@@ -16,10 +17,9 @@ namespace Mud.POC.Abilities2
 
         protected override string SetTargets(AbilityActionInput abilityActionInput)
         {
-            IItem target = null;
             if (abilityActionInput.Parameters.Length < 1)
                 return "What should the spell be cast upon?";
-            target = FindHelpers.FindByName(Caster.Inventory, abilityActionInput.Parameters[0]); // TODO: equipments ?
+            IItem target = FindHelpers.FindByName(Caster.Inventory.Where(Caster.CanSee), abilityActionInput.Parameters[0]); // TODO: equipments ?
             if (target == null)
                 return "You are not carrying that.";
             if (!(target is TItem))

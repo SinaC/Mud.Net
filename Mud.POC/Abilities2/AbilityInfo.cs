@@ -30,7 +30,9 @@ namespace Mud.POC.Abilities2
             Name = pascalCaseName;
             Effects = abilityBaseAttribute.Effects;
             PulseWaitTime = abilityBaseAttribute.PulseWaitTime;
-            Cooldown = abilityBaseAttribute.Cooldown;
+            Cooldown = abilityBaseAttribute.Cooldown <= 0
+                ? (int?)null
+                : abilityBaseAttribute.Cooldown;
             LearnDifficultyMultiplier = abilityBaseAttribute.LearnDifficultyMultiplier;
 
             AdditionalInfoAttributes = abilityExecutionType.GetCustomAttributes<AbilityAdditionalInfoAttribute>().ToArray();

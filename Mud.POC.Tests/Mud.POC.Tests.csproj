@@ -67,9 +67,18 @@
   <ItemGroup>
     <Compile Include="Abilities2\AbilityManagerTests.cs" />
     <Compile Include="Abilities2\CastTests.cs" />
+    <Compile Include="Abilities2\AcidBlastTests.cs" />
+    <Compile Include="Abilities2\ItemInventorySpellBaseTests.cs" />
+    <Compile Include="Abilities2\DefensiveSpellBaseSpells.cs" />
+    <Compile Include="Abilities2\SpellBaseTests.cs" />
     <Compile Include="Abilities2\TestBase.cs" />
+    <Compile Include="Abilities2\OptionalItemInventorySpellBaseTests.cs" />
+    <Compile Include="Abilities2\OffensiveSpellBaseSpells.cs" />
+    <Compile Include="Abilities2\ItemOrDefensiveSpellBaseTests.cs" />
+    <Compile Include="Abilities2\ItemOrOffensiveSpellBaseTests.cs" />
     <Compile Include="Abilities\AbilityCheckImproveTests.cs" />
     <Compile Include="Abilities\AbilityManagerTests.cs" />
+    <Compile Include="AssertExtensions.cs" />
     <Compile Include="Followers\AddFollowerTests.cs" />
     <Compile Include="Followers\DoFollowTests.cs" />
     <Compile Include="Followers\DoNofollowTests.cs" />

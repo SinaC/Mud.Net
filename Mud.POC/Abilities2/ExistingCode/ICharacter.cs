@@ -31,6 +31,7 @@ namespace Mud.POC.Abilities2.ExistingCode
         void UpdateAlignment(int amount);
 
         bool CanSee(IItem item);
+        bool CanSee(ICharacter character);
 
         ICharacter Fighting { get; }
         bool IsSafe(ICharacter aggressor);
@@ -43,8 +44,8 @@ namespace Mud.POC.Abilities2.ExistingCode
         IEnumerable<AbilityLearned> LearnedAbilities { get; }
         (int percentage, AbilityLearned abilityLearned) GetAbilityPercentage(IAbility ability); // percentage is dynamically computed
 
-        int CooldownPulseLeft(IAbility ability);
-        void SetCooldown(IAbility ability);
+        int CooldownPulseLeft(string abilityName);
+        void SetCooldown(string abilityName, int seconds);
 
         void AddPet(INonPlayableCharacter pet);
     }

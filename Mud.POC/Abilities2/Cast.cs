@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Mud.Container;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
@@ -45,9 +44,7 @@ namespace Mud.POC.Abilities2
             if (AbilityInstance == null)
                 return "Ability instance cannot be created";
             string abilityInstanceGuards = AbilityInstance.Guards(AbilityActionInput);
-            if (abilityInstanceGuards != null)
-                return abilityInstanceGuards;
-            return null;
+            return abilityInstanceGuards;
         }
 
         public void Execute(ActionInput actionInput)

@@ -48,7 +48,7 @@ namespace Mud.POC.Abilities2
             if (setTargetResult != null)
                 return setTargetResult;
             // 4) check cooldown
-            int cooldownPulseLeft = Caster.CooldownPulseLeft(this);
+            int cooldownPulseLeft = Caster.CooldownPulseLeft(AbilityInfo.Name);
             if (cooldownPulseLeft > 0)
                 return $"{AbilityInfo.Name} is in cooldown for {StringHelpers.FormatDelay(cooldownPulseLeft / Pulse.PulsePerSeconds)}.";
             // 5) check resource cost
@@ -59,7 +59,7 @@ namespace Mud.POC.Abilities2
                 if (!Caster.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
                     return $"You can't use {resourceKind} as resource for the moment.";
                 int resourceLeft = Caster[resourceKind];
-                int cost = 0;
+                int cost;
                 switch (abilityPercentage.abilityLearned.CostAmountOperator)
                 {
                     case CostAmountOperators.Fixed:
@@ -75,7 +75,7 @@ namespace Mud.POC.Abilities2
                 }
                 bool enoughResource = cost <= resourceLeft;
                 if (!enoughResource)
-                    return $"You don't have enough {abilityPercentage.abilityLearned.ResourceKind}.";
+                    return $"You don't have enough {resourceKind}.";
                 Cost = cost;
                 ResourceKind = resourceKind;
             }
@@ -119,7 +119,7 @@ namespace Mud.POC.Abilities2
 
             // 10) set cooldown
             if (AbilityInfo.Cooldown.HasValue && AbilityInfo.Cooldown.Value > 0)
-                Caster.SetCooldown(this);
+                Caster.SetCooldown(AbilityInfo.Name, AbilityInfo.Cooldown.Value);
 
             // 11) check improve true
             pcCaster?.CheckAbilityImprove(abilityPercentage.abilityLearned, true, AbilityInfo.LearnDifficultyMultiplier);

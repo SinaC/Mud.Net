@@ -1,4 +1,5 @@
-﻿using Mud.POC.Abilities2.Helpers;
+﻿using System.Linq;
+using Mud.POC.Abilities2.Helpers;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 
@@ -25,10 +26,10 @@ namespace Mud.POC.Abilities2
         {
             Target = abilityActionInput.Parameters.Length < 1
                         ? Caster
-                        : FindHelpers.FindByName(Caster.Room.People, abilityActionInput.Parameters[0]);
+                        : FindHelpers.FindByName(Caster.Room.People.Where(Caster.CanSee), abilityActionInput.Parameters[0]);
             if (Target == null)
             {
-                Target = FindHelpers.FindByName(Caster.Inventory, abilityActionInput.Parameters[0]);
+                Target = FindHelpers.FindByName(Caster.Inventory.Where(Caster.CanSee), abilityActionInput.Parameters[0]);
                 if (Target == null)
                     return "You don't see that here.";
             }

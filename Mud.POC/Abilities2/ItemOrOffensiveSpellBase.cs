@@ -59,9 +59,15 @@ namespace Mud.POC.Abilities2
                     return "Cast the spell on whom or what?";
             }
             else
-                Target = FindHelpers.FindByName(Caster.Room.People, abilityActionInput.Parameters[0]);
+                Target = FindHelpers.FindByName(Caster.Room.People.Where(Caster.CanSee), abilityActionInput.Parameters[0]);
             if (Target != null)
             {
+                if (Caster is IPlayableCharacter)
+                {
+                    if (Caster != Target && ((ICharacter) Target).IsSafe(Caster))
+                        return "Not on that victim.";
+                    // TODO: check_killer
+                }
                 if (npcCaster != null && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == Target)
                     return "You can't do that on your own follower.";
             }
