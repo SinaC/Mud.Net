@@ -22,7 +22,7 @@ namespace Mud.POC.Abilities2
             return null;
         }
 
-        protected bool IsVictimValid()
+        protected virtual bool IsVictimValid()
         {
             INonPlayableCharacter npcVictim = Victim as INonPlayableCharacter;
             if (Victim == Caster

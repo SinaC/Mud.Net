@@ -26,7 +26,8 @@ namespace Mud.POC.Abilities2
                 Caster.Act(ActOptions.ToCharacter, CasterAffectMessage, Victim);
         }
 
-        protected abstract string AlreadyAffectedMessage { get; }
+        protected abstract string SelfAlreadyAffectedMessage { get; }
+        protected abstract string NotSelfAlreadyAffectedMessage { get; }
         protected abstract string VictimAffectMessage { get; }
         protected abstract string CasterAffectMessage { get; }
 
@@ -36,7 +37,10 @@ namespace Mud.POC.Abilities2
         {
             if (Victim.GetAura(AbilityInfo.Name) != null)
             {
-                Caster.Act(ActOptions.ToCharacter, AlreadyAffectedMessage, Victim);
+                if (Victim != Caster)
+                    Caster.Send(SelfAlreadyAffectedMessage);
+                else
+                    Caster.Act(ActOptions.ToCharacter, NotSelfAlreadyAffectedMessage, Victim);
                 return true;
             }
             return false;

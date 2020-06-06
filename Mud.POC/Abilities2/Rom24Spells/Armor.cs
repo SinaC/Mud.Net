@@ -14,10 +14,10 @@ namespace Mud.POC.Abilities2.Rom24Spells
         {
         }
 
-        protected override string AlreadyAffectedMessage => "{0:N} is already armored.";
+        protected override string SelfAlreadyAffectedMessage => "You are already armored.";
+        protected override string NotSelfAlreadyAffectedMessage => "{0:N} {0:b} already armored.";
         protected override string VictimAffectMessage => "You feel someone protecting you.";
-        protected override string CasterAffectMessage => "{0} is protected by your magic.";
-
+        protected override string CasterAffectMessage => "{0:N} is protected by your magic.";
         protected override (int level, TimeSpan duration, IAffect[] affects) AuraInfo
             => (Level, TimeSpan.FromHours(24),
              new[]

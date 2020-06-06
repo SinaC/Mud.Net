@@ -12,6 +12,14 @@ namespace Mud.POC.Abilities2.Helpers
             where TEntity : IEntity
              => entities.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameter.Value));
 
+        public static IEnumerable<T> FindAllByName<T>(IEnumerable<T> list, string parameter, bool perfectMatch = false)
+            where T : IEntity
+        {
+            return perfectMatch
+                ? list.Where(x => StringCompareHelpers.StringListEquals(x.Keywords, parameter))
+                : list.Where(x => StringCompareHelpers.StringListStartsWith(x.Keywords, parameter));
+        }
+
         public static IItem FindItemHere(ICharacter character, CommandParameter parameter)
             => FindByName(
                 character.Room.Content.Where(character.CanSee)

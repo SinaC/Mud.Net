@@ -28,7 +28,7 @@ namespace Mud.POC.Abilities2
             TimeSpan duration = Duration;
             AuraManager.AddAura(Victim, AbilityInfo.Name, Caster, Level, duration, AuraFlags.None, true,
                 new CharacterFlagsAffect { Modifier = CharacterFlags, Operator = AffectOperators.Or });
-            Victim.Send(Success);
+            Victim.Send(SelfSuccess);
             if (Victim != Caster)
                 Victim.Act(ActOptions.ToRoom, NotSelfSuccess, Victim);
         }
@@ -37,7 +37,7 @@ namespace Mud.POC.Abilities2
         protected abstract TimeSpan Duration { get; }
         protected abstract string SelfAlreadyAffected { get; }
         protected abstract string NotSelfAlreadyAffected { get; }
-        protected abstract string Success { get; }
+        protected abstract string SelfSuccess { get; }
         protected abstract string NotSelfSuccess { get; }
     }
 }

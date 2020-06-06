@@ -18,7 +18,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
         protected override CharacterFlags CharacterFlags => CharacterFlags.DetectEvil;
         protected override string SelfAlreadyAffected => "You can already sense evil.";
         protected override string NotSelfAlreadyAffected => "{0:N} can already detect evil.";
-        protected override string Success => "Your eyes tingle.";
+        protected override string SelfSuccess => "Your eyes tingle.";
         protected override string NotSelfSuccess => "Ok.";
         protected override TimeSpan Duration => TimeSpan.FromMinutes(Level);
     }

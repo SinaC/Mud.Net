@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using Mud.POC.Abilities2.Domain;
 
 namespace Mud.POC.Abilities2.ExistingCode
@@ -8,11 +9,14 @@ namespace Mud.POC.Abilities2.ExistingCode
         IRoom Room { get; }
         IEnumerable<IItem> Inventory { get; }
         IEnumerable<EquippedItem> Equipments { get; }
+        IItem GetEquipment(EquipmentSlots equipmentSlots);
 
         int Level { get; }
         CharacterFlags CharacterFlags { get; }
         Positions Position { get; }
         Sex Sex { get; }
+
+        void ChangePosition(Positions position);
 
         int this[ResourceKinds kind] { get; }
         int MaxResource(ResourceKinds kind);
@@ -22,7 +26,9 @@ namespace Mud.POC.Abilities2.ExistingCode
         int this[CharacterAttributes attribute] { get; }
 
         int HitPoints { get; }
+        int MaxHitPoints { get; }
         int MovePoints { get; }
+        int MaxMovePoints { get; }
         void UpdateHitPoints(int amount);
         void UpdateMovePoints(int amount);
 
@@ -54,6 +60,8 @@ namespace Mud.POC.Abilities2.ExistingCode
         bool MultiHit(ICharacter aggressor);
         bool StopFighting(bool both);
 
+        bool IsSameGroupOrPet(ICharacter character);
+
         IEnumerable<AbilityLearned> LearnedAbilities { get; }
         (int percentage, AbilityLearned abilityLearned) GetAbilityPercentage(IAbility ability); // percentage is dynamically computed
 
@@ -61,6 +69,8 @@ namespace Mud.POC.Abilities2.ExistingCode
         void SetCooldown(string abilityName, int seconds);
 
         void AddPet(INonPlayableCharacter pet);
+
+        void Page(StringBuilder sb);
     }
 
     public class EquippedItem

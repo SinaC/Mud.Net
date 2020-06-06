@@ -1626,7 +1626,7 @@ namespace Mud.Server.Abilities
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.PassDoor, duration, "You are already out of phase.", "{0:N} is already shifted out of phase.", "You turn translucent.", "{0} turns translucent.");
         }
 
-        [Spell(71, "Plague", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "Your sores vanish.", DamageNoun = "sickness", Flags = AbilityFlags.CanBeDispelled)]
+        [Spell(71, "Plague", AbilityTargets.CharacterOffensive, CharacterWearOffMessage = "Your sores vanish.", DamageNoun = "sickness")]
         public void SpellPlague(IAbility ability, int level, ICharacter caster, ICharacter victim)
         {
             if (victim.SavesSpell(level, SchoolTypes.Disease)

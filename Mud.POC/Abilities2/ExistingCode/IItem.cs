@@ -17,8 +17,10 @@ namespace Mud.POC.Abilities2.ExistingCode
         void Disenchant();
         void IncreaseLevel();
 
+        IContainer ContainedInto { get; }
         bool ChangeContainer(IContainer container);
 
+        ICharacter EquippedBy { get; }
         bool ChangeEquippedBy(ICharacter character, bool recompute);
     }
 }

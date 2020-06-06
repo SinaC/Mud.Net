@@ -76,6 +76,7 @@
     <Compile Include="Abilities2\OffensiveSpellBaseSpells.cs" />
     <Compile Include="Abilities2\ItemOrDefensiveSpellBaseTests.cs" />
     <Compile Include="Abilities2\ItemOrOffensiveSpellBaseTests.cs" />
+    <Compile Include="Abilities2\VentriloquateTests.cs" />
     <Compile Include="Abilities\AbilityCheckImproveTests.cs" />
     <Compile Include="Abilities\AbilityManagerTests.cs" />
     <Compile Include="AssertExtensions.cs" />

@@ -6,6 +6,9 @@ namespace Mud.POC.Abilities2.ExistingCode
     public interface IEntity : IActor
     {
         string Name { get; }
+        IEnumerable<string> Keywords { get; }
+        string DisplayName { get; }
+        string DebugName { get; }
 
         IEnumerable<IAura> Auras { get; }
         IAura GetAura(string abilityName);

@@ -6,15 +6,13 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Haste", AbilityEffects.Buff)]
-    [AbilityCharacterWearOffMessage("You feel yourself slow down.")]
-    [AbilityDispellable("{0:N} is no longer moving so quickly.")]
-    public class Haste : DefensiveSpellBase
+    [Spell("Slow", AbilityEffects.Debuff)]
+    public class Slow : OffensiveSpellBase
     {
         private IAuraManager AuraManager { get; }
         private IAbilityManager AbilityManager { get; }
 
-        public Haste(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager, IAbilityManager abilityManager)
+        public Slow(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager, IAbilityManager abilityManager)
             : base(randomManager, wiznet)
         {
             AuraManager = auraManager;
@@ -23,39 +21,46 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         protected override void Invoke()
         {
-            if (Victim.CharacterFlags.HasFlag(CharacterFlags.Haste)
-                || Victim.GetAura("Haste") != null
-                || (Victim is INonPlayableCharacter npcVictim && npcVictim.OffensiveFlags.HasFlag(OffensiveFlags.Fast)))
+            if (Victim.CharacterFlags.HasFlag(CharacterFlags.Slow)
+                || Victim.GetAura(AbilityInfo.Name) != null)
             {
                 if (Victim == Caster)
-                    Caster.Send("You can't move any faster!");
+                    Caster.Send("You can't move any slower!");
                 else
-                    Caster.Act(ActOptions.ToCharacter, "{0:N} is already moving as fast as {0:e} can.", Victim);
+                    Caster.Act(ActOptions.ToCharacter, "{0:N} can't get any slower than that.", Victim);
                 return;
             }
-            if (Victim.CharacterFlags.HasFlag(CharacterFlags.Slow))
+
+            if (Victim.Immunities.HasFlag(IRVFlags.Magic)
+                || Victim.SavesSpell(Level, SchoolTypes.Other))
             {
-                if (TryDispel(Level, Victim, "Slow") != CheckDispelReturnValues.Dispelled)
+                if (Victim != Caster)
+                    Caster.Send("Nothing seemed to happen.");
+                Victim.Send("You feel momentarily lethargic.");
+                return;
+            }
+
+            if (Victim.CharacterFlags.HasFlag(CharacterFlags.Haste))
+            {
+                if (TryDispel(Level, Victim, "Haste") != CheckDispelReturnValues.Dispelled)
                 {
                     if (Victim != Caster)
                         Caster.Send("Spell failed.");
-                    Victim.Send("You feel momentarily faster.");
+                    Victim.Send("You feel momentarily slower.");
                     return;
                 }
-                Victim.Act(ActOptions.ToRoom, "{0:N} is moving less slowly.", Victim);
+                Victim.Act(ActOptions.ToRoom, "{0:N} is moving less quickly.", Victim);
                 return;
             }
-            int duration = Victim == Caster
-                ? Level / 2
-                : Level / 4;
-            int modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
+
+            int duration = Level / 2;
+            int modifier = -1 - (Level >= 18 ? 1 : 0) - (Level >= 25 ? 1 : 0) - (Level >= 32 ? 1 : 0);
             AuraManager.AddAura(Victim, AbilityInfo.Name, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = CharacterFlags.Haste, Operator = AffectOperators.Or });
-            Victim.Send("You feel yourself moving more quickly.");
-            Victim.Act(ActOptions.ToRoom, "{0:N} is moving more quickly.", Victim);
-            if (Caster != Victim)
-                Caster.Send("Ok.");
+                new CharacterFlagsAffect { Modifier = CharacterFlags.Slow, Operator = AffectOperators.Or });
+            Victim.Recompute();
+            Victim.Send("You feel yourself slowing d o w n...");
+            Caster.Act(ActOptions.ToRoom, "{0} starts to move in slow motion.", Victim);
         }
 
         // TODO: refactoring, almost same code in DispelMagic and Cancellation
