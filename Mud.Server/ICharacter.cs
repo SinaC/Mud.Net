@@ -104,6 +104,9 @@ namespace Mud.Server
         void RemoveFollower(ICharacter character);
         void ChangeLeader(ICharacter character);
 
+        // Group
+        bool IsSameGroupOrPet(ICharacter character);
+
         // Act
         void Act(ActOptions option, string format, params object[] arguments);
         void ActToNotVictim(ICharacter victim, string format, params object[] arguments); // to everyone except this and victim

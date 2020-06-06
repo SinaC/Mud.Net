@@ -1187,14 +1187,7 @@ namespace Mud.Server.Server
                                 {
                                     if (RandomManager.Chance(50))
                                     {
-                                        bool IsSameGroupOrPet(ICharacter ch1, ICharacter ch2)
-                                        {
-                                            IPlayableCharacter pcCh1 = ch1 as IPlayableCharacter;
-                                            IPlayableCharacter pcCh2 = ch2 as IPlayableCharacter;
-                                            return (pcCh1 != null && pcCh1.IsSameGroupOrPet(ch2)) || (pcCh2 != null && pcCh2.IsSameGroupOrPet(ch1));
-                                        }
-
-                                        ICharacter target = character.Room.People.Where(x => npcInRoom.CanSee(x) && IsSameGroupOrPet(x, victim)).Random(RandomManager);
+                                        ICharacter target = character.Room.People.Where(x => npcInRoom.CanSee(x) && x.IsSameGroupOrPet(victim)).Random(RandomManager);
                                         if (target != null)
                                         {
                                             npcInRoom.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcInRoom);

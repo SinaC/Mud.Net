@@ -61,17 +61,21 @@ namespace Mud.Server.Character
             "[cmd] <drink container>")]
         protected virtual CommandExecutionResults DoEnvenom(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Envenom", rawParameters, parameters);
 
-        [CharacterCommand("recite", "Spells", MinPosition = Positions.Resting)]
+        [CharacterCommand("recite", "Skills", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <scroll> [<target>]")]
         protected virtual CommandExecutionResults DoRecite(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Scrolls", rawParameters, parameters);
 
-        [CharacterCommand("zap", "Spells", MinPosition = Positions.Resting)]
+        [CharacterCommand("zap", "Skills", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <wand> [<target>]")]
         protected virtual CommandExecutionResults DoZap(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Wands", rawParameters, parameters);
 
-        [CharacterCommand("brandish", "Spells", MinPosition = Positions.Resting)]
+        [CharacterCommand("brandish", "Skills", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <staff> [<target>]")]
         protected virtual CommandExecutionResults DoBrandish(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Staves", rawParameters, parameters);
+
+        [CharacterCommand("rescue", "Skills", MinPosition = Positions.Resting)]
+        [Syntax("[cmd] <victim>")]
+        protected virtual CommandExecutionResults DoRescue(string rawParameters, params CommandParameter[] parameters) => ExecuteSkill("Rescue", rawParameters, parameters);
 
         //
         private CommandExecutionResults ExecuteSkill(string abilityName, string rawParameters, params CommandParameter[] parameters)

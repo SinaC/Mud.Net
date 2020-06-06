@@ -318,7 +318,7 @@ namespace Mud.Server.Abilities
                         target = caster.Fighting;
                         if (target == null)
                         {
-                            caster.Send("Cast the spell on whom?");
+                            caster.Send("Use the ability on whom?");
                             return AbilityTargetResults.MissingParameter;
                         }
                     }
@@ -366,7 +366,7 @@ namespace Mud.Server.Abilities
                         ICharacter search = FindHelpers.FindByName(caster.Room.People, parameters[0]);
                         if (search != caster)
                         {
-                            caster.Send("You cannot cast this spell on another.");
+                            caster.Send("You cannot do this on another.");
                             return AbilityTargetResults.InvalidTarget;
                         }
                     }
@@ -376,7 +376,7 @@ namespace Mud.Server.Abilities
                 case AbilityTargets.ItemInventory:
                     if (parameters.Length < 1)
                     {
-                        caster.Send("What should the spell be cast upon?");
+                        caster.Send("What should the ability be used upon?");
                         return AbilityTargetResults.MissingParameter;
                     }
                     target = FindHelpers.FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?
@@ -393,7 +393,7 @@ namespace Mud.Server.Abilities
                         target = caster.Fighting;
                         if (target == null)
                         {
-                            caster.Send("Cast the spell on whom or what?");
+                            caster.Send("Use the ability on whom or what?");
                             return AbilityTargetResults.MissingParameter;
                         }
                     }
@@ -450,7 +450,7 @@ namespace Mud.Server.Abilities
                 case AbilityTargets.ArmorInventory:
                     if (parameters.Length < 1)
                     {
-                        caster.Send("What should the spell be cast upon?");
+                        caster.Send("What should the ability be used upon?");
                         return AbilityTargetResults.MissingParameter;
                     }
                     target = FindHelpers.FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?
@@ -470,7 +470,7 @@ namespace Mud.Server.Abilities
                 case AbilityTargets.WeaponInventory:
                     if (parameters.Length < 1)
                     {
-                        caster.Send("What should the spell be cast upon?");
+                        caster.Send("What should the ability be used upon?");
                         return AbilityTargetResults.MissingParameter;
                     }
                     target = FindHelpers.FindByName(caster.Inventory, parameters[0]); // TODO: equipments ?

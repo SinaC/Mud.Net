@@ -299,6 +299,14 @@ namespace Mud.Server.Character
             Leader = character;
         }
 
+        // Group
+        public virtual bool IsSameGroupOrPet(ICharacter character)
+        {
+            IPlayableCharacter pcCh1 = this as IPlayableCharacter;
+            IPlayableCharacter pcCh2 = character as IPlayableCharacter;
+            return (pcCh1 != null && pcCh1.IsSameGroupOrPet(character)) || (pcCh2 != null && pcCh2.IsSameGroupOrPet(this));
+        }
+
         // Act
         // IFormattable cannot be used because formatting depends on who'll receive the message (CanSee check)
         public void Act(ActOptions option, string format, params object[] arguments)
