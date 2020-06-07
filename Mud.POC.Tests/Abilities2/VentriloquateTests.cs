@@ -5,11 +5,7 @@ using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Rom24Spells;
 using Mud.Server.Common;
 using Mud.Server.Input;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.POC.Tests.Abilities2
 {
@@ -143,13 +139,6 @@ namespace Mud.POC.Tests.Abilities2
             string result = spell.Guards(abilityActionInput);
 
             Assert.IsNull(result);
-        }
-
-        //
-        protected (string rawParameters, CommandParameter[] parameters) BuildParameters(string parameters)
-        {
-            var commandParameters = CommandHelpers.SplitParameters(parameters).Select(CommandHelpers.ParseParameter).ToArray();
-            return (parameters, commandParameters);
         }
     }
 }

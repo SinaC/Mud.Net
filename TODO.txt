@@ -1,5 +1,5 @@
 NEXT:
-unit tests for EnchantWeapon and EnchantArmor
+skills
 Effects such as FireEffect, FrostEffect, AcidEffect, ...
 NPC dragon breath spells
 
