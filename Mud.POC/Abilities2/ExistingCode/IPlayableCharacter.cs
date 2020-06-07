@@ -5,6 +5,8 @@
         IPlayer ImpersonatedBy { get; }
         bool IsImmortal { get; }
 
+        IRoom RecallRoom { get; }
+
         void CheckAbilityImprove(AbilityLearned abilityLearned, bool success, int multiplier);
     }
 }

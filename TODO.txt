@@ -1,5 +1,7 @@
 NEXT:
 unit tests for EnchantWeapon and EnchantArmor
+Effects such as FireEffect, FrostEffect, AcidEffect, ...
+NPC dragon breath spells
 
 make a map of calls done when a NPC is Removed/StopFollowing/...
 

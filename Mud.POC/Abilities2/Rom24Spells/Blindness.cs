@@ -26,5 +26,8 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = CharacterFlags.Blind, Operator = AffectOperators.Add }
             });
+
+
+        protected override bool CanAffect() => base.CanAffect() && !Victim.CharacterFlags.HasFlag(CharacterFlags.Blind);
     }
 }

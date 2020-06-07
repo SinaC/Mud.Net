@@ -155,6 +155,8 @@
     <Compile Include="Abilities2\OffensiveSpellBase.cs" />
     <Compile Include="Abilities2\DefensiveSpellBase.cs" />
     <Compile Include="Abilities2\OptionalItemInventorySpellBase.cs" />
+    <Compile Include="Abilities2\Rom24MegaSpells\GeneralPurpose.cs" />
+    <Compile Include="Abilities2\Rom24MegaSpells\HighExplosive.cs" />
     <Compile Include="Abilities2\Rom24Spells\AcidBlast.cs" />
     <Compile Include="Abilities2\Rom24Spells\Armor.cs" />
     <Compile Include="Abilities2\Rom24Spells\Bless.cs" />
@@ -247,6 +249,8 @@
     <Compile Include="Abilities2\Rom24Spells\Summon.cs" />
     <Compile Include="Abilities2\Rom24Spells\Teleport.cs" />
     <Compile Include="Abilities2\Rom24Spells\Ventriloquate.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Weaken.cs" />
+    <Compile Include="Abilities2\Rom24Spells\WordOfRecall.cs" />
     <Compile Include="Abilities2\SpellBase.cs" />
     <Compile Include="Abilities2\Helpers\StringHelpers.cs" />
     <Compile Include="Abilities2\TransportationSpellBase.cs" />
