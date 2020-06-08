@@ -1,4 +1,5 @@
-﻿using Mud.Container;
+﻿using System;
+using Mud.Container;
 using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
@@ -34,12 +35,13 @@ namespace Mud.POC.Abilities2.Rom24Spells
             if (SavesSpellResult || DamageResult != DamageResults.Done)
                 return;
             // TODO: not a huge fan of following code
-            // TODO: we have to register every GameAction in DependencyContainer
             AbilityInfo blindnessAbilityInfo = AbilityManager["Blindness"];
             IAbilityAction blindnessAbilityInstance = (IAbilityAction)DependencyContainer.Current.GetInstance(blindnessAbilityInfo.AbilityExecutionType);
             AbilityActionInput abilityActionInput = new AbilityActionInput(blindnessAbilityInfo, Caster, Victim.Name, new CommandParameter(Victim.Name, false));
+            // TODO: following code will check mana, resource, ... and it should not
             blindnessAbilityInstance.Setup(abilityActionInput);
-            blindnessAbilityInstance.Execute(abilityActionInput);
+            // TODO: following code will set cooldown and use resource ... and it should not
+            blindnessAbilityInstance.Execute();
         }
     }
 }

@@ -157,7 +157,7 @@ namespace Mud.POC.Tests.Abilities2
             string lastSendReceived = null;
             casterMock.Setup(x => x.Send(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((msg, args) => lastSendReceived = string.Format(msg, args));
 
-            spell.Execute(abilityActionInput);
+            spell.Execute();
 
             Assert.AreEqual("You lost your concentration.", lastSendReceived);
         }
@@ -182,7 +182,7 @@ namespace Mud.POC.Tests.Abilities2
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
             spell.Setup(abilityActionInput);
 
-            spell.Execute(abilityActionInput);
+            spell.Execute();
 
             casterMock.Verify(x => x.UpdateResource(ResourceKinds.Mana, -50), Times.Once);
             casterMock.Verify(x => x.SetCooldown(SpellName, 10), Times.Once);

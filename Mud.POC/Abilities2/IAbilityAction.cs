@@ -7,6 +7,6 @@
         // Returns error message describing failure
         string Setup(AbilityActionInput actionInput);
         // Execute the action, Guards must be called before
-        void Execute(AbilityActionInput actionInput);
+        void Execute();
     }
 }

@@ -17,9 +17,9 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        public override void Execute(AbilityActionInput actionInput)
+        public override void Execute()
         {
-            base.Execute(actionInput);
+            base.Execute();
 
             INonPlayableCharacter npcVictim = Victim as INonPlayableCharacter;
             if (Victim != Caster

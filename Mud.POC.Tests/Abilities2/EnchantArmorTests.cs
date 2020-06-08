@@ -37,7 +37,7 @@ namespace Mud.POC.Tests.Abilities2
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
             string Setup = spell.Setup(abilityActionInput);
-            spell.Execute(abilityActionInput);
+            spell.Execute();
 
             Assert.IsNull(Setup);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Once);
@@ -72,7 +72,7 @@ namespace Mud.POC.Tests.Abilities2
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
             string Setup = spell.Setup(abilityActionInput);
-            spell.Execute(abilityActionInput);
+            spell.Execute();
 
             Assert.IsNull(Setup);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Never);
@@ -107,7 +107,7 @@ namespace Mud.POC.Tests.Abilities2
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
             string Setup = spell.Setup(abilityActionInput);
-            spell.Execute(abilityActionInput);
+            spell.Execute();
 
             Assert.IsNull(Setup);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Never);
@@ -143,7 +143,7 @@ namespace Mud.POC.Tests.Abilities2
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
             string Setup = spell.Setup(abilityActionInput);
-            spell.Execute(abilityActionInput);
+            spell.Execute();
 
             Assert.IsNull(Setup);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Never);
@@ -179,7 +179,7 @@ namespace Mud.POC.Tests.Abilities2
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
             string Setup = spell.Setup(abilityActionInput);
-            spell.Execute(abilityActionInput);
+            spell.Execute();
 
             Assert.IsNull(Setup);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Never);

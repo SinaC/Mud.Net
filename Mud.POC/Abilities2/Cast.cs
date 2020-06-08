@@ -49,7 +49,7 @@ namespace Mud.POC.Abilities2
 
         public void Execute(ActionInput actionInput)
         {
-            AbilityInstance.Execute(AbilityActionInput);
+            AbilityInstance.Execute();
         }
     }
 }

@@ -88,7 +88,7 @@ namespace Mud.POC.Abilities2
             return null;
         }
 
-        public virtual void Execute(AbilityActionInput actionInput)
+        public virtual void Execute()
         {
             IPlayableCharacter pcCaster = Caster as IPlayableCharacter;
 
