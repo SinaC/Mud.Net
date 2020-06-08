@@ -6,7 +6,8 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    class Teleport : SpellBase
+    [Spell("Teleport", AbilityEffects.Transportation)]
+    public class Teleport : SpellBase
     {
         private IRoomManager RoomManager { get; }
 

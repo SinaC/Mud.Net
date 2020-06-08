@@ -41,9 +41,9 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 character.Send("Lightning flashes in the sky.");
         }
 
-        public override string Guards(AbilityActionInput actionInput)
+        public override string Setup(AbilityActionInput actionInput)
         {
-            string baseGuards = base.Guards(actionInput);
+            string baseGuards = base.Setup(actionInput);
             if (baseGuards != null)
                 return baseGuards;
             if (Caster.Room.RoomFlags.HasFlag(RoomFlags.Indoors))

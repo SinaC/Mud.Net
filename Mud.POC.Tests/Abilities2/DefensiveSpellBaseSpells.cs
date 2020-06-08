@@ -15,7 +15,7 @@ namespace Mud.POC.Tests.Abilities2
         public const string SpellName = "DefensiveSpellBaseSpells_Spell";
 
         [TestMethod]
-        public void Guards_NoTarget()
+        public void Setup_NoTarget()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -29,13 +29,13 @@ namespace Mud.POC.Tests.Abilities2
             DefensiveSpellBaseSpellsSpell spell = new DefensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "", Enumerable.Empty<CommandParameter>().ToArray());
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }
 
         [TestMethod]
-        public void Guards_TargetNotFound()
+        public void Setup_TargetNotFound()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -49,13 +49,13 @@ namespace Mud.POC.Tests.Abilities2
             DefensiveSpellBaseSpellsSpell spell = new DefensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("They aren't here.", result);
         }
 
         [TestMethod]
-        public void Guards_TargetNotFoundInRoom()
+        public void Setup_TargetNotFoundInRoom()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -71,13 +71,13 @@ namespace Mud.POC.Tests.Abilities2
             DefensiveSpellBaseSpellsSpell spell = new DefensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("They aren't here.", result);
         }
 
         [TestMethod]
-        public void Guards_CharacterSpecifiedAndFound()
+        public void Setup_CharacterSpecifiedAndFound()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -93,13 +93,13 @@ namespace Mud.POC.Tests.Abilities2
             DefensiveSpellBaseSpellsSpell spell = new DefensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }
 
 
-        // Spell without specific guards nor invoke
+        // Spell without specific Setup nor invoke
         [Spell(SpellName, AbilityEffects.Buff)]
         internal class DefensiveSpellBaseSpellsSpell : DefensiveSpellBase
         {

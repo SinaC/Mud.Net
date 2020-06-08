@@ -65,7 +65,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             AbilityInfo abilityInfo = AbilityManager[spellName];
             IAbilityAction abilityInstance = (IAbilityAction)DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
             AbilityActionInput abilityActionInput = new AbilityActionInput(abilityInfo, Caster, victim.Name, new CommandParameter(victim.Name, false));
-            abilityInstance.Guards(abilityActionInput);
+            abilityInstance.Setup(abilityActionInput);
             abilityInstance.Execute(abilityActionInput);
         }
     }

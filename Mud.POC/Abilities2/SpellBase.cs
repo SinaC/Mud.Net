@@ -28,7 +28,7 @@ namespace Mud.POC.Abilities2
 
         #region IAbilityAction
 
-        public virtual string Guards(AbilityActionInput abilityActionInput)
+        public virtual string Setup(AbilityActionInput abilityActionInput)
         {
             // 1) check context
             AbilityInfo = abilityActionInput.AbilityInfo;

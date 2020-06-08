@@ -36,10 +36,10 @@ namespace Mud.POC.Tests.Abilities2
             var parameters = BuildParameters("armor");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
-            string guards = spell.Guards(abilityActionInput);
+            string Setup = spell.Setup(abilityActionInput);
             spell.Execute(abilityActionInput);
 
-            Assert.IsNull(guards);
+            Assert.IsNull(Setup);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Once);
             armorMock.Verify(x => x.Disenchant(), Times.Never);
             armorMock.Verify(x => x.IncreaseLevel(), Times.Never);
@@ -71,10 +71,10 @@ namespace Mud.POC.Tests.Abilities2
             var parameters = BuildParameters("armor");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
-            string guards = spell.Guards(abilityActionInput);
+            string Setup = spell.Setup(abilityActionInput);
             spell.Execute(abilityActionInput);
 
-            Assert.IsNull(guards);
+            Assert.IsNull(Setup);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Never);
             armorMock.Verify(x => x.Disenchant(), Times.Once);
             armorMock.Verify(x => x.IncreaseLevel(), Times.Never);
@@ -106,10 +106,10 @@ namespace Mud.POC.Tests.Abilities2
             var parameters = BuildParameters("armor");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
-            string guards = spell.Guards(abilityActionInput);
+            string Setup = spell.Setup(abilityActionInput);
             spell.Execute(abilityActionInput);
 
-            Assert.IsNull(guards);
+            Assert.IsNull(Setup);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Never);
             armorMock.Verify(x => x.Disenchant(), Times.Never);
             casterMock.Verify(x => x.Send("Nothing seemed to happen."), Times.Once);
@@ -142,10 +142,10 @@ namespace Mud.POC.Tests.Abilities2
             var parameters = BuildParameters("armor");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
-            string guards = spell.Guards(abilityActionInput);
+            string Setup = spell.Setup(abilityActionInput);
             spell.Execute(abilityActionInput);
 
-            Assert.IsNull(guards);
+            Assert.IsNull(Setup);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Never);
             armorMock.Verify(x => x.Disenchant(), Times.Never);
             armorMock.Verify(x => x.IncreaseLevel(), Times.Once);
@@ -178,10 +178,10 @@ namespace Mud.POC.Tests.Abilities2
             var parameters = BuildParameters("armor");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
-            string guards = spell.Guards(abilityActionInput);
+            string Setup = spell.Setup(abilityActionInput);
             spell.Execute(abilityActionInput);
 
-            Assert.IsNull(guards);
+            Assert.IsNull(Setup);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Never);
             armorMock.Verify(x => x.Disenchant(), Times.Never);
             armorMock.Verify(x => x.IncreaseLevel(), Times.Once);

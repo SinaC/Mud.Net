@@ -22,9 +22,9 @@ namespace Mud.POC.Abilities2.Rom24Spells
             Caster.Send("Ok.");
         }
 
-        public override string Guards(AbilityActionInput actionInput)
+        public override string Setup(AbilityActionInput actionInput)
         {
-            string baseGuards = base.Guards(actionInput);
+            string baseGuards = base.Setup(actionInput);
             if (baseGuards != null)
                 return null;
             if (StringCompareHelpers.StringEquals(actionInput.RawParameters, "better"))

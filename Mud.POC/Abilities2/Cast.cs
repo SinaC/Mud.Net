@@ -6,7 +6,7 @@ using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2
 {
-    public class Cast : IGameAction<ActionInput>
+    public class Cast : IGameAction
     {
         protected IAbilityManager AbilityManager { get; }
 
@@ -43,7 +43,7 @@ namespace Mud.POC.Abilities2
             AbilityInstance = (IAbilityAction)DependencyContainer.Current.GetInstance(AbilityInfo.AbilityExecutionType);
             if (AbilityInstance == null)
                 return "Ability instance cannot be created";
-            string abilityInstanceGuards = AbilityInstance.Guards(AbilityActionInput);
+            string abilityInstanceGuards = AbilityInstance.Setup(AbilityActionInput);
             return abilityInstanceGuards;
         }
 

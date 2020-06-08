@@ -15,7 +15,7 @@ namespace Mud.POC.Tests.Abilities2
         public const string SpellName = "OffensiveSpellBaseSpells_Spell";
 
         [TestMethod]
-        public void Guards_NoTarget()
+        public void Setup_NoTarget()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -29,13 +29,13 @@ namespace Mud.POC.Tests.Abilities2
             OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "", Enumerable.Empty<CommandParameter>().ToArray());
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("Cast the spell on whom?", result);
         }
 
         [TestMethod]
-        public void Guards_NoTarget_Figthing()
+        public void Setup_NoTarget_Figthing()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -53,13 +53,13 @@ namespace Mud.POC.Tests.Abilities2
             OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "", Enumerable.Empty<CommandParameter>().ToArray());
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }
 
         [TestMethod]
-        public void Guards_TargetNotFound()
+        public void Setup_TargetNotFound()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -73,13 +73,13 @@ namespace Mud.POC.Tests.Abilities2
             OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("They aren't here.", result);
         }
 
         [TestMethod]
-        public void Guards_TargetNotFoundInRoom()
+        public void Setup_TargetNotFoundInRoom()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -95,13 +95,13 @@ namespace Mud.POC.Tests.Abilities2
             OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("They aren't here.", result);
         }
 
         [TestMethod]
-        public void Guards_SafeTarget()
+        public void Setup_SafeTarget()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -119,13 +119,13 @@ namespace Mud.POC.Tests.Abilities2
             OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("Not on that victim.", result);
         }
 
         [TestMethod]
-        public void Guards_NotOnMaster()
+        public void Setup_NotOnMaster()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -144,13 +144,13 @@ namespace Mud.POC.Tests.Abilities2
             OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("You can't do that on your own follower.", result);
         }
 
         [TestMethod]
-        public void Guards_TargetSpecifiedAndFound()
+        public void Setup_TargetSpecifiedAndFound()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -167,12 +167,12 @@ namespace Mud.POC.Tests.Abilities2
             OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }
 
-        // Spell without specific guards nor invoke
+        // Spell without specific Setup nor invoke
         [Spell(SpellName, AbilityEffects.Damage)]
         internal class OffensiveSpellBaseSpellsSpell : OffensiveSpellBase
         {

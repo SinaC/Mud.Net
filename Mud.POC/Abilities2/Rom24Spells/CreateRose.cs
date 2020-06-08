@@ -16,9 +16,9 @@ namespace Mud.POC.Abilities2.Rom24Spells
             //TODO: add rose blueprint
         }
 
-        public override string Guards(AbilityActionInput actionInput)
+        public override string Setup(AbilityActionInput actionInput)
         {
-            string baseGuards = base.Guards(actionInput);
+            string baseGuards = base.Setup(actionInput);
             if (baseGuards != null)
                 return baseGuards;
             return "Not Yet Implemented";

@@ -15,7 +15,7 @@ namespace Mud.POC.Tests.Abilities2
         public const string SpellName = "OptionalItemInventorySpellBaseTests_Spell";
 
         [TestMethod]
-        public void Guards_ItemNotFound()
+        public void Setup_ItemNotFound()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -29,13 +29,13 @@ namespace Mud.POC.Tests.Abilities2
             OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "item", new CommandParameter("item", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("You are not carrying that.", result);
         }
 
         [TestMethod]
-        public void Guards_NoItem()
+        public void Setup_NoItem()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -49,13 +49,13 @@ namespace Mud.POC.Tests.Abilities2
             OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "", Enumerable.Empty<CommandParameter>().ToArray());
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }
 
         [TestMethod]
-        public void Guards_ItemInEquipment()
+        public void Setup_ItemInEquipment()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -73,13 +73,13 @@ namespace Mud.POC.Tests.Abilities2
             OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "item", new CommandParameter("item", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("You are not carrying that.", result);
         }
 
         [TestMethod]
-        public void Guards_ItemInRoom()
+        public void Setup_ItemInRoom()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -97,13 +97,13 @@ namespace Mud.POC.Tests.Abilities2
             OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "item", new CommandParameter("item", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("You are not carrying that.", result);
         }
 
         [TestMethod]
-        public void Guards_ItemSpecifiedAndFound()
+        public void Setup_ItemSpecifiedAndFound()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
@@ -121,12 +121,12 @@ namespace Mud.POC.Tests.Abilities2
             OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "item", new CommandParameter("item", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }
 
-        // Spell without specific guards nor invoke
+        // Spell without specific Setup nor invoke
         [Spell(SpellName, AbilityEffects.None)]
         internal class OptionalItemInventorySpellBaseTestsSpell : OptionalItemInventorySpellBase
         {

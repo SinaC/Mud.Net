@@ -27,7 +27,7 @@ namespace Mud.POC.Tests.Abilities2
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "", Enumerable.Empty<CommandParameter>().ToArray());
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("Make who saying what?", result);
         }
@@ -48,7 +48,7 @@ namespace Mud.POC.Tests.Abilities2
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("Make who saying what?", result);
         }
@@ -69,7 +69,7 @@ namespace Mud.POC.Tests.Abilities2
             var parameters = BuildParameters("target 'I'm a badass'");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("They aren't here.", result);
         }
@@ -90,7 +90,7 @@ namespace Mud.POC.Tests.Abilities2
             var parameters = BuildParameters("player 'I'm a badass'");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("Just say it.", result);
         }
@@ -113,7 +113,7 @@ namespace Mud.POC.Tests.Abilities2
             var parameters = BuildParameters("target 'I'm a badass'");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }
@@ -136,7 +136,7 @@ namespace Mud.POC.Tests.Abilities2
             var parameters = BuildParameters("target I'm a badass");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }

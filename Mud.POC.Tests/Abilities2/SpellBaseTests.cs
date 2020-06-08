@@ -15,7 +15,7 @@ namespace Mud.POC.Tests.Abilities2
         public const string SpellName = "SpellBaseTests_Spell";
 
         [TestMethod]
-        public void Guards_NoAbilityInfo()
+        public void Setup_NoAbilityInfo()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
@@ -23,26 +23,26 @@ namespace Mud.POC.Tests.Abilities2
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(null, characterMock.Object, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("Internal error: AbilityInfo is null.", result);
         }
 
         [TestMethod]
-        public void Guards_NoCaster()
+        public void Setup_NoCaster()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), null, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("Spell must be cast by a character.", result);
         }
 
         [TestMethod]
-        public void Guards_CasterNoInARoom()
+        public void Setup_CasterNoInARoom()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
@@ -50,13 +50,13 @@ namespace Mud.POC.Tests.Abilities2
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), characterMock.Object, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("You are nowhere...", result);
         }
 
         [TestMethod]
-        public void Guards_InCooldown()
+        public void Setup_InCooldown()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
@@ -69,13 +69,13 @@ namespace Mud.POC.Tests.Abilities2
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.That.Contains("is in cooldown", result);
         }
 
         [TestMethod]
-        public void Guards_ResourceKindNotAvailable()
+        public void Setup_ResourceKindNotAvailable()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
@@ -89,13 +89,13 @@ namespace Mud.POC.Tests.Abilities2
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.That.Contains("as resource for the moment.", result);
         }
 
         [TestMethod]
-        public void Guards_NotEnoughResource()
+        public void Setup_NotEnoughResource()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
@@ -110,13 +110,13 @@ namespace Mud.POC.Tests.Abilities2
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.That.Contains("You don't have enough", result);
         }
 
         [TestMethod]
-        public void Guards_Ok()
+        public void Setup_Ok()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
@@ -131,7 +131,7 @@ namespace Mud.POC.Tests.Abilities2
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
 
-            string result = spell.Guards(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }
@@ -153,7 +153,7 @@ namespace Mud.POC.Tests.Abilities2
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
-            spell.Guards(abilityActionInput);
+            spell.Setup(abilityActionInput);
             string lastSendReceived = null;
             casterMock.Setup(x => x.Send(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((msg, args) => lastSendReceived = string.Format(msg, args));
 
@@ -180,7 +180,7 @@ namespace Mud.POC.Tests.Abilities2
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
-            spell.Guards(abilityActionInput);
+            spell.Setup(abilityActionInput);
 
             spell.Execute(abilityActionInput);
 
@@ -190,7 +190,7 @@ namespace Mud.POC.Tests.Abilities2
             playerMock.Verify(x => x.SetGlobalCooldown(20), Times.Once);
         }
 
-        // Spell without specific guards nor invoke
+        // Spell without specific Setup nor invoke
         [Spell(SpellName, AbilityEffects.None, Cooldown = 10, LearnDifficultyMultiplier = 3, PulseWaitTime = 20)]
         internal class SpellBaseTestsSpell : SpellBase
         {
