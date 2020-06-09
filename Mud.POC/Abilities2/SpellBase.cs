@@ -24,7 +24,7 @@ namespace Mud.POC.Abilities2
             RandomManager = randomManager;
         }
 
-        #region IAbilityAction
+        #region ISpell
 
         public virtual string Setup(AbilityActionInput abilityActionInput)
         {
@@ -113,7 +113,8 @@ namespace Mud.POC.Abilities2
             Invoke();
 
             // 9) GCD
-            pcCaster?.ImpersonatedBy?.SetGlobalCooldown(AbilityInfo.PulseWaitTime);
+            if (AbilityInfo.PulseWaitTime.HasValue)
+                pcCaster?.ImpersonatedBy?.SetGlobalCooldown(AbilityInfo.PulseWaitTime.Value);
 
             // 10) set cooldown
             if (AbilityInfo.Cooldown.HasValue && AbilityInfo.Cooldown.Value > 0)

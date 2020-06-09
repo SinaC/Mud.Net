@@ -10,7 +10,7 @@ namespace Mud.POC.Abilities2
     {
         public string Name { get; }
         public AbilityEffects Effects { get; }
-        public int PulseWaitTime { get; }
+        public int? PulseWaitTime { get; }
         public int? Cooldown { get; }
         public int LearnDifficultyMultiplier { get; }
 
@@ -29,7 +29,7 @@ namespace Mud.POC.Abilities2
                 Log.Default.WriteLine(LogLevels.Warning, "Ability: {0} is not a valid name, its has been modified to {1}.", abilityBaseAttribute.Name, pascalCaseName);
             Name = pascalCaseName;
             Effects = abilityBaseAttribute.Effects;
-            PulseWaitTime = abilityBaseAttribute.PulseWaitTime;
+            PulseWaitTime = (abilityBaseAttribute as ActiveAbilityBaseAttribute)?.PulseWaitTime;
             Cooldown = abilityBaseAttribute.Cooldown <= 0
                 ? (int?)null
                 : abilityBaseAttribute.Cooldown;

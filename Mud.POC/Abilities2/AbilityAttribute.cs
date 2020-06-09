@@ -7,7 +7,6 @@ namespace Mud.POC.Abilities2
     {
         public string Name { get; set; }
         public AbilityEffects Effects { get; set; }
-        public int PulseWaitTime { get; set; }
         public int Cooldown { get; set; }
         public int LearnDifficultyMultiplier { get; set; }
 
@@ -15,13 +14,23 @@ namespace Mud.POC.Abilities2
         {
             Name = name;
             Effects = effects;
-            PulseWaitTime = 12;
             Cooldown = -1;
             LearnDifficultyMultiplier = 1;
         }
     }
 
-    public class SpellAttribute : AbilityBaseAttribute
+    public abstract class ActiveAbilityBaseAttribute : AbilityBaseAttribute
+    {
+        public int PulseWaitTime { get; set; }
+
+        protected ActiveAbilityBaseAttribute(string name, AbilityEffects effects)
+            : base(name, effects)
+        {
+            PulseWaitTime = 12;
+        }
+    }
+
+    public class SpellAttribute : ActiveAbilityBaseAttribute
     {
         public SpellAttribute(string name, AbilityEffects effects)
             : base(name, effects)
@@ -29,7 +38,7 @@ namespace Mud.POC.Abilities2
         }
     }
 
-    public class SkillAttribute : AbilityBaseAttribute
+    public class SkillAttribute : ActiveAbilityBaseAttribute
     {
         public SkillAttribute(string name, AbilityEffects effects)
             : base(name, effects)

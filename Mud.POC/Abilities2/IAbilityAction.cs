@@ -5,7 +5,7 @@
         // Guards the action against incorrect usage
         // Returns null if all guard pass
         // Returns error message describing failure
-        string Setup(AbilityActionInput actionInput);
+        string Setup(AbilityActionInput abilityActionInput);
         // Execute the action, Guards must be called before
         void Execute();
     }

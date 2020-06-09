@@ -278,6 +278,7 @@
     <Compile Include="Abilities2\Rom24Spells\Ventriloquate.cs" />
     <Compile Include="Abilities2\Rom24Spells\Weaken.cs" />
     <Compile Include="Abilities2\Rom24Spells\WordOfRecall.cs" />
+    <Compile Include="Abilities2\SkillBase.cs" />
     <Compile Include="Abilities2\SpellBase.cs" />
     <Compile Include="Abilities2\Helpers\StringHelpers.cs" />
     <Compile Include="Abilities2\TransportationSpellBase.cs" />
