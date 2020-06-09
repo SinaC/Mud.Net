@@ -5,6 +5,7 @@ namespace Mud.POC.Abilities2
     [AttributeUsage(AttributeTargets.Class)]
     public abstract class AbilityBaseAttribute : Attribute
     {
+        public abstract AbilityTypes Type { get; }
         public string Name { get; set; }
         public AbilityEffects Effects { get; set; }
         public int Cooldown { get; set; }
@@ -32,6 +33,8 @@ namespace Mud.POC.Abilities2
 
     public class SpellAttribute : ActiveAbilityBaseAttribute
     {
+        public override AbilityTypes Type => AbilityTypes.Spell;
+
         public SpellAttribute(string name, AbilityEffects effects)
             : base(name, effects)
         {
@@ -40,6 +43,8 @@ namespace Mud.POC.Abilities2
 
     public class SkillAttribute : ActiveAbilityBaseAttribute
     {
+        public override AbilityTypes Type => AbilityTypes.Skill;
+
         public SkillAttribute(string name, AbilityEffects effects)
             : base(name, effects)
         {
@@ -48,6 +53,8 @@ namespace Mud.POC.Abilities2
 
     public class PassiveAttribute : AbilityBaseAttribute
     {
+        public override AbilityTypes Type => AbilityTypes.Passive;
+
         public PassiveAttribute(string name)
             : base(name, AbilityEffects.None)
         {

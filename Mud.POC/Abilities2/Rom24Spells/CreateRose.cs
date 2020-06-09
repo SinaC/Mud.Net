@@ -20,9 +20,9 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         public override string Setup(AbilityActionInput actionInput)
         {
-            string baseGuards = base.Setup(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
+            string baseSetup = base.Setup(actionInput);
+            if (baseSetup != null)
+                return baseSetup;
             return "Not Yet Implemented";
         }
     }

@@ -1,10 +1,12 @@
-﻿using Mud.POC.Abilities2.ExistingCode;
+﻿using Mud.Container;
+using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
 using Mud.Server.Common;
+using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2
 {
-    public abstract class SkillBase : ISkill
+    public abstract class SkillBase : ISkill, IGameAction
     {
         protected IRandomManager RandomManager { get; }
 
@@ -19,7 +21,7 @@ namespace Mud.POC.Abilities2
 
         #region ISkill
 
-        public string Setup(AbilityActionInput abilityActionInput)
+        public virtual string Setup(AbilityActionInput abilityActionInput)
         {
             // 1) check context
             AbilityInfo = abilityActionInput.AbilityInfo;
@@ -34,12 +36,16 @@ namespace Mud.POC.Abilities2
             if (User.Room == null)
                 return "You are nowhere...";
 
-            // 3) check targets
+            // 3) get ability percentage
+            var abilityPercentage = User.GetAbilityLearned(AbilityInfo.Name);
+            Learned = abilityPercentage.percentage;
+
+            // 4) check targets
             string setTargetResult = SetTargets(abilityActionInput);
             if (setTargetResult != null)
                 return setTargetResult;
 
-            // 4) check cooldown
+            // 5) check cooldown
             int cooldownPulseLeft = User.CooldownPulseLeft(AbilityInfo.Name);
             if (cooldownPulseLeft > 0)
                 return $"{AbilityInfo.Name} is in cooldown for {StringHelpers.FormatDelay(cooldownPulseLeft / Pulse.PulsePerSeconds)}.";
@@ -47,16 +53,12 @@ namespace Mud.POC.Abilities2
             return null;
         }
 
-        public void Execute()
+        public virtual void Execute()
         {
             IPlayableCharacter pcUser = User as IPlayableCharacter;
 
             // 1) invoke skill
-            var abilityPercentage = User.GetAbilityLearned(AbilityInfo.Name);
-            Learned = abilityPercentage.percentage;
             var result = Invoke();
-            if (result == InvokeResults.Other)
-                return;
 
             // 9) GCD
             if (AbilityInfo.PulseWaitTime.HasValue)
@@ -67,19 +69,41 @@ namespace Mud.POC.Abilities2
                 User.SetCooldown(AbilityInfo.Name, AbilityInfo.Cooldown.Value);
 
             // 11) check improve true
-            pcUser?.CheckAbilityImprove(abilityPercentage.abilityLearned, result == InvokeResults.Ok, AbilityInfo.LearnDifficultyMultiplier);
+            if (pcUser != null)
+            {
+                var abilityPercentage = User.GetAbilityLearned(AbilityInfo.Name);
+                pcUser?.CheckAbilityImprove(abilityPercentage.abilityLearned, result, AbilityInfo.LearnDifficultyMultiplier);
+            }
+        }
+
+        #endregion
+
+        #region IGameAction
+
+        public string Guards(ActionInput actionInput)
+        {
+            if (actionInput.Actor == null)
+                return "Cannot use a skill without an actor.";
+            // check if actor is Character
+            var user = actionInput.Actor as ICharacter;
+            if (user == null)
+                return "Only character are allowed to use skills.";
+            var abilityInfo = new AbilityInfo(GetType());
+            var abilityActionInput = new AbilityActionInput(abilityInfo, user, user.Level, actionInput.RawParameters, actionInput.Parameters);
+            if (DependencyContainer.Current.GetRegistration(AbilityInfo.AbilityExecutionType, false) == null)
+                return "Ability not found in DependencyContainer";
+            string setupResult = Setup(abilityActionInput);
+            return setupResult;
+        }
+
+        public void Execute(ActionInput actionInput)
+        {
+            Execute();
         }
 
         #endregion
 
         protected abstract string SetTargets(AbilityActionInput abilityActionInput);
-        protected abstract InvokeResults Invoke(); // return true if skill has been used with success
-
-        protected enum InvokeResults
-        {
-            Ok, // used successfully
-            Failed, // failed on ability percentage check
-            Other, // was not used
-        }
+        protected abstract bool Invoke(); // return true if skill has been used with success, false if failed
     }
 }

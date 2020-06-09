@@ -6,8 +6,16 @@ using System.Reflection;
 
 namespace Mud.POC.Abilities2
 {
+    public enum AbilityTypes
+    {
+        Skill,
+        Spell,
+        Passive
+    }
+
     public class AbilityInfo
     {
+        public AbilityTypes Type { get; }
         public string Name { get; }
         public AbilityEffects Effects { get; }
         public int? PulseWaitTime { get; }
@@ -24,6 +32,7 @@ namespace Mud.POC.Abilities2
 
             AbilityBaseAttribute abilityBaseAttribute = abilityExecutionType.GetCustomAttribute<AbilityBaseAttribute>();
 
+            Type = abilityBaseAttribute.Type;
             string pascalCaseName = abilityBaseAttribute.Name.ToPascalCase();
             if (pascalCaseName != abilityBaseAttribute.Name)
                 Log.Default.WriteLine(LogLevels.Warning, "Ability: {0} is not a valid name, its has been modified to {1}.", abilityBaseAttribute.Name, pascalCaseName);

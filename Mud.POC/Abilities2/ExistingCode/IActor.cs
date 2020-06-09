@@ -4,6 +4,5 @@
     {
         void Send(string format, params object[] args);
         void Act(ActOptions option, string format, params object[] arguments);
-        void ActToNotVictim(ICharacter victim, string format, params object[] arguments);
     }
 }

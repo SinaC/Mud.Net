@@ -6,5 +6,7 @@ namespace Mud.POC.Abilities2
     {
         IEnumerable<AbilityInfo> Abilities { get; }
         AbilityInfo this[string abilityName] { get; }
+
+        AbilityInfo Search(string pattern, AbilityTypes type);
     }
 }

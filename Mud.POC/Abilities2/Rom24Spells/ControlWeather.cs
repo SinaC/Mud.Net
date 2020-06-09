@@ -26,9 +26,9 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         public override string Setup(AbilityActionInput actionInput)
         {
-            string baseGuards = base.Setup(actionInput);
-            if (baseGuards != null)
-                return null;
+            string baseSetup = base.Setup(actionInput);
+            if (baseSetup != null)
+                return baseSetup;
             if (StringCompareHelpers.StringEquals(actionInput.RawParameters, "better"))
             {
                 _isBetterRequired = true;

@@ -35,9 +35,9 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         public override string Setup(AbilityActionInput abilityActionInput)
         {
-            string baseGuards = base.Setup(abilityActionInput);
-            if (baseGuards != null)
-                return baseGuards;
+            string baseSetup = base.Setup(abilityActionInput);
+            if (baseSetup != null)
+                return baseSetup;
             if (Item.LiquidName != "water" && !Item.IsEmpty)
                 return "It contains some other liquid.";
             return null;

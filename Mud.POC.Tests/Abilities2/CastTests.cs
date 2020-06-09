@@ -21,7 +21,7 @@ namespace Mud.POC.Tests.Abilities2
             string result = cast.Guards(actionInput);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual("Cannot cast a spell without an actor.", result);
+            Assert.AreEqual("Cannot cast a spell without an actor!", result);
         }
 
         [TestMethod]
@@ -35,7 +35,7 @@ namespace Mud.POC.Tests.Abilities2
             string result = cast.Guards(actionInput);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual("Only character are allowed to cast spells.", result);
+            Assert.AreEqual("Only character are allowed to cast spells!", result);
         }
 
         [TestMethod]
@@ -57,14 +57,14 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
             Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
-            characterMock.SetupGet(x => x.LearnedAbilities).Returns(Enumerable.Empty<AbilityLearned>());
+            characterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(abilityName => (100, new AbilityLearned { Name = abilityName }));
             Cast cast = new Cast(abilityManagerMock.Object);
             ActionInput actionInput = new ActionInput(characterMock.Object, "pouet");
 
             string result = cast.Guards(actionInput);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual("You don't know any spells of that name.", result);
+            Assert.AreEqual("This spell doesn't exist.", result);
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
             Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
-            characterMock.SetupGet(x => x.LearnedAbilities).Returns(new AbilityLearned { Name = "Acid Blast" }.Yield());
+            characterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(abilityName => (100, new AbilityLearned { Name = abilityName }));
             Cast cast = new Cast(abilityManagerMock.Object);
             ActionInput actionInput = new ActionInput(characterMock.Object, "Acid");
 
@@ -86,7 +86,7 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
             Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
-            characterMock.SetupGet(x => x.LearnedAbilities).Returns(new AbilityLearned { Name = "Acid Blast" }.Yield());
+            characterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(abilityName => (100, new AbilityLearned { Name = abilityName }));
             Cast cast = new Cast(abilityManagerMock.Object);
             ActionInput actionInput = new ActionInput(characterMock.Object, "'Acid Blast'");
 
@@ -100,7 +100,7 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
             Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
-            characterMock.SetupGet(x => x.LearnedAbilities).Returns(new AbilityLearned { Name = "Acid Blast" }.Yield());
+            characterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(abilityName => (100, new AbilityLearned { Name = abilityName }));
             Cast cast = new Cast(abilityManagerMock.Object);
             ActionInput actionInput = new ActionInput(characterMock.Object, "'acId bLaSt'");
 
@@ -114,28 +114,28 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
             Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
-            characterMock.SetupGet(x => x.LearnedAbilities).Returns(new AbilityLearned { Name = "Acid Blast" }.Yield());
+            characterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(abilityName => (100, new AbilityLearned { Name = abilityName }));
             Cast cast = new Cast(abilityManagerMock.Object);
             ActionInput actionInput = new ActionInput(characterMock.Object, "Acid");
 
             string result = cast.Guards(actionInput);
 
-            Assert.AreEqual("Ability not found in AbilityManager", result);
+            Assert.AreEqual("This spell doesn't exist.", result);
         }
 
         [TestMethod]
         public void Guards_AbilityNotInDependencyContainer() // should never happen
         {
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
-            characterMock.SetupGet(x => x.LearnedAbilities).Returns(new AbilityLearned { Name = "Acid Blast" }.Yield());
+            characterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(abilityName => (100, new AbilityLearned { Name = abilityName }));
             Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
-            abilityManagerMock.Setup(x => x[It.IsAny<string>()]).Returns<string>(_ => new AbilityInfo(typeof(AcidBlast)));
+            abilityManagerMock.Setup(x => x.Search(It.IsAny<string>(), It.IsAny<AbilityTypes>())).Returns<string,AbilityTypes>((_1,_2) => new AbilityInfo(typeof(AcidBlast)));
             Cast cast = new Cast(abilityManagerMock.Object);
             ActionInput actionInput = new ActionInput(characterMock.Object, "Acid");
 
             string result = cast.Guards(actionInput);
 
-            Assert.AreEqual("Ability not found in DependencyContainer", result);
+            Assert.AreEqual("Spell not found in DependencyContainer!", result);
         }
     }
 }

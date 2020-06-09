@@ -11,7 +11,11 @@ namespace Mud.POC.Abilities2.ExistingCode
         IArea Area { get; }
 
         IEnumerable<ICharacter> People { get; }
+        IEnumerable<INonPlayableCharacter> NonPlayableCharacters { get; }
 
         RoomFlags RoomFlags { get; }
+        SectorTypes SectorType { get; set; }
+
+        IExit this[ExitDirections direction] { get; }
     }
 }

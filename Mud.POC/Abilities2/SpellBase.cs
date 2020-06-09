@@ -40,7 +40,7 @@ namespace Mud.POC.Abilities2
                 return "Spell must be cast by a character.";
             if (Caster.Room == null)
                 return "You are nowhere...";
-            Level = Caster.Level;
+            Level = abilityActionInput.Level ?? Caster.Level;
             // 3) check targets
             string setTargetResult = SetTargets(abilityActionInput);
             if (setTargetResult != null)
@@ -82,7 +82,6 @@ namespace Mud.POC.Abilities2
                 Cost = null;
                 ResourceKind = null;
             }
-
             return null;
         }
 

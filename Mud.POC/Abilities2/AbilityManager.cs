@@ -1,5 +1,6 @@
 ﻿using Mud.Container;
 using Mud.Logger;
+using Mud.Server.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,12 @@ namespace Mud.POC.Abilities2
                     return null;
                 return abilityInfo;
             }
+        }
+
+        public AbilityInfo Search(string pattern, AbilityTypes type)
+        {
+            // TODO: use Trie ?
+            return Abilities.Where(x => x.Type == type).FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, pattern));
         }
 
         public AbilityManager()

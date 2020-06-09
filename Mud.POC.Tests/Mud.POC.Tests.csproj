@@ -66,10 +66,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abilities2\AbilityManagerTests.cs" />
+    <Compile Include="Abilities2\BerserkTests.cs" />
     <Compile Include="Abilities2\ColourSprayTests.cs" />
     <Compile Include="Abilities2\CastTests.cs" />
     <Compile Include="Abilities2\AcidBlastTests.cs" />
     <Compile Include="Abilities2\EnchantArmorTests.cs" />
+    <Compile Include="Abilities2\ItemCastSpellSkillBaseTests.cs" />
     <Compile Include="Abilities2\ItemInventorySpellBaseTests.cs" />
     <Compile Include="Abilities2\DefensiveSpellBaseSpells.cs" />
     <Compile Include="Abilities2\SpellBaseTests.cs" />

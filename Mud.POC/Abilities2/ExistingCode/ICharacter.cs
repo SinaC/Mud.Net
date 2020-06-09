@@ -16,6 +16,8 @@ namespace Mud.POC.Abilities2.ExistingCode
         Positions Position { get; }
         Sex Sex { get; }
 
+        void AddBaseCharacterFlags(CharacterFlags flags);
+        void RemoveBaseCharacterFlags(CharacterFlags flags);
         void ChangePosition(Positions position);
 
         int this[ResourceKinds kind] { get; }
@@ -31,6 +33,10 @@ namespace Mud.POC.Abilities2.ExistingCode
         int MaxMovePoints { get; }
         void UpdateHitPoints(int amount);
         void UpdateMovePoints(int amount);
+
+        int CarryWeight { get; }
+
+        Sizes Size { get; }
 
         IRVFlags Immunities { get; }
 
@@ -58,18 +64,22 @@ namespace Mud.POC.Abilities2.ExistingCode
         bool SavesSpell(int level, SchoolTypes damageType);
         DamageResults AbilityDamage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool isVisible);
         bool MultiHit(ICharacter aggressor);
+        void MultiHit(ICharacter victim, IMultiHitModifier multiHitModifier); // 'this' starts a combat with 'victim' and has been initiated by an ability
         bool StopFighting(bool both);
 
         bool IsSameGroupOrPet(ICharacter character);
 
         IEnumerable<AbilityLearned> LearnedAbilities { get; }
         (int percentage, AbilityLearned abilityLearned) GetAbilityLearned(string abilityName); // percentage is dynamically computed
+        (int percentage, AbilityLearned abilityLearned) GetWeaponLearned(IItemWeapon weapon); // percentage is dynamically computed
 
         int CooldownPulseLeft(string abilityName);
         void SetCooldown(string abilityName, int seconds);
 
         void AddPet(INonPlayableCharacter pet);
 
+        void ActToNotVictim(ICharacter victim, string format, params object[] arguments);
+        string ActPhrase(string format, params object[] arguments);
         void Page(StringBuilder sb);
     }
 
@@ -119,5 +129,18 @@ namespace Mud.POC.Abilities2.ExistingCode
         Absorbed,
         NoDamage,
         Done
+    }
+
+    public interface IMultiHitModifier : IHitModifier
+    {
+        int MaxAttackCount { get; }
+    }
+
+    public interface IHitModifier
+    {
+        IAbility Ability { get; }
+        int Learned { get; }
+        int Thac0Modifier(int baseThac0);
+        int DamageModifier(IItemWeapon weapon, int level, int baseDamage);
     }
 }

@@ -9,7 +9,7 @@ using Mud.Server.Input;
 namespace Mud.POC.Tests.Abilities2
 {
     [TestClass]
-    public class DefensiveSpellBaseSpells
+    public class DefensiveSpellBaseSpells : TestBase
     {
         public const string SpellName = "DefensiveSpellBaseSpells_Spell";
 
@@ -25,7 +25,8 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             DefensiveSpellBaseSpellsSpell spell = new DefensiveSpellBaseSpellsSpell(randomManagerMock.Object);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "", Enumerable.Empty<CommandParameter>().ToArray());
+            var parameters = BuildParameters("");
+            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -44,7 +45,8 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             DefensiveSpellBaseSpellsSpell spell = new DefensiveSpellBaseSpellsSpell(randomManagerMock.Object);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
+            var parameters = BuildParameters("target");
+            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -65,7 +67,8 @@ namespace Mud.POC.Tests.Abilities2
             victimMock.SetupGet(x => x.Name).Returns("target");
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             DefensiveSpellBaseSpellsSpell spell = new DefensiveSpellBaseSpellsSpell(randomManagerMock.Object);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
+            var parameters = BuildParameters("target");
+            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -86,7 +89,8 @@ namespace Mud.POC.Tests.Abilities2
             victimMock.SetupGet(x => x.Name).Returns("target");
             roomMock.SetupGet(x => x.People).Returns(new [] { casterMock.Object, victimMock.Object});
             DefensiveSpellBaseSpellsSpell spell = new DefensiveSpellBaseSpellsSpell(randomManagerMock.Object);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
+            var parameters = BuildParameters("target");
+            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 

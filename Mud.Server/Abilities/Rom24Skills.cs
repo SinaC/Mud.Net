@@ -240,6 +240,7 @@ namespace Mud.Server.Abilities
             if (chance == 0)
             {
                 source.Send("There isn't any dirt to kick.");
+                return UseResults.NotEnoughResource;
             }
             // now the attack
             if (RandomManager.Chance(chance))
@@ -583,7 +584,7 @@ namespace Mud.Server.Abilities
             }
 
             pcSource.UpdateMovePoints(-pcSource.MovePoints / 2); // half move
-            pcSource.Act(ActOptions.ToRoom, "{0:N} disappears", pcSource);
+            pcSource.Act(ActOptions.ToRoom, "{0:N} disappears.", pcSource);
             pcSource.ChangeRoom(recallRoom);
             pcSource.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pcSource);
             pcSource.AutoLook();
@@ -601,7 +602,7 @@ namespace Mud.Server.Abilities
                     pet.StopFighting(true);
                 }
 
-                pet.Act(ActOptions.ToRoom, "{0:N} disappears", pet);
+                pet.Act(ActOptions.ToRoom, "{0:N} disappears.", pet);
                 pet.ChangeRoom(recallRoom);
                 pet.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pet);
                 pet.AutoLook();

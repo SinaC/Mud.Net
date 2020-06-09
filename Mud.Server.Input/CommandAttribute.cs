@@ -4,7 +4,7 @@ using Mud.Domain;
 
 namespace Mud.Server.Input
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)] // TODO: multiple category
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class CommandAttribute : Attribute
     {
         public const int DefaultPriority = 500;
