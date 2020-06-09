@@ -9,7 +9,7 @@ using Mud.Server.Common;
 namespace Mud.Server.Tests
 {
     [TestClass]
-    public class CharacterTests
+    public class NonPlayableCharacterTests
     {
         private SimpleInjector.Container _originalContainer;
 
