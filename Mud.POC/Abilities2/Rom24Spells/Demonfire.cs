@@ -4,15 +4,17 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Demonfire", AbilityEffects.Damage)]
+    [Spell(SpellName, AbilityEffects.Damage)]
     public class Demonfire : DamageSpellBase
     {
+        public const string SpellName = "Demonfire";
+
         protected override SchoolTypes DamageType => SchoolTypes.Negative;
         protected override string DamageNoun => "torments";
         protected override int DamageValue => RandomManager.Dice(Level, 10);
 
-        public Demonfire(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public Demonfire(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

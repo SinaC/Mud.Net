@@ -5,13 +5,15 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Weaken", AbilityEffects.Debuff)]
+    [Spell(SpellName, AbilityEffects.Debuff)]
     [AbilityCharacterWearOffMessage("You feel stronger.")]
     [AbilityDispellable("{0:N} looks stronger.")]
     public class Weaken : CharacterDebuffSpellBase
     {
-        public Weaken(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet, auraManager)
+        public const string SpellName = "Weaken";
+
+        public Weaken(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager, auraManager)
         {
         }
 
@@ -26,6 +28,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 new CharacterFlagsAffect { Modifier = CharacterFlags.Weaken, Operator = AffectOperators.Or }
             });
 
-        protected override bool CanAffect() => base.CanAffect() && !Victim.CharacterFlags.HasFlag(CharacterFlags.Weaken);
+        protected override bool CanAffect => base.CanAffect && !Victim.CharacterFlags.HasFlag(CharacterFlags.Weaken);
     }
 }

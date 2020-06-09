@@ -1,16 +1,20 @@
-﻿using Mud.POC.Abilities2.ExistingCode;
+﻿using Mud.POC.Abilities2.Domain;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Cause Serious", AbilityEffects.Damage)]
-    public class CauseSerious : CauseSpellBase
+    [Spell(SpellName, AbilityEffects.Damage)]
+    public class CauseSerious : DamageSpellBase
     {
-        public CauseSerious(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Cause Serious";
+
+        public CauseSerious(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 
+        protected override SchoolTypes DamageType => SchoolTypes.Harm;
         protected override int DamageValue => RandomManager.Dice(2, 8) + Level / 2;
+        protected override string DamageNoun => "spell";
     }
 }

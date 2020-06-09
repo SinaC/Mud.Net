@@ -5,12 +5,15 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Create Water", AbilityEffects.Creation)]
+    [Spell(SpellName, AbilityEffects.Creation)]
     public class CreateWater : ItemInventorySpellBase<IItemDrinkContainer>
     {
+        public const string SpellName = "Create Water";
+
         private ITimeManager TimeManager { get; }
-        public CreateWater(IRandomManager randomManager, IWiznet wiznet, ITimeManager timeManager)
-            : base(randomManager, wiznet)
+
+        public CreateWater(IRandomManager randomManager, ITimeManager timeManager)
+            : base(randomManager)
         {
             TimeManager = timeManager;
         }

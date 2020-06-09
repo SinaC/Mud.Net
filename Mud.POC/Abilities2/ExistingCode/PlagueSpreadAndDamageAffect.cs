@@ -49,7 +49,7 @@ namespace Mud.POC.Abilities2.ExistingCode
             character.UpdateMovePoints(-damage);
             character.UpdateResource(ResourceKinds.Mana, -damage);
             character.UpdateResource(ResourceKinds.Psy, -damage);
-            character.AbilityDamage(character, null, damage, SchoolTypes.Disease, "sickness", false);
+            character.AbilityDamage(character, damage, SchoolTypes.Disease, "sickness", false);
         }
     }
 }

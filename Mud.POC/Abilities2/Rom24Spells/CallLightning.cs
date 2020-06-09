@@ -7,13 +7,15 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Call Lighning", AbilityEffects.DamageArea)]
+    [Spell(SpellName, AbilityEffects.DamageArea)]
     public class CallLightning : NoTargetSpellBase
     {
+        public const string SpellName = "Call Lightning";
+
         private ITimeManager TimeManager { get; }
 
-        public CallLightning(IRandomManager randomManager, IWiznet wiznet, ITimeManager timeManager)
-            : base(randomManager, wiznet)
+        public CallLightning(IRandomManager randomManager, ITimeManager timeManager)
+            : base(randomManager)
         {
             TimeManager = timeManager;
         }
@@ -31,9 +33,9 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 if (npcCaster != null ? npcVictim == null : npcVictim != null) // NPC on PC and PC on NPC
                 {
                     if (victim.SavesSpell(Level, SchoolTypes.Lightning))
-                        victim.AbilityDamage(Caster, this, damage / 2, SchoolTypes.Lightning, "lightning bolt", true);
+                        victim.AbilityDamage(Caster, damage / 2, SchoolTypes.Lightning, "lightning bolt", true);
                     else
-                        victim.AbilityDamage(Caster, this, damage, SchoolTypes.Lightning, "lightning bolt", true);
+                        victim.AbilityDamage(Caster, damage, SchoolTypes.Lightning, "lightning bolt", true);
                 }
             }
             // Inform in area about it

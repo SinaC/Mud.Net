@@ -4,11 +4,13 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Create Food", AbilityEffects.Creation)]
+    [Spell(SpellName, AbilityEffects.Creation)]
     public class CreateFood : ItemCreationSpellBase
     {
-        public CreateFood(IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings)
-            : base(randomManager, wiznet, itemManager, settings)
+        public const string SpellName = "Create Food";
+
+        public CreateFood(IRandomManager randomManager, IItemManager itemManager, ISettings settings)
+            : base(randomManager, itemManager, settings)
         {
         }
 

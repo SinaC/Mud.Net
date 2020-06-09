@@ -5,12 +5,15 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Charm Person", AbilityEffects.Debuff | AbilityEffects.Animation)]
+    [Spell(SpellName, AbilityEffects.Debuff | AbilityEffects.Animation)]
     public class CharmPerson : OffensiveSpellBase
     {
+        public const string SpellName = "Charm Person";
+
         private IAuraManager AuraManager { get; }
-        public CharmPerson(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet)
+
+        public CharmPerson(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager)
         {
             AuraManager = auraManager;
         }
@@ -61,7 +64,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             ((IPlayableCharacter)Caster).AddPet(npcVictim); // Guards ensure this will never failed
 
             int duration = RandomManager.Fuzzy(Level / 4);
-            AuraManager.AddAura(npcVictim, AbilityInfo.Name, Caster, Level, TimeSpan.FromHours(duration), AuraFlags.None, true,
+            AuraManager.AddAura(npcVictim, SpellName, Caster, Level, TimeSpan.FromHours(duration), AuraFlags.None, true,
                 new CharacterFlagsAffect { Modifier = CharacterFlags.Charm, Operator = AffectOperators.Or });
 
             npcVictim.Act(ActOptions.ToCharacter, "Isn't {0} just so nice?", Caster);

@@ -1,17 +1,18 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Sanctuary", AbilityEffects.Buff)]
+    [Spell(SpellName, AbilityEffects.Buff)]
     [AbilityCharacterWearOffMessage("The white aura around your body fades.")]
     [AbilityDispellable("The white aura around {0:n}'s body vanishes.")]
     public class Sanctuary : CharacterFlagsSpellBase
     {
-        public Sanctuary(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet, auraManager)
+        public const string SpellName = "Sanctuary";
+
+        public Sanctuary(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager, auraManager)
         {
         }
 

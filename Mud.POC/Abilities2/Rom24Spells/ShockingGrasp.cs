@@ -1,14 +1,15 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Shocking Grasp", AbilityEffects.Damage)]
+    [Spell(SpellName, AbilityEffects.Damage)]
     public class ShockingGrasp : DamageTableSpellBase
     {
-        public ShockingGrasp(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Shocking Grasp";
+
+        public ShockingGrasp(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

@@ -5,31 +5,34 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Portal", AbilityEffects.Transportation, PulseWaitTime = 24)]
+    [Spell(SpellName, AbilityEffects.Transportation, PulseWaitTime = 24)]
     public class Portal : TransportationSpellBase
     {
+        public const string SpellName = "Portal";
+
         private IItemManager ItemManager { get; }
         private ISettings Settings { get; }
 
-        public Portal(IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings)
-            : base(randomManager, wiznet)
+        public Portal(IRandomManager randomManager, IItemManager itemManager, ISettings settings)
+            : base(randomManager)
         {
             ItemManager = itemManager;
+            Settings = settings;
         }
 
         protected override void Invoke()
         {
-            // search warpstone
-            IItemWarpstone stone = Caster.GetEquipment(EquipmentSlots.OffHand) as IItemWarpstone;
-            if (stone == null && (Caster as IPlayableCharacter)?.IsImmortal != true)
+            if (Caster is INonPlayableCharacter || (Caster is IPlayableCharacter pcCaster && !pcCaster.IsImmortal))
             {
-                Caster.Send("You lack the proper component for this spell.");
-                return;
-            }
+                // search warpstone
+                IItemWarpstone stone = Caster.GetEquipment(EquipmentSlots.OffHand) as IItemWarpstone;
+                if (stone == null)
+                {
+                    Caster.Send("You lack the proper component for this spell.");
+                    return;
+                }
 
-            // destroy warpsone
-            if (stone != null)
-            {
+                // destroy warpsone
                 Caster.Act(ActOptions.ToCharacter, "You draw upon the power of {0}.", stone);
                 Caster.Act(ActOptions.ToCharacter, "It flares brightly and vanishes!");
                 ItemManager.RemoveItem(stone);

@@ -6,13 +6,16 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Enchant Armor", AbilityEffects.Enchantment, PulseWaitTime = 24)]
+    [Spell(SpellName, AbilityEffects.Enchantment, PulseWaitTime = 24)]
     public class EnchantArmor : ItemInventorySpellBase<IItemArmor>
     {
+        public const string SpellName = "Enchant Armor";
+
         private IAuraManager AuraManager { get; }
         private IItemManager ItemManager { get; }
-        public EnchantArmor(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager, IItemManager itemManager)
-            : base(randomManager, wiznet)
+
+        public EnchantArmor(IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+            : base(randomManager)
         {
             AuraManager = auraManager;
             ItemManager = itemManager;
@@ -35,7 +38,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             // find existing bonuses
             foreach (IAura aura in armor.Auras)
             {
-                if (aura.AbilityName == AbilityInfo.Name)
+                if (aura.AbilityName == SpellName)
                     existingAura = aura;
                 bool found = false;
                 foreach (CharacterAttributeAffect characterAttributeAffect in aura.Affects.OfType<CharacterAttributeAffect>().Where(x => x.Location == CharacterAttributeAffectLocations.AllArmor))
@@ -113,7 +116,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 };
                 if (addGlowing)
                     affects.Add(new ItemFlagsAffect { Modifier = ItemFlags.Glowing, Operator = AffectOperators.Or });
-                AuraManager.AddAura(armor, AbilityInfo.Name, Caster, Level, Pulse.Infinite, AuraFlags.Permanent, false,
+                AuraManager.AddAura(armor, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent, false,
                    affects.ToArray());
             }
             armor.Recompute();

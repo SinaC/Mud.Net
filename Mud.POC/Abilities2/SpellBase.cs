@@ -12,7 +12,6 @@ namespace Mud.POC.Abilities2
     public abstract class SpellBase : ISpell
     {
         protected IRandomManager RandomManager { get; }
-        protected IWiznet Wiznet { get; }
 
         protected AbilityInfo AbilityInfo { get; private set; }
         protected ICharacter Caster { get; private set; }
@@ -20,10 +19,9 @@ namespace Mud.POC.Abilities2
         protected int? Cost { get; private set; }
         protected ResourceKinds? ResourceKind { get; private set; }
 
-        protected SpellBase(IRandomManager randomManager, IWiznet wiznet)
+        protected SpellBase(IRandomManager randomManager)
         {
             RandomManager = randomManager;
-            Wiznet = wiznet;
         }
 
         #region IAbilityAction
@@ -52,7 +50,7 @@ namespace Mud.POC.Abilities2
             if (cooldownPulseLeft > 0)
                 return $"{AbilityInfo.Name} is in cooldown for {StringHelpers.FormatDelay(cooldownPulseLeft / Pulse.PulsePerSeconds)}.";
             // 5) check resource cost
-            var abilityPercentage = Caster.GetAbilityPercentage(this);
+            var abilityPercentage = Caster.GetAbilityLearned(AbilityInfo.Name);
             if (abilityPercentage.abilityLearned.ResourceKind.HasValue && abilityPercentage.abilityLearned.CostAmount > 0 && abilityPercentage.abilityLearned.CostAmountOperator != CostAmountOperators.None)
             {
                 ResourceKinds resourceKind = abilityPercentage.abilityLearned.ResourceKind.Value;
@@ -69,7 +67,7 @@ namespace Mud.POC.Abilities2
                         cost = Caster.MaxResource(resourceKind) * abilityPercentage.abilityLearned.CostAmount / 100;
                         break;
                     default:
-                        Wiznet.Wiznet($"Unexpected CostAmountOperator {abilityPercentage.abilityLearned.CostAmountOperator} for ability {AbilityInfo.Name}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                        Log.Default.WriteLine(LogLevels.Error, "Unexpected CostAmountOperator {0} for ability {1}.", abilityPercentage.abilityLearned.CostAmountOperator, AbilityInfo.Name);
                         cost = 100;
                         break;
                 }
@@ -93,7 +91,7 @@ namespace Mud.POC.Abilities2
             IPlayableCharacter pcCaster = Caster as IPlayableCharacter;
 
             // check if failed
-            var abilityPercentage = Caster.GetAbilityPercentage(this);
+            var abilityPercentage = Caster.GetAbilityLearned(AbilityInfo.Name);
             if (!RandomManager.Chance(abilityPercentage.percentage))
             {
                 Caster.Send("You lost your concentration.");
@@ -129,30 +127,6 @@ namespace Mud.POC.Abilities2
 
         protected abstract string SetTargets(AbilityActionInput abilityActionInput);
         protected abstract void Invoke();
-
-        protected bool SavesDispel(int dispelLevel, int spellLevel, int pulseLeft)
-        {
-            if (pulseLeft < 0) // very hard to dispel permanent effects
-                spellLevel += 5;
-
-            int save = 50 + (spellLevel - dispelLevel) * 5;
-            save = save.Range(5, 95);
-            return RandomManager.Chance(save);
-        }
-
-        protected bool SavesDispel(int dispelLevel, IAura aura)
-        {
-            if (aura.AuraFlags.HasFlag(AuraFlags.NoDispel))
-                return true;
-            int auraLevel = aura.Level;
-            if (aura.AuraFlags.HasFlag(AuraFlags.Permanent)
-                || aura.PulseLeft < 0) // very hard to dispel permanent effects
-                auraLevel += 5;
-
-            int save = 50 + (auraLevel - dispelLevel) * 5;
-            save = save.Range(5, 95);
-            return RandomManager.Chance(save);
-        }
 
         private static readonly Dictionary<string, string> SyllableTable = new Dictionary<string, string> // TODO: use Trie ?
         {

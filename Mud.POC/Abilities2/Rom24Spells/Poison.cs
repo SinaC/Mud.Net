@@ -5,15 +5,17 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Poison", AbilityEffects.Debuff)]
+    [Spell(SpellName, AbilityEffects.Debuff)]
     [AbilityCharacterWearOffMessage("You feel less sick.")]
     [AbilityItemWearOffMessage("The poison on {0} dries up.")]
     public class Poison : ItemOrOffensiveSpellBase
     {
+        public const string SpellName = "Poison";
+
         private IAuraManager AuraManager { get; }
 
-        public Poison(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet)
+        public Poison(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager)
         {
             AuraManager = auraManager;
         }
@@ -28,11 +30,11 @@ namespace Mud.POC.Abilities2.Rom24Spells
             }
 
             int duration = Level;
-            IAura poisonAura = victim.GetAura(AbilityInfo.Name);
+            IAura poisonAura = victim.GetAura(SpellName);
             if (poisonAura != null)
                 poisonAura.Update(Level, TimeSpan.FromMinutes(duration));
             else
-                AuraManager.AddAura(victim, AbilityInfo.Name, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
                     new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
                     new PoisonDamageAffect());
@@ -68,7 +70,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                     return;
                 }
                 int duration = Level / 8;
-                AuraManager.AddAura(weapon, AbilityInfo.Name, Caster, Level / 2, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                AuraManager.AddAura(weapon, SpellName, Caster, Level / 2, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                     new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Poison, Operator = AffectOperators.Or });
                 Caster.Act(ActOptions.ToCharacter, "{0} is coated with deadly venom.", weapon);
                 return;

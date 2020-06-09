@@ -9,8 +9,8 @@ namespace Mud.POC.Abilities2
     {
         protected ICharacter Victim { get; set; }
 
-        protected TransportationSpellBase(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        protected TransportationSpellBase(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

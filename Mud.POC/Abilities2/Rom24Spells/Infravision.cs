@@ -1,17 +1,18 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Infravision", AbilityEffects.Buff | AbilityEffects.Detection)]
+    [Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Detection)]
     [AbilityCharacterWearOffMessage("You no longer see in the dark.")]
     [AbilityDispellable]
     public class Infravision : CharacterFlagsSpellBase
     {
-        public Infravision(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet, auraManager)
+        public const string SpellName = "Infravision";
+
+        public Infravision(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager, auraManager)
         {
         }
 

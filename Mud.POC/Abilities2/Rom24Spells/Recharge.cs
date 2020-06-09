@@ -4,13 +4,15 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Recharge", AbilityEffects.Enchantment | AbilityEffects.Creation, PulseWaitTime = 24)]
+    [Spell(SpellName, AbilityEffects.Enchantment | AbilityEffects.Creation, PulseWaitTime = 24)]
     public class Recharge : ItemInventorySpellBase<IItemCastSpellsCharge>
     {
+        public const string SpellName = "Recharge";
+
         private IItemManager ItemManager { get; }
 
-        public Recharge(IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager)
-            : base(randomManager, wiznet)
+        public Recharge(IRandomManager randomManager, IItemManager itemManager)
+            : base(randomManager)
         {
             ItemManager = itemManager;
         }

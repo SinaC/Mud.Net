@@ -5,11 +5,13 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Chain Lightning", AbilityEffects.DamageArea)]
+    [Spell(SpellName, AbilityEffects.DamageArea)]
     public class ChainLightning : OffensiveSpellBase
     {
-        public ChainLightning(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Chain Lightning";
+
+        public ChainLightning(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 
@@ -23,7 +25,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             int damage = RandomManager.Dice(level, 6);
             if (Victim.SavesSpell(level, SchoolTypes.Lightning))
                 damage /= 3;
-            Victim.AbilityDamage(Caster, this, damage, SchoolTypes.Lightning, "lightning", true);
+            Victim.AbilityDamage(Caster, damage, SchoolTypes.Lightning, "lightning", true);
 
             // hops from one victim to another
             ICharacter lastVictim = Victim;
@@ -51,7 +53,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 damage = RandomManager.Dice(level, 6);
                 if (Caster.SavesSpell(level, SchoolTypes.Lightning))
                     damage /= 3;
-                Caster.AbilityDamage(Caster, this, damage, SchoolTypes.Lightning, "lightning", true);
+                Caster.AbilityDamage(Caster, damage, SchoolTypes.Lightning, "lightning", true);
                 level -= 4; // decrement damage
                 lastVictim = Caster;
             }

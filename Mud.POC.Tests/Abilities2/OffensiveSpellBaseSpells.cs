@@ -19,14 +19,13 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<IPlayableCharacter> casterMock = new Mock<IPlayableCharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = SpellName }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
+            OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "", Enumerable.Empty<CommandParameter>().ToArray());
 
             string result = spell.Setup(abilityActionInput);
@@ -39,18 +38,17 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<IPlayableCharacter> casterMock = new Mock<IPlayableCharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = SpellName }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName }));
             Mock<ICharacter> victimMock = new Mock<ICharacter>();
             victimMock.SetupGet(x => x.Name).Returns("target");
             victimMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new[] { casterMock.Object, victimMock.Object });
             casterMock.SetupGet(x => x.Fighting).Returns(victimMock.Object);
-            OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
+            OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "", Enumerable.Empty<CommandParameter>().ToArray());
 
             string result = spell.Setup(abilityActionInput);
@@ -63,14 +61,13 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<IPlayableCharacter> casterMock = new Mock<IPlayableCharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = SpellName }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
+            OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
             string result = spell.Setup(abilityActionInput);
@@ -83,16 +80,15 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<IPlayableCharacter> casterMock = new Mock<IPlayableCharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = SpellName }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName }));
             Mock<ICharacter> victimMock = new Mock<ICharacter>();
             victimMock.SetupGet(x => x.Name).Returns("target");
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
+            OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
             string result = spell.Setup(abilityActionInput);
@@ -105,18 +101,17 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<IPlayableCharacter> casterMock = new Mock<IPlayableCharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = SpellName }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName }));
             Mock<ICharacter> victimMock = new Mock<ICharacter>();
             victimMock.SetupGet(x => x.Name).Returns("target");
             victimMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             victimMock.Setup(x => x.IsSafe(casterMock.Object)).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(new []{casterMock.Object, victimMock.Object});
-            OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
+            OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
             string result = spell.Setup(abilityActionInput);
@@ -129,7 +124,6 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<IPlayableCharacter> victimMock = new Mock<IPlayableCharacter>();
             victimMock.SetupGet(x => x.Name).Returns("target");
@@ -137,11 +131,11 @@ namespace Mud.POC.Tests.Abilities2
             Mock<INonPlayableCharacter> casterMock = new Mock<INonPlayableCharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = SpellName }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName }));
             casterMock.SetupGet(x => x.CharacterFlags).Returns(CharacterFlags.Charm);
             casterMock.SetupGet(x => x.Master).Returns(victimMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { casterMock.Object, victimMock.Object });
-            OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
+            OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
             string result = spell.Setup(abilityActionInput);
@@ -154,17 +148,16 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<IPlayableCharacter> casterMock = new Mock<IPlayableCharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = SpellName }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName }));
             Mock<ICharacter> victimMock = new Mock<ICharacter>();
             victimMock.SetupGet(x => x.Name).Returns("target");
             victimMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new[] { casterMock.Object, victimMock.Object });
-            OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object, wiznetMock.Object);
+            OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
             string result = spell.Setup(abilityActionInput);
@@ -176,8 +169,8 @@ namespace Mud.POC.Tests.Abilities2
         [Spell(SpellName, AbilityEffects.Damage)]
         internal class OffensiveSpellBaseSpellsSpell : OffensiveSpellBase
         {
-            public OffensiveSpellBaseSpellsSpell(IRandomManager randomManager, IWiznet wiznet)
-                : base(randomManager, wiznet)
+            public OffensiveSpellBaseSpellsSpell(IRandomManager randomManager)
+                : base(randomManager)
             {
             }
 

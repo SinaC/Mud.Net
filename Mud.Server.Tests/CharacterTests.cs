@@ -32,6 +32,10 @@ namespace Mud.Server.Tests
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((x, y) => x + y);
             DependencyContainer.Current.RegisterInstance<IRandomManager>(randomManagerMock.Object);
+            var raceManagerMock = new Mock<IRaceManager>();
+            DependencyContainer.Current.RegisterInstance<IRaceManager>(raceManagerMock.Object);
+            var classManagerMock = new Mock<IClassManager>();
+            DependencyContainer.Current.RegisterInstance<IClassManager>(classManagerMock.Object);
 
             INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object));
             npc.Recompute();
@@ -51,6 +55,10 @@ namespace Mud.Server.Tests
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((x, y) => x * y);
             DependencyContainer.Current.RegisterInstance<IRandomManager>(randomManagerMock.Object);
+            var raceManagerMock = new Mock<IRaceManager>();
+            DependencyContainer.Current.RegisterInstance<IRaceManager>(raceManagerMock.Object);
+            var classManagerMock = new Mock<IClassManager>();
+            DependencyContainer.Current.RegisterInstance<IClassManager>(classManagerMock.Object);
 
             var characterBlueprint = new Blueprints.Character.CharacterNormalBlueprint 
             { 
@@ -73,6 +81,10 @@ namespace Mud.Server.Tests
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((x, y) => x * y);
             DependencyContainer.Current.RegisterInstance<IRandomManager>(randomManagerMock.Object);
+            var raceManagerMock = new Mock<IRaceManager>();
+            DependencyContainer.Current.RegisterInstance<IRaceManager>(raceManagerMock.Object);
+            var classManagerMock = new Mock<IClassManager>();
+            DependencyContainer.Current.RegisterInstance<IClassManager>(classManagerMock.Object);
 
             var characterBlueprint = new Blueprints.Character.CharacterNormalBlueprint
             {
@@ -98,6 +110,10 @@ namespace Mud.Server.Tests
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((x, y) => x + y);
             DependencyContainer.Current.RegisterInstance<IRandomManager>(randomManagerMock.Object);
+            var raceManagerMock = new Mock<IRaceManager>();
+            DependencyContainer.Current.RegisterInstance<IRaceManager>(raceManagerMock.Object);
+            var classManagerMock = new Mock<IClassManager>();
+            DependencyContainer.Current.RegisterInstance<IClassManager>(classManagerMock.Object);
 
             var characterBlueprint = new Blueprints.Character.CharacterNormalBlueprint 
             { 
@@ -125,6 +141,10 @@ namespace Mud.Server.Tests
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((x, y) => x + y);
             DependencyContainer.Current.RegisterInstance<IRandomManager>(randomManagerMock.Object);
+            var raceManagerMock = new Mock<IRaceManager>();
+            DependencyContainer.Current.RegisterInstance<IRaceManager>(raceManagerMock.Object);
+            var classManagerMock = new Mock<IClassManager>();
+            DependencyContainer.Current.RegisterInstance<IClassManager>(classManagerMock.Object);
 
             var characterBlueprint = new Blueprints.Character.CharacterNormalBlueprint 
             { 

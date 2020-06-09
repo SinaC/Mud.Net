@@ -1,17 +1,18 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Detect Hidden", AbilityEffects.Buff | AbilityEffects.Detection)]
+    [Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Detection)]
     [AbilityCharacterWearOffMessage("You feel less aware of your surroundings.")]
     [AbilityDispellable]
     public class DetectHidden : CharacterFlagsSpellBase
     {
-        public DetectHidden(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet, auraManager)
+        public const string SpellName = "Detect Hidden";
+
+        public DetectHidden(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager, auraManager)
         {
         }
 

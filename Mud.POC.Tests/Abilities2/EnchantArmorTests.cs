@@ -15,10 +15,9 @@ namespace Mud.POC.Tests.Abilities2
         public void ItemDestroyed()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
-            EnchantArmor spell = new EnchantArmor(randomManagerMock.Object, wiznetMock.Object, auraManagerMock.Object, itemManagerMock.Object);
+            EnchantArmor spell = new EnchantArmor(randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
 
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
@@ -27,7 +26,7 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(_ => (100, new AbilityLearned { Name = "Enchant Armor" }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(_ => (100, new AbilityLearned { Name = "Enchant Armor" }));
             armorMock.SetupGet(x => x.Name).Returns("armor");
 
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true);
@@ -36,10 +35,10 @@ namespace Mud.POC.Tests.Abilities2
             var parameters = BuildParameters("armor");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
-            string Setup = spell.Setup(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
             spell.Execute();
 
-            Assert.IsNull(Setup);
+            Assert.IsNull(result);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Once);
             armorMock.Verify(x => x.Disenchant(), Times.Never);
             armorMock.Verify(x => x.IncreaseLevel(), Times.Never);
@@ -50,10 +49,9 @@ namespace Mud.POC.Tests.Abilities2
         public void ItemDisenchanted()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
-            EnchantArmor spell = new EnchantArmor(randomManagerMock.Object, wiznetMock.Object, auraManagerMock.Object, itemManagerMock.Object);
+            EnchantArmor spell = new EnchantArmor(randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
 
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
@@ -62,7 +60,7 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(_ => (100, new AbilityLearned { Name = "Enchant Armor" }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(_ => (100, new AbilityLearned { Name = "Enchant Armor" }));
             armorMock.SetupGet(x => x.Name).Returns("armor");
 
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true);
@@ -71,10 +69,10 @@ namespace Mud.POC.Tests.Abilities2
             var parameters = BuildParameters("armor");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
-            string Setup = spell.Setup(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
             spell.Execute();
 
-            Assert.IsNull(Setup);
+            Assert.IsNull(result);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Never);
             armorMock.Verify(x => x.Disenchant(), Times.Once);
             armorMock.Verify(x => x.IncreaseLevel(), Times.Never);
@@ -85,10 +83,9 @@ namespace Mud.POC.Tests.Abilities2
         public void NothingHappened()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
-            EnchantArmor spell = new EnchantArmor(randomManagerMock.Object, wiznetMock.Object, auraManagerMock.Object, itemManagerMock.Object);
+            EnchantArmor spell = new EnchantArmor(randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
 
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
@@ -97,7 +94,7 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(_ => (100, new AbilityLearned { Name = "Enchant Armor" }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(_ => (100, new AbilityLearned { Name = "Enchant Armor" }));
             armorMock.SetupGet(x => x.Name).Returns("armor");
 
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true);
@@ -106,10 +103,10 @@ namespace Mud.POC.Tests.Abilities2
             var parameters = BuildParameters("armor");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
-            string Setup = spell.Setup(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
             spell.Execute();
 
-            Assert.IsNull(Setup);
+            Assert.IsNull(result);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Never);
             armorMock.Verify(x => x.Disenchant(), Times.Never);
             casterMock.Verify(x => x.Send("Nothing seemed to happen."), Times.Once);
@@ -121,10 +118,9 @@ namespace Mud.POC.Tests.Abilities2
         public void NormalEnchant()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
-            EnchantArmor spell = new EnchantArmor(randomManagerMock.Object, wiznetMock.Object, auraManagerMock.Object, itemManagerMock.Object);
+            EnchantArmor spell = new EnchantArmor(randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
 
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
@@ -133,7 +129,7 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(_ => (100, new AbilityLearned { Name = "Enchant Armor" }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(_ => (100, new AbilityLearned { Name = "Enchant Armor" }));
             armorMock.SetupGet(x => x.Name).Returns("armor");
 
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true);
@@ -142,10 +138,10 @@ namespace Mud.POC.Tests.Abilities2
             var parameters = BuildParameters("armor");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
-            string Setup = spell.Setup(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
             spell.Execute();
 
-            Assert.IsNull(Setup);
+            Assert.IsNull(result);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Never);
             armorMock.Verify(x => x.Disenchant(), Times.Never);
             armorMock.Verify(x => x.IncreaseLevel(), Times.Once);
@@ -157,10 +153,9 @@ namespace Mud.POC.Tests.Abilities2
         public void ExceptionalEnchant()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
-            EnchantArmor spell = new EnchantArmor(randomManagerMock.Object, wiznetMock.Object, auraManagerMock.Object, itemManagerMock.Object);
+            EnchantArmor spell = new EnchantArmor(randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
 
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
@@ -169,7 +164,7 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(_ => (100, new AbilityLearned { Name = "Enchant Armor" }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(_ => (100, new AbilityLearned { Name = "Enchant Armor" }));
             armorMock.SetupGet(x => x.Name).Returns("armor");
 
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true);
@@ -178,10 +173,10 @@ namespace Mud.POC.Tests.Abilities2
             var parameters = BuildParameters("armor");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
-            string Setup = spell.Setup(abilityActionInput);
+            string result = spell.Setup(abilityActionInput);
             spell.Execute();
 
-            Assert.IsNull(Setup);
+            Assert.IsNull(result);
             itemManagerMock.Verify(x => x.RemoveItem(armorMock.Object), Times.Never);
             armorMock.Verify(x => x.Disenchant(), Times.Never);
             armorMock.Verify(x => x.IncreaseLevel(), Times.Once);

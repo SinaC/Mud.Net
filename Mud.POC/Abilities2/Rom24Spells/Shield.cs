@@ -5,13 +5,15 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Shield", AbilityEffects.Buff, PulseWaitTime = 18)]
+    [Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18)]
     [AbilityCharacterWearOffMessage("Your force shield shimmers then fades away.")]
     [AbilityDispellable("The shield protecting {0:n} vanishes.")]
     public class Shield : CharacterBuffSpellBase
     {
-        public Shield(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet, auraManager)
+        public const string SpellName = "Shield";
+
+        public Shield(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager, auraManager)
         {
         }
 
@@ -21,7 +23,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
         protected override string CasterAffectMessage => "{0:N} {0:b} surrounded by a force shield.";
         protected override (int level, TimeSpan duration, IAffect[] affects) AuraInfo
             => (Level, TimeSpan.FromMinutes(8 + Level),
-            new[]
+            new IAffect[]
             {
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -20, Operator = AffectOperators.Add }
             });

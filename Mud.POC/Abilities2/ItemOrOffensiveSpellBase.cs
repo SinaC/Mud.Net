@@ -12,8 +12,8 @@ namespace Mud.POC.Abilities2
     {
         protected IEntity Target { get; set; }
 
-        protected ItemOrOffensiveSpellBase(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        protected ItemOrOffensiveSpellBase(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

@@ -1,33 +1,27 @@
-﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
-using System;
+﻿using Mud.Server.Common;
+using Mud.POC.Abilities2.Rom24Effects;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Blindness", AbilityEffects.Debuff)]
+    [Spell(SpellName, AbilityEffects.Debuff)]
     [AbilityCharacterWearOffMessage("You can see again.")]
     [AbilityDispellable("{0:N} is no longer blinded.")]
-    public class Blindness : CharacterDebuffSpellBase
+    public class Blindness : DefensiveSpellBase
     {
-       public Blindness(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet, auraManager)
+        public const string SpellName = "Blindness";
+
+        private IAuraManager AuraManager { get; }
+
+        public Blindness(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager)
         {
+            AuraManager = auraManager;
         }
 
-        protected override SchoolTypes DebuffType => SchoolTypes.None;
-        protected override string VictimAffectMessage => "You are blinded!";
-        protected override string RoomAffectMessage => "{0:N} is no longer blinded.";
-
-        protected override (int level, TimeSpan duration, IAffect[] affects) AuraInfo
-            => (Level, TimeSpan.FromHours(1 + Level),
-            new IAffect[]
-            {
-                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = CharacterFlags.Blind, Operator = AffectOperators.Add }
-            });
-
-
-        protected override bool CanAffect() => base.CanAffect() && !Victim.CharacterFlags.HasFlag(CharacterFlags.Blind);
+        protected override void Invoke()
+        {
+            BlindnessEffect effect = new BlindnessEffect(AuraManager);
+            effect.Apply(Victim, Caster, SpellName, Level, 0);
+        }
     }
 }

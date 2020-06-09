@@ -9,15 +9,15 @@ namespace Mud.POC.Abilities2
     {
         protected IAuraManager AuraManager { get; }
 
-        protected CharacterBuffSpellBase(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet)
+        protected CharacterBuffSpellBase(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager)
         {
             AuraManager = auraManager;
         }
 
         protected override void Invoke()
         {
-            if (IsAffected())
+            if (IsAffected)
                 return;
             var auraInfo = AuraInfo;
             AuraManager.AddAura(Victim, AbilityInfo.Name, Caster, auraInfo.level, auraInfo.duration, AuraFlags.None, true, auraInfo.affects);
@@ -33,17 +33,21 @@ namespace Mud.POC.Abilities2
 
         protected abstract (int level, TimeSpan duration, IAffect[] affects) AuraInfo { get; }
 
-        protected virtual bool IsAffected()
+        protected virtual bool IsAffected
         {
-            if (Victim.GetAura(AbilityInfo.Name) != null)
+            get
             {
-                if (Victim != Caster)
-                    Caster.Send(SelfAlreadyAffectedMessage);
-                else
-                    Caster.Act(ActOptions.ToCharacter, NotSelfAlreadyAffectedMessage, Victim);
-                return true;
+                if (Victim.GetAura(AbilityInfo.Name) != null)
+                {
+                    if (Victim != Caster)
+                        Caster.Send(SelfAlreadyAffectedMessage);
+                    else
+                        Caster.Act(ActOptions.ToCharacter, NotSelfAlreadyAffectedMessage, Victim);
+                    return true;
+                }
+
+                return false;
             }
-            return false;
         }
     }
 }

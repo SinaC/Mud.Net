@@ -8,8 +8,8 @@ namespace Mud.POC.Abilities2
     {
         protected ICharacter Victim { get; set; }
 
-        protected DefensiveSpellBase(IRandomManager randomManager, IWiznet wiznet) 
-            : base(randomManager, wiznet)
+        protected DefensiveSpellBase(IRandomManager randomManager) 
+            : base(randomManager)
         {
         }
 

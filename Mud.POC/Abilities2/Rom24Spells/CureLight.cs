@@ -1,13 +1,14 @@
-﻿using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
+﻿using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Cure Light", AbilityEffects.Healing)]
+    [Spell(SpellName, AbilityEffects.Healing)]
     public class CureLight : HealSpellBase
     {
-        public CureLight(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Cure Light";
+
+        public CureLight(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

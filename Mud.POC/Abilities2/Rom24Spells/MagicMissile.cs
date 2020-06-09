@@ -1,14 +1,15 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Magic Missile", AbilityEffects.Damage)]
+    [Spell(SpellName, AbilityEffects.Damage)]
     public class MagicMissile : DamageTableSpellBase
     {
-        public MagicMissile(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Magic Missile";
+
+        public MagicMissile(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

@@ -17,14 +17,13 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = "Ventriloquate" }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = "Ventriloquate" }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            Ventriloquate spell = new Ventriloquate(randomManagerMock.Object, wiznetMock.Object);
+            Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "", Enumerable.Empty<CommandParameter>().ToArray());
 
             string result = spell.Setup(abilityActionInput);
@@ -38,14 +37,13 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = "Ventriloquate" }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = "Ventriloquate" }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            Ventriloquate spell = new Ventriloquate(randomManagerMock.Object, wiznetMock.Object);
+            Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "target", new CommandParameter("target", false));
 
             string result = spell.Setup(abilityActionInput);
@@ -58,14 +56,13 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = "Ventriloquate" }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = "Ventriloquate" }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            Ventriloquate spell = new Ventriloquate(randomManagerMock.Object, wiznetMock.Object);
+            Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
             var parameters = BuildParameters("target 'I'm a badass'");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
@@ -79,14 +76,13 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = "Ventriloquate" }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = "Ventriloquate" }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            Ventriloquate spell = new Ventriloquate(randomManagerMock.Object, wiznetMock.Object);
+            Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
             var parameters = BuildParameters("player 'I'm a badass'");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
@@ -100,16 +96,15 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = "Ventriloquate" }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = "Ventriloquate" }));
             Mock<ICharacter> targetMock = new Mock<ICharacter>();
             targetMock.SetupGet(x => x.Name).Returns("target");
             roomMock.SetupGet(x => x.People).Returns(new[] { casterMock.Object, targetMock.Object });
-            Ventriloquate spell = new Ventriloquate(randomManagerMock.Object, wiznetMock.Object);
+            Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
             var parameters = BuildParameters("target 'I'm a badass'");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 
@@ -123,16 +118,15 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = "Ventriloquate" }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = "Ventriloquate" }));
             Mock<ICharacter> targetMock = new Mock<ICharacter>();
             targetMock.SetupGet(x => x.Name).Returns("target");
             roomMock.SetupGet(x => x.People).Returns(new[] { casterMock.Object, targetMock.Object });
-            Ventriloquate spell = new Ventriloquate(randomManagerMock.Object, wiznetMock.Object);
+            Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
             var parameters = BuildParameters("target I'm a badass");
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, parameters.rawParameters, parameters.parameters);
 

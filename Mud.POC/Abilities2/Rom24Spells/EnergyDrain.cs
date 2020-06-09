@@ -4,11 +4,13 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Energy Drain", AbilityEffects.Damage)]
+    [Spell(SpellName, AbilityEffects.Damage)]
     public class EnergyDrain : OffensiveSpellBase
     {
-        public EnergyDrain(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Energy Drain";
+
+        public EnergyDrain(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 
@@ -42,7 +44,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             Victim.Send("You feel your life slipping away!");
             Caster.Send("Wow....what a rush!");
 
-            Victim.AbilityDamage(Caster, this, damage, SchoolTypes.Negative, "energy drain", true);
+            Victim.AbilityDamage(Caster, damage, SchoolTypes.Negative, "energy drain", true);
         }
     }
 }

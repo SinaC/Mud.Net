@@ -3,11 +3,13 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Known Alignment", AbilityEffects.Detection)]
+    [Spell(SpellName, AbilityEffects.Detection)]
     public class KnowAlignment : DefensiveSpellBase
     {
-        public KnowAlignment(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Known Alignment";
+
+        public KnowAlignment(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

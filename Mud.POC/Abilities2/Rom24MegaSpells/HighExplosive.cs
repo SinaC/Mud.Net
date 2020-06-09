@@ -1,5 +1,4 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24MegaSpells
@@ -7,8 +6,8 @@ namespace Mud.POC.Abilities2.Rom24MegaSpells
     [Spell("High Explosive", AbilityEffects.Damage)]
     public class HighExplosive : DamageSpellBase
     {
-        public HighExplosive(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public HighExplosive(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

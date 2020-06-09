@@ -94,6 +94,7 @@
     <Compile Include="Abilities2\CharacterFlagsSpellBase.cs" />
     <Compile Include="Abilities2\DamageTableSpellBase.cs" />
     <Compile Include="Abilities2\CureSpellBase.cs" />
+    <Compile Include="Abilities2\DispelManager.cs" />
     <Compile Include="Abilities2\Domain\Enums.cs" />
     <Compile Include="Abilities2\Domain\ItemData.cs" />
     <Compile Include="Abilities2\ExistingCode\ICloseable.cs" />
@@ -101,8 +102,15 @@
     <Compile Include="Abilities2\ExistingCode\IItemCanContain.cs" />
     <Compile Include="Abilities2\ExistingCode\IItemCastSpellsCharge.cs" />
     <Compile Include="Abilities2\ExistingCode\IItemCloseable.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemClothing.cs" />
     <Compile Include="Abilities2\ExistingCode\IItemContainer.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemCorpse.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemPill.cs" />
     <Compile Include="Abilities2\ExistingCode\IItemPortal.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemPotion.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemScroll.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemStaff.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemWand.cs" />
     <Compile Include="Abilities2\ExistingCode\IItemWarpstone.cs" />
     <Compile Include="Abilities2\ExistingCode\IRoomManager.cs" />
     <Compile Include="Abilities2\ExistingCode\PlagueSpreadAndDamageAffect.cs" />
@@ -112,6 +120,8 @@
     <Compile Include="Abilities2\IAbility.cs" />
     <Compile Include="Abilities2\IAbilityAction.cs" />
     <Compile Include="Abilities2\IAbilityManager.cs" />
+    <Compile Include="Abilities2\IEffect.cs" />
+    <Compile Include="Abilities2\IDispelManager.cs" />
     <Compile Include="Abilities2\IGameAction.cs" />
     <Compile Include="Abilities2\ExistingCode\CharacterAttributeAffect.cs" />
     <Compile Include="Abilities2\ExistingCode\CharacterFlagsAffect.cs" />
@@ -155,8 +165,26 @@
     <Compile Include="Abilities2\OffensiveSpellBase.cs" />
     <Compile Include="Abilities2\DefensiveSpellBase.cs" />
     <Compile Include="Abilities2\OptionalItemInventorySpellBase.cs" />
+    <Compile Include="Abilities2\Rom24BreathSpells\AcidBreath.cs" />
+    <Compile Include="Abilities2\Rom24BreathSpells\BreathAreaAction.cs" />
+    <Compile Include="Abilities2\Rom24BreathSpells\FireBreath.cs" />
+    <Compile Include="Abilities2\Rom24BreathSpells\FrostBreath.cs" />
+    <Compile Include="Abilities2\Rom24BreathSpells\GasBreath.cs" />
+    <Compile Include="Abilities2\Rom24BreathSpells\LightningBreath.cs" />
+    <Compile Include="Abilities2\Rom24Effects\FireEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\BlessEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\BlindnessEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\ColdEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\CurseEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\FrenzyEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\HealEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\AcidEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\PoisonEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\RefreshEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\ShockEffect.cs" />
     <Compile Include="Abilities2\Rom24MegaSpells\GeneralPurpose.cs" />
     <Compile Include="Abilities2\Rom24MegaSpells\HighExplosive.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Sneak.cs" />
     <Compile Include="Abilities2\Rom24Spells\AcidBlast.cs" />
     <Compile Include="Abilities2\Rom24Spells\Armor.cs" />
     <Compile Include="Abilities2\Rom24Spells\Bless.cs" />
@@ -169,7 +197,6 @@
     <Compile Include="Abilities2\Rom24Spells\Calm.cs" />
     <Compile Include="Abilities2\Rom24Spells\DispelMagic.cs" />
     <Compile Include="Abilities2\Rom24Spells\Cancellation.cs" />
-    <Compile Include="Abilities2\Rom24Spells\CauseSpellBase.cs" />
     <Compile Include="Abilities2\Rom24Spells\CauseSerious.cs" />
     <Compile Include="Abilities2\Rom24Spells\CauseLight.cs" />
     <Compile Include="Abilities2\Rom24Spells\CauseCritical.cs" />
@@ -406,9 +433,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Abilities2\README.txt" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

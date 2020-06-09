@@ -5,12 +5,14 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Armor", AbilityEffects.Buff)]
+    [Spell(SpellName, AbilityEffects.Buff)]
     [AbilityCharacterWearOffMessage("You feel less armored.")]
     public class Armor : CharacterBuffSpellBase
     {
-        public Armor(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager) 
-            : base(randomManager, wiznet, auraManager)
+        public const string SpellName = "Armor";
+
+        public Armor(IRandomManager randomManager, IAuraManager auraManager) 
+            : base(randomManager, auraManager)
         {
         }
 

@@ -9,8 +9,8 @@ namespace Mud.POC.Abilities2
         protected bool SavesSpellResult { get; private set; }
         protected DamageResults DamageResult { get; private set; }
 
-        protected DamageSpellBase(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        protected DamageSpellBase(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 
@@ -21,7 +21,7 @@ namespace Mud.POC.Abilities2
             SavesSpellResult = Victim.SavesSpell(Level, DamageType);
             if (SavesSpellResult)
                 damage /= 2;
-            DamageResult = Victim.AbilityDamage(Caster, this, damage, DamageType, DamageNoun, true);
+            DamageResult = Victim.AbilityDamage(Caster, damage, DamageType, DamageNoun, true);
         }
 
         protected abstract SchoolTypes DamageType { get; }

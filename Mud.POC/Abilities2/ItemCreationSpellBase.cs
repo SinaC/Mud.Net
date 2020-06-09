@@ -8,8 +8,8 @@ namespace Mud.POC.Abilities2
         protected IItemManager ItemManager { get; }
         protected ISettings Settings { get; }
 
-        protected ItemCreationSpellBase(IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings)
-            : base(randomManager, wiznet)
+        protected ItemCreationSpellBase(IRandomManager randomManager, IItemManager itemManager, ISettings settings)
+            : base(randomManager)
         {
             ItemManager = itemManager;
             Settings = settings;

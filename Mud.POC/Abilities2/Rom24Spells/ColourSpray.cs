@@ -1,20 +1,21 @@
-﻿using System;
-using Mud.Container;
-using Mud.POC.Abilities2.Domain;
+﻿using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
+using Mud.POC.Abilities2.Rom24Effects;
 using Mud.Server.Common;
-using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Colour Spray", AbilityEffects.Damage | AbilityEffects.Debuff)]
+    [Spell(SpellName, AbilityEffects.Damage | AbilityEffects.Debuff)]
     public class ColourSpray : DamageTableSpellBase
     {
-        private IAbilityManager AbilityManager { get; }
-        public ColourSpray(IRandomManager randomManager, IWiznet wiznet, IAbilityManager abilityManager)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Colour Spray";
+
+        private IAuraManager AuraManager { get; }
+
+        public ColourSpray(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager)
         {
-            AbilityManager = abilityManager;
+            AuraManager = auraManager;
         }
 
         protected override SchoolTypes DamageType => SchoolTypes.Light;
@@ -34,14 +35,8 @@ namespace Mud.POC.Abilities2.Rom24Spells
             base.Invoke();
             if (SavesSpellResult || DamageResult != DamageResults.Done)
                 return;
-            // TODO: not a huge fan of following code
-            AbilityInfo blindnessAbilityInfo = AbilityManager["Blindness"];
-            IAbilityAction blindnessAbilityInstance = (IAbilityAction)DependencyContainer.Current.GetInstance(blindnessAbilityInfo.AbilityExecutionType);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(blindnessAbilityInfo, Caster, Victim.Name, new CommandParameter(Victim.Name, false));
-            // TODO: following code will check mana, resource, ... and it should not
-            blindnessAbilityInstance.Setup(abilityActionInput);
-            // TODO: following code will set cooldown and use resource ... and it should not
-            blindnessAbilityInstance.Execute();
+            IEffect<ICharacter> blindnessEffect = new BlindnessEffect(AuraManager);
+            blindnessEffect.Apply(Victim, Caster, Blindness.SpellName, Level, 0);
         }
     }
 }

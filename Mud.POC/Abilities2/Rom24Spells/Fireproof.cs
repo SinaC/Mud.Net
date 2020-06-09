@@ -5,14 +5,16 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Fireproof", AbilityEffects.Enchantment)]
+    [Spell(SpellName, AbilityEffects.Enchantment)]
     [AbilityItemWearOffMessage("{0:N}'s protective aura fades.")]
     public class Fireproof : ItemInventorySpellBase
     {
+        public const string SpellName = "Fireproof";
+
         private IAuraManager AuraManager { get; }
 
-        public Fireproof(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet)
+        public Fireproof(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager)
         {
             AuraManager = auraManager;
         }
@@ -26,7 +28,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             }
 
             int duration = RandomManager.Fuzzy(Level / 4);
-            AuraManager.AddAura(Item, AbilityInfo.Name, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+            AuraManager.AddAura(Item, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new ItemFlagsAffect { Modifier = ItemFlags.BurnProof, Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToCharacter, "You protect {0:N} from fire.", Item);
             Caster.Act(ActOptions.ToRoom, "{0:N} is surrounded by a protective aura.", Item);

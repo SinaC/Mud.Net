@@ -2,36 +2,32 @@
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 using System;
+using Mud.POC.Abilities2.Rom24Effects;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Curse", AbilityEffects.Debuff)]
+    [Spell(SpellName, AbilityEffects.Debuff)]
     [AbilityCharacterWearOffMessage("The curse wears off.")]
     [AbilityItemWearOffMessage("{0} is no longer impure.")]
     [AbilityDispellable("{0} is no longer impure.")]
     public class Curse : ItemOrOffensiveSpellBase
     {
+        public const string SpellName = "Curse";
+
         private IAuraManager AuraManager { get; }
-        public Curse(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet)
+        private IDispelManager DispelManager { get; }
+
+        public Curse(IRandomManager randomManager, IAuraManager auraManager, IDispelManager dispelManager)
+            : base(randomManager)
         {
             AuraManager = auraManager;
+            DispelManager = dispelManager;
         }
 
         protected override void Invoke(ICharacter victim)
         {
-            IAura curseAura = victim.GetAura(AbilityInfo.Name);
-            if (curseAura != null || victim.CharacterFlags.HasFlag(CharacterFlags.Curse) || victim.SavesSpell(Level, SchoolTypes.Negative))
-                return;
-            victim.Send("You feel unclean.");
-            if (Caster != victim)
-                Caster.Act(ActOptions.ToCharacter, "{0:N} looks very uncomfortable.", victim);
-            int duration = 2 * Level;
-            int modifier = Level / 8;
-            AuraManager.AddAura(victim, AbilityInfo.Name, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
-                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add },
-                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -modifier, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = CharacterFlags.Curse, Operator = AffectOperators.Or });
+            CurseEffect effect = new CurseEffect(AuraManager);
+            effect.Apply(victim, Caster, SpellName, Level, 0);
         }
 
         protected override void Invoke(IItem item)
@@ -43,8 +39,8 @@ namespace Mud.POC.Abilities2.Rom24Spells
             }
             if (item.ItemFlags.HasFlag(ItemFlags.Bless))
             {
-                IAura blessAura = item.GetAura("Bless");
-                if (!SavesDispel(Level, blessAura?.Level ?? item.Level, 0))
+                IAura blessAura = item.GetAura(Bless.SpellName);
+                if (!DispelManager.SavesDispel(Level, blessAura?.Level ?? item.Level, 0))
                 {
                     if (blessAura != null)
                         item.RemoveAura(blessAura, false);

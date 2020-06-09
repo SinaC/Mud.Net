@@ -2,40 +2,31 @@
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 using System;
+using Mud.POC.Abilities2.Rom24Effects;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Bless", AbilityEffects.Buff | AbilityEffects.Dispel)]
+    [Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Dispel)]
     [AbilityCharacterWearOffMessage("You feel less righteous.")]
     [AbilityItemWearOffMessage("{0}'s holy aura fades.")]
     public class Bless : ItemOrDefensiveSpellBase
     {
-        private IAuraManager AuraManager { get; }
+        public const string SpellName = "Bless";
 
-        public Bless(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager) 
-            : base(randomManager, wiznet)
+        private IAuraManager AuraManager { get; }
+        private IDispelManager DispelManager { get; }
+
+        public Bless(IRandomManager randomManager, IAuraManager auraManager, IDispelManager dispelManager) 
+            : base(randomManager)
         {
             AuraManager = auraManager;
+            DispelManager = dispelManager;
         }
 
         protected override void Invoke(ICharacter victim)
         {
-            IAura blessAura = victim.GetAura(AbilityInfo.Name);
-            if (victim.Position == Positions.Fighting || blessAura != null)
-            {
-                if (Caster == victim)
-                    Caster.Send("You are already blessed.");
-                else
-                    Caster.Act(ActOptions.ToCharacter, "{0:N} already has divine favor.", victim);
-                return;
-            }
-            victim.Send("You feel righteous.");
-            if (victim != Caster)
-                Caster.Act(ActOptions.ToCharacter, "You grant {0} the favor of your god.", victim);
-            int duration = 6 + Level;
-            AuraManager.AddAura(victim, AbilityInfo.Name, Caster, Level, TimeSpan.FromHours(duration), AuraFlags.None, true,
-                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = Level / 8, Operator = AffectOperators.Add },
-                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -Level / 8, Operator = AffectOperators.Add });
+           BlessEffect effect = new BlessEffect(AuraManager);
+           effect.Apply(victim, Caster, SpellName, Level, 0);
         }
 
         protected override void Invoke(IItem item)
@@ -47,8 +38,8 @@ namespace Mud.POC.Abilities2.Rom24Spells
             }
             if (item.ItemFlags.HasFlag(ItemFlags.Evil))
             {
-                IAura evilAura = item.GetAura("Curse");
-                if (!SavesDispel(Level, evilAura?.Level ?? item.Level, 0))
+                IAura evilAura = item.GetAura(Curse.SpellName);
+                if (!DispelManager.SavesDispel(Level, evilAura?.Level ?? item.Level, 0))
                 {
                     if (evilAura != null)
                         item.RemoveAura(evilAura, false);
@@ -59,7 +50,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 Caster.Act(ActOptions.ToCharacter, "The evil of {0} is too powerful for you to overcome.", item);
                 return;
             }
-            AuraManager.AddAura(item, AbilityInfo.Name, Caster, Level, TimeSpan.FromHours(6 + Level), AuraFlags.None, true,
+            AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromHours(6 + Level), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
                 new ItemFlagsAffect { Modifier = ItemFlags.Bless, Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToAll, "{0} glows with a holy aura.", item);

@@ -5,14 +5,17 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Continual Light", AbilityEffects.Creation | AbilityEffects.Buff)]
+    [Spell(SpellName, AbilityEffects.Creation | AbilityEffects.Buff)]
     public class ContinualLight : OptionalItemInventorySpellBase
     {
+        public const string SpellName = "Continual Light";
+
         private IAuraManager AuraManager { get; }
         private IItemManager ItemManager { get; }
         private ISettings Settings { get; }
-        public ContinualLight(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager, IItemManager itemManager, ISettings settings)
-            : base(randomManager, wiznet)
+
+        public ContinualLight(IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager, ISettings settings)
+            : base(randomManager)
         {
             AuraManager = auraManager;
             ItemManager = itemManager;
@@ -29,7 +32,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                     return;
                 }
 
-                AuraManager.AddAura(Item, AbilityInfo.Name, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
+                AuraManager.AddAura(Item, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
                     new ItemFlagsAffect { Modifier = ItemFlags.Glowing, Operator = AffectOperators.Or });
                 Caster.Act(ActOptions.ToAll, "{0} glows with a white light.", Item);
                 return;

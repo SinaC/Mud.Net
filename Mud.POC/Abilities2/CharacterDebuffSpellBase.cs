@@ -9,15 +9,15 @@ namespace Mud.POC.Abilities2
     {
         protected IAuraManager AuraManager { get; }
 
-        protected CharacterDebuffSpellBase(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet)
+        protected CharacterDebuffSpellBase(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager)
         {
             AuraManager = auraManager;
         }
 
         protected override void Invoke()
         {
-            if (!CanAffect())
+            if (!CanAffect)
                 return;
             var auraInfo = AuraInfo;
             AuraManager.AddAura(Victim, AbilityInfo.Name, Caster, auraInfo.level, auraInfo.duration, AuraFlags.None, true, auraInfo.affects);
@@ -31,11 +31,6 @@ namespace Mud.POC.Abilities2
 
         protected abstract (int level, TimeSpan duration, IAffect[] affects) AuraInfo { get; }
 
-        protected virtual bool CanAffect()
-        {
-            if (Victim.GetAura(AbilityInfo.Name) != null || Victim.SavesSpell(Level, DebuffType))
-                return false;
-            return true;
-        }
+        protected virtual bool CanAffect => Victim.GetAura(AbilityInfo.Name) == null && !Victim.SavesSpell(Level, DebuffType);
     }
 }

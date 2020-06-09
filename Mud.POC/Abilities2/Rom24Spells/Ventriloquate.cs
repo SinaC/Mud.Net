@@ -7,14 +7,16 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Ventriloquate", AbilityEffects.None)]
+    [Spell(SpellName, AbilityEffects.None)]
     public class Ventriloquate : SpellBase
     {
+        public const string SpellName = "Ventriloquate";
+
         protected ICharacter Victim { get; set; }
         protected string Phrase { get; set; }
 
-        public Ventriloquate(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public Ventriloquate(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

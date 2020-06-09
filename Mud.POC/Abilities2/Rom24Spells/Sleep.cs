@@ -5,15 +5,17 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Sleep", AbilityEffects.Debuff)]
+    [Spell(SpellName, AbilityEffects.Debuff)]
     [AbilityCharacterWearOffMessage("You feel less tired.")]
     [AbilityDispellable]
     public class Sleep : OffensiveSpellBase
     {
+        public const string SpellName = "Sleep";
+
         private IAuraManager AuraManager { get; }
 
-        public Sleep(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet)
+        public Sleep(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager)
         {
             AuraManager = auraManager;
         }
@@ -26,7 +28,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 || Victim.SavesSpell(Level - 4, SchoolTypes.Charm))
                 return;
 
-            AuraManager.AddAura(Victim, AbilityInfo.Name, Caster, Level, TimeSpan.FromMinutes(4 + Level), AuraFlags.None, true,
+            AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(4 + Level), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -10, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = CharacterFlags.Sleep, Operator = AffectOperators.Or });
 

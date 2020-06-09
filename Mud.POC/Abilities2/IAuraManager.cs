@@ -6,6 +6,6 @@ namespace Mud.POC.Abilities2
 {
     public interface IAuraManager
     {
-        IAura AddAura(IEntity target, string abilityName, ICharacter source, int level, TimeSpan duration, AuraFlags flags, bool recompute, params IAffect[] affects);
+        IAura AddAura(IEntity target, string abilityName, IEntity source, int level, TimeSpan duration, AuraFlags flags, bool recompute, params IAffect[] affects);
     }
 }

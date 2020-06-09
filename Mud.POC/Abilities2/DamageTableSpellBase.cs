@@ -1,12 +1,11 @@
-﻿using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
+﻿using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2
 {
     public abstract class DamageTableSpellBase : DamageSpellBase
     {
-        protected DamageTableSpellBase(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        protected DamageTableSpellBase(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

@@ -7,10 +7,10 @@ namespace Mud.POC.Abilities2
 {
     public abstract class OptionalItemInventorySpellBase : SpellBase
     {
-        protected IItem Item { get; private set; }
+        protected IItem Item { get; set; }
 
-        protected OptionalItemInventorySpellBase(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        protected OptionalItemInventorySpellBase(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

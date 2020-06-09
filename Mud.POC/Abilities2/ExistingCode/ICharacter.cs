@@ -56,14 +56,14 @@ namespace Mud.POC.Abilities2.ExistingCode
         bool IsSafe(ICharacter aggressor);
         bool IsSafeSpell(ICharacter caster, bool area);
         bool SavesSpell(int level, SchoolTypes damageType);
-        DamageResults AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, string damageNoun, bool isVisible);
+        DamageResults AbilityDamage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool isVisible);
         bool MultiHit(ICharacter aggressor);
         bool StopFighting(bool both);
 
         bool IsSameGroupOrPet(ICharacter character);
 
         IEnumerable<AbilityLearned> LearnedAbilities { get; }
-        (int percentage, AbilityLearned abilityLearned) GetAbilityPercentage(IAbility ability); // percentage is dynamically computed
+        (int percentage, AbilityLearned abilityLearned) GetAbilityLearned(string abilityName); // percentage is dynamically computed
 
         int CooldownPulseLeft(string abilityName);
         void SetCooldown(string abilityName, int seconds);

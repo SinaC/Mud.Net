@@ -1,20 +1,21 @@
-﻿using Mud.Container;
-using Mud.POC.Abilities2.Domain;
+﻿using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
+using Mud.POC.Abilities2.Rom24Effects;
 using Mud.Server.Common;
-using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Ray of Truth", AbilityEffects.Damage)]
+    [Spell(SpellName, AbilityEffects.Damage)]
     public class RayOfTruth : OffensiveSpellBase
     {
-        private IAbilityManager AbilityManager { get; }
+        public const string SpellName = "Ray of Truth";
 
-        public RayOfTruth(IRandomManager randomManager, IWiznet wiznet, IAbilityManager abilityManager)
-            : base(randomManager, wiznet)
+        private IAuraManager AuraManager { get; }
+
+        public RayOfTruth(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager)
         {
-            AbilityManager = abilityManager;
+            AuraManager = auraManager;
         }
 
         protected override string SetTargets(AbilityActionInput abilityActionInput)
@@ -54,18 +55,12 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
             damage = (damage * alignment * alignment) / (1000 * 1000);
 
-            Victim.AbilityDamage(Caster, this, damage, SchoolTypes.Holy, "ray of truth", true);
-            CastSpell("Blindness", Victim, (3 * Level) / 4);
-        }
-
-        private void CastSpell(string spellName, ICharacter victim, int level) // TODO: use level
-        {
-            // TODO: not a huge fan of following code
-            AbilityInfo abilityInfo = AbilityManager[spellName];
-            IAbilityAction abilityInstance = (IAbilityAction)DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(abilityInfo, Caster, victim.Name, new CommandParameter(victim.Name, false));
-            abilityInstance.Setup(abilityActionInput);
-            abilityInstance.Execute();
+            var damageResult = Victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "ray of truth", true);
+            if (damageResult == DamageResults.Done)
+            {
+                BlindnessEffect effect = new BlindnessEffect(AuraManager);
+                effect.Apply(Victim, Caster, Blindness.SpellName, 3*Level/4, 0);
+            }
         }
     }
 }

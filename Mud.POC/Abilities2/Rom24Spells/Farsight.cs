@@ -1,13 +1,14 @@
-﻿using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
+﻿using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Farsight", AbilityEffects.None)]
+    [Spell(SpellName, AbilityEffects.None)]
     public class Farsight : NoTargetSpellBase
     {
-        public Farsight(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Farsight";
+
+        public Farsight(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

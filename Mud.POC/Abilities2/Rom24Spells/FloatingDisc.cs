@@ -5,12 +5,17 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Floating Disc", AbilityEffects.Creation, PulseWaitTime = 24)]
+    [Spell(SpellName, AbilityEffects.Creation, PulseWaitTime = 24)]
     public class FloatingDisc : ItemCreationSpellBase
     {
+        public const string SpellName = "Floating Disc";
+
+        private IWiznet Wiznet { get; }
+
         public FloatingDisc(IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings)
-            : base(randomManager, wiznet, itemManager, settings)
+            : base(randomManager, itemManager, settings)
         {
+            Wiznet = wiznet;
         }
 
         protected override void Invoke()

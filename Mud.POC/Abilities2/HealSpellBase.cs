@@ -1,12 +1,11 @@
-﻿using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
+﻿using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2
 {
     public abstract class HealSpellBase : DefensiveSpellBase
     {
-        protected HealSpellBase(IRandomManager randomManager, IWiznet wiznet) 
-            : base(randomManager, wiznet)
+        protected HealSpellBase(IRandomManager randomManager) 
+            : base(randomManager)
         {
         }
 

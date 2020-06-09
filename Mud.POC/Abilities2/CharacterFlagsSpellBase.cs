@@ -9,8 +9,8 @@ namespace Mud.POC.Abilities2
     {
         protected IAuraManager AuraManager { get; }
 
-        protected CharacterFlagsSpellBase(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet)
+        protected CharacterFlagsSpellBase(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager)
         {
             AuraManager = auraManager;
         }

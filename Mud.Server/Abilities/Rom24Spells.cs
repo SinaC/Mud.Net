@@ -1415,7 +1415,7 @@ namespace Mud.Server.Abilities
             GenericCharacterFlagsAbility(ability, level, caster, victim, CharacterFlags.Infrared, 2*level, "You can already see in the dark", "{0} already has infravision.", "Your eyes glow red.", "{0:P} eyes glow red.");
         }
 
-        [Spell(62, "Invisibility", AbilityTargets.ItemInventoryOrCharacterDefensive, CharacterWearOffMessage = "You are no longer invisible.", ItemWearOffMessage = "{0} fades into view.", DispelRoomMessage = "{0:N} fades into existance.", Flags = AbilityFlags.CanBeDispelled)]
+        [Spell(62, "Invisibility", AbilityTargets.ItemInventoryOrCharacterDefensive, CharacterWearOffMessage = "You are no longer invisible.", ItemWearOffMessage = "{0} fades into view.", DispelRoomMessage = "{0:N} fades into existence.", Flags = AbilityFlags.CanBeDispelled)]
         public void SpellInvisibility(IAbility ability, int level, ICharacter caster, IEntity target)
         {
             if (target is IItem item)
@@ -1548,7 +1548,7 @@ namespace Mud.Server.Abilities
             }
         }
 
-        [Spell(68, "Mass Invis", AbilityTargets.None, CharacterWearOffMessage = "You are no longer invisible.", DispelRoomMessage = "{0:N} fades into existance.", Flags = AbilityFlags.CanBeDispelled, PulseWaitTime = 24)]
+        [Spell(68, "Mass Invis", AbilityTargets.None, CharacterWearOffMessage = "You are no longer invisible.", DispelRoomMessage = "{0:N} fades into existence.", Flags = AbilityFlags.CanBeDispelled, PulseWaitTime = 24)]
         public void SpellMassInvis(IAbility ability, int level, ICharacter caster)
         {
             foreach (ICharacter victim in caster.Room.People)
@@ -2284,12 +2284,12 @@ namespace Mud.Server.Abilities
 
             if (victim.SavesSpell(level, SchoolTypes.Lightning))
             {
-                AcidEffect(victim, ability, caster, level / 2, damage / 4);
+                ShockEffect(victim, caster, level / 2, damage / 4);
                 victim.AbilityDamage(caster, ability, damage / 2, SchoolTypes.Lightning, true);
             }
             else
             {
-                AcidEffect(victim, ability, caster, level, damage);
+                ShockEffect(victim, caster, level, damage);
                 victim.AbilityDamage(caster, ability, damage, SchoolTypes.Lightning, true);
             }
         }

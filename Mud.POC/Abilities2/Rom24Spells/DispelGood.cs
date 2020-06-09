@@ -5,9 +5,16 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Dispel Good", AbilityEffects.Damage)]
+    [Spell(SpellName, AbilityEffects.Damage)]
     public class DispelGood : DamageSpellBase
     {
+        public const string SpellName = "Dispel Good";
+
+        public DispelGood(IRandomManager randomManager)
+            : base(randomManager)
+        {
+        }
+
         protected override SchoolTypes DamageType => SchoolTypes.Negative;
         protected override string DamageNoun => "dispel good";
         protected override int DamageValue
@@ -15,10 +22,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 ? RandomManager.Dice(Level, 4)
                 : Math.Max(Victim.HitPoints, RandomManager.Dice(Level, 4));
 
-        public DispelGood(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
-        {
-        }
 
         protected override string SetTargets(AbilityActionInput abilityActionInput)
         {
@@ -31,7 +34,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
             if (Victim.IsEvil)
             {
-                Caster.Act(ActOptions.ToAll, "Mota protects {0}.", Victim);
+                Caster.Act(ActOptions.ToAll, "Mota protects {0:N}.", Victim);
                 return string.Empty; // TODO: should return above message
             }
             if (Victim.IsNeutral)

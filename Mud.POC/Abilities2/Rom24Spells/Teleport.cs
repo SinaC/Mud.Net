@@ -6,15 +6,17 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Teleport", AbilityEffects.Transportation)]
+    [Spell(SpellName, AbilityEffects.Transportation)]
     public class Teleport : SpellBase
     {
+        public const string SpellName = "Teleport";
+
         private IRoomManager RoomManager { get; }
 
         protected ICharacter Victim { get; set; }
 
-        public Teleport(IRandomManager randomManager, IWiznet wiznet, IRoomManager roomManager)
-            : base(randomManager, wiznet)
+        public Teleport(IRandomManager randomManager, IRoomManager roomManager)
+            : base(randomManager)
         {
             RoomManager = roomManager;
         }

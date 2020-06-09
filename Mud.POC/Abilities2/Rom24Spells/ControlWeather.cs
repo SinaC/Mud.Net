@@ -3,14 +3,16 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Control Weather", AbilityEffects.None)]
+    [Spell(SpellName, AbilityEffects.None)]
     public class ControlWeather : NoTargetSpellBase
     {
+        public const string SpellName = "Control Weather";
+
         private bool _isBetterRequired;
 
         private ITimeManager TimeManager { get; }
-        public ControlWeather(IRandomManager randomManager, IWiznet wiznet, ITimeManager timeManager) 
-            : base(randomManager, wiznet)
+        public ControlWeather(IRandomManager randomManager, ITimeManager timeManager) 
+            : base(randomManager)
         {
             TimeManager = timeManager;
         }

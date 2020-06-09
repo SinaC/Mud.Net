@@ -1,14 +1,15 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Fireball", AbilityEffects.Damage)]
+    [Spell(SpellName, AbilityEffects.Damage)]
     public class Fireball : DamageTableSpellBase
     {
-        public Fireball(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Fireball";
+
+        public Fireball(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

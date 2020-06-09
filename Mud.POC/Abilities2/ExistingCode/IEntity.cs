@@ -5,6 +5,8 @@ namespace Mud.POC.Abilities2.ExistingCode
 {
     public interface IEntity : IActor
     {
+        bool IsValid { get; }
+
         string Name { get; }
         IEnumerable<string> Keywords { get; }
         string DisplayName { get; }

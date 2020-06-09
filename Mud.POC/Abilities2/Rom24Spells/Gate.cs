@@ -3,11 +3,13 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Gate", AbilityEffects.Transportation)]
+    [Spell(SpellName, AbilityEffects.Transportation)]
     public class Gate : TransportationSpellBase
     {
-        public Gate(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Gate";
+            
+        public Gate(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

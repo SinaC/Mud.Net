@@ -8,15 +8,17 @@ using System.Text;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Locate Object", AbilityEffects.Detection, PulseWaitTime = 18)]
+    [Spell(SpellName, AbilityEffects.Detection, PulseWaitTime = 18)]
     public class LocateObject : SpellBase
     {
+        public const string SpellName = "Locate Object";
+
         private IItemManager ItemManager { get; }
 
         protected string ItemName { get; set;  }
 
-        public LocateObject(IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager) 
-            : base(randomManager, wiznet)
+        public LocateObject(IRandomManager randomManager, IItemManager itemManager) 
+            : base(randomManager)
         {
             ItemManager = itemManager;
         }

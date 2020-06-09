@@ -5,11 +5,13 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Earthquake", AbilityEffects.DamageArea)]
+    [Spell(SpellName, AbilityEffects.DamageArea)]
     public class Earthquake : NoTargetSpellBase
     {
-        public Earthquake(IRandomManager randomManager, IWiznet wiznet) 
-            : base(randomManager, wiznet)
+        public const string SpellName = "Earthquake";
+
+        public Earthquake(IRandomManager randomManager) 
+            : base(randomManager)
         {
         }
 
@@ -28,7 +30,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 int damage = victim.CharacterFlags.HasFlag(CharacterFlags.Flying)
                     ? 0 // no damage but starts fight
                     : Level + RandomManager.Dice(2, 8);
-                victim.AbilityDamage(Caster, this, damage, SchoolTypes.Bash, "earthquake", true);
+                victim.AbilityDamage(Caster, damage, SchoolTypes.Bash, "earthquake", true);
 
             }
         }

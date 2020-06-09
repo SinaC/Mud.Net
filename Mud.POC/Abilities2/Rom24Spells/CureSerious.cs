@@ -1,13 +1,14 @@
-﻿using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
+﻿using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Cure Serious", AbilityEffects.Healing)]
+    [Spell(SpellName, AbilityEffects.Healing)]
     public class CureSerious : HealSpellBase
     {
-        public CureSerious(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Cure Serious";
+
+        public CureSerious(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

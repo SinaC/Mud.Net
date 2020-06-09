@@ -6,13 +6,15 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Word of Recall", AbilityEffects.Transportation)]
+    [Spell(SpellName, AbilityEffects.Transportation)]
     public class WordOfRecall : SpellBase
     {
+        public const string SpellName = "Word of Recall";
+
         protected IPlayableCharacter Victim { get; set; }
-        protected IRoom RecallRoom { get; set; }
-        public WordOfRecall(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+
+        public WordOfRecall(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

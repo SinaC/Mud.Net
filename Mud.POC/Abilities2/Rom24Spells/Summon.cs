@@ -5,11 +5,13 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Summon", AbilityEffects.Transportation)]
+    [Spell(SpellName, AbilityEffects.Transportation)]
     public class Summon : TransportationSpellBase
     {
-        public Summon(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Summon";
+
+        public Summon(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

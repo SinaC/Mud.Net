@@ -1,19 +1,17 @@
-﻿using Mud.Container;
-using Mud.POC.Abilities2.ExistingCode;
+﻿using Mud.POC.Abilities2.ExistingCode;
+using Mud.POC.Abilities2.Rom24Effects;
 using Mud.Server.Common;
-using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Mass Healing", AbilityEffects.HealingArea, PulseWaitTime = 36)]
+    [Spell(SpellName, AbilityEffects.HealingArea, PulseWaitTime = 36)]
     public class MassHealing : NoTargetSpellBase
     {
-        private IAbilityManager AbilityManager { get; }
+        public const string SpellName = "Mass Healing";
 
-        public MassHealing(IRandomManager randomManager, IWiznet wiznet, IAbilityManager abilityManager)
-            : base(randomManager, wiznet)
+        public MassHealing(IRandomManager randomManager)
+            : base(randomManager)
         {
-            AbilityManager = abilityManager;
         }
 
         protected override void Invoke()
@@ -23,20 +21,12 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 if ((Caster is IPlayableCharacter && victim is IPlayableCharacter)
                     || (Caster is INonPlayableCharacter && victim is INonPlayableCharacter))
                 {
-                    CastSpell("Heal", victim, Level);
-                    CastSpell("Refresh", victim, Level);
+                    HealEffect healEffect = new HealEffect();
+                    healEffect.Apply(victim, Caster, Heal.SpellName, Level, 0);
+                    RefreshEffect refreshEffect = new RefreshEffect();
+                    refreshEffect.Apply(victim, Caster, Refresh.SpellName, Level, 0);
                 }
             }
-        }
-
-        private void CastSpell(string spellName, ICharacter victim, int level) // TODO: use level
-        {
-            // TODO: not a huge fan of following code
-            AbilityInfo abilityInfo = AbilityManager[spellName];
-            IAbilityAction abilityInstance = (IAbilityAction)DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(abilityInfo, Caster, victim.Name, new CommandParameter(victim.Name, false));
-            abilityInstance.Setup(abilityActionInput);
-            abilityInstance.Execute();
         }
     }
 }

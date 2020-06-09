@@ -1,15 +1,16 @@
 ﻿using Mud.POC.Abilities2.Domain;
-using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Harm", AbilityEffects.Damage)]
+    [Spell(SpellName, AbilityEffects.Damage)]
     public class Harm : OffensiveSpellBase
     {
-        public Harm(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Harm";
+
+        public Harm(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 
@@ -19,7 +20,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             if (Victim.SavesSpell(Level, SchoolTypes.Harm))
                 damage = Math.Min(50, damage / 2);
             damage = Math.Min(100, damage);
-            Victim.AbilityDamage(Caster, this, damage, SchoolTypes.Harm, "harm spell", true);
+            Victim.AbilityDamage(Caster, damage, SchoolTypes.Harm, "harm spell", true);
         }
     }
 }

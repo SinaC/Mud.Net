@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abilities2\AbilityManagerTests.cs" />
+    <Compile Include="Abilities2\ColourSprayTests.cs" />
     <Compile Include="Abilities2\CastTests.cs" />
     <Compile Include="Abilities2\AcidBlastTests.cs" />
     <Compile Include="Abilities2\EnchantArmorTests.cs" />

@@ -5,11 +5,13 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Heat Metal", AbilityEffects.Damage, PulseWaitTime = 18)]
+    [Spell(SpellName, AbilityEffects.Damage, PulseWaitTime = 18)]
     public class HeatMetal : OffensiveSpellBase
     {
-        public HeatMetal(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Heat Metal";
+
+        public HeatMetal(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 
@@ -133,7 +135,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             // damage
             if (Victim.SavesSpell(Level, SchoolTypes.Fire))
                 damage /= 2;
-            Victim.AbilityDamage(Caster, this, damage, SchoolTypes.Fire, "heat metal", true);
+            Victim.AbilityDamage(Caster, damage, SchoolTypes.Fire, "spell", true);
         }
     }
 }

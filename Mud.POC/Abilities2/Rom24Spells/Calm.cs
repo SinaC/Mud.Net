@@ -6,15 +6,17 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Calm", AbilityEffects.Debuff)]
+    [Spell(SpellName, AbilityEffects.Debuff)]
     [AbilityCharacterWearOffMessage("You have lost your peace of mind.")]
     [AbilityDispellable("{0:N} no longer looks so peaceful...")]
     public class Calm : NoTargetSpellBase
     {
+        public const string SpellName = "Calm";
+
         private IAuraManager AuraManager { get; }
 
-        public Calm(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet)
+        public Calm(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager)
         {
             AuraManager = auraManager;
         }
@@ -67,7 +69,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                     ? -5
                     : -2;
                 int duration = Level / 4;
-                AuraManager.AddAura(victim, AbilityInfo.Name, Caster, Level, TimeSpan.FromHours(duration), AuraFlags.None, true,
+                AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromHours(duration), AuraFlags.None, true,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add, },
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add, },
                     new CharacterFlagsAffect { Modifier = CharacterFlags.Calm, Operator = AffectOperators.Or });

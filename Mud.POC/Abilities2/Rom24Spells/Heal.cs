@@ -1,18 +1,22 @@
-﻿using Mud.POC.Abilities2.ExistingCode;
+﻿using Mud.POC.Abilities2.Rom24Effects;
 using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Heal", AbilityEffects.Healing)]
-    public class Heal : HealSpellBase
+    [Spell(SpellName, AbilityEffects.Healing)]
+    public class Heal : DefensiveSpellBase
     {
-        public Heal(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        public const string SpellName = "Heal";
+
+        public Heal(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 
-        protected override int HealValue => 100;
-
-        protected override string HealVictimPhrase => "A warm feeling fills your body.";
+        protected override void Invoke()
+        {
+            HealEffect effect = new HealEffect();
+            effect.Apply(Victim, Caster, SpellName, Level, 0);
+        }
     }
 }

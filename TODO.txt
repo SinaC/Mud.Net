@@ -1,7 +1,6 @@
 NEXT:
 skills
-Effects such as FireEffect, FrostEffect, AcidEffect, ...
-NPC dragon breath spells
+Holy word unit tests
 
 make a map of calls done when a NPC is Removed/StopFollowing/...
 
@@ -14,6 +13,8 @@ P 1 8904   1 8902  1	*   some small yellow kernels
 dwarven.are: the first stick is set to local 1 but we detect 2 intances (2 different containers in fact: room for the first one and mob for the second one)
 O 0 6506   1 6534	* long, black stick
 E 1 6506  10   17	*   long, black stick
+
+move server interface to a new project Server.Interfaces -> Affect found in Apply method on IItem, ICharacter, ... are not interfaces and cannot be moved to Server.Interfaces project
 
 commands dynamically added to Character depending on room they are, for example
 	we could add list/buy/sell/value to commands if a shopkeeper is in the room

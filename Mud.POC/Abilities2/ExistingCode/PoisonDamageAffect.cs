@@ -16,7 +16,7 @@ namespace Mud.POC.Abilities2.ExistingCode
             {
                 character.Act(ActOptions.ToAll, "{0:N} shiver{0:v} and suffer{0:v}.", character);
 
-                character.AbilityDamage(character, null, aura.Level / 10 + 1, SchoolTypes.Poison, "poison", false);
+                character.AbilityDamage(character, aura.Level / 10 + 1, SchoolTypes.Poison, "poison", false);
             }
         }
     }

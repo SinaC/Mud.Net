@@ -3,11 +3,13 @@ using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Create Rose", AbilityEffects.Creation)]
+    [Spell(SpellName, AbilityEffects.Creation)]
     public class CreateRose : ItemCreationSpellBase
     {
-        public CreateRose(IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings) 
-            : base(randomManager, wiznet, itemManager, settings)
+        public const string SpellName = "Create Rose";
+
+        public CreateRose(IRandomManager randomManager, IItemManager itemManager, ISettings settings) 
+            : base(randomManager, itemManager, settings)
         {
         }
 

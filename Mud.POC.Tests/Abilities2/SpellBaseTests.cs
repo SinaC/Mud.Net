@@ -18,9 +18,8 @@ namespace Mud.POC.Tests.Abilities2
         public void Setup_NoAbilityInfo()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
-            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
+            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(null, characterMock.Object, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
 
             string result = spell.Setup(abilityActionInput);
@@ -32,8 +31,7 @@ namespace Mud.POC.Tests.Abilities2
         public void Setup_NoCaster()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
-            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
+            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), null, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
 
             string result = spell.Setup(abilityActionInput);
@@ -45,9 +43,8 @@ namespace Mud.POC.Tests.Abilities2
         public void Setup_CasterNoInARoom()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
-            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
+            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), characterMock.Object, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
 
             string result = spell.Setup(abilityActionInput);
@@ -59,14 +56,13 @@ namespace Mud.POC.Tests.Abilities2
         public void Setup_InCooldown()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.CooldownPulseLeft(It.IsAny<string>())).Returns<string>(_ => 10);
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
+            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
 
             string result = spell.Setup(abilityActionInput);
@@ -78,15 +74,14 @@ namespace Mud.POC.Tests.Abilities2
         public void Setup_ResourceKindNotAvailable()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(Enumerable.Empty<ResourceKinds>());
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = SpellName, ResourceKind = ResourceKinds.Mana, CostAmount = 50, CostAmountOperator = CostAmountOperators.Fixed}));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName, ResourceKind = ResourceKinds.Mana, CostAmount = 50, CostAmountOperator = CostAmountOperators.Fixed}));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
+            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
 
             string result = spell.Setup(abilityActionInput);
@@ -98,16 +93,15 @@ namespace Mud.POC.Tests.Abilities2
         public void Setup_NotEnoughResource()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(10);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = SpellName, ResourceKind = ResourceKinds.Mana, CostAmount = 50, CostAmountOperator = CostAmountOperators.Fixed }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName, ResourceKind = ResourceKinds.Mana, CostAmount = 50, CostAmountOperator = CostAmountOperators.Fixed }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
+            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
 
             string result = spell.Setup(abilityActionInput);
@@ -119,16 +113,15 @@ namespace Mud.POC.Tests.Abilities2
         public void Setup_Ok()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = SpellName, ResourceKind = ResourceKinds.Mana, CostAmount = 50, CostAmountOperator = CostAmountOperators.Fixed }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName, ResourceKind = ResourceKinds.Mana, CostAmount = 50, CostAmountOperator = CostAmountOperators.Fixed }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
+            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
 
             string result = spell.Setup(abilityActionInput);
@@ -142,16 +135,15 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => false);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = SpellName, ResourceKind = ResourceKinds.Mana, CostAmount = 50, CostAmountOperator = CostAmountOperators.Fixed }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName, ResourceKind = ResourceKinds.Mana, CostAmount = 50, CostAmountOperator = CostAmountOperators.Fixed }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
+            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
             spell.Setup(abilityActionInput);
             string lastSendReceived = null;
@@ -167,7 +159,6 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
-            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<IPlayableCharacter> casterMock = new Mock<IPlayableCharacter>();
             Mock<IPlayer> playerMock = new Mock<IPlayer>();
@@ -175,10 +166,10 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
-            casterMock.Setup(x => x.GetAbilityPercentage(It.IsAny<IAbility>())).Returns<IAbility>(x => (100, new AbilityLearned { Name = SpellName, ResourceKind = ResourceKinds.Mana, CostAmount = 50, CostAmountOperator = CostAmountOperators.Fixed }));
+            casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName, ResourceKind = ResourceKinds.Mana, CostAmount = 50, CostAmountOperator = CostAmountOperators.Fixed }));
             casterMock.SetupGet(x => x.ImpersonatedBy).Returns(playerMock.Object);
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object, wiznetMock.Object);
+            SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
             AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
             spell.Setup(abilityActionInput);
 
@@ -194,8 +185,8 @@ namespace Mud.POC.Tests.Abilities2
         [Spell(SpellName, AbilityEffects.None, Cooldown = 10, LearnDifficultyMultiplier = 3, PulseWaitTime = 20)]
         internal class SpellBaseTestsSpell : SpellBase
         {
-            public SpellBaseTestsSpell(IRandomManager randomManager, IWiznet wiznet)
-                : base(randomManager, wiznet)
+            public SpellBaseTestsSpell(IRandomManager randomManager)
+                : base(randomManager)
             {
             }
 

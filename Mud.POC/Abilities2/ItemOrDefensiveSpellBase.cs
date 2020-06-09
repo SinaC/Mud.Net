@@ -9,8 +9,8 @@ namespace Mud.POC.Abilities2
     {
         protected IEntity Target { get; set; }
 
-        protected ItemOrDefensiveSpellBase(IRandomManager randomManager, IWiznet wiznet)
-            : base(randomManager, wiznet)
+        protected ItemOrDefensiveSpellBase(IRandomManager randomManager)
+            : base(randomManager)
         {
         }
 

@@ -6,13 +6,16 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Enchant Weapon", AbilityEffects.Enchantment, PulseWaitTime = 24)]
+    [Spell(SpellName, AbilityEffects.Enchantment, PulseWaitTime = 24)]
     public class EnchantWeapon : ItemInventorySpellBase<IItemWeapon>
     {
+        public const string SpellName = "Enchant Weapon";
+
         private IAuraManager AuraManager { get; }
         private IItemManager ItemManager { get; }
-        public EnchantWeapon(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager, IItemManager itemManager)
-            : base(randomManager, wiznet)
+
+        public EnchantWeapon(IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+            : base(randomManager)
         {
             AuraManager = auraManager;
             ItemManager = itemManager;
@@ -35,7 +38,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             // find existing bonuses
             foreach (IAura aura in weapon.Auras)
             {
-                if (aura.AbilityName == AbilityInfo.Name)
+                if (aura.AbilityName == SpellName)
                     existingAura = aura;
                 bool found = false;
                 foreach (CharacterAttributeAffect characterAttributeAffect in aura.Affects.OfType<CharacterAttributeAffect>().Where(x => x.Location == CharacterAttributeAffectLocations.HitRoll || x.Location == CharacterAttributeAffectLocations.DamRoll))
@@ -117,7 +120,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 };
                 if (addGlowing)
                     affects.Add(new ItemFlagsAffect { Modifier = ItemFlags.Glowing, Operator = AffectOperators.Or });
-                AuraManager.AddAura(weapon, AbilityInfo.Name, Caster, Level, Pulse.Infinite, AuraFlags.Permanent, false,
+                AuraManager.AddAura(weapon, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent, false,
                    affects.ToArray());
             }
             weapon.Recompute();

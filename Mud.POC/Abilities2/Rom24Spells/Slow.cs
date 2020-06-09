@@ -2,27 +2,28 @@
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
 using System;
-using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Slow", AbilityEffects.Debuff)]
+    [Spell(SpellName, AbilityEffects.Debuff)]
     public class Slow : OffensiveSpellBase
     {
-        private IAuraManager AuraManager { get; }
-        private IAbilityManager AbilityManager { get; }
+        public const string SpellName = "Slow";
 
-        public Slow(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager, IAbilityManager abilityManager)
-            : base(randomManager, wiznet)
+        private IAuraManager AuraManager { get; }
+        private IDispelManager DispelManager { get; }
+
+        public Slow(IRandomManager randomManager, IAuraManager auraManager, IDispelManager dispelManager)
+            : base(randomManager)
         {
             AuraManager = auraManager;
-            AbilityManager = abilityManager;
+            DispelManager = dispelManager;
         }
 
         protected override void Invoke()
         {
             if (Victim.CharacterFlags.HasFlag(CharacterFlags.Slow)
-                || Victim.GetAura(AbilityInfo.Name) != null)
+                || Victim.GetAura(SpellName) != null)
             {
                 if (Victim == Caster)
                     Caster.Send("You can't move any slower!");
@@ -42,7 +43,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
             if (Victim.CharacterFlags.HasFlag(CharacterFlags.Haste))
             {
-                if (TryDispel(Level, Victim, "Haste") != CheckDispelReturnValues.Dispelled)
+                if (DispelManager.TryDispel(Level, Victim, Haste.SpellName) != TryDispelReturnValues.Dispelled)
                 {
                     if (Victim != Caster)
                         Caster.Send("Spell failed.");
@@ -55,42 +56,12 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
             int duration = Level / 2;
             int modifier = -1 - (Level >= 18 ? 1 : 0) - (Level >= 25 ? 1 : 0) - (Level >= 32 ? 1 : 0);
-            AuraManager.AddAura(Victim, AbilityInfo.Name, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+            AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = CharacterFlags.Slow, Operator = AffectOperators.Or });
             Victim.Recompute();
             Victim.Send("You feel yourself slowing d o w n...");
             Caster.Act(ActOptions.ToRoom, "{0} starts to move in slow motion.", Victim);
-        }
-
-        // TODO: refactoring, almost same code in DispelMagic and Cancellation
-        protected CheckDispelReturnValues TryDispel(int dispelLevel, ICharacter victim, string abilityName) // was called check_dispel in Rom24
-        {
-            bool found = false;
-            foreach (IAura aura in victim.Auras.Where(x => x.AbilityName == abilityName)) // no need to clone because at most one entry will be removed
-            {
-                if (!SavesDispel(dispelLevel, aura))
-                {
-                    victim.RemoveAura(aura, true); // RemoveAura will display DispelMessage
-                    AbilityInfo abilityInfo = AbilityManager[aura.AbilityName];
-                    string dispelRoomMessage = abilityInfo?.DispelRoomMessage;
-                    if (!string.IsNullOrWhiteSpace(dispelRoomMessage))
-                        victim.Act(ActOptions.ToRoom, dispelRoomMessage, victim);
-                    return CheckDispelReturnValues.Dispelled; // stop at first aura dispelled
-                }
-                else
-                    aura.DecreaseLevel();
-                found = true;
-            }
-            return found
-                ? CheckDispelReturnValues.FoundAndNotDispelled
-                : CheckDispelReturnValues.NotFound;
-        }
-        protected enum CheckDispelReturnValues
-        {
-            NotFound,
-            Dispelled,
-            FoundAndNotDispelled
         }
     }
 }

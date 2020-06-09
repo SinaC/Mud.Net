@@ -5,13 +5,15 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Protection Evil", AbilityEffects.Buff)]
+    [Spell(SpellName, AbilityEffects.Buff)]
     [AbilityCharacterWearOffMessage("You feel less protected.")]
     [AbilityDispellable]
     public class ProtectionEvil : CharacterBuffSpellBase
     {
-        public ProtectionEvil(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet, auraManager)
+        public const string SpellName = "Protection Evil";
+
+        public ProtectionEvil(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager, auraManager)
         {
         }
 

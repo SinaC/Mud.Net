@@ -5,14 +5,16 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Plague", AbilityEffects.Debuff | AbilityEffects.Damage)]
+    [Spell(SpellName, AbilityEffects.Debuff | AbilityEffects.Damage)]
     [AbilityCharacterWearOffMessage("Your sores vanish.")]
     public class Plague : OffensiveSpellBase
     {
+        public const string SpellName = "Plague";
+
         private IAuraManager AuraManager { get; }
 
-        public Plague(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager)
-            : base(randomManager, wiznet)
+        public Plague(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager)
         {
             AuraManager = auraManager;
         }
@@ -28,7 +30,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                     Caster.Send("{0:N} seems to be unaffected.", Victim);
             }
 
-            AuraManager.AddAura(Victim, AbilityInfo.Name, Caster, (3 * Level) / 4, TimeSpan.FromMinutes(Level), AuraFlags.None, true,
+            AuraManager.AddAura(Victim, SpellName, Caster, (3 * Level) / 4, TimeSpan.FromMinutes(Level), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = CharacterFlags.Plague, Operator = AffectOperators.Or },
                 new PlagueSpreadAndDamageAffect());

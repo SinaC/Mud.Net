@@ -1,19 +1,21 @@
-﻿using Mud.Container;
-using Mud.POC.Abilities2.Domain;
+﻿using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
+using Mud.POC.Abilities2.Rom24Effects;
 using Mud.Server.Common;
-using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
-    [Spell("Holy Word", AbilityEffects.Damage | AbilityEffects.Buff, PulseWaitTime = 24)]
+    [Spell(SpellName, AbilityEffects.Damage | AbilityEffects.Buff, PulseWaitTime = 24)]
     public class HolyWord : NoTargetSpellBase
     {
-        private IAbilityManager AbilityManager { get; }
+        public const string SpellName = "Holy Word";
 
-        public HolyWord(IRandomManager randomManager, IWiznet wiznet, IAbilityManager abilityManager)
-            : base(randomManager, wiznet)
+        private IAuraManager AuraManager { get; }
+
+        public HolyWord(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager)
         {
+            AuraManager = auraManager;
         }
 
         protected override void Invoke()
@@ -28,28 +30,39 @@ namespace Mud.POC.Abilities2.Rom24Spells
                     || (Caster.IsEvil && victim.IsEvil))
                 {
                     victim.Send("You feel full more powerful.");
-                    CastSpell("Frenzy", victim, Level);
-                    CastSpell("Bless", victim, Level);
+                    FrenzyEffect frenzyEffect = new FrenzyEffect(AuraManager);
+                    frenzyEffect.Apply(victim, Caster, Frenzy.SpellName, Level, 0);
+                    BlessEffect blessEffect = new BlessEffect(AuraManager);
+                    blessEffect.Apply(victim, Caster, Bless.SpellName, Level, 0);
                 }
                 else if ((Caster.IsGood && victim.IsEvil)
-                        || (Caster.IsEvil && victim.IsGood))
+                         || (Caster.IsEvil && victim.IsGood))
                 {
                     if (!victim.SavesSpell(Level, SchoolTypes.Holy))
                     {
                         victim.Send("You are struck down!");
-                        CastSpell("Curse", victim, Level);
                         int damage = RandomManager.Dice(Level, 6);
-                        victim.AbilityDamage(Caster, this, damage, SchoolTypes.Holy, "divine wrath", true);
+                        var damageResult = victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "divine wrath", true);
+                        if (damageResult != DamageResults.Killed)
+                        {
+                            CurseEffect curseEffect = new CurseEffect(AuraManager);
+                            curseEffect.Apply(victim, Caster, Curse.SpellName, Level, 0);
+                        }
                     }
-                }
-                else if (Caster.IsNeutral)
-                {
-                    if (!victim.SavesSpell(Level, SchoolTypes.Holy))
+
+                    else if (Caster.IsNeutral)
                     {
-                        victim.Send("You are struck down!");
-                        CastSpell("Curse", victim, Level / 2);
-                        int damage = RandomManager.Dice(Level, 4);
-                        victim.AbilityDamage(Caster, this, damage, SchoolTypes.Holy, "divine wrath", true);
+                        if (!victim.SavesSpell(Level, SchoolTypes.Holy))
+                        {
+                            victim.Send("You are struck down!");
+                            int damage = RandomManager.Dice(Level, 4);
+                            var damageResult = victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "divine wrath", true);
+                            if (damageResult != DamageResults.Killed)
+                            {
+                                CurseEffect curseEffect = new CurseEffect(AuraManager);
+                                curseEffect.Apply(victim, Caster, Curse.SpellName, Level, 0);
+                            }
+                        }
                     }
                 }
             }
@@ -57,16 +70,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
             Caster.Send("You feel drained.");
             Caster.UpdateMovePoints(-Caster.MovePoints); // set to 0
             Caster.UpdateHitPoints(-Caster.HitPoints / 2);
-        }
-
-        private void CastSpell(string spellName, ICharacter victim, int level) // TODO: use level
-        {
-            // TODO: not a huge fan of following code
-            AbilityInfo abilityInfo = AbilityManager[spellName];
-            IAbilityAction abilityInstance = (IAbilityAction)DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(abilityInfo, Caster, victim.Name, new CommandParameter(victim.Name, false));
-            abilityInstance.Setup(abilityActionInput);
-            abilityInstance.Execute();
         }
     }
 }
