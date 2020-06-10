@@ -8,10 +8,6 @@ using Mud.POC.Abilities2.Rom24Skills;
 using Mud.POC.Abilities2.Rom24Spells;
 using Mud.Server.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.POC.Tests.Abilities2
 {
@@ -30,23 +26,22 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Earthquake)));
-            Earthquake spell = new Earthquake(randomManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Earthquake), () => new Earthquake(randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
-            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
-            userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
-            scrollMock.SetupGet(x => x.Name).Returns("scroll");
-            scrollMock.SetupGet(x => x.FirstSpell).Returns("Earthquake");
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.FirstSpell).Returns("Earthquake");
+            userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var parameters = BuildParameters("scroll");
@@ -69,8 +64,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireball)));
-            Fireball spell = new Fireball(randomManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Fireball), () => new Fireball(randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -107,8 +101,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Armor)));
-            Armor spell = new Armor(randomManagerMock.Object, auraManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Armor), () => new Armor(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -147,8 +140,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireproof)));
-            Fireproof spell = new Fireproof(randomManagerMock.Object, auraManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Fireproof), () => new Fireproof(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -186,8 +178,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Curse)));
-            Curse spell = new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Curse), () => new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -225,8 +216,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Invisibility)));
-            Invisibility spell = new Invisibility(randomManagerMock.Object, auraManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Invisibility), () => new Invisibility(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -264,8 +254,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Earthquake)));
-            Earthquake spell = new Earthquake(randomManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Earthquake), () => new Earthquake(randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -307,8 +296,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireball)));
-            Fireball spell = new Fireball(randomManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Fireball), () => new Fireball(randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -350,8 +338,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Armor)));
-            Armor spell = new Armor(randomManagerMock.Object, auraManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Armor), () => new Armor(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -393,8 +380,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireproof)));
-            Fireproof spell = new Fireproof(randomManagerMock.Object, auraManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Fireproof), () => new Fireproof(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -435,8 +421,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Curse)));
-            Curse spell = new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Curse), () => new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -480,8 +465,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Invisibility)));
-            Invisibility spell = new Invisibility(randomManagerMock.Object, auraManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Invisibility), () => new Invisibility(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -523,8 +507,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Earthquake)));
-            Earthquake spell = new Earthquake(randomManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Earthquake), () => new Earthquake(randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -565,8 +548,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireball)));
-            Fireball spell = new Fireball(randomManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Fireball), () => new Fireball(randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -606,8 +588,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Armor)));
-            Armor spell = new Armor(randomManagerMock.Object, auraManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Armor), () => new Armor(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -646,8 +627,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireproof)));
-            Fireproof spell = new Fireproof(randomManagerMock.Object, auraManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Fireproof), () => new Fireproof(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -691,8 +671,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Curse)));
-            Curse spell = new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Curse), () => new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -735,8 +714,7 @@ namespace Mud.POC.Tests.Abilities2
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Invisibility)));
-            Invisibility spell = new Invisibility(randomManagerMock.Object, auraManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(spell);
+            DependencyContainer.Current.Register(typeof(Invisibility), () => new Invisibility(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();

@@ -82,7 +82,7 @@ namespace Mud.POC.Abilities2
             }
 
             bool atLeastOneCorrect = false;
-            IEnumerable<IEntity> predefinedTargets = getTargetedAction.AvailableTargets(User);
+            IEnumerable<IEntity> predefinedTargets = getTargetedAction.ValidTargets(User);
             foreach (IEntity predefinedTarget in predefinedTargets)
             {
                 var spellInstance = (ISpell)DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);

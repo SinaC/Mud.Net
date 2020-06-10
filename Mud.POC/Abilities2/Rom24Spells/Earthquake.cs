@@ -31,7 +31,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
                     ? 0 // no damage but starts fight
                     : Level + RandomManager.Dice(2, 8);
                 victim.AbilityDamage(Caster, damage, SchoolTypes.Bash, "earthquake", true);
-
             }
         }
     }

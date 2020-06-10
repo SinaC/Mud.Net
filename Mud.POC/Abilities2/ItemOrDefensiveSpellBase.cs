@@ -15,7 +15,7 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        public IEnumerable<IEntity> AvailableTargets(ICharacter caster)
+        public IEnumerable<IEntity> ValidTargets(ICharacter caster)
             =>
             caster.Room.People.Where(caster.CanSee).OfType<IEntity>()
             .Concat(caster.Inventory.Where(caster.CanSee));

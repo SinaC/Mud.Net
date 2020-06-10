@@ -15,7 +15,7 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        public IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Room.People.Where(caster.CanSee);
+        public IEnumerable<IEntity> ValidTargets(ICharacter caster) => caster.Room.People.Where(caster.CanSee);
 
         protected override string SetTargets(SpellActionInput spellActionInput)
         {

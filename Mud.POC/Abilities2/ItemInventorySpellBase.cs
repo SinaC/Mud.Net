@@ -15,7 +15,7 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        public IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Inventory.Where(caster.CanSee);
+        public IEnumerable<IEntity> ValidTargets(ICharacter caster) => caster.Inventory.Where(caster.CanSee);
 
         protected override string SetTargets(SpellActionInput spellActionInput)
         {
@@ -46,7 +46,7 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        public IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Inventory.OfType<TItem>().Where(caster.CanSee);
+        public IEnumerable<IEntity> ValidTargets(ICharacter caster) => caster.Inventory.OfType<TItem>().Where(caster.CanSee);
 
         protected override string SetTargets(SpellActionInput spellActionInput)
         {
