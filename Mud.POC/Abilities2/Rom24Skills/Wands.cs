@@ -1,7 +1,11 @@
-﻿using Mud.POC.Abilities2.Domain;
+﻿using Mud.Container;
+using Mud.Logger;
+using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
+using Mud.POC.Abilities2.Helpers;
 using Mud.Server.Common;
 using Mud.Server.Input;
+using System.Collections.Generic;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
@@ -40,6 +44,7 @@ namespace Mud.POC.Abilities2.Rom24Skills
                 User.Act(ActOptions.ToAll, "{0:P} {1} explodes into fragments.", User, Item);
                 ItemManager.RemoveItem(Item);
             }
+
             return success;
         }
 
@@ -52,61 +57,85 @@ namespace Mud.POC.Abilities2.Rom24Skills
             {
                 User.Act(ActOptions.ToAll, "{0:P} {1} explodes into fragments.", User, Item);
                 ItemManager.RemoveItem(Item);
-                return string.Empty;
+                return string.Empty; // stop but don't display anything
             }
-            return SetSpellTargets(Item.SpellName, Item.SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
+            //return SetupSpellAndPredefinedTarget(Item.SpellName, Item.SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
+            return SetupSpell(Item.SpellName, Item.SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
         }
-        /*
-        IEntity target;
-            if (parameters.Length == 0)
-                target = source.Fighting;
-            else
-                target = FindHelpers.FindByName(source.Room.People, parameters[0]) as IEntity 
-                         ?? FindHelpers.FindItemHere(source, parameters[0]) as IEntity;
 
-            if (target == null)
-            {
-                source.Send("Zap whom or what?");
-                return UseResults.TargetNotFound;
-            }
+        //private string SetupSpellAndPredefinedTarget(string spellName, int spellLevel, string rawParameters, params CommandParameter[] parameters)
+        //{
+        //    if (string.IsNullOrWhiteSpace(spellName))
+        //        return null; // not really an error but don't continue
+        //    var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
+        //    if (abilityInfo == null)
+        //    {
+        //        Log.Default.WriteLine(LogLevels.Error, "Unknown spell '{0}' on item {1}.", spellName, Item.DebugName);
+        //        return "Something goes wrong.";
+        //    }
+        //    if (DependencyContainer.Current.GetRegistration(abilityInfo.AbilityExecutionType, false) == null)
+        //    {
+        //        Log.Default.WriteLine(LogLevels.Error, "Spell '{0}' on item {1} has been not found in DependencyContainer.", spellName, Item.DebugName);
+        //        return "Something goes wrong.";
+        //    }
 
-            IItemWand wand = source.GetEquipment<IItemWand>(EquipmentSlots.OffHand);
-            if (wand == null)
-            {
-                source.Send("You can zap only with a wand.");
-                return UseResults.InvalidTarget;
-            }
+        //    // no target specified
+        //    if (parameters.Length == 0)
+        //    {
+        //        var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, rawParameters, parameters);
+        //        var spellInstance = (ISpell)DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
+        //        string spellInstanceGuards = spellInstance.Setup(spellActionInput);
+        //        if (spellInstanceGuards != null)
+        //            return spellInstanceGuards;
+        //        SpellInstances.Add(spellInstance);
+        //    }
+        //    else
+        //    {
+        //        var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, rawParameters, parameters);
+        //        var spellInstance = (ISpell)DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
+        //        string spellInstanceGuards = spellInstance.Setup(spellActionInput);
+        //        if (spellInstanceGuards != null)
+        //            return "Zap whom or what?"; // don't return usual message
+        //        SpellInstances.Add(spellInstance);
+        //    }
+        //    //// if parameter specified, search target
+        //    //if (parameters.Length > 0)
+        //    //{
+        //    //    var getTargetedAction = DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType) as ITargetedAction;
+        //    //    if (getTargetedAction == null)
+        //    //    {
+        //    //        Log.Default.WriteLine(LogLevels.Error, "Spell '{0}' on item {1} cannot be instantiated or is not a targeted action.", spellName, Item.DebugName);
+        //    //        return "Something goes wrong.";
+        //    //    }
 
-            bool? success = null;
-            if (wand.CurrentChargeCount > 0)
-            {
-                source.Act(ActOptions.ToAll, "{0:N} zap{0:v} {1} with {2}.", source, target, wand);
-                int chance = 20 + (4 * learned) / 5;
-                if (source.Level < wand.Level
-                    || !RandomManager.Chance(chance))
-                {
-                    source.Act(ActOptions.ToAll, "{0:P} efforts with {1} produce only smoke and sparks.", source, wand);
-                    success = false;
-                }
-                else
-                {
-                    CastFromItem(wand.Spell, wand.SpellLevel, source, target, rawParameters, parameters);
-                    success = true;
-                }
-                wand.Use();
-            }
+        //    //    IEnumerable<IEntity> predefinedTargets = getTargetedAction.AvailableTargets(User);
+        //    //    IEntity target;
+        //    //    if (parameters.Length == 0)
+        //    //        target = User.Fighting;
+        //    //    else
+        //    //        target = FindHelpers.FindByName(predefinedTargets, parameters[0]);
+        //    //    if (target == null)
+        //    //        return "Zap whom or what?";
 
-            if (wand.CurrentChargeCount == 0)
-            {
-                source.Act(ActOptions.ToAll, "{0:P} {1} explodes into fragments.", source, wand);
-                World.RemoveItem(wand);
-            }
+        //    //    var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = target }, rawParameters, parameters);
+        //    //    var spellInstance = (ISpell)DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
+        //    //    string spellInstanceGuards = spellInstance.Setup(spellActionInput);
+        //    //    if (spellInstanceGuards != null)
+        //    //        return spellInstanceGuards;
+        //    //    SpellInstances.Add(spellInstance);
+        //    //}
+        //    //// no predefined target
+        //    //else
+        //    //{
+        //    //    var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, rawParameters, parameters);
+        //    //    var spellInstance = (ISpell)DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
+        //    //    string spellInstanceGuards = spellInstance.Setup(spellActionInput);
+        //    //    if (spellInstanceGuards != null)
+        //    //        return spellInstanceGuards;
+        //    //    SpellInstances.Add(spellInstance);
+        //    //}
 
-            return success.HasValue
-                ? (success.Value
-                    ? UseResults.Ok
-                    : UseResults.Failed)
-                : UseResults.InvalidParameter;
-        */
+        //    return null;
+        //}
     }
 }

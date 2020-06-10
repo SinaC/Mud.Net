@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2
 {
-    public abstract class DefensiveSpellBase : SpellBase
+    public abstract class DefensiveSpellBase : SpellBase, ITargetedAction
     {
         protected ICharacter Victim { get; set; }
 
@@ -15,10 +15,18 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Room.People.Where(caster.CanSee);
+        public IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Room.People.Where(caster.CanSee);
 
         protected override string SetTargets(SpellActionInput spellActionInput)
         {
+            if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
+            {
+                Victim = spellActionInput.CastFromItemOptions.PredefinedTarget as ICharacter;
+                if (Victim == null)
+                    Victim = Caster;
+                return null;
+            }
+
             if (spellActionInput.Parameters.Length < 1)
                 Victim = Caster;
             else

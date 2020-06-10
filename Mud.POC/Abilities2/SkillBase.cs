@@ -2,6 +2,7 @@
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
 using Mud.Server.Common;
+using System;
 
 namespace Mud.POC.Abilities2
 {
@@ -9,6 +10,7 @@ namespace Mud.POC.Abilities2
     {
         protected IRandomManager RandomManager { get; }
 
+        protected bool IsSetupExecuted { get; private set; }
         protected AbilityInfo AbilityInfo { get; private set; }
         protected ICharacter User { get; private set; }
         protected int Learned { get; private set; }
@@ -22,6 +24,8 @@ namespace Mud.POC.Abilities2
 
         public virtual string Setup(SkillActionInput skillActionInput)
         {
+            IsSetupExecuted = true;
+
             // 1) check context
             AbilityInfo = skillActionInput.AbilityInfo;
             if (AbilityInfo == null)
@@ -54,6 +58,9 @@ namespace Mud.POC.Abilities2
 
         public virtual void Execute()
         {
+            if (!IsSetupExecuted)
+                throw new Exception("Cannot execute skill without calling setup first.");
+
             IPlayableCharacter pcUser = User as IPlayableCharacter;
 
             // 1) invoke skill

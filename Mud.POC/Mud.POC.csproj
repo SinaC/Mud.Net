@@ -82,6 +82,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abilities2\ITargetedAction.cs" />
     <Compile Include="Abilities2\Rom24Skills\Rescue.cs" />
     <Compile Include="Abilities2\Rom24Skills\Staves.cs" />
     <Compile Include="Abilities2\Rom24Skills\Wands.cs" />

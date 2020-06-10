@@ -58,18 +58,30 @@ namespace Mud.POC.Abilities2.Rom24Skills
             // perform setup on each spell
             StringBuilder sb = new StringBuilder();
             string result;
-            result = SetSpellTargets(Item.FirstSpell, Item.Level, parameters.rawParameters, parameters.parameters);
-            if (result != null)
-                sb.AppendLine(result);
-            result = SetSpellTargets(Item.SecondSpell, Item.Level, parameters.rawParameters, parameters.parameters);
-            if (result != null)
-                sb.AppendLine(result);
-            result = SetSpellTargets(Item.ThirdSpell, Item.Level, parameters.rawParameters, parameters.parameters);
-            if (result != null)
-                sb.AppendLine(result);
-            result = SetSpellTargets(Item.FourthSpell, Item.Level, parameters.rawParameters, parameters.parameters);
-            if (result != null)
-                sb.AppendLine(result);
+            if (!string.IsNullOrWhiteSpace(Item.FirstSpell))
+            {
+                result = SetupSpell(Item.FirstSpell, Item.Level, parameters.rawParameters, parameters.parameters);
+                if (result != null)
+                    sb.AppendFormatAndLineIfNotEmpty(result);
+            }
+            if (!string.IsNullOrWhiteSpace(Item.SecondSpell))
+            {
+                result = SetupSpell(Item.SecondSpell, Item.Level, parameters.rawParameters, parameters.parameters);
+                if (result != null)
+                    sb.AppendFormatAndLineIfNotEmpty(result);
+            }
+            if (!string.IsNullOrWhiteSpace(Item.ThirdSpell))
+            {
+                result = SetupSpell(Item.ThirdSpell, Item.Level, parameters.rawParameters, parameters.parameters);
+                if (result != null)
+                    sb.AppendFormatAndLineIfNotEmpty(result);
+            }
+            if (!string.IsNullOrWhiteSpace(Item.FourthSpell))
+            {
+                result = SetupSpell(Item.FourthSpell, Item.Level, parameters.rawParameters, parameters.parameters);
+                if (result != null)
+                    sb.AppendFormatAndLineIfNotEmpty(result);
+            }
             if (sb.Length > 0)
                 return sb.ToString();
             return null;

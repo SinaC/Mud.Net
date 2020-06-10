@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Mud.POC.Abilities2
 {
-    public abstract class ItemInventorySpellBase : SpellBase
+    public abstract class ItemInventorySpellBase : SpellBase, ITargetedAction
     {
         protected IItem Item { get; set; }
 
@@ -15,10 +15,18 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Inventory.Where(caster.CanSee);
+        public IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Inventory.Where(caster.CanSee);
 
         protected override string SetTargets(SpellActionInput spellActionInput)
         {
+            if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
+            {
+                Item = spellActionInput.CastFromItemOptions.PredefinedTarget as IItem;
+                if (Item == null)
+                    return "You can't do that.";
+                return null;
+            }
+
             if (spellActionInput.Parameters.Length < 1)
                 return "What should it be used upon?";
             Item = FindHelpers.FindByName(Caster.Inventory.Where(Caster.CanSee), spellActionInput.Parameters[0]); // TODO: equipments ?
@@ -28,7 +36,7 @@ namespace Mud.POC.Abilities2
         }
     }
 
-    public abstract class ItemInventorySpellBase<TItem> : SpellBase
+    public abstract class ItemInventorySpellBase<TItem> : SpellBase, ITargetedAction
         where TItem : class, IItem
     {
         protected TItem Item { get; set; }
@@ -38,10 +46,18 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Inventory.OfType<TItem>().Where(caster.CanSee);
+        public IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Inventory.OfType<TItem>().Where(caster.CanSee);
 
         protected override string SetTargets(SpellActionInput spellActionInput)
         {
+            if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
+            {
+                Item = spellActionInput.CastFromItemOptions.PredefinedTarget as TItem;
+                if (Item == null)
+                    return "You can't do that.";
+                return null;
+            }
+
             if (spellActionInput.Parameters.Length < 1)
                 return IsCastFromItem
                     ? "What should it be used upon?"

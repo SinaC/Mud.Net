@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Mud.POC.Abilities2
 {
-    public abstract class ItemOrDefensiveSpellBase : SpellBase
+    public abstract class ItemOrDefensiveSpellBase : SpellBase, ITargetedAction
     {
         protected IEntity Target { get; set; }
 
@@ -15,7 +15,7 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster)
+        public IEnumerable<IEntity> AvailableTargets(ICharacter caster)
             =>
             caster.Room.People.Where(caster.CanSee).OfType<IEntity>()
             .Concat(caster.Inventory.Where(caster.CanSee));
@@ -30,6 +30,16 @@ namespace Mud.POC.Abilities2
 
         protected override string SetTargets(SpellActionInput spellActionInput)
         {
+            if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
+            {
+                Target = spellActionInput.CastFromItemOptions.PredefinedTarget as ICharacter;
+                if (Target == null)
+                    Target = spellActionInput.CastFromItemOptions.PredefinedTarget as IItem;
+                if (Target == null)
+                    Target = Caster;
+                return null;
+            }
+
             Target = spellActionInput.Parameters.Length < 1
                         ? Caster
                         : FindHelpers.FindByName(Caster.Room.People.Where(Caster.CanSee), spellActionInput.Parameters[0]);

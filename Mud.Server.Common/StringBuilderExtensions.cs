@@ -11,5 +11,13 @@ namespace Mud.Server.Common
             sb.AppendLine();
             return sb;
         }
+
+        public static StringBuilder AppendFormatAndLineIfNotEmpty(this StringBuilder sb, string format, params object[] parameters)
+        {
+            if (sb.Length > 0)
+                sb.AppendLine();
+            sb.AppendFormat(format, parameters);
+            return sb;
+        }
     }
 }

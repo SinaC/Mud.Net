@@ -11,8 +11,8 @@ namespace Mud.POC.Abilities2
 
         public bool IsCastFromItem => CastFromItemOptions != null;
 
-        public SpellActionInput(AbilityInfo abilityInfo, IActor actor, int level, bool isCastFromItem, string rawParameters, params CommandParameter[] parameters) // TODO: remove this
-            : this(abilityInfo, actor, level, isCastFromItem ? new CastFromItemOptions() : null, rawParameters, parameters)
+        public SpellActionInput(AbilityInfo abilityInfo, IActor actor, int level, string rawParameters, params CommandParameter[] parameters) // TODO: remove this
+            : this(abilityInfo, actor, level, null, rawParameters, parameters)
         {
             Context = abilityInfo;
             Level = level;
@@ -29,6 +29,7 @@ namespace Mud.POC.Abilities2
 
     public class CastFromItemOptions
     {
+        public IItem Item { get; set; }
         public IEntity PredefinedTarget { get; set; }
     }
 }

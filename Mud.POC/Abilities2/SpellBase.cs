@@ -6,6 +6,7 @@ using Mud.POC.Abilities2.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System;
 
 namespace Mud.POC.Abilities2
 {
@@ -13,6 +14,7 @@ namespace Mud.POC.Abilities2
     {
         protected IRandomManager RandomManager { get; }
 
+        protected bool IsSetupExecuted { get; private set; }
         protected AbilityInfo AbilityInfo { get; private set; }
         protected ICharacter Caster { get; private set; }
         protected int Level { get; private set; }
@@ -29,6 +31,8 @@ namespace Mud.POC.Abilities2
 
         public virtual string Setup(SpellActionInput spellActionInput)
         {
+            IsSetupExecuted = true;
+
             IsCastFromItem = spellActionInput.IsCastFromItem;
             if (IsCastFromItem)
                 return SetupFromItem(spellActionInput);
@@ -38,13 +42,13 @@ namespace Mud.POC.Abilities2
 
         public virtual void Execute()
         {
+            if (!IsSetupExecuted)
+                throw new Exception("Cannot execute spell without calling setup first.");
             if (IsCastFromItem)
                 ExecuteFromItem();
             else
                 ExecuteFromCast();
         }
-
-        public abstract IEnumerable<IEntity> AvailableTargets(ICharacter caster);
 
         #endregion
 

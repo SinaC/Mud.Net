@@ -24,7 +24,7 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = "Ventriloquate" }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, false, "", Enumerable.Empty<CommandParameter>().ToArray());
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, "", Enumerable.Empty<CommandParameter>().ToArray());
 
             string result = spell.Setup(abilityActionInput);
 
@@ -44,7 +44,7 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = "Ventriloquate" }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, false, "target", new CommandParameter("target", false));
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, "target", new CommandParameter("target", false));
 
             string result = spell.Setup(abilityActionInput);
 
@@ -64,7 +64,7 @@ namespace Mud.POC.Tests.Abilities2
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
             var parameters = BuildParameters("target 'I'm a badass'");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, false, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -84,7 +84,7 @@ namespace Mud.POC.Tests.Abilities2
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
             var parameters = BuildParameters("player 'I'm a badass'");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, false, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -106,7 +106,7 @@ namespace Mud.POC.Tests.Abilities2
             roomMock.SetupGet(x => x.People).Returns(new[] { casterMock.Object, targetMock.Object });
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
             var parameters = BuildParameters("target 'I'm a badass'");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, false, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -128,7 +128,7 @@ namespace Mud.POC.Tests.Abilities2
             roomMock.SetupGet(x => x.People).Returns(new[] { casterMock.Object, targetMock.Object });
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
             var parameters = BuildParameters("target I'm a badass");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, false, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 

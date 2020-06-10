@@ -23,8 +23,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
             ItemManager = itemManager;
         }
 
-        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster) => Enumerable.Empty<IEntity>();
-
         protected override void Invoke()
         {
             StringBuilder sb = new StringBuilder();

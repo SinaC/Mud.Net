@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2
 {
-    public abstract class ItemOrOffensiveSpellBase : SpellBase
+    public abstract class ItemOrOffensiveSpellBase : SpellBase, ITargetedAction
     {
         protected IEntity Target { get; set; }
 
@@ -41,7 +41,7 @@ namespace Mud.POC.Abilities2
             }
         }
 
-        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster)
+        public IEnumerable<IEntity> AvailableTargets(ICharacter caster)
             =>
             caster.Room.People.Where(x => caster.CanSee(x) && IsTargetValid(caster, x)).OfType<IEntity>()
             .Concat(caster.Room.Content.Where(caster.CanSee))
@@ -58,6 +58,18 @@ namespace Mud.POC.Abilities2
 
         protected override string SetTargets(SpellActionInput spellActionInput)
         {
+            if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
+            {
+                Target = spellActionInput.CastFromItemOptions.PredefinedTarget as ICharacter;
+                if (Target == null)
+                    Target = spellActionInput.CastFromItemOptions.PredefinedTarget as IItem;
+                if (Target == null)
+                    Target = Caster.Fighting;
+                if (Target == null)
+                    return "You can't do that.";
+                return null;
+            }
+
             INonPlayableCharacter npcCaster = Caster as INonPlayableCharacter;
             if (spellActionInput.Parameters.Length < 1)
             {

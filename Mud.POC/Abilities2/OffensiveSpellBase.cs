@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2
 {
-    public abstract class OffensiveSpellBase : SpellBase
+    public abstract class OffensiveSpellBase : SpellBase, ITargetedAction
     {
         protected ICharacter Victim { get; set; }
 
@@ -40,10 +40,20 @@ namespace Mud.POC.Abilities2
             }
         }
 
-        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Room.People.Where(x => caster.CanSee(x) && IsTargetValid(caster, x));
+        public IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Room.People.Where(x => caster.CanSee(x) && IsTargetValid(caster, x));
 
         protected override string SetTargets(SpellActionInput spellActionInput)
         {
+            if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
+            {
+                Victim = spellActionInput.CastFromItemOptions.PredefinedTarget as ICharacter;
+                if (Victim == null)
+                    Victim = Caster.Fighting;
+                if (Victim == null)
+                    return "You can't do that.";
+                return null;
+            }
+
             if (spellActionInput.Parameters.Length < 1)
             {
                 Victim = Caster.Fighting;

@@ -74,13 +74,16 @@
     <Compile Include="Abilities2\ItemCastSpellSkillBaseTests.cs" />
     <Compile Include="Abilities2\ItemInventorySpellBaseTests.cs" />
     <Compile Include="Abilities2\DefensiveSpellBaseSpells.cs" />
+    <Compile Include="Abilities2\ScrollTests.cs" />
     <Compile Include="Abilities2\SpellBaseTests.cs" />
+    <Compile Include="Abilities2\StavesTests.cs" />
     <Compile Include="Abilities2\TestBase.cs" />
     <Compile Include="Abilities2\OptionalItemInventorySpellBaseTests.cs" />
     <Compile Include="Abilities2\OffensiveSpellBaseSpells.cs" />
     <Compile Include="Abilities2\ItemOrDefensiveSpellBaseTests.cs" />
     <Compile Include="Abilities2\ItemOrOffensiveSpellBaseTests.cs" />
     <Compile Include="Abilities2\VentriloquateTests.cs" />
+    <Compile Include="Abilities2\WandTests.cs" />
     <Compile Include="Abilities\AbilityCheckImproveTests.cs" />
     <Compile Include="Abilities\AbilityManagerTests.cs" />
     <Compile Include="AssertExtensions.cs" />

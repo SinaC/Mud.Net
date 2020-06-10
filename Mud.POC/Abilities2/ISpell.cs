@@ -1,7 +1,4 @@
-﻿using Mud.POC.Abilities2.ExistingCode;
-using System.Collections.Generic;
-
-namespace Mud.POC.Abilities2
+﻿namespace Mud.POC.Abilities2
 {
     public interface ISpell : IAbility
     {
@@ -11,6 +8,5 @@ namespace Mud.POC.Abilities2
         string Setup(SpellActionInput spellActionInput);
         // Execute the action, Guards must be called before
         void Execute();
-        IEnumerable<IEntity> AvailableTargets(ICharacter caster);
     }
 }
