@@ -2,6 +2,7 @@
 using Mud.POC.Abilities2.Helpers;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
+using System.Collections.Generic;
 
 namespace Mud.POC.Abilities2
 {
@@ -14,11 +15,13 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Inventory.Where(caster.CanSee);
+
+        protected override string SetTargets(SpellActionInput spellActionInput)
         {
-            if (abilityActionInput.Parameters.Length < 1)
-                return "What should the spell be cast upon?";
-            Item = FindHelpers.FindByName(Caster.Inventory.Where(Caster.CanSee), abilityActionInput.Parameters[0]); // TODO: equipments ?
+            if (spellActionInput.Parameters.Length < 1)
+                return "What should it be used upon?";
+            Item = FindHelpers.FindByName(Caster.Inventory.Where(Caster.CanSee), spellActionInput.Parameters[0]); // TODO: equipments ?
             if (Item == null)
                 return "You are not carrying that.";
             return null;
@@ -35,11 +38,15 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Inventory.OfType<TItem>().Where(caster.CanSee);
+
+        protected override string SetTargets(SpellActionInput spellActionInput)
         {
-            if (abilityActionInput.Parameters.Length < 1)
-                return "What should the spell be cast upon?";
-            IItem target = FindHelpers.FindByName(Caster.Inventory.Where(Caster.CanSee), abilityActionInput.Parameters[0]); // TODO: equipments ?
+            if (spellActionInput.Parameters.Length < 1)
+                return IsCastFromItem
+                    ? "What should it be used upon?"
+                    : "What should the spell be cast upon?";
+            IItem target = FindHelpers.FindByName(Caster.Inventory.Where(Caster.CanSee), spellActionInput.Parameters[0]); // TODO: equipments ?
             if (target == null)
                 return "You are not carrying that.";
             if (!(target is TItem))

@@ -1,4 +1,7 @@
-﻿using Mud.Server.Common;
+﻿using Mud.POC.Abilities2.ExistingCode;
+using Mud.Server.Common;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Mud.POC.Abilities2
 {
@@ -9,6 +12,8 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput) => null;
+        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster) => Enumerable.Empty<IEntity>();
+
+        protected override string SetTargets(SpellActionInput spellActionInput) => null;
     }
 }

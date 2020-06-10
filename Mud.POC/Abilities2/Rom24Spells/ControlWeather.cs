@@ -24,17 +24,18 @@ namespace Mud.POC.Abilities2.Rom24Spells
             Caster.Send("Ok.");
         }
 
-        public override string Setup(AbilityActionInput actionInput)
+        public override string Setup(SpellActionInput spellActionInput)
         {
-            string baseSetup = base.Setup(actionInput);
+            string baseSetup = base.Setup(spellActionInput);
             if (baseSetup != null)
                 return baseSetup;
-            if (StringCompareHelpers.StringEquals(actionInput.RawParameters, "better"))
+
+            if (StringCompareHelpers.StringEquals(spellActionInput.RawParameters, "better"))
             {
                 _isBetterRequired = true;
                 return null;
             }
-            if (StringCompareHelpers.StringEquals(actionInput.RawParameters, "worse"))
+            if (StringCompareHelpers.StringEquals(spellActionInput.RawParameters, "worse"))
             {
                 _isBetterRequired = false;
                 return null;

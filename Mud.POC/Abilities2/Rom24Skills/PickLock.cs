@@ -20,9 +20,9 @@ namespace Mud.POC.Abilities2.Rom24Skills
         {
         }
 
-        public override string Setup(AbilityActionInput abilityActionInput)
+        public override string Setup(SkillActionInput skillActionInput)
         {
-            string baseSetup = base.Setup(abilityActionInput);
+            string baseSetup = base.Setup(skillActionInput);
             if (baseSetup != null)
                 return baseSetup;
 
@@ -51,13 +51,13 @@ namespace Mud.POC.Abilities2.Rom24Skills
             return true;
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        protected override string SetTargets(SkillActionInput skillActionInput)
         {
-            if (abilityActionInput.Parameters.Length == 0)
+            if (skillActionInput.Parameters.Length == 0)
                 return "Pick what?";
 
             // search item
-            IItem item = FindHelpers.FindItemHere(User, abilityActionInput.Parameters[0]);
+            IItem item = FindHelpers.FindItemHere(User, skillActionInput.Parameters[0]);
             if (item != null)
             {
                 IItemCloseable itemCloseable = item as IItemCloseable;
@@ -71,7 +71,7 @@ namespace Mud.POC.Abilities2.Rom24Skills
 
             // search exit
             ExitDirections direction;
-            if (ExitDirectionsExtensions.TryFindDirection(abilityActionInput.Parameters[0].Value, out direction))
+            if (ExitDirectionsExtensions.TryFindDirection(skillActionInput.Parameters[0].Value, out direction))
             {
                 IExit exit = User.Room[direction];
                 if (exit == null)

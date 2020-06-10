@@ -14,11 +14,11 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        protected override string SetTargets(SkillActionInput skillActionInput)
         {
-            if (abilityActionInput.Parameters.Length < 1)
+            if (skillActionInput.Parameters.Length < 1)
                 return "What should the skill be cast upon?";
-            Item = FindHelpers.FindByName(User.Inventory.Where(User.CanSee), abilityActionInput.Parameters[0]); // TODO: equipments ?
+            Item = FindHelpers.FindByName(User.Inventory.Where(User.CanSee), skillActionInput.Parameters[0]); // TODO: equipments ?
             if (Item == null)
                 return "You are not carrying that.";
             return null;

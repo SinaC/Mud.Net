@@ -14,16 +14,16 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        protected override string SetTargets(SkillActionInput skillActionInput)
         {
-            if (abilityActionInput.Parameters.Length < 1)
+            if (skillActionInput.Parameters.Length < 1)
             {
                 Victim = User.Fighting;
                 if (Victim == null)
-                    return "Cast the spell on whom?";
+                    return "Use the skill on whom?";
             }
             else
-                Victim = FindHelpers.FindByName(User.Room.People, abilityActionInput.Parameters[0]);
+                Victim = FindHelpers.FindByName(User.Room.People, skillActionInput.Parameters[0]);
             if (Victim == null)
                 return "They aren't here.";
             if (User is IPlayableCharacter)

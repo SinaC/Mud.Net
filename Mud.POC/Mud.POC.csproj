@@ -82,7 +82,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abilities2\AbilityActionInput.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Rescue.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Staves.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Wands.cs" />
+    <Compile Include="Abilities2\SkillActionInput.cs" />
     <Compile Include="Abilities2\AbilityAttribute.cs" />
     <Compile Include="Abilities2\AbilityEffects.cs" />
     <Compile Include="Abilities2\AbilityInfo.cs" />
@@ -109,6 +112,7 @@
     <Compile Include="Abilities2\Rom24Skills\Recall.cs" />
     <Compile Include="Abilities2\Rom24Skills\Scrolls.cs" />
     <Compile Include="Abilities2\Rom24Skills\Trip.cs" />
+    <Compile Include="Abilities2\SpellActionInput.cs" />
     <Compile Include="Abilities2\Use.cs" />
     <Compile Include="Abilities2\Cast.cs" />
     <Compile Include="Abilities2\CharacterFlagsSpellBase.cs" />
@@ -138,7 +142,6 @@
     <Compile Include="Abilities2\HealSpellBase.cs" />
     <Compile Include="Abilities2\Helpers\FindHelpers.cs" />
     <Compile Include="Abilities2\IAbility.cs" />
-    <Compile Include="Abilities2\IAbilityAction.cs" />
     <Compile Include="Abilities2\IAbilityManager.cs" />
     <Compile Include="Abilities2\IEffect.cs" />
     <Compile Include="Abilities2\IDispelManager.cs" />
@@ -380,20 +383,6 @@
     <Compile Include="GroupsPetsFollowers\PlayableCharacterCommands.cs" />
     <Compile Include="GroupsPetsFollowers\Room.cs" />
     <Compile Include="GroupsPetsFollowers\World.cs" />
-    <Compile Include="NewMud2\AbilityBase.cs" />
-    <Compile Include="NewMud2\DamageTypes.cs" />
-    <Compile Include="NewMud2\Factory.cs" />
-    <Compile Include="NewMud2\FindHelpers.cs" />
-    <Compile Include="NewMud2\IAbility.cs" />
-    <Compile Include="NewMud2\IArea.cs" />
-    <Compile Include="NewMud2\IAura.cs" />
-    <Compile Include="NewMud2\ICharacter.cs" />
-    <Compile Include="NewMud2\IEntity.cs" />
-    <Compile Include="NewMud2\IItem.cs" />
-    <Compile Include="NewMud2\IRandomManager.cs" />
-    <Compile Include="NewMud2\IRoom.cs" />
-    <Compile Include="NewMud2\IWorld.cs" />
-    <Compile Include="NewMud2\Abilities.cs" />
     <Compile Include="NewMud\Behaviors\Behavior.cs" />
     <Compile Include="NewMud\Behaviors\BehaviorManager.cs" />
     <Compile Include="NewMud\Behaviors\MovableBehavior.cs" />

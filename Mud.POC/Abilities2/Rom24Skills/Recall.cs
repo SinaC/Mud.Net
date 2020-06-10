@@ -19,8 +19,12 @@ namespace Mud.POC.Abilities2.Rom24Skills
         {
         }
 
-        public override string Setup(AbilityActionInput abilityActionInput)
+        public override string Setup(SkillActionInput skillActionInput)
         {
+            string baseSetupResult = base.Setup(skillActionInput);
+            if (baseSetupResult != null)
+                return baseSetupResult;
+
             IPlayableCharacter pcUser = User as IPlayableCharacter;
             if (pcUser == null)
                 return "Only players can recall.";

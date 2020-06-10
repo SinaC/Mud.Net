@@ -18,9 +18,9 @@ namespace Mud.POC.Abilities2.Rom24Spells
             AuraManager = auraManager;
         }
 
-        public override string Setup(AbilityActionInput abilityActionInput)
+        public override string Setup(SpellActionInput spellActionInput)
         {
-            string baseSetup = base.Setup(abilityActionInput);
+            string baseSetup = base.Setup(spellActionInput);
             if (baseSetup != null)
                 return baseSetup;
             IPlayableCharacter pcCaster = Caster as IPlayableCharacter;
@@ -29,9 +29,9 @@ namespace Mud.POC.Abilities2.Rom24Spells
             return null;
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        protected override string SetTargets(SpellActionInput spellActionInput)
         {
-            string baseSetTargets = base.SetTargets(abilityActionInput);
+            string baseSetTargets = base.SetTargets(spellActionInput);
             if (baseSetTargets != null)
                 return baseSetTargets;
 

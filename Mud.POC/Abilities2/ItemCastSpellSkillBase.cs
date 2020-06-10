@@ -40,7 +40,6 @@ namespace Mud.POC.Abilities2
                 Log.Default.WriteLine(LogLevels.Error, "Unknown spell '{0}' on item {1}.", spellName, Item.DebugName);
                 return "Something goes wrong.";
             }
-            var abilityActionInput = new AbilityActionInput(abilityInfo, User, spellLevel, rawParameters, parameters);
             if (DependencyContainer.Current.GetRegistration(abilityInfo.AbilityExecutionType, false) == null)
             {
                 Log.Default.WriteLine(LogLevels.Error, "Spell '{0}' on item {1} has been not found in DependencyContainer.", spellName, Item.DebugName);
@@ -52,7 +51,8 @@ namespace Mud.POC.Abilities2
                 Log.Default.WriteLine(LogLevels.Error, "Spell '{0}' on item {1} cannot be instantiated.", spellName, Item.DebugName);
                 return "Something goes wrong.";
             }
-            string spellInstanceGuards = spellInstance.Setup(abilityActionInput);
+            var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, true, rawParameters, parameters);
+            string spellInstanceGuards = spellInstance.Setup(spellActionInput);
             if (spellInstanceGuards != null)
                 return spellInstanceGuards;
             SpellInstances.Add(spellInstance);

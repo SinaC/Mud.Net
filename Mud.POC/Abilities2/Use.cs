@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using Mud.Container;
+﻿using Mud.Container;
 using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
 using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2
@@ -13,7 +11,7 @@ namespace Mud.POC.Abilities2
 
         protected AbilityInfo AbilityInfo { get; set; }
         protected ICharacter User { get; set; }
-        protected AbilityActionInput AbilityActionInput { get; set; }
+        protected SkillActionInput SkillActionInput { get; set; }
         protected ISkill SkillInstance { get; set; }
 
         public Use(IAbilityManager abilityManager)
@@ -35,13 +33,13 @@ namespace Mud.POC.Abilities2
             AbilityInfo = AbilityManager.Search(skillName, AbilityTypes.Spell);
             if (AbilityInfo == null)
                 return "This skill doesn't exist.";
-            AbilityActionInput = new AbilityActionInput(AbilityInfo, User, User.Level, rawParameters, parameters);
             if (DependencyContainer.Current.GetRegistration(AbilityInfo.AbilityExecutionType, false) == null)
                 return "Skill not found in DependencyContainer!";
             SkillInstance = (ISkill)DependencyContainer.Current.GetInstance(AbilityInfo.AbilityExecutionType);
             if (SkillInstance == null)
                 return "Skill instance cannot be created!";
-            string abilityInstanceGuards = SkillInstance.Setup(AbilityActionInput);
+            SkillActionInput = new SkillActionInput(AbilityInfo, User, rawParameters, parameters);
+            string abilityInstanceGuards = SkillInstance.Setup(SkillActionInput);
             return abilityInstanceGuards;
         }
 

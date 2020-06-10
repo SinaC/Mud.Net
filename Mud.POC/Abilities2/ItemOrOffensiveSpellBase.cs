@@ -41,6 +41,13 @@ namespace Mud.POC.Abilities2
             }
         }
 
+        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster)
+            =>
+            caster.Room.People.Where(x => caster.CanSee(x) && IsTargetValid(caster, x)).OfType<IEntity>()
+            .Concat(caster.Room.Content.Where(caster.CanSee))
+            .Concat(caster.Inventory.Where(caster.CanSee))
+            .Concat(caster.Equipments.Where(x => x.Item != null && caster.CanSee(x.Item)).Select(x => x.Item));
+
         protected override void Invoke()
         {
             if (Target is IItem item)
@@ -49,17 +56,19 @@ namespace Mud.POC.Abilities2
                 Invoke(victim);
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        protected override string SetTargets(SpellActionInput spellActionInput)
         {
             INonPlayableCharacter npcCaster = Caster as INonPlayableCharacter;
-            if (abilityActionInput.Parameters.Length < 1)
+            if (spellActionInput.Parameters.Length < 1)
             {
                 Target = Caster.Fighting;
                 if (Target == null)
-                    return "Cast the spell on whom or what?";
+                    return IsCastFromItem
+                        ? "Use it on whom or what?"
+                        : "Cast the spell on whom or what?";
             }
             else
-                Target = FindHelpers.FindByName(Caster.Room.People.Where(Caster.CanSee), abilityActionInput.Parameters[0]);
+                Target = FindHelpers.FindByName(Caster.Room.People.Where(Caster.CanSee), spellActionInput.Parameters[0]);
             if (Target != null)
             {
                 if (Caster is IPlayableCharacter)
@@ -73,7 +82,7 @@ namespace Mud.POC.Abilities2
             }
             else // character not found, search item in room, in inventor, in equipment
             {
-                Target = FindHelpers.FindItemHere(Caster, abilityActionInput.Parameters[0]);
+                Target = FindHelpers.FindItemHere(Caster, spellActionInput.Parameters[0]);
                 if (Target == null)
                     return "You don't see that here.";
             }
@@ -83,5 +92,17 @@ namespace Mud.POC.Abilities2
 
         protected abstract void Invoke(ICharacter victim);
         protected abstract void Invoke(IItem item);
+
+        private bool IsTargetValid(ICharacter caster, ICharacter victim)
+        {
+            if (caster is IPlayableCharacter)
+            {
+                if (caster != victim && victim.IsSafe(caster))
+                    return false;
+            }
+            if (caster is INonPlayableCharacter npcCaster && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == victim)
+                return false;
+            return true;
+        }
     }
 }

@@ -940,6 +940,7 @@ namespace Mud.Server.Abilities
             if (fighting is INonPlayableCharacter && source.IsSameGroupOrPet(victim))
             {
                 source.Send("Kill stealing is not permitted.");
+                return UseResults.InvalidTarget;
             }
 
             if (!RandomManager.Chance(learned))

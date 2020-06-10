@@ -3,6 +3,8 @@ using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
 using Mud.Server.Common;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
@@ -17,6 +19,8 @@ namespace Mud.POC.Abilities2.Rom24Spells
             : base(randomManager)
         {
         }
+
+        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster) => Enumerable.Empty<IEntity>();
 
         protected override void Invoke()
         {
@@ -57,14 +61,14 @@ namespace Mud.POC.Abilities2.Rom24Spells
             }
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        protected override string SetTargets(SpellActionInput spellActionInput)
         {
             ICharacter victim;
-            if (abilityActionInput.Parameters.Length < 1)
+            if (spellActionInput.Parameters.Length < 1)
                 victim = Caster;
             else
             {
-                victim = FindHelpers.FindByName(Caster.Room.People, abilityActionInput.Parameters[0]);
+                victim = FindHelpers.FindByName(Caster.Room.People, spellActionInput.Parameters[0]);
                 if (victim == null)
                     return "They aren't here.";
             }

@@ -10,6 +10,8 @@ namespace Mud.POC.Abilities2.ExistingCode
         IEnumerable<IItem> Inventory { get; }
         IEnumerable<EquippedItem> Equipments { get; }
         IItem GetEquipment(EquipmentSlots equipmentSlots);
+        TItem GetEquipment<TItem>(EquipmentSlots equipmentSlots)
+            where TItem : IItem;
 
         int Level { get; }
         CharacterFlags CharacterFlags { get; }
@@ -65,6 +67,7 @@ namespace Mud.POC.Abilities2.ExistingCode
         DamageResults AbilityDamage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool isVisible);
         bool MultiHit(ICharacter aggressor);
         void MultiHit(ICharacter victim, IMultiHitModifier multiHitModifier); // 'this' starts a combat with 'victim' and has been initiated by an ability
+        bool StartFighting(ICharacter victim);
         bool StopFighting(bool both);
 
         bool IsSameGroupOrPet(ICharacter character);

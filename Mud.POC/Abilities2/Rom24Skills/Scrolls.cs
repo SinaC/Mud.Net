@@ -36,12 +36,12 @@ namespace Mud.POC.Abilities2.Rom24Skills
             return true;
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        protected override string SetTargets(SkillActionInput skillActionInput)
         {
-            if (abilityActionInput.Parameters.Length == 0)
+            if (skillActionInput.Parameters.Length == 0)
                 return "Recite what?";
 
-            IItem item = FindHelpers.FindByName(User.Inventory.Where(User.CanSee), abilityActionInput.Parameters[0]);
+            IItem item = FindHelpers.FindByName(User.Inventory.Where(User.CanSee), skillActionInput.Parameters[0]);
             if (item == null)
                 return "You do not have that scroll.";
 
@@ -53,7 +53,7 @@ namespace Mud.POC.Abilities2.Rom24Skills
                 return "This scroll is too complex for you to comprehend.";
 
             // scroll found, remove it from parameters
-            var parameters = CommandHelpers.SkipParameters(abilityActionInput.Parameters, 1);
+            var parameters = CommandHelpers.SkipParameters(skillActionInput.Parameters, 1);
 
             // perform setup on each spell
             StringBuilder sb = new StringBuilder();

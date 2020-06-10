@@ -2,8 +2,6 @@
 using Moq;
 using Mud.POC.Abilities2;
 using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
-using System.Linq;
 using Mud.POC.Abilities2.Rom24Spells;
 
 namespace Mud.POC.Tests.Abilities2

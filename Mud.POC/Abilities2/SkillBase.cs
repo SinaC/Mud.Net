@@ -2,7 +2,6 @@
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
 using Mud.Server.Common;
-using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2
 {
@@ -21,16 +20,16 @@ namespace Mud.POC.Abilities2
 
         #region ISkill
 
-        public virtual string Setup(AbilityActionInput abilityActionInput)
+        public virtual string Setup(SkillActionInput skillActionInput)
         {
             // 1) check context
-            AbilityInfo = abilityActionInput.AbilityInfo;
+            AbilityInfo = skillActionInput.AbilityInfo;
             if (AbilityInfo == null)
                 return "Internal error: AbilityInfo is null.";
             if (AbilityInfo.AbilityExecutionType != GetType())
                 return $"Internal error: AbilityInfo is not of the right type: {AbilityInfo.GetType().Name} instead of {GetType().Name}.";
             // 2) check actor
-            User = abilityActionInput.Actor as ICharacter;
+            User = skillActionInput.Actor as ICharacter;
             if (User == null)
                 return "Skill must be used by a character.";
             if (User.Room == null)
@@ -41,7 +40,7 @@ namespace Mud.POC.Abilities2
             Learned = abilityPercentage.percentage;
 
             // 4) check targets
-            string setTargetResult = SetTargets(abilityActionInput);
+            string setTargetResult = SetTargets(skillActionInput);
             if (setTargetResult != null)
                 return setTargetResult;
 
@@ -89,10 +88,10 @@ namespace Mud.POC.Abilities2
             if (user == null)
                 return "Only character are allowed to use skills.";
             var abilityInfo = new AbilityInfo(GetType());
-            var abilityActionInput = new AbilityActionInput(abilityInfo, user, user.Level, actionInput.RawParameters, actionInput.Parameters);
+            var skillActionInput = new SkillActionInput(abilityInfo, user, actionInput.RawParameters, actionInput.Parameters);
             if (DependencyContainer.Current.GetRegistration(AbilityInfo.AbilityExecutionType, false) == null)
                 return "Ability not found in DependencyContainer";
-            string setupResult = Setup(abilityActionInput);
+            string setupResult = Setup(skillActionInput);
             return setupResult;
         }
 
@@ -103,7 +102,7 @@ namespace Mud.POC.Abilities2
 
         #endregion
 
-        protected abstract string SetTargets(AbilityActionInput abilityActionInput);
+        protected abstract string SetTargets(SkillActionInput skillActionInput);
         protected abstract bool Invoke(); // return true if skill has been used with success, false if failed
     }
 }

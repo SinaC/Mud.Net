@@ -12,7 +12,7 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        protected override string SetTargets(SkillActionInput skillActionInput)
         {
             Victim = User.Fighting;
             if (Victim == null)

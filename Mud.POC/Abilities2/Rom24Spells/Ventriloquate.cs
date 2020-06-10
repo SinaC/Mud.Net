@@ -3,6 +3,7 @@ using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
 using Mud.Server.Common;
 using Mud.Server.Input;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
@@ -20,6 +21,8 @@ namespace Mud.POC.Abilities2.Rom24Spells
         {
         }
 
+        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster) => Enumerable.Empty<IEntity>();
+
         protected override void Invoke()
         {
             string phraseSuccess = $"%g%{Victim.DisplayName} says '%x%{Phrase ?? ""}%g%'%x%.";
@@ -35,17 +38,17 @@ namespace Mud.POC.Abilities2.Rom24Spells
             }
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        protected override string SetTargets(SpellActionInput spellActionInput)
         {
-            if (abilityActionInput.Parameters.Length < 2)
+            if (spellActionInput.Parameters.Length < 2)
                 return "Make who saying what?";
 
-            Victim = FindHelpers.FindByName(Caster.Room.People, abilityActionInput.Parameters[0]);
+            Victim = FindHelpers.FindByName(Caster.Room.People, spellActionInput.Parameters[0]);
             if (Victim == null)
                 return "They aren't here.";
             if (Victim == Caster)
                 return "Just say it.";
-            Phrase = CommandHelpers.JoinParameters(abilityActionInput.Parameters.Skip(1));
+            Phrase = CommandHelpers.JoinParameters(spellActionInput.Parameters.Skip(1));
             return null;
         }
 

@@ -40,16 +40,20 @@ namespace Mud.POC.Abilities2
             }
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Room.People.Where(x => caster.CanSee(x) && IsTargetValid(caster, x));
+
+        protected override string SetTargets(SpellActionInput spellActionInput)
         {
-            if (abilityActionInput.Parameters.Length < 1)
+            if (spellActionInput.Parameters.Length < 1)
             {
                 Victim = Caster.Fighting;
                 if (Victim == null)
-                    return "Cast the spell on whom?";
+                    return IsCastFromItem
+                        ? "Use it on whom?"
+                        : "Cast the spell on whom?";
             }
             else
-                Victim = FindHelpers.FindByName(Caster.Room.People, abilityActionInput.Parameters[0]);
+                Victim = FindHelpers.FindByName(Caster.Room.People, spellActionInput.Parameters[0]);
             if (Victim == null)
                 return "They aren't here.";
             if (Caster is IPlayableCharacter)
@@ -62,6 +66,18 @@ namespace Mud.POC.Abilities2
                 return "You can't do that on your own follower.";
             // victim found
             return null;
+        }
+
+        private bool IsTargetValid(ICharacter caster, ICharacter victim)
+        {
+            if (caster is IPlayableCharacter)
+            {
+                if (caster != victim && victim.IsSafe(caster))
+                    return false;
+            }
+            if (caster is INonPlayableCharacter npcCaster && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == victim)
+                return false;
+            return true;
         }
     }
 }

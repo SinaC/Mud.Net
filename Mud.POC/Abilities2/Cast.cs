@@ -11,7 +11,7 @@ namespace Mud.POC.Abilities2
 
         protected AbilityInfo AbilityInfo { get; set; }
         protected ICharacter Caster { get; set; }
-        protected AbilityActionInput AbilityActionInput { get; set; }
+        protected SpellActionInput SpellActionInput { get; set; }
         protected ISpell SpellInstance { get; set; }
 
         public Cast(IAbilityManager abilityManager)
@@ -36,13 +36,13 @@ namespace Mud.POC.Abilities2
             var abilityLearned = Caster.GetAbilityLearned(AbilityInfo.Name);
             if (abilityLearned.abilityLearned == null)
                 return "You don't know any spells of that name.";
-            AbilityActionInput = new AbilityActionInput(AbilityInfo, Caster, Caster.Level, rawParameters, parameters);
             if (DependencyContainer.Current.GetRegistration(AbilityInfo.AbilityExecutionType, false) == null)
                 return "Spell not found in DependencyContainer!";
             SpellInstance = (ISpell)DependencyContainer.Current.GetInstance(AbilityInfo.AbilityExecutionType);
             if (SpellInstance == null)
                 return "Spell instance cannot be created!";
-            string spellInstanceGuards = SpellInstance.Setup(AbilityActionInput);
+            SpellActionInput = new SpellActionInput(AbilityInfo, Caster, Caster.Level, null, rawParameters, parameters);
+            string spellInstanceGuards = SpellInstance.Setup(SpellActionInput);
             return spellInstanceGuards;
         }
 

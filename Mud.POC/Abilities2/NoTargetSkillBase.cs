@@ -9,6 +9,6 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput) => null;
+        protected override string SetTargets(SkillActionInput skillActionInput) => null;
     }
 }

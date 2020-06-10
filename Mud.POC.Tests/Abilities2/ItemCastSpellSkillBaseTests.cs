@@ -2,15 +2,10 @@
 using Moq;
 using Mud.Container;
 using Mud.POC.Abilities2;
+using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Rom24Spells;
 using Mud.Server.Common;
-using Mud.Server.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.POC.Tests.Abilities2
 {
@@ -20,7 +15,7 @@ namespace Mud.POC.Tests.Abilities2
         public const string SkillName = "ItemCastSpellSkillBaseTests_Skill";
 
         [TestMethod]
-        public void Test()
+        public void CastFireballFromItem()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
@@ -37,18 +32,18 @@ namespace Mud.POC.Tests.Abilities2
             Mock<ICharacter> targetMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            //userMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName }));
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new[] { userMock.Object, targetMock.Object});
 
             var parameters = BuildParameters("target");
-            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(skill.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
-            string result = skill.Setup(abilityActionInput);
+            SkillActionInput skillActionInput = new SkillActionInput(new AbilityInfo(skill.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            string result = skill.Setup(skillActionInput);
 
-            will failed because user doesn't know fireball
+            skill.Execute();
 
             Assert.IsNull(result);
+            targetMock.Verify(x => x.AbilityDamage(userMock.Object, It.IsAny<int>(), SchoolTypes.Fire, "fireball", It.IsAny<bool>()), Times.Once);
         }
 
         [Skill(SkillName, AbilityEffects.None)]
@@ -70,9 +65,9 @@ namespace Mud.POC.Tests.Abilities2
                 return true;
             }
 
-            protected override string SetTargets(AbilityActionInput abilityActionInput)
+            protected override string SetTargets(SkillActionInput skillActionInput)
             {
-                return SetSpellTargets(SpellName, SpellLevel, abilityActionInput.RawParameters, abilityActionInput.Parameters);
+                return SetSpellTargets(SpellName, SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
             }
         }
     }

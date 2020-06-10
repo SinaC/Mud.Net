@@ -23,6 +23,8 @@ namespace Mud.POC.Abilities2.Rom24Spells
             ItemManager = itemManager;
         }
 
+        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster) => Enumerable.Empty<IEntity>();
+
         protected override void Invoke()
         {
             StringBuilder sb = new StringBuilder();
@@ -66,11 +68,11 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 Caster.Page(sb);
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        protected override string SetTargets(SpellActionInput spellActionInput)
         {
-            if (string.IsNullOrWhiteSpace(abilityActionInput.RawParameters))
+            if (string.IsNullOrWhiteSpace(spellActionInput.RawParameters))
                 return "Locate what?";
-            ItemName = abilityActionInput.RawParameters;
+            ItemName = spellActionInput.RawParameters;
             return null;
         }
     }

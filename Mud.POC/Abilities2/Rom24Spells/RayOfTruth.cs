@@ -18,11 +18,12 @@ namespace Mud.POC.Abilities2.Rom24Spells
             AuraManager = auraManager;
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        protected override string SetTargets(SpellActionInput spellActionInput)
         {
-            string baseSetTargets = base.SetTargets(abilityActionInput);
+            string baseSetTargets = base.SetTargets(spellActionInput);
             if (baseSetTargets != null)
                 return baseSetTargets;
+
             // Check alignment
             if (Caster is IPlayableCharacter && !Caster.IsGood)
             {

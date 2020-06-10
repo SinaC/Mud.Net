@@ -1,6 +1,5 @@
 NEXT:
-skills
-Holy word unit tests
+wands and staves on POC.Abilities2
 
 make a map of calls done when a NPC is Removed/StopFollowing/...
 

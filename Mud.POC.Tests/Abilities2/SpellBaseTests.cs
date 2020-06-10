@@ -20,7 +20,7 @@ namespace Mud.POC.Tests.Abilities2
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(null, characterMock.Object, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
+            SpellActionInput abilityActionInput = new SpellActionInput(null, characterMock.Object, 10, false, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
 
             string result = spell.Setup(abilityActionInput);
 
@@ -32,7 +32,7 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), null, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), null, 10, false, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
 
             string result = spell.Setup(abilityActionInput);
 
@@ -45,7 +45,7 @@ namespace Mud.POC.Tests.Abilities2
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), characterMock.Object, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), characterMock.Object, 10, false, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
 
             string result = spell.Setup(abilityActionInput);
 
@@ -63,7 +63,8 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.Setup(x => x.CooldownPulseLeft(It.IsAny<string>())).Returns<string>(_ => 10);
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
+            var parameters = BuildParameters("player");
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, false, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -82,7 +83,8 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName, ResourceKind = ResourceKinds.Mana, CostAmount = 50, CostAmountOperator = CostAmountOperators.Fixed}));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
+            var parameters = BuildParameters("player");
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, false, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -102,7 +104,8 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName, ResourceKind = ResourceKinds.Mana, CostAmount = 50, CostAmountOperator = CostAmountOperators.Fixed }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
+            var parameters = BuildParameters("player");
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, false, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -122,7 +125,8 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName, ResourceKind = ResourceKinds.Mana, CostAmount = 50, CostAmountOperator = CostAmountOperators.Fixed }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
+            var parameters = BuildParameters("player");
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, false, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -144,7 +148,8 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, new AbilityLearned { Name = SpellName, ResourceKind = ResourceKinds.Mana, CostAmount = 50, CostAmountOperator = CostAmountOperators.Fixed }));
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
+            var parameters = BuildParameters("player");
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, false, parameters.rawParameters, parameters.parameters);
             spell.Setup(abilityActionInput);
             string lastSendReceived = null;
             casterMock.Setup(x => x.Send(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((msg, args) => lastSendReceived = string.Format(msg, args));
@@ -170,7 +175,8 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.SetupGet(x => x.ImpersonatedBy).Returns(playerMock.Object);
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
-            AbilityActionInput abilityActionInput = new AbilityActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, "player", new CommandParameter("player", false));
+            var parameters = BuildParameters("player");
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, false, parameters.rawParameters, parameters.parameters);
             spell.Setup(abilityActionInput);
 
             spell.Execute();
@@ -190,7 +196,7 @@ namespace Mud.POC.Tests.Abilities2
             {
             }
 
-            protected override string SetTargets(AbilityActionInput abilityActionInput) => null;
+            protected override string SetTargets(SpellActionInput spellActionInput) => null;
 
             protected override void Invoke()
             {

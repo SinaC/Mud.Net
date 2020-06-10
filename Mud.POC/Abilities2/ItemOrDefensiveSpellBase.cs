@@ -2,6 +2,7 @@
 using Mud.POC.Abilities2.Helpers;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
+using System.Collections.Generic;
 
 namespace Mud.POC.Abilities2
 {
@@ -14,6 +15,11 @@ namespace Mud.POC.Abilities2
         {
         }
 
+        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster)
+            =>
+            caster.Room.People.Where(caster.CanSee).OfType<IEntity>()
+            .Concat(caster.Inventory.Where(caster.CanSee));
+
         protected override void Invoke()
         {
             if (Target is IItem item)
@@ -22,14 +28,14 @@ namespace Mud.POC.Abilities2
                 Invoke(victim);
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        protected override string SetTargets(SpellActionInput spellActionInput)
         {
-            Target = abilityActionInput.Parameters.Length < 1
+            Target = spellActionInput.Parameters.Length < 1
                         ? Caster
-                        : FindHelpers.FindByName(Caster.Room.People.Where(Caster.CanSee), abilityActionInput.Parameters[0]);
+                        : FindHelpers.FindByName(Caster.Room.People.Where(Caster.CanSee), spellActionInput.Parameters[0]);
             if (Target == null)
             {
-                Target = FindHelpers.FindByName(Caster.Inventory.Where(Caster.CanSee), abilityActionInput.Parameters[0]);
+                Target = FindHelpers.FindByName(Caster.Inventory.Where(Caster.CanSee), spellActionInput.Parameters[0]);
                 if (Target == null)
                     return "You don't see that here.";
             }

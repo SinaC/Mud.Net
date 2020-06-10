@@ -18,6 +18,7 @@ namespace Mud.POC.Abilities2
         protected int Level { get; private set; }
         protected int? Cost { get; private set; }
         protected ResourceKinds? ResourceKind { get; private set; }
+        protected bool IsCastFromItem { get; private set; }
 
         protected SpellBase(IRandomManager randomManager)
         {
@@ -26,23 +27,47 @@ namespace Mud.POC.Abilities2
 
         #region ISpell
 
-        public virtual string Setup(AbilityActionInput abilityActionInput)
+        public virtual string Setup(SpellActionInput spellActionInput)
+        {
+            IsCastFromItem = spellActionInput.IsCastFromItem;
+            if (IsCastFromItem)
+                return SetupFromItem(spellActionInput);
+            else
+                return SetupFromCast(spellActionInput);
+        }
+
+        public virtual void Execute()
+        {
+            if (IsCastFromItem)
+                ExecuteFromItem();
+            else
+                ExecuteFromCast();
+        }
+
+        public abstract IEnumerable<IEntity> AvailableTargets(ICharacter caster);
+
+        #endregion
+
+        protected abstract string SetTargets(SpellActionInput spellActionInput);
+        protected abstract void Invoke();
+
+        private string SetupFromCast(SpellActionInput spellActionInput)
         {
             // 1) check context
-            AbilityInfo = abilityActionInput.AbilityInfo;
+            AbilityInfo = spellActionInput.AbilityInfo;
             if (AbilityInfo == null)
                 return "Internal error: AbilityInfo is null.";
             if (AbilityInfo.AbilityExecutionType != GetType())
                 return $"Internal error: AbilityInfo is not of the right type: {AbilityInfo.GetType().Name} instead of {GetType().Name}.";
             // 2) check actor
-            Caster = abilityActionInput.Actor as ICharacter;
+            Caster = spellActionInput.Actor as ICharacter;
             if (Caster == null)
                 return "Spell must be cast by a character.";
             if (Caster.Room == null)
                 return "You are nowhere...";
-            Level = abilityActionInput.Level ?? Caster.Level;
+            Level = spellActionInput.Level;
             // 3) check targets
-            string setTargetResult = SetTargets(abilityActionInput);
+            string setTargetResult = SetTargets(spellActionInput);
             if (setTargetResult != null)
                 return setTargetResult;
             // 4) check cooldown
@@ -85,7 +110,29 @@ namespace Mud.POC.Abilities2
             return null;
         }
 
-        public virtual void Execute()
+        private string SetupFromItem(SpellActionInput spellActionInput)
+        {
+            // 1) check context
+            AbilityInfo = spellActionInput.AbilityInfo;
+            if (AbilityInfo == null)
+                return "Internal error: AbilityInfo is null.";
+            if (AbilityInfo.AbilityExecutionType != GetType())
+                return $"Internal error: AbilityInfo is not of the right type: {AbilityInfo.GetType().Name} instead of {GetType().Name}.";
+            // 2) check actor
+            Caster = spellActionInput.Actor as ICharacter;
+            if (Caster == null)
+                return "Spell must be cast by a character.";
+            if (Caster.Room == null)
+                return "You are nowhere...";
+            Level = spellActionInput.Level;
+            // 3) check targets
+            string setTargetResult = SetTargets(spellActionInput);
+            if (setTargetResult != null)
+                return setTargetResult;
+            return null;
+        }
+
+        private void ExecuteFromCast()
         {
             IPlayableCharacter pcCaster = Caster as IPlayableCharacter;
 
@@ -123,10 +170,10 @@ namespace Mud.POC.Abilities2
             pcCaster?.CheckAbilityImprove(abilityPercentage.abilityLearned, true, AbilityInfo.LearnDifficultyMultiplier);
         }
 
-        #endregion
-
-        protected abstract string SetTargets(AbilityActionInput abilityActionInput);
-        protected abstract void Invoke();
+        private void ExecuteFromItem()
+        {
+            Invoke();
+        }
 
         private static readonly Dictionary<string, string> SyllableTable = new Dictionary<string, string> // TODO: use Trie ?
         {

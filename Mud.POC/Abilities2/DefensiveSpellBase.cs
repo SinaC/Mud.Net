@@ -1,6 +1,8 @@
 ﻿using Mud.Server.Common;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Mud.POC.Abilities2
 {
@@ -13,13 +15,15 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        protected override string SetTargets(AbilityActionInput abilityActionInput)
+        public override IEnumerable<IEntity> AvailableTargets(ICharacter caster) => caster.Room.People.Where(caster.CanSee);
+
+        protected override string SetTargets(SpellActionInput spellActionInput)
         {
-            if (abilityActionInput.Parameters.Length < 1)
+            if (spellActionInput.Parameters.Length < 1)
                 Victim = Caster;
             else
             {
-                Victim = FindHelpers.FindByName(Caster.Room.People, abilityActionInput.Parameters[0]);
+                Victim = FindHelpers.FindByName(Caster.Room.People.Where(Caster.CanSee), spellActionInput.Parameters[0]);
                 if (Victim == null)
                     return "They aren't here.";
             }
