@@ -74,17 +74,17 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abilities\AbilityAttribute.cs" />
-    <Compile Include="Abilities\AbilityManager.cs" />
-    <Compile Include="Abilities\Ability.cs" />
-    <Compile Include="Abilities\AbilityUsage.cs" />
-    <Compile Include="Abilities\KnownAbility.cs" />
-    <Compile Include="Abilities\MysteryPassives.cs" />
-    <Compile Include="Abilities\Rom24Effects.cs" />
-    <Compile Include="Abilities\Rom24Passives.cs" />
-    <Compile Include="Abilities\Rom24Skills.cs" />
-    <Compile Include="Abilities\Rom24Spells.cs" />
-    <Compile Include="Abilities\TestSpells.cs" />
+    <Compile Include="Ability\AbilityAttribute.cs" />
+    <Compile Include="Ability\AbilityManager.cs" />
+    <Compile Include="Ability\Ability.cs" />
+    <Compile Include="Ability\AbilityUsage.cs" />
+    <Compile Include="Ability\KnownAbility.cs" />
+    <Compile Include="Ability\MysteryPassives.cs" />
+    <Compile Include="Ability\Rom24Effects.cs" />
+    <Compile Include="Ability\Rom24Passives.cs" />
+    <Compile Include="Ability\Rom24Skills.cs" />
+    <Compile Include="Ability\Rom24Spells.cs" />
+    <Compile Include="Ability\TestSpells.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
     <Compile Include="Admin\CommunicationCommands.cs" />
     <Compile Include="Admin\MiscCommands.cs" />
@@ -114,31 +114,6 @@
     <Compile Include="Character\PlayableCharacter\ShopCommands.cs" />
     <Compile Include="Group\Group.cs" />
     <Compile Include="Helpers\MiscHelpers.cs" />
-    <Compile Include="ICloseable.cs" />
-    <Compile Include="IGroup.cs" />
-    <Compile Include="IPlayableRace.cs" />
-    <Compile Include="Item\IItemBoat.cs" />
-    <Compile Include="Item\IItemCanContain.cs" />
-    <Compile Include="Item\IItemCastSpellsNoCharge.cs" />
-    <Compile Include="Item\IItemCloseable.cs" />
-    <Compile Include="Item\IItemClothing.cs" />
-    <Compile Include="Item\IItemDrinkContainer.cs" />
-    <Compile Include="Item\IItemDrinkable.cs" />
-    <Compile Include="Item\IItemFood.cs" />
-    <Compile Include="Item\IItemGem.cs" />
-    <Compile Include="Item\IItemJukebox.cs" />
-    <Compile Include="Item\IItemMap.cs" />
-    <Compile Include="Item\IItemMoney.cs" />
-    <Compile Include="Item\IItemPill.cs" />
-    <Compile Include="Item\IItemPoisonable.cs" />
-    <Compile Include="Item\IItemCastSpellsCharge.cs" />
-    <Compile Include="Item\IItemScroll.cs" />
-    <Compile Include="Item\IItemPotion.cs" />
-    <Compile Include="Item\IItemStaff.cs" />
-    <Compile Include="Item\IItemTrash.cs" />
-    <Compile Include="Item\IItemTreasure.cs" />
-    <Compile Include="Item\IItemWand.cs" />
-    <Compile Include="Item\IItemWarpstone.cs" />
     <Compile Include="Item\ItemClothing.cs" />
     <Compile Include="Item\ItemBoat.cs" />
     <Compile Include="Item\ItemCastSpellsChargeBase.cs" />
@@ -212,47 +187,8 @@
     <Compile Include="Classes\Thief.cs" />
     <Compile Include="Classes\Warrior.cs" />
     <Compile Include="Helpers\TableGenerators.cs" />
-    <Compile Include="IAdminManager.cs" />
-    <Compile Include="IAffect.cs" />
-    <Compile Include="IArea.cs" />
-    <Compile Include="ITableValues.cs" />
-    <Compile Include="IClass.cs" />
     <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Helpers\FindHelpers.cs" />
-    <Compile Include="IAbilityManager.cs" />
-    <Compile Include="IActor.cs" />
-    <Compile Include="IAdmin.cs" />
-    <Compile Include="ICharacter.cs" />
-    <Compile Include="IClassManager.cs" />
-    <Compile Include="IContainer.cs" />
-    <Compile Include="IAura.cs" />
-    <Compile Include="IEntity.cs" />
-    <Compile Include="IExit.cs" />
-    <Compile Include="IItem.cs" />
-    <Compile Include="INonPlayableCharacter.cs" />
-    <Compile Include="IPeriodicAura.cs" />
-    <Compile Include="IPlayableCharacter.cs" />
-    <Compile Include="IPlayer.cs" />
-    <Compile Include="IPlayerManager.cs" />
-    <Compile Include="IQuest.cs" />
-    <Compile Include="IRace.cs" />
-    <Compile Include="IRaceManager.cs" />
-    <Compile Include="IRoom.cs" />
-    <Compile Include="IServer.cs" />
-    <Compile Include="IServerAdminCommand.cs" />
-    <Compile Include="IServerPlayerCommand.cs" />
-    <Compile Include="Item\IItemArmor.cs" />
-    <Compile Include="Item\IItemContainer.cs" />
-    <Compile Include="Item\IItemCorpse.cs" />
-    <Compile Include="Item\IItemFountain.cs" />
-    <Compile Include="Item\IItemFurniture.cs" />
-    <Compile Include="Item\IItemJewelry.cs" />
-    <Compile Include="Item\IItemKey.cs" />
-    <Compile Include="Item\IItemLight.cs" />
-    <Compile Include="Item\IItemPortal.cs" />
-    <Compile Include="Item\IItemQuest.cs" />
-    <Compile Include="Item\IItemShield.cs" />
-    <Compile Include="Item\IItemWeapon.cs" />
     <Compile Include="Item\ItemArmor.cs" />
     <Compile Include="Item\ItemCorpse.cs" />
     <Compile Include="Item\ItemFountain.cs" />
@@ -264,10 +200,6 @@
     <Compile Include="Item\ItemQuest.cs" />
     <Compile Include="Item\ItemShield.cs" />
     <Compile Include="Item\ItemWeapon.cs" />
-    <Compile Include="ITimeManager.cs" />
-    <Compile Include="IUniquenessManager.cs" />
-    <Compile Include="IWiznet.cs" />
-    <Compile Include="IWorld.cs" />
     <Compile Include="Item\ItemContainer.cs" />
     <Compile Include="Item\ItemBase.cs" />
     <Compile Include="Player\AvatarCreationStateMachine.cs" />
@@ -294,7 +226,6 @@
     <Compile Include="Server\PlayingClient.cs" />
     <Compile Include="Server\PulseManager.cs" />
     <Compile Include="Server\Server.cs" />
-    <Compile Include="IAbility.cs" />
     <Compile Include="Server\UniquenessManager.cs" />
     <Compile Include="World\World.cs" />
   </ItemGroup>
@@ -334,6 +265,10 @@
     <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
       <Project>{3e2bd396-17b9-423e-9114-9e215b468267}</Project>
       <Name>Mud.Server.Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
+      <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
+      <Name>Mud.Server.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
       <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
