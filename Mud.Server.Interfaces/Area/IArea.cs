@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Interfaces.Area
 {

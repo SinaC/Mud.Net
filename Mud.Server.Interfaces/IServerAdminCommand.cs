@@ -1,6 +1,7 @@
 ﻿using Mud.Domain;
+using Mud.Server.Interfaces.Player;
 
-namespace Mud.Server
+namespace Mud.Server.Interfaces
 {
     public interface IServerAdminCommand
     {

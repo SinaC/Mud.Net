@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Mud.Logger;
 using Mud.Server.Blueprints.Area;
+using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Area
 {

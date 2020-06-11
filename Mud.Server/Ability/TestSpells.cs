@@ -1,10 +1,12 @@
 ﻿using System;
 using Mud.Domain;
-using Mud.Server.Aura;
+using Mud.Server.Affect;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
 
-namespace Mud.Server.Abilities
+namespace Mud.Server.Ability
 {
     public partial class AbilityManager
     {

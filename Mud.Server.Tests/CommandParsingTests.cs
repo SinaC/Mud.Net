@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.Server.Tests.Mocking;
+using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Tests
 {

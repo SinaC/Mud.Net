@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Interfaces.Item
 {

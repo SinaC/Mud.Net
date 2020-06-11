@@ -9,7 +9,12 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
-using Mud.Server.Item;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Quest;
+using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.World;
 using Mud.Settings;
 
 namespace Mud.Server.Quest

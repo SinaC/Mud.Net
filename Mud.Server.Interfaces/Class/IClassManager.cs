@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Mud.Server.Interfaces
+namespace Mud.Server.Interfaces.Class
 {
-    public interface IClassManager.Class
+    public interface IClassManager
     {
         IEnumerable<IClass> Classes { get; }
 

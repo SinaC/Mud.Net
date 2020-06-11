@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Entity;
 
 namespace Mud.Server.Interfaces.Aura
 {

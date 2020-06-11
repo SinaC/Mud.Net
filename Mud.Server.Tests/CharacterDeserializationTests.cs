@@ -10,7 +10,10 @@ using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Character.PlayableCharacter;
 using Mud.Server.Common;
-using Mud.Server.Item;
+using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Room;
 using Mud.Server.Quest;
 
 namespace Mud.Server.Tests

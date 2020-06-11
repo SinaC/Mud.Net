@@ -1,8 +1,10 @@
 ﻿using Mud.Domain;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
 
-namespace Mud.Server.Abilities
+namespace Mud.Server.Ability
 {
-    public class KnownAbility
+    public class KnownAbility : IKnownAbility
     {
         public IAbility Ability { get; set; }
 

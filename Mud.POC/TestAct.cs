@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mud.Logger;
-using Mud.Server;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.POC
 {

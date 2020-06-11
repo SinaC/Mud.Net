@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Interfaces.Character
 {

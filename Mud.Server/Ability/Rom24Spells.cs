@@ -8,13 +8,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using Mud.Server.Aura;
 using Mud.Server.Input;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Affect;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Room;
 
 // ReSharper disable UnusedMember.Global
 
-namespace Mud.Server.Abilities
+namespace Mud.Server.Ability
 {
     public partial class AbilityManager
     {

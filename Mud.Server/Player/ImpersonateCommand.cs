@@ -5,6 +5,12 @@ using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.World;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Player

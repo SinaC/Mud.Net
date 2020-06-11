@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +12,6 @@ using Mud.Repository;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Network;
-using Mud.Server.Abilities;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
@@ -21,8 +19,21 @@ using Mud.Server.Input;
 using Mud.Settings;
 using System.Reflection;
 using Mud.Server.Blueprints.Quest;
-using Mud.Server.Item;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.Quest;
+using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.World;
 
 namespace Mud.Server.Server
 {
@@ -752,7 +763,7 @@ namespace Mud.Server.Server
                     Log.Default.WriteLine(LogLevels.Warning, "Class {0} doesn't have any allowed resources", c.Name);
                 else
                 {
-                    foreach (AbilityUsage abilityUsage in c.Abilities)
+                    foreach (IAbilityUsage abilityUsage in c.Abilities)
                         if (abilityUsage.ResourceKind.HasValue && !c.ResourceKinds.Contains(abilityUsage.ResourceKind.Value))
                             Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityUsage.Ability.Name, abilityUsage.ResourceKind);
                 }

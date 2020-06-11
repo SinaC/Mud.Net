@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Server.Interfaces.Ability;
 using System.Reflection;
 
 namespace Mud.Server.Ability

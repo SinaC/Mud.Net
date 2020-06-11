@@ -1,5 +1,5 @@
 ﻿using Mud.Domain;
-using Mud.Server.Aura;
+using Mud.Server.Interfaces.Affect;
 
 namespace Mud.Server.Interfaces.Item
 {
@@ -15,6 +15,6 @@ namespace Mud.Server.Interfaces.Item
 
         string DamageNoun { get; }
 
-        void ApplyAffect(ItemWeaponFlagsAffect affect);
+        void ApplyAffect(IItemWeaponFlagsAffect affect);
     }
 }

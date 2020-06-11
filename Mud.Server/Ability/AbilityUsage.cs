@@ -1,8 +1,9 @@
 ﻿using Mud.Domain;
+using Mud.Server.Interfaces.Ability;
 
-namespace Mud.Server.Abilities
+namespace Mud.Server.Ability
 {
-    public class AbilityUsage
+    public class AbilityUsage : IAbilityUsage
     {
         public IAbility Ability { get; set; }
 

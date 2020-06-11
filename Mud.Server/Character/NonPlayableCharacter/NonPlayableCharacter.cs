@@ -7,12 +7,16 @@ using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Abilities;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Item;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Room;
 using Mud.Server.Quest;
 
 namespace Mud.Server.Character.NonPlayableCharacter
@@ -490,7 +494,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
         #region CharacterBase
 
         // Abilities
-        public override (int learned, KnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon)
+        public override (int learned, IKnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon)
         {
             int learned;
             if (weapon == null)
@@ -513,9 +517,9 @@ namespace Mud.Server.Character.NonPlayableCharacter
             return (learned, null);
         }
 
-        public override (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability) // TODO: replace with npc class
+        public override (int learned, IKnownAbility knownAbility) GetLearnInfo(IAbility ability) // TODO: replace with npc class
         {
-            KnownAbility knownAbility = this[ability];
+            IKnownAbility knownAbility = this[ability];
             //int learned = 0;
             //if (knownAbility != null && knownAbility.Level <= Level)
             //    learned = knownAbility.Learned;

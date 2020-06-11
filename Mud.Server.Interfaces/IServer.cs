@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mud.Network;
 
-namespace Mud.Server
+namespace Mud.Server.Interfaces
 {
     public interface IServer
     {

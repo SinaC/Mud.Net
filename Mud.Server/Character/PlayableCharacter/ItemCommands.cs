@@ -5,9 +5,12 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Item;
 using System.Linq;
 using Mud.Server.Common;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Quest;
 
 // ReSharper disable UnusedMember.Global
 

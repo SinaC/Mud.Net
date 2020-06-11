@@ -1,4 +1,6 @@
 ﻿using Mud.Domain;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Interfaces.Admin
 {

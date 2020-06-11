@@ -42,47 +42,51 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ability\IAbilityUsage.cs" />
-    <Compile Include="Aura\IFlagAffect.cs" />
-    <Compile Include="Aura\ICharacterAttributeAffect.cs" />
-    <Compile Include="Aura\ICharacterFlagsAffect.cs" />
-    <Compile Include="Aura\ICharacterIRVAffect.cs" />
-    <Compile Include="Aura\ICharacterSexAffect.cs" />
-    <Compile Include="Aura\ICharacterSizeAffect.cs" />
-    <Compile Include="Aura\IItemFlagsAffect.cs" />
-    <Compile Include="Aura\IItemWeaponFlagsAffect.cs" />
-    <Compile Include="Aura\IRoomFlagsAffect.cs" />
+    <Compile Include="Affect\ICharacterAffect.cs" />
+    <Compile Include="Affect\ICharacterPeriodicAffect.cs" />
+    <Compile Include="Affect\IFlagAffect.cs" />
+    <Compile Include="Affect\ICharacterAttributeAffect.cs" />
+    <Compile Include="Affect\ICharacterFlagsAffect.cs" />
+    <Compile Include="Affect\ICharacterIRVAffect.cs" />
+    <Compile Include="Affect\ICharacterSexAffect.cs" />
+    <Compile Include="Affect\ICharacterSizeAffect.cs" />
+    <Compile Include="Affect\IItemAffect.cs" />
+    <Compile Include="Affect\IItemFlagsAffect.cs" />
+    <Compile Include="Affect\IItemWeaponFlagsAffect.cs" />
+    <Compile Include="Affect\IRoomAffect.cs" />
+    <Compile Include="Affect\IRoomFlagsAffect.cs" />
     <Compile Include="Ability\IAbility.cs" />
     <Compile Include="Ability\IAbilityManager.cs" />
     <Compile Include="Actor\IActor.cs" />
     <Compile Include="Admin\IAdmin.cs" />
     <Compile Include="Admin\IAdminManager.cs" />
-    <Compile Include="Aura\IAffect.cs" />
+    <Compile Include="Affect\IAffect.cs" />
     <Compile Include="Area\IArea.cs" />
     <Compile Include="Aura\IAura.cs" />
     <Compile Include="Character\ICharacter.cs" />
     <Compile Include="Class\IClass.cs" />
     <Compile Include="Class\IClassManager.cs" />
     <Compile Include="ICloseable.cs" />
-    <Compile Include="IContainer.cs" />
+    <Compile Include="Entity\IContainer.cs" />
     <Compile Include="Entity\IEntity.cs" />
-    <Compile Include="IExit.cs" />
+    <Compile Include="Room\IExit.cs" />
     <Compile Include="IGroup.cs" />
-    <Compile Include="IItem.cs" />
+    <Compile Include="Item\IItem.cs" />
     <Compile Include="Character\INonPlayableCharacter.cs" />
     <Compile Include="Ability\IKnownAbility.cs" />
-    <Compile Include="IPeriodicAura.cs" />
+    <Compile Include="Aura\IPeriodicAura.cs" />
     <Compile Include="Character\IPlayableCharacter.cs" />
-    <Compile Include="IPlayableRace.cs" />
-    <Compile Include="IPlayer.cs" />
-    <Compile Include="IPlayerManager.cs" />
-    <Compile Include="IQuest.cs" />
-    <Compile Include="IRace.cs" />
-    <Compile Include="IRaceManager.cs" />
-    <Compile Include="IRoom.cs" />
+    <Compile Include="Race\IPlayableRace.cs" />
+    <Compile Include="Player\IPlayer.cs" />
+    <Compile Include="Player\IPlayerManager.cs" />
+    <Compile Include="Quest\IQuest.cs" />
+    <Compile Include="Race\IRace.cs" />
+    <Compile Include="Race\IRaceManager.cs" />
+    <Compile Include="Room\IRoom.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="IServerAdminCommand.cs" />
     <Compile Include="IServerPlayerCommand.cs" />
-    <Compile Include="ITableValues.cs" />
+    <Compile Include="Table\ITableValues.cs" />
     <Compile Include="Item\IItemArmor.cs" />
     <Compile Include="Item\IItemBoat.cs" />
     <Compile Include="Item\IItemCanContain.cs" />
@@ -120,7 +124,7 @@
     <Compile Include="ITimeManager.cs" />
     <Compile Include="IUniquenessManager.cs" />
     <Compile Include="IWiznet.cs" />
-    <Compile Include="IWorld.cs" />
+    <Compile Include="World\IWorld.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -145,5 +149,6 @@
       <Name>Mud.Server.Input</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

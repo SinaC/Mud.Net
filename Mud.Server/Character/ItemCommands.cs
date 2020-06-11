@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Mud.Domain;
-using Mud.Server.Aura;
+using Mud.Server.Affect;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
 using Mud.Server.Item;
 // ReSharper disable UnusedMember.Global
 

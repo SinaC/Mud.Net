@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Mud.Server.Interfaces.Ability;
+using System.Collections.Generic;
 
-namespace Mud.Server.Abilities
+namespace Mud.Server.Ability
 {
     public partial class AbilityManager
     {

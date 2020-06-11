@@ -1,9 +1,16 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Domain;
-using Mud.Server.Abilities;
+using Mud.Server.Ability;
 using Mud.Server.Common;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.World;
 using System;
 
 namespace Mud.Server.Tests.Abilities

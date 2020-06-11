@@ -9,10 +9,15 @@ using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Item;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.World;
 using Mud.Settings;
 
-namespace Mud.Server.Abilities
+namespace Mud.Server.Ability
 {
     public partial class AbilityManager : IAbilityManager
     {
@@ -106,7 +111,7 @@ namespace Mud.Server.Abilities
             IPlayableCharacter pcCaster = caster as IPlayableCharacter;
 
             // 1) search spell
-            KnownAbility knownAbility = Search(caster.KnownAbilities, caster.Level, x => x.Kind == AbilityKinds.Spell, parameters[0]); // filter on spell
+            IKnownAbility knownAbility = Search(caster.KnownAbilities, caster.Level, x => x.Kind == AbilityKinds.Spell, parameters[0]); // filter on spell
             if (knownAbility == null)
             {
                 caster.Send("You don't know any spells of that name.");
@@ -627,7 +632,7 @@ namespace Mud.Server.Abilities
             return AbilityTargetResults.Ok;
         }
 
-        public KnownAbility Search(IEnumerable<KnownAbility> knownAbilities, int level, Func<IAbility, bool> abilityFilterFunc, CommandParameter parameter)
+        public IKnownAbility Search(IEnumerable<IKnownAbility> knownAbilities, int level, Func<IAbility, bool> abilityFilterFunc, CommandParameter parameter)
         {
             return knownAbilities.Where(x =>
                     abilityFilterFunc(x.Ability)

@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Interfaces.Item
 {

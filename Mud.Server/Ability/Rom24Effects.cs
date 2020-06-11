@@ -2,11 +2,16 @@
 using System.Linq;
 using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Aura;
+using Mud.Server.Affect;
 using Mud.Server.Common;
-using Mud.Server.Item;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
 
-namespace Mud.Server.Abilities
+namespace Mud.Server.Ability
 {
     public partial class AbilityManager
     {

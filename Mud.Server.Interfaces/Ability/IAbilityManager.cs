@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Entity;
 
 namespace Mud.Server.Interfaces.Ability
 {

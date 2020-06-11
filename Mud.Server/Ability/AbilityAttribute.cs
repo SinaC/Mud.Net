@@ -1,7 +1,7 @@
 ﻿using Mud.Domain;
 using System;
 
-namespace Mud.Server.Abilities
+namespace Mud.Server.Ability
 {
     [AttributeUsage(AttributeTargets.Method)]
     public abstract class AbilityAttribute : Attribute

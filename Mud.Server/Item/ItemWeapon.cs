@@ -1,8 +1,11 @@
 ﻿using System;
 using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Aura;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Item
 {
@@ -68,7 +71,7 @@ namespace Mud.Server.Item
 
         public string DamageNoun { get; set; }
 
-        public void ApplyAffect(ItemWeaponFlagsAffect affect)
+        public void ApplyAffect(IItemWeaponFlagsAffect affect)
         {
             switch (affect.Operator)
             {

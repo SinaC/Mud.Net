@@ -1,6 +1,8 @@
 ﻿using Mud.Domain;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Room;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
