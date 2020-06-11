@@ -6,6 +6,11 @@ using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Quest;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Item
 {

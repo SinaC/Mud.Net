@@ -1,5 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.Server.Common;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.World;
 using Mud.Server.Tests.Mocking;
 using Mud.Settings;
 

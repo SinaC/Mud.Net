@@ -4,6 +4,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
 using Mud.Server.Tests.Mocking;
 
 namespace Mud.Server.Tests

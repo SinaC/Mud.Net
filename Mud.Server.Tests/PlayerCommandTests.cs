@@ -1,6 +1,9 @@
 ﻿using System;
 using AutoBogus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Room;
 using Moq;
 
 namespace Mud.Server.Tests

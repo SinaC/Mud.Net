@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.Domain;
-using Mud.Server.Abilities;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Ability;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
@@ -88,7 +88,7 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.Ok;
             }
             //
-            KnownAbility knownAbility = AbilityManager.Search(KnownAbilities, Level, _ => true, parameters[0]);
+            IKnownAbility knownAbility = AbilityManager.Search(KnownAbilities, Level, _ => true, parameters[0]);
             if (knownAbility == null)
             {
                 Send("You don't know any abilities of that name.");
@@ -106,7 +106,7 @@ namespace Mud.Server.Character
 
         private void DisplayAbilitiesList(bool displayAll, Func<AbilityKinds, bool> filterOnAbilityKind) 
         {
-            IEnumerable<KnownAbility> abilities = KnownAbilities
+            IEnumerable<IKnownAbility> abilities = KnownAbilities
                 //.Where(x => (displayAll || x.Level <= Level) && (displayAll || x.Learned > 0) && filterOnAbilityKind(x.Ability.Kind))
                 .Where(x => (displayAll || x.Level <= Level) && filterOnAbilityKind(x.Ability.Kind))
                 .OrderBy(x => x.Level)

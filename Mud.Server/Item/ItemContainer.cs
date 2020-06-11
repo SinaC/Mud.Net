@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Item
 {

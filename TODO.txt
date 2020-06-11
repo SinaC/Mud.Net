@@ -3,6 +3,8 @@ wands and staves on POC.Abilities2
 
 make a map of calls done when a NPC is Removed/StopFollowing/...
 
+poison/plage affect serialization
+
 SHORT TERM TODO:
 grove.are: the second jar will never appear
 O 0 8902   2 8915	* a spice jar

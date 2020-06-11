@@ -4,8 +4,13 @@ using System.Linq;
 using System.Text;
 using Mud.Container;
 using Mud.Domain;
+using Mud.Server.Affect;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Entity;
 
 namespace Mud.Server.Aura
 {
@@ -74,6 +79,7 @@ namespace Mud.Server.Aura
                         case ItemWeaponFlagsAffectData itemWeaponFlagsAffectData:
                             _affects.Add(new ItemWeaponFlagsAffect(itemWeaponFlagsAffectData));
                             break;
+                            // TODO: poison/plague
                         default:
                             Wiznet.Wiznet($"Unexpected AuraAffect type {affectData.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
                             break;

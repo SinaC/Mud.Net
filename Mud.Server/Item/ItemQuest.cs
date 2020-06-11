@@ -2,6 +2,10 @@
 using System.Linq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Quest;
 using Mud.Server.Quest;
 
 namespace Mud.Server.Item
