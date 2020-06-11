@@ -11,6 +11,6 @@ namespace Mud.POC.Abilities2.ExistingCode
 
         void GainCondition(Conditions condition, int amount);
 
-        void CheckAbilityImprove(AbilityLearned abilityLearned, bool success, int multiplier);
+        void CheckAbilityImprove(IAbilityLearned abilityLearned, bool success, int multiplier);
     }
 }

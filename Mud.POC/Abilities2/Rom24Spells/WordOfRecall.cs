@@ -57,7 +57,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             }
         }
 
-        protected override string SetTargets(SpellActionInput spellActionInput)
+        protected override string SetTargets(ISpellActionInput spellActionInput)
         {
             ICharacter victim;
             if (spellActionInput.Parameters.Length < 1)

@@ -10,11 +10,11 @@ namespace Mud.POC.Abilities2
 {
     public class AbilityManager : IAbilityManager
     {
-        private readonly Dictionary<string, AbilityInfo> _abilities;
+        private readonly Dictionary<string, IAbilityInfo> _abilities;
 
-        public IEnumerable<AbilityInfo> Abilities => _abilities.Values;
+        public IEnumerable<IAbilityInfo> Abilities => _abilities.Values;
 
-        public AbilityInfo this[string abilityName]
+        public IAbilityInfo this[string abilityName]
         {
             get
             {
@@ -24,7 +24,7 @@ namespace Mud.POC.Abilities2
             }
         }
 
-        public AbilityInfo Search(string pattern, AbilityTypes type)
+        public IAbilityInfo Search(string pattern, AbilityTypes type)
         {
             // TODO: use Trie ?
             return Abilities.Where(x => x.Type == type).FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, pattern));
@@ -33,7 +33,7 @@ namespace Mud.POC.Abilities2
         public TAbility CreateInstance<TAbility>(string abilityName)
             where TAbility : class, IAbility
         {
-            AbilityInfo abilityInfo = this[abilityName];
+            IAbilityInfo abilityInfo = this[abilityName];
             if (abilityInfo == null)
             {
                 Log.Default.WriteLine(LogLevels.Error, "Ability {0} doesn't exist.", abilityName);
@@ -55,7 +55,7 @@ namespace Mud.POC.Abilities2
 
         public AbilityManager()
         {
-            _abilities = new Dictionary<string, AbilityInfo>();
+            _abilities = new Dictionary<string, IAbilityInfo>();
             // Get abilities and register them in IOC
             Type iAbility = typeof(IAbility);
             foreach (var abilityType in Assembly.GetExecutingAssembly().GetTypes()

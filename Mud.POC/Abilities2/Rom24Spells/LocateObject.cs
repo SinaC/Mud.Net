@@ -66,7 +66,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 Caster.Page(sb);
         }
 
-        protected override string SetTargets(SpellActionInput spellActionInput)
+        protected override string SetTargets(ISpellActionInput spellActionInput)
         {
             if (string.IsNullOrWhiteSpace(spellActionInput.RawParameters))
                 return "Locate what?";

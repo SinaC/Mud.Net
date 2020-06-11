@@ -196,7 +196,7 @@ namespace Mud.POC.Tests.Abilities2
             {
             }
 
-            protected override string SetTargets(SpellActionInput spellActionInput) => null;
+            protected override string SetTargets(ISpellActionInput spellActionInput) => null;
 
             protected override void Invoke()
             {

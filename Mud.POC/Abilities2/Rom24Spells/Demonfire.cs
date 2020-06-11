@@ -18,7 +18,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
         {
         }
 
-        protected override string SetTargets(SpellActionInput spellActionInput)
+        protected override string SetTargets(ISpellActionInput spellActionInput)
         {
             string baseSetTargets = base.SetTargets(spellActionInput);
             if (baseSetTargets != null)

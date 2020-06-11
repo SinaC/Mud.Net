@@ -19,7 +19,7 @@ namespace Mud.POC.Abilities2.Rom24Skills
         {
         }
 
-        public override string Setup(SkillActionInput skillActionInput)
+        public override string Setup(ISkillActionInput skillActionInput)
         {
             string baseSetupResult = base.Setup(skillActionInput);
             if (baseSetupResult != null)

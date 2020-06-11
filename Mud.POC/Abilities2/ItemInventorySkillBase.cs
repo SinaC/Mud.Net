@@ -14,7 +14,7 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        protected override string SetTargets(SkillActionInput skillActionInput)
+        protected override string SetTargets(ISkillActionInput skillActionInput)
         {
             if (skillActionInput.Parameters.Length < 1)
                 return "What should the skill be cast upon?";

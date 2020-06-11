@@ -43,7 +43,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 character.Send("Lightning flashes in the sky.");
         }
 
-        public override string Setup(SpellActionInput spellActionInput)
+        public override string Setup(ISpellActionInput spellActionInput)
         {
             string baseSetup = base.Setup(spellActionInput);
             if (baseSetup != null)

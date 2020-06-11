@@ -18,7 +18,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             //TODO: add rose blueprint
         }
 
-        public override string Setup(SpellActionInput spellActionInput)
+        public override string Setup(ISpellActionInput spellActionInput)
         {
             string baseSetup = base.Setup(spellActionInput);
             if (baseSetup != null)

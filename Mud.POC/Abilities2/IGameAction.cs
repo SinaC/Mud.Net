@@ -5,8 +5,8 @@
         // Guards the action against incorrect usage
         // Returns null if all guard pass
         // Returns error message describing failure
-        string Guards(ActionInput actionInput);
+        string Guards(IActionInput actionInput);
         // Execute the action, Guards must be called before
-        void Execute(ActionInput actionInput);
+        void Execute(IActionInput actionInput);
     }
 }

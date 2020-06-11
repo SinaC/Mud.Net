@@ -4,10 +4,10 @@ namespace Mud.POC.Abilities2
 {
     public interface IAbilityManager
     {
-        IEnumerable<AbilityInfo> Abilities { get; }
-        AbilityInfo this[string abilityName] { get; }
+        IEnumerable<IAbilityInfo> Abilities { get; }
+        IAbilityInfo this[string abilityName] { get; }
 
-        AbilityInfo Search(string pattern, AbilityTypes type);
+        IAbilityInfo Search(string pattern, AbilityTypes type);
 
         TAbility CreateInstance<TAbility>(string abilityName)
             where TAbility : class, IAbility;

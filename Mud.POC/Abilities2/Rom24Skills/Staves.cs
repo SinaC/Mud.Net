@@ -44,7 +44,7 @@ namespace Mud.POC.Abilities2.Rom24Skills
             return success;
         }
 
-        protected override string SetTargets(SkillActionInput skillActionInput)
+        protected override string SetTargets(ISkillActionInput skillActionInput)
         {
             Item = User.GetEquipment<IItemStaff>(EquipmentSlots.OffHand);
             if (Item == null)

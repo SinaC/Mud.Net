@@ -65,7 +65,7 @@ namespace Mud.POC.Tests.Abilities2
                 return true;
             }
 
-            protected override string SetTargets(SkillActionInput skillActionInput)
+            protected override string SetTargets(ISkillActionInput skillActionInput)
             {
                 return SetupSpell(SpellName, SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
             }

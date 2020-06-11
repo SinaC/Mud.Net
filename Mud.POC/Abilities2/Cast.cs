@@ -9,7 +9,7 @@ namespace Mud.POC.Abilities2
     {
         protected IAbilityManager AbilityManager { get; }
 
-        protected AbilityInfo AbilityInfo { get; set; }
+        protected IAbilityInfo AbilityInfo { get; set; }
         protected ICharacter Caster { get; set; }
         protected SpellActionInput SpellActionInput { get; set; }
         protected ISpell SpellInstance { get; set; }
@@ -19,7 +19,7 @@ namespace Mud.POC.Abilities2
             AbilityManager = abilityManager;
         }
 
-        public string Guards(ActionInput actionInput)
+        public string Guards(IActionInput actionInput)
         {
             if (actionInput.Actor == null)
                 return "Cannot cast a spell without an actor!";
@@ -46,7 +46,7 @@ namespace Mud.POC.Abilities2
             return spellInstanceGuards;
         }
 
-        public void Execute(ActionInput actionInput)
+        public void Execute(IActionInput actionInput)
         {
             SpellInstance.Execute();
         }

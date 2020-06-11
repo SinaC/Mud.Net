@@ -35,7 +35,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             }
         }
 
-        protected override string SetTargets(SpellActionInput spellActionInput)
+        protected override string SetTargets(ISpellActionInput spellActionInput)
         {
             if (spellActionInput.Parameters.Length < 2)
                 return "Make who saying what?";

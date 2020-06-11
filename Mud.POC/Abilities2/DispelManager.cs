@@ -30,7 +30,7 @@ namespace Mud.POC.Abilities2
                     victim.RemoveAura(aura, false); // RemoveAura will display WearOff message
                     if (aura.AbilityName != null)
                     {
-                        AbilityInfo abilityInfo = AbilityManager[aura.AbilityName];
+                        IAbilityInfo abilityInfo = AbilityManager[aura.AbilityName];
                         string dispelRoomMessage = abilityInfo?.DispelRoomMessage;
                         if (!string.IsNullOrWhiteSpace(dispelRoomMessage))
                             victim.Act(ActOptions.ToRoom, dispelRoomMessage, victim);
@@ -52,7 +52,7 @@ namespace Mud.POC.Abilities2
                 if (!SavesDispel(dispelLevel, aura))
                 {
                     victim.RemoveAura(aura, true); // RemoveAura will display DispelMessage
-                    AbilityInfo abilityInfo = AbilityManager[aura.AbilityName];
+                    IAbilityInfo abilityInfo = AbilityManager[aura.AbilityName];
                     string dispelRoomMessage = abilityInfo?.DispelRoomMessage;
                     if (!string.IsNullOrWhiteSpace(dispelRoomMessage))
                         victim.Act(ActOptions.ToRoom, dispelRoomMessage, victim);

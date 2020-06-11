@@ -40,7 +40,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             Victim.AutoLook();
         }
 
-        protected override string SetTargets(SpellActionInput spellActionInput)
+        protected override string SetTargets(ISpellActionInput spellActionInput)
         {
             Victim = FindHelpers.FindChararacterInWorld(Caster, spellActionInput.Parameters[0]);
             if (Victim == null || IsVictimValid())

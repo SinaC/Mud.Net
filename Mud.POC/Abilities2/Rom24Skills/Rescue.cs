@@ -35,7 +35,7 @@ namespace Mud.POC.Abilities2.Rom24Skills
             return true;
         }
 
-        protected override string SetTargets(SkillActionInput skillActionInput)
+        protected override string SetTargets(ISkillActionInput skillActionInput)
         {
             string baseSetTargets = base.SetTargets(skillActionInput);
             if (baseSetTargets != null)

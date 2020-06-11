@@ -18,7 +18,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             AuraManager = auraManager;
         }
 
-        public override string Setup(SpellActionInput spellActionInput)
+        public override string Setup(ISpellActionInput spellActionInput)
         {
             string baseSetup = base.Setup(spellActionInput);
             if (baseSetup != null)
@@ -29,7 +29,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             return null;
         }
 
-        protected override string SetTargets(SpellActionInput spellActionInput)
+        protected override string SetTargets(ISpellActionInput spellActionInput)
         {
             string baseSetTargets = base.SetTargets(spellActionInput);
             if (baseSetTargets != null)

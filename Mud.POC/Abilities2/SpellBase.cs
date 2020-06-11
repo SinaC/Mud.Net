@@ -15,7 +15,7 @@ namespace Mud.POC.Abilities2
         protected IRandomManager RandomManager { get; }
 
         protected bool IsSetupExecuted { get; private set; }
-        protected AbilityInfo AbilityInfo { get; private set; }
+        protected IAbilityInfo AbilityInfo { get; private set; }
         protected ICharacter Caster { get; private set; }
         protected int Level { get; private set; }
         protected int? Cost { get; private set; }
@@ -29,7 +29,7 @@ namespace Mud.POC.Abilities2
 
         #region ISpell
 
-        public virtual string Setup(SpellActionInput spellActionInput)
+        public virtual string Setup(ISpellActionInput spellActionInput)
         {
             IsSetupExecuted = true;
 
@@ -52,10 +52,10 @@ namespace Mud.POC.Abilities2
 
         #endregion
 
-        protected abstract string SetTargets(SpellActionInput spellActionInput);
+        protected abstract string SetTargets(ISpellActionInput spellActionInput);
         protected abstract void Invoke();
 
-        private string SetupFromCast(SpellActionInput spellActionInput)
+        private string SetupFromCast(ISpellActionInput spellActionInput)
         {
             // 1) check context
             AbilityInfo = spellActionInput.AbilityInfo;
@@ -114,7 +114,7 @@ namespace Mud.POC.Abilities2
             return null;
         }
 
-        private string SetupFromItem(SpellActionInput spellActionInput)
+        private string SetupFromItem(ISpellActionInput spellActionInput)
         {
             // 1) check context
             AbilityInfo = spellActionInput.AbilityInfo;

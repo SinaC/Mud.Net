@@ -82,8 +82,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abilities2\IActionInput.cs" />
+    <Compile Include="Abilities2\IAbilityLearned.cs" />
     <Compile Include="Abilities2\ExistingCode\IItemShield.cs" />
+    <Compile Include="Abilities2\IAbilityInfo.cs" />
+    <Compile Include="Abilities2\IAbilityUsage.cs" />
     <Compile Include="Abilities2\IPassive.cs" />
+    <Compile Include="Abilities2\ISkillActionInput.cs" />
     <Compile Include="Abilities2\ITargetedAction.cs" />
     <Compile Include="Abilities2\PassiveBase.cs" />
     <Compile Include="Abilities2\Rom24Passives\Haggle.cs" />
@@ -134,6 +139,7 @@
     <Compile Include="Abilities2\Rom24Skills\Recall.cs" />
     <Compile Include="Abilities2\Rom24Skills\Scrolls.cs" />
     <Compile Include="Abilities2\Rom24Skills\Trip.cs" />
+    <Compile Include="Abilities2\ISpellActionInput.cs" />
     <Compile Include="Abilities2\SpellActionInput.cs" />
     <Compile Include="Abilities2\Use.cs" />
     <Compile Include="Abilities2\Cast.cs" />
