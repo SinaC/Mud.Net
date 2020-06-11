@@ -1,7 +1,10 @@
 ﻿using Mud.Domain;
-using Mud.Server.Abilities;
 using Mud.Server.Common;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Race;
 using System;
 using System.Linq;
 
@@ -9,12 +12,12 @@ namespace Mud.Server.Helpers
 {
     public static class TableGenerators
     {
-        public static readonly Lazy<TableGenerator<KnownAbility>> KnownAbilityTableGenerator = new Lazy<TableGenerator<KnownAbility>>(() =>
+        public static readonly Lazy<TableGenerator<IKnownAbility>> KnownAbilityTableGenerator = new Lazy<TableGenerator<IKnownAbility>>(() =>
         {
             // Merge resource and cost if free cost ability
-            TableGenerator<KnownAbility> generator = new TableGenerator<KnownAbility>();
+            TableGenerator<IKnownAbility> generator = new TableGenerator<IKnownAbility>();
             generator.AddColumn("Lvl", 5, x => x.Level.ToString());
-            generator.AddColumn("Name", 23, x => x.Ability.Name, new TableGenerator<KnownAbility>.ColumnOptions { AlignLeft = true });
+            generator.AddColumn("Name", 23, x => x.Ability.Name, new TableGenerator<IKnownAbility>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("Cost", 10, x =>
             {
                 if (x.Learned == 0)
@@ -125,12 +128,12 @@ namespace Mud.Server.Helpers
             return generator;
         });
 
-        public static readonly Lazy<TableGenerator<AbilityUsage>> FullInfoAbilityUsageTableGenerator = new Lazy<TableGenerator<AbilityUsage>>(() =>
+        public static readonly Lazy<TableGenerator<IAbilityUsage>> FullInfoAbilityUsageTableGenerator = new Lazy<TableGenerator<IAbilityUsage>>(() =>
         {
             // Merge resource and cost if free cost ability
-            TableGenerator<AbilityUsage> generator = new TableGenerator<AbilityUsage>();
+            TableGenerator<IAbilityUsage> generator = new TableGenerator<IAbilityUsage>();
             generator.AddColumn("Lvl", 5, x => x.Level.ToString());
-            generator.AddColumn("Name", 23, x => x.Ability.Name, new TableGenerator<AbilityUsage>.ColumnOptions { AlignLeft = true });
+            generator.AddColumn("Name", 23, x => x.Ability.Name, new TableGenerator<IAbilityUsage>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("Resource", 10,
                 x =>
                 {
@@ -145,7 +148,7 @@ namespace Mud.Server.Helpers
                     }
                     return "%W%free cost ability%x%";
                 },
-                new TableGenerator<AbilityUsage>.ColumnOptions
+                new TableGenerator<IAbilityUsage>.ColumnOptions
                 {
                     GetMergeLengthFunc = x =>
                     {
@@ -157,7 +160,7 @@ namespace Mud.Server.Helpers
                     }
                 });
             generator.AddColumn("Cost", 8, x => x.CostAmount.ToString(),
-                new TableGenerator<AbilityUsage>.ColumnOptions
+                new TableGenerator<IAbilityUsage>.ColumnOptions
                 {
                     GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage ? "%" : " "
                 });

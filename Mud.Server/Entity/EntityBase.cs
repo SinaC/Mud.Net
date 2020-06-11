@@ -11,6 +11,13 @@ using Mud.Server.Actor;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Entity
 {

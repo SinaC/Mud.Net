@@ -7,6 +7,14 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Input;
 using System.Collections.Generic;
+using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Table;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Admin
 {

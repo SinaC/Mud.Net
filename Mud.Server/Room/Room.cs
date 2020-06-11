@@ -6,7 +6,6 @@ using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Aura;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
@@ -14,7 +13,14 @@ using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Input;
-using Mud.Server.Item;
+using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Quest;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Room
 {
@@ -473,7 +479,7 @@ namespace Mud.Server.Room
             }
         }
 
-        public void ApplyAffect(RoomFlagsAffect affect)
+        public void ApplyAffect(IRoomFlagsAffect affect)
         {
             switch (affect.Operator)
             {

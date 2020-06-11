@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Mud.Container;
-using Mud.Server;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.World;
 
 namespace Mud.POC.TestLua
 {

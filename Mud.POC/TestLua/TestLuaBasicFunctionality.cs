@@ -1,6 +1,7 @@
 ﻿using System.Linq;
-using Mud.Server;
 using NLua;
+using Mud.Server.Interfaces.Character;
+
 
 namespace Mud.POC.TestLua
 {

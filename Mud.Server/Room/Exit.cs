@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Room
 {
@@ -19,7 +20,6 @@ namespace Mud.Server.Room
         }
 
         #region IExit
-
 
         #region ICloseable
 

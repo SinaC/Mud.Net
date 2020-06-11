@@ -7,15 +7,26 @@ using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Abilities;
-using Mud.Server.Aura;
+using Mud.Server.Ability;
+using Mud.Server.Affect;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Item;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.Table;
 
 namespace Mud.Server.Character
 {
@@ -34,7 +45,7 @@ namespace Mud.Server.Character
         private readonly int[] _maxResources;
         private readonly int[] _currentResources;
         private readonly Dictionary<IAbility, int> _cooldownsPulseLeft;
-        private readonly List<KnownAbility> _knownAbilities;
+        private readonly List<IKnownAbility> _knownAbilities;
 
         protected IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
         protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
@@ -51,7 +62,7 @@ namespace Mud.Server.Character
             _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _currentResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _cooldownsPulseLeft = new Dictionary<IAbility, int>(new CompareIAbility());
-            _knownAbilities = new List<KnownAbility>(); // handled by RecomputeKnownAbilities
+            _knownAbilities = new List<IKnownAbility>(); // handled by RecomputeKnownAbilities
 
             Position = Positions.Standing;
             Form = Forms.Normal;
@@ -255,7 +266,7 @@ namespace Mud.Server.Character
 
         // Abilities
 
-        public IEnumerable<KnownAbility> KnownAbilities => _knownAbilities;
+        public IEnumerable<IKnownAbility> KnownAbilities => _knownAbilities;
 
         // Followers
         public ICharacter Leader { get; protected set; }
@@ -1497,11 +1508,11 @@ namespace Mud.Server.Character
         }
         
         // Abilities
-        public abstract (int learned, KnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon);
+        public abstract (int learned, IKnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon);
 
-        public abstract (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability);
+        public abstract (int learned, IKnownAbility knownAbility) GetLearnInfo(IAbility ability);
 
-        public (int learned, KnownAbility knownAbility) GetLearnInfo(string abilityName) 
+        public (int learned, IKnownAbility knownAbility) GetLearnInfo(string abilityName) 
         {
             IAbility ability = AbilityManager[abilityName];
             if (ability == null)
@@ -1603,7 +1614,7 @@ namespace Mud.Server.Character
         }
 
         // Affects
-        public void ApplyAffect(CharacterFlagsAffect affect)
+        public void ApplyAffect(ICharacterFlagsAffect affect)
         {
             switch (affect.Operator)
             {
@@ -1620,7 +1631,7 @@ namespace Mud.Server.Character
             }
         }
 
-        public void ApplyAffect(CharacterIRVAffect affect)
+        public void ApplyAffect(ICharacterIRVAffect affect)
         {
             switch (affect.Location)
             {
@@ -1672,7 +1683,7 @@ namespace Mud.Server.Character
             }
         }
 
-        public void ApplyAffect(CharacterAttributeAffect affect)
+        public void ApplyAffect(ICharacterAttributeAffect affect)
         {
             if (affect.Location == CharacterAttributeAffectLocations.None)
                 return;
@@ -1760,12 +1771,12 @@ namespace Mud.Server.Character
             }
         }
 
-        public void ApplyAffect(CharacterSexAffect affect)
+        public void ApplyAffect(ICharacterSexAffect affect)
         {
             Sex = affect.Value;
         }
 
-        public void ApplyAffect(CharacterSizeAffect affect)
+        public void ApplyAffect(ICharacterSizeAffect affect)
         {
             Size = affect.Value;
         }
@@ -2127,7 +2138,7 @@ namespace Mud.Server.Character
             }
         }
 
-        protected KnownAbility this[IAbility ability] => _knownAbilities.SingleOrDefault(x => x.Ability == ability);
+        protected IKnownAbility this[IAbility ability] => _knownAbilities.SingleOrDefault(x => x.Ability == ability);
 
         protected void SetCooldown(IAbility ability, int pulseLeft)
         {
@@ -2315,7 +2326,7 @@ namespace Mud.Server.Character
             }
         }
 
-        protected void AddKnownAbility(KnownAbility knownAbility)
+        protected void AddKnownAbility(IKnownAbility knownAbility)
         {
             if (knownAbility.Ability != null && _knownAbilities.All(x => x.Ability?.Id != knownAbility.Ability.Id))
                 _knownAbilities.Add(knownAbility);
@@ -2334,12 +2345,12 @@ namespace Mud.Server.Character
             }
         }
 
-        protected void MergeAbilities(IEnumerable<AbilityUsage> abilities, bool naturalBorn)
+        protected void MergeAbilities(IEnumerable<IAbilityUsage> abilities, bool naturalBorn)
         {
             // If multiple identical abilities, keep only one with lowest level
-            foreach (AbilityUsage abilityUsage in abilities)
+            foreach (IAbilityUsage abilityUsage in abilities)
             {
-                KnownAbility knownAbility = this[abilityUsage.Ability];
+                IKnownAbility knownAbility = this[abilityUsage.Ability];
                 if (knownAbility != null)
                 {
                     //Log.Default.WriteLine(LogLevels.Debug, "Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);

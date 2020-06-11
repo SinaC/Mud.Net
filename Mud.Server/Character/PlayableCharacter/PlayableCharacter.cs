@@ -8,11 +8,20 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
-using Mud.Server.Abilities;
+using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Input;
-using Mud.Server.Item;
+using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Quest;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Room;
 using Mud.Server.Quest;
 
 namespace Mud.Server.Character.PlayableCharacter
@@ -27,7 +36,6 @@ namespace Mud.Server.Character.PlayableCharacter
 
         protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
         protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
-
         protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
 
         private readonly List<IQuest> _quests;
@@ -472,7 +480,7 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Abilities
-        public override (int learned, KnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon)
+        public override (int learned, IKnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon)
         {
             IAbility ability = null;
             if (weapon == null)
@@ -528,9 +536,9 @@ namespace Mud.Server.Character.PlayableCharacter
             return learnInfo;
         }
 
-        public override (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability)
+        public override (int learned, IKnownAbility knownAbility) GetLearnInfo(IAbility ability)
         {
-            KnownAbility knownAbility = this[ability];
+            IKnownAbility knownAbility = this[ability];
             int learned = 0;
             if (knownAbility != null && knownAbility.Level <= Level)
                 learned = knownAbility.Learned;
@@ -770,7 +778,7 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Ability
-        public bool CheckAbilityImprove(KnownAbility knownAbility, bool abilityUsedSuccessfully, int multiplier)
+        public bool CheckAbilityImprove(IKnownAbility knownAbility, bool abilityUsedSuccessfully, int multiplier)
         {
             // Know ability ?
             if (knownAbility == null
@@ -908,7 +916,7 @@ namespace Mud.Server.Character.PlayableCharacter
             // class bonus
             hitGain += (Class?.MaxHitPointGainPerLevel ?? 0) - 10;
             // fast healing
-            (int learned, KnownAbility knownAbility) fastHealing = GetLearnInfo("Fast healing");
+            (int learned, IKnownAbility knownAbility) fastHealing = GetLearnInfo("Fast healing");
             if (RandomManager.Chance(fastHealing.learned))
             {
                 hitGain += (fastHealing.learned * hitGain) / 100;
@@ -916,7 +924,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     CheckAbilityImprove(fastHealing.knownAbility, true, 8);
             }
             // meditation
-            (int learned, KnownAbility knownAbility) meditation = GetLearnInfo("Meditation");
+            (int learned, IKnownAbility knownAbility) meditation = GetLearnInfo("Meditation");
             if (RandomManager.Chance(meditation.learned))
             {
                 manaGain += (meditation.learned * manaGain) / 100;
@@ -1270,7 +1278,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
             Send("You gain {0} hit point{1}, {2} mana, {3} move, and {4} practice{5}.", addHitpoints, addHitpoints == 1 ? "" : "s", addMana, addMove, addPractice, addPractice == 1 ? "" : "s");
             // Inform about new abilities
-            KnownAbility[] newAbilities = KnownAbilities.Where(x => x.Level == Level && x.Learned == 0).ToArray();
+            IKnownAbility[] newAbilities = KnownAbilities.Where(x => x.Level == Level && x.Learned == 0).ToArray();
             if (newAbilities.Any())
             {
                 StringBuilder sb = new StringBuilder("You can now gain following abilities: %C%");

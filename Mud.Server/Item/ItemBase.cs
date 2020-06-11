@@ -4,12 +4,17 @@ using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Aura;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Item
 {
@@ -244,7 +249,7 @@ namespace Mud.Server.Item
             Level++;
         }
 
-        public void ApplyAffect(ItemFlagsAffect affect)
+        public void ApplyAffect(IItemFlagsAffect affect)
         {
             switch (affect.Operator)
             {
