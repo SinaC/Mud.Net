@@ -60,10 +60,10 @@ namespace Mud.POC.Tests.Abilities2
             userMock.Setup(x => x.GetEquipment<IItemStaff>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => staffMock.Object);
 
             Staves skill = new Staves(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var parameters = BuildParameters("");
-            SkillActionInput actionInput = new SkillActionInput(new AbilityInfo(skill.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            var actionInput = BuildActionInput(userMock.Object, "brandish");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(actionInput);
+            string result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("Something goes wrong.", result);
         }
@@ -112,10 +112,10 @@ namespace Mud.POC.Tests.Abilities2
             userMock.Setup(x => x.GetEquipment<IItemStaff>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => staffMock.Object);
 
             Staves skill = new Staves(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var parameters = BuildParameters("");
-            SkillActionInput actionInput = new SkillActionInput(new AbilityInfo(skill.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            var actionInput = BuildActionInput(userMock.Object, "brandish");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(actionInput);
+            string result = skill.Setup(skillActionInput);
             skill.Execute();
 
             Assert.IsNull(result);
@@ -168,10 +168,10 @@ namespace Mud.POC.Tests.Abilities2
             userMock.Setup(x => x.GetEquipment<IItemStaff>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => staffMock.Object);
 
             Staves skill = new Staves(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var parameters = BuildParameters("");
-            SkillActionInput actionInput = new SkillActionInput(new AbilityInfo(skill.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            var actionInput = BuildActionInput(userMock.Object, "brandish");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(actionInput);
+            string result = skill.Setup(skillActionInput);
             skill.Execute();
 
             Assert.IsNull(result);
@@ -224,10 +224,10 @@ namespace Mud.POC.Tests.Abilities2
             userMock.Setup(x => x.GetEquipment<IItemStaff>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => staffMock.Object);
 
             Staves skill = new Staves(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var parameters = BuildParameters("");
-            SkillActionInput actionInput = new SkillActionInput(new AbilityInfo(skill.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            var actionInput = BuildActionInput(userMock.Object, "brandish");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(actionInput);
+            string result = skill.Setup(skillActionInput);
             skill.Execute();
 
             Assert.IsNull(result);
@@ -282,10 +282,10 @@ namespace Mud.POC.Tests.Abilities2
             userMock.Setup(x => x.GetEquipment<IItemStaff>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => staffMock.Object);
 
             Staves skill = new Staves(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var parameters = BuildParameters("");
-            SkillActionInput actionInput = new SkillActionInput(new AbilityInfo(skill.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            var actionInput = BuildActionInput(userMock.Object, "brandish");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(actionInput);
+            string result = skill.Setup(skillActionInput);
             skill.Execute();
 
             Assert.IsNull(result);
@@ -343,10 +343,10 @@ namespace Mud.POC.Tests.Abilities2
             userMock.Setup(x => x.GetEquipment<IItemStaff>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => staffMock.Object);
 
             Staves skill = new Staves(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var parameters = BuildParameters("");
-            SkillActionInput actionInput = new SkillActionInput(new AbilityInfo(skill.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            var actionInput = BuildActionInput(userMock.Object, "brandish");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(actionInput);
+            string result = skill.Setup(skillActionInput);
             skill.Execute();
 
             Assert.IsNull(result);

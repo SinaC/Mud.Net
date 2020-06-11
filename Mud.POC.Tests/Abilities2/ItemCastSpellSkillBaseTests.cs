@@ -36,8 +36,8 @@ namespace Mud.POC.Tests.Abilities2
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new[] { userMock.Object, targetMock.Object});
 
-            var parameters = BuildParameters("target");
-            SkillActionInput skillActionInput = new SkillActionInput(new AbilityInfo(skill.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            var actionInput = BuildActionInput(userMock.Object, "whatever target");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
             string result = skill.Setup(skillActionInput);
 
             skill.Execute();

@@ -32,7 +32,7 @@ namespace Mud.POC.Abilities2
             if (AbilityInfo.AbilityExecutionType != GetType())
                 return $"Internal error: AbilityInfo is not of the right type: {AbilityInfo.GetType().Name} instead of {GetType().Name}.";
             // 2) check actor
-            User = skillActionInput.Actor as ICharacter;
+            User = skillActionInput.User;
             if (User == null)
                 return "Skill must be used by a character.";
             if (User.Room == null)
@@ -94,7 +94,7 @@ namespace Mud.POC.Abilities2
             if (user == null)
                 return "Only character are allowed to use skills.";
             var abilityInfo = new AbilityInfo(GetType());
-            var skillActionInput = new SkillActionInput(abilityInfo, user, actionInput.RawParameters, actionInput.Parameters);
+            var skillActionInput = new SkillActionInput(actionInput, abilityInfo, user);
             string setupResult = Setup(skillActionInput);
             return setupResult;
         }

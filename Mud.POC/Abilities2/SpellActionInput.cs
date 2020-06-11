@@ -3,25 +3,34 @@ using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2
 {
-    public class SpellActionInput : ActionInput
+    public class SpellActionInput
     {
-        public AbilityInfo AbilityInfo => Context as AbilityInfo;
+        public ICharacter Caster { get; }
+        public string RawParameters { get; }
+        public CommandParameter[] Parameters { get; }
+        public AbilityInfo AbilityInfo { get; }
         public int Level { get; }
         public CastFromItemOptions CastFromItemOptions { get; }
 
         public bool IsCastFromItem => CastFromItemOptions != null;
 
-        public SpellActionInput(AbilityInfo abilityInfo, IActor actor, int level, string rawParameters, params CommandParameter[] parameters) // TODO: remove this
-            : this(abilityInfo, actor, level, null, rawParameters, parameters)
+        public SpellActionInput(ActionInput actionInput, AbilityInfo abilityInfo, ICharacter caster, int level)
         {
-            Context = abilityInfo;
+            Caster = caster;
+            var parameters = CommandHelpers.SkipParameters(actionInput.Parameters, 1); // remove 'spell name'
+            RawParameters = parameters.rawParameters;
+            Parameters = parameters.parameters;
+            AbilityInfo = abilityInfo;
             Level = level;
+            CastFromItemOptions = null;
         }
 
-        public SpellActionInput(AbilityInfo abilityInfo, IActor actor, int level, CastFromItemOptions castFromItemOptions, string rawParameters, params CommandParameter[] parameters)
-            : base(actor, string.Empty /*TODO*/, abilityInfo?.Name ?? "Error", rawParameters, parameters)
+        public SpellActionInput(AbilityInfo abilityInfo, ICharacter caster, int level, CastFromItemOptions castFromItemOptions, string rawParameters, params CommandParameter[] parameters)
         {
-            Context = abilityInfo;
+            Caster = caster;
+            RawParameters = rawParameters;
+            Parameters = parameters;
+            AbilityInfo = abilityInfo;
             Level = level;
             CastFromItemOptions = castFromItemOptions;
         }

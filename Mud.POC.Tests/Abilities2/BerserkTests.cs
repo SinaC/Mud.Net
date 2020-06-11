@@ -16,17 +16,17 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
-            Berserk berserk = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
 
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            var parameters = BuildParameters("");
-            var abilityActionInput = new SkillActionInput(new AbilityInfo(berserk.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            Berserk skill = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
+            var actionInput = BuildActionInput(userMock.Object, "berserk");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            var result = berserk.Setup(abilityActionInput);
+            string result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("You turn red in the face, but nothing happens.", result);
         }
@@ -36,17 +36,17 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
-            Berserk berserk = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
 
             Mock<INonPlayableCharacter> userMock = new Mock<INonPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            var parameters = BuildParameters("");
-            var abilityActionInput = new SkillActionInput(new AbilityInfo(berserk.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            Berserk skill = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
+            var actionInput = BuildActionInput(userMock.Object, "berserk");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            var result = berserk.Setup(abilityActionInput);
+            string result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("You turn red in the face, but nothing happens.", result);
         }
@@ -56,7 +56,6 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
-            Berserk berserk = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
 
             Mock<INonPlayableCharacter> userMock = new Mock<INonPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -65,10 +64,11 @@ namespace Mud.POC.Tests.Abilities2
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            var parameters = BuildParameters("");
-            var abilityActionInput = new SkillActionInput(new AbilityInfo(berserk.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            Berserk skill = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
+            var actionInput = BuildActionInput(userMock.Object, "berserk");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            var result = berserk.Setup(abilityActionInput);
+            string result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("You turn red in the face, but nothing happens.", result);
         }
@@ -78,7 +78,6 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
-            Berserk berserk = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
 
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -88,10 +87,11 @@ namespace Mud.POC.Tests.Abilities2
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            var parameters = BuildParameters("");
-            var abilityActionInput = new SkillActionInput(new AbilityInfo(berserk.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            Berserk skill = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
+            var actionInput = BuildActionInput(userMock.Object, "berserk");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            var result = berserk.Setup(abilityActionInput);
+            string result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("You get a little madder.", result);
         }
@@ -101,7 +101,6 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
-            Berserk berserk = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
 
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -111,10 +110,11 @@ namespace Mud.POC.Tests.Abilities2
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            var parameters = BuildParameters("");
-            var abilityActionInput = new SkillActionInput(new AbilityInfo(berserk.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            Berserk skill = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
+            var actionInput = BuildActionInput(userMock.Object, "berserk");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            var result = berserk.Setup(abilityActionInput);
+            string result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("You get a little madder.", result);
         }
@@ -124,7 +124,6 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
-            Berserk berserk = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
 
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -134,10 +133,11 @@ namespace Mud.POC.Tests.Abilities2
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            var parameters = BuildParameters("");
-            var abilityActionInput = new SkillActionInput(new AbilityInfo(berserk.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            Berserk skill = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
+            var actionInput = BuildActionInput(userMock.Object, "berserk");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            var result = berserk.Setup(abilityActionInput);
+            string result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("You're feeling to mellow to berserk.", result);
         }
@@ -147,7 +147,6 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
-            Berserk berserk = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
 
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -156,10 +155,11 @@ namespace Mud.POC.Tests.Abilities2
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(0);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            var parameters = BuildParameters("");
-            var abilityActionInput = new SkillActionInput(new AbilityInfo(berserk.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            Berserk skill = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
+            var actionInput = BuildActionInput(userMock.Object, "berserk");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            var result = berserk.Setup(abilityActionInput);
+            string result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("You can't get up enough energy.", result);
         }
@@ -170,7 +170,6 @@ namespace Mud.POC.Tests.Abilities2
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => false);
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
-            Berserk berserk = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
 
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -180,11 +179,12 @@ namespace Mud.POC.Tests.Abilities2
             userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            var parameters = BuildParameters("");
-            var abilityActionInput = new SkillActionInput(new AbilityInfo(berserk.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            Berserk skill = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
+            var actionInput = BuildActionInput(userMock.Object, "berserk");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            var result = berserk.Setup(abilityActionInput);
-            berserk.Execute();
+            string result = skill.Setup(skillActionInput);
+            skill.Execute();
 
             Assert.IsNull(result);
             userMock.Verify(x => x.Send("Your pulse speeds up, but nothing happens.", It.IsAny<object[]>()), Times.Once);
@@ -196,7 +196,6 @@ namespace Mud.POC.Tests.Abilities2
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
-            Berserk berserk = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
 
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -206,23 +205,23 @@ namespace Mud.POC.Tests.Abilities2
             userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            var parameters = BuildParameters("");
-            var abilityActionInput = new SkillActionInput(new AbilityInfo(berserk.GetType()), userMock.Object, parameters.rawParameters, parameters.parameters);
+            Berserk skill = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
+            var actionInput = BuildActionInput(userMock.Object, "berserk");
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
-            var result = berserk.Setup(abilityActionInput);
-            berserk.Execute();
+            string result = skill.Setup(skillActionInput);
+            skill.Execute();
 
             Assert.IsNull(result);
             userMock.Verify(x => x.Send("Your pulse races as you are consumed by rage!", It.IsAny<object[]>()), Times.Once);
         }
 
         [TestMethod]
-        public void Guards()
+        public void UseWithCommand_Guards()
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
-            Berserk berserk = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
 
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -232,10 +231,11 @@ namespace Mud.POC.Tests.Abilities2
             userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            var actionInput = new ActionInput(userMock.Object, "");
+            var actionInput = new ActionInput(userMock.Object, "berserk");
 
-            var result = berserk.Guards(actionInput);
-            berserk.Execute(actionInput);
+            Berserk skill = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
+            var result = skill.Guards(actionInput);
+            skill.Execute(actionInput);
 
             Assert.IsNull(result);
             userMock.Verify(x => x.Send("Your pulse races as you are consumed by rage!", It.IsAny<object[]>()), Times.Once);

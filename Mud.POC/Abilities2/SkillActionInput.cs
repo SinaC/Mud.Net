@@ -3,14 +3,27 @@ using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2
 {
-    public class SkillActionInput : ActionInput
+    public class SkillActionInput
     {
-        public AbilityInfo AbilityInfo => Context as AbilityInfo;
+        public ICharacter User { get; }
+        public string RawParameters { get; }
+        public CommandParameter[] Parameters { get; }
+        public AbilityInfo AbilityInfo { get; }
 
-        public SkillActionInput(AbilityInfo abilityInfo, IActor actor, string rawParameters, params CommandParameter[] parameters)
-            : base(actor, string.Empty /*TODO*/, abilityInfo?.Name ?? "Error", rawParameters, parameters)
+        public SkillActionInput(ActionInput actionInput, AbilityInfo abilityInfo, ICharacter user)
         {
-            Context = abilityInfo;
+            User = user;
+            RawParameters = actionInput.RawParameters;
+            Parameters = actionInput.Parameters;
+            AbilityInfo = abilityInfo;
         }
+
+        //public SkillActionInput(AbilityInfo abilityInfo, ICharacter user, string rawParameters, params CommandParameter[] parameters)
+        //{
+        //    User = user;
+        //    RawParameters = rawParameters;
+        //    Parameters = parameters;
+        //    AbilityInfo = abilityInfo;
+        //}
     }
 }

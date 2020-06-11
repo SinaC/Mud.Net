@@ -27,8 +27,8 @@ namespace Mud.POC.Abilities2
             User = actionInput.Actor as ICharacter;
             if (User == null)
                 return "Only character are allowed to use skills!";
-            bool extracted = CommandHelpers.ExtractCommandAndParameters(actionInput.CommandLine, out var skillName, out var rawParameters, out var parameters);
-            if (!extracted)
+            var skillName = actionInput.Parameters.Length > 0 ? actionInput.Parameters[0].Value : null;
+            if (string.IsNullOrWhiteSpace(skillName))
                 return "Use what ?";
             AbilityInfo = AbilityManager.Search(skillName, AbilityTypes.Skill);
             if (AbilityInfo == null)
@@ -38,7 +38,7 @@ namespace Mud.POC.Abilities2
             SkillInstance = DependencyContainer.Current.GetInstance(AbilityInfo.AbilityExecutionType) as ISkill;
             if (SkillInstance == null)
                 return "Skill instance cannot be created!";
-            SkillActionInput = new SkillActionInput(AbilityInfo, User, rawParameters, parameters);
+            SkillActionInput = new SkillActionInput(actionInput, AbilityInfo, User);
             string skillInstanceGuards = SkillInstance.Setup(SkillActionInput);
             return skillInstanceGuards;
         }

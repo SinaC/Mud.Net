@@ -27,8 +27,8 @@ namespace Mud.POC.Abilities2
             Caster = actionInput.Actor as ICharacter;
             if (Caster == null)
                 return "Only character are allowed to cast spells!";
-            bool extracted = CommandHelpers.ExtractCommandAndParameters(actionInput.CommandLine, out var spellName, out var rawParameters, out var parameters);
-            if (!extracted)
+            var spellName = actionInput.Parameters.Length > 0 ? actionInput.Parameters[0].Value : null;
+            if (string.IsNullOrWhiteSpace(spellName))
                 return "Cast what ?";
             AbilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
             if (AbilityInfo == null)
@@ -41,7 +41,7 @@ namespace Mud.POC.Abilities2
             SpellInstance = DependencyContainer.Current.GetInstance(AbilityInfo.AbilityExecutionType) as ISpell;
             if (SpellInstance == null)
                 return "Spell instance cannot be created!";
-            SpellActionInput = new SpellActionInput(AbilityInfo, Caster, Caster.Level, null, rawParameters, parameters);
+            SpellActionInput = new SpellActionInput(actionInput, AbilityInfo, Caster, Caster.Level);
             string spellInstanceGuards = SpellInstance.Setup(SpellActionInput);
             return spellInstanceGuards;
         }

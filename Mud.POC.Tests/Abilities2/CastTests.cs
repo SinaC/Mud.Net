@@ -1,8 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Mud.Container;
 using Mud.POC.Abilities2;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Rom24Spells;
+using Mud.Server.Common;
 
 namespace Mud.POC.Tests.Abilities2
 {
@@ -10,11 +12,11 @@ namespace Mud.POC.Tests.Abilities2
     public class CastTests : TestBase
     {
         [TestMethod]
-        public void Guards_NoActor_Spell()
+        public void Guards_NoActor()
         {
-            Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
-            Cast cast = new Cast(abilityManagerMock.Object);
-            ActionInput actionInput = new ActionInput(null, string.Empty);
+            AbilityManager abilityManager = new AbilityManager();
+            Cast cast = new Cast(abilityManager);
+            ActionInput actionInput = new ActionInput(null, "cast acid pouet");
 
             string result = cast.Guards(actionInput);
 
@@ -23,12 +25,12 @@ namespace Mud.POC.Tests.Abilities2
         }
 
         [TestMethod]
-        public void Guards_ActorNotACharacter_Spell()
+        public void Guards_ActorNotACharacter()
         {
             Mock<IActor> actorMock = new Mock<IActor>();
-            Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
-            Cast cast = new Cast(abilityManagerMock.Object);
-            ActionInput actionInput = new ActionInput(actorMock.Object, string.Empty);
+            AbilityManager abilityManager = new AbilityManager();
+            Cast cast = new Cast(abilityManager);
+            ActionInput actionInput = new ActionInput(actorMock.Object, "cast acid pouet");
 
             string result = cast.Guards(actionInput);
 
@@ -37,12 +39,12 @@ namespace Mud.POC.Tests.Abilities2
         }
 
         [TestMethod]
-        public void Guards_NoSpellSpecified_Spell()
+        public void Guards_NoSpellSpecified()
         {
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
-            Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
-            Cast cast = new Cast(abilityManagerMock.Object);
-            ActionInput actionInput = new ActionInput(characterMock.Object, string.Empty);
+            AbilityManager abilityManager = new AbilityManager();
+            Cast cast = new Cast(abilityManager);
+            ActionInput actionInput = new ActionInput(characterMock.Object, "cast");
 
             string result = cast.Guards(actionInput);
 
@@ -51,13 +53,13 @@ namespace Mud.POC.Tests.Abilities2
         }
 
         [TestMethod]
-        public void Guards_Inexisting_Spell()
+        public void Guards_Inexisting()
         {
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
-            Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
             characterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(abilityName => (100, new AbilityLearned { Name = abilityName }));
-            Cast cast = new Cast(abilityManagerMock.Object);
-            ActionInput actionInput = new ActionInput(characterMock.Object, "pouet");
+            AbilityManager abilityManager = new AbilityManager();
+            Cast cast = new Cast(abilityManager);
+            ActionInput actionInput = new ActionInput(characterMock.Object, "cast pouet");
 
             string result = cast.Guards(actionInput);
 
@@ -68,43 +70,49 @@ namespace Mud.POC.Tests.Abilities2
         [TestMethod]
         public void Guards_PartialSpellName()
         {
+            Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
+            DependencyContainer.Current.RegisterInstance(randomManagerMock.Object); // needed to resolve Acid Blast instance
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
-            Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
             characterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(abilityName => (100, new AbilityLearned { Name = abilityName }));
-            Cast cast = new Cast(abilityManagerMock.Object);
-            ActionInput actionInput = new ActionInput(characterMock.Object, "Acid");
+            AbilityManager abilityManager = new AbilityManager();
+            Cast cast = new Cast(abilityManager);
+            ActionInput actionInput = new ActionInput(characterMock.Object, "cast Acid");
 
             string result = cast.Guards(actionInput); // will find Acid Blast
 
-            Assert.AreNotEqual("You don't know any spells of that name.", result);
+            Assert.AreEqual("You are nowhere...", result); // will go until test on caster.Room in SpellBase.SetupFromCast
         }
 
         [TestMethod]
         public void Guards_QuotedSpellName()
         {
+            Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
+            DependencyContainer.Current.RegisterInstance(randomManagerMock.Object); // needed to resolve Acid Blast instance
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
-            Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
             characterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(abilityName => (100, new AbilityLearned { Name = abilityName }));
-            Cast cast = new Cast(abilityManagerMock.Object);
-            ActionInput actionInput = new ActionInput(characterMock.Object, "'Acid Blast'");
+            AbilityManager abilityManager = new AbilityManager();
+            Cast cast = new Cast(abilityManager);
+            ActionInput actionInput = new ActionInput(characterMock.Object, "cast 'Acid Blast'");
 
             string result = cast.Guards(actionInput); // will find Acid Blast
 
-            Assert.AreNotEqual("You don't know any spells of that name.", result);
+            Assert.AreEqual("You are nowhere...", result); // will go until test on caster.Room in SpellBase.SetupFromCast
         }
 
         [TestMethod]
         public void Guards_MixedCaseSpellName()
         {
+            Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
+            DependencyContainer.Current.RegisterInstance(randomManagerMock.Object); // needed to resolve Acid Blast instance
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
-            Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
             characterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(abilityName => (100, new AbilityLearned { Name = abilityName }));
-            Cast cast = new Cast(abilityManagerMock.Object);
-            ActionInput actionInput = new ActionInput(characterMock.Object, "'acId bLaSt'");
+            AbilityManager abilityManager = new AbilityManager();
+            Cast cast = new Cast(abilityManager);
+            ActionInput actionInput = new ActionInput(characterMock.Object, "cast 'acId bLaSt'");
 
             string result = cast.Guards(actionInput); // will find Acid Blast
 
-            Assert.AreNotEqual("You don't know any spells of that name.", result);
+            Assert.AreEqual("You are nowhere...", result); // will go until test on caster.Room in SpellBase.SetupFromCast
         }
 
         [TestMethod]
@@ -114,7 +122,7 @@ namespace Mud.POC.Tests.Abilities2
             Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
             characterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(abilityName => (100, new AbilityLearned { Name = abilityName }));
             Cast cast = new Cast(abilityManagerMock.Object);
-            ActionInput actionInput = new ActionInput(characterMock.Object, "Acid");
+            ActionInput actionInput = new ActionInput(characterMock.Object, "cast Acid");
 
             string result = cast.Guards(actionInput);
 
@@ -129,7 +137,7 @@ namespace Mud.POC.Tests.Abilities2
             Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
             abilityManagerMock.Setup(x => x.Search(It.IsAny<string>(), It.IsAny<AbilityTypes>())).Returns<string,AbilityTypes>((_1,_2) => new AbilityInfo(typeof(AcidBlast)));
             Cast cast = new Cast(abilityManagerMock.Object);
-            ActionInput actionInput = new ActionInput(characterMock.Object, "Acid");
+            ActionInput actionInput = new ActionInput(characterMock.Object, "cast Acid");
 
             string result = cast.Guards(actionInput);
 

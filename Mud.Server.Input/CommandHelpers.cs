@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
+using Mud.Server.Common;
 
 namespace Mud.Server.Input
 {
@@ -83,7 +84,7 @@ namespace Mud.Server.Input
             string command = tokens[0];
 
             // Group remaining tokens
-            string rawParameters = string.Join(" ", tokens.Skip(1));
+            string rawParameters = string.Join(" ", tokens.Skip(1).Select(x => x.Quoted()));
 
             return (command, rawParameters, tokens.Skip(1));
         }
@@ -152,7 +153,7 @@ namespace Mud.Server.Input
             if (!commandParameters.Any())
                 return string.Empty;
 
-            string joined = string.Join(" ", commandParameters.Select(x => x.Count == 1 ? x.Value : $"{x.Count}.{x.Value}"));
+            string joined = string.Join(" ", commandParameters.Select(x => x.Count == 1 ? x.Value.Quoted() : $"{x.Count}.{x.Value.Quoted()}"));
             return joined;
         }
 
@@ -165,12 +166,6 @@ namespace Mud.Server.Input
 
         public static IReadOnlyTrie<CommandMethodInfo> GetCommands(Type type)
         {
-            //var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
-            //    .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())
-            //    .SelectMany(x => x.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().Distinct(new CommandAttributeEqualityComparer()),
-            //        (methodInfo, attribute) => new TrieEntry<CommandMethodInfo>(attribute.Name, new CommandMethodInfo(attribute, methodInfo)));
-            //Trie<CommandMethodInfo> trie = new Trie<CommandMethodInfo>(commands);
-            //return trie;
             Type commandAttributeType = typeof(CommandAttribute);
             var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
                .Where(x => x.GetCustomAttributes(commandAttributeType, false).Any())

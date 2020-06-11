@@ -38,7 +38,7 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             //
             Cast cast = new Cast(abilityManager);
-            ActionInput actionInput = new ActionInput(casterMock.Object, "'Acid Blast'");
+            ActionInput actionInput = new ActionInput(casterMock.Object, "Cast 'Acid Blast'");
 
             string result = cast.Guards(actionInput);
 
@@ -72,7 +72,7 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             //
             Cast cast = new Cast(abilityManager);
-            ActionInput actionInput = new ActionInput(casterMock.Object, "'Acid Blast' pouet");
+            ActionInput actionInput = new ActionInput(casterMock.Object, "Cast 'Acid Blast' pouet");
 
             string result = cast.Guards(actionInput);
 
@@ -107,7 +107,7 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             //
             Cast cast = new Cast(abilityManager);
-            ActionInput actionInput = new ActionInput(casterMock.Object, "'Acid Blast' target");
+            ActionInput actionInput = new ActionInput(casterMock.Object, "Cast 'Acid Blast' target");
 
             string result = cast.Guards(actionInput);
 
@@ -144,7 +144,7 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             //
             Cast cast = new Cast(abilityManager);
-            ActionInput actionInput = new ActionInput(casterMock.Object, "'Acid Blast' target");
+            ActionInput actionInput = new ActionInput(casterMock.Object, "Cast 'Acid Blast' target");
 
             string result = cast.Guards(actionInput);
 
@@ -178,7 +178,7 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             //
             Cast cast = new Cast(abilityManager);
-            ActionInput actionInput = new ActionInput(casterMock.Object, "'Acid Blast' target");
+            ActionInput actionInput = new ActionInput(casterMock.Object, "cast 'Acid Blast' target");
             cast.Guards(actionInput);
 
             cast.Execute(actionInput);

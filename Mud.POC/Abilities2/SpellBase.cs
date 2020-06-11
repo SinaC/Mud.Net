@@ -63,8 +63,8 @@ namespace Mud.POC.Abilities2
                 return "Internal error: AbilityInfo is null.";
             if (AbilityInfo.AbilityExecutionType != GetType())
                 return $"Internal error: AbilityInfo is not of the right type: {AbilityInfo.GetType().Name} instead of {GetType().Name}.";
-            // 2) check actor
-            Caster = spellActionInput.Actor as ICharacter;
+            // 2) check caster
+            Caster = spellActionInput.Caster;
             if (Caster == null)
                 return "Spell must be cast by a character.";
             if (Caster.Room == null)
@@ -122,8 +122,8 @@ namespace Mud.POC.Abilities2
                 return "Internal error: AbilityInfo is null.";
             if (AbilityInfo.AbilityExecutionType != GetType())
                 return $"Internal error: AbilityInfo is not of the right type: {AbilityInfo.GetType().Name} instead of {GetType().Name}.";
-            // 2) check actor
-            Caster = spellActionInput.Actor as ICharacter;
+            // 2) check caster
+            Caster = spellActionInput.Caster;
             if (Caster == null)
                 return "Spell must be cast by a character.";
             if (Caster.Room == null)
