@@ -82,7 +82,28 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abilities2\ExistingCode\IItemShield.cs" />
+    <Compile Include="Abilities2\IPassive.cs" />
     <Compile Include="Abilities2\ITargetedAction.cs" />
+    <Compile Include="Abilities2\PassiveBase.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Haggle.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Peek.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Meditation.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Polearm.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Staff.cs" />
+    <Compile Include="Abilities2\Rom24Passives\FastHealing.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Whip.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Spear.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Flail.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Mace.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Sword.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Dagger.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Axe.cs" />
+    <Compile Include="Abilities2\Rom24Passives\ThirdAttack.cs" />
+    <Compile Include="Abilities2\Rom24Passives\SecondAttack.cs" />
+    <Compile Include="Abilities2\Rom24Passives\EnhancedDamage.cs" />
+    <Compile Include="Abilities2\Rom24Passives\ShieldBlock.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Parry.cs" />
     <Compile Include="Abilities2\Rom24Skills\Rescue.cs" />
     <Compile Include="Abilities2\Rom24Skills\Staves.cs" />
     <Compile Include="Abilities2\Rom24Skills\Wands.cs" />

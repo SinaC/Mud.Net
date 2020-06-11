@@ -140,38 +140,38 @@ namespace Mud.POC.Abilities2
         {
             IPlayableCharacter pcCaster = Caster as IPlayableCharacter;
 
-            // check if failed
-            var abilityPercentage = Caster.GetAbilityLearned(AbilityInfo.Name);
-            if (!RandomManager.Chance(abilityPercentage.percentage))
+            // 1) check if failed
+            var abilityLearned = Caster.GetAbilityLearned(AbilityInfo.Name);
+            if (!RandomManager.Chance(abilityLearned.percentage))
             {
                 Caster.Send("You lost your concentration.");
-                pcCaster?.CheckAbilityImprove(abilityPercentage.abilityLearned, false, 1);
+                pcCaster?.CheckAbilityImprove(abilityLearned.abilityLearned, false, 1);
                 // pay half resource
                 if (Cost.HasValue && Cost.Value > 1 && ResourceKind.HasValue)
                     Caster.UpdateResource(ResourceKind.Value, -Cost.Value / 2);
                 return;
             }
 
-            // 6) pay resource
+            // 2) pay resource
             if (Cost.HasValue && Cost.Value >= 1 && ResourceKind.HasValue)
                 Caster.UpdateResource(ResourceKind.Value, -Cost.Value);
 
-            // 7) say spell if not ventriloquate
+            // 3) say spell if not ventriloquate
             SaySpell();
 
-            // 8) invoke spell
+            // 4) invoke spell
             Invoke();
 
-            // 9) GCD
+            // 5) GCD
             if (AbilityInfo.PulseWaitTime.HasValue)
                 pcCaster?.ImpersonatedBy?.SetGlobalCooldown(AbilityInfo.PulseWaitTime.Value);
 
-            // 10) set cooldown
+            // 6) set cooldown if any
             if (AbilityInfo.Cooldown.HasValue && AbilityInfo.Cooldown.Value > 0)
                 Caster.SetCooldown(AbilityInfo.Name, AbilityInfo.Cooldown.Value);
 
-            // 11) check improve true
-            pcCaster?.CheckAbilityImprove(abilityPercentage.abilityLearned, true, AbilityInfo.LearnDifficultyMultiplier);
+            // 7) check improve true
+            pcCaster?.CheckAbilityImprove(abilityLearned.abilityLearned, true, AbilityInfo.LearnDifficultyMultiplier);
         }
 
         private void ExecuteFromItem()

@@ -215,5 +215,30 @@ namespace Mud.POC.Tests.Abilities2
             Assert.IsNull(result);
             userMock.Verify(x => x.Send("Your pulse races as you are consumed by rage!", It.IsAny<object[]>()), Times.Once);
         }
+
+        [TestMethod]
+        public void Guards()
+        {
+            Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
+            randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
+            Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
+            Berserk berserk = new Berserk(randomManagerMock.Object, auraManagerMock.Object);
+
+            Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
+            Mock<IRoom> roomMock = new Mock<IRoom>();
+            userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+            userMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(abilityName => (100, new AbilityLearned { Name = abilityName }));
+            userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
+            roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
+
+            var actionInput = new ActionInput(userMock.Object, "");
+
+            var result = berserk.Guards(actionInput);
+            berserk.Execute(actionInput);
+
+            Assert.IsNull(result);
+            userMock.Verify(x => x.Send("Your pulse races as you are consumed by rage!", It.IsAny<object[]>()), Times.Once);
+        }
     }
 }

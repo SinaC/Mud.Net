@@ -5,11 +5,11 @@ using Mud.Server.Common;
 namespace Mud.POC.Abilities2.Rom24Passives
 {
     [Passive(PassiveName, LearnDifficultyMultiplier = 6)]
-    public class Dodge : PassiveBase
+    public class Parry : PassiveBase
     {
-        public const string PassiveName = "Dodge";
+        public const string PassiveName = "Parry";
 
-        public Dodge(IRandomManager randomManager)
+        public Parry(IRandomManager randomManager)
             : base(randomManager)
         {
         }
@@ -20,7 +20,14 @@ namespace Mud.POC.Abilities2.Rom24Passives
                 return false;
 
             int chance = learnPercentage / 2;
-            
+
+            if (user.GetEquipment(EquipmentSlots.MainHand) == null)
+            {
+                if (user is IPlayableCharacter) // player must have a weapon to parry
+                    return false;
+                chance /= 2;
+            }
+
             if (!user.CanSee(victim))
                 chance /= 2;
 

@@ -3,11 +3,11 @@
 namespace Mud.POC.Abilities2.Rom24Passives
 {
     [Passive(PassiveName, LearnDifficultyMultiplier = 5)]
-    public class HandToHand : PassiveBase
+    public class Mace : PassiveBase
     {
-        public const string PassiveName = "Hand to hand";
+        public const string PassiveName = "Mace";
 
-        public HandToHand(IRandomManager randomManager)
+        public Mace(IRandomManager randomManager)
             : base(randomManager)
         {
         }

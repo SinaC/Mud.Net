@@ -30,17 +30,17 @@ namespace Mud.POC.Abilities2
             bool extracted = CommandHelpers.ExtractCommandAndParameters(actionInput.CommandLine, out var skillName, out var rawParameters, out var parameters);
             if (!extracted)
                 return "Use what ?";
-            AbilityInfo = AbilityManager.Search(skillName, AbilityTypes.Spell);
+            AbilityInfo = AbilityManager.Search(skillName, AbilityTypes.Skill);
             if (AbilityInfo == null)
                 return "This skill doesn't exist.";
             if (DependencyContainer.Current.GetRegistration(AbilityInfo.AbilityExecutionType, false) == null)
                 return "Skill not found in DependencyContainer!";
-            SkillInstance = (ISkill)DependencyContainer.Current.GetInstance(AbilityInfo.AbilityExecutionType);
+            SkillInstance = DependencyContainer.Current.GetInstance(AbilityInfo.AbilityExecutionType) as ISkill;
             if (SkillInstance == null)
                 return "Skill instance cannot be created!";
             SkillActionInput = new SkillActionInput(AbilityInfo, User, rawParameters, parameters);
-            string abilityInstanceGuards = SkillInstance.Setup(SkillActionInput);
-            return abilityInstanceGuards;
+            string skillInstanceGuards = SkillInstance.Setup(SkillActionInput);
+            return skillInstanceGuards;
         }
 
         public void Execute(ActionInput actionInput)

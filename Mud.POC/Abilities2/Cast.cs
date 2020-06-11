@@ -38,7 +38,7 @@ namespace Mud.POC.Abilities2
                 return "You don't know any spells of that name.";
             if (DependencyContainer.Current.GetRegistration(AbilityInfo.AbilityExecutionType, false) == null)
                 return "Spell not found in DependencyContainer!";
-            SpellInstance = (ISpell)DependencyContainer.Current.GetInstance(AbilityInfo.AbilityExecutionType);
+            SpellInstance = DependencyContainer.Current.GetInstance(AbilityInfo.AbilityExecutionType) as ISpell;
             if (SpellInstance == null)
                 return "Spell instance cannot be created!";
             SpellActionInput = new SpellActionInput(AbilityInfo, Caster, Caster.Level, null, rawParameters, parameters);

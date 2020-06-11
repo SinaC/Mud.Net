@@ -6,7 +6,7 @@ using Mud.Server.Input;
 namespace Mud.POC.Abilities2.Rom24Skills
 {
     [Command("brandish", "Abilities", "Skills")]
-    [Skill(SkillName, AbilityEffects.None)]
+    [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
     public class Staves : ItemCastSpellSkillBase<IItemStaff>
     {
         public const string SkillName = "Staves";

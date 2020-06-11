@@ -1,7 +1,11 @@
-﻿using Mud.POC.Abilities2.Domain;
+﻿using Mud.Container;
+using Mud.Logger;
+using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
+using Mud.POC.Abilities2.Helpers;
 using Mud.Server.Common;
 using Mud.Server.Input;
+using System.Collections.Generic;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
@@ -11,6 +15,8 @@ namespace Mud.POC.Abilities2.Rom24Skills
     {
         public const string SkillName = "Wands";
 
+        protected IEntity Target { get; private set; }
+
         public Wands(IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
             : base(randomManager, abilityManager, itemManager)
         {
@@ -19,8 +25,10 @@ namespace Mud.POC.Abilities2.Rom24Skills
         protected override bool Invoke()
         {
             bool success;
-            // TODO
-            //User.Act(ActOptions.ToAll, "{0:N} zap{0:v} {1} with {2}.", User, target, Item);
+            if (Target != null)
+                User.Act(ActOptions.ToAll, "{0:N} zap{0:v} {1} with {2}.", User, Target, Item);
+            else
+                User.Act(ActOptions.ToAll, "{0:N} use{0:v} {1}.", User, Item);
             int chance = 20 + (4 * Learned) / 5;
             if (User.Level < Item.Level
                 || !RandomManager.Chance(chance))
@@ -55,83 +63,63 @@ namespace Mud.POC.Abilities2.Rom24Skills
                 ItemManager.RemoveItem(Item);
                 return string.Empty; // stop but don't display anything
             }
-            //return SetupSpellAndPredefinedTarget(Item.SpellName, Item.SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
-            return SetupSpell(Item.SpellName, Item.SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
+            return SetupSpellAndPredefinedTarget(Item.SpellName, Item.SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
+            // return SetupSpell(Item.SpellName, Item.SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
         }
 
-        //private string SetupSpellAndPredefinedTarget(string spellName, int spellLevel, string rawParameters, params CommandParameter[] parameters)
-        //{
-        //    if (string.IsNullOrWhiteSpace(spellName))
-        //        return null; // not really an error but don't continue
-        //    var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
-        //    if (abilityInfo == null)
-        //    {
-        //        Log.Default.WriteLine(LogLevels.Error, "Unknown spell '{0}' on item {1}.", spellName, Item.DebugName);
-        //        return "Something goes wrong.";
-        //    }
-        //    if (DependencyContainer.Current.GetRegistration(abilityInfo.AbilityExecutionType, false) == null)
-        //    {
-        //        Log.Default.WriteLine(LogLevels.Error, "Spell '{0}' on item {1} has been not found in DependencyContainer.", spellName, Item.DebugName);
-        //        return "Something goes wrong.";
-        //    }
+        private string SetupSpellAndPredefinedTarget(string spellName, int spellLevel, string rawParameters, params CommandParameter[] parameters)
+        {
+            if (string.IsNullOrWhiteSpace(spellName))
+                return null; // not really an error but don't continue
+            var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
+            if (abilityInfo == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Unknown spell '{0}' on item {1}.", spellName, Item.DebugName);
+                return "Something goes wrong.";
+            }
+            if (DependencyContainer.Current.GetRegistration(abilityInfo.AbilityExecutionType, false) == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Spell '{0}' on item {1} has been not found in DependencyContainer.", spellName, Item.DebugName);
+                return "Something goes wrong.";
+            }
 
-        //    // no target specified
-        //    if (parameters.Length == 0)
-        //    {
-        //        var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, rawParameters, parameters);
-        //        var spellInstance = (ISpell)DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
-        //        string spellInstanceGuards = spellInstance.Setup(spellActionInput);
-        //        if (spellInstanceGuards != null)
-        //            return spellInstanceGuards;
-        //        SpellInstances.Add(spellInstance);
-        //    }
-        //    else
-        //    {
-        //        var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, rawParameters, parameters);
-        //        var spellInstance = (ISpell)DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
-        //        string spellInstanceGuards = spellInstance.Setup(spellActionInput);
-        //        if (spellInstanceGuards != null)
-        //            return "Zap whom or what?"; // don't return usual message
-        //        SpellInstances.Add(spellInstance);
-        //    }
-        //    //// if parameter specified, search target
-        //    //if (parameters.Length > 0)
-        //    //{
-        //    //    var getTargetedAction = DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType) as ITargetedAction;
-        //    //    if (getTargetedAction == null)
-        //    //    {
-        //    //        Log.Default.WriteLine(LogLevels.Error, "Spell '{0}' on item {1} cannot be instantiated or is not a targeted action.", spellName, Item.DebugName);
-        //    //        return "Something goes wrong.";
-        //    //    }
+            SpellActionInput spellActionInput;
+            // no target specified
+            if (parameters.Length == 0)
+            {
+                spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, rawParameters, parameters);
+            }
+            else
+            {
+                var getTargetedAction = DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType) as ITargetedAction;
+                if (getTargetedAction == null)
+                {
+                    spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, rawParameters, parameters);
+                }
+                else
+                {
+                    IEnumerable<IEntity> predefinedTargets = getTargetedAction.ValidTargets(User);
+                    if (parameters.Length == 0)
+                    {
+                        Target = User.Fighting;
+                        if (Target == null)
+                            return "Zap whom or what?";
+                    }
+                    else
+                        Target = FindHelpers.FindByName(predefinedTargets, parameters[0]);
+                    if (Target == null)
+                        return "You can't find it.";
 
-        //    //    IEnumerable<IEntity> predefinedTargets = getTargetedAction.AvailableTargets(User);
-        //    //    IEntity target;
-        //    //    if (parameters.Length == 0)
-        //    //        target = User.Fighting;
-        //    //    else
-        //    //        target = FindHelpers.FindByName(predefinedTargets, parameters[0]);
-        //    //    if (target == null)
-        //    //        return "Zap whom or what?";
+                    spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = Target }, rawParameters, parameters);
+                }
+            }
+            var spellInstance = (ISpell)DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
+            string spellInstanceGuards = spellInstance.Setup(spellActionInput);
+            if (spellInstanceGuards != null)
+                return spellInstanceGuards;
+            SpellInstances.Add(spellInstance);
 
-        //    //    var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = target }, rawParameters, parameters);
-        //    //    var spellInstance = (ISpell)DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
-        //    //    string spellInstanceGuards = spellInstance.Setup(spellActionInput);
-        //    //    if (spellInstanceGuards != null)
-        //    //        return spellInstanceGuards;
-        //    //    SpellInstances.Add(spellInstance);
-        //    //}
-        //    //// no predefined target
-        //    //else
-        //    //{
-        //    //    var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, rawParameters, parameters);
-        //    //    var spellInstance = (ISpell)DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
-        //    //    string spellInstanceGuards = spellInstance.Setup(spellActionInput);
-        //    //    if (spellInstanceGuards != null)
-        //    //        return spellInstanceGuards;
-        //    //    SpellInstances.Add(spellInstance);
-        //    //}
-
-        //    return null;
-        //}
+            return null;
+        }
     }
 }

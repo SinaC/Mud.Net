@@ -5,11 +5,11 @@ using Mud.Server.Common;
 namespace Mud.POC.Abilities2.Rom24Passives
 {
     [Passive(PassiveName, LearnDifficultyMultiplier = 6)]
-    public class Dodge : PassiveBase
+    public class ShieldBlock : PassiveBase
     {
-        public const string PassiveName = "Dodge";
+        public const string PassiveName = "Shield Block";
 
-        public Dodge(IRandomManager randomManager)
+        public ShieldBlock(IRandomManager randomManager)
             : base(randomManager)
         {
         }
@@ -19,11 +19,10 @@ namespace Mud.POC.Abilities2.Rom24Passives
             if (user.Position <= Positions.Sleeping)
                 return false;
 
-            int chance = learnPercentage / 2;
-            
-            if (!user.CanSee(victim))
-                chance /= 2;
+            if (user.GetEquipment<IItemShield>(EquipmentSlots.OffHand) == null)
+                return false;
 
+            int chance = 3 + learnPercentage / 5;
             chance += user.Level - victim.Level;
 
             return diceRoll < chance;

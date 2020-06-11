@@ -30,6 +30,29 @@ namespace Mud.POC.Abilities2
             return Abilities.Where(x => x.Type == type).FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, pattern));
         }
 
+        public TAbility CreateInstance<TAbility>(string abilityName)
+            where TAbility : class, IAbility
+        {
+            AbilityInfo abilityInfo = this[abilityName];
+            if (abilityInfo == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Ability {0} doesn't exist.", abilityName);
+                return default;
+            }
+            if (DependencyContainer.Current.GetRegistration(abilityInfo.AbilityExecutionType, false) == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Ability {0} not found in DependencyContainer.", abilityName);
+                return default;
+            }
+            TAbility instance = DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType) as TAbility;
+            if (instance == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Ability {0} cannot be instantiated or is not {1}.", abilityName, typeof(TAbility).Name);
+                return default;
+            }
+            return instance;
+        }
+
         public AbilityManager()
         {
             _abilities = new Dictionary<string, AbilityInfo>();

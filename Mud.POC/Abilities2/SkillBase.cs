@@ -1,5 +1,4 @@
-﻿using Mud.Container;
-using Mud.POC.Abilities2.ExistingCode;
+﻿using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
 using Mud.Server.Common;
 using System;
@@ -96,8 +95,6 @@ namespace Mud.POC.Abilities2
                 return "Only character are allowed to use skills.";
             var abilityInfo = new AbilityInfo(GetType());
             var skillActionInput = new SkillActionInput(abilityInfo, user, actionInput.RawParameters, actionInput.Parameters);
-            if (DependencyContainer.Current.GetRegistration(AbilityInfo.AbilityExecutionType, false) == null)
-                return "Ability not found in DependencyContainer";
             string setupResult = Setup(skillActionInput);
             return setupResult;
         }

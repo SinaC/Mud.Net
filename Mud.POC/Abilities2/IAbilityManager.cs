@@ -8,5 +8,8 @@ namespace Mud.POC.Abilities2
         AbilityInfo this[string abilityName] { get; }
 
         AbilityInfo Search(string pattern, AbilityTypes type);
+
+        TAbility CreateInstance<TAbility>(string abilityName)
+            where TAbility : class, IAbility;
     }
 }

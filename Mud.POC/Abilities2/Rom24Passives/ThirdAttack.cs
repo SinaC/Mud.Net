@@ -5,28 +5,23 @@ using Mud.Server.Common;
 namespace Mud.POC.Abilities2.Rom24Passives
 {
     [Passive(PassiveName, LearnDifficultyMultiplier = 6)]
-    public class Dodge : PassiveBase
+    public class ThirdAttack : PassiveBase
     {
-        public const string PassiveName = "Dodge";
+        public const string PassiveName = "Third Attack";
 
-        public Dodge(IRandomManager randomManager)
+        public ThirdAttack(IRandomManager randomManager)
             : base(randomManager)
         {
         }
 
         protected override bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll)
         {
-            if (user.Position <= Positions.Sleeping)
+            if (user.CharacterFlags.HasFlag(CharacterFlags.Slow))
                 return false;
-
             int chance = learnPercentage / 2;
-            
-            if (!user.CanSee(victim))
-                chance /= 2;
-
-            chance += user.Level - victim.Level;
 
             return diceRoll < chance;
         }
+
     }
 }

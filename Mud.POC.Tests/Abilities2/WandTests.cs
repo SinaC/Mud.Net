@@ -415,7 +415,7 @@ namespace Mud.POC.Tests.Abilities2
 
             string result = skill.Setup(actionInput);
 
-            Assert.AreEqual("You are not carrying that.", result);
+            Assert.AreEqual("You can't find it.", result);
         }
 
         // character target + mixed offensive target spell -> cast on target
@@ -588,7 +588,7 @@ namespace Mud.POC.Tests.Abilities2
 
             string result = skill.Setup(actionInput);
 
-            Assert.AreEqual("They aren't here.", result);
+            Assert.AreEqual("You can't find it.", result);
         }
 
         // item target + character defensive target spell -> fail
@@ -630,7 +630,7 @@ namespace Mud.POC.Tests.Abilities2
 
             string result = skill.Setup(actionInput);
 
-            Assert.AreEqual("They aren't here.", result);
+            Assert.AreEqual("You can't find it.", result);
         }
 
         // item target + item target spell -> cast on target
@@ -673,6 +673,7 @@ namespace Mud.POC.Tests.Abilities2
             skill.Execute();
 
             Assert.IsNull(result);
+            userMock.Verify(x => x.Act(ActOptions.ToAll, "{0:N} zap{0:v} {1} with {2}.", It.IsAny<object[]>()), Times.Once);
             auraManagerMock.Verify(x => x.AddAura(itemMock.Object, "Fireproof", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
             userMock.Verify(x => x.Act(ActOptions.ToCharacter, "You protect {0:N} from fire.", It.IsAny<object[]>()), Times.Once);
         }
