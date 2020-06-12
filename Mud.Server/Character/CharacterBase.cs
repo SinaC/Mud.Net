@@ -1899,7 +1899,7 @@ namespace Mud.Server.Character
             ActToNotVictim(this, "You hear {0}'s death cry.", this); // TODO: custom death cry
 
             // Create corpse
-            ItemCorpseBlueprint itemCorpseBlueprint = World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
+            ItemCorpseBlueprint itemCorpseBlueprint = ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
             IItemCorpse corpse = null;
             if (itemCorpseBlueprint != null)
             {

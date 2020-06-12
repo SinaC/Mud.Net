@@ -29,6 +29,10 @@ using Mud.Server.Interfaces;
 using Mud.Settings;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Area;
+using Mud.Server.Random;
+using Mud.Server.Ability;
+using Mud.Server.Interfaces.Table;
+using Mud.Server.Interfaces.Aura;
 
 namespace Mud.Server.TestApplication
 {
@@ -46,17 +50,21 @@ namespace Mud.Server.TestApplication
             // Initialize IOC container
             DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IAuraManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IAuraManager
+            DependencyContainer.Current.Register<IItemManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IItemManager
+            DependencyContainer.Current.Register<IRoomManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IRoomManager
             DependencyContainer.Current.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
             DependencyContainer.Current.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
             DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
             DependencyContainer.Current.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
             DependencyContainer.Current.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
-            DependencyContainer.Current.Register<IAbilityManager, Ability.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IAbilityManager, AbilityManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IClassManager, Class.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager());
+            DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector cant choose which one to chose
+            DependencyContainer.Current.Register<ITableValues, Table.TableValues>(SimpleInjector.Lifestyle.Singleton);
 
             //TestSecondWindow();
             //TestPaging();
@@ -201,20 +209,20 @@ namespace Mud.Server.TestApplication
                 WearLocation = WearLocations.Wield
             };
             //
-            if (DependencyContainer.Current.GetInstance<IWorld>().GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
+            if (DependencyContainer.Current.GetInstance<IItemManager>().GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
             {
                 ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
                 {
                     Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
                     Name = "corpse"
                 }; // this is mandatory
-                DependencyContainer.Current.GetInstance<IWorld>().AddItemBlueprint(corpseBlueprint);
+                DependencyContainer.Current.GetInstance<IItemManager>().AddItemBlueprint(corpseBlueprint);
             }
 
             // World
             IArea midgaard = DependencyContainer.Current.GetInstance<IWorld>().Areas.FirstOrDefault(x => x.DisplayName == "Midgaard");
-            IRoom room1 = DependencyContainer.Current.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), room1Blueprint, midgaard);
-            IRoom room2 = DependencyContainer.Current.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), room2Blueprint, midgaard);
+            IRoom room1 = DependencyContainer.Current.GetInstance<IRoomManager>().AddRoom(Guid.NewGuid(), room1Blueprint, midgaard);
+            IRoom room2 = DependencyContainer.Current.GetInstance<IRoomManager>().AddRoom(Guid.NewGuid(), room2Blueprint, midgaard);
             DependencyContainer.Current.GetInstance<IWorld>().AddExit(room1, room2, null, ExitDirections.North);
             DependencyContainer.Current.GetInstance<IWorld>().AddExit(room2, room1, null, ExitDirections.North);
 
@@ -224,15 +232,15 @@ namespace Mud.Server.TestApplication
             ICharacter mob4 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob4Blueprint, room2);
             ICharacter mob5 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, room2);
 
-            IItemContainer item1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, room1) as IItemContainer;
-            IItemContainer item1Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, room2) as IItemContainer;
-            IItemWeapon item2 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
-            IItemArmor item3 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1) as IItemArmor;
+            IItemContainer item1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, room1) as IItemContainer;
+            IItemContainer item1Dup1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, room2) as IItemContainer;
+            IItemWeapon item2 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
+            IItemArmor item3 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1) as IItemArmor;
             //IItemLight item4 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item4Blueprint, mob1);
             //IItemWeapon item5 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item5Blueprint, mob1);
             //IItemContainer item1Dup2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, mob1);
-            IItemArmor item3Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item3Blueprint, mob3) as IItemArmor;
-            IItemLight item4Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item4Blueprint, mob4) as IItemLight;
+            IItemArmor item3Dup1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, mob3) as IItemArmor;
+            IItemLight item4Dup1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item4Blueprint, mob4) as IItemLight;
             // Equip weapon on mob2
             mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
             item2.ChangeContainer(null);
@@ -278,7 +286,7 @@ namespace Mud.Server.TestApplication
                     Name = importedRoom.Name,
                     Description = importedRoom.Description,
                 };
-                IRoom room = DependencyContainer.Current.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), roomBlueprint, area);
+                IRoom room = DependencyContainer.Current.GetInstance<IRoomManager>().AddRoom(Guid.NewGuid(), roomBlueprint, area);
                 roomsByVNums.Add(importedRoom.VNum, room);
             }
             // Create Exits
@@ -420,19 +428,19 @@ namespace Mud.Server.TestApplication
             };
 
             //
-            if (DependencyContainer.Current.GetInstance<IWorld>().GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
+            if (DependencyContainer.Current.GetInstance<IItemManager>().GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
             {
                 ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
                 {
                     Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
                     Name = "corpse"
                 }; // this is mandatory
-                DependencyContainer.Current.GetInstance<IWorld>().AddItemBlueprint(corpseBlueprint);
+                DependencyContainer.Current.GetInstance<IItemManager>().AddItemBlueprint(corpseBlueprint);
             }
 
             // Add dummy mobs and items to allow impersonate :)
-            IRoom templeOfMota = DependencyContainer.Current.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
-            IRoom templeSquare = DependencyContainer.Current.GetInstance<IWorld>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
+            IRoom templeOfMota = DependencyContainer.Current.GetInstance<IRoomManager>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
+            IRoom templeSquare = DependencyContainer.Current.GetInstance<IRoomManager>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
             //ICharacter mob1 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
             ICharacter mob2 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
@@ -440,15 +448,15 @@ namespace Mud.Server.TestApplication
             ICharacter mob4 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
             ICharacter mob5 = DependencyContainer.Current.GetInstance<IWorld>().AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
-            IItemContainer item1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
-            IItemContainer item1Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
-            IItemWeapon item2 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
-            IItemArmor item3 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1) as IItemArmor;
+            IItemContainer item1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
+            IItemContainer item1Dup1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
+            IItemWeapon item2 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
+            IItemArmor item3 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1) as IItemArmor;
             //IItemLight item4 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item4Blueprint, mob1);
             //IItemWeapon item5 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item5Blueprint, mob1);
             //IItemContainer item1Dup2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, mob1);
-            IItemArmor item3Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item3Blueprint, mob3) as IItemArmor;
-            IItemLight item4Dup1 = DependencyContainer.Current.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item4Blueprint, mob4) as IItemLight;
+            IItemArmor item3Dup1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, mob3) as IItemArmor;
+            IItemLight item4Dup1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item4Blueprint, mob4) as IItemLight;
             // Equip weapon on mob2
             mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
             item2.ChangeContainer(null);
@@ -541,7 +549,7 @@ namespace Mud.Server.TestApplication
                 Description = "My first room"
             };
             // World
-            IRoom room = DependencyContainer.Current.GetInstance<IWorld>().AddRoom(Guid.NewGuid(), room1Blueprint, area);
+            IRoom room = DependencyContainer.Current.GetInstance<IRoomManager>().AddRoom(Guid.NewGuid(), room1Blueprint, area);
 
             IPlayer player = DependencyContainer.Current.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player"), "Player");
             player.ProcessCommand("test");

@@ -1,4 +1,7 @@
-﻿using Mud.Server.Input;
+﻿using Moq;
+using Mud.Server.Ability;
+using Mud.Server.Helpers;
+using Mud.Server.Input;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
@@ -10,102 +13,25 @@ namespace Mud.Server.Tests.Mocking
 {
     internal class AbilityManagerMock : IAbilityManager
     {
-        private readonly List<IAbility> _abilities = new List<IAbility>();
+        private List<IAbilityInfo> _abilityInfos = new List<IAbilityInfo>();
 
-        public IAbility this[string name] 
+        public IAbilityInfo this[string abilityName] 
         {
             get
             {
-                IAbility ability = _abilities.SingleOrDefault(x => x.Name == name);
-                if (ability != null)
-                    return ability;
-                int id = _abilities.Count == 0 ? 1 : _abilities.Max(x => x.Id) + 1;
-                ability = new Ability.Ability(Domain.AbilityKinds.Passive, id, name, Domain.AbilityTargets.Custom, 12, Domain.AbilityFlags.None, string.Empty, string.Empty, string.Empty, string.Empty, 1, 0);
-                _abilities.Add(ability);
-                return ability;
+                IAbilityInfo info = _abilityInfos.FirstOrDefault(x => x.Name == abilityName);
+                if (info != null)
+                    return info;
+                Mock<IAbilityInfo> infoMock = new Mock<IAbilityInfo>();
+                _abilityInfos.Add(infoMock.Object);
+                return infoMock.Object;
             }
         }
 
-        public IAbility this[int id]
-        {
-            get
-            {
-                IAbility ability = _abilities.SingleOrDefault(x => x.Id == id);
-                if (ability != null)
-                    return ability;
-                ability = new Ability.Ability(Domain.AbilityKinds.Passive, id, "ability"+id.ToString(), Domain.AbilityTargets.Custom, 12, Domain.AbilityFlags.None, string.Empty, string.Empty, string.Empty, string.Empty, 1, 0);
-                _abilities.Add(ability);
-                return ability;
-            }
-        }
+        public IEnumerable<IAbilityInfo> Abilities => _abilityInfos;
 
-        public IEnumerable<IAbility> Abilities => _abilities;
+        public IAbilityInfo Search(string pattern, AbilityTypes type) => Abilities.FirstOrDefault(x => x.Type == type && x.Name.StartsWith(pattern, StringComparison.InvariantCultureIgnoreCase));
 
-        public IEnumerable<IAbility> Spells => _abilities.Where(x => x.Kind == Domain.AbilityKinds.Spell);
-
-        public IEnumerable<IAbility> Skills => _abilities.Where(x => x.Kind == Domain.AbilityKinds.Skill);
-
-        public IEnumerable<IAbility> Passives => _abilities.Where(x => x.Kind == Domain.AbilityKinds.Passive);
-
-        public CastResults Cast(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CastResults CastFromItem(IAbility ability, int level, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters)
-        {
-            throw new NotImplementedException();
-        }
-
-        public AbilityTargetResults GetAbilityTarget(IAbility ability, ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
-        {
-            throw new NotImplementedException();
-        }
-
-        public AbilityTargetResults GetItemAbilityTarget(IAbility ability, ICharacter caster, ref IEntity target)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IKnownAbility Search(IEnumerable<IKnownAbility> knownAbilities, int level, Func<IAbility, bool> abilityFilterFunc, CommandParameter parameter) => knownAbilities.FirstOrDefault(x => abilityFilterFunc(x.Ability) && x.Ability.Name == parameter.Value);
-        public void AcidEffect(IEntity target, IAbility ability, ICharacter source, int level, int damage)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ColdEffect(IEntity target, ICharacter source, int level, int damage)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void FireEffect(IEntity target, ICharacter source, int level, int damage)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void PoisonEffect(IEntity target, ICharacter source, int level, int damage)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ShockEffect(IEntity target, ICharacter source, int level, int damage)
-        {
-            throw new NotImplementedException();
-        }
-
-        public UseResults Use(IAbility ability, ICharacter caster, string rawParameters, params CommandParameter[] parameters)
-        {
-            throw new NotImplementedException();
-        }
-
-        //
-        public void AddAbility(IAbility ability)
-        {
-            _abilities.Add(ability);
-        }
-        public void Clear()
-        {
-            _abilities.Clear();
-        }
+        TAbility IAbilityManager.CreateInstance<TAbility>(string abilityName) => throw new NotImplementedException();
     }
 }

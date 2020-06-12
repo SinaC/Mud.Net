@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ability\TestSpells.cs" />
+    <Compile Include="ActionInput.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
     <Compile Include="Admin\CommunicationCommands.cs" />
     <Compile Include="Admin\MiscCommands.cs" />

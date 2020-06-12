@@ -98,12 +98,12 @@ namespace Mud.Server.Server
 
             TimeManager.Initialize();
 
-            if (World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
+            if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
             {
                 Log.Default.WriteLine(LogLevels.Error, "Item corpse blueprint {0} not found or not a corpse", Settings.CorpseBlueprintId);
                 throw new Exception($"Item corpse blueprint {Settings.CorpseBlueprintId} not found or not a corpse");
             }
-            if (World.GetItemBlueprint<ItemMoneyBlueprint>(Settings.CoinsBlueprintId) == null)
+            if (ItemManager.GetItemBlueprint<ItemMoneyBlueprint>(Settings.CoinsBlueprintId) == null)
             {
                 Log.Default.WriteLine(LogLevels.Error, "Item coins blueprint {0} not found or not money", Settings.CoinsBlueprintId);
                 throw new Exception($"Item coins blueprint {Settings.CoinsBlueprintId} not found or not money");
@@ -785,21 +785,21 @@ namespace Mud.Server.Server
 
         private void SanityCheckRooms()
         {
-            Log.Default.WriteLine(LogLevels.Info, "#RoomBlueprints: {0}", World.RoomBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#RoomBlueprints: {0}", RoomManager.RoomBlueprints.Count);
             Log.Default.WriteLine(LogLevels.Info, "#Rooms: {0}", RoomManager.Rooms.Count());
         }
 
         private void SanityCheckItems()
         {
-            Log.Default.WriteLine(LogLevels.Info, "#ItemBlueprints: {0}", World.ItemBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#ItemBlueprints: {0}", ItemManager.ItemBlueprints.Count);
             Log.Default.WriteLine(LogLevels.Info, "#Items: {0}", ItemManager.Items.Count());
-            if (World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
+            if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
                 Log.Default.WriteLine(LogLevels.Error, "Item corpse blueprint {0} not found or not a corpse", Settings.CorpseBlueprintId);
-            if (World.GetItemBlueprint<ItemFoodBlueprint>(Settings.MushroomBlueprintId) == null)
+            if (ItemManager.GetItemBlueprint<ItemFoodBlueprint>(Settings.MushroomBlueprintId) == null)
                 Log.Default.WriteLine(LogLevels.Error, "'a Magic mushroom' blueprint {0} not found or not food (needed for spell CreateFood)", Settings.MushroomBlueprintId);
-            if (World.GetItemBlueprint<ItemFountainBlueprint>(Settings.SpringBlueprintId) == null)
+            if (ItemManager.GetItemBlueprint<ItemFountainBlueprint>(Settings.SpringBlueprintId) == null)
                 Log.Default.WriteLine(LogLevels.Error, "'a magical spring' blueprint {0} not found or not a fountain (needed for spell CreateSpring)", Settings.SpringBlueprintId);
-            if (World.GetItemBlueprint<ItemLightBlueprint>(Settings.LightBallBlueprintId) == null)
+            if (ItemManager.GetItemBlueprint<ItemLightBlueprint>(Settings.LightBallBlueprintId) == null)
                 Log.Default.WriteLine(LogLevels.Error, "'a bright ball of light' blueprint {0} not found or not an light (needed for spell ContinualLight)", Settings.LightBallBlueprintId);
         }
 

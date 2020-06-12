@@ -6,6 +6,7 @@ using Mud.Server.Character.NonPlayableCharacter;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Random;
 using System;
 
 namespace Mud.Server.Tests

@@ -28,6 +28,7 @@ namespace Mud.Server.Quest
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
         protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
+        protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
 
         public Quest(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
         {
@@ -119,7 +120,7 @@ namespace Mud.Server.Quest
             {
                 foreach (int loot in killLoots)
                 {
-                    if (World.GetItemBlueprint(loot) is ItemQuestBlueprint questItemBlueprint)
+                    if (ItemManager.GetItemBlueprint(loot) is ItemQuestBlueprint questItemBlueprint)
                     {
                         ItemManager.AddItem(Guid.NewGuid(), questItemBlueprint, container);
                         Log.Default.WriteLine(LogLevels.Debug, $"Loot objective {loot} generated for {Character.DisplayName}");
@@ -299,7 +300,7 @@ namespace Mud.Server.Quest
             {
                 foreach (QuestItemObjectiveBlueprint itemObjective in Blueprint.ItemObjectives)
                 {
-                    ItemQuestBlueprint itemBlueprint = World.GetItemBlueprint<ItemQuestBlueprint>(itemObjective.ItemBlueprintId);
+                    ItemQuestBlueprint itemBlueprint = ItemManager.GetItemBlueprint<ItemQuestBlueprint>(itemObjective.ItemBlueprintId);
                     if (itemBlueprint != null)
                         _objectives.Add(new ItemQuestObjective
                         {
@@ -333,7 +334,7 @@ namespace Mud.Server.Quest
             {
                 foreach (QuestLocationObjectiveBlueprint locationObjective in Blueprint.LocationObjectives)
                 {
-                    RoomBlueprint roomBlueprint = World.GetRoomBlueprint(locationObjective.RoomBlueprintId);
+                    RoomBlueprint roomBlueprint = RoomManager.GetRoomBlueprint(locationObjective.RoomBlueprintId);
                     if (roomBlueprint != null)
                         _objectives.Add(new LocationQuestObjective
                         {

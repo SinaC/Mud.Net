@@ -1,48 +1,71 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Mud.Container;
 using Mud.Server.Ability;
-using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Random;
 using System.Linq;
 
 namespace Mud.Server.Tests.Abilities
 {
     [TestClass]
-    public class AbilityManagerTests
+    public class AbilityManagerTests : TestBase
     {
         [TestMethod]
-        public void AbilityManager_Ctor_Test()
+        public void Ctor_AbilitiesFound()
         {
-            var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null, null);
+            AbilityManager abilityManager = new AbilityManager();
 
-            Assert.AreEqual(abilityManager.Passives.Count(), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Passive));
-            Assert.AreEqual(abilityManager.Spells.Count(), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Spell));
-            Assert.AreEqual(abilityManager.Skills.Count(), abilityManager.Abilities.Count(x => x.Kind == Domain.AbilityKinds.Skill));
+            Assert.IsTrue(abilityManager.Abilities.Count() > 0);
         }
 
         [TestMethod]
-        public void AbilityManager_Indexer_ExistingName_Test()
+        public void Indexer_ExistingAbility()
         {
-            var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null, null);
-            IAbility thirdAbility = abilityManager.Abilities.Skip(2).First();
+            AbilityManager abilityManager = new AbilityManager();
 
-            IAbility ability = abilityManager[thirdAbility.Name];
+            IAbilityInfo abilityInfo = abilityManager["Acid Blast"];
 
-            Assert.IsNotNull(ability);
-            Assert.AreSame(thirdAbility, ability);
+            Assert.IsNotNull(abilityInfo);
         }
 
         [TestMethod]
-        public void AbilityManager_Indexer_NonExistingName_Test()
+        public void Indexer_NonExistingAbility()
         {
-            var randomManagerMock = new Mock<IRandomManager>();
-            IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object, null, null, null, null);
+            AbilityManager abilityManager = new AbilityManager();
 
-            IAbility ability = abilityManager["pouet"];
+            IAbilityInfo abilityInfo = abilityManager["Pouet"];
 
-            Assert.IsNull(ability);
+            Assert.IsNull(abilityInfo);
+        }
+
+        [TestMethod]
+        public void DependencyContainer_Filled()
+        {
+            AbilityManager abilityManager = new AbilityManager();
+
+            foreach (IAbilityInfo abilityInfo in abilityManager.Abilities)
+            {
+                var instanceProducer = DependencyContainer.Current.GetRegistration(abilityInfo.AbilityExecutionType, false);
+                Assert.IsNotNull(instanceProducer);
+            }
+        }
+
+        [TestMethod]
+        public void DependencyContainer_CreateAbilityInstance()
+        {
+            AbilityManager abilityManager = new AbilityManager();
+
+            IAbilityInfo abilityInfo = abilityManager["Acid Blast"];
+
+            // Acid Blast needs IRandomManager and IWiznet
+            Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
+            Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
+            DependencyContainer.Current.RegisterInstance(randomManagerMock.Object);
+            DependencyContainer.Current.RegisterInstance(wiznetMock.Object);
+            var abilityInstance = DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
+
+            Assert.IsNotNull(abilityInstance);
         }
     }
 }

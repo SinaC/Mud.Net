@@ -392,7 +392,7 @@ namespace Mud.Server.WPFTestApplication
             // Rooms
             foreach (RoomBlueprint blueprint in importer.Rooms)
             {
-                World.AddRoomBlueprint(blueprint);
+                RoomManager.AddRoomBlueprint(blueprint);
                 IArea area = World.Areas.FirstOrDefault(x => x.Blueprint.Id == blueprint.AreaId);
                 if (area == null)
                 {
@@ -420,7 +420,7 @@ namespace Mud.Server.WPFTestApplication
 
             // Items
             foreach(ItemBlueprintBase blueprint in importer.Items)
-                World.AddItemBlueprint(blueprint);
+                ItemManager.AddItemBlueprint(blueprint);
 
             // Custom blueprint to test
             ItemQuestBlueprint questItem1Blueprint = new ItemQuestBlueprint
@@ -430,7 +430,7 @@ namespace Mud.Server.WPFTestApplication
                 ShortDescription = "Quest item 1",
                 Description = "The quest item 1 has been left here."
             };
-            World.AddItemBlueprint(questItem1Blueprint);
+            ItemManager.AddItemBlueprint(questItem1Blueprint);
             ItemQuestBlueprint questItem2Blueprint = new ItemQuestBlueprint
             {
                 Id = 80001,
@@ -438,7 +438,7 @@ namespace Mud.Server.WPFTestApplication
                 ShortDescription = "Quest item 2",
                 Description = "The quest item 2 has been left here."
             };
-            World.AddItemBlueprint(questItem2Blueprint);
+            ItemManager.AddItemBlueprint(questItem2Blueprint);
             CharacterNormalBlueprint construct = new CharacterNormalBlueprint
             {
                 Id = 80000,
@@ -476,7 +476,7 @@ namespace Mud.Server.WPFTestApplication
             World.AddCharacterBlueprint(construct);
 
             // MANDATORY ITEMS
-            if (World.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
+            if (ItemManager.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
             {
                 ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
                 {
@@ -484,9 +484,9 @@ namespace Mud.Server.WPFTestApplication
                     NoTake = true,
                     Name = "corpse"
                 };
-                World.AddItemBlueprint(corpseBlueprint);
+                ItemManager.AddItemBlueprint(corpseBlueprint);
             }
-            if (World.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CoinsBlueprintId) == null)
+            if (ItemManager.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CoinsBlueprintId) == null)
             {
                 ItemMoneyBlueprint moneyBlueprint = new ItemMoneyBlueprint
                 {
@@ -494,10 +494,10 @@ namespace Mud.Server.WPFTestApplication
                     NoTake = true,
                     Name = "coins"
                 };
-                World.AddItemBlueprint(moneyBlueprint);
+                ItemManager.AddItemBlueprint(moneyBlueprint);
             }
             // MANDATORY ROOM
-            RoomBlueprint voidBlueprint = World.GetRoomBlueprint(DependencyContainer.Current.GetInstance<ISettings>().NullRoomId);
+            RoomBlueprint voidBlueprint = RoomManager.GetRoomBlueprint(DependencyContainer.Current.GetInstance<ISettings>().NullRoomId);
             if (voidBlueprint == null)
             {
                 IArea area = World.Areas.First();
@@ -508,7 +508,7 @@ namespace Mud.Server.WPFTestApplication
                     Name = "The void",
                     RoomFlags = RoomFlags.ImpOnly | RoomFlags.NoRecall | RoomFlags.NoScan | RoomFlags.NoWhere | RoomFlags.Private
                 };
-                World.AddRoomBlueprint(voidBlueprint);
+                RoomManager.AddRoomBlueprint(voidBlueprint);
                 RoomManager.AddRoom(Guid.NewGuid(), voidBlueprint, area);
             }
 

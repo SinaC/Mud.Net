@@ -10,6 +10,14 @@ namespace Mud.Server.Interfaces.Item
 {
     public interface IItemManager
     {
+        IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints { get; }
+
+        ItemBlueprintBase GetItemBlueprint(int id);
+        TBlueprint GetItemBlueprint<TBlueprint>(int id)
+            where TBlueprint : ItemBlueprintBase;
+
+        void AddItemBlueprint(ItemBlueprintBase blueprint);
+
         IEnumerable<IItem> Items { get; }
 
         IItem AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container);

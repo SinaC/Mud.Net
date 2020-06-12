@@ -117,7 +117,7 @@ namespace Mud.Server.Admin
             if (parameters.Length == 0 || !parameters[0].IsNumber)
                 return CommandExecutionResults.SyntaxError;
 
-            ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(parameters[0].AsNumber);
+            ItemBlueprintBase itemBlueprint = ItemManager.GetItemBlueprint(parameters[0].AsNumber);
             if (itemBlueprint == null)
             {
                 Send("No item with that id.");

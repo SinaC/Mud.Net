@@ -20,7 +20,7 @@ namespace Mud.POC.TestLua
         protected void CreateWorld()
         {
             World.AddArea(Guid.NewGuid(),  new AreaBlueprint { Name ="area", Builders = "sinac", Credits = "sinac"});
-            World.AddRoomBlueprint(new RoomBlueprint
+            RoomManager.AddRoomBlueprint(new RoomBlueprint
             {
                 Name = "battle room",
                 Description = "A battle room",
@@ -53,7 +53,7 @@ namespace Mud.POC.TestLua
                 ScriptTableName = "mob2"
             });
 
-            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), World.GetRoomBlueprint(1), World.Areas.First());
+            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), RoomManager.GetRoomBlueprint(1), World.Areas.First());
             ICharacter bigBadMob = World.AddNonPlayableCharacter(Guid.NewGuid(), World.GetCharacterBlueprint(1), room);
             ICharacter weakMob = World.AddNonPlayableCharacter(Guid.NewGuid(), World.GetCharacterBlueprint(2), room);
         }

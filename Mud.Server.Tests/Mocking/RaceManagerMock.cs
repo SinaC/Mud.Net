@@ -5,6 +5,7 @@ using System.Linq;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Ability;
+using Mud.Common;
 
 namespace Mud.Server.Tests.Mocking
 {

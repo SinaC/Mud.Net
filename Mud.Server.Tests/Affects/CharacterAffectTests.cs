@@ -2,8 +2,8 @@
 using System;
 using Moq;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Affect;
 using Mud.Server.Interfaces.Area;
+using Mud.Server.Affects;
 
 namespace Mud.Server.Tests.Affects
 {

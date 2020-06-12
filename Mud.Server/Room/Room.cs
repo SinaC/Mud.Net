@@ -277,7 +277,7 @@ namespace Mud.Server.Room
 
                     case ItemInRoomReset itemInRoomReset: // 'O'
                         {
-                            ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInRoomReset.ItemId);
+                            ItemBlueprintBase blueprint = ItemManager.GetItemBlueprint(itemInRoomReset.ItemId);
                             if (blueprint != null)
                             {
                                 // Global limit is not used in stock rom2.4 but used once OLC is added
@@ -303,14 +303,14 @@ namespace Mud.Server.Room
 
                     case ItemInItemReset itemInItemReset: // 'P'
                         {
-                            ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInItemReset.ItemId);
+                            ItemBlueprintBase blueprint = ItemManager.GetItemBlueprint(itemInItemReset.ItemId);
                             if (blueprint != null)
                             {
                                 // Global limit is not used in stock rom2.4 but used once OLC is added
                                 int globalCount = itemInItemReset.GlobalLimit == -1 ? int.MinValue : ItemManager.Items.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
                                 if (globalCount < itemInItemReset.GlobalLimit)
                                 {
-                                    ItemBlueprintBase containerBlueprint = World.GetItemBlueprint(itemInItemReset.ContainerId);
+                                    ItemBlueprintBase containerBlueprint = ItemManager.GetItemBlueprint(itemInItemReset.ContainerId);
                                     if (containerBlueprint != null)
                                     {
                                         if (containerBlueprint is ItemContainerBlueprint || containerBlueprint is ItemCorpseBlueprint)
@@ -361,7 +361,7 @@ namespace Mud.Server.Room
 
                     case ItemInCharacterReset itemInCharacterReset: // 'G'
                         {
-                            ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInCharacterReset.ItemId);
+                            ItemBlueprintBase blueprint = ItemManager.GetItemBlueprint(itemInCharacterReset.ItemId);
                             if (blueprint != null)
                             {
                                 if (wasPreviousLoaded)
@@ -399,7 +399,7 @@ namespace Mud.Server.Room
 
                     case ItemInEquipmentReset itemInEquipmentReset: // 'E'
                         {
-                            ItemBlueprintBase blueprint = World.GetItemBlueprint(itemInEquipmentReset.ItemId);
+                            ItemBlueprintBase blueprint = ItemManager.GetItemBlueprint(itemInEquipmentReset.ItemId);
                             if (blueprint != null)
                             {
                                 if (wasPreviousLoaded)

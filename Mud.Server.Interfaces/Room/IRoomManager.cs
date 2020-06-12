@@ -8,6 +8,12 @@ namespace Mud.Server.Interfaces.Room
 {
     public interface IRoomManager
     {
+        IReadOnlyCollection<RoomBlueprint> RoomBlueprints { get; }
+
+        RoomBlueprint GetRoomBlueprint(int id);
+
+        void AddRoomBlueprint(RoomBlueprint blueprint);
+
         IEnumerable<IRoom> Rooms { get; }
 
         IRoom GetRandomRoom(ICharacter character);

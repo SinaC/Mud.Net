@@ -298,14 +298,14 @@ namespace Mud.Server.Tests
             Assert.AreEqual(itemData.IsPoisoned, drinkContainer.IsPoisoned);
         }
 
-        // Container  IWorld is need because container will use IWorld.AddItem when creating content  TODO: find a way to mock this
+        // Container  IWorld is need because container will use IItemManager.AddItem when creating content  TODO: find a way to mock this
         [TestMethod]
         public void ItemData_Empty_To_ItemContainer_Test()
         {
             IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
+            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint {Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", MaxWeight = 100, WeightMultiplier = 50, ContainerFlags = ContainerFlags.NoLock | ContainerFlags.Closed};
-            world.AddItemBlueprint(containerBlueprint);
+            ItemManager.AddItemBlueprint(containerBlueprint);
 
             ItemContainerData itemData = new ItemContainerData
             {
@@ -315,7 +315,7 @@ namespace Mud.Server.Tests
                 ContainerFlags = AutoFaker.Generate<ContainerFlags>(),
             };
 
-            IItem container = world.AddItem(Guid.NewGuid(), itemData, room);
+            IItem container = ItemManager.AddItem(Guid.NewGuid(), itemData, room);
 
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint.Id, container.Blueprint.Id);
@@ -329,11 +329,11 @@ namespace Mud.Server.Tests
         public void ItemContainer_OneItem_To_ItemData_Test()
         {
             IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
+            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", MaxWeight = 100, WeightMultiplier = 50 };
-            world.AddItemBlueprint(containerBlueprint);
+            ItemManager.AddItemBlueprint(containerBlueprint);
             ItemLightBlueprint lightBlueprint = new ItemLightBlueprint {Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5};
-            world.AddItemBlueprint(lightBlueprint);
+            ItemManager.AddItemBlueprint(lightBlueprint);
 
             ItemContainerData itemData = new ItemContainerData
             {
@@ -352,7 +352,7 @@ namespace Mud.Server.Tests
                 }
             };
 
-            IItem container = world.AddItem(Guid.NewGuid(), itemData, room);
+            IItem container = ItemManager.AddItem(Guid.NewGuid(), itemData, room);
 
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint.Id, container.Blueprint.Id);
@@ -367,13 +367,13 @@ namespace Mud.Server.Tests
         public void ItemData_MultipleItems_To_ItemContainer_Test()
         {
             IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
+            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint {Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", MaxWeight = 100, WeightMultiplier = 50};
-            world.AddItemBlueprint(containerBlueprint);
+            ItemManager.AddItemBlueprint(containerBlueprint);
             ItemLightBlueprint lightBlueprint = new ItemLightBlueprint {Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5};
-            world.AddItemBlueprint(lightBlueprint);
+            ItemManager.AddItemBlueprint(lightBlueprint);
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint {Id = 2, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 1};
-            world.AddItemBlueprint(portalBlueprint);
+            ItemManager.AddItemBlueprint(portalBlueprint);
 
             ItemContainerData itemData = new ItemContainerData
             {
@@ -400,7 +400,7 @@ namespace Mud.Server.Tests
                 }
             };
 
-            IItem container = world.AddItem(Guid.NewGuid(), itemData, room);
+            IItem container = ItemManager.AddItem(Guid.NewGuid(), itemData, room);
 
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint.Id, container.Blueprint.Id);
@@ -417,19 +417,19 @@ namespace Mud.Server.Tests
         public void ItemData_NestedItems_To_ItemContainer_Test()
         {
             IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
+            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             ItemContainerBlueprint containerBlueprint1 = new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", MaxWeight = 100, WeightMultiplier = 50 };
-            world.AddItemBlueprint(containerBlueprint1);
+            ItemManager.AddItemBlueprint(containerBlueprint1);
             ItemLightBlueprint lightBlueprint = new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 };
-            world.AddItemBlueprint(lightBlueprint);
+            ItemManager.AddItemBlueprint(lightBlueprint);
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint { Id = 2, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 1 };
-            world.AddItemBlueprint(portalBlueprint);
+            ItemManager.AddItemBlueprint(portalBlueprint);
             ItemContainerBlueprint containerBlueprint2 = new ItemContainerBlueprint {Id = 888, Name = "Container2", ShortDescription = "Container2Short", Description = "Container2Desc", MaxWeight = 100, WeightMultiplier = 50};
-            world.AddItemBlueprint(containerBlueprint2);
+            ItemManager.AddItemBlueprint(containerBlueprint2);
             ItemJewelryBlueprint jewelryBlueprint = new ItemJewelryBlueprint {Id = 3, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc"};
-            world.AddItemBlueprint(jewelryBlueprint);
+            ItemManager.AddItemBlueprint(jewelryBlueprint);
             ItemArmorBlueprint armorBlueprint = new ItemArmorBlueprint {Id = 4, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150};
-            world.AddItemBlueprint(armorBlueprint);
+            ItemManager.AddItemBlueprint(armorBlueprint);
 
             ItemContainerData itemData = new ItemContainerData
             {
@@ -474,7 +474,7 @@ namespace Mud.Server.Tests
                 }
             };
 
-            IItem container = world.AddItem(Guid.NewGuid(), itemData, room);
+            IItem container = ItemManager.AddItem(Guid.NewGuid(), itemData, room);
 
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint1.Id, container.Blueprint.Id);
@@ -492,14 +492,14 @@ namespace Mud.Server.Tests
             Assert.AreEqual(1, (nestedContainer as IItemContainer).Content.Count(x => x.Blueprint.Id == armorBlueprint.Id));
         }
 
-        // Corpse  IWorld is need because corpse will use IWorld.AddItem when creating content  TODO: find a way to mock this
+        // Corpse  IWorld is need because corpse will use IItemManager.AddItem when creating content  TODO: find a way to mock this
         [TestMethod]
         public void ItemData_Empty_To_NPCItemCorpse_Test()
         {
             IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint {Id = 1, Name = "room1"}, new Mock<IArea>().Object);
+            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), new RoomBlueprint {Id = 1, Name = "room1"}, new Mock<IArea>().Object);
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint {Id = 999, Name = "Corpse"};
-            world.AddItemBlueprint(corpseBlueprint);
+            ItemManager.AddItemBlueprint(corpseBlueprint);
 
             ItemCorpseData itemData = new ItemCorpseData
             {
@@ -510,7 +510,7 @@ namespace Mud.Server.Tests
                 CorpseName = "test"
             };
 
-            IItem item = world.AddItem(Guid.NewGuid(), itemData, room);
+            IItem item = ItemManager.AddItem(Guid.NewGuid(), itemData, room);
 
             Assert.IsNotNull(item);
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
@@ -525,9 +525,9 @@ namespace Mud.Server.Tests
         public void ItemData_Empty_To_PCItemCorpse_Test()
         {
             IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
+            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint { Id = 999, Name = "Corpse" };
-            world.AddItemBlueprint(corpseBlueprint);
+            ItemManager.AddItemBlueprint(corpseBlueprint);
             ItemCorpseData itemData = new ItemCorpseData
             {
                 ItemId = corpseBlueprint.Id,
@@ -537,7 +537,7 @@ namespace Mud.Server.Tests
                 CorpseName = "test"
             };
 
-            IItem item = world.AddItem(Guid.NewGuid(), itemData, room);
+            IItem item = ItemManager.AddItem(Guid.NewGuid(), itemData, room);
 
             Assert.IsNotNull(item);
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
@@ -552,11 +552,11 @@ namespace Mud.Server.Tests
         public void ItemData_OneItem_To_NPCItemCorpse_Test()
         {
             IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
+            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint { Id = 999, Name = "Corpse" };
-            world.AddItemBlueprint(corpseBlueprint);
+            ItemManager.AddItemBlueprint(corpseBlueprint);
             ItemLightBlueprint lightBlueprint = new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 };
-            world.AddItemBlueprint(lightBlueprint);
+            ItemManager.AddItemBlueprint(lightBlueprint);
             ItemCorpseData itemData = new ItemCorpseData
             {
                 ItemId = corpseBlueprint.Id,
@@ -575,7 +575,7 @@ namespace Mud.Server.Tests
                 }
             };
 
-            IItem item = world.AddItem(Guid.NewGuid(), itemData, room);
+            IItem item = ItemManager.AddItem(Guid.NewGuid(), itemData, room);
 
             Assert.IsNotNull(item);
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
@@ -650,9 +650,9 @@ namespace Mud.Server.Tests
         public void ItemData_To_ItemLight_Test()
         {
             IWorld world = World;
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
+            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             ItemLightBlueprint lightBlueprint = new ItemLightBlueprint {Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5};
-            world.AddItemBlueprint(lightBlueprint);
+            ItemManager.AddItemBlueprint(lightBlueprint);
 
             ItemLightData itemData = new ItemLightData
             {
@@ -662,7 +662,7 @@ namespace Mud.Server.Tests
                 TimeLeft = AutoFaker.Generate<int>(),
             };
 
-            IItem light = World.AddItem(Guid.NewGuid(), itemData, room);
+            IItem light = ItemManager.AddItem(Guid.NewGuid(), itemData, room);
 
             Assert.IsInstanceOfType(light, typeof(IItemLight));
             Assert.AreEqual(lightBlueprint.Id, light.Blueprint.Id);
@@ -676,10 +676,10 @@ namespace Mud.Server.Tests
         public void ItemData_To_ItemPortal_Test()
         {
             IWorld world = World;
-            IRoom room1 = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
-            IRoom room2 = world.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 2, Name = "room2" }, new Mock<IArea>().Object);
+            IRoom room1 = RoomManager.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
+            IRoom room2 = RoomManager.AddRoom(Guid.NewGuid(), new RoomBlueprint { Id = 2, Name = "room2" }, new Mock<IArea>().Object);
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint {Id = 1, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 2};
-            world.AddItemBlueprint(portalBlueprint);
+            ItemManager.AddItemBlueprint(portalBlueprint);
             ItemPortalData itemData = new ItemPortalData
             {
                 ItemId = portalBlueprint.Id,
@@ -690,7 +690,7 @@ namespace Mud.Server.Tests
                 CurrentChargeCount = AutoFaker.Generate<int>(),
             };
 
-            IItem portal = World.AddItem(Guid.NewGuid(), itemData, room1);
+            IItem portal = ItemManager.AddItem(Guid.NewGuid(), itemData, room1);
 
             Assert.IsInstanceOfType(portal, typeof(IItemPortal));
             Assert.AreEqual(portalBlueprint.Id, portal.Blueprint.Id);

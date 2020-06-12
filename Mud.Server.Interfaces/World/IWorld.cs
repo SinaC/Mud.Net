@@ -31,25 +31,17 @@ namespace Mud.Server.Interfaces.World
         // Blueprints
         IReadOnlyCollection<QuestBlueprint> QuestBlueprints { get; }
         IReadOnlyCollection<AreaBlueprint> AreaBlueprints { get; }
-        IReadOnlyCollection<RoomBlueprint> RoomBlueprints { get; }
         IReadOnlyCollection<CharacterBlueprintBase> CharacterBlueprints { get; }
-        IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints { get; }
 
         QuestBlueprint GetQuestBlueprint(int id);
         AreaBlueprint GetAreaBlueprint(int id);
-        RoomBlueprint GetRoomBlueprint(int id);
         CharacterBlueprintBase GetCharacterBlueprint(int id);
-        ItemBlueprintBase GetItemBlueprint(int id);
         TBlueprint GetCharacterBlueprint<TBlueprint>(int id)
             where TBlueprint : CharacterBlueprintBase;
-        TBlueprint GetItemBlueprint<TBlueprint>(int id)
-            where TBlueprint : ItemBlueprintBase;
 
         void AddQuestBlueprint(QuestBlueprint blueprint);
         void AddAreaBlueprint(AreaBlueprint blueprint);
-        void AddRoomBlueprint(RoomBlueprint blueprint);
         void AddCharacterBlueprint(CharacterBlueprintBase blueprint);
-        void AddItemBlueprint(ItemBlueprintBase blueprint);
 
         //
         IEnumerable<IArea> Areas { get; }

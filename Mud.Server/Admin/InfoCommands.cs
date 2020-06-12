@@ -192,9 +192,9 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("#Players: {0}", PlayerManager.Players.Count());
             sb.AppendFormatLine("#Areas: {0}", World.Areas.Count());
             sb.AppendLine("Blueprints:");
-            sb.AppendFormatLine("   #Rooms: {0}", World.RoomBlueprints.Count);
+            sb.AppendFormatLine("   #Rooms: {0}", RoomManager.RoomBlueprints.Count);
             sb.AppendFormatLine("   #Characters: {0}", World.CharacterBlueprints.Count);
-            sb.AppendFormatLine("   #Items: {0}", World.ItemBlueprints.Count);
+            sb.AppendFormatLine("   #Items: {0}", ItemManager.ItemBlueprints.Count);
             sb.AppendFormatLine("   #Quests: {0}", World.QuestBlueprints.Count);
             sb.AppendLine("Entities:");
             sb.AppendFormatLine("   #Rooms: {0}", RoomManager.Rooms.Count());
@@ -678,7 +678,7 @@ namespace Mud.Server.Admin
                 return CommandExecutionResults.SyntaxError;
 
             int id = parameters[0].AsNumber;
-            ItemBlueprintBase blueprint = World.GetItemBlueprint(id);
+            ItemBlueprintBase blueprint = ItemManager.GetItemBlueprint(id);
             if (blueprint == null)
             {
                 Send("Not found.");
@@ -813,7 +813,7 @@ namespace Mud.Server.Admin
                             continue;
                         }
 
-                        RoomBlueprint roomBlueprint = World.GetRoomBlueprint(characterReset.RoomId);
+                        RoomBlueprint roomBlueprint = RoomManager.GetRoomBlueprint(characterReset.RoomId);
                         if (roomBlueprint == null)
                         {
                             sb.AppendFormatLine("Load Char - Bad Room {0}", characterReset.RoomId);
@@ -827,7 +827,7 @@ namespace Mud.Server.Admin
 
                     case ItemInRoomReset itemInRoomReset: // 'O'
                     {
-                        ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(itemInRoomReset.ItemId);
+                        ItemBlueprintBase itemBlueprint = ItemManager.GetItemBlueprint(itemInRoomReset.ItemId);
                         if (itemBlueprint == null)
                         {
                             sb.AppendFormatLine("Load Item - Bad Item {0}", itemInRoomReset.ItemId);
@@ -836,7 +836,7 @@ namespace Mud.Server.Admin
 
                         previousItem = itemBlueprint;
 
-                        RoomBlueprint roomBlueprint = World.GetRoomBlueprint(itemInRoomReset.RoomId);
+                        RoomBlueprint roomBlueprint = RoomManager.GetRoomBlueprint(itemInRoomReset.RoomId);
                         if (roomBlueprint == null)
                         {
                             sb.AppendFormatLine("Load Item - Bad Room {0}", itemInRoomReset.RoomId);
@@ -849,7 +849,7 @@ namespace Mud.Server.Admin
 
                     case ItemInItemReset itemInItemReset: // 'P'
                     {
-                        ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(itemInItemReset.ItemId);
+                        ItemBlueprintBase itemBlueprint = ItemManager.GetItemBlueprint(itemInItemReset.ItemId);
                         if (itemBlueprint == null)
                         {
                             sb.AppendFormatLine("Put Item - Bad Item {0}", itemInItemReset.ItemId);
@@ -858,7 +858,7 @@ namespace Mud.Server.Admin
 
                         previousItem = itemBlueprint;
 
-                        ItemBlueprintBase containerBlueprint = World.GetItemBlueprint(itemInItemReset.ContainerId);
+                        ItemBlueprintBase containerBlueprint = ItemManager.GetItemBlueprint(itemInItemReset.ContainerId);
                         if (containerBlueprint == null)
                         {
                             sb.AppendFormatLine("Put Item - Bad To Item {0}", itemInItemReset.ContainerId);
@@ -871,7 +871,7 @@ namespace Mud.Server.Admin
 
                     case ItemInCharacterReset itemInCharacterReset: // 'G'
                     {
-                        ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(itemInCharacterReset.ItemId);
+                        ItemBlueprintBase itemBlueprint = ItemManager.GetItemBlueprint(itemInCharacterReset.ItemId);
                         if (itemBlueprint == null)
                         {
                             sb.AppendFormatLine("Give Item - Bad Item {0}", itemInCharacterReset.ItemId);
@@ -892,7 +892,7 @@ namespace Mud.Server.Admin
 
                     case ItemInEquipmentReset itemInEquipmentReset: // 'E'
                     {
-                        ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(itemInEquipmentReset.ItemId);
+                        ItemBlueprintBase itemBlueprint = ItemManager.GetItemBlueprint(itemInEquipmentReset.ItemId);
                         if (itemBlueprint == null)
                         {
                             sb.AppendFormatLine("Equip Item - Bad Item {0}", itemInEquipmentReset.ItemId);

@@ -10,6 +10,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Table;
+using Mud.Server.Random;
 
 namespace Mud.Server.Tests
 {
